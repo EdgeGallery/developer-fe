@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openmep-system
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: developer-fe
+  namespace: openmep-system
+  labels:
+    app: developer-fe
+spec:
+  selector:
+    matchLabels:
+      app: developer-fe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: developer-fe
+    spec:
+      containers:
+      - name: developer-fe
+        image: openmep/developer-fe:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: developer-fe-svc
+  namespace: openmep-system
+  labels:
+    svc: developer-fe-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30092
+      protocol: TCP
+  selector:
+    app: developer-fe
