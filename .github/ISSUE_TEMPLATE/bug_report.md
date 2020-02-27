@@ -7,32 +7,31 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**问题单描述**
+详细准确描述问题.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**版本信息**
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**问题来源**
+版本测试
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**问题复现步骤**
+Step1. 登录到 '...'
+Step2. 点击 '....'
+......
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**期望结果**
+描述测试期望结果
 
-**Additional context**
-Add any other context about the problem here.
+**错误截屏**
+.
+
+**使用的OS和浏览器:**
+ - OS: [e.g. Win10]
+ - 浏览器 [e.g. chrome, IE]
+ - 版本 [e.g. 22]
+
+
+**其他备注描述**
+
