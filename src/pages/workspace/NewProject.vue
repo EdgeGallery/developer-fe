@@ -123,18 +123,6 @@ export default {
     // 提交上传
     onSubmit () {
       this.getApplicationProject()
-      this.handleClose()
-      // this.$message({
-      //   message: this.$t('promptMessage.addProject'),
-      //   type: 'success',
-      //   duration: '2000'
-      // })
-
-      setTimeout(() => {
-        this.dialogNewProject = false
-      }, 1500)
-
-      this.$emit('closeFatherDialog', false)
     },
     keyupSubmit () {
       document.onkeydown = e => {
@@ -155,13 +143,16 @@ export default {
     },
     // 处理上传数据
     getApplicationProject () {
+      this.uploadBtnLoading = true
       let allFormData = this.allFormData
       let params = {
         'id': '',
         'capabilityList': []
       }
       for (let key in allFormData.first) {
-        params[key] = allFormData.first[key]
+        if (key !== 'appIcon') {
+          params[key] = allFormData.first[key]
+        }
       }
       // console.log(allFormData.second.capabilitySelected)
       for (let capability of allFormData.second.capabilitySelected) {
@@ -183,16 +174,39 @@ export default {
       }
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
-      console.log(params)
+      // console.log(params)
       Post('mec/developer/v1/projects', params).then(res => {
-        // let _this = this
-        // _this.$message({
-        //   message: _this.$t('promptMessage.addProject'),
-        //   type: 'success',
-        //   duration: '2000'
-        // })
-        this.$router.push('/mecDeveloper/work/detail')
+        // console.log(res)
+        if (res.status === 200) {
+          let mecDetailID = res.data.id
+          sessionStorage.setItem('mecDetailID', mecDetailID)
+          this.handleClose()
+          this.$message({
+            message: this.$t('promptMessage.addProjectSuccess'),
+            type: 'success',
+            duration: '2000'
+          })
+
+          setTimeout(() => {
+            this.dialogNewProject = false
+          }, 1500)
+
+          this.$emit('closeFatherDialog', false)
+          this.uploadBtnLoading = false
+          this.$router.push('/mecDeveloper/work/detail')
+        } else {
+          this.$message({
+            message: this.$t('promptMessage.addProjectFail'),
+            type: 'error',
+            duration: '2000'
+          })
+        }
       }).catch(err => {
+        this.$message({
+          message: this.$t('promptMessage.addProjectFail'),
+          type: 'error',
+          duration: '2000'
+        })
         console.log(err)
       })
     }

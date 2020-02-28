@@ -37,7 +37,7 @@ export default {
     getApiFileId () {
       this.apiFileIdArr = JSON.parse(sessionStorage.getItem('apiFileIdArr'))
       this.getSampleCode(this.apiFileIdArr)
-      console.log(this.apiFileIdArr)
+      // console.log(this.apiFileIdArr)
     },
     getSampleCode (apiFileIdArr) {
       let params = {

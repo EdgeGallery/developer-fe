@@ -17,7 +17,7 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <div class="graybg add-priject">
+        <div class="graybg add-project">
           <div class="title">{{$t('workspace.addNewProject')}}</div>
           <div id="project-add" class="project-add" @click="dialogVisible=true">
             <div class="img-box">
@@ -85,9 +85,11 @@ export default {
       chartData: {
         columns: ['Status', 'Number'],
         rows: [
-          { 'Status': 'Created', 'Number': 1 },
-          { 'Status': 'Testing', 'Number': 3 },
-          { 'Status': 'Online', 'Number': 0 }
+          { 'Status': 'ONLINE', 'Number': 2 },
+          { 'Status': 'DEPLOYING', 'Number': 4 },
+          { 'Status': 'DEPLOYED', 'Number': 6 },
+          { 'Status': 'DEPLOYFAILED', 'Number': 1 },
+          { 'Status': 'TESTED', 'Number': 5 }
         ]
       },
       chartSettings: {
@@ -99,7 +101,7 @@ export default {
         }
       },
       chartExtend: {
-        color: ['#5ab1ef', '#ffb980', '#19d4ae']
+        color: ['#5ab1ef', '#ffb980', '#19d4ae', '#f37f7f', '#67c23a']
       },
       dialogVisible: false
     }
@@ -126,7 +128,7 @@ export default {
       this.newprojectDialog = true
       this.fourthstepTitleprop = this.$t('workspace.toolChain')
       this.newProjectFourthprop = false
-      this.getprojectTypeprop = 'MIGRATION_NEW'
+      this.getprojectTypeprop = 'MIGRATE'
     },
     closeDialog (data) {
       this.dialogVisible = data
@@ -136,11 +138,27 @@ export default {
       Get('mec/developer/v1/projects').then(res => {
         // console.log(res.data)
         let dataTotal = res.data
-        let OnlineNum = 0
+        let ONLINENum = 0
+        let DEPLOYINGNum = 0
+        let DEPLOYEDNum = 0
+        let DEPLOYFAILEDNum = 0
+        let TESTEDNum = 0
         for (let i = 0; i < dataTotal.length; i++) {
           if (dataTotal[i].status === 'ONLINE') {
-            OnlineNum++
-            this.chartData.rows[2].Number = OnlineNum
+            ONLINENum++
+            this.chartData.rows[0].Number = ONLINENum
+          } else if (dataTotal[i].status === 'DEPLOYING') {
+            DEPLOYINGNum++
+            this.chartData.rows[1].Number = DEPLOYINGNum
+          } else if (dataTotal[i].status === 'DEPLOYED') {
+            DEPLOYEDNum++
+            this.chartData.rows[2].Number = DEPLOYEDNum
+          } else if (dataTotal[i].status === 'DEPLOYFAILED') {
+            DEPLOYFAILEDNum++
+            this.chartData.rows[3].Number = DEPLOYFAILEDNum
+          } else if (dataTotal[i].status === 'TESTED') {
+            TESTEDNum++
+            this.chartData.rows[4].Number = TESTEDNum
           }
         }
         // console.log(this.chartData)
@@ -231,7 +249,7 @@ export default {
       overflow: auto;
       background-color: white;
     }
-    .add-priject{
+    .add-project{
       height: 300px;
       overflow: hidden;
     }

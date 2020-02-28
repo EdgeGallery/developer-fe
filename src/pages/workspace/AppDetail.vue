@@ -39,6 +39,9 @@
       <el-tab-pane :label="$t('workspace.projectLink')" class="elTabPane" name="4" lazy>
         <projectLink></projectLink>
       </el-tab-pane>
+      <el-tab-pane :label="$t('workspace.toolChain')" class="elTabPane" name="5" lazy>
+        <toolChain></toolChain>
+      </el-tab-pane>
     </el-tabs>
     <div v-if="dialogVisible">
       <publishAppDialog v-model="dialogVisible"></publishAppDialog>
@@ -57,6 +60,7 @@ import publishAppDialog from './detail/PublishAppDialog'
 import api from './detail/Api'
 import dataStistical from './detail/DataStatistical'
 import projectLink from './detail/ProjectLink'
+import toolChain from './detail/ToolChain'
 export default {
   name: 'appDetail',
   components: {
@@ -67,7 +71,8 @@ export default {
     publishAppDialog,
     api,
     dataStistical,
-    projectLink
+    projectLink,
+    toolChain
   },
   data () {
     return {

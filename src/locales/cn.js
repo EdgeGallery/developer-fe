@@ -265,7 +265,8 @@ const cn = {
     testSuccess: '启动测试成功！',
     testFail: '启动测试失败！',
     testComplete: '测试完成，请单击查看报告',
-    addProject: '新增项目成功！',
+    addProjectSuccess: '新增项目成功！',
+    addProjectFail: '新增项目失败！',
     checkNamePass: '认证失败，请检查用户名或密码。',
     checkCaptcha: '验证码无效，请检查验证码。',
     registerSuccess: '用户注册成功！',
@@ -293,6 +294,7 @@ const cn = {
     password: '密码',
     confirmPass: '确认密码',
     contactNumber: '联系电话',
+    email: '邮箱',
     company: '公司',
     gender: '性别',
     male: '男',
@@ -303,10 +305,12 @@ const cn = {
     passwordEmpty: '密码不能为空',
     confirmPassEmpty: '确认密码不能为空',
     contactNumberEmpty: '联系电话不能为空',
+    emailEmpty: '邮箱不能为空',
     differentPasswords: '两次输入的密码不一致',
     nameFormat: '6-50位数字，字母，下划线',
     passwordFormat: '6-16位数字，字母，下划线',
-    contactNumberFormat: '电话号码不符合规定'
+    contactNumberFormat: '电话号码不符合规定',
+    emailFormat: '邮箱不符合规定'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

@@ -13,7 +13,7 @@
       <div class="common-appliaction">
         <div class="step">{{$t('home.step')}}</div>
         <div class="tabs">
-          <div class="tabsPart" v-for="(item,index) in commonApp" :key="index">
+          <div class="tabsPart" v-for="(item,index) in commonApp" :key="index" :id="item.elementId">
             <router-link :to='item.link'>
               <div>
                 <span>{{index + 1}}</span>
@@ -41,13 +41,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import { COMMON_APP, LIST, A_LINK_LIST } from './home.js'
+import { COMMON_APP, A_LINK_LIST } from './home.js'
 export default {
   name: '',
   data () {
     return {
       commonApp: COMMON_APP,
-      list: LIST,
       showMain: false,
       inputValue: '',
       showError: false,
@@ -142,7 +141,7 @@ export default {
   }
   .showLogo a:last-child img {
     width: 100%;
-    max-width: 150px;
+    max-width: 210px;
   }
   .normalPart {
     padding: 25px 0;

@@ -50,11 +50,11 @@ export default {
             })
           })
         })
-        console.log(this.apiFileIdArr)
+        // console.log(this.apiFileIdArr)
         if (this.apiFileIdArr) {
           this.getSampleCode(this.apiFileIdArr)
         } else {
-          console.log('No choice capability')
+          // console.log('No choice capability')
         }
       })
     },

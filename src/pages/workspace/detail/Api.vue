@@ -1,33 +1,30 @@
 <template>
   <div class="api">
+    <div id="projectId">{{projectId}}</div>
     <el-row :gutter="20" v-loading='apiDataLoading'>
-          <el-col :span="6">
-            <el-tree
-              ref="treeList"
-              :data="treeData"
-              :props="defaultProps"
-              @node-click="handleNodeClick"
-              node-key="id"
-              :highlight-current="true"
-              :default-expanded-keys='defaultExpandKeys'
-              :current-node-key="0">
-            </el-tree>
-          </el-col>
-          <el-col :span="18">
-            <div class="iframe">
-              <iframe
-                id="iframe"
-                :src="apiHtml"
-                frameborder="0"
-              ></iframe>
-            </div>
-          </el-col>
-        </el-row>
+      <el-col :span="6">
+        <el-tree
+          ref="treeList"
+          :data="treeData"
+          :props="defaultProps"
+          @node-click="handleNodeClick"
+          node-key="id"
+          :highlight-current="true"
+          :default-expanded-keys='defaultExpandKeys'
+          :current-node-key="0">
+        </el-tree>
+      </el-col>
+      <el-col :span="18">
+        <div id="swagger-ui"></div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { Get, URL_PREFIX } from '../../../tools/tool.js'
+import SwaggerUIBundle from 'swagger-ui'
+import 'swagger-ui/dist/swagger-ui.css'
 export default {
   data () {
     return {
@@ -38,7 +35,7 @@ export default {
         label: 'label'
       },
       defaultExpandKeys: [],
-      apiHtml: ''
+      projectId: ''
     }
   },
   methods: {
@@ -47,6 +44,7 @@ export default {
       Get('mec/developer/v1/projects/' + projectId).then(res => {
         let treeDataTemp = []
         treeDataTemp = res.data.capabilityList
+        this.projectId = res.data.id
         let userId = res.data.userId
         for (let i in treeDataTemp) {
           let obj = {
@@ -91,7 +89,17 @@ export default {
       // console.log(data)
       if (!data.children) {
         let apiUrl = URL_PREFIX + 'mec/developer/v1/files/' + data.apiFileId + '?userId=' + data.userId + '&type=' + data.type
-        this.apiHtml = 'http://159.138.146.235:8080/swagger#' + apiUrl
+        SwaggerUIBundle({
+          url: apiUrl,
+          dom_id: '#swagger-ui',
+          deepLinking: false,
+          presets: [
+            SwaggerUIBundle.presets.apis
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ]
+        })
       }
     }
   },
@@ -99,18 +107,28 @@ export default {
     this.getProjectDetail()
   },
   mounted () {
-    function iframeHeight () {
-      const oIframe = document.getElementById('iframe')
+    function apiHeight () {
+      const oApi = document.getElementById('swagger-ui')
       const deviceHeight = document.documentElement.clientHeight
-      oIframe.style.height = Number(deviceHeight) - 330 + 'px'
+      oApi.style.height = Number(deviceHeight) - 330 + 'px'
     }
-    iframeHeight()
+    apiHeight()
     window.onresize = function () {
-      iframeHeight()
+      apiHeight()
     }
   }
 }
 
 </script>
 <style lang='less' scoped>
+.api{
+  #projectId{
+    display: none;
+  }
+  #swagger-ui{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+}
 </style>

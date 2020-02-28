@@ -12,7 +12,7 @@
             @change="changeCheckValue">
             <el-tooltip class="item" effect="dark" :content="item.description" placement="top"
               v-for="(item,index) in capabilityList"
-              :key="index">
+              :key="index" :id="item.name">
               <el-checkbox
                 :label="item.name"
                 :disabled="item.disabled">
@@ -32,7 +32,7 @@
             @change="changeCheckValue">
             <el-tooltip class="item" effect="dark" :content="item.description" placement="top"
               v-for="(item,index) in capabilityEcoList"
-              :key="index">
+              :key="index" :id="item.name">
               <el-checkbox
                 :label="item.name"
                 :disabled="item.disabled">

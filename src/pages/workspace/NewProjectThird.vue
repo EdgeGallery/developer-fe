@@ -64,7 +64,7 @@ export default {
     getServiceList () {
       let count = 0
       let selectedCapablity = this.secondStepSelect.selectCapabilityId
-      console.log(selectedCapablity)
+      // console.log(selectedCapablity)
       selectedCapablity.forEach(groupId => {
         let url = 'mec/developer/v1/capability-groups/' + groupId
         Get(url).then(res => {

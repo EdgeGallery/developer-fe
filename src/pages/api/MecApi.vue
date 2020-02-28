@@ -5,7 +5,7 @@
             <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">API</el-breadcrumb-item>
             <el-breadcrumb-item>{{$t('breadCrumb.applicationApi')}}</el-breadcrumb-item>
         </el-breadcrumb>
-        <el-row class="iframe_div" v-loading="apiDataLoading">
+        <el-row class="api_div" v-loading="apiDataLoading">
           <el-col :span="4">
             <div>
               <el-tree
@@ -19,13 +19,7 @@
             </div>
           </el-col>
           <el-col :span="20">
-            <div class="iframe">
-              <iframe
-                id="iframe"
-                :src="apiHtml"
-                frameborder="0"
-              ></iframe>
-            </div>
+            <div id="swagger-ui"></div>
           </el-col>
         </el-row>
     </div>
@@ -33,6 +27,8 @@
 
 <script>
 import { Get } from '../../tools/tool.js'
+import SwaggerUIBundle from 'swagger-ui'
+import 'swagger-ui/dist/swagger-ui.css'
 export default {
   name: 'local',
   data () {
@@ -42,19 +38,18 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'label'
-      },
-      apiHtml: ''
+      }
     }
   },
   mounted () {
-    function iframeHeight () {
-      const oIframe = document.getElementById('iframe')
+    function apiHeight () {
+      const oApi = document.getElementById('swagger-ui')
       const deviceHeight = document.documentElement.clientHeight
-      oIframe.style.height = (Number(deviceHeight) - 230) + 'px'
+      oApi.style.height = (Number(deviceHeight) - 230) + 'px'
     }
-    iframeHeight()
+    apiHeight()
     window.onresize = function () {
-      iframeHeight()
+      apiHeight()
     }
     this.getApiUrl()
   },
@@ -79,22 +74,31 @@ export default {
     },
     handleNodeClick (data) {
       let apiUrl = data.url
-      this.apiHtml = 'http://159.138.146.235:8080/swagger#' + apiUrl
+      SwaggerUIBundle({
+        url: apiUrl,
+        dom_id: '#swagger-ui',
+        deepLinking: false,
+        presets: [
+          SwaggerUIBundle.presets.apis
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ]
+      })
     }
   }
 }
 </script>
 <style lang="less">
 .local{
-  .iframe_div{
+  .api_div{
     background-color: #fff;
     padding: 20px 10px 10px;
   }
-  .iframe{
+  #swagger-ui{
+    width: 100%;
     height: 100%;
-     iframe{
-      width: 100%;
-    }
+    overflow: auto;
   }
   .is-current .el-tree-node__content{
     background-color: blue;
