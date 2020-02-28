@@ -88,7 +88,7 @@ export default {
           { 'Status': 'ONLINE', 'Number': 2 },
           { 'Status': 'DEPLOYING', 'Number': 4 },
           { 'Status': 'DEPLOYED', 'Number': 6 },
-          { 'Status': 'DEPLOYFAILED', 'Number': 1 },
+          { 'Status': 'DEPLOYFAILED', 'Number': 0 },
           { 'Status': 'TESTED', 'Number': 5 }
         ]
       },
@@ -138,27 +138,27 @@ export default {
       Get('mec/developer/v1/projects').then(res => {
         // console.log(res.data)
         let dataTotal = res.data
-        let ONLINENum = 0
-        let DEPLOYINGNum = 0
-        let DEPLOYEDNum = 0
-        let DEPLOYFAILEDNum = 0
-        let TESTEDNum = 0
+        let onlineNum = 0
+        let deployingNum = 0
+        let deployedNum = 0
+        let deployfailedNum = 0
+        let testedNum = 0
         for (let i = 0; i < dataTotal.length; i++) {
           if (dataTotal[i].status === 'ONLINE') {
-            ONLINENum++
-            this.chartData.rows[0].Number = ONLINENum
+            onlineNum++
+            this.chartData.rows[0].Number = onlineNum
           } else if (dataTotal[i].status === 'DEPLOYING') {
-            DEPLOYINGNum++
-            this.chartData.rows[1].Number = DEPLOYINGNum
+            deployingNum++
+            this.chartData.rows[1].Number = deployingNum
           } else if (dataTotal[i].status === 'DEPLOYED') {
-            DEPLOYEDNum++
-            this.chartData.rows[2].Number = DEPLOYEDNum
+            deployedNum++
+            this.chartData.rows[2].Number = deployedNum
           } else if (dataTotal[i].status === 'DEPLOYFAILED') {
-            DEPLOYFAILEDNum++
-            this.chartData.rows[3].Number = DEPLOYFAILEDNum
+            deployfailedNum++
+            this.chartData.rows[3].Number = deployfailedNum
           } else if (dataTotal[i].status === 'TESTED') {
-            TESTEDNum++
-            this.chartData.rows[4].Number = TESTEDNum
+            testedNum++
+            this.chartData.rows[4].Number = testedNum
           }
         }
         // console.log(this.chartData)
