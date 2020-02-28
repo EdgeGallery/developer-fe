@@ -22,6 +22,10 @@
           <p>{{$t('register.contactNumber')}}</p>
           <el-input id="contact" v-model="userData.telephone" type="text"></el-input>
         </el-form-item>
+        <!-- <el-form-item prop="email">
+          <p>{{$t('register.email')}}</p>
+          <el-input id="email" v-model="userData.email" type="text"></el-input>
+        </el-form-item> -->
         <el-form-item>
           <p>{{$t('register.company')}}</p>
           <el-input id="company" v-model="userData.company" type="text"></el-input>
@@ -79,6 +83,16 @@ export default {
         callback()
       }
     }
+    // let validateemail = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error(this.$t('register.emailEmpty')))
+    //   } else {
+    //     if (this.userData.checkPass !== '') {
+    //       this.$refs.userData.validateField('checkPass')
+    //     }
+    //     callback()
+    //   }
+    // }
     let validatetelephone = (rule, value, callback) => {
       if (value === '') {
         callback(new Error(this.$t('register.contactNumberEmpty')))
@@ -96,6 +110,7 @@ export default {
         password: '',
         confirmPassword: '',
         telephone: '',
+        // email: '',
         company: '',
         gender: '',
         type: ''
@@ -112,6 +127,10 @@ export default {
         confirmPassword: [
           { validator: validatePassConfirm, trigger: 'blur' }
         ],
+        // email: [
+        //   { validator: validateemail, trigger: 'blur' },
+        //   { pattern: /^[A-Za-z0-9]+([_|.][A-Za-z0-9]+)*@([A-Za-z0-9|-]+|.)+[A-Za-z]{2,6}$/, message: this.$t('register.emailFormat') }
+        // ],
         telephone: [
           { validator: validatetelephone, trigger: 'blur' },
           { pattern: /^1[34578]\d{9}$/, message: this.$t('register.contactNumberFormat') }
@@ -143,8 +162,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.regBtnLoading = true
-          // let url = 'http://159.138.61.155:8067/v1/users/'
-          let url = '/user-mgmt-be/v1/users/'
+          let url = 'http://159.138.61.155:8067/v1/users/'
           axios({
             method: 'POST',
             url: url,

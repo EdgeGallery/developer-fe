@@ -17,8 +17,11 @@
       <el-table-column prop="platform" :label="$t('workspace.platform')"></el-table-column>
       <el-table-column :label="$t('workspace.status')">
         <template slot-scope="scope">
-          <!-- <i v-if="scope.row.status==='ONLINE'" class="el-icon-success"></i> -->
-          <i v-if="scope.row.status==='ONLINE'" class="el-icon-success success"></i>
+          <i v-if="scope.row.status==='ONLINE'" class="el-icon-circle-plus online"></i>
+          <i v-if="scope.row.status==='DEPLOYING'" class="el-icon-loading deploying"></i>
+          <i v-if="scope.row.status==='DEPLOYED'" class="el-icon-success deployed"></i>
+          <i v-if="scope.row.status==='DEPLOYFAILED'" class="el-icon-error deployfailed"></i>
+          <i v-if="scope.row.status==='TESTED'" class="el-icon-success tested"></i>
           <span>{{scope.row.status}}</span>
         </template>
       </el-table-column>
@@ -36,6 +39,7 @@
             type="text"
             @click="toDetail(scope.row)"
           >{{$t('workspace.detail')}}</el-button>
+          <span id="projectId">{{scope.row.id}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -79,6 +83,10 @@ export default {
     getProjectListData () {
       Get('mec/developer/v1/projects').then(res => {
         this.pageData = res.data
+        this.pageData.sort(function (a, b) {
+          return a.createDate < b.createDate ? 1 : -1
+        })
+        // console.log(res.data)
         let newItem = this.pageData.forEach((item, index) => {
           item.index = index + 1
           return newItem
@@ -146,6 +154,21 @@ export default {
         i{
           margin-right: 5px;
         }
+        .online{
+          color: #5ab1ef;
+        }
+        .deploying{
+          color: #ffb980;
+        }
+        .deployed{
+          color: #19d4ae;
+        }
+        .deployfailed{
+          color: #f37f7f;
+        }
+        .tested{
+          color: #67c23a;
+        }
       }
     }
   }
@@ -153,6 +176,9 @@ export default {
     .el-pager li:not(.disabled).active {
       background-color: #6c92fa !important;
     }
+  }
+  #projectId{
+    display: none;
   }
 }
 </style>

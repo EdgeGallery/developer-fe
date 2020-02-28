@@ -265,7 +265,8 @@ const en = {
     testSuccess: 'Start Test Success!',
     testFail: 'Start Test failed!',
     testComplete: 'You have completed the test, please click to view the report',
-    addProject: 'New project added successfully!',
+    addProjectSuccess: 'New project added successfully!',
+    addProjectFail: 'Failed to add New project!',
     checkNamePass: 'Authentication Failure, please recheck the User Name or Password.',
     checkCaptcha: 'Invalid captcha, please recheck the Captcha.',
     registerSuccess: 'User is registered successfully!!',
@@ -293,6 +294,7 @@ const en = {
     password: 'Password',
     confirmPass: 'Confirm Password',
     contactNumber: 'Contact Number',
+    email: 'Email',
     company: 'Company',
     gender: 'Gender',
     male: 'Male',
@@ -303,10 +305,12 @@ const en = {
     passwordEmpty: 'Password cannot be empty',
     confirmPassEmpty: 'Confirm Password cannot be empty',
     contactNumberEmpty: 'Contact Number cannot be empty',
+    emailEmpty: 'Email cannot be empty',
     differentPasswords: 'Two different passwords',
     nameFormat: '6-50 digit Numbers, letters, underline',
     passwordFormat: '6-16 digit Numbers, letters, underline',
-    contactNumberFormat: 'The phone number is not in accordance with the rules'
+    contactNumberFormat: 'The phone number is not in accordance with the rules',
+    emailFormat: 'The email is not in accordance with the rules'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

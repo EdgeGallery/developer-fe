@@ -4,71 +4,32 @@ const COMMON_APP = [
     title: 'home.createProjectTitle',
     src: require('../../assets/images/home_step1.svg'),
     desc: 'home.createProjectText',
-    link: { name: 'workspace', params: { from: 'index' } }
+    link: { name: 'workspace', params: { from: 'index' } },
+    elementId: 'createProject'
   },
   {
     id: 2,
     title: 'home.toolsDownloadTitle',
     src: require('../../assets/images/home_step2.svg'),
     desc: 'home.toolsDownloadText',
-    link: '/mecDeveloper/plugin/list#1'
+    link: '/mecDeveloper/plugin/list#1',
+    elementId: 'tooldDown'
   },
   {
     id: 3,
     title: 'home.commonApiTitle',
     src: require('../../assets/images/home_step3.svg'),
     desc: 'home.commonApiText',
-    link: '/mecDeveloper/api/mep-eco'
+    link: '/mecDeveloper/api/mep-eco',
+    elementId: 'commomApi'
   },
   {
     id: 4,
     title: 'home.testCaseTitle',
     src: require('../../assets/images/home_step4.svg'),
     desc: 'home.testCaseText',
-    link: '/mecDeveloper/test/apply'
-  }
-]
-
-const LIST = [
-  {
-    id: 1,
-    target: 'ide',
-    name: 'Plugin',
-    content: 'home.pluginText',
-    path: '/mecDeveloper/plugin/list#1',
-    src: require('../../assets/images/a1.png')
-  },
-  {
-    id: 2,
-    target: 'sdk',
-    name: 'SDK',
-    content: 'home.sdkText',
-    path: '/mecDeveloper/sdk/list#2',
-    src: require('../../assets/images/a2.png')
-  },
-  {
-    id: 3,
-    target: 'api',
-    name: 'API',
-    content: 'home.apitext',
-    path: '/mecDeveloper/api/docs',
-    src: require('../../assets/images/a3.png')
-  },
-  {
-    id: 4,
-    target: 'test',
-    name: 'Test',
-    content: 'home.testText',
-    path: '/mecDeveloper/test/how',
-    src: require('../../assets/images/a4.png')
-  },
-  {
-    id: 5,
-    target: 'open',
-    name: 'MEC Open Source Ecology',
-    content: 'home.ecologyText',
-    path: '/mecDeveloper/community/Community',
-    src: require('../../assets/images/a5.png')
+    link: '/mecDeveloper/test/apply',
+    elementId: 'testCase'
   }
 ]
 
@@ -178,5 +139,5 @@ const A_LINK_LIST = [
 ]
 
 export {
-  COMMON_APP, LIST, A_LINK_LIST
+  COMMON_APP, A_LINK_LIST
 }

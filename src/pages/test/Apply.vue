@@ -51,7 +51,7 @@
             </el-form-item>
             <el-form-item :label="$t('test.testApp.affinity')" prop="affinity">
               <el-checkbox-group id="affinintyCheckbox" v-model="form.affinity" v-loading="tagsLoading">
-                <el-checkbox v-for="(item,index) in appTagList" :key="index" :label="item"></el-checkbox>
+                <el-checkbox v-for="(item,index) in appTagList" :id="item" :key="index" :label="item"></el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item :label="$t('test.testApp.type')" prop="type">
@@ -61,7 +61,8 @@
                     v-for="item in options"
                     :key="item.value"
                     :label="item.label"
-                    :value="item.label">
+                    :value="item.label"
+                    :id="item.label">
                   </el-option>
                 </el-select>
               </el-checkbox-group>

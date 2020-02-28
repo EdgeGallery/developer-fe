@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item :label="$t('workspace.platform')" :label-width="formLabelWidth" prop="platform" class="platform">
           <el-radio-group id="platformList" v-model="form.platform">
-            <el-radio v-for="(item,index) in platformList" :key="index" :label="item">{{item}}</el-radio>
+            <el-radio v-for="(item,index) in platformList" :id="item" :key="index" :label="item">{{item}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('test.testApp.type')" :label-width="formLabelWidth" prop="type" class="platform">
@@ -22,7 +22,8 @@
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
-                :value="item.label">
+                :value="item.label"
+                :id="item.label">
               </el-option>
             </el-select>
           </el-checkbox-group>
