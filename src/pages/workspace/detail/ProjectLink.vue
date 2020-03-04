@@ -6,7 +6,7 @@
             <p>{{$t('workspace.programTools')}}</p>
           </div>
           <div id="programPlugin">
-            <el-link type="info" href="http://159.138.146.235:8002/#/mecDeveloper/plugin/list#1" target="_blank">
+            <el-link type="info" href="http://159.138.129.53:30092/#/mecDeveloper/plugin/list#1" target="_blank">
             <img src="../../../assets/images/newProject-fourth-icon2.png" alt="">
             <p>{{$t('workspace.programPlugin')}}</p>
             </el-link>
