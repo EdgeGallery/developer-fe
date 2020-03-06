@@ -192,7 +192,25 @@ const cn = {
     href: '链接',
     inPort: '内部端口号',
     outPort: '外部端口号',
-    confirmUpload: '确定上传'
+    confirmUpload: '确定上传',
+    uploadSourceCode: '上传源代码',
+    storagePath: '源代码存放路径',
+    checkItem: '检查项目：编译器选项、编译器宏、汇编程序、内置函数、属性',
+    targetOS: '目标操作系统',
+    buildTools: '构建工具',
+    compileCommand: '编译命令',
+    compilerVersion: '编译器版本',
+    targetVersion: '目标系统内核版本',
+    analysis: '分析',
+    historicalReport: '历史报告',
+    sourceCodePath: '源代码存放路径',
+    analysisResults: '分析结果',
+    needtranscount: '需要移植的源文件',
+    codeCount: '需要移植的代码行数',
+    makefileSourceCode: 'C/C++和Makefile源代码',
+    lines: '行',
+    assemblyCode: '汇编代码',
+    downloadReport: '下载报告'
   },
   test: {
     howToTest: {
@@ -279,7 +297,12 @@ const cn = {
     uploadApiFile: '请上传Api文件',
     service: '请输入完整的服务内容',
     addImage: '请添加镜像',
-    selectService: '请选择一个服务器！'
+    selectService: '请选择一个服务器！',
+    selectCommand: '编译命令不能为空！',
+    analysisCodeFail: '分析任务失败！',
+    uploadCodeText: '正在上传源代码，请稍候...',
+    analyzingText: '正在分析，请稍候...',
+    loadingText: '正在加载，请稍候...'
   },
   login: {
     portal: 'OSDT统一门户（HOUP）',

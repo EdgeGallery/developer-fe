@@ -192,7 +192,25 @@ const en = {
     href: 'Href',
     inPort: 'Internal port',
     outPort: 'External port',
-    confirmUpload: 'Confirm upload'
+    confirmUpload: 'Confirm upload',
+    uploadSourceCode: 'Upload source code',
+    storagePath: 'Source code storage path',
+    checkItem: 'Check items: compiler options, compiler macros, assembler, built-in functions, properties',
+    targetOS: 'Target operating system',
+    buildTools: 'Build Tools',
+    compileCommand: 'Compile Command',
+    compilerVersion: 'Compiler Version',
+    targetVersion: 'Target system kernel version',
+    analysis: 'Analysis',
+    historicalReport: 'Historical Report',
+    sourceCodePath: 'Source code storage path',
+    analysisResults: 'Analysis results',
+    needtranscount: 'Source files to be migrated',
+    codeCount: 'Number of lines of code to port',
+    makefileSourceCode: 'C/C++ and Makefile source code',
+    lines: 'lines',
+    assemblyCode: 'Assembly code',
+    downloadReport: 'Download Report'
   },
   test: {
     howToTest: {
@@ -279,7 +297,12 @@ const en = {
     uploadApiFile: 'Please upload the Api file!',
     service: 'Please enter the full service content!',
     addImage: 'Please add the Image',
-    selectService: 'Please select a server!'
+    selectService: 'Please select a server!',
+    selectCommand: 'Compile command cannot be empty!',
+    analysisCodeFail: 'Analysis task failed!',
+    uploadCodeText: 'Please wait, uploading source code ...',
+    analyzingText: 'Please wait, analyzing ...',
+    loadingText: 'Loading, please wait ...'
   },
   login: {
     portal: 'OSDT Unified Portal(HOUP)',

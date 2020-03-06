@@ -4,6 +4,7 @@ import i18n from '../locales/i18n.js'
 import 'element-ui/lib/theme-chalk/index.css'
 
 const URL_PREFIX = 'http://159.138.61.155:9080/'
+const URL_PREFIX_TOOL = 'http://159.138.61.155:8059/'
 // const URL_PREFIX = 'http://159.138.36.16:9080/'
 // const URL_PREFIX = 'http://10.181.156.52:8090/'
 
@@ -46,14 +47,22 @@ function getCode (err, resolve) {
   }
 }
 
-function Get (url, params) {
+function Get (url, params, type = 'developer') {
+  let prefixUrl = URL_PREFIX
+  let headers = {
+    'Authorization': getToken(),
+    'userId': getuserId()
+  }
+  if (type !== 'developer') {
+    prefixUrl = URL_PREFIX_TOOL
+    headers = {
+      'Authorization': getToken()
+    }
+  }
   return new Promise((resolve, reject) => {
-    axios.get(URL_PREFIX + url, {
+    axios.get(prefixUrl + url, {
       params: params,
-      headers: {
-        'Authorization': getToken(),
-        'userId': getuserId()
-      }
+      headers
     })
       .then(res => {
         resolve(res)
@@ -66,14 +75,22 @@ function Get (url, params) {
   })
 }
 
-function Delete (url, params) {
+function Delete (url, params, type = 'developer') {
+  let prefixUrl = URL_PREFIX
+  let headers = {
+    'Authorization': getToken(),
+    'userId': getuserId()
+  }
+  if (type !== 'developer') {
+    prefixUrl = URL_PREFIX_TOOL
+    headers = {
+      'Authorization': getToken()
+    }
+  }
   return new Promise((resolve, reject) => {
-    axios.delete(URL_PREFIX + url, {
+    axios.delete(prefixUrl + url, {
       params: params,
-      headers: {
-        'Authorization': getToken(),
-        'userId': getuserId()
-      }
+      headers
     })
       .then(res => {
         resolve(res)
@@ -84,14 +101,25 @@ function Delete (url, params) {
   })
 }
 
-function Post (url, params) {
-  return new Promise((resolve, reject) => {
-    axios.post(URL_PREFIX + url, params, {
+function Post (url, params, type = 'developer') {
+  let prefixUrl = URL_PREFIX
+  let header = {
+    headers: {
+      'Authorization': getToken(),
+      'userId': getuserId()
+    }
+  }
+  if (type !== 'developer') {
+    prefixUrl = URL_PREFIX_TOOL
+    header = {
       headers: {
         'Authorization': getToken(),
-        'userId': getuserId()
+        'Content-Type': 'application/json'
       }
-    })
+    }
+  }
+  return new Promise((resolve, reject) => {
+    axios.post(prefixUrl + url, params, header)
       .then(res => {
         resolve(res)
       })
@@ -137,6 +165,25 @@ function downloadFile ({ url, params, type = 'application/x-compressed' }) {
   })
 }
 
+function downLoadReport ({ url, reportId }) {
+  axios({
+    method: 'get',
+    url: URL_PREFIX_TOOL + url,
+    responseType: 'blob'
+  }).then((data) => {
+    if (!data) {
+      return
+    }
+    let url = window.URL.createObjectURL(data.data)
+    let link = document.createElement('a')
+    link.style.display = 'none'
+    link.href = url
+    link.setAttribute('download', reportId + '.csv')
+    document.body.appendChild(link)
+    link.click()
+  })
+}
+
 export {
   Get,
   Post,
@@ -146,5 +193,7 @@ export {
   Put,
   Delete,
   URL_PREFIX,
-  downloadFile
+  URL_PREFIX_TOOL,
+  downloadFile,
+  downLoadReport
 }

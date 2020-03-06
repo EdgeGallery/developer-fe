@@ -40,7 +40,8 @@
         <projectLink></projectLink>
       </el-tab-pane>
       <el-tab-pane :label="$t('workspace.toolChain')" class="elTabPane" name="5" lazy>
-        <toolChain></toolChain>
+        <toolChain v-if="!viewReport" @isViewReport="getViewReport"></toolChain>
+        <toolReport v-else  @isViewReport="getViewReport"></toolReport>
       </el-tab-pane>
     </el-tabs>
     <div v-if="dialogVisible">
@@ -61,6 +62,7 @@ import api from './detail/Api'
 import dataStistical from './detail/DataStatistical'
 import projectLink from './detail/ProjectLink'
 import toolChain from './detail/ToolChain'
+import toolReport from './detail/ToolReport'
 export default {
   name: 'appDetail',
   components: {
@@ -72,7 +74,8 @@ export default {
     api,
     dataStistical,
     projectLink,
-    toolChain
+    toolChain,
+    toolReport
   },
   data () {
     return {
@@ -84,7 +87,8 @@ export default {
       nextButtonName: this.$t('workspace.nextStep'),
       currentComponent: 'imageSelect',
       allStepData: {},
-      projectBeforeConfig: {}
+      projectBeforeConfig: {},
+      viewReport: false
     }
   },
   computed: {
@@ -192,7 +196,7 @@ export default {
         params.accessURL = this.projectBeforeConfig.accessURL
         params.errorLog = this.projectBeforeConfig.errorLog
       }
-      requireMethod(url, params).then(res => {
+      requireMethod(url, params, 'neworedit').then(res => {
         // 部署
         let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy'
         Post(deployUrl).then(res => {
@@ -208,6 +212,9 @@ export default {
       let url = 'mec/developer/v1/projects/' + projectId + '/action/clean'
       Post(url).then(res => {
       })
+    },
+    getViewReport (data) {
+      this.viewReport = data
     }
   },
   mounted () {
