@@ -176,7 +176,6 @@ export default {
       params = Object.assign(params, iconFileId)
       // console.log(params)
       Post('mec/developer/v1/projects', params).then(res => {
-        // console.log(res)
         if (res.status === 200) {
           let mecDetailID = res.data.id
           sessionStorage.setItem('mecDetailID', mecDetailID)
@@ -200,6 +199,12 @@ export default {
             type: 'error',
             duration: '2000'
           })
+          setTimeout(() => {
+            this.dialogNewProject = false
+          }, 1500)
+
+          this.$emit('closeFatherDialog', false)
+          this.uploadBtnLoading = false
         }
       }).catch(err => {
         this.$message({

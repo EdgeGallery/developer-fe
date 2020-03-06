@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { Get, URL_PREFIX } from '../../../tools/tool.js'
+import { Get, urlPrefix } from '../../../tools/tool.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -88,7 +88,7 @@ export default {
     handleNodeClick (data) {
       // console.log(data)
       if (!data.children) {
-        let apiUrl = URL_PREFIX + 'mec/developer/v1/files/' + data.apiFileId + '?userId=' + data.userId + '&type=' + data.type
+        let apiUrl = urlPrefix + 'mec/developer/v1/files/' + data.apiFileId + '?userId=' + data.userId + '&type=' + data.type
         SwaggerUIBundle({
           url: apiUrl,
           dom_id: '#swagger-ui',

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { Get, Delete, URL_PREFIX } from '../../tools/tool.js'
+import { Get, Delete, urlPrefix } from '../../tools/tool.js'
 import pagination from '../../components/common/Pagination'
 export default {
   name: 'projectlist',
@@ -81,11 +81,13 @@ export default {
       this.currentData = val
     },
     getProjectListData () {
-      Get('mec/developer/v1/projects').then(res => {
+      Get('mec/developer/v1/projects', '', 'developer').then(res => {
         this.pageData = res.data
-        this.pageData.sort(function (a, b) {
-          return a.createDate < b.createDate ? 1 : -1
-        })
+        if (this.pageData.length > 0) {
+          this.pageData.sort(function (a, b) {
+            return a.createDate < b.createDate ? 1 : -1
+          })
+        }
         // console.log(res.data)
         let newItem = this.pageData.forEach((item, index) => {
           item.index = index + 1
@@ -98,7 +100,7 @@ export default {
       })
     },
     getIcon (fileId) {
-      let url = URL_PREFIX + 'mec/developer/v1/files/' + fileId
+      let url = urlPrefix + 'mec/developer/v1/files/' + fileId
       return url
     },
     handleDelete (item) {

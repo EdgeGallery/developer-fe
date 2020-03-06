@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { Get, Put, URL_PREFIX } from './../../tools/tool.js'
+import { Get, Put, urlPrefix } from './../../tools/tool.js'
 import axios from 'axios'
 export default {
   name: 'listDetail',
@@ -138,11 +138,11 @@ export default {
       })
     },
     getImageUrl (pluginId) {
-      let url = URL_PREFIX + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
+      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
       return url
     },
     getDownloadUrl (pluginId) {
-      let url = URL_PREFIX + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
+      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
       return url
     },
     rateConfirm (item) {
