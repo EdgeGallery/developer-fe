@@ -3,10 +3,10 @@ import { MessageBox } from 'element-ui'
 import i18n from '../locales/i18n.js'
 import 'element-ui/lib/theme-chalk/index.css'
 
-const URL_PREFIX = 'http://159.138.61.155:9080/'
-const URL_PREFIX_TOOL = 'http://159.138.61.155:8059/'
-// const URL_PREFIX = 'http://159.138.36.16:9080/'
-// const URL_PREFIX = 'http://10.181.156.52:8090/'
+const urlPrefix = 'http://159.138.61.155:9080/'
+const urlPrefixTool = 'http://159.138.61.155:8059/'
+// const urlPrefix = 'http://159.138.36.16:9080/'
+// const urlPrefix = 'http://10.181.156.52:8090/'
 
 function getuserId () {
   let userJsonStr = sessionStorage.getItem('user')
@@ -48,13 +48,13 @@ function getCode (err, resolve) {
 }
 
 function Get (url, params, type = 'developer') {
-  let prefixUrl = URL_PREFIX
+  let prefixUrl = urlPrefix
   let headers = {
     'Authorization': getToken(),
     'userId': getuserId()
   }
   if (type !== 'developer') {
-    prefixUrl = URL_PREFIX_TOOL
+    prefixUrl = urlPrefixTool
     headers = {
       'Authorization': getToken()
     }
@@ -76,13 +76,13 @@ function Get (url, params, type = 'developer') {
 }
 
 function Delete (url, params, type = 'developer') {
-  let prefixUrl = URL_PREFIX
+  let prefixUrl = urlPrefix
   let headers = {
     'Authorization': getToken(),
     'userId': getuserId()
   }
   if (type !== 'developer') {
-    prefixUrl = URL_PREFIX_TOOL
+    prefixUrl = urlPrefixTool
     headers = {
       'Authorization': getToken()
     }
@@ -102,7 +102,7 @@ function Delete (url, params, type = 'developer') {
 }
 
 function Post (url, params, type = 'developer') {
-  let prefixUrl = URL_PREFIX
+  let prefixUrl = urlPrefix
   let header = {
     headers: {
       'Authorization': getToken(),
@@ -110,7 +110,7 @@ function Post (url, params, type = 'developer') {
     }
   }
   if (type !== 'developer') {
-    prefixUrl = URL_PREFIX_TOOL
+    prefixUrl = urlPrefixTool
     header = {
       headers: {
         'Authorization': getToken(),
@@ -131,7 +131,7 @@ function Post (url, params, type = 'developer') {
 
 function Put (url, params) {
   return new Promise((resolve, reject) => {
-    axios.put(URL_PREFIX + url, params, {
+    axios.put(urlPrefix + url, params, {
       headers: {
         'Authorization': getToken(),
         'userId': getuserId()
@@ -147,7 +147,7 @@ function Put (url, params) {
 }
 
 function downloadFile ({ url, params, type = 'application/x-compressed' }) {
-  axios.post(URL_PREFIX + url, params, {
+  axios.post(urlPrefix + url, params, {
     responseType: 'arraybuffer',
     headers: {
       'Authorization': getToken(),
@@ -168,7 +168,7 @@ function downloadFile ({ url, params, type = 'application/x-compressed' }) {
 function downLoadReport ({ url, reportId }) {
   axios({
     method: 'get',
-    url: URL_PREFIX_TOOL + url,
+    url: urlPrefixTool + url,
     responseType: 'blob'
   }).then((data) => {
     if (!data) {
@@ -192,8 +192,8 @@ export {
   getToken,
   Put,
   Delete,
-  URL_PREFIX,
-  URL_PREFIX_TOOL,
+  urlPrefix,
+  urlPrefixTool,
   downloadFile,
   downLoadReport
 }

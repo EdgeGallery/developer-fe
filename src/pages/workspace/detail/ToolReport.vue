@@ -5,7 +5,7 @@
       <div class="codeInfo">
         <el-row>
             <el-col :span="3">{{$t('workspace.sourceCodePath')}}</el-col>
-            <el-col :span="7">{{taskInformation.sourcedir}}</el-col>
+            <el-col :span="7">/src</el-col>
             <el-col :span="3">{{$t('workspace.compilerVersion')}}</el-col>
             <el-col :span="4">{{compilerType}} {{compilerVersion}}</el-col>
             <el-col :span="3">{{$t('workspace.buildTools')}}</el-col>

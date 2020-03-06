@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { Get, Put, Delete, URL_PREFIX } from './../../tools/tool.js'
+import { Get, Put, Delete, urlPrefix } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination'
 
 export default {
@@ -208,11 +208,11 @@ export default {
       })
     },
     getImageUrl (pluginId) {
-      let url = URL_PREFIX + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
+      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
       return url
     },
     getDownloadUrl (pluginId) {
-      let url = URL_PREFIX + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
+      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
       return url
     },
     // 删除插件

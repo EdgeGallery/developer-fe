@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { Get, Delete, URL_PREFIX } from '../../tools/tool.js'
+import { Get, Delete, urlPrefix } from '../../tools/tool.js'
 import pagination from '../../components/common/Pagination'
 export default {
   name: 'projectlist',
@@ -100,7 +100,7 @@ export default {
       })
     },
     getIcon (fileId) {
-      let url = URL_PREFIX + 'mec/developer/v1/files/' + fileId
+      let url = urlPrefix + 'mec/developer/v1/files/' + fileId
       return url
     },
     handleDelete (item) {

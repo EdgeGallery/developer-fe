@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { Get, Post, Put, URL_PREFIX } from '../../tools/tool.js'
+import { Get, Post, Put, urlPrefix } from '../../tools/tool.js'
 import imageSelect from './ImageSelect'
 import configYaml from './ConfigYaml'
 import selectServer from './SelectServer'
@@ -150,7 +150,7 @@ export default {
     },
     handleNodeClick (data) {
       if (!data.children) {
-        let apiUrl = URL_PREFIX + 'mec/developer/v1/files/' + data.apiFileId
+        let apiUrl = urlPrefix + 'mec/developer/v1/files/' + data.apiFileId
         this.apiHtml = 'http://159.138.146.235:8080/swagger#' + apiUrl
       }
     },
