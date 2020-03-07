@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: developer-fe
-        image: openmep/developer-fe:latest
+        image: edgegallery/developer-fe:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
