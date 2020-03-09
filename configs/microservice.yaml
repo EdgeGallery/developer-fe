@@ -1,0 +1,56 @@
+
+# all interconnected microservices must belong to an application wth the same ID
+APPLICATION_ID: openMec
+service_description:
+# name of the declaring microservice
+  name: developer-website
+  version: 1.0.0
+  environment: development
+servicecomb:
+  service:
+    registry:
+      address: http://service-center:30100
+  rest:
+    address: 0.0.0.0:8080?sslEnabled=true  #Rest通信地址
+
+  tracing:
+    enabled: false
+
+  http:
+    dispatcher:
+      edge:
+        default:
+          enabled: true
+          prefix: rest
+          withVersion: false
+          prefixSegmentCount: 2
+#        url:
+#          enabled: true
+#          mappings:
+#            user-mgmt-be:
+#              prefixSegmentCount: 1
+#              path: "/user-mgmt-be/.*"
+#              microserviceName: user-mgmt-be
+#              versionRule: 0.0.0+
+  cors:
+    enabled: true
+    origin: "*"
+    allowCredentials: false
+    allowedMethod: GET,POST,HEAD,OPTIONS,PUT,DELETE
+    allowedHeader: x-rest-version,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization
+    exposedHeader: Location
+
+#########SSL options
+ssl.protocols: TLSv1.2
+ssl.authPeer: false
+ssl.checkCN.host: false
+
+#########certificates config
+ssl.trustStore: openmep.truststore
+ssl.trustStoreType: JKS
+ssl.trustStoreValue: 111111
+ssl.keyStore: openmep.p12
+ssl.keyStoreType: PKCS12
+ssl.keyStoreValue: 111111
+#ssl.crl: revoke.crl
+ssl.sslCustomClass: org.mec.website.OpenMecSSLCustom
