@@ -1,4 +1,4 @@
-const COMMON_APP = [
+const commonApp = [
   {
     id: 1,
     title: 'home.createProjectTitle',
@@ -33,7 +33,7 @@ const COMMON_APP = [
   }
 ]
 
-const A_LINK_LIST = [
+const aLinkList = [
   {
     id: 1,
     src: require('../../assets/images/homeAlink01.png'),
@@ -139,5 +139,5 @@ const A_LINK_LIST = [
 ]
 
 export {
-  COMMON_APP, A_LINK_LIST
+  commonApp, aLinkList
 }

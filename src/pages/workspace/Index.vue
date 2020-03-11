@@ -67,8 +67,8 @@
 
 <script>
 import { Get } from '../../tools/tool.js'
-import projectList from './ProjectList'
-import newProject from './NewProject'
+import projectList from './ProjectList.vue'
+import newProject from './NewProject.vue'
 
 export default {
   name: 'workspace',

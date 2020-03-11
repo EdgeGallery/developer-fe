@@ -41,17 +41,17 @@
 
 <script>
 import { mapState } from 'vuex'
-import { COMMON_APP, A_LINK_LIST } from './home.js'
+import { commonApp, aLinkList } from './home.js'
 export default {
   name: '',
   data () {
     return {
-      commonApp: COMMON_APP,
+      commonApp: commonApp,
       showMain: false,
       inputValue: '',
       showError: false,
       dialogVisible: false,
-      aLinkList: A_LINK_LIST
+      aLinkList: aLinkList
     }
   },
   computed: {
