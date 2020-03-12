@@ -53,16 +53,16 @@
 
 <script>
 import { Get, Post, Put, urlPrefix } from '../../tools/tool.js'
-import imageSelect from './ImageSelect'
-import configYaml from './ConfigYaml'
-import selectServer from './SelectServer'
-import deployTest from './DeployTest'
-import publishAppDialog from './detail/PublishAppDialog'
-import api from './detail/Api'
-import dataStistical from './detail/DataStatistical'
-import projectLink from './detail/ProjectLink'
-import toolChain from './detail/ToolChain'
-import toolReport from './detail/ToolReport'
+import imageSelect from './ImageSelect.vue'
+import configYaml from './ConfigYaml.vue'
+import selectServer from './SelectServer.vue'
+import deployTest from './DeployTest.vue'
+import publishAppDialog from './detail/PublishAppDialog.vue'
+import api from './detail/Api.vue'
+import dataStistical from './detail/DataStatistical.vue'
+import projectLink from './detail/ProjectLink.vue'
+import toolChain from './detail/ToolChain.vue'
+import toolReport from './detail/ToolReport.vue'
 export default {
   name: 'appDetail',
   components: {

@@ -28,6 +28,7 @@
 </div>
 </template>
 <script>
+import { urlAuth, urlUsers } from '../../tools/tool.js'
 import axios from 'axios'
 import util from '../../tools/util.js'
 export default {
@@ -58,7 +59,8 @@ export default {
       // this.code = this.certifyCode
       if (this.code.toLowerCase() === this.certifyCode.toLowerCase()) {
         this.loginBtnLoading = true
-        let url = 'http://159.138.61.155:8067/v1/users/auth'
+        // let url = 'http://159.138.61.155:8067/v1/users/auth'
+        let url = urlAuth
         axios({
           method: 'POST',
           url: url,
@@ -66,7 +68,8 @@ export default {
         }).then((res) => {
           if (res.status === 200) {
             document.cookie = 'token=Basic' + res.data.token
-            url = 'http://159.138.61.155:8067/v1/users/' + res.data.userId
+            // url = 'http://159.138.61.155:8067/v1/users/' + res.data.userId
+            url = urlUsers + res.data.userId
             axios({
               method: 'GET',
               url: url,

@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "npm run lint -- --fix && vue-cli-service serve",
     "build": "npm run lint -- --fix && vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "eslint": "eslint -f checkstyle --ext .js,.vue src -o eslint_result.xml"
   },
   "dependencies": {
     "a": "^2.1.2",
@@ -46,7 +47,9 @@
       "node": true
     },
     "extends": [
+      "plugin:vue/base",
       "plugin:vue/essential",
+      "plugin:vue/strongly-recommended",
       "@vue/standard"
     ],
     "rules": {},

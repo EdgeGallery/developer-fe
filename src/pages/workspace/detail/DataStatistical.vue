@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import myTitle from '../../../components/common/Title'
+import myTitle from '../../../components/common/Title.vue'
 
 export default {
   components: {
