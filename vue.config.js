@@ -2,44 +2,20 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     proxy: {
-      '/api': {
-        target: 'http://159.138.38.104:38181',
-        ws: true,
+      '/rest/user-mgmt-be': {
+        target: 'http://user-mgmt-be',
+        agent: new HttpProxyAgent('http://127.0.0.1:8082'),
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/rest/user-mgmt-be': ''
         }
       },
-      '/mecm': {
-        target: 'http://159.138.38.104:8806',
-        ws: true,
+      '/rest/mec-developer': {
+        target: 'http://mec-developer',
+        agent: new HttpProxyAgent('http://127.0.0.1:8082'),
         changeOrigin: true,
         pathRewrite: {
-          '^/mecm': ''
-        }
-      },
-      '/upload': {
-        target: 'http://159.138.38.104:32806',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/upload': ''
-        }
-      },
-      '/meo': {
-        target: 'http://159.138.38.104:32080',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/meo': ''
-        }
-      },
-      '/info': {
-        target: 'http://159.138.38.104:8083',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/info': ''
+          '^/rest/mec-developer': ''
         }
       }
     }

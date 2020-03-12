@@ -5,8 +5,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 const urlPrefix = 'http://159.138.61.155:9080/'
 const urlPrefixTool = 'http://159.138.61.155:8059/'
-// const urlPrefix = 'http://159.138.36.16:9080/'
-// const urlPrefix = 'http://10.181.156.52:8090/'
+const urlAuth = '/rest/user-mgmt-be/v1/users/auth'
+const urlUsers = '/rest/user-mgmt-be/v1/users/'
+const urlLogout = '/rest/user-mgmt-be/v1/users/logout'
 
 function getuserId () {
   let userJsonStr = sessionStorage.getItem('user')
@@ -194,6 +195,9 @@ export {
   Delete,
   urlPrefix,
   urlPrefixTool,
+  urlAuth,
+  urlUsers,
+  urlLogout,
   downloadFile,
   downLoadReport
 }

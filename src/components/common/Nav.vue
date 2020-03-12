@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { urlLogout } from '../../tools/tool.js'
 import navData from '../../../src/navdata/nav_data.js'
 import axios from 'axios'
 import Topbar from './Topbar.vue'
@@ -217,7 +218,8 @@ export default {
       }
     },
     logout () {
-      let url = 'http://159.138.61.155:8067/v1/users/logout'
+      // let url = 'http://159.138.61.155:8067/v1/users/logout'
+      let url = urlLogout
       axios({
         method: 'POST',
         url: url,
