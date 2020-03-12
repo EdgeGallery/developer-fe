@@ -17,7 +17,16 @@ module.exports = {
         pathRewrite: {
           '^/rest/mec-developer': ''
         }
+      },
+      '/rest/mec-developer-tool': {
+        target: 'http://mec-developer-tool',
+        agent: new HttpProxyAgent('http://127.0.0.1:8082'),
+        changeOrigin: true,
+        pathRewrite: {
+          '^/rest/mec-developer-tool': ''
+        }
       }
+
     }
   },
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
