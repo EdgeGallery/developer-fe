@@ -29,11 +29,11 @@
 
 <script>
 import { Post } from '../../tools/tool.js'
-import firstStep from './NewProjectFirst'
-import secondStep from './NewProjectSecond'
-import thirdStep from './NewProjectThird'
-import fourthStep from './NewProjectFourth'
-import fourthStepMigration from './NewProjectFourth-migration'
+import firstStep from './NewProjectFirst.vue'
+import secondStep from './NewProjectSecond.vue'
+import thirdStep from './NewProjectThird.vue'
+import fourthStep from './NewProjectFourth.vue'
+import fourthStepMigration from './NewProjectFourth-migration.vue'
 export default {
   name: 'newproject',
   components: {

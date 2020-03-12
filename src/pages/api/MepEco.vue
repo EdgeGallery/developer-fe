@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import tableList from './TableList'
+import tableList from './TableList.vue'
 export default {
   name: 'appapi',
   components: {

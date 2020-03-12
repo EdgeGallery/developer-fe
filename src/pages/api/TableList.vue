@@ -29,7 +29,7 @@
 
 <script>
 // import { Get } from './../../tools/tool.js'
-import pagination from '../../components/common/Pagination'
+import pagination from '../../components/common/Pagination.vue'
 export default {
   name: 'tablelist',
   props: ['tabLabel'],
