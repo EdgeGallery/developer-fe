@@ -349,7 +349,9 @@ const cn = {
     emailFormat: '邮箱不符合规定',
     regUserSuc: '你已成功注册该用户！',
     failedReg: '注册用户失败！',
-    captchaFailed: '发送手机验证码失败！'
+    captchaFailed: '发送手机验证码失败！',
+    nameAlSinged: '用户名已被注册，请重新输入或前往登陆',
+    telAlSigned: '电话号码已被注册，请重新输入或前往登陆'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
