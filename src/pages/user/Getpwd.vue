@@ -1,59 +1,40 @@
 <template>
-<div class="register">
+<div class="getpwd">
   <div class="loginBox">
-    <div class="login-top">
-        <span>{{$t('register.registerUser')}}</span>
-    </div>
     <el-form :model="userData" status-icon :rules="rules" ref="userData" class="demo-ruleForm">
       <div class="login-area">
-        <el-form-item prop="username">
-          <p>{{$t('register.userName')}}</p>
-          <el-input id="uname" v-model="userData.username" auto-complete="new-accounts" type="text" :placeholder="$t('login.namePla')"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <p>{{$t('register.password')}}</p>
-          <el-input id="upass" v-model="userData.password" auto-complete="new-password" type="password" :placeholder="$t('login.pwdPla')"></el-input>
-        </el-form-item>
-        <el-form-item prop="confirmPassword">
-          <p>{{$t('register.confirmPass')}}</p>
-          <el-input id="verifypass" v-model="userData.confirmPassword" type="password" :placeholder="$t('login.pwdConfPla')"></el-input>
-        </el-form-item>
         <el-form-item prop="telephone">
-          <p>{{$t('register.contactNumber')}}</p>
+          <p>{{$t('login.contact')}}</p>
           <el-input id="contact" v-model="userData.telephone" type="text" :placeholder="$t('login.telPla')"></el-input>
         </el-form-item>
         <el-form-item>
           <el-row style="margin-top:18px;">
             <el-col :span="16">
-              <el-input v-model="userData.verificationCode" type="text" :placeholder="$t('login.capPla')"></el-input>
+              <el-input v-model="userData.captcha" type="text" :placeholder="$t('login.capPla')"></el-input>
             </el-col>
             <el-col :span="8">
               <el-button style="float:right;" type="primary" size="middle" @click="getCaptcha" :disabled="ifBtnAble"><span v-if="!showTime">{{$t('login.getCap')}}</span><span v-if="showTime">&nbsp;&nbsp;{{time}}s</span></el-button>
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item>
-          <p>{{$t('register.company')}}</p>
-          <el-input id="company" v-model="userData.company" type="text" :placeholder="$t('login.compPla')"></el-input>
+        <el-form-item prop="password">
+          <p>{{$t('login.newPwd')}}</p>
+          <el-input id="upass" v-model="userData.password" auto-complete="new-password" type="password" :placeholder="$t('login.pwdPla')"></el-input>
         </el-form-item>
-        <el-form-item id="gender">
-          <p style="padding:5px 0;">
-            {{$t('register.gender')}}:
-            <el-radio v-model="userData.gender" label="1">{{$t('register.male')}}</el-radio>
-            <el-radio v-model="userData.gender" label="2">{{$t('register.female')}}</el-radio>
-          </p>
+        <el-form-item prop="confirmPassword">
+          <p>{{$t('login.confirmNewPwd')}}</p>
+          <el-input id="verifypass" v-model="userData.confirmPassword" type="password" :placeholder="$t('login.pwdConfPla')"></el-input>
         </el-form-item>
       </div>
-      <div>
-        <el-button id="confirmBtn" type="primary" size="medium" :loading="regBtnLoading" v-on:click="submitForm('userData')">{{$t('register.submitBtn')}}</el-button>
-        <el-button id="cancelBtn" type="primary" size="medium" @click="closeSucessPop()">{{$t('register.cancelBtn')}}</el-button>
+      <div style="margin-top:20px;">
+        <el-button id="submitBtn" type="primary" size="medium" :loading="regBtnLoading" v-on:click="submitForm('userData')">{{$t('common.confirm')}}</el-button>
+        <el-button id="cancelBtn" type="primary" size="medium" @click="closeSucessPop()">{{$t('common.cancel')}}</el-button>
       </div>
     </el-form>
   </div>
 </div>
 </template>
 <script>
-import { urlUsers } from '../../tools/tool.js'
 import axios from 'axios'
 export default {
   name: 'register',
@@ -61,9 +42,9 @@ export default {
 
   },
   data () {
-    let validateName = (rule, value, callback) => {
+    var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('register.userNameEmpty')))
+        callback(new Error('Password cannot be empty'))
       } else {
         if (this.userData.checkPass !== '') {
           this.$refs.userData.validateField('checkPass')
@@ -71,28 +52,18 @@ export default {
         callback()
       }
     }
-    let validatePass = (rule, value, callback) => {
+    var validatePassConfirm = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('register.passwordEmpty')))
-      } else {
-        if (this.userData.checkPass !== '') {
-          this.$refs.userData.validateField('checkPass')
-        }
-        callback()
-      }
-    }
-    let validatePassConfirm = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error(this.$t('register.confirmPassEmpty')))
+        callback(new Error('Confirm Password cannot be empty'))
       } else if (value !== this.userData.password) {
-        callback(new Error(this.$t('register.differentPasswords')))
+        callback(new Error('Two different passwords'))
       } else {
         callback()
       }
     }
-    let validatetelephone = (rule, value, callback) => {
+    var validatetelephone = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('register.contactNumberEmpty')))
+        callback(new Error('Contact Number cannot be empty'))
       } else {
         if (this.userData.checkPass !== '') {
           this.$refs.userData.validateField('checkPass')
@@ -107,30 +78,22 @@ export default {
       showTime: false,
       interval: '',
       userData: {
-        username: '',
         password: '',
         confirmPassword: '',
         telephone: '',
-        company: '',
-        gender: '',
-        type: '',
-        verificationCode: ''
+        captcha: ''
       },
       rules: {
-        username: [
-          { validator: validateName, trigger: 'blur' },
-          { pattern: /^.{6,50}$/, message: this.$t('register.nameFormat') }
-        ],
         password: [
           { validator: validatePass, trigger: 'blur' },
-          { pattern: /^.{6,16}$/, message: this.$t('register.passwordFormat') }
+          { pattern: /^.{6,16}$/, message: '6-16 digit Numbers, letters, underline' }
         ],
         confirmPassword: [
           { validator: validatePassConfirm, trigger: 'blur' }
         ],
         telephone: [
           { validator: validatetelephone, trigger: 'blur' },
-          { pattern: /^1[34578]\d{9}$/, message: this.$t('register.contactNumberFormat') }
+          { pattern: /^1[34578]\d{9}$/, message: 'The phone number is not in accordance with the rules' }
         ]
       },
       regBtnLoading: false
@@ -138,11 +101,6 @@ export default {
   },
   created () {
     this.keyupSubmit()
-    if (this.$route.hash === '#1') {
-      this.type = 1
-    } else {
-      this.type = 2
-    }
     if (sessionStorage.getItem('time')) {
       this.time = sessionStorage.getItem('time')
       this.ifBtnAble = true
@@ -179,8 +137,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.regBtnLoading = true
-          // let url = 'http://159.138.61.155:8067/v1/users/'
-          let url = urlUsers
+          let url = '/rest/user-mgmt-be/v1/users/'
           axios({
             method: 'POST',
             url: url,
@@ -190,18 +147,12 @@ export default {
               'Content-Type': 'application/json'
             }
           }).then(res => {
-            this.$message({
-              type: 'success',
-              message: this.$t('promptMessage.registerSuccess')
-            })
+            this.$message.success(this.$t('register.regUserSuc'))
             this.regBtnLoading = false
             this.to()
           }, error => {
             if (error) {
-              this.$message({
-                type: 'error',
-                message: this.$t('promptMessage.resisterFail')
-              })
+              this.$message.error(this.$t('register.failedReg'))
             }
             this.regBtnLoading = false
           })
@@ -211,15 +162,8 @@ export default {
         }
       })
     },
-    closePop () {
-      this.userData = ''
-    },
     closeSucessPop () {
-      if (this.type === 1) {
-        this.jumpTo('/admin/users')
-      } else {
-        this.jumpTo('/')
-      }
+      this.$router.go(-1)
     },
     keyupSubmit () {
       document.onkeydown = e => {
@@ -228,9 +172,6 @@ export default {
           this.submitForm()
         }
       }
-    },
-    resetForm () {
-
     },
     getToken () {
       let strCookie = document.cookie
@@ -271,17 +212,16 @@ export default {
 }
 </script>
 <style lang="less">
-.register{
+.getpwd{
   height:100%;
-  background: url('../../assets/images/login.png') center;
+  background: url('../../assets/images/login.png') no-repeat center;
   background-size:cover;
-  overflow-y: auto;
   .loginBox{
     float: right;
     width: 30%;
     height: auto;
     text-align: center;
-    margin: 8% 10% 6% 0;
+    margin: 8% 10% 0 0;
     padding:15px;
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;

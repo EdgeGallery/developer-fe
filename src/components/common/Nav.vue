@@ -15,17 +15,18 @@
           <span @click="changeLange">{{language}}</span>
         </div>
         <div class="nav-tabs rt">
-          <span></span>
-          <el-tooltip
-            class="item el-icon-user-solid"
-            :class="content === 'Log Out'?'blue':''"
-            effect="dark"
-            :content="content"
-            placement="bottom-start"
-          >
-            <span v-if="content === 'Log Out'" @click="beforeLogout()"></span>
-            <span v-else @click="login()"></span>
-          </el-tooltip>
+          <span class="search"></span>
+          <el-dropdown @command="handleCommand">
+            <span class="item el-icon-user-solid" :class="content === 'Log Out'?'blue':''" effect="dark">
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a" v-if="content === 'Log Out'">{{$t('login.logout')}}</el-dropdown-item>
+              <el-dropdown-item command="b" v-if="content !== 'Log Out'">{{$t('login.loginBtn')}}</el-dropdown-item>
+              <el-dropdown-item command="c" v-if="content !== 'Log Out'">{{$t('login.register')}}</el-dropdown-item>
+              <el-dropdown-item command="d" v-if="content === 'Log Out'">{{$t('login.modifyPwd')}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <span></span>
           <span></span>
         </div>
@@ -91,6 +92,17 @@ export default {
     this.onLogining()
   },
   methods: {
+    handleCommand (command) {
+      if (command === 'a') {
+        this.beforeLogout()
+      } else if (command === 'b') {
+        this.login()
+      } else if (command === 'c') {
+        this.$router.push('/register')
+      } else {
+        this.modifyPwd()
+      }
+    },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
       return {
@@ -308,7 +320,7 @@ export default {
       top: 13px;
       cursor: pointer;
     }
-    span:first-child {
+    span.search {
       background: url("../../assets/images/search.png") center;
     }
     span:nth-child(2) {
@@ -325,6 +337,15 @@ export default {
     }
     span:nth-child(4) {
       background: url("../../assets/images/chat.png") center;
+    }
+    .el-dropdown{
+      span{
+        width: 45px;
+        top:10px;
+      }
+      .el-icon-user-solid:before{
+        font-size: 24px;
+      }
     }
     .pop-txt {
       font-size: 21px;

@@ -17,6 +17,16 @@ export default new Router({
       component: () => import('../pages/user/Login.vue')
     },
     {
+      path: '/getpwd',
+      name: 'getpwd',
+      component: () => import('../pages/user/Getpwd.vue')
+    },
+    {
+      path: '/modifypwd',
+      name: 'modifypwd',
+      component: () => import('../pages/user/Modifypwd.vue')
+    },
+    {
       path: '',
       component: () => import('../components/layout/Layout.vue'),
       meta: {

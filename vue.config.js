@@ -1,3 +1,4 @@
+const HttpProxyAgent = require('http-proxy-agent')
 module.exports = {
   devServer: {
     disableHostCheck: true,
