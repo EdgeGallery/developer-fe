@@ -8,7 +8,7 @@
       <div class="login-area">
         <el-form-item prop="username">
           <p>{{$t('register.userName')}}</p>
-          <el-input id="uname" v-model="userData.username" auto-complete="new-accounts" type="text" :placeholder="$t('login.namePla')"></el-input>
+          <el-input id="uname" v-model="userData.username" auto-complete="new-accounts" type="text" :placeholder="$t('login.namePla')" @blur.native.capture="verifyName()"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <p>{{$t('register.password')}}</p>
@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item prop="telephone">
           <p>{{$t('register.contactNumber')}}</p>
-          <el-input id="contact" v-model="userData.telephone" type="text" :placeholder="$t('login.telPla')"></el-input>
+          <el-input id="contact" v-model="userData.telephone" type="text" :placeholder="$t('login.telPla')" @blur.native.capture="verifyName()"></el-input>
         </el-form-item>
         <el-form-item>
           <el-row style="margin-top:18px;">
@@ -106,6 +106,8 @@ export default {
       time: 60,
       showTime: false,
       interval: '',
+      nameTip: true,
+      telTip: true,
       userData: {
         username: '',
         password: '',
@@ -161,6 +163,24 @@ export default {
         this.jumpTo('/')
       }
     },
+    verifyName () {
+      let params = {
+        username: this.userData.usernamem,
+        telephone: this.userData.telephone
+      }
+      axios.post('/rest/user-mgmt-be/v1/users/action/uniqueness', params).then(res => {
+        if (res.data) {
+          if (res.data.username) {
+            this.$message.error('The username has been already registered, please change another one')
+            this.nameTip = false
+          }
+          if (res.data.telephone) {
+            this.$message.error('The telephone number has been already registered, please change another one')
+            this.telTip = false
+          }
+        }
+      })
+    },
     intervalStart () {
       this.interval = setInterval(() => {
         this.time--
@@ -178,34 +198,42 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.regBtnLoading = true
-          // let url = 'http://159.138.61.155:8067/v1/users/'
-          let url = urlUsers
-          axios({
-            method: 'POST',
-            url: url,
-            data: this.userData,
-            headers: {
-              'Authorization': this.getToken(),
-              'Content-Type': 'application/json'
-            }
-          }).then(res => {
-            this.$message({
-              type: 'success',
-              message: this.$t('promptMessage.registerSuccess')
-            })
-            this.regBtnLoading = false
-            sessionStorage.setItem('time', 1)
-            this.to()
-          }, error => {
-            if (error) {
+          if (this.nameTip && this.telTip) {
+            this.regBtnLoading = true
+            // let url = 'http://159.138.61.155:8067/v1/users/'
+            let url = urlUsers
+            axios({
+              method: 'POST',
+              url: url,
+              data: this.userData,
+              headers: {
+                'Authorization': this.getToken(),
+                'Content-Type': 'application/json'
+              }
+            }).then(res => {
               this.$message({
-                type: 'error',
-                message: this.$t('promptMessage.resisterFail')
+                type: 'success',
+                message: this.$t('promptMessage.registerSuccess')
               })
+              this.regBtnLoading = false
+              sessionStorage.setItem('time', 1)
+              this.to()
+            }, error => {
+              if (error) {
+                this.$message({
+                  type: 'error',
+                  message: this.$t('promptMessage.resisterFail')
+                })
+              }
+              this.regBtnLoading = false
+            })
+          } else {
+            if (this.nameTip) {
+              this.$message.error(this.$t('register.telAlSinged'))
+            } else {
+              this.$message.error(this.$t('register.nameAlSinged'))
             }
-            this.regBtnLoading = false
-          })
+          }
         } else {
           console.log('error submit!!')
           return false

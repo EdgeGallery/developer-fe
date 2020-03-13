@@ -347,9 +347,11 @@ const en = {
     passwordFormat: '6-16 digit Numbers, letters, underline',
     contactNumberFormat: 'The phone number is not in accordance with the rules',
     emailFormat: 'The email is not in accordance with the rules',
-    regUserSuc: 'User is registered successfully!',
-    failedReg: 'Failed to register user! ',
-    captchaFailed: 'Failed to send mobile phone verification code!'
+    regUserSuc: 'User is registered successfully',
+    failedReg: 'Failed to register user',
+    captchaFailed: 'Failed to send mobile phone verification code',
+    nameAlSinged: 'The username number has been already registered, please change another one',
+    telAlSigned: 'The telephone number has been already registered, please change another one'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
