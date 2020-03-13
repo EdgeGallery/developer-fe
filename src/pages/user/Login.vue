@@ -21,7 +21,7 @@
       </el-row>
     </div>
     <div>
-      <el-button id="loginBtn" type="primary" size="medium" :loading="loginBtnLoading" v-on:click="submitForm()">{{$t('login.loginBtn')}}</el-button>
+      <el-button id="loginBtn" type="primary" size="medium" :loading="loginBtnLoading" @click="submitForm()">{{$t('login.loginBtn')}}</el-button>
       <el-button id="registerBtn" type="info" size="medium" @click="jumpTo('/getpwd')">{{$t('login.forgotPwd')}}</el-button>
     </div>
   </div>

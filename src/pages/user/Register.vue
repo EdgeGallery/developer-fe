@@ -103,7 +103,7 @@ export default {
     return {
       visible: false,
       ifBtnAble: false,
-      time: 300,
+      time: 60,
       showTime: false,
       interval: '',
       userData: {
@@ -170,7 +170,7 @@ export default {
           this.interval = null
           this.ifBtnAble = false
           this.showTime = false
-          this.time = 300
+          this.time = 60
           sessionStorage.removeItem('time')
         }
       }, 1000)
@@ -195,6 +195,7 @@ export default {
               message: this.$t('promptMessage.registerSuccess')
             })
             this.regBtnLoading = false
+            sessionStorage.setItem('time', 1)
             this.to()
           }, error => {
             if (error) {
@@ -256,15 +257,14 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(res => {
+        // console.log(res)
+      }).catch(err => {
+        this.ifBtnAble = false
         this.$message({
-          type: 'success',
-          message: this.$t('register.regUserSuc')
+          type: 'err',
+          message: this.$t('register.captchaFailed')
         })
-      }, error => {
-        if (error) {
-          this.$message.error(this.$t('register.failedReg'))
-        }
-        this.regBtnLoading = false
+        console.log(err)
       })
     }
   }

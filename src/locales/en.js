@@ -321,7 +321,8 @@ const en = {
     confirmNewPwd: 'Confirm your new password',
     forgotPwd: 'Forgot password？',
     modifyPwd: 'Modify Password',
-    contact: 'Contact Number'
+    contact: 'Contact Number',
+    logout: 'Log Out'
   },
   register: {
     registerUser: 'Register User',
@@ -347,7 +348,8 @@ const en = {
     contactNumberFormat: 'The phone number is not in accordance with the rules',
     emailFormat: 'The email is not in accordance with the rules',
     regUserSuc: 'User is registered successfully!',
-    failedReg: 'Failed to register user! '
+    failedReg: 'Failed to register user! ',
+    captchaFailed: 'Failed to send mobile phone verification code!'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
