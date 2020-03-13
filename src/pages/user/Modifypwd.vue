@@ -74,7 +74,7 @@ export default {
     return {
       visible: false,
       ifBtnAble: false,
-      time: 300,
+      time: 60,
       showTime: false,
       interval: '',
       userData: {
@@ -128,7 +128,7 @@ export default {
           this.interval = null
           this.ifBtnAble = false
           this.showTime = false
-          this.time = 300
+          this.time = 60
           sessionStorage.removeItem('time')
         }
       }, 1000)
@@ -137,7 +137,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.regBtnLoading = true
-          let url = '/rest/user-mgmt-be/v1/users/'
+          let url = '/rest/user-mgmt-be/v1/users/password'
           axios({
             method: 'POST',
             url: url,
@@ -149,6 +149,7 @@ export default {
           }).then(res => {
             this.$message.success(this.$t('register.regUserSuc'))
             this.regBtnLoading = false
+            sessionStorage.setItem('time', 1)
             this.to()
           }, error => {
             if (error) {
@@ -197,15 +198,14 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(res => {
+        // console.log(res)
+      }).catch(err => {
+        this.ifBtnAble = false
         this.$message({
-          type: 'success',
-          message: this.$t('promptMessage.registerSuccess')
+          type: 'err',
+          message: this.$t('register.captchaFailed')
         })
-      }, error => {
-        if (error) {
-          this.$message.error(this.$t('promptMessage.resisterFail'))
-        }
-        this.regBtnLoading = false
+        console.log(err)
       })
     }
   }

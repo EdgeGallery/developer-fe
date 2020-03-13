@@ -24,7 +24,7 @@
               <el-dropdown-item command="a" v-if="content === 'Log Out'">{{$t('login.logout')}}</el-dropdown-item>
               <el-dropdown-item command="b" v-if="content !== 'Log Out'">{{$t('login.loginBtn')}}</el-dropdown-item>
               <el-dropdown-item command="c" v-if="content !== 'Log Out'">{{$t('login.register')}}</el-dropdown-item>
-              <el-dropdown-item command="d" v-if="content === 'Log Out'">{{$t('login.modifyPwd')}}</el-dropdown-item>
+              <!-- <el-dropdown-item command="d" v-if="content === 'Log Out'">{{$t('login.modifyPwd')}}</el-dropdown-item> -->
             </el-dropdown-menu>
           </el-dropdown>
           <span></span>
@@ -211,6 +211,9 @@ export default {
       } else {
         this.$router.push('/mecDeveloper')
       }
+    },
+    modifyPwd () {
+      this.$router.push('/modifypwd')
     },
     login () {
       this.$router.push('/')

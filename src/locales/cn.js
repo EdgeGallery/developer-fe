@@ -321,7 +321,8 @@ const cn = {
     confirmNewPwd: '确认新密码',
     forgotPwd: '忘记密码？',
     modifyPwd: '修改密码',
-    contact: '联系方式'
+    contact: '联系方式',
+    logout: '注销'
   },
   register: {
     registerUser: '注册用户',
@@ -347,7 +348,8 @@ const cn = {
     contactNumberFormat: '电话号码不符合规定',
     emailFormat: '邮箱不符合规定',
     regUserSuc: '你已成功注册该用户！',
-    failedReg: '注册用户失败！'
+    failedReg: '注册用户失败！',
+    captchaFailed: '发送手机验证码失败！'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
