@@ -309,7 +309,19 @@ const en = {
     userName: 'Username',
     password: 'Password',
     loginBtn: 'Log In',
-    register: 'Register'
+    register: 'Register',
+    namePla: 'Please enter name or telephone number',
+    pwdPla: 'Please enter your password',
+    pwdConfPla: 'Please confirm your password',
+    compPla: 'Please enter your company',
+    telPla: 'Please enter your telephone number',
+    getCap: 'Get the captcha',
+    capPla: 'Captcha',
+    newPwd: 'New password',
+    confirmNewPwd: 'Confirm your new password',
+    forgotPwd: 'Forgot password？',
+    modifyPwd: 'Modify Password',
+    contact: 'Contact Number'
   },
   register: {
     registerUser: 'Register User',
@@ -333,7 +345,9 @@ const en = {
     nameFormat: '6-50 digit Numbers, letters, underline',
     passwordFormat: '6-16 digit Numbers, letters, underline',
     contactNumberFormat: 'The phone number is not in accordance with the rules',
-    emailFormat: 'The email is not in accordance with the rules'
+    emailFormat: 'The email is not in accordance with the rules',
+    regUserSuc: 'User is registered successfully!',
+    failedReg: 'Failed to register user! '
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
