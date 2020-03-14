@@ -351,7 +351,9 @@ const en = {
     failedReg: 'Failed to register user',
     captchaFailed: 'Failed to send mobile phone verification code',
     nameAlSinged: 'The username number has been already registered, please change another one',
-    telAlSigned: 'The telephone number has been already registered, please change another one'
+    telAlSigned: 'The telephone number has been already registered, please change another one',
+    changePasswordSuc: 'Password has been updated!',
+    changePasswordFail: 'Failed to change password!'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

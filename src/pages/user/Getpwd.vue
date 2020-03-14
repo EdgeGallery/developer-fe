@@ -147,13 +147,13 @@ export default {
               'Content-Type': 'application/json'
             }
           }).then(res => {
-            this.$message.success(this.$t('register.regUserSuc'))
+            this.$message.success(this.$t('register.changePasswordSuc'))
             this.regBtnLoading = false
             sessionStorage.setItem('time', 1)
             this.to()
           }, error => {
             if (error) {
-              this.$message.error(this.$t('register.failedReg'))
+              this.$message.error(this.$t('register.changePasswordFail'))
             }
             this.regBtnLoading = false
           })

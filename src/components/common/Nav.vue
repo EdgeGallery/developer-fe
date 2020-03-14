@@ -15,20 +15,21 @@
           <span @click="changeLange">{{language}}</span>
         </div>
         <div class="nav-tabs rt">
-          <span class="search"></span>
-          <el-dropdown @command="handleCommand">
-            <span class="item el-icon-user-solid" :class="content === 'Log Out'?'blue':''" effect="dark">
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a" v-if="content === 'Log Out'">{{$t('login.logout')}}</el-dropdown-item>
-              <el-dropdown-item command="b" v-if="content !== 'Log Out'">{{$t('login.loginBtn')}}</el-dropdown-item>
-              <el-dropdown-item command="c" v-if="content !== 'Log Out'">{{$t('login.register')}}</el-dropdown-item>
-              <!-- <el-dropdown-item command="d" v-if="content === 'Log Out'">{{$t('login.modifyPwd')}}</el-dropdown-item> -->
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span></span>
-          <span></span>
+          <span class="span_a" v-if="content === 'Log In'">
+            <el-link @click="jumpTo('/login')" :class="active?'blue':''">{{$t('login.loginBtn')}}</el-link>
+            <el-link @click="jumpTo('/register#2')" :class="!active?'blue':''">{{$t('login.register')}}</el-link>
+          </span>
+          <el-tooltip
+            v-else
+            class="item el-icon-user-solid"
+            :class="content === 'Log Out'?'blue':''"
+            effect="dark"
+            :content="content"
+            placement="bottom-start"
+          >
+            <span v-if="content === 'Log Out'" @click="beforeLogout()"></span>
+            <span v-else @click="login()"></span>
+          </el-tooltip>
         </div>
       </el-col>
     </el-row>
@@ -56,7 +57,8 @@ export default {
       previousPath: '',
       jsonData: [],
       appData: navData.navAppData,
-      language: 'English'
+      language: 'English',
+      active: true
     }
   },
   watch: {
@@ -193,13 +195,8 @@ export default {
       return ''
     },
     jumpTo (path) {
-      let newPath = '/tenant' + path
-      let usr = sessionStorage.getItem('usertype')
-      if (usr.toLowerCase() === 'guest' || usr.toLowerCase() === '') {
-        // update by wenson
-        newPath = '/paas' + path
-      }
-      this.$router.push(newPath)
+      this.active = !this.active
+      this.$router.push(path)
     },
     jumpFromLogo (newPath) {
       let usr = sessionStorage.getItem('usertype')
@@ -314,32 +311,28 @@ export default {
     font-size: 20px;
     line-height: 50px;
     margin-right: 10px;
+    a{
+      height: 24px;
+      margin-right: 10px;
+      color: #888;
+    }
+    a.blue {
+      color: #6c92fa;
+    }
     span {
       display: inline-block;
       width: 24px;
       height: 24px;
       margin-right: 20px;
       position: relative;
-      top: 13px;
+      top: 7px;
       cursor: pointer;
-    }
-    span.search {
-      background: url("../../assets/images/search.png") center;
-    }
-    span:nth-child(2) {
-      position: relative;
-      top: 10px;
-      font-size: 25px;
-      color: #9ca2b1;
     }
     span.el-icon-user-solid.blue {
       color: #6c92fa;
     }
-    span:nth-child(3) {
-      background: url("../../assets/images/help.png") center;
-    }
-    span:nth-child(4) {
-      background: url("../../assets/images/chat.png") center;
+    span.span_a{
+      width: 80px;
     }
     .el-dropdown{
       span{

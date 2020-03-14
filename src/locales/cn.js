@@ -351,7 +351,9 @@ const cn = {
     failedReg: '注册用户失败！',
     captchaFailed: '发送手机验证码失败！',
     nameAlSinged: '用户名已被注册，请重新输入或前往登陆',
-    telAlSigned: '电话号码已被注册，请重新输入或前往登陆'
+    telAlSigned: '电话号码已被注册，请重新输入或前往登陆',
+    changePasswordSuc: '修改密码成功！',
+    changePasswordFail: '修改密码失败！'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
