@@ -8,23 +8,33 @@
       <div class="login-area">
         <el-form-item prop="username">
           <p>{{$t('register.userName')}}</p>
-          <el-input id="uname" v-model="userData.username" auto-complete="new-accounts" type="text"></el-input>
+          <el-input id="uname" v-model="userData.username" auto-complete="new-accounts" type="text" :placeholder="$t('login.namePla')" @blur.native.capture="verifyName()"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <p>{{$t('register.password')}}</p>
-          <el-input id="upass" v-model="userData.password" auto-complete="new-password" type="password"></el-input>
+          <el-input id="upass" v-model="userData.password" auto-complete="new-password" type="password" :placeholder="$t('login.pwdPla')"></el-input>
         </el-form-item>
         <el-form-item prop="confirmPassword">
           <p>{{$t('register.confirmPass')}}</p>
-          <el-input id="verifypass" v-model="userData.confirmPassword" type="password"></el-input>
+          <el-input id="verifypass" v-model="userData.confirmPassword" type="password" :placeholder="$t('login.pwdConfPla')"></el-input>
         </el-form-item>
         <el-form-item prop="telephone">
           <p>{{$t('register.contactNumber')}}</p>
-          <el-input id="contact" v-model="userData.telephone" type="text"></el-input>
+          <el-input id="contact" v-model="userData.telephone" type="text" :placeholder="$t('login.telPla')" @blur.native.capture="verifyName()"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-row style="margin-top:18px;">
+            <el-col :span="16">
+              <el-input v-model="userData.verificationCode" type="text" :placeholder="$t('login.capPla')"></el-input>
+            </el-col>
+            <el-col :span="8">
+              <el-button style="float:right;" type="primary" size="middle" @click="getCaptcha" :disabled="ifBtnAble"><span v-if="!showTime">{{$t('login.getCap')}}</span><span v-if="showTime">&nbsp;&nbsp;{{time}}s</span></el-button>
+            </el-col>
+          </el-row>
         </el-form-item>
         <el-form-item>
           <p>{{$t('register.company')}}</p>
-          <el-input id="company" v-model="userData.company" type="text"></el-input>
+          <el-input id="company" v-model="userData.company" type="text" :placeholder="$t('login.compPla')"></el-input>
         </el-form-item>
         <el-form-item id="gender">
           <p style="padding:5px 0;">
@@ -92,6 +102,12 @@ export default {
     }
     return {
       visible: false,
+      ifBtnAble: false,
+      time: 60,
+      showTime: false,
+      interval: '',
+      nameTip: true,
+      telTip: true,
       userData: {
         username: '',
         password: '',
@@ -99,7 +115,8 @@ export default {
         telephone: '',
         company: '',
         gender: '',
-        type: ''
+        type: '',
+        verificationCode: ''
       },
       rules: {
         username: [
@@ -128,6 +145,12 @@ export default {
     } else {
       this.type = 2
     }
+    if (sessionStorage.getItem('time')) {
+      this.time = sessionStorage.getItem('time')
+      this.ifBtnAble = true
+      this.showTime = true
+      this.intervalStart()
+    }
   },
   methods: {
     jumpTo (path) {
@@ -140,36 +163,77 @@ export default {
         this.jumpTo('/')
       }
     },
+    verifyName () {
+      let params = {
+        username: this.userData.usernamem,
+        telephone: this.userData.telephone
+      }
+      axios.post('/rest/user-mgmt-be/v1/users/action/uniqueness', params).then(res => {
+        if (res.data) {
+          if (res.data.username) {
+            this.$message.error('The username has been already registered, please change another one')
+            this.nameTip = false
+          }
+          if (res.data.telephone) {
+            this.$message.error('The telephone number has been already registered, please change another one')
+            this.telTip = false
+          }
+        }
+      })
+    },
+    intervalStart () {
+      this.interval = setInterval(() => {
+        this.time--
+        sessionStorage.setItem('time', this.time)
+        if (this.time === 0) {
+          clearTimeout(this.interval)
+          this.interval = null
+          this.ifBtnAble = false
+          this.showTime = false
+          this.time = 60
+          sessionStorage.removeItem('time')
+        }
+      }, 1000)
+    },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.regBtnLoading = true
-          // let url = 'http://159.138.61.155:8067/v1/users/'
-          let url = urlUsers
-          axios({
-            method: 'POST',
-            url: url,
-            data: this.userData,
-            headers: {
-              'Authorization': this.getToken(),
-              'Content-Type': 'application/json'
-            }
-          }).then(res => {
-            this.$message({
-              type: 'success',
-              message: this.$t('promptMessage.registerSuccess')
-            })
-            this.regBtnLoading = false
-            this.to()
-          }, error => {
-            if (error) {
+          if (this.nameTip && this.telTip) {
+            this.regBtnLoading = true
+            // let url = 'http://159.138.61.155:8067/v1/users/'
+            let url = urlUsers
+            axios({
+              method: 'POST',
+              url: url,
+              data: this.userData,
+              headers: {
+                'Authorization': this.getToken(),
+                'Content-Type': 'application/json'
+              }
+            }).then(res => {
               this.$message({
-                type: 'error',
-                message: this.$t('promptMessage.resisterFail') + error.response.data
+                type: 'success',
+                message: this.$t('promptMessage.registerSuccess')
               })
+              this.regBtnLoading = false
+              sessionStorage.setItem('time', 1)
+              this.to()
+            }, error => {
+              if (error) {
+                this.$message({
+                  type: 'error',
+                  message: this.$t('promptMessage.resisterFail')
+                })
+              }
+              this.regBtnLoading = false
+            })
+          } else {
+            if (this.nameTip) {
+              this.$message.error(this.$t('register.telAlSinged'))
+            } else {
+              this.$message.error(this.$t('register.nameAlSinged'))
             }
-            this.regBtnLoading = false
-          })
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -207,6 +271,29 @@ export default {
         }
       }
       return ''
+    },
+    getCaptcha () {
+      this.ifBtnAble = true
+      this.showTime = true
+      this.intervalStart()
+      axios({
+        method: 'POST',
+        url: '/rest/user-mgmt-be/v1/identity/sms',
+        data: { telephone: this.userData.telephone },
+        headers: {
+          'Authorization': this.getToken(),
+          'Content-Type': 'application/json'
+        }
+      }).then(res => {
+        // console.log(res)
+      }).catch(err => {
+        this.ifBtnAble = false
+        this.$message({
+          type: 'err',
+          message: this.$t('register.captchaFailed')
+        })
+        console.log(err)
+      })
     }
   }
 }
@@ -216,12 +303,13 @@ export default {
   height:100%;
   background: url('../../assets/images/login.png') center;
   background-size:cover;
+  overflow-y: auto;
   .loginBox{
     float: right;
     width: 30%;
     height: auto;
     text-align: center;
-    margin: 5% 10% 0 0;
+    margin: 8% 10% 6% 0;
     padding:15px;
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;

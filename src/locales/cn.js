@@ -309,7 +309,20 @@ const cn = {
     userName: '用户名',
     password: '密码',
     loginBtn: '登录',
-    register: '注册'
+    register: '注册',
+    namePla: '请输入用户名或者手机号',
+    pwdPla: '请输入密码',
+    pwdConfPla: '请输入密码确认',
+    compPla: '请输入公司任职信息',
+    telPla: '请输入电话号码',
+    getCap: '获取验证码',
+    capPla: '验证码',
+    newPwd: '新密码',
+    confirmNewPwd: '确认新密码',
+    forgotPwd: '忘记密码？',
+    modifyPwd: '修改密码',
+    contact: '联系方式',
+    logout: '注销'
   },
   register: {
     registerUser: '注册用户',
@@ -333,7 +346,12 @@ const cn = {
     nameFormat: '6-50位数字，字母，下划线',
     passwordFormat: '6-16位数字，字母，下划线',
     contactNumberFormat: '电话号码不符合规定',
-    emailFormat: '邮箱不符合规定'
+    emailFormat: '邮箱不符合规定',
+    regUserSuc: '你已成功注册该用户！',
+    failedReg: '注册用户失败！',
+    captchaFailed: '发送手机验证码失败！',
+    nameAlSinged: '用户名已被注册，请重新输入或前往登陆',
+    telAlSigned: '电话号码已被注册，请重新输入或前往登陆'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

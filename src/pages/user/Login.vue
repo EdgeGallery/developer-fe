@@ -6,14 +6,14 @@
     </div>
     <div class="login-area">
       <p>{{$t('login.userName')}}</p>
-      <el-input id="uname" v-model="userData.username" type="text"></el-input>
+      <el-input id="uname" v-model="userData.username" type="text" :placeholder="$t('login.namePla')"></el-input>
       <p>{{$t('login.password')}}</p>
-      <el-input id="upass" v-model="userData.password" type="password"></el-input>
+      <el-input id="upass" v-model="userData.password" type="password" :placeholder="$t('login.pwdPla')"></el-input>
     </div>
     <div class="login-certify">
       <el-row :gutter="20">
         <el-col :span="14">
-          <el-input id="ucode" v-model="code" type="text"></el-input>
+          <el-input id="ucode" v-model="code" type="text" :placeholder="$t('login.capPla')"></el-input>
         </el-col>
         <el-col :span="10">
           <span  @click="changeCode()">{{certifyCode}}</span>
@@ -21,8 +21,8 @@
       </el-row>
     </div>
     <div>
-      <el-button id="loginBtn" type="primary" size="medium" :loading="loginBtnLoading" v-on:click="submitForm()">{{$t('login.loginBtn')}}</el-button>
-      <el-button id="registerBtn" type="primary" size="medium" @click="jumpTo('/register#2')">{{$t('login.register')}}</el-button>
+      <el-button id="loginBtn" type="primary" size="medium" :loading="loginBtnLoading" @click="submitForm()">{{$t('login.loginBtn')}}</el-button>
+      <el-button id="registerBtn" type="info" size="medium" @click="jumpTo('/getpwd')">{{$t('login.forgotPwd')}}</el-button>
     </div>
   </div>
 </div>
