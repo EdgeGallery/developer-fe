@@ -136,29 +136,27 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.regBtnLoading = true
-          let url = '/rest/user-mgmt-be/v1/users/password'
-          axios({
-            method: 'POST',
-            url: url,
-            data: this.userData,
-            headers: {
-              'Authorization': this.getToken(),
-              'Content-Type': 'application/json'
-            }
-          }).then(res => {
-            this.$message.success(this.$t('register.changePasswordSuc'))
-            this.regBtnLoading = false
-            sessionStorage.setItem('time', 1)
-            this.to()
-          }, error => {
-            if (error) {
-              this.$message.error(this.$t('register.changePasswordFail'))
-            }
-            this.regBtnLoading = false
-          })
+          if (this.userData.newPassword === this.confirmPassword) {
+            this.regBtnLoading = true
+            let url = '/rest/user-mgmt-be/v1/users/password'
+            axios({
+              method: 'PUT',
+              url: url,
+              data: this.userData
+            }).then(res => {
+              this.$message.success(this.$t('register.changePasswordSuc'))
+              this.regBtnLoading = false
+              this.to()
+            }, error => {
+              if (error) {
+                this.$message.error(this.$t('register.changePasswordFail'))
+              }
+              this.regBtnLoading = false
+            })
+          } else {
+            this.$message.error('The two password are different')
+          }
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -186,9 +184,6 @@ export default {
       return ''
     },
     getCaptcha () {
-      this.ifBtnAble = true
-      this.showTime = true
-      this.intervalStart()
       axios({
         method: 'POST',
         url: '/rest/user-mgmt-be/v1/identity/sms',
@@ -198,7 +193,9 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(res => {
-        // console.log(res)
+        this.ifBtnAble = true
+        this.showTime = true
+        this.intervalStart()
       }).catch(err => {
         this.ifBtnAble = false
         this.$message({
