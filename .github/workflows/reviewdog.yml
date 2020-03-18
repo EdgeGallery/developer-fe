@@ -28,18 +28,6 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-check
 
-  yamllint:
-    name: runner / yamllint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: yamllint
-        uses: reviewdog/action-yamllint@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-check
-          level: error
-
   hadolint:
     name: runner / hadolint
     runs-on: ubuntu-latest
