@@ -108,7 +108,7 @@ const mecDeveloper = [
     id: '3.15',
     name: '工作空间',
     path: '/mecDeveloper/work',
-    pageId: '2.2.4',
+    pageId: '2.2.5',
     display: false
   }
 ]

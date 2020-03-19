@@ -1,44 +1,47 @@
 <template>
-    <div class="thirdstep">
-      <el-table
-        id="serviceDetail"
-        ref="thirdStepTable"
-        :data="tableData"
-        :span-method="arraySpanMethod"
-        border
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
-        @row-click="handleRowClick"
-        v-loading="serviceDataLoading">
-        <el-table-column
-          type="selection"
-          :selectable="checkDisable"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          :label="$t('workspace.platformCapabilities')"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          :label="$t('workspace.service')"
-          prop="service">
-        </el-table-column>
-        <el-table-column
-          :label="$t('workspace.serviceVersion')"
-          prop="version">
-        </el-table-column>
-        <el-table-column
-          :label="$t('workspace.serviceDescription')" prop="description">
-        </el-table-column>
-        <el-table-column
-          :label="$t('workspace.provider')" prop="provider">
-        </el-table-column>
-      </el-table>
-      <!-- <div class="el-form-error" v-if="this.thirdStepSelection.length===0">
+  <div class="thirdstep">
+    <el-table
+      id="serviceDetail"
+      ref="thirdStepTable"
+      :data="tableData"
+      :span-method="arraySpanMethod"
+      border
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+      @row-click="handleRowClick"
+      v-loading="serviceDataLoading"
+    >
+      <el-table-column
+        type="selection"
+        :selectable="checkDisable"
+        width="55"
+      />
+      <el-table-column
+        prop="name"
+        :label="$t('workspace.platformCapabilities')"
+        width="180"
+      />
+      <el-table-column
+        :label="$t('workspace.service')"
+        prop="service"
+      />
+      <el-table-column
+        :label="$t('workspace.serviceVersion')"
+        prop="version"
+      />
+      <el-table-column
+        :label="$t('workspace.serviceDescription')"
+        prop="description"
+      />
+      <el-table-column
+        :label="$t('workspace.provider')"
+        prop="provider"
+      />
+    </el-table>
+    <!-- <div class="el-form-error" v-if="this.thirdStepSelection.length===0">
         {{$t('workspace.selectLeastOne')}}
       </div> -->
-    </div>
+  </div>
 </template>
 
 <script>

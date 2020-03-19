@@ -302,7 +302,8 @@ const cn = {
     analysisCodeFail: '分析任务失败！',
     uploadCodeText: '正在上传源代码，请稍候...',
     analyzingText: '正在分析，请稍候...',
-    loadingText: '正在加载，请稍候...'
+    loadingText: '正在加载，请稍候...',
+    logoutFail: '注销失败，请重试！'
   },
   login: {
     portal: 'OSDT统一门户（HOUP）',
@@ -349,11 +350,7 @@ const cn = {
     emailFormat: '邮箱不符合规定',
     regUserSuc: '你已成功注册该用户！',
     failedReg: '注册用户失败！',
-    captchaFailed: '发送手机验证码失败！',
-    nameAlSinged: '用户名已被注册，请重新输入或前往登陆',
-    telAlSigned: '电话号码已被注册，请重新输入或前往登陆',
-    changePasswordSuc: '修改密码成功！',
-    changePasswordFail: '修改密码失败！'
+    captchaFailed: '发送手机验证码失败！'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

@@ -1,41 +1,59 @@
 <template>
   <div class="developer">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{$t('breadCrumb.mecOpenSourceEcology')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.mecOpenSourceEcology') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="apply-tap">
-      <h2>{{$t('mecOpen.mecOpen')}}</h2>
+      <h2>{{ $t('mecOpen.mecOpen') }}</h2>
       <p>
-        {{$t('mecOpen.info')}}
+        {{ $t('mecOpen.info') }}
       </p>
     </div>
     <div class="main-content">
       <div class="main-content-left">
         <span class="rt">
-          <span class="el-icon-edit"><a href="http://139.9.0.160/houp/houp_portal/blob/master/public/mecOpen.md" target="_blank">Modify</a></span>
+          <span class="el-icon-edit"><a
+            href="http://139.9.0.160/houp/houp_portal/blob/master/public/mecOpen.md"
+            target="_blank"
+          >Modify</a></span>
         </span>
         <div id="test-editor">
-          <mavon-editor v-model="source"
-            :toolbarsFlag='false'
-            :editable='false'
-            :subfield='false'
-            defaultOpen='preview'
-            />
+          <mavon-editor
+            v-model="source"
+            :toolbars-flag="false"
+            :editable="false"
+            :subfield="false"
+            default-open="preview"
+          />
         </div>
       </div>
       <div class="main-content-right">
-        <h5>{{$t('mecOpen.contribution')}}</h5>
+        <h5>{{ $t('mecOpen.contribution') }}</h5>
         <div class="ranking">
           <ul class="normal-list">
-            <li class="normal-part-right" v-for="itemRank in rankList" :key="itemRank.id">
-              <div class="el-icon-medal-1 lt"></div>
+            <li
+              class="normal-part-right"
+              v-for="itemRank in rankList"
+              :key="itemRank.id"
+            >
+              <div class="el-icon-medal-1 lt" />
               <div class="lt img">
-                <img src="../../assets/images/icon1.png" alt="">
+                <img
+                  src="../../assets/images/icon1.png"
+                  alt=""
+                >
               </div>
               <div class="lt detail">
-                <p class="name">{{itemRank.name}}</p>
-                <p>{{$t('mecOpen.code')}}: {{itemRank.lines}} {{$t('mecOpen.lines')}}</p>
+                <p class="name">
+                  {{ itemRank.name }}
+                </p>
+                <p>{{ $t('mecOpen.code') }}: {{ itemRank.lines }} {{ $t('mecOpen.lines') }}</p>
               </div>
             </li>
           </ul>
@@ -49,7 +67,7 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'developer',
+  name: 'Developer',
   data () {
     return {
       rankList: [

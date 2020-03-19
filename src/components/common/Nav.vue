@@ -2,33 +2,35 @@
   <div class="navgation">
     <el-row>
       <el-col :span="6">
-        <div class="logo lt" @click="jumpFromLogo('/mecDeveloper')">
-          <img src="../../assets/images/huawei_logo.png" alt />
-          <span>{{$t('home.mecDeveloper')}} V0.15</span>
+        <div
+          class="logo lt"
+          @click="jumpFromLogo('/mecDeveloper')"
+        >
+          <img
+            src="../../assets/images/huawei_logo.png"
+            alt
+          >
+          <span>{{ $t('home.mecDeveloper') }} V0.15</span>
         </div>
       </el-col>
-      <el-col :span="12" class="nav">
-        <Topbar :jsonData="jsonData"></Topbar>
+      <el-col
+        :span="12"
+        class="nav"
+      >
+        <Topbar :json-data="jsonData" />
       </el-col>
       <el-col :span="5">
         <div class="language rt">
-          <span @click="changeLange">{{language}}</span>
+          <span @click="changeLange">{{ language }}</span>
         </div>
         <div class="nav-tabs rt">
-          <span class="span_a" v-if="content === 'Log In'">
-            <el-link @click="jumpTo('/login')" :class="active?'blue':''">{{$t('login.loginBtn')}}</el-link>
-            <el-link @click="jumpTo('/register#2')" :class="!active?'blue':''">{{$t('login.register')}}</el-link>
-          </span>
           <el-tooltip
-            v-else
-            class="item el-icon-user-solid"
-            :class="content === 'Log Out'?'blue':''"
+            class="item el-icon-user-solid blue"
             effect="dark"
-            :content="content"
+            content="Log Out"
             placement="bottom-start"
           >
-            <span v-if="content === 'Log Out'" @click="beforeLogout()"></span>
-            <span v-else @click="login()"></span>
+            <span @click="beforeLogout()" />
           </el-tooltip>
         </div>
       </el-col>
@@ -37,73 +39,132 @@
 </template>
 
 <script>
-import { urlLogout } from '../../tools/tool.js'
 import navData from '../../../src/navdata/nav_data.js'
+import navDataCn from '../../../src/navdata/nav_data_cn.js'
 import axios from 'axios'
 import Topbar from './Topbar.vue'
 import util from '../../tools/util.js'
-// import { getCookie } from '../../tools/cookies.js'
-import { deleteCookie } from '../../tools/cookies.js'
 export default {
-  name: 'navgation',
+  name: 'Navgation',
   components: {
     Topbar
   },
   data () {
     return {
-      content: 'Log In',
       userType: '',
       permissions: [],
       previousPath: '',
       jsonData: [],
-      appData: navData.navAppData,
       language: 'English',
-      active: true
+      clientUrl: [],
+      logoutUrl: ''
     }
   },
-  watch: {
-    $route (to, from) {
-      this.previousPath = to.path
-      this.jsonData = util.init(to.path)
-      this.onLogining()
-      if (to.path === '/') {
-        this.resetPage()
-      } else if (to.path === '/admin/users') {
-        this.checkIfAdmin(to.path, from.path)
-      }
-    }
-  },
+  watch: {},
   beforeMount () {
-    let keepAlive = util.keepSessionAlive()
-    if (!keepAlive) {
-      this.logout()
-    }
-  },
-  mounted () {
     let language = localStorage.getItem('language')
     language
       ? localStorage.setItem('language', language)
       : localStorage.setItem('language', 'cn')
     language = localStorage.getItem('language')
     this.language = language === 'en' ? '简体中文' : 'English'
-
-    // this.token = getCookie(token)
-    this.checktoken()
-    this.jsonData = util.init(this.$route.fullPath)
     this.previousPath = this.$route.fullPath
-    this.onLogining()
+    if (language === 'English') {
+      this.jsonData = navData.mecDeveloper
+    } else {
+      this.jsonData = navDataCn.mecDeveloper
+    }
+  },
+  mounted () {
+    this.getPageId()
+    axios.get('/mec/v1/jwt-info').then(res => {
+      sessionStorage.setItem('userId', res.data.userId)
+      this.clientUrl = res.data.clientLogoutUrlList
+      this.logoutUrl = res.data.authServerLogoutUrl
+    })
   },
   methods: {
-    handleCommand (command) {
-      if (command === 'a') {
-        this.beforeLogout()
-      } else if (command === 'b') {
-        this.login()
-      } else if (command === 'c') {
-        this.$router.push('/register')
-      } else {
-        this.modifyPwd()
+    async logoutAll () {
+      await this.clientUrl.forEach(item => {
+        axios({
+          method: 'POST',
+          url: item,
+          withCredentials: true
+        }).then(res => {
+          console.log(res)
+        })
+      })
+    },
+    async logout () {
+      await this.logoutAll()
+      let url = this.logoutUrl
+      axios({
+        method: 'POST',
+        url: url,
+        withCredentials: true
+      }).then(res => {
+        if (res.data) {
+          let url = res.data.login_page_url
+          window.location.href = url
+        }
+      }).catch(error => {
+        if (error && error.response) {
+          switch (error.response.status) {
+            case 400:
+              error.message = '错误请求'
+              break
+          }
+          this.$message.error(error.message)
+        }
+      })
+    },
+    getPageId () {
+      let data = [
+        '2.2.0',
+        '2.2.1',
+        '2.2.1.1',
+        '2.2.1.2',
+        '2.2.2',
+        '2.2.2.1',
+        '2.2.2.2',
+        '2.2.2.3',
+        '2.2.3',
+        '2.2.3.1',
+        '2.2.3.2',
+        '2.2.3.3',
+        '2.2.3.4',
+        '2.2.4',
+        '2.2.5'
+      ]
+      this.initnavData(data)
+      axios.get('/mec/v1/user-info').then(res => {
+        sessionStorage.setItem('userId', res.data.userId)
+        // console.log(this.jsonData)
+      })
+    },
+    initnavData (data) {
+      for (let i = 0; i < this.jsonData.length; i++) {
+        for (let j in data) {
+          if (data[j].includes(this.jsonData[i].pageId)) {
+            this.jsonData[i].display = true
+          }
+          if (this.jsonData[i] && this.jsonData[i].children) {
+            for (let g = 0; g < this.jsonData[i].children.length; g++) {
+              if (data[j].includes(this.jsonData[i].children[g].pageId)) {
+                this.jsonData[i].children[g].display = true
+              }
+            }
+            if (this.jsonData[i] && this.jsonData[i].children && this.jsonData[i].children.children) {
+              for (let m = 0; m < this.jsonData[i].children.children.length; m++) {
+                if (data[j].includes(this.jsonData[i].children.children[m].pageId)) {
+                  this.jsonData[i].children.children[m].display = true
+                }
+              }
+            }
+          }
+        }
       }
+      return this.jsonData
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
@@ -117,9 +178,15 @@ export default {
       if (this.language === 'English') {
         this.language = '简体中文'
         language = 'en'
+        if (sessionStorage.getItem('user')) {
+          this.jsonData = navData
+        }
       } else {
         this.language = 'English'
         language = 'cn'
+        if (sessionStorage.getItem('user')) {
+          this.jsonData = navDataCn
+        }
       }
       this.$i18n.locale = language
       localStorage.setItem('language', language)
@@ -137,63 +204,6 @@ export default {
         }
       }
     },
-    onLogining () {
-      if (sessionStorage.getItem('user')) {
-        this.content = 'Log Out'
-        this.userType = sessionStorage.getItem('usertype')
-        this.permissions = JSON.parse(sessionStorage.getItem('permissions'))
-      } else {
-        this.resetPage()
-      }
-    },
-    resetPage () {
-      this.content = 'Log In'
-      this.userType = 'guest'
-      this.permissions = ''
-      if (document.cookie) {
-        let strCookie = document.cookie
-        deleteCookie(strCookie)
-      }
-      sessionStorage.setItem('user', '')
-      sessionStorage.setItem('usertype', '')
-      sessionStorage.setItem('permissions', '')
-    },
-    checktoken () {
-      let token = this.getToken()
-      if (token === '') {
-        this.$router.push('/')
-      } else {
-        this.content = 'Log Out'
-      }
-    },
-    checkIfAdmin (path, oldPath) {
-      let permission = ''
-      let user = JSON.parse(sessionStorage.getItem('user'))
-      if (user.username === 'admin') {
-        return true
-      } else {
-        user.permissions.forEach(item => {
-          if (item.platform === 'MEO') {
-            permission = item.role
-          }
-        })
-        if (permission && permission.toLowerCase() !== 'admin') {
-          this.$message.error(this.$t('promptMessage.noPermission'))
-          this.$router.push(oldPath)
-        }
-      }
-    },
-    getToken () {
-      let strCookie = document.cookie
-      let arrCookie = strCookie.split(';')
-      for (let i = 0; i < arrCookie.length; i++) {
-        let arr = arrCookie[i].split('=Basic')
-        if (arr[0].trim() === 'token') {
-          return 'Basic ' + arr[1]
-        }
-      }
-      return ''
-    },
     jumpTo (path) {
       this.active = !this.active
       this.$router.push(path)
@@ -209,12 +219,6 @@ export default {
         this.$router.push('/mecDeveloper')
       }
     },
-    modifyPwd () {
-      this.$router.push('/modifypwd')
-    },
-    login () {
-      this.$router.push('/')
-    },
     beforeLogout () {
       let keepAlive = util.keepSessionAlive()
       if (keepAlive) {
@@ -228,33 +232,6 @@ export default {
       } else {
         this.logout()
       }
-    },
-    logout () {
-      // let url = 'http://159.138.61.155:8067/v1/users/logout'
-      let url = urlLogout
-      axios({
-        method: 'POST',
-        url: url,
-        data: '',
-        headers: {
-          Authorization: this.getToken(),
-          'Content-Type': 'application/json'
-        }
-      }).then(
-        res => {
-          if (res.status === 200) {
-            let strCookie = document.cookie
-            // console.log('before', strCookie)
-            deleteCookie(strCookie)
-            this.jsonData = []
-            this.resetPage()
-            this.$router.push('/')
-          }
-          // eslint-disable-next-line handle-callback-err
-        }, error => {
-          this.$router.push('/')
-        }
-      )
     }
   }
 }
@@ -333,15 +310,6 @@ export default {
     }
     span.span_a{
       width: 80px;
-    }
-    .el-dropdown{
-      span{
-        width: 45px;
-        top:10px;
-      }
-      .el-icon-user-solid:before{
-        font-size: 24px;
-      }
     }
     .pop-txt {
       font-size: 21px;

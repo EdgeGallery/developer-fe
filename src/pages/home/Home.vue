@@ -3,23 +3,35 @@
     <div class="main-div">
       <div class="topLine">
         <div class="title">
-          <h2>{{$t('home.bannerTitle')}}</h2>
+          <h2>{{ $t('home.bannerTitle') }}</h2>
           <p>
-            {{$t('home.bannerText1')}}
-            <br />{{$t('home.bannerText2')}}
+            {{ $t('home.bannerText1') }}
+            <br>{{ $t('home.bannerText2') }}
           </p>
         </div>
       </div>
       <div class="common-appliaction">
-        <div class="step">{{$t('home.step')}}</div>
+        <div class="step">
+          {{ $t('home.step') }}
+        </div>
         <div class="tabs">
-          <div class="tabsPart" v-for="(item,index) in commonApp" :key="index" :id="item.elementId">
-            <router-link :to='item.link'>
+          <div
+            class="tabsPart"
+            v-for="(item,index) in commonApp"
+            :key="index"
+            :id="item.elementId"
+          >
+            <router-link :to="item.link">
               <div>
-                <span>{{index + 1}}</span>
+                <span>{{ index + 1 }}</span>
               </div>
-              <img :src="item.src" alt="">
-              <h5 style="text-align: center;">{{$t(item.title)}}</h5>
+              <img
+                :src="item.src"
+                alt=""
+              >
+              <h5 style="text-align: center;">
+                {{ $t(item.title) }}
+              </h5>
             </router-link>
           </div>
         </div>
@@ -32,7 +44,10 @@
           :href="item.url"
           :underline="false"
         >
-          <img :src="item.src" :title="item.title" />
+          <img
+            :src="item.src"
+            :title="item.title"
+          >
         </el-link>
       </div>
     </div>

@@ -1,53 +1,107 @@
 <template>
   <div class="workdetail">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/work' }">{{$t('breadCrumb.workspace')}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{$t('breadCrumb.detail')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/work' }">
+        {{ $t('breadCrumb.workspace') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-tabs type="border-card" class="elTabs" v-model="activeName">
-      <el-tab-pane :label="$t('workspace.api')" class="elTabPane" name="1" lazy>
-       <api></api>
+    <el-tabs
+      type="border-card"
+      class="elTabs"
+      v-model="activeName"
+    >
+      <el-tab-pane
+        :label="$t('workspace.api')"
+        class="elTabPane"
+        name="1"
+        lazy
+      >
+        <api />
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.buildAndTest')" class="elTabPane" name="2" lazy>
-        <el-steps :active="active" finish-status="success" align-center>
-          <el-step :title="$t('workspace.selectImage')"></el-step>
-          <el-step :title="$t('workspace.configureYaml')"></el-step>
-          <el-step :title="$t('workspace.server')"></el-step>
-          <el-step :title="$t('workspace.test')"></el-step>
+      <el-tab-pane
+        :label="$t('workspace.buildAndTest')"
+        class="elTabPane"
+        name="2"
+        lazy
+      >
+        <el-steps
+          :active="active"
+          finish-status="success"
+          align-center
+        >
+          <el-step :title="$t('workspace.selectImage')" />
+          <el-step :title="$t('workspace.configureYaml')" />
+          <el-step :title="$t('workspace.server')" />
+          <el-step :title="$t('workspace.test')" />
         </el-steps>
         <div class="elSteps">
           <component
-            v-bind:is="currentComponent"
-            @getStepData='getStepData'
-            :projectBeforeConfig='projectBeforeConfig'
-            ref="currentComponet">
-          </component>
+            :is="currentComponent"
+            @getStepData="getStepData"
+            :project-before-config="projectBeforeConfig"
+            ref="currentComponet"
+          />
         </div>
         <div class="elButton">
-          <el-button id="prevBtn" type="text" @click="previous" v-if="active>0">
-            <b>{{$t('workspace.previous')}}</b>
+          <el-button
+            id="prevBtn"
+            type="text"
+            @click="previous"
+            v-if="active>0"
+          >
+            <b>{{ $t('workspace.previous') }}</b>
           </el-button>
-          <el-button id="nextBtn" type="primary" @click="next">
-            <b>{{btnName}}</b>
+          <el-button
+            id="nextBtn"
+            type="primary"
+            @click="next"
+          >
+            <b>{{ btnName }}</b>
           </el-button>
         </div>
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.statistics')" class="elTabPane" name="3" lazy>
-        <dataStistical></dataStistical>
+      <el-tab-pane
+        :label="$t('workspace.statistics')"
+        class="elTabPane"
+        name="3"
+        lazy
+      >
+        <dataStistical />
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.projectLink')" class="elTabPane" name="4" lazy>
-        <projectLink></projectLink>
+      <el-tab-pane
+        :label="$t('workspace.projectLink')"
+        class="elTabPane"
+        name="4"
+        lazy
+      >
+        <projectLink />
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.toolChain')" class="elTabPane" name="5" lazy>
-        <toolChain v-if="!viewReport" @isViewReport="getViewReport"></toolChain>
-        <toolReport v-else  @isViewReport="getViewReport"></toolReport>
+      <el-tab-pane
+        :label="$t('workspace.toolChain')"
+        class="elTabPane"
+        name="5"
+        lazy
+      >
+        <toolChain
+          v-if="!viewReport"
+          @isViewReport="getViewReport"
+        />
+        <toolReport
+          v-else
+          @isViewReport="getViewReport"
+        />
       </el-tab-pane>
     </el-tabs>
     <div v-if="dialogVisible">
-      <publishAppDialog v-model="dialogVisible"></publishAppDialog>
+      <publishAppDialog v-model="dialogVisible" />
     </div>
-
   </div>
 </template>
 
@@ -64,7 +118,7 @@ import projectLink from './detail/ProjectLink.vue'
 import toolChain from './detail/ToolChain.vue'
 import toolReport from './detail/ToolReport.vue'
 export default {
-  name: 'appDetail',
+  name: 'AppDetail',
   components: {
     imageSelect,
     configYaml,

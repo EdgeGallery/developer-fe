@@ -1,20 +1,33 @@
 <template>
-    <div class="apidetail">
-        <el-breadcrumb separator="/" class="bread-crumb">
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">API</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep-eco' }">{{$t('breadCrumb.mepecoapi')}}</el-breadcrumb-item>
-            <el-breadcrumb-item>{{$t('breadCrumb.apiDetail')}}</el-breadcrumb-item>
-        </el-breadcrumb>
-        <div class="iframe">
-            <iframe id="iframe" :src="apiHtml" frameborder="0"></iframe>
-        </div>
+  <div class="apidetail">
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+        API
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep-eco' }">
+        {{ $t('breadCrumb.mepecoapi') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.apiDetail') }}</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="iframe">
+      <iframe
+        id="iframe"
+        :src="apiHtml"
+        frameborder="0"
+      />
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'apidetail',
+  name: 'Apidetail',
   data () {
     return {
       tableData: [],

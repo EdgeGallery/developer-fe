@@ -1,29 +1,41 @@
 <template>
   <div class="tablelist">
     <el-table
-      v-loading='dataLoading'
+      v-loading="dataLoading"
       :data="currentData"
-      style="width: 100%">
-          <el-table-column
-              prop="pluginName"
-              :label="$t('api.name')"
-              width="260">
-          </el-table-column>
-          <el-table-column
-              prop="introduction"
-              :label="$t('api.description')">
-          </el-table-column>
-          <el-table-column
-              label=""
-              width="160">
-              <template slot-scope="scope">
-                <el-button id="detailBtn" type="text" class="btn" @click="toDetail(scope.row)">{{$t('api.apiDetail')}}</el-button>
-              </template>
-          </el-table-column>
-      </el-table>
-      <div class="pagebar">
-          <pagination :tableData='listData' @getCurrentPageData='getCurrentPageData'></pagination>
-      </div>
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="pluginName"
+        :label="$t('api.name')"
+        width="260"
+      />
+      <el-table-column
+        prop="introduction"
+        :label="$t('api.description')"
+      />
+      <el-table-column
+        label=""
+        width="160"
+      >
+        <template slot-scope="scope">
+          <el-button
+            id="detailBtn"
+            type="text"
+            class="btn"
+            @click="toDetail(scope.row)"
+          >
+            {{ $t('api.apiDetail') }}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagebar">
+      <pagination
+        :table-data="listData"
+        @getCurrentPageData="getCurrentPageData"
+      />
+    </div>
   </div>
 </template>
 
@@ -31,7 +43,7 @@
 // import { Get } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
-  name: 'tablelist',
+  name: 'Tablelist',
   props: ['tabLabel'],
   components: { pagination },
   data () {

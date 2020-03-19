@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Navcomp class="clearfix"></Navcomp>
-    <router-view/>
-    <Footer></Footer>
+    <Navcomp class="clearfix" />
+    <router-view />
+    <Footer />
   </div>
 </template>
 
