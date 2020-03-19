@@ -1,28 +1,38 @@
 <template>
-    <div class="local">
-        <el-breadcrumb separator="/" class="bread-crumb">
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">API</el-breadcrumb-item>
-            <el-breadcrumb-item>{{$t('breadCrumb.applicationApi')}}</el-breadcrumb-item>
-        </el-breadcrumb>
-        <el-row class="api_div" v-loading="apiDataLoading">
-          <el-col :span="4">
-            <div>
-              <el-tree
-                :data="treeData"
-                :props="defaultProps"
-                @node-click="handleNodeClick"
-                node-key="id"
-                :highlight-current="true"
-                :current-node-key="0">
-              </el-tree>
-            </div>
-          </el-col>
-          <el-col :span="20">
-            <div id="swagger-ui"></div>
-          </el-col>
-        </el-row>
-    </div>
+  <div class="local">
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+        API
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.applicationApi') }}</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-row
+      class="api_div"
+      v-loading="apiDataLoading"
+    >
+      <el-col :span="4">
+        <div>
+          <el-tree
+            :data="treeData"
+            :props="defaultProps"
+            @node-click="handleNodeClick"
+            node-key="id"
+            :highlight-current="true"
+            :current-node-key="0"
+          />
+        </div>
+      </el-col>
+      <el-col :span="20">
+        <div id="swagger-ui" />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -30,7 +40,7 @@ import { Get } from '../../tools/tool.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
-  name: 'local',
+  name: 'Local',
   data () {
     return {
       apiDataLoading: true,

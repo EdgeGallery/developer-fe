@@ -1,6 +1,6 @@
 <template>
   <div class="main-sidebar">
-     <el-menu
+    <el-menu
       :default-active="indexName"
       :unique-opened="true"
       router
@@ -11,32 +11,65 @@
       mode="horizontal"
     >
       <!-- 一级菜单 -->
-      <template v-for='item in jsonData'>
-        <el-submenu v-if='item.children && item.children.length' v-bind:disabled='!item.display' :index='item.path' :key='item.id'>
-          <template slot='title'><i :class='item.icon'></i><span class='first-menu'>{{item.name}}</span></template>
+      <template v-for="item in jsonData">
+        <el-submenu
+          v-if="item.children && item.children.length"
+          :disabled="!item.display"
+          :index="item.path"
+          :key="item.id"
+        >
+          <template slot="title">
+            <i :class="item.icon" /><span class="first-menu">{{ item.name }}</span>
+          </template>
 
           <!-- 二级菜单 -->
-          <template v-for='itemChild in item.children'>
-            <el-submenu v-if='itemChild.children && itemChild.children.length' :index='itemChild.path' :key='itemChild.id'>
-              <template slot='title'><i :class='itemChild.icon'></i><span class='second-menu'>{{itemChild.name}}</span></template>
+          <template v-for="itemChild in item.children">
+            <el-submenu
+              v-if="itemChild.children && itemChild.children.length"
+              :index="itemChild.path"
+              :key="itemChild.id"
+            >
+              <template slot="title">
+                <i :class="itemChild.icon" /><span class="second-menu">{{ itemChild.name }}</span>
+              </template>
 
               <!-- 三级菜单 -->
-              <el-menu-item v-for='itemChild_Child in itemChild.children' :index='itemChild_Child.path' :key='itemChild_Child.id'>
-                <i :class='itemChild_Child.icon'></i>
-                <span slot='title'>{{itemChild_Child.name}}</span>
+              <el-menu-item
+                v-for="itemChild_Child in itemChild.children"
+                :index="itemChild_Child.path"
+                :key="itemChild_Child.id"
+              >
+                <i :class="itemChild_Child.icon" />
+                <span slot="title">{{ itemChild_Child.name }}</span>
               </el-menu-item>
             </el-submenu>
 
-            <el-menu-item v-else :index='itemChild.path' :key='itemChild.id' >
-              <i :class='itemChild.icon'></i>
-              <span slot='title' class='second-menu' v-html="itemChild.href=='1'? itemChild.html:itemChild.name">{{itemChild.name}}</span>
+            <el-menu-item
+              v-else
+              :index="itemChild.path"
+              :key="itemChild.id"
+            >
+              <i :class="itemChild.icon" />
+              <span
+                slot="title"
+                class="second-menu"
+                v-html="itemChild.href=='1'? itemChild.html:itemChild.name"
+              >{{ itemChild.name }}</span>
             </el-menu-item>
           </template>
         </el-submenu>
 
-        <el-menu-item v-else v-bind:disabled='!item.display' :index='item.path' :key='item.id'>
-          <i :class='item.icon'></i>
-          <span slot='title' class='first-menu'>{{item.name}}</span>
+        <el-menu-item
+          v-else
+          :disabled="!item.display"
+          :index="item.path"
+          :key="item.id"
+        >
+          <i :class="item.icon" />
+          <span
+            slot="title"
+            class="first-menu"
+          >{{ item.name }}</span>
         </el-menu-item>
       </template>
     </el-menu>
@@ -46,9 +79,12 @@
 <script>
 
 export default {
-  name: 'mainSidebar',
+  name: 'MainSidebar',
   props: {
-    jsonData: Array
+    jsonData: {
+      type: Array,
+      default: () => []
+    }
   },
   data () {
     return {

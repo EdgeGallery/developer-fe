@@ -302,7 +302,8 @@ const en = {
     analysisCodeFail: 'Analysis task failed!',
     uploadCodeText: 'Please wait, uploading source code ...',
     analyzingText: 'Please wait, analyzing ...',
-    loadingText: 'Loading, please wait ...'
+    loadingText: 'Loading, please wait ...',
+    logoutFail: 'Logout failed, please try again!'
   },
   login: {
     portal: 'OSDT Unified Portal(HOUP)',
@@ -347,13 +348,9 @@ const en = {
     passwordFormat: '6-16 digit Numbers, letters, underline',
     contactNumberFormat: 'The phone number is not in accordance with the rules',
     emailFormat: 'The email is not in accordance with the rules',
-    regUserSuc: 'User is registered successfully',
-    failedReg: 'Failed to register user',
-    captchaFailed: 'Failed to send mobile phone verification code',
-    nameAlSinged: 'The username number has been already registered, please change another one',
-    telAlSigned: 'The telephone number has been already registered, please change another one',
-    changePasswordSuc: 'Password has been updated!',
-    changePasswordFail: 'Failed to change password!'
+    regUserSuc: 'User is registered successfully!',
+    failedReg: 'Failed to register user! ',
+    captchaFailed: 'Failed to send mobile phone verification code!'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

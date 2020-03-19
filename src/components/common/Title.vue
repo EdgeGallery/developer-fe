@@ -1,7 +1,7 @@
 <template>
   <div class="my-comp-title">
     <div class="title">
-      <span>{{this.title}}</span>
+      <span>{{ this.title }}</span>
     </div>
   </div>
 </template>

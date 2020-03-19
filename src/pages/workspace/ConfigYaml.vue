@@ -1,55 +1,95 @@
 <template>
   <div class="config-yaml">
-    <el-form ref="form" :model="form" label-width="80px">
+    <el-form
+      ref="form"
+      :model="form"
+      label-width="80px"
+    >
       <el-form-item :label="$t('workspace.appimage')">
-        <p v-for="item in form.appImage" :key="item.id">
-          <b style="margin: 0 5px;">{{$t('workspace.imagename')}}:</b>
-            {{item.name}}: {{item.version}}
+        <p
+          v-for="item in form.appImage"
+          :key="item.id"
+        >
+          <b style="margin: 0 5px;">{{ $t('workspace.imagename') }}:</b>
+          {{ item.name }}: {{ item.version }}
 
-           <b style="margin: 0 5px;">{{$t('workspace.inPort')}}:</b>
-           {{item.port}}
-           <b style="margin: 0 5px;">{{$t('workspace.outPort')}}:</b>
-           {{item.nodePort}}
+          <b style="margin: 0 5px;">{{ $t('workspace.inPort') }}:</b>
+          {{ item.port }}
+          <b style="margin: 0 5px;">{{ $t('workspace.outPort') }}:</b>
+          {{ item.nodePort }}
         </p>
       </el-form-item>
       <el-form-item :label="$t('workspace.addimage')">
-        <el-select id="selectImage" v-model="form.image" :placeholder="$t('workspace.select')">
+        <el-select
+          id="selectImage"
+          v-model="form.image"
+          :placeholder="$t('workspace.select')"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.label">
-          </el-option>
+            :value="item.label"
+          />
         </el-select>
-        <el-input id="inputPort" v-model.number="form.imagePort" type="number" :placeholder="$t('workspace.port')"></el-input>
-        <el-button id="addBtn" @click="addImage" class="addBtn">{{$t('workspace.add')}}</el-button>
-        <p v-for="(item, index) in form.addImagesList" :key="index" class="imageResult">
-          <b>Image: &nbsp;&nbsp;&nbsp;</b>{{item.name}} : {{item.version}};&nbsp;&nbsp;
-          <b>Port: &nbsp;&nbsp;&nbsp;</b>{{item.port}}
+        <el-input
+          id="inputPort"
+          v-model.number="form.imagePort"
+          type="number"
+          :placeholder="$t('workspace.port')"
+        />
+        <el-button
+          id="addBtn"
+          @click="addImage"
+          class="addBtn"
+        >
+          {{ $t('workspace.add') }}
+        </el-button>
+        <p
+          v-for="(item, index) in form.addImagesList"
+          :key="index"
+          class="imageResult"
+        >
+          <b>Image: &nbsp;&nbsp;&nbsp;</b>{{ item.name }} : {{ item.version }};&nbsp;&nbsp;
+          <b>Port: &nbsp;&nbsp;&nbsp;</b>{{ item.port }}
           <i
             class="el-icon-close curp"
             @click="deleteImagesList(item, index)"
-          ></i>
+          />
         </p>
       </el-form-item>
-      <el-form-item :label="$t('workspace.service')" :rules="[{ required: true }]">
-        <el-input id="serviceName" v-model="form.serviceName" :placeholder="$t('workspace.servicename')" class="serviceName"></el-input>
-        <el-input id="serviceHref"
+      <el-form-item
+        :label="$t('workspace.service')"
+        :rules="[{ required: true }]"
+      >
+        <el-input
+          id="serviceName"
+          v-model="form.serviceName"
+          :placeholder="$t('workspace.servicename')"
+          class="serviceName"
+        />
+        <el-input
+          id="serviceHref"
           v-model="form.serviceHref"
           :placeholder="$t('workspace.href')"
-        ></el-input>
-        <el-input id="servicePort"
+        />
+        <el-input
+          id="servicePort"
           v-model.number="form.servicePort"
           type="number"
           :placeholder="$t('workspace.port')"
-        ></el-input>
+        />
         <!-- <el-button @click="addService" class="addBtn">{{$t('workspace.add')}}</el-button> -->
-        <p v-for="(item, index) in form.addServiceList" :key="index" class="imageResult">
-          {{item.serviceName}}:{{item.serviceHref}} {{item.servicePort}}
+        <p
+          v-for="(item, index) in form.addServiceList"
+          :key="index"
+          class="imageResult"
+        >
+          {{ item.serviceName }}:{{ item.serviceHref }} {{ item.servicePort }}
           <i
             class="el-icon-close curp"
             @click="deleteServiceList(index)"
-          ></i>
+          />
         </p>
       </el-form-item>
     </el-form>
@@ -59,7 +99,7 @@
 <script>
 import { Get, Post, Delete } from '../../tools/tool.js'
 export default {
-  name: 'configYaml',
+  name: 'ConfigYaml',
   props: {
     projectBeforeConfig: {
       default () {

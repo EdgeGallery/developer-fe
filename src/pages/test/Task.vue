@@ -1,125 +1,219 @@
 <template>
   <div class="task">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">{{$t('breadCrumb.test')}}</el-breadcrumb-item>
-      <el-breadcrumb-item><a>{{$t('breadCrumb.testTask')}}</a></el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">
+        {{ $t('breadCrumb.test') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item><a>{{ $t('breadCrumb.testTask') }}</a></el-breadcrumb-item>
     </el-breadcrumb>
     <div class="task-search">
-      <el-form ref="form" :model="form" label-width="150px">
+      <el-form
+        ref="form"
+        :model="form"
+        label-width="150px"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item :label="$t('test.testTask.appName')">
-              <el-input id="appName" v-model="form.appName" :placeholder="$t('common.input') + $t('test.testTask.appName')"></el-input>
+              <el-input
+                id="appName"
+                v-model="form.appName"
+                :placeholder="$t('common.input') + $t('test.testTask.appName')"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item id="testStatus" :label="$t('test.testTask.testStatus')">
-              <el-select v-model="form.status" :placeholder="$t('common.select') + $t('test.testTask.testStatus')" class="statusSelect">
+            <el-form-item
+              id="testStatus"
+              :label="$t('test.testTask.testStatus')"
+            >
+              <el-select
+                v-model="form.status"
+                :placeholder="$t('common.select') + $t('test.testTask.testStatus')"
+                class="statusSelect"
+              >
                 <el-option
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.label">
-                </el-option>
+                  :value="item.label"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item id="beginTime" :label="$t('test.testTask.startTime')">
+            <el-form-item
+              id="beginTime"
+              :label="$t('test.testTask.startTime')"
+            >
               <el-date-picker
                 v-model="form.beginTime"
                 value-format="yyyy-MM-dd"
                 type="date"
-                :placeholder="$t('common.select') + $t('test.testTask.startTime')">
-              </el-date-picker>
+                :placeholder="$t('common.select') + $t('test.testTask.startTime')"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item id="endTime" :label="$t('test.testTask.endTime')">
+            <el-form-item
+              id="endTime"
+              :label="$t('test.testTask.endTime')"
+            >
               <el-date-picker
                 v-model="form.endTime"
                 value-format="yyyy-MM-dd"
                 type="date"
-                :placeholder="$t('common.select') + $t('test.testTask.endTime')">
-              </el-date-picker>
+                :placeholder="$t('common.select') + $t('test.testTask.endTime')"
+              />
             </el-form-item>
           </el-col>
         </el-row>
         <div class="search-btn">
-          <el-button id="resetBtn" size="small" @click="resetForm">
-            {{$t('test.testTask.reset')}}
+          <el-button
+            id="resetBtn"
+            size="small"
+            @click="resetForm"
+          >
+            {{ $t('test.testTask.reset') }}
           </el-button>
-          <el-button id="inquireBtn" type="primary" size="small" @click="getTaskList">
-            {{$t('test.testTask.inquire')}}
+          <el-button
+            id="inquireBtn"
+            type="primary"
+            size="small"
+            @click="getTaskList"
+          >
+            {{ $t('test.testTask.inquire') }}
           </el-button>
         </div>
       </el-form>
       <div class="task-content">
         <el-table
-          v-loading='dataLoading'
+          v-loading="dataLoading"
           :data="currentData"
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             prop="task.taskNo"
-            :label="$t('test.testTask.taskNumber')">
-          </el-table-column>
+            :label="$t('test.testTask.taskNumber')"
+          />
           <el-table-column
             prop="appName"
-            :label="$t('test.testTask.applicationName')">
-          </el-table-column>
+            :label="$t('test.testTask.applicationName')"
+          />
           <el-table-column
             prop="appVersion"
             :label="$t('test.testTask.version')"
-            width="90">
-          </el-table-column>
+            width="90"
+          />
           <el-table-column
-            :label="$t('test.testTask.testStatus')">
+            :label="$t('test.testTask.testStatus')"
+          >
             <template slot-scope="scope">
-              <span class="el-icon-loading primary" v-if="scope.row.task.status!=='COMPLETED'" title="In Progress"></span>
-              <span v-else class="el-icon-success success" title="Completed"></span>
-              <el-button id="statusBtn" style="margin-left:15px;" type="text" size="small" @click="getData(scope.row.task.taskNo,scope.row.appId,scope.row.task.taskId,scope.row.step)">{{scope.row.task.status}}</el-button>
+              <span
+                class="el-icon-loading primary"
+                v-if="scope.row.task.status!=='COMPLETED'"
+                title="In Progress"
+              />
+              <span
+                v-else
+                class="el-icon-success success"
+                title="Completed"
+              />
+              <el-button
+                id="statusBtn"
+                style="margin-left:15px;"
+                type="text"
+                size="small"
+                @click="getData(scope.row.task.taskNo,scope.row.appId,scope.row.task.taskId,scope.row.step)"
+              >
+                {{ scope.row.task.status }}
+              </el-button>
             </template>
           </el-table-column>
           <el-table-column
             prop="task.beginTime"
-            :label="$t('test.testTask.applicationTime')">
-          </el-table-column>
+            :label="$t('test.testTask.applicationTime')"
+          />
           <el-table-column
             prop="task.endTime"
-            :label="$t('test.testTask.endTime')">
-          </el-table-column>
+            :label="$t('test.testTask.endTime')"
+          />
           <el-table-column
             fixed="right"
             :label="$t('test.testTask.operation')"
-            width="150">
+            width="150"
+          >
             <template slot-scope="scope">
-              <el-button id="checkReportBtn" @click="handleClick(scope.row)" type="text" :disabled="scope.row.task.status==='COMPLETED'?false:true" size="small">{{$t('test.testTask.checkReport')}}</el-button>
-              <el-button id="uploadBtn" type="text" size="small" :disabled="scope.row.task.status==='COMPLETED'?false:true" @click="uploadTask(scope.row)">{{$t('test.testTask.upload')}}</el-button>
+              <el-button
+                id="checkReportBtn"
+                @click="handleClick(scope.row)"
+                type="text"
+                :disabled="scope.row.task.status==='COMPLETED'?false:true"
+                size="small"
+              >
+                {{ $t('test.testTask.checkReport') }}
+              </el-button>
+              <el-button
+                id="uploadBtn"
+                type="text"
+                size="small"
+                :disabled="scope.row.task.status==='COMPLETED'?false:true"
+                @click="uploadTask(scope.row)"
+              >
+                {{ $t('test.testTask.upload') }}
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
         <div class="pagebar">
-          <pagination :tableData='pageData' @getCurrentPageData='getCurrentPageData'></pagination>
+          <pagination
+            :table-data="pageData"
+            @getCurrentPageData="getCurrentPageData"
+          />
         </div>
       </div>
     </div>
     <el-dialog
       :visible.sync="dialogVisible23"
-      :title="dialogTitle">
-      <el-table :data="caseList" style="width: 100%">
-        <el-table-column prop="testcaseid" label="Case Id" width="80"></el-table-column>
-        <el-table-column prop="name" label="Name" sortable></el-table-column>
+      :title="dialogTitle"
+    >
+      <el-table
+        :data="caseList"
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="testcaseid"
+          label="Case Id"
+          width="80"
+        />
+        <el-table-column
+          prop="name"
+          label="Name"
+          sortable
+        />
         <el-table-column label="Progress">
           <template slot-scope="scope">
             <div>
-              <el-progress :percentage='scope.row.percentage' :color="customColors"></el-progress>
+              <el-progress
+                :percentage="scope.row.percentage"
+                :color="customColors"
+              />
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="Status"  width="160">
+        <el-table-column
+          prop="status"
+          label="Status"
+          width="160"
+        >
           <template slot-scope="scope">
-            <span :class="scope.row.status==='IN_PROGRESS'?'red':'green'">{{scope.row.status}}</span>
+            <span :class="scope.row.status==='IN_PROGRESS'?'red':'green'">{{ scope.row.status }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -127,23 +221,48 @@
 
     <el-dialog
       :visible.sync="dialogVisible1"
-      title="Environmental Preparation">
-        <div class="step1">
-          <el-row :gutter="20">
-            <el-col :span="8" class="chartPie">
-              <ve-pie :extend='chartExtend' :settings="chartSettings" :data="chartData" height="165px"></ve-pie>
-              <p>Chart1-1:CPU Usage Info</p>
-            </el-col>
-            <el-col :span="8" class="chartLine">
-              <ve-pie :extend='chartExtend' :settings="chartSettings" :data="chartData1" height="165px"></ve-pie>
-              <p>Chart1-2:GPU Usage Info</p>
-            </el-col>
-            <el-col :span="8" class="chartLine">
-              <ve-pie :extend='chartExtend' :settings="chartSettings" :data="chartData2" height="165px"></ve-pie>
-              <p>Chart1-3:Memory Usage Info</p>
-            </el-col>
-          </el-row>
-        </div>
+      title="Environmental Preparation"
+    >
+      <div class="step1">
+        <el-row :gutter="20">
+          <el-col
+            :span="8"
+            class="chartPie"
+          >
+            <ve-pie
+              :extend="chartExtend"
+              :settings="chartSettings"
+              :data="chartData"
+              height="165px"
+            />
+            <p>Chart1-1:CPU Usage Info</p>
+          </el-col>
+          <el-col
+            :span="8"
+            class="chartLine"
+          >
+            <ve-pie
+              :extend="chartExtend"
+              :settings="chartSettings"
+              :data="chartData1"
+              height="165px"
+            />
+            <p>Chart1-2:GPU Usage Info</p>
+          </el-col>
+          <el-col
+            :span="8"
+            class="chartLine"
+          >
+            <ve-pie
+              :extend="chartExtend"
+              :settings="chartSettings"
+              :data="chartData2"
+              height="165px"
+            />
+            <p>Chart1-3:Memory Usage Info</p>
+          </el-col>
+        </el-row>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -152,7 +271,7 @@
 import { Post, Get, codeErr } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
-  name: 'task',
+  name: 'Task',
   components: { pagination },
   data () {
     return {

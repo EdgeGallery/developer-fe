@@ -11,8 +11,8 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalNum"
       v-if="totalNum!=0"
-      id="pagination">
-    </el-pagination>
+      id="pagination"
+    />
   </div>
 </template>
 

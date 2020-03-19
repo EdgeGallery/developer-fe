@@ -6,25 +6,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
-    },
-    {
-      path: '/register',
-      component: () => import('../pages/user/Register.vue')
-    },
-    {
-      path: '/login',
-      component: () => import('../pages/user/Login.vue')
-    },
-    {
-      path: '/getpwd',
-      name: 'getpwd',
-      component: () => import('../pages/user/Getpwd.vue')
-    },
-    {
-      path: '/modifypwd',
-      name: 'modifypwd',
-      component: () => import('../pages/user/Modifypwd.vue')
+      name: 'home',
+      component: () => import('../pages/home/Home.vue')
     },
     {
       path: '',

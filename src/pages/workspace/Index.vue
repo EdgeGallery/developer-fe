@@ -1,64 +1,106 @@
 <template>
   <div class="workspace">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{$t('breadCrumb.workspace')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.workspace') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-row :gutter="32" class="workcon">
+    <el-row
+      :gutter="32"
+      class="workcon"
+    >
       <el-col :span="16">
         <div class="graybg">
           <div class="title">
-            {{$t('workspace.myProjectList')}}
-            <el-input id="inputProjectName" suffix-icon="el-icon-search"></el-input>
+            {{ $t('workspace.myProjectList') }}
+            <el-input
+              id="inputProjectName"
+              suffix-icon="el-icon-search"
+            />
           </div>
           <div class="list">
-            <projectList ref="projectList"></projectList>
+            <projectList ref="projectList" />
           </div>
         </div>
       </el-col>
       <el-col :span="8">
         <div class="graybg add-project">
-          <div class="title">{{$t('workspace.addNewProject')}}</div>
-          <div id="project-add" class="project-add" @click="dialogVisible=true">
+          <div class="title">
+            {{ $t('workspace.addNewProject') }}
+          </div>
+          <div
+            id="project-add"
+            class="project-add"
+            @click="dialogVisible=true"
+          >
             <div class="img-box">
-              <img src="../../assets/images/workAdd.png" alt="">
+              <img
+                src="../../assets/images/workAdd.png"
+                alt=""
+              >
             </div>
-            <p>{{$t('workspace.clickHereToAddNewProject')}}</p>
+            <p>{{ $t('workspace.clickHereToAddNewProject') }}</p>
           </div>
           <el-dialog
             :title="$t('workspace.addNewProject')"
             :visible.sync="dialogVisible"
-            width="50%">
+            width="50%"
+          >
             <el-row :gutter="20">
               <el-col :span="12">
-                <div id="addNewProject" class="project-add add" @click="addNewProject">
-                  <img src="../../assets/images/newProject_create.svg" alt="">
-                  <p>{{$t('workspace.createProject')}}</p>
+                <div
+                  id="addNewProject"
+                  class="project-add add"
+                  @click="addNewProject"
+                >
+                  <img
+                    src="../../assets/images/newProject_create.svg"
+                    alt=""
+                  >
+                  <p>{{ $t('workspace.createProject') }}</p>
                 </div>
               </el-col>
               <el-col :span="12">
-                <div id="migrationProject" class="project-add add" @click="migrationProject">
-                  <img src="../../assets/images/newProject_migration.svg" alt="">
-                  <p>{{$t('workspace.migrationProject')}}</p>
+                <div
+                  id="migrationProject"
+                  class="project-add add"
+                  @click="migrationProject"
+                >
+                  <img
+                    src="../../assets/images/newProject_migration.svg"
+                    alt=""
+                  >
+                  <p>{{ $t('workspace.migrationProject') }}</p>
                 </div>
               </el-col>
             </el-row>
           </el-dialog>
         </div>
         <div class="graybg project-status">
-          <div class="title">{{$t('workspace.projectStatus')}}</div>
+          <div class="title">
+            {{ $t('workspace.projectStatus') }}
+          </div>
           <div class="work-tab">
-            <ve-pie :data="chartData" :settings="chartSettings" :extend='chartExtend' height="260px"></ve-pie>
+            <ve-pie
+              :data="chartData"
+              :settings="chartSettings"
+              :extend="chartExtend"
+              height="260px"
+            />
           </div>
         </div>
         <div v-if="newprojectDialog">
           <newProject
             v-model="newprojectDialog"
-            :fourthstepTitleprop="fourthstepTitleprop"
-            :newProjectFourthprop="newProjectFourthprop"
-            v-on:closeFatherDialog="closeDialog"
-            :getprojectTypeprop="getprojectTypeprop">
-          </newProject>
+            :fourthstep-titleprop="fourthstepTitleprop"
+            :new-project-fourthprop="newProjectFourthprop"
+            @closeFatherDialog="closeDialog"
+            :getproject-typeprop="getprojectTypeprop"
+          />
         </div>
       </el-col>
     </el-row>
@@ -71,7 +113,7 @@ import projectList from './ProjectList.vue'
 import newProject from './NewProject.vue'
 
 export default {
-  name: 'workspace',
+  name: 'Workspace',
   components: {
     projectList,
     newProject

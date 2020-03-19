@@ -1,14 +1,26 @@
 <template>
-  <div class="test" v-loading="loading">
-    <img src="../../assets/images/build_test_test.png" alt="">
+  <div
+    class="test"
+    v-loading="loading"
+  >
+    <img
+      src="../../assets/images/build_test_test.png"
+      alt=""
+    >
     <span class="testText">
-      <b v-if="deployStatus === 'ONLINE'">{{$t('workspace.buildTip')}}</b>
-      <b v-else>{{testLog}}</b>
+      <b v-if="deployStatus === 'ONLINE'">{{ $t('workspace.buildTip') }}</b>
+      <b v-else>{{ testLog }}</b>
     </span>
-    <p></p>
-    <el-button id="testBtn" type="primary" class="testButton" @click="goTest" v-if="deployStatus === 'ONLINE'">
-      <b>{{testHref}}</b>
-      <i class="el-icon-document-copy el-icon--right"></i>
+    <p />
+    <el-button
+      id="testBtn"
+      type="primary"
+      class="testButton"
+      @click="goTest"
+      v-if="deployStatus === 'ONLINE'"
+    >
+      <b>{{ testHref }}</b>
+      <i class="el-icon-document-copy el-icon--right" />
     </el-button>
   </div>
 </template>
@@ -17,7 +29,7 @@
 import { Get } from '../../tools/tool.js'
 
 export default {
-  name: 'test',
+  name: 'Test',
   props: {
     projectBeforeConfig: {
       default: {}

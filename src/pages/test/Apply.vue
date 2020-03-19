@@ -1,15 +1,30 @@
 <template>
   <div class="apply">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">{{$t('breadCrumb.test')}}</el-breadcrumb-item>
-      <el-breadcrumb-item><a>{{$t('breadCrumb.testApplication')}}</a></el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">
+        {{ $t('breadCrumb.test') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item><a>{{ $t('breadCrumb.testApplication') }}</a></el-breadcrumb-item>
     </el-breadcrumb>
     <div class="apply-main">
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-            <el-form-item :label="$t('test.testApp.uploadApp')" prop="appFileList">
+          <el-form
+            ref="form"
+            :model="form"
+            :rules="rules"
+            label-width="120px"
+          >
+            <el-form-item
+              :label="$t('test.testApp.uploadApp')"
+              prop="appFileList"
+            >
               <el-upload
                 id="uploadApp"
                 class="upload-demo"
@@ -21,12 +36,28 @@
                 :on-remove="removeUpload"
                 :on-exceed="handleExceed"
                 :auto-upload="false"
-                accept=".csar">
-                <el-button slot="trigger" size="small" type="primary">{{$t('test.testApp.uploadApp')}}</el-button>
-                <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('test.testApp.appFormat')}}</div>
+                accept=".csar"
+              >
+                <el-button
+                  slot="trigger"
+                  size="small"
+                  type="primary"
+                >
+                  {{ $t('test.testApp.uploadApp') }}
+                </el-button>
+                <div
+                  slot="tip"
+                  class="el-upload__tip"
+                >
+                  <i class="el-icon-warning" />{{ $t('test.testApp.appFormat') }}
+                </div>
               </el-upload>
             </el-form-item>
-            <el-form-item :label="$t('test.testApp.uploadLogo')" prop="logoFileList" class="logo_div">
+            <el-form-item
+              :label="$t('test.testApp.uploadLogo')"
+              prop="logoFileList"
+              class="logo_div"
+            >
               <el-upload
                 id="uploadLogo"
                 class="upload-demo"
@@ -36,43 +67,104 @@
                 :file-list="logoFileList"
                 :on-change="handleLogoChanged"
                 :on-exceed="handleExceed"
-                :on-remove='handleDelteAppIcon'
+                :on-remove="handleDelteAppIcon"
                 :auto-upload="false"
-                accept=".jpg,.png">
-                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">{{$t('test.testApp.uploadLogo')}}</el-button>
-                <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('test.testApp.logoFormat')}}</div>
+                accept=".jpg,.png"
+              >
+                <el-button
+                  slot="trigger"
+                  size="small"
+                  type="primary"
+                  class="uploadBtn"
+                >
+                  {{ $t('test.testApp.uploadLogo') }}
+                </el-button>
+                <div
+                  slot="tip"
+                  class="el-upload__tip"
+                >
+                  <i class="el-icon-warning" />{{ $t('test.testApp.logoFormat') }}
+                </div>
               </el-upload>
               <div class="default-icon">
-                  <div class="box" v-for="(item, index) in defaultIcon" @click="chooseDefaultIcon(item, index)" :key="item">
-                    <img :src='item' alt="">
-                    <i class="el-icon-success" :class="{ active: defaultActive === index }"></i>
-                  </div>
+                <div
+                  class="box"
+                  v-for="(item, index) in defaultIcon"
+                  @click="chooseDefaultIcon(item, index)"
+                  :key="item"
+                >
+                  <img
+                    :src="item"
+                    alt=""
+                  >
+                  <i
+                    class="el-icon-success"
+                    :class="{ active: defaultActive === index }"
+                  />
                 </div>
+              </div>
             </el-form-item>
-            <el-form-item :label="$t('test.testApp.affinity')" prop="affinity">
-              <el-checkbox-group id="affinintyCheckbox" v-model="form.affinity" v-loading="tagsLoading">
-                <el-checkbox v-for="(item,index) in appTagList" :id="item" :key="index" :label="item"></el-checkbox>
+            <el-form-item
+              :label="$t('test.testApp.affinity')"
+              prop="affinity"
+            >
+              <el-checkbox-group
+                id="affinintyCheckbox"
+                v-model="form.affinity"
+                v-loading="tagsLoading"
+              >
+                <el-checkbox
+                  v-for="(item,index) in appTagList"
+                  :id="item"
+                  :key="index"
+                  :label="item"
+                />
               </el-checkbox-group>
             </el-form-item>
-            <el-form-item :label="$t('test.testApp.type')" prop="type">
+            <el-form-item
+              :label="$t('test.testApp.type')"
+              prop="type"
+            >
               <el-checkbox-group>
-                <el-select id="selectAppType" v-model="form.type" class="list-select" :placeholder="$t('common.select')+$t('test.testApp.type')">
+                <el-select
+                  id="selectAppType"
+                  v-model="form.type"
+                  class="list-select"
+                  :placeholder="$t('common.select')+$t('test.testApp.type')"
+                >
                   <el-option
                     v-for="item in options"
                     :key="item.value"
                     :label="item.label"
                     :value="item.label"
-                    :id="item.label">
-                  </el-option>
+                    :id="item.label"
+                  />
                 </el-select>
               </el-checkbox-group>
             </el-form-item>
-            <el-form-item :label="$t('test.testApp.description')" prop="appDesc">
-              <el-input id="appDescription" type="textarea" v-model="form.appDesc" :rows="4"></el-input>
+            <el-form-item
+              :label="$t('test.testApp.description')"
+              prop="appDesc"
+            >
+              <el-input
+                id="appDescription"
+                type="textarea"
+                v-model="form.appDesc"
+                :rows="4"
+              />
             </el-form-item>
             <el-form-item>
-              <el-button id="uploadBtn" type="primary" :loading="uploadBtnLoading" @click="submitTrue">{{$t('test.testApp.upload')}}</el-button>
-              <el-button id="cancelBtn">{{$t('common.cancel')}}</el-button>
+              <el-button
+                id="uploadBtn"
+                type="primary"
+                :loading="uploadBtnLoading"
+                @click="submitTrue"
+              >
+                {{ $t('test.testApp.upload') }}
+              </el-button>
+              <el-button id="cancelBtn">
+                {{ $t('common.cancel') }}
+              </el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -84,7 +176,7 @@
 <script>
 import { Post, Get } from './../../tools/tool.js'
 export default {
-  name: 'apply',
+  name: 'Apply',
   data () {
     return {
       form: {
@@ -153,9 +245,7 @@ export default {
       this.appTagList = res.data.tags
       this.tagsLoading = false
     })
-    let userJsonStr = sessionStorage.getItem('user')
-    let user = JSON.parse(userJsonStr)
-    this.form.userId = user.userId
+    this.form.userId = sessionStorage.getItem('userId')
   },
   created () {
     this.keyupSubmit()

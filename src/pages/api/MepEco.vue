@@ -1,20 +1,42 @@
 <template>
   <div class="appapi">
-    <el-breadcrumb separator="/" class="bread-crumb">
-        <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">API</el-breadcrumb-item>
-        <el-breadcrumb-item>{{$t('breadCrumb.mepecoapi')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+        API
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.mepecoapi') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="app-main">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane :label="$t('api.faceRecognition')"  name="Face" lazy>
-        </el-tab-pane>
-        <el-tab-pane label="VR" name="VR" lazy>
-        </el-tab-pane>
-        <el-tab-pane label="AR" name="AR" lazy>
-        </el-tab-pane>
+      <el-tabs
+        v-model="activeName"
+        @tab-click="handleClick"
+      >
+        <el-tab-pane
+          :label="$t('api.faceRecognition')"
+          name="Face"
+          lazy
+        />
+        <el-tab-pane
+          label="VR"
+          name="VR"
+          lazy
+        />
+        <el-tab-pane
+          label="AR"
+          name="AR"
+          lazy
+        />
       </el-tabs>
-      <tableList :tabLabel="activeName" ref="tablist"/>
+      <tableList
+        :tab-label="activeName"
+        ref="tablist"
+      />
     </div>
   </div>
 </template>
@@ -22,7 +44,7 @@
 <script>
 import tableList from './TableList.vue'
 export default {
-  name: 'appapi',
+  name: 'Appapi',
   components: {
     tableList
   },

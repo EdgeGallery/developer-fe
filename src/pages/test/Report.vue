@@ -1,57 +1,77 @@
 <template>
   <div class="report">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">{{$t('breadCrumb.test')}}</el-breadcrumb-item>
-      <el-breadcrumb-item><a>{{$t('breadCrumb.testReport')}}</a></el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">
+        {{ $t('breadCrumb.test') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item><a>{{ $t('breadCrumb.testReport') }}</a></el-breadcrumb-item>
     </el-breadcrumb>
     <div class="report_main">
       <div class="report-tap">
         <h3>VR1.0.2test Report</h3>
-        <p>{{$t('test.testTask.report.ticket')}}: {{taskNo}}</p>
+        <p>{{ $t('test.testTask.report.ticket') }}: {{ taskNo }}</p>
       </div>
       <div class="title">
-        {{$t('test.testTask.report.basicInfo')}}
+        {{ $t('test.testTask.report.basicInfo') }}
       </div>
       <div class="report-app--info">
         <el-row :gutter="20">
-          <el-col :span="22" class="app-table">
+          <el-col
+            :span="22"
+            class="app-table"
+          >
             <el-table
               :data="reportData"
               border
-              style="width: 100%">
+              style="width: 100%"
+            >
               <el-table-column
                 fixed
                 prop="appName"
                 :label="$t('test.testTask.appName')"
-                width="200">
-              </el-table-column>
+                width="200"
+              />
               <el-table-column
                 prop="appVersion"
                 :label="$t('test.testTask.version')"
-                width="120">
-              </el-table-column>
+                width="120"
+              />
               <el-table-column
                 prop="appName"
-                :label="$t('test.testTask.report.packageName')">
-              </el-table-column>
+                :label="$t('test.testTask.report.packageName')"
+              />
               <el-table-column
                 prop="task.beginTime"
                 :label="$t('test.testTask.startTime')"
-                width="180">
-              </el-table-column>
+                width="180"
+              />
               <el-table-column
                 prop="task.endTime"
                 :label="$t('test.testTask.endTime')"
-                width="180">
-              </el-table-column>
+                width="180"
+              />
               <el-table-column
                 :label="$t('test.testTask.report.status')"
-                width="180">
+                width="180"
+              >
                 <template slot-scope="scope">
-                  <span class="el-icon-loading primary" v-if="scope.row.task.status!=='COMPLETED'" title="In Progress"></span>
-                  <span v-else class="el-icon-success success" title="Completed"></span>
-                  <span :class="scope.row.task.status==='COMPLETED'?'success':'failed'">{{scope.row.task.status}}</span>
+                  <span
+                    class="el-icon-loading primary"
+                    v-if="scope.row.task.status!=='COMPLETED'"
+                    title="In Progress"
+                  />
+                  <span
+                    v-else
+                    class="el-icon-success success"
+                    title="Completed"
+                  />
+                  <span :class="scope.row.task.status==='COMPLETED'?'success':'failed'">{{ scope.row.task.status }}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -59,26 +79,31 @@
         </el-row>
       </div>
       <div class="title">
-        {{$t('test.testTask.report.details')}}
+        {{ $t('test.testTask.report.details') }}
       </div>
       <div class="report-chart">
         <el-row :gutter="20">
-          <el-col :span="12" class="chartPie">
-            <ve-pie :data="chartData1"></ve-pie>
+          <el-col
+            :span="12"
+            class="chartPie"
+          >
+            <ve-pie :data="chartData1" />
           </el-col>
-          <el-col :span="12" class="chartLine">
-            <ve-line :data="chartData2"></ve-line>
+          <el-col
+            :span="12"
+            class="chartLine"
+          >
+            <ve-line :data="chartData2" />
           </el-col>
         </el-row>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'report',
+  name: 'Report',
   data () {
     return {
       reportData: [],
