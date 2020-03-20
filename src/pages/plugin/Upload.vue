@@ -298,7 +298,7 @@ export default {
     }
   },
   mounted () {
-    let userJsonStr = sessionStorage.getItem('user')
+    let userJsonStr = sessionStorage.getItem('userId')
     let user = JSON.parse(userJsonStr)
     this.form.userName = user.username
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="navgation">
     <el-row>
-      <el-col :span="6">
+      <el-col :span="7">
         <div
           class="logo lt"
           @click="jumpFromLogo('/mecDeveloper')"
@@ -14,7 +14,7 @@
         </div>
       </el-col>
       <el-col
-        :span="12"
+        :span="11"
         class="nav"
       >
         <Topbar :json-data="jsonData" />
@@ -43,7 +43,7 @@ import navData from '../../../src/navdata/nav_data.js'
 import navDataCn from '../../../src/navdata/nav_data_cn.js'
 import axios from 'axios'
 import Topbar from './Topbar.vue'
-import util from '../../tools/util.js'
+// import util from '../../tools/util.js'
 export default {
   name: 'Navgation',
   components: {
@@ -137,10 +137,6 @@ export default {
         '2.2.5'
       ]
       this.initnavData(data)
-      axios.get('/mec/v1/user-info').then(res => {
-        sessionStorage.setItem('userId', res.data.userId)
-        // console.log(this.jsonData)
-      })
     },
     initnavData (data) {
       for (let i = 0; i < this.jsonData.length; i++) {
@@ -178,20 +174,20 @@ export default {
       if (this.language === 'English') {
         this.language = '简体中文'
         language = 'en'
-        if (sessionStorage.getItem('user')) {
-          this.jsonData = navData
-        }
+        // if (sessionStorage.getItem('userId')) {
+        this.jsonData = navData.mecDeveloper
+        // }
       } else {
         this.language = 'English'
         language = 'cn'
-        if (sessionStorage.getItem('user')) {
-          this.jsonData = navDataCn
-        }
+        // if (sessionStorage.getItem('userId')) {
+        this.jsonData = navDataCn.mecDeveloper
+        // }
       }
       this.$i18n.locale = language
       localStorage.setItem('language', language)
       this.$store.commit('changelanguage', language)
-      this.jsonData = util.init(this.$route.fullPath)
+      // this.jsonData = util.init(this.$route.fullPath)
       this.$root.$emit('languageChange')
       let appDom = document.getElementById('app')
       if (language === 'en') {
@@ -220,18 +216,13 @@ export default {
       }
     },
     beforeLogout () {
-      let keepAlive = util.keepSessionAlive()
-      if (keepAlive) {
-        this.$confirm(this.$t('promptMessage.logoutPage'), 'Warning', {
-          confirmButtonText: this.$t('promptMessage.yesBtn'),
-          cancelButtonText: this.$t('promptMessage.noBtn'),
-          type: 'warning'
-        }).then(() => {
-          this.logout()
-        })
-      } else {
+      this.$confirm('Are you sure to log out?', 'Promt', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        type: 'warning'
+      }).then(() => {
         this.logout()
-      }
+      })
     }
   }
 }

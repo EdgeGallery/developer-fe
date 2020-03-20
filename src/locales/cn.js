@@ -11,7 +11,7 @@ const cn = {
     developing: '页面正在开发中。'
   },
   home: {
-    mecDeveloper: 'MEC开发者平台',
+    mecDeveloper: 'EdgeGallery 开发者平台',
     step: '步骤',
     bannerTitle: '一站式开发者平台',
     bannerText1: '为开发者提供便捷的开发插件',
