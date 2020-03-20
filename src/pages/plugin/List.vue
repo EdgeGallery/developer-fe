@@ -229,7 +229,7 @@ export default {
       this.breadcrumbTitle = this.$t('devTools.pluginList')
     }
     this.getPluginListData()
-    let userJsonStr = sessionStorage.getItem('user')
+    let userJsonStr = sessionStorage.getItem('userId')
     this.username = JSON.parse(userJsonStr).username
   },
   watch: {

@@ -11,7 +11,7 @@ const en = {
     developing: 'The page is under development.'
   },
   home: {
-    mecDeveloper: 'MEC Developer',
+    mecDeveloper: 'EdgeGallery Developer',
     step: 'STEPS',
     bannerTitle: 'One-stop shop for developers',
     bannerText1: 'Provide developers with convenient development plug-ins',

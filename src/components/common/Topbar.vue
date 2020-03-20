@@ -118,11 +118,6 @@ export default {
       }
     }
   },
-  beforeMount () {
-    if (sessionStorage.getItem('user')) {
-      this.user = JSON.parse(sessionStorage.getItem('user'))
-    }
-  },
   mounted () {
     this.indexName = this.$route.fullPath
   }

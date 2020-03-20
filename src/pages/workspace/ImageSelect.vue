@@ -153,7 +153,8 @@ export default {
   name: 'ImageSelect',
   props: {
     projectBeforeConfig: {
-      default: {}
+      type: Object,
+      default: () => {}
     }
   },
   data () {
