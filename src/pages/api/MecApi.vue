@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     getApiUrl () {
-      Get('mecs/developer/v1/localapi').then(res => {
+      Get('mec/developer/v1/localapi').then(res => {
         let treeDataTemp = res.data.swaggers
         for (let i in treeDataTemp) {
           let obj = {
