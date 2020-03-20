@@ -102,6 +102,7 @@ export default {
   name: 'ConfigYaml',
   props: {
     projectBeforeConfig: {
+      type: Object,
       default () {
         return {
           agentConfig: {}
@@ -177,7 +178,7 @@ export default {
       let url = 'mec/developer/v1/projects/' + projectId + '/image'
       Get(url).then(res => {
         if (type === 'get') {
-          res.data.forEach(item => {
+          res.data.images.forEach(item => {
             if (item.type === 'OTHER') {
               this.form.addImagesList.push(item)
             } else {

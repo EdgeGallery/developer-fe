@@ -235,7 +235,7 @@ export default {
       let url = 'mec/developer/v1/projects/' + projectId + '/image'
       Get(url).then(res => {
         if (type === 'get') {
-          res.data.forEach(item => {
+          res.data.images.forEach(item => {
             if (item.type === 'DEVELOPER') {
               this.form.imageNameData.push(item)
             }

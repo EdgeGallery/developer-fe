@@ -118,7 +118,8 @@ export default {
         beginTime: '',
         endTime: ''
       },
-      url: ''
+      url: '',
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
@@ -129,7 +130,7 @@ export default {
       this.currentData = val
     },
     getProjectListData () {
-      Get('mec/developer/v1/projects', '', 'developer').then(res => {
+      Get('mec/developer/v1/projects/?userId=' + this.userId, '', 'developer').then(res => {
         this.pageData = res.data
         if (this.pageData.length > 0) {
           this.pageData.sort(function (a, b) {
@@ -157,7 +158,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        Delete('mec/developer/v1/projects/' + item.id).then(res => {
+        Delete('mec/developer/v1/projects/' + item.id + '?userId=' + this.userId).then(res => {
           this.getProjectListData()
         })
       })

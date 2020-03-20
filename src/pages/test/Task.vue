@@ -268,7 +268,7 @@
 </template>
 
 <script>
-import { Post, Get, codeErr } from './../../tools/tool.js'
+import { Post, Get } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
   name: 'Task',
@@ -348,7 +348,8 @@ export default {
       step: 1,
       telnetid: '',
       dataLoading: true,
-      currentData: []
+      currentData: [],
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
@@ -380,38 +381,34 @@ export default {
       this.$router.push('/mecDeveloper/test/report')
     },
     getTaskList () {
-      if (codeErr) {
-        this.clearInterval()
-      } else {
-        if (this.form.beginTime == null || this.form.endTime == null) {
-          this.form.beginTime = ''
-          this.form.endTime = ''
-        }
-        Get('mec/developer/v1/apps/', this.form).then(res => {
-          let data = res.data.tasks
-          data.forEach((item, index) => {
-            let newDateBegin = this.dateChange(item.task.beginTime)
-            item.task.beginTime = newDateBegin
-            let newDateEnd = this.dateChange(item.task.endTime)
-            item.task.endTime = newDateEnd
-            if (item.task.status === 'COMPLETED') {
-              item.step = 4
-            } else if (item.task.status === 'Environmental preparation') {
-              item.endTime = ''
-              item.step = 1
-            } else if (item.task.status === 'Test preparation') {
-              item.endTime = ''
-              item.step = 2
-            } else {
-              item.endTime = ''
-              item.step = 3
-            }
-          })
-          this.pageData = data
-          this.totalNum = this.pageData.length
-          this.dataLoading = false
-        })
+      if (this.form.beginTime == null || this.form.endTime == null) {
+        this.form.beginTime = ''
+        this.form.endTime = ''
       }
+      Get('mec/developer/v1/apps/?userId=' + this.userId, this.form).then(res => {
+        let data = res.data.tasks
+        data.forEach((item, index) => {
+          let newDateBegin = this.dateChange(item.task.beginTime)
+          item.task.beginTime = newDateBegin
+          let newDateEnd = this.dateChange(item.task.endTime)
+          item.task.endTime = newDateEnd
+          if (item.task.status === 'COMPLETED') {
+            item.step = 4
+          } else if (item.task.status === 'Environmental preparation') {
+            item.endTime = ''
+            item.step = 1
+          } else if (item.task.status === 'Test preparation') {
+            item.endTime = ''
+            item.step = 2
+          } else {
+            item.endTime = ''
+            item.step = 3
+          }
+        })
+        this.pageData = data
+        this.totalNum = this.pageData.length
+        this.dataLoading = false
+      })
     },
     getData (num, appId, taskId, step) {
       if (step === 2 || step === 3) {
@@ -457,7 +454,7 @@ export default {
     expandChange (row, expandedRows) {
     },
     uploadTask (val) {
-      Post('mec/developer/v1/apps/' + val.appId + '/action/upload').then(res => {
+      Post('mec/developer/v1/apps/' + val.appId + '/action/upload?userId=' + this.userId).then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'

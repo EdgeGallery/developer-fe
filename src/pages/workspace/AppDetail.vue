@@ -142,7 +142,8 @@ export default {
       currentComponent: 'imageSelect',
       allStepData: {},
       projectBeforeConfig: {},
-      viewReport: false
+      viewReport: false,
+      userId: sessionStorage.getItem('userId')
     }
   },
   computed: {
@@ -214,7 +215,6 @@ export default {
     },
     submitData () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
       let getParams = (type) => {
         let params = []
         if (type === 'image') {
@@ -243,16 +243,18 @@ export default {
       }
       // 根据第一步的状态判断是新建还是修改
       let requireMethod = Post
+      let url = 'mec/developer/v1/projects/' + projectId + '/test-config?userId=' + this.userId
       if (this.projectBeforeConfig.testId) {
         requireMethod = Put
+        url = 'mec/developer/v1/projects/' + projectId + '/test-config'
         // 修改需要
         params.status = this.projectBeforeConfig.status
         params.accessURL = this.projectBeforeConfig.accessURL
         params.errorLog = this.projectBeforeConfig.errorLog
       }
-      requireMethod(url, params, 'neworedit').then(res => {
+      requireMethod(url, params).then(res => {
         // 部署
-        let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy'
+        let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + this.userId
         Post(deployUrl).then(res => {
           this.$message({
             message: '已经开始部署。',
@@ -263,7 +265,7 @@ export default {
     },
     cleanTestEnv () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean'
+      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?userId=' + this.userId
       Post(url).then(res => {
       })
     },

@@ -225,6 +225,7 @@ export default {
         version: '',
         introduction: '',
         userName: '',
+        userId: '',
         pluginSize: 0,
         appIcon: []
       },
@@ -298,9 +299,8 @@ export default {
     }
   },
   mounted () {
-    let userJsonStr = sessionStorage.getItem('userId')
-    let user = JSON.parse(userJsonStr)
-    this.form.userName = user.username
+    this.form.userName = 'mecdev'
+    this.form.userId = sessionStorage.getItem('userId')
   },
   created () {
     this.keyupSubmit()

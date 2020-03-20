@@ -45,7 +45,8 @@ export default {
     return {
       dialogVisible: this.value,
       isPublish: true,
-      isPublic: false
+      isPublic: false,
+      userId: sessionStorage.getItem('userId')
     }
   },
   watch: {
@@ -61,12 +62,12 @@ export default {
       this.handleClose()
       let projectId = sessionStorage.getItem('mecDetailID')
       if (this.checked1) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/upload'
+        let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId
         Post(url).then(res => {
         })
       }
       if (this.checked2) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/open-api'
+        let url = 'mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + this.userId
         Post(url)
       }
       this.$router.push({
