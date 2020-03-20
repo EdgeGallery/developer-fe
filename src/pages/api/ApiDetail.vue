@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     getApiUrl (data) {
-      let apiUrl = 'http://159.138.61.155:9080/mec/developer/v1/files/9f1f13a0-8554-4dfa-90a7-d2765238fca7?userId=37423702-4bee-41e8-9c38-7cc906c27af3&type=OPENMEP'
+      let apiUrl = './face_recognition.json'
       SwaggerUIBundle({
         url: apiUrl,
         dom_id: '#swagger-ui',
