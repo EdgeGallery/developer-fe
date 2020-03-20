@@ -15,28 +15,21 @@
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ $t('breadCrumb.apiDetail') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="iframe">
-      <iframe
-        id="iframe"
-        :src="apiHtml"
-        frameborder="0"
-      />
-    </div>
+    <div id="swagger-ui" />
   </div>
 </template>
 
 <script>
+import SwaggerUIBundle from 'swagger-ui'
+import 'swagger-ui/dist/swagger-ui.css'
 export default {
   name: 'Apidetail',
   data () {
-    return {
-      tableData: [],
-      apiHtml: 'http://159.138.146.235:8080/html/face_recognition_20191226191823150.html'
-    }
+    return {}
   },
   mounted () {
     function iframeHeight () {
-      const oIframe = document.getElementById('iframe')
+      const oIframe = document.getElementById('swagger-ui')
       const deviceHeight = document.documentElement.clientHeight
       oIframe.style.height = (Number(deviceHeight) - 200) + 'px'
     }
@@ -44,8 +37,23 @@ export default {
     window.onresize = function () {
       iframeHeight()
     }
+    this.getApiUrl()
   },
   methods: {
+    getApiUrl (data) {
+      let apiUrl = './face_recognition.json'
+      SwaggerUIBundle({
+        url: apiUrl,
+        dom_id: '#swagger-ui',
+        deepLinking: false,
+        presets: [
+          SwaggerUIBundle.presets.apis
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ]
+      })
+    }
   }
 }
 </script>

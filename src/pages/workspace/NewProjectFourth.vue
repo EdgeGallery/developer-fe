@@ -1,38 +1,22 @@
 <template>
-  <div class="fourthstep">
-    <div id="programTools">
-      <img
-        src="../../assets/images/newProject-fourth-icon1.png"
-        alt=""
-      >
-      <p>{{ $t('workspace.programTools') }}</p>
+    <div class="fourthstep">
+      <div id="programTools">
+        <img src="../../assets/images/newProject-fourth-icon1.png" alt="">
+        <p>{{$t('workspace.programTools')}}</p>
+      </div>
+      <div id="programPlugin">
+        <el-link type="info" href="http://159.138.146.235:8002/#/mecDeveloper/plugin/list#1" target="_blank">
+        <img src="../../assets/images/newProject-fourth-icon2.png" alt="">
+        <p>{{$t('workspace.programPlugin')}}</p>
+        </el-link>
+      </div>
+      <div id="sampleCode">
+        <el-link type="info" @click="getApiFileId">
+        <img src="../../assets/images/newProject-fourth-icon3.png" alt="">
+        <p>{{$t('workspace.sampleCode')}}</p>
+        </el-link>
+      </div>
     </div>
-    <div id="programPlugin">
-      <el-link
-        type="info"
-        href="http://159.138.146.235:8002/#/mecDeveloper/plugin/list#1"
-        target="_blank"
-      >
-        <img
-          src="../../assets/images/newProject-fourth-icon2.png"
-          alt=""
-        >
-        <p>{{ $t('workspace.programPlugin') }}</p>
-      </el-link>
-    </div>
-    <div id="sampleCode">
-      <el-link
-        type="info"
-        @click="getApiFileId"
-      >
-        <img
-          src="../../assets/images/newProject-fourth-icon3.png"
-          alt=""
-        >
-        <p>{{ $t('workspace.sampleCode') }}</p>
-      </el-link>
-    </div>
-  </div>
 </template>
 
 <script>

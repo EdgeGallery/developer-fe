@@ -1,78 +1,42 @@
 <template>
   <div class="secondstep">
-    <table
-      class="tableCapa"
-      width="100%"
-      v-loading="capabilityLoading"
-    >
+    <table class="tableCapa" width="100%" v-loading="capabilityLoading">
       <tr>
         <td>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            :content="$t('workspace.chooseMepC')"
-            placement="top-start"
-          >
-            <el-button type="text">
-              {{ $t('workspace.openMEPCapabilities') }}
-            </el-button>
+          <el-tooltip class="item" effect="dark" :content="$t('workspace.chooseMepC')" placement="top-start">
+            <el-button type="text">{{$t('workspace.openMEPCapabilities')}}</el-button>
           </el-tooltip>
         </td>
         <td>
-          <el-checkbox-group
-            id="capabilityList"
-            v-model="capability"
-            @change="changeCheckValue"
-          >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              :content="item.description"
-              placement="top"
+          <el-checkbox-group id="capabilityList" v-model="capability"
+            @change="changeCheckValue">
+            <el-tooltip class="item" effect="dark" :content="item.description" placement="top"
               v-for="(item,index) in capabilityList"
-              :key="index"
-              :id="item.name"
-            >
+              :key="index" :id="item.name">
               <el-checkbox
                 :label="item.name"
-                :disabled="item.disabled"
-              />
+                :disabled="item.disabled">
+              </el-checkbox>
             </el-tooltip>
           </el-checkbox-group>
         </td>
       </tr>
       <tr>
         <td>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            :content="$t('workspace.chooseMEPeco')"
-            placement="top-start"
-          >
-            <el-button type="text">
-              {{ $t('workspace.openMEPECOCapabilities') }}
-            </el-button>
+          <el-tooltip class="item" effect="dark" :content="$t('workspace.chooseMEPeco')" placement="top-start">
+            <el-button type="text">{{$t('workspace.openMEPECOCapabilities')}}</el-button>
           </el-tooltip>
         </td>
         <td>
-          <el-checkbox-group
-            id="capabilityEcoList"
-            v-model="capability"
-            @change="changeCheckValue"
-          >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              :content="item.description"
-              placement="top"
+          <el-checkbox-group id="capabilityEcoList" v-model="capability"
+            @change="changeCheckValue">
+            <el-tooltip class="item" effect="dark" :content="item.description" placement="top"
               v-for="(item,index) in capabilityEcoList"
-              :key="index"
-              :id="item.name"
-            >
+              :key="index" :id="item.name">
               <el-checkbox
                 :label="item.name"
-                :disabled="item.disabled"
-              />
+                :disabled="item.disabled">
+              </el-checkbox>
             </el-tooltip>
           </el-checkbox-group>
         </td>

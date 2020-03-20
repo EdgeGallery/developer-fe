@@ -2,6 +2,7 @@
   <div class="serve">
     <b>{{ $t('workspace.server') }}:</b>
     <el-table
+      v-loading="hostsDataLoading"
       id="hostsList"
       :data="hostsListData"
       border
@@ -10,7 +11,21 @@
       highlight-current-row
       ref="singleTable"
     >
-      <!-- <el-table-column type="selection" :reserve-selection="true" width="55"></el-table-column> -->
+      <el-table-column
+        width="70"
+        header-align="center"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-radio
+            class="radio"
+            v-model="radio"
+            :label="scope.$index"
+          >
+&nbsp;
+          </el-radio>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="name"
         :label="$t('workspace.name')"
@@ -59,18 +74,22 @@ export default {
     return {
       hostsListData: [
       ],
-      selectTableData: ''
+      selectTableData: '',
+      hostsDataLoading: true,
+      radio: ''
     }
   },
   methods: {
     handleSelectionChange (val) {
       this.selectTableData = val
+      this.radio = this.hostsListData.indexOf(val)
     },
     getHostsData () {
       let url = 'mec/developer/v1/hosts'
       // let projectId = sessionStorage.getItem('mecDetailID')
       Get(url).then(res => {
         this.hostsListData = res.data
+        this.hostsDataLoading = false
       })
     },
     ifNext () {
@@ -119,6 +138,11 @@ export default {
   }
   .el-table--border {
     border: none;
+  }
+  .el-radio{
+    .el-radio__label{
+        display: none;
+    }
   }
 }
 </style>

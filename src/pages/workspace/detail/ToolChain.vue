@@ -1,170 +1,109 @@
 <template>
-  <div
-    class="toolchain"
-    v-loading="analysisLoading"
-    :element-loading-text="uploadCodeText"
-  >
-    <el-row>
-      <el-col
-        :span="16"
-        class="analysis"
-      >
-        <el-form
-          ref="form"
-          :rules="rules"
-          :model="form"
-          :label-width="labelWidth"
-          size="mini"
-        >
-          <el-form-item :label="$t('workspace.uploadSourceCode')">
-            <el-upload
-              id="uploadCode"
-              class="upload-demo"
-              ref="uploadFile"
-              action=""
-              :limit="1"
-              :on-change="handleChangeCode"
-              :on-exceed="handleExceed"
-              :file-list="codeFileList"
-              :auto-upload="false"
-              :on-remove="removeUpload"
-              accept=".tar.gz"
-              name="codeFile"
-            >
-              <el-button
-                slot="trigger"
-                size="small"
-                type="primary"
-              >
-                {{ $t('workspace.uploadSourceCode') }}
-              </el-button>
-            </el-upload>
-            <p
-              class="codeResult"
-              v-if="sourceCodeExist"
-              v-loading="!sourceCodeExist"
-            >
-              {{ sourceCodeName }}
-              <i
-                class="el-icon-close"
-                @click="deleteSourceCode"
-              />
-            </p>
-          </el-form-item>
-          <el-form-item :label="$t('workspace.targetOS')">
-            <el-select
-              v-model="form.targetOs"
-              filterable
-            >
-              <el-option
-                v-for="item in osOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('workspace.buildTools')">
-            <el-select v-model="form.buildTool">
-              <el-option
-                v-for="item in toolOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item
-            :label="$t('workspace.compileCommand')"
-            prop="command"
-          >
-            <el-select
-              v-model="form.command"
-              disabled
-            >
-              <el-option
-                v-for="item in commandOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('workspace.compilerVersion')">
-            <el-select
-              v-model="form.compilerVersion"
-              filterable
-            >
-              <el-option
-                v-for="item in compilerOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('workspace.targetVersion')">
-            <el-select v-model="form.systemVersion">
-              <el-option
-                v-for="item in systemOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item
-            size="large"
-            class="analysisBtn"
-          >
-            <el-button
-              size="small"
-              @click="analysisCode"
-            >
-              {{ $t('workspace.analysis') }}
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-      <el-col
-        :span="8"
-        class="report"
-        id="report"
-      >
-        <h3>{{ $t('workspace.historicalReport') }}（{{ reportNum }}）</h3>
-        <el-table
-          :data="reportListData"
-          style="width: 100%"
-          v-loading="reportListLoading"
-        >
-          <el-table-column
-            width="180"
-          >
-            <template slot-scope="scope">
-              <span @click="viewReport(scope.row)">{{ scope.row }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column>
-            <template slot-scope="scope">
-              <i
-                class="el-icon-download"
-                @click="clickdownLoadReport(scope.row)"
-              />
-              <i
-                class="el-icon-delete"
-                @click="deleteReport(scope.row)"
-              />
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-    </el-row>
-  </div>
+    <div class="toolchain" v-loading="analysisLoading" :element-loading-text="uploadCodeText">
+      <el-row>
+        <el-col :span="16" class="analysis">
+          <el-form ref="form" :rules="rules" :model="form" :label-width="labelWidth" size="mini">
+            <el-form-item :label="$t('workspace.uploadSourceCode')">
+              <el-upload
+                id="uploadCode"
+                class="upload-demo"
+                ref="uploadFile"
+                action=""
+                :limit="1"
+                :on-change="handleChangeCode"
+                :on-exceed="handleExceed"
+                :file-list="codeFileList"
+                :auto-upload="false"
+                :on-remove="removeUpload"
+                accept=".tar.gz"
+                name="codeFile">
+                <el-button slot="trigger" size="small" type="primary">{{$t('workspace.uploadSourceCode')}}</el-button>
+              </el-upload>
+              <p class="codeResult" v-if="sourceCodeExist" v-loading="!sourceCodeExist">
+                {{sourceCodeName}}
+                <i class="el-icon-close" @click="deleteSourceCode"></i>
+              </p>
+            </el-form-item>
+            <el-form-item :label="$t('workspace.targetOS')">
+              <el-select v-model="form.targetOs" filterable>
+                <el-option
+                  v-for="item in osOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('workspace.buildTools')">
+              <el-select v-model="form.buildTool">
+                <el-option
+                  v-for="item in toolOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('workspace.compileCommand')" prop="command">
+              <el-select v-model="form.command" disabled>
+                <el-option
+                  v-for="item in commandOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('workspace.compilerVersion')">
+              <el-select v-model="form.compilerVersion" filterable>
+                <el-option
+                  v-for="item in compilerOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('workspace.targetVersion')">
+              <el-select v-model="form.systemVersion">
+                <el-option
+                  v-for="item in systemOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item size="large" class="analysisBtn">
+              <el-button size="small" @click="analysisCode">{{$t('workspace.analysis')}}</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col :span="8" class="report" id="report">
+          <h3>{{$t('workspace.historicalReport')}}（{{reportNum}}）</h3>
+          <el-table
+            :data="reportListData"
+            style="width: 100%"
+            v-loading="reportListLoading">
+            <el-table-column
+              width="180">
+              <template slot-scope="scope"><span @click="viewReport(scope.row)">{{scope.row}}</span></template>
+            </el-table-column>
+            <el-table-column>
+              <template slot-scope="scope">
+                <i class="el-icon-download" @click="clickdownLoadReport(scope.row)"></i>
+                <i class="el-icon-delete" @click="deleteReport(scope.row)"></i>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+    </div>
 </template>
 <script>
 import { Get, Post, Delete, downLoadReport } from '../../../tools/tool.js'
 export default {
-  name: 'Toolchain',
+  name: 'toolchain',
   data () {
     return {
       projectId: sessionStorage.getItem('mecDetailID'),

@@ -44,7 +44,12 @@
 import pagination from '../../components/common/Pagination.vue'
 export default {
   name: 'Tablelist',
-  props: ['tabLabel'],
+  props: {
+    tabLabel: {
+      type: String,
+      default: ''
+    }
+  },
   components: { pagination },
   data () {
     return {

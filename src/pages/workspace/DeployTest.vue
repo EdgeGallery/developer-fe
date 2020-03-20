@@ -8,7 +8,7 @@
       alt=""
     >
     <span class="testText">
-      <b v-if="deployStatus === 'ONLINE'">{{ $t('workspace.buildTip') }}</b>
+      <b v-if="deployStatus === 'DEPLOYED'">{{ $t('workspace.buildTip') }}</b>
       <b v-else>{{ testLog }}</b>
     </span>
     <p />
@@ -17,7 +17,7 @@
       type="primary"
       class="testButton"
       @click="goTest"
-      v-if="deployStatus === 'ONLINE'"
+      v-if="deployStatus === 'DEPLOYED'"
     >
       <b>{{ testHref }}</b>
       <i class="el-icon-document-copy el-icon--right" />
@@ -32,7 +32,8 @@ export default {
   name: 'Test',
   props: {
     projectBeforeConfig: {
-      default: {}
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -42,7 +43,7 @@ export default {
       testLog: '',
       deployInfo: '',
       timer: null,
-      loading: false
+      loading: true
     }
   },
   methods: {
@@ -64,24 +65,33 @@ export default {
       let url = 'mec/developer/v1/projects/' + projectId
       Get(url).then(res => {
         this.deployStatus = res.data.status
-        if (res.data.status !== 'DEPLOYING') {
-          this.clearInterval()
+        if (res.data.status === 'DEPLOYING') {
+          this.$emit('getBtnStatus', { status: true, deploy: false, isCompleted: true })
+        } else if (res.data.status === 'DEPLOYED') {
+          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: false })
           this.getTestUrl()
+          this.clearInterval()
+        } else {
+          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: true })
+          this.getTestUrl()
+          this.clearInterval()
         }
       })
     },
     clearInterval () {
-      clearInterval(this.timer)
+      clearTimeout(this.timer)
+      this.timer = null
     },
     goTest () {
       window.open(this.testHref)
     }
   },
   mounted () {
-    this.getDeployStatus()
+    setTimeout(this.getDeployStatus, 5000)
+    // this.getDeployStatus()
     this.timer = setInterval(() => {
       this.getDeployStatus()
-    }, 10000)
+    }, 5000)
   },
   beforeDestroy () {
     this.clearInterval()
