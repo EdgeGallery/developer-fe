@@ -47,8 +47,13 @@
 <script>
 import { Get } from '../../tools/tool.js'
 export default {
-  name: '',
-  props: ['secondStepData'],
+  name: 'Thirdstep',
+  props: {
+    secondStepData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
       tableData: [],

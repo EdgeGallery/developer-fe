@@ -40,7 +40,12 @@
 import { Post } from '../../../tools/tool.js'
 
 export default {
-  props: ['value'],
+  props: {
+    value: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       dialogVisible: this.value,

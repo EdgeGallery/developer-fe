@@ -128,9 +128,9 @@ export default {
         columns: ['Status', 'Number'],
         rows: [
           { 'Status': 'ONLINE', 'Number': 2 },
-          { 'Status': 'DEPLOYING', 'Number': 4 },
+          { 'Status': 'DEPLOYING', 'Number': 0 },
           { 'Status': 'DEPLOYED', 'Number': 6 },
-          { 'Status': 'DEPLOYFAILED', 'Number': 0 },
+          { 'Status': 'DEPLOYEDFAIDED', 'Number': 0 },
           { 'Status': 'TESTED', 'Number': 5 }
         ]
       },
@@ -178,7 +178,7 @@ export default {
       this.$refs.projectList.getProjectListData()
     },
     getProjectListData () {
-      Get('mec/developer/v1/projects/?userId=' + this.userId).then(res => {
+      Get('mec/developer/v1/projects?userId=' + this.userId).then(res => {
         // console.log(res.data)
         let dataTotal = res.data
         let onlineNum = 0
@@ -196,7 +196,7 @@ export default {
           } else if (dataTotal[i].status === 'DEPLOYED') {
             deployedNum++
             this.chartData.rows[2].Number = deployedNum
-          } else if (dataTotal[i].status === 'DEPLOYFAILED') {
+          } else if (dataTotal[i].status === 'DEPLOYEDFAIDED') {
             deployfailedNum++
             this.chartData.rows[3].Number = deployfailedNum
           } else if (dataTotal[i].status === 'TESTED') {

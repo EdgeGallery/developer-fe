@@ -63,6 +63,9 @@
           class="imageResult"
           v-for="(item,index) in form.imageNameData"
           :key="index"
+          v-loading="imageDataLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
         >
           <b style="margin: 0 5px;">{{ $t('workspace.imagename') }}:</b>
           {{ item.name }}: {{ item.version }}
@@ -170,7 +173,8 @@ export default {
       },
       options: [],
       value: '',
-      uploadApiLoading: false
+      uploadApiLoading: false,
+      imageDataLoading: true
     }
   },
   methods: {
@@ -216,18 +220,25 @@ export default {
       this.form.apiFileList = []
     },
     submitApiFile () {
-      this.uploadApiLoading = true
-      let url = 'mec/developer/v1/files'
-      let fd = new FormData()
-      fd.append('file', this.form.apiFileList[0])
-      Post(url, fd).then(res => {
-        this.form.appApiFileId = res.data.fileId
-        this.uploadApiLoading = false
-        this.$message({
-          type: 'success',
-          message: this.$t('promptMessage.uploadSuccess')
+      if (this.form.apiFileList.length > 0) {
+        this.uploadApiLoading = true
+        let url = 'mec/developer/v1/files'
+        let fd = new FormData()
+        fd.append('file', this.form.apiFileList[0])
+        Post(url, fd).then(res => {
+          this.form.appApiFileId = res.data.fileId
+          this.uploadApiLoading = false
+          this.$message({
+            type: 'success',
+            message: this.$t('promptMessage.uploadSuccess')
+          })
         })
-      })
+      } else {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.uploadApiFile')
+        })
+      }
     },
     // 方式二获取image  type: 第一次获取get / 还是添加
     getImage (type) {
@@ -240,6 +251,7 @@ export default {
               this.form.imageNameData.push(item)
             }
           })
+          this.imageDataLoading = false
         }
       })
     },
@@ -343,6 +355,11 @@ export default {
       margin-bottom: 0px;
       .el-form-item__label{
         line-height: 20px;
+      }
+    }
+    .el-loading-spinner{
+      p{
+        line-height: 0px;
       }
     }
   }

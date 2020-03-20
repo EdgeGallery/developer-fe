@@ -1,112 +1,49 @@
 <template>
-  <div
-    class="toolreport"
-    v-loading="reportLoading"
-    :element-loading-text="$t('promptMessage.loadingText')"
-  >
-    <p class="title">
-      <i
-        class="el-icon-arrow-left"
-        @click="returnAnalysis"
-      />{{ reportId }}
-    </p>
-    <h2 class="reportname">
-      {{ reportId }}
-    </h2>
-    <div class="codeInfo">
-      <el-row>
-        <el-col :span="3">
-          {{ $t('workspace.sourceCodePath') }}
-        </el-col>
-        <el-col :span="7">
-          /src
-        </el-col>
-        <el-col :span="3">
-          {{ $t('workspace.compilerVersion') }}
-        </el-col>
-        <el-col :span="4">
-          {{ compilerType }} {{ compilerVersion }}
-        </el-col>
-        <el-col :span="3">
-          {{ $t('workspace.buildTools') }}
-        </el-col>
-        <el-col :span="4">
-          {{ taskInformation.constructtool }}
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="3">
-          {{ $t('workspace.compileCommand') }}
-        </el-col>
-        <el-col :span="7">
-          {{ taskInformation.compilecommand }}
-        </el-col>
-        <el-col :span="3">
-          {{ $t('workspace.targetOS') }}
-        </el-col>
-        <el-col :span="4">
-          {{ taskInformation.targetos }}
-        </el-col>
-        <el-col :span="3">
-          {{ $t('workspace.targetVersion') }}
-        </el-col>
-        <el-col :span="4">
-          v{{ taskInformation.targetkernel }}
-        </el-col>
-      </el-row>
+    <div class="toolreport" v-loading="reportLoading" :element-loading-text="$t('promptMessage.loadingText')">
+      <p class="title"><i class="el-icon-arrow-left" @click="returnAnalysis"></i>{{reportId}}</p>
+      <h2 class="reportname">{{reportId}}</h2>
+      <div class="codeInfo">
+        <el-row>
+            <el-col :span="3">{{$t('workspace.sourceCodePath')}}</el-col>
+            <el-col :span="7">/src</el-col>
+            <el-col :span="3">{{$t('workspace.compilerVersion')}}</el-col>
+            <el-col :span="4">{{compilerType}} {{compilerVersion}}</el-col>
+            <el-col :span="3">{{$t('workspace.buildTools')}}</el-col>
+            <el-col :span="4">{{taskInformation.constructtool}}</el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="3">{{$t('workspace.compileCommand')}}</el-col>
+            <el-col :span="7">{{taskInformation.compilecommand}}</el-col>
+            <el-col :span="3">{{$t('workspace.targetOS')}}</el-col>
+            <el-col :span="4">{{taskInformation.targetos}}</el-col>
+            <el-col :span="3">{{$t('workspace.targetVersion')}}</el-col>
+            <el-col :span="4">v{{taskInformation.targetkernel}}</el-col>
+        </el-row>
+      </div>
+      <div class="analysisResults">
+          <h3>{{$t('workspace.analysisResults')}}</h3>
+          <el-row class="resultTitle">
+            <el-col :span="12">
+              <i class="show_icon" v-if="showicon" @click="showIcon"></i><i class="hide_icon" v-else @click="hideIcon"></i>
+              <i class="result_yz"></i>{{$t('workspace.needtranscount')}}
+            </el-col>
+            <el-col :span="12">{{needtranscount}}</el-col>
+          </el-row>
+          <el-row class="show_result" v-if="!showicon">
+            <el-col :span="12" v-for="(item,index) in needMigrateFiles" :key="index" :title="item">{{item}}</el-col>
+          </el-row>
+          <el-row class="resultTitle">
+            <el-col :span="12"><i class="result_hs"></i>{{$t('workspace.codeCount')}}</el-col>
+            <el-col :span="12">{{$t('workspace.makefileSourceCode')}}：{{analysisResults.codelines}}{{$t('workspace.lines')}}  {{$t('workspace.assemblyCode')}}：{{analysisResults.asmlines}}{{$t('workspace.lines')}}</el-col>
+          </el-row>
+      </div>
+      <p class="downloadBtn"><el-button @click="clickdownLoadReport()">{{$t('workspace.downloadReport')}}（.csv）</el-button></p>
     </div>
-    <div class="analysisResults">
-      <h3>{{ $t('workspace.analysisResults') }}</h3>
-      <el-row class="resultTitle">
-        <el-col :span="12">
-          <i
-            class="show_icon"
-            v-if="showicon"
-            @click="showIcon"
-          /><i
-            class="hide_icon"
-            v-else
-            @click="hideIcon"
-          />
-          <i class="result_yz" />{{ $t('workspace.needtranscount') }}
-        </el-col>
-        <el-col :span="12">
-          {{ needtranscount }}
-        </el-col>
-      </el-row>
-      <el-row
-        class="show_result"
-        v-if="!showicon"
-      >
-        <el-col
-          :span="12"
-          v-for="(item,index) in needMigrateFiles"
-          :key="index"
-          :title="item"
-        >
-          {{ item }}
-        </el-col>
-      </el-row>
-      <el-row class="resultTitle">
-        <el-col :span="12">
-          <i class="result_hs" />{{ $t('workspace.codeCount') }}
-        </el-col>
-        <el-col :span="12">
-          {{ $t('workspace.makefileSourceCode') }}：{{ analysisResults.codelines }}{{ $t('workspace.lines') }}  {{ $t('workspace.assemblyCode') }}：{{ analysisResults.asmlines }}{{ $t('workspace.lines') }}
-        </el-col>
-      </el-row>
-    </div>
-    <p class="downloadBtn">
-      <el-button @click="clickdownLoadReport()">
-        {{ $t('workspace.downloadReport') }}（.csv）
-      </el-button>
-    </p>
-  </div>
 </template>
 <script>
 import { Get, downLoadReport } from '../../../tools/tool.js'
 export default {
-  name: 'Toolreport',
+  name: 'toolreport',
   data () {
     return {
       projectId: sessionStorage.getItem('mecDetailID'),

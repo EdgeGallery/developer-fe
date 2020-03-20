@@ -45,6 +45,7 @@
           <component
             :is="currentComponent"
             @getStepData="getStepData"
+            @getBtnStatus="getBtnStatus"
             :project-before-config="projectBeforeConfig"
             ref="currentComponet"
           />
@@ -55,6 +56,7 @@
             type="text"
             @click="previous"
             v-if="active>0"
+            :disabled="isDeploying"
           >
             <b>{{ $t('workspace.previous') }}</b>
           </el-button>
@@ -62,6 +64,7 @@
             id="nextBtn"
             type="primary"
             @click="next"
+            :disabled="isCompleted"
           >
             <b>{{ btnName }}</b>
           </el-button>
@@ -143,6 +146,9 @@ export default {
       allStepData: {},
       projectBeforeConfig: {},
       viewReport: false,
+      isDeploying: false,
+      deployed: false,
+      isCompleted: false,
       userId: sessionStorage.getItem('userId')
     }
   },
@@ -188,14 +194,16 @@ export default {
       // 改变动态组件的值
       this.changeComponent()
       this.allStepData.ifNext = false
+      if (this.active === 2 && this.deployed) {
+        this.cleanTestEnv(false)
+      }
       if (this.active === 3) {
         // 第三部提交数据
         this.submitData()
       }
       if (this.active === 4) {
         this.dialogVisible = true
-        // 清空测试环境
-        this.cleanTestEnv()
+        this.cleanTestEnv(true)
       }
     },
     handleClose () {
@@ -212,6 +220,12 @@ export default {
     getStepData (data) {
       this.allStepData[data.step] = data.data
       this.allStepData.ifNext = data.ifNext
+    },
+    getBtnStatus (status) {
+      console.log(status)
+      this.isDeploying = status.status
+      this.deployed = status.deploy
+      this.isCompleted = status.isCompleted
     },
     submitData () {
       let projectId = sessionStorage.getItem('mecDetailID')
@@ -245,8 +259,8 @@ export default {
       let requireMethod = Post
       let url = 'mec/developer/v1/projects/' + projectId + '/test-config?userId=' + this.userId
       if (this.projectBeforeConfig.testId) {
-        requireMethod = Put
         url = 'mec/developer/v1/projects/' + projectId + '/test-config'
+        requireMethod = Put
         // 修改需要
         params.status = this.projectBeforeConfig.status
         params.accessURL = this.projectBeforeConfig.accessURL
@@ -256,34 +270,46 @@ export default {
         // 部署
         let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + this.userId
         Post(deployUrl).then(res => {
-          this.$message({
-            message: '已经开始部署。',
-            type: 'success'
-          })
+          if (res.data.status === 'DEPLOYING') {
+            this.$message({
+              message: this.$t('workspace.startDeploySucc')
+            })
+          }
+        }).catch(err => {
+          console.log(err)
         })
       })
     },
-    cleanTestEnv () {
+    // 清空测试环境
+    cleanTestEnv (deployed) {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?userId=' + this.userId
+      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + this.userId
       Post(url).then(res => {
       })
     },
     getViewReport (data) {
       this.viewReport = data
+    },
+    getTestConfig () {
+      // 获取以前提交过的config
+      let projectId = sessionStorage.getItem('mecDetailID')
+      let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
+      Get(url).then(res => {
+        if (res.data.status === 'Running') {
+          this.activeName = '2'
+          this.active = 3
+          this.changeComponent()
+        }
+        this.projectBeforeConfig = res.data ? res.data : {}
+      // if (this.projectBeforeConfig.testId) {
+      //   this.active = 3
+      // }
+      })
     }
   },
   mounted () {
     this.handleStep()
-    // 获取以前提交过的config
-    let projectId = sessionStorage.getItem('mecDetailID')
-    let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
-    Get(url).then(res => {
-      this.projectBeforeConfig = res.data
-      // if (this.projectBeforeConfig.testId) {
-      //   this.active = 3
-      // }
-    })
+    this.getTestConfig()
   }
 }
 </script>

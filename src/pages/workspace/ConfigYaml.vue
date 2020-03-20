@@ -9,6 +9,9 @@
         <p
           v-for="item in form.appImage"
           :key="item.id"
+          v-loading="getImageLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
         >
           <b style="margin: 0 5px;">{{ $t('workspace.imagename') }}:</b>
           {{ item.name }}: {{ item.version }}
@@ -49,6 +52,9 @@
           v-for="(item, index) in form.addImagesList"
           :key="index"
           class="imageResult"
+          v-loading="getImageLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
         >
           <b>Image: &nbsp;&nbsp;&nbsp;</b>{{ item.name }} : {{ item.version }};&nbsp;&nbsp;
           <b>Port: &nbsp;&nbsp;&nbsp;</b>{{ item.port }}
@@ -129,7 +135,8 @@ export default {
         value: '2',
         label: 'redis: alpine'
       }],
-      value: ''
+      value: '',
+      getImageLoading: true
     }
   },
   methods: {
@@ -185,6 +192,7 @@ export default {
               this.form.appImage.push(item)
             }
           })
+          this.getImageLoading = false
         }
       })
     },
@@ -257,6 +265,11 @@ export default {
   }
   .imageResult i:hover{
     color: #688ef3;
+  }
+  .el-loading-spinner{
+    p{
+      line-height: 0px;
+    }
   }
 }
 </style>
