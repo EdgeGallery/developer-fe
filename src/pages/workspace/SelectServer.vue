@@ -51,7 +51,8 @@ export default {
   name: 'Server',
   props: {
     projectBeforeConfig: {
-      default: {}
+      type: Object,
+      default: () => {}
     }
   },
   data () {

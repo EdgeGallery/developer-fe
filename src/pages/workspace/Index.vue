@@ -145,7 +145,8 @@ export default {
       chartExtend: {
         color: ['#5ab1ef', '#ffb980', '#19d4ae', '#f37f7f', '#67c23a']
       },
-      dialogVisible: false
+      dialogVisible: false,
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
@@ -177,7 +178,7 @@ export default {
       this.$refs.projectList.getProjectListData()
     },
     getProjectListData () {
-      Get('mec/developer/v1/projects').then(res => {
+      Get('mec/developer/v1/projects/?userId=' + this.userId).then(res => {
         // console.log(res.data)
         let dataTotal = res.data
         let onlineNum = 0

@@ -320,7 +320,7 @@ export default {
       }
     },
     startTest (appId) {
-      let url = 'mec/developer/v1/apps/' + appId + '/action/start-test'
+      let url = 'mec/developer/v1/apps/' + appId + '/action/start-test?userId=' + this.form.userId
       Get(url).then(res => {
         this.uploadBtnLoading = false
         this.$message({

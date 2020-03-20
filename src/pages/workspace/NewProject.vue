@@ -98,7 +98,8 @@ export default {
       fourthstepTitle: this.fourthstepTitleprop,
       uploadBtnLoading: false,
       iconFileId: '',
-      createSuccess: false
+      createSuccess: false,
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
@@ -200,7 +201,7 @@ export default {
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
       // console.log(params)
-      Post('mec/developer/v1/projects', params).then(res => {
+      Post('mec/developer/v1/projects/?userId=' + this.userId, params).then(res => {
         if (res.status === 200) {
           let mecDetailID = res.data.id
           sessionStorage.setItem('mecDetailID', mecDetailID)
