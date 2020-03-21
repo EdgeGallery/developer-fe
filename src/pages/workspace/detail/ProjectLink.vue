@@ -1,23 +1,39 @@
 <template>
   <div class="project-link">
-     <div class="fourthstep">
-          <div id="programTools">
-            <img src="../../../assets/images/newProject-fourth-icon1.png" alt="">
-            <p>{{$t('workspace.programTools')}}</p>
-          </div>
-          <div id="programPlugin">
-            <el-link type="info" href="http://159.138.146.235:8002/#/mecDeveloper/plugin/list#1" target="_blank">
-            <img src="../../../assets/images/newProject-fourth-icon2.png" alt="">
-            <p>{{$t('workspace.programPlugin')}}</p>
-            </el-link>
-          </div>
-          <div id="sampleCode">
-            <el-link type="info" @click="getApiFileId">
-            <img src="../../../assets/images/newProject-fourth-icon3.png" alt="">
-            <p>{{$t('workspace.sampleCode')}}</p>
-            </el-link>
-          </div>
-        </div>
+    <div class="fourthstep">
+      <div id="programTools">
+        <img
+          src="../../../assets/images/newProject-fourth-icon1.png"
+          alt=""
+        >
+        <p>{{ $t('workspace.programTools') }}</p>
+      </div>
+      <div id="programPlugin">
+        <el-link
+          type="info"
+          href="https://159.138.129.53:30092/#/mecDeveloper/plugin/list#1"
+          target="_blank"
+        >
+          <img
+            src="../../../assets/images/newProject-fourth-icon2.png"
+            alt=""
+          >
+          <p>{{ $t('workspace.programPlugin') }}</p>
+        </el-link>
+      </div>
+      <div id="sampleCode">
+        <el-link
+          type="info"
+          @click="getApiFileId"
+        >
+          <img
+            src="../../../assets/images/newProject-fourth-icon3.png"
+            alt=""
+          >
+          <p>{{ $t('workspace.sampleCode') }}</p>
+        </el-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,13 +42,14 @@ import { Get, downloadFile } from '../../../tools/tool.js'
 export default {
   data () {
     return {
-      apiFileIdArr: []
+      apiFileIdArr: [],
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
     getApiFileId () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId
+      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
       Get(url).then(res => {
         let data = res.data.capabilityList
         // console.log(data)

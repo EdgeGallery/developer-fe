@@ -40,13 +40,14 @@ export default {
         label: 'label'
       },
       defaultExpandKeys: [],
-      projectId: ''
+      projectId: '',
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
     getProjectDetail () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      Get('mec/developer/v1/projects/' + projectId).then(res => {
+      Get('mec/developer/v1/projects/' + projectId + '?userId=' + this.userId).then(res => {
         let treeDataTemp = []
         treeDataTemp = res.data.capabilityList
         this.projectId = res.data.id
