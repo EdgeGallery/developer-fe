@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { Get, Post, Put, urlPrefix } from '../../tools/tool.js'
+import { Get, Post, Put } from '../../tools/tool.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
 import selectServer from './SelectServer.vue'
@@ -211,12 +211,6 @@ export default {
         name: 'workspace'
       })
     },
-    handleNodeClick (data) {
-      if (!data.children) {
-        let apiUrl = urlPrefix + 'mec/developer/v1/files/' + data.apiFileId
-        this.apiHtml = 'http://159.138.146.235:8080/swagger#' + apiUrl
-      }
-    },
     getStepData (data) {
       this.allStepData[data.step] = data.data
       this.allStepData.ifNext = data.ifNext
@@ -259,8 +253,8 @@ export default {
       let requireMethod = Post
       let url = 'mec/developer/v1/projects/' + projectId + '/test-config?userId=' + this.userId
       if (this.projectBeforeConfig.testId) {
-        url = 'mec/developer/v1/projects/' + projectId + '/test-config'
         requireMethod = Put
+        url = 'mec/developer/v1/projects/' + projectId + '/test-config'
         // 修改需要
         params.status = this.projectBeforeConfig.status
         params.accessURL = this.projectBeforeConfig.accessURL

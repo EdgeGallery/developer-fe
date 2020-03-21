@@ -43,7 +43,8 @@ export default {
       testLog: '',
       deployInfo: '',
       timer: null,
-      loading: true
+      loading: true,
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
@@ -62,7 +63,7 @@ export default {
     },
     getDeployStatus () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId
+      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
       Get(url).then(res => {
         this.deployStatus = res.data.status
         if (res.data.status === 'DEPLOYING') {

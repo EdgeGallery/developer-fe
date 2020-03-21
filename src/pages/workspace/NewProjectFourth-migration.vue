@@ -1,37 +1,46 @@
 <template>
-    <div class="fourthstep-migration">
-      <el-table
-        id="toolChainList"
-        :data="ToolChainList"
-        border
-        ref="fourthStepMigration"
-        style="width: 100%; margin-top: 20px"
-        @selection-change="handleSelectionChange"
-        @row-click="handleRowClick">
-        <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          :label="$t('workspace.name')">
-        </el-table-column>
-        <el-table-column
-          prop="des1"
-          :label="$t('workspace.description')">
-        </el-table-column>
-        <el-table-column
-          prop="des2"
-          :label="$t('workspace.description')">
-        </el-table-column>
-        <el-table-column align="right">
-            <el-button size="small" type="text">{{$t('workspace.deploy')}}</el-button>
-        </el-table-column>
-      </el-table>
-      <div class="el-form-error" v-if="this.fourthStepSelection.length===0">
-        {{$t('workspace.selectLeastOne')}}
-      </div>
+  <div class="fourthstep-migration">
+    <el-table
+      id="toolChainList"
+      :data="ToolChainList"
+      border
+      ref="fourthStepMigration"
+      style="width: 100%; margin-top: 20px"
+      @selection-change="handleSelectionChange"
+      @row-click="handleRowClick"
+    >
+      <el-table-column
+        type="selection"
+        width="55"
+      />
+      <el-table-column
+        prop="name"
+        :label="$t('workspace.name')"
+      />
+      <el-table-column
+        prop="des1"
+        :label="$t('workspace.description')"
+      />
+      <el-table-column
+        prop="des2"
+        :label="$t('workspace.description')"
+      />
+      <el-table-column align="right">
+        <el-button
+          size="small"
+          type="text"
+        >
+          {{ $t('workspace.deploy') }}
+        </el-button>
+      </el-table-column>
+    </el-table>
+    <div
+      class="el-form-error"
+      v-if="this.fourthStepSelection.length===0"
+    >
+      {{ $t('workspace.selectLeastOne') }}
     </div>
+  </div>
 </template>
 
 <script>

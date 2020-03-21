@@ -141,7 +141,7 @@ export default {
         let firstStepData = this.allFormData.first.appIcon[0]
         let formdata = new FormData()
         formdata.append('file', firstStepData)
-        Post('mec/developer/v1/files', formdata).then(res => {
+        Post('mec/developer/v1/files?userId=' + this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
         })
       }
