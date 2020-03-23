@@ -195,17 +195,15 @@ export default {
           type: ['DEVELOPER']
         }
         Post(url, params).then(res => {
-          this.form.imageNameData.push(res.data)
+          params.id = res.data.id
+          this.getImage('post', params)
         })
       }
     },
     deleteImageName (item, index) {
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/image/' + item.id
-      let params = {
-        imageid: item.id
-      }
-      Delete(url, params).then(res => {
+      Delete(url).then(res => {
         this.form.imageNameData.splice(index, 1)
       })
     },
@@ -242,19 +240,24 @@ export default {
       }
     },
     // 方式二获取image  type: 第一次获取get / 还是添加
-    getImage (type) {
+    getImage (type, params) {
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/image'
-      Get(url).then(res => {
-        if (type === 'get') {
+      if (type === 'get') {
+        Get(url).then(res => {
           res.data.images.forEach(item => {
             if (item.type === 'DEVELOPER') {
               this.form.imageNameData.push(item)
             }
           })
           this.imageDataLoading = false
-        }
-      })
+        })
+      } else {
+        this.imageDataLoading = false
+        this.form.imageNameData.push({
+          ...params
+        })
+      }
     },
     ifNext () {
       let apiFileId = this.form.appApiFileId
