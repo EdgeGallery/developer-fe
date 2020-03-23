@@ -149,7 +149,7 @@ export default {
       })
     },
     getIcon (fileId) {
-      let url = urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + this.userId
+      let url = urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + this.userId + '&type=OPENMEP_ECO'
       return url
     },
     handleDelete (item) {
