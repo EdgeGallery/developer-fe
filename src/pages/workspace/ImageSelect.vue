@@ -174,7 +174,8 @@ export default {
       options: [],
       value: '',
       uploadApiLoading: false,
-      imageDataLoading: true
+      imageDataLoading: true,
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
@@ -222,7 +223,7 @@ export default {
     submitApiFile () {
       if (this.form.apiFileList.length > 0) {
         this.uploadApiLoading = true
-        let url = 'mec/developer/v1/files'
+        let url = 'mec/developer/v1/files?userId=' + this.userId
         let fd = new FormData()
         fd.append('file', this.form.apiFileList[0])
         Post(url, fd).then(res => {
