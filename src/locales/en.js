@@ -359,6 +359,7 @@ const en = {
     mecDeveloper: 'MEC Developer',
     api: 'API',
     applicationApi: 'MECDeveloper Platform API',
+    mepapi: 'MEP API',
     mepecoapi: 'MEP-ECO API',
     apiDetail: 'API Detail',
     docs: 'Docs',

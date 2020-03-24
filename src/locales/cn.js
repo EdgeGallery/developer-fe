@@ -359,6 +359,7 @@ const cn = {
     mecDeveloper: 'MEC开发者',
     api: 'API',
     applicationApi: '开发者平台API',
+    mepapi: 'MEP API',
     mepecoapi: 'MEP-ECO API',
     apiDetail: 'API详情',
     docs: '文档',
