@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { Get } from '../../tools/tool.js'
 import tableList from './TableList.vue'
 export default {
   name: 'Appapi',
@@ -50,26 +51,39 @@ export default {
   },
   data () {
     return {
-      activeName: 'Face'
+      activeName: 'Face Recognition',
+      openMepEcoName: [],
+      openMepEco: []
     }
   },
-  mounted () {},
+  mounted () {
+    this.getOpenMepEcoName()
+  },
   created () {
-    let tabSelect = sessionStorage.getItem('activeNameapp')
-    tabSelect = tabSelect || 'Face'
+    let tabSelect = sessionStorage.getItem('activeNameApi')
+    tabSelect = tabSelect || 'Face Recognition'
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   },
   beforeRouteEnter (to, from, next) {
     if (from.path.indexOf('/api/detail') === -1) {
       sessionStorage.removeItem('currentPage')
-      sessionStorage.removeItem('activeNameapp')
+      sessionStorage.removeItem('activeNameApi')
     }
     next()
   },
   methods: {
     handleClick (tab) {
-      sessionStorage.setItem('activeNameapp', tab.name)
+      sessionStorage.setItem('activeNameApi', tab.name)
       sessionStorage.setItem('currentPage', 1)
+    },
+    getOpenMepEcoName () {
+      Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+        this.openMepEco = res.data.openMepEcos
+        this.openMepEco.forEach(item => {
+          this.openMepEcoName.push(item.name)
+        })
+        this.openMepEcoName = [...new Set(this.openMepEcoName)]
+      })
     }
   }
 }

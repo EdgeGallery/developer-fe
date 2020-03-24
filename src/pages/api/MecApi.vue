@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { Get } from '../../tools/tool.js'
+import { urlPrefix } from '../../tools/tool.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -86,29 +86,27 @@ export default {
     window.onresize = function () {
       apiHeight()
     }
-    this.getApiUrl('projects')
+    this.handleNodeClick(this.treeData[0])
   },
   methods: {
     getApiUrl (filename) {
-      let apiUrl = 'mec/developer/v1/localapi/' + filename
-      Get(apiUrl).then(res => {
-        this.handleNodeClick(this.treeData[0])
-        this.apiDataLoading = false
-        SwaggerUIBundle({
-          url: apiUrl,
-          dom_id: '#swagger-ui',
-          deepLinking: false,
-          presets: [
-            SwaggerUIBundle.presets.apis
-          ],
-          plugins: [
-            SwaggerUIBundle.plugins.DownloadUrl
-          ]
-        })
-      })
+      let apiUrl = urlPrefix + 'mec/developer/v1/localapi/' + filename
+      return apiUrl
     },
     handleNodeClick (data) {
-      this.getApiUrl(data.label)
+      let apiUrl = this.getApiUrl(data.label)
+      this.apiDataLoading = false
+      SwaggerUIBundle({
+        url: apiUrl,
+        dom_id: '#swagger-ui',
+        deepLinking: false,
+        presets: [
+          SwaggerUIBundle.presets.apis
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ]
+      })
     }
   }
 }

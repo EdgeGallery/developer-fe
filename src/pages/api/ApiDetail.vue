@@ -20,12 +20,16 @@
 </template>
 
 <script>
+import { urlPrefix } from '../../tools/tool.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
   name: 'Apidetail',
   data () {
-    return {}
+    return {
+      userId: sessionStorage.getItem('userId'),
+      apiFileId: this.$route.params.apiId
+    }
   },
   mounted () {
     function iframeHeight () {
@@ -40,8 +44,8 @@ export default {
     this.getApiUrl()
   },
   methods: {
-    getApiUrl (data) {
-      let apiUrl = './face_recognition.json'
+    getApiUrl () {
+      let apiUrl = urlPrefix + 'mec/developer/v1/files/' + this.apiFileId + '?userId=' + this.userId + '&type=OPENMEP'
       SwaggerUIBundle({
         url: apiUrl,
         dom_id: '#swagger-ui',

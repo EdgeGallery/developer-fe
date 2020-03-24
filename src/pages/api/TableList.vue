@@ -6,12 +6,12 @@
       style="width: 100%"
     >
       <el-table-column
-        prop="pluginName"
+        prop="service"
         :label="$t('api.name')"
         width="260"
       />
       <el-table-column
-        prop="introduction"
+        prop="description"
         :label="$t('api.description')"
       />
       <el-table-column
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-// import { Get } from './../../tools/tool.js'
+import { Get } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
   name: 'Tablelist',
@@ -53,19 +53,10 @@ export default {
   components: { pagination },
   data () {
     return {
-      listData: [
-        {
-          pluginName: 'Face Recognition Plugin',
-          introduction: 'Face Recognition Demo'
-        }
-      ],
+      listData: [],
       dataLoading: false,
-      currentData: [
-        {
-          pluginName: 'Face Recognition Plugin',
-          introduction: 'Face Recognition Demo'
-        }
-      ]
+      currentData: [],
+      openMeps: []
     }
   },
   watch: {
@@ -86,27 +77,70 @@ export default {
       this.currentData = val
     },
     toDetail (item) {
-      // let mecDetailID = JSON.stringify(item.pluginId)
-      // sessionStorage.setItem('mecDetailID', mecDetailID)
+      console.log(item)
       this.$router.push({
-        name: 'apidetail'
-        // params: {
-        //   id: mecDetailID
-        // }
+        name: 'apidetail',
+        params: {
+          apiId: item.apiFileId
+        }
       })
     },
     getListData () {
-      if (this.tabLabel === 'Face') {
-        // Get('mecapi/developer/v1/plugins/?pluginType=1').then(res => {
-        //   this.listData = res.data.plugins
-        //   this.dataLoading = false
-        //   console.log(this.listData)
-        // })
-        this.currentData = this.listData
-      } else if (this.tabLabel === 'VR') {
-        this.currentData = []
-      } else if (this.tabLabel === 'AR') {
-        this.currentData = []
+      if (this.tabLabel === 'Face Recognition') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Face Recognition') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Service Discovery') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Service Discovery') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Bandwidth') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Bandwidth') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Location') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Location') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Traffic') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Traffic') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
       }
     }
   }
