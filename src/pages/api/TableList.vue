@@ -1,5 +1,5 @@
 <template>
-  <div class="tablelist">
+  <div class="tablelist clear">
     <el-table
       v-loading="dataLoading"
       :data="currentData"

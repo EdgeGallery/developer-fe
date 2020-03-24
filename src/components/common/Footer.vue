@@ -1,7 +1,7 @@
 <template>
   <div class="footerBar">
     <img
-      src="../../assets/images/huawei_logo.png"
+      src="../../assets/images/footer_logo.png"
       alt=""
     >
     Copyright © Huawei Technologies Co., Ltd. 2019. All rights reserved
