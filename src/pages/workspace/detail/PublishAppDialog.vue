@@ -64,16 +64,18 @@ export default {
       this.$emit('input', false)
     },
     confirmPublish () {
-      this.handleClose()
       let projectId = sessionStorage.getItem('mecDetailID')
-      if (this.checked1) {
+      if (this.isPublish) {
         let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId
         Post(url).then(res => {
+          this.handleClose()
         })
       }
-      if (this.checked2) {
+      if (this.isPublic) {
         let url = 'mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + this.userId
-        Post(url)
+        Post(url).then(res => {
+          this.handleClose()
+        })
       }
       this.$router.push({
         name: 'workspace'

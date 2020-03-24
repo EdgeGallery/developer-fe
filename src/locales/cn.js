@@ -11,7 +11,7 @@ const cn = {
     developing: '页面正在开发中。'
   },
   home: {
-    mecDeveloper: 'EdgeGallery 开发者平台',
+    mecDeveloper: '开发者平台',
     step: '步骤',
     bannerTitle: '一站式开发者平台',
     bannerText1: '为开发者提供便捷的开发插件',
@@ -210,7 +210,10 @@ const cn = {
     makefileSourceCode: 'C/C++和Makefile源代码',
     lines: '行',
     assemblyCode: '汇编代码',
-    downloadReport: '下载报告'
+    downloadReport: '下载报告',
+    startDeploySucc: '已经开始部署',
+    startDeployFail: '部署失败',
+    deploying: '正在部署，请稍后...'
   },
   test: {
     howToTest: {

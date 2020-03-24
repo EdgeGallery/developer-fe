@@ -253,10 +253,10 @@ export default {
           this.imageDataLoading = false
         })
       } else {
-        this.imageDataLoading = false
         this.form.imageNameData.push({
           ...params
         })
+        this.imageDataLoading = false
       }
     },
     ifNext () {
