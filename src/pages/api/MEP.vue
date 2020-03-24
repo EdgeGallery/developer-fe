@@ -18,80 +18,61 @@
         @tab-click="handleClick"
       >
         <el-tab-pane
-          :label="$t('api.network')"
-          name="Network"
-          lazy
-        />
-        <el-tab-pane
-          :label="$t('api.computing')"
-          name="Computing"
-          lazy
-        />
-        <el-tab-pane
-          :label="$t('api.ai')"
-          name="AI"
-          lazy
-        />
-        <el-tab-pane
-          :label="$t('api.video')"
-          name="Video"
+          v-for="(item,index) in openMepName"
+          :key="index"
+          :label="item"
+          :name="item"
           lazy
         />
       </el-tabs>
-      <el-table
-        :data="tableData"
-        style="width: 100%"
-      >
-        <el-table-column
-          prop="pluginName"
-          :label="$t('api.name')"
-          width="260"
-        />
-        <el-table-column
-          prop="introduction"
-          :label="$t('api.description')"
-        />
-        <el-table-column
-          label=""
-          width="160"
-        >
-          <template slot-scope="scope">
-            <el-button
-              id="detailBtn"
-              type="primary"
-              size="mini"
-              class="btn"
-              @click="toDetail(scope.row)"
-            >
-              {{ $t('api.apiDetail') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <tableList
+        :tab-label="activeName"
+        ref="tablist"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { Get } from '../../tools/tool.js'
+import tableList from './TableList.vue'
 export default {
   name: 'Mepapi',
+  components: {
+    tableList
+  },
   data () {
     return {
-      activeName: 'Network',
-      tableData: []
+      activeName: 'Face Recognition',
+      openMepName: [],
+      openMep: []
     }
   },
-  mounted () {},
+  mounted () {
+    this.getOpenMepName()
+  },
   created () {},
   beforeRouteEnter (to, from, next) {
     if (from.path.indexOf('/api/detail') === -1) {
       sessionStorage.removeItem('currentPage')
-      sessionStorage.removeItem('activeNameapp')
+      sessionStorage.removeItem('activeNameApi')
     }
     next()
   },
   methods: {
     handleClick (tab) {
+      sessionStorage.setItem('activeNameApi', tab.name)
+      sessionStorage.setItem('currentPage', 1)
+    },
+    getOpenMepName () {
+      Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+        this.openMep = res.data.openMeps
+        this.openMep.forEach(item => {
+          this.openMepName.push(item.name)
+        })
+        this.openMepName = [...new Set(this.openMepName)]
+        // console.log(this.openMepName)
+      })
     }
   }
 }
