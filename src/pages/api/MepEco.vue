@@ -18,18 +18,10 @@
         @tab-click="handleClick"
       >
         <el-tab-pane
-          :label="$t('api.faceRecognition')"
-          name="Face"
-          lazy
-        />
-        <el-tab-pane
-          label="VR"
-          name="VR"
-          lazy
-        />
-        <el-tab-pane
-          label="AR"
-          name="AR"
+          v-for="(item,index) in openMepEcoName"
+          :key="index"
+          :label="item"
+          :name="item"
           lazy
         />
       </el-tabs>
@@ -51,7 +43,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'Face Recognition',
+      activeName: 'Video',
       openMepEcoName: [],
       openMepEco: []
     }
@@ -61,7 +53,7 @@ export default {
   },
   created () {
     let tabSelect = sessionStorage.getItem('activeNameApi')
-    tabSelect = tabSelect || 'Face Recognition'
+    tabSelect = tabSelect || 'Video'
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   },
   beforeRouteEnter (to, from, next) {

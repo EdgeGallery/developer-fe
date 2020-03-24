@@ -10,7 +10,16 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
         API
       </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep-eco' }">
+      <el-breadcrumb-item
+        v-if="path==='mep'"
+        :to="{ path: '/mecDeveloper/api/mep' }"
+      >
+        {{ $t('breadCrumb.mepapi') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item
+        v-else
+        :to="{ path: '/mecDeveloper/api/mep-eco' }"
+      >
         {{ $t('breadCrumb.mepecoapi') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ $t('breadCrumb.apiDetail') }}</el-breadcrumb-item>
@@ -28,7 +37,8 @@ export default {
   data () {
     return {
       userId: sessionStorage.getItem('userId'),
-      apiFileId: this.$route.params.apiId
+      apiFileId: this.$route.params.apiId,
+      path: this.$route.params.path
     }
   },
   mounted () {

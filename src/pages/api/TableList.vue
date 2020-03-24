@@ -77,15 +77,16 @@ export default {
       this.currentData = val
     },
     toDetail (item) {
-      console.log(item)
       this.$router.push({
         name: 'apidetail',
         params: {
-          apiId: item.apiFileId
+          apiId: item.apiFileId,
+          path: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1)
         }
       })
     },
     getListData () {
+      this.listData = []
       if (this.tabLabel === 'Face Recognition') {
         Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
           this.openMeps = res.data.openMeps
@@ -141,6 +142,19 @@ export default {
           })
           this.dataLoading = false
         })
+      } else if (this.tabLabel === 'Video') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Video') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else {
+        this.listData = []
       }
     }
   }
