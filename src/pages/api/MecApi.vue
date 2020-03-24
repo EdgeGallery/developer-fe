@@ -44,7 +44,32 @@ export default {
   data () {
     return {
       apiDataLoading: true,
-      treeData: [],
+      treeData: [
+        {
+          id: '0',
+          label: 'projects'
+        },
+        {
+          id: '1',
+          label: 'plugin'
+        },
+        {
+          id: '2',
+          label: 'hosts'
+        },
+        {
+          id: '3',
+          label: 'testapp'
+        },
+        {
+          id: '4',
+          label: 'files'
+        },
+        {
+          id: '5',
+          label: 'capability-groups'
+        }
+      ],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -61,40 +86,29 @@ export default {
     window.onresize = function () {
       apiHeight()
     }
-    this.getApiUrl()
+    this.getApiUrl('projects')
   },
   methods: {
-    getApiUrl () {
-      Get('mec/developer/v1/localapi').then(res => {
-        let treeDataTemp = res.data.swaggers
-        for (let i in treeDataTemp) {
-          let obj = {
-            id: 0,
-            label: '',
-            url: ''
-          }
-          obj.id = i
-          obj.label = treeDataTemp[i].name
-          obj.url = treeDataTemp[i].url
-          this.treeData.push(obj)
-        }
+    getApiUrl (filename) {
+      let apiUrl = 'mec/developer/v1/localapi/' + filename
+      Get(apiUrl).then(res => {
         this.handleNodeClick(this.treeData[0])
         this.apiDataLoading = false
+        SwaggerUIBundle({
+          url: apiUrl,
+          dom_id: '#swagger-ui',
+          deepLinking: false,
+          presets: [
+            SwaggerUIBundle.presets.apis
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ]
+        })
       })
     },
     handleNodeClick (data) {
-      let apiUrl = data.url
-      SwaggerUIBundle({
-        url: apiUrl,
-        dom_id: '#swagger-ui',
-        deepLinking: false,
-        presets: [
-          SwaggerUIBundle.presets.apis
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ]
-      })
+      this.getApiUrl(data.label)
     }
   }
 }

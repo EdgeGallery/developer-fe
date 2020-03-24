@@ -127,11 +127,11 @@ export default {
       chartData: {
         columns: ['Status', 'Number'],
         rows: [
-          { 'Status': 'ONLINE', 'Number': 2 },
+          { 'Status': 'ONLINE', 'Number': 0 },
           { 'Status': 'DEPLOYING', 'Number': 0 },
-          { 'Status': 'DEPLOYED', 'Number': 6 },
+          { 'Status': 'DEPLOYED', 'Number': 0 },
           { 'Status': 'DEPLOYEDFAIDED', 'Number': 0 },
-          { 'Status': 'TESTED', 'Number': 5 }
+          { 'Status': 'TESTED', 'Number': 0 }
         ]
       },
       chartSettings: {

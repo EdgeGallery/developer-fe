@@ -7,7 +7,7 @@
           @click="jumpFromLogo('/mecDeveloper')"
         >
           <img
-            src="../../assets/images/huawei_logo.png"
+            src="../../assets/images/logo.png"
             alt
           >
           <span>{{ $t('home.mecDeveloper') }} V0.15</span>
@@ -251,6 +251,7 @@ export default {
     img {
       height: 65px;
       cursor: pointer;
+      margin-left: 25px;
     }
     span {
       font-size: 18px;

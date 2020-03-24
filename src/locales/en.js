@@ -11,7 +11,7 @@ const en = {
     developing: 'The page is under development.'
   },
   home: {
-    mecDeveloper: 'EdgeGallery Developer',
+    mecDeveloper: 'Developer',
     step: 'STEPS',
     bannerTitle: 'One-stop shop for developers',
     bannerText1: 'Provide developers with convenient development plug-ins',
@@ -210,7 +210,10 @@ const en = {
     makefileSourceCode: 'C/C++ and Makefile source code',
     lines: 'lines',
     assemblyCode: 'Assembly code',
-    downloadReport: 'Download Report'
+    downloadReport: 'Download Report',
+    startDeploySucc: 'Already deployed',
+    startDeployFail: 'Deployment failed',
+    deploying: 'Deploying, please wait...'
   },
   test: {
     howToTest: {

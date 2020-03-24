@@ -30,6 +30,7 @@
         class="elTabPane"
         name="2"
         lazy
+        v-loading="isPublic"
       >
         <el-steps
           :active="active"
@@ -149,7 +150,8 @@ export default {
       isDeploying: false,
       deployed: false,
       isCompleted: false,
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      isPublic: false
     }
   },
   computed: {
@@ -202,7 +204,6 @@ export default {
         this.submitData()
       }
       if (this.active === 4) {
-        this.dialogVisible = true
         this.cleanTestEnv(true)
       }
     },
@@ -276,9 +277,14 @@ export default {
     },
     // 清空测试环境
     cleanTestEnv (deployed) {
+      this.isPublic = true
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + this.userId
       Post(url).then(res => {
+        if (res.data === true) {
+          this.isPublic = false
+          this.dialogVisible = true
+        }
       })
     },
     getViewReport (data) {

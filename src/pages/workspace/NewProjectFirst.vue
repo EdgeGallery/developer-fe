@@ -304,13 +304,15 @@ export default {
         this.defaultActive = index
         let image = new Image()
         image.src = file
-        // 将静态图片转化为base64
-        let base64 = this.getBase64Image(image)
-        // base64转化为文件流
-        this.defaultIconFile.push(this.base64toFile(base64))
-        this.form.appIcon = this.defaultIconFile
+        image.onload = () => {
+          // 将静态图片转化为base64
+          let base64 = this.getBase64Image(image)
+          // base64转化为文件流
+          this.defaultIconFile.push(this.base64toFile(base64))
+          this.form.appIcon = this.defaultIconFile
+          this.showErr = !this.defaultIconFile
+        }
       }
-      this.showErr = !this.defaultIconFile
     },
     emitStepData () {
       if (!this.form.appIcon.length) this.chooseDefaultIcon(this.defaultIcon[0], 1)

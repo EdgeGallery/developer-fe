@@ -409,10 +409,12 @@ export default {
         this.defaultActive = index
         let image = new Image()
         image.src = file
-        // 将静态图片转化为base64
-        let base64 = this.getBase64Image(image)
-        // base64转化为文件流
-        this.defaultIconFile = this.base64toFile(base64)
+        image.onload = () => {
+          // 将静态图片转化为base64
+          let base64 = this.getBase64Image(image)
+          // base64转化为文件流
+          this.defaultIconFile = this.base64toFile(base64)
+        }
       }
     }
   }
