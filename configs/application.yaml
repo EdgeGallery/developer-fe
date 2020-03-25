@@ -36,6 +36,9 @@ server:
   servlet:
     session:
       timeout: 300
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   session:
     cookie:
       name: DEVELOPERSESSIONID
@@ -56,6 +59,9 @@ servicecomb:
         urlPattern: /cse/*
   tracing:
     enabled: false
+  uploads:
+    directory: /developer-fe
+    maxSize: 10M
 
 auth_server: https://159.138.129.53:30067/auth-server
 security:
