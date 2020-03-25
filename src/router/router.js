@@ -6,15 +6,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
-    },
-    {
-      path: '/register',
-      component: () => import('../pages/user/Register.vue')
-    },
-    {
-      path: '/login',
-      component: () => import('../pages/user/Login.vue')
+      name: 'home',
+      component: () => import('../pages/home/Home.vue')
     },
     {
       path: '',

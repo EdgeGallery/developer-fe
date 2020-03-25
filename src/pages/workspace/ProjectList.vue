@@ -4,25 +4,65 @@
       v-loading="dataLoading"
       :data="currentData"
       :row-style="{marginBottom:'10px'}"
-      style="width: 100%">
-      <el-table-column prop="index" :label="$t('workspace.serial')" align="center" width="60"></el-table-column>
-      <el-table-column prop="iconUrl" :label="$t('workspace.icon')">
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="index"
+        :label="$t('workspace.serial')"
+        align="center"
+        width="60"
+      />
+      <el-table-column
+        prop="iconUrl"
+        :label="$t('workspace.icon')"
+      >
         <template slot-scope="scope">
-          <img :src="getIcon(scope.row.iconFileId)" class="icon_pic" />
+          <img
+            :src="getIcon(scope.row.iconFileId)"
+            class="icon_pic"
+          >
         </template>
       </el-table-column>
-      <el-table-column prop="name" :label="$t('workspace.projectName')" min-width="100"></el-table-column>
-      <el-table-column prop="version" :label="$t('workspace.version')"></el-table-column>
-      <el-table-column prop="provider" :label="$t('workspace.provider')"></el-table-column>
-      <el-table-column prop="platform" :label="$t('workspace.platform')"></el-table-column>
+      <el-table-column
+        prop="name"
+        :label="$t('workspace.projectName')"
+        min-width="100"
+      />
+      <el-table-column
+        prop="version"
+        :label="$t('workspace.version')"
+      />
+      <el-table-column
+        prop="provider"
+        :label="$t('workspace.provider')"
+      />
+      <el-table-column
+        prop="platform"
+        :label="$t('workspace.platform')"
+      />
       <el-table-column :label="$t('workspace.status')">
         <template slot-scope="scope">
-          <i v-if="scope.row.status==='ONLINE'" class="el-icon-circle-plus online"></i>
-          <i v-if="scope.row.status==='DEPLOYING'" class="el-icon-loading deploying"></i>
-          <i v-if="scope.row.status==='DEPLOYED'" class="el-icon-success deployed"></i>
-          <i v-if="scope.row.status==='DEPLOYFAILED'" class="el-icon-error deployfailed"></i>
-          <i v-if="scope.row.status==='TESTED'" class="el-icon-success tested"></i>
-          <span>{{scope.row.status}}</span>
+          <i
+            v-if="scope.row.status==='ONLINE'"
+            class="el-icon-circle-plus online"
+          />
+          <i
+            v-if="scope.row.status==='DEPLOYING'"
+            class="el-icon-loading deploying"
+          />
+          <i
+            v-if="scope.row.status==='DEPLOYED'"
+            class="el-icon-success deployed"
+          />
+          <i
+            v-if="scope.row.status==='DEPLOYEDFAIDED'"
+            class="el-icon-error deployfailed"
+          />
+          <i
+            v-if="scope.row.status==='TESTED'"
+            class="el-icon-success tested"
+          />
+          <span>{{ scope.row.status }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('workspace.operatioin')">
@@ -32,22 +72,30 @@
             size="mini"
             type="text"
             @click="handleDelete(scope.row)"
-          >{{$t('workspace.remove')}}</el-button>
+          >
+            {{ $t('workspace.remove') }}
+          </el-button>
           <el-button
             id="detailBtn"
             size="mini"
             type="text"
             @click="toDetail(scope.row)"
-          >{{$t('workspace.detail')}}</el-button>
-          <span id="projectId">{{scope.row.id}}</span>
+          >
+            {{ $t('workspace.detail') }}
+          </el-button>
+          <span id="projectId">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
     </el-table>
-    <div class="cleafix"></div>
+    <div class="cleafix" />
     <div class="pagebar">
-      <pagination :tableData="pageData" @getCurrentPageData="getCurrentPageData" ref="pagination"></pagination>
+      <pagination
+        :table-data="pageData"
+        @getCurrentPageData="getCurrentPageData"
+        ref="pagination"
+      />
     </div>
-    <div class="cleafix"></div>
+    <div class="cleafix" />
   </div>
 </template>
 
@@ -55,7 +103,7 @@
 import { Get, Delete, urlPrefix } from '../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
-  name: 'projectlist',
+  name: 'Projectlist',
   components: {
     pagination
   },
@@ -70,7 +118,8 @@ export default {
         beginTime: '',
         endTime: ''
       },
-      url: ''
+      url: '',
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
@@ -81,7 +130,7 @@ export default {
       this.currentData = val
     },
     getProjectListData () {
-      Get('mec/developer/v1/projects', '', 'developer').then(res => {
+      Get('mec/developer/v1/projects/?userId=' + this.userId, '', 'developer').then(res => {
         this.pageData = res.data
         if (this.pageData.length > 0) {
           this.pageData.sort(function (a, b) {
@@ -100,7 +149,7 @@ export default {
       })
     },
     getIcon (fileId) {
-      let url = urlPrefix + 'mec/developer/v1/files/' + fileId
+      let url = urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + this.userId + '&type=OPENMEP_ECO'
       return url
     },
     handleDelete (item) {
@@ -109,7 +158,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        Delete('mec/developer/v1/projects/' + item.id).then(res => {
+        Delete('mec/developer/v1/projects/' + item.id + '?userId=' + this.userId).then(res => {
           this.getProjectListData()
         })
       })

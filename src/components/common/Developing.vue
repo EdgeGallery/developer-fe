@@ -1,7 +1,9 @@
 <template>
   <el-row class="developing-box">
-    <div class="developing"></div>
-    <div class="developing-tips">{{$t('common.developing')}}</div>
+    <div class="developing" />
+    <div class="developing-tips">
+      {{ $t('common.developing') }}
+    </div>
   </el-row>
 </template>
 

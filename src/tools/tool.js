@@ -1,158 +1,82 @@
 import axios from 'axios'
-import { MessageBox } from 'element-ui'
-import i18n from '../locales/i18n.js'
 import 'element-ui/lib/theme-chalk/index.css'
 
-const urlPrefix = 'http://159.138.61.155:9080/'
-const urlPrefixTool = 'http://159.138.61.155:8059/'
-// const urlPrefix = 'http://159.138.36.16:9080/'
-// const urlPrefix = 'http://10.181.156.52:8090/'
-
-function getuserId () {
-  let userJsonStr = sessionStorage.getItem('user')
-  let user = JSON.parse(userJsonStr)
-  return user.userId
-}
-function getToken () {
-  let strCookie = document.cookie
-  let arrCookie = strCookie.split(';')
-  for (let i = 0; i < arrCookie.length; i++) {
-    let arr = arrCookie[i].split('=Basic')
-    if (arr[0].trim() === 'token') {
-      return 'Basic ' + arr[1]
-    }
-  }
-  return ''
-}
-
-let codeErr = false
-function getCode (err, resolve) {
-  let resCode = err.response.status ? err.response.status : false
-  if (resCode) {
-    if (resCode === 401) {
-      codeErr = true
-      MessageBox.confirm(i18n.t('promptMessage.loginexpired'), {
-        confirmButtonText: i18n.t('common.confirm'),
-        showCancelButton: false,
-        showClose: false,
-        type: 'warning'
-      }).then(() => {
-        window.location.href = '/'
-      })
-    } else {
-      resolve(err)
-    }
-  } else {
-    resolve(err)
-  }
-}
+// const urlPrefix = 'http://159.138.61.155:9080/'
+// const urlPrefixTool = 'http://159.138.61.155:8059/'
+const urlPrefix = '/mec-developer/'
+const urlPrefixTool = '/mec-developer-tool/'
+const urlAuth = '/user-mgmt-be/v1/users/auth'
+const urlUsers = '/user-mgmt-be/v1/users/'
+const urlLogout = '/user-mgmt-be/v1/users/logout'
 
 function Get (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
-  let headers = {
-    'Authorization': getToken(),
-    'userId': getuserId()
-  }
   if (type !== 'developer') {
     prefixUrl = urlPrefixTool
-    headers = {
-      'Authorization': getToken()
-    }
   }
   return new Promise((resolve, reject) => {
     axios.get(prefixUrl + url, {
-      params: params,
-      headers
+      params: params
     })
       .then(res => {
         resolve(res)
       })
       .catch(err => {
         console.log(err.response)
-        getCode(err, resolve)
-        // reject(err)
+        reject(err)
       })
   })
 }
 
 function Delete (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
-  let headers = {
-    'Authorization': getToken(),
-    'userId': getuserId()
-  }
   if (type !== 'developer') {
     prefixUrl = urlPrefixTool
-    headers = {
-      'Authorization': getToken()
-    }
   }
   return new Promise((resolve, reject) => {
     axios.delete(prefixUrl + url, {
-      params: params,
-      headers
+      params: params
     })
       .then(res => {
         resolve(res)
       })
       .catch(err => {
-        getCode(err, resolve)
+        reject(err)
       })
   })
 }
 
 function Post (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
-  let header = {
-    headers: {
-      'Authorization': getToken(),
-      'userId': getuserId()
-    }
-  }
   if (type !== 'developer') {
     prefixUrl = urlPrefixTool
-    header = {
-      headers: {
-        'Authorization': getToken(),
-        'Content-Type': 'application/json'
-      }
-    }
   }
   return new Promise((resolve, reject) => {
-    axios.post(prefixUrl + url, params, header)
+    axios.post(prefixUrl + url, params)
       .then(res => {
         resolve(res)
       })
       .catch(err => {
-        getCode(err, resolve)
+        reject(err)
       })
   })
 }
 
 function Put (url, params) {
   return new Promise((resolve, reject) => {
-    axios.put(urlPrefix + url, params, {
-      headers: {
-        'Authorization': getToken(),
-        'userId': getuserId()
-      }
-    })
+    axios.put(urlPrefix + url, params)
       .then(res => {
         resolve(res)
       })
       .catch(err => {
-        getCode(err, resolve)
+        reject(err)
       })
   })
 }
 
 function downloadFile ({ url, params, type = 'application/x-compressed' }) {
   axios.post(urlPrefix + url, params, {
-    responseType: 'arraybuffer',
-    headers: {
-      'Authorization': getToken(),
-      'userId': getuserId()
-    }
+    responseType: 'arraybuffer'
   }).then(res => {
     let blob = new Blob([res.data], { type: type })
     if ('msSaveOrOpenBlob' in navigator) {
@@ -187,13 +111,13 @@ function downLoadReport ({ url, reportId }) {
 export {
   Get,
   Post,
-  codeErr,
-  getuserId,
-  getToken,
   Put,
   Delete,
   urlPrefix,
   urlPrefixTool,
+  urlAuth,
+  urlUsers,
+  urlLogout,
   downloadFile,
   downLoadReport
 }

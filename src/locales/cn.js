@@ -11,7 +11,7 @@ const cn = {
     developing: '页面正在开发中。'
   },
   home: {
-    mecDeveloper: 'MEC开发者平台',
+    mecDeveloper: '开发者平台',
     step: '步骤',
     bannerTitle: '一站式开发者平台',
     bannerText1: '为开发者提供便捷的开发插件',
@@ -158,7 +158,7 @@ const cn = {
     configureYaml: '配置依赖参数',
     server: '选择服务器',
     test: '部署测试',
-    buildTip: '你的应用已经可以被OpenMEP平台集成，请测试自身APP业务',
+    buildTip: '你的应用已经可以被EdgeGallery平台集成，请测试自身APP业务',
     finishTest: '完成测试',
     statistics: '数据统计',
     realTimeStatistics: '实时统计',
@@ -177,8 +177,8 @@ const cn = {
     select: '请选择',
     nextStep: '下一步',
     publish: '发布',
-    publishtext: '是否发布您的APP到OpenMEP 应用商店',
-    publictext: '是否公开您的APP的API能力到OpenMEP生态系统',
+    publishtext: '是否发布您的APP到EdgeGallery 应用商店',
+    publictext: '是否公开您的APP的API能力到EdgeGallery生态系统',
     method1: '方式1：选择镜像（选择平台提供的App镜像，用于快速部署上线）',
     method2: '方式2：指定镜像包（需要用户先自己上传到镜像仓库）',
     imagename: '镜像名称:版本',
@@ -210,7 +210,10 @@ const cn = {
     makefileSourceCode: 'C/C++和Makefile源代码',
     lines: '行',
     assemblyCode: '汇编代码',
-    downloadReport: '下载报告'
+    downloadReport: '下载报告',
+    startDeploySucc: '已经开始部署',
+    startDeployFail: '部署失败',
+    deploying: '正在部署，请稍后...'
   },
   test: {
     howToTest: {
@@ -302,14 +305,28 @@ const cn = {
     analysisCodeFail: '分析任务失败！',
     uploadCodeText: '正在上传源代码，请稍候...',
     analyzingText: '正在分析，请稍候...',
-    loadingText: '正在加载，请稍候...'
+    loadingText: '正在加载，请稍候...',
+    logoutFail: '注销失败，请重试！'
   },
   login: {
     portal: 'OSDT统一门户（HOUP）',
     userName: '用户名',
     password: '密码',
     loginBtn: '登录',
-    register: '注册'
+    register: '注册',
+    namePla: '请输入用户名或者手机号',
+    pwdPla: '请输入密码',
+    pwdConfPla: '请输入密码确认',
+    compPla: '请输入公司任职信息',
+    telPla: '请输入电话号码',
+    getCap: '获取验证码',
+    capPla: '验证码',
+    newPwd: '新密码',
+    confirmNewPwd: '确认新密码',
+    forgotPwd: '忘记密码？',
+    modifyPwd: '修改密码',
+    contact: '联系方式',
+    logout: '注销'
   },
   register: {
     registerUser: '注册用户',
@@ -333,12 +350,16 @@ const cn = {
     nameFormat: '6-50位数字，字母，下划线',
     passwordFormat: '6-16位数字，字母，下划线',
     contactNumberFormat: '电话号码不符合规定',
-    emailFormat: '邮箱不符合规定'
+    emailFormat: '邮箱不符合规定',
+    regUserSuc: '你已成功注册该用户！',
+    failedReg: '注册用户失败！',
+    captchaFailed: '发送手机验证码失败！'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
     api: 'API',
     applicationApi: '开发者平台API',
+    mepapi: 'MEP API',
     mepecoapi: 'MEP-ECO API',
     apiDetail: 'API详情',
     docs: '文档',

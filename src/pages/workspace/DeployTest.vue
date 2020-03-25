@@ -1,14 +1,26 @@
 <template>
-  <div class="test" v-loading="loading">
-    <img src="../../assets/images/build_test_test.png" alt="">
+  <div
+    class="test"
+    v-loading="loading"
+  >
+    <img
+      src="../../assets/images/build_test_test.png"
+      alt=""
+    >
     <span class="testText">
-      <b v-if="deployStatus === 'ONLINE'">{{$t('workspace.buildTip')}}</b>
-      <b v-else>{{testLog}}</b>
+      <b v-if="deployStatus === 'DEPLOYED'">{{ $t('workspace.buildTip') }}</b>
+      <b v-else>{{ testLog }}</b>
     </span>
-    <p></p>
-    <el-button id="testBtn" type="primary" class="testButton" @click="goTest" v-if="deployStatus === 'ONLINE'">
-      <b>{{testHref}}</b>
-      <i class="el-icon-document-copy el-icon--right"></i>
+    <p />
+    <el-button
+      id="testBtn"
+      type="primary"
+      class="testButton"
+      @click="goTest"
+      v-if="deployStatus === 'DEPLOYED'"
+    >
+      <b>{{ testHref }}</b>
+      <i class="el-icon-document-copy el-icon--right" />
     </el-button>
   </div>
 </template>
@@ -17,10 +29,11 @@
 import { Get } from '../../tools/tool.js'
 
 export default {
-  name: 'test',
+  name: 'Test',
   props: {
     projectBeforeConfig: {
-      default: {}
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -30,7 +43,8 @@ export default {
       testLog: '',
       deployInfo: '',
       timer: null,
-      loading: false
+      loading: true,
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
@@ -49,27 +63,36 @@ export default {
     },
     getDeployStatus () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId
+      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
       Get(url).then(res => {
         this.deployStatus = res.data.status
-        if (res.data.status !== 'DEPLOYING') {
-          this.clearInterval()
+        if (res.data.status === 'DEPLOYING') {
+          this.$emit('getBtnStatus', { status: true, deploy: false, isCompleted: true })
+        } else if (res.data.status === 'DEPLOYED') {
+          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: false })
           this.getTestUrl()
+          this.clearInterval()
+        } else {
+          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: true })
+          this.getTestUrl()
+          this.clearInterval()
         }
       })
     },
     clearInterval () {
-      clearInterval(this.timer)
+      clearTimeout(this.timer)
+      this.timer = null
     },
     goTest () {
       window.open(this.testHref)
     }
   },
   mounted () {
-    this.getDeployStatus()
+    setTimeout(this.getDeployStatus, 5000)
+    // this.getDeployStatus()
     this.timer = setInterval(() => {
       this.getDeployStatus()
-    }, 10000)
+    }, 5000)
   },
   beforeDestroy () {
     this.clearInterval()

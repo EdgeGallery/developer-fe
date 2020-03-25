@@ -1,7 +1,12 @@
 <template>
   <div class="api">
-    <div id="projectId">{{projectId}}</div>
-    <el-row :gutter="20" v-loading='apiDataLoading'>
+    <div id="projectId">
+      {{ projectId }}
+    </div>
+    <el-row
+      :gutter="20"
+      v-loading="apiDataLoading"
+    >
       <el-col :span="6">
         <el-tree
           ref="treeList"
@@ -10,12 +15,12 @@
           @node-click="handleNodeClick"
           node-key="id"
           :highlight-current="true"
-          :default-expanded-keys='defaultExpandKeys'
-          :current-node-key="0">
-        </el-tree>
+          :default-expanded-keys="defaultExpandKeys"
+          :current-node-key="0"
+        />
       </el-col>
       <el-col :span="18">
-        <div id="swagger-ui"></div>
+        <div id="swagger-ui" />
       </el-col>
     </el-row>
   </div>
@@ -35,13 +40,14 @@ export default {
         label: 'label'
       },
       defaultExpandKeys: [],
-      projectId: ''
+      projectId: '',
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
     getProjectDetail () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      Get('mec/developer/v1/projects/' + projectId).then(res => {
+      Get('mec/developer/v1/projects/' + projectId + '?userId=' + this.userId).then(res => {
         let treeDataTemp = []
         treeDataTemp = res.data.capabilityList
         this.projectId = res.data.id

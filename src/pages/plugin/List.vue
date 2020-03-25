@@ -1,58 +1,80 @@
 <template>
   <div class="ideList">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">{{$t('breadCrumb.devTools')}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{breadcrumbTitle}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">
+        {{ $t('breadCrumb.devTools') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ breadcrumbTitle }}</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <div class="list-main clear" v-loading='dataLoading'>
+    <div
+      class="list-main clear"
+      v-loading="dataLoading"
+    >
       <div class="list-top">
-        <el-select v-model="value" :placeholder="$t('common.select')" class="list-select" id="selectFunction">
+        <el-select
+          v-model="value"
+          :placeholder="$t('common.select')"
+          class="list-select"
+          id="selectFunction"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
-          </el-option>
+            :value="item.value"
+          />
         </el-select>
         <el-autocomplete
           v-model="enterQuery"
           :fetch-suggestions="fetchSuggestions"
           :placeholder="$t('devTools.enterSearch')"
           @select="handleSelect"
-          id="enterQuery">
-        </el-autocomplete>
+          id="enterQuery"
+        />
       </div>
       <div class="list-mian-content">
         <el-table
           :data="currentData"
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
-            :label="$t('workspace.icon')">
+            :label="$t('workspace.icon')"
+          >
             <template slot-scope="scope">
-              <img :src="getImageUrl(scope.row.pluginId)" class="image" />
+              <img
+                :src="getImageUrl(scope.row.pluginId)"
+                class="image"
+              >
             </template>
           </el-table-column>
           <el-table-column
-            :label="$t('devTools.description')">
+            :label="$t('devTools.description')"
+          >
             <template slot-scope="scope">
               <p>
-                <span class="span-left">{{$t('devTools.pluginName')}}:</span>
-                <span class="span-right">{{scope.row.pluginName}}</span>
+                <span class="span-left">{{ $t('devTools.pluginName') }}:</span>
+                <span class="span-right">{{ scope.row.pluginName }}</span>
               </p>
               <p class="info-p clear">
-                <span class="span-left">{{$t('devTools.description')}}:</span>
-                <span class="span-right">{{scope.row.introduction}}</span>
+                <span class="span-left">{{ $t('devTools.description') }}:</span>
+                <span class="span-right">{{ scope.row.introduction }}</span>
               </p>
               <p>
-                <span class="span-left">{{$t('devTools.author')}}:</span>
-                <span class="span-right">{{scope.row.userName}}</span>
+                <span class="span-left">{{ $t('devTools.author') }}:</span>
+                <span class="span-right">{{ scope.row.userName }}</span>
               </p>
             </template>
           </el-table-column>
           <el-table-column
-            :label="$t('devTools.score')">
+            :label="$t('devTools.score')"
+          >
             <template slot-scope="scope">
               <el-rate
                 class="p-rate"
@@ -61,36 +83,71 @@
                 show-score
                 text-color="#ff9900"
                 disabled-void-color="#cccccc"
-                score-template="{value}">
-              </el-rate>
+                score-template="{value}"
+              />
             </template>
           </el-table-column>
           <el-table-column
             :label="$t('workspace.operatioin')"
-            width="230">
+            width="230"
+          >
             <template slot-scope="scope">
-              <el-link :href="getDownloadUrl(scope.row.pluginId)" :underline="false">
-                <el-button id="downloadBtn" class="btn el-icon-download" type="text" @click="rateConfirm(scope.row)">{{$t('common.download')}}</el-button>
+              <el-link
+                :href="getDownloadUrl(scope.row.pluginId)"
+                :underline="false"
+              >
+                <el-button
+                  id="downloadBtn"
+                  class="btn el-icon-download"
+                  type="text"
+                  @click="rateConfirm(scope.row)"
+                >
+                  {{ $t('common.download') }}
+                </el-button>
               </el-link>
-              <el-button id="detailBtn" type="text" class="btn" @click="toDetail(scope.row)">{{$t('devTools.detail')}}</el-button>
-              <el-button id="deleteBtn" :disabled="scope.row.userName===username?false:true" type="text" class="btn" @click="deletePlug(scope.row)">{{$t('devTools.delete')}}</el-button>
+              <el-button
+                id="detailBtn"
+                type="text"
+                class="btn"
+                @click="toDetail(scope.row)"
+              >
+                {{ $t('devTools.detail') }}
+              </el-button>
+              <el-button
+                id="deleteBtn"
+                :disabled="scope.row.userName===username?false:true"
+                type="text"
+                class="btn"
+                @click="deletePlug(scope.row)"
+              >
+                {{ $t('devTools.delete') }}
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-dialog
           :visible.sync="centerDialogVisible"
           width="30%"
-          center>
-          <span>{{$t('devTools.deleteList')}}</span>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">{{$t('common.cancel')}}</el-button>
-            <el-button type="primary" @click="deleteTrue(delId)">{{$t('common.confirm')}}</el-button>
+          center
+        >
+          <span>{{ $t('devTools.deleteList') }}</span>
+          <span
+            slot="footer"
+            class="dialog-footer"
+          >
+            <el-button @click="centerDialogVisible = false">{{ $t('common.cancel') }}</el-button>
+            <el-button
+              type="primary"
+              @click="deleteTrue(delId)"
+            >{{ $t('common.confirm') }}</el-button>
           </span>
         </el-dialog>
         <el-dialog
           :visible.sync="DialogVisible"
-          width="30%" class="dialog_rate">
-          <span  class="dialogPadding">{{$t('devTools.submitRate')}}:</span>
+          width="30%"
+          class="dialog_rate"
+        >
+          <span class="dialogPadding">{{ $t('devTools.submitRate') }}:</span>
           <el-rate
             v-model="valueRate"
             show-score
@@ -98,16 +155,25 @@
             allow-half
             :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
             class="rate_top dialogPadding"
-            @change="rateChange">
-          </el-rate>
-          <span slot="footer" class="dialog-footer dialogPadding">
-            <el-button @click="DialogVisible = false">{{$t('common.cancel')}}</el-button>
-            <el-button type="primary" @click="rateHandel(rateId)">{{$t('common.confirm')}}</el-button>
+            @change="rateChange"
+          />
+          <span
+            slot="footer"
+            class="dialog-footer dialogPadding"
+          >
+            <el-button @click="DialogVisible = false">{{ $t('common.cancel') }}</el-button>
+            <el-button
+              type="primary"
+              @click="rateHandel(rateId)"
+            >{{ $t('common.confirm') }}</el-button>
           </span>
         </el-dialog>
       </div>
       <div class="pagebar">
-        <pagination :tableData='pluginListData' @getCurrentPageData='getCurrentPageData'></pagination>
+        <pagination
+          :table-data="pluginListData"
+          @getCurrentPageData="getCurrentPageData"
+        />
       </div>
     </div>
   </div>
@@ -118,7 +184,7 @@ import { Get, Put, Delete, urlPrefix } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 
 export default {
-  name: 'ideList',
+  name: 'IdeList',
   components: {
     pagination
   },
@@ -163,8 +229,9 @@ export default {
       this.breadcrumbTitle = this.$t('devTools.pluginList')
     }
     this.getPluginListData()
-    let userJsonStr = sessionStorage.getItem('user')
-    this.username = JSON.parse(userJsonStr).username
+    // let userJsonStr = sessionStorage.getItem('userId')
+    // this.username = JSON.parse(userJsonStr).username
+    this.username = 'mecdev'
   },
   watch: {
     $route (to, from) {

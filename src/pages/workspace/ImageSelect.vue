@@ -1,41 +1,113 @@
 <template>
   <div class="imageSelect">
-    <el-form :model="form" ref="form">
-      <el-form-item id="selectImage" :label="$t('workspace.selectImage')" :label-width="formLabelWidth">
-        {{$t('workspace.method1')}}
-        <el-select disabled  v-model="value" filterable :placeholder="$t('workspace.select')" class="elSelect">
+    <el-form
+      :model="form"
+      ref="form"
+    >
+      <el-form-item
+        id="selectImage"
+        :label="$t('workspace.selectImage')"
+        :label-width="formLabelWidth"
+      >
+        {{ $t('workspace.method1') }}
+        <el-select
+          disabled
+          v-model="value"
+          filterable
+          :placeholder="$t('workspace.select')"
+          class="elSelect"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
-          </el-option>
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item label="" :label-width="formLabelWidth">
-        <p>{{$t('workspace.method2')}}</p>
-        <el-input id="imageName" v-model="form.imageName" :placeholder="$t('workspace.imagename')" class="imageNameInput"></el-input>
-        <el-input id="portIn" v-model.number="form.portIn" type="number" :placeholder="$t('workspace.inPort')" class="portInput"></el-input>
-        <el-input id="portOut" v-model.number="form.portOut" type="number" :placeholder="$t('workspace.outPort')" class="portInput"></el-input>
+      <el-form-item
+        label=""
+        :label-width="formLabelWidth"
+      >
+        <p>{{ $t('workspace.method2') }}</p>
+        <el-input
+          id="imageName"
+          v-model="form.imageName"
+          :placeholder="$t('workspace.imagename')"
+          class="imageNameInput"
+        />
+        <el-input
+          id="portIn"
+          v-model.number="form.portIn"
+          type="number"
+          :placeholder="$t('workspace.inPort')"
+          class="portInput"
+        />
+        <el-input
+          id="portOut"
+          v-model.number="form.portOut"
+          type="number"
+          :placeholder="$t('workspace.outPort')"
+          class="portInput"
+        />
 
-        <el-button id="addBtn" type="primary" class="addBtn" @click="addImageName">{{$t('workspace.add')}}</el-button>
-        <p class="imageResult" v-for="(item,index) in form.imageNameData" :key="index">
-          <b style="margin: 0 5px;">{{$t('workspace.imagename')}}:</b>
-            {{item.name}}: {{item.version}}
+        <el-button
+          id="addBtn"
+          type="primary"
+          class="addBtn"
+          @click="addImageName"
+        >
+          {{ $t('workspace.add') }}
+        </el-button>
+        <p
+          class="imageResult"
+          v-for="(item,index) in form.imageNameData"
+          :key="index"
+          v-loading="imageDataLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
+        >
+          <b style="margin: 0 5px;">{{ $t('workspace.imagename') }}:</b>
+          {{ item.name }}: {{ item.version }}
 
-           <b style="margin: 0 5px;">{{$t('workspace.inPort')}}:</b>
-           {{item.port}}
-           <b style="margin: 0 5px;">{{$t('workspace.outPort')}}:</b>
-           {{item.nodePort}}
-          <i class="el-icon-close" @click="deleteImageName(item, index)"></i>
+          <b style="margin: 0 5px;">{{ $t('workspace.inPort') }}:</b>
+          {{ item.port }}
+          <b style="margin: 0 5px;">{{ $t('workspace.outPort') }}:</b>
+          {{ item.nodePort }}
+          <i
+            class="el-icon-close"
+            @click="deleteImageName(item, index)"
+          />
         </p>
       </el-form-item>
-      <el-form-item label="" :label-width="formLabelWidth">
-        <p><el-button type="text" :disabled=true class="btnText">{{$t('workspace.method3')}}</el-button></p>
-        <p><el-button type="text" :disabled=true class="btnText">{{$t('workspace.method4')}}</el-button></p>
+      <el-form-item
+        label=""
+        :label-width="formLabelWidth"
+      >
+        <p>
+          <el-button
+            type="text"
+            :disabled="true"
+            class="btnText"
+          >
+            {{ $t('workspace.method3') }}
+          </el-button>
+        </p>
+        <p>
+          <el-button
+            type="text"
+            :disabled="true"
+            class="btnText"
+          >
+            {{ $t('workspace.method4') }}
+          </el-button>
+        </p>
       </el-form-item>
-      <el-form-item :label="$t('devTools.uploadApi')" :label-width="formLabelWidth"
-         :rules="[{ required: true }]">
+      <el-form-item
+        :label="$t('devTools.uploadApi')"
+        :label-width="formLabelWidth"
+        :rules="[{ required: true }]"
+      >
         <el-upload
           id="uploadApi"
           class="upload-demo"
@@ -48,14 +120,32 @@
           :auto-upload="false"
           :on-remove="removeUploadapi"
           accept=".json,.yaml"
-          name="apiFile">
-          <el-button slot="trigger" size="small" type="primary">{{$t('devTools.uploadApi')}}</el-button>
-          <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('devTools.apiText')}}</div>
+          name="apiFile"
+        >
+          <el-button
+            slot="trigger"
+            size="small"
+            type="primary"
+          >
+            {{ $t('devTools.uploadApi') }}
+          </el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip"
+          >
+            <i class="el-icon-warning" />{{ $t('devTools.apiText') }}
+          </div>
         </el-upload>
-        <el-button id="confirmApiBtn" size="mini" type="primary" @click='submitApiFile' :loading="uploadApiLoading">{{$t('workspace.confirmUpload')}}</el-button>
-
+        <el-button
+          id="confirmApiBtn"
+          size="mini"
+          type="primary"
+          @click="submitApiFile"
+          :loading="uploadApiLoading"
+        >
+          {{ $t('workspace.confirmUpload') }}
+        </el-button>
       </el-form-item>
-
     </el-form>
   </div>
 </template>
@@ -63,10 +153,11 @@
 <script>
 import { Get, Post, Delete } from '../../tools/tool.js'
 export default {
-  name: 'imageSelect',
+  name: 'ImageSelect',
   props: {
     projectBeforeConfig: {
-      default: {}
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -82,7 +173,9 @@ export default {
       },
       options: [],
       value: '',
-      uploadApiLoading: false
+      uploadApiLoading: false,
+      imageDataLoading: true,
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
@@ -102,17 +195,15 @@ export default {
           type: ['DEVELOPER']
         }
         Post(url, params).then(res => {
-          this.form.imageNameData.push(res.data)
+          params.id = res.data.id
+          this.getImage('post', params)
         })
       }
     },
     deleteImageName (item, index) {
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/image/' + item.id
-      let params = {
-        imageid: item.id
-      }
-      Delete(url, params).then(res => {
+      Delete(url).then(res => {
         this.form.imageNameData.splice(index, 1)
       })
     },
@@ -128,32 +219,45 @@ export default {
       this.form.apiFileList = []
     },
     submitApiFile () {
-      this.uploadApiLoading = true
-      let url = 'mec/developer/v1/files'
-      let fd = new FormData()
-      fd.append('file', this.form.apiFileList[0])
-      Post(url, fd).then(res => {
-        this.form.appApiFileId = res.data.fileId
-        this.uploadApiLoading = false
-        this.$message({
-          type: 'success',
-          message: this.$t('promptMessage.uploadSuccess')
+      if (this.form.apiFileList.length > 0) {
+        this.uploadApiLoading = true
+        let url = 'mec/developer/v1/files?userId=' + this.userId
+        let fd = new FormData()
+        fd.append('file', this.form.apiFileList[0])
+        Post(url, fd).then(res => {
+          this.form.appApiFileId = res.data.fileId
+          this.uploadApiLoading = false
+          this.$message({
+            type: 'success',
+            message: this.$t('promptMessage.uploadSuccess')
+          })
         })
-      })
+      } else {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.uploadApiFile')
+        })
+      }
     },
     // 方式二获取image  type: 第一次获取get / 还是添加
-    getImage (type) {
+    getImage (type, params) {
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/image'
-      Get(url).then(res => {
-        if (type === 'get') {
-          res.data.forEach(item => {
+      if (type === 'get') {
+        Get(url).then(res => {
+          res.data.images.forEach(item => {
             if (item.type === 'DEVELOPER') {
               this.form.imageNameData.push(item)
             }
           })
-        }
-      })
+          this.imageDataLoading = false
+        })
+      } else {
+        this.form.imageNameData.push({
+          ...params
+        })
+        this.imageDataLoading = false
+      }
     },
     ifNext () {
       let apiFileId = this.form.appApiFileId
@@ -255,6 +359,11 @@ export default {
       margin-bottom: 0px;
       .el-form-item__label{
         line-height: 20px;
+      }
+    }
+    .el-loading-spinner{
+      p{
+        line-height: 0px;
       }
     }
   }

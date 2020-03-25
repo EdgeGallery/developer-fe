@@ -4,24 +4,49 @@
       title="Add New Project"
       :visible.sync="dialogNewProject"
       width="60%"
-       @close="handleClose">
-      <el-steps :active="active" finish-status="success" align-center>
-        <el-step :title="$t('workspace.basicInformation')"></el-step>
-        <el-step :title="$t('workspace.chooseAbilities')"></el-step>
-        <el-step :title="$t('workspace.selectionAbilitiesDetail')"></el-step>
-        <el-step :title="fourthstepTitle"></el-step>
+      @close="handleClose"
+    >
+      <el-steps
+        :active="active"
+        finish-status="success"
+        align-center
+      >
+        <el-step :title="$t('workspace.basicInformation')" />
+        <el-step :title="$t('workspace.chooseAbilities')" />
+        <el-step :title="$t('workspace.selectionAbilitiesDetail')" />
+        <el-step :title="fourthstepTitle" />
       </el-steps>
       <component
-        v-bind:is="currentComponent"
-        @getStepData='getStepData'
+        :is="currentComponent"
+        @getStepData="getStepData"
         ref="currentComponet"
-        :secondStepData='allFormData'
-        :projectTypeprop='getprojectType'>
-      </component>
-      <span slot="footer" class="dialog-footer">
-        <el-button id="prevBtn" @click="previousStep" v-if="active>0" class="prevStep">{{$t('workspace.previous')}}</el-button>
-        <el-button id="nextBtn" @click="nextStep" v-if="active<3" class="nextStep">{{$t('workspace.next')}}</el-button>
-        <el-button id="confirmBtn" type="primary" v-if="active>=3" :loading="uploadBtnLoading" @click="onSubmit" class="confirm">{{$t('workspace.confirm')}}</el-button>
+        :second-step-data="allFormData"
+        :project-typeprop="getprojectType"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          id="prevBtn"
+          @click="previousStep"
+          v-if="active>0"
+          class="prevStep"
+        >{{ $t('workspace.previous') }}</el-button>
+        <el-button
+          id="nextBtn"
+          @click="nextStep"
+          v-if="active<3"
+          class="nextStep"
+        >{{ $t('workspace.next') }}</el-button>
+        <el-button
+          id="confirmBtn"
+          type="primary"
+          v-if="active>=3"
+          :loading="uploadBtnLoading"
+          @click="onSubmit"
+          class="confirm"
+        >{{ $t('workspace.confirm') }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -35,7 +60,7 @@ import thirdStep from './NewProjectThird.vue'
 import fourthStep from './NewProjectFourth.vue'
 import fourthStepMigration from './NewProjectFourth-migration.vue'
 export default {
-  name: 'newproject',
+  name: 'Newproject',
   components: {
     firstStep,
     secondStep,
@@ -73,7 +98,8 @@ export default {
       fourthstepTitle: this.fourthstepTitleprop,
       uploadBtnLoading: false,
       iconFileId: '',
-      createSuccess: false
+      createSuccess: false,
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
@@ -115,7 +141,7 @@ export default {
         let firstStepData = this.allFormData.first.appIcon[0]
         let formdata = new FormData()
         formdata.append('file', firstStepData)
-        Post('mec/developer/v1/files', formdata).then(res => {
+        Post('mec/developer/v1/files?userId=' + this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
         })
       }
@@ -175,7 +201,7 @@ export default {
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
       // console.log(params)
-      Post('mec/developer/v1/projects', params).then(res => {
+      Post('mec/developer/v1/projects/?userId=' + this.userId, params).then(res => {
         if (res.status === 200) {
           let mecDetailID = res.data.id
           sessionStorage.setItem('mecDetailID', mecDetailID)

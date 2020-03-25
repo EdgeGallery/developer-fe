@@ -1,13 +1,16 @@
 <template>
   <div class="footerBar">
-    <img src="../../assets/images/huawei_logo.png" alt="">
+    <img
+      src="../../assets/images/footer_logo.png"
+      alt=""
+    >
     Copyright © Huawei Technologies Co., Ltd. 2019. All rights reserved
   </div>
 </template>
 
 <script>
 export default {
-  name: 'footerBar',
+  name: 'FooterBar',
   data () {
     return {}
   },

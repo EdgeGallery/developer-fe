@@ -2,21 +2,42 @@
   <div class="dataStatistical">
     <div class="vChart">
       <el-row>
-        <myTitle :title="$t('workspace.realTimeStatistics')"></myTitle>
-        <ve-line :data="chartData"></ve-line>
+        <myTitle :title="$t('workspace.realTimeStatistics')" />
+        <ve-line :data="chartData" />
       </el-row>
       <el-row :gutter="20">
-        <myTitle :title="$t('workspace.performaceStatistics')"></myTitle>
-        <el-col :span="8" class="elProgress">
-          <el-progress type="dashboard" :percentage="23" :width="100"></el-progress>
+        <myTitle :title="$t('workspace.performaceStatistics')" />
+        <el-col
+          :span="8"
+          class="elProgress"
+        >
+          <el-progress
+            type="dashboard"
+            :percentage="23"
+            :width="100"
+          />
           <p>CPU</p>
         </el-col>
-        <el-col :span="8" class="elProgress">
-          <el-progress type="dashboard" :percentage="64" :width="100"></el-progress>
+        <el-col
+          :span="8"
+          class="elProgress"
+        >
+          <el-progress
+            type="dashboard"
+            :percentage="64"
+            :width="100"
+          />
           <p>MEM</p>
         </el-col>
-        <el-col :span="8" class="elProgress">
-          <el-progress type="dashboard" :percentage="75" :width="100"></el-progress>
+        <el-col
+          :span="8"
+          class="elProgress"
+        >
+          <el-progress
+            type="dashboard"
+            :percentage="75"
+            :width="100"
+          />
           <p>DISK</p>
         </el-col>
       </el-row>

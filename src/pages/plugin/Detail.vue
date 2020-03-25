@@ -1,31 +1,57 @@
 <template>
   <div class="detail">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">{{$t('breadCrumb.devTools')}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{breadcrumbTitle}} {{$t('breadCrumb.detail')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">
+        {{ $t('breadCrumb.devTools') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ breadcrumbTitle }} {{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-row class="plugin-mian-content" v-for="item in detailContent" :key="item.pluginId" v-loading='dataLoading'>
+    <el-row
+      class="plugin-mian-content"
+      v-for="item in detailContent"
+      :key="item.pluginId"
+      v-loading="dataLoading"
+    >
       <el-col :span="3">
         <div class="mian-content-img">
-        <img :src="getImageUrl(item.pluginId)" class="image">
+          <img
+            :src="getImageUrl(item.pluginId)"
+            class="image"
+          >
         </div>
       </el-col>
       <el-col :span="15">
         <div class="mian-content-feature">
           <p>
-            <span class="name">{{$t('devTools.applicationName')}}:</span>
-            <span class="name-value">{{item.pluginName}}</span>
-            <span class="name">{{$t('devTools.applicationVersion')}}: </span>
-            <span class="name-value">{{item.version}}</span>
-            <el-link :href="getDownloadUrl(item.pluginId)" :underline="false">
-              <el-button id="downloadBtn" type="primary" size="mini" class="download-btn"  @click="rateConfirm(item)">{{$t('common.download')}}</el-button>
+            <span class="name">{{ $t('devTools.applicationName') }}:</span>
+            <span class="name-value">{{ item.pluginName }}</span>
+            <span class="name">{{ $t('devTools.applicationVersion') }}: </span>
+            <span class="name-value">{{ item.version }}</span>
+            <el-link
+              :href="getDownloadUrl(item.pluginId)"
+              :underline="false"
+            >
+              <el-button
+                id="downloadBtn"
+                type="primary"
+                size="mini"
+                class="download-btn"
+                @click="rateConfirm(item)"
+              >
+                {{ $t('common.download') }}
+              </el-button>
             </el-link>
           </p>
           <p>
-            <span class="name">{{$t('devTools.downloads')}}:</span>
-            <span class="name-value"> {{item.downloadCount}}</span>
-            <span class="name">{{$t('devTools.satisfaction')}}:</span>
+            <span class="name">{{ $t('devTools.downloads') }}:</span>
+            <span class="name-value"> {{ item.downloadCount }}</span>
+            <span class="name">{{ $t('devTools.satisfaction') }}:</span>
             <span class="name-value">
               <el-rate
                 class="p-rate"
@@ -34,25 +60,28 @@
                 show-score
                 text-color="#ff9900"
                 disabled-void-color="#cccccc"
-                score-template="{value}">
-              </el-rate>
+                score-template="{value}"
+              />
             </span>
           </p>
           <p>
-            <span class="name">{{$t('devTools.pluginDescription')}}:</span>
+            <span class="name">{{ $t('devTools.pluginDescription') }}:</span>
           </p>
           <p>
             <el-input
               class="plug-desc"
               type="textarea"
-              :rows="4" :value="item.introduction"
-              id="detailDescription">
-            </el-input>
+              :rows="4"
+              :value="item.introduction"
+              id="detailDescription"
+            />
           </p>
           <el-dialog
             :visible.sync="DialogVisible"
-            width="30%" class="dialog_rate">
-            <span class="dialogPadding">{{$t('devTools.submitRate')}}:</span>
+            width="30%"
+            class="dialog_rate"
+          >
+            <span class="dialogPadding">{{ $t('devTools.submitRate') }}:</span>
             <el-rate
               v-model="valueRate"
               show-score
@@ -60,26 +89,39 @@
               allow-half
               :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
               class="rate_top dialogPadding"
-              @change="rateChange">
-            </el-rate>
-            <span slot="footer" class="dialog-footer dialogPadding">
-              <el-button @click="DialogVisible = false">{{$t('common.cancel')}}</el-button>
-              <el-button type="primary" @click="rateHandel(rateId)">{{$t('common.confirm')}}</el-button>
+              @change="rateChange"
+            />
+            <span
+              slot="footer"
+              class="dialog-footer dialogPadding"
+            >
+              <el-button @click="DialogVisible = false">{{ $t('common.cancel') }}</el-button>
+              <el-button
+                type="primary"
+                @click="rateHandel(rateId)"
+              >{{ $t('common.confirm') }}</el-button>
             </span>
           </el-dialog>
         </div>
       </el-col>
     </el-row>
     <div id="test-editor">
-      <span class="el-icon-edit" id="edit_detail"><a target="_blank" href="http://139.9.0.160/houp/houp_portal/blob/master/public/mecplugin.md">Modify</a></span>
-      <mavon-editor v-model="markdownSource"
-     :toolbarsFlag='false'
-     :editable='false'
-     :subfield='false'
-     defaultOpen='preview'
-     :boxShadow='false'
-     previewBackground='#ffffff'
-     />
+      <span
+        class="el-icon-edit"
+        id="edit_detail"
+      ><a
+        target="_blank"
+        href="http://139.9.0.160/houp/houp_portal/blob/master/public/mecplugin.md"
+      >Modify</a></span>
+      <mavon-editor
+        v-model="markdownSource"
+        :toolbars-flag="false"
+        :editable="false"
+        :subfield="false"
+        default-open="preview"
+        :box-shadow="false"
+        preview-background="#ffffff"
+      />
     </div>
   </div>
 </template>
@@ -88,7 +130,7 @@
 import { Get, Put, urlPrefix } from './../../tools/tool.js'
 import axios from 'axios'
 export default {
-  name: 'listDetail',
+  name: 'ListDetail',
   data () {
     return {
       breadcrumbTitle: '',

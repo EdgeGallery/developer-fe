@@ -3,7 +3,7 @@
     <el-container>
       <el-container style="position:absolute;height:100%;width:100%;">
         <el-main>
-          <router-view/>
+          <router-view />
         </el-main>
       </el-container>
     </el-container>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'layout',
+  name: 'Layout',
   components: {
   },
   data () {

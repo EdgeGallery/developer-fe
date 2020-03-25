@@ -1,64 +1,152 @@
 <template>
-    <div class="firststep">
-      <el-form :model="form" ref="form" :rules="rules" label-position="left">
-        <el-form-item :label="$t('workspace.appName')" :label-width="formLabelWidth" prop="name">
-          <el-input id="projectName" v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('workspace.version')" :label-width="formLabelWidth" prop="version">
-          <el-input id="projectVersion" v-model="form.version"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('workspace.provider')" :label-width="formLabelWidth" prop="provider">
-          <el-input id="projectProvider" v-model="form.provider"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('workspace.platform')" :label-width="formLabelWidth" prop="platform" class="platform">
-          <el-radio-group id="platformList" v-model="form.platform">
-            <el-radio v-for="(item,index) in platformList" :id="item" :key="index" :label="item">{{item}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item :label="$t('test.testApp.type')" :label-width="formLabelWidth" prop="type" class="platform">
-          <el-checkbox-group id="projectType">
-            <el-select v-model="form.type" :placeholder="$t('test.testApp.choosetype')" class="list-select">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-                :id="item.label">
-              </el-option>
-            </el-select>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item :label="$t('workspace.icon')" :label-width="formLabelWidth" prop="logoFileList">
-          <el-upload
-            id="projectLogo"
-            class="upload-demo"
-            ref="upload"
-            action=""
-            :limit="1"
-            :file-list="logoFileList"
-            :on-change="handleChangeLogo"
-            :auto-upload="false"
-            :on-remove="removeUploadLogo"
-            accept=".jpg,.png"
-            name="file">
-            <el-button slot="trigger" size="small" type="primary">{{$t('workspace.uploadIcon')}}</el-button>
-            <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('workspace.limitition')}}</div>
-          </el-upload>
-          <div class="default-icon">
-            <div class="box" v-for="(item, index) in defaultIcon" @click="chooseDefaultIcon(item, index)" :key="item">
-              <img :src='item' alt="">
-              <i class="el-icon-success" :class="{ active: defaultActive === index }"></i>
-            </div>
+  <div class="firststep">
+    <el-form
+      :model="form"
+      ref="form"
+      :rules="rules"
+      label-position="left"
+    >
+      <el-form-item
+        :label="$t('workspace.appName')"
+        :label-width="formLabelWidth"
+        prop="name"
+      >
+        <el-input
+          id="projectName"
+          v-model="form.name"
+        />
+      </el-form-item>
+      <el-form-item
+        :label="$t('workspace.version')"
+        :label-width="formLabelWidth"
+        prop="version"
+      >
+        <el-input
+          id="projectVersion"
+          v-model="form.version"
+        />
+      </el-form-item>
+      <el-form-item
+        :label="$t('workspace.provider')"
+        :label-width="formLabelWidth"
+        prop="provider"
+      >
+        <el-input
+          id="projectProvider"
+          v-model="form.provider"
+        />
+      </el-form-item>
+      <el-form-item
+        :label="$t('workspace.platform')"
+        :label-width="formLabelWidth"
+        prop="platform"
+        class="platform"
+      >
+        <el-radio-group
+          id="platformList"
+          v-model="form.platform"
+        >
+          <el-radio
+            v-for="(item,index) in platformList"
+            :id="item"
+            :key="index"
+            :label="item"
+          >
+            {{ item }}
+          </el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item
+        :label="$t('test.testApp.type')"
+        :label-width="formLabelWidth"
+        prop="type"
+        class="platform"
+      >
+        <el-checkbox-group id="projectType">
+          <el-select
+            v-model="form.type"
+            :placeholder="$t('test.testApp.choosetype')"
+            class="list-select"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+              :id="item.label"
+            />
+          </el-select>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item
+        :label="$t('workspace.icon')"
+        :label-width="formLabelWidth"
+        prop="logoFileList"
+      >
+        <el-upload
+          id="projectLogo"
+          class="upload-demo"
+          ref="upload"
+          action=""
+          :limit="1"
+          :file-list="logoFileList"
+          :on-change="handleChangeLogo"
+          :auto-upload="false"
+          :on-remove="removeUploadLogo"
+          accept=".jpg,.png"
+          name="file"
+        >
+          <el-button
+            slot="trigger"
+            size="small"
+            type="primary"
+          >
+            {{ $t('workspace.uploadIcon') }}
+          </el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip"
+          >
+            <i class="el-icon-warning" />{{ $t('workspace.limitition') }}
           </div>
-          <div class="el-form-error" v-if="showErr">
-            {{$t('workspace.iconRequired')}}
+        </el-upload>
+        <div class="default-icon">
+          <div
+            class="box"
+            v-for="(item, index) in defaultIcon"
+            @click="chooseDefaultIcon(item, index)"
+            :key="item"
+          >
+            <img
+              :src="item"
+              alt=""
+            >
+            <i
+              class="el-icon-success"
+              :class="{ active: defaultActive === index }"
+            />
           </div>
-        </el-form-item>
-        <el-form-item :label="$t('test.testApp.description')" :label-width="formLabelWidth">
-          <el-input id="projectDescription" type="textarea" v-model="form.description" :rows="2"></el-input>
-        </el-form-item>
-      </el-form>
-    </div>
+        </div>
+        <div
+          class="el-form-error"
+          v-if="showErr"
+        >
+          {{ $t('workspace.iconRequired') }}
+        </div>
+      </el-form-item>
+      <el-form-item
+        :label="$t('test.testApp.description')"
+        :label-width="formLabelWidth"
+      >
+        <el-input
+          id="projectDescription"
+          type="textarea"
+          v-model="form.description"
+          :rows="2"
+        />
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
@@ -216,13 +304,15 @@ export default {
         this.defaultActive = index
         let image = new Image()
         image.src = file
-        // 将静态图片转化为base64
-        let base64 = this.getBase64Image(image)
-        // base64转化为文件流
-        this.defaultIconFile.push(this.base64toFile(base64))
-        this.form.appIcon = this.defaultIconFile
+        image.onload = () => {
+          // 将静态图片转化为base64
+          let base64 = this.getBase64Image(image)
+          // base64转化为文件流
+          this.defaultIconFile.push(this.base64toFile(base64))
+          this.form.appIcon = this.defaultIconFile
+          this.showErr = !this.defaultIconFile
+        }
       }
-      this.showErr = !this.defaultIconFile
     },
     emitStepData () {
       if (!this.form.appIcon.length) this.chooseDefaultIcon(this.defaultIcon[0], 1)

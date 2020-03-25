@@ -1,29 +1,62 @@
 <template>
   <div class="upload">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">{{$t('breadCrumb.devTools')}}</el-breadcrumb-item>
-      <el-breadcrumb-item><a>{{$t('breadCrumb.upload')}}</a></el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">
+        {{ $t('breadCrumb.devTools') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item><a>{{ $t('breadCrumb.upload') }}</a></el-breadcrumb-item>
     </el-breadcrumb>
     <div class="upload-main">
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form ref="form" :model="form" :rules="rules" label-width="120px" label-position="left">
-            <el-form-item :label="$t('devTools.pluginName')" prop="pluginName">
-              <el-input id="pluginName" v-model="form.pluginName" name="pluginName" class="input"></el-input>
+          <el-form
+            ref="form"
+            :model="form"
+            :rules="rules"
+            label-width="120px"
+            label-position="left"
+          >
+            <el-form-item
+              :label="$t('devTools.pluginName')"
+              prop="pluginName"
+            >
+              <el-input
+                id="pluginName"
+                v-model="form.pluginName"
+                name="pluginName"
+                class="input"
+              />
             </el-form-item>
-            <el-form-item :label="$t('devTools.pluginFunction')" prop="codeLanguage">
-              <el-select id="selectFunction" v-model="form.codeLanguage" :placeholder="$t('devTools.pluginFunction')" name="codeLanguage" class="list-select">
+            <el-form-item
+              :label="$t('devTools.pluginFunction')"
+              prop="codeLanguage"
+            >
+              <el-select
+                id="selectFunction"
+                v-model="form.codeLanguage"
+                :placeholder="$t('devTools.pluginFunction')"
+                name="codeLanguage"
+                class="list-select"
+              >
                 <el-option
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"
                   :value="item.label"
-                  :id="item.label">
-                </el-option>
+                  :id="item.label"
+                />
               </el-select>
             </el-form-item>
-            <el-form-item :label="$t('devTools.uploadPlugin')" prop="plugFileList">
+            <el-form-item
+              :label="$t('devTools.uploadPlugin')"
+              prop="plugFileList"
+            >
               <el-upload
                 id="uploadPlugin"
                 class="upload-demo"
@@ -36,12 +69,27 @@
                 :auto-upload="false"
                 :on-remove="removeUpload"
                 accept=".csar,.zip,.rar"
-                name="pluginFile">
-                <el-button slot="trigger" size="small" type="primary">{{$t('devTools.uploadPlugin')}}</el-button>
-                <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('devTools.fileText')}}</div>
+                name="pluginFile"
+              >
+                <el-button
+                  slot="trigger"
+                  size="small"
+                  type="primary"
+                >
+                  {{ $t('devTools.uploadPlugin') }}
+                </el-button>
+                <div
+                  slot="tip"
+                  class="el-upload__tip"
+                >
+                  <i class="el-icon-warning" />{{ $t('devTools.fileText') }}
+                </div>
               </el-upload>
             </el-form-item>
-            <el-form-item :label="$t('devTools.uploadLogo')" prop="logoFileList">
+            <el-form-item
+              :label="$t('devTools.uploadLogo')"
+              prop="logoFileList"
+            >
               <el-upload
                 id="uploadLogo"
                 class="upload-demo"
@@ -54,18 +102,44 @@
                 :auto-upload="false"
                 :on-remove="removeUploadLogo"
                 accept=".jpg,.png"
-                name="file">
-                <el-button slot="trigger" size="small" type="primary">{{$t('devTools.uploadLogo')}}</el-button>
-                <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('devTools.logoText')}}</div>
+                name="file"
+              >
+                <el-button
+                  slot="trigger"
+                  size="small"
+                  type="primary"
+                >
+                  {{ $t('devTools.uploadLogo') }}
+                </el-button>
+                <div
+                  slot="tip"
+                  class="el-upload__tip"
+                >
+                  <i class="el-icon-warning" />{{ $t('devTools.logoText') }}
+                </div>
               </el-upload>
               <div class="default-icon">
-                <div class="box" v-for="(item, index) in defaultIcon" @click="chooseDefaultIcon(item, index)" :key="item">
-                  <img :src='item' alt="">
-                  <i class="el-icon-success" :class="{ active: defaultActive === index }"></i>
+                <div
+                  class="box"
+                  v-for="(item, index) in defaultIcon"
+                  @click="chooseDefaultIcon(item, index)"
+                  :key="item"
+                >
+                  <img
+                    :src="item"
+                    alt=""
+                  >
+                  <i
+                    class="el-icon-success"
+                    :class="{ active: defaultActive === index }"
+                  />
                 </div>
               </div>
             </el-form-item>
-            <el-form-item :label="$t('devTools.uploadApi')" prop="apiFileList">
+            <el-form-item
+              :label="$t('devTools.uploadApi')"
+              prop="apiFileList"
+            >
               <el-upload
                 id="uploadApi"
                 class="upload-demo"
@@ -78,20 +152,58 @@
                 :auto-upload="false"
                 :on-remove="removeUploadapi"
                 accept=".json,.yaml"
-                name="apiFile">
-                <el-button slot="trigger" size="small" type="primary">{{$t('devTools.uploadApi')}}</el-button>
-                <div slot="tip" class="el-upload__tip"><i class="el-icon-warning"></i>{{$t('devTools.apiText')}}</div>
+                name="apiFile"
+              >
+                <el-button
+                  slot="trigger"
+                  size="small"
+                  type="primary"
+                >
+                  {{ $t('devTools.uploadApi') }}
+                </el-button>
+                <div
+                  slot="tip"
+                  class="el-upload__tip"
+                >
+                  <i class="el-icon-warning" />{{ $t('devTools.apiText') }}
+                </div>
               </el-upload>
             </el-form-item>
-            <el-form-item :label="$t('devTools.version')" prop="version">
-              <el-input id="inputVersion" v-model="form.version" name="version" class="input"></el-input>
+            <el-form-item
+              :label="$t('devTools.version')"
+              prop="version"
+            >
+              <el-input
+                id="inputVersion"
+                v-model="form.version"
+                name="version"
+                class="input"
+              />
             </el-form-item>
-            <el-form-item :label="$t('devTools.description')" prop="introduction">
-              <el-input id="inputDescription" type="textarea" v-model="form.introduction" name="introduction" :rows="4"></el-input>
+            <el-form-item
+              :label="$t('devTools.description')"
+              prop="introduction"
+            >
+              <el-input
+                id="inputDescription"
+                type="textarea"
+                v-model="form.introduction"
+                name="introduction"
+                :rows="4"
+              />
             </el-form-item>
             <el-form-item>
-              <el-button id="uploadBtn" type="primary" :loading="uploadBtnLoading" @click="submitTrue">{{$t('devTools.uploadNow')}}</el-button>
-              <el-button id="cancelBtn">{{$t('common.cancel')}}</el-button>
+              <el-button
+                id="uploadBtn"
+                type="primary"
+                :loading="uploadBtnLoading"
+                @click="submitTrue"
+              >
+                {{ $t('devTools.uploadNow') }}
+              </el-button>
+              <el-button id="cancelBtn">
+                {{ $t('common.cancel') }}
+              </el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -103,7 +215,7 @@
 <script>
 import { Post } from './../../tools/tool.js'
 export default {
-  name: 'upload',
+  name: 'Upload',
   data () {
     return {
       form: {
@@ -113,6 +225,7 @@ export default {
         version: '',
         introduction: '',
         userName: '',
+        userId: '',
         pluginSize: 0,
         appIcon: []
       },
@@ -186,9 +299,8 @@ export default {
     }
   },
   mounted () {
-    let userJsonStr = sessionStorage.getItem('user')
-    let user = JSON.parse(userJsonStr)
-    this.form.userName = user.username
+    this.form.userName = 'mecdev'
+    this.form.userId = sessionStorage.getItem('userId')
   },
   created () {
     this.keyupSubmit()
@@ -370,10 +482,12 @@ export default {
         this.defaultActive = index
         let image = new Image()
         image.src = file
-        // 将静态图片转化为base64
-        let base64 = this.getBase64Image(image)
-        // base64转化为文件流
-        this.defaultIconFile = this.base64toFile(base64)
+        image.onload = () => {
+          // 将静态图片转化为base64
+          let base64 = this.getBase64Image(image)
+          // base64转化为文件流
+          this.defaultIconFile = this.base64toFile(base64)
+        }
       }
     }
   }

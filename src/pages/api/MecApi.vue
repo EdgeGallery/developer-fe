@@ -1,40 +1,75 @@
 <template>
-    <div class="local">
-        <el-breadcrumb separator="/" class="bread-crumb">
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">API</el-breadcrumb-item>
-            <el-breadcrumb-item>{{$t('breadCrumb.applicationApi')}}</el-breadcrumb-item>
-        </el-breadcrumb>
-        <el-row class="api_div" v-loading="apiDataLoading">
-          <el-col :span="4">
-            <div>
-              <el-tree
-                :data="treeData"
-                :props="defaultProps"
-                @node-click="handleNodeClick"
-                node-key="id"
-                :highlight-current="true"
-                :current-node-key="0">
-              </el-tree>
-            </div>
-          </el-col>
-          <el-col :span="20">
-            <div id="swagger-ui"></div>
-          </el-col>
-        </el-row>
-    </div>
+  <div class="local">
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+        API
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.applicationApi') }}</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-row
+      class="api_div"
+      v-loading="apiDataLoading"
+    >
+      <el-col :span="4">
+        <div>
+          <el-tree
+            :data="treeData"
+            :props="defaultProps"
+            @node-click="handleNodeClick"
+            node-key="id"
+            :highlight-current="true"
+            :current-node-key="0"
+          />
+        </div>
+      </el-col>
+      <el-col :span="20">
+        <div id="swagger-ui" />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
-import { Get } from '../../tools/tool.js'
+import { urlPrefix } from '../../tools/tool.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
-  name: 'local',
+  name: 'Local',
   data () {
     return {
       apiDataLoading: true,
-      treeData: [],
+      treeData: [
+        {
+          id: '0',
+          label: 'projects'
+        },
+        {
+          id: '1',
+          label: 'plugin'
+        },
+        {
+          id: '2',
+          label: 'hosts'
+        },
+        {
+          id: '3',
+          label: 'testapp'
+        },
+        {
+          id: '4',
+          label: 'files'
+        },
+        {
+          id: '5',
+          label: 'capability-groups'
+        }
+      ],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -51,29 +86,16 @@ export default {
     window.onresize = function () {
       apiHeight()
     }
-    this.getApiUrl()
+    this.handleNodeClick(this.treeData[0])
   },
   methods: {
-    getApiUrl () {
-      Get('mec/developer/v1/localapi').then(res => {
-        let treeDataTemp = res.data.swaggers
-        for (let i in treeDataTemp) {
-          let obj = {
-            id: 0,
-            label: '',
-            url: ''
-          }
-          obj.id = i
-          obj.label = treeDataTemp[i].name
-          obj.url = treeDataTemp[i].url
-          this.treeData.push(obj)
-        }
-        this.handleNodeClick(this.treeData[0])
-        this.apiDataLoading = false
-      })
+    getApiUrl (filename) {
+      let apiUrl = urlPrefix + 'mec/developer/v1/localapi/' + filename
+      return apiUrl
     },
     handleNodeClick (data) {
-      let apiUrl = data.url
+      let apiUrl = this.getApiUrl(data.label)
+      this.apiDataLoading = false
       SwaggerUIBundle({
         url: apiUrl,
         dom_id: '#swagger-ui',

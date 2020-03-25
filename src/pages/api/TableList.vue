@@ -1,54 +1,62 @@
 <template>
-  <div class="tablelist">
+  <div class="tablelist clear">
     <el-table
-      v-loading='dataLoading'
+      v-loading="dataLoading"
       :data="currentData"
-      style="width: 100%">
-          <el-table-column
-              prop="pluginName"
-              :label="$t('api.name')"
-              width="260">
-          </el-table-column>
-          <el-table-column
-              prop="introduction"
-              :label="$t('api.description')">
-          </el-table-column>
-          <el-table-column
-              label=""
-              width="160">
-              <template slot-scope="scope">
-                <el-button id="detailBtn" type="text" class="btn" @click="toDetail(scope.row)">{{$t('api.apiDetail')}}</el-button>
-              </template>
-          </el-table-column>
-      </el-table>
-      <div class="pagebar">
-          <pagination :tableData='listData' @getCurrentPageData='getCurrentPageData'></pagination>
-      </div>
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="service"
+        :label="$t('api.name')"
+        width="260"
+      />
+      <el-table-column
+        prop="description"
+        :label="$t('api.description')"
+      />
+      <el-table-column
+        label=""
+        width="160"
+      >
+        <template slot-scope="scope">
+          <el-button
+            id="detailBtn"
+            type="text"
+            class="btn"
+            @click="toDetail(scope.row)"
+          >
+            {{ $t('api.apiDetail') }}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagebar">
+      <pagination
+        :table-data="listData"
+        @getCurrentPageData="getCurrentPageData"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-// import { Get } from './../../tools/tool.js'
+import { Get } from './../../tools/tool.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
-  name: 'tablelist',
-  props: ['tabLabel'],
+  name: 'Tablelist',
+  props: {
+    tabLabel: {
+      type: String,
+      default: ''
+    }
+  },
   components: { pagination },
   data () {
     return {
-      listData: [
-        {
-          pluginName: 'Face Recognition Plugin',
-          introduction: 'Face Recognition Demo'
-        }
-      ],
+      listData: [],
       dataLoading: false,
-      currentData: [
-        {
-          pluginName: 'Face Recognition Plugin',
-          introduction: 'Face Recognition Demo'
-        }
-      ]
+      currentData: [],
+      openMeps: []
     }
   },
   watch: {
@@ -69,27 +77,84 @@ export default {
       this.currentData = val
     },
     toDetail (item) {
-      // let mecDetailID = JSON.stringify(item.pluginId)
-      // sessionStorage.setItem('mecDetailID', mecDetailID)
       this.$router.push({
-        name: 'apidetail'
-        // params: {
-        //   id: mecDetailID
-        // }
+        name: 'apidetail',
+        params: {
+          apiId: item.apiFileId,
+          path: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1)
+        }
       })
     },
     getListData () {
-      if (this.tabLabel === 'Face') {
-        // Get('mecapi/developer/v1/plugins/?pluginType=1').then(res => {
-        //   this.listData = res.data.plugins
-        //   this.dataLoading = false
-        //   console.log(this.listData)
-        // })
-        this.currentData = this.listData
-      } else if (this.tabLabel === 'VR') {
-        this.currentData = []
-      } else if (this.tabLabel === 'AR') {
-        this.currentData = []
+      this.listData = []
+      if (this.tabLabel === 'Face Recognition') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Face Recognition') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Service Discovery') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Service Discovery') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Bandwidth') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Bandwidth') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Location') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Location') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Traffic') {
+        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+          this.openMeps = res.data.openMeps
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Traffic') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Video') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Video') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else {
+        this.listData = []
       }
     }
   }

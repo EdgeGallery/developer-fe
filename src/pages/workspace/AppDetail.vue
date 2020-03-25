@@ -1,58 +1,116 @@
 <template>
   <div class="workdetail">
-    <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/work' }">{{$t('breadCrumb.workspace')}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{$t('breadCrumb.detail')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/work' }">
+        {{ $t('breadCrumb.workspace') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-tabs type="border-card" class="elTabs" v-model="activeName">
-      <el-tab-pane :label="$t('workspace.api')" class="elTabPane" name="1" lazy>
-       <api></api>
+    <el-tabs
+      type="border-card"
+      class="elTabs"
+      v-model="activeName"
+    >
+      <el-tab-pane
+        :label="$t('workspace.api')"
+        class="elTabPane"
+        name="1"
+        lazy
+      >
+        <api />
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.buildAndTest')" class="elTabPane" name="2" lazy>
-        <el-steps :active="active" finish-status="success" align-center>
-          <el-step :title="$t('workspace.selectImage')"></el-step>
-          <el-step :title="$t('workspace.configureYaml')"></el-step>
-          <el-step :title="$t('workspace.server')"></el-step>
-          <el-step :title="$t('workspace.test')"></el-step>
+      <el-tab-pane
+        :label="$t('workspace.buildAndTest')"
+        class="elTabPane"
+        name="2"
+        lazy
+        v-loading="isPublic"
+      >
+        <el-steps
+          :active="active"
+          finish-status="success"
+          align-center
+        >
+          <el-step :title="$t('workspace.selectImage')" />
+          <el-step :title="$t('workspace.configureYaml')" />
+          <el-step :title="$t('workspace.server')" />
+          <el-step :title="$t('workspace.test')" />
         </el-steps>
         <div class="elSteps">
           <component
-            v-bind:is="currentComponent"
-            @getStepData='getStepData'
-            :projectBeforeConfig='projectBeforeConfig'
-            ref="currentComponet">
-          </component>
+            :is="currentComponent"
+            @getStepData="getStepData"
+            @getBtnStatus="getBtnStatus"
+            :project-before-config="projectBeforeConfig"
+            ref="currentComponet"
+          />
         </div>
         <div class="elButton">
-          <el-button id="prevBtn" type="text" @click="previous" v-if="active>0">
-            <b>{{$t('workspace.previous')}}</b>
+          <el-button
+            id="prevBtn"
+            type="text"
+            @click="previous"
+            v-if="active>0"
+            :disabled="isDeploying"
+          >
+            <b>{{ $t('workspace.previous') }}</b>
           </el-button>
-          <el-button id="nextBtn" type="primary" @click="next">
-            <b>{{btnName}}</b>
+          <el-button
+            id="nextBtn"
+            type="primary"
+            @click="next"
+            :disabled="isCompleted"
+          >
+            <b>{{ btnName }}</b>
           </el-button>
         </div>
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.statistics')" class="elTabPane" name="3" lazy>
-        <dataStistical></dataStistical>
+      <el-tab-pane
+        :label="$t('workspace.statistics')"
+        class="elTabPane"
+        name="3"
+        lazy
+      >
+        <dataStistical />
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.projectLink')" class="elTabPane" name="4" lazy>
-        <projectLink></projectLink>
+      <el-tab-pane
+        :label="$t('workspace.projectLink')"
+        class="elTabPane"
+        name="4"
+        lazy
+      >
+        <projectLink />
       </el-tab-pane>
-      <el-tab-pane :label="$t('workspace.toolChain')" class="elTabPane" name="5" lazy>
-        <toolChain v-if="!viewReport" @isViewReport="getViewReport"></toolChain>
-        <toolReport v-else  @isViewReport="getViewReport"></toolReport>
+      <el-tab-pane
+        :label="$t('workspace.toolChain')"
+        class="elTabPane"
+        name="5"
+        lazy
+      >
+        <toolChain
+          v-if="!viewReport"
+          @isViewReport="getViewReport"
+        />
+        <toolReport
+          v-else
+          @isViewReport="getViewReport"
+        />
       </el-tab-pane>
     </el-tabs>
     <div v-if="dialogVisible">
-      <publishAppDialog v-model="dialogVisible"></publishAppDialog>
+      <publishAppDialog v-model="dialogVisible" />
     </div>
-
   </div>
 </template>
 
 <script>
-import { Get, Post, Put, urlPrefix } from '../../tools/tool.js'
+import { Get, Post, Put } from '../../tools/tool.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
 import selectServer from './SelectServer.vue'
@@ -64,7 +122,7 @@ import projectLink from './detail/ProjectLink.vue'
 import toolChain from './detail/ToolChain.vue'
 import toolReport from './detail/ToolReport.vue'
 export default {
-  name: 'appDetail',
+  name: 'AppDetail',
   components: {
     imageSelect,
     configYaml,
@@ -88,7 +146,12 @@ export default {
       currentComponent: 'imageSelect',
       allStepData: {},
       projectBeforeConfig: {},
-      viewReport: false
+      viewReport: false,
+      isDeploying: false,
+      deployed: false,
+      isCompleted: false,
+      userId: sessionStorage.getItem('userId'),
+      isPublic: false
     }
   },
   computed: {
@@ -133,14 +196,15 @@ export default {
       // 改变动态组件的值
       this.changeComponent()
       this.allStepData.ifNext = false
+      if (this.active === 2 && this.deployed) {
+        this.cleanTestEnv(false)
+      }
       if (this.active === 3) {
         // 第三部提交数据
         this.submitData()
       }
       if (this.active === 4) {
-        this.dialogVisible = true
-        // 清空测试环境
-        this.cleanTestEnv()
+        this.cleanTestEnv(true)
       }
     },
     handleClose () {
@@ -148,19 +212,18 @@ export default {
         name: 'workspace'
       })
     },
-    handleNodeClick (data) {
-      if (!data.children) {
-        let apiUrl = urlPrefix + 'mec/developer/v1/files/' + data.apiFileId
-        this.apiHtml = 'http://159.138.146.235:8080/swagger#' + apiUrl
-      }
-    },
     getStepData (data) {
       this.allStepData[data.step] = data.data
       this.allStepData.ifNext = data.ifNext
     },
+    getBtnStatus (status) {
+      console.log(status)
+      this.isDeploying = status.status
+      this.deployed = status.deploy
+      this.isCompleted = status.isCompleted
+    },
     submitData () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
       let getParams = (type) => {
         let params = []
         if (type === 'image') {
@@ -189,45 +252,64 @@ export default {
       }
       // 根据第一步的状态判断是新建还是修改
       let requireMethod = Post
+      let url = 'mec/developer/v1/projects/' + projectId + '/test-config?userId=' + this.userId
       if (this.projectBeforeConfig.testId) {
         requireMethod = Put
+        url = 'mec/developer/v1/projects/' + projectId + '/test-config'
         // 修改需要
         params.status = this.projectBeforeConfig.status
         params.accessURL = this.projectBeforeConfig.accessURL
         params.errorLog = this.projectBeforeConfig.errorLog
       }
-      requireMethod(url, params, 'neworedit').then(res => {
+      requireMethod(url, params).then(res => {
         // 部署
-        let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy'
+        let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + this.userId
         Post(deployUrl).then(res => {
-          this.$message({
-            message: '已经开始部署。',
-            type: 'success'
-          })
+          if (res.data.status === 'DEPLOYING') {
+            this.$message({
+              message: this.$t('workspace.startDeploySucc')
+            })
+          }
+        }).catch(err => {
+          console.log(err)
         })
       })
     },
-    cleanTestEnv () {
+    // 清空测试环境
+    cleanTestEnv (deployed) {
+      this.isPublic = true
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean'
+      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + this.userId
       Post(url).then(res => {
+        if (res.data === true) {
+          this.isPublic = false
+          this.dialogVisible = true
+        }
       })
     },
     getViewReport (data) {
       this.viewReport = data
+    },
+    getTestConfig () {
+      // 获取以前提交过的config
+      let projectId = sessionStorage.getItem('mecDetailID')
+      let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
+      Get(url).then(res => {
+        if (res.data.status === 'Running') {
+          this.activeName = '2'
+          this.active = 3
+          this.changeComponent()
+        }
+        this.projectBeforeConfig = res.data ? res.data : {}
+      // if (this.projectBeforeConfig.testId) {
+      //   this.active = 3
+      // }
+      })
     }
   },
   mounted () {
     this.handleStep()
-    // 获取以前提交过的config
-    let projectId = sessionStorage.getItem('mecDetailID')
-    let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
-    Get(url).then(res => {
-      this.projectBeforeConfig = res.data
-      // if (this.projectBeforeConfig.testId) {
-      //   this.active = 3
-      // }
-    })
+    this.getTestConfig()
   }
 }
 </script>

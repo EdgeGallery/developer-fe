@@ -119,4 +119,14 @@ body .el-table th.gutter{
   line-height: 70px;
   font-size: 14px;
 }
-
+.clear{
+  content: '';
+  display: block;
+  clear: both;
+}
+.swagger-ui .base-url{
+  display: none;
+}
+.swagger-ui .main .url{
+  display: none;
+}

@@ -24,12 +24,14 @@ export default {
   },
   getPermissions: function (data) {
     for (let i = 0; i < data.length; i++) {
-      for (let j in permissions) {
-        if (permissions[j].includes(data[i].pageId)) {
-          data[i].display = true
-        }
-      }
+      // for (let j in permissions) {
+      //   if (permissions[j].includes(data[i].pageId)) {
+      //     data[i].display = true
+      //   }
+      // }
+      data[i].display = true
     }
+
     return data
   },
   getNavPermissions: function () {
@@ -55,8 +57,8 @@ export default {
     let language = localStorage.getItem('language')
     if (language === 'en') {
       let data
-      if (sessionStorage.getItem('user') !== '') {
-        data = JSON.parse(sessionStorage.getItem('user'))
+      if (sessionStorage.getItem('userId') !== '') {
+        data = JSON.parse(sessionStorage.getItem('userId'))
         sessionStorage.setItem('sessionTimeCounter', parseInt(new Date().getTime()) + sessionTimeOut)
         this.setUser(data)
         if (path === '/') {
@@ -74,8 +76,8 @@ export default {
       return jsonData
     } else if (language === 'cn') {
       let data
-      if (sessionStorage.getItem('user') !== '') {
-        data = JSON.parse(sessionStorage.getItem('user'))
+      if (sessionStorage.getItem('userId') !== '') {
+        data = JSON.parse(sessionStorage.getItem('userId'))
         sessionStorage.setItem('sessionTimeCounter', parseInt(new Date().getTime()) + sessionTimeOut)
         this.setUser(data)
         if (path === '/') {
@@ -96,7 +98,7 @@ export default {
   keepSessionAlive () {
     let sessionTimeCounter = sessionStorage.getItem('sessionTimeCounter')
     let keepAlive = true
-    if (sessionTimeCounter !== '' && sessionStorage.getItem('user') !== '') {
+    if (sessionTimeCounter !== '' && sessionStorage.getItem('userId') !== '') {
       let currentTime = parseInt(new Date().getTime())
       if (currentTime > sessionTimeCounter) {
         keepAlive = false

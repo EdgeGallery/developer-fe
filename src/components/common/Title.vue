@@ -1,7 +1,7 @@
 <template>
   <div class="my-comp-title">
     <div class="title">
-      <span>{{this.title}}</span>
+      <span>{{ this.title }}</span>
     </div>
   </div>
 </template>
@@ -10,7 +10,8 @@
 export default {
   props: {
     title: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   data () {

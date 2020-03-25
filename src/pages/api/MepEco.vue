@@ -1,53 +1,81 @@
 <template>
   <div class="appapi">
-    <el-breadcrumb separator="/" class="bread-crumb">
-        <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">{{$t('breadCrumb.mecDeveloper')}}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">API</el-breadcrumb-item>
-        <el-breadcrumb-item>{{$t('breadCrumb.mepecoapi')}}</el-breadcrumb-item>
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
+    >
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+        API
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('breadCrumb.mepecoapi') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="app-main">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane :label="$t('api.faceRecognition')"  name="Face" lazy>
-        </el-tab-pane>
-        <el-tab-pane label="VR" name="VR" lazy>
-        </el-tab-pane>
-        <el-tab-pane label="AR" name="AR" lazy>
-        </el-tab-pane>
+      <el-tabs
+        v-model="activeName"
+        @tab-click="handleClick"
+      >
+        <el-tab-pane
+          v-for="(item,index) in openMepEcoName"
+          :key="index"
+          :label="item"
+          :name="item"
+          lazy
+        />
       </el-tabs>
-      <tableList :tabLabel="activeName" ref="tablist"/>
+      <tableList
+        :tab-label="activeName"
+        ref="tablist"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { Get } from '../../tools/tool.js'
 import tableList from './TableList.vue'
 export default {
-  name: 'appapi',
+  name: 'Appapi',
   components: {
     tableList
   },
   data () {
     return {
-      activeName: 'Face'
+      activeName: 'Video',
+      openMepEcoName: [],
+      openMepEco: []
     }
   },
-  mounted () {},
+  mounted () {
+    this.getOpenMepEcoName()
+  },
   created () {
-    let tabSelect = sessionStorage.getItem('activeNameapp')
-    tabSelect = tabSelect || 'Face'
+    let tabSelect = sessionStorage.getItem('activeNameApi')
+    tabSelect = tabSelect || 'Video'
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   },
   beforeRouteEnter (to, from, next) {
     if (from.path.indexOf('/api/detail') === -1) {
       sessionStorage.removeItem('currentPage')
-      sessionStorage.removeItem('activeNameapp')
+      sessionStorage.removeItem('activeNameApi')
     }
     next()
   },
   methods: {
     handleClick (tab) {
-      sessionStorage.setItem('activeNameapp', tab.name)
+      sessionStorage.setItem('activeNameApi', tab.name)
       sessionStorage.setItem('currentPage', 1)
+    },
+    getOpenMepEcoName () {
+      Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+        this.openMepEco = res.data.openMepEcos
+        this.openMepEco.forEach(item => {
+          this.openMepEcoName.push(item.name)
+        })
+        this.openMepEcoName = [...new Set(this.openMepEcoName)]
+      })
     }
   }
 }
