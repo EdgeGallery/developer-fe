@@ -124,9 +124,6 @@ body .el-table th.gutter{
   display: block;
   clear: both;
 }
-.swagger-ui .base-url{
-  display: none;
-}
-.swagger-ui .main .url{
+.swagger-ui .info .url{
   display: none;
 }

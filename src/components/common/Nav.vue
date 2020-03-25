@@ -24,14 +24,9 @@
           <span @click="changeLange">{{ language }}</span>
         </div>
         <div class="nav-tabs rt">
-          <el-tooltip
-            class="item el-icon-user-solid blue"
-            effect="dark"
-            content="Log Out"
-            placement="bottom-start"
-          >
-            <span @click="beforeLogout()" />
-          </el-tooltip>
+          <span
+            @click="beforeLogout()"
+          >{{ $t('nav.logOut') }}</span>
         </div>
       </el-col>
     </el-row>
@@ -290,12 +285,14 @@ export default {
     }
     span {
       display: inline-block;
-      width: 24px;
+      width: 40px;
       height: 24px;
-      margin-right: 20px;
+      margin-right: 0px;
       position: relative;
-      top: 7px;
+      top: 5px;
       cursor: pointer;
+      color:#f5f5f5;
+      font-size: 14px;
     }
     span.el-icon-user-solid.blue {
       color: #6c92fa;

@@ -153,6 +153,61 @@ export default {
           })
           this.dataLoading = false
         })
+      } else if (this.tabLabel === 'Game') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Game') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Video Surveillance') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Video Surveillance') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'AR') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'AR') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'Calculate') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'Calculate') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
+      } else if (this.tabLabel === 'MEP') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+          this.openMeps = res.data.openMepEcos
+          this.listData = []
+          this.openMeps.forEach(item => {
+            if (item.name === 'MEP') {
+              this.listData.push(item)
+            }
+          })
+          this.dataLoading = false
+        })
       } else {
         this.listData = []
       }
