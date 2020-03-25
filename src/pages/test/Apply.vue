@@ -239,17 +239,6 @@ export default {
       tagsLoading: true
     }
   },
-  mounted () {
-    let url = 'mec/developer/v1/apps/tags'
-    Get(url).then(res => {
-      this.appTagList = res.data.tags
-      this.tagsLoading = false
-    })
-    this.form.userId = sessionStorage.getItem('userId')
-  },
-  created () {
-    this.keyupSubmit()
-  },
   methods: {
     keyupSubmit () {
       document.onkeydown = e => {
@@ -417,6 +406,28 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    let url = 'mec/developer/v1/apps/tags'
+    Get(url).then(res => {
+      this.appTagList = res.data.tags
+      this.tagsLoading = false
+    })
+    this.form.userId = sessionStorage.getItem('userId')
+
+    let defaultImg = this.defaultIcon[0]
+    let image = new Image()
+    image.src = defaultImg
+    image.onload = () => {
+      // 将静态图片转化为base64
+      let base64 = this.getBase64Image(image)
+      // base64转化为文件流
+      this.defaultIconFile.push(this.base64toFile(base64))
+      this.form.appIcon = this.defaultIconFile
+    }
+  },
+  created () {
+    this.keyupSubmit()
   }
 }
 </script>

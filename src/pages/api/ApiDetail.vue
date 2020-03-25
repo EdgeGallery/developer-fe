@@ -74,7 +74,7 @@ export default {
           childNodes[4].nodeValue = '{host}'
           window.clearInterval(interval)
         }
-      }, 200)
+      }, 600)
     }
   }
 }

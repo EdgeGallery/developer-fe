@@ -111,7 +111,7 @@
         id="edit_detail"
       ><a
         target="_blank"
-        href="http://139.9.0.160/houp/houp_portal/blob/master/public/mecplugin.md"
+        href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN.md"
       >Modify</a></span>
       <mavon-editor
         v-model="markdownSource"
@@ -150,7 +150,7 @@ export default {
     if (mecDetailType === 1) {
       this.breadcrumbTitle = this.$t('devTools.pluginList')
     }
-    let url = './mecplugin.md'
+    let url = './MECPLUGIN.md'
     axios(url).then(res => {
       this.markdownSource = res.data
     })

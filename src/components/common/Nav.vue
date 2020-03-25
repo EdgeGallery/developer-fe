@@ -195,10 +195,6 @@ export default {
         }
       }
     },
-    jumpTo (path) {
-      this.active = !this.active
-      this.$router.push(path)
-    },
     jumpFromLogo (newPath) {
       let usr = sessionStorage.getItem('usertype')
       if (this.userType === 'admin') {
@@ -216,6 +212,7 @@ export default {
         cancelButtonText: 'No',
         type: 'warning'
       }).then(() => {
+        sessionStorage.setItem('devLogoutPath', this.$route.path)
         this.logout()
       })
     }
