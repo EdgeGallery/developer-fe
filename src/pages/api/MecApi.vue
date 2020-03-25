@@ -29,7 +29,7 @@
         </div>
       </el-col>
       <el-col :span="20">
-        <div id="swagger-ui" />
+        <div id="swagger-ui-mec" />
       </el-col>
     </el-row>
   </div>
@@ -78,7 +78,7 @@ export default {
   },
   mounted () {
     function apiHeight () {
-      const oApi = document.getElementById('swagger-ui')
+      const oApi = document.getElementById('swagger-ui-mec')
       const deviceHeight = document.documentElement.clientHeight
       oApi.style.height = (Number(deviceHeight) - 230) + 'px'
     }
@@ -98,7 +98,7 @@ export default {
       this.apiDataLoading = false
       SwaggerUIBundle({
         url: apiUrl,
-        dom_id: '#swagger-ui',
+        dom_id: '#swagger-ui-mec',
         deepLinking: false,
         presets: [
           SwaggerUIBundle.presets.apis
@@ -117,7 +117,7 @@ export default {
     background-color: #fff;
     padding: 20px 10px 10px;
   }
-  #swagger-ui{
+  #swagger-ui-mec{
     width: 100%;
     height: 100%;
     overflow: auto;

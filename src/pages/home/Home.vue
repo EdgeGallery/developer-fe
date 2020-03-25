@@ -87,6 +87,10 @@ export default {
     } else {
       this.dialogVisible = true
     }
+    let logoutPath = sessionStorage.getItem('devLogoutPath')
+    if (logoutPath) {
+      this.$router.push(logoutPath)
+    }
   },
   mounted () {
   }
