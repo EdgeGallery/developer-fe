@@ -99,7 +99,7 @@ const en = {
     workSpace: 'WorkSpace',
     search: 'Search',
     logIn: 'Log In',
-    logOut: 'Log Out',
+    logOut: 'LogOut',
     help: 'Help',
     contact: 'Contact'
   },
@@ -266,6 +266,7 @@ const en = {
     lines: 'lines'
   },
   promptMessage: {
+    prompt: 'Prompt',
     noPermission: 'You have no permission to enter the user management page!',
     uploadSuccess: 'Upload success!',
     uploadFailure: 'Upload failure!',
@@ -278,7 +279,7 @@ const en = {
     versionEmpty: 'Version cannot be empty!',
     descriptionEmpty: 'Description cannot be empty!',
     moreThan500: 'Can only upload no more than 500kb!',
-    moreThan150: 'Can only upload no more than 150Mb!',
+    moreThan10M: 'Can only upload no more than 10Mb!',
     onlyOneFile: 'Only one file is allowed, please remove the file first!',
     appEmpty: 'Application file cannot be empty!',
     affinityEmpty: 'Affinity cannot be empty!',
@@ -292,7 +293,7 @@ const en = {
     checkCaptcha: 'Invalid captcha, please recheck the Captcha.',
     registerSuccess: 'User is registered successfully!!',
     resisterFail: 'Failed to register user, ',
-    logoutPage: 'Do You Want to Logout From This Page?',
+    logoutPage: 'Are you sure to log out?',
     yesBtn: 'Yes',
     noBtn: 'No',
     loginexpired: 'Login expired, please login again！',
@@ -326,7 +327,7 @@ const en = {
     forgotPwd: 'Forgot password？',
     modifyPwd: 'Modify Password',
     contact: 'Contact Number',
-    logout: 'Log Out'
+    logout: 'LogOut'
   },
   register: {
     registerUser: 'Register User',

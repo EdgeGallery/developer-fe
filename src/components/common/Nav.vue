@@ -207,9 +207,9 @@ export default {
       }
     },
     beforeLogout () {
-      this.$confirm('Are you sure to log out?', 'Promt', {
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
+      this.$confirm(this.$t('promptMessage.logoutPage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         sessionStorage.setItem('devLogoutPath', this.$route.path)
@@ -282,9 +282,8 @@ export default {
     }
     span {
       display: inline-block;
-      width: 40px;
       height: 24px;
-      margin-right: 0px;
+      margin-right: 10px;
       position: relative;
       top: 5px;
       cursor: pointer;

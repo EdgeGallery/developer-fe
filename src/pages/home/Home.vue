@@ -90,6 +90,7 @@ export default {
     let logoutPath = sessionStorage.getItem('devLogoutPath')
     if (logoutPath) {
       this.$router.push(logoutPath)
+      sessionStorage.removeItem('devLogoutPath')
     }
   },
   mounted () {

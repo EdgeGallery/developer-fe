@@ -48,10 +48,6 @@ export default {
       openMep: []
     }
   },
-  mounted () {
-    this.getOpenMepName()
-  },
-  created () {},
   beforeRouteEnter (to, from, next) {
     if (from.path.indexOf('/api/detail') === -1) {
       sessionStorage.removeItem('currentPage')
@@ -74,6 +70,14 @@ export default {
         // console.log(this.openMepName)
       })
     }
+  },
+  mounted () {
+    this.getOpenMepName()
+  },
+  created () {
+    let tabSelect = sessionStorage.getItem('activeNameApi')
+    tabSelect = tabSelect || 'Face Recognition'
+    this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   }
 }
 </script>

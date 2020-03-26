@@ -56,7 +56,8 @@ export default {
       listData: [],
       dataLoading: false,
       currentData: [],
-      openMeps: []
+      openMeps: [],
+      routerPath: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1)
     }
   },
   watch: {
@@ -81,135 +82,33 @@ export default {
         name: 'apidetail',
         params: {
           apiId: item.apiFileId,
-          path: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1)
+          path: this.routerPath
         }
       })
     },
     getListData () {
-      this.listData = []
-      if (this.tabLabel === 'Face Recognition') {
+      if (this.routerPath === 'mep') {
         Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
           this.openMeps = res.data.openMeps
           this.listData = []
           this.openMeps.forEach(item => {
-            if (item.name === 'Face Recognition') {
+            if (item.name === this.tabLabel) {
               this.listData.push(item)
             }
           })
           this.dataLoading = false
         })
-      } else if (this.tabLabel === 'Service Discovery') {
-        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+      } else if (this.routerPath === 'mep-eco') {
+        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
           this.openMeps = res.data.openMeps
           this.listData = []
           this.openMeps.forEach(item => {
-            if (item.name === 'Service Discovery') {
+            if (item.name === this.tabLabel) {
               this.listData.push(item)
             }
           })
           this.dataLoading = false
         })
-      } else if (this.tabLabel === 'Bandwidth') {
-        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
-          this.openMeps = res.data.openMeps
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Bandwidth') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'Location') {
-        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
-          this.openMeps = res.data.openMeps
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Location') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'Traffic') {
-        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
-          this.openMeps = res.data.openMeps
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Traffic') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'Video') {
-        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMepEcos
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Video') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'Game') {
-        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMepEcos
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Game') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'Video Surveillance') {
-        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMepEcos
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Video Surveillance') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'AR') {
-        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMepEcos
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'AR') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'Calculate') {
-        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMepEcos
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'Calculate') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else if (this.tabLabel === 'MEP') {
-        Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMepEcos
-          this.listData = []
-          this.openMeps.forEach(item => {
-            if (item.name === 'MEP') {
-              this.listData.push(item)
-            }
-          })
-          this.dataLoading = false
-        })
-      } else {
-        this.listData = []
       }
     }
   }
