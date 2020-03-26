@@ -36,12 +36,15 @@ server:
   servlet:
     session:
       timeout: 300
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
   session:
     cookie:
       name: DEVELOPERSESSIONID
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 APPLICATION_ID: openMec
 service_description:
