@@ -96,6 +96,12 @@
         </el-col>
       </el-row>
     </div>
+    <div
+      class="reportPromt"
+      v-if="reportPromt"
+    >
+      {{ $t('workspace.reportPromt') }}
+    </div>
     <p class="downloadBtn">
       <el-button @click="clickdownLoadReport()">
         {{ $t('workspace.downloadReport') }}（.csv）
@@ -119,7 +125,8 @@ export default {
         codefileinfo: {}
       },
       showicon: true,
-      needMigrateFiles: []
+      needMigrateFiles: [],
+      reportPromt: false
     }
   },
   mounted () {
@@ -133,13 +140,15 @@ export default {
     // 查询单个移植扫描任务信息
     getTaskInformation () {
       Get('mec/toolchain/v1/porting/' + this.projectId + '/tasks/' + this.reportId, '', 'toolchain').then(res => {
-        // console.log(res)
         if (res.status === 200) {
-          this.taskInformation = res.data.data.info
-          // console.log(this.taskInformation)
-          this.analysisResults = res.data.data.portingresult
-          this.needMigrateFiles = res.data.data.portingresult.codefileinfo.files
-          // console.log(this.analysisResults)
+          if (res.data.status === 0) {
+            this.reportPromt = false
+            this.taskInformation = res.data.data.info
+            this.analysisResults = res.data.data.portingresult
+            this.needMigrateFiles = res.data.data.portingresult.codefileinfo.files
+          } else {
+            this.reportPromt = true
+          }
           this.reportLoading = false
         }
       })

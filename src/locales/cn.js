@@ -213,7 +213,9 @@ const cn = {
     downloadReport: '下载报告',
     startDeploySucc: '已经开始部署',
     startDeployFail: '部署失败',
-    deploying: '正在部署，请稍后...'
+    deploying: '正在部署，请稍后...',
+    uploadCodeFail: '上传源码失败！',
+    reportPromt: '您的报告已过期，无法在线查看，请下载后查看'
   },
   test: {
     howToTest: {

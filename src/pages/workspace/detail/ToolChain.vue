@@ -361,6 +361,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.moreThan10M'))
         this.codeFileList = []
       } else if (this.sourceCodeName === '') {
+        this.codeFileList = []
         this.analysisLoading = true
         this.codeFileList.push(file.raw)
         let formdata = new FormData()
@@ -371,6 +372,10 @@ export default {
           if (res.status === 200) {
             this.analysisLoading = false
             sessionStorage.setItem('sourceCodePath', res.data.sourcePath)
+          } else {
+            this.codeFileList = []
+            this.$message.error(this.$t('workspace.uploadCodeFail'))
+            this.analysisLoading = false
           }
         })
       } else {
@@ -408,6 +413,7 @@ export default {
         this.getScanTask()
         this.analysisLoading = false
       }).catch(err => {
+        this.analysisLoading = false
         this.$message({
           message: this.$t('promptMessage.analysisCodeFail'),
           type: 'error',
