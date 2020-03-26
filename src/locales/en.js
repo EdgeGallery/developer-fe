@@ -213,7 +213,9 @@ const en = {
     downloadReport: 'Download Report',
     startDeploySucc: 'Already deployed',
     startDeployFail: 'Deployment failed',
-    deploying: 'Deploying, please wait...'
+    deploying: 'Deploying, please wait...',
+    uploadCodeFail: 'Failed to upload source code！',
+    reportPromt: 'Your report has expired and cannot be viewed online, please download and view'
   },
   test: {
     howToTest: {

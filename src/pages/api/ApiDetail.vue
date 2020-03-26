@@ -37,8 +37,8 @@ export default {
   data () {
     return {
       userId: sessionStorage.getItem('userId'),
-      apiFileId: this.$route.params.apiId,
-      path: this.$route.params.path
+      apiFileId: this.$route.query.apiId,
+      path: this.$route.query.path
     }
   },
   mounted () {
@@ -69,9 +69,13 @@ export default {
       })
       let interval = setInterval(() => {
         let baseUrl = document.getElementsByClassName('base-url')
-        if (baseUrl[0].innerHTML) {
-          let childNodes = baseUrl[0].childNodes
-          childNodes[4].nodeValue = '{host}'
+        try {
+          if (baseUrl[0].innerHTML) {
+            let childNodes = baseUrl[0].childNodes
+            childNodes[4].nodeValue = '{host}'
+            window.clearInterval(interval)
+          }
+        } catch (error) {
           window.clearInterval(interval)
         }
       }, 200)

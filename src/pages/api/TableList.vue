@@ -80,10 +80,9 @@ export default {
     toDetail (item) {
       this.$router.push({
         name: 'apidetail',
-        params: {
-          apiId: item.apiFileId,
-          path: this.routerPath
-        }
+        query: { apiId: item.apiFileId,
+          path: this.routerPath }
+
       })
     },
     getListData () {
@@ -100,7 +99,7 @@ export default {
         })
       } else if (this.routerPath === 'mep-eco') {
         Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
-          this.openMeps = res.data.openMeps
+          this.openMeps = res.data.openMepEcos
           this.listData = []
           this.openMeps.forEach(item => {
             if (item.name === this.tabLabel) {
