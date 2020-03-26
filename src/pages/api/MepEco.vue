@@ -48,14 +48,6 @@ export default {
       openMepEco: []
     }
   },
-  mounted () {
-    this.getOpenMepEcoName()
-  },
-  created () {
-    let tabSelect = sessionStorage.getItem('activeNameApi')
-    tabSelect = tabSelect || 'Video'
-    this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
-  },
   beforeRouteEnter (to, from, next) {
     if (from.path.indexOf('/api/detail') === -1) {
       sessionStorage.removeItem('currentPage')
@@ -69,6 +61,10 @@ export default {
       sessionStorage.setItem('currentPage', 1)
     },
     getOpenMepEcoName () {
+      this.openMepEco.forEach(item => {
+        this.openMepEcoName.push(item.name)
+      })
+      this.openMepEcoName = [...new Set(this.openMepEcoName)]
       Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
         this.openMepEco = res.data.openMepEcos
         this.openMepEco.forEach(item => {
@@ -77,6 +73,14 @@ export default {
         this.openMepEcoName = [...new Set(this.openMepEcoName)]
       })
     }
+  },
+  mounted () {
+    this.getOpenMepEcoName()
+  },
+  created () {
+    let tabSelect = sessionStorage.getItem('activeNameApi')
+    tabSelect = tabSelect || 'Video'
+    this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   }
 }
 </script>

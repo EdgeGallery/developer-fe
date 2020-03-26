@@ -356,7 +356,11 @@ export default {
     },
     // 上传源代码
     handleChangeCode (file, fileList) {
-      if (this.sourceCodeName === '') {
+      this.codeFileList.push(file.raw)
+      if (file.size / 1024 / 1024 > 10) {
+        this.$message.warning(this.$t('promptMessage.moreThan10M'))
+        this.codeFileList = []
+      } else if (this.sourceCodeName === '') {
         this.analysisLoading = true
         this.codeFileList.push(file.raw)
         let formdata = new FormData()

@@ -325,8 +325,8 @@ export default {
     },
     handleAppChanged (file, fileList) {
       this.appFileList.push(file.raw)
-      if (file.size / 1024 / 1024 > 150) {
-        this.$message.warning(this.$t('promptMessage.moreThan150'))
+      if (file.size / 1024 / 1024 > 10) {
+        this.$message.warning(this.$t('promptMessage.moreThan10M'))
         this.appFileList = []
       }
     },

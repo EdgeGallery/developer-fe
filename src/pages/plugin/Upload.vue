@@ -420,7 +420,7 @@ export default {
       this.$store.state.pluginSize = file.size / 1024 / 1024
       this.plugFileList.push(file.raw)
       if (file.size / 1024 / 1024 > 10) {
-        this.$message.warning(this.$t('promptMessage.moreThan150'))
+        this.$message.warning(this.$t('promptMessage.moreThan10M'))
         this.plugFileList = []
       }
     },

@@ -25,7 +25,7 @@
           {{ $t('workspace.compilerVersion') }}
         </el-col>
         <el-col :span="4">
-          {{ compilerType }} {{ compilerVersion }}
+          {{ taskInformation.compiler.type }} {{ taskInformation.compiler.version }}
         </el-col>
         <el-col :span="3">
           {{ $t('workspace.buildTools') }}
@@ -71,7 +71,7 @@
           <i class="result_yz" />{{ $t('workspace.needtranscount') }}
         </el-col>
         <el-col :span="12">
-          {{ needtranscount }}
+          {{ analysisResults.codefileinfo.needtranscount }}
         </el-col>
       </el-row>
       <el-row
@@ -112,11 +112,12 @@ export default {
       projectId: sessionStorage.getItem('mecDetailID'),
       reportId: sessionStorage.getItem('reportId'),
       reportLoading: true,
-      taskInformation: {},
-      compilerType: '',
-      compilerVersion: '',
-      analysisResults: {},
-      needtranscount: '',
+      taskInformation: {
+        compiler: {}
+      },
+      analysisResults: {
+        codefileinfo: {}
+      },
       showicon: true,
       needMigrateFiles: []
     }
@@ -136,10 +137,7 @@ export default {
         if (res.status === 200) {
           this.taskInformation = res.data.data.info
           // console.log(this.taskInformation)
-          this.compilerType = this.taskInformation.compiler.type
-          this.compilerVersion = this.taskInformation.compiler.version
           this.analysisResults = res.data.data.portingresult
-          this.needtranscount = res.data.data.portingresult.codefileinfo.needtranscount
           this.needMigrateFiles = res.data.data.portingresult.codefileinfo.files
           // console.log(this.analysisResults)
           this.reportLoading = false
