@@ -24,14 +24,9 @@
           <span @click="changeLange">{{ language }}</span>
         </div>
         <div class="nav-tabs rt">
-          <el-tooltip
-            class="item el-icon-user-solid blue"
-            effect="dark"
-            content="Log Out"
-            placement="bottom-start"
-          >
-            <span @click="beforeLogout()" />
-          </el-tooltip>
+          <span
+            @click="beforeLogout()"
+          >{{ $t('nav.logOut') }}</span>
         </div>
       </el-col>
     </el-row>
@@ -200,10 +195,6 @@ export default {
         }
       }
     },
-    jumpTo (path) {
-      this.active = !this.active
-      this.$router.push(path)
-    },
     jumpFromLogo (newPath) {
       let usr = sessionStorage.getItem('usertype')
       if (this.userType === 'admin') {
@@ -216,11 +207,12 @@ export default {
       }
     },
     beforeLogout () {
-      this.$confirm('Are you sure to log out?', 'Promt', {
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
+      this.$confirm(this.$t('promptMessage.logoutPage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
+        sessionStorage.setItem('devLogoutPath', this.$route.path)
         this.logout()
       })
     }
@@ -290,12 +282,13 @@ export default {
     }
     span {
       display: inline-block;
-      width: 24px;
       height: 24px;
-      margin-right: 20px;
+      margin-right: 10px;
       position: relative;
-      top: 7px;
+      top: 5px;
       cursor: pointer;
+      color:#f5f5f5;
+      font-size: 14px;
     }
     span.el-icon-user-solid.blue {
       color: #6c92fa;

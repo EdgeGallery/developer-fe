@@ -20,7 +20,7 @@
           <span class="rt">
             <span class="el-icon-edit"><a
               target="_blank"
-              href="http://139.9.0.160/houp/houp_portal/blob/master/public/mechow.md"
+              href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW.md"
             >{{ $t('test.howToTest.modify') }}</a></span>
             <span class="el-icon-share">{{ $t('test.howToTest.share') }}</span>
           </span>
@@ -61,7 +61,7 @@ export default {
     }
   },
   mounted () {
-    let url = './mechow.md'
+    let url = './MECHOW.md'
     axios(url).then(res => {
       this.markdownSource = res.data
     })

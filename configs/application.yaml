@@ -35,10 +35,16 @@ server:
     key-store-type: PKCS12
   servlet:
     session:
-      timeout: 300
+      timeout: 1200
   session:
     cookie:
       name: DEVELOPERSESSIONID
+
+spring:
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 APPLICATION_ID: openMec
 service_description:
@@ -56,6 +62,9 @@ servicecomb:
         urlPattern: /cse/*
   tracing:
     enabled: false
+  uploads:
+    directory: /developer-fe
+    maxSize: 10M
 
 auth_server: https://159.138.129.53:30067/auth-server
 security:

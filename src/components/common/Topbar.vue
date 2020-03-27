@@ -109,17 +109,16 @@ export default {
         this.indexName = '/mecDeveloper/plugin/list#1'
       } else if (this.indexName === '/mecDeveloper/plugin/upload') {
         this.indexName = '/mecDeveloper/plugin/upload#1'
-      } else if (this.indexName === '/mecm/mep/detail') {
-        this.indexName = '/mecm/mep/list'
-      } else if (this.indexName === '/mecm/apac/detail') {
-        this.indexName = '/mecm/apac/list'
-      } else if (this.indexName === '/mecm/apac/list/?type=mep') {
-        this.indexName = '/mecm/apac/list'
       }
     }
   },
   mounted () {
     this.indexName = this.$route.fullPath
+    let devLogoutPath = sessionStorage.getItem('devLogoutPath')
+    if (devLogoutPath) {
+      this.$router.push(devLogoutPath)
+      sessionStorage.removeItem('devLogoutPath')
+    }
   }
 }
 

@@ -213,7 +213,9 @@ const cn = {
     downloadReport: '下载报告',
     startDeploySucc: '已经开始部署',
     startDeployFail: '部署失败',
-    deploying: '正在部署，请稍后...'
+    deploying: '正在部署，请稍后...',
+    uploadCodeFail: '上传源码失败！',
+    reportPromt: '您的报告已过期，无法在线查看，请下载后查看'
   },
   test: {
     howToTest: {
@@ -266,6 +268,7 @@ const cn = {
     lines: '行'
   },
   promptMessage: {
+    prompt: '提示',
     noPermission: '您没有权限进入用户管理页面！',
     uploadSuccess: '上传成功！',
     uploadFailure: '上传失败！',
@@ -278,7 +281,7 @@ const cn = {
     versionEmpty: '版本不能为空！',
     descriptionEmpty: '描述不能为空！',
     moreThan500: '只能上传不超过500KB的文件！',
-    moreThan150: '只能上传不超过150MB的文件！',
+    moreThan10M: '只能上传不超过10MB的文件！',
     onlyOneFile: '仅支持一个文件，请先移除已有文件！',
     appEmpty: 'app不能为空！',
     affinityEmpty: '亲和性不能为空！',
@@ -292,7 +295,7 @@ const cn = {
     checkCaptcha: '验证码无效，请检查验证码。',
     registerSuccess: '用户注册成功！',
     resisterFail: '用户注册失败。 ',
-    logoutPage: '是否退出本页面？',
+    logoutPage: '您确定要退出吗？',
     yesBtn: '是',
     noBtn: '否',
     loginexpired: '登录已过期，请重新登录！',

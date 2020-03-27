@@ -229,10 +229,7 @@ export default {
       formdata: new FormData()
     }
   },
-  created () {
-  },
-  mounted () {
-  },
+
   methods: {
     handleChangeLogo (file, fileList) {
       this.form.base64Session = true
@@ -317,6 +314,20 @@ export default {
     emitStepData () {
       if (!this.form.appIcon.length) this.chooseDefaultIcon(this.defaultIcon[0], 1)
       this.$emit('getStepData', { data: this.form, step: 'first' })
+    }
+  },
+  created () {
+  },
+  mounted () {
+    let defaultImg = this.defaultIcon[0]
+    let image = new Image()
+    image.src = defaultImg
+    image.onload = () => {
+      // 将静态图片转化为base64
+      let base64 = this.getBase64Image(image)
+      // base64转化为文件流
+      this.defaultIconFile.push(this.base64toFile(base64))
+      this.form.appIcon = this.defaultIconFile
     }
   }
 }

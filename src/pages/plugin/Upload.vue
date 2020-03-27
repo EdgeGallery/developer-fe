@@ -298,13 +298,6 @@ export default {
       uploadBtnLoading: false
     }
   },
-  mounted () {
-    this.form.userName = 'mecdev'
-    this.form.userId = sessionStorage.getItem('userId')
-  },
-  created () {
-    this.keyupSubmit()
-  },
   methods: {
     keyupSubmit () {
       document.onkeydown = e => {
@@ -427,7 +420,7 @@ export default {
       this.$store.state.pluginSize = file.size / 1024 / 1024
       this.plugFileList.push(file.raw)
       if (file.size / 1024 / 1024 > 10) {
-        this.$message.warning(this.$t('promptMessage.moreThan150'))
+        this.$message.warning(this.$t('promptMessage.moreThan10M'))
         this.plugFileList = []
       }
     },
@@ -490,6 +483,24 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    this.form.userName = 'mecdev'
+    this.form.userId = sessionStorage.getItem('userId')
+
+    let defaultImg = this.defaultIcon[0]
+    let image = new Image()
+    image.src = defaultImg
+    image.onload = () => {
+      // 将静态图片转化为base64
+      let base64 = this.getBase64Image(image)
+      // base64转化为文件流
+      this.defaultIconFile.push(this.base64toFile(base64))
+      this.form.appIcon = this.defaultIconFile
+    }
+  },
+  created () {
+    this.keyupSubmit()
   }
 }
 </script>

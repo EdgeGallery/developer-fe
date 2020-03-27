@@ -19,7 +19,7 @@
       <div class="main-content-left">
         <span class="rt">
           <span class="el-icon-edit"><a
-            href="http://139.9.0.160/houp/houp_portal/blob/master/public/mecOpen.md"
+            href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECOPEN.md"
             target="_blank"
           >Modify</a></span>
         </span>
@@ -102,7 +102,7 @@ export default {
     }
   },
   mounted () {
-    let url = './mecOpen.md'
+    let url = './MECOPEN.md'
     axios(url).then(res => {
       this.source = res.data
     })

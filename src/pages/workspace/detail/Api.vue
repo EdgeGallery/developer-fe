@@ -106,6 +106,14 @@ export default {
             SwaggerUIBundle.plugins.DownloadUrl
           ]
         })
+        let interval = setInterval(() => {
+          let baseUrl = document.getElementsByClassName('base-url')
+          if (baseUrl[0].innerHTML) {
+            let childNodes = baseUrl[0].childNodes
+            childNodes[4].nodeValue = '{host}'
+            window.clearInterval(interval)
+          }
+        }, 200)
       }
     }
   },

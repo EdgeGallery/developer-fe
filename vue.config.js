@@ -19,12 +19,12 @@ module.exports = {
           '^/mec-developer': ''
         }
       },
-      '/mec-developer-tool': {
-        target: 'http://mec-developer-tool',
+      '/toolchain': {
+        target: 'http://toolchain',
         agent: new HttpProxyAgent('http://127.0.0.1:8082'),
         changeOrigin: true,
         pathRewrite: {
-          '^/mec-developer-tool': ''
+          '^/toolchain': ''
         }
       }
 
