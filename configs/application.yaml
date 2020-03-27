@@ -33,7 +33,7 @@ server:
     key-store-type: PKCS12
   servlet:
     session:
-      timeout: 300
+      timeout: 1200
   session:
     cookie:
       name: DEVELOPERSESSIONID
