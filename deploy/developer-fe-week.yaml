@@ -87,8 +87,6 @@ spec:
       labels:
         app: developer-fe
     spec:
-      nodeSelector:
-        type: storage
       containers:
         - name: developer-fe
           image: edgegallery/developer-fe:latest
@@ -99,10 +97,6 @@ spec:
             - name: developer-fe-config
               mountPath: /usr/app/configs/application.yaml
               subPath: /configs/application.yaml
-            - mountPath: /usr/app/configs/sslClient.p12
-              name: sslclient
-            - mountPath: /usr/app/configs/trustStore.p12
-              name: truststore
       volumes:
         - name: developer-fe-config
           configMap:
@@ -110,12 +104,7 @@ spec:
             items:
               - key: application.yaml
                 path: application.yaml
-        - name: sslclient
-          hostPath:
-            path: /edgegallery_datas/client/
-        - name: truststore
-          hostPath:
-            path: /edgegallery_datas/client/
+
 
         
 ---
