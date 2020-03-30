@@ -16,6 +16,24 @@
 
 <template>
   <div class="projectlist">
+    <div class="title">
+      {{ $t('workspace.myProjectList') }}
+      <el-input
+        clearable
+        v-model="enterQuery"
+        :placeholder="$t('workspace.projectName')"
+        id="inputProjectName"
+        class="enterinput"
+        @blur="enterQueryFun"
+        @clear="enterQueryFun"
+      />
+      <el-button
+        class="searchBtn"
+        @click="enterQueryFun"
+      >
+        {{ $t('test.testTask.inquire') }}
+      </el-button>
+    </div>
     <el-table
       v-loading="dataLoading"
       :data="currentData"
@@ -106,7 +124,7 @@
     <div class="cleafix" />
     <div class="pagebar">
       <pagination
-        :table-data="pageData"
+        :table-data="searchListData"
         @getCurrentPageData="getCurrentPageData"
         ref="pagination"
       />
@@ -135,7 +153,9 @@ export default {
         endTime: ''
       },
       url: '',
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      searchListData: [],
+      enterQuery: ''
     }
   },
   mounted () {
@@ -147,7 +167,7 @@ export default {
     },
     getProjectListData () {
       Get('mec/developer/v1/projects/?userId=' + this.userId, '', 'developer').then(res => {
-        this.pageData = res.data
+        this.pageData = this.searchListData = res.data
         if (this.pageData.length > 0) {
           this.pageData.sort(function (a, b) {
             return a.createDate < b.createDate ? 1 : -1
@@ -188,6 +208,33 @@ export default {
           id: mecDetailID
         }
       })
+    },
+    enterQueryFun () {
+      let selectFunctionData = []
+      this.pageData.forEach(item => {
+        if (item.name.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
+          selectFunctionData.push(item)
+        }
+      })
+      if (this.enterQuery) {
+        this.searchListData = selectFunctionData
+      } else {
+        this.searchListData = this.pageData
+      }
+    },
+    selectFunction (val) {
+      this.enterQuery = ''
+      let selectFunctionData = []
+      this.pageData.forEach(item => {
+        if (item.codeLanguage === val) {
+          selectFunctionData.push(item)
+        }
+      })
+      if (val) {
+        this.searchListData = selectFunctionData
+      } else {
+        this.searchListData = this.pageData
+      }
     }
   }
 }
@@ -195,6 +242,39 @@ export default {
 
 <style lang="less">
 .projectlist {
+  .title{
+    font-size: 20px;
+    color: #282B33;
+    position: relative;
+    line-height: 24px;
+    margin: 20px 0;
+    .el-input{
+      position: absolute;
+      top: 0;
+      right: 70px;
+      width: 300px;
+    }
+    .enterinput{
+      display: inline-block;
+      width: 200px;
+    }
+    .searchBtn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 65px;
+      height: 30px;
+      line-height: 30px;
+      margin-left: 10px;
+      padding: 0 10px;
+    }
+    .el-input__inner{
+      height: 30px;
+    }
+    .el-input__icon{
+      line-height: 30px;
+    }
+  }
   .el-table {
     font-size: 14px;
     .icon_pic {

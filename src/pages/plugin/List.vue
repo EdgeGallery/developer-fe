@@ -28,11 +28,42 @@
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ breadcrumbTitle }}</el-breadcrumb-item>
     </el-breadcrumb>
-
     <div
       class="list-main clear"
       v-loading="dataLoading"
     >
+      <div class="list-top">
+        <el-select
+          clearable
+          v-model="value"
+          @change="selectFunction"
+          :placeholder="$t('devTools.pluginFunction')"
+          class="list-select"
+          id="selectFunction"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.label"
+          />
+        </el-select>
+        <el-input
+          clearable
+          v-model="enterQuery"
+          :placeholder="$t('devTools.pluginName')"
+          id="enterQuery"
+          class="enterinput"
+          @blur="enterQueryFun"
+          @clear="enterQueryFun"
+        />
+        <el-button
+          class="searchBtn"
+          @click="enterQueryFun"
+        >
+          {{ $t('test.testTask.inquire') }}
+        </el-button>
+      </div>
       <div class="list-mian-content">
         <el-table
           :data="currentData"
@@ -165,7 +196,7 @@
       </div>
       <div class="pagebar">
         <pagination
-          :table-data="pluginListData"
+          :table-data="searchListData"
           @getCurrentPageData="getCurrentPageData"
         />
       </div>
@@ -202,6 +233,7 @@ export default {
           label: 'PHP'
         }
       ],
+      searchListData: [],
       pluginListData: [],
       value: '',
       enterQuery: '',
@@ -251,7 +283,7 @@ export default {
         url = 'mec/developer/v1/plugins/?pluginType=1'
       }
       Get(url).then(res => {
-        this.pluginListData = res.data.plugins
+        this.pluginListData = this.searchListData = res.data.plugins
         this.dataLoading = false
       })
     },
@@ -313,8 +345,33 @@ export default {
       })
       this.DialogVisible = false
     },
-    fetchSuggestions () {},
-    handleSelect () {}
+    enterQueryFun () {
+      let selectFunctionData = []
+      this.pluginListData.forEach(item => {
+        if (item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
+          selectFunctionData.push(item)
+        }
+      })
+      if (this.enterQuery) {
+        this.searchListData = selectFunctionData
+      } else {
+        this.searchListData = this.pluginListData
+      }
+    },
+    selectFunction (val) {
+      this.enterQuery = ''
+      let selectFunctionData = []
+      this.pluginListData.forEach(item => {
+        if (item.codeLanguage === val) {
+          selectFunctionData.push(item)
+        }
+      })
+      if (val) {
+        this.searchListData = selectFunctionData
+      } else {
+        this.searchListData = this.pluginListData
+      }
+    }
   }
 }
 </script>
@@ -331,6 +388,16 @@ export default {
     height:40px;
     .list-select{
       margin-right:30px;
+    }
+    .enterinput{
+      display: inline-block;
+      width: 200px;
+    }
+    .searchBtn{
+      height: 30px;
+      line-height: 30px;
+      margin-left: 10px;
+      padding: 0 10px;
     }
     .el-input__inner{
       height: 30px;

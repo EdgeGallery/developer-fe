@@ -77,7 +77,7 @@ export default {
       sessionStorage.setItem('currentPage', 1)
     },
     getOpenMepName () {
-      Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+      Get('mec/developer/v1/capability-groups/get-EdgeGallery-api').then(res => {
         this.openMep = res.data.openMeps
         this.openMep.forEach(item => {
           this.openMepName.push(item.name)

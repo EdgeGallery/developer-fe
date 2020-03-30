@@ -103,7 +103,7 @@ export default {
     },
     getListData () {
       if (this.routerPath === 'mep') {
-        Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+        Get('mec/developer/v1/capability-groups/get-EdgeGallery-api').then(res => {
           this.openMeps = res.data.openMeps
           this.listData = []
           this.openMeps.forEach(item => {
