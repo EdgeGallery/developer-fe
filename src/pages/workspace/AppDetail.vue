@@ -274,7 +274,7 @@ export default {
         url = 'mec/developer/v1/projects/' + projectId + '/test-config'
         // 修改需要
         params.status = this.projectBeforeConfig.status
-        params.accessURL = this.projectBeforeConfig.accessURL
+        params.accessUrl = this.projectBeforeConfig.accessUrl
         params.errorLog = this.projectBeforeConfig.errorLog
       }
       requireMethod(url, params).then(res => {
