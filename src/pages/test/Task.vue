@@ -24,7 +24,7 @@
               <el-input
                 id="appName"
                 v-model="form.appName"
-                :placeholder="$t('common.input') + $t('test.testTask.appName')"
+                :placeholder="$t('test.testTask.appName')"
               />
             </el-form-item>
           </el-col>
@@ -35,7 +35,7 @@
             >
               <el-select
                 v-model="form.status"
-                :placeholder="$t('common.select') + $t('test.testTask.testStatus')"
+                :placeholder="$t('test.testTask.testStatus')"
                 class="statusSelect"
               >
                 <el-option
@@ -56,7 +56,7 @@
                 v-model="form.beginTime"
                 value-format="yyyy-MM-dd"
                 type="date"
-                :placeholder="$t('common.select') + $t('test.testTask.startTime')"
+                :placeholder="$t('test.testTask.startTime')"
               />
             </el-form-item>
           </el-col>
@@ -69,7 +69,7 @@
                 v-model="form.endTime"
                 value-format="yyyy-MM-dd"
                 type="date"
-                :placeholder="$t('common.select') + $t('test.testTask.endTime')"
+                :placeholder="$t('test.testTask.endTime')"
               />
             </el-form-item>
           </el-col>

@@ -107,6 +107,7 @@ export default {
     // 选择能力列表
     changeCheckValue (val) {
       this.secondStepSelect.selectCapabilityId = []
+      this.secondStepSelect.capabilitySelected = []
       this.capabilitySelected = []
       val.forEach(item => {
         this.capabilityList.forEach(capability => {
@@ -121,7 +122,6 @@ export default {
             this.secondStepSelect.capabilitySelected.push(capabilityEco)
           }
         })
-        this.secondStepSelect.capabilitySelected = [...new Set(this.secondStepSelect.capabilitySelected)]
       })
     },
     // 获取能力列表

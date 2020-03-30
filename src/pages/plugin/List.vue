@@ -17,28 +17,6 @@
       class="list-main clear"
       v-loading="dataLoading"
     >
-      <div class="list-top">
-        <el-select
-          v-model="value"
-          :placeholder="$t('common.select')"
-          class="list-select"
-          id="selectFunction"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-        <el-autocomplete
-          v-model="enterQuery"
-          :fetch-suggestions="fetchSuggestions"
-          :placeholder="$t('devTools.enterSearch')"
-          @select="handleSelect"
-          id="enterQuery"
-        />
-      </div>
       <div class="list-mian-content">
         <el-table
           :data="currentData"
@@ -231,7 +209,7 @@ export default {
     this.getPluginListData()
     // let userJsonStr = sessionStorage.getItem('userId')
     // this.username = JSON.parse(userJsonStr).username
-    this.username = 'mecdev'
+    this.username = sessionStorage.getItem('userName')
   },
   watch: {
     $route (to, from) {

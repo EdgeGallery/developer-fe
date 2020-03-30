@@ -52,7 +52,7 @@ const cn = {
     pluginFunction: '插件功能',
     pluginType: '插件类型',
     uploadPlugin: '上传插件',
-    fileText: '请上传不超过150MB的压缩文件',
+    fileText: '请上传不超过10MB的压缩文件',
     uploadLogo: '上传图标',
     logoText: '请上传.jpg或.png格式文件，或选择默认应用图标，且大小不超过500KB',
     uploadApi: '上传API',
@@ -227,7 +227,7 @@ const cn = {
     },
     testApp: {
       uploadApp: '上传应用',
-      appFormat: '请上传.csar文件，且大小不超过150MB。',
+      appFormat: '请上传.csar文件，且大小不超过10MB。',
       uploadLogo: '上传图标',
       logoFormat: '请上传.jpg或.png格式文件，或选择默认应用图标，且大小不超过500KB',
       affinity: '亲和性',

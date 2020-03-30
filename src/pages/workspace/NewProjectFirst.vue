@@ -142,6 +142,7 @@
           id="projectDescription"
           type="textarea"
           v-model="form.description"
+          :placeholder="$t('test.testApp.description')"
           :rows="2"
         />
       </el-form-item>

@@ -29,6 +29,7 @@
               <el-input
                 id="pluginName"
                 v-model="form.pluginName"
+                :placeholder="$t('devTools.pluginName')"
                 name="pluginName"
                 class="input"
               />
@@ -176,6 +177,7 @@
               <el-input
                 id="inputVersion"
                 v-model="form.version"
+                :placeholder="$t('devTools.version')"
                 name="version"
                 class="input"
               />
@@ -188,6 +190,7 @@
                 id="inputDescription"
                 type="textarea"
                 v-model="form.introduction"
+                :placeholder="$t('devTools.description')"
                 name="introduction"
                 :rows="4"
               />
@@ -486,7 +489,7 @@ export default {
   },
   mounted () {
     this.form.userName = 'mecdev'
-    this.form.userId = sessionStorage.getItem('userId')
+    this.form.userId = sessionStorage.getItem('userName')
 
     let defaultImg = this.defaultIcon[0]
     let image = new Image()

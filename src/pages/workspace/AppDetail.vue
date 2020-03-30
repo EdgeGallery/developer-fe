@@ -217,7 +217,7 @@ export default {
       this.allStepData.ifNext = data.ifNext
     },
     getBtnStatus (status) {
-      console.log(status)
+      // console.log(status)
       this.isDeploying = status.status
       this.deployed = status.deploy
       this.isCompleted = status.isCompleted

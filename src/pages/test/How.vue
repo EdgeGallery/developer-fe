@@ -16,13 +16,13 @@
       <div class="docs-tap">
         <h2>{{ $t('test.howToTest.howToTest') }}</h2>
         <p>
-          <span class="lt">{{ $t('test.howToTest.updated') }}: 2019-09-06 10:34:49</span>
+          <!-- <span class="lt">{{ $t('test.howToTest.updated') }}: 2019-09-06 10:34:49</span> -->
           <span class="rt">
             <span class="el-icon-edit"><a
               target="_blank"
               href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW.md"
             >{{ $t('test.howToTest.modify') }}</a></span>
-            <span class="el-icon-share">{{ $t('test.howToTest.share') }}</span>
+            <!-- <span class="el-icon-share">{{ $t('test.howToTest.share') }}</span> -->
           </span>
         </p>
       </div>
@@ -80,18 +80,12 @@ export default {
     background-color: #fff;
     padding: 40px;
     .docs-tap{
-      h2{
-        padding:0 0 20px;
-      }
       p{
         padding:5px 0;
         font-size:14px;
         span.rt{
-          margin-right:12px;
+          // margin-right:12px;
           color:#409EFF;
-          span{
-            margin-right:20px;
-          }
           a{
             color:#409EFF;
           }
@@ -99,7 +93,7 @@ export default {
       }
     }
     #test-editor{
-      margin-top:40px;
+      margin-top:20px;
       line-height: 30px;
     }
     h1{
