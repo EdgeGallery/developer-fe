@@ -96,7 +96,7 @@ spec:
           volumeMounts:
             - name: developer-fe-config
               mountPath: /usr/app/configs/application.yaml
-              subPath: /configs/application.yaml
+              subPath: application.yaml
       volumes:
         - name: developer-fe-config
           configMap:
@@ -104,6 +104,7 @@ spec:
             items:
               - key: application.yaml
                 path: application.yaml
+
 
         
 ---

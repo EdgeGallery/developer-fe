@@ -1,3 +1,19 @@
+<!--
+  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <div class="appapi">
     <el-breadcrumb
@@ -43,7 +59,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'Video',
+      activeName: '',
       openMepEcoName: [],
       openMepEco: []
     }
@@ -65,12 +81,13 @@ export default {
         this.openMepEcoName.push(item.name)
       })
       this.openMepEcoName = [...new Set(this.openMepEcoName)]
-      Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+      Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
         this.openMepEco = res.data.openMepEcos
         this.openMepEco.forEach(item => {
           this.openMepEcoName.push(item.name)
         })
         this.openMepEcoName = [...new Set(this.openMepEcoName)]
+        this.activeName = this.openMepEcoName[0]
       })
     }
   },
@@ -79,7 +96,7 @@ export default {
   },
   created () {
     let tabSelect = sessionStorage.getItem('activeNameApi')
-    tabSelect = tabSelect || 'Video'
+    tabSelect = tabSelect || this.activeName
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   }
 }

@@ -1,3 +1,19 @@
+<!--
+  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <div class="ideList">
     <el-breadcrumb
@@ -12,15 +28,16 @@
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ breadcrumbTitle }}</el-breadcrumb-item>
     </el-breadcrumb>
-
     <div
       class="list-main clear"
       v-loading="dataLoading"
     >
       <div class="list-top">
         <el-select
+          clearable
           v-model="value"
-          :placeholder="$t('common.select')"
+          @change="selectFunction"
+          :placeholder="$t('devTools.pluginFunction')"
           class="list-select"
           id="selectFunction"
         >
@@ -28,16 +45,24 @@
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.value"
+            :value="item.label"
           />
         </el-select>
-        <el-autocomplete
+        <el-input
+          clearable
           v-model="enterQuery"
-          :fetch-suggestions="fetchSuggestions"
-          :placeholder="$t('devTools.enterSearch')"
-          @select="handleSelect"
+          :placeholder="$t('devTools.pluginName')"
           id="enterQuery"
+          class="enterinput"
+          @blur="enterQueryFun"
+          @clear="enterQueryFun"
         />
+        <el-button
+          class="searchBtn"
+          @click="enterQueryFun"
+        >
+          {{ $t('test.testTask.inquire') }}
+        </el-button>
       </div>
       <div class="list-mian-content">
         <el-table
@@ -171,7 +196,7 @@
       </div>
       <div class="pagebar">
         <pagination
-          :table-data="pluginListData"
+          :table-data="searchListData"
           @getCurrentPageData="getCurrentPageData"
         />
       </div>
@@ -208,6 +233,7 @@ export default {
           label: 'PHP'
         }
       ],
+      searchListData: [],
       pluginListData: [],
       value: '',
       enterQuery: '',
@@ -231,7 +257,7 @@ export default {
     this.getPluginListData()
     // let userJsonStr = sessionStorage.getItem('userId')
     // this.username = JSON.parse(userJsonStr).username
-    this.username = 'mecdev'
+    this.username = sessionStorage.getItem('userName')
   },
   watch: {
     $route (to, from) {
@@ -257,7 +283,7 @@ export default {
         url = 'mec/developer/v1/plugins/?pluginType=1'
       }
       Get(url).then(res => {
-        this.pluginListData = res.data.plugins
+        this.pluginListData = this.searchListData = res.data.plugins
         this.dataLoading = false
       })
     },
@@ -319,8 +345,33 @@ export default {
       })
       this.DialogVisible = false
     },
-    fetchSuggestions () {},
-    handleSelect () {}
+    enterQueryFun () {
+      let selectFunctionData = []
+      this.pluginListData.forEach(item => {
+        if (item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
+          selectFunctionData.push(item)
+        }
+      })
+      if (this.enterQuery) {
+        this.searchListData = selectFunctionData
+      } else {
+        this.searchListData = this.pluginListData
+      }
+    },
+    selectFunction (val) {
+      this.enterQuery = ''
+      let selectFunctionData = []
+      this.pluginListData.forEach(item => {
+        if (item.codeLanguage === val) {
+          selectFunctionData.push(item)
+        }
+      })
+      if (val) {
+        this.searchListData = selectFunctionData
+      } else {
+        this.searchListData = this.pluginListData
+      }
+    }
   }
 }
 </script>
@@ -337,6 +388,16 @@ export default {
     height:40px;
     .list-select{
       margin-right:30px;
+    }
+    .enterinput{
+      display: inline-block;
+      width: 200px;
+    }
+    .searchBtn{
+      height: 30px;
+      line-height: 30px;
+      margin-left: 10px;
+      padding: 0 10px;
     }
     .el-input__inner{
       height: 30px;

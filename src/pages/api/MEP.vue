@@ -1,3 +1,19 @@
+<!--
+  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <div class="mepapi">
     <el-breadcrumb
@@ -43,7 +59,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'Face Recognition',
+      activeName: '',
       openMepName: [],
       openMep: []
     }
@@ -61,13 +77,13 @@ export default {
       sessionStorage.setItem('currentPage', 1)
     },
     getOpenMepName () {
-      Get('mec/developer/v1/capability-groups/get-openmep-api').then(res => {
+      Get('mec/developer/v1/capability-groups/openmep-api').then(res => {
         this.openMep = res.data.openMeps
         this.openMep.forEach(item => {
           this.openMepName.push(item.name)
         })
         this.openMepName = [...new Set(this.openMepName)]
-        // console.log(this.openMepName)
+        this.activeName = this.openMepName[0]
       })
     }
   },
@@ -76,7 +92,7 @@ export default {
   },
   created () {
     let tabSelect = sessionStorage.getItem('activeNameApi')
-    tabSelect = tabSelect || 'Face Recognition'
+    tabSelect = tabSelect || this.activeName
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   }
 }
@@ -95,6 +111,24 @@ export default {
     }
     .el-tabs__active-bar{
       background-color: #6c92fa;
+    }
+    .tablelist{
+      .el-table thead{
+        th,tr{
+          background-color:#f0f3fa;
+          padding: 6px 0;
+        }
+      }
+      .el-table{
+        .el-button--text{
+          color: #6c92fa;
+        }
+      }
+    }
+    .tablelist:after{
+      content: '';
+      display: block;
+      clear: both;
     }
   }
   .el-tab-pane{

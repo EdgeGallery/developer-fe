@@ -1,3 +1,19 @@
+<!--
+  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <div class="task">
     <el-breadcrumb
@@ -24,7 +40,7 @@
               <el-input
                 id="appName"
                 v-model="form.appName"
-                :placeholder="$t('common.input') + $t('test.testTask.appName')"
+                :placeholder="$t('test.testTask.appName')"
               />
             </el-form-item>
           </el-col>
@@ -35,7 +51,7 @@
             >
               <el-select
                 v-model="form.status"
-                :placeholder="$t('common.select') + $t('test.testTask.testStatus')"
+                :placeholder="$t('test.testTask.testStatus')"
                 class="statusSelect"
               >
                 <el-option
@@ -56,7 +72,7 @@
                 v-model="form.beginTime"
                 value-format="yyyy-MM-dd"
                 type="date"
-                :placeholder="$t('common.select') + $t('test.testTask.startTime')"
+                :placeholder="$t('test.testTask.startTime')"
               />
             </el-form-item>
           </el-col>
@@ -69,7 +85,7 @@
                 v-model="form.endTime"
                 value-format="yyyy-MM-dd"
                 type="date"
-                :placeholder="$t('common.select') + $t('test.testTask.endTime')"
+                :placeholder="$t('test.testTask.endTime')"
               />
             </el-form-item>
           </el-col>
