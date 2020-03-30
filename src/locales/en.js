@@ -52,7 +52,7 @@ const en = {
     pluginFunction: 'Plugin Function',
     pluginType: 'Plugin Type',
     uploadPlugin: 'Upload Plugin',
-    fileText: 'Can only upload compressed files and no more than 150Mb',
+    fileText: 'Can only upload compressed files and no more than 10Mb',
     uploadLogo: 'Upload Logo',
     logoText: 'Can only upload .jpg/.png files or select the default APP icon and no more than 500kb',
     uploadApi: 'Upload API',
@@ -227,7 +227,7 @@ const en = {
     },
     testApp: {
       uploadApp: 'Upload App',
-      appFormat: 'Can only upload .csar files and no more than 150Mb.',
+      appFormat: 'Can only upload .csar files and no more than 10Mb.',
       uploadLogo: 'Upload Logo',
       logoFormat: 'Can only upload .jpg/.png files or select the default APP icon and no more than 500kb',
       affinity: 'Affininty',

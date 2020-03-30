@@ -121,6 +121,9 @@ export default {
     width: 100%;
     height: 100%;
     overflow: auto;
+    .swagger-ui .info{
+      margin: 10px 0;
+    }
   }
   .is-current .el-tree-node__content{
     background-color: blue;

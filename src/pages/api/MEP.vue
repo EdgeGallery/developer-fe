@@ -43,7 +43,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'Face Recognition',
+      activeName: '',
       openMepName: [],
       openMep: []
     }
@@ -67,7 +67,7 @@ export default {
           this.openMepName.push(item.name)
         })
         this.openMepName = [...new Set(this.openMepName)]
-        // console.log(this.openMepName)
+        this.activeName = this.openMepName[0]
       })
     }
   },
@@ -76,7 +76,7 @@ export default {
   },
   created () {
     let tabSelect = sessionStorage.getItem('activeNameApi')
-    tabSelect = tabSelect || 'Face Recognition'
+    tabSelect = tabSelect || this.activeName
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   }
 }
@@ -95,6 +95,24 @@ export default {
     }
     .el-tabs__active-bar{
       background-color: #6c92fa;
+    }
+    .tablelist{
+      .el-table thead{
+        th,tr{
+          background-color:#f0f3fa;
+          padding: 6px 0;
+        }
+      }
+      .el-table{
+        .el-button--text{
+          color: #6c92fa;
+        }
+      }
+    }
+    .tablelist:after{
+      content: '';
+      display: block;
+      clear: both;
     }
   }
   .el-tab-pane{

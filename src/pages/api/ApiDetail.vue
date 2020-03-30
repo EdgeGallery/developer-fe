@@ -42,15 +42,6 @@ export default {
     }
   },
   mounted () {
-    function iframeHeight () {
-      const oIframe = document.getElementById('swagger-ui')
-      const deviceHeight = document.documentElement.clientHeight
-      oIframe.style.height = (Number(deviceHeight) - 200) + 'px'
-    }
-    iframeHeight()
-    window.onresize = function () {
-      iframeHeight()
-    }
     this.getApiUrl()
   },
   methods: {
@@ -86,8 +77,12 @@ export default {
 
 <style lang="less">
 .apidetail{
-  .iframe iframe{
-      width: 100%;
+  #swagger-ui{
+    background: #fff;
+    padding: 40px;
+    .swagger-ui .info{
+      margin: 10px 0;
+    }
   }
 }
 </style>

@@ -17,10 +17,6 @@
         <div class="graybg">
           <div class="title">
             {{ $t('workspace.myProjectList') }}
-            <el-input
-              id="inputProjectName"
-              suffix-icon="el-icon-search"
-            />
           </div>
           <div class="list">
             <projectList ref="projectList" />

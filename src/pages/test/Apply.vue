@@ -130,7 +130,7 @@
                   id="selectAppType"
                   v-model="form.type"
                   class="list-select"
-                  :placeholder="$t('common.select')+$t('test.testApp.type')"
+                  :placeholder="$t('test.testApp.type')"
                 >
                   <el-option
                     v-for="item in options"
@@ -150,6 +150,7 @@
                 id="appDescription"
                 type="textarea"
                 v-model="form.appDesc"
+                :placeholder="$t('test.testApp.description')"
                 :rows="4"
               />
             </el-form-item>

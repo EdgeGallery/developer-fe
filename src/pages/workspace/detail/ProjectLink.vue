@@ -47,42 +47,28 @@ export default {
     }
   },
   methods: {
-    getApiFileId () {
+    async getApiFileId () {
+      this.apiFileIdArr = []
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
-      Get(url).then(res => {
-        let data = res.data.capabilityList
-        // console.log(data)
-        let groupIdArr = []
-        data.forEach(dataItem => {
-          groupIdArr.push(dataItem.groupId)
-        })
-        // console.log(groupIdArr)
-        groupIdArr.forEach(groupId => {
-          let url = 'mec/developer/v1/capability-groups/' + groupId
-          Get(url).then(res => {
-            let data = res.data
-            data.capabilityDetailList.forEach(service => {
-              this.apiFileIdArr.push(service.apiFileId)
-            })
+      let getGroupid = async (url) => {
+        await Get(url).then(res => {
+          let data = res.data
+          data.capabilityDetailList.forEach(service => {
+            this.apiFileIdArr.push(service.apiFileId)
           })
         })
-        // console.log(this.apiFileIdArr)
-        if (this.apiFileIdArr) {
-          this.getSampleCode(this.apiFileIdArr)
-        } else {
-          // console.log('No choice capability')
-        }
+        this.getSampleCode(this.apiFileIdArr)
+      }
+
+      let url = 'mec/developer/v1/projects/' + projectId
+      await Get(url).then(res => {
+        let data = res.data.capabilityList
+        data.forEach(dataItem => {
+          let groupIdUrl = 'mec/developer/v1/capability-groups/' + dataItem.groupId
+          getGroupid(groupIdUrl)
+        })
       })
     },
-    // getApiFileId () {
-    //   this.apiFileIdArr = JSON.parse(sessionStorage.getItem('apiFileIdArr'))
-    //   if (this.apiFileIdArr) {
-    //     this.getSampleCode(this.apiFileIdArr)
-    //   } else {
-    //     console.log('No choice capability')
-    //   }
-    // },
     getSampleCode (apiFileIdArr) {
       let params = {
         url: 'mec/developer/v1/files/samplecode',

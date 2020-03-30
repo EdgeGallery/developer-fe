@@ -74,6 +74,7 @@ export default {
     this.getPageId()
     axios.get('/mec/v1/jwt-info').then(res => {
       sessionStorage.setItem('userId', res.data.userId)
+      sessionStorage.setItem('userName', res.data.userName)
       this.clientUrl = res.data.clientLogoutUrlList
       this.logoutUrl = res.data.authServerLogoutUrl
     })

@@ -43,7 +43,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'Video',
+      activeName: '',
       openMepEcoName: [],
       openMepEco: []
     }
@@ -71,6 +71,7 @@ export default {
           this.openMepEcoName.push(item.name)
         })
         this.openMepEcoName = [...new Set(this.openMepEcoName)]
+        this.activeName = this.openMepEcoName[0]
       })
     }
   },
@@ -79,7 +80,7 @@ export default {
   },
   created () {
     let tabSelect = sessionStorage.getItem('activeNameApi')
-    tabSelect = tabSelect || 'Video'
+    tabSelect = tabSelect || this.activeName
     this.activeName = this.activeName === tabSelect ? this.activeName : tabSelect
   }
 }
