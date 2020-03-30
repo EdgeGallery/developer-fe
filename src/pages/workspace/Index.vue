@@ -31,9 +31,6 @@
     >
       <el-col :span="16">
         <div class="graybg">
-          <div class="title">
-            {{ $t('workspace.myProjectList') }}
-          </div>
           <div class="list">
             <projectList ref="projectList" />
           </div>
@@ -233,27 +230,6 @@ export default {
       border-radius: 8px;
       padding: 32px;
       margin-bottom: 16px;
-      .title{
-        font-size: 20px;
-        color: #282B33;
-        position: relative;
-        line-height: 24px;
-        .el-input{
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 300px;
-        }
-        .el-input__inner{
-          height: 30px;
-        }
-        .el-input__icon{
-          line-height: 30px;
-        }
-      }
-      .list{
-        margin-top: 20px;
-      }
       .project-add{
         .img-box{
           height: 128px;

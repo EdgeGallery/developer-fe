@@ -81,7 +81,7 @@ export default {
         this.openMepEcoName.push(item.name)
       })
       this.openMepEcoName = [...new Set(this.openMepEcoName)]
-      Get('mec/developer/v1/capability-groups/get-openmepeco-api').then(res => {
+      Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
         this.openMepEco = res.data.openMepEcos
         this.openMepEco.forEach(item => {
           this.openMepEcoName.push(item.name)
