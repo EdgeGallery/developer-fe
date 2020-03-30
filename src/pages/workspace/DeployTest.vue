@@ -72,7 +72,7 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
       Get(url).then(res => {
-        this.testHref = res.data.accessURL
+        this.testHref = res.data.accessUrl
         this.testLog = res.data.errorLog
         this.loading = false
       })
