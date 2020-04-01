@@ -89,7 +89,7 @@ spec:
     spec:
       containers:
         - name: developer-fe
-          image: edgegallery/developer-fe:latest
+          image: edgegallery/developer-fe:0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
