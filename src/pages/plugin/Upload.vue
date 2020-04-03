@@ -23,7 +23,7 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
         {{ $t('breadCrumb.mecDeveloper') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list' }">
         {{ $t('breadCrumb.devTools') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item><a>{{ $t('breadCrumb.upload') }}</a></el-breadcrumb-item>
@@ -253,7 +253,7 @@ export default {
       apiFileList: [],
       rules: {
         pluginName: [
-          { required: true }
+          { required: true, message: this.$t('promptMessage.pluginNameEmpty') }
         ],
         codeLanguage: [
           { required: true }
@@ -271,10 +271,10 @@ export default {
           { required: true }
         ],
         version: [
-          { required: true }
+          { required: true, message: this.$t('promptMessage.versionEmpty') }
         ],
         introduction: [
-          { required: true }
+          { required: true, message: this.$t('promptMessage.descriptionEmpty') }
         ]
       },
       options: [
@@ -305,10 +305,10 @@ export default {
         }
       ],
       defaultActive: '',
-      defaultIconFile: '',
+      defaultIconFile: [],
       defaultIcon: [
-        require('../../assets/images/go.png'),
         require('../../assets/images/java.png'),
+        require('../../assets/images/go.png'),
         require('../../assets/images/net.png'),
         require('../../assets/images/node.png'),
         require('../../assets/images/php.png'),
@@ -333,7 +333,7 @@ export default {
         formdata.append(item, this.form[item])
       })
       formdata.append('pluginFile', this.plugFileList[0])
-      formdata.append('logoFile', this.form.appIcon.length > 0 ? this.form.appIcon[0] : this.defaultIconFile)
+      formdata.append('logoFile', this.form.appIcon.length > 0 ? this.form.appIcon[0] : this.defaultIconFile[0])
       formdata.append('apiFile', this.apiFileList[0])
       let url = 'mec/developer/v1/plugins/'
       Post(url, formdata).then(res => {
@@ -343,7 +343,7 @@ export default {
         })
         let href
         if (this.form.pluginType === 1) {
-          href = '/mecDeveloper/plugin/list#1'
+          href = '/mecDeveloper/plugin/list'
         }
         this.$router.push(href)
       }).catch(err => {
@@ -359,7 +359,7 @@ export default {
       let codeLanguage = this.form.codeLanguage
       let pluginType = this.form.pluginType
       let plugFileList = this.plugFileList.length
-      let logoFileList = this.logoFileList.length || this.defaultIconFile
+      let logoFileList = this.logoFileList.length || this.defaultIconFile.length
       let apiFileList = this.apiFileList.length
       let version = this.form.version
       let introduction = this.form.introduction
@@ -417,7 +417,7 @@ export default {
     },
     handleChangeLogo (file, fileList) {
       this.form.appIcon = []
-      this.defaultIconFile = ''
+      this.defaultIconFile = []
       this.defaultActive = ''
       this.logoFileList.push(file.raw)
       if (file.size / 1024 > 500) {
@@ -487,7 +487,7 @@ export default {
     },
     chooseDefaultIcon (file, index) {
       this.logoFileList = []
-      this.defaultIconFile = ''
+      this.defaultIconFile = []
       if (this.defaultActive === index) {
         this.defaultActive = ''
       } else {
@@ -498,15 +498,16 @@ export default {
           // 将静态图片转化为base64
           let base64 = this.getBase64Image(image)
           // base64转化为文件流
-          this.defaultIconFile = this.base64toFile(base64)
+          this.defaultIconFile.push(this.base64toFile(base64))
         }
       }
     }
   },
   mounted () {
-    this.form.userName = 'mecdev'
-    this.form.userId = sessionStorage.getItem('userName')
+    this.form.userName = sessionStorage.getItem('userName')
+    this.form.userId = sessionStorage.getItem('userId')
 
+    this.chooseDefaultIcon(this.defaultIcon[0], 0)
     let defaultImg = this.defaultIcon[0]
     let image = new Image()
     image.src = defaultImg

@@ -26,21 +26,21 @@ const mecDeveloper = [
   {
     id: '3.2',
     name: 'DevTools',
-    path: '/mecDeveloper/plugin/list#1',
+    path: '/mecDeveloper/plugin/list',
     pageId: '2.2.1',
     display: true,
     children: [
       {
         id: '3.3',
         name: 'Plugin',
-        path: '/mecDeveloper/plugin/list#1',
+        path: '/mecDeveloper/plugin/list',
         pageId: '2.2.1.1',
         display: true
       },
       {
         id: '3.4',
         name: 'Upload',
-        path: '/mecDeveloper/plugin/upload#1',
+        path: '/mecDeveloper/plugin/upload',
         pageId: '2.2.1.2',
         display: true
       }

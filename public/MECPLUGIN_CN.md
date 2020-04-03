@@ -32,10 +32,6 @@
 
 ### MainMenu
 
-这是插件的主要部分，它的主界面如下所示：
-
-![主界面](http://139.9.0.160/MEC-APP/developer-ide-plugin/raw/master/MarkDown/Pictures/MeanMenu.png)
-
 主界面包含三个部分：AppAffinity、AppDepend、AppInformation：
 
 - AppAffinity：勾选App亲和的属性，会写入App部署文件中，帮助App部署到合适的节点

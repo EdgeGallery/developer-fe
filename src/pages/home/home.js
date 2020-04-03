@@ -28,7 +28,7 @@ const commonApp = [
     title: 'home.toolsDownloadTitle',
     src: require('../../assets/images/home_step2.svg'),
     desc: 'home.toolsDownloadText',
-    link: '/mecDeveloper/plugin/list#1',
+    link: '/mecDeveloper/plugin/list',
     elementId: 'tooldDown'
   },
   {

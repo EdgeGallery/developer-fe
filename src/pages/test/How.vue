@@ -36,7 +36,7 @@
           <span class="rt">
             <span class="el-icon-edit"><a
               target="_blank"
-              href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW.md"
+              :href="editMarkdownUrl"
             >{{ $t('test.howToTest.modify') }}</a></span>
             <!-- <span class="el-icon-share">{{ $t('test.howToTest.share') }}</span> -->
           </span>
@@ -68,21 +68,44 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import axios from 'axios'
 export default {
   name: 'How',
+  computed: {
+    ...mapState(['language'])
+  },
+  watch: {
+    language (val) {
+      this.getHowMarkDown(val)
+      if (val === 'en') {
+        this.markdownSource = './MECHOW_EN.md'
+        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW_EN.md'
+      } else {
+        this.markdownSource = './MECHOW_CN.md'
+        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW_CN.md'
+      }
+    }
+  },
   data () {
     return {
-      markdownSource: ''
+      markdownSource: '',
+      editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW_CN.md'
     }
   },
   mounted () {
-    let url = './MECHOW.md'
-    axios(url).then(res => {
-      this.markdownSource = res.data
-    })
+    this.getHowMarkDown(this.language)
   },
   methods: {
+    getHowMarkDown (language) {
+      let url = './MECHOW_EN.md'
+      if (language === 'cn') {
+        url = './MECHOW_CN.md'
+      }
+      axios(url).then(res => {
+        this.markdownSource = res.data
+      })
+    },
     pushTo () {
       this.$router.push('/mecDeveloper/test/apply')
     }

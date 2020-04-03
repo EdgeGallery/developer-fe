@@ -37,7 +37,7 @@
           <span class="el-icon-edit"><a
             href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECOPEN.md"
             target="_blank"
-          >Modify</a></span>
+          >{{ $t('test.howToTest.modify') }}</a></span>
         </span>
         <div id="test-editor">
           <mavon-editor

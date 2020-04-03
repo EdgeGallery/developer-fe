@@ -239,7 +239,7 @@ const en = {
       updated: 'Updated',
       modify: 'Modify',
       share: 'Share',
-      apply: 'Apply Now'
+      apply: 'Test Now'
     },
     testApp: {
       uploadApp: 'Upload App',

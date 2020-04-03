@@ -27,7 +27,7 @@
       <div id="programPlugin">
         <el-link
           type="info"
-          href="https://159.138.129.53:30092/#/mecDeveloper/plugin/list#1"
+          :href="projectLink"
           target="_blank"
         >
           <img
@@ -54,12 +54,13 @@
 </template>
 
 <script>
-import { Get, downloadFile } from '../../../tools/tool.js'
+import { Get, downloadFile, urlPrefix } from '../../../tools/tool.js'
 export default {
   data () {
     return {
       apiFileIdArr: [],
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      projectLink: urlPrefix + '/#/mecDeveloper/plugin/list'
     }
   },
   methods: {

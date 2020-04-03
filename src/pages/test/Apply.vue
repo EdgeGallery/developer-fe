@@ -217,7 +217,7 @@ export default {
           { required: true }
         ],
         appDesc: [
-          { required: true }
+          { required: true, message: this.$t('promptMessage.descriptionEmpty') }
         ]
       },
       appFileList: [],

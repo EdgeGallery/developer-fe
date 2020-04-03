@@ -86,6 +86,7 @@ export default {
   },
   mounted () {
     this.getListData()
+    sessionStorage.setItem('routerPath', this.routerPath)
   },
   created () {
   },
@@ -94,11 +95,10 @@ export default {
       this.currentData = val
     },
     toDetail (item) {
+      let mecDetailID = item.apiFileId
+      sessionStorage.setItem('mecDetailID', mecDetailID)
       this.$router.push({
-        name: 'apidetail',
-        query: { apiId: item.apiFileId,
-          path: this.routerPath }
-
+        name: 'apidetail'
       })
     },
     getListData () {
