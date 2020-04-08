@@ -52,8 +52,7 @@ data:
         directory: /developer-fe
         maxSize: 10M
 
-    login_page_url: https://auth.edgegallery.org/
-    auth_server: http://user-mgmt-svc:8067/
+    auth_server: https://auth.edgegallery.org/
     security:
       oauth2:
         sso:
