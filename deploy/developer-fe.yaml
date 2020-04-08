@@ -52,7 +52,7 @@ data:
         directory: /developer-fe
         maxSize: 10M
 
-    auth_server: https://auth.edgegallery.org/
+    auth_server: https://auth.edgegallery.org
     security:
       oauth2:
         sso:
