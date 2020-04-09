@@ -33,7 +33,7 @@
         {{ $t('breadCrumb.mepapi') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item
-        v-else
+        v-if="path==='mep-eco'"
         :to="{ path: '/mecDeveloper/api/mep-eco' }"
       >
         {{ $t('breadCrumb.mepecoapi') }}
@@ -53,8 +53,8 @@ export default {
   data () {
     return {
       userId: sessionStorage.getItem('userId'),
-      apiFileId: this.$route.query.apiId,
-      path: this.$route.query.path
+      apiFileId: sessionStorage.getItem('mecDetailID'),
+      path: sessionStorage.getItem('routerPath')
     }
   },
   mounted () {

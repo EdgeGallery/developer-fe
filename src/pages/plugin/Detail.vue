@@ -23,7 +23,7 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
         {{ $t('breadCrumb.mecDeveloper') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list' }">
         {{ $t('breadCrumb.devTools') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ breadcrumbTitle }} {{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
@@ -84,12 +84,9 @@
             <span class="name">{{ $t('devTools.pluginDescription') }}:</span>
           </p>
           <p>
-            <el-input
+            <span
               class="plug-desc"
-              type="textarea"
-              :rows="4"
-              :value="item.introduction"
-              id="detailDescription"
+              v-html="item.introduction"
             />
           </p>
           <el-dialog
@@ -127,8 +124,8 @@
         id="edit_detail"
       ><a
         target="_blank"
-        href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN.md"
-      >Modify</a></span>
+        :href="editMarkdownUrl"
+      >{{ $t('test.howToTest.modify') }}</a></span>
       <mavon-editor
         v-model="markdownSource"
         :toolbars-flag="false"
@@ -143,10 +140,26 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { Get, Put, urlPrefix } from './../../tools/tool.js'
 import axios from 'axios'
 export default {
   name: 'ListDetail',
+  computed: {
+    ...mapState(['language'])
+  },
+  watch: {
+    language (val) {
+      this.getDetailMarkDown(val)
+      if (val === 'en') {
+        this.markdownSource = './MECPLUGIN_EN.md'
+        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_EN.md'
+      } else {
+        this.markdownSource = './MECPLUGIN_CN.md'
+        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md'
+      }
+    }
+  },
   data () {
     return {
       breadcrumbTitle: '',
@@ -158,7 +171,8 @@ export default {
       valueRate: 5,
       rateId: 0,
       dataLoading: true,
-      markdownSource: ''
+      markdownSource: '',
+      editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md'
     }
   },
   mounted () {
@@ -166,13 +180,19 @@ export default {
     if (mecDetailType === 1) {
       this.breadcrumbTitle = this.$t('devTools.pluginList')
     }
-    let url = './MECPLUGIN.md'
-    axios(url).then(res => {
-      this.markdownSource = res.data
-    })
     this.getPluginListData()
+    this.getDetailMarkDown(this.language)
   },
   methods: {
+    getDetailMarkDown (language) {
+      let url = './MECPLUGIN_EN.md'
+      if (language === 'cn') {
+        url = './MECPLUGIN_CN.md'
+      }
+      axios(url).then(res => {
+        this.markdownSource = res.data
+      })
+    },
     getPluginListData () {
       let url = ''
       let mecDetailType = JSON.parse(sessionStorage.getItem('mecDetailType'))
@@ -257,6 +277,8 @@ export default {
         }
         .plug-desc{
           margin-left:25px;
+          display: inline-block;
+          line-height: 25px;
         }
       }
     }

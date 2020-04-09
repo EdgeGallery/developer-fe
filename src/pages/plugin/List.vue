@@ -23,10 +23,10 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
         {{ $t('breadCrumb.mecDeveloper') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list#1' }">
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list' }">
         {{ $t('breadCrumb.devTools') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ breadcrumbTitle }}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('devTools.pluginList') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div
       class="list-main clear"
@@ -237,7 +237,6 @@ export default {
       pluginListData: [],
       value: '',
       enterQuery: '',
-      breadcrumbTitle: '',
       centerDialogVisible: false,
       isDelete: false,
       delId: 0,
@@ -251,19 +250,11 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.hash === '#1') {
-      this.breadcrumbTitle = this.$t('devTools.pluginList')
-    }
     this.getPluginListData()
-    // let userJsonStr = sessionStorage.getItem('userId')
-    // this.username = JSON.parse(userJsonStr).username
     this.username = sessionStorage.getItem('userName')
   },
   watch: {
     $route (to, from) {
-      if (this.$route.hash === '#1') {
-        this.breadcrumbTitle = this.$t('devTools.pluginList')
-      }
       this.getPluginListData()
     }
   },
@@ -278,10 +269,7 @@ export default {
       this.currentData = val
     },
     getPluginListData () {
-      let url = ''
-      if (this.$route.hash === '#1') {
-        url = 'mec/developer/v1/plugins/?pluginType=1'
-      }
+      let url = 'mec/developer/v1/plugins/?pluginType=1'
       Get(url).then(res => {
         this.pluginListData = this.searchListData = res.data.plugins
         this.dataLoading = false
@@ -424,14 +412,14 @@ export default {
           color: #aaa;
           float: left;
           width: 20%;
-          min-width: 100px;
-          text-align: right;
+          min-width: 85px;
+          text-align: left;
           margin-right: 5px;
         }
         .span-right{
           float: right;
           width: 80%;
-          max-width: calc(100% - 110px);
+          max-width: calc(100% - 90px);
         }
       }
       .el-button--text{

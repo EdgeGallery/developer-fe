@@ -17,7 +17,7 @@
 <template>
   <div class="newproject">
     <el-dialog
-      title="Add New Project"
+      :title="$t('workspace.addNewProject')"
       :visible.sync="dialogNewProject"
       width="60%"
       @close="handleClose"

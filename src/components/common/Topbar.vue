@@ -104,7 +104,8 @@ export default {
   },
   data () {
     return {
-      indexName: ''
+      indexName: '',
+      routerPath: sessionStorage.getItem('routerPath')
     }
   },
   methods: {
@@ -122,9 +123,19 @@ export default {
       this.indexName = to.path
       // 解决MECDeveloper下DevTools导航子菜单首次点击没有选中状态问题
       if (this.indexName === '/mecDeveloper/plugin/list') {
-        this.indexName = '/mecDeveloper/plugin/list#1'
+        this.indexName = '/mecDeveloper/plugin/list'
       } else if (this.indexName === '/mecDeveloper/plugin/upload') {
-        this.indexName = '/mecDeveloper/plugin/upload#1'
+        this.indexName = '/mecDeveloper/plugin/upload'
+      } else if (this.indexName === '/mecDeveloper/plugin/detail') {
+        this.indexName = '/mecDeveloper/plugin/list'
+      } else if (this.indexName === '/mecDeveloper/work/detail') {
+        this.indexName = '/mecDeveloper/work'
+      } else if (this.indexName === '/mecDeveloper/test/report') {
+        this.indexName = '/mecDeveloper/test/task'
+      } else if (this.indexName === '/mecDeveloper/api/detail' && this.routerPath === 'mep') {
+        this.indexName = '/mecDeveloper/api/mep'
+      } else if (this.indexName === '/mecDeveloper/api/detail' && this.routerPath === 'mep-eco') {
+        this.indexName = '/mecDeveloper/api/mep-eco'
       }
     }
   },

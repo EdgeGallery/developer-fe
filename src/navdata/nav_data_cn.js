@@ -26,21 +26,21 @@ const mecDeveloper = [
   {
     id: '3.2',
     name: '开发工具',
-    path: '/mecDeveloper/plugin/list#1',
+    path: '/mecDeveloper/plugin/list',
     pageId: '2.2.1',
     display: true,
     children: [
       {
         id: '3.3',
         name: '插件',
-        path: '/mecDeveloper/plugin/list#1',
+        path: '/mecDeveloper/plugin/list',
         pageId: '2.2.1.1',
         display: true
       },
       {
         id: '3.4',
         name: '上传',
-        path: '/mecDeveloper/plugin/upload#1',
+        path: '/mecDeveloper/plugin/upload',
         pageId: '2.2.1.2',
         display: true
       }

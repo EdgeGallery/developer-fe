@@ -239,7 +239,7 @@ const cn = {
       updated: '更新时间',
       modify: '修改',
       share: '分享',
-      apply: '立即提交'
+      apply: '立即测试'
     },
     testApp: {
       uploadApp: '上传应用',
