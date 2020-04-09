@@ -1,4 +1,71 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: developer-fe-configmap
+data:
+  application.yaml: |
+    zuul:
+      routes:
+        mec-developer: /mec-developer/**
+      sensitive-headers:
+
+    # disable netflix eurkea since it's not used for service discovery
+    ribbon:
+      eureka:
+        enabled: false
+      ReadTimeout: 60000
+      ConnectTimeout: 60000
+
+    server:
+      port: 8080
+      servlet:
+        session:
+          timeout: 1200
+      session:
+        cookie:
+          name: DEVELOPERSESSIONID
+
+    spring:
+      http:
+        multipart:
+          max-file-size: 10MB
+          max-request-size: 10MB
+
+    APPLICATION_ID: openMec
+    service_description:
+      # name of the declaring microservice
+      name: developer-fe
+      version: 1.0.0
+      environment: development
+    servicecomb:
+      service:
+        registry:
+          address: http://service-center:30100
+        rest:
+          address: 0.0.0.0:8080
+          servlet:
+            urlPattern: /cse/*
+      tracing:
+        enabled: false
+      uploads:
+        directory: /developer-fe
+        maxSize: 10M
+
+    auth_server: https://auth.edgegallery.org
+    security:
+      oauth2:
+        sso:
+          login-path: /login
+        client:
+          client-id: developer-fe
+          client-secret: 123456
+          user-authorization-uri: ${auth_server}/oauth/authorize
+          access-token-uri: ${auth_server}/oauth/token
+        resource:
+          jwt:
+            key-uri: ${auth_server}/oauth/token_key
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,26 +84,33 @@ spec:
         app: developer-fe
     spec:
       containers:
-      - name: developer-fe
-        image: edgegallery/developer-fe:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-        
+        - name: developer-fe
+          image: edgegallery/developer-fe:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: developer-fe-config
+              mountPath: /usr/app/configs/application.yaml
+              subPath: application.yaml
+      volumes:
+        - name: developer-fe-config
+          configMap:
+            name: developer-fe-configmap
+            items:
+              - key: application.yaml
+                path: application.yaml
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: developer-fe-svc
-  namespace: default
   labels:
     svc: developer-fe-svc
 spec:
-  type: NodePort
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 30092
       protocol: TCP
   selector:
     app: developer-fe
