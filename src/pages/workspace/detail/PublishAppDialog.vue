@@ -67,7 +67,8 @@ export default {
       dialogVisible: this.value,
       isPublish: true,
       isPublic: false,
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName')
     }
   },
   watch: {
@@ -82,7 +83,7 @@ export default {
     confirmPublish () {
       let projectId = sessionStorage.getItem('mecDetailID')
       if (this.isPublish) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId
+        let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName
         Post(url).then(res => {
           this.handleClose()
         })

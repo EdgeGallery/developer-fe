@@ -365,7 +365,8 @@ export default {
       telnetid: '',
       dataLoading: true,
       currentData: [],
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName')
     }
   },
   mounted () {
@@ -374,6 +375,7 @@ export default {
       this.getTaskList()
       this.step++
     }, 10000)
+    console.log(this.userName)
   },
   beforeDestroy () {
     this.clearInterval()
@@ -470,7 +472,7 @@ export default {
     expandChange (row, expandedRows) {
     },
     uploadTask (val) {
-      Post('mec/developer/v1/apps/' + val.appId + '/action/upload?userId=' + this.userId).then(res => {
+      Post('mec/developer/v1/apps/' + val.appId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName).then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'

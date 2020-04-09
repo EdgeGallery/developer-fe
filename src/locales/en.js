@@ -115,7 +115,7 @@ const en = {
     workSpace: 'WorkSpace',
     search: 'Search',
     logIn: 'Log In',
-    logOut: 'LogOut',
+    logOut: 'Logout',
     help: 'Help',
     contact: 'Contact'
   },
@@ -345,7 +345,7 @@ const en = {
     forgotPwd: 'Forgot password？',
     modifyPwd: 'Modify Password',
     contact: 'Contact Number',
-    logout: 'LogOut'
+    logout: 'Logout'
   },
   register: {
     registerUser: 'Register User',
