@@ -138,6 +138,8 @@ export default {
         this.indexName = '/mecDeveloper/api/mep-eco'
       } else if (this.indexName === '/') {
         this.indexName = '/mecDeveloper'
+      } else {
+        this.indexName = to.path
       }
     }
   },
