@@ -136,6 +136,10 @@ export default {
         this.indexName = '/mecDeveloper/api/mep'
       } else if (this.indexName === '/mecDeveloper/api/detail' && this.routerPath === 'mep-eco') {
         this.indexName = '/mecDeveloper/api/mep-eco'
+      } else if (this.indexName === '/') {
+        this.indexName = '/mecDeveloper'
+      } else {
+        this.indexName = to.path
       }
     }
   },
