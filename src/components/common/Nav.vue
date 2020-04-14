@@ -213,15 +213,7 @@ export default {
       }
     },
     jumpFromLogo (newPath) {
-      let usr = sessionStorage.getItem('usertype')
-      if (this.userType === 'admin') {
-        this.$router.push('/admin/home')
-      } else if (usr.toLowerCase() === 'guest' || usr.toLowerCase() === '') {
-        // update by wenson
-        this.$router.push(newPath)
-      } else {
-        this.$router.push('/mecDeveloper')
-      }
+      this.$router.push(newPath)
     },
     beforeLogout () {
       this.$confirm(this.$t('promptMessage.logoutPage'), this.$t('promptMessage.prompt'), {

@@ -18,18 +18,15 @@
   <div id="app">
     <Navcomp class="clearfix" />
     <router-view />
-    <Footer />
   </div>
 </template>
 
 <script>
 import Navcomp from './components/common/Nav.vue'
-import Footer from './components/common/Footer.vue'
 export default {
   name: 'App',
   components: {
-    Navcomp,
-    Footer
+    Navcomp
   },
   data () {
     return {
