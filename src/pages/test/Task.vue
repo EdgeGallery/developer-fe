@@ -73,6 +73,8 @@
                 value-format="yyyy-MM-dd"
                 type="date"
                 :placeholder="$t('test.testTask.startTime')"
+                @change="contrastTime"
+                :picker-options="expireTimeOption"
               />
             </el-form-item>
           </el-col>
@@ -86,6 +88,8 @@
                 value-format="yyyy-MM-dd"
                 type="date"
                 :placeholder="$t('test.testTask.endTime')"
+                @change="contrastTime"
+                :picker-options="expireTimeOption"
               />
             </el-form-item>
           </el-col>
@@ -291,6 +295,11 @@ export default {
   components: { pagination },
   data () {
     return {
+      expireTimeOption: {
+        disabledDate (date) {
+          return date.getTime() > Date.now()
+        }
+      },
       chartData: {
         columns: ['type', 'total'],
         rows: [
@@ -397,6 +406,16 @@ export default {
     handleClick (val) {
       sessionStorage.setItem('taskData', JSON.stringify(val))
       this.$router.push('/mecDeveloper/test/report')
+    },
+    contrastTime () {
+      if (this.form.endTime && this.form.beginTime > this.form.endTime) {
+        this.$message({
+          message: this.$t('promptMessage.contrastTime'),
+          type: 'warning'
+        })
+        this.form.beginTime = ''
+        this.form.endTime = ''
+      }
     },
     getTaskList () {
       if (this.form.beginTime == null || this.form.endTime == null) {
@@ -506,6 +525,9 @@ export default {
 
 <style lang='less'>
 .task{
+  .el-input--suffix .el-input__inner{
+    padding-right: 20px;
+  }
   .task-search{
     background-color: #fff;
     padding: 40px;
