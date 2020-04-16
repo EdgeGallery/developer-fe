@@ -83,13 +83,13 @@ export default {
       Get(url).then(res => {
         this.deployStatus = res.data.status
         if (res.data.status === 'DEPLOYING') {
-          this.$emit('getBtnStatus', { status: true, deploy: false, isCompleted: true })
+          this.$emit('getBtnStatus', { status: true, deploy: false, isCompleted: true, isFail: false })
         } else if (res.data.status === 'DEPLOYED') {
-          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: false })
+          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: false, isFail: false })
           this.getTestUrl()
           this.clearInterval()
         } else {
-          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: true })
+          this.$emit('getBtnStatus', { status: false, deploy: true, isCompleted: true, isFail: true })
           this.getTestUrl()
           this.clearInterval()
         }
@@ -104,8 +104,8 @@ export default {
     }
   },
   mounted () {
-    setTimeout(this.getDeployStatus, 5000)
-    // this.getDeployStatus()
+    // setTimeout(this.getDeployStatus, 5000)
+    this.getDeployStatus()
     this.timer = setInterval(() => {
       this.getDeployStatus()
     }, 5000)
