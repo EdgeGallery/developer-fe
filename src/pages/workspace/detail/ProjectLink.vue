@@ -18,11 +18,17 @@
   <div class="project-link">
     <div class="fourthstep">
       <div id="programTools">
-        <img
-          src="../../../assets/images/newProject-fourth-icon1.png"
-          alt=""
+        <el-link
+          type="info"
+          :href="toolLink"
+          target="_blank"
         >
-        <p>{{ $t('workspace.programTools') }}</p>
+          <img
+            src="../../../assets/images/newProject-fourth-icon1.png"
+            alt=""
+          >
+          <p>{{ $t('workspace.programTools') }}</p>
+        </el-link>
       </div>
       <div id="programPlugin">
         <el-link
@@ -54,13 +60,14 @@
 </template>
 
 <script>
-import { Get, downloadFile, urlPrefix } from '../../../tools/tool.js'
+import { Get, downloadFile } from '../../../tools/tool.js'
 export default {
   data () {
     return {
       apiFileIdArr: [],
       userId: sessionStorage.getItem('userId'),
-      projectLink: urlPrefix + '/#/mecDeveloper/plugin/list'
+      toolLink: 'https://www.jetbrains.com/idea/',
+      projectLink: '/#/mecDeveloper/plugin/list'
     }
   },
   methods: {

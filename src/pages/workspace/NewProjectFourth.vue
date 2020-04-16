@@ -17,11 +17,17 @@
 <template>
   <div class="fourthstep">
     <div id="programTools">
-      <img
-        src="../../assets/images/newProject-fourth-icon1.png"
-        alt=""
+      <el-link
+        type="info"
+        :href="toolLink"
+        target="_blank"
       >
-      <p>{{ $t('workspace.programTools') }}</p>
+        <img
+          src="../../assets/images/newProject-fourth-icon1.png"
+          alt=""
+        >
+        <p>{{ $t('workspace.programTools') }}</p>
+      </el-link>
     </div>
     <div id="programPlugin">
       <el-link
@@ -52,20 +58,19 @@
 </template>
 
 <script>
-import { downloadFile, urlPrefix } from '../../tools/tool.js'
+import { downloadFile } from '../../tools/tool.js'
 export default {
   name: '',
   data () {
     return {
       apiFileIdArr: [],
-      projectLink: urlPrefix + '/#/mecDeveloper/plugin/list'
+      toolLink: 'https://www.jetbrains.com/idea/',
+      projectLink: '/#/mecDeveloper/plugin/list'
     }
   },
   created () {
   },
-  mounted () {
-    // this.getApiFileId()
-  },
+  mounted () {},
   methods: {
     getApiFileId () {
       this.apiFileIdArr = JSON.parse(sessionStorage.getItem('apiFileIdArr'))
