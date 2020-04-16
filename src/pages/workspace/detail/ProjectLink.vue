@@ -84,7 +84,7 @@ export default {
         this.getSampleCode(this.apiFileIdArr)
       }
 
-      let url = 'mec/developer/v1/projects/' + projectId
+      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
       await Get(url).then(res => {
         let data = res.data.capabilityList
         data.forEach(dataItem => {
