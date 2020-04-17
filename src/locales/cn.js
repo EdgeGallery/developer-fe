@@ -326,7 +326,9 @@ const cn = {
     analyzingText: '正在分析，请稍候...',
     loadingText: '正在加载，请稍候...',
     logoutFail: '注销失败，请重试！',
-    contrastTime: '提交时间不能早于测试结束时间！'
+    contrastTime: '提交时间不能早于测试结束时间！',
+    imageNameErr: '输入格式不正确，请输入：',
+    yamlFileType: '请选择后缀名为".yaml、.json"的文件'
   },
   login: {
     portal: 'OSDT统一门户（HOUP）',

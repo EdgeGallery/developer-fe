@@ -50,23 +50,27 @@
           id="imageName"
           v-model="form.imageName"
           :placeholder="$t('workspace.imagename')"
+          @blur="verifyImageName"
           class="imageNameInput"
         />
-        <el-input
+        <el-input-number
           id="portIn"
-          v-model.number="form.portIn"
-          type="number"
+          v-model="form.portIn"
+          controls-position="right"
+          :min="1"
+          :max="999999"
           :placeholder="$t('workspace.inPort')"
           class="portInput"
         />
-        <el-input
+        <el-input-number
           id="portOut"
-          v-model.number="form.portOut"
-          type="number"
+          v-model="form.portOut"
+          controls-position="right"
+          :min="32000"
+          :max="32767"
           :placeholder="$t('workspace.outPort')"
           class="portInput"
         />
-
         <el-button
           id="addBtn"
           type="primary"
@@ -75,6 +79,12 @@
         >
           {{ $t('workspace.add') }}
         </el-button>
+        <p
+          class="imageResult el-form-error"
+          v-if="showErrInfo"
+        >
+          {{ $t('promptMessage.imageNameErr') }}{{ $t('workspace.imagename') }}
+        </p>
         <p
           class="imageResult"
           v-for="(item,index) in form.imageNameData"
@@ -191,12 +201,25 @@ export default {
       value: '',
       uploadApiLoading: false,
       imageDataLoading: true,
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      showErrInfo: false,
+      fileType: ''
     }
   },
   methods: {
+    verifyImageName () {
+      if (this.form.imageName.toLowerCase().indexOf(':v') === -1) {
+        this.showErrInfo = true
+      } else {
+        this.showErrInfo = false
+      }
+    },
     // 方式二上传
     addImageName () {
+      if (this.form.imageName === '' || this.showErrInfo) {
+        this.showErrInfo = true
+        return
+      }
       if (this.form.imageName && this.form.portIn && this.form.portOut) {
         let projectId = sessionStorage.getItem('mecDetailID')
         let url = 'mec/developer/v1/projects/' + projectId + '/image'
@@ -225,6 +248,12 @@ export default {
     },
     handleChangeApi (file, fileList) {
       this.form.apiFileList.push(file.raw)
+      this.fileType = this.form.apiFileList[0].name.substring(this.form.apiFileList[0].name.lastIndexOf('.') + 1)
+      let fileTypeArr = ['yaml', 'json']
+      if (fileTypeArr.indexOf(this.fileType) === -1) {
+        this.$message.warning(this.$t('promptMessage.yamlFileType'))
+        this.form.apiFileList = []
+      }
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
@@ -325,6 +354,18 @@ export default {
       height: 30px;
       line-height: 30px;
     }
+    .el-input-number{
+      line-height: 30px;
+      margin-top: 5px;
+    }
+    .el-input-number.is-controls-right .el-input-number__decrease, .el-input-number.is-controls-right .el-input-number__increase{
+      line-height: 15px;
+      width: 20px;
+    }
+    .el-input-number__decrease i{
+      position: relative;
+      top: 1px;
+    }
     .el-form-item__label{
       padding:0 20px 0 0;
     }
@@ -356,6 +397,10 @@ export default {
       i:hover{
         color: #688ef3;
       }
+    }
+    .el-form-error{
+      color: #f56c6c;
+      font-size: 12px;
     }
     .btnText.el-button{
       white-space:normal;

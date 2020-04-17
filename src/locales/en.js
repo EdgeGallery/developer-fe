@@ -326,7 +326,9 @@ const en = {
     analyzingText: 'Please wait, analyzing ...',
     loadingText: 'Loading, please wait ...',
     logoutFail: 'Logout failed, please try again!',
-    contrastTime: 'The submission time cannot be earlier than the test end time!'
+    contrastTime: 'The submission time cannot be earlier than the test end time!',
+    imageNameErr: 'The input format is incorrect, please enter: ',
+    yamlFileType: 'Please select files with the suffix ".yaml, .json"'
   },
   login: {
     portal: 'OSDT Unified Portal(HOUP)',
