@@ -26,7 +26,7 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list' }">
         {{ $t('breadCrumb.devTools') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ breadcrumbTitle }} {{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{ $t('devTools.pluginList') }}{{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row
       class="plugin-mian-content"
@@ -47,7 +47,7 @@
           <p>
             <span class="name">{{ $t('devTools.applicationName') }}:</span>
             <span class="name-value">{{ item.pluginName }}</span>
-            <span class="name">{{ $t('devTools.applicationVersion') }}: </span>
+            <span class="name">{{ $t('devTools.applicationVersion') }}:</span>
             <span class="name-value">{{ item.version }}</span>
             <el-link
               :href="getDownloadUrl(item.pluginId)"
@@ -162,10 +162,8 @@ export default {
   },
   data () {
     return {
-      breadcrumbTitle: '',
       pluginListData: [],
       detailContent: [],
-      plutype: 1,
       interval: '',
       DialogVisible: false,
       valueRate: 5,
@@ -176,10 +174,6 @@ export default {
     }
   },
   mounted () {
-    let mecDetailType = JSON.parse(sessionStorage.getItem('mecDetailType'))
-    if (mecDetailType === 1) {
-      this.breadcrumbTitle = this.$t('devTools.pluginList')
-    }
     this.getPluginListData()
     this.getDetailMarkDown(this.language)
   },
@@ -194,11 +188,7 @@ export default {
       })
     },
     getPluginListData () {
-      let url = ''
-      let mecDetailType = JSON.parse(sessionStorage.getItem('mecDetailType'))
-      if (mecDetailType === 1) {
-        url = 'mec/developer/v1/plugins/?pluginType=1'
-      }
+      let url = 'mec/developer/v1/plugins/?pluginType=1'
       Get(url).then(res => {
         let data = res.data.plugins
         this.pluginListData = data

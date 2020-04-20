@@ -32,13 +32,11 @@
       <div class="docs-tap">
         <h2>{{ $t('test.howToTest.howToTest') }}</h2>
         <p>
-          <!-- <span class="lt">{{ $t('test.howToTest.updated') }}: 2019-09-06 10:34:49</span> -->
           <span class="rt">
             <span class="el-icon-edit"><a
               target="_blank"
               :href="editMarkdownUrl"
             >{{ $t('test.howToTest.modify') }}</a></span>
-            <!-- <span class="el-icon-share">{{ $t('test.howToTest.share') }}</span> -->
           </span>
         </p>
       </div>
@@ -123,7 +121,6 @@ export default {
         padding:5px 0;
         font-size:14px;
         span.rt{
-          // margin-right:12px;
           color:#409EFF;
           a{
             color:#409EFF;

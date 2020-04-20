@@ -256,8 +256,8 @@ const cn = {
     testTask: {
       appName: '应用名称',
       testStatus: '测试状态',
-      startTime: '开始时间',
-      endTime: '结束时间',
+      startTime: '提交时间',
+      endTime: '测试结束时间',
       reset: '重置',
       inquire: '查询',
       taskNumber: '任务编号',
@@ -325,7 +325,10 @@ const cn = {
     uploadCodeText: '正在上传源代码，请稍候...',
     analyzingText: '正在分析，请稍候...',
     loadingText: '正在加载，请稍候...',
-    logoutFail: '注销失败，请重试！'
+    logoutFail: '注销失败，请重试！',
+    contrastTime: '提交时间不能早于测试结束时间！',
+    imageNameErr: '输入格式不正确，请输入：',
+    yamlFileType: '请选择后缀名为".yaml、.json"的文件'
   },
   login: {
     portal: 'OSDT统一门户（HOUP）',

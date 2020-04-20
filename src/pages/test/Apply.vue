@@ -498,7 +498,6 @@ export default {
     margin-top: 10px;
     .box{
       position: relative;
-      // border: 1px solid #eee;
       width: 64px;
       height: 64px;
       margin: 10px 15px 10px 0;

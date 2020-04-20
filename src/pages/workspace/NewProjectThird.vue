@@ -54,9 +54,6 @@
         prop="provider"
       />
     </el-table>
-    <!-- <div class="el-form-error" v-if="this.thirdStepSelection.length===0">
-        {{$t('workspace.selectLeastOne')}}
-      </div> -->
   </div>
 </template>
 
@@ -85,22 +82,30 @@ export default {
     this.getServiceList()
   },
   methods: {
+    defaultSelecteAll () {
+      this.$nextTick(() => {
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.$refs.thirdStepTable.toggleRowSelection(
+            this.tableData[i],
+            true
+          )
+        }
+      })
+    },
     getServiceList () {
       let count = 0
       let selectedCapablity = this.secondStepSelect.selectCapabilityId
-      // console.log(selectedCapablity)
       selectedCapablity.forEach(groupId => {
         let url = 'mec/developer/v1/capability-groups/' + groupId
         Get(url).then(res => {
           let data = res.data
-          // console.log(data)
           let serviceName = data.name
           data.capabilityDetailList.forEach(service => {
             service.name = serviceName
             this.tableData.push(service)
             this.apiFileIdArr.push(service.apiFileId)
           })
-          // console.log(this.apiFileIdArr)
+          this.defaultSelecteAll()
           sessionStorage.setItem('apiFileIdArr', JSON.stringify(this.apiFileIdArr))
           count++
           if (count === selectedCapablity.length) {
@@ -131,7 +136,7 @@ export default {
     mergerTableData () {
       let nameArr = []
       this.tableData.forEach(item => {
-        nameArr.push(item.description)
+        nameArr.push(item.name)
       })
       nameArr = [...new Set(nameArr)]
       let data = []
@@ -139,7 +144,7 @@ export default {
         let len = 0
         let arr = []
         this.tableData.forEach(item => {
-          if (nameItem === item.description) {
+          if (nameItem === item.name) {
             len++
             arr.push(item)
           }

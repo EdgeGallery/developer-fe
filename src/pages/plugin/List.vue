@@ -277,14 +277,11 @@ export default {
     },
     toDetail (item) {
       let mecDetailID = item.pluginId
-      let mecDetailType = item.pluginType
       sessionStorage.setItem('mecDetailID', mecDetailID)
-      sessionStorage.setItem('mecDetailType', mecDetailType)
       this.$router.push({
         name: 'listDetail',
         params: {
-          id: mecDetailID,
-          type: mecDetailType
+          id: mecDetailID
         }
       })
     },

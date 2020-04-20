@@ -40,11 +40,6 @@ export default {
   },
   getPermissions: function (data) {
     for (let i = 0; i < data.length; i++) {
-      // for (let j in permissions) {
-      //   if (permissions[j].includes(data[i].pageId)) {
-      //     data[i].display = true
-      //   }
-      // }
       data[i].display = true
     }
 

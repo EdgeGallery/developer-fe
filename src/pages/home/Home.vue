@@ -115,7 +115,6 @@ export default {
   width: 100%;
   left: 0;
   top: 0;
-  // width: calc(96%);
   height: calc(100% - 65px);
   overflow-y: scroll;
   top:65px;

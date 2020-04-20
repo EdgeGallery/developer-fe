@@ -43,10 +43,8 @@ export default {
 <style lang='less'>
   .layout{
     position: absolute;
-    // height: 100%;
-    height: calc(100% - 80px);
+    height: 100%;
     width: 100%;
-    padding-bottom: 40px;
     .el-footer{
       padding:0;
     }

@@ -108,7 +108,6 @@ export default {
       })
     },
     handleNodeClick (data) {
-      // console.log(data)
       if (!data.children) {
         let apiUrl = urlPrefix + 'mec/developer/v1/files/' + data.apiFileId + '?userId=' + data.userId + '&type=' + data.type
         SwaggerUIBundle({

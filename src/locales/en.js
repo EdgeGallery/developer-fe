@@ -167,7 +167,7 @@ const en = {
     programTools: 'Programming Tools',
     programPlugin: 'Programming Plugin',
     sampleCode: 'SampleCode',
-    confirm: 'Comfirm',
+    confirm: 'Confirm',
     api: 'API',
     buildAndTest: 'Build&Test',
     selectImage: 'Upload App Image',
@@ -256,8 +256,8 @@ const en = {
     testTask: {
       appName: 'Application Name',
       testStatus: 'Test Status',
-      startTime: 'Starting Time',
-      endTime: 'End Time',
+      startTime: 'Submit Time',
+      endTime: 'Test End Time',
       reset: 'Reset',
       inquire: 'Inquire',
       taskNumber: 'Task Number',
@@ -325,7 +325,10 @@ const en = {
     uploadCodeText: 'Please wait, uploading source code ...',
     analyzingText: 'Please wait, analyzing ...',
     loadingText: 'Loading, please wait ...',
-    logoutFail: 'Logout failed, please try again!'
+    logoutFail: 'Logout failed, please try again!',
+    contrastTime: 'The submission time cannot be earlier than the test end time!',
+    imageNameErr: 'The input format is incorrect, please enter: ',
+    yamlFileType: 'Please select files with the suffix ".yaml, .json"'
   },
   login: {
     portal: 'OSDT Unified Portal(HOUP)',

@@ -17,8 +17,6 @@
 import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// const urlPrefix = 'http://159.138.61.155:9080/'
-// const urlPrefixTool = 'http://159.138.61.155:8059/'
 const urlPrefix = '/mec-developer/'
 const urlPrefixTool = '/toolchain/'
 const urlAuth = '/user-mgmt-be/v1/users/auth'

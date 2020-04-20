@@ -81,7 +81,7 @@
             id="nextBtn"
             type="primary"
             @click="next"
-            :disabled="isCompleted"
+            :disabled="active===3 && isCompleted"
           >
             <b>{{ btnName }}</b>
           </el-button>
@@ -167,7 +167,8 @@ export default {
       deployed: false,
       isCompleted: false,
       userId: sessionStorage.getItem('userId'),
-      isPublic: false
+      isPublic: false,
+      isfail: true
     }
   },
   computed: {
@@ -212,7 +213,7 @@ export default {
       // 改变动态组件的值
       this.changeComponent()
       this.allStepData.ifNext = false
-      if (this.active === 2 && this.deployed) {
+      if (this.active === 2 && this.deployed && !this.isfail) {
         this.cleanTestEnv(false)
       }
       if (this.active === 3) {
@@ -233,10 +234,10 @@ export default {
       this.allStepData.ifNext = data.ifNext
     },
     getBtnStatus (status) {
-      // console.log(status)
       this.isDeploying = status.status
       this.deployed = status.deploy
       this.isCompleted = status.isCompleted
+      this.isfail = status.isFail
     },
     submitData () {
       let projectId = sessionStorage.getItem('mecDetailID')
@@ -299,6 +300,8 @@ export default {
       Post(url).then(res => {
         if (res.data === true) {
           this.isPublic = false
+        }
+        if (res.data === true && deployed) {
           this.dialogVisible = true
         }
       })
@@ -317,9 +320,6 @@ export default {
           this.changeComponent()
         }
         this.projectBeforeConfig = res.data ? res.data : {}
-      // if (this.projectBeforeConfig.testId) {
-      //   this.active = 3
-      // }
       })
     }
   },
@@ -426,7 +426,6 @@ export default {
     }
     .elSteps {
       margin: 50px 10% 0;
-      // height: 400px;
       width: 80%;
       background-color: #fafafa;
       border-radius: 8px;
@@ -440,11 +439,6 @@ export default {
       text-align: center;
       margin-top: 20px;
     }
-    // .el-tree{
-    //   .el-tree-node.is-current span{
-    //     color: #688ef3;
-    //   }
-    // }
   }
 
 }
