@@ -167,7 +167,7 @@ const en = {
     programTools: 'Programming Tools',
     programPlugin: 'Programming Plugin',
     sampleCode: 'SampleCode',
-    confirm: 'Comfirm',
+    confirm: 'Confirm',
     api: 'API',
     buildAndTest: 'Build&Test',
     selectImage: 'Upload App Image',

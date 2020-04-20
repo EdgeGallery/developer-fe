@@ -85,6 +85,16 @@ export default {
     this.getServiceList()
   },
   methods: {
+    defaultSelecteAll () {
+      this.$nextTick(() => {
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.$refs.thirdStepTable.toggleRowSelection(
+            this.tableData[i],
+            true
+          )
+        }
+      })
+    },
     getServiceList () {
       let count = 0
       let selectedCapablity = this.secondStepSelect.selectCapabilityId
@@ -100,6 +110,7 @@ export default {
             this.tableData.push(service)
             this.apiFileIdArr.push(service.apiFileId)
           })
+          this.defaultSelecteAll()
           // console.log(this.apiFileIdArr)
           sessionStorage.setItem('apiFileIdArr', JSON.stringify(this.apiFileIdArr))
           count++
@@ -131,7 +142,7 @@ export default {
     mergerTableData () {
       let nameArr = []
       this.tableData.forEach(item => {
-        nameArr.push(item.description)
+        nameArr.push(item.name)
       })
       nameArr = [...new Set(nameArr)]
       let data = []
@@ -139,7 +150,7 @@ export default {
         let len = 0
         let arr = []
         this.tableData.forEach(item => {
-          if (nameItem === item.description) {
+          if (nameItem === item.name) {
             len++
             arr.push(item)
           }
