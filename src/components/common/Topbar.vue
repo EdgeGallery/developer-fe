@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     handleSelect (path) {
-      // console.log(path)
       this.indexName = path
       this.$root.$emit('refreshDnd')
       this.$root.$emit('refreshProvision')

@@ -65,13 +65,7 @@ export default {
   data () {
     return {
       fourthStepSelection: [],
-      ToolChainList: [
-        // {
-        //   name: 'Migration Tool',
-        //   des1: 'xxx',
-        //   des2: 'xxx'
-        // }
-      ]
+      ToolChainList: []
     }
   },
   created () {

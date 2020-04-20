@@ -54,7 +54,6 @@ import navData from '../../../src/navdata/nav_data.js'
 import navDataCn from '../../../src/navdata/nav_data_cn.js'
 import axios from 'axios'
 import Topbar from './Topbar.vue'
-// import util from '../../tools/util.js'
 export default {
   name: 'Navgation',
   components: {
@@ -186,20 +185,15 @@ export default {
       if (this.language === 'English') {
         this.language = '简体中文'
         language = 'en'
-        // if (sessionStorage.getItem('userId')) {
         this.jsonData = navData.mecDeveloper
-        // }
       } else {
         this.language = 'English'
         language = 'cn'
-        // if (sessionStorage.getItem('userId')) {
         this.jsonData = navDataCn.mecDeveloper
-        // }
       }
       this.$i18n.locale = language
       localStorage.setItem('language', language)
       this.$store.commit('changelanguage', language)
-      // this.jsonData = util.init(this.$route.fullPath)
       this.$root.$emit('languageChange')
       let appDom = document.getElementById('app')
       if (language === 'en') {

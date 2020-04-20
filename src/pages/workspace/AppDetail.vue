@@ -234,7 +234,6 @@ export default {
       this.allStepData.ifNext = data.ifNext
     },
     getBtnStatus (status) {
-      // console.log(status)
       this.isDeploying = status.status
       this.deployed = status.deploy
       this.isCompleted = status.isCompleted
@@ -321,9 +320,6 @@ export default {
           this.changeComponent()
         }
         this.projectBeforeConfig = res.data ? res.data : {}
-      // if (this.projectBeforeConfig.testId) {
-      //   this.active = 3
-      // }
       })
     }
   },
@@ -430,7 +426,6 @@ export default {
     }
     .elSteps {
       margin: 50px 10% 0;
-      // height: 400px;
       width: 80%;
       background-color: #fafafa;
       border-radius: 8px;
@@ -444,11 +439,6 @@ export default {
       text-align: center;
       margin-top: 20px;
     }
-    // .el-tree{
-    //   .el-tree-node.is-current span{
-    //     color: #688ef3;
-    //   }
-    // }
   }
 
 }

@@ -73,7 +73,6 @@
               </div>
             </li>
           </ul>
-          <!-- <a class="checkRanking"><a href="http://139.9.0.160/MEC-APP/developers/tree/master/web" target="_blank">See more rankings>></a></p> -->
         </div>
       </div>
     </div>
@@ -224,7 +223,6 @@ export default {
 }
 .checkRanking{
   font-size: 12px;
-  // text-align: right;
   padding:10px 10% 0 0;
   a{
     color:#409EFF;

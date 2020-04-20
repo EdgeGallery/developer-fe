@@ -54,9 +54,6 @@
         prop="provider"
       />
     </el-table>
-    <!-- <div class="el-form-error" v-if="this.thirdStepSelection.length===0">
-        {{$t('workspace.selectLeastOne')}}
-      </div> -->
   </div>
 </template>
 
@@ -98,12 +95,10 @@ export default {
     getServiceList () {
       let count = 0
       let selectedCapablity = this.secondStepSelect.selectCapabilityId
-      // console.log(selectedCapablity)
       selectedCapablity.forEach(groupId => {
         let url = 'mec/developer/v1/capability-groups/' + groupId
         Get(url).then(res => {
           let data = res.data
-          // console.log(data)
           let serviceName = data.name
           data.capabilityDetailList.forEach(service => {
             service.name = serviceName
@@ -111,7 +106,6 @@ export default {
             this.apiFileIdArr.push(service.apiFileId)
           })
           this.defaultSelecteAll()
-          // console.log(this.apiFileIdArr)
           sessionStorage.setItem('apiFileIdArr', JSON.stringify(this.apiFileIdArr))
           count++
           if (count === selectedCapablity.length) {

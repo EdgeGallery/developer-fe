@@ -181,7 +181,6 @@ export default {
     // 获取子组件数据
     getStepData ({ data, step }) {
       this.allFormData[step] = data
-      // console.log(this.allFormData)
     },
     // 处理上传数据
     getApplicationProject () {
@@ -196,7 +195,6 @@ export default {
           params[key] = allFormData.first[key]
         }
       }
-      // console.log(allFormData.second.capabilitySelected)
       for (let capability of allFormData.second.capabilitySelected) {
         let obj = {}
         for (let capabilityKey in capability) {
@@ -216,7 +214,6 @@ export default {
       }
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
-      // console.log(params)
       Post('mec/developer/v1/projects/?userId=' + this.userId, params).then(res => {
         if (res.status === 200) {
           let mecDetailID = res.data.id
@@ -341,7 +338,6 @@ export default {
     flex-wrap: wrap;
     .box{
       position: relative;
-      // border: 1px solid #eee;
       width: 60px;
       height: 60px;
       margin: 10px 15px 10px 0;

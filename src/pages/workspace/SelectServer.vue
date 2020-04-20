@@ -102,7 +102,6 @@ export default {
     },
     getHostsData () {
       let url = 'mec/developer/v1/hosts'
-      // let projectId = sessionStorage.getItem('mecDetailID')
       Get(url).then(res => {
         this.hostsListData = res.data
         this.hostsDataLoading = false

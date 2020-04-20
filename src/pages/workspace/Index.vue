@@ -161,7 +161,6 @@ export default {
   mounted () {
     if (this.$route.params.from === 'index') this.dialogVisible = true
     this.getProjectListData()
-    // console.log(this.chartData)
   },
   beforeRouteEnter (to, from, next) {
     if (from.path.indexOf('/work/detail') === -1) {
@@ -188,7 +187,6 @@ export default {
     },
     getProjectListData () {
       Get('mec/developer/v1/projects?userId=' + this.userId).then(res => {
-        // console.log(res.data)
         let dataTotal = res.data
         let onlineNum = 0
         let deployingNum = 0
@@ -213,7 +211,6 @@ export default {
             this.chartData.rows[4].Number = testedNum
           }
         }
-        // console.log(this.chartData)
       })
     }
   }

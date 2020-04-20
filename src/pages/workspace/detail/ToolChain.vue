@@ -384,7 +384,6 @@ export default {
         formdata.append('file', this.codeFileList[0])
         this.uploadCodeText = this.$t('promptMessage.uploadCodeText')
         Post('mec/toolchain/v1/porting/' + this.projectId, formdata, 'toolchain').then(res => {
-          // console.log(res)
           if (res.status === 200) {
             this.analysisLoading = false
             sessionStorage.setItem('sourceCodePath', res.data.sourcePath)
@@ -423,9 +422,7 @@ export default {
       formdata = params
       this.analysisLoading = true
       this.uploadCodeText = this.$t('promptMessage.analyzingText')
-      // console.log(formdata)
       Post('mec/toolchain/v1/porting/' + this.projectId + '/tasks', formdata, 'toolchain').then(res => {
-        // console.log(res)
         this.getScanTask()
         this.analysisLoading = false
       }).catch(err => {
@@ -441,7 +438,6 @@ export default {
     // 查询扫描任务列表
     getScanTask () {
       Get('mec/toolchain/v1/porting/' + this.projectId + '/tasks', '', 'toolchain').then(res => {
-        // console.log(res)
         if (res.status === 200) {
           this.reportNum = res.data.data.totalcount
           this.reportListData = res.data.data.tasklist

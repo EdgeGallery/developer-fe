@@ -101,7 +101,6 @@
           type="number"
           :placeholder="$t('workspace.port')"
         />
-        <!-- <el-button @click="addService" class="addBtn">{{$t('workspace.add')}}</el-button> -->
         <p
           v-for="(item, index) in form.addServiceList"
           :key="index"

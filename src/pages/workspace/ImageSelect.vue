@@ -210,16 +210,13 @@ export default {
     verifyImageName () {
       if (this.form.imageName.toLowerCase().indexOf(':v') === -1) {
         this.showErrInfo = true
-      } else {
-        this.showErrInfo = false
+        return
       }
+      this.showErrInfo = false
     },
     // 方式二上传
     addImageName () {
-      if (this.form.imageName === '' || this.showErrInfo) {
-        this.showErrInfo = true
-        return
-      }
+      this.verifyImageName()
       if (this.form.imageName && this.form.portIn && this.form.portOut) {
         let projectId = sessionStorage.getItem('mecDetailID')
         let url = 'mec/developer/v1/projects/' + projectId + '/image'

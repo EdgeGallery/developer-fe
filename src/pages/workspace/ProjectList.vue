@@ -173,7 +173,6 @@ export default {
             return a.createDate < b.createDate ? 1 : -1
           })
         }
-        // console.log(res.data)
         let newItem = this.pageData.forEach((item, index) => {
           item.index = index + 1
           return newItem
@@ -288,7 +287,6 @@ export default {
       font-size: 12px;
       th,
       tr {
-        // background-color:transparent;
         background-color: #f5f5f5;
       }
     }
