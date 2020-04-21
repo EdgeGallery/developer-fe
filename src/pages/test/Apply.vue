@@ -179,8 +179,11 @@
               >
                 {{ $t('test.testApp.upload') }}
               </el-button>
-              <el-button id="cancelBtn">
-                {{ $t('common.cancel') }}
+              <el-button
+                id="cancelBtn"
+                @click="resetForm('form')"
+              >
+                {{ $t('test.testTask.reset') }}
               </el-button>
             </el-form-item>
           </el-form>
@@ -195,13 +198,27 @@ import { Post, Get } from './../../tools/tool.js'
 export default {
   name: 'Apply',
   data () {
+    let validateAffinity = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error(this.$t('promptMessage.affinityEmpty')))
+      } else {
+        return callback()
+      }
+    }
+    let validateDesc = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error(this.$t('promptMessage.descriptionEmpty')))
+      } else {
+        return callback()
+      }
+    }
     return {
       form: {
-        affinity: [],
+        affinity: ['CPU'],
         appIcon: [],
         appDesc: '',
         userId: '',
-        type: ''
+        type: 'Video'
       },
       rules: {
         appFileList: [
@@ -211,20 +228,20 @@ export default {
           { required: true }
         ],
         affinity: [
-          { required: true }
+          { required: true, validator: validateAffinity }
         ],
         type: [
           { required: true }
         ],
         appDesc: [
-          { required: true, message: this.$t('promptMessage.descriptionEmpty') }
+          { required: true, validator: validateDesc }
         ]
       },
       appFileList: [],
       logoFileList: [],
       appTagList: [],
       defaultActive: '',
-      defaultIconFile: '',
+      defaultIconFile: [],
       defaultIcon: [
         require('../../assets/images/appicon1.png'),
         require('../../assets/images/appicon2.png'),
@@ -272,7 +289,7 @@ export default {
         formdata.append(item, this.form[item])
       })
       formdata.append('appFile', this.appFileList[0])
-      formdata.append('logoFile', this.form.appIcon.length > 0 ? this.form.appIcon[0] : this.defaultIconFile)
+      formdata.append('logoFile', this.form.appIcon.length > 0 ? this.form.appIcon[0] : this.defaultIconFile[0])
       let url = 'mec/developer/v1/apps/'
       Post(url, formdata).then(res => {
         let appId = res.data.appId
@@ -287,7 +304,7 @@ export default {
     submitTrue () {
       this.uploadBtnLoading = true
       let appFileList = this.appFileList.length
-      let logoFileList = this.logoFileList.length || this.defaultIconFile
+      let logoFileList = this.logoFileList.length || this.defaultIconFile.length
       let affinity = this.form.affinity.length
       let type = this.form.type
       let appDesc = this.form.appDesc
@@ -325,6 +342,9 @@ export default {
         this.onSubmit()
       }
     },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
     startTest (appId) {
       let url = 'mec/developer/v1/apps/' + appId + '/action/start-test?userId=' + this.form.userId
       Get(url).then(res => {
@@ -357,7 +377,7 @@ export default {
     },
     handleLogoChanged (file, filelist) {
       this.form.appIcon = []
-      this.defaultIconFile = ''
+      this.defaultIconFile = []
       this.defaultActive = ''
       this.logoFileList.push(file.raw)
       if (file.size / 1024 > 500) {
@@ -408,7 +428,7 @@ export default {
     },
     chooseDefaultIcon (file, index) {
       this.logoFileList = []
-      this.defaultIconFile = ''
+      this.defaultIconFile = []
       if (this.defaultActive === index) {
         this.defaultActive = ''
       } else {
@@ -419,9 +439,18 @@ export default {
           // 将静态图片转化为base64
           let base64 = this.getBase64Image(image)
           // base64转化为文件流
-          this.defaultIconFile = this.base64toFile(base64)
+          this.defaultIconFile.push(this.base64toFile(base64))
         }
       }
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.$refs['form'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['form'].validateField(item.labelFor)
+        }
+      })
     }
   },
   mounted () {
@@ -431,17 +460,6 @@ export default {
       this.tagsLoading = false
     })
     this.form.userId = sessionStorage.getItem('userId')
-
-    let defaultImg = this.defaultIcon[0]
-    let image = new Image()
-    image.src = defaultImg
-    image.onload = () => {
-      // 将静态图片转化为base64
-      let base64 = this.getBase64Image(image)
-      // base64转化为文件流
-      this.defaultIconFile.push(this.base64toFile(base64))
-      this.form.appIcon = this.defaultIconFile
-    }
   },
   created () {
     this.keyupSubmit()

@@ -35,8 +35,7 @@
             ref="form"
             :model="form"
             :rules="rules"
-            label-width="120px"
-            label-position="left"
+            label-width="130px"
           >
             <el-form-item
               :label="$t('devTools.pluginName')"
@@ -220,8 +219,11 @@
               >
                 {{ $t('devTools.uploadNow') }}
               </el-button>
-              <el-button id="cancelBtn">
-                {{ $t('common.cancel') }}
+              <el-button
+                id="cancelBtn"
+                @click="resetForm('form')"
+              >
+                {{ $t('test.testTask.reset') }}
               </el-button>
             </el-form-item>
           </el-form>
@@ -236,6 +238,27 @@ import { Post } from './../../tools/tool.js'
 export default {
   name: 'Upload',
   data () {
+    let validateName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error(this.$t('promptMessage.pluginNameEmpty')))
+      } else {
+        return callback()
+      }
+    }
+    let validateVersion = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error(this.$t('promptMessage.versionEmpty')))
+      } else {
+        return callback()
+      }
+    }
+    let validateDes = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error(this.$t('promptMessage.descriptionEmpty')))
+      } else {
+        return callback()
+      }
+    }
     return {
       form: {
         pluginName: '',
@@ -253,12 +276,9 @@ export default {
       apiFileList: [],
       rules: {
         pluginName: [
-          { required: true, message: this.$t('promptMessage.pluginNameEmpty') }
+          { required: true, validator: validateName, trigger: 'blur' }
         ],
         codeLanguage: [
-          { required: true }
-        ],
-        pluginType: [
           { required: true }
         ],
         plugFileList: [
@@ -271,10 +291,10 @@ export default {
           { required: true }
         ],
         version: [
-          { required: true, message: this.$t('promptMessage.versionEmpty') }
+          { required: true, validator: validateVersion, trigger: 'blur' }
         ],
         introduction: [
-          { required: true, message: this.$t('promptMessage.descriptionEmpty') }
+          { required: true, validator: validateDes, trigger: 'blur' }
         ]
       },
       options: [
@@ -293,15 +313,6 @@ export default {
         }, {
           value: 4,
           label: 'PHP'
-        }
-      ],
-      optionsType: [
-        {
-          value: 1,
-          label: 'Plugin'
-        }, {
-          value: 2,
-          label: 'SDK'
         }
       ],
       defaultActive: '',
@@ -341,11 +352,7 @@ export default {
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'
         })
-        let href
-        if (this.form.pluginType === 1) {
-          href = '/mecDeveloper/plugin/list'
-        }
-        this.$router.push(href)
+        this.$router.push('/mecDeveloper/plugin/list')
       }).catch(err => {
         this.$message.error(this.$t('promptMessage.uploadFailure'))
         console.log(err)
@@ -414,6 +421,9 @@ export default {
       } else {
         this.onSubmit()
       }
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
     },
     handleChangeLogo (file, fileList) {
       this.form.appIcon = []
@@ -503,21 +513,18 @@ export default {
       }
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.$refs['form'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['form'].validateField(item.labelFor)
+        }
+      })
+    }
+  },
   mounted () {
     this.form.userName = sessionStorage.getItem('userName')
     this.form.userId = sessionStorage.getItem('userId')
-
-    this.chooseDefaultIcon(this.defaultIcon[0], 0)
-    let defaultImg = this.defaultIcon[0]
-    let image = new Image()
-    image.src = defaultImg
-    image.onload = () => {
-      // 将静态图片转化为base64
-      let base64 = this.getBase64Image(image)
-      // base64转化为文件流
-      this.defaultIconFile.push(this.base64toFile(base64))
-      this.form.appIcon = this.defaultIconFile
-    }
   },
   created () {
     this.keyupSubmit()
@@ -536,6 +543,9 @@ export default {
     }
     .input{
       width: 300px;
+    }
+    .el-form-item__label{
+      padding: 0 20px 0 0;
     }
     .el-upload{
       float: left;
