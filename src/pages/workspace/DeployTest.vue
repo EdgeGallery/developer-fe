@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted () {
-    this.getDeployStatus()
+    setTimeout(this.getDeployStatus, 5000)
     this.timer = setInterval(() => {
       this.getDeployStatus()
     }, 5000)
