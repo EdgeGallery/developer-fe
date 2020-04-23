@@ -23,12 +23,11 @@
       src="../../assets/images/build_test_test.png"
       alt=""
     >
-    <span class="testText">
+    <!-- <span class="testText">
       <b v-if="deployStatus === 'DEPLOYED'">{{ $t('workspace.buildTip') }}</b>
       <b v-else>{{ testLog }}</b>
-    </span>
-    <p />
-    <el-button
+    </span> -->
+    <!-- <el-button
       id="testBtn"
       type="primary"
       class="testButton"
@@ -37,7 +36,7 @@
     >
       <b>{{ testHref }}</b>
       <i class="el-icon-document-copy el-icon--right" />
-    </el-button>
+    </el-button> -->
   </div>
 </template>
 
