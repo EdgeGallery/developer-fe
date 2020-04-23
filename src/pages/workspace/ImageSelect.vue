@@ -46,12 +46,21 @@
         :label-width="formLabelWidth"
       >
         <p>{{ $t('workspace.method2') }}</p>
+        <span class="namespan">{{ $t('workspace.imagename') }}</span>
         <el-input
           id="imageName"
           v-model="form.imageName"
           :placeholder="$t('workspace.imagename')"
           @blur="verifyImageName"
           class="imageNameInput"
+        />
+        <span class="namespan">{{ $t('workspace.imageversion') }}</span>
+        <el-input
+          id="imageversion"
+          v-model="form.imageVersion"
+          :placeholder="$t('workspace.imageversion')"
+          @blur="verifyImageVersion"
+          class="imageVersionInput"
         />
         <el-input-number
           id="portIn"
@@ -81,9 +90,15 @@
         </el-button>
         <p
           class="imageResult el-form-error"
-          v-if="showErrInfo"
+          v-if="showNameErrInfo"
         >
-          {{ $t('promptMessage.imageNameErr') }}{{ $t('workspace.imagename') }}
+          {{ $t('promptMessage.imageNameErr') }}
+        </p>
+        <p
+          class="imageResult el-form-error"
+          v-if="showVersionErrInfo"
+        >
+          {{ $t('promptMessage.imageVersionErr') }}
         </p>
         <p
           class="imageResult"
@@ -93,12 +108,13 @@
           element-loading-spinner="el-icon-loading"
           :element-loading-text="$t('promptMessage.loadingText')"
         >
-          <b style="margin: 0 5px;">{{ $t('workspace.imagename') }}:</b>
-          {{ item.name }}: {{ item.version }}
-
-          <b style="margin: 0 5px;">{{ $t('workspace.inPort') }}:</b>
+          <b>{{ $t('workspace.imagename') }}:</b>
+          {{ item.name }}
+          <b>{{ $t('workspace.imageversion') }}:</b>
+          {{ item.version }}
+          <b>{{ $t('workspace.inPort') }}:</b>
           {{ item.port }}
-          <b style="margin: 0 5px;">{{ $t('workspace.outPort') }}:</b>
+          <b>{{ $t('workspace.outPort') }}:</b>
           {{ item.nodePort }}
           <i
             class="el-icon-close"
@@ -191,6 +207,7 @@ export default {
       formLabelWidth: '150px',
       form: {
         imageName: '',
+        imageVersion: '',
         portIn: '',
         portOut: '',
         apiFileList: [],
@@ -202,27 +219,36 @@ export default {
       uploadApiLoading: false,
       imageDataLoading: true,
       userId: sessionStorage.getItem('userId'),
-      showErrInfo: false,
+      showNameErrInfo: false,
+      showVersionErrInfo: false,
       fileType: ''
     }
   },
   methods: {
     verifyImageName () {
-      if (this.form.imageName.toLowerCase().indexOf(':v') === -1) {
-        this.showErrInfo = true
+      if (this.form.imageName === '') {
+        this.showNameErrInfo = true
         return
       }
-      this.showErrInfo = false
+      this.showNameErrInfo = false
+    },
+    verifyImageVersion () {
+      if (this.form.imageVersion.toLowerCase().indexOf('v') === -1) {
+        this.showVersionErrInfo = true
+        return
+      }
+      this.showVersionErrInfo = false
     },
     // 方式二上传
     addImageName () {
       this.verifyImageName()
-      if (this.form.imageName && this.form.portIn && this.form.portOut) {
+      this.verifyImageVersion()
+      if (this.form.imageName && this.form.imageVersion && this.form.portIn && this.form.portOut) {
         let projectId = sessionStorage.getItem('mecDetailID')
         let url = 'mec/developer/v1/projects/' + projectId + '/image'
         let params = {
-          name: this.form.imageName.split(':')[0],
-          version: this.form.imageName.split(':')[1],
+          name: this.form.imageName,
+          version: this.form.imageVersion,
           // 内部端口号
           port: this.form.portIn,
           // 外部端口号
@@ -305,12 +331,6 @@ export default {
       let apiFileId = this.form.appApiFileId
       let imageNameData = this.form.imageNameData.length
       let ifNext = false
-      if (this.form.imageName && !(this.form.imageName.indexOf(':') > -1)) {
-        this.$message({
-          message: this.$t('promptMessage.imageNameRules'),
-          type: 'warning'
-        })
-      }
       if (apiFileId && imageNameData) {
         ifNext = true
       } else {
@@ -347,6 +367,9 @@ export default {
   .imageSelect{
     width: 88%;
     margin-left: 6%;
+    .namespan{
+      float: left;
+    }
     input{
       height: 30px;
       line-height: 30px;
@@ -354,6 +377,9 @@ export default {
     .el-input-number{
       line-height: 30px;
       margin-top: 5px;
+    }
+    .el-input-number.is-controls-right .el-input__inner{
+      padding: 0 30px 0 15px;
     }
     .el-input-number.is-controls-right .el-input-number__decrease, .el-input-number.is-controls-right .el-input-number__increase{
       line-height: 15px;
@@ -368,11 +394,19 @@ export default {
     }
     .imageNameInput{
       float: left;
-      width: 200px;
+      width: 160px;
+      padding: 0 5px;
+      margin:0 10px;
+    }
+    .imageVersionInput{
+      float: left;
+      width: 90px;
+      padding: 0 5px;
+      margin-left: 10px;
     }
     .portInput{
       float: left;
-      width: 120px;
+      width: 90px;
       margin-left: 10px;
     }
     .addBtn{
