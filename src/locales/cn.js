@@ -197,7 +197,8 @@ const cn = {
     publictext: '是否公开您的APP的API能力到EdgeGallery生态系统',
     method1: '方式1：选择镜像（选择平台提供的App镜像，用于快速部署上线）',
     method2: '方式2：指定镜像包（需要用户先自己上传到镜像仓库）',
-    imagename: '镜像名称:版本',
+    imagename: '镜像名称',
+    imageversion: '版本',
     port: '端口号',
     add: '添加',
     method3: '方式3：上传App镜像包（上传镜像包后，系统会自动将镜像推送至xxx仓库）',
@@ -315,7 +316,7 @@ const cn = {
     yesBtn: '是',
     noBtn: '否',
     loginexpired: '登录已过期，请重新登录！',
-    imageNameRules: '请按规则填写镜像名称和版本！镜像名称与版本之间请用:分隔。',
+    imageNameErr: '镜像名称不能为空',
     uploadApiFile: '请上传Api文件',
     service: '请输入完整的服务内容',
     addImage: '请添加镜像',
@@ -327,7 +328,7 @@ const cn = {
     loadingText: '正在加载，请稍候...',
     logoutFail: '注销失败，请重试！',
     contrastTime: '提交时间不能早于测试结束时间！',
-    imageNameErr: '输入格式不正确，请输入：',
+    imageVersionErr: '版本格式不正确，必须包含"v"',
     yamlFileType: '请选择后缀名为".yaml、.json"的文件'
   },
   login: {

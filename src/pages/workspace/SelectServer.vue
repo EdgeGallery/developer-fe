@@ -92,7 +92,7 @@ export default {
       ],
       selectTableData: '',
       hostsDataLoading: true,
-      radio: ''
+      radio: 0
     }
   },
   methods: {

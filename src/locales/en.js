@@ -197,7 +197,8 @@ const en = {
     publictext: 'Whether or not to expose your APP\'s API capabilities to the EdgeGallery ecosystem',
     method1: 'Method 1: Select the image (select the App image provided by the platform for rapid deployment and launch)',
     method2: 'Method 2: Specify the image package (requires the user to upload to the image repository first)',
-    imagename: 'imageName:version',
+    imagename: 'imageName',
+    imageversion: 'Version',
     port: 'Port',
     add: 'Add',
     method3: 'Method 3: Upload the App image package (after uploading the image package, the system will automatically push the image to the xxx warehouse)',
@@ -315,7 +316,7 @@ const en = {
     yesBtn: 'Yes',
     noBtn: 'No',
     loginexpired: 'Login expired, please login again！',
-    imageNameRules: 'Please fill in the image name and version according to the rules! Please separate the image name from the version by:.',
+    imageNameErr: 'Image name cannot be empty',
     uploadApiFile: 'Please upload the Api file!',
     service: 'Please enter the full service content!',
     addImage: 'Please add the Image',
@@ -327,7 +328,7 @@ const en = {
     loadingText: 'Loading, please wait ...',
     logoutFail: 'Logout failed, please try again!',
     contrastTime: 'The submission time cannot be earlier than the test end time!',
-    imageNameErr: 'The input format is incorrect, please enter: ',
+    imageVersionErr: 'The version format is incorrect, must include "v" ',
     yamlFileType: 'Please select files with the suffix ".yaml, .json"'
   },
   login: {
