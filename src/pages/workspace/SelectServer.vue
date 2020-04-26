@@ -104,6 +104,7 @@ export default {
       let url = 'mec/developer/v1/hosts'
       Get(url).then(res => {
         this.hostsListData = res.data
+        this.selectTableData = this.hostsListData[0]
         this.hostsDataLoading = false
       })
     },
