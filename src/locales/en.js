@@ -331,7 +331,7 @@ const en = {
     loadingText: 'Loading, please wait ...',
     logoutFail: 'Logout failed, please try again!',
     contrastTime: 'The submission time cannot be earlier than the test end time!',
-    imageVersionErr: 'The version format is incorrect, must include "v" ',
+    imageVersionErr: 'Version cannot be empty',
     yamlFileType: 'Please select files with the suffix ".yaml, .json"'
   },
   login: {

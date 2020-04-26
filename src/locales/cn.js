@@ -331,7 +331,7 @@ const cn = {
     loadingText: '正在加载，请稍候...',
     logoutFail: '注销失败，请重试！',
     contrastTime: '提交时间不能早于测试结束时间！',
-    imageVersionErr: '版本格式不正确，必须包含"v"',
+    imageVersionErr: '版本不能为空',
     yamlFileType: '请选择后缀名为".yaml、.json"的文件'
   },
   login: {
