@@ -62,6 +62,7 @@
           @blur="verifyImageVersion"
           class="imageVersionInput"
         />
+        <span class="namespan">{{ $t('workspace.inPort') }}</span>
         <el-input-number
           id="portIn"
           v-model="form.portIn"
@@ -71,6 +72,7 @@
           :placeholder="$t('workspace.inPort')"
           class="portInput"
         />
+        <span class="namespan">{{ $t('workspace.outPort') }}</span>
         <el-input-number
           id="portOut"
           v-model="form.portOut"
@@ -146,9 +148,54 @@
         </p>
       </el-form-item>
       <el-form-item
+        :label="$t('workspace.uploadYaml')"
+        :label-width="formLabelWidth"
+      >
+        <el-upload
+          id="uploadYaml"
+          class="upload-demo"
+          action=""
+          :limit="1"
+          :on-change="handleChangeYaml"
+          :on-exceed="handleExceed"
+          :file-list="form.yamlFileList"
+          :auto-upload="false"
+          :on-remove="removeUploadyaml"
+          accept=".json,.yaml"
+          name="yamlFile"
+        >
+          <el-button
+            slot="trigger"
+            size="small"
+            type="primary"
+          >
+            {{ $t('workspace.uploadYaml') }}
+          </el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip"
+          >
+            <i class="el-icon-warning" />{{ $t('devTools.apiText') }}
+          </div>
+        </el-upload>
+        <p
+          class="imageResult"
+          v-for="(item,index) in form.yamlFileData"
+          :key="index"
+          v-loading="uploadYamlLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
+        >
+          {{ item.fileName }}
+          <i
+            class="el-icon-close"
+            @click="deleteYamlFile(item, index)"
+          />
+        </p>
+      </el-form-item>
+      <el-form-item
         :label="$t('devTools.uploadApi')"
         :label-width="formLabelWidth"
-        :rules="[{ required: true }]"
       >
         <el-upload
           id="uploadApi"
@@ -178,15 +225,6 @@
             <i class="el-icon-warning" />{{ $t('devTools.apiText') }}
           </div>
         </el-upload>
-        <el-button
-          id="confirmApiBtn"
-          size="mini"
-          type="primary"
-          @click="submitApiFile"
-          :loading="uploadApiLoading"
-        >
-          {{ $t('workspace.confirmUpload') }}
-        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -211,13 +249,17 @@ export default {
         portIn: '',
         portOut: '',
         apiFileList: [],
+        yamlFileList: [],
         imageNameData: [],
+        yamlFileData: [],
         appApiFileId: '' || this.projectBeforeConfig.appApiFileId
       },
       options: [],
       value: '',
       uploadApiLoading: false,
+      uploadYamlLoading: false,
       imageDataLoading: true,
+      yamlDataLoading: true,
       userId: sessionStorage.getItem('userId'),
       showNameErrInfo: false,
       showVersionErrInfo: false,
@@ -277,6 +319,9 @@ export default {
         this.$message.warning(this.$t('promptMessage.yamlFileType'))
         this.form.apiFileList = []
       }
+      if (this.form.apiFileList.length > 0) {
+        this.submitApiFile()
+      }
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
@@ -307,6 +352,45 @@ export default {
         })
       }
     },
+    handleChangeYaml (file, fileList) {
+      this.form.yamlFileList.push(file.raw)
+      this.fileType = this.form.yamlFileList[0].name.substring(this.form.yamlFileList[0].name.lastIndexOf('.') + 1)
+      let fileTypeArr = ['yaml', 'json']
+      if (fileTypeArr.indexOf(this.fileType) === -1) {
+        this.$message.warning(this.$t('promptMessage.yamlFileType'))
+        this.form.yamlFileList = []
+      }
+      if (this.form.yamlFileList.length > 0) {
+        this.submitYamlFile()
+        this.form.yamlFileList = []
+      }
+    },
+    removeUploadyaml (file, fileList) {
+      this.form.yamlFileList = []
+    },
+    submitYamlFile () {
+      let projectId = sessionStorage.getItem('mecDetailID')
+      if (this.form.yamlFileList.length > 0) {
+        this.uploadYamlLoading = true
+        let url = 'mec/developer/v1/files/helm-template-yaml?userId=' + this.userId + '&projectId=' + projectId
+        let fd = new FormData()
+        fd.append('file', this.form.yamlFileList[0])
+        Post(url, fd).then(res => {
+          this.form.appYamlFileId = res.data.fileId
+          this.uploadYamlLoading = false
+          this.$message({
+            type: 'success',
+            message: this.$t('promptMessage.uploadSuccess')
+          })
+          this.getYamlFile()
+        })
+      } else {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.uploadApiFile')
+        })
+      }
+    },
     // 方式二获取image  type: 第一次获取get / 还是添加
     getImage (type, params) {
       let projectId = sessionStorage.getItem('mecDetailID')
@@ -327,24 +411,35 @@ export default {
         this.imageDataLoading = false
       }
     },
+    getYamlFile () {
+      this.form.yamlFileData = []
+      let projectId = sessionStorage.getItem('mecDetailID')
+      let url = 'mec/developer/v1/files/helm-template-yaml?userId=' + this.userId + '&projectId=' + projectId
+      Get(url).then(res => {
+        res.data.forEach(item => {
+          this.form.yamlFileData.push(item)
+        })
+        this.yamlDataLoading = false
+      })
+    },
+    deleteYamlFile (item, index) {
+      let url = 'mec/developer/v1/files/helm-template-yaml?fileId=' + item.fileId
+      Delete(url).then(res => {
+        this.form.yamlFileData.splice(index, 1)
+      })
+    },
     ifNext () {
       let apiFileId = this.form.appApiFileId
       let imageNameData = this.form.imageNameData.length
+      let yamlFileData = this.form.yamlFileData.length
       let ifNext = false
-      if (apiFileId && imageNameData) {
+      if (apiFileId || imageNameData || yamlFileData) {
         ifNext = true
       } else {
-        if (!apiFileId) {
-          this.$message({
-            message: this.$t('promptMessage.uploadApiFile'),
-            type: 'warning'
-          })
-        } else if (!imageNameData) {
-          this.$message({
-            message: this.$t('promptMessage.addImage'),
-            type: 'warning'
-          })
-        }
+        this.$message({
+          message: this.$t('promptMessage.uploadFileMsg'),
+          type: 'warning'
+        })
       }
       return ifNext
     },
@@ -358,6 +453,7 @@ export default {
   mounted () {
     // 获取方式二的image
     this.getImage('get')
+    this.getYamlFile()
     if (this.projectBeforeConfig.appApiFileId) this.form.appApiFileId = this.projectBeforeConfig.appApiFileId
   }
 }
@@ -367,6 +463,10 @@ export default {
   .imageSelect{
     width: 88%;
     margin-left: 6%;
+    .upload-demo .el-upload__tip{
+      display: inline-block;
+      margin: 0 0 0 15px;
+    }
     .namespan{
       float: left;
     }
@@ -396,18 +496,19 @@ export default {
       float: left;
       width: 160px;
       padding: 0 5px;
-      margin:0 10px;
+      margin:0 10px 0 0;
     }
     .imageVersionInput{
       float: left;
       width: 90px;
       padding: 0 5px;
-      margin-left: 10px;
+      margin-right: 10px;
     }
     .portInput{
       float: left;
       width: 90px;
-      margin-left: 10px;
+      margin-left: 5px;
+      margin-right: 10px;
     }
     .addBtn{
       float: left;
@@ -457,6 +558,12 @@ export default {
       p{
         line-height: 0px;
       }
+    }
+  }
+  @media screen and (max-width: 1380px) {
+    .imageSelect {
+      width: 100%;
+      margin-left: 0;
     }
   }
 </style>
