@@ -23,7 +23,7 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
         {{ $t('breadCrumb.mecDeveloper') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep' }">
         API
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ $t('breadCrumb.mepecoapi') }}</el-breadcrumb-item>
@@ -81,13 +81,21 @@ export default {
         this.openMepEcoName.push(item.name)
       })
       this.openMepEcoName = [...new Set(this.openMepEcoName)]
-      Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
-        this.openMepEco = res.data.openMepEcos
+      // Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
+      //   this.openMepEco = res.data.openMepEcos
+      //   this.openMepEco.forEach(item => {
+      //     this.openMepEcoName.push(item.name)
+      //   })
+      //   this.openMepEcoName = [...new Set(this.openMepEcoName)]
+      //   this.activeName = this.openMepEcoName[0]
+      // })
+      Get('mec/developer/v1/capability-groups/openmep-api').then(res => {
+        this.openMepEco = res.data.openMeps
         this.openMepEco.forEach(item => {
           this.openMepEcoName.push(item.name)
         })
         this.openMepEcoName = [...new Set(this.openMepEcoName)]
-        this.activeName = this.openMepEcoName[0]
+        this.activeName = this.openMepEcoName[2]
       })
     }
   },

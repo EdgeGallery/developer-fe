@@ -122,7 +122,8 @@ export default {
     margin: 0 auto;
   }
   .testText {
-    display: inline-block;
+    display: block;
+    width: 100%;
     margin-top: 30px;
   }
   .testButton {

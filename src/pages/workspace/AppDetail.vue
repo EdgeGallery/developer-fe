@@ -432,6 +432,12 @@ export default {
       padding: 40px;
       box-sizing: border-box;
     }
+    @media screen and (max-width: 1380px) {
+      .elSteps {
+        margin: 50px 0 0;
+        width: 100%;
+      }
+    }
     .elDatePicker {
       margin-top: 20px;
     }
