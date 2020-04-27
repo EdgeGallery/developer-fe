@@ -81,21 +81,13 @@ export default {
         this.openMepEcoName.push(item.name)
       })
       this.openMepEcoName = [...new Set(this.openMepEcoName)]
-      // Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
-      //   this.openMepEco = res.data.openMepEcos
-      //   this.openMepEco.forEach(item => {
-      //     this.openMepEcoName.push(item.name)
-      //   })
-      //   this.openMepEcoName = [...new Set(this.openMepEcoName)]
-      //   this.activeName = this.openMepEcoName[0]
-      // })
-      Get('mec/developer/v1/capability-groups/openmep-api').then(res => {
-        this.openMepEco = res.data.openMeps
+      Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
+        this.openMepEco = res.data.openMepEcos
         this.openMepEco.forEach(item => {
           this.openMepEcoName.push(item.name)
         })
         this.openMepEcoName = [...new Set(this.openMepEcoName)]
-        this.activeName = this.openMepEcoName[2]
+        this.activeName = this.openMepEcoName[0]
       })
     }
   },
