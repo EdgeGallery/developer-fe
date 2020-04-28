@@ -58,6 +58,8 @@ const cn = {
     detail: '详情',
     delete: '删除',
     deleteList: '确定要删除列表吗？',
+    deleteSucc: '删除数据成功',
+    deleteFail: '删除数据失败',
     applicationName: '应用名称',
     applicationVersion: '应用版本',
     downloads: '下载次数',

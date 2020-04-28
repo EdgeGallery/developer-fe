@@ -37,6 +37,7 @@
           clearable
           v-model="value"
           @change="selectFunction"
+          @clear="clearQueryFn"
           :placeholder="$t('devTools.pluginFunction')"
           class="list-select"
           id="selectFunction"
@@ -54,8 +55,8 @@
           :placeholder="$t('devTools.pluginName')"
           id="enterQuery"
           class="enterinput"
-          @blur="enterQueryFun"
-          @clear="enterQueryFun"
+          @blur="selectFunction(enterQuery)"
+          @clear="selectFunction(enterQuery)"
         />
         <el-button
           class="searchBtn"
@@ -71,6 +72,7 @@
         >
           <el-table-column
             :label="$t('workspace.icon')"
+            width="280"
           >
             <template slot-scope="scope">
               <img
@@ -99,6 +101,7 @@
           </el-table-column>
           <el-table-column
             :label="$t('devTools.score')"
+            width="300"
           >
             <template slot-scope="scope">
               <el-rate
@@ -140,7 +143,7 @@
               </el-button>
               <el-button
                 id="deleteBtn"
-                :disabled="scope.row.userName===username?false:true"
+                :disabled="scope.row.userId===userId?false:true"
                 type="text"
                 class="btn"
                 @click="deletePlug(scope.row)"
@@ -163,7 +166,7 @@
             <el-button @click="centerDialogVisible = false">{{ $t('common.cancel') }}</el-button>
             <el-button
               type="primary"
-              @click="deleteTrue(delId)"
+              @click="deleteTrue(delId,pluginUserId)"
             >{{ $t('common.confirm') }}</el-button>
           </span>
         </el-dialog>
@@ -236,24 +239,27 @@ export default {
       searchListData: [],
       pluginListData: [],
       value: '',
+      selectFunctionData: [],
       enterQuery: '',
       centerDialogVisible: false,
-      isDelete: false,
-      delId: 0,
+      delId: '',
+      pluginUserId: '',
       interval: '',
       DialogVisible: false,
       valueRate: 5,
       rateId: 0,
-      username: '',
       dataLoading: true,
-      currentData: []
+      currentData: [],
+      userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
     this.getPluginListData()
-    this.username = sessionStorage.getItem('userName')
   },
   watch: {
+    enterQuery (val, oldVal) {
+      this.enterQueryFun()
+    },
     $route (to, from) {
       this.getPluginListData()
     }
@@ -297,14 +303,22 @@ export default {
     deletePlug (item) {
       this.centerDialogVisible = true
       this.delId = item.pluginId
+      this.pluginUserId = item.userId
     },
-    deleteTrue (index) {
-      this.isDelete = true
-      if (this.isDelete) {
-        Delete('mec/developer/v1/plugins/' + index).then(res => {
+    deleteTrue (pluginId, pluginUserId) {
+      Delete('mec/developer/v1/plugins/' + pluginId + '?userId=' + this.userId).then(res => {
+        if (this.userId === pluginUserId) {
           this.getPluginListData()
-        })
-      }
+          this.$message({
+            type: 'success',
+            message: this.$t('devTools.deleteSucc')
+          })
+        } else {
+          this.$message.error({
+            message: this.$t('devTools.deleteFail')
+          })
+        }
+      })
       this.centerDialogVisible = false
     },
     rateConfirm (item) {
@@ -331,31 +345,36 @@ export default {
       this.DialogVisible = false
     },
     enterQueryFun () {
-      let selectFunctionData = []
+      this.selectFunctionData = []
       this.pluginListData.forEach(item => {
         if (item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
-          selectFunctionData.push(item)
+          this.selectFunctionData.push(item)
         }
       })
       if (this.enterQuery) {
-        this.searchListData = selectFunctionData
+        this.searchListData = this.selectFunctionData
       } else {
         this.searchListData = this.pluginListData
       }
     },
     selectFunction (val) {
-      this.enterQuery = ''
-      let selectFunctionData = []
+      console.log(val)
+      this.selectFunctionData = []
       this.pluginListData.forEach(item => {
+        console.log(item.codeLanguage === val)
         if (item.codeLanguage === val) {
-          selectFunctionData.push(item)
+          this.selectFunctionData.push(item)
         }
       })
       if (val) {
-        this.searchListData = selectFunctionData
+        this.searchListData = this.selectFunctionData
       } else {
         this.searchListData = this.pluginListData
       }
+    },
+    clearQueryFn () {
+      // this.enterQueryFun()
+      this.selectFunction(this.value)
     }
   }
 }
@@ -408,15 +427,14 @@ export default {
         .span-left{
           color: #aaa;
           float: left;
-          width: 20%;
-          min-width: 85px;
+          width: 90px;
           text-align: left;
           margin-right: 5px;
         }
         .span-right{
-          float: right;
-          width: 80%;
-          max-width: calc(100% - 90px);
+          float: left;
+          width: 78%;
+          max-width: calc(100% - 95px);
         }
       }
       .el-button--text{
