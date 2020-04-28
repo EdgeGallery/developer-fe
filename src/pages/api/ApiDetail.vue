@@ -23,7 +23,7 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
         {{ $t('breadCrumb.mecDeveloper') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/docs' }">
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep' }">
         API
       </el-breadcrumb-item>
       <el-breadcrumb-item

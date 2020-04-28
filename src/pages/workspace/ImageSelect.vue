@@ -276,7 +276,7 @@ export default {
       this.showNameErrInfo = false
     },
     verifyImageVersion () {
-      if (this.form.imageVersion.toLowerCase().indexOf('v') === -1) {
+      if (this.form.imageVersion === '') {
         this.showVersionErrInfo = true
         return
       }

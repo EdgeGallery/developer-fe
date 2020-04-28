@@ -139,7 +139,7 @@ export default {
           { 'Status': 'ONLINE', 'Number': 0 },
           { 'Status': 'DEPLOYING', 'Number': 0 },
           { 'Status': 'DEPLOYED', 'Number': 0 },
-          { 'Status': 'DEPLOYEDFAIDED', 'Number': 0 },
+          { 'Status': 'DEPLOYED_FAIDED', 'Number': 0 },
           { 'Status': 'TESTED', 'Number': 0 }
         ]
       },
@@ -203,7 +203,7 @@ export default {
           } else if (dataTotal[i].status === 'DEPLOYED') {
             deployedNum++
             this.chartData.rows[2].Number = deployedNum
-          } else if (dataTotal[i].status === 'DEPLOYEDFAIDED') {
+          } else if (dataTotal[i].status === 'DEPLOYED_FAIDED') {
             deployfailedNum++
             this.chartData.rows[3].Number = deployfailedNum
           } else if (dataTotal[i].status === 'TESTED') {

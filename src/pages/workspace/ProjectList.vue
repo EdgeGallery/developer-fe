@@ -89,7 +89,7 @@
             class="el-icon-success deployed"
           />
           <i
-            v-if="scope.row.status==='DEPLOYEDFAIDED'"
+            v-if="scope.row.status==='DEPLOYED_FAIDED'"
             class="el-icon-error deployfailed"
           />
           <i

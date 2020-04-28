@@ -70,7 +70,7 @@ export default {
   data () {
     return {
       listData: [],
-      dataLoading: false,
+      dataLoading: true,
       currentData: [],
       openMeps: [],
       routerPath: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1)

@@ -104,22 +104,22 @@ export default {
   },
   data () {
     return {
+      inputVal: '',
       indexName: '',
+      fromPath: '',
       routerPath: sessionStorage.getItem('routerPath')
     }
   },
   methods: {
     handleSelect (path) {
       this.indexName = path
-      this.$root.$emit('refreshDnd')
-      this.$root.$emit('refreshProvision')
-      this.$root.$emit('refreshassurence')
     }
 
   },
   watch: {
     $route (to, from) {
       this.indexName = to.path
+      this.fromPath = from.name
       // 解决MECDeveloper下DevTools导航子菜单首次点击没有选中状态问题
       if (this.indexName === '/mecDeveloper/plugin/list') {
         this.indexName = '/mecDeveloper/plugin/list'
@@ -131,9 +131,9 @@ export default {
         this.indexName = '/mecDeveloper/work'
       } else if (this.indexName === '/mecDeveloper/test/report') {
         this.indexName = '/mecDeveloper/test/task'
-      } else if (this.indexName === '/mecDeveloper/api/detail' && this.routerPath === 'mep') {
+      } else if (this.fromPath === 'mep') {
         this.indexName = '/mecDeveloper/api/mep'
-      } else if (this.indexName === '/mecDeveloper/api/detail' && this.routerPath === 'mep-eco') {
+      } else if (this.fromPath === 'mep-eco') {
         this.indexName = '/mecDeveloper/api/mep-eco'
       } else if (this.indexName === '/') {
         this.indexName = '/mecDeveloper'
