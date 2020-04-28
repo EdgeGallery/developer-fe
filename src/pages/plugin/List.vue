@@ -358,10 +358,8 @@ export default {
       }
     },
     selectFunction (val) {
-      console.log(val)
       this.selectFunctionData = []
       this.pluginListData.forEach(item => {
-        console.log(item.codeLanguage === val)
         if (item.codeLanguage === val) {
           this.selectFunctionData.push(item)
         }
@@ -373,7 +371,6 @@ export default {
       }
     },
     clearQueryFn () {
-      // this.enterQueryFun()
       this.selectFunction(this.value)
     }
   }
