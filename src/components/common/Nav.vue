@@ -66,8 +66,7 @@ export default {
       previousPath: '',
       jsonData: [],
       language: 'English',
-      clientUrl: [],
-      logoutUrl: ''
+      clientUrl: []
     }
   },
   watch: {},
@@ -91,42 +90,14 @@ export default {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
       this.clientUrl = res.data.clientLogoutUrlList
-      this.logoutUrl = res.data.authServerLogoutUrl
     })
   },
   methods: {
-    async logoutAll () {
-      await this.clientUrl.forEach(item => {
-        axios({
-          method: 'POST',
-          url: item,
-          withCredentials: true
-        }).then(res => {
-          console.log(res)
-        })
-      })
-    },
-    async logout () {
-      await this.logoutAll()
-      let url = this.logoutUrl
-      axios({
-        method: 'POST',
-        url: url,
-        withCredentials: true
-      }).then(res => {
-        if (res.data) {
-          let url = res.data.login_page_url
-          window.location.href = url
-        }
-      }).catch(error => {
-        if (error && error.response) {
-          switch (error.response.status) {
-            case 400:
-              error.message = '错误请求'
-              break
-          }
-          this.$message.error(error.message)
-        }
+    logout () {
+      axios.get('/auth/logout').then(res => {
+        location.reload()
+      }).catch(err => {
+        console.log(err)
       })
     },
     getPageId () {
