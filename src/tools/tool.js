@@ -15,13 +15,13 @@
  */
 
 import axios from 'axios'
+import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 
 const urlPrefix = '/mec-developer/'
 const urlPrefixTool = '/toolchain/'
-const urlAuth = '/user-mgmt-be/v1/users/auth'
-const urlUsers = '/user-mgmt-be/v1/users/'
-const urlLogout = '/user-mgmt-be/v1/users/logout'
 
 function Get (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
@@ -66,7 +66,11 @@ function Post (url, params, type = 'developer') {
     prefixUrl = urlPrefixTool
   }
   return new Promise((resolve, reject) => {
-    axios.post(prefixUrl + url, params)
+    axios.post(prefixUrl + url, params, {
+      headers: {
+        'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN')
+      }
+    })
       .then(res => {
         resolve(res)
       })
@@ -129,9 +133,6 @@ export {
   Delete,
   urlPrefix,
   urlPrefixTool,
-  urlAuth,
-  urlUsers,
-  urlLogout,
   downloadFile,
   downLoadReport
 }

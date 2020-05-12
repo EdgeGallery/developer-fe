@@ -62,11 +62,9 @@ export default {
   data () {
     return {
       userType: '',
-      permissions: [],
-      previousPath: '',
       jsonData: [],
       language: 'English',
-      clientUrl: []
+      loginPage: ''
     }
   },
   watch: {},
@@ -77,7 +75,6 @@ export default {
       : localStorage.setItem('language', 'cn')
     language = localStorage.getItem('language')
     this.language = language === 'en' ? '简体中文' : 'English'
-    this.previousPath = this.$route.fullPath
     if (language === 'English') {
       this.jsonData = navData.mecDeveloper
     } else {
@@ -86,16 +83,16 @@ export default {
   },
   mounted () {
     this.getPageId()
-    axios.get('/mec/v1/jwt-info').then(res => {
+    axios.get('/auth/login-info').then(res => {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
-      this.clientUrl = res.data.clientLogoutUrlList
+      this.loginPage = res.data.loginPage
     })
   },
   methods: {
     logout () {
-      axios.get('/auth/logout').then(res => {
-        location.reload()
+      axios.post('/auth/logout').then(res => {
+        window.location.href = this.loginPage + '?return_to=' + window.location.href
       }).catch(err => {
         console.log(err)
       })
