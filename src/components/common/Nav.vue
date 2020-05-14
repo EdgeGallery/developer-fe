@@ -62,12 +62,9 @@ export default {
   data () {
     return {
       userType: '',
-      permissions: [],
-      previousPath: '',
       jsonData: [],
       language: 'English',
-      clientUrl: [],
-      logoutUrl: ''
+      loginPage: ''
     }
   },
   watch: {},
@@ -78,7 +75,6 @@ export default {
       : localStorage.setItem('language', 'cn')
     language = localStorage.getItem('language')
     this.language = language === 'en' ? '简体中文' : 'English'
-    this.previousPath = this.$route.fullPath
     if (language === 'English') {
       this.jsonData = navData.mecDeveloper
     } else {
@@ -87,46 +83,18 @@ export default {
   },
   mounted () {
     this.getPageId()
-    axios.get('/mec/v1/jwt-info').then(res => {
+    axios.get('/auth/login-info').then(res => {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
-      this.clientUrl = res.data.clientLogoutUrlList
-      this.logoutUrl = res.data.authServerLogoutUrl
+      this.loginPage = res.data.loginPage
     })
   },
   methods: {
-    async logoutAll () {
-      await this.clientUrl.forEach(item => {
-        axios({
-          method: 'POST',
-          url: item,
-          withCredentials: true
-        }).then(res => {
-          console.log(res)
-        })
-      })
-    },
-    async logout () {
-      await this.logoutAll()
-      let url = this.logoutUrl
-      axios({
-        method: 'POST',
-        url: url,
-        withCredentials: true
-      }).then(res => {
-        if (res.data) {
-          let url = res.data.login_page_url
-          window.location.href = url
-        }
-      }).catch(error => {
-        if (error && error.response) {
-          switch (error.response.status) {
-            case 400:
-              error.message = '错误请求'
-              break
-          }
-          this.$message.error(error.message)
-        }
+    logout () {
+      axios.post('/auth/logout').then(res => {
+        window.location.href = this.loginPage + '?return_to=' + window.location.href
+      }).catch(err => {
+        console.log(err)
       })
     },
     getPageId () {
