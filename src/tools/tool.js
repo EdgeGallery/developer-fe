@@ -30,7 +30,10 @@ function Get (url, params, type = 'developer') {
   }
   return new Promise((resolve, reject) => {
     axios.get(prefixUrl + url, {
-      params: params
+      params: params,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
       .then(res => {
         resolve(res)
@@ -49,7 +52,10 @@ function Delete (url, params, type = 'developer') {
   }
   return new Promise((resolve, reject) => {
     axios.delete(prefixUrl + url, {
-      params: params
+      params: params,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
       .then(res => {
         resolve(res)
@@ -68,6 +74,7 @@ function Post (url, params, type = 'developer') {
   return new Promise((resolve, reject) => {
     axios.post(prefixUrl + url, params, {
       headers: {
+        'Content-Type': 'application/json',
         'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN')
       }
     })
@@ -82,7 +89,11 @@ function Post (url, params, type = 'developer') {
 
 function Put (url, params) {
   return new Promise((resolve, reject) => {
-    axios.put(urlPrefix + url, params)
+    axios.put(urlPrefix + url, params, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then(res => {
         resolve(res)
       })
