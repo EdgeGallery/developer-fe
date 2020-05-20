@@ -250,7 +250,8 @@ export default {
       rateId: 0,
       dataLoading: true,
       currentData: [],
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName')
     }
   },
   mounted () {
@@ -339,7 +340,7 @@ export default {
       this.valueRate = val
     },
     rateHandel (rateId) {
-      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate.toString()).then(res => {
+      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate.toString() + '&userId=' + this.userId + '&userName=' + this.userName).then(res => {
         this.getPluginListData()
       })
       this.DialogVisible = false
