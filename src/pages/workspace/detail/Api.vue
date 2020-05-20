@@ -123,9 +123,13 @@ export default {
         })
         let interval = setInterval(() => {
           let baseUrl = document.getElementsByClassName('base-url')
-          if (baseUrl[0].innerHTML) {
-            let childNodes = baseUrl[0].childNodes
-            childNodes[4].nodeValue = '{host}'
+          try {
+            if (baseUrl[0].innerHTML) {
+              let childNodes = baseUrl[0].childNodes
+              childNodes[4].nodeValue = '{host}'
+              window.clearInterval(interval)
+            }
+          } catch (error) {
             window.clearInterval(interval)
           }
         }, 200)
