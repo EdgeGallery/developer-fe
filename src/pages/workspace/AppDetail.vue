@@ -281,7 +281,7 @@ export default {
       requireMethod(url, params).then(res => {
         // 部署
         let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + this.userId
-        Post(deployUrl).then(res => {
+        Post(deployUrl, '').then(res => {
           if (res.data.status === 'DEPLOYING') {
             this.$message({
               message: this.$t('workspace.startDeploySucc')

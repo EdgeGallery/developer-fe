@@ -297,7 +297,7 @@ export default {
           // 外部端口号
           nodePort: this.form.portOut,
           projectId: projectId,
-          type: ['DEVELOPER']
+          type: 'DEVELOPER'
         }
         Post(url, params).then(res => {
           params.id = res.data.id

@@ -23,6 +23,11 @@ Vue.use(VueCookies)
 const urlPrefix = '/mec-developer/'
 const urlPrefixTool = '/toolchain/'
 
+function getCookie (name) {
+  let arr; let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+  if (arr === document.cookie.match(reg)) { return (arr[2]) } else { return null }
+}
+
 function Get (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
   if (type !== 'developer') {
@@ -75,7 +80,7 @@ function Post (url, params, type = 'developer') {
     axios.post(prefixUrl + url, params, {
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN')
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
       }
     })
       .then(res => {
