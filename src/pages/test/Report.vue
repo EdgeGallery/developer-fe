@@ -26,6 +26,9 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/how' }">
         {{ $t('breadCrumb.test') }}
       </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/test/task' }">
+        {{ $t('nav.testTask') }}
+      </el-breadcrumb-item>
       <el-breadcrumb-item><a>{{ $t('breadCrumb.testReport') }}</a></el-breadcrumb-item>
     </el-breadcrumb>
     <div class="report_main">
