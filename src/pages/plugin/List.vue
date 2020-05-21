@@ -451,6 +451,7 @@ export default {
     .list-mian-content{
       .image{
         width:80px;
+        height: 80px;
         border-radius: 50%;
       }
       .el-dialog__headerbtn{
