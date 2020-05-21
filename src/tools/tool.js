@@ -144,7 +144,7 @@ function downLoadReport ({ url, reportId }) {
 
 function logoutApi () {
   return new Promise((resolve, reject) => {
-    axios.post('/auth/logout', {
+    axios.post('/logout', {
       headers: {
         'Content-Type': 'application/json',
         'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
