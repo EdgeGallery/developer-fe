@@ -142,6 +142,40 @@ function downLoadReport ({ url, reportId }) {
   })
 }
 
+function logoutApi () {
+  return new Promise((resolve, reject) => {
+    axios.post('/auth/logout', {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+      }
+    })
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+function loginApi () {
+  return new Promise((resolve, reject) => {
+    axios.get('/auth/login-info', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        console.log(err.response)
+        reject(err)
+      })
+  })
+}
+
 export {
   Get,
   Post,
@@ -150,5 +184,7 @@ export {
   urlPrefix,
   urlPrefixTool,
   downloadFile,
-  downLoadReport
+  downLoadReport,
+  logoutApi,
+  loginApi
 }
