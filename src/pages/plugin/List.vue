@@ -155,6 +155,7 @@
         </el-table>
         <el-dialog
           :visible.sync="centerDialogVisible"
+          :close-on-click-modal="false"
           width="30%"
           center
         >
@@ -172,6 +173,7 @@
         </el-dialog>
         <el-dialog
           :visible.sync="DialogVisible"
+          :close-on-click-modal="false"
           width="30%"
           class="dialog_rate"
         >

@@ -18,6 +18,7 @@
   <div class="uploadOPenapiDialog">
     <el-dialog
       :title="$t('workspace.publish')"
+      :close-on-click-modal="false"
       :visible.sync="dialogVisible"
       width="50%"
       :before-close="handleClose"

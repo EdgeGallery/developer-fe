@@ -91,6 +91,7 @@
           </p>
           <el-dialog
             :visible.sync="DialogVisible"
+            :close-on-click-modal="false"
             width="30%"
             class="dialog_rate"
           >

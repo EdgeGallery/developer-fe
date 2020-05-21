@@ -56,6 +56,7 @@
           </div>
           <el-dialog
             :title="$t('workspace.addNewProject')"
+            :close-on-click-modal="false"
             :visible.sync="dialogVisible"
             width="50%"
           >
