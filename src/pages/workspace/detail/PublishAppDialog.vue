@@ -84,13 +84,13 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       if (this.isPublish) {
         let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName
-        Post(url).then(res => {
+        Post(url, '').then(res => {
           this.handleClose()
         })
       }
       if (this.isPublic) {
         let url = 'mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + this.userId
-        Post(url).then(res => {
+        Post(url, '').then(res => {
           this.handleClose()
         })
       }

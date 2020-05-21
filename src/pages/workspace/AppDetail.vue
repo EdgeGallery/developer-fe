@@ -297,7 +297,7 @@ export default {
       this.isPublic = true
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + this.userId
-      Post(url).then(res => {
+      Post(url, '').then(res => {
         if (res.data === true) {
           this.isPublic = false
         }

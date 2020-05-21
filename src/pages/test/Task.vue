@@ -491,7 +491,7 @@ export default {
     expandChange (row, expandedRows) {
     },
     uploadTask (val) {
-      Post('mec/developer/v1/apps/' + val.appId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName).then(res => {
+      Post('mec/developer/v1/apps/' + val.appId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName, '').then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'

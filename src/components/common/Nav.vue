@@ -50,10 +50,9 @@
 </template>
 
 <script>
-import { getCookie } from '../../tools/tool.js'
+import { logoutApi, loginApi } from '../../tools/tool.js'
 import navData from '../../../src/navdata/nav_data.js'
 import navDataCn from '../../../src/navdata/nav_data_cn.js'
-import axios from 'axios'
 import Topbar from './Topbar.vue'
 export default {
   name: 'Navgation',
@@ -84,11 +83,7 @@ export default {
   },
   mounted () {
     this.getPageId()
-    axios.get('/auth/login-info', {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => {
+    loginApi().then(res => {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
       this.loginPage = res.data.loginPage
@@ -96,12 +91,7 @@ export default {
   },
   methods: {
     logout () {
-      axios.post('/auth/logout', {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-        }
-      }).then(res => {
+      logoutApi().then(res => {
         window.location.href = this.loginPage + '?return_to=' + window.location.href
       }).catch(err => {
         console.log(err)
