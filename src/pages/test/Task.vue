@@ -201,6 +201,7 @@
     </div>
     <el-dialog
       :visible.sync="dialogVisible23"
+      :close-on-click-modal="false"
       :title="dialogTitle"
     >
       <el-table
@@ -241,6 +242,7 @@
 
     <el-dialog
       :visible.sync="dialogVisible1"
+      :close-on-click-modal="false"
       title="Environmental Preparation"
     >
       <div class="step1">

@@ -143,36 +143,24 @@ function downLoadReport ({ url, reportId }) {
 }
 
 function logoutApi () {
-  return new Promise((resolve, reject) => {
-    axios.post('/auth/logout', {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-      }
-    })
-      .then(res => {
-        resolve(res)
-      })
-      .catch(err => {
-        reject(err)
-      })
+  return axios({
+    method: 'POST',
+    url: '/logout',
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+    }
   })
 }
 
 function loginApi () {
-  return new Promise((resolve, reject) => {
-    axios.get('/auth/login-info', {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        resolve(res)
-      })
-      .catch(err => {
-        console.log(err.response)
-        reject(err)
-      })
+  return axios({
+    method: 'GET',
+    url: '/auth/login-info',
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 

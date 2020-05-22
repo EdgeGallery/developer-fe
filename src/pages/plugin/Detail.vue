@@ -91,6 +91,7 @@
           </p>
           <el-dialog
             :visible.sync="DialogVisible"
+            :close-on-click-modal="false"
             width="30%"
             class="dialog_rate"
           >
@@ -248,7 +249,8 @@ export default {
     padding:40px 25px 0;
     .mian-content-img{
       img{
-        height:120px;
+        max-width: 120px;
+        max-height: 120px;
       }
     }
     .mian-content-feature{

@@ -18,6 +18,7 @@
   <div class="newproject">
     <el-dialog
       :title="$t('workspace.addNewProject')"
+      :close-on-click-modal="false"
       :visible.sync="dialogNewProject"
       width="60%"
       @close="handleClose"
