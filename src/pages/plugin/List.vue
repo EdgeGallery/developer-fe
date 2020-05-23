@@ -69,7 +69,7 @@
       </div>
       <div class="list-mian-content">
         <el-table
-          :data="currentData"
+          :data="searchListData"
           style="width: 100%"
         >
           <el-table-column
@@ -108,7 +108,7 @@
             <template slot-scope="scope">
               <el-rate
                 class="p-rate"
-                :value="Number(scope.row.satisfaction)"
+                :value="Number(scope.row.satisfaction.toFixed(2))"
                 disabled
                 show-score
                 text-color="#ff9900"
@@ -184,7 +184,6 @@
             v-model="valueRate"
             show-score
             text-color="#ff9900"
-            allow-half
             :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
             class="rate_top dialogPadding"
             @change="rateChange"
@@ -204,6 +203,7 @@
       <div class="pagebar">
         <pagination
           :table-data="searchListData"
+          :list-total="listTotal"
           @getCurrentPageData="getCurrentPageData"
         />
       </div>
@@ -253,9 +253,11 @@ export default {
       valueRate: 5,
       rateId: 0,
       dataLoading: true,
-      currentData: [],
       userId: sessionStorage.getItem('userId'),
-      userName: sessionStorage.getItem('userName')
+      userName: sessionStorage.getItem('userName'),
+      limitSize: 10,
+      offsetPage: 0,
+      listTotal: 0
     }
   },
   mounted () {
@@ -263,6 +265,14 @@ export default {
   },
   watch: {
     $route (to, from) {
+      this.getPluginListData()
+    },
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getPluginListData()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
       this.getPluginListData()
     }
   },
@@ -273,15 +283,17 @@ export default {
     next()
   },
   methods: {
-    getCurrentPageData (val) {
-      this.currentData = val
+    getCurrentPageData (pageSize, start) {
+      this.limitSize = pageSize
+      this.offsetPage = start
     },
     getPluginListData () {
-      let url = 'mec/developer/v1/plugins/?pluginType=1'
+      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage
       Get(url).then(res => {
-        this.pluginListData = this.searchListData = res.data.plugins
-        this.sortData(this.pluginListData)
+        this.pluginListData = this.searchListData = res.data.results
+        this.listTotal = res.data.total
         this.dataLoading = false
+        // this.sortData(this.searchListData)
       })
     },
     sortData (dataList) {
@@ -365,7 +377,6 @@ export default {
           }
         })
         this.searchListData = this.searchFunctionData
-        this.currentData = this.searchFunctionData
       }
       if (this.enterQuery && this.value === '') {
         this.searchListData.forEach(item => {
@@ -374,7 +385,6 @@ export default {
           }
         })
         this.searchListData = this.searchFunctionData
-        this.currentData = this.searchFunctionData
       }
       if (this.value && this.enterQuery) {
         this.searchListData.forEach(item => {
@@ -383,16 +393,15 @@ export default {
           }
         })
         this.searchListData = this.searchFunctionData
-        this.currentData = this.searchFunctionData
       }
-      this.sortData(this.currentData)
+      // this.sortData(this.searchListData)
     },
     clearSearchData () {
       this.value = ''
       this.enterQuery = ''
       this.searchListData = this.pluginListData
-      this.sortData(this.searchListData)
       sessionStorage.setItem('currentPage', 1)
+      // this.sortData(this.searchListData)
     }
   }
 }

@@ -71,7 +71,7 @@
             <span class="name-value">
               <el-rate
                 class="p-rate"
-                :value="Number(item.satisfaction)"
+                :value="Number(item.satisfaction.toFixed(2))"
                 disabled
                 show-score
                 text-color="#ff9900"
@@ -100,7 +100,6 @@
               v-model="valueRate"
               show-score
               text-color="#ff9900"
-              allow-half
               :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
               class="rate_top dialogPadding"
               @change="rateChange"
@@ -159,6 +158,17 @@ export default {
         this.markdownSource = './MECPLUGIN_CN.md'
         this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md'
       }
+    },
+    $route (to, from) {
+      this.getPluginListData()
+    },
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getPluginListData()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
+      this.getPluginListData()
     }
   },
   data () {
@@ -173,7 +183,9 @@ export default {
       markdownSource: '',
       editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md',
       userId: sessionStorage.getItem('userId'),
-      userName: sessionStorage.getItem('userName')
+      userName: sessionStorage.getItem('userName'),
+      limitSize: 10,
+      offsetPage: 0
     }
   },
   mounted () {
@@ -191,10 +203,9 @@ export default {
       })
     },
     getPluginListData () {
-      let url = 'mec/developer/v1/plugins/?pluginType=1'
+      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage
       Get(url).then(res => {
-        let data = res.data.plugins
-        this.pluginListData = data
+        this.pluginListData = res.data.results
         this.getListDetail()
       })
     },
