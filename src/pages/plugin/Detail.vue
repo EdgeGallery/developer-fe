@@ -171,7 +171,9 @@ export default {
       rateId: 0,
       dataLoading: true,
       markdownSource: '',
-      editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md'
+      editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md',
+      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName')
     }
   },
   mounted () {
@@ -233,7 +235,7 @@ export default {
       this.valueRate = val
     },
     rateHandel (rateId) {
-      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate).then(res => {
+      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate + '&userId=' + this.userId + '&userName=' + this.userName).then(res => {
         this.getPluginListData()
       })
       this.DialogVisible = false
