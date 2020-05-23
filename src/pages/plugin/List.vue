@@ -36,8 +36,6 @@
         <el-select
           clearable
           v-model="value"
-          @change="selectFunction"
-          @clear="clearQueryFn"
           :placeholder="$t('devTools.pluginFunction')"
           class="list-select"
           id="selectFunction"
@@ -55,14 +53,18 @@
           :placeholder="$t('devTools.pluginName')"
           id="enterQuery"
           class="enterinput"
-          @blur="selectFunction(enterQuery)"
-          @clear="selectFunction(enterQuery)"
         />
         <el-button
           class="searchBtn"
-          @click="enterQueryFun"
+          @click="searchPluginData"
         >
           {{ $t('test.testTask.inquire') }}
+        </el-button>
+        <el-button
+          class="searchBtn"
+          @click="clearSearchData"
+        >
+          {{ $t('test.testTask.reset') }}
         </el-button>
       </div>
       <div class="list-mian-content">
@@ -241,7 +243,7 @@ export default {
       searchListData: [],
       pluginListData: [],
       value: '',
-      selectFunctionData: [],
+      searchFunctionData: [],
       enterQuery: '',
       centerDialogVisible: false,
       delId: '',
@@ -260,9 +262,6 @@ export default {
     this.getPluginListData()
   },
   watch: {
-    enterQuery (val, oldVal) {
-      this.enterQueryFun()
-    },
     $route (to, from) {
       this.getPluginListData()
     }
@@ -281,8 +280,16 @@ export default {
       let url = 'mec/developer/v1/plugins/?pluginType=1'
       Get(url).then(res => {
         this.pluginListData = this.searchListData = res.data.plugins
+        this.sortData(this.pluginListData)
         this.dataLoading = false
       })
+    },
+    sortData (dataList) {
+      if (dataList.length > 0) {
+        dataList.sort(function (a, b) {
+          return a.uploadTime < b.uploadTime ? 1 : -1
+        })
+      }
     },
     toDetail (item) {
       let mecDetailID = item.pluginId
@@ -342,39 +349,50 @@ export default {
       this.valueRate = val
     },
     rateHandel (rateId) {
-      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate.toString() + '&userId=' + this.userId + '&userName=' + this.userName).then(res => {
+      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate + '&userId=' + this.userId + '&userName=' + this.userName).then(res => {
         this.getPluginListData()
       })
       this.DialogVisible = false
     },
-    enterQueryFun () {
-      this.selectFunctionData = []
-      this.pluginListData.forEach(item => {
-        if (item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
-          this.selectFunctionData.push(item)
-        }
-      })
-      if (this.enterQuery) {
-        this.searchListData = this.selectFunctionData
-      } else {
-        this.searchListData = this.pluginListData
+    searchPluginData () {
+      sessionStorage.setItem('currentPage', 1)
+      this.searchFunctionData = []
+      this.searchListData = this.pluginListData
+      if (this.value && this.enterQuery === '') {
+        this.searchListData.forEach(item => {
+          if (item.codeLanguage === this.value) {
+            this.searchFunctionData.push(item)
+          }
+        })
+        this.searchListData = this.searchFunctionData
+        this.currentData = this.searchFunctionData
       }
-    },
-    selectFunction (val) {
-      this.selectFunctionData = []
-      this.pluginListData.forEach(item => {
-        if (item.codeLanguage === val) {
-          this.selectFunctionData.push(item)
-        }
-      })
-      if (val) {
-        this.searchListData = this.selectFunctionData
-      } else {
-        this.searchListData = this.pluginListData
+      if (this.enterQuery && this.value === '') {
+        this.searchListData.forEach(item => {
+          if (item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
+            this.searchFunctionData.push(item)
+          }
+        })
+        this.searchListData = this.searchFunctionData
+        this.currentData = this.searchFunctionData
       }
+      if (this.value && this.enterQuery) {
+        this.searchListData.forEach(item => {
+          if (item.codeLanguage === this.value && item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
+            this.searchFunctionData.push(item)
+          }
+        })
+        this.searchListData = this.searchFunctionData
+        this.currentData = this.searchFunctionData
+      }
+      this.sortData(this.currentData)
     },
-    clearQueryFn () {
-      this.selectFunction(this.value)
+    clearSearchData () {
+      this.value = ''
+      this.enterQuery = ''
+      this.searchListData = this.pluginListData
+      this.sortData(this.searchListData)
+      sessionStorage.setItem('currentPage', 1)
     }
   }
 }
@@ -391,7 +409,7 @@ export default {
     margin-bottom: 20px;
     height:40px;
     .list-select{
-      margin-right:30px;
+      margin-right:10px;
     }
     .enterinput{
       display: inline-block;

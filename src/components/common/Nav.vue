@@ -92,7 +92,7 @@ export default {
   methods: {
     logout () {
       logoutApi().then(res => {
-        window.location.href = this.loginPage + '?return_to=' + window.location.href
+        window.location.href = this.loginPage + '&return_to=' + window.location.href
       }).catch(err => {
         console.log(err)
       })
