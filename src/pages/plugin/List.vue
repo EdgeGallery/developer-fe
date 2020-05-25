@@ -213,7 +213,7 @@
 
 <script>
 import { Get, Put, Delete, urlPrefix } from './../../tools/tool.js'
-import pagination from '../../components/common/PaginationSuc.vue'
+import pagination from '../../components/common/Pagination.vue'
 
 export default {
   name: 'IdeList',
@@ -283,7 +283,7 @@ export default {
     next()
   },
   methods: {
-    getCurrentPageData (pageSize, start) {
+    getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
     },
