@@ -283,7 +283,7 @@ export default {
     next()
   },
   methods: {
-    getCurrentPageData (pageSize, start) {
+    getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
     },

@@ -40,7 +40,7 @@ export default {
       type: Array
     },
     listTotal: {
-      required: true,
+      default: 0,
       type: Number
     }
   },
@@ -48,11 +48,14 @@ export default {
     return {
       pageSize: 10,
       totalNum: 0,
-      currentPage: 1
+      currentPage: 1,
+      data: []
     }
   },
   watch: {
     tableData (val) {
+      this.data = val
+      this.totalNum = val.length
       this.returnTableData()
       let page = sessionStorage.getItem('currentPage') ? Number(sessionStorage.getItem('currentPage')) : 1
       this.handleCurrentPageChange(page)
@@ -74,7 +77,9 @@ export default {
     },
     returnTableData () {
       let start = (this.currentPage - 1) * this.pageSize
-      this.$emit('getCurrentPageData', this.pageSize, start)
+      let end = this.currentPage * this.pageSize
+      let currentPageData = this.data.slice(start, end)
+      this.$emit('getCurrentPageData', currentPageData, this.pageSize, start)
     }
   },
   mounted () {}
