@@ -213,7 +213,7 @@
 
 <script>
 import { Get, Put, Delete, urlPrefix } from './../../tools/tool.js'
-import pagination from '../../components/common/Pagination.vue'
+import pagination from '../../components/common/PaginationSuc.vue'
 
 export default {
   name: 'IdeList',
