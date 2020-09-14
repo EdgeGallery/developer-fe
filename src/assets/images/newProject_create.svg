@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="98px" height="92px" viewBox="0 0 98 92" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="97.7917269%" id="linearGradient-1">
+            <stop stop-color="#C9D7FE" offset="0%"></stop>
+            <stop stop-color="#99AFFC" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-8.8%" y="-116.8%" width="117.7%" height="333.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="1.30022321" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-8.8%" y="-116.8%" width="117.7%" height="333.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="1.30022321" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-10.3%" y="-116.8%" width="120.7%" height="333.6%" filterUnits="objectBoundingBox" id="filter-4">
+            <feGaussianBlur stdDeviation="1.30022321" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-14" transform="translate(-679.000000, -390.000000)">
+            <g id="Group" transform="translate(679.000000, 390.000000)">
+                <circle id="Oval-8" stroke="#FFFFFF" stroke-width="2" fill="#2B3C85" cx="70.7103813" cy="65.1580898" r="25.5559801"></circle>
+                <polygon id="Path" fill="url(#linearGradient-1)" points="73.4644693 67.54138 73.4644693 0.118503039 0.855217261 0.118503039 0.855217261 67.54138"></polygon>
+                <polygon id="Line-26" fill="#FFFFFF" fill-rule="nonzero" filter="url(#filter-2)" points="15.1000523 21.7493942 15.1000523 18.4102637 59.2196343 18.4102637 59.2196343 21.7493942"></polygon>
+                <polygon id="Line-26-Copy" fill="#FFFFFF" fill-rule="nonzero" filter="url(#filter-3)" points="15.1000523 35.1059159 15.1000523 31.7667855 59.2196343 31.7667855 59.2196343 35.1059159"></polygon>
+                <polygon id="Line-26-Copy-2" fill="#FFFFFF" fill-rule="nonzero" filter="url(#filter-4)" points="15.1000523 47.627655 15.1000523 44.2885246 52.8642474 44.2885246 52.8642474 47.627655"></polygon>
+                <path d="M16.7696175,20.0798289 L57.5500691,20.0798289" id="Line-26-Copy-5" stroke="#FFFFFF" stroke-width="4" stroke-linecap="square"></path>
+                <path d="M16.7696175,33.4363507 L57.5500691,33.4363507" id="Line-26-Copy-4" stroke="#FFFFFF" stroke-width="4" stroke-linecap="square"></path>
+                <polygon id="Line-26-Copy-3" fill="#FFFFFF" fill-rule="nonzero" points="15.1000523 47.627655 15.1000523 44.2885246 50.9922262 44.2885246 53.7156884 44.2885246 52.1662247 47.627655"></polygon>
+                <circle id="Oval-8-Copy" stroke="#FFFFFF" stroke-width="2" fill-opacity="0.5" fill="#2B3C85" cx="70.7103813" cy="65.1580898" r="25.5559801"></circle>
+                <path d="M61.0834369,64.8264516 L79.9662469,64.8264516" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"></path>
+                <path d="M70.5248419,55.3850467 L70.5248419,74.2678566" id="Line-Copy" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>
