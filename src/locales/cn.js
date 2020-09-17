@@ -304,7 +304,9 @@ const cn = {
     descriptionEmpty: '描述不能为空！',
     moreThan500: '只能上传不超过500KB的文件！',
     moreThan10M: '只能上传不超过10MB的文件！',
+    moreThan200M: '只能上传不超过10MB的文件！',
     onlyOneFile: '仅支持一个文件，请先移除已有文件！',
+    notPicture: '请上传图片',
     appEmpty: 'app不能为空！',
     affinityEmpty: '亲和性不能为空！',
     typeEmpty: '类型不能为空！',
@@ -341,7 +343,8 @@ const cn = {
     providerEmpty: '提供者不能为空',
     architectureEmpty: '架构不能为空',
     industryEmpty: '行业不能为空',
-    getDataFail: '获取数据失败！'
+    getDataFail: '获取数据失败！',
+    canOnlyUpload: '只能上传.csar文件类型'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

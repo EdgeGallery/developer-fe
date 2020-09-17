@@ -304,7 +304,9 @@ const en = {
     descriptionEmpty: 'Description cannot be empty!',
     moreThan500: 'Can only upload no more than 500kb!',
     moreThan10M: 'Can only upload no more than 10Mb!',
+    moreThan200M: 'Can only upload no more than 200Mb!',
     onlyOneFile: 'Only one file is allowed, please remove the file first!',
+    notPicture: 'Please upload pictures.',
     appEmpty: 'Application file cannot be empty!',
     affinityEmpty: 'Affinity cannot be empty!',
     typeEmpty: 'Type cannot be empty!',
@@ -341,7 +343,8 @@ const en = {
     providerEmpty: 'Provider cannot be empty',
     architectureEmpty: 'Architecture cannot be empty',
     industryEmpty: 'Industry cannot be empty',
-    getDataFail: 'Failed to get data!'
+    getDataFail: 'Failed to get data!',
+    canOnlyUpload: 'Can only upload .csar files'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
