@@ -365,7 +365,13 @@ export default {
     handleAppChanged (file, fileList) {
       this.appFileList.push(file.raw)
       if (file.size / 1024 / 1024 > 10) {
-        this.$message.warning(this.$t('promptMessage.moreThan10M'))
+        this.$message.warning(this.$t('promptMessage.moreThan200M'))
+        this.appFileList = []
+      }
+      let type = file.raw.name.split('.')
+      type = type[type.length - 1]
+      if (type !== 'csar') {
+        this.$message.warning(this.$t('promptMessage.canOnlyUpload'))
         this.appFileList = []
       }
     },
@@ -386,15 +392,14 @@ export default {
         this.$message.warning(this.$t('promptMessage.moreThan500'))
         this.logoFileList = []
       }
-      let type = file.raw.type.split('/')[0]
-      if (type === 'image') {
+      let type = file.raw.type.split('.')
+      type = type[type.length - 1]
+      if (type === 'jpg' || type === 'png') {
         this.form.appIcon.push(file.raw)
       } else {
         this.form.appIcon = []
-        this.$message({
-          type: 'warning',
-          message: 'Please upload pictures.'
-        })
+        this.logoFileList = []
+        this.$message.warning(this.$t('promptMessage.notPicture'))
       }
     },
     handleDelte (file, fileList) {
