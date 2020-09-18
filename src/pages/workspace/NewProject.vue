@@ -153,11 +153,62 @@ export default {
       this.changeComponent()
     },
     nextStep () {
-      this.active++
-      this.changeComponent()
-      // 调用子组件方法传递数据
+      // 获取第一步数据，判断是否为空
       this.$refs.currentComponet.emitStepData()
-      this.getIconFileId()
+      let appIcon = this.allFormData.first.appIcon[0]
+      let appname = this.allFormData.first.name
+      let industry = this.allFormData.first.industry[0]
+      let platform = this.allFormData.first.platform[0]
+      let provider = this.allFormData.first.provider
+      let type = this.allFormData.first.type
+      let version = this.allFormData.first.version
+      let description = this.allFormData.first.description
+      if (!description) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.descriptionEmpty')
+        })
+      } else if (!appIcon) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.logoEmpty')
+        })
+      } else if (!appname) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.projectNameEmpty')
+        })
+      } else if (!industry) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.industryEmpty')
+        })
+      } else if (!platform) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.architectureEmpty')
+        })
+      } else if (!provider) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.providerEmpty')
+        })
+      } else if (!type) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.typeEmpty')
+        })
+      } else if (!version) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.versionEmpty')
+        })
+      } else {
+        this.active++
+        // 调用子组件方法传递数据
+        this.changeComponent()
+        this.getIconFileId()
+      }
     },
     getIconFileId () {
       // 获取暂存的Icon的ID
