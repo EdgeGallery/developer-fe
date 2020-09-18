@@ -275,14 +275,6 @@ export default {
     }
   },
   methods: {
-    keyupSubmit () {
-      document.onkeydown = e => {
-        let _key = window.event.keyCode
-        if (_key === 13) {
-          this.submitTrue()
-        }
-      }
-    },
     // 提交上传
     onSubmit () {
       let formdata = new FormData()
@@ -481,9 +473,6 @@ export default {
   },
   mounted () {
     this.form.userId = sessionStorage.getItem('userId')
-  },
-  created () {
-    this.keyupSubmit()
   }
 }
 </script>
