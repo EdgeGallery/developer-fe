@@ -364,8 +364,8 @@ export default {
     },
     handleAppChanged (file, fileList) {
       this.appFileList.push(file.raw)
-      if (file.size / 1024 / 1024 > 10) {
-        this.$message.warning(this.$t('promptMessage.moreThan200M'))
+      if (file.size / 1024 / 1024 > 20) {
+        this.$message.warning(this.$t('promptMessage.moreThan20M'))
         this.appFileList = []
       }
       let type = file.raw.name.split('.')
@@ -388,8 +388,8 @@ export default {
       this.defaultIconFile = []
       this.defaultActive = ''
       this.logoFileList.push(file.raw)
-      if (file.size / 1024 > 500) {
-        this.$message.warning(this.$t('promptMessage.moreThan500'))
+      if (file.size / 1024 / 1024 > 2) {
+        this.$message.warning(this.$t('promptMessage.moreThan2'))
         this.logoFileList = []
       }
       let type = file.raw.type.split('.')
