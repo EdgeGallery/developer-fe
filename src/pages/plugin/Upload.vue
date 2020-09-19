@@ -276,7 +276,8 @@ export default {
       apiFileList: [],
       rules: {
         pluginName: [
-          { required: true, validator: validateName, trigger: 'blur' }
+          { required: true, validator: validateName, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,30}$/g, message: this.$t('promptMessage.nameRule') }
         ],
         codeLanguage: [
           { required: true }
@@ -291,10 +292,12 @@ export default {
           { required: true }
         ],
         version: [
-          { required: true, validator: validateVersion, trigger: 'blur' }
+          { required: true, validator: validateVersion, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,10}$/g, message: this.$t('promptMessage.versionRule') }
         ],
         introduction: [
-          { required: true, validator: validateDes, trigger: 'blur' }
+          { required: true, validator: validateDes, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,260}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       options: [
@@ -363,17 +366,26 @@ export default {
     submitTrue () {
       this.uploadBtnLoading = true
       let pluginName = this.form.pluginName
+      let nameRule = pluginName.match(/^(?=.*\S).{1,30}$/g)
       let codeLanguage = this.form.codeLanguage
       let pluginType = this.form.pluginType
       let plugFileList = this.plugFileList.length
       let logoFileList = this.logoFileList.length || this.defaultIconFile.length
       let apiFileList = this.apiFileList.length
       let version = this.form.version
+      let versionRule = version.match(/^(?=.*\S).{1,10}$/g)
       let introduction = this.form.introduction
+      let introductionRule = introduction.match(/^(?=.*\S).{1,260}$/g)
       if (!pluginName) {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.pluginNameEmpty')
+        })
+        this.uploadBtnLoading = false
+      } else if (!nameRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.nameRule')
         })
         this.uploadBtnLoading = false
       } else if (!codeLanguage) {
@@ -412,10 +424,22 @@ export default {
           message: this.$t('promptMessage.versionEmpty')
         })
         this.uploadBtnLoading = false
+      } else if (!versionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.versionRule')
+        })
+        this.uploadBtnLoading = false
       } else if (!introduction) {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.descriptionEmpty')
+        })
+        this.uploadBtnLoading = false
+      } else if (!introductionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.introductionRule')
         })
         this.uploadBtnLoading = false
       } else {

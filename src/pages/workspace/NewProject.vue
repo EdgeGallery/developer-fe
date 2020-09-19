@@ -157,16 +157,25 @@ export default {
       this.$refs.currentComponet.emitStepData()
       let appIcon = this.allFormData.first.appIcon[0]
       let appname = this.allFormData.first.name
+      let nameRule = appname.match(/^(?=.*\S).{1,30}$/g)
       let industry = this.allFormData.first.industry[0]
       let platform = this.allFormData.first.platform[0]
       let provider = this.allFormData.first.provider
+      let providerRule = provider.match(/^(?=.*\S).{1,30}$/g)
       let type = this.allFormData.first.type
       let version = this.allFormData.first.version
+      let versionRule = version.match(/^(?=.*\S).{1,10}$/g)
       let description = this.allFormData.first.description
+      let descriptionRule = description.match(/^(?=.*\S).{1,260}$/g)
       if (!description) {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.descriptionEmpty')
+        })
+      } else if (!descriptionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.introductionRule')
         })
       } else if (!appIcon) {
         this.$message({
@@ -177,6 +186,11 @@ export default {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.projectNameEmpty')
+        })
+      } else if (!nameRule || !providerRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.nameRule')
         })
       } else if (!industry) {
         this.$message({
@@ -202,6 +216,11 @@ export default {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.versionEmpty')
+        })
+      } else if (!versionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.versionRule')
         })
       } else {
         this.active++

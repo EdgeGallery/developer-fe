@@ -262,13 +262,16 @@ export default {
       showErr: false,
       rules: {
         name: [
-          { required: true, validator: validateProjectName, trigger: 'blur' }
+          { required: true, validator: validateProjectName, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,30}$/g, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
-          { required: true, validator: validateVersion, trigger: 'blur' }
+          { required: true, validator: validateVersion, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,10}$/g, message: this.$t('promptMessage.versionRule') }
         ],
         provider: [
-          { required: true, validator: validateProvider, trigger: 'blur' }
+          { required: true, validator: validateProvider, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,30}$/g, message: this.$t('promptMessage.nameRule') }
         ],
         industry: [
           { required: true, message: this.$t('promptMessage.industryEmpty') }
@@ -283,7 +286,8 @@ export default {
           { required: true, message: 'Icon is required', trigger: 'change' }
         ],
         description: [
-          { required: true, validator: validateDescription, trigger: 'blur' }
+          { required: true, validator: validateDescription, trigger: 'blur' },
+          { pattern: /^(?=.*\S).{1,260}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       formLabelWidth: '110px',

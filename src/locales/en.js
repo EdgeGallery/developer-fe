@@ -345,7 +345,10 @@ const en = {
     architectureEmpty: 'Architecture cannot be empty',
     industryEmpty: 'Industry cannot be empty',
     getDataFail: 'Failed to get data!',
-    canOnlyUpload: 'Can only upload .csar files'
+    canOnlyUpload: 'Can only upload .csar files',
+    nameRule: 'Please enter a name up to 30 characters',
+    versionRule: 'Please enter a version up to 10 characters',
+    introductionRule: 'Please enter a description up to 260 characters'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
