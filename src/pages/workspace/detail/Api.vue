@@ -102,10 +102,12 @@ export default {
           if (hasService) this.treeData.push(obj)
         }
         this.defaultExpandKeys.push(this.treeData[0].children[0].id)
-        this.handleNodeClick(this.treeData[0].children[0])
-        this.$nextTick(function () {
-          this.$refs.treeList.setCurrentKey(0)
-        })
+        if (this.treeData.length > 0) {
+          this.$nextTick().then(() => {
+            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
+            firstNode.click()
+          })
+        }
         this.apiDataLoading = false
       }).catch(err => {
         console.log(err)

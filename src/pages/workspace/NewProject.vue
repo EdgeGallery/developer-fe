@@ -245,6 +245,10 @@ export default {
     getApplicationProject () {
       this.uploadBtnLoading = true
       let allFormData = this.allFormData
+      let projectType = allFormData.first.projectType
+      if (projectType === 'MIGRATE') {
+        this.nextStep()
+      }
       let params = {
         'id': '',
         'capabilityList': []
