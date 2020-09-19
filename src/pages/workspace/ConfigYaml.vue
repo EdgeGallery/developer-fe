@@ -51,11 +51,14 @@
             :value="item.label"
           />
         </el-select>
-        <el-input
+        <el-input-number
           id="inputPort"
-          v-model.number="form.imagePort"
-          type="number"
+          v-model="form.imagePort"
+          :min="1"
+          :max="999999"
+          controls-position="right"
           :placeholder="$t('workspace.port')"
+          class="portInput"
         />
         <el-button
           id="addBtn"
@@ -82,7 +85,6 @@
       </el-form-item>
       <el-form-item
         :label="$t('workspace.service')"
-        :rules="[{ required: true }]"
       >
         <el-input
           id="serviceName"
@@ -94,24 +96,17 @@
           id="serviceHref"
           v-model="form.serviceHref"
           :placeholder="$t('workspace.href')"
+          class="serviceName"
         />
-        <el-input
+        <el-input-number
           id="servicePort"
-          v-model.number="form.servicePort"
-          type="number"
+          v-model="form.servicePort"
+          controls-position="right"
+          :min="32000"
+          :max="32767"
           :placeholder="$t('workspace.port')"
+          class="portInput"
         />
-        <p
-          v-for="(item, index) in form.addServiceList"
-          :key="index"
-          class="imageResult"
-        >
-          {{ item.serviceName }}:{{ item.serviceHref }} {{ item.servicePort }}
-          <em
-            class="el-icon-close curp"
-            @click="deleteServiceList(index)"
-          />
-        </p>
       </el-form-item>
     </el-form>
   </div>
@@ -129,6 +124,10 @@ export default {
           agentConfig: {}
         }
       }
+    },
+    allStepData: {
+      type: Object,
+      default () {}
     }
   },
   data () {
@@ -140,8 +139,7 @@ export default {
         addImagesList: [],
         serviceName: '',
         serviceHref: '',
-        servicePort: '',
-        addServiceList: []
+        servicePort: ''
       },
       options: [{
         value: '1',
@@ -179,22 +177,6 @@ export default {
         this.form.addImagesList.splice(index, 1)
       })
     },
-    addService () {
-      if ((this.form.serviceName && this.form.serviceHref) && this.form.servicePort) {
-        let obj = {
-          serviceName: this.form.serviceName,
-          serviceHref: this.form.serviceHref,
-          servicePort: this.form.servicePort
-        }
-        this.form.addServiceList.push(obj)
-        this.form.serviceName = ''
-        this.form.serviceHref = ''
-        this.form.servicePort = ''
-      }
-    },
-    deleteServiceList (index) {
-      this.form.addServiceList.splice(index, 1)
-    },
     getImage (type) {
       let projectId = sessionStorage.getItem('mecDetailID')
       let url = 'mec/developer/v1/projects/' + projectId + '/image'
@@ -211,39 +193,27 @@ export default {
         }
       })
     },
-    ifNext () {
-      let ifNext = false
-      let form = this.form
-      let serviceContent = form.serviceName && form.serviceHref && form.servicePort
-      let imageIds = form.appImage.length || form.addImagesList.length
-      if (serviceContent && imageIds) {
-        ifNext = true
-      } else {
-        let type = 'warning'
-        let message = ''
-        if (!serviceContent) {
-          message = this.$t('promptMessage.service')
-        } else if (!imageIds) {
-          message = this.$t('promptMessage.addImage')
-        }
-        this.$message({
-          type, message
-        })
-      }
-      return ifNext
-    },
     emitStepData () {
-      let ifNext = this.ifNext()
+      let ifNext = true
       if (ifNext) {
         this.form.appImage = [...this.form.appImage, ...this.form.addImagesList]
         let image = new Set(this.form.appImage)
         this.form.appImage = [...image]
         this.$emit('getStepData', { step: 'second', data: this.form, ifNext })
       }
+    },
+    getSecondData () {
+      if (this.allStepData.second) {
+        let secondData = this.allStepData.second
+        this.form.serviceName = secondData.serviceName
+        this.form.serviceHref = secondData.serviceHref
+        this.form.servicePort = secondData.servicePort
+      }
     }
   },
   mounted () {
     this.getImage('get')
+    this.getSecondData()
     if (this.projectBeforeConfig.agentConfig) {
       this.form.serviceName = this.projectBeforeConfig.agentConfig.serviceName
       this.form.serviceHref = this.projectBeforeConfig.agentConfig.href
@@ -260,7 +230,7 @@ export default {
     line-height: 30px;
   }
   .el-input{
-    width: 100px;
+    width: 100%;
     margin-right: 10px;
   }
   .el-select .el-input{
@@ -274,6 +244,30 @@ export default {
     background-color: #fff;
     border: 1px solid #688ef3;
     color: #688ef3;
+  }
+  input{
+    height: 30px;
+    line-height: 30px;
+  }
+  .el-input-number{
+    line-height: 30px;
+    margin-top: 5px;
+  }
+  .el-input-number.is-controls-right .el-input__inner{
+    padding: 0 30px 0 15px;
+  }
+  .el-input-number.is-controls-right .el-input-number__decrease, .el-input-number.is-controls-right .el-input-number__increase{
+    line-height: 15px;
+    width: 20px;
+  }
+  .el-input-number__decrease i{
+    position: relative;
+    top: 1px;
+  }
+  .portInput{
+    width: 90px;
+    margin-left: 5px;
+    margin-right: 10px;
   }
   .imageResult i{
     margin-left: 10px;
