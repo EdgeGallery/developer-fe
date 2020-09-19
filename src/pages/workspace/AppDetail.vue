@@ -64,6 +64,7 @@
             @getStepData="getStepData"
             @getBtnStatus="getBtnStatus"
             :project-before-config="projectBeforeConfig"
+            :all-step-data="allStepData"
             ref="currentComponet"
           />
         </div>

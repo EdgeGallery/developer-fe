@@ -166,6 +166,7 @@
       <el-form-item
         :label="$t('workspace.uploadYaml')"
         :label-width="formLabelWidth"
+        :rules="[{ required: true }]"
       >
         <el-upload
           id="uploadYaml"
@@ -212,7 +213,6 @@
       <el-form-item
         :label="$t('devTools.uploadApi')"
         :label-width="formLabelWidth"
-        :rules="[{ required: true }]"
       >
         <el-upload
           id="uploadApi"
@@ -452,25 +452,15 @@ export default {
       })
     },
     ifNext () {
-      this.verifyImageName()
-      this.verifyImageVersion()
-      let apiFileId = this.form.appApiFileId
-      let imageNameData = this.form.imageNameData.length
+      let yamlFileData = this.form.yamlFileData.length
       let ifNext = false
-      if (apiFileId && imageNameData) {
+      if (yamlFileData) {
         ifNext = true
       } else {
-        if (!apiFileId) {
-          this.$message({
-            message: this.$t('promptMessage.uploadApiFile'),
-            type: 'warning'
-          })
-        } else if (!imageNameData) {
-          this.$message({
-            message: this.$t('promptMessage.addImage'),
-            type: 'warning'
-          })
-        }
+        this.$message({
+          message: this.$t('promptMessage.uploadYamlFile'),
+          type: 'warning'
+        })
       }
       return ifNext
     },
