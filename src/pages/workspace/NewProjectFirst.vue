@@ -132,6 +132,7 @@
           :limit="1"
           :file-list="logoFileList"
           :on-change="handleChangeLogo"
+          :on-exceed="handleExceed"
           :auto-upload="false"
           :on-remove="removeUploadLogo"
           accept=".jpg,.png"
@@ -317,6 +318,11 @@ export default {
     removeUploadLogo (file, fileList) {
       this.logoFileList = fileList
       this.showErr = this.logoFileList
+    },
+    handleExceed (file, fileList) {
+      if (fileList.length === 1) {
+        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+      }
     },
     fileToBase64 (file) {
       let reader = new FileReader()
