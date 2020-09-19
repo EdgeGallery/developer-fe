@@ -51,7 +51,6 @@
           id="imageName"
           v-model="form.imageName"
           :placeholder="$t('workspace.imagename')"
-          @blur="verifyImageName"
           class="imageNameInput"
         />
         <span class="namespan">{{ $t('workspace.imageversion') }}</span>
@@ -59,7 +58,6 @@
           id="imageversion"
           v-model="form.imageVersion"
           :placeholder="$t('workspace.imageversion')"
-          @blur="verifyImageVersion"
           class="imageVersionInput"
         />
         <span class="namespan">{{ $t('workspace.inPort') }}</span>
@@ -452,15 +450,23 @@ export default {
       })
     },
     ifNext () {
+      let imageNameData = this.form.imageNameData.length
       let yamlFileData = this.form.yamlFileData.length
       let ifNext = false
-      if (yamlFileData) {
+      if (imageNameData && yamlFileData) {
         ifNext = true
       } else {
-        this.$message({
-          message: this.$t('promptMessage.uploadYamlFile'),
-          type: 'warning'
-        })
+        if (!imageNameData) {
+          this.$message({
+            message: this.$t('promptMessage.addImage'),
+            type: 'warning'
+          })
+        } else if (!yamlFileData) {
+          this.$message({
+            message: this.$t('promptMessage.uploadYamlFile'),
+            type: 'warning'
+          })
+        }
       }
       return ifNext
     },
