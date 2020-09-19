@@ -41,7 +41,10 @@
           @node-click="handleNodeClick"
         />
       </div>
-      <div class="doc-div">
+      <div
+        class="doc-div"
+        v-if="docPage"
+      >
         <Document
           :service-path="servicePath"
         />
@@ -70,6 +73,7 @@ export default {
   },
   data () {
     return {
+      docPage: true,
       apiPage: false,
       activeName: '',
       servicePath: './mep-eco_Introduction.md',
@@ -94,7 +98,7 @@ export default {
   },
   methods: {
     handleNodeClick (val) {
-      let pos = ApiInfo[1].label.indexOf(val.label)
+      /* let pos = ApiInfo[1].label.indexOf(val.label)
       if (pos === -1) {
         this.activeName = val.label
         this.servicePath = val.servicePath
@@ -105,6 +109,14 @@ export default {
         } else {
           this.apiPage = true
         }
+      } */
+      let pos3 = ApiInfo[0].label.indexOf(val.label)
+      if (pos3 !== -1) {
+        this.docPage = true
+        this.apiPage = false
+      } else {
+        this.docPage = false
+        this.apiPage = true
       }
     },
     getOpenMepEcoName () {

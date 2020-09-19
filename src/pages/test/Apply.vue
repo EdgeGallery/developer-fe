@@ -302,6 +302,7 @@ export default {
       let affinity = this.form.affinity.length
       let type = this.form.type
       let appDesc = this.form.appDesc
+      let appDescRule = appDesc.match(/^(?=.*\S).{1,260}$/g)
       if (!appFileList) {
         this.$message({
           type: 'warning',
@@ -330,6 +331,12 @@ export default {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.descriptionEmpty')
+        })
+        this.uploadBtnLoading = false
+      } else if (!appDescRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.introductionRule')
         })
         this.uploadBtnLoading = false
       } else {

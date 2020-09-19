@@ -345,7 +345,10 @@ const cn = {
     architectureEmpty: '架构不能为空',
     industryEmpty: '行业不能为空',
     getDataFail: '获取数据失败！',
-    canOnlyUpload: '只能上传.csar文件类型'
+    canOnlyUpload: '只能上传.csar文件类型',
+    nameRule: '请输入最多30个字符的名称',
+    versionRule: '请输入最多10个字符的版本',
+    introductionRule: '请输入最多260个字符的描述'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
