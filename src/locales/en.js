@@ -70,7 +70,7 @@ const en = {
     pluginFunction: 'Plugin Language',
     pluginType: 'Plugin Type',
     uploadPlugin: 'Upload Plugin',
-    fileText: 'Please upload files in .csar, .zip, .rar format, and the size does not exceed 20MB',
+    fileText: 'Please upload files in .zip, .rar format, and the size does not exceed 20MB',
     uploadLogo: 'Upload Logo',
     logoText: 'Can only upload .jpg/.png files or select the default APP icon and no more than 500kb',
     uploadApi: 'Upload API',

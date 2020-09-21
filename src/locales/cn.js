@@ -70,7 +70,7 @@ const cn = {
     pluginFunction: '插件语言',
     pluginType: '插件类型',
     uploadPlugin: '上传插件',
-    fileText: '请上传.csar,.zip,.rar格式文件，且大小不超过20MB',
+    fileText: '请上传.zip,.rar格式文件，且大小不超过20MB',
     uploadLogo: '上传图标',
     logoText: '请上传.jpg或.png格式文件，或选择默认应用图标，且大小不超过500KB',
     uploadApi: '上传API',

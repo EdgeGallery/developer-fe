@@ -84,7 +84,7 @@
                 :file-list="plugFileList"
                 :auto-upload="false"
                 :on-remove="removeUpload"
-                accept=".csar,.zip,.rar"
+                accept=".zip,.rar"
                 name="pluginFile"
               >
                 <el-button
@@ -481,7 +481,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.moreThan20M'))
         this.plugFileList = []
       }
-      let fileTypeArr = ['csar', 'zip', 'rar']
+      let fileTypeArr = ['zip', 'rar']
       let checkPassed = this.checkFileType(fileList, fileTypeArr)
       if (!checkPassed) {
         this.plugFileList = []
