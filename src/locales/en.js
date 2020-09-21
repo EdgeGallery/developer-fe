@@ -70,7 +70,7 @@ const en = {
     pluginFunction: 'Plugin Language',
     pluginType: 'Plugin Type',
     uploadPlugin: 'Upload Plugin',
-    fileText: 'Can only upload compressed files and no more than 20Mb',
+    fileText: 'Please upload files in .csar, .zip, .rar format, and the size does not exceed 20MB',
     uploadLogo: 'Upload Logo',
     logoText: 'Can only upload .jpg/.png files or select the default APP icon and no more than 500kb',
     uploadApi: 'Upload API',
@@ -348,7 +348,8 @@ const en = {
     canOnlyUpload: 'Can only upload .csar files',
     nameRule: 'Please enter a name up to 30 characters',
     versionRule: 'Please enter a version up to 10 characters',
-    introductionRule: 'Please enter a description up to 260 characters'
+    introductionRule: 'Please enter a description up to 260 characters',
+    checkFileType: 'Please upload a file that matches the format'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

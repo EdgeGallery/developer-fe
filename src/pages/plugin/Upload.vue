@@ -328,7 +328,8 @@ export default {
         require('../../assets/images/php.png'),
         require('../../assets/images/python.png')
       ],
-      uploadBtnLoading: false
+      uploadBtnLoading: false,
+      fileType: ''
     }
   },
   methods: {
@@ -449,6 +450,15 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
+    checkFileType (fileList, fileTypeArr, uploadFileList) {
+      let checkPassed = true
+      this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
+      if (fileTypeArr.indexOf(this.fileType) === -1) {
+        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        checkPassed = false
+      }
+      return checkPassed
+    },
     handleChangeLogo (file, fileList) {
       this.form.appIcon = []
       this.defaultIconFile = []
@@ -458,22 +468,22 @@ export default {
         this.$message.warning(this.$t('promptMessage.moreThan500'))
         this.logoFileList = []
       }
-      let type = file.raw.type.split('/')[0]
-      if (type === 'image') {
-        this.form.appIcon.push(file.raw)
-      } else {
-        this.form.appIcon = []
-        this.$message({
-          type: 'warning',
-          message: 'Please upload pictures.'
-        })
+      let fileTypeArr = ['jpg', 'png']
+      let checkPassed = this.checkFileType(fileList, fileTypeArr)
+      if (!checkPassed) {
+        this.logoFileList = []
       }
     },
     handleChangePlug (file, fileList) {
       this.$store.state.pluginSize = file.size / 1024 / 1024
       this.plugFileList.push(file.raw)
-      if (file.size / 1024 / 1024 > 10) {
-        this.$message.warning(this.$t('promptMessage.moreThan10M'))
+      if (file.size / 1024 / 1024 > 20) {
+        this.$message.warning(this.$t('promptMessage.moreThan20M'))
+        this.plugFileList = []
+      }
+      let fileTypeArr = ['csar', 'zip', 'rar']
+      let checkPassed = this.checkFileType(fileList, fileTypeArr)
+      if (!checkPassed) {
         this.plugFileList = []
       }
     },
@@ -484,6 +494,11 @@ export default {
     },
     handleChangeApi (file, fileList) {
       this.apiFileList.push(file.raw)
+      let fileTypeArr = ['yaml', 'json']
+      let checkPassed = this.checkFileType(fileList, fileTypeArr)
+      if (!checkPassed) {
+        this.apiFileList = []
+      }
     },
     removeUpload (file, fileList) {
       this.plugFileList = fileList
