@@ -70,7 +70,7 @@ const cn = {
     pluginFunction: '插件语言',
     pluginType: '插件类型',
     uploadPlugin: '上传插件',
-    fileText: '请上传不超过20MB的压缩文件',
+    fileText: '请上传.zip,.rar格式文件，且大小不超过20MB',
     uploadLogo: '上传图标',
     logoText: '请上传.jpg或.png格式文件，或选择默认应用图标，且大小不超过500KB',
     uploadApi: '上传API',
@@ -348,7 +348,8 @@ const cn = {
     canOnlyUpload: '只能上传.csar文件类型',
     nameRule: '请输入最多30个字符的名称',
     versionRule: '请输入最多10个字符的版本',
-    introductionRule: '请输入最多260个字符的描述'
+    introductionRule: '请输入最多260个字符的描述',
+    checkFileType: '请上传符合格式的文件'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

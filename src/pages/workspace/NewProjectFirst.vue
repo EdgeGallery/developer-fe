@@ -252,7 +252,7 @@ export default {
       architectureOptions: Architecture,
       value: 0,
       logoFileList: [],
-      defaultActive: 0,
+      defaultActive: '',
       defaultIconFile: [],
       defaultIcon: [
         require('../../assets/images/appicon1.png'),
@@ -306,18 +306,14 @@ export default {
         this.$message.warning(this.$t('promptMessage.moreThan500'))
         this.logoFileList = []
       }
-      let type = file.raw.type.split('/')[0]
-      this.fileToBase64(file.raw)
-      if (type === 'image') {
-        this.form.appIcon.push(file.raw)
-      } else {
-        this.form.appIcon = []
-        this.$message({
-          type: 'warning',
-          message: 'Please upload pictures.'
-        })
+      let fileTypeArr = ['jpg', 'png']
+      this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
+      if (fileTypeArr.indexOf(this.fileType) === -1) {
+        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.logoFileList = []
       }
       this.showErr = !this.logoFileList
+      this.form.appIcon = this.logoFileList
     },
     removeUploadLogo (file, fileList) {
       this.logoFileList = fileList
@@ -381,20 +377,8 @@ export default {
         }
       }
     },
-    defaultFirstIcon () {
-      let defaultImg = this.defaultIcon[0]
-      let image = new Image()
-      image.src = defaultImg
-      image.onload = () => {
-      // 将静态图片转化为base64
-        let base64 = this.getBase64Image(image)
-        // base64转化为文件流
-        this.defaultIconFile.push(this.base64toFile(base64))
-        this.form.appIcon = this.defaultIconFile
-      }
-    },
     emitStepData () {
-      if (!this.form.appIcon.length) this.chooseDefaultIcon(this.defaultIcon[0], 1)
+      // if (!this.form.appIcon.length) this.chooseDefaultIcon(this.defaultIcon[0], 1)
       this.$emit('getStepData', { data: this.form, step: 'first' })
     },
     changeDataLanguage () {
@@ -427,9 +411,7 @@ export default {
       })
     }
   },
-  mounted () {
-    this.defaultFirstIcon()
-  }
+  mounted () {}
 }
 </script>
 
