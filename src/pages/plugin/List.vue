@@ -35,7 +35,7 @@
       <div class="list-top">
         <el-select
           clearable
-          v-model="value"
+          v-model="selectCodeLanguage"
           :placeholder="$t('devTools.pluginFunction')"
           class="list-select"
           id="selectFunction"
@@ -49,14 +49,14 @@
         </el-select>
         <el-input
           clearable
-          v-model="enterQuery"
+          v-model="inputPluginName"
           :placeholder="$t('devTools.pluginName')"
           id="enterQuery"
           class="enterinput"
         />
         <el-button
           class="searchBtn"
-          @click="searchPluginData"
+          @click="getPluginListData"
         >
           {{ $t('test.testTask.inquire') }}
         </el-button>
@@ -243,9 +243,8 @@ export default {
       ],
       searchListData: [],
       pluginListData: [],
-      value: '',
-      searchFunctionData: [],
-      enterQuery: '',
+      selectCodeLanguage: '',
+      inputPluginName: '',
       centerDialogVisible: false,
       delId: '',
       pluginUserId: '',
@@ -289,12 +288,12 @@ export default {
       this.offsetPage = start
     },
     getPluginListData () {
-      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage
+      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage + '&pluginName=' + this.inputPluginName + '&codeLanguage=' + this.selectCodeLanguage
       Get(url).then(res => {
         this.pluginListData = this.searchListData = res.data.results
         this.listTotal = res.data.total
         this.dataLoading = false
-        // this.sortData(this.searchListData)
+        this.sortData(this.searchListData)
       }).catch(err => {
         console.log(err)
         setTimeout(() => {
@@ -372,42 +371,12 @@ export default {
       })
       this.DialogVisible = false
     },
-    searchPluginData () {
-      sessionStorage.setItem('currentPage', 1)
-      this.searchFunctionData = []
-      this.searchListData = this.pluginListData
-      if (this.value && this.enterQuery === '') {
-        this.searchListData.forEach(item => {
-          if (item.codeLanguage === this.value) {
-            this.searchFunctionData.push(item)
-          }
-        })
-        this.searchListData = this.searchFunctionData
-      }
-      if (this.enterQuery && this.value === '') {
-        this.searchListData.forEach(item => {
-          if (item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
-            this.searchFunctionData.push(item)
-          }
-        })
-        this.searchListData = this.searchFunctionData
-      }
-      if (this.value && this.enterQuery) {
-        this.searchListData.forEach(item => {
-          if (item.codeLanguage === this.value && item.pluginName.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
-            this.searchFunctionData.push(item)
-          }
-        })
-        this.searchListData = this.searchFunctionData
-      }
-      // this.sortData(this.searchListData)
-    },
     clearSearchData () {
-      this.value = ''
-      this.enterQuery = ''
-      this.searchListData = this.pluginListData
+      this.selectCodeLanguage = ''
+      this.inputPluginName = ''
+      this.getPluginListData()
       sessionStorage.setItem('currentPage', 1)
-      // this.sortData(this.searchListData)
+      this.sortData(this.searchListData)
     }
   }
 }
