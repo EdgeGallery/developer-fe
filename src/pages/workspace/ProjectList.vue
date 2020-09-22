@@ -215,6 +215,7 @@ export default {
       })
     },
     enterQueryFun () {
+      sessionStorage.setItem('currentPage', 1)
       let selectFunctionData = []
       this.pageData.forEach(item => {
         if (item.name.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {

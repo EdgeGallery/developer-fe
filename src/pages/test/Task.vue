@@ -106,7 +106,7 @@
             id="inquireBtn"
             type="primary"
             size="small"
-            @click="getTaskList"
+            @click="searchTaskList"
           >
             {{ $t('test.testTask.inquire') }}
           </el-button>
@@ -417,6 +417,10 @@ export default {
         this.form.beginTime = ''
         this.form.endTime = ''
       }
+    },
+    searchTaskList () {
+      sessionStorage.setItem('currentPage', 1)
+      this.getTaskList()
     },
     getTaskList () {
       if (this.form.beginTime == null || this.form.endTime == null) {
