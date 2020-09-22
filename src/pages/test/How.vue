@@ -31,14 +31,6 @@
     <div class="how_div">
       <div class="docs-tap">
         <h2>{{ $t('test.howToTest.howToTest') }}</h2>
-        <p>
-          <span class="rt">
-            <span class="el-icon-edit"><a
-              target="_blank"
-              :href="editMarkdownUrl"
-            >{{ $t('test.howToTest.modify') }}</a></span>
-          </span>
-        </p>
       </div>
       <div id="test-editor">
         <mavon-editor
@@ -78,17 +70,14 @@ export default {
       this.getHowMarkDown(val)
       if (val === 'en') {
         this.markdownSource = './MECHOW_EN.md'
-        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW_EN.md'
       } else {
         this.markdownSource = './MECHOW_CN.md'
-        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW_CN.md'
       }
     }
   },
   data () {
     return {
-      markdownSource: '',
-      editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECHOW_CN.md'
+      markdownSource: ''
     }
   },
   mounted () {

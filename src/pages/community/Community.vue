@@ -33,13 +33,6 @@
     </div>
     <div class="main-content">
       <div class="main-content-left">
-        <span class="rt">
-          <span class="el-icon-edit"><a
-            href="https://github.com/EdgeGallery/developer-fe/blob/master/public/MECOPEN.md"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ $t('test.howToTest.modify') }}</a></span>
-        </span>
         <div id="test-editor">
           <mavon-editor
             v-model="source"
