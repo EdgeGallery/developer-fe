@@ -126,8 +126,8 @@ const ApiInfo = [
     label: ['服务介绍', 'Service Introduction']
   },
   {
-    value: 'Reference',
-    label: ['API参考', 'API Reference']
+    value: 'List',
+    label: ['服务列表', 'Service List']
   }
 ]
 

@@ -28,8 +28,14 @@
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ $t('nav.mepApi') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="mep-main">
-      <div class="mep-tree">
+    <div
+      class="mep-main clear"
+      ref="meptree"
+    >
+      <div
+        class="mep-tree"
+        :class="{'scroll-top':scrollTop}"
+      >
         <el-tree
           v-if="abilityList.length>0"
           :data="abilityList"
@@ -39,9 +45,13 @@
           :highlight-current="true"
           :props="defaultProps"
           @node-click="handleNodeClick"
+          v-loading="treeDataLoading"
         />
       </div>
-      <div class="doc-div">
+      <div
+        class="doc-div"
+        :class="{'doc-left':scrollTop,'doc-right':apiPage}"
+      >
         <Document
           :service-path="servicePath"
         />
@@ -71,7 +81,7 @@ export default {
     return {
       apiPage: false,
       activeName: '',
-      servicePath: './mep_Introduction.md',
+      servicePath: '',
       language: localStorage.getItem('language'),
       abilityList: [],
       defaultProps: {
@@ -80,15 +90,13 @@ export default {
       },
       openMepName: [
         {
-          label: '服务介绍',
-          servicePath: './mep_Introduction.md'
-        },
-        {
-          label: 'API参考',
+          label: '服务列表',
           children: []
         }
       ],
-      apiFileId: ''
+      apiFileId: '',
+      treeDataLoading: true,
+      scrollTop: false
     }
   },
   methods: {
@@ -108,7 +116,7 @@ export default {
     },
     getOpenMepName () {
       this.abilityList = this.openMepName
-      this.abilityList[1].children = []
+      this.abilityList[0].children = []
       Get('mec/developer/v1/capability-groups/openmep-api').then(res => {
         let dataTemp = res.data.openMeps
         dataTemp.forEach(item => {
@@ -131,28 +139,59 @@ export default {
           } else if (item.service === 'Traffic service') {
             obj.servicePath = './trafficrules_service.md'
           }
-          this.abilityList[1].children.push(obj)
+          this.abilityList[0].children.push(obj)
         })
         if (dataTemp.length > 0) {
           this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.el-tree-node')
+            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node')
             firstNode.click()
           })
         }
+        this.treeDataLoading = false
+        this.$nextTick(function () {
+          this.divHeight('el-tree-node__children', 0, 260)
+          let oDiv = document.getElementsByClassName('el-tree-node__content')
+          oDiv[0].style.borderBottom = '1px solid #ddd'
+        })
+        this.divHeight('mep-tree', 0, 195)
+        this.divHeight('el-tree-node__children', 0, 280)
       })
     },
     checkApiTitle () {
       if (this.language === 'en') {
-        this.abilityList[0].label = ApiInfo[0].label[1]
-        this.abilityList[1].label = ApiInfo[1].label[1]
+        this.abilityList[0].label = ApiInfo[1].label[1]
       } else if (this.language === 'cn') {
-        this.abilityList[0].label = ApiInfo[0].label[0]
-        this.abilityList[1].label = ApiInfo[1].label[0]
+        this.abilityList[0].label = ApiInfo[1].label[0]
       }
+    },
+    getTreeTop () {
+      let treeTop = this.$refs.meptree.getBoundingClientRect().top
+      if (treeTop > 85) {
+        this.scrollTop = false
+        this.divHeight('mep-tree', 0, 185)
+        this.divHeight('el-tree-node__children', 0, 280)
+      } else {
+        this.scrollTop = true
+        this.divHeight('mep-tree', 0, 105)
+        this.divHeight('el-tree-node__children', 0, 190)
+      }
+    },
+    divHeight (className, num, height) {
+      let oDiv = document.getElementsByClassName(className)
+      let clientHeight = document.documentElement.clientHeight
+      oDiv[num].style.height = Number(clientHeight) - height + 'px'
     }
   },
   mounted () {
     this.getOpenMepName()
+    window.addEventListener('scroll', this.getTreeTop, true)
+    /* window.onresize = function () {
+      this.divHeight('mep-tree', 0, 175)
+      this.divHeight('el-tree-node__children', 0, 260)
+    } */
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.getTreeTop, true)
   },
   watch: {
     '$i18n.locale': function () {
@@ -166,15 +205,24 @@ export default {
 
 <style lang="less">
 .mepapi{
+  *{
+    box-sizing: border-box;
+  }
   .mep-main{
     background-color: #fff;
     padding: 40px;
-    display: flex;
+    position: relative;
     .mep-tree{
+      float: left;
       width: 270px;
-      padding: 20px 10px;
+      padding: 20px 0px;
       background-color: #f7f7f7;
-      position: relative;
+      overflow-y: hidden;
+    }
+    .mep-tree.scroll-top{
+      position: fixed;
+      top: 85px;
+      z-index: 9999;
     }
     .el-tree{
       background-color: #f7f7f7;
@@ -188,7 +236,7 @@ export default {
         border-left: 2px solid #6c9c9c;
       }
       .el-tree-node__children{
-        margin: 0 25px;
+        margin: 0 0 0 25px;
         .el-tree-node__expand-icon{
           display: none;
         }
@@ -196,18 +244,38 @@ export default {
           padding-left: 10px;
         }
       }
+      .el-tree-node__children:nth-child(1){
+        overflow-y: visible;
+      }
+      .el-tree-node__children:nth-child(1)::-webkit-scrollbar{
+        width: 6px;
+      }
+      .el-tree-node__children:nth-child(1)::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        background: rgba(0,0,0,0.1);
+      }
+    }
+    .doc-div{
+      float: left;
+      width: calc(100% - 270px);
+    }
+    .doc-div.doc-left{
+      margin-left: 270px;
+    }
+    .doc-div.doc-right{
+      width: calc(100% - 770px);
+    }
+    .api-div{
+      float: left;
+      width: 500px;
     }
     @media screen and (max-width: 1380px) {
       .mep-tree{
         width: 300px;
       }
-    }
-    .doc-div{
-      flex-grow: 1;
-    }
-    .api-div{
-      flex-grow: 1;
-      width: 450px;
+      .doc-div.doc-right{
+        width: calc(100% - 800px);
+      }
     }
   }
 }

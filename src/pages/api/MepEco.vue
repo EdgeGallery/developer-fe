@@ -28,8 +28,14 @@
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ $t('breadCrumb.mepecoapi') }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="mep-main">
-      <div class="mep-tree">
+    <div
+      class="mep-main clear"
+      ref="meptree"
+    >
+      <div
+        class="mep-tree"
+        :class="{'scroll-top':scrollTop}"
+      >
         <el-tree
           v-if="abilityList.length>0"
           :data="abilityList"
@@ -39,10 +45,12 @@
           :highlight-current="true"
           :props="defaultProps"
           @node-click="handleNodeClick"
+          v-loading="treeDataLoading"
         />
       </div>
       <div
         class="doc-div"
+        :class="{'doc-left':scrollTop,'doc-right':apiPage}"
         v-if="docPage"
       >
         <Document
@@ -89,16 +97,18 @@ export default {
           servicePath: './mep-eco_Introduction.md'
         },
         {
-          label: 'API参考',
+          label: '服务列表',
           children: []
         }
       ],
-      apiFileId: ''
+      apiFileId: '',
+      treeDataLoading: true,
+      scrollTop: false
     }
   },
   methods: {
     handleNodeClick (val) {
-      /* let pos = ApiInfo[1].label.indexOf(val.label)
+      let pos = ApiInfo[1].label.indexOf(val.label)
       if (pos === -1) {
         this.activeName = val.label
         this.servicePath = val.servicePath
@@ -106,17 +116,11 @@ export default {
         let pos2 = ApiInfo[0].label.indexOf(val.label)
         if (pos2 !== -1) {
           this.apiPage = false
+          this.docPage = true
         } else {
           this.apiPage = true
+          this.docPage = false
         }
-      } */
-      let pos3 = ApiInfo[0].label.indexOf(val.label)
-      if (pos3 !== -1) {
-        this.docPage = true
-        this.apiPage = false
-      } else {
-        this.docPage = false
-        this.apiPage = true
       }
     },
     getOpenMepEcoName () {
@@ -133,12 +137,15 @@ export default {
           obj.apiFileId = item.apiFileId
           this.abilityList[1].children.push(obj)
         })
-        if (dataTemp.length > 0) {
-          this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.el-tree-node')
-            firstNode.click()
-          })
+        this.$nextTick().then(() => {
+          const firstNode = document.querySelector('.el-tree-node')
+          firstNode.click()
+        })
+        if (this.abilityList[1].children.length === 0) {
+          this.abilityList = this.openMepName.splice(0, 1)
         }
+        this.treeDataLoading = false
+        this.divHeight('mep-tree', 0, 195)
       })
     },
     checkApiTitle () {
@@ -149,10 +156,31 @@ export default {
         this.abilityList[0].label = ApiInfo[0].label[0]
         this.abilityList[1].label = ApiInfo[1].label[0]
       }
+    },
+    getTreeTop () {
+      let treeTop = this.$refs.meptree.getBoundingClientRect().top
+      if (treeTop > 85) {
+        this.scrollTop = false
+        this.divHeight('mep-tree', 0, 185)
+        // this.divHeight('el-tree-node__children', 1, 280)
+      } else {
+        this.scrollTop = true
+        this.divHeight('mep-tree', 0, 105)
+        // this.divHeight('el-tree-node__children', 1, 190)
+      }
+    },
+    divHeight (className, num, height) {
+      let oDiv = document.getElementsByClassName(className)
+      let clientHeight = document.documentElement.clientHeight
+      oDiv[num].style.height = Number(clientHeight) - height + 'px'
     }
   },
   mounted () {
     this.getOpenMepEcoName()
+    window.addEventListener('scroll', this.getTreeTop, true)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.getTreeTop, true)
   },
   watch: {
     '$i18n.locale': function () {
@@ -166,29 +194,38 @@ export default {
 
 <style lang="less">
 .appapi{
+  *{
+    box-sizing: border-box;
+  }
   .mep-main{
     background-color: #fff;
     padding: 40px;
-    display: flex;
+    position: relative;
     .mep-tree{
+      float: left;
       width: 270px;
-      padding: 20px 10px;
-      background-color: #e4efef;
-      position: relative;
+      padding: 20px 0px;
+      background-color: #f7f7f7;
+      overflow-y: hidden;
+    }
+    .mep-tree.scroll-top{
+      position: fixed;
+      top: 85px;
+      z-index: 9999;
     }
     .el-tree{
-      background-color: #e4efef;
+      background-color: #f7f7f7;
       .el-tree-node__content{
         height: 35px;
         line-height: 35px;
-        border-left: 2px solid #e4efef;
+        border-left: 2px solid #f7f7f7;
       }
       .el-tree-node.is-current>.el-tree-node__content{
         background-color: #c3e2e1;
         border-left: 2px solid #6c9c9c;
       }
       .el-tree-node__children{
-        margin: 0 25px;
+        margin: 0 0 0 25px;
         .el-tree-node__expand-icon{
           display: none;
         }
@@ -196,18 +233,38 @@ export default {
           padding-left: 10px;
         }
       }
+      .el-tree-node__children:nth-child(2){
+        overflow-y: visible;
+      }
+      .el-tree-node__children:nth-child(2)::-webkit-scrollbar{
+        width: 6px;
+      }
+      .el-tree-node__children:nth-child(2)::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        background: rgba(0,0,0,0.1);
+      }
+    }
+    .doc-div{
+      float: left;
+      width: calc(100% - 270px);
+    }
+    .doc-div.doc-left{
+      margin-left: 270px;
+    }
+    .doc-div.doc-right{
+      width: calc(100% - 770px);
+    }
+    .api-div{
+      float: left;
+      width: 500px;
     }
     @media screen and (max-width: 1380px) {
       .mep-tree{
         width: 300px;
       }
-    }
-    .doc-div{
-      flex-grow: 1;
-    }
-    .api-div{
-      flex-grow: 1;
-      width: 450px;
+      .doc-div.doc-right{
+        width: calc(100% - 800px);
+      }
     }
   }
 }

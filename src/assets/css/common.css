@@ -135,7 +135,7 @@ body .el-table th.gutter{
   line-height: 70px;
   font-size: 14px;
 }
-.clear{
+.clear:after{
   content: '';
   display: block;
   clear: both;
