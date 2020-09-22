@@ -120,13 +120,6 @@
       </el-col>
     </el-row>
     <div id="test-editor">
-      <span
-        class="el-icon-edit"
-        id="edit_detail"
-      ><a
-        target="_blank"
-        :href="editMarkdownUrl"
-      >{{ $t('test.howToTest.modify') }}</a></span>
       <mavon-editor
         v-model="markdownSource"
         :toolbars-flag="false"
@@ -154,10 +147,8 @@ export default {
       this.getDetailMarkDown(val)
       if (val === 'en') {
         this.markdownSource = './MECPLUGIN_EN.md'
-        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_EN.md'
       } else {
         this.markdownSource = './MECPLUGIN_CN.md'
-        this.editMarkdownUrl = 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md'
       }
     },
     $route (to, from) {
@@ -182,11 +173,12 @@ export default {
       rateId: 0,
       dataLoading: true,
       markdownSource: '',
-      editMarkdownUrl: 'https://github.com/EdgeGallery/developer-fe/blob/master/public/MECPLUGIN_CN.md',
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
       limitSize: 10,
-      offsetPage: 0
+      offsetPage: 0,
+      selectCodeLanguage: '',
+      inputPluginName: ''
     }
   },
   mounted () {
@@ -204,7 +196,7 @@ export default {
       })
     },
     getPluginListData () {
-      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage
+      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage + '&pluginName=' + this.inputPluginName + '&codeLanguage=' + this.selectCodeLanguage
       Get(url).then(res => {
         this.pluginListData = res.data.results
         this.getListDetail()
