@@ -1,4 +1,3 @@
-[TOC]
 ## 简介
 MEC-ECO（MEC Ecosystem）是MEC生态能力App的简称，开发者在完成一个MEC APP开发的时候，如果需要将这个APP的能力开放给其他用户使用，可以通过注册成为MEC-ECO实现。
 
@@ -22,8 +21,3 @@ EdgeGallery会将该APP的对外接口提供给其他开发人员使用，并且
 -  需要MEC-ECO应用提供相关开发者的API与SDK
 -  需要MEC-ECO应用提供相关文档说明
 -  需要MEC-ECO应用提供相关API模拟器（Option）
-
-
-## 注意事项
-
-## 如何成为贡献者
