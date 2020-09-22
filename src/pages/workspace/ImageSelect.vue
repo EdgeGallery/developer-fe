@@ -140,7 +140,7 @@
             :file-list="form.appFileList"
             :auto-upload="false"
             :on-remove="removeUploadapp"
-            name="yamlFile"
+            name="appFile"
           >
             <el-button
               slot="trigger"
@@ -170,9 +170,7 @@
           id="uploadYaml"
           class="upload-demo"
           action=""
-          :limit="1"
           :on-change="handleChangeYaml"
-          :on-exceed="handleExceed"
           :file-list="form.yamlFileList"
           :auto-upload="false"
           :on-remove="removeUploadyaml"
@@ -211,15 +209,14 @@
       <el-form-item
         :label="$t('devTools.uploadApi')"
         :label-width="formLabelWidth"
+        :rules="[{ required: true }]"
       >
         <el-upload
           id="uploadApi"
           class="upload-demo"
-          ref="upload"
           action=""
           :limit="1"
           :on-change="handleChangeApi"
-          :on-exceed="handleExceed"
           :file-list="form.apiFileList"
           :auto-upload="false"
           :on-remove="removeUploadapi"
@@ -240,6 +237,20 @@
             <em class="el-icon-warning" />{{ $t('devTools.apiText') }}
           </div>
         </el-upload>
+        <p
+          class="imageResult"
+          v-for="(item,index) in form.apiFileData"
+          :key="index"
+          v-loading="uploadApiLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
+        >
+          {{ item.fileName }}
+          <em
+            class="el-icon-close"
+            @click="deleteApiFile(item, index)"
+          />
+        </p>
       </el-form-item>
     </el-form>
   </div>
@@ -253,6 +264,10 @@ export default {
     projectBeforeConfig: {
       type: Object,
       default: () => {}
+    },
+    allStepData: {
+      type: Object,
+      default () {}
     }
   },
   data () {
@@ -267,6 +282,7 @@ export default {
         yamlFileList: [],
         imageNameData: [],
         yamlFileData: [],
+        apiFileData: [],
         appApiFileId: '' || this.projectBeforeConfig.appApiFileId
       },
       options: [],
@@ -275,6 +291,7 @@ export default {
       uploadYamlLoading: false,
       imageDataLoading: true,
       yamlDataLoading: true,
+      apiDataLoading: true,
       userId: sessionStorage.getItem('userId'),
       showNameErrInfo: false,
       showVersionErrInfo: false,
@@ -336,6 +353,7 @@ export default {
       }
       if (this.form.apiFileList.length > 0) {
         this.submitApiFile()
+        this.form.apiFileList = []
       }
     },
     handleExceed (file, fileList) {
@@ -359,6 +377,7 @@ export default {
             type: 'success',
             message: this.$t('promptMessage.uploadSuccess')
           })
+          this.getApiFile()
         })
       } else {
         this.$message({
@@ -366,6 +385,18 @@ export default {
           message: this.$t('promptMessage.uploadApiFile')
         })
       }
+    },
+    getApiFile () {
+      this.form.apiFileData = []
+      let url = 'mec/developer/v1/files/api-info/' + this.form.appApiFileId + '?userId=' + this.userId
+      Get(url).then(res => {
+        console.log(res.data)
+        this.form.apiFileData.push(res.data)
+        this.apiDataLoading = false
+      })
+    },
+    deleteApiFile (item, index) {
+      this.form.apiFileData.splice(index, 1)
     },
     handleChangeYaml (file, fileList) {
       this.form.yamlFileList.push(file.raw)
@@ -375,10 +406,8 @@ export default {
         this.$message.warning(this.$t('promptMessage.yamlFileType'))
         this.form.yamlFileList = []
       }
-      if (this.form.yamlFileList.length > 0) {
-        this.submitYamlFile()
-        this.form.yamlFileList = []
-      }
+      this.submitYamlFile()
+      this.form.yamlFileList = []
     },
     removeUploadyaml (file, fileList) {
       this.form.yamlFileList = []
@@ -452,8 +481,9 @@ export default {
     ifNext () {
       let imageNameData = this.form.imageNameData.length
       let yamlFileData = this.form.yamlFileData.length
+      let apiFileData = this.form.apiFileData.length
       let ifNext = false
-      if (imageNameData && yamlFileData) {
+      if (imageNameData && yamlFileData && apiFileData) {
         ifNext = true
       } else {
         if (!imageNameData) {
@@ -466,6 +496,11 @@ export default {
             message: this.$t('promptMessage.uploadYamlFile'),
             type: 'warning'
           })
+        } else if (!apiFileData) {
+          this.$message({
+            message: this.$t('promptMessage.uploadApiFile'),
+            type: 'warning'
+          })
         }
       }
       return ifNext
@@ -475,13 +510,23 @@ export default {
       if (ifNext) {
         this.$emit('getStepData', { step: 'first', data: this.form, ifNext })
       }
+    },
+    getFirstData () {
+      if (this.allStepData.first) {
+        let firstData = this.allStepData.first
+        this.form.apiFileData = firstData.apiFileData
+      }
     }
   },
   mounted () {
     // 获取方式二的image
     this.getImage('get')
     this.getYamlFile()
-    if (this.projectBeforeConfig.appApiFileId) this.form.appApiFileId = this.projectBeforeConfig.appApiFileId
+    this.getFirstData()
+    if (this.projectBeforeConfig.appApiFileId) {
+      this.form.appApiFileId = this.projectBeforeConfig.appApiFileId
+      this.getApiFile()
+    }
   }
 }
 </script>
