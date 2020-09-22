@@ -56,7 +56,7 @@
         />
         <el-button
           class="searchBtn"
-          @click="getPluginListData"
+          @click="searchPluginList"
         >
           {{ $t('test.testTask.inquire') }}
         </el-button>
@@ -287,26 +287,22 @@ export default {
       this.limitSize = pageSize
       this.offsetPage = start
     },
+    searchPluginList () {
+      sessionStorage.setItem('currentPage', 1)
+      this.getPluginListData()
+    },
     getPluginListData () {
       let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage + '&pluginName=' + this.inputPluginName + '&codeLanguage=' + this.selectCodeLanguage
       Get(url).then(res => {
         this.pluginListData = this.searchListData = res.data.results
         this.listTotal = res.data.total
         this.dataLoading = false
-        this.sortData(this.searchListData)
       }).catch(err => {
         console.log(err)
         setTimeout(() => {
           this.dataLoading = false
         }, 2000)
       })
-    },
-    sortData (dataList) {
-      if (dataList.length > 0) {
-        dataList.sort(function (a, b) {
-          return a.uploadTime < b.uploadTime ? 1 : -1
-        })
-      }
     },
     toDetail (item) {
       let mecDetailID = item.pluginId
@@ -376,7 +372,6 @@ export default {
       this.inputPluginName = ''
       this.getPluginListData()
       sessionStorage.setItem('currentPage', 1)
-      this.sortData(this.searchListData)
     }
   }
 }
