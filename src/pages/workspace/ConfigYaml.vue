@@ -245,10 +245,6 @@ export default {
     border: 1px solid #688ef3;
     color: #688ef3;
   }
-  input{
-    height: 30px;
-    line-height: 30px;
-  }
   .el-input-number{
     line-height: 30px;
     margin-top: 5px;

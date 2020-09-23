@@ -346,9 +346,9 @@ const en = {
     industryEmpty: 'Industry cannot be empty',
     getDataFail: 'Failed to get data!',
     canOnlyUpload: 'Can only upload .csar files',
-    nameRule: 'Please enter a name up to 30 characters',
-    versionRule: 'Please enter a version up to 10 characters',
-    introductionRule: 'Please enter a description up to 260 characters',
+    nameRule: 'Please enter a name up to 30 characters and cannot start with a space',
+    versionRule: 'Please enter a version up to 10 characters and cannot start with a space',
+    introductionRule: 'Please enter a description up to 260 characters and cannot start with a space',
     checkFileType: 'Please upload a file that matches the format'
   },
   breadCrumb: {
