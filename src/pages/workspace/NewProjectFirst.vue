@@ -302,8 +302,8 @@ export default {
       this.defaultIconFile = []
       this.defaultActive = ''
       this.logoFileList.push(file.raw)
-      if (file.size / 1024 > 500) {
-        this.$message.warning(this.$t('promptMessage.moreThan500'))
+      if (file.size / 1024 / 1024 > 2) {
+        this.$message.warning(this.$t('promptMessage.moreThan2'))
         this.logoFileList = []
       }
       let fileTypeArr = ['jpg', 'png']

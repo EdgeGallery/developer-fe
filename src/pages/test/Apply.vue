@@ -382,7 +382,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    handleLogoChanged (file, filelist) {
+    handleLogoChanged (file, fileList) {
       this.form.appIcon = []
       this.defaultIconFile = []
       this.defaultActive = ''
@@ -391,15 +391,13 @@ export default {
         this.$message.warning(this.$t('promptMessage.moreThan2'))
         this.logoFileList = []
       }
-      let type = file.raw.type.split('.')
-      type = type[type.length - 1]
-      if (type === 'jpg' || type === 'png') {
-        this.form.appIcon.push(file.raw)
-      } else {
-        this.form.appIcon = []
+      let fileTypeArr = ['jpg', 'png']
+      this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
+      if (fileTypeArr.indexOf(this.fileType) === -1) {
+        this.$message.warning(this.$t('promptMessage.checkFileType'))
         this.logoFileList = []
-        this.$message.warning(this.$t('promptMessage.notPicture'))
       }
+      this.form.appIcon = this.logoFileList
     },
     handleDelte (file, fileList) {
       this.appFileList = fileList
