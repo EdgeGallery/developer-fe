@@ -346,9 +346,9 @@ const cn = {
     industryEmpty: '行业不能为空',
     getDataFail: '获取数据失败！',
     canOnlyUpload: '只能上传.csar文件类型',
-    nameRule: '请输入最多30个字符的名称',
-    versionRule: '请输入最多10个字符的版本',
-    introductionRule: '请输入最多260个字符的描述',
+    nameRule: '请输入最多30个字符的名称，且不能开头不能为空格',
+    versionRule: '请输入最多10个字符的版本，且不能开头不能为空格',
+    introductionRule: '请输入最多260个字符的描述，且不能开头不能为空格',
     checkFileType: '请上传符合格式的文件'
   },
   breadCrumb: {
