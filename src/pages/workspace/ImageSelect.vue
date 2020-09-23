@@ -437,7 +437,7 @@ export default {
       } else {
         this.$message({
           type: 'warning',
-          message: this.$t('promptMessage.uploadApiFile')
+          message: this.$t('promptMessage.yamlFileType')
         })
       }
     },
