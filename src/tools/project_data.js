@@ -92,12 +92,6 @@ const Architecture = [
   }, {
     value: 'ARM32',
     label: 'ARM32'
-  }, {
-    value: 'GPU',
-    label: 'GPU'
-  }, {
-    value: 'NPU',
-    label: 'NPU'
   }
 ]
 

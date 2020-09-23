@@ -126,9 +126,8 @@
             >
               <el-checkbox-group id="projectIndustry">
                 <el-select
-                  v-model="form.industry"
+                  v-model="form.industry[0]"
                   class="list-select"
-                  multiple
                   @change="checkProjectData"
                 >
                   <el-option
@@ -167,9 +166,8 @@
             >
               <el-checkbox-group id="projectArch">
                 <el-select
-                  v-model="form.affinity"
+                  v-model="form.affinity[0]"
                   class="list-select"
-                  multiple
                 >
                   <el-option
                     v-for="(item,index) in architectureOptions"
