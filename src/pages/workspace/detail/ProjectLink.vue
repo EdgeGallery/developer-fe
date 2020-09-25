@@ -76,11 +76,14 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       let getGroupid = async (groupIdUrl) => {
         await Get(url).then(res => {
-          let data = res.data
-          data.capabilityDetailList.forEach(service => {
-            this.apiFileIdArr.push(service.apiFileId)
+          let data = res.data.capabilityList
+          data.forEach(capability => {
+            capability.capabilityDetailList.forEach(capabilityDetail => {
+              this.apiFileIdArr.push(capabilityDetail.apiFileId)
+            })
           })
         })
+        this.apiFileIdArr = [...new Set(this.apiFileIdArr)]
         this.getSampleCode(this.apiFileIdArr)
       }
 

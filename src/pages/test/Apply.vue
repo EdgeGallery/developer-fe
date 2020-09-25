@@ -256,7 +256,8 @@ export default {
           { required: true, message: this.$t('promptMessage.architectureEmpty') }
         ],
         appDesc: [
-          { required: true, validator: validateDesc }
+          { required: true, validator: validateDesc },
+          { pattern: /^\S.{0,258}\S$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       appFileList: [],
@@ -300,7 +301,7 @@ export default {
       let affinity = this.form.affinity.length
       let type = this.form.type
       let appDesc = this.form.appDesc
-      let appDescRule = appDesc.match(/^(?=.*\S).{1,260}$/g)
+      let appDescRule = appDesc.match(/^\S.{0,258}\S$/g)
       if (!appFileList) {
         this.$message({
           type: 'warning',

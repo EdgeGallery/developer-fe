@@ -277,7 +277,7 @@ export default {
       rules: {
         pluginName: [
           { required: true, validator: validateName, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,30}$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.nameRule') }
         ],
         codeLanguage: [
           { required: true }
@@ -293,11 +293,11 @@ export default {
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,10}$/g, message: this.$t('promptMessage.versionRule') }
+          { pattern: /^\S.{0,8}\S$/g, message: this.$t('promptMessage.versionRule') }
         ],
         introduction: [
           { required: true, validator: validateDes, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,260}$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^\S.{0,258}\S$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       options: [
@@ -367,16 +367,16 @@ export default {
     submitTrue () {
       this.uploadBtnLoading = true
       let pluginName = this.form.pluginName
-      let nameRule = pluginName.match(/^(?=.*\S).{1,30}$/g)
+      let nameRule = pluginName.match(/^\S.{0,28}\S$/g)
       let codeLanguage = this.form.codeLanguage
       let pluginType = this.form.pluginType
       let plugFileList = this.plugFileList.length
       let logoFileList = this.logoFileList.length || this.defaultIconFile.length
       let apiFileList = this.apiFileList.length
       let version = this.form.version
-      let versionRule = version.match(/^(?=.*\S).{1,10}$/g)
+      let versionRule = version.match(/^\S.{0,8}\S$/g)
       let introduction = this.form.introduction
-      let introductionRule = introduction.match(/^(?=.*\S).{1,260}$/g)
+      let introductionRule = introduction.match(/^\S.{0,258}\S$/g)
       if (!pluginName) {
         this.$message({
           type: 'warning',

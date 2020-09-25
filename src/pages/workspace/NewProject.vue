@@ -40,7 +40,7 @@
         :is="currentComponent"
         @getStepData="getStepData"
         ref="currentComponet"
-        :second-step-data="allFormData"
+        :all-step-data="allFormData"
         :project-typeprop="getprojectType"
       />
       <span
@@ -157,60 +157,22 @@ export default {
       this.$refs.currentComponet.emitStepData()
       let appIcon = this.allFormData.first.appIcon[0]
       let appname = this.allFormData.first.name
-      let nameRule = appname.match(/^(?=.*\S).{1,30}$/g)
-      let industry = this.allFormData.first.industry[0]
-      let platform = this.allFormData.first.platform[0]
+      let nameRule = appname.match(/^\S.{0,28}\S$/g)
       let provider = this.allFormData.first.provider
-      let providerRule = provider.match(/^(?=.*\S).{1,30}$/g)
-      let type = this.allFormData.first.type
+      let providerRule = provider.match(/^\S.{0,28}\S$/g)
       let version = this.allFormData.first.version
-      let versionRule = version.match(/^(?=.*\S).{1,10}$/g)
+      let versionRule = version.match(/^\S.{0,8}\S$/g)
       let description = this.allFormData.first.description
-      let descriptionRule = description.match(/^(?=.*\S).{1,260}$/g)
-      if (!description) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.descriptionEmpty')
-        })
-      } else if (!descriptionRule) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.introductionRule')
-        })
-      } else if (!appIcon) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.logoEmpty')
-        })
-      } else if (!appname) {
+      let descriptionRule = description.match(/^\S.{0,258}\S$/g)
+      if (!appname) {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.projectNameEmpty')
         })
-      } else if (!nameRule || !providerRule) {
+      } else if (!nameRule) {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.nameRule')
-        })
-      } else if (!industry) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.industryEmpty')
-        })
-      } else if (!platform) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.architectureEmpty')
-        })
-      } else if (!provider) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.providerEmpty')
-        })
-      } else if (!type) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.typeEmpty')
         })
       } else if (!version) {
         this.$message({
@@ -221,6 +183,31 @@ export default {
         this.$message({
           type: 'warning',
           message: this.$t('promptMessage.versionRule')
+        })
+      } else if (!provider) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.providerEmpty')
+        })
+      } else if (!providerRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.proiderRule')
+        })
+      } else if (!appIcon) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.logoEmpty')
+        })
+      } else if (!description) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.descriptionEmpty')
+        })
+      } else if (!descriptionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.introductionRule')
         })
       } else {
         this.active++
@@ -262,6 +249,7 @@ export default {
     },
     // 处理上传数据
     getApplicationProject () {
+      let createDate = new Date()
       this.uploadBtnLoading = true
       let allFormData = this.allFormData
       let projectType = allFormData.first.projectType
@@ -270,7 +258,8 @@ export default {
       }
       let params = {
         'id': '',
-        'capabilityList': []
+        'capabilityList': [],
+        'createDate': createDate
       }
       for (let key in allFormData.first) {
         if (key !== 'appIcon') {
@@ -397,6 +386,7 @@ export default {
   .el-dialog__footer{
     width: 100%;
     text-align: center;
+    padding: 20px;
     .el-button{
       padding: 8px 20px;
       font-weight: normal;
