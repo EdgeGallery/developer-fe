@@ -42,7 +42,7 @@
           <el-checkbox-group
             id="capabilityList"
             v-model="capability"
-            @change="changeCheckValue"
+            @change="selectCapabilityMep"
           >
             <el-tooltip
               class="item"
@@ -77,8 +77,8 @@
         <td>
           <el-checkbox-group
             id="capabilityEcoList"
-            v-model="capability"
-            @change="changeCheckValue"
+            v-model="capabilityEco"
+            @change="selectCapabilityMepeco"
           >
             <el-tooltip
               class="item"
@@ -105,6 +105,12 @@
 import { Capability, Type } from '../../tools/project_data.js'
 import { Get } from '../../tools/tool.js'
 export default {
+  props: {
+    allStepData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   name: '',
   data () {
     return {
@@ -116,6 +122,7 @@ export default {
       },
       capabilityList: [],
       capabilityEcoList: [],
+      selectCapabilityAll: [],
       capabilityLoading: true,
       language: localStorage.getItem('language')
     }
@@ -132,8 +139,22 @@ export default {
   mounted () {
     this.getCapabilityList()
     this.checkServicelanguage()
+    this.getSecondData()
   },
   methods: {
+    // 退回到第二步时，保留上一次选择
+    getSecondData () {
+      if (this.allStepData.second) {
+        this.secondStepSelect.capabilitySelected = this.allStepData.second.capabilitySelected
+        this.secondStepSelect.capabilitySelected.forEach(item => {
+          if (item.type === 'OPENMEP') {
+            this.capability.push(item.name)
+          } else if (item.type === 'OPENMEP_ECO') {
+            this.capabilityEco.push(item.name)
+          }
+        })
+      }
+    },
     checkServicelanguage () {
       if (this.language === 'cn') {
         this.capability = ['服务发现']
@@ -142,11 +163,19 @@ export default {
       }
     },
     // 选择能力列表
-    changeCheckValue (val) {
+    selectCapabilityMep (val) {
+      this.capability = val
+      this.selectCapability()
+    },
+    selectCapabilityMepeco (val) {
+      this.capabilityEco = val
+      this.selectCapability()
+    },
+    selectCapability () {
+      this.selectCapabilityAll = Array.from(new Set([...this.capability, ...this.capabilityEco]))
       this.secondStepSelect.selectCapabilityId = []
       this.secondStepSelect.capabilitySelected = []
-      this.capabilitySelected = []
-      val.forEach(item => {
+      this.selectCapabilityAll.forEach(item => {
         this.capabilityList.forEach(capability => {
           if (item === capability.name) {
             this.secondStepSelect.selectCapabilityId.push(capability.groupId)

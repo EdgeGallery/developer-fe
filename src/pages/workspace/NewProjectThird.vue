@@ -62,7 +62,7 @@ import { Get } from '../../tools/tool.js'
 export default {
   name: 'Thirdstep',
   props: {
-    secondStepData: {
+    allStepData: {
       type: Object,
       default: () => {}
     }
@@ -71,7 +71,7 @@ export default {
     return {
       tableData: [],
       thirdStepSelection: [],
-      secondStepSelect: this.secondStepData.second,
+      secondStepSelect: this.allStepData.second,
       serviceDataLoading: true,
       apiFileIdArr: []
     }
@@ -94,7 +94,7 @@ export default {
     },
     getServiceList () {
       let count = 0
-      let selectedCapablity = this.secondStepSelect.selectCapabilityId
+      let selectedCapablity = [...new Set(this.secondStepSelect.selectCapabilityId)]
       selectedCapablity.forEach(groupId => {
         let url = 'mec/developer/v1/capability-groups/' + groupId
         Get(url).then(res => {

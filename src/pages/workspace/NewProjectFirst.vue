@@ -163,7 +163,7 @@
             >
             <em
               class="el-icon-success"
-              :class="{ active: defaultActive === index }"
+              :class="{ active: form.defaultActive === index }"
             />
           </div>
         </div>
@@ -199,6 +199,10 @@ export default {
     projectTypeprop: {
       type: String,
       default: 'CREATE_NEW'
+    },
+    allStepData: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -243,14 +247,14 @@ export default {
         iconFileId: '',
         description: '',
         status: 'ONLINE',
-        base64Session: false
+        base64Session: false,
+        defaultActive: ''
       },
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
       value: 0,
       logoFileList: [],
-      defaultActive: '',
       defaultIconFile: [],
       defaultIcon: [
         require('../../assets/images/appicon1.png'),
@@ -261,15 +265,15 @@ export default {
       rules: {
         name: [
           { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,30}$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,10}$/g, message: this.$t('promptMessage.versionRule') }
+          { pattern: /^\S.{0,8}\S$/g, message: this.$t('promptMessage.versionRule') }
         ],
         provider: [
           { required: true, validator: validateProvider, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,30}$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.nameRule') }
         ],
         industry: [
           { required: true, message: this.$t('promptMessage.industryEmpty') }
@@ -285,7 +289,7 @@ export default {
         ],
         description: [
           { required: true, validator: validateDescription, trigger: 'blur' },
-          { pattern: /^(?=.*\S).{1,260}$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^\S.{0,258}\S$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       formLabelWidth: '110px',
@@ -294,11 +298,22 @@ export default {
   },
 
   methods: {
+    // 退回到第一步时，保留上一次选择
+    getFirstData () {
+      if (this.allStepData.first) {
+        this.form = this.allStepData.first
+        if (this.form.defaultActive !== '') {
+          this.form.logoFileList = []
+        } else {
+          this.logoFileList = this.form.appIcon
+        }
+      }
+    },
     handleChangeLogo (file, fileList) {
       this.form.base64Session = true
       this.form.appIcon = []
       this.defaultIconFile = []
-      this.defaultActive = ''
+      this.form.defaultActive = ''
       this.logoFileList.push(file.raw)
       if (file.size / 1024 / 1024 > 2) {
         this.$message.warning(this.$t('promptMessage.moreThan2'))
@@ -359,10 +374,10 @@ export default {
       this.form.base64Session = true
       this.logoFileList = []
       this.defaultIconFile = []
-      if (this.defaultActive === index) {
-        this.defaultActive = ''
+      if (this.form.defaultActive === index) {
+        this.form.defaultActive = ''
       } else {
-        this.defaultActive = index
+        this.form.defaultActive = index
         let image = new Image()
         image.src = file
         image.onload = () => {
@@ -376,7 +391,6 @@ export default {
       }
     },
     emitStepData () {
-      // if (!this.form.appIcon.length) this.chooseDefaultIcon(this.defaultIcon[0], 1)
       this.$emit('getStepData', { data: this.form, step: 'first' })
     },
     changeDataLanguage () {
@@ -409,7 +423,9 @@ export default {
       })
     }
   },
-  mounted () {}
+  mounted () {
+    this.getFirstData()
+  }
 }
 </script>
 
@@ -483,7 +499,7 @@ export default {
     .el-upload-list__item:first-child{
       margin-top: 0;
     }
-    .el-form-item__error{
+    .el-form-error{
       padding-top: 0;
     }
   }
