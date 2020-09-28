@@ -32,6 +32,7 @@
       <el-checkbox
         id="publictext"
         v-model="isPublic"
+        :disabled="appApiFileId"
       >
         {{ $t('workspace.publictext') }}
       </el-checkbox>
@@ -61,6 +62,10 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    appApiFileIdTemp: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -69,7 +74,8 @@ export default {
       isPublish: true,
       isPublic: false,
       userId: sessionStorage.getItem('userId'),
-      userName: sessionStorage.getItem('userName')
+      userName: sessionStorage.getItem('userName'),
+      appApiFileId: this.appApiFileIdTemp
     }
   },
   watch: {
