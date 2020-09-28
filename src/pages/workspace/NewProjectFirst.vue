@@ -273,7 +273,7 @@ export default {
         ],
         provider: [
           { required: true, validator: validateProvider, trigger: 'blur' },
-          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.providerRule') }
         ],
         industry: [
           { required: true, message: this.$t('promptMessage.industryEmpty') }

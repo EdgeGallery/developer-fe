@@ -83,8 +83,10 @@ export default {
             })
           })
         })
-        this.apiFileIdArr = [...new Set(this.apiFileIdArr)]
-        this.getSampleCode(this.apiFileIdArr)
+        let serviceCount = Number(sessionStorage.getItem('serviceCount'))
+        if (this.apiFileIdArr.length === serviceCount) {
+          this.getSampleCode(this.apiFileIdArr)
+        }
       }
 
       let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
