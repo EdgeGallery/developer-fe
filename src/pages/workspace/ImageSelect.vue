@@ -209,7 +209,6 @@
       <el-form-item
         :label="$t('devTools.uploadApi')"
         :label-width="formLabelWidth"
-        :rules="[{ required: true }]"
       >
         <el-upload
           id="uploadApi"
@@ -371,6 +370,7 @@ export default {
         let fd = new FormData()
         fd.append('file', this.form.apiFileList[0])
         Post(url, fd).then(res => {
+          this.$emit('getAppapiFileId', false)
           this.form.appApiFileId = res.data.fileId
           this.uploadApiLoading = false
           this.$message({
@@ -390,13 +390,13 @@ export default {
       this.form.apiFileData = []
       let url = 'mec/developer/v1/files/api-info/' + this.form.appApiFileId + '?userId=' + this.userId
       Get(url).then(res => {
-        console.log(res.data)
         this.form.apiFileData.push(res.data)
         this.apiDataLoading = false
       })
     },
     deleteApiFile (item, index) {
       this.form.apiFileData.splice(index, 1)
+      this.$emit('getAppapiFileId', true)
     },
     handleChangeYaml (file, fileList) {
       this.form.yamlFileList.push(file.raw)
@@ -481,9 +481,8 @@ export default {
     ifNext () {
       let imageNameData = this.form.imageNameData.length
       let yamlFileData = this.form.yamlFileData.length
-      let apiFileData = this.form.apiFileData.length
       let ifNext = false
-      if (imageNameData && yamlFileData && apiFileData) {
+      if (imageNameData && yamlFileData) {
         ifNext = true
       } else {
         if (!imageNameData) {
@@ -494,11 +493,6 @@ export default {
         } else if (!yamlFileData) {
           this.$message({
             message: this.$t('promptMessage.uploadYamlFile'),
-            type: 'warning'
-          })
-        } else if (!apiFileData) {
-          this.$message({
-            message: this.$t('promptMessage.uploadApiFile'),
             type: 'warning'
           })
         }

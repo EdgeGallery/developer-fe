@@ -65,6 +65,7 @@
             @getBtnStatus="getBtnStatus"
             :project-before-config="projectBeforeConfig"
             :all-step-data="allStepData"
+            @getAppapiFileId="getAppapiFileId"
             ref="currentComponet"
           />
         </div>
@@ -106,7 +107,10 @@
         <projectLink />
       </el-tab-pane>
       <div v-if="dialogVisible">
-        <publishAppDialog v-model="dialogVisible" />
+        <publishAppDialog
+          v-model="dialogVisible"
+          :app-api-file-id-temp="appApiFileIdTemp"
+        />
       </div>
     </el-tabs>
   </div>
@@ -152,7 +156,8 @@ export default {
       userId: sessionStorage.getItem('userId'),
       isPublic: false,
       isfail: true,
-      isNewProject: true
+      isNewProject: true,
+      appApiFileIdTemp: true
     }
   },
   computed: {
@@ -222,6 +227,9 @@ export default {
       this.deployed = status.deploy
       this.isCompleted = status.isCompleted
       this.isfail = status.isFail
+    },
+    getAppapiFileId (data) {
+      this.appApiFileIdTemp = data
     },
     submitData () {
       let projectId = sessionStorage.getItem('mecDetailID')
