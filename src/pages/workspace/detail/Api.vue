@@ -70,6 +70,7 @@ export default {
         this.projectId = res.data.id
         this.projectType = res.data.projectType
         let userId = res.data.userId
+        let serviceCount = 0
         for (let i in treeDataTemp) {
           let obj = {
             label: '',
@@ -80,6 +81,8 @@ export default {
           let serviceTemp = treeDataTemp[i].capabilityDetailList
           let hasService = false
           for (let j in serviceTemp) {
+            serviceCount++
+            sessionStorage.setItem('serviceCount', serviceCount)
             let subHasService = false
             let subObj = {
               id: 0,
