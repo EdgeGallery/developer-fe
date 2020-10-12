@@ -71,8 +71,7 @@
 import Document from './Document.vue'
 import API from './API.vue'
 import { ApiInfo } from '../../tools/project_data.js'
-
-import { Get } from '../../tools/tool.js'
+import { Api } from '../../tools/api.js'
 export default {
   name: 'Appapi',
   components: {
@@ -108,6 +107,7 @@ export default {
   },
   methods: {
     handleNodeClick (val) {
+      document.getElementsByClassName('el-main')[0].scrollTop = 0
       let pos = ApiInfo[1].label.indexOf(val.label)
       if (pos === -1) {
         this.activeName = val.label
@@ -123,10 +123,11 @@ export default {
         }
       }
     },
-    getOpenMepEcoName () {
+    // 获取MEP-Eco服务列表
+    getMepEcoService () {
       this.abilityList = this.openMepName
       this.abilityList[1].children = []
-      Get('mec/developer/v1/capability-groups/openmepeco-api').then(res => {
+      Api.getMepEcoServiceApi().then(res => {
         let dataTemp = res.data.openMepEcos
         dataTemp.forEach(item => {
           let obj = {
@@ -157,6 +158,7 @@ export default {
         this.abilityList[1].label = ApiInfo[1].label[0]
       }
     },
+    // 获取树状导航距离顶部高度
     getTreeTop () {
       let treeTop = this.$refs.meptree.getBoundingClientRect().top
       if (treeTop > 85) {
@@ -169,6 +171,7 @@ export default {
         // this.divHeight('el-tree-node__children', 1, 190)
       }
     },
+    // 设置元素的高度
     divHeight (className, num, height) {
       let oDiv = document.getElementsByClassName(className)
       let clientHeight = document.documentElement.clientHeight
@@ -176,7 +179,7 @@ export default {
     }
   },
   mounted () {
-    this.getOpenMepEcoName()
+    this.getMepEcoService()
     window.addEventListener('scroll', this.getTreeTop, true)
   },
   beforeDestroy () {
@@ -199,7 +202,7 @@ export default {
   }
   .mep-main{
     background-color: #fff;
-    padding: 40px;
+    padding: 40px 40px 0;
     position: relative;
     .mep-tree{
       float: left;

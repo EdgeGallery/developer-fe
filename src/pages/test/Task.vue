@@ -290,7 +290,8 @@
 </template>
 
 <script>
-import { Post, Get, codeErr } from './../../tools/tool.js'
+import { codeErr } from './../../tools/tool.js'
+import { Test } from '../../tools/api.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
   name: 'Task',
@@ -408,6 +409,7 @@ export default {
       sessionStorage.setItem('taskData', JSON.stringify(val))
       this.$router.push('/mecDeveloper/test/report')
     },
+    // 检查搜索时提交时间不能晚于结束时间
     contrastTime () {
       if (this.form.endTime && this.form.beginTime > this.form.endTime) {
         this.$message({
@@ -422,6 +424,7 @@ export default {
       sessionStorage.setItem('currentPage', 1)
       this.getTaskList()
     },
+    // 获取测试任务列表
     getTaskList () {
       if (this.form.beginTime == null || this.form.endTime == null) {
         this.form.beginTime = ''
@@ -430,7 +433,7 @@ export default {
       if (codeErr) {
         this.clearInterval()
       } else {
-        Get('mec/developer/v1/apps/?userId=' + this.userId, this.form).then(res => {
+        Test.getTaskListApi(this.userId, this.form).then(res => {
           let data = res.data.tasks
           data.forEach((item, index) => {
             let newDateBegin = this.dateChange(item.task.beginTime)
@@ -461,10 +464,11 @@ export default {
         })
       }
     },
+    // 获取测试子任务
     getData (num, appId, taskId, step) {
       if (step === 2 || step === 3) {
         this.dialogTitle = 'Test Execution'
-        Get('mec/developer/v1/apps/' + appId + '/task/' + taskId + '/subtasks').then(res => {
+        Test.getSubTaskApi(appId, taskId).then(res => {
           let data = res.data.subTasks
           data.forEach((item, index) => {
             item.testcaseid = index + 1
@@ -506,8 +510,9 @@ export default {
     },
     expandChange (row, expandedRows) {
     },
+    // 测试完成后上传到AppStore
     uploadTask (val) {
-      Post('mec/developer/v1/apps/' + val.appId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName, '').then(res => {
+      Test.uploadTaskApi(val.appId, this.userId, this.userName, '').then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'

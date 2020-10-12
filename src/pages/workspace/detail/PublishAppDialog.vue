@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { Post } from '../../../tools/tool.js'
+import { Workspace } from '../../../tools/api.js'
 
 export default {
   props: {
@@ -89,21 +89,18 @@ export default {
     },
     confirmPublish () {
       let projectId = sessionStorage.getItem('mecDetailID')
+      // 发布APP到Appstore
       if (this.isPublish) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName
-        Post(url, '').then(res => {
+        Workspace.isPublishApi(projectId, this.userId, this.userName).then(res => {
           this.handleClose()
         })
       }
+      // 公开APP的API能力
       if (this.isPublic) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + this.userId
-        Post(url, '').then(res => {
+        Workspace.isPublicApi(projectId, this.userId).then(res => {
           this.handleClose()
         })
       }
-      this.$router.push({
-        name: 'workspace'
-      })
     }
   },
   mounted () {

@@ -256,7 +256,7 @@
 </template>
 
 <script>
-import { Get, Post, Delete } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 export default {
   name: 'ImageSelect',
   props: {
@@ -298,6 +298,7 @@ export default {
     }
   },
   methods: {
+    // 验证要添加的镜像名称
     verifyImageName () {
       if (this.form.imageName === '') {
         this.showNameErrInfo = true
@@ -305,6 +306,7 @@ export default {
       }
       this.showNameErrInfo = false
     },
+    // 验证要添加的镜像版本
     verifyImageVersion () {
       if (this.form.imageVersion === '') {
         this.showVersionErrInfo = true
@@ -312,13 +314,12 @@ export default {
       }
       this.showVersionErrInfo = false
     },
-    // 方式二上传
+    // 方式二上传，添加镜像
     addImageName () {
       this.verifyImageName()
       this.verifyImageVersion()
       if (this.form.imageName && this.form.imageVersion && this.form.portIn && this.form.portOut) {
         let projectId = sessionStorage.getItem('mecDetailID')
-        let url = 'mec/developer/v1/projects/' + projectId + '/image'
         let params = {
           name: this.form.imageName,
           version: this.form.imageVersion,
@@ -329,19 +330,20 @@ export default {
           projectId: projectId,
           type: 'DEVELOPER'
         }
-        Post(url, params).then(res => {
+        Workspace.addImageNameApi(projectId, params).then(res => {
           params.id = res.data.id
           this.getImage('post', params)
         })
       }
     },
+    // 删除镜像
     deleteImageName (item, index) {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/image/' + item.id
-      Delete(url).then(res => {
+      Workspace.deleteImageNameApi(projectId, item.id).then(res => {
         this.form.imageNameData.splice(index, 1)
       })
     },
+    // 选择Api文件
     handleChangeApi (file, fileList) {
       this.form.apiFileList.push(file.raw)
       this.fileType = this.form.apiFileList[0].name.substring(this.form.apiFileList[0].name.lastIndexOf('.') + 1)
@@ -363,13 +365,13 @@ export default {
     removeUploadapi (file, fileList) {
       this.form.apiFileList = []
     },
+    // 上传Api
     submitApiFile () {
       if (this.form.apiFileList.length > 0) {
         this.uploadApiLoading = true
-        let url = 'mec/developer/v1/files?userId=' + this.userId
         let fd = new FormData()
         fd.append('file', this.form.apiFileList[0])
-        Post(url, fd).then(res => {
+        Workspace.submitApiFileApi(this.userId, fd).then(res => {
           this.$emit('getAppapiFileId', false)
           this.form.appApiFileId = res.data.fileId
           this.uploadApiLoading = false
@@ -386,18 +388,20 @@ export default {
         })
       }
     },
+    // 获取上传的Api文件
     getApiFile () {
       this.form.apiFileData = []
-      let url = 'mec/developer/v1/files/api-info/' + this.form.appApiFileId + '?userId=' + this.userId
-      Get(url).then(res => {
+      Workspace.getApiFileApi(this.form.appApiFileId, this.userId).then(res => {
         this.form.apiFileData.push(res.data)
         this.apiDataLoading = false
       })
     },
+    // 删除上传的Api文件
     deleteApiFile (item, index) {
       this.form.apiFileData.splice(index, 1)
       this.$emit('getAppapiFileId', true)
     },
+    // 选择Yaml文件
     handleChangeYaml (file, fileList) {
       this.form.yamlFileList.push(file.raw)
       this.fileType = this.form.yamlFileList[0].name.substring(this.form.yamlFileList[0].name.lastIndexOf('.') + 1)
@@ -418,14 +422,14 @@ export default {
     removeUploadApp (file, fileList) {
       this.form.appFileList = []
     },
+    // 上传Yaml文件
     submitYamlFile () {
       let projectId = sessionStorage.getItem('mecDetailID')
       if (this.form.yamlFileList.length > 0) {
         this.uploadYamlLoading = true
-        let url = 'mec/developer/v1/files/helm-template-yaml?userId=' + this.userId + '&projectId=' + projectId
         let fd = new FormData()
         fd.append('file', this.form.yamlFileList[0])
-        Post(url, fd).then(res => {
+        Workspace.submitYamlFileApi(this.userId, projectId, fd).then(res => {
           this.form.appYamlFileId = res.data.fileId
           this.uploadYamlLoading = false
           this.$message({
@@ -437,16 +441,15 @@ export default {
       } else {
         this.$message({
           type: 'warning',
-          message: this.$t('promptMessage.yamlFileType')
+          message: this.$t('promptMessage.uploadYamlFile')
         })
       }
     },
     // 方式二获取image  type: 第一次获取get / 还是添加
     getImage (type, params) {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/image'
       if (type === 'get') {
-        Get(url).then(res => {
+        Workspace.getImageApi(projectId).then(res => {
           res.data.images.forEach(item => {
             if (item.type === 'DEVELOPER') {
               this.form.imageNameData.push(item)
@@ -461,23 +464,24 @@ export default {
         this.imageDataLoading = false
       }
     },
+    // 获取已上传的yaml文件
     getYamlFile () {
       this.form.yamlFileData = []
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/files/helm-template-yaml?userId=' + this.userId + '&projectId=' + projectId
-      Get(url).then(res => {
+      Workspace.getYamlFileApi(this.userId, projectId).then(res => {
         res.data.forEach(item => {
           this.form.yamlFileData.push(item)
         })
         this.yamlDataLoading = false
       })
     },
+    // 删除已上传的yaml文件
     deleteYamlFile (item, index) {
-      let url = 'mec/developer/v1/files/helm-template-yaml?fileId=' + item.fileId
-      Delete(url).then(res => {
+      Workspace.deleteYamlFileApi(item.fileId).then(res => {
         this.form.yamlFileData.splice(index, 1)
       })
     },
+    // 判断方式二镜像和Yaml是否上传
     ifNext () {
       let imageNameData = this.form.imageNameData.length
       let yamlFileData = this.form.yamlFileData.length
@@ -499,12 +503,14 @@ export default {
       }
       return ifNext
     },
+    // 将数据传值给父组件
     emitStepData () {
       let ifNext = this.ifNext()
       if (ifNext) {
         this.$emit('getStepData', { step: 'first', data: this.form, ifNext })
       }
     },
+    // 返回第一步时，保留填写的数据
     getFirstData () {
       if (this.allStepData.first) {
         let firstData = this.allStepData.first

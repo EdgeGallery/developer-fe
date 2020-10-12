@@ -234,7 +234,7 @@
 </template>
 
 <script>
-import { Post } from './../../tools/tool.js'
+import { Plugin } from '../../tools/api.js'
 export default {
   name: 'Upload',
   data () {
@@ -350,8 +350,7 @@ export default {
       formdata.append('pluginFile', this.plugFileList[0])
       formdata.append('logoFile', this.form.appIcon.length > 0 ? this.form.appIcon[0] : this.defaultIconFile[0])
       formdata.append('apiFile', this.apiFileList[0])
-      let url = 'mec/developer/v1/plugins/'
-      Post(url, formdata).then(res => {
+      Plugin.uploadPluginApi(formdata).then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'
@@ -450,6 +449,7 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
+    // 检查上传文件类型
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
@@ -459,6 +459,7 @@ export default {
       }
       return checkPassed
     },
+    // 上传图标
     handleChangeLogo (file, fileList) {
       this.form.appIcon = []
       this.defaultIconFile = []
@@ -475,6 +476,7 @@ export default {
       }
       this.form.appIcon = this.logoFileList
     },
+    // 上传插件包
     handleChangePlug (file, fileList) {
       this.$store.state.pluginSize = file.size / 1024 / 1024
       this.plugFileList.push(file.raw)
@@ -493,6 +495,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
+    // 上传Api
     handleChangeApi (file, fileList) {
       this.apiFileList.push(file.raw)
       let fileTypeArr = ['yaml', 'json']
@@ -535,6 +538,7 @@ export default {
         type: mime
       })
     },
+    // 选择默认图标
     chooseDefaultIcon (file, index) {
       this.logoFileList = []
       this.defaultIconFile = []

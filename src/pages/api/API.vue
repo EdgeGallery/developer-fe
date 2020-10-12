@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { urlPrefix } from '../../tools/tool.js'
+import { Api } from '../../tools/api.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -21,8 +21,9 @@ export default {
     }
   },
   methods: {
+    // 获取Api-swaggerUI路径
     getApiUrl () {
-      let apiUrl = urlPrefix + 'mec/developer/v1/files/' + this.apiFileId + '?userId=' + this.userId + '&type=OPENMEP'
+      let apiUrl = Api.getSwaggerUrlApi(this.apiFileId, this.userId)
       SwaggerUIBundle({
         url: apiUrl,
         dom_id: '#swagger-ui',

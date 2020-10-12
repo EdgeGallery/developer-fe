@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { Get } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 
 export default {
   name: 'Server',
@@ -100,9 +100,9 @@ export default {
       this.selectTableData = val
       this.radio = this.hostsListData.indexOf(val)
     },
+    // 获取服务器列表
     getHostsData () {
-      let url = 'mec/developer/v1/hosts'
-      Get(url).then(res => {
+      Workspace.getHostsApi().then(res => {
         this.hostsListData = res.data
         this.selectTableData = this.hostsListData[0]
         this.hostsDataLoading = false

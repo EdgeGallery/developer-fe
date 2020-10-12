@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { Get, Post, Put } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
 import selectServer from './SelectServer.vue'
@@ -260,20 +260,17 @@ export default {
 
       }
       // 根据第一步的状态判断是新建还是修改
-      let requireMethod = Post
-      let url = 'mec/developer/v1/projects/' + projectId + '/test-config?userId=' + this.userId
+      let requireMethod = Workspace.postTestConfigApi(projectId, this.userId, params)
       if (this.projectBeforeConfig.testId) {
-        requireMethod = Put
-        url = 'mec/developer/v1/projects/' + projectId + '/test-config'
+        requireMethod = Workspace.putTestConfigApi(projectId, params)
         // 修改需要
         params.status = this.projectBeforeConfig.status
         params.accessUrl = this.projectBeforeConfig.accessUrl
         params.errorLog = this.projectBeforeConfig.errorLog
       }
-      requireMethod(url, params).then(res => {
+      requireMethod().then(res => {
         // 部署
-        let deployUrl = 'mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + this.userId
-        Post(deployUrl, '').then(response => {
+        Workspace.deployTestApi(projectId, this.userId).then(response => {
           if (response.data.status === 'DEPLOYING') {
             this.$message({
               message: this.$t('workspace.startDeploySucc')
@@ -288,8 +285,7 @@ export default {
     cleanTestEnv (deployed) {
       this.isPublic = true
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + this.userId
-      Post(url, '').then(res => {
+      Workspace.cleanTestEnvApi(projectId, deployed, this.userId).then(res => {
         if (res.data === true) {
           this.isPublic = false
         }
@@ -301,11 +297,10 @@ export default {
     getViewReport (data) {
       this.viewReport = data
     },
+    // 获取以前提交过的配置
     getTestConfig () {
-      // 获取以前提交过的config
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
-      Get(url).then(res => {
+      Workspace.getTestConfigApi(projectId).then(res => {
         if (res.data.status === 'Running') {
           this.activeName = '2'
           this.active = 3

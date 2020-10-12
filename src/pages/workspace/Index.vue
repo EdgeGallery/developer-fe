@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { Get } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 import projectList from './ProjectList.vue'
 import newProject from './NewProject.vue'
 
@@ -172,6 +172,7 @@ export default {
     next()
   },
   methods: {
+    // 新建项目
     addNewProject () {
       this.newprojectDialog = true
       this.fourthstepTitleprop = this.$t('workspace.projectLink')
@@ -179,6 +180,7 @@ export default {
       this.getprojectTypeprop = 'CREATE_NEW'
       this.activeProjectprop = 3
     },
+    // 迁移项目
     migrationProject () {
       this.newprojectDialog = true
       this.fourthstepTitleprop = this.$t('workspace.toolChain')
@@ -186,12 +188,14 @@ export default {
       this.getprojectTypeprop = 'MIGRATE'
       this.activeProjectprop = 2
     },
+    // 关闭弹框
     closeDialog (data) {
       this.dialogVisible = data
       this.$refs.projectList.getProjectListData()
     },
+    // 获取项目列表
     getProjectListData () {
-      Get('mec/developer/v1/projects/?userId=' + this.userId).then(res => {
+      Workspace.getProjectListApi(this.userId).then(res => {
         let dataTotal = res.data
         let onlineNum = 0
         let deployingNum = 0

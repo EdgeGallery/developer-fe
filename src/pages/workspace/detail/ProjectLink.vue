@@ -18,17 +18,11 @@
   <div class="project-link">
     <div class="fourthstep">
       <div id="programTools">
-        <el-link
-          type="info"
-          :href="toolLink"
-          target="_blank"
+        <img
+          src="../../../assets/images/newProject-fourth-icon1.png"
+          alt=""
         >
-          <img
-            src="../../../assets/images/newProject-fourth-icon1.png"
-            alt=""
-          >
-          <p>{{ $t('workspace.programTools') }}</p>
-        </el-link>
+        <p>{{ $t('workspace.programTools') }}</p>
       </div>
       <div id="programPlugin">
         <el-link
@@ -60,13 +54,12 @@
 </template>
 
 <script>
-import { Get, downloadFile } from '../../../tools/tool.js'
+import { Workspace } from '../../../tools/api.js'
 export default {
   data () {
     return {
       apiFileIdArr: [],
       userId: sessionStorage.getItem('userId'),
-      toolLink: 'https://www.jetbrains.com/idea/',
       projectLink: '/#/mecDeveloper/plugin/list'
     }
   },
@@ -74,13 +67,11 @@ export default {
     async getApiFileId () {
       this.apiFileIdArr = []
       let projectId = sessionStorage.getItem('mecDetailID')
-      let getGroupid = async (groupIdUrl) => {
-        await Get(url).then(res => {
-          let data = res.data.capabilityList
-          data.forEach(capability => {
-            capability.capabilityDetailList.forEach(capabilityDetail => {
-              this.apiFileIdArr.push(capabilityDetail.apiFileId)
-            })
+      let getGroupid = async (groupId) => {
+        await Workspace.getServiceListApi(groupId).then(res => {
+          let data = res.data
+          data.capabilityDetailList.forEach(service => {
+            this.apiFileIdArr.push(service.apiFileId)
           })
         })
         let serviceCount = Number(sessionStorage.getItem('serviceCount'))
@@ -89,21 +80,15 @@ export default {
         }
       }
 
-      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
-      await Get(url).then(res => {
+      await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         let data = res.data.capabilityList
         data.forEach(dataItem => {
-          let groupIdUrl = 'mec/developer/v1/capability-groups/' + dataItem.groupId
-          getGroupid(groupIdUrl)
+          getGroupid(dataItem.groupId)
         })
       })
     },
     getSampleCode (apiFileIdArr) {
-      let params = {
-        url: 'mec/developer/v1/files/samplecode',
-        params: apiFileIdArr
-      }
-      downloadFile(params)
+      Workspace.getSampleCodeApi(apiFileIdArr)
     }
   },
   mounted () {}

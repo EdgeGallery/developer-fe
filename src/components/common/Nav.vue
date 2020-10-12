@@ -180,7 +180,6 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        sessionStorage.setItem('devLogoutPath', this.$route.path)
         this.logout()
       })
     }

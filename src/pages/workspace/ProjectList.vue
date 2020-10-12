@@ -24,12 +24,11 @@
         :placeholder="$t('workspace.projectName')"
         id="inputProjectName"
         class="enterinput"
-        @blur="enterQueryFun"
-        @clear="enterQueryFun"
+        @clear="selectProjectList"
       />
       <el-button
         class="searchBtn"
-        @click="enterQueryFun"
+        @click="selectProjectList"
       >
         {{ $t('test.testTask.inquire') }}
       </el-button>
@@ -135,7 +134,7 @@
 </template>
 
 <script>
-import { Get, Delete, urlPrefix } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 import pagination from '../../components/common/Pagination.vue'
 export default {
   name: 'Projectlist',
@@ -166,8 +165,9 @@ export default {
     getCurrentPageData (val) {
       this.currentData = val
     },
+    // 获取项目列表
     getProjectListData () {
-      Get('mec/developer/v1/projects/?userId=' + this.userId, '', 'developer').then(res => {
+      Workspace.getProjectListApi(this.userId).then(res => {
         this.pageData = this.searchListData = res.data
         if (this.pageData.length > 0) {
           this.pageData.sort(function (a, b) {
@@ -189,17 +189,18 @@ export default {
         }, 2000)
       })
     },
+    // 获取项目图标
     getIcon (fileId) {
-      let url = urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + this.userId + '&type=OPENMEP_ECO'
-      return url
+      return Workspace.getIconApi(fileId, this.userId)
     },
+    // 删除项目
     handleDelete (item) {
       this.$confirm(this.$t('devTools.deleteList'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        Delete('mec/developer/v1/projects/' + item.id + '?userId=' + this.userId).then(res => {
+        Workspace.deleteProjectApi(item.id, this.userId).then(res => {
           this.getProjectListData()
         })
       })
@@ -214,30 +215,17 @@ export default {
         }
       })
     },
-    enterQueryFun () {
+    // 根据名称查询列表
+    selectProjectList () {
       sessionStorage.setItem('currentPage', 1)
-      let selectFunctionData = []
+      let selectListData = []
       this.pageData.forEach(item => {
         if (item.name.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
-          selectFunctionData.push(item)
+          selectListData.push(item)
         }
       })
       if (this.enterQuery) {
-        this.searchListData = selectFunctionData
-      } else {
-        this.searchListData = this.pageData
-      }
-    },
-    selectFunction (val) {
-      this.enterQuery = ''
-      let selectFunctionData = []
-      this.pageData.forEach(item => {
-        if (item.codeLanguage === val) {
-          selectFunctionData.push(item)
-        }
-      })
-      if (val) {
-        this.searchListData = selectFunctionData
+        this.searchListData = selectListData
       } else {
         this.searchListData = this.pageData
       }
