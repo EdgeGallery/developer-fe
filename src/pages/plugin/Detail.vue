@@ -135,7 +135,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { Get, Put, urlPrefix } from './../../tools/tool.js'
+import { Plugin } from '../../tools/api.js'
 import axios from 'axios'
 export default {
   name: 'ListDetail',
@@ -195,13 +195,14 @@ export default {
         this.markdownSource = res.data
       })
     },
+    // 获取插件列表
     getPluginListData () {
-      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage + '&pluginName=' + this.inputPluginName + '&codeLanguage=' + this.selectCodeLanguage
-      Get(url).then(res => {
+      Plugin.getPluginListApi(this.limitSize, this.offsetPage, this.inputPluginName, this.selectCodeLanguage).then(res => {
         this.pluginListData = res.data.results
         this.getListDetail()
       })
     },
+    // 获取插件详情
     getListDetail () {
       this.detailContent = []
       this.pluginListData.forEach(item => {
@@ -212,13 +213,13 @@ export default {
         }
       })
     },
+    // 获取插件图标
     getImageUrl (pluginId) {
-      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
-      return url
+      return Plugin.getImageUrlApi(pluginId)
     },
+    // 获取插件下载路径
     getDownloadUrl (pluginId) {
-      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
-      return url
+      return Plugin.getDownloadUrlApi(pluginId)
     },
     rateConfirm (item) {
       this.rateId = item.pluginId
@@ -238,8 +239,9 @@ export default {
     rateChange (val) {
       this.valueRate = val
     },
+    // 给插件评分
     rateHandel (rateId) {
-      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate + '&userId=' + this.userId + '&userName=' + this.userName).then(res => {
+      Plugin.ratePluginApi(rateId, this.valueRate, this.userId, this.userName).then(res => {
         this.getPluginListData()
       })
       this.DialogVisible = false

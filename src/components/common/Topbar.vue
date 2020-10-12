@@ -144,11 +144,6 @@ export default {
   },
   mounted () {
     this.indexName = this.$route.fullPath
-    let devLogoutPath = sessionStorage.getItem('devLogoutPath')
-    if (devLogoutPath) {
-      this.$router.push(devLogoutPath)
-      sessionStorage.removeItem('devLogoutPath')
-    }
   }
 }
 

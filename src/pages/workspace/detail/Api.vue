@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { Get, urlPrefix } from '../../../tools/tool.js'
+import { Workspace } from '../../../tools/api.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -64,7 +64,7 @@ export default {
   methods: {
     getProjectDetail () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      Get('mec/developer/v1/projects/' + projectId + '?userId=' + this.userId).then(res => {
+      Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         let treeDataTemp = []
         treeDataTemp = res.data.capabilityList
         this.projectId = res.data.id
@@ -121,7 +121,7 @@ export default {
     },
     handleNodeClick (data) {
       if (!data.children) {
-        let apiUrl = urlPrefix + 'mec/developer/v1/files/' + data.apiFileId + '?userId=' + data.userId + '&type=' + data.type
+        let apiUrl = Workspace.getApiUrl(data.apiFileId, data.userId, data.type)
         SwaggerUIBundle({
           url: apiUrl,
           dom_id: '#swagger-ui',

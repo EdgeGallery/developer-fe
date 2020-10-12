@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { Post } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 import firstStep from './NewProjectFirst.vue'
 import secondStep from './NewProjectSecond.vue'
 import thirdStep from './NewProjectThird.vue'
@@ -216,13 +216,13 @@ export default {
         this.getIconFileId()
       }
     },
+    // 获取暂存图标的ID
     getIconFileId () {
-      // 获取暂存的Icon的ID
       if (this.active === 1) {
         let firstStepData = this.allFormData.first.appIcon[0]
         let formdata = new FormData()
         formdata.append('file', firstStepData)
-        Post('mec/developer/v1/files?userId=' + this.userId, formdata).then(res => {
+        Workspace.getIconFileIdApi(this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
         })
       }
@@ -230,14 +230,6 @@ export default {
     // 提交上传
     onSubmit () {
       this.getApplicationProject()
-    },
-    keyupSubmit () {
-      document.onkeydown = e => {
-        let _key = window.event.keyCode
-        if (_key === 13) {
-          this.submitTrue()
-        }
-      }
     },
     handleClose () {
       this.$emit('closeFatherDialog', false)
@@ -247,7 +239,7 @@ export default {
     getStepData ({ data, step }) {
       this.allFormData[step] = data
     },
-    // 处理上传数据
+    // 处理上传数据，新建/迁移项目
     getApplicationProject () {
       let createDate = new Date()
       this.uploadBtnLoading = true
@@ -285,7 +277,7 @@ export default {
       }
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
-      Post('mec/developer/v1/projects/?userId=' + this.userId, params).then(res => {
+      Workspace.newProjectApi(this.userId, params).then(res => {
         if (res.status === 200) {
           let mecDetailID = res.data.id
           sessionStorage.setItem('mecDetailID', mecDetailID)
