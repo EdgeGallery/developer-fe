@@ -170,11 +170,11 @@ let Workspace = {
   },
   // 部署构建测试
   deployTestApi: function (projectId, userId) {
-    return Post('mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + userId)
+    return Post('mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + userId, '')
   },
   // 清空测试环境
   cleanTestEnvApi: function (projectId, deployed, userId) {
-    return Post('mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + userId)
+    return Post('mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + userId, '')
   },
   // 添加镜像
   addImageNameApi: function (projectId, params) {
