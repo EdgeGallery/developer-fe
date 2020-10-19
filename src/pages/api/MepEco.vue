@@ -59,6 +59,7 @@
       </div>
       <div
         class="api-div"
+        :class="{'doc-left':scrollTop,'doc-right':apiPage}"
         v-if="apiPage"
       >
         <API :api-file-idprop="apiFileId" />
@@ -261,11 +262,20 @@ export default {
       float: left;
       width: 500px;
     }
+    .api-div.doc-left{
+      margin-left: 270px;
+    }
+    .api-div.doc-right{
+      width: calc(100% - 770px);
+    }
     @media screen and (max-width: 1380px) {
       .mep-tree{
         width: 300px;
       }
       .doc-div.doc-right{
+        width: calc(100% - 800px);
+      }
+      .api-div.doc-right{
         width: calc(100% - 800px);
       }
     }
