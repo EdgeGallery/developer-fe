@@ -260,25 +260,36 @@ export default {
 
       }
       // 根据第一步的状态判断是新建还是修改
-      let requireMethod = Workspace.postTestConfigApi(projectId, this.userId, params)
+
+      let methodsType = 1
       if (this.projectBeforeConfig.testId) {
-        requireMethod = Workspace.putTestConfigApi(projectId, params)
+        methodsType = 2
         // 修改需要
         params.status = this.projectBeforeConfig.status
         params.accessUrl = this.projectBeforeConfig.accessUrl
         params.errorLog = this.projectBeforeConfig.errorLog
       }
-      requireMethod().then(res => {
-        // 部署
-        Workspace.deployTestApi(projectId, this.userId).then(response => {
-          if (response.data.status === 'DEPLOYING') {
-            this.$message({
-              message: this.$t('workspace.startDeploySucc')
-            })
-          }
-        }).catch(err => {
-          console.log(err)
+
+      if (methodsType === 1) {
+        Workspace.postTestConfigApi(projectId, this.userId, params).then(res => {
+          this.deployTest(projectId)
         })
+      } else {
+        Workspace.putTestConfigApi(projectId, params).then(res => {
+          this.deployTest(projectId)
+        })
+      }
+    },
+    // 部署
+    deployTest (projectId) {
+      Workspace.deployTestApi(projectId, this.userId).then(response => {
+        if (response.data.status === 'DEPLOYING') {
+          this.$message({
+            message: this.$t('workspace.startDeploySucc')
+          })
+        }
+      }).catch(err => {
+        console.log(err)
       })
     },
     // 清空测试环境
@@ -382,7 +393,7 @@ export default {
   }
 }
 .workdetail {
-  height: 100%;
+  // height: 100%;
   .el-tree-node__content{
     height: 35px;
     line-height: 35px;
