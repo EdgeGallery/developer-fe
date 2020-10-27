@@ -57,7 +57,7 @@
                 :file-list="codeFileList"
                 :auto-upload="false"
                 :on-remove="removeUpload"
-                accept=".tar.gz"
+                accept=".tar,.gz,.zip,.csar"
                 name="codeFile"
               >
                 <el-button
@@ -192,12 +192,12 @@
   </div>
 </template>
 <script>
-import { Get, Post, Delete, downLoadReport } from '../../tools/tool.js'
+import { Plugin } from '../../tools/api.js'
 export default {
   name: 'Toolchain',
   data () {
     return {
-      projectId: sessionStorage.getItem('mecDetailID'),
+      userId: sessionStorage.getItem('userId'),
       sourceCodeName: '',
       sourceCodeExist: false,
       labelWidth: '140px',
@@ -372,14 +372,14 @@ export default {
   methods: {
     // 查询已上传的源代码
     getSourceCode () {
-      Get('mec/toolchain/v1/porting/' + this.projectId, '', 'toolchain').then(res => {
+      Plugin.getSourceCodeApi(this.userId, '', 'toolchain').then(res => {
         this.sourceCodeName = res.data.sourceCodeName
         this.sourceCodeExist = res.data.sourceCodeExist
       })
     },
     // 删除已上传的源代码
     deleteSourceCode () {
-      Delete('mec/toolchain/v1/porting/' + this.projectId, '', 'toolchain').then(res => {
+      Plugin.deleteSourceCodeApi(this.userId, '', 'toolchain').then(res => {
         this.getSourceCode()
         sessionStorage.setItem('sourceCodePath', '')
       })
@@ -397,7 +397,7 @@ export default {
         let formdata = new FormData()
         formdata.append('file', this.codeFileList[0])
         this.uploadCodeText = this.$t('promptMessage.uploadCodeText')
-        Post('mec/toolchain/v1/porting/' + this.projectId, formdata, 'toolchain').then(res => {
+        Plugin.uploadSourceCodeApi(this.userId, formdata, 'toolchain').then(res => {
           if (res.status === 200) {
             this.analysisLoading = false
             sessionStorage.setItem('sourceCodePath', res.data.sourcePath)
@@ -406,6 +406,11 @@ export default {
             this.$message.error(this.$t('workspace.uploadCodeFail'))
             this.analysisLoading = false
           }
+        }).catch(err => {
+          console.log(err)
+          this.codeFileList = []
+          this.analysisLoading = false
+          this.$message.error(this.$t('workspace.uploadCodeFail'))
         })
       } else {
         this.handleExceed(file, fileList)
@@ -434,7 +439,7 @@ export default {
       }
       this.analysisLoading = true
       this.uploadCodeText = this.$t('promptMessage.analyzingText')
-      Post('mec/toolchain/v1/porting/' + this.projectId + '/tasks', params, 'toolchain').then(res => {
+      Plugin.analysisCodeApi(this.userId + '/tasks', params, 'toolchain').then(res => {
         this.getScanTask()
         this.analysisLoading = false
       }).catch(err => {
@@ -449,7 +454,7 @@ export default {
     },
     // 查询扫描任务列表
     getScanTask () {
-      Get('mec/toolchain/v1/porting/' + this.projectId + '/tasks', '', 'toolchain').then(res => {
+      Plugin.getScanTaskApi(this.userId + '/tasks', '', 'toolchain').then(res => {
         if (res.status === 200) {
           this.reportNum = res.data.data.totalcount
           this.reportListData = res.data.data.tasklist
@@ -479,8 +484,7 @@ export default {
     },
     // 下载报告
     clickdownLoadReport (reportId) {
-      let url = 'mec/toolchain/v1/porting/' + this.projectId + '/tasks/' + reportId + '/download'
-      downLoadReport({ url, reportId })
+      Plugin.downLoadReportApi(this.userId, reportId)
     },
     // 删除报告
     deleteReport (reportId) {
@@ -489,7 +493,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        Delete('mec/toolchain/v1/porting/' + this.projectId + '/tasks/' + reportId, '', 'toolchain').then(res => {
+        Plugin.deleteReportApi(this.userId + '/tasks/' + reportId, '', 'toolchain').then(res => {
           this.getScanTask()
         })
       })

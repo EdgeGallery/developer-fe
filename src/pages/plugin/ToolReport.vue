@@ -140,12 +140,12 @@
   </div>
 </template>
 <script>
-import { Get, downLoadReport } from '../../tools/tool.js'
+import { Plugin } from '../../tools/api.js'
 export default {
   name: 'Toolreport',
   data () {
     return {
-      projectId: sessionStorage.getItem('mecDetailID'),
+      userId: sessionStorage.getItem('userId'),
       reportId: sessionStorage.getItem('reportId'),
       reportLoading: true,
       taskInformation: {
@@ -165,7 +165,7 @@ export default {
   methods: {
     // 查询单个移植扫描任务信息
     getTaskInformation () {
-      Get('mec/toolchain/v1/porting/' + this.projectId + '/tasks/' + this.reportId, '', 'toolchain').then(res => {
+      Plugin.getTaskInformationApi(this.userId, this.reportId, '', 'toolchain').then(res => {
         if (res.status === 200) {
           if (res.data.status === 0) {
             this.reportPromt = false
@@ -187,8 +187,7 @@ export default {
     // 下载报告
     clickdownLoadReport () {
       let reportId = this.reportId
-      let url = 'mec/toolchain/v1/porting/' + this.projectId + '/tasks/' + reportId + '/download'
-      downLoadReport({ url, reportId })
+      Plugin.downLoadReportApi(this.userId, reportId)
     },
     // 点击展开分析结果
     showIcon () {
