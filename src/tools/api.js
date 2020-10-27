@@ -42,37 +42,37 @@ let Plugin = {
     return Post('mec/developer/v1/plugins/', params)
   },
   // 获取已上传的源码
-  getSourceCodeApi: function (projectId, type) {
-    return Get('mec/toolchain/v1/porting/' + projectId, '', type)
+  getSourceCodeApi: function (userId, type) {
+    return Get('mec/toolchain/v1/porting/' + userId, '', type)
   },
   // 删除源码
-  deleteSourceCodeApi: function (projectId, type) {
-    return Delete('mec/toolchain/v1/porting/' + projectId, '', type)
+  deleteSourceCodeApi: function (userId, type) {
+    return Delete('mec/toolchain/v1/porting/' + userId, '', type)
   },
   // 上传源码
-  uploadSourceCodeApi: function (projectId, params, type) {
-    return Post('mec/toolchain/v1/porting/' + projectId, params, type)
+  uploadSourceCodeApi: function (userId, params, type) {
+    return Post('mec/toolchain/v1/porting/' + userId, params, type)
   },
   // 分析源码
-  analysisCodeApi: function (projectId, params, type) {
-    return Post('mec/toolchain/v1/porting/' + projectId + '/tasks', params, type)
+  analysisCodeApi: function (userId, params, type) {
+    return Post('mec/toolchain/v1/porting/' + userId + '/tasks', params, type)
   },
   // 获取扫描任务列表
-  getScanTaskApi: function (projectId, type) {
-    return Get('mec/toolchain/v1/porting/' + projectId + '/tasks', '', type)
+  getScanTaskApi: function (userId, type) {
+    return Get('mec/toolchain/v1/porting/' + userId + '/tasks', '', type)
   },
   // 下载报告
-  downLoadReportApi: function (projectId, reportId) {
-    let url = 'mec/toolchain/v1/porting/' + projectId + '/tasks/' + reportId + '/download'
+  downLoadReportApi: function (userId, reportId) {
+    let url = 'mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId + '/download'
     return downLoadReport({ url, reportId })
   },
   // 删除报告
-  deleteReportApi: function (projectId, reportId, type) {
-    return Delete('mec/toolchain/v1/porting/' + projectId + '/tasks/' + reportId, '', type)
+  deleteReportApi: function (userId, reportId, type) {
+    return Delete('mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId, '', type)
   },
   // 获取单个报告信息
-  getTaskInformationApi: function (projectId, reportId, type) {
-    return Get('mec/toolchain/v1/porting/' + projectId + '/tasks/' + reportId, '', type)
+  getTaskInformationApi: function (userId, reportId, type) {
+    return Get('mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId, '', type)
   }
 }
 
