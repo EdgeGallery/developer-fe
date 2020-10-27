@@ -439,7 +439,7 @@ export default {
       }
       this.analysisLoading = true
       this.uploadCodeText = this.$t('promptMessage.analyzingText')
-      Plugin.analysisCodeApi(this.userId + '/tasks', params, 'toolchain').then(res => {
+      Plugin.analysisCodeApi(this.userId, params, 'toolchain').then(res => {
         this.getScanTask()
         this.analysisLoading = false
       }).catch(err => {
@@ -454,7 +454,7 @@ export default {
     },
     // 查询扫描任务列表
     getScanTask () {
-      Plugin.getScanTaskApi(this.userId + '/tasks', '', 'toolchain').then(res => {
+      Plugin.getScanTaskApi(this.userId, '', 'toolchain').then(res => {
         if (res.status === 200) {
           this.reportNum = res.data.data.totalcount
           this.reportListData = res.data.data.tasklist
@@ -493,7 +493,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        Plugin.deleteReportApi(this.userId + '/tasks/' + reportId, '', 'toolchain').then(res => {
+        Plugin.deleteReportApi(this.userId, reportId, '', 'toolchain').then(res => {
           this.getScanTask()
         })
       })
