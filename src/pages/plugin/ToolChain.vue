@@ -532,6 +532,10 @@ export default {
       margin-right: 5px;
       font-size: 14px;
     }
+    .el-upload-list{
+      float: left;
+      width: 100%;
+    }
     .codeResult{
       clear: both;
       height: 30px;
