@@ -57,7 +57,7 @@
                 :file-list="codeFileList"
                 :auto-upload="false"
                 :on-remove="removeUpload"
-                accept=".tar,.gz,.zip,.csar"
+                accept=".tar.gz"
                 name="codeFile"
               >
                 <el-button
@@ -67,6 +67,12 @@
                 >
                   {{ $t('workspace.uploadSourceCode') }}
                 </el-button>
+                <div
+                  slot="tip"
+                  class="el-upload__tip"
+                >
+                  <em class="el-icon-warning" />{{ $t('devTools.toolChainText') }}
+                </div>
               </el-upload>
               <p
                 class="codeResult"
@@ -387,7 +393,12 @@ export default {
     // 上传源代码
     handleChangeCode (file, fileList) {
       this.codeFileList.push(file.raw)
-      if (file.size / 1024 / 1024 > 10) {
+      let fileTypeArr = ['tar.gz']
+      this.fileType = fileList[0].name.substr(fileList[0].name.lastIndexOf('.', fileList[0].name.lastIndexOf('.') - 1) + 1)
+      if (fileTypeArr.indexOf(this.fileType) === -1) {
+        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.codeFileList = []
+      } else if (file.size / 1024 / 1024 > 10) {
         this.$message.warning(this.$t('promptMessage.moreThan10M'))
         this.codeFileList = []
       } else if (this.sourceCodeName === '') {
@@ -509,6 +520,18 @@ export default {
   }
   .analysis{
     padding: 0 10%;
+    .el-upload{
+      float: left;
+    }
+    .el-upload__tip{
+      float: left;
+      margin: 4px 0 0 15px;
+    }
+    .el-icon-warning{
+      color: #688ef3;
+      margin-right: 5px;
+      font-size: 14px;
+    }
     .codeResult{
       clear: both;
       height: 30px;
