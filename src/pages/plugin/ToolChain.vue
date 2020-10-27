@@ -177,7 +177,7 @@
               <template slot-scope="scope">
                 <em
                   class="el-icon-download"
-                  @click="clickdownLoadReport(scope.row)"
+                  @click="downloadReport(scope.row)"
                 />
                 <em
                   class="el-icon-delete"
@@ -483,7 +483,7 @@ export default {
       })
     },
     // 下载报告
-    clickdownLoadReport (reportId) {
+    downloadReport (reportId) {
       Plugin.downLoadReportApi(this.userId, reportId)
     },
     // 删除报告

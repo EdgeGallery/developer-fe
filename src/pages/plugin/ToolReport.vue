@@ -132,7 +132,7 @@
         {{ $t('workspace.reportPromt') }}
       </div>
       <p class="downloadBtn">
-        <el-button @click="clickdownLoadReport()">
+        <el-button @click="downloadReport()">
           {{ $t('workspace.downloadReport') }}（.csv）
         </el-button>
       </p>
@@ -185,7 +185,7 @@ export default {
       })
     },
     // 下载报告
-    clickdownLoadReport () {
+    downloadReport () {
       let reportId = this.reportId
       Plugin.downLoadReportApi(this.userId, reportId)
     },
