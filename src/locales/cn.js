@@ -78,7 +78,8 @@ const cn = {
     version: '版本',
     uploadNow: '立即上传',
     pluginList: '插件',
-    sdkList: 'SDK'
+    sdkList: 'SDK',
+    toolChainText: '请上传.tar.gz文件，且大小不超过10M'
   },
   api: {
     docs: '文档',
@@ -172,11 +173,14 @@ const cn = {
     sampleCode: '示例代码',
     confirm: '确认',
     api: 'API',
-    buildAndTest: '构建&测试',
+    buildAndTest: '构建测试',
     selectImage: '上传App镜像',
     configureYaml: '配置依赖参数',
     server: '选择服务器',
     test: '部署测试',
+    abilitiesDetail: '能力详情',
+    appRelease: '应用发布',
+    appDevelopment: '应用开发',
     buildTip: '你的应用已经可以被EdgeGallery平台集成，请测试自身APP业务',
     finishTest: '完成测试',
     statistics: '数据统计',

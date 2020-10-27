@@ -135,6 +135,8 @@ export default {
         this.indexName = '/mecDeveloper/api/mep'
       } else if (this.indexName === '/mecDeveloper/api/mep-eco' && this.fromPath === 'mep-eco') {
         this.indexName = '/mecDeveloper/api/mep-eco'
+      } else if (this.indexName === '/mecDeveloper/plugin/toolreport') {
+        this.indexName = '/mecDeveloper/plugin/toolchain'
       } else if (this.indexName === '/') {
         this.indexName = '/mecDeveloper'
       } else {
@@ -148,36 +150,36 @@ export default {
 }
 
 </script>
-<style lang='less'>
+<style lang='less' scoped>
 .main-sidebar{
   position: relative;
   z-index: 99;
   float: left;
   .el-menu.el-menu--horizontal{
-  height: 65px;
-  border-bottom: none;
-  .el-menu-item{
     height: 65px;
-    line-height: 65px;
+    border-bottom: none;
+    .el-menu-item{
+      height: 65px;
+      line-height: 65px;
+    }
   }
-}
-.el-menu--horizontal>.el-submenu .el-submenu__title{
-  height: 65px !important;
-  line-height: 65px !important;
-}
-.el-menu{
-  display: flex;
-  .first-menu{
-    font-size: 18px;
-    font-weight: bold;
+  .el-menu--horizontal>.el-submenu .el-submenu__title{
+    height: 65px !important;
+    line-height: 65px !important;
   }
-  .second-menu{
-    font-size: 15px;
+  .el-menu{
+    display: flex;
+    .first-menu{
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .second-menu{
+      font-size: 15px;
+    }
+    .third-menu{
+      font-size: 12px;
+    }
   }
-  .third-menu{
-    font-size: 12px;
-  }
-}
 }
 
 </style>

@@ -78,7 +78,8 @@ const en = {
     version: 'Version',
     uploadNow: 'Upload Now',
     pluginList: 'Plugin',
-    sdkList: 'SDK'
+    sdkList: 'SDK',
+    toolChainText: 'Can only upload .tar.gz files and no more than 10M'
   },
   api: {
     docs: 'Docs',
@@ -172,11 +173,14 @@ const en = {
     sampleCode: 'SampleCode',
     confirm: 'Confirm',
     api: 'API',
-    buildAndTest: 'Build&Test',
+    buildAndTest: 'Build Test',
     selectImage: 'Upload App Image',
     configureYaml: 'Configure Dependent Parameters',
     server: 'Select Server',
     test: 'Deployment Test',
+    abilitiesDetail: 'Abilities Detail',
+    appRelease: 'Application release',
+    appDevelopment: 'Application development',
     buildTip: 'Your application has been integrated with EdgeGallery platform, please test your own APP business',
     finishTest: 'Finish Test',
     statistics: 'Statistics',
