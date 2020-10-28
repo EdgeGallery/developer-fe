@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import { Get, Delete, Put, Post, downLoadReport, urlPrefix, downloadFile } from './tool.js'
+import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile } from './tool.js'
 
 let Plugin = {
   // 获取插件列表
@@ -63,8 +63,7 @@ let Plugin = {
   },
   // 下载报告
   downLoadReportApi: function (userId, reportId) {
-    let url = 'mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId + '/download'
-    return downLoadReport({ url, reportId })
+    return urlPrefixTool + 'mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId + '/download'
   },
   // 删除报告
   deleteReportApi: function (userId, reportId, type) {

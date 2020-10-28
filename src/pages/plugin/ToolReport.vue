@@ -132,9 +132,12 @@
         {{ $t('workspace.reportPromt') }}
       </div>
       <p class="downloadBtn">
-        <el-button @click="downloadReport()">
+        <el-link
+          :href="downloadReport()"
+          :underline="false"
+        >
           {{ $t('workspace.downloadReport') }}（.csv）
-        </el-button>
+        </el-link>
       </p>
     </div>
   </div>
@@ -187,7 +190,7 @@ export default {
     // 下载报告
     downloadReport () {
       let reportId = this.reportId
-      Plugin.downLoadReportApi(this.userId, reportId)
+      return Plugin.downLoadReportApi(this.userId, reportId)
     },
     // 点击展开分析结果
     showIcon () {
