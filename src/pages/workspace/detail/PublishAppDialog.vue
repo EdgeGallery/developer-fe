@@ -47,6 +47,7 @@
         <el-button
           id="confirmBtn"
           type="primary"
+          :loading="confimLoading"
           @click="confirmPublish"
         >{{ $t('common.confirm') }}</el-button>
       </span>
@@ -75,7 +76,8 @@ export default {
       isPublic: false,
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
-      appApiFileId: this.appApiFileIdTemp
+      appApiFileId: this.appApiFileIdTemp,
+      confimLoading: false
     }
   },
   watch: {
@@ -92,15 +94,28 @@ export default {
       let appInstanceId = sessionStorage.getItem('appInstanceId')
       // 发布APP到Appstore
       if (this.isPublish) {
+        this.confimLoading = true
         Workspace.isPublishApi(appInstanceId, projectId, this.userId, this.userName).then(res => {
+          this.handleClose()
+          this.confimLoading = false
+        }).catch(() => {
+          this.$message.error(this.$t('promptMessage.isPublishFailed'))
+          this.confimLoading = false
         })
-      }
+      } else
       // 公开APP的API能力
       if (this.isPublic) {
+        this.confimLoading = true
         Workspace.isPublicApi(projectId, this.userId).then(res => {
+          this.handleClose()
+          this.confimLoading = false
+        }).catch(() => {
+          this.$message.error(this.$t('promptMessage.isPublicFailed'))
+          this.confimLoading = false
         })
+      } else {
+        this.handleClose()
       }
-      this.handleClose()
     }
   },
   mounted () {

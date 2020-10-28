@@ -349,6 +349,8 @@ const en = {
     architectureEmpty: 'Architecture cannot be empty',
     industryEmpty: 'Industry cannot be empty',
     getDataFail: 'Failed to get data!',
+    isPublishFailed: 'Publish to EdgeGallery App Store failed!',
+    isPublicFailed: 'Exposing API capabilities to EdgeGallery ecosystem failed!',
     canOnlyUpload: 'Can only upload .csar files',
     nameRule: 'Please enter a name of 2-30 characters, the beginning and the end cannot be empty',
     versionRule: 'Please enter the version with 2-10 characters, the beginning and the end cannot be empty',

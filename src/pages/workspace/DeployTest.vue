@@ -75,6 +75,7 @@ export default {
         this.testHref = res.data.accessUrl
         this.testLog = res.data.errorLog
         this.loading = false
+        sessionStorage.setItem('appInstanceId', res.data.appInstanceId)
       })
     },
     // 获取项目信息，得到部署状态
