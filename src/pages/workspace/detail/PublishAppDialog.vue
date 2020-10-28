@@ -89,9 +89,10 @@ export default {
     },
     confirmPublish () {
       let projectId = sessionStorage.getItem('mecDetailID')
+      let appInstanceId = sessionStorage.getItem('appInstanceId')
       // 发布APP到Appstore
       if (this.isPublish) {
-        Workspace.isPublishApi(projectId, this.userId, this.userName).then(res => {
+        Workspace.isPublishApi(appInstanceId, projectId, this.userId, this.userName).then(res => {
         })
       }
       // 公开APP的API能力
