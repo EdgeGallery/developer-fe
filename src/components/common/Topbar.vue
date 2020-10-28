@@ -150,7 +150,7 @@ export default {
 }
 
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .main-sidebar{
   position: relative;
   z-index: 99;
