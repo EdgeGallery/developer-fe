@@ -92,15 +92,14 @@ export default {
       // 发布APP到Appstore
       if (this.isPublish) {
         Workspace.isPublishApi(projectId, this.userId, this.userName).then(res => {
-          this.handleClose()
         })
       }
       // 公开APP的API能力
       if (this.isPublic) {
         Workspace.isPublicApi(projectId, this.userId).then(res => {
-          this.handleClose()
         })
       }
+      this.handleClose()
     }
   },
   mounted () {
