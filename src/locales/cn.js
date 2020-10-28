@@ -349,6 +349,8 @@ const cn = {
     architectureEmpty: '架构不能为空',
     industryEmpty: '行业不能为空',
     getDataFail: '获取数据失败！',
+    isPublishFailed: '发布到EdgeGallery 应用商店失败！',
+    isPublicFailed: '公开API能力到EdgeGallery生态系统失败！',
     canOnlyUpload: '只能上传.csar文件类型',
     nameRule: '请输入2-30个字符的名称，开头结尾不能为空',
     versionRule: '请输入2-10个字符的版本，开头结尾不能为空',
