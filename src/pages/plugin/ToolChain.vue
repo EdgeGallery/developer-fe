@@ -181,10 +181,14 @@
             </el-table-column>
             <el-table-column>
               <template slot-scope="scope">
-                <em
-                  class="el-icon-download"
-                  @click="downloadReport(scope.row)"
-                />
+                <el-link
+                  :href="downloadReport(scope.row)"
+                  :underline="false"
+                >
+                  <em
+                    class="el-icon-download"
+                  />
+                </el-link>
                 <em
                   class="el-icon-delete"
                   @click="deleteReport(scope.row)"
@@ -495,7 +499,7 @@ export default {
     },
     // 下载报告
     downloadReport (reportId) {
-      Plugin.downLoadReportApi(this.userId, reportId)
+      return Plugin.downLoadReportApi(this.userId, reportId)
     },
     // 删除报告
     deleteReport (reportId) {
