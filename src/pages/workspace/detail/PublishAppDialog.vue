@@ -47,6 +47,7 @@
         <el-button
           id="confirmBtn"
           type="primary"
+          :loading="confimLoading"
           @click="confirmPublish"
         >{{ $t('common.confirm') }}</el-button>
       </span>
@@ -55,7 +56,7 @@
 </template>
 
 <script>
-import { Post } from '../../../tools/tool.js'
+import { Workspace } from '../../../tools/api.js'
 
 export default {
   props: {
@@ -75,7 +76,8 @@ export default {
       isPublic: false,
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
-      appApiFileId: this.appApiFileIdTemp
+      appApiFileId: this.appApiFileIdTemp,
+      confimLoading: false
     }
   },
   watch: {
@@ -89,21 +91,31 @@ export default {
     },
     confirmPublish () {
       let projectId = sessionStorage.getItem('mecDetailID')
+      let appInstanceId = sessionStorage.getItem('appInstanceId')
+      // 发布APP到Appstore
       if (this.isPublish) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + this.userId + '&userName=' + this.userName
-        Post(url, '').then(res => {
+        this.confimLoading = true
+        Workspace.isPublishApi(appInstanceId, projectId, this.userId, this.userName).then(res => {
           this.handleClose()
+          this.confimLoading = false
+        }).catch(() => {
+          this.$message.error(this.$t('promptMessage.isPublishFailed'))
+          this.confimLoading = false
         })
-      }
+      } else
+      // 公开APP的API能力
       if (this.isPublic) {
-        let url = 'mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + this.userId
-        Post(url, '').then(res => {
+        this.confimLoading = true
+        Workspace.isPublicApi(projectId, this.userId).then(res => {
           this.handleClose()
+          this.confimLoading = false
+        }).catch(() => {
+          this.$message.error(this.$t('promptMessage.isPublicFailed'))
+          this.confimLoading = false
         })
+      } else {
+        this.handleClose()
       }
-      this.$router.push({
-        name: 'workspace'
-      })
     }
   },
   mounted () {

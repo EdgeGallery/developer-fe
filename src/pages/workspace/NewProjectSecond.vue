@@ -103,7 +103,7 @@
 
 <script>
 import { Capability, Type } from '../../tools/project_data.js'
-import { Get } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 export default {
   props: {
     allStepData: {
@@ -194,10 +194,8 @@ export default {
     getCapabilityList () {
       this.capabilityList = []
       this.capabilityEcoList = []
-      this.secondStepSelect.selectCapabilityId = []
-      this.secondStepSelect.capabilitySelected = []
-      let url = 'mec/developer/v1/capability-groups'
-      Get(url).then(res => {
+      this.getSecondData()
+      Workspace.getCapabilityListApi().then(res => {
         let capabilityData = res.data
         capabilityData.forEach(item => {
           if (item.name === 'Service Discovery') {
@@ -222,6 +220,7 @@ export default {
         }, 2000)
       })
     },
+    // 平台能力和开放能力中英文切换
     checkProjectData () {
       this.capabilityList.forEach(itemBe => {
         Capability.forEach(itemFe => {
@@ -256,6 +255,7 @@ export default {
         })
       })
     },
+    // 将选择的能力传值给父组件
     emitStepData () {
       this.$emit('getStepData', { data: this.secondStepSelect, step: 'second' })
     }

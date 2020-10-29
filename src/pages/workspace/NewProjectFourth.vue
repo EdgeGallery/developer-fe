@@ -17,17 +17,11 @@
 <template>
   <div class="fourthstep">
     <div id="programTools">
-      <el-link
-        type="info"
-        :href="toolLink"
-        target="_blank"
+      <img
+        src="../../assets/images/newProject-fourth-icon1.png"
+        alt=""
       >
-        <img
-          src="../../assets/images/newProject-fourth-icon1.png"
-          alt=""
-        >
-        <p>{{ $t('workspace.programTools') }}</p>
-      </el-link>
+      <p>{{ $t('workspace.programTools') }}</p>
     </div>
     <div id="programPlugin">
       <el-link
@@ -58,13 +52,13 @@
 </template>
 
 <script>
-import { downloadFile } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 export default {
   name: '',
   data () {
     return {
       apiFileIdArr: [],
-      toolLink: 'https://www.jetbrains.com/idea/',
+      userId: sessionStorage.getItem('userId'),
       projectLink: '/#/mecDeveloper/plugin/list'
     }
   },
@@ -72,16 +66,10 @@ export default {
   },
   mounted () {},
   methods: {
+    // 获取第三步选择的能力的FileId
     getApiFileId () {
       this.apiFileIdArr = JSON.parse(sessionStorage.getItem('apiFileIdArr'))
-      this.getSampleCode(this.apiFileIdArr)
-    },
-    getSampleCode (apiFileIdArr) {
-      let params = {
-        url: 'mec/developer/v1/files/samplecode',
-        params: apiFileIdArr
-      }
-      downloadFile(params)
+      Workspace.getSampleCodeApi(this.apiFileIdArr)
     }
   }
 }

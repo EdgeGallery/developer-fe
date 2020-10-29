@@ -216,7 +216,7 @@
 
 <script>
 import { Industry, Type, Architecture } from '../../tools/project_data.js'
-import { Post, Get } from './../../tools/tool.js'
+import { Test } from '../../tools/api.js'
 export default {
   name: 'Apply',
   data () {
@@ -282,9 +282,7 @@ export default {
       })
       formdata.append('appFile', this.appFileList[0])
       formdata.append('logoFile', this.form.appIcon.length > 0 ? this.form.appIcon[0] : this.defaultIconFile[0])
-      console.log(formdata)
-      let url = 'mec/developer/v1/apps/'
-      Post(url, formdata).then(res => {
+      Test.uploadAppApi(formdata).then(res => {
         let appId = res.data.appId
         this.$nextTick(this.startTest(appId))
       }).catch(err => {
@@ -345,9 +343,9 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
+    // 上传成功后开始测试任务
     startTest (appId) {
-      let url = 'mec/developer/v1/apps/' + appId + '/action/start-test?userId=' + this.form.userId
-      Get(url).then(res => {
+      Test.startTestApi(appId, this.form.userId).then(res => {
         this.uploadBtnLoading = false
         this.$message({
           message: this.$t('promptMessage.testSuccess'),
@@ -360,6 +358,7 @@ export default {
         this.uploadBtnLoading = false
       })
     },
+    // 上传应用包
     handleAppChanged (file, fileList) {
       this.appFileList.push(file.raw)
       if (file.size / 1024 / 1024 > 20) {
@@ -381,6 +380,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
+    // 上传图标
     handleLogoChanged (file, fileList) {
       this.form.appIcon = []
       this.defaultIconFile = []
@@ -429,6 +429,7 @@ export default {
         type: mime
       })
     },
+    // 选择默认图标
     chooseDefaultIcon (file, index) {
       this.logoFileList = []
       this.defaultIconFile = []
@@ -450,6 +451,7 @@ export default {
       let language = localStorage.getItem('language')
       this.language = language
     },
+    // 行业、类型的选型中英文切换
     checkProjectData () {
       Industry.forEach(itemFe => {
         let pos = this.form.industry.indexOf(itemFe.label[0])

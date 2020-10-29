@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { Get, codeErr } from '../../tools/tool.js'
+import { codeErr } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 
 export default {
   name: 'Test',
@@ -67,22 +68,23 @@ export default {
       let ifNext = true
       this.$emit('getStepData', { step: 'fourth', data: '', ifNext })
     },
+    // 获取以前提交过的配置
     getTestUrl () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/test-config'
-      Get(url).then(res => {
+      Workspace.getTestConfigApi(projectId).then(res => {
         this.testHref = res.data.accessUrl
         this.testLog = res.data.errorLog
         this.loading = false
+        sessionStorage.setItem('appInstanceId', res.data.appInstanceId)
       })
     },
+    // 获取项目信息，得到部署状态
     getDeployStatus () {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '?userId=' + this.userId
       if (codeErr) {
         this.clearInterval()
       } else {
-        Get(url).then(res => {
+        Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
           this.deployStatus = res.data.status
           if (res.data.status === 'DEPLOYING') {
             this.$emit('getBtnStatus', { status: true, deploy: false, isCompleted: true, isFail: false })

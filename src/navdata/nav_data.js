@@ -43,14 +43,14 @@ const mecDeveloper = [
         path: '/mecDeveloper/plugin/upload',
         pageId: '2.2.1.2',
         display: true
-      }
-      /* {
+      },
+      {
         id: '3.16',
         name: 'ToolChain',
         path: '/mecDeveloper/plugin/toolchain',
         pageId: '2.2.1.3',
         display: true
-      } */
+      }
     ]
   },
   {

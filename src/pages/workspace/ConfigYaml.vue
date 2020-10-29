@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { Get, Post, Delete } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 export default {
   name: 'ConfigYaml',
   props: {
@@ -153,10 +153,10 @@ export default {
     }
   },
   methods: {
+    // 添加镜像
     addImage () {
       if (this.form.imagePort && this.form.image) {
         let projectId = sessionStorage.getItem('mecDetailID')
-        let url = 'mec/developer/v1/projects/' + projectId + '/image'
         let params = {
           name: this.form.image.split(':')[0],
           version: this.form.image.split(':')[1],
@@ -164,23 +164,23 @@ export default {
           projectId: projectId,
           type: ['OTHER']
         }
-        Post(url, params).then(res => {
+        Workspace.addImageNameApi(projectId, params).then(res => {
           this.form.addImagesList.push(res.data)
         })
       }
     },
+    // 删除镜像
     deleteImagesList (item, index) {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/image/' + item.id
-      Delete(url).then(res => {
+      Workspace.deleteImageNameApi(projectId, item.id).then(res => {
         this.getImage()
         this.form.addImagesList.splice(index, 1)
       })
     },
+    // 获取已添加的镜像
     getImage (type) {
       let projectId = sessionStorage.getItem('mecDetailID')
-      let url = 'mec/developer/v1/projects/' + projectId + '/image'
-      Get(url).then(res => {
+      Workspace.getImageApi(projectId).then(res => {
         if (type === 'get') {
           res.data.images.forEach(item => {
             if (item.type === 'OTHER') {
@@ -193,6 +193,7 @@ export default {
         }
       })
     },
+    // 将配置的数据传给父组件
     emitStepData () {
       let ifNext = true
       if (ifNext) {
@@ -202,6 +203,7 @@ export default {
         this.$emit('getStepData', { step: 'second', data: this.form, ifNext })
       }
     },
+    // 返回时保留填写的数据
     getSecondData () {
       if (this.allStepData.second) {
         let secondData = this.allStepData.second

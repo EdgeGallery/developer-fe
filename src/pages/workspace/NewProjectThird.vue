@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { Get } from '../../tools/tool.js'
+import { Workspace } from '../../tools/api.js'
 export default {
   name: 'Thirdstep',
   props: {
@@ -92,12 +92,12 @@ export default {
         }
       })
     },
+    // 获取服务列表
     getServiceList () {
       let count = 0
       let selectedCapablity = [...new Set(this.secondStepSelect.selectCapabilityId)]
       selectedCapablity.forEach(groupId => {
-        let url = 'mec/developer/v1/capability-groups/' + groupId
-        Get(url).then(res => {
+        Workspace.getServiceListApi(groupId).then(res => {
           let data = res.data
           let serviceName = data.name
           data.capabilityDetailList.forEach(service => {
@@ -172,14 +172,17 @@ export default {
         }
       }
     },
+    // 选中/取消一个服务
     handleRowClick (row, column, event) {
       if (row.name !== 'Service Discovery') {
         this.$refs.thirdStepTable.toggleRowSelection(row)
       }
     },
+    // 选择表格中的数据
     handleSelectionChange (val) {
       this.thirdStepSelection = val
     },
+    // 将选择的服务传值给父组件
     emitStepData () {
       this.$emit('getStepData', { data: this.thirdStepSelection, step: 'third' })
     }

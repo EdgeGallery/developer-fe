@@ -1,5 +1,6 @@
 <template>
   <div id="test-editor">
+    <el-backtop target=".el-main" />
     <mavon-editor
       v-model="markdownSource"
       :toolbars-flag="false"

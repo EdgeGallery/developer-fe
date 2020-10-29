@@ -213,7 +213,7 @@
 </template>
 
 <script>
-import { Get, Put, Delete, urlPrefix } from './../../tools/tool.js'
+import { Plugin } from '../../tools/api.js'
 import pagination from '../../components/common/Pagination.vue'
 
 export default {
@@ -291,9 +291,9 @@ export default {
       sessionStorage.setItem('currentPage', 1)
       this.getPluginListData()
     },
+    // 获取插件列表
     getPluginListData () {
-      let url = 'mec/developer/v1/plugins/?pluginType=1&limit=' + this.limitSize + '&offset=' + this.offsetPage + '&pluginName=' + this.inputPluginName + '&codeLanguage=' + this.selectCodeLanguage
-      Get(url).then(res => {
+      Plugin.getPluginListApi(this.limitSize, this.offsetPage, this.inputPluginName, this.selectCodeLanguage).then(res => {
         this.pluginListData = this.searchListData = res.data.results
         this.listTotal = res.data.total
         this.dataLoading = false
@@ -314,13 +314,13 @@ export default {
         }
       })
     },
+    // 获取插件图标
     getImageUrl (pluginId) {
-      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
-      return url
+      return Plugin.getImageUrlApi(pluginId)
     },
+    // 获取插件下载路径
     getDownloadUrl (pluginId) {
-      let url = urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
-      return url
+      return Plugin.getDownloadUrlApi(pluginId)
     },
     // 删除插件
     deletePlug (item) {
@@ -329,7 +329,7 @@ export default {
       this.pluginUserId = item.userId
     },
     deleteTrue (pluginId, pluginUserId) {
-      Delete('mec/developer/v1/plugins/' + pluginId + '?userId=' + this.userId).then(res => {
+      Plugin.deletePluginApi(pluginId, this.userId).then(res => {
         if (this.userId === pluginUserId) {
           this.getPluginListData()
           this.$message({
@@ -361,8 +361,9 @@ export default {
     rateChange (val) {
       this.valueRate = val
     },
+    // 给插件评分
     rateHandel (rateId) {
-      Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + this.valueRate + '&userId=' + this.userId + '&userName=' + this.userName).then(res => {
+      Plugin.ratePluginApi(rateId, this.valueRate, this.userId, this.userName).then(res => {
         this.getPluginListData()
       })
       this.DialogVisible = false

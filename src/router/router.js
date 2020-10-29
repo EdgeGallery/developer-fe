@@ -97,14 +97,6 @@ export default new Router({
           }
         },
         {
-          path: 'mecDeveloper/api/detail',
-          name: 'apidetail',
-          component: () => import('../pages/api/ApiDetail.vue'),
-          meta: {
-            id: '3.2.4'
-          }
-        },
-        {
           path: 'mecDeveloper/test/how',
           name: 'how',
           component: () => import('../pages/test/How.vue'),

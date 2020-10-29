@@ -309,6 +309,7 @@ export default {
         }
       }
     },
+    // 上传图标
     handleChangeLogo (file, fileList) {
       this.form.base64Session = true
       this.form.appIcon = []
@@ -370,6 +371,7 @@ export default {
         type: mime
       })
     },
+    // 选择默认图标
     chooseDefaultIcon (file, index) {
       this.form.base64Session = true
       this.logoFileList = []
@@ -390,6 +392,7 @@ export default {
         }
       }
     },
+    // 将基本信息传值给父组件
     emitStepData () {
       this.$emit('getStepData', { data: this.form, step: 'first' })
     },
@@ -397,6 +400,7 @@ export default {
       let language = localStorage.getItem('language')
       this.language = language
     },
+    // 行业、类型的选型中英文切换
     checkProjectData () {
       Industry.forEach(itemFe => {
         let pos = this.form.industry.indexOf(itemFe.label[0])
