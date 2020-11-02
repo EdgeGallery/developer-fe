@@ -102,7 +102,7 @@ export default {
           this.$message.error(this.$t('promptMessage.isPublishFailed'))
           this.confimLoading = false
         })
-      } else
+      }
       // 公开APP的API能力
       if (this.isPublic) {
         this.confimLoading = true
@@ -113,7 +113,8 @@ export default {
           this.$message.error(this.$t('promptMessage.isPublicFailed'))
           this.confimLoading = false
         })
-      } else {
+      }
+      if (!this.isPublish && !this.isPublic) {
         this.handleClose()
       }
     }
