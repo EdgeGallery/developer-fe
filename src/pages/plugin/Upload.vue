@@ -30,7 +30,10 @@
     </el-breadcrumb>
     <div class="upload-main">
       <el-row :gutter="20">
-        <el-col :span="16">
+        <el-col
+          :sm="16"
+          :xs="24"
+        >
           <el-form
             ref="form"
             :model="form"
@@ -329,18 +332,11 @@ export default {
         require('../../assets/images/python.png')
       ],
       uploadBtnLoading: false,
-      fileType: ''
+      fileType: '',
+      interval: null
     }
   },
   methods: {
-    keyupSubmit () {
-      document.onkeydown = e => {
-        let _key = window.event.keyCode
-        if (_key === 13) {
-          this.submitTrue()
-        }
-      }
-    },
     // 提交上传
     onSubmit () {
       let formdata = new FormData()
@@ -453,7 +449,7 @@ export default {
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
-      if (fileTypeArr.indexOf(this.fileType) === -1) {
+      if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
         this.$message.warning(this.$t('promptMessage.checkFileType'))
         checkPassed = false
       }
@@ -571,7 +567,6 @@ export default {
     this.form.userId = sessionStorage.getItem('userId')
   },
   created () {
-    this.keyupSubmit()
   }
 }
 </script>
@@ -586,7 +581,7 @@ export default {
       line-height: 30px;
     }
     .input{
-      width: 300px;
+      max-width: 300px;
     }
     .el-form-item__label{
       padding: 0 20px 0 0;
@@ -660,6 +655,11 @@ export default {
 
   .el-upload-list__item{
     margin-bottom: 10px;
+  }
+  @media screen and (max-width:767px){
+    .upload-main{
+      padding: 30px 10px;
+    }
   }
 }
 

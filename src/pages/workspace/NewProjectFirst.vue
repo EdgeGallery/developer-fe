@@ -322,7 +322,7 @@ export default {
       }
       let fileTypeArr = ['jpg', 'png']
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
-      if (fileTypeArr.indexOf(this.fileType) === -1) {
+      if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
         this.$message.warning(this.$t('promptMessage.checkFileType'))
         this.logoFileList = []
       }
