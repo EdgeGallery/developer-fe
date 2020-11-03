@@ -72,6 +72,8 @@ export default {
   methods: {
     handlePageSizeChange (val) {
       this.pageSize = val
+      sessionStorage.setItem('currentPage', 1)
+      this.currentPage = 1
       this.returnTableData()
     },
     handleCurrentPageChange (val) {
