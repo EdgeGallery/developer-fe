@@ -98,7 +98,7 @@ const Architecture = [
 const Capability = [
   {
     value: 'Traffic',
-    label: ['交通', 'Traffic']
+    label: ['分流', 'Traffic']
   }, {
     value: 'Service Discovery',
     label: ['服务发现', 'Service Discovery']

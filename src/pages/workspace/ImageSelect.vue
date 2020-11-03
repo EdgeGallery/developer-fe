@@ -171,6 +171,7 @@
           class="upload-demo"
           action=""
           :on-change="handleChangeYaml"
+          :limit="1"
           :file-list="form.yamlFileList"
           :auto-upload="false"
           :on-remove="removeUploadyaml"
@@ -420,8 +421,10 @@ export default {
           this.form.yamlFileList = []
         }
       }
-      this.submitYamlFile()
-      this.form.yamlFileList = []
+      if (this.form.yamlFileList.length > 0) {
+        this.submitYamlFile()
+        this.form.yamlFileList = []
+      }
     },
     removeUploadyaml (file, fileList) {
       this.form.yamlFileList = []
