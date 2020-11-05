@@ -315,14 +315,19 @@ export default {
       this.form.appIcon = []
       this.defaultIconFile = []
       this.form.defaultActive = ''
-      this.logoFileList.push(file.raw)
+      if (file.raw.name.indexOf(' ') !== -1) {
+        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.logoFileList = []
+      } else {
+        this.logoFileList.push(file.raw)
+      }
       if (file.size / 1024 / 1024 > 2) {
         this.$message.warning(this.$t('promptMessage.moreThan2'))
         this.logoFileList = []
       }
       let fileTypeArr = ['jpg', 'png']
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
-      if (fileTypeArr.indexOf(this.fileType) === -1) {
+      if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
         this.$message.warning(this.$t('promptMessage.checkFileType'))
         this.logoFileList = []
       }

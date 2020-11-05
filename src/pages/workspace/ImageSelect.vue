@@ -171,6 +171,7 @@
           class="upload-demo"
           action=""
           :on-change="handleChangeYaml"
+          :limit="1"
           :file-list="form.yamlFileList"
           :auto-upload="false"
           :on-remove="removeUploadyaml"
@@ -345,12 +346,17 @@ export default {
     },
     // 选择Api文件
     handleChangeApi (file, fileList) {
-      this.form.apiFileList.push(file.raw)
-      this.fileType = this.form.apiFileList[0].name.substring(this.form.apiFileList[0].name.lastIndexOf('.') + 1)
-      let fileTypeArr = ['yaml', 'json']
-      if (fileTypeArr.indexOf(this.fileType) === -1) {
-        this.$message.warning(this.$t('promptMessage.yamlFileType'))
+      if (this.form.apiFileData.length === 1) {
+        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
         this.form.apiFileList = []
+      } else {
+        this.form.apiFileList.push(file.raw)
+        this.fileType = this.form.apiFileList[0].name.substring(this.form.apiFileList[0].name.lastIndexOf('.') + 1)
+        let fileTypeArr = ['yaml', 'json']
+        if (fileTypeArr.indexOf(this.fileType) === -1) {
+          this.$message.warning(this.$t('promptMessage.yamlFileType'))
+          this.form.apiFileList = []
+        }
       }
       if (this.form.apiFileList.length > 0) {
         this.submitApiFile()
@@ -403,15 +409,22 @@ export default {
     },
     // 选择Yaml文件
     handleChangeYaml (file, fileList) {
-      this.form.yamlFileList.push(file.raw)
-      this.fileType = this.form.yamlFileList[0].name.substring(this.form.yamlFileList[0].name.lastIndexOf('.') + 1)
-      let fileTypeArr = ['yaml', 'json']
-      if (fileTypeArr.indexOf(this.fileType) === -1) {
-        this.$message.warning(this.$t('promptMessage.yamlFileType'))
+      if (this.form.yamlFileData.length === 1) {
+        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.form.yamlFileList = []
+      } else {
+        this.form.yamlFileList.push(file.raw)
+        this.fileType = this.form.yamlFileList[0].name.substring(this.form.yamlFileList[0].name.lastIndexOf('.') + 1)
+        let fileTypeArr = ['yaml', 'json']
+        if (fileTypeArr.indexOf(this.fileType) === -1) {
+          this.$message.warning(this.$t('promptMessage.yamlFileType'))
+          this.form.yamlFileList = []
+        }
+      }
+      if (this.form.yamlFileList.length > 0) {
+        this.submitYamlFile()
         this.form.yamlFileList = []
       }
-      this.submitYamlFile()
-      this.form.yamlFileList = []
     },
     removeUploadyaml (file, fileList) {
       this.form.yamlFileList = []

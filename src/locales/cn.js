@@ -311,6 +311,7 @@ const cn = {
     moreThan10M: '只能上传不超过10MB的文件！',
     moreThan20M: '只能上传不超过20MB的文件！',
     onlyOneFile: '仅支持一个文件，请先移除已有文件！',
+    fileNameType: '文件名称不能包含空格！',
     notPicture: '请上传图片',
     appEmpty: 'app不能为空！',
     affinityEmpty: '架构不能为空！',

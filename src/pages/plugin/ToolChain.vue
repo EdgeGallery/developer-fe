@@ -369,17 +369,19 @@ export default {
   mounted () {
     this.getSourceCode()
     this.getScanTask()
-    function divHeight () {
-      const oDiv = document.getElementById('report')
-      const deviceHeight = document.documentElement.clientHeight
-      oDiv.style.height = Number(deviceHeight) - 330 + 'px'
-    }
-    divHeight()
-    window.onresize = function () {
-      divHeight()
+    this.setDivHeight()
+    window.onresize = () => {
+      return (() => {
+        this.setDivHeight()
+      })()
     }
   },
   methods: {
+    setDivHeight () {
+      const oDiv = document.getElementById('report')
+      const deviceHeight = document.documentElement.clientHeight
+      oDiv.style.height = Number(deviceHeight) - 330 + 'px'
+    },
     // 查询已上传的源代码
     getSourceCode () {
       Plugin.getSourceCodeApi(this.userId, '', 'toolchain').then(res => {
@@ -404,6 +406,9 @@ export default {
         this.codeFileList = []
       } else if (file.size / 1024 / 1024 > 10) {
         this.$message.warning(this.$t('promptMessage.moreThan10M'))
+        this.codeFileList = []
+      } else if (file.raw.name.indexOf(' ') !== -1) {
+        this.$message.warning(this.$t('promptMessage.fileNameType'))
         this.codeFileList = []
       } else if (this.sourceCodeName === '') {
         this.codeFileList = []
