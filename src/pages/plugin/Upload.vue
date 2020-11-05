@@ -460,7 +460,12 @@ export default {
       this.form.appIcon = []
       this.defaultIconFile = []
       this.defaultActive = ''
-      this.logoFileList.push(file.raw)
+      if (file.raw.name.indexOf(' ') !== -1) {
+        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.logoFileList = []
+      } else {
+        this.logoFileList.push(file.raw)
+      }
       if (file.size / 1024 / 1024 > 2) {
         this.$message.warning(this.$t('promptMessage.moreThan2'))
         this.logoFileList = []
@@ -475,7 +480,12 @@ export default {
     // 上传插件包
     handleChangePlug (file, fileList) {
       this.$store.state.pluginSize = file.size / 1024 / 1024
-      this.plugFileList.push(file.raw)
+      if (file.raw.name.indexOf(' ') !== -1) {
+        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.plugFileList = []
+      } else {
+        this.plugFileList.push(file.raw)
+      }
       if (file.size / 1024 / 1024 > 20) {
         this.$message.warning(this.$t('promptMessage.moreThan20M'))
         this.plugFileList = []
@@ -493,7 +503,12 @@ export default {
     },
     // 上传Api
     handleChangeApi (file, fileList) {
-      this.apiFileList.push(file.raw)
+      if (file.raw.name.indexOf(' ') !== -1) {
+        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.apiFileList = []
+      } else {
+        this.apiFileList.push(file.raw)
+      }
       let fileTypeArr = ['yaml', 'json']
       let checkPassed = this.checkFileType(fileList, fileTypeArr)
       if (!checkPassed) {
