@@ -29,12 +29,12 @@
       <el-breadcrumb-item>{{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-tabs
-      type="border-card"
       class="elTabs"
       v-model="activeName"
+      tab-position="left"
     >
       <el-tab-pane
-        :label="$t('workspace.api')"
+        :label="$t('workspace.capabilityDetails')"
         class="elTabPane"
         name="1"
         lazy
@@ -42,7 +42,7 @@
         <api @getProjectType="getProjectType" />
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.buildAndTest')"
+        :label="$t('workspace.applicationDev')"
         class="elTabPane"
         name="2"
         lazy
@@ -53,10 +53,10 @@
           finish-status="success"
           align-center
         >
+          <el-step :title="$t('workspace.environmentPreparation')" />
+          <el-step :title="$t('workspace.choosePlatform')" />
           <el-step :title="$t('workspace.selectImage')" />
           <el-step :title="$t('workspace.configureYaml')" />
-          <el-step :title="$t('workspace.server')" />
-          <el-step :title="$t('workspace.test')" />
         </el-steps>
         <div class="elSteps">
           <component
@@ -90,21 +90,21 @@
         </div>
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.statistics')"
+        :label="$t('workspace.deploymentTest')"
         class="elTabPane"
         name="3"
         lazy
       >
-        <dataStistical />
+        <deployment />
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.projectLink')"
+        :label="$t('workspace.applicationRelease')"
         class="elTabPane"
         name="4"
         lazy
         v-if="isNewProject"
       >
-        <projectLink />
+        <appRelease />
       </el-tab-pane>
       <div v-if="dialogVisible">
         <publishAppDialog
@@ -120,23 +120,23 @@
 import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
-import selectServer from './SelectServer.vue'
-import deployTest from './DeployTest.vue'
+import EnvPreparation from './EnvPreparation.vue'
+import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
 import api from './detail/Api.vue'
-import dataStistical from './detail/DataStatistical.vue'
-import projectLink from './detail/ProjectLink.vue'
+import deployment from './Deployment.vue'
+import appRelease from './AppRelease.vue'
 export default {
   name: 'AppDetail',
   components: {
     imageSelect,
     configYaml,
-    selectServer,
-    deployTest,
+    EnvPreparation,
+    choosePlatform,
     publishAppDialog,
     api,
-    dataStistical,
-    projectLink
+    deployment,
+    appRelease
   },
   data () {
     return {
@@ -163,7 +163,7 @@ export default {
   computed: {
     btnName: function () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.nextButtonName = this.active === 3 ? this.$t('workspace.finishTest') : this.$t('workspace.nextStep')
+      this.nextButtonName = this.active === 3 ? this.$t('workspace.saveData') : this.$t('workspace.nextStep')
       return this.nextButtonName
     }
   },
@@ -171,19 +171,19 @@ export default {
     changeComponent () {
       switch (this.active) {
         case 0:
-          this.currentComponent = 'imageSelect'
+          this.currentComponent = 'EnvPreparation'
           break
         case 1:
-          this.currentComponent = 'configYaml'
+          this.currentComponent = 'choosePlatform'
           break
         case 2:
-          this.currentComponent = 'selectServer'
+          this.currentComponent = 'imageSelect'
           break
         case 3:
-          this.currentComponent = 'deployTest'
+          this.currentComponent = 'configYaml'
           break
         default:
-          this.currentComponent = 'imageSelect'
+          this.currentComponent = 'EnvPreparation'
       }
     },
     next () {
@@ -398,16 +398,37 @@ export default {
     height: 35px;
     line-height: 35px;
   }
+  .el-tabs--left .el-tabs__item.is-left{
+    text-align: center;
+  }
+  .el-tabs--left .el-tabs__header.is-left{
+    margin-right: 0;
+  }
+  .el-tabs__item{
+    padding: 0 10px;
+  }
+  .el-tabs--left .el-tabs__item.is-left.is-active{
+    background:#41c7db;
+    color: #333;
+  }
+  .el-tabs__active-bar{
+    background-color: #138da0;
+  }
+  .el-tabs__item:hover{
+    color: #21c6e0;
+  }
   .elTabs {
+    background: #fff;
+    padding: 20px 20px 20px 0;
+    .el-tabs__header{
+      width: 195px;
+    }
+    .el-tabs__content{
+      border: 1px solid #ddd;
+    }
     .elTabPane {
       padding: 30px;
       min-height: 300px;
-    }
-    .iframe {
-      height: 100%;
-    }
-    .iframe iframe {
-      width: 100%;
     }
     .elButton {
       width: 80%;
@@ -428,16 +449,15 @@ export default {
       }
     }
     .elSteps {
-      margin: 50px 10% 0;
+      margin: 0px 10% 0;
       width: 80%;
-      background-color: #fafafa;
-      border-radius: 8px;
-      padding: 40px;
+      padding: 20px 40px;
       box-sizing: border-box;
+      border: 1px solid #ddd;
     }
     @media screen and (max-width: 1380px) {
       .elSteps {
-        margin: 50px 0 0;
+        margin: 0 0 0;
         width: 100%;
       }
     }
@@ -449,6 +469,12 @@ export default {
       margin-top: 20px;
     }
   }
-
+  .title{
+    font-size: 18px;
+    font-weight: normal;
+    border-left: 2px solid #41c7db;
+    padding-left: 10px;
+    margin-bottom: 15px;
+  }
 }
 </style>
