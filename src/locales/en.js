@@ -311,6 +311,7 @@ const en = {
     moreThan10M: 'Can only upload no more than 10MB!',
     moreThan20M: 'Can only upload no more than 20MB!',
     onlyOneFile: 'Only one file is allowed, please remove the file first!',
+    fileNameType: 'The file name cannot contain spaces!',
     notPicture: 'Please upload pictures.',
     appEmpty: 'Application file cannot be empty!',
     affinityEmpty: 'Architecture cannot be empty!',
