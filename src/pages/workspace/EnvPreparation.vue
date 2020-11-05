@@ -15,44 +15,34 @@
   -->
 
 <template>
-  <div class="config-yaml">
-    <el-tabs
-      v-model="activeName"
-      type="card"
-      @tab-click="handleClick"
-    >
-      <el-tab-pane
-        label="文件导入"
-        name="first"
-      >
-        <h3 class="title">
-          上传文件
-        </h3>
-      </el-tab-pane>
-      <el-tab-pane
-        label="可视化配置"
-        name="second"
-      >
-        <h3 class="title">
-          可视化配置
-        </h3>
-      </el-tab-pane>
-    </el-tabs>
+  <div class="envPreparation">
+    <p class="p-top">
+      <strong>开发环境准备：</strong>根据应用开发需求，准备一下开发环境
+    </p>
+    <h3 class="title">
+      编程工具
+    </h3>
+    <div />
+    <h3 class="title">
+      编程插件
+    </h3>
+    <div />
+    <h3 class="title">
+      示例代码
+    </h3>
+    <div />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ConfigYaml',
+  name: 'EnvPreparation',
   data () {
     return {
-      activeName: 'first'
+
     }
   },
   methods: {
-    handleClick (tab, event) {
-      // console.log(tab, event)
-    },
     emitStepData () {
       let ifNext = true
       if (ifNext) {
@@ -60,15 +50,17 @@ export default {
       }
     }
   },
+  created () {
+  },
   mounted () {
   }
 }
 </script>
 
 <style lang="less">
-.config-yaml{
-  .el-tab-pane{
-    padding: 20px;
+.envPreparation{
+  .p-top{
+    margin-bottom: 15px;
   }
 }
 </style>

@@ -15,44 +15,29 @@
   -->
 
 <template>
-  <div class="config-yaml">
-    <el-tabs
-      v-model="activeName"
-      type="card"
-      @tab-click="handleClick"
-    >
-      <el-tab-pane
-        label="文件导入"
-        name="first"
-      >
-        <h3 class="title">
-          上传文件
-        </h3>
-      </el-tab-pane>
-      <el-tab-pane
-        label="可视化配置"
-        name="second"
-      >
-        <h3 class="title">
-          可视化配置
-        </h3>
-      </el-tab-pane>
-    </el-tabs>
+  <div class="choosePlatfrom">
+    <h3 class="title">
+      选择要支持的部署平台
+    </h3>
+    <el-checkbox-group v-model="checkList">
+      <el-checkbox label="Kubernetes" />
+      <el-checkbox
+        label="Openstack"
+        disabled
+      />
+    </el-checkbox-group>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ConfigYaml',
+  name: 'ChoosePlatfrom',
   data () {
     return {
-      activeName: 'first'
+      checkList: ['Kubernetes']
     }
   },
   methods: {
-    handleClick (tab, event) {
-      // console.log(tab, event)
-    },
     emitStepData () {
       let ifNext = true
       if (ifNext) {
@@ -60,15 +45,21 @@ export default {
       }
     }
   },
+  created () {
+  },
   mounted () {
   }
 }
 </script>
 
 <style lang="less">
-.config-yaml{
-  .el-tab-pane{
-    padding: 20px;
+.choosePlatfrom{
+  .el-checkbox{
+    display: block;
+    margin: 0 0 15px 15px;
+  }
+  .el-checkbox__label{
+    font-size: 16px;
   }
 }
 </style>

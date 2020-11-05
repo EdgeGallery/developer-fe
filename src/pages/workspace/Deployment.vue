@@ -15,50 +15,29 @@
   -->
 
 <template>
-  <div class="config-yaml">
-    <el-tabs
-      v-model="activeName"
-      type="card"
-      @tab-click="handleClick"
-    >
-      <el-tab-pane
-        label="文件导入"
-        name="first"
-      >
-        <h3 class="title">
-          上传文件
-        </h3>
-      </el-tab-pane>
-      <el-tab-pane
-        label="可视化配置"
-        name="second"
-      >
-        <h3 class="title">
-          可视化配置
-        </h3>
-      </el-tab-pane>
-    </el-tabs>
+  <div class="deployment">
+    <h3 class="title">
+      应用详情
+    </h3>
+    <div />
+    <h3 class="title">
+      部署状态
+    </h3>
+    <div />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ConfigYaml',
+  name: 'Deployment',
   data () {
     return {
-      activeName: 'first'
+
     }
   },
   methods: {
-    handleClick (tab, event) {
-      // console.log(tab, event)
-    },
-    emitStepData () {
-      let ifNext = true
-      if (ifNext) {
-        this.$emit('getStepData', { step: 'second', data: '', ifNext })
-      }
-    }
+  },
+  created () {
   },
   mounted () {
   }
@@ -66,9 +45,11 @@ export default {
 </script>
 
 <style lang="less">
-.config-yaml{
-  .el-tab-pane{
-    padding: 20px;
+.deployment{
+  div{
+    height: 200px;
+    border: 1px solid #ddd;
+    margin: 15px 0;
   }
 }
 </style>
