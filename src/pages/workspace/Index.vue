@@ -283,7 +283,7 @@ export default {
     }
     .el-col-16{
       height: 100%;
-      overflow: auto;
+      overflow-y: auto;
       background-color: white;
     }
     .add-project{

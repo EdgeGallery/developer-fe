@@ -16,9 +16,6 @@
 
 <template>
   <div class="api">
-    <div id="projectId">
-      {{ projectId }}
-    </div>
     <el-row
       :gutter="20"
       v-loading="apiDataLoading"
@@ -146,20 +143,20 @@ export default {
           }
         }, 200)
       }
+    },
+    setApiHeight () {
+      const oApi = document.getElementById('swagger-ui')
+      const deviceHeight = document.documentElement.clientHeight
+      oApi.style.height = Number(deviceHeight) - 330 + 'px'
     }
   },
   created () {
     this.getProjectDetail()
   },
   mounted () {
-    function apiHeight () {
-      const oApi = document.getElementById('swagger-ui')
-      const deviceHeight = document.documentElement.clientHeight
-      oApi.style.height = Number(deviceHeight) - 330 + 'px'
-    }
-    apiHeight()
+    this.setApiHeight()
     window.onresize = function () {
-      apiHeight()
+      this.setApiHeight()
     }
     this.$emit('getProjectType', this.projectType)
   }
@@ -168,13 +165,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .api{
-  #projectId{
-    display: none;
-  }
   #swagger-ui{
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
     .swagger-ui .info{
       margin: 10px 0;
     }

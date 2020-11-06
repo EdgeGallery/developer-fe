@@ -44,50 +44,101 @@
       </h2>
       <div class="codeInfo">
         <el-row>
-          <el-col :span="3">
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
             {{ $t('workspace.sourceCodePath') }}
           </el-col>
-          <el-col :span="7">
-            /src
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
+            ： /src
           </el-col>
-          <el-col :span="3">
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
             {{ $t('workspace.compilerVersion') }}
           </el-col>
-          <el-col :span="4">
-            {{ taskInformation.compiler.type }} {{ taskInformation.compiler.version }}
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
+            ： {{ taskInformation.compiler.type }}gcc {{ taskInformation.compiler.version }}4.8.5
           </el-col>
-          <el-col :span="3">
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
             {{ $t('workspace.buildTools') }}
           </el-col>
-          <el-col :span="4">
-            {{ taskInformation.constructtool }}
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
+            ： {{ taskInformation.constructtool }}make
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="3">
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
             {{ $t('workspace.compileCommand') }}
           </el-col>
-          <el-col :span="7">
-            {{ taskInformation.compilecommand }}
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
+            ： {{ taskInformation.compilecommand }}make
           </el-col>
-          <el-col :span="3">
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
             {{ $t('workspace.targetOS') }}
           </el-col>
-          <el-col :span="4">
-            {{ taskInformation.targetos }}
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
+            ： {{ taskInformation.targetos }}centos7.6
           </el-col>
-          <el-col :span="3">
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
             {{ $t('workspace.targetVersion') }}
           </el-col>
-          <el-col :span="4">
-            v{{ taskInformation.targetkernel }}
+          <el-col
+            :md="4"
+            :sm="6"
+            :xs="6"
+          >
+            ： v{{ taskInformation.targetkernel }}v4.14.0
           </el-col>
         </el-row>
       </div>
       <div class="analysisResults">
         <h3>{{ $t('workspace.analysisResults') }}</h3>
         <el-row class="resultTitle">
-          <el-col :span="12">
+          <el-col
+            :sm="12"
+            :xs="24"
+          >
             <em
               class="show_icon"
               v-if="showicon"
@@ -99,7 +150,10 @@
             />
             <em class="result_yz" />{{ $t('workspace.needtranscount') }}
           </el-col>
-          <el-col :span="12">
+          <el-col
+            :sm="12"
+            :xs="24"
+          >
             {{ analysisResults.codefileinfo.needtranscount }}
           </el-col>
         </el-row>
@@ -108,7 +162,8 @@
           v-if="!showicon"
         >
           <el-col
-            :span="12"
+            :sm="12"
+            :xs="24"
             v-for="(item,index) in needMigrateFiles"
             :key="index"
             :title="item"
@@ -117,10 +172,16 @@
           </el-col>
         </el-row>
         <el-row class="resultTitle">
-          <el-col :span="12">
+          <el-col
+            :sm="12"
+            :xs="24"
+          >
             <em class="result_hs" />{{ $t('workspace.codeCount') }}
           </el-col>
-          <el-col :span="12">
+          <el-col
+            :sm="12"
+            :xs="24"
+          >
             {{ $t('workspace.makefileSourceCode') }}：{{ analysisResults.codelines }}{{ $t('workspace.lines') }}  {{ $t('workspace.assemblyCode') }}：{{ analysisResults.asmlines }}{{ $t('workspace.lines') }}
           </el-col>
         </el-row>
@@ -229,7 +290,25 @@ export default {
     padding: 20px;
     margin: 30px 0;
     .el-row{
-        padding: 10px 0;
+      padding: 10px 0;
+    }
+    .el-col{
+      height: 36px;
+      line-height: 18px;
+    }
+    .el-col:nth-child(odd){
+      text-align: right;
+    }
+    .el-col:nth-child(even){
+      padding-left: 5px;
+    }
+    @media screen and (max-width:580px){
+      .el-col-xs-6{
+        width: 50%;
+      }
+      .el-col:nth-child(odd){
+        text-align: left;
+      }
     }
   }
   .analysisResults{
@@ -296,6 +375,11 @@ export default {
   .downloadBtn{
     text-align: center;
     margin-top: 25px;
+    a{
+      color: #6c92fa;
+      border: 1px solid #6c92fa;
+      padding: 5px;
+    }
   }
 }
 </style>
