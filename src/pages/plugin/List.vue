@@ -67,7 +67,7 @@
           {{ $t('test.testTask.reset') }}
         </el-button>
       </div>
-      <div class="list-mian-content">
+      <div class="list-mian-content clear">
         <el-table
           :data="searchListData"
           style="width: 100%"
@@ -156,6 +156,74 @@
             </template>
           </el-table-column>
         </el-table>
+
+        <div
+          class="small-div"
+        >
+          <div
+            class="list_small"
+            v-for="(item,index) in searchListData"
+            :key="index"
+          >
+            <img
+              :src="getImageUrl(item.pluginId)"
+              class="image"
+              :alt="item.pluginName"
+            >
+            <h4>{{ $t('devTools.pluginName') }} : {{ item.pluginName }}</h4>
+            <span class="list-fg" />
+            <p class="list-author">
+              {{ $t('devTools.author') }} : {{ item.userName }}
+            </p>
+            <p class="list-des">
+              {{ $t('devTools.description') }} : {{ item.introduction }}
+            </p>
+            <p>
+              <el-rate
+                class="p-rate"
+                :value="Number(item.satisfaction.toFixed(2))"
+                disabled
+                show-score
+                text-color="#ff9900"
+                disabled-void-color="#cccccc"
+                score-template="{value}"
+              />
+            </p>
+            <p class="list-btn">
+              <el-link
+                :href="getDownloadUrl(item.pluginId)"
+                :underline="false"
+              >
+                <el-button
+                  id="downloadBtn"
+                  class="btn el-icon-download"
+                  type="text"
+                  @click="rateConfirm(item)"
+                >
+                  {{ $t('common.download') }}
+                </el-button>
+              </el-link>
+              <el-button
+                id="detailBtn"
+                type="text"
+                class="btn"
+                @click="toDetail(item)"
+              >
+                {{ $t('devTools.detail') }}
+              </el-button>
+              <el-button
+                id="deleteBtn"
+                :disabled="item.userId===userId?false:true"
+                type="text"
+                class="btn"
+                @click="deletePlug(item)"
+              >
+                {{ $t('devTools.delete') }}
+              </el-button>
+            </p>
+          </div>
+        </div>
+
         <el-dialog
           :visible.sync="centerDialogVisible"
           :close-on-click-modal="false"
@@ -242,20 +310,19 @@ export default {
         }
       ],
       searchListData: [],
-      pluginListData: [],
       selectCodeLanguage: '',
       inputPluginName: '',
       centerDialogVisible: false,
       delId: '',
       pluginUserId: '',
-      interval: '',
+      interval: null,
       DialogVisible: false,
       valueRate: 5,
       rateId: 0,
       dataLoading: true,
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
-      limitSize: 10,
+      limitSize: 2,
       offsetPage: 0,
       listTotal: 0
     }
@@ -294,7 +361,7 @@ export default {
     // 获取插件列表
     getPluginListData () {
       Plugin.getPluginListApi(this.limitSize, this.offsetPage, this.inputPluginName, this.selectCodeLanguage).then(res => {
-        this.pluginListData = this.searchListData = res.data.results
+        this.searchListData = res.data.results
         this.listTotal = res.data.total
         this.dataLoading = false
       }).catch(err => {
@@ -356,7 +423,7 @@ export default {
     },
     clearRateDialog () {
       clearTimeout(this.interval)
-      this.interval = ''
+      this.interval = null
     },
     rateChange (val) {
       this.valueRate = val
@@ -387,7 +454,6 @@ export default {
 .ideList{
   .list-top{
     margin-bottom: 20px;
-    height:40px;
     .list-select{
       margin-right:10px;
     }
@@ -455,6 +521,89 @@ export default {
       .el-dialog__headerbtn{
         top: 8px;
       }
+      .small-div{
+        display: none;
+        .list_small{
+          float: left;
+          width: 100%;
+          border: 1px solid #ddd;
+          background: #f9f9f9;
+          margin: -1px 0 0 -1px;
+          text-align: center;
+          padding: 15px;
+          img{
+            width: 100px;
+            height: 100px;
+          }
+          h4{
+            margin-top: 15px;
+            color: #666;
+            height: 25px;
+            line-height: 25px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          .list-fg{
+            display: inline-block;
+            width: 90%;
+            margin: 10px 0;
+            border-bottom: 1px dashed #cce2fa;
+          }
+          .list-author{
+            color: #9ccdff;
+            margin-bottom: 10px;
+            font-size: 12px;
+          }
+          .list-des{
+            height: 40px;
+            line-height: 20px;
+            font-size: 14px;
+            overflow: hidden;
+            color: #888;
+            margin-bottom: 10px;
+            text-overflow: ellipsis;
+            text-overflow: -o-ellipsis-lastline;
+            display: -webkit-box;
+            line-clamp:2;
+            -webkit-line-clamp:2;
+            -webkit-box-orient:vertical;
+          }
+          .list-btn{
+            margin-top: 10px;
+            .el-button--text{
+              margin: 0 10px;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+      @media screen and (max-width: 1200px){
+        .el-table{
+          display: none;
+        }
+        .small-div{
+          display: block;
+          .list_small{
+            width: 33.3%;
+            box-sizing: border-box;
+          }
+        }
+      }
+      @media screen and (max-width: 1024px){
+        .small-div{
+          .list_small{
+            width: 50%;
+          }
+        }
+      }
+      @media screen and (max-width: 560px){
+        .small-div{
+          .list_small{
+            width: 100%;
+          }
+        }
+      }
     }
   }
   .el-pagination{ text-align: right; margin-top: 30px;}
@@ -463,6 +612,30 @@ export default {
   }
   .dialogPadding{
     padding: 0 10%;
+  }
+
+}
+@media screen and (max-width:700px){
+  .ideList .list-top{
+    .list-select{
+      width: 46%;
+      margin-right: 4%;
+    }
+    .enterinput{
+      width: 50%;
+    }
+    .searchBtn{
+      margin: 10px 10px 0 0;
+    }
+  }
+}
+@media screen and (max-width:375px){
+  .ideList .list-main{
+    padding: 20px;
+  }
+  .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li{
+    margin: 0 3px;
+    min-width: 25px;
   }
 }
 

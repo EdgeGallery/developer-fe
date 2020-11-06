@@ -114,6 +114,7 @@ export default {
         this.activeName = val.label
         this.servicePath = val.servicePath
         this.apiFileId = val.apiFileId
+        // 点击的是否是“服务介绍”
         let pos2 = ApiInfo[0].label.indexOf(val.label)
         if (pos2 !== -1) {
           this.apiPage = false
@@ -165,11 +166,11 @@ export default {
       if (treeTop > 85) {
         this.scrollTop = false
         this.divHeight('mep-tree', 0, 185)
-        // this.divHeight('el-tree-node__children', 1, 280)
+        this.divHeight('el-tree-node__children', 1, 280)
       } else {
         this.scrollTop = true
         this.divHeight('mep-tree', 0, 105)
-        // this.divHeight('el-tree-node__children', 1, 190)
+        this.divHeight('el-tree-node__children', 1, 190)
       }
     },
     // 设置元素的高度
@@ -182,6 +183,11 @@ export default {
   mounted () {
     this.getMepEcoService()
     window.addEventListener('scroll', this.getTreeTop, true)
+    window.onresize = () => {
+      return (() => {
+        this.getTreeTop()
+      })()
+    }
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.getTreeTop, true)
@@ -230,6 +236,7 @@ export default {
       }
       .el-tree-node__children{
         margin: 0 0 0 25px;
+        overflow-y: auto;
         .el-tree-node__expand-icon{
           display: none;
         }
@@ -266,7 +273,7 @@ export default {
       margin-left: 270px;
     }
     .api-div.doc-right{
-      width: calc(100% - 770px);
+      width: calc(100% - 270px);
     }
     @media screen and (max-width: 1380px) {
       .mep-tree{
@@ -275,8 +282,11 @@ export default {
       .doc-div.doc-right{
         width: calc(100% - 800px);
       }
+      .api-div.doc-left{
+        margin-left: 300px;
+      }
       .api-div.doc-right{
-        width: calc(100% - 800px);
+        width: calc(100% - 300px);
       }
     }
   }

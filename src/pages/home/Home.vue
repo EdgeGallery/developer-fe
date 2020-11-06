@@ -30,7 +30,7 @@
         <div class="step">
           {{ $t('home.step') }}
         </div>
-        <div class="tabs">
+        <div class="tabs clear">
           <div
             class="tabsPart"
             v-for="(item,index) in commonApp"
@@ -116,7 +116,7 @@ export default {
   width: 100%;
   left: 0;
   height: calc(100% - 65px);
-  overflow-y: scroll;
+  overflow-y: auto;
   top:65px;
   .topLine {
     height: 400px;
@@ -141,12 +141,12 @@ export default {
       }
     }
   }
-  .flowchart {
-    padding: 20px 15%;
-    text-align: center;
-    background: #f5f5f5;
-    img {
-      width: 90%;
+  @media screen and (max-width: 640px){
+    .topLine {
+      height: auto;
+      .title{
+        padding: 60px 20px 100px;
+      }
     }
   }
   .showLogo {
@@ -173,59 +173,39 @@ export default {
     width: 100%;
     max-width: 210px;
   }
-  .normalPart {
-    padding: 25px 0;
-    .la {
-      padding: 30px 0 0 30%;
-      .main-title {
-        span {
-          display: inline-block;
-          height: 40px;
-          font-size: 25px;
-        }
-      }
-      .main-desc {
-        font-size: 14px;
-        margin-top: 15px;
-        line-height: 30px;
-        padding-right: 30px;
-      }
-      .main-operate {
-        margin-top: 25px;
+  @media screen and (max-width: 1024px){
+    .showLogo{
+      padding: 25px 5%;
+      a{
+        width: 10.1%;
+        margin: 0 0.5% 1%;
       }
     }
   }
-  .bg-dark {
-    background: #f5f5f5;
-  }
-  a {
-    color: #fff;
-  }
-  .homeTabs {
-    display: flex;
-    justify-content: space-around;
-    height: 50px;
-    .tabs {
-      width: 20%;
-      line-height: 50px;
-      text-align: center;
-      border: 1px solid #fff;
-      background: #4761a6;
-      font-size: 18px;
-      color: #fff;
-      padding-left: 5px;
-      position: relative;
-    }
-    .tabs:before {
-      margin-right: 7px;
+  @media screen and (max-width: 768px){
+    .showLogo{
+      a{
+        width: 14.6%;
+      }
     }
   }
+  @media screen and (max-width: 640px){
+    .showLogo{
+      a{
+        width: 24%;
+      }
+      a:last-child {
+        width: 24%;
+      }
+    }
+  }
+
   .common-appliaction {
     width: 95%;
     margin: 0 auto 20px;
     background: white;
     position: relative;
-    top: -35px;
+    margin-top: -35px;
     .step{
       position: absolute;
       top: 23px;
@@ -277,8 +257,8 @@ export default {
           }
           @media screen and (max-width: 1380px) {
               h5 {
-                  font-size: 22px;
-                  margin-top: 20px;
+                font-size: 22px;
+                margin-top: 20px;
               }
           }
         }
@@ -326,6 +306,23 @@ export default {
              background: #70b9f1;
            }
          }
+      }
+    }
+    @media screen and (max-width: 640px){
+      .tabs{
+        display: block;
+        padding: 70px 0 0;
+        .tabsPart {
+          float: left;
+          width: 50%;
+          h5 {
+            padding: 0 10px;
+          }
+
+        }
+      }
+      .tabs .tabsPart a h5 {
+        font-size: 18px;
       }
     }
   }

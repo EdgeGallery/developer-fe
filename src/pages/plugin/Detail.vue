@@ -167,7 +167,7 @@ export default {
     return {
       pluginListData: [],
       detailContent: [],
-      interval: '',
+      interval: null,
       DialogVisible: false,
       valueRate: 5,
       rateId: 0,
@@ -234,7 +234,7 @@ export default {
     },
     clearRateDialog () {
       clearTimeout(this.interval)
-      this.interval = ''
+      this.interval = null
     },
     rateChange (val) {
       this.valueRate = val
@@ -295,9 +295,6 @@ export default {
   }
   #test-editor{
     position: relative;
-    .v-note-wrapper{
-      border: none;
-    }
   }
   #edit_detail{
     position: absolute;

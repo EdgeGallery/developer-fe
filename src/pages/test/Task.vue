@@ -371,7 +371,7 @@ export default {
         }
       ],
       value: '',
-      interval: '',
+      interval: null,
       dialogTitle: '',
       step: 1,
       telnetid: '',
