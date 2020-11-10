@@ -29,12 +29,12 @@
       <el-breadcrumb-item>{{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-tabs
+      type="border-card"
       class="elTabs"
       v-model="activeName"
-      tab-position="left"
     >
       <el-tab-pane
-        :label="$t('workspace.capabilityDetails')"
+        :label="$t('workspace.api')"
         class="elTabPane"
         name="1"
         lazy
@@ -42,69 +42,84 @@
         <api @getProjectType="getProjectType" />
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.applicationDev')"
+        :label="$t('workspace.buildAndTest')"
         class="elTabPane"
         name="2"
         lazy
         v-loading="isPublic"
       >
-        <el-steps
-          :active="active"
-          finish-status="success"
-          align-center
+        <el-tabs
+          tab-position="left"
+          class="selectImage"
         >
-          <el-step :title="$t('workspace.environmentPreparation')" />
-          <el-step :title="$t('workspace.choosePlatform')" />
-          <el-step :title="$t('workspace.selectImage')" />
-          <el-step :title="$t('workspace.configureYaml')" />
-        </el-steps>
-        <div class="elSteps">
-          <component
-            :is="currentComponent"
-            @getStepData="getStepData"
-            @getBtnStatus="getBtnStatus"
-            :project-before-config="projectBeforeConfig"
-            :all-step-data="allStepData"
-            @getAppapiFileId="getAppapiFileId"
-            ref="currentComponet"
-          />
-        </div>
-        <div class="elButton">
-          <el-button
-            id="prevBtn"
-            type="text"
-            @click="previous"
-            v-if="active>0"
-            :disabled="isDeploying"
-          >
-            <strong>{{ $t('workspace.previous') }}</strong>
-          </el-button>
-          <el-button
-            id="nextBtn"
-            type="primary"
-            @click="next"
-            :disabled="active===3 && isCompleted"
-          >
-            <strong>{{ btnName }}</strong>
-          </el-button>
-        </div>
+          <el-tab-pane :label="$t('workspace.containerImage')">
+            <el-steps
+              :active="active"
+              finish-status="success"
+              align-center
+            >
+              <el-step :title="$t('workspace.selectImage')" />
+              <el-step :title="$t('workspace.configureYaml')" />
+              <el-step :title="$t('workspace.server')" />
+              <el-step :title="$t('workspace.test')" />
+            </el-steps>
+            <div class="elSteps">
+              <component
+                :is="currentComponent"
+                @getStepData="getStepData"
+                @getBtnStatus="getBtnStatus"
+                :project-before-config="projectBeforeConfig"
+                :all-step-data="allStepData"
+                @getAppapiFileId="getAppapiFileId"
+                ref="currentComponet"
+              />
+            </div>
+            <div class="elButton">
+              <el-button
+                id="prevBtn"
+                type="text"
+                @click="previous"
+                v-if="active>0"
+                :disabled="isDeploying"
+              >
+                <strong>{{ $t('workspace.previous') }}</strong>
+              </el-button>
+              <el-button
+                id="nextBtn"
+                type="primary"
+                @click="next"
+                :disabled="active===3 && isCompleted"
+              >
+                <strong>{{ btnName }}</strong>
+              </el-button>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('workspace.vmImage')">
+            <iframe
+              src="https://5gmec.cloudcorelab.huawei.com/overview"
+              title="vmImage"
+              width="100%"
+              height="100%"
+            />
+          </el-tab-pane>
+        </el-tabs>
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.deploymentTest')"
+        :label="$t('workspace.statistics')"
         class="elTabPane"
         name="3"
         lazy
       >
-        <deployment />
+        <dataStistical />
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.applicationRelease')"
+        :label="$t('workspace.projectLink')"
         class="elTabPane"
         name="4"
         lazy
         v-if="isNewProject"
       >
-        <appRelease />
+        <projectLink />
       </el-tab-pane>
       <div v-if="dialogVisible">
         <publishAppDialog
@@ -120,23 +135,23 @@
 import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
-import EnvPreparation from './EnvPreparation.vue'
-import choosePlatform from './ChoosePlatform.vue'
+import selectServer from './SelectServer.vue'
+import deployTest from './DeployTest.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
 import api from './detail/Api.vue'
-import deployment from './Deployment.vue'
-import appRelease from './AppRelease.vue'
+import dataStistical from './detail/DataStatistical.vue'
+import projectLink from './detail/ProjectLink.vue'
 export default {
   name: 'AppDetail',
   components: {
     imageSelect,
     configYaml,
-    EnvPreparation,
-    choosePlatform,
+    selectServer,
+    deployTest,
     publishAppDialog,
     api,
-    deployment,
-    appRelease
+    dataStistical,
+    projectLink
   },
   data () {
     return {
@@ -163,7 +178,7 @@ export default {
   computed: {
     btnName: function () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.nextButtonName = this.active === 3 ? this.$t('workspace.saveData') : this.$t('workspace.nextStep')
+      this.nextButtonName = this.active === 3 ? this.$t('workspace.finishTest') : this.$t('workspace.nextStep')
       return this.nextButtonName
     }
   },
@@ -171,19 +186,19 @@ export default {
     changeComponent () {
       switch (this.active) {
         case 0:
-          this.currentComponent = 'EnvPreparation'
-          break
-        case 1:
-          this.currentComponent = 'choosePlatform'
-          break
-        case 2:
           this.currentComponent = 'imageSelect'
           break
-        case 3:
+        case 1:
           this.currentComponent = 'configYaml'
           break
+        case 2:
+          this.currentComponent = 'selectServer'
+          break
+        case 3:
+          this.currentComponent = 'deployTest'
+          break
         default:
-          this.currentComponent = 'EnvPreparation'
+          this.currentComponent = 'imageSelect'
       }
     },
     next () {
@@ -398,37 +413,26 @@ export default {
     height: 35px;
     line-height: 35px;
   }
-  .el-tabs--left .el-tabs__item.is-left{
-    text-align: center;
-  }
-  .el-tabs--left .el-tabs__header.is-left{
-    margin-right: 0;
-  }
-  .el-tabs__item{
-    padding: 0 10px;
-  }
-  .el-tabs--left .el-tabs__item.is-left.is-active{
-    background:#41c7db;
-    color: #333;
-  }
-  .el-tabs__active-bar{
-    background-color: #138da0;
-  }
-  .el-tabs__item:hover{
-    color: #21c6e0;
-  }
   .elTabs {
-    background: #fff;
-    padding: 20px 20px 20px 0;
-    .el-tabs__header{
-      width: 195px;
-    }
-    .el-tabs__content{
-      border: 1px solid #ddd;
-    }
     .elTabPane {
       padding: 30px;
       min-height: 300px;
+    }
+    .selectImage{
+      .el-tabs__header.is-left{
+        margin-right: 0;
+      }
+     .el-tabs__content{
+       border:1px solid #ddd;
+       padding: 20px;
+     }
+     .el-tabs__item.is-active{
+       background: #72e8e4;
+       color: #333;
+     }
+     .el-tabs__active-bar{
+       background-color: #289f9b;
+     }
     }
     .elButton {
       width: 80%;
@@ -449,15 +453,16 @@ export default {
       }
     }
     .elSteps {
-      margin: 0px 10% 0;
+      margin: 50px 10% 0;
       width: 80%;
-      padding: 20px 40px;
+      background-color: #fafafa;
+      border-radius: 8px;
+      padding: 40px;
       box-sizing: border-box;
-      border: 1px solid #ddd;
     }
     @media screen and (max-width: 1380px) {
       .elSteps {
-        margin: 0 0 0;
+        margin: 50px 0 0;
         width: 100%;
       }
     }
@@ -469,12 +474,6 @@ export default {
       margin-top: 20px;
     }
   }
-  .title{
-    font-size: 18px;
-    font-weight: normal;
-    border-left: 2px solid #41c7db;
-    padding-left: 10px;
-    margin-bottom: 15px;
-  }
+
 }
 </style>

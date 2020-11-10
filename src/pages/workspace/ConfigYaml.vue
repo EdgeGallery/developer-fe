@@ -16,59 +16,267 @@
 
 <template>
   <div class="config-yaml">
-    <el-tabs
-      v-model="activeName"
-      type="card"
-      @tab-click="handleClick"
+    <el-form
+      ref="form"
+      :model="form"
+      label-width="80px"
     >
-      <el-tab-pane
-        label="文件导入"
-        name="first"
+      <el-form-item :label="$t('workspace.appimage')">
+        <p
+          v-for="item in form.appImage"
+          :key="item.id"
+          v-loading="getImageLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
+        >
+          <strong style="margin: 0 5px;">{{ $t('workspace.imagename') }}:</strong>
+          {{ item.name }}: {{ item.version }}
+
+          <strong style="margin: 0 5px;">{{ $t('workspace.inPort') }}:</strong>
+          {{ item.port }}
+          <strong style="margin: 0 5px;">{{ $t('workspace.outPort') }}:</strong>
+          {{ item.nodePort }}
+        </p>
+      </el-form-item>
+      <el-form-item :label="$t('workspace.addimage')">
+        <el-select
+          id="selectImage"
+          v-model="form.image"
+          :placeholder="$t('workspace.select')"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.label"
+          />
+        </el-select>
+        <el-input-number
+          id="inputPort"
+          v-model="form.imagePort"
+          :min="1"
+          :max="999999"
+          controls-position="right"
+          :placeholder="$t('workspace.port')"
+          class="portInput"
+        />
+        <el-button
+          id="addBtn"
+          @click="addImage"
+          class="addBtn"
+        >
+          {{ $t('workspace.add') }}
+        </el-button>
+        <p
+          v-for="(item, index) in form.addImagesList"
+          :key="index"
+          class="imageResult"
+          v-loading="getImageLoading"
+          element-loading-spinner="el-icon-loading"
+          :element-loading-text="$t('promptMessage.loadingText')"
+        >
+          <strong>Image: &nbsp;&nbsp;&nbsp;</strong>{{ item.name }} : {{ item.version }};&nbsp;&nbsp;
+          <strong>Port: &nbsp;&nbsp;&nbsp;</strong>{{ item.port }}
+          <em
+            class="el-icon-close curp"
+            @click="deleteImagesList(item, index)"
+          />
+        </p>
+      </el-form-item>
+      <el-form-item
+        :label="$t('workspace.service')"
       >
-        <h3 class="title">
-          上传文件
-        </h3>
-      </el-tab-pane>
-      <el-tab-pane
-        label="可视化配置"
-        name="second"
-      >
-        <h3 class="title">
-          可视化配置
-        </h3>
-      </el-tab-pane>
-    </el-tabs>
+        <el-input
+          id="serviceName"
+          v-model="form.serviceName"
+          :placeholder="$t('workspace.servicename')"
+          class="serviceName"
+        />
+        <el-input
+          id="serviceHref"
+          v-model="form.serviceHref"
+          :placeholder="$t('workspace.href')"
+          class="serviceName"
+        />
+        <el-input-number
+          id="servicePort"
+          v-model="form.servicePort"
+          controls-position="right"
+          :min="32000"
+          :max="32767"
+          :placeholder="$t('workspace.port')"
+          class="portInput"
+        />
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
+import { Workspace } from '../../tools/api.js'
 export default {
   name: 'ConfigYaml',
+  props: {
+    projectBeforeConfig: {
+      type: Object,
+      default () {
+        return {
+          agentConfig: {}
+        }
+      }
+    },
+    allStepData: {
+      type: Object,
+      default () {}
+    }
+  },
   data () {
     return {
-      activeName: 'first'
+      form: {
+        appImage: [],
+        image: '',
+        imagePort: '',
+        addImagesList: [],
+        serviceName: '',
+        serviceHref: '',
+        servicePort: ''
+      },
+      options: [{
+        value: '1',
+        label: 'postgre:9.6.15'
+      }, {
+        value: '2',
+        label: 'redis: alpine'
+      }],
+      value: '',
+      getImageLoading: true
     }
   },
   methods: {
-    handleClick (tab, event) {
-      // console.log(tab, event)
+    // 添加镜像
+    addImage () {
+      if (this.form.imagePort && this.form.image) {
+        let projectId = sessionStorage.getItem('mecDetailID')
+        let params = {
+          name: this.form.image.split(':')[0],
+          version: this.form.image.split(':')[1],
+          port: this.form.imagePort,
+          projectId: projectId,
+          type: ['OTHER']
+        }
+        Workspace.addImageNameApi(projectId, params).then(res => {
+          this.form.addImagesList.push(res.data)
+        })
+      }
     },
+    // 删除镜像
+    deleteImagesList (item, index) {
+      let projectId = sessionStorage.getItem('mecDetailID')
+      Workspace.deleteImageNameApi(projectId, item.id).then(res => {
+        this.getImage()
+        this.form.addImagesList.splice(index, 1)
+      })
+    },
+    // 获取已添加的镜像
+    getImage (type) {
+      let projectId = sessionStorage.getItem('mecDetailID')
+      Workspace.getImageApi(projectId).then(res => {
+        if (type === 'get') {
+          res.data.images.forEach(item => {
+            if (item.type === 'OTHER') {
+              this.form.addImagesList.push(item)
+            } else {
+              this.form.appImage.push(item)
+            }
+          })
+          this.getImageLoading = false
+        }
+      })
+    },
+    // 将配置的数据传给父组件
     emitStepData () {
       let ifNext = true
       if (ifNext) {
-        this.$emit('getStepData', { step: 'second', data: '', ifNext })
+        this.form.appImage = [...this.form.appImage, ...this.form.addImagesList]
+        let image = new Set(this.form.appImage)
+        this.form.appImage = [...image]
+        this.$emit('getStepData', { step: 'second', data: this.form, ifNext })
+      }
+    },
+    // 返回时保留填写的数据
+    getSecondData () {
+      if (this.allStepData.second) {
+        let secondData = this.allStepData.second
+        this.form.serviceName = secondData.serviceName
+        this.form.serviceHref = secondData.serviceHref
+        this.form.servicePort = secondData.servicePort
       }
     }
   },
   mounted () {
+    this.getImage('get')
+    this.getSecondData()
+    if (this.projectBeforeConfig.agentConfig) {
+      this.form.serviceName = this.projectBeforeConfig.agentConfig.serviceName
+      this.form.serviceHref = this.projectBeforeConfig.agentConfig.href
+      this.form.servicePort = this.projectBeforeConfig.agentConfig.port
+    }
   }
 }
 </script>
 
 <style lang="less">
 .config-yaml{
-  .el-tab-pane{
-    padding: 20px;
+  input{
+    height: 30px;
+    line-height: 30px;
+  }
+  .el-input{
+    width: 100%;
+    margin-right: 10px;
+  }
+  .el-select .el-input{
+    width: 150px;
+  }
+  .el-input.serviceName{
+    width: 150px;
+  }
+  .addBtn{
+    padding: 7px 20px;
+    background-color: #fff;
+    border: 1px solid #688ef3;
+    color: #688ef3;
+  }
+  .el-input-number{
+    line-height: 30px;
+    margin-top: 5px;
+  }
+  .el-input-number.is-controls-right .el-input__inner{
+    padding: 0 30px 0 15px;
+  }
+  .el-input-number.is-controls-right .el-input-number__decrease, .el-input-number.is-controls-right .el-input-number__increase{
+    line-height: 15px;
+    width: 20px;
+  }
+  .el-input-number__decrease i{
+    position: relative;
+    top: 1px;
+  }
+  .portInput{
+    width: 90px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+  .imageResult i{
+    margin-left: 10px;
+  }
+  .imageResult i:hover{
+    color: #688ef3;
+  }
+  .el-loading-spinner{
+    p{
+      line-height: 0px;
+    }
   }
 }
 </style>

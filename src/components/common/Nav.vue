@@ -17,12 +17,7 @@
 <template>
   <div class="navgation">
     <el-row>
-      <el-col
-        :lg="7"
-        :md="8"
-        :sm="18"
-        :xs="13"
-      >
+      <el-col :span="7">
         <div
           class="logo lt"
           @click="jumpFromLogo('/mecDeveloper')"
@@ -35,32 +30,12 @@
         </div>
       </el-col>
       <el-col
-        :lg="11"
-        :md="11"
-        :sm="7"
-        :xs="3"
-        class="nav big"
+        :span="11"
+        class="nav"
       >
         <Topbar :json-data="jsonData" />
       </el-col>
-      <el-col
-        :lg="11"
-        :md="11"
-        :sm="2"
-        :xs="3"
-        class="nav small"
-      >
-        <em
-          class="el-icon-menu"
-          @click="clickSmallMenu"
-        />
-      </el-col>
-      <el-col
-        :lg="6"
-        :md="5"
-        :sm="4"
-        :xs="8"
-      >
+      <el-col :span="5">
         <div class="language rt">
           <span @click="changeLange">{{ language }}</span>
         </div>
@@ -71,17 +46,6 @@
         </div>
       </el-col>
     </el-row>
-    <el-collapse-transition>
-      <div
-        v-show="menu_small"
-        id="menu-div"
-      >
-        <TopbarSmall
-          :json-data="jsonData"
-          @closeMenu="closeMenu"
-        />
-      </div>
-    </el-collapse-transition>
   </div>
 </template>
 
@@ -90,35 +54,20 @@ import { logoutApi, loginApi } from '../../tools/tool.js'
 import navData from '../../../src/navdata/nav_data.js'
 import navDataCn from '../../../src/navdata/nav_data_cn.js'
 import Topbar from './Topbar.vue'
-import TopbarSmall from './TopbarSmall.vue'
 export default {
   name: 'Navgation',
   components: {
-    Topbar,
-    TopbarSmall
+    Topbar
   },
   data () {
     return {
       userType: '',
       jsonData: [],
       language: 'English',
-      loginPage: '',
-      menu_small: false,
-      screenHeight: document.body.clientHeight,
-      timer: false
+      loginPage: ''
     }
   },
-  watch: {
-    screenHeight (val) {
-      if (!this.timer) {
-        this.screenHeight = val
-        this.timer = true
-        setTimeout(function () {
-          this.timer = false
-        }, 400)
-      }
-    }
-  },
+  watch: {},
   beforeMount () {
     localStorage.setItem('language', 'cn')
     let language = localStorage.getItem('language')
@@ -136,28 +85,8 @@ export default {
       sessionStorage.setItem('userName', res.data.userName)
       this.loginPage = res.data.loginPage
     })
-    // 监听到窗口大小变化时，重新给screenHeight变量赋值
-    window.onresize = () => {
-      return (() => {
-        this.screenHeight = document.body.clientHeight
-        this.setScreenHeight(this.screenHeight)
-      })()
-    }
   },
   methods: {
-    // 根据移动端屏幕高度设置导航外层div的高
-    setScreenHeight (screenHeight) {
-      let oDiv = document.getElementsByClassName('main-sidebar-small')
-      oDiv[0].style.height = (Number(screenHeight) - 65) + 'px'
-    },
-    clickSmallMenu () {
-      this.setScreenHeight(this.screenHeight)
-      this.menu_small = !this.menu_small
-    },
-    // 移动端选择菜单后，收起菜单栏
-    closeMenu (data) {
-      this.menu_small = data
-    },
     logout () {
       logoutApi().then(res => {
         window.location.href = this.loginPage + '&return_to=https://' + window.location.host
@@ -258,7 +187,7 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
 .navgation {
   background: #282b33;
   height: 65px;
@@ -266,36 +195,14 @@ export default {
   width: 100%;
   position: fixed;
   z-index: 99;
-  .rt{
-    span{
-      height: 65px;
-      line-height: 65px;
-      font-size: 14px;
-      color: #fff;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-  }
   .nav{
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .nav.big{
-    display: inline-block;
-  }
-  .nav.small{
-    display: none;
-    height: 65px;
-    text-align: center;
-    .el-icon-menu{
-      color: #fff;
-      font-size: 30px;
-      margin-top: 17px;
-    }
-  }
   .logo {
     height: 65px;
+    width: 355px;
     line-height: 65px;
     margin-left: 17px;
     display: flex;
@@ -310,80 +217,77 @@ export default {
       color: #fff;
       cursor: pointer;
     }
-  }
-  .menu-div{
-    overflow-y: auto;
-  }
-
-  @media screen and (max-width: 1090px) {
-    .el-menu-item{
-      padding: 0 10px;
+    span.blue {
+      color: #6c92fa;
     }
-    .el-submenu__title{
-      padding: 0 10px;
+    span.blue::before {
+      background: #6c92fa;
     }
-    .main-sidebar .el-menu .first-menu{
-      font-size: 16px;
-    }
-    .logo{
-      span{
-        font-size: 16px;
-      }
-    }
-  }
-  @media screen and (max-width: 991px) {
-    .nav.big{
+    span::before {
+      content: "";
       display: none;
+      width: 2px;
+      height: 18px;
+      margin: 0 5px 0 10px;
+      background: #333;
+      position: relative;
+      top: 3px;
     }
-    .nav.small{
+  }
+  .nav-tabs {
+    height: 100%;
+    font-size: 20px;
+    line-height: 50px;
+    margin-right: 10px;
+    a{
+      height: 24px;
+      margin-right: 10px;
+      color: #888;
+    }
+    a.blue {
+      color: #6c92fa;
+    }
+    span {
       display: inline-block;
+      height: 24px;
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      cursor: pointer;
+      color:#f5f5f5;
+      font-size: 14px;
     }
-    .el-col-md-5{
-      float: right;
+    span.el-icon-user-solid.blue {
+      color: #6c92fa;
     }
-    .el-col-md-11{
-      float: right;
+    span.span_a{
+      width: 80px;
     }
-  }
-  @media screen and (max-width: 767px){
-    .el-col-xs-8{
-      max-width: 135px;
-      float: right;
+    .pop-txt {
+      font-size: 21px;
+      padding: 10%;
     }
-    .el-col-xs-3{
-      float: right;
+    .promt-actions {
+      text-align: center;
+      padding: 2%;
     }
-    .logo img{
-      height: 50px;
-      margin: 5px 0 0 0;
-    }
-  }
-  @media screen and (max-width: 553px){
-    .logo{
-      margin-left: 0;
-      img{
-        height: 40px;
-        margin: 12px 0 0 0;
-      }
+    .okbtn {
+      font-size: 20px;
     }
   }
-  @media screen and (max-width: 385px) {
-    .logo{
-      img{
-        height: 34px;
-        margin: 15px 0 0 0;
-      }
-      span{
-        font-size: 13px;
-      }
+  .language {
+    display: inline-block;
+    line-height: 65px;
+    font-size: 14px;
+    color: #6c92fa;
+    span {
+      height: 21px;
+      line-height: 21px;
+      cursor: pointer;
+      color: #fff;
     }
-  }
-  @media screen and (max-width: 320px) {
-    .rt span{
-      font-size: 13px;
-    }
-    .rt:first-child span{
-      margin-right: 0;
+    span:hover {
+      text-decoration: underline;
     }
   }
 }

@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
-html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li{
+html,body,p,h1,h2,h3,h4,h5,h6,ul,li{
   margin:0;
   padding:0;
-  box-sizing: border-box;
 }
 html,body{
   height:100%;
@@ -143,7 +142,4 @@ body .el-table th.gutter{
 }
 .swagger-ui .info .url{
   display: none;
-}
-.v-note-wrapper{
-  z-index: 1 !important;
 }

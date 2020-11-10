@@ -126,8 +126,8 @@ let Workspace = {
   deleteProjectApi: function (itemId, userId) {
     return Delete('mec/developer/v1/projects/' + itemId + '?userId=' + userId)
   },
-  // 暂存图标生成图标ID
-  postIconFileIdApi: function (userId, params) {
+  // 获取暂存图标的ID
+  getIconFileIdApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
   },
   // 获取能力列表

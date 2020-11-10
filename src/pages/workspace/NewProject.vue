@@ -216,13 +216,13 @@ export default {
         this.getIconFileId()
       }
     },
-    // 暂存图标生成图标ID
+    // 获取暂存图标的ID
     getIconFileId () {
       if (this.active === 1) {
         let firstStepData = this.allFormData.first.appIcon[0]
         let formdata = new FormData()
         formdata.append('file', firstStepData)
-        Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
+        Workspace.getIconFileIdApi(this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
         })
       }

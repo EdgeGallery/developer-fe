@@ -172,14 +172,10 @@ const en = {
     programPlugin: 'Programming Plugin',
     sampleCode: 'SampleCode',
     confirm: 'Confirm',
-    capabilityDetails: 'Capability Details',
-    deploymentTest: 'Deployment Commissioning',
-    applicationDev: 'Application Development',
-    applicationRelease: 'Application Release',
-    environmentPreparation: 'Environment Preparation',
-    choosePlatform: 'Choose Deployment Platform',
+    api: 'API',
+    buildAndTest: 'Build Test',
     selectImage: 'Upload App Image',
-    configureYaml: 'Configure Deployment Files',
+    configureYaml: 'Configure Dependent Parameters',
     server: 'Select Server',
     test: 'Deployment Test',
     abilitiesDetail: 'Abilities Detail',
@@ -187,7 +183,6 @@ const en = {
     appDevelopment: 'Application development',
     buildTip: 'Your application has been integrated with EdgeGallery platform, please test your own APP business',
     finishTest: 'Finish Test',
-    saveData: 'Save',
     statistics: 'Statistics',
     realTimeStatistics: 'Real-time Statistics',
     performaceStatistics: 'Performance Statistics',
@@ -246,7 +241,9 @@ const en = {
     startDeployFail: 'Deployment failed',
     deploying: 'Deploying, please wait...',
     uploadCodeFail: 'Failed to upload source code！',
-    reportPromt: 'Your report has expired and cannot be viewed online, please download and view'
+    reportPromt: 'Your report has expired and cannot be viewed online, please download and view',
+    containerImage: 'Build container image',
+    vmImage: 'Build virtual machine image'
   },
   test: {
     howToTest: {

@@ -35,14 +35,14 @@
     >
       <el-row>
         <el-col
-          :sm="16"
-          :xs="24"
+          :span="16"
           class="analysis"
         >
           <el-form
             ref="form"
             :rules="rules"
             :model="form"
+            :label-width="labelWidth"
             size="mini"
           >
             <el-form-item :label="$t('workspace.uploadSourceCode')">
@@ -162,8 +162,7 @@
           </el-form>
         </el-col>
         <el-col
-          :sm="8"
-          :xs="24"
+          :span="8"
           class="report"
           id="report"
         >
@@ -527,10 +526,6 @@ export default {
   .toolchain-main{
     padding:80px 40px 40px;
     background: #fff;
-    .el-form-item__content{
-      float: left;
-      width: calc(100% - 140px);
-    }
   }
   .analysis{
     padding: 0 10%;
@@ -613,9 +608,7 @@ export default {
     margin-top: 0px;
   }
   .el-form-item__label{
-    float: left;
     text-align: left;
-    width: 140px;
   }
   .el-form-item__label:before{
     margin-left: -10px;
@@ -624,17 +617,14 @@ export default {
     color: #9ea4b3;
     font-size: 12px;
   }
+
 }
 @media screen and (min-width: 1360px) {
   .analysis{
     .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item{
-      margin-bottom: 30px;
+        margin-bottom: 30px;
+      }
+  }
+
     }
-  }
-}
-@media screen and (max-width: 465px){
-  .toolchain .toolchain-main .el-form-item__content{
-    width: 100%;
-  }
-}
 </style>

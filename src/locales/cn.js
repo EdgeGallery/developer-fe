@@ -172,14 +172,10 @@ const cn = {
     programPlugin: '编程插件',
     sampleCode: '示例代码',
     confirm: '确认',
-    capabilityDetails: '能力详情',
-    deploymentTest: '部署调测',
-    applicationDev: '应用开发',
-    applicationRelease: '应用发布',
-    environmentPreparation: '开发环境准备',
-    choosePlatform: '选择部署平台',
+    api: 'API',
+    buildAndTest: '构建测试',
     selectImage: '上传App镜像',
-    configureYaml: '配置部署文件',
+    configureYaml: '配置依赖参数',
     server: '选择服务器',
     test: '部署测试',
     abilitiesDetail: '能力详情',
@@ -187,7 +183,6 @@ const cn = {
     appDevelopment: '应用开发',
     buildTip: '你的应用已经可以被EdgeGallery平台集成，请测试自身APP业务',
     finishTest: '完成测试',
-    saveData: '保存',
     statistics: '数据统计',
     realTimeStatistics: '实时统计',
     performaceStatistics: '性能统计',
@@ -246,7 +241,9 @@ const cn = {
     startDeployFail: '部署失败',
     deploying: '正在部署，请稍后...',
     uploadCodeFail: '上传源码失败！',
-    reportPromt: '您的报告已过期，无法在线查看，请下载后查看'
+    reportPromt: '您的报告已过期，无法在线查看，请下载后查看',
+    containerImage: '构建容器镜像',
+    vmImage: '构建虚机镜像'
   },
   test: {
     howToTest: {

@@ -107,7 +107,6 @@ export default {
         this.activeName = val.label
         this.servicePath = val.servicePath
         this.apiFileId = val.apiFileId
-        // 点击的是否是“服务介绍”
         let pos2 = ApiInfo[0].label.indexOf(val.label)
         if (pos2 !== -1) {
           this.apiPage = false
@@ -190,11 +189,10 @@ export default {
   mounted () {
     this.getMepService()
     window.addEventListener('scroll', this.getTreeTop, true)
-    window.onresize = () => {
-      return (() => {
-        this.getTreeTop()
-      })()
-    }
+    /* window.onresize = function () {
+      this.divHeight('mep-tree', 0, 175)
+      this.divHeight('el-tree-node__children', 0, 260)
+    } */
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.getTreeTop, true)
@@ -243,7 +241,6 @@ export default {
       }
       .el-tree-node__children{
         margin: 0 0 0 25px;
-        overflow-y: auto;
         .el-tree-node__expand-icon{
           display: none;
         }

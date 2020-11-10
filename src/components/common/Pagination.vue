@@ -18,29 +18,16 @@
   <div class="my-pagination">
     <el-pagination
       background
-      class="page rt"
+      class="rt"
       @size-change="handlePageSizeChange"
       @current-change="handleCurrentPageChange"
       :current-page="currentPage"
-      :page-sizes="[12, 24, 36, 48]"
+      :page-sizes="[10, 15, 20, 25]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalNum"
       v-if="totalNum!=0"
       id="pagination"
-    />
-    <el-pagination
-      background
-      class="page-small rt"
-      @size-change="handlePageSizeChange"
-      @current-change="handleCurrentPageChange"
-      :current-page="currentPage"
-      layout="prev, pager, next"
-      :total="totalNum"
-      v-if="totalNum!=0"
-      id="pagination"
-      :page-size="pageSize"
-      :pager-count="5"
     />
   </div>
 </template>
@@ -115,20 +102,6 @@ export default {
   .el-input--mini .el-input__inner,.el-pager li,.el-pagination button, .el-pagination span:not([class*=suffix]),.el-pagination__editor.el-input .el-input__inner{
     height: 24px;
     line-height: 24px;
-  }
-  .el-pagination.is-background .btn-next{
-    margin: 0 0 0 5px;
-  }
-  .page-small{
-    display: none;
-  }
-  @media screen and (max-width: 767px){
-    .page{
-      display: none;
-    }
-    .page-small{
-      display: block;
-    }
   }
 }
 
