@@ -241,7 +241,9 @@ const cn = {
     startDeployFail: '部署失败',
     deploying: '正在部署，请稍后...',
     uploadCodeFail: '上传源码失败！',
-    reportPromt: '您的报告已过期，无法在线查看，请下载后查看'
+    reportPromt: '您的报告已过期，无法在线查看，请下载后查看',
+    containerImage: '构建容器镜像',
+    vmImage: '构建虚机镜像'
   },
   test: {
     howToTest: {

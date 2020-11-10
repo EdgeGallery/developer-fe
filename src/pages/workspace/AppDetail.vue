@@ -48,46 +48,61 @@
         lazy
         v-loading="isPublic"
       >
-        <el-steps
-          :active="active"
-          finish-status="success"
-          align-center
+        <el-tabs
+          tab-position="left"
+          class="selectImage"
         >
-          <el-step :title="$t('workspace.selectImage')" />
-          <el-step :title="$t('workspace.configureYaml')" />
-          <el-step :title="$t('workspace.server')" />
-          <el-step :title="$t('workspace.test')" />
-        </el-steps>
-        <div class="elSteps">
-          <component
-            :is="currentComponent"
-            @getStepData="getStepData"
-            @getBtnStatus="getBtnStatus"
-            :project-before-config="projectBeforeConfig"
-            :all-step-data="allStepData"
-            @getAppapiFileId="getAppapiFileId"
-            ref="currentComponet"
-          />
-        </div>
-        <div class="elButton">
-          <el-button
-            id="prevBtn"
-            type="text"
-            @click="previous"
-            v-if="active>0"
-            :disabled="isDeploying"
-          >
-            <strong>{{ $t('workspace.previous') }}</strong>
-          </el-button>
-          <el-button
-            id="nextBtn"
-            type="primary"
-            @click="next"
-            :disabled="active===3 && isCompleted"
-          >
-            <strong>{{ btnName }}</strong>
-          </el-button>
-        </div>
+          <el-tab-pane :label="$t('workspace.containerImage')">
+            <el-steps
+              :active="active"
+              finish-status="success"
+              align-center
+            >
+              <el-step :title="$t('workspace.selectImage')" />
+              <el-step :title="$t('workspace.configureYaml')" />
+              <el-step :title="$t('workspace.server')" />
+              <el-step :title="$t('workspace.test')" />
+            </el-steps>
+            <div class="elSteps">
+              <component
+                :is="currentComponent"
+                @getStepData="getStepData"
+                @getBtnStatus="getBtnStatus"
+                :project-before-config="projectBeforeConfig"
+                :all-step-data="allStepData"
+                @getAppapiFileId="getAppapiFileId"
+                ref="currentComponet"
+              />
+            </div>
+            <div class="elButton">
+              <el-button
+                id="prevBtn"
+                type="text"
+                @click="previous"
+                v-if="active>0"
+                :disabled="isDeploying"
+              >
+                <strong>{{ $t('workspace.previous') }}</strong>
+              </el-button>
+              <el-button
+                id="nextBtn"
+                type="primary"
+                @click="next"
+                :disabled="active===3 && isCompleted"
+              >
+                <strong>{{ btnName }}</strong>
+              </el-button>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('workspace.vmImage')">
+            <iframe
+              src="https://5gmec.cloudcorelab.huawei.com/overview"
+              title="vmImage"
+              width="100%"
+              height="100%"
+            />
+          </el-tab-pane>
+        </el-tabs>
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.statistics')"
@@ -403,11 +418,21 @@ export default {
       padding: 30px;
       min-height: 300px;
     }
-    .iframe {
-      height: 100%;
-    }
-    .iframe iframe {
-      width: 100%;
+    .selectImage{
+      .el-tabs__header.is-left{
+        margin-right: 0;
+      }
+     .el-tabs__content{
+       border:1px solid #ddd;
+       padding: 20px;
+     }
+     .el-tabs__item.is-active{
+       background: #72e8e4;
+       color: #333;
+     }
+     .el-tabs__active-bar{
+       background-color: #289f9b;
+     }
     }
     .elButton {
       width: 80%;

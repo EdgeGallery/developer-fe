@@ -241,7 +241,9 @@ const en = {
     startDeployFail: 'Deployment failed',
     deploying: 'Deploying, please wait...',
     uploadCodeFail: 'Failed to upload source code！',
-    reportPromt: 'Your report has expired and cannot be viewed online, please download and view'
+    reportPromt: 'Your report has expired and cannot be viewed online, please download and view',
+    containerImage: 'Build container image',
+    vmImage: 'Build virtual machine image'
   },
   test: {
     howToTest: {
