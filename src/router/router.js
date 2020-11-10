@@ -147,7 +147,7 @@ export default new Router({
         {
           path: '/mecDeveloper/work',
           name: 'workspace',
-          component: () => import('../pages/workspace/AppDetail.vue'),
+          component: () => import('../pages/workspace/Index.vue'),
           meta: {
             id: '3.5'
           }
