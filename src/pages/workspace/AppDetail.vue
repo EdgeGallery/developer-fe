@@ -51,6 +51,7 @@
         <el-tabs
           tab-position="left"
           class="selectImage"
+          @tab-click="selectImageType"
         >
           <el-tab-pane :label="$t('workspace.containerImage')">
             <el-steps
@@ -345,14 +346,17 @@ export default {
       }
     },
     setApiHeight () {
-      const oDiv = document.getElementsByClassName('mec_iframe')[0]
-      const screenHeight = document.documentElement.clientHeight
-      oDiv.style.height = Number(screenHeight) - 330 + 'px'
+      this.$nextTick(() => {
+        const oDiv = document.getElementsByClassName('mec_iframe')[0]
+        const screenHeight = document.documentElement.clientHeight
+        oDiv.style.height = Number(screenHeight) - 330 + 'px'
+      })
+    },
+    selectImageType () {
+      this.setApiHeight()
     }
   },
   mounted () {
-    this.setApiHeight()
-    this.setApiHeight()
     let _this = this
     window.onresize = function () {
       _this.setApiHeight()
