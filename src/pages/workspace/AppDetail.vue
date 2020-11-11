@@ -94,12 +94,16 @@
               </el-button>
             </div>
           </el-tab-pane>
-          <el-tab-pane :label="$t('workspace.vmImage')">
+          <el-tab-pane
+            :label="$t('workspace.vmImage')"
+            class="mec_iframe"
+          >
             <iframe
               src="https://5gmec.cloudcorelab.huawei.com/overview"
               title="vmImage"
               width="100%"
               height="100%"
+              frameborder="0"
             />
           </el-tab-pane>
         </el-tabs>
@@ -339,9 +343,20 @@ export default {
       if (data === 'MIGRATE') {
         this.isNewProject = false
       }
+    },
+    setApiHeight () {
+      const oDiv = document.getElementsByClassName('mec_iframe')[0]
+      const screenHeight = document.documentElement.clientHeight
+      oDiv.style.height = Number(screenHeight) - 330 + 'px'
     }
   },
   mounted () {
+    this.setApiHeight()
+    this.setApiHeight()
+    let _this = this
+    window.onresize = function () {
+      _this.setApiHeight()
+    }
     this.handleStep()
     this.getTestConfig()
   }
@@ -427,11 +442,11 @@ export default {
        padding: 20px;
      }
      .el-tabs__item.is-active{
-       background: #72e8e4;
-       color: #333;
+       background: #409eff;
+       color: #fff;
      }
      .el-tabs__active-bar{
-       background-color: #289f9b;
+       background-color: #409eff;
      }
     }
     .elButton {
