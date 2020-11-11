@@ -155,6 +155,10 @@ let Workspace = {
     let apiUrl = urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=' + type
     return apiUrl
   },
+  // 获取服务详情
+  getServiceDetailApi: function (apiFileId, userId) {
+    return Get('mec/developer/v1/capability-groups/openmep-api/' + apiFileId + '?userId=' + userId)
+  },
   // 获取以前提交过的配置
   getTestConfigApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/test-config')

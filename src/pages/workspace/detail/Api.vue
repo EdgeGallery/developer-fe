@@ -33,6 +33,51 @@
         />
       </el-col>
       <el-col :span="18">
+        <div class="service_div">
+          <p class="api_top">
+            {{ $t('workspace.apiTopText') }} ：
+          </p>
+          <p class="title">
+            {{ $t('workspace.serviceDetails') }}
+          </p>
+          <el-row class="service_info">
+            <el-col :span="24">
+              {{ $t('test.testApp.type') }} ：{{ projectType }}
+            </el-col>
+          </el-row>
+          <el-row class="service_info">
+            <el-col :span="12">
+              {{ $t('workspace.servicename') }} ：{{ serviceDetail.service }}
+            </el-col>
+            <el-col :span="12">
+              {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
+            </el-col>
+          </el-row>
+          <el-row class="service_info">
+            <el-col :span="12">
+              {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
+            </el-col>
+            <el-col :span="12">
+              SDK {{ $t('common.download') }} ：
+              <el-select
+                v-model="codeLanguage"
+                name="codeLanguage"
+                class="list-select"
+                size="mini"
+              >
+                <el-option
+                  v-for="item in optionsLanguage"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label"
+                  :id="item.label"
+                />
+              </el-select>
+              <el-link class="download_sdk" />
+            </el-col>
+          </el-row>
+        </div>
+
         <div id="swagger-ui" />
       </el-col>
     </el-row>
@@ -41,6 +86,7 @@
 
 <script>
 import { Workspace } from '../../../tools/api.js'
+import { Type } from '../../../tools/project_data.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -55,17 +101,39 @@ export default {
       defaultExpandKeys: [],
       projectId: '',
       userId: sessionStorage.getItem('userId'),
-      projectType: 'CREATE_NEW'
+      projectType: '',
+      codeLanguage: 'Python',
+      optionsLanguage: [
+        {
+          value: 0,
+          label: 'JAVA'
+        }, {
+          value: 1,
+          label: 'Python'
+        }, {
+          value: 2,
+          label: 'Go'
+        }, {
+          value: 3,
+          label: '.Net'
+        }, {
+          value: 4,
+          label: 'PHP'
+        }
+      ],
+      serviceDetail: {},
+      language: localStorage.getItem('language')
     }
   },
   methods: {
     getProjectDetail () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
+        this.projectType = res.data.type
+        this.checkProjectData()
         let treeDataTemp = []
         treeDataTemp = res.data.capabilityList
         this.projectId = res.data.id
-        this.projectType = res.data.projectType
         let userId = res.data.userId
         let serviceCount = 0
         for (let i in treeDataTemp) {
@@ -117,6 +185,7 @@ export default {
       })
     },
     handleNodeClick (data) {
+      this.getServiceDetail(data.apiFileId, data.userId)
       if (!data.children) {
         let apiUrl = Workspace.getApiUrl(data.apiFileId, data.userId, data.type)
         SwaggerUIBundle({
@@ -147,23 +216,63 @@ export default {
     setApiHeight () {
       const oApi = document.getElementById('swagger-ui')
       const deviceHeight = document.documentElement.clientHeight
-      oApi.style.height = Number(deviceHeight) - 330 + 'px'
+      const oDivHeight = document.getElementsByClassName('service_div')[0].offsetHeight
+      oApi.style.height = Number(deviceHeight) - 260 - oDivHeight + 'px'
+    },
+    // 获取服务详情
+    getServiceDetail (apiFileId, userId) {
+      Workspace.getServiceDetailApi(apiFileId, userId).then(res => {
+        this.serviceDetail = res.data
+        let uploadTime = this.dateChange(res.data.uploadTime)
+        this.serviceDetail.uploadTime = uploadTime
+      })
+    },
+    dateChange (dateStr) {
+      if (dateStr) {
+        let date = new Date(Date.parse(dateStr))
+        let Y = date.getFullYear()
+        let M = date.getMonth() + 1
+        let D = date.getDate()
+        let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
+        return changeDate
+      }
+    },
+    // 类型的选型中英文切换
+    checkProjectData () {
+      Type.forEach(itemFe => {
+        if (this.language === 'cn') {
+          if (this.projectType === itemFe.label[1]) {
+            this.projectType = itemFe.label[0]
+          }
+        } else {
+          if (this.projectType === itemFe.label[0]) {
+            this.projectType = itemFe.label[1]
+          }
+        }
+      })
     }
   },
   created () {
     this.getProjectDetail()
   },
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      this.language = language
+      this.checkProjectData()
+    }
+  },
   mounted () {
     this.setApiHeight()
+    let _this = this
     window.onresize = function () {
-      this.setApiHeight()
+      _this.setApiHeight()
     }
-    this.$emit('getProjectType', this.projectType)
   }
 }
 
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .api{
   #swagger-ui{
     width: 100%;
@@ -173,5 +282,41 @@ export default {
       margin: 10px 0;
     }
   }
+  .service_div{
+    padding-left: 20px;
+    .api_top{
+      line-height: 25px;
+    }
+    .title{
+      font-size: 15px;
+      margin-top: 15px;
+    }
+    .el-row{
+      font-size: 13px;
+      .el-col{
+        padding: 5px;
+      }
+      .el-select{
+        width: 65px;
+        .el-input__icon{
+          width: 15px;
+        }
+        .el-input__inner{
+          padding: 0 5px;
+        }
+        .el-input--suffix .el-input__inner{
+          padding-right: 20px;
+        }
+      }
+    }
+    .download_sdk{
+      width: 21px;
+      height: 21px;
+      display: inline-block;
+      background: url('../../../assets/images/download.png');
+      margin-left: 10px;
+    }
+  }
+
 }
 </style>

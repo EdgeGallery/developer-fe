@@ -92,12 +92,15 @@ export default {
 </script>
 
 <style lang='less'>
-.title{
-  border-left: 2px solid #29ABE0;
-  span{
-    margin-left: 5px;
-    font-size: 18px;
-    font-weight: 800;
+.dataStatistical{
+  .title{
+    border-left: 2px solid #29ABE0;
+    span{
+      margin-left: 5px;
+      font-size: 18px;
+      font-weight: 800;
+    }
   }
 }
+
 </style>

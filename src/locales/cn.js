@@ -21,7 +21,6 @@ const cn = {
     confirm: '确认',
     download: '下载',
     list: '列表',
-    downLoad: '下载',
     input: '请输入',
     select: '请选择',
     developing: '页面正在开发中。'
@@ -183,7 +182,6 @@ const cn = {
     server: '选择服务器',
     test: '部署测试',
     abilitiesDetail: '能力详情',
-    appRelease: '应用发布',
     appDevelopment: '应用开发',
     buildTip: '你的应用已经可以被EdgeGallery平台集成，请测试自身APP业务',
     finishTest: '完成测试',
@@ -246,7 +244,24 @@ const cn = {
     startDeployFail: '部署失败',
     deploying: '正在部署，请稍后...',
     uploadCodeFail: '上传源码失败！',
-    reportPromt: '您的报告已过期，无法在线查看，请下载后查看'
+    reportPromt: '您的报告已过期，无法在线查看，请下载后查看',
+    serviceDetails: '服务详情',
+    releaseTime: '发布时间',
+    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时使用以下服务名+内部端口号进行访问',
+    projectDetails: '项目详情',
+    releaseDetails: '能力发布详情',
+    releaseTest: '应用发布测试',
+    developer: '开发者',
+    dependentApp: '依赖应用',
+    deploymentPlatform: '部署平台',
+    uploadFile: '上传文件',
+    appStoreMd: '请上传.md文件，用来描述应用介绍、场景等',
+    apiFunctionMd: '请上传.md文件，用来描述API功能、使用等',
+    routeConfig: '路由配置',
+    protocol: '协议',
+    appDetails: '应用包详情',
+    appTest: '应用测试',
+    releaseText: '应用发布之前需要进行测试'
   },
   test: {
     howToTest: {
