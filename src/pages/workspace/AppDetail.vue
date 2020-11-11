@@ -39,7 +39,7 @@
         name="1"
         lazy
       >
-        <api @getProjectType="getProjectType" />
+        <api />
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.applicationDev')"
@@ -102,7 +102,6 @@
         class="elTabPane"
         name="4"
         lazy
-        v-if="isNewProject"
       >
         <appRelease />
       </el-tab-pane>
@@ -156,7 +155,6 @@ export default {
       userId: sessionStorage.getItem('userId'),
       isPublic: false,
       isfail: true,
-      isNewProject: true,
       appApiFileIdTemp: true
     }
   },
@@ -319,11 +317,6 @@ export default {
         }
         this.projectBeforeConfig = res.data ? res.data : {}
       })
-    },
-    getProjectType (data) {
-      if (data === 'MIGRATE') {
-        this.isNewProject = false
-      }
     }
   },
   mounted () {
