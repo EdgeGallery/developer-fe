@@ -26,6 +26,11 @@ export default new Router({
       component: () => import('../pages/home/Home.vue')
     },
     {
+      path: '/index',
+      redirect: '/',
+      component: () => import('../pages/home/Home.vue')
+    },
+    {
       path: '',
       component: () => import('../components/layout/Layout.vue'),
       meta: {
