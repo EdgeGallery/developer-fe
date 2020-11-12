@@ -64,7 +64,18 @@
         <div class="language rt">
           <span @click="changeLange">{{ language }}</span>
         </div>
-        <div class="nav-tabs rt">
+        <div
+          class="nav-tabs rt"
+          v-if="ifGuest"
+        >
+          <span
+            @click="logout()"
+          >{{ $t('nav.logIn') }}</span>
+        </div>
+        <div
+          class="nav-tabs rt"
+          v-else
+        >
           <span
             @click="beforeLogout()"
           >{{ $t('nav.logOut') }}</span>
@@ -105,7 +116,8 @@ export default {
       loginPage: '',
       menu_small: false,
       screenHeight: document.body.clientHeight,
-      timer: false
+      timer: false,
+      ifGuest: true
     }
   },
   watch: {
@@ -135,6 +147,11 @@ export default {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
       this.loginPage = res.data.loginPage
+      if (res.data.userName === 'guest') {
+        this.ifGuest = true
+      } else {
+        this.ifGuest = false
+      }
     })
     // 监听到窗口大小变化时，重新给screenHeight变量赋值
     window.onresize = () => {
