@@ -261,7 +261,14 @@ const en = {
     protocol: 'Protocol',
     appDetails: 'Application Package Details',
     appTest: 'Application Test',
-    releaseText: 'The application needs to be tested before it is released'
+    releaseText: 'The application needs to be tested before it is released',
+    instantiateId: 'Instantiate ID',
+    applicationDesc: 'Application Description',
+    ruleConfig: 'Application Rule Configuration',
+    trafficRules: 'Traffic Rules',
+    dnsRules: 'DNS Rules',
+    appPublishConfig: 'Application Service Publishing Configuration',
+    appPublishSuccess: 'The application has been published to AppStore, click the link to view details'
   },
   test: {
     howToTest: {

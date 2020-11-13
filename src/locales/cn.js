@@ -261,7 +261,14 @@ const cn = {
     protocol: '协议',
     appDetails: '应用包详情',
     appTest: '应用测试',
-    releaseText: '应用发布之前需要进行测试'
+    releaseText: '应用发布之前需要进行测试',
+    instantiateId: '实例化ID',
+    applicationDesc: '应用描述',
+    ruleConfig: '应用规则配置',
+    trafficRules: '流量规则',
+    dnsRules: 'DNS规则',
+    appPublishConfig: '应用服务发布配置',
+    appPublishSuccess: '应用已发布到AppStore，点击链接查看详情'
   },
   test: {
     howToTest: {

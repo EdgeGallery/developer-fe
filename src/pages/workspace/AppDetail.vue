@@ -414,7 +414,7 @@ export default {
     background: #fff;
     padding: 20px 20px 20px 0;
     .el-tabs__header{
-      width: 195px;
+      min-width: 195px;
     }
     .el-tabs__content{
       border: 1px solid #ddd;
