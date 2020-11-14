@@ -17,7 +17,7 @@
 <template>
   <div class="choosePlatfrom">
     <h3 class="title">
-      选择要支持的部署平台
+      {{ $t('workspace.supportPlatform.title') }}
     </h3>
     <el-checkbox-group v-model="checkList">
       <el-checkbox label="Kubernetes" />
