@@ -22,19 +22,30 @@
     <div class="main detail-main">
       <div class="detail-table2">
         <table>
+          <caption />
           <tr>
-            <th>项目名称</th>
-            <td><em
-              class="header-icon el-icon-s-home"
-              style="color:blue; "
-            /> positioning-service</td>
-            <th>部署平台</th>
+            <th id="projectName">
+              项目名称
+            </th>
+            <td>
+              <em
+                class="header-icon el-icon-s-home"
+                style="color:blue; "
+              /> positioning-service
+            </td>
+            <th id="platform">
+              部署平台
+            </th>
             <td>Kubernetes</td>
           </tr>
           <tr>
-            <th>镜像</th>
+            <th id="mirror">
+              镜像
+            </th>
             <td>已上传</td>
-            <th>部署配置</th>
+            <th id="config">
+              部署配置
+            </th>
             <td>文件名</td>
           </tr>
         </table>
@@ -259,7 +270,6 @@ export default {
       completeTestButtonType: 'information',
       recycleButtonType: 'information',
       activeNames: ['0'],
-      positionImg: require('@/assets/images/position.png'),
       tableData: [
         {
           name: '镜像',
@@ -354,7 +364,6 @@ export default {
     width: 100%;
     height: auto;
     height: auto;
-    // border: 1px solid #ddd;
     background-color: #f8f8f8;
     .el-collapse {
       width: 100%;
@@ -375,7 +384,6 @@ export default {
         padding-left: 30px;
         box-sizing: border-box;
         background-color: #f8f8f8;
-        // border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
       }
     }
