@@ -36,7 +36,6 @@
             highlight-current
             :props="defaultProps"
             @node-click="getFileDetail"
-            style="overflow-x: auto;"
           />
         </el-col>
         <el-col :span="16">
@@ -96,10 +95,9 @@ export default {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(deviceHeight) - 150 + 'px'
-        const oDiv2 = document.getElementsByClassName('el-tree')[0]
-        oDiv2.style.height = Number(deviceHeight) - 210 + 'px'
-        console.log(oDiv2.style.height)
+        oDiv.style.height = Number(deviceHeight) * 0.8 + 'px'
+        const oDiv2 = document.getElementsByClassName('file_list')[0]
+        oDiv2.style.height = Number(deviceHeight) * 0.72 + 'px'
       })
     }
   },
@@ -127,11 +125,12 @@ export default {
       width: 80%;
       padding: 20px 10% 0;
     }
-    .el-tree::-webkit-scrollbar{
+
+    .file_list::-webkit-scrollbar{
       width: 6px;
       height: 6px;
     }
-    .el-tree::-webkit-scrollbar-thumb{
+    .file_list::-webkit-scrollbar-thumb{
       border-radius: 10px;
       background: rgba(0,0,0,0.1);
     }
@@ -140,6 +139,7 @@ export default {
     }
     .file_list{
       padding-right: 10px;
+      overflow-y: auto;
     }
     .file_desc{
       padding: 10px;
