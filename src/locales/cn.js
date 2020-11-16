@@ -122,6 +122,49 @@ const cn = {
     contact: '联系我们'
   },
   workspace: {
+    configYaml: {
+      uploadYamlFirst: '请先上传Yaml',
+      importFile: '文件导入',
+      config: '可视化配置',
+      uploadFile: '上传文件',
+      downloadDemo: '模版下载',
+      uploadYaml: '上传Yaml',
+      uploadYamlTip: '请上传.json或者.yaml文件',
+      pass: '文件检测通过',
+      fail: '文件检测未通过',
+      format: '格式校验',
+      imageInfo: '镜像信息',
+      serviceInfo: '服务信息'
+    },
+    uploadImage: {
+      successfulTest: '测试成功',
+      testfirst: '请先测试',
+      useEnvTip: '注：启动后，系统不会再分配公共测试环境，所有测试任务在用户自己的服务器上完成',
+      useEnv: '启用环境:',
+      test: '测试',
+      importNode: '导入节点信息IP:',
+      installation: '安装向导',
+      software: '软件',
+      version: '版本',
+      uploadAppImage: '上传APP镜像包',
+      mode1: '方式1:',
+      mode1Desc: '镜像包已上传至公共镜像仓库（支持dockerhub、SWR镜像仓库）',
+      mode1Tip: '注：已上传到公共仓库的镜像，请在配置文件中直接引用',
+      mode2: '方式2:',
+      mode2Desc: '上传APP镜像包到EdgeGallery镜像仓库',
+      mode2Tip: '注：EdgeGallery会确保用户上传的镜像不被其他用户可见',
+      mode3: '方式3:',
+      mode3Desc: '不上传镜像（针对私有镜像、无法公开使用）',
+      mode3Tip: '注：如果应用开发者不上传镜像，无法为开发者提供沙箱环境，需要用户使用公网连接边缘节点，安装以下软件，并将依赖的镜像提前安装到服务器上'
+    },
+    supportPlatform: {
+      title: '选择要支持的部署平台'
+    },
+    prepare: {
+      toolTip: '根据应用的开发语言，本地安装配置编程IDE',
+      pluginTip: 'edgegallery提供本地开发的ide插件，可用来生成的样例代码（目前支持python和java语言）',
+      codeTip: 'edgegallery提供APP本地开发的示例代码供开发者参考'
+    },
     workSpace: '工作空间',
     myProjectList: '我的项目',
     addNewProject: '添加新项目',
@@ -176,6 +219,7 @@ const cn = {
     applicationDev: '应用开发',
     applicationRelease: '应用发布',
     environmentPreparation: '开发环境准备',
+    environmentPreparationTip: '根据应用开发需求，准备一下开发环境',
     choosePlatform: '选择部署平台',
     selectImage: '上传App镜像',
     configureYaml: '配置部署文件',

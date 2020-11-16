@@ -114,6 +114,18 @@ let Test = {
 }
 
 let Workspace = {
+  // 测试并保存详情中节点信息
+  saveNodeInfo: function (userId, params) {
+    const { ip, port } = params
+    const func = params.hostId ? Put : Post
+    const path = params.hostId ? `mec/developer/v1/hosts/${params.hostId}/?userId=${userId}` : `mec/developer/v1/hosts/?userId=${userId}`
+    const data = params.hostId ? params : { status: 'NORMAL', ip, port, name: ip, architecture: 'ARM', address: ip }
+    return func(path, data)
+  },
+  // 获取详情中节点信息
+  getNodeInfo: function (userId) {
+    return Get('mec/developer/v1/hosts?userId=' + userId)
+  },
   // 获取项目列表
   getProjectListApi: function (userId) {
     return Get('mec/developer/v1/projects/?userId=' + userId)

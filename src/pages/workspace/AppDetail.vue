@@ -83,7 +83,6 @@
             id="nextBtn"
             type="primary"
             @click="next"
-            :disabled="active===3 && isCompleted"
           >
             <strong>{{ btnName }}</strong>
           </el-button>
@@ -145,7 +144,7 @@ export default {
       activeName: '1',
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
-      currentComponent: 'imageSelect',
+      currentComponent: 'EnvPreparation',
       allStepData: {},
       projectBeforeConfig: {},
       viewReport: false,
@@ -161,7 +160,7 @@ export default {
   computed: {
     btnName: function () {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.nextButtonName = this.active === 3 ? this.$t('workspace.saveData') : this.$t('workspace.nextStep')
+      this.nextButtonName = this.active >= 3 ? this.$t('workspace.saveData') : this.$t('workspace.nextStep')
       return this.nextButtonName
     }
   },
@@ -188,8 +187,12 @@ export default {
       // 获取组件内部的值
       this.$refs.currentComponet.emitStepData()
       if (this.allStepData.ifNext) {
-        this.active++
-        this.handleStep()
+        if (this.active < 3) {
+          this.active++
+          this.handleStep()
+        } else {
+          this.submitData()
+        }
       }
     },
     previous () {
@@ -200,16 +203,6 @@ export default {
       // 改变动态组件的值
       this.changeComponent()
       this.allStepData.ifNext = false
-      if (this.active === 2 && this.deployed && !this.isfail) {
-        this.cleanTestEnv(false)
-      }
-      if (this.active === 3) {
-        // 第三部提交数据
-        this.submitData()
-      }
-      if (this.active === 4) {
-        this.cleanTestEnv(true)
-      }
     },
     handleClose () {
       this.$router.push({
@@ -230,53 +223,26 @@ export default {
       this.appApiFileIdTemp = data
     },
     submitData () {
-      let projectId = sessionStorage.getItem('mecDetailID')
-      let getParams = (type) => {
-        let subparams = []
-        if (type === 'image') {
-          this.allStepData.second.appImage.forEach(item => {
-            subparams.push(item.id)
-          })
-        } else {
-          subparams.push(this.allStepData.third)
-        }
-        return subparams
+      const projectId = sessionStorage.getItem('mecDetailID')
+      const params = {
+        privateHost: !!this.allStepData.third.enable,
+        deployFileId: this.allStepData.fourth.appYamlFileId,
+        platform: 'KUBERNETES',
+        hosts: this.allStepData.third.enable ? [
+          {
+            hostId: this.allStepData.third.hostId,
+            userId: this.userId
+          }
+        ] : []
       }
-      let params = {
-        // 第一步的apifileID
-        appApiFileId: this.allStepData.first.appApiFileId,
-        // 第二步填入的服务连接端口号
-        agentConfig: {
-          serviceName: this.allStepData.second.serviceName,
-          href: this.allStepData.second.serviceHref,
-          port: Number(this.allStepData.second.servicePort)
-        },
-        // 第一二步上传，选择的image
-        imageFileIds: getParams('image'),
-        // 第三步选择的服务
-        hosts: getParams('host')
-
-      }
-      // 根据第一步的状态判断是新建还是修改
-
-      let methodsType = 1
-      if (this.projectBeforeConfig.testId) {
-        methodsType = 2
-        // 修改需要
-        params.status = this.projectBeforeConfig.status
-        params.accessUrl = this.projectBeforeConfig.accessUrl
-        params.errorLog = this.projectBeforeConfig.errorLog
-      }
-
-      if (methodsType === 1) {
-        Workspace.postTestConfigApi(projectId, this.userId, params).then(res => {
-          this.deployTest(projectId)
+      Workspace.postTestConfigApi(projectId, this.userId, params).then(res => {
+        this.$message.success('保存成功')
+      }, (error) => {
+        this.$message({
+          type: 'error',
+          message: error.response.data.message
         })
-      } else {
-        Workspace.putTestConfigApi(projectId, params).then(res => {
-          this.deployTest(projectId)
-        })
-      }
+      })
     },
     // 部署
     deployTest (projectId) {

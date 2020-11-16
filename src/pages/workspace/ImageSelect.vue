@@ -16,243 +16,106 @@
 
 <template>
   <div class="imageSelect">
-    <el-form
-      :model="form"
-      ref="form"
+    <h3 class="title">
+      <div class="way">
+        {{ $t('workspace.uploadImage.mode1') }}
+      </div>
+      <div class="way-desc">
+        {{ $t('workspace.uploadImage.mode1Desc') }}
+      </div>
+    </h3>
+    <div class="tip red">
+      {{$t('workspace.uploadImage.mode1Tip')}}
+    </div>
+    <h3 class="title">
+      <div class="way">
+        {{$t('workspace.uploadImage.mode2')}}
+      </div>
+      <div class="way-desc">
+        {{$t('workspace.uploadImage.mode2Desc')}}
+      </div>
+    </h3>
+    <div class="tip red">
+      {{$t('workspace.uploadImage.mode2Tip')}}
+    </div>
+    <el-button
+      class="upload-image"
+      type="primary"
+      plain
+      size="mini"
     >
-      <el-form-item
-        id="selectImage"
-        :label="$t('workspace.selectImage')"
-        :label-width="formLabelWidth"
+      {{$t('workspace.uploadImage.uploadAppImage')}}
+      </el-button>
+    <h3 class="title">
+      <div class="way">
+        {{$t('workspace.uploadImage.mode3')}}
+      </div>
+      <div class="way-desc">
+        {{$t('workspace.uploadImage.mode3Desc')}}
+      </div>
+    </h3>
+    <div class="tip gray">
+      {{$t('workspace.uploadImage.mode3Tip')}}
+    </div>
+    <div class="table-container">
+      <el-table
+        :border="true"
+        size="mini"
+        :data="softwareList"
+        class="table"
       >
-        {{ $t('workspace.method1') }}
-        <el-select
-          disabled
-          v-model="value"
-          filterable
-          :placeholder="$t('workspace.select')"
-          class="elSelect"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item
-        label=""
-        :label-width="formLabelWidth"
-      >
-        <p>{{ $t('workspace.method2') }}</p>
-        <span class="namespan">{{ $t('workspace.imagename') }}</span>
-        <el-input
-          id="imageName"
-          v-model="form.imageName"
-          :placeholder="$t('workspace.imagename')"
-          class="imageNameInput"
+        <el-table-column
+          prop="name"
+          :label="$t('workspace.uploadImage.software')"
         />
-        <span class="namespan">{{ $t('workspace.imageversion') }}</span>
-        <el-input
-          id="imageversion"
-          v-model="form.imageVersion"
-          :placeholder="$t('workspace.imageversion')"
-          class="imageVersionInput"
+        <el-table-column
+          prop="version"
+          :label="$t('workspace.uploadImage.version')"
         />
-        <span class="namespan">{{ $t('workspace.inPort') }}</span>
-        <el-input-number
-          id="portIn"
-          v-model="form.portIn"
-          controls-position="right"
-          :min="1"
-          :max="999999"
-          :placeholder="$t('workspace.inPort')"
-          class="portInput"
-        />
-        <span class="namespan">{{ $t('workspace.outPort') }}</span>
-        <el-input-number
-          id="portOut"
-          v-model="form.portOut"
-          controls-position="right"
-          :min="32000"
-          :max="32767"
-          :placeholder="$t('workspace.outPort')"
-          class="portInput"
-        />
-        <el-button
-          id="addBtn"
-          type="primary"
-          class="addBtn"
-          @click="addImageName"
-        >
-          {{ $t('workspace.add') }}
-        </el-button>
-        <p
-          class="imageResult el-form-error"
-          v-if="showNameErrInfo"
-        >
-          {{ $t('promptMessage.imageNameErr') }}
-        </p>
-        <p
-          class="imageResult el-form-error"
-          v-if="showVersionErrInfo"
-        >
-          {{ $t('promptMessage.imageVersionErr') }}
-        </p>
-        <p
-          class="imageResult"
-          v-for="(item,index) in form.imageNameData"
-          :key="index"
-          v-loading="imageDataLoading"
-          element-loading-spinner="el-icon-loading"
-          :element-loading-text="$t('promptMessage.loadingText')"
-        >
-          <strong>{{ $t('workspace.imagename') }}:</strong>
-          {{ item.name }}
-          <strong>{{ $t('workspace.imageversion') }}:</strong>
-          {{ item.version }}
-          <strong>{{ $t('workspace.inPort') }}:</strong>
-          {{ item.port }}
-          <strong>{{ $t('workspace.outPort') }}:</strong>
-          {{ item.nodePort }}
-          <em
-            class="el-icon-close"
-            @click="deleteImageName(item, index)"
-          />
-        </p>
-      </el-form-item>
-      <el-form-item
-        label=""
-        :label-width="formLabelWidth"
+      </el-table>
+      <div class="table-tip">
+        {{$t('workspace.uploadImage.installation')}}
+      </div>
+    </div>
+    <div class="node-info">
+      <div class="node-info-title">
+        {{$t('workspace.uploadImage.importNode')}}
+      </div>
+      <el-input
+        @input="onChangeNodeInfo()"
+        class="input width-200"
+        size="small"
+        v-model="ip"
+        placeholder="endpoint"
+      />
+      <el-input
+        @input="onChangeNodeInfo()"
+        class="input  width-100"
+        size="small"
+        v-model="port"
+        placeholder="port"
+      />
+      <el-button
+        type="primary"
+        plain
+        size="small"
+        @click="handleSaveNodeInfo()"
       >
-        <p>
-          {{ $t('workspace.method3') }}
-        </p>
-        <p>
-          <el-upload
-            id="uploadApp"
-            class="upload-demo"
-            action=""
-            :limit="1"
-            :on-change="handleChangeApp"
-            :on-exceed="handleExceed"
-            :file-list="form.appFileList"
-            :auto-upload="false"
-            :on-remove="removeUploadapp"
-            name="appFile"
-          >
-            <el-button
-              slot="trigger"
-              size="small"
-              type="primary"
-            >
-              {{ $t('workspace.uploadApppackage') }}
-            </el-button>
-          </el-upload>
-        </p>
-        <p>
-          <el-button
-            type="text"
-            :disabled="true"
-            class="btnText"
-          >
-            {{ $t('workspace.method4') }}
-          </el-button>
-        </p>
-      </el-form-item>
-      <el-form-item
-        :label="$t('workspace.uploadYaml')"
-        :label-width="formLabelWidth"
-        :rules="[{ required: true }]"
-      >
-        <el-upload
-          id="uploadYaml"
-          class="upload-demo"
-          action=""
-          :on-change="handleChangeYaml"
-          :limit="1"
-          :file-list="form.yamlFileList"
-          :auto-upload="false"
-          :on-remove="removeUploadyaml"
-          accept=".json,.yaml"
-          name="yamlFile"
-        >
-          <el-button
-            slot="trigger"
-            size="small"
-            type="primary"
-          >
-            {{ $t('workspace.uploadYaml') }}
-          </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
-          >
-            <em class="el-icon-warning" />{{ $t('devTools.apiText') }}
-          </div>
-        </el-upload>
-        <p
-          class="imageResult"
-          v-for="(item,index) in form.yamlFileData"
-          :key="index"
-          v-loading="uploadYamlLoading"
-          element-loading-spinner="el-icon-loading"
-          :element-loading-text="$t('promptMessage.loadingText')"
-        >
-          {{ item.fileName }}
-          <em
-            class="el-icon-close"
-            @click="deleteYamlFile(item, index)"
-          />
-        </p>
-      </el-form-item>
-      <el-form-item
-        :label="$t('devTools.uploadApi')"
-        :label-width="formLabelWidth"
-      >
-        <el-upload
-          id="uploadApi"
-          class="upload-demo"
-          action=""
-          :limit="1"
-          :on-change="handleChangeApi"
-          :file-list="form.apiFileList"
-          :auto-upload="false"
-          :on-remove="removeUploadapi"
-          accept=".json,.yaml"
-          name="apiFile"
-        >
-          <el-button
-            slot="trigger"
-            size="small"
-            type="primary"
-          >
-            {{ $t('devTools.uploadApi') }}
-          </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
-          >
-            <em class="el-icon-warning" />{{ $t('devTools.apiText') }}
-          </div>
-        </el-upload>
-        <p
-          class="imageResult"
-          v-for="(item,index) in form.apiFileData"
-          :key="index"
-          v-loading="uploadApiLoading"
-          element-loading-spinner="el-icon-loading"
-          :element-loading-text="$t('promptMessage.loadingText')"
-        >
-          {{ item.fileName }}
-          <em
-            class="el-icon-close"
-            @click="deleteApiFile(item, index)"
-          />
-        </p>
-      </el-form-item>
-    </el-form>
+      {{$t('workspace.uploadImage.test')}}
+      </el-button>
+    </div>
+    <div class="node-info">
+      <div class="node-info-title">
+      {{$t('workspace.uploadImage.useEnv')}}
+      </div>
+      <el-switch
+        @change="onChangeSwitch"
+        v-model="enable"
+      />
+      <div class="env-tip red">
+        {{$t('workspace.uploadImage.useEnvTip')}}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -263,393 +126,158 @@ export default {
   props: {
     projectBeforeConfig: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     allStepData: {
       type: Object,
-      default () {}
+      default: () => { }
     }
   },
   data () {
     return {
-      formLabelWidth: '150px',
-      form: {
-        imageName: '',
-        imageVersion: '',
-        portIn: '',
-        portOut: '',
-        apiFileList: [],
-        yamlFileList: [],
-        imageNameData: [],
-        yamlFileData: [],
-        apiFileData: [],
-        appApiFileId: '' || this.projectBeforeConfig.appApiFileId
-      },
-      options: [],
-      value: '',
-      uploadApiLoading: false,
-      uploadYamlLoading: false,
-      imageDataLoading: true,
-      yamlDataLoading: true,
-      apiDataLoading: true,
+      validate: false,
       userId: sessionStorage.getItem('userId'),
-      showNameErrInfo: false,
-      showVersionErrInfo: false,
-      fileType: ''
+      nodeInfo: {},
+      ip: '',
+      port: '',
+      enable: false,
+      softwareList: [
+        { name: 'Ubuntu', version: '18.04' },
+        { name: 'Docker', version: '18.09' },
+        { name: 'APPLCM', version: '0.9' },
+        { name: 'Kubernetes', version: '1.18.7' },
+        { name: 'Helm', version: '3.2.4' },
+        { name: 'MEP', version: '0.9' }
+      ]
     }
   },
   methods: {
-    // 验证要添加的镜像名称
-    verifyImageName () {
-      if (this.form.imageName === '') {
-        this.showNameErrInfo = true
+    handleSaveNodeInfo () {
+      Workspace.saveNodeInfo(this.userId, { ...this.nodeInfo, ip: this.ip, port: this.port }).then(res => {
+        if (res && res.data && res.data.hostId) {
+          this.validate = true
+          this.$message.success(this.$t('workspace.uploadImage.successfulTest'))
+          this.getNodeInfo()
+        }
+      }, (error) => {
+        this.$message({
+          type: 'error',
+          message: error.response.data.message
+        })
+        this.enable = false
+        this.validate = false
+      })
+    },
+    onChangeNodeInfo () {
+      this.validate = false
+      this.enable = false
+      console.log(this.nodeInfo)
+    },
+    onChangeSwitch (v) {
+      if (!this.validate) {
+        this.$message.warning(this.$t('workspace.uploadImage.testfirst'))
+        this.enable = false
         return
       }
-      this.showNameErrInfo = false
+      this.enable = v
     },
-    // 验证要添加的镜像版本
-    verifyImageVersion () {
-      if (this.form.imageVersion === '') {
-        this.showVersionErrInfo = true
-        return
-      }
-      this.showVersionErrInfo = false
-    },
-    // 方式二上传，添加镜像
-    addImageName () {
-      this.verifyImageName()
-      this.verifyImageVersion()
-      if (this.form.imageName && this.form.imageVersion && this.form.portIn && this.form.portOut) {
-        let projectId = sessionStorage.getItem('mecDetailID')
-        let params = {
-          name: this.form.imageName,
-          version: this.form.imageVersion,
-          // 内部端口号
-          port: this.form.portIn,
-          // 外部端口号
-          nodePort: this.form.portOut,
-          projectId: projectId,
-          type: 'DEVELOPER'
+    getNodeInfo () {
+      Workspace.getNodeInfo(this.userId).then(res => {
+        if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+          const nodeInfo = res.data[0]
+          this.nodeInfo = nodeInfo
+          this.ip = nodeInfo.ip
+          this.port = nodeInfo.port
         }
-        Workspace.addImageNameApi(projectId, params).then(res => {
-          params.id = res.data.id
-          this.getImage('post', params)
-        })
-      }
-    },
-    // 删除镜像
-    deleteImageName (item, index) {
-      let projectId = sessionStorage.getItem('mecDetailID')
-      Workspace.deleteImageNameApi(projectId, item.id).then(res => {
-        this.form.imageNameData.splice(index, 1)
       })
     },
-    // 选择Api文件
-    handleChangeApi (file, fileList) {
-      if (this.form.apiFileData.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
-        this.form.apiFileList = []
-      } else {
-        this.form.apiFileList.push(file.raw)
-        this.fileType = this.form.apiFileList[0].name.substring(this.form.apiFileList[0].name.lastIndexOf('.') + 1)
-        let fileTypeArr = ['yaml', 'json']
-        if (fileTypeArr.indexOf(this.fileType) === -1) {
-          this.$message.warning(this.$t('promptMessage.yamlFileType'))
-          this.form.apiFileList = []
-        }
-      }
-      if (this.form.apiFileList.length > 0) {
-        this.submitApiFile()
-        this.form.apiFileList = []
-      }
-    },
-    handleExceed (file, fileList) {
-      if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
-      }
-    },
-    removeUploadapi (file, fileList) {
-      this.form.apiFileList = []
-    },
-    // 上传Api
-    submitApiFile () {
-      if (this.form.apiFileList.length > 0) {
-        this.uploadApiLoading = true
-        let fd = new FormData()
-        fd.append('file', this.form.apiFileList[0])
-        Workspace.submitApiFileApi(this.userId, fd).then(res => {
-          this.$emit('getAppapiFileId', false)
-          this.form.appApiFileId = res.data.fileId
-          this.uploadApiLoading = false
-          this.$message({
-            type: 'success',
-            message: this.$t('promptMessage.uploadSuccess')
-          })
-          this.getApiFile()
-        })
-      } else {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.uploadApiFile')
-        })
-      }
-    },
-    // 获取上传的Api文件
-    getApiFile () {
-      this.form.apiFileData = []
-      Workspace.getApiFileApi(this.form.appApiFileId, this.userId).then(res => {
-        this.form.apiFileData.push(res.data)
-        this.apiDataLoading = false
-      })
-    },
-    // 删除上传的Api文件
-    deleteApiFile (item, index) {
-      this.form.apiFileData.splice(index, 1)
-      this.$emit('getAppapiFileId', true)
-    },
-    // 选择Yaml文件
-    handleChangeYaml (file, fileList) {
-      if (this.form.yamlFileData.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
-        this.form.yamlFileList = []
-      } else {
-        this.form.yamlFileList.push(file.raw)
-        this.fileType = this.form.yamlFileList[0].name.substring(this.form.yamlFileList[0].name.lastIndexOf('.') + 1)
-        let fileTypeArr = ['yaml', 'json']
-        if (fileTypeArr.indexOf(this.fileType) === -1) {
-          this.$message.warning(this.$t('promptMessage.yamlFileType'))
-          this.form.yamlFileList = []
-        }
-      }
-      if (this.form.yamlFileList.length > 0) {
-        this.submitYamlFile()
-        this.form.yamlFileList = []
-      }
-    },
-    removeUploadyaml (file, fileList) {
-      this.form.yamlFileList = []
-    },
-    handleChangeApp (file, fileList) {
-      this.form.appFileList.push(file.raw)
-    },
-    removeUploadApp (file, fileList) {
-      this.form.appFileList = []
-    },
-    // 上传Yaml文件
-    submitYamlFile () {
-      let projectId = sessionStorage.getItem('mecDetailID')
-      if (this.form.yamlFileList.length > 0) {
-        this.uploadYamlLoading = true
-        let fd = new FormData()
-        fd.append('file', this.form.yamlFileList[0])
-        Workspace.submitYamlFileApi(this.userId, projectId, fd).then(res => {
-          this.form.appYamlFileId = res.data.fileId
-          this.uploadYamlLoading = false
-          this.$message({
-            type: 'success',
-            message: this.$t('promptMessage.uploadSuccess')
-          })
-          this.getYamlFile()
-        })
-      } else {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.uploadYamlFile')
-        })
-      }
-    },
-    // 方式二获取image  type: 第一次获取get / 还是添加
-    getImage (type, params) {
-      let projectId = sessionStorage.getItem('mecDetailID')
-      if (type === 'get') {
-        Workspace.getImageApi(projectId).then(res => {
-          res.data.images.forEach(item => {
-            if (item.type === 'DEVELOPER') {
-              this.form.imageNameData.push(item)
-            }
-          })
-          this.imageDataLoading = false
-        })
-      } else {
-        this.form.imageNameData.push({
-          ...params
-        })
-        this.imageDataLoading = false
-      }
-    },
-    // 获取已上传的yaml文件
-    getYamlFile () {
-      this.form.yamlFileData = []
-      let projectId = sessionStorage.getItem('mecDetailID')
-      Workspace.getYamlFileApi(this.userId, projectId).then(res => {
-        res.data.forEach(item => {
-          this.form.yamlFileData.push(item)
-        })
-        this.yamlDataLoading = false
-      })
-    },
-    // 删除已上传的yaml文件
-    deleteYamlFile (item, index) {
-      Workspace.deleteYamlFileApi(item.fileId).then(res => {
-        this.form.yamlFileData.splice(index, 1)
-      })
-    },
-    // 判断方式二镜像和Yaml是否上传
-    ifNext () {
-      let imageNameData = this.form.imageNameData.length
-      let yamlFileData = this.form.yamlFileData.length
-      let ifNext = false
-      if (imageNameData && yamlFileData) {
-        ifNext = true
-      } else {
-        if (!imageNameData) {
-          this.$message({
-            message: this.$t('promptMessage.addImage'),
-            type: 'warning'
-          })
-        } else if (!yamlFileData) {
-          this.$message({
-            message: this.$t('promptMessage.uploadYamlFile'),
-            type: 'warning'
-          })
-        }
-      }
-      return ifNext
-    },
-    // 将数据传值给父组件
     emitStepData () {
-      let ifNext = this.ifNext()
+      let ifNext = true
       if (ifNext) {
-        this.$emit('getStepData', { step: 'first', data: this.form, ifNext })
-      }
-    },
-    // 返回第一步时，保留填写的数据
-    getFirstData () {
-      if (this.allStepData.first) {
-        let firstData = this.allStepData.first
-        this.form.apiFileData = firstData.apiFileData
+        const data = this.enable ? { hostId: this.nodeInfo.hostId, enable: true } : {}
+        this.$emit('getStepData', { step: 'third', data, ifNext })
       }
     }
   },
   mounted () {
-    // 获取方式二的image
-    this.getImage('get')
-    this.getYamlFile()
-    this.getFirstData()
-    if (this.projectBeforeConfig.appApiFileId) {
-      this.form.appApiFileId = this.projectBeforeConfig.appApiFileId
-      this.getApiFile()
-    }
+    this.getNodeInfo()
   }
 }
 </script>
 
-<style lang="less">
-  .imageSelect{
+<style lang="less" scoped>
+  .imageSelect {
     width: 88%;
     margin-left: 6%;
-    .upload-demo .el-upload__tip{
+
+    .upload-image {
+      margin: 0px 72px 15px 72px;
+    }
+    .red {
+      color: red;
+    }
+
+    .gray {
+      color: gray;
+    }
+
+    .way {
       display: inline-block;
-      margin: 0 0 0 15px;
+      width: 60px;
     }
-    .namespan{
-      float: left;
+
+    .way-desc {
+      display: inline-block;
+      width: calc(100% - 60px);
     }
-    input{
-      height: 30px;
-      line-height: 30px;
-    }
-    .el-input-number{
-      line-height: 30px;
-      margin-top: 5px;
-    }
-    .el-input-number.is-controls-right .el-input__inner{
-      padding: 0 30px 0 15px;
-    }
-    .el-input-number.is-controls-right .el-input-number__decrease, .el-input-number.is-controls-right .el-input-number__increase{
-      line-height: 15px;
-      width: 20px;
-    }
-    .el-input-number__decrease i{
-      position: relative;
-      top: 1px;
-    }
-    .el-form-item__label{
-      padding:0 20px 0 0;
-    }
-    .imageNameInput{
-      float: left;
-      width: 160px;
-      padding: 0 5px;
-      margin:0 10px 0 0;
-    }
-    .imageVersionInput{
-      float: left;
-      width: 90px;
-      padding: 0 5px;
-      margin-right: 10px;
-    }
-    .portInput{
-      float: left;
-      width: 90px;
-      margin-left: 5px;
-      margin-right: 10px;
-    }
-    .addBtn{
-      float: left;
-      margin: 5px 0 0 10px;
-      padding: 7px 20px;
-      background-color: #fff;
-      border: 1px solid #688ef3;
-      color: #688ef3;
-    }
-    .imageResult{
-      clear: both;
-      height: 30px;
-      line-height: 30px;
-      em{
-        margin-left: 10px;
-        cursor: pointer;
-      }
-      em:hover{
-        color: #688ef3;
-      }
-    }
-    .el-form-error{
-      color: #f56c6c;
+
+    .tip {
       font-size: 12px;
+      margin: 0px 72px 15px 72px;
     }
-    .btnText.el-button{
-      white-space:normal;
-      line-height: 20px;
+
+    .table-container {
+      padding: 0px 72px;
     }
-    .elRow {
-      margin-top: 50px;
+
+    .table {
+      width: 100%;
     }
-    .elImageRow {
-      margin-top: 20px;
-    }
-    .elSelect {
-      width: 260px;
-      display: block;
-    }
-    .el-form-item.or{
-      margin-bottom: 0px;
-      .el-form-item__label{
-        line-height: 20px;
-      }
-    }
-    .el-loading-spinner{
-      p{
-        line-height: 0px;
-      }
-    }
-    .el-icon-warning{
-      color: #688ef3;
-      margin-right: 5px;
+
+    .table-tip {
+      cursor: pointer;
+      padding: 15px 0px;
+      text-align: right;
       font-size: 14px;
+      color: #6c92fa;
+    }
+
+    .node-info {
+      padding: 0px 72px 15px 72px;
+      .width-100 {
+        width: 100px;
+      }
+      .width-200 {
+        width: 200px;
+      }
+      .input {
+        /* display: inline-block; */
+        margin-right: 15px;
+      }
+      .node-info-title {
+        width: 120px;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+      }
+      .env-tip {
+        font-size: 12px;
+        padding-left: 15px;
+        display: inline-block;
+      }
     }
   }
+
   @media screen and (max-width: 1380px) {
     .imageSelect {
       width: 100%;

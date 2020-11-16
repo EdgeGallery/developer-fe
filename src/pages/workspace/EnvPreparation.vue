@@ -17,20 +17,47 @@
 <template>
   <div class="envPreparation">
     <p class="p-top">
-      <strong>开发环境准备：</strong>根据应用开发需求，准备一下开发环境
+      <strong>{{ $t('workspace.environmentPreparation') }}：</strong>{{ $t('workspace.environmentPreparationTip') }}
     </p>
     <h3 class="title">
-      编程工具
+      <i class="el-icon-setting" />
+      {{ $t('workspace.programTools') }}
     </h3>
-    <div />
+    <div class="pad">
+      {{ $t('workspace.prepare.toolTip') }}
+    </div>
     <h3 class="title">
-      编程插件
+      <i class="el-icon-notebook-2" />
+      {{ $t('workspace.programPlugin') }}
     </h3>
-    <div />
+    <div class="pad">
+      {{ $t('workspace.prepare.pluginTip') }}
+    </div>
+    <div class="pad">
+      <el-button
+        type="primary"
+        plain
+        size="mini"
+      >
+        {{ $t('workspace.detail') }}
+      </el-button>
+    </div>
     <h3 class="title">
-      示例代码
+      <i class="el-icon-edit-outline" />
+      {{ $t('workspace.sampleCode') }}
     </h3>
-    <div />
+    <div class="pad">
+      {{ $t('workspace.prepare.codeTip') }}
+    </div>
+    <div class="pad">
+      <el-button
+        type="primary"
+        plain
+        size="mini"
+      >
+        {{ $t('workspace.detail') }}
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -61,6 +88,10 @@ export default {
 .envPreparation{
   .p-top{
     margin-bottom: 15px;
+  }
+  .pad {
+    padding-left: 35px;
+    padding-bottom: 15px;
   }
 }
 </style>
