@@ -99,6 +99,7 @@ export default {
         oDiv.style.height = Number(deviceHeight) - 150 + 'px'
         const oDiv2 = document.getElementsByClassName('el-tree')[0]
         oDiv2.style.height = Number(deviceHeight) - 210 + 'px'
+        console.log(oDiv2.style.height)
       })
     }
   },

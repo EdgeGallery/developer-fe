@@ -20,14 +20,14 @@
       <strong>{{ $t('workspace.environmentPreparation') }}：</strong>{{ $t('workspace.environmentPreparationTip') }}
     </p>
     <h3 class="title">
-      <i class="el-icon-setting" />
+      <em class="el-icon-setting" />
       {{ $t('workspace.programTools') }}
     </h3>
     <div class="pad">
       {{ $t('workspace.prepare.toolTip') }}
     </div>
     <h3 class="title">
-      <i class="el-icon-notebook-2" />
+      <em class="el-icon-notebook-2" />
       {{ $t('workspace.programPlugin') }}
     </h3>
     <div class="pad">
@@ -43,7 +43,7 @@
       </el-button>
     </div>
     <h3 class="title">
-      <i class="el-icon-edit-outline" />
+      <em class="el-icon-edit-outline" />
       {{ $t('workspace.sampleCode') }}
     </h3>
     <div class="pad">
