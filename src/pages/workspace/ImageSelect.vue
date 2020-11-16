@@ -25,18 +25,18 @@
       </div>
     </h3>
     <div class="tip red">
-      {{$t('workspace.uploadImage.mode1Tip')}}
+      {{ $t('workspace.uploadImage.mode1Tip') }}
     </div>
     <h3 class="title">
       <div class="way">
-        {{$t('workspace.uploadImage.mode2')}}
+        {{ $t('workspace.uploadImage.mode2') }}
       </div>
       <div class="way-desc">
-        {{$t('workspace.uploadImage.mode2Desc')}}
+        {{ $t('workspace.uploadImage.mode2Desc') }}
       </div>
     </h3>
     <div class="tip red">
-      {{$t('workspace.uploadImage.mode2Tip')}}
+      {{ $t('workspace.uploadImage.mode2Tip') }}
     </div>
     <el-button
       class="upload-image"
@@ -44,18 +44,18 @@
       plain
       size="mini"
     >
-      {{$t('workspace.uploadImage.uploadAppImage')}}
-      </el-button>
+      {{ $t('workspace.uploadImage.uploadAppImage') }}
+    </el-button>
     <h3 class="title">
       <div class="way">
-        {{$t('workspace.uploadImage.mode3')}}
+        {{ $t('workspace.uploadImage.mode3') }}
       </div>
       <div class="way-desc">
-        {{$t('workspace.uploadImage.mode3Desc')}}
+        {{ $t('workspace.uploadImage.mode3Desc') }}
       </div>
     </h3>
     <div class="tip gray">
-      {{$t('workspace.uploadImage.mode3Tip')}}
+      {{ $t('workspace.uploadImage.mode3Tip') }}
     </div>
     <div class="table-container">
       <el-table
@@ -74,12 +74,12 @@
         />
       </el-table>
       <div class="table-tip">
-        {{$t('workspace.uploadImage.installation')}}
+        {{ $t('workspace.uploadImage.installation') }}
       </div>
     </div>
     <div class="node-info">
       <div class="node-info-title">
-        {{$t('workspace.uploadImage.importNode')}}
+        {{ $t('workspace.uploadImage.importNode') }}
       </div>
       <el-input
         @input="onChangeNodeInfo()"
@@ -101,19 +101,19 @@
         size="small"
         @click="handleSaveNodeInfo()"
       >
-      {{$t('workspace.uploadImage.test')}}
+        {{ $t('workspace.uploadImage.test') }}
       </el-button>
     </div>
     <div class="node-info">
       <div class="node-info-title">
-      {{$t('workspace.uploadImage.useEnv')}}
+        {{ $t('workspace.uploadImage.useEnv') }}
       </div>
       <el-switch
         @change="onChangeSwitch"
         v-model="enable"
       />
       <div class="env-tip red">
-        {{$t('workspace.uploadImage.useEnvTip')}}
+        {{ $t('workspace.uploadImage.useEnvTip') }}
       </div>
     </div>
   </div>

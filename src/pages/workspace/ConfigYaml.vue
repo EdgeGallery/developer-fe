@@ -60,33 +60,33 @@
           {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
         </div>
         <div :class="appYamlFileId ? 'green test' : 'red test'">
-          <i
+          <em
             v-show="appYamlFileId"
             class="el-icon-circle-check"
           />
-          <i
+          <em
             v-show="!appYamlFileId"
             class="el-icon-circle-close"
           />
           {{ $t('workspace.configYaml.format') }}
         </div>
         <div :class="appYamlFileId ? 'green test' : 'red test'">
-          <i
+          <em
             v-show="appYamlFileId"
             class="el-icon-circle-check"
           />
-          <i
+          <em
             v-show="!appYamlFileId"
             class="el-icon-circle-close"
           />
           {{ $t('workspace.configYaml.imageInfo') }}
         </div>
         <div :class="appYamlFileId ? 'green test' : 'red test'">
-          <i
+          <em
             v-show="appYamlFileId"
             class="el-icon-circle-check"
           />
-          <i
+          <em
             v-show="!appYamlFileId"
             class="el-icon-circle-close"
           />
