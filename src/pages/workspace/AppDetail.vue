@@ -61,6 +61,7 @@
         <div class="elSteps">
           <component
             :is="currentComponent"
+            :active="active"
             @getStepData="getStepData"
             @getBtnStatus="getBtnStatus"
             :project-before-config="projectBeforeConfig"
@@ -138,6 +139,7 @@ export default {
   },
   data () {
     return {
+      firstEnter: true,
       apiDataLoading: true,
       projecDetailList: [],
       dialogVisible: false,
@@ -225,18 +227,21 @@ export default {
     submitData () {
       const projectId = sessionStorage.getItem('mecDetailID')
       const params = {
+        testId: this.projectBeforeConfig.testId,
         privateHost: !!this.allStepData.third.enable,
         deployFileId: this.allStepData.fourth.appYamlFileId,
         platform: 'KUBERNETES',
-        hosts: this.allStepData.third.enable ? [
+        hosts: this.allStepData.third.hostId ? [
           {
             hostId: this.allStepData.third.hostId,
             userId: this.userId
           }
         ] : []
       }
-      Workspace.postTestConfigApi(projectId, this.userId, params).then(res => {
+      const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
+      func(projectId, this.userId, params).then(res => {
         this.$message.success('保存成功')
+        this.getTestConfig()
       }, (error) => {
         this.$message({
           type: 'error',
@@ -276,12 +281,7 @@ export default {
     getTestConfig () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
-        if (res.data.status === 'Running') {
-          this.activeName = '2'
-          this.active = 3
-          this.changeComponent()
-        }
-        this.projectBeforeConfig = res.data ? res.data : {}
+        this.projectBeforeConfig = res.data || {}
       })
     }
   },

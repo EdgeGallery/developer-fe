@@ -137,7 +137,7 @@ export default {
     return {
       validate: false,
       userId: sessionStorage.getItem('userId'),
-      nodeInfo: {},
+      hostId: '',
       ip: '',
       port: '',
       enable: false,
@@ -153,11 +153,11 @@ export default {
   },
   methods: {
     handleSaveNodeInfo () {
-      Workspace.saveNodeInfo(this.userId, { ...this.nodeInfo, ip: this.ip, port: this.port }).then(res => {
+      Workspace.saveNodeInfo(this.userId, { hostId: this.hostId, ip: this.ip, port: this.port }).then(res => {
         if (res && res.data && res.data.hostId) {
           this.validate = true
+          this.hostId = res.data.hostId
           this.$message.success(this.$t('workspace.uploadImage.successfulTest'))
-          this.getNodeInfo()
         }
       }, (error) => {
         this.$message({
@@ -171,10 +171,9 @@ export default {
     onChangeNodeInfo () {
       this.validate = false
       this.enable = false
-      console.log(this.nodeInfo)
     },
     onChangeSwitch (v) {
-      if (!this.validate) {
+      if (!this.validate && v) {
         this.$message.warning(this.$t('workspace.uploadImage.testfirst'))
         this.enable = false
         return
@@ -182,25 +181,38 @@ export default {
       this.enable = v
     },
     getNodeInfo () {
-      Workspace.getNodeInfo(this.userId).then(res => {
-        if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
-          const nodeInfo = res.data[0]
-          this.nodeInfo = nodeInfo
-          this.ip = nodeInfo.ip
-          this.port = nodeInfo.port
-        }
-      })
+      if (Array.isArray(this.projectBeforeConfig.hosts) && this.projectBeforeConfig.hosts.length) {
+        Workspace.getNodeInfo(this.userId).then(res => {
+          if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+            const nodeInfo = res.data.find(s => s.hostId === this.projectBeforeConfig.hosts[0].hostId) || {}
+            this.hostId = nodeInfo.hostId
+            this.ip = nodeInfo.ip
+            this.port = nodeInfo.port
+          }
+        })
+      }
     },
     emitStepData () {
       let ifNext = true
       if (ifNext) {
-        const data = this.enable ? { hostId: this.nodeInfo.hostId, enable: true } : {}
+        const data = { ip: this.ip, port: this.port, hostId: this.hostId, enable: this.enable }
         this.$emit('getStepData', { step: 'third', data, ifNext })
       }
     }
   },
   mounted () {
-    this.getNodeInfo()
+    if (this.allStepData.third) {
+      this.hostId = this.allStepData.third.hostId
+      this.ip = this.allStepData.third.ip
+      this.port = this.allStepData.third.port
+      this.enable = this.allStepData.third.enable
+    } else {
+      this.enable = !!this.projectBeforeConfig.privateHost
+      if (this.enable) {
+        this.validate = true
+      }
+      this.getNodeInfo()
+    }
   }
 }
 </script>
