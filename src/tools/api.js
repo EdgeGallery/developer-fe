@@ -119,7 +119,7 @@ let Workspace = {
     const { ip, port } = params
     const func = params.hostId ? Put : Post
     const path = params.hostId ? `mec/developer/v1/hosts/${params.hostId}/?userId=${userId}` : `mec/developer/v1/hosts/?userId=${userId}`
-    const data = params.hostId ? params : { status: 'NORMAL', ip, port, name: ip, architecture: 'ARM', address: ip }
+    const data = { architecture: 'X86', userId, status: 'NORMAL', ip, port, name: ip, address: ip }
     return func(path, data)
   },
   // 获取详情中节点信息
@@ -180,8 +180,8 @@ let Workspace = {
     return Post('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
   // 修改配置
-  putTestConfigApi: function (projectId, params) {
-    return Put('mec/developer/v1/projects/' + projectId + '/test-config', params)
+  putTestConfigApi: function (projectId, userId, params) {
+    return Put('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
   // 部署构建测试
   deployTestApi: function (projectId, userId) {

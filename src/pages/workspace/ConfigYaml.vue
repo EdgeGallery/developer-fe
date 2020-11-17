@@ -56,41 +56,43 @@
             <em class="el-icon-warning" />{{ $t('workspace.configYaml.uploadYamlTip') }}
           </div>
         </el-upload>
-        <div :class="appYamlFileId ? 'green test' : 'red test'">
-          {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
-        </div>
-        <div :class="appYamlFileId ? 'green test' : 'red test'">
-          <em
-            v-show="appYamlFileId"
-            class="el-icon-circle-check"
-          />
-          <em
-            v-show="!appYamlFileId"
-            class="el-icon-circle-close"
-          />
-          {{ $t('workspace.configYaml.format') }}
-        </div>
-        <div :class="appYamlFileId ? 'green test' : 'red test'">
-          <em
-            v-show="appYamlFileId"
-            class="el-icon-circle-check"
-          />
-          <em
-            v-show="!appYamlFileId"
-            class="el-icon-circle-close"
-          />
-          {{ $t('workspace.configYaml.imageInfo') }}
-        </div>
-        <div :class="appYamlFileId ? 'green test' : 'red test'">
-          <em
-            v-show="appYamlFileId"
-            class="el-icon-circle-check"
-          />
-          <em
-            v-show="!appYamlFileId"
-            class="el-icon-circle-close"
-          />
-          {{ $t('workspace.configYaml.serviceInfo') }}
+        <div v-show="hasValidate">
+          <div :class="appYamlFileId ? 'green test' : 'red test'">
+            {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
+          </div>
+          <div :class="appYamlFileId ? 'green test' : 'red test'">
+            <em
+              v-show="appYamlFileId"
+              class="el-icon-circle-check"
+            />
+            <em
+              v-show="!appYamlFileId"
+              class="el-icon-circle-close"
+            />
+            {{ $t('workspace.configYaml.format') }}
+          </div>
+          <div :class="appYamlFileId ? 'green test' : 'red test'">
+            <em
+              v-show="appYamlFileId"
+              class="el-icon-circle-check"
+            />
+            <em
+              v-show="!appYamlFileId"
+              class="el-icon-circle-close"
+            />
+            {{ $t('workspace.configYaml.imageInfo') }}
+          </div>
+          <div :class="appYamlFileId ? 'green test' : 'red test'">
+            <em
+              v-show="appYamlFileId"
+              class="el-icon-circle-check"
+            />
+            <em
+              v-show="!appYamlFileId"
+              class="el-icon-circle-close"
+            />
+            {{ $t('workspace.configYaml.serviceInfo') }}
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -110,12 +112,23 @@
 import { Workspace } from '../../tools/api.js'
 export default {
   name: 'ConfigYaml',
+  props: {
+    projectBeforeConfig: {
+      type: Object,
+      default: () => { }
+    },
+    allStepData: {
+      type: Object,
+      default: () => { }
+    }
+  },
   data () {
     return {
       appYamlFileId: '',
       uploadYamlLoading: false,
       yamlFileList: [],
       activeName: 'first',
+      hasValidate: false,
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID')
     }
@@ -147,6 +160,8 @@ export default {
     },
     // 移除Yaml文件
     removeUploadyaml (file, fileList) {
+      Workspace.deleteYamlFileApi(this.appYamlFileId)
+      this.hasValidate = false
       this.yamlFileList = []
       this.appYamlFileId = ''
     },
@@ -156,6 +171,7 @@ export default {
       let fd = new FormData()
       fd.append('file', this.yamlFileList[0])
       Workspace.submitYamlFileApi(this.userId, this.projectId, fd).then(res => {
+        this.hasValidate = true
         this.appYamlFileId = res.data.fileId
         this.$message({
           type: 'success',
@@ -167,12 +183,31 @@ export default {
           message: error.response.data.message
         })
         this.appYamlFileId = ''
+        this.yamlFileList = []
       }).finally(() => {
         this.uploadYamlLoading = false
       })
+    },
+    initFileList () {
+      if (this.projectBeforeConfig.deployFileId) {
+        this.uploadYamlLoading = true
+        Workspace.getYamlFileApi(this.userId, this.projectId).then(res => {
+          if (res && Array.isArray(res.data)) {
+            const fileObj = res.data.find(s => s.fileId === this.projectBeforeConfig.deployFileId) || {}
+            if (fileObj.fileId) {
+              this.hasValidate = true
+              this.appYamlFileId = fileObj.fileId
+              this.yamlFileList = [{ name: fileObj.fileName, fileId: fileObj.fileId }]
+            }
+          }
+        }).finally(() => {
+          this.uploadYamlLoading = false
+        })
+      }
     }
   },
   mounted () {
+    this.initFileList()
   }
 }
 </script>
