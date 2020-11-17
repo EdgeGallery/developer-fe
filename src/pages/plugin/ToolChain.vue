@@ -388,11 +388,13 @@ export default {
       Plugin.getSourceCodeApi(this.userId, '', 'toolchain').then(res => {
         this.sourceCodeName = res.data.sourceCodeName
         this.sourceCodeExist = res.data.sourceCodeExist
+        this.codeFileList = [{ name: this.sourceCodeName }]
       })
     },
     // 删除已上传的源代码
     deleteSourceCode () {
       Plugin.deleteSourceCodeApi(this.userId, '', 'toolchain').then(res => {
+        this.codeFileList = []
         this.getSourceCode()
         sessionStorage.setItem('sourceCodePath', '')
       })
@@ -435,8 +437,8 @@ export default {
         })
       }
     },
-    handleExceed (file, fileList) {
-      if (fileList.length === 1) {
+    handleExceed () {
+      if (this.sourceCodeExist) {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
