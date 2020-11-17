@@ -388,7 +388,6 @@ export default {
       Plugin.getSourceCodeApi(this.userId, '', 'toolchain').then(res => {
         this.sourceCodeName = res.data.sourceCodeName
         this.sourceCodeExist = res.data.sourceCodeExist
-        this.codeFileList = [{ name: this.sourceCodeName }]
       })
     },
     // 删除已上传的源代码
@@ -401,6 +400,7 @@ export default {
     },
     // 上传源代码
     handleChangeCode (file, fileList) {
+      console.log(this.sourceCodeName)
       let fileTypeArr = ['tar.gz']
       this.fileType = fileList[0].name.substr(fileList[0].name.lastIndexOf('.', fileList[0].name.lastIndexOf('.') - 1) + 1)
       if (fileTypeArr.indexOf(this.fileType) === -1) {
@@ -435,6 +435,10 @@ export default {
           this.analysisLoading = false
           this.$message.error(this.$t('workspace.uploadCodeFail'))
         })
+      } else {
+        console.log(this.sourceCodeName)
+        this.handleExceed()
+        this.codeFileList = []
       }
     },
     handleExceed () {
