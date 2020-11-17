@@ -54,6 +54,7 @@
                 :limit="1"
                 :on-change="handleChangeCode"
                 :on-exceed="handleExceed"
+                :file-list="codeFileList"
                 :show-file-list="false"
                 :auto-upload="false"
                 accept=".tar.gz"
@@ -402,32 +403,36 @@ export default {
       this.fileType = fileList[0].name.substr(fileList[0].name.lastIndexOf('.', fileList[0].name.lastIndexOf('.') - 1) + 1)
       if (fileTypeArr.indexOf(this.fileType) === -1) {
         this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.codeFileList = []
       } else if (file.size / 1024 / 1024 > 10) {
         this.$message.warning(this.$t('promptMessage.moreThan10M'))
+        this.codeFileList = []
       } else if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.codeFileList = []
       } else if (this.sourceCodeName === '') {
+        this.codeFileList = []
         this.analysisLoading = true
-        this.sourceCodeName = file.raw.name
-        this.sourceCodeExist = true
         let formdata = new FormData()
         formdata.append('file', file.raw)
         this.uploadCodeText = this.$t('promptMessage.uploadCodeText')
         Plugin.uploadSourceCodeApi(this.userId, formdata, 'toolchain').then(res => {
           if (res.status === 200) {
+            this.sourceCodeName = file.raw.name
+            this.sourceCodeExist = true
             this.analysisLoading = false
             sessionStorage.setItem('sourceCodePath', res.data.sourcePath)
           } else {
             this.$message.error(this.$t('workspace.uploadCodeFail'))
             this.analysisLoading = false
+            this.sourceCodeName = ''
+            this.sourceCodeExist = false
           }
         }).catch(err => {
           console.log(err)
           this.analysisLoading = false
           this.$message.error(this.$t('workspace.uploadCodeFail'))
         })
-      } else {
-        this.handleExceed(file, fileList)
       }
     },
     handleExceed (file, fileList) {
