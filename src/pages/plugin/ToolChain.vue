@@ -54,9 +54,8 @@
                 :limit="1"
                 :on-change="handleChangeCode"
                 :on-exceed="handleExceed"
-                :file-list="codeFileList"
+                :show-file-list="false"
                 :auto-upload="false"
-                :on-remove="removeUpload"
                 accept=".tar.gz"
                 name="codeFile"
               >
@@ -399,52 +398,42 @@ export default {
     },
     // 上传源代码
     handleChangeCode (file, fileList) {
-      this.codeFileList.push(file.raw)
       let fileTypeArr = ['tar.gz']
       this.fileType = fileList[0].name.substr(fileList[0].name.lastIndexOf('.', fileList[0].name.lastIndexOf('.') - 1) + 1)
       if (fileTypeArr.indexOf(this.fileType) === -1) {
         this.$message.warning(this.$t('promptMessage.checkFileType'))
-        this.codeFileList = []
       } else if (file.size / 1024 / 1024 > 10) {
         this.$message.warning(this.$t('promptMessage.moreThan10M'))
-        this.codeFileList = []
       } else if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
-        this.codeFileList = []
       } else if (this.sourceCodeName === '') {
-        this.codeFileList = []
         this.analysisLoading = true
-        this.codeFileList.push(file.raw)
+        this.sourceCodeName = file.raw.name
+        this.sourceCodeExist = true
         let formdata = new FormData()
-        formdata.append('file', this.codeFileList[0])
+        formdata.append('file', file.raw)
         this.uploadCodeText = this.$t('promptMessage.uploadCodeText')
         Plugin.uploadSourceCodeApi(this.userId, formdata, 'toolchain').then(res => {
           if (res.status === 200) {
             this.analysisLoading = false
             sessionStorage.setItem('sourceCodePath', res.data.sourcePath)
           } else {
-            this.codeFileList = []
             this.$message.error(this.$t('workspace.uploadCodeFail'))
             this.analysisLoading = false
           }
         }).catch(err => {
           console.log(err)
-          this.codeFileList = []
           this.analysisLoading = false
           this.$message.error(this.$t('workspace.uploadCodeFail'))
         })
       } else {
         this.handleExceed(file, fileList)
-        this.codeFileList = []
       }
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
-    },
-    removeUpload (file, fileList) {
-      this.codeFileList = fileList
     },
     // 点击分析按钮，创建分析任务
     analysisCode () {
