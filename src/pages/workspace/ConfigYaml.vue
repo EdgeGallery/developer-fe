@@ -27,7 +27,11 @@
       >
         <h3 class="title">
           {{ $t('workspace.configYaml.uploadFile') }}
-          <span class="down-demo">{{ $t('workspace.configYaml.downloadDemo') }}</span>
+          <a
+            :href="demoYaml"
+            download="demo.yaml"
+            class="down-demo"
+          >{{ $t('workspace.configYaml.downloadDemo') }}</a>
         </h3>
         <el-upload
           id="uploadYaml"
@@ -38,7 +42,7 @@
           :file-list="yamlFileList"
           :auto-upload="false"
           :on-remove="removeUploadyaml"
-          accept=".json,.yaml"
+          accept=".yaml"
           name="yamlFile"
           v-loading="uploadYamlLoading"
         >
@@ -60,38 +64,49 @@
           <div :class="appYamlFileId ? 'green test' : 'red test'">
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
           </div>
-          <div :class="appYamlFileId ? 'green test' : 'red test'">
+          <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
             <em
-              v-show="appYamlFileId"
+              v-show="checkFlag.formatSuccess"
               class="el-icon-circle-check"
             />
             <em
-              v-show="!appYamlFileId"
+              v-show="!checkFlag.formatSuccess"
               class="el-icon-circle-close"
             />
             {{ $t('workspace.configYaml.format') }}
           </div>
-          <div :class="appYamlFileId ? 'green test' : 'red test'">
+          <div :class="checkFlag.imageSuccess ? 'green test' : 'red test'">
             <em
-              v-show="appYamlFileId"
+              v-show="checkFlag.imageSuccess"
               class="el-icon-circle-check"
             />
             <em
-              v-show="!appYamlFileId"
+              v-show="!checkFlag.imageSuccess"
               class="el-icon-circle-close"
             />
             {{ $t('workspace.configYaml.imageInfo') }}
           </div>
-          <div :class="appYamlFileId ? 'green test' : 'red test'">
+          <div :class="checkFlag.serviceSuccess ? 'green test' : 'red test'">
             <em
-              v-show="appYamlFileId"
+              v-show="checkFlag.serviceSuccess"
               class="el-icon-circle-check"
             />
             <em
-              v-show="!appYamlFileId"
+              v-show="!checkFlag.serviceSuccess"
               class="el-icon-circle-close"
             />
             {{ $t('workspace.configYaml.serviceInfo') }}
+          </div>
+          <div :class="checkFlag.mepAgentSuccess ? 'green test' : 'red test'">
+            <em
+              v-show="checkFlag.mepAgentSuccess"
+              class="el-icon-circle-check"
+            />
+            <em
+              v-show="!checkFlag.mepAgentSuccess"
+              class="el-icon-circle-close"
+            />
+            {{ $t('workspace.configYaml.mepAgent') }}
           </div>
         </div>
       </el-tab-pane>
@@ -110,6 +125,8 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
+import demoYaml from '@/assets/file/test_helm_template.yaml'
+
 export default {
   name: 'ConfigYaml',
   props: {
@@ -124,6 +141,8 @@ export default {
   },
   data () {
     return {
+      demoYaml,
+      checkFlag: {},
       appYamlFileId: '',
       uploadYamlLoading: false,
       yamlFileList: [],
@@ -147,15 +166,17 @@ export default {
     },
     // 选择Yaml文件
     handleChangeYaml (file, fileList) {
-      this.yamlFileList.push(file.raw)
+      let yamlFileList = []
+      yamlFileList.push(file.raw)
+      this.yamlFileList = []
       const fileType = file.raw.name.substring(file.raw.name.lastIndexOf('.') + 1)
-      const fileTypeArr = ['yaml', 'json']
+      const fileTypeArr = ['yaml']
       if (!fileTypeArr.includes(fileType)) {
-        this.$message.warning(this.$t('promptMessage.yamlFileType'))
-        this.yamlFileList = []
+        this.$message.warning(this.$t('workspace.configYaml.yamlFileType'))
+        yamlFileList = []
       }
-      if (this.yamlFileList.length > 0) {
-        this.submitYamlFile()
+      if (yamlFileList.length > 0) {
+        this.submitYamlFile(yamlFileList)
       }
     },
     // 移除Yaml文件
@@ -164,19 +185,28 @@ export default {
       this.hasValidate = false
       this.yamlFileList = []
       this.appYamlFileId = ''
+      this.checkFlag = {}
     },
     // 上传Yaml文件
-    submitYamlFile () {
+    submitYamlFile (yamlFileList) {
       this.uploadYamlLoading = true
       let fd = new FormData()
-      fd.append('file', this.yamlFileList[0])
+      fd.append('file', yamlFileList[0])
       Workspace.submitYamlFileApi(this.userId, this.projectId, fd).then(res => {
         this.hasValidate = true
-        this.appYamlFileId = res.data.fileId
-        this.$message({
-          type: 'success',
-          message: this.$t('promptMessage.uploadSuccess')
-        })
+        if (res.data.fileId) {
+          this.yamlFileList = yamlFileList
+          this.appYamlFileId = res.data.fileId
+          this.$message({
+            type: 'success',
+            message: this.$t('promptMessage.uploadSuccess')
+          })
+        } else {
+          this.appYamlFileId = ''
+          this.yamlFileList = []
+        }
+        const { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess } = res.data
+        this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
       }, (error) => {
         this.$message({
           type: 'error',
@@ -184,6 +214,8 @@ export default {
         })
         this.appYamlFileId = ''
         this.yamlFileList = []
+        this.hasValidate = false
+        this.checkFlag = {}
       }).finally(() => {
         this.uploadYamlLoading = false
       })
@@ -195,6 +227,7 @@ export default {
           if (res && Array.isArray(res.data)) {
             const fileObj = res.data.find(s => s.fileId === this.projectBeforeConfig.deployFileId) || {}
             if (fileObj.fileId) {
+              this.checkFlag = { formatSuccess: true, imageSuccess: true, mepAgentSuccess: true, serviceSuccess: true }
               this.hasValidate = true
               this.appYamlFileId = fileObj.fileId
               this.yamlFileList = [{ name: fileObj.fileName, fileId: fileObj.fileId }]
