@@ -51,8 +51,8 @@ module.exports = {
         }
       },
       '/mec-developer': {
-        target: 'http://10.10.1.138:9082',
-        // agent: new HttpProxyAgent('http://127.0.0.1:8082'),
+        target: 'http://mec-developer',
+        agent: new HttpProxyAgent('http://127.0.0.1:8082'),
         changeOrigin: true,
         pathRewrite: {
           '^/mec-developer': ''
