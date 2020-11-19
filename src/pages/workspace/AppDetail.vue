@@ -83,6 +83,7 @@
           <el-button
             id="nextBtn"
             type="primary"
+            v-loading="apiDataLoading"
             @click="next"
           >
             <strong>{{ btnName }}</strong>
@@ -140,7 +141,7 @@ export default {
   data () {
     return {
       firstEnter: true,
-      apiDataLoading: true,
+      apiDataLoading: false,
       projecDetailList: [],
       dialogVisible: false,
       activeName: '1',
@@ -225,6 +226,7 @@ export default {
       this.appApiFileIdTemp = data
     },
     submitData () {
+      this.apiDataLoading = true
       const projectId = sessionStorage.getItem('mecDetailID')
       const params = {
         testId: this.projectBeforeConfig.testId,
@@ -247,6 +249,8 @@ export default {
           type: 'error',
           message: error.response.data.message
         })
+      }).finally(() => {
+        this.apiDataLoading = false
       })
     },
     // 部署

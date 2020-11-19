@@ -123,18 +123,20 @@ const en = {
   },
   workspace: {
     configYaml: {
+      yamlFileType: 'Please select files with the suffix ".yaml"',
       uploadYamlFirst: 'Please upload file first',
       importFile: 'Import File',
       config: 'Visual Configuration',
       uploadFile: 'Upload File',
       downloadDemo: 'download template',
       uploadYaml: 'Upload file',
-      uploadYamlTip: 'upload .json or .yaml file',
+      uploadYamlTip: 'upload .yaml file',
       pass: 'file detection passed',
       fail: 'file detection failed',
       format: 'format check',
       imageInfo: 'image info check',
-      serviceInfo: 'service info check'
+      serviceInfo: 'service info check',
+      mepAgent: 'MEP Agent'
     },
     uploadImage: {
       successfulTest: 'The test was successful',

@@ -15,7 +15,30 @@
  */
 
 const HttpProxyAgent = require('http-proxy-agent')
+const path = require('path')
+
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@', resolve('src')).end()
+
+    config.module
+      .rule('yaml')
+      .test(/\.yaml$/)
+      .include.add(resolve('src/assets/file'))
+      .end()
+      .use('url-loader')
+      .loader('url-loader')
+      .options({
+        limit: 10000,
+        name: `static/yaml/[name].[hash:7].[ext]`
+      })
+      .end()
+  },
   devServer: {
     disableHostCheck: true,
     proxy: {

@@ -123,18 +123,20 @@ const cn = {
   },
   workspace: {
     configYaml: {
+      yamlFileType: '请选择后缀名为".yaml"的文件',
       uploadYamlFirst: '请先上传Yaml',
       importFile: '文件导入',
       config: '可视化配置',
       uploadFile: '上传文件',
       downloadDemo: '模版下载',
       uploadYaml: '上传Yaml',
-      uploadYamlTip: '请上传.json或者.yaml文件',
+      uploadYamlTip: '请上传.yaml文件',
       pass: '文件检测通过',
       fail: '文件检测未通过',
       format: '格式校验',
       imageInfo: '镜像信息',
-      serviceInfo: '服务信息'
+      serviceInfo: '服务信息',
+      mepAgent: 'MEP Agent'
     },
     uploadImage: {
       successfulTest: '测试成功',
