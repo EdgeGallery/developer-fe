@@ -400,7 +400,6 @@ export default {
     },
     // 上传源代码
     handleChangeCode (file, fileList) {
-      console.log(this.sourceCodeName)
       let fileTypeArr = ['tar.gz']
       this.fileType = fileList[0].name.substr(fileList[0].name.lastIndexOf('.', fileList[0].name.lastIndexOf('.') - 1) + 1)
       if (fileTypeArr.indexOf(this.fileType) === -1) {
@@ -436,7 +435,6 @@ export default {
           this.$message.error(this.$t('workspace.uploadCodeFail'))
         })
       } else {
-        console.log(this.sourceCodeName)
         this.handleExceed()
         this.codeFileList = []
       }

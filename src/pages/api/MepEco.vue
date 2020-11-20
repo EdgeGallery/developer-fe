@@ -36,11 +36,18 @@
         class="mep-tree"
         :class="{'scroll-top':scrollTop}"
       >
+        <div class="treetop_tit">
+          <p @click="showServiceIntro">
+            {{ $t('api.serviceIntroduction') }}
+          </p>
+          <p>
+            {{ $t('api.serviceList') }}
+          </p>
+        </div>
         <el-tree
-          v-if="abilityList.length>0"
-          :data="abilityList"
+          :data="treeData"
           default-expand-all
-          :indent="0"
+          :indent="10"
           ref="tree"
           :highlight-current="true"
           :props="defaultProps"
@@ -54,7 +61,7 @@
         v-if="docPage"
       >
         <Document
-          :service-path="servicePath"
+          :guide-file-idprop="guideFileId"
         />
       </div>
       <div
@@ -62,7 +69,11 @@
         :class="{'doc-left':scrollTop,'doc-right':apiPage}"
         v-if="apiPage"
       >
-        <API :api-file-idprop="apiFileId" />
+        <API
+          :api-file-idprop="apiFileId"
+          :service-detailprop="serviceDetail"
+          :is-delete-apiprop="true"
+        />
       </div>
     </div>
   </div>
@@ -71,7 +82,7 @@
 <script>
 import Document from './Document.vue'
 import API from './API.vue'
-import { ApiInfo } from '../../tools/project_data.js'
+import { Capability } from '../../tools/project_data.js'
 import { Api } from '../../tools/api.js'
 export default {
   name: 'Appapi',
@@ -84,23 +95,21 @@ export default {
       docPage: true,
       apiPage: false,
       activeName: '',
-      servicePath: './mep-eco_Introduction.md',
+      guideFileId: './mep-eco_Introduction.md',
       language: localStorage.getItem('language'),
-      abilityList: [],
+      treeData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
       },
-      openMepName: [
-        {
-          label: '服务介绍',
-          servicePath: './mep-eco_Introduction.md'
-        },
-        {
-          label: '服务列表',
-          children: []
-        }
-      ],
+      serviceDetail: {
+        capabilityType: '',
+        serviceName: '',
+        uploadTime: '',
+        version: '',
+        userId: '',
+        detailId: ''
+      },
       apiFileId: '',
       treeDataLoading: true,
       scrollTop: false
@@ -108,57 +117,82 @@ export default {
   },
   methods: {
     handleNodeClick (val) {
-      document.getElementsByClassName('el-main')[0].scrollTop = 0
-      let pos = ApiInfo[1].label.indexOf(val.label)
-      if (pos === -1) {
-        this.activeName = val.label
-        this.servicePath = val.servicePath
+      console.log(val)
+      if (!val.children) {
+        this.docPage = false
+        this.apiPage = true
+        this.guideFileId = val.docId
         this.apiFileId = val.apiFileId
-        // 点击的是否是“服务介绍”
-        let pos2 = ApiInfo[0].label.indexOf(val.label)
-        if (pos2 !== -1) {
-          this.apiPage = false
-          this.docPage = true
-        } else {
-          this.apiPage = true
-          this.docPage = false
-        }
+        this.apiPage = true
+        this.serviceDetail.capabilityType = val.capabilityType
+        this.serviceDetail.serviceName = val.label
+        this.serviceDetail.uploadTime = val.uploadTime
+        this.serviceDetail.version = val.version
+        this.serviceDetail.userId = val.userId
+        this.serviceDetail.detailId = val.detailId
       }
+      this.checkProjectData()
+      document.getElementsByClassName('el-main')[0].scrollTop = 0
     },
-    // 获取MEP-Eco服务列表
-    getMepEcoService () {
-      this.abilityList = this.openMepName
-      this.abilityList[1].children = []
-      Api.getMepEcoServiceApi().then(res => {
-        let dataTemp = res.data.openMepEcos
-        dataTemp.forEach(item => {
+    showServiceIntro () {
+      this.docPage = true
+      this.apiPage = false
+      this.guideFileId = './mep-eco_Introduction.md'
+    },
+    // 获取服务列表
+    getServiceList () {
+      Api.getServiceApi('OPENMEP_ECO').then(res => {
+        let treeDataTemp = []
+        treeDataTemp = res.data.openCapability
+        console.log(treeDataTemp)
+        for (let i in treeDataTemp) {
           let obj = {
             label: '',
-            apiFileId: ''
+            children: []
           }
-          obj.label = item.service
-          obj.apiFileId = item.apiFileId
-          this.abilityList[1].children.push(obj)
-        })
-        this.$nextTick().then(() => {
-          const firstNode = document.querySelector('.el-tree-node')
-          firstNode.click()
-        })
-        if (this.abilityList[1].children.length === 0) {
-          this.abilityList = this.openMepName.splice(0, 1)
+          let type = treeDataTemp[i].type
+          this.checkProjectData()
+          obj.label = treeDataTemp[i].name
+          let serviceTemp = treeDataTemp[i].capabilityDetailList
+          for (let j in serviceTemp) {
+            let subObj = {
+              id: 0,
+              label: '',
+              apiFileId: '',
+              userId: '',
+              type: '',
+              capabilityType: '',
+              uploadTime: '',
+              version: '',
+              docId: '',
+              detailId: ''
+            }
+            subObj.id = j
+            subObj.label = serviceTemp[j].service
+            subObj.apiFileId = serviceTemp[j].apiFileId
+            subObj.userId = serviceTemp[j].userId
+            subObj.type = type
+            subObj.capabilityType = treeDataTemp[i].name
+            let timeStr = this.dateChange(serviceTemp[j].uploadTime)
+            subObj.uploadTime = timeStr
+            subObj.version = serviceTemp[j].version
+            subObj.docId = serviceTemp[j].guideFileId
+            subObj.detailId = serviceTemp[j].detailId
+            obj.children.push(subObj)
+          }
+          this.treeData.push(obj)
         }
-        this.treeDataLoading = false
+        if (this.treeData.length > 0) {
+          this.$nextTick().then(() => {
+            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
+            firstNode.click()
+          })
+        }
+        this.checkProjectData()
         this.divHeight('mep-tree', 0, 195)
+        this.divHeight('el-tree', 0, 285)
+        this.treeDataLoading = false
       })
-    },
-    checkApiTitle () {
-      if (this.language === 'en') {
-        this.abilityList[0].label = ApiInfo[0].label[1]
-        this.abilityList[1].label = ApiInfo[1].label[1]
-      } else if (this.language === 'cn') {
-        this.abilityList[0].label = ApiInfo[0].label[0]
-        this.abilityList[1].label = ApiInfo[1].label[0]
-      }
     },
     // 获取树状导航距离顶部高度
     getTreeTop () {
@@ -166,11 +200,13 @@ export default {
       if (treeTop > 85) {
         this.scrollTop = false
         this.divHeight('mep-tree', 0, 185)
-        this.divHeight('el-tree-node__children', 1, 280)
+        this.divHeight('el-tree', 0, 275)
+        // this.divHeight('el-tree-node__children', 1, 280)
       } else {
         this.scrollTop = true
         this.divHeight('mep-tree', 0, 105)
-        this.divHeight('el-tree-node__children', 1, 190)
+        this.divHeight('el-tree', 0, 195)
+        // this.divHeight('el-tree-node__children', 1, 190)
       }
     },
     // 设置元素的高度
@@ -178,10 +214,41 @@ export default {
       let oDiv = document.getElementsByClassName(className)
       let clientHeight = document.documentElement.clientHeight
       oDiv[num].style.height = Number(clientHeight) - height + 'px'
+    },
+    dateChange (dateStr) {
+      if (dateStr) {
+        let date = new Date(Date.parse(dateStr))
+        let Y = date.getFullYear()
+        let M = date.getMonth() + 1
+        let D = date.getDate()
+        let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
+        return changeDate
+      }
+    },
+    // 中英文切换
+    checkProjectData () {
+      Capability.forEach(itemFe => {
+        if (this.language === 'cn') {
+          if (this.serviceDetail.capabilityType === itemFe.label[1]) {
+            this.serviceDetail.capabilityType = itemFe.label[0]
+          }
+        } else {
+          if (this.serviceDetail.capabilityType === itemFe.label[0]) {
+            this.serviceDetail.capabilityType = itemFe.label[1]
+          }
+        }
+        this.treeData.forEach(itemBe => {
+          if (itemBe.label === itemFe.label[1] && this.language === 'cn') {
+            itemBe.label = itemFe.label[0]
+          } else if (itemBe.label === itemFe.label[0] && this.language === 'en') {
+            itemBe.label = itemFe.label[1]
+          }
+        })
+      })
     }
   },
   mounted () {
-    this.getMepEcoService()
+    this.getServiceList()
     window.addEventListener('scroll', this.getTreeTop, true)
     window.onresize = () => {
       return (() => {
@@ -196,7 +263,7 @@ export default {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
       this.language = language
-      this.checkApiTitle()
+      this.checkProjectData()
     }
   }
 }
@@ -217,6 +284,15 @@ export default {
       padding: 20px 0px;
       background-color: #f7f7f7;
       overflow-y: hidden;
+      .treetop_tit{
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        p{
+          height: 30px;
+          line-height: 30px;
+          padding-left: 25px;
+        }
+      }
     }
     .mep-tree.scroll-top{
       position: fixed;
@@ -225,6 +301,7 @@ export default {
     }
     .el-tree{
       background-color: #f7f7f7;
+      overflow-y: auto;
       .el-tree-node__content{
         height: 35px;
         line-height: 35px;
@@ -236,7 +313,6 @@ export default {
       }
       .el-tree-node__children{
         margin: 0 0 0 25px;
-        overflow-y: auto;
         .el-tree-node__expand-icon{
           display: none;
         }
@@ -244,16 +320,13 @@ export default {
           padding-left: 10px;
         }
       }
-      .el-tree-node__children:nth-child(2){
-        overflow-y: visible;
-      }
-      .el-tree-node__children:nth-child(2)::-webkit-scrollbar{
-        width: 6px;
-      }
-      .el-tree-node__children:nth-child(2)::-webkit-scrollbar-thumb{
-        border-radius: 10px;
-        background: rgba(0,0,0,0.1);
-      }
+    }
+    .el-tree::-webkit-scrollbar{
+      width: 6px;
+    }
+    .el-tree::-webkit-scrollbar-thumb{
+      border-radius: 10px;
+      background: rgba(0,0,0,0.1);
     }
     .doc-div{
       float: left;

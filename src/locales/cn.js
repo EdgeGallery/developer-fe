@@ -97,7 +97,10 @@ const cn = {
     network: '网络',
     computing: '计算',
     ai: 'AI',
-    video: '视频'
+    video: '视频',
+    serviceIntroduction: '服务介绍',
+    serviceList: '服务列表',
+    deleteApi: '点击删除已公开的API'
   },
   nav: {
     home: '主页',

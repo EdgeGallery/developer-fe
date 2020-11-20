@@ -1,5 +1,67 @@
 <template>
-  <div id="swagger-ui" />
+  <div>
+    <div class="service_div">
+      <p class="api_top">
+        {{ $t('workspace.apiTopText') }} ：
+      </p>
+      <p class="title">
+        {{ $t('workspace.serviceDetails') }}
+      </p>
+      <el-row class="service_info">
+        <el-col :span="24">
+          {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
+        </el-col>
+      </el-row>
+      <el-row class="service_info">
+        <el-col :span="12">
+          {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
+        </el-col>
+        <el-col :span="12">
+          {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
+        </el-col>
+      </el-row>
+      <el-row class="service_info">
+        <el-col :span="12">
+          {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
+        </el-col>
+        <el-col :span="12">
+          SDK {{ $t('common.download') }} ：
+          <el-select
+            v-model="codeLanguage"
+            name="codeLanguage"
+            class="list-select"
+            size="mini"
+          >
+            <el-option
+              v-for="item in optionsLanguage"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+              :id="item.label"
+            />
+          </el-select>
+          <el-link class="download_sdk" />
+        </el-col>
+      </el-row>
+      <el-row
+        class="service_info"
+        v-if="isDeleteApi"
+      >
+        <el-col :span="24">
+          <el-button
+            :disabled="serviceDetail.userId===userId?false:true"
+            @click="deletePublicApi"
+            size="small"
+            class="deleteApi"
+          >
+            {{ $t('devTools.delete') }}
+          </el-button>
+          {{ $t('api.deleteApi') }}
+        </el-col>
+      </el-row>
+    </div>
+    <div id="swagger-ui" />
+  </div>
 </template>
 
 <script>
@@ -12,12 +74,36 @@ export default {
     apiFileIdprop: {
       type: String,
       default: ''
+    },
+    serviceDetailprop: {
+      type: Object,
+      default: () => { }
+    },
+    isDeleteApiprop: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
+      serviceDetail: this.serviceDetailprop,
+      isDeleteApi: this.isDeleteApiprop,
       apiFileId: this.apiFileIdprop,
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      codeLanguage: 'Python',
+      optionsLanguage: [
+        {
+          value: 0,
+          label: 'JAVA'
+        }, {
+          value: 1,
+          label: 'Python'
+        }, {
+          value: 2,
+          label: 'Go'
+        }
+      ],
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -47,12 +133,29 @@ export default {
           window.clearInterval(interval)
         }
       }, 200)
+    },
+    deletePublicApi () {
+      console.log(this.serviceDetail)
+      Api.deletePublicApi(this.serviceDetail.detailId, this.userId).then(() => {
+        this.$message({
+          type: 'success',
+          message: this.$t('devTools.deleteSucc')
+        })
+        location.reload()
+      }).catch(() => {
+        this.$message.error({
+          message: this.$t('devTools.deleteFail')
+        })
+      })
     }
   },
   watch: {
     apiFileIdprop (newVal, oldVal) {
       this.apiFileId = newVal
       this.getApiUrl()
+    },
+    isDeleteApiprop (newVal, oldVal) {
+      this.isDeleteApi = newVal
     }
   },
   mounted () {
@@ -60,3 +163,43 @@ export default {
   }
 }
 </script>
+<style lang="less">
+.service_div{
+  padding-left: 20px;
+  .api_top{
+    line-height: 25px;
+  }
+  .title{
+    font-size: 15px;
+    margin-top: 15px;
+  }
+  .el-row{
+    font-size: 13px;
+    .el-col{
+      padding: 5px;
+    }
+    .el-select{
+      width: 65px;
+      .el-input__icon{
+        width: 15px;
+      }
+      .el-input__inner{
+        padding: 0 5px;
+      }
+      .el-input--suffix .el-input__inner{
+        padding-right: 20px;
+      }
+    }
+  }
+  .download_sdk{
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    background: url('../../assets/images/download.png');
+    margin-left: 10px;
+  }
+  .deleteApi{
+    margin-right: 10px;
+  }
+}
+</style>

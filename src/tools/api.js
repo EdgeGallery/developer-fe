@@ -84,9 +84,21 @@ let Api = {
   getMepEcoServiceApi: function () {
     return Get('mec/developer/v1/capability-groups/openmepeco-api')
   },
+  // 获取服务列表
+  getServiceApi: function (type) {
+    return Get('mec/developer/v1/capability-groups/open-api/' + type)
+  },
   // 获取Api-swaggerUI路径
   getSwaggerUrlApi: function (apiFileId, userId) {
     return urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=OPENMEP'
+  },
+  // SDK下载
+  downloadSDKApi: function (fileId, lan) {
+    return urlPrefix + 'mec/developer/v1/files/sdk/' + fileId + '/download/' + lan
+  },
+  // 删除公开的API
+  deletePublicApi: function (capabilityId, userId) {
+    return Delete('mec/developer/v1/capability-groups/capabilities/' + capabilityId + '?userId=' + userId)
   }
 }
 
@@ -166,10 +178,6 @@ let Workspace = {
   getApiUrl: function (apiFileId, userId, type) {
     let apiUrl = urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=' + type
     return apiUrl
-  },
-  // 获取服务详情
-  getServiceDetailApi: function (apiFileId, userId) {
-    return Get('mec/developer/v1/capability-groups/openmep-api/' + apiFileId + '?userId=' + userId)
   },
   // 获取以前提交过的配置
   getTestConfigApi: function (projectId) {

@@ -211,7 +211,8 @@ export default {
             this.capabilityEcoList.push(item)
           }
         })
-        this.checkProjectData()
+        this.checkProjectData(this.capabilityList)
+        this.checkProjectData(this.capabilityEcoList)
         this.capabilityLoading = false
       }).catch(err => {
         console.log(err)
@@ -221,24 +222,8 @@ export default {
       })
     },
     // 平台能力和开放能力中英文切换
-    checkProjectData () {
-      this.capabilityList.forEach(itemBe => {
-        Capability.forEach(itemFe => {
-          if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
-            itemBe.name = itemFe.label[0]
-          } else if (itemBe.name === itemFe.label[1] && this.language === 'en') {
-            itemBe.name = itemFe.label[1]
-          }
-        })
-        Type.forEach(itemFe => {
-          if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
-            itemBe.name = itemFe.label[0]
-          } else if (itemBe.name === itemFe.label[1] && this.language === 'en') {
-            itemBe.name = itemFe.label[1]
-          }
-        })
-      })
-      this.capabilityEcoList.forEach(itemBe => {
+    checkProjectData (checkArr) {
+      checkArr.forEach(itemBe => {
         Capability.forEach(itemFe => {
           if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
             itemBe.name = itemFe.label[0]
