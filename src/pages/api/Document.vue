@@ -14,11 +14,12 @@
 </template>
 
 <script>
+import { Api } from '../../tools/api.js'
 import axios from 'axios'
 export default {
   name: '',
   props: {
-    servicePath: {
+    guideFileIdprop: {
       type: String,
       default: ''
     }
@@ -26,23 +27,26 @@ export default {
   data () {
     return {
       markdownSource: '',
-      serviceUrl: this.servicePath
+      guideFileId: this.guideFileIdprop,
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
-    getMarkDown (serviceUrl) {
-      axios(serviceUrl).then(res => {
+    getMarkDown (guideFileId) {
+      console.log(guideFileId)
+      let apiUrl = Api.getSwaggerUrlApi(guideFileId, this.userId)
+      axios(apiUrl).then(res => {
         this.markdownSource = res.data
       })
     }
   },
   watch: {
-    servicePath (newVal, oldVal) {
+    guideFileIdprop (newVal, oldVal) {
       this.getMarkDown(newVal)
     }
   },
   mounted () {
-    this.getMarkDown(this.serviceUrl)
+    this.getMarkDown(this.guideFileId)
   }
 }
 </script>

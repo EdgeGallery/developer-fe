@@ -42,12 +42,12 @@
           </p>
           <el-row class="service_info">
             <el-col :span="24">
-              {{ $t('test.testApp.type') }} ：{{ projectType }}
+              {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
             </el-col>
           </el-row>
           <el-row class="service_info">
             <el-col :span="12">
-              {{ $t('workspace.servicename') }} ：{{ serviceDetail.service }}
+              {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
             </el-col>
             <el-col :span="12">
               {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
@@ -73,7 +73,10 @@
                   :id="item.label"
                 />
               </el-select>
-              <el-link class="download_sdk" />
+              <el-link
+                class="download_sdk"
+                :href="getDownloadUrl()"
+              />
             </el-col>
           </el-row>
         </div>
@@ -85,8 +88,8 @@
 </template>
 
 <script>
-import { Workspace } from '../../../tools/api.js'
-import { Type } from '../../../tools/project_data.js'
+import { Workspace, Api } from '../../../tools/api.js'
+import { Capability } from '../../../tools/project_data.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -99,10 +102,9 @@ export default {
         label: 'label'
       },
       defaultExpandKeys: [],
-      projectId: '',
       userId: sessionStorage.getItem('userId'),
-      projectType: '',
-      codeLanguage: 'Python',
+      codeLanguage: 'JAVA',
+      apiFileId: '',
       optionsLanguage: [
         {
           value: 0,
@@ -113,15 +115,14 @@ export default {
         }, {
           value: 2,
           label: 'Go'
-        }, {
-          value: 3,
-          label: '.Net'
-        }, {
-          value: 4,
-          label: 'PHP'
         }
       ],
-      serviceDetail: {},
+      serviceDetail: {
+        capabilityType: '',
+        serviceName: '',
+        uploadTime: '',
+        version: ''
+      },
       language: localStorage.getItem('language')
     }
   },
@@ -129,11 +130,9 @@ export default {
     getProjectDetail () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
-        this.projectType = res.data.type
-        this.checkProjectData()
+        this.apiType = res.data.type
         let treeDataTemp = []
         treeDataTemp = res.data.capabilityList
-        this.projectId = res.data.id
         let userId = res.data.userId
         let serviceCount = 0
         for (let i in treeDataTemp) {
@@ -142,6 +141,7 @@ export default {
             children: []
           }
           let type = treeDataTemp[i].type
+          this.checkProjectData()
           obj.label = treeDataTemp[i].name
           let serviceTemp = treeDataTemp[i].capabilityDetailList
           let hasService = false
@@ -154,12 +154,19 @@ export default {
               label: '',
               apiFileId: '',
               userId: '',
-              type: ''
+              type: '',
+              capabilityType: '',
+              uploadTime: '',
+              version: ''
             }
             subObj.id = j
             subObj.label = serviceTemp[j].service
             subObj.userId = userId
             subObj.type = type
+            subObj.capabilityType = treeDataTemp[i].name
+            let timeStr = this.dateChange(serviceTemp[j].uploadTime)
+            subObj.uploadTime = timeStr
+            subObj.version = serviceTemp[j].version
             if (subObj.label) {
               subHasService = true
               hasService = true
@@ -176,6 +183,7 @@ export default {
             firstNode.click()
           })
         }
+        this.checkProjectData()
         this.apiDataLoading = false
       }).catch(err => {
         console.log(err)
@@ -185,7 +193,12 @@ export default {
       })
     },
     handleNodeClick (data) {
-      this.getServiceDetail(data.apiFileId, data.userId)
+      this.apiFileId = data.apiFileId
+      this.serviceDetail.capabilityType = data.capabilityType
+      this.serviceDetail.serviceName = data.label
+      this.serviceDetail.uploadTime = data.uploadTime
+      this.serviceDetail.version = data.version
+      this.checkProjectData()
       if (!data.children) {
         let apiUrl = Workspace.getApiUrl(data.apiFileId, data.userId, data.type)
         SwaggerUIBundle({
@@ -219,14 +232,6 @@ export default {
       const oDivHeight = document.getElementsByClassName('service_div')[0].offsetHeight
       oApi.style.height = Number(deviceHeight) - 260 - oDivHeight + 'px'
     },
-    // 获取服务详情
-    getServiceDetail (apiFileId, userId) {
-      Workspace.getServiceDetailApi(apiFileId, userId).then(res => {
-        this.serviceDetail = res.data
-        let uploadTime = this.dateChange(res.data.uploadTime)
-        this.serviceDetail.uploadTime = uploadTime
-      })
-    },
     dateChange (dateStr) {
       if (dateStr) {
         let date = new Date(Date.parse(dateStr))
@@ -237,19 +242,31 @@ export default {
         return changeDate
       }
     },
-    // 类型的选型中英文切换
+    // 中英文切换
     checkProjectData () {
-      Type.forEach(itemFe => {
+      Capability.forEach(itemFe => {
         if (this.language === 'cn') {
-          if (this.projectType === itemFe.label[1]) {
-            this.projectType = itemFe.label[0]
+          if (this.serviceDetail.capabilityType === itemFe.label[1]) {
+            this.serviceDetail.capabilityType = itemFe.label[0]
           }
         } else {
-          if (this.projectType === itemFe.label[0]) {
-            this.projectType = itemFe.label[1]
+          if (this.serviceDetail.capabilityType === itemFe.label[0]) {
+            this.serviceDetail.capabilityType = itemFe.label[1]
           }
         }
+        this.treeData.forEach(itemBe => {
+          if (itemBe.label === itemFe.label[1] && this.language === 'cn') {
+            itemBe.label = itemFe.label[0]
+          } else if (itemBe.label === itemFe.label[0] && this.language === 'en') {
+            itemBe.label = itemFe.label[1]
+          }
+        })
       })
+    },
+    getDownloadUrl () {
+      console.log(this.codeLanguage)
+      console.log(this.apiFileId)
+      return Api.downloadSDKApi(this.apiFileId, this.codeLanguage)
     }
   },
   created () {

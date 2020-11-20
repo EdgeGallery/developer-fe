@@ -97,7 +97,10 @@ const en = {
     network: 'Network',
     computing: 'Computing',
     ai: 'AI',
-    video: 'Video'
+    video: 'Video',
+    srviceIntroduction: 'Service Introduction',
+    serviceList: 'Service List',
+    deleteApi: 'Click to delete public API'
   },
   nav: {
     home: 'Home',

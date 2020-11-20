@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { Capability } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
 import firstStep from './NewProjectFirst.vue'
 import secondStep from './NewProjectSecond.vue'
@@ -258,6 +259,7 @@ export default {
           params[key] = allFormData.first[key]
         }
       }
+      this.checkPostProjectData(allFormData.second.capabilitySelected)
       for (let capability of allFormData.second.capabilitySelected) {
         let obj = {}
         for (let capabilityKey in capability) {
@@ -315,6 +317,16 @@ export default {
           duration: '2000'
         })
         console.log(err)
+      })
+    },
+    // 将中文情况下选择的能力转成英文
+    checkPostProjectData (checkArr) {
+      checkArr.forEach(itemBe => {
+        Capability.forEach(itemFe => {
+          if (itemBe.name === itemFe.label[0]) {
+            itemBe.name = itemFe.label[1]
+          }
+        })
       })
     }
   }
