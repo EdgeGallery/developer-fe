@@ -456,7 +456,8 @@ const cn = {
     versionRule: '请输入2-10个字符的版本，开头结尾不能为空',
     proiderRule: '请输入2-30个字符的提供者名称，开头结尾不能为空',
     introductionRule: '请输入2-260个字符的描述，开头结尾不能为空',
-    checkFileType: '请上传符合格式的文件'
+    checkFileType: '请上传符合格式的文件',
+    downloading: '正在下载，请稍后...'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

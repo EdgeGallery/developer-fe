@@ -456,7 +456,8 @@ const en = {
     versionRule: 'Please enter the version with 2-10 characters, the beginning and the end cannot be empty',
     proiderRule: 'Please enter a provider name of 2-30 characters, the beginning and the end cannot be empty',
     introductionRule: 'Please enter a description of 2-260 characters, the beginning and the end cannot be empty',
-    checkFileType: 'Please upload a file that matches the format'
+    checkFileType: 'Please upload a file that matches the format',
+    downloading: 'Downloading, please wait...'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

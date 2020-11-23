@@ -75,7 +75,8 @@
               </el-select>
               <el-link
                 class="download_sdk"
-                :href="getDownloadUrl()"
+                :href="downloadUrl"
+                @click="getDownloadUrl()"
               />
             </el-col>
           </el-row>
@@ -123,7 +124,8 @@ export default {
         uploadTime: '',
         version: ''
       },
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      downloadUrl: ''
     }
   },
   methods: {
@@ -264,8 +266,15 @@ export default {
       })
     },
     getDownloadUrl () {
-      this.codeLanguage = this.codeLanguage.toLowerCase()
-      return Api.downloadSDKApi(this.apiFileId, this.codeLanguage)
+      this.$message({
+        message: this.$t('promptMessage.downloading'),
+        duration: 1500
+      })
+      this.downloadUrl = this.downloadSDKApi()
+    },
+    downloadSDKApi () {
+      let lan = this.codeLanguage.toLowerCase()
+      return Api.downloadSDKApi(this.apiFileId, lan)
     }
   },
   created () {

@@ -40,7 +40,11 @@
               :id="item.label"
             />
           </el-select>
-          <el-link class="download_sdk" />
+          <el-link
+            class="download_sdk"
+            :href="downloadUrl"
+            @click="getDownloadUrl()"
+          />
         </el-col>
       </el-row>
       <el-row
@@ -103,12 +107,14 @@ export default {
           label: 'Go'
         }
       ],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      downloadUrl: ''
     }
   },
   methods: {
     // 获取Api-swaggerUI路径
     getApiUrl () {
+      console.log(this.apiFileId)
       let apiUrl = Api.getSwaggerUrlApi(this.apiFileId, this.userId)
       SwaggerUIBundle({
         url: apiUrl,
@@ -147,6 +153,17 @@ export default {
           message: this.$t('devTools.deleteFail')
         })
       })
+    },
+    getDownloadUrl () {
+      this.$message({
+        message: this.$t('promptMessage.downloading'),
+        duration: 1500
+      })
+      this.downloadUrl = this.downloadSDKApi()
+    },
+    downloadSDKApi () {
+      let lan = this.codeLanguage.toLowerCase()
+      return Api.downloadSDKApi(this.apiFileId, lan)
     }
   },
   watch: {
