@@ -264,8 +264,7 @@ export default {
       })
     },
     getDownloadUrl () {
-      console.log(this.codeLanguage)
-      console.log(this.apiFileId)
+      this.codeLanguage = this.codeLanguage.toLowerCase()
       return Api.downloadSDKApi(this.apiFileId, this.codeLanguage)
     }
   },
