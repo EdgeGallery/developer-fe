@@ -142,6 +142,7 @@ const cn = {
       mepAgent: 'MEP Agent'
     },
     uploadImage: {
+      nodeInfoValidation: '请输入正确的IP、端口号，端口号范围30000-30400',
       successfulTest: '测试成功',
       testfirst: '请先测试',
       useEnvTip: '注：启动后，系统不会再分配公共测试环境，所有测试任务在用户自己的服务器上完成',
