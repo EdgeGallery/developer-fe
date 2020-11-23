@@ -39,9 +39,11 @@ export default {
   },
   methods: {
     emitStepData () {
-      let ifNext = true
+      const ifNext = this.checkList.length
       if (ifNext) {
         this.$emit('getStepData', { step: 'second', data: '', ifNext })
+      } else {
+        this.$message.warning(this.$t('workspace.supportPlatform.title'))
       }
     }
   },
