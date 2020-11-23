@@ -142,6 +142,7 @@ const en = {
       mepAgent: 'MEP Agent'
     },
     uploadImage: {
+      nodeInfoValidation: 'Please enter the correct IP and port,port range is 30000-30400',
       successfulTest: 'The test was successful',
       testfirst: 'Please test first',
       useEnvTip: 'note: after startup, the system will not redistribute the common test environment, and all test tasks will be completed on the user\'s own server',

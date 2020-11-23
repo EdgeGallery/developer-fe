@@ -86,14 +86,14 @@
         class="input width-200"
         size="small"
         v-model="ip"
-        placeholder="endpoint"
+        placeholder="IP"
       />
       <el-input
         @input="onChangeNodeInfo()"
         class="input  width-100"
         size="small"
         v-model="port"
-        placeholder="port"
+        placeholder="Port"
       />
       <el-button
         type="primary"
@@ -153,6 +153,12 @@ export default {
   },
   methods: {
     handleSaveNodeInfo () {
+      const portValidate = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/.test(this.port) && (this.port >= 30000 && this.port <= 30400)
+      const ipValidate = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(this.ip)
+      if (!ipValidate || !portValidate) {
+        this.$message.warning(this.$t('workspace.uploadImage.nodeInfoValidation'))
+        return
+      }
       Workspace.saveNodeInfo(this.userId, { hostId: this.hostId, ip: this.ip, port: this.port }).then(res => {
         if (res && res.data && res.data.hostId) {
           this.validate = true
