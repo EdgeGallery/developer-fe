@@ -37,7 +37,10 @@
         :class="{'scroll-top':scrollTop}"
       >
         <div class="treetop_tit">
-          <p @click="showServiceIntro">
+          <p
+            @click="showServiceIntro"
+            :class="{'is-current':isServiceIntro}"
+          >
             {{ $t('api.serviceIntroduction') }}
           </p>
           <p>
@@ -53,6 +56,7 @@
           :props="defaultProps"
           @node-click="handleNodeClick"
           v-loading="treeDataLoading"
+          :class="{'isService':isServiceIntro}"
         />
       </div>
       <div
@@ -66,7 +70,6 @@
       </div>
       <div
         class="api-div"
-        :class="{'doc-left':scrollTop,'doc-right':apiPage}"
         v-if="apiPage"
       >
         <API
@@ -95,7 +98,7 @@ export default {
       docPage: true,
       apiPage: false,
       activeName: '',
-      guideFileId: './mep-eco_Introduction.md',
+      guideFileId: 'c437b9ac-f2c6-41db-bf5e-f9d86d856c46',
       language: localStorage.getItem('language'),
       treeData: [],
       defaultProps: {
@@ -111,16 +114,16 @@ export default {
         detailId: ''
       },
       apiFileId: '',
-      treeDataLoading: true,
-      scrollTop: false
+      treeDataLoading: false,
+      scrollTop: false,
+      isServiceIntro: true
     }
   },
   methods: {
     handleNodeClick (val) {
-      console.log(val)
+      this.isServiceIntro = false
+      this.docPage = false
       if (!val.children) {
-        this.docPage = false
-        this.apiPage = true
         this.guideFileId = val.docId
         this.apiFileId = val.apiFileId
         this.apiPage = true
@@ -135,16 +138,16 @@ export default {
       document.getElementsByClassName('el-main')[0].scrollTop = 0
     },
     showServiceIntro () {
+      this.isServiceIntro = true
       this.docPage = true
       this.apiPage = false
-      this.guideFileId = './mep-eco_Introduction.md'
+      this.guideFileId = 'c437b9ac-f2c6-41db-bf5e-f9d86d856c46'
     },
     // 获取服务列表
     getServiceList () {
       Api.getServiceApi('OPENMEP_ECO').then(res => {
         let treeDataTemp = []
         treeDataTemp = res.data.openCapability
-        console.log(treeDataTemp)
         for (let i in treeDataTemp) {
           let obj = {
             label: '',
@@ -182,12 +185,6 @@ export default {
           }
           this.treeData.push(obj)
         }
-        if (this.treeData.length > 0) {
-          this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
-            firstNode.click()
-          })
-        }
         this.checkProjectData()
         this.divHeight('mep-tree', 0, 195)
         this.divHeight('el-tree', 0, 285)
@@ -201,12 +198,10 @@ export default {
         this.scrollTop = false
         this.divHeight('mep-tree', 0, 185)
         this.divHeight('el-tree', 0, 275)
-        // this.divHeight('el-tree-node__children', 1, 280)
       } else {
         this.scrollTop = true
         this.divHeight('mep-tree', 0, 105)
         this.divHeight('el-tree', 0, 195)
-        // this.divHeight('el-tree-node__children', 1, 190)
       }
     },
     // 设置元素的高度
@@ -288,9 +283,17 @@ export default {
         font-size: 14px;
         border-bottom: 1px solid #ddd;
         p{
-          height: 30px;
-          line-height: 30px;
+          height: 35px;
+          line-height: 35px;
           padding-left: 25px;
+          border-left: 2px solid #f7f7f7;
+        }
+        p:first-child{
+          cursor: pointer;
+        }
+        p.is-current{
+          background-color: #d3f1f0;
+          border-left: 2px solid #6c9c9c;
         }
       }
     }
@@ -321,6 +324,12 @@ export default {
         }
       }
     }
+    .el-tree.isService{
+      .el-tree-node.is-current>.el-tree-node__content{
+        background-color: #f7f7f7;
+        border-left: 2px solid #f7f7f7;
+      }
+    }
     .el-tree::-webkit-scrollbar{
       width: 6px;
     }
@@ -340,12 +349,7 @@ export default {
     }
     .api-div{
       float: left;
-      width: 500px;
-    }
-    .api-div.doc-left{
-      margin-left: 270px;
-    }
-    .api-div.doc-right{
+      // width: 500px;
       width: calc(100% - 270px);
     }
     @media screen and (max-width: 1380px) {
@@ -355,12 +359,9 @@ export default {
       .doc-div.doc-right{
         width: calc(100% - 800px);
       }
-      .api-div.doc-left{
-        margin-left: 300px;
-      }
-      .api-div.doc-right{
-        width: calc(100% - 300px);
-      }
+      .api-div{
+      width: calc(100% - 300px);
+    }
     }
   }
 }
