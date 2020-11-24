@@ -170,48 +170,6 @@ export default {
         this.divHeight('mep-tree', 0, 195)
         this.divHeight('el-tree', 0, 255)
         this.treeDataLoading = false
-        /* let capabilityTemp = res.data.openCapability
-        for (let i in capabilityTemp) {
-          let obj = {
-            label: '',
-            children: []
-          }
-          obj.label = capabilityTemp[i].name
-          let serviceTemp = capabilityTemp[i].capabilityDetailList
-          for (let j in serviceTemp) {
-            let subObj = {
-              label: '',
-              apiFileId: '',
-              userId: '',
-              capabilityType: '',
-              uploadTime: '',
-              version: ''
-            }
-            subObj.label = serviceTemp[j].service
-            subObj.userId = serviceTemp[j].userId
-            subObj.capabilityType = capabilityTemp[i].name
-            let timeStr = this.dateChange(serviceTemp[j].uploadTime)
-            subObj.uploadTime = timeStr
-            subObj.version = serviceTemp[j].version
-            obj.children.push(subObj)
-          }
-          this.openMepName[0].children.push(obj)
-          this.abilityList = this.openMepName
-        }
-        this.treeDataLoading = false
-        if (this.abilityList.length > 0) {
-          this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
-            firstNode.click()
-          })
-        }
-        this.$nextTick(function () {
-          this.divHeight('el-tree-node__children', 0, 260)
-          let oDiv = document.getElementsByClassName('el-tree-node__content')
-          oDiv[0].style.borderBottom = '1px solid #ddd'
-        })
-        this.divHeight('mep-tree', 0, 195)
-        this.divHeight('el-tree-node__children', 0, 280) */
       })
     },
     // 获取树状导航距离顶部高度
@@ -221,12 +179,10 @@ export default {
         this.scrollTop = false
         this.divHeight('mep-tree', 0, 185)
         this.divHeight('el-tree', 0, 245)
-        // this.divHeight('el-tree-node__children', 0, 280)
       } else {
         this.scrollTop = true
         this.divHeight('mep-tree', 0, 105)
         this.divHeight('el-tree', 0, 165)
-        // this.divHeight('el-tree-node__children', 0, 190)
       }
     },
     // 设置元素的高度
@@ -308,8 +264,8 @@ export default {
         font-size: 14px;
         border-bottom: 1px solid #ddd;
         p{
-          height: 30px;
-          line-height: 30px;
+          height: 35px;
+          line-height: 35px;
           padding-left: 25px;
         }
       }
