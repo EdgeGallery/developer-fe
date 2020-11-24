@@ -358,7 +358,6 @@ export default {
     selectImageType () {
       this.setApiHeight()
       let egToken = xsrfToken
-      console.log(egToken)
       this.iframeUrl = 'https://5gmec.cloudcorelab.huawei.com?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + egToken
     }
   },
