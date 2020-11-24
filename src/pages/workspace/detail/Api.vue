@@ -268,12 +268,14 @@ export default {
     getDownloadUrl () {
       this.$message({
         message: this.$t('promptMessage.downloading'),
-        duration: 1500
+        duration: 2000
       })
       this.downloadUrl = this.downloadSDKApi()
     },
     downloadSDKApi () {
       let lan = this.codeLanguage.toLowerCase()
+      sessionStorage.setItem('lan', lan)
+      sessionStorage.setItem('sdkFileId', this.apiFileId)
       return Api.downloadSDKApi(this.apiFileId, lan)
     }
   },
