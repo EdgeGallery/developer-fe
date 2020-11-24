@@ -100,7 +100,7 @@
             class="mec_iframe"
           >
             <iframe
-              src="https://5gmec.cloudcorelab.huawei.com/overview"
+              :src="iframeUrl"
               title="vmImage"
               width="100%"
               height="100%"
@@ -137,6 +137,7 @@
 </template>
 
 <script>
+import { xsrfToken } from '../../tools/tool.js'
 import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
@@ -174,10 +175,12 @@ export default {
       deployed: false,
       isCompleted: false,
       userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName'),
       isPublic: false,
       isfail: true,
       isNewProject: true,
-      appApiFileIdTemp: true
+      appApiFileIdTemp: true,
+      iframeUrl: ''
     }
   },
   computed: {
@@ -354,6 +357,8 @@ export default {
     },
     selectImageType () {
       this.setApiHeight()
+      let egToken = xsrfToken
+      this.iframeUrl = 'https://5gmec.cloudcorelab.huawei.com?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + egToken
     }
   },
   mounted () {
