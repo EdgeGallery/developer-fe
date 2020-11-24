@@ -104,7 +104,6 @@
               title="vmImage"
               width="100%"
               height="100%"
-              frameborder="0"
             />
           </el-tab-pane>
         </el-tabs>
@@ -137,7 +136,7 @@
 </template>
 
 <script>
-import { xsrfToken } from '../../tools/tool.js'
+import getCookie from '../../tools/tool.js'
 import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
@@ -357,8 +356,7 @@ export default {
     },
     selectImageType () {
       this.setApiHeight()
-      let egToken = xsrfToken
-      this.iframeUrl = 'https://5gmec.cloudcorelab.huawei.com?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + egToken
+      this.iframeUrl = 'https:59.36.11.4:12452?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + getCookie('XSRF-TOKEN')
     }
   },
   mounted () {
