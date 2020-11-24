@@ -94,7 +94,7 @@ export default {
       isDeleteApi: this.isDeleteApiprop,
       apiFileId: this.apiFileIdprop,
       userId: sessionStorage.getItem('userId'),
-      codeLanguage: 'Python',
+      codeLanguage: 'JAVA',
       optionsLanguage: [
         {
           value: 0,
