@@ -75,8 +75,7 @@
               </el-select>
               <el-link
                 class="download_sdk"
-                :href="downloadUrl"
-                @click="getDownloadUrl()"
+                :href="downloadSDKApi()"
               />
             </el-col>
           </el-row>
@@ -264,13 +263,6 @@ export default {
           }
         })
       })
-    },
-    getDownloadUrl () {
-      this.$message({
-        message: this.$t('promptMessage.downloading'),
-        duration: 2000
-      })
-      this.downloadUrl = this.downloadSDKApi()
     },
     downloadSDKApi () {
       let lan = this.codeLanguage.toLowerCase()
