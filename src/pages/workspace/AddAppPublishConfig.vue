@@ -51,6 +51,7 @@
           <el-select
             v-model="form.protocol"
             size="mini"
+            class="select_right"
           >
             <el-option
               v-for="item in form.optionsProtocol"
@@ -120,12 +121,13 @@
         </el-form-item>
         <el-form-item
           :label-width="formLabelWidth"
-          class="service_row"
+          class="service_row trafficRules"
         >
           <span>{{ $t('workspace.trafficRules') }} :</span>
           <el-select
             v-model="form.trafficRules"
             size="mini"
+            class="select_right"
           >
             <el-option
               v-for="item in form.optionsTrafficRules"
@@ -138,6 +140,7 @@
           <el-select
             v-model="form.dnsRules"
             size="mini"
+            class="select_right"
           >
             <el-option
               v-for="item in form.optionsDnsRules"
@@ -281,7 +284,7 @@ export default {
     }
   }
   .el-form{
-    width: 85%;
+    width: 100%;
     .service_row{
       span{
         float: left;
@@ -299,6 +302,32 @@ export default {
         .el-input{
           width: 90px;
         }
+      }
+      .el-select.select_right{
+        .el-input--suffix .el-input__inner{
+          padding-right: 10px;
+        }
+        .el-input__icon{
+          width: 20px;
+        }
+        span{
+          margin: 0;
+        }
+      }
+    }
+    .service_row.trafficRules{
+      .el-select{
+        .el-input{
+          width: 120px;
+        }
+      }
+    }
+    .el-upload-list{
+      float: left;
+      width: 100%;
+      text-align: left;
+      .el-upload-list__item:first-child{
+        width: 50%;
       }
     }
   }
