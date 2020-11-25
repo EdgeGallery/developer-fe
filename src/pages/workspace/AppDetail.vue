@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import getCookie from '../../tools/tool.js'
+import { token } from '../../tools/tool.js'
 import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
@@ -356,7 +356,7 @@ export default {
     },
     selectImageType () {
       this.setApiHeight()
-      this.iframeUrl = 'https:59.36.11.4:427?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + getCookie('XSRF-TOKEN')
+      this.iframeUrl = 'https:59.36.11.4:427?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + token
     }
   },
   mounted () {
