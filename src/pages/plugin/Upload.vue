@@ -353,8 +353,11 @@ export default {
         })
         this.$router.push('/mecDeveloper/plugin/list')
       }).catch(err => {
-        this.$message.error(this.$t('promptMessage.uploadFailure'))
-        console.log(err)
+        if (err.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(this.$t('promptMessage.uploadFailure'))
+        }
         this.uploadBtnLoading = false
       })
     },

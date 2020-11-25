@@ -78,6 +78,9 @@ function Delete (url, params, type = 'developer') {
       })
       .catch(err => {
         reject(err)
+        if (err.response.data.code === 403) {
+          ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
+        }
       })
   })
 }
@@ -99,6 +102,9 @@ function Post (url, params, type = 'developer') {
       })
       .catch(err => {
         reject(err)
+        if (err.response.data.code === 403) {
+          ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
+        }
       })
   })
 }
@@ -115,6 +121,9 @@ function Put (url, params) {
       })
       .catch(err => {
         reject(err)
+        if (err.response.data.code === 403) {
+          ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
+        }
       })
   })
 }
@@ -130,6 +139,10 @@ function downloadFile ({ url, params, type = 'application/x-compressed' }) {
       let link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)
       link.click()
+    }
+  }).catch(err => {
+    if (err.response.data.code === 403) {
+      ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
     }
   })
 }

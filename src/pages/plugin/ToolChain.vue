@@ -430,9 +430,12 @@ export default {
             this.sourceCodeExist = false
           }
         }).catch(err => {
-          console.log(err)
           this.analysisLoading = false
-          this.$message.error(this.$t('workspace.uploadCodeFail'))
+          if (err.response.data.code === 403) {
+            this.$message.error(this.$t('promptMessage.guestPrompt'))
+          } else {
+            this.$message.error(this.$t('workspace.uploadCodeFail'))
+          }
         })
       } else {
         this.handleExceed()
@@ -463,12 +466,11 @@ export default {
         this.analysisLoading = false
       }).catch(err => {
         this.analysisLoading = false
-        this.$message({
-          message: this.$t('promptMessage.analysisCodeFail'),
-          type: 'error',
-          duration: '2000'
-        })
-        console.log(err)
+        if (err.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(this.$t('promptMessage.analysisCodeFail'))
+        }
       })
     },
     // 查询扫描任务列表

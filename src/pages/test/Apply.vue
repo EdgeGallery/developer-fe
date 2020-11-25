@@ -286,8 +286,11 @@ export default {
         let appId = res.data.appId
         this.$nextTick(this.startTest(appId))
       }).catch(err => {
-        this.$message.error(this.$t('promptMessage.uploadFailure'))
-        console.log(err)
+        if (err.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(this.$t('promptMessage.uploadFailure'))
+        }
         this.uploadBtnLoading = false
       })
     },
