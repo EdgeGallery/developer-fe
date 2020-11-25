@@ -508,11 +508,16 @@ export default {
     margin: 25px 0;
     font-size: 14px;
     .el-col{
-      border: 1px solid #ddd;
-      margin: -1px 0 0 -1px;
       line-height: 28px;
-      text-align: center;
       padding: 5px;
+      .el-upload-list{
+        float: left;
+        width: 100%;
+        text-align: left;
+        .el-upload-list__item:first-child{
+          width: 50%;
+        }
+      }
       .el-upload{
         float: left;
         margin-left: 10px;
