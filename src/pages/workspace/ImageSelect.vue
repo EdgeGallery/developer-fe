@@ -166,10 +166,11 @@ export default {
           this.$message.success(this.$t('workspace.uploadImage.successfulTest'))
         }
       }, (error) => {
-        this.$message({
-          type: 'error',
-          message: error.response.data.message
-        })
+        if (error.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(error.response.data.message)
+        }
         this.enable = false
         this.validate = false
       })

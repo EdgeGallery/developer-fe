@@ -311,12 +311,11 @@ export default {
           this.uploadBtnLoading = false
         }
       }).catch(err => {
-        this.$message({
-          message: this.$t('promptMessage.addProjectFail'),
-          type: 'error',
-          duration: '2000'
-        })
-        console.log(err)
+        if (err.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(this.$t('promptMessage.addProjectFail'))
+        }
       })
     },
     // 将中文情况下选择的能力转成英文

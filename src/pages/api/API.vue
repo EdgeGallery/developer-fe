@@ -147,10 +147,12 @@ export default {
           message: this.$t('devTools.deleteSucc')
         })
         location.reload()
-      }).catch(() => {
-        this.$message.error({
-          message: this.$t('devTools.deleteFail')
-        })
+      }).catch(err => {
+        if (err.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(this.$t('devTools.deleteFail'))
+        }
       })
     },
     downloadSDKApi () {

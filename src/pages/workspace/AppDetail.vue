@@ -242,13 +242,14 @@ export default {
       }
       const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
       func(projectId, this.userId, params).then(res => {
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('promptMessage.saveSuccess'))
         this.getTestConfig()
       }, (error) => {
-        this.$message({
-          type: 'error',
-          message: error.response.data.message
-        })
+        if (error.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(error.response.data.message)
+        }
       }).finally(() => {
         this.apiDataLoading = false
       })
@@ -261,8 +262,6 @@ export default {
             message: this.$t('workspace.startDeploySucc')
           })
         }
-      }).catch(err => {
-        console.log(err)
       })
     },
     // 清空测试环境

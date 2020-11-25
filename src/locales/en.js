@@ -457,7 +457,9 @@ const en = {
     proiderRule: 'Please enter a provider name of 2-30 characters, the beginning and the end cannot be empty',
     introductionRule: 'Please enter a description of 2-260 characters, the beginning and the end cannot be empty',
     checkFileType: 'Please upload a file that matches the format',
-    downloading: 'Downloading, please wait...'
+    downloading: 'Downloading, please wait...',
+    guestPrompt: 'The guest user has no right to operate, please log in first!',
+    saveSuccess: 'Saved successfully!'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

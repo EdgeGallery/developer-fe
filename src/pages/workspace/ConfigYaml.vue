@@ -208,10 +208,11 @@ export default {
         const { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess } = res.data
         this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
       }, (error) => {
-        this.$message({
-          type: 'error',
-          message: error.response.data.message
-        })
+        if (error.response.data.code === 403) {
+          this.$message.error(this.$t('promptMessage.guestPrompt'))
+        } else {
+          this.$message.error(error.response.data.message)
+        }
         this.appYamlFileId = ''
         this.yamlFileList = []
         this.hasValidate = false
