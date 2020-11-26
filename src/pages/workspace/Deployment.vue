@@ -20,7 +20,7 @@
       {{ $t('workspace.appDetail') }}
     </h3>
     <div class="main detail-main">
-      <div class="detail-table2">
+      <div class="detail-table">
         <table>
           <caption />
           <tr>
@@ -28,31 +28,29 @@
               项目名称
             </th>
             <td>
-              <em
-                class="header-icon el-icon-s-home"
-                style="color:blue; "
-              /> positioning-service
+              {{ projectName }}
             </td>
             <th id="platform">
               部署平台
             </th>
-            <td>Kubernetes</td>
+            <td>{{ platform }}</td>
           </tr>
           <tr>
-            <th id="mirror">
-              镜像
+            <th id="hostInfo">
+              节点信息
             </th>
-            <td>已上传</td>
+            <td>{{ privateHost }}</td>
             <th id="config">
               部署配置
             </th>
-            <td>文件名</td>
+            <td>{{ deployField }}</td>
           </tr>
         </table>
       </div>
       <div class="detail-button-con">
         <el-button
           type="primary"
+          :disabled="deployButtonDisable"
           @click="startDeploy"
         >
           {{ $t('workspace.startDeployment') }}
@@ -65,7 +63,7 @@
         </el-button>
         <el-button
           type="info"
-          @click="testCompleted"
+          @click="getAppDetailData"
         >
           {{ $t('workspace.recycle') }}
         </el-button>
@@ -84,7 +82,7 @@
         <el-collapse-item name="0">
           <template
             slot="title"
-            v-if="testStarted"
+            v-if="testFinished"
           >
             <em
               class="header-icon el-icon-circle-check"
@@ -111,14 +109,11 @@
               <el-checkbox :label="5">
                 {{ $t('workspace.getDeploymentStatus') }}
               </el-checkbox>
-              <el-checkbox :label="6">
-                {{ $t('workspace.deploymentComplete') }}
-              </el-checkbox>
             </el-checkbox-group>
           </div>
         </el-collapse-item>
         <el-collapse-item
-          v-show="testStarted"
+          v-show="testFinished"
           name="1"
         >
           <template slot="title">
@@ -258,43 +253,115 @@
 </template>
 
 <script>
-
+import { Workspace } from '../../tools/api.js'
 export default {
   name: 'Deployment',
 
   data () {
     return {
-
-      testStarted: false,
+      deployButtonDisable: false,
+      testFinished: false,
+      deployStatus: 'NotDeploy',
       deploymentButtonType: 'primary',
       completeTestButtonType: 'information',
       recycleButtonType: 'information',
       activeNames: ['0'],
-      tableData: [
-        {
-          name: '镜像',
-          state: '已上传',
-          setting: '部署配置',
-          fileName: '文件名'
-        }
-      ],
-      checkbox: []
+      timer: '',
+      isShow: false,
+      projectName: 'null',
+      platform: 'null',
+      privateHost: 'null',
+      deployField: '未上传',
+      checkbox: [],
+      CSAR: '',
+      hostInfo: '',
+      InstantiateInfo: '',
+      workstatus: '',
+      pods: [],
+      projectId: '',
+      userId: ''
+
     }
   },
   methods: {
     startDeploy () {
-      this.testStarted = true
-      this.activeNames = ['1']
-      this.checkbox = [1, 2, 3, 4, 5, 6]
+      this.deployButtonDisable = true
+      this.deployStatus = 'DEPLOYING'
+      this.deployTest()
+      this.timer = setInterval(this.getTestConfig, 5000)
     },
+
+    deployTest () {
+      Workspace.deployTestApi(this.projectId, this.userId).then(response => {
+        if (response.data.status === 'DEPLOYING') {
+          this.$message({
+            message: this.$t('workspace.startDeploySucc')
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    getTestConfig () {
+      Workspace.getTestConfigApi(this.projectId).then(res => {
+        let status = res.data.stageStatus
+        if (status != null) {
+          this.CSAR = status.csar === null ? null : status.csar
+          this.hostInfo = status.hostInfo === null ? null : status.hostInfo
+          this.InstantiateInfo = status.InstantiateInfo === null ? null : status.InstantiateInfo
+          this.workstatus = status.workstatus === null ? null : status.workstatus
+        }
+        this.deployStatus = res.data.deployStatus
+        if (this.CSAR === 'Success') {
+          this.checkbox.push(1)
+        }
+        if (this.hostInfo === 'Success') {
+          this.checkbox.push(2)
+        }
+        if (this.hostInfo === 'Success') {
+          this.checkbox.push(3)
+        }
+        if (this.workstatus === 'Success') {
+          this.checkbox.push(4)
+        }
+        if (this.deployStatus === 'Success') {
+          this.checkbox.push(5)
+          this.activeNames = ['1']
+          clearInterval(this.timer)
+          this.testFinished = true
+        }
+        this.deployButtonDisable = this.deployStatus === 'DEPLOYING'
+      })
+    },
+
     testCompleted () {
-      this.testStarted = false
+      this.deployButtonDisable = false
+      this.testFinished = false
+      clearInterval(this.timer)
       this.activeNames = ['0']
       this.checkbox = []
+    },
+
+    fetchDataOnMounted () {
+      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        this.projectName = res.data.name
+      })
+      Workspace.getTestConfigApi(this.projectId).then(res => {
+        this.platform = res.data.platform
+        this.deployField = res.data.deployField === null ? '未上传' : '已上传'
+        this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
+      })
+      this.getTestConfig()
     }
+
   },
   created () { },
-  mounted () { }
+  mounted () {
+    this.projectId = sessionStorage.getItem('mecDetailID')
+    this.userId = sessionStorage.getItem('userId')
+    this.fetchDataOnMounted()
+  }
 }
 </script>
 
@@ -311,7 +378,7 @@ export default {
   }
   .detail-main {
     height: auto;
-    .detail-table2 {
+    .detail-table {
 
         margin: 0;
         padding: 0;
