@@ -26,7 +26,6 @@ const urlPrefix = '/mec-developer/'
 const urlPrefixTool = '/toolchain/'
 
 let codeErr = false
-let token = getCookie('XSRF-TOKEN')
 
 function getCookie (name) {
   let arr = []
@@ -187,6 +186,5 @@ export {
   downLoadReport,
   logoutApi,
   loginApi,
-  codeErr,
-  token
+  codeErr
 }
