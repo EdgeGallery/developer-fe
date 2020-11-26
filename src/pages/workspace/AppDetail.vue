@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import { token } from '../../tools/tool.js'
 import { Workspace } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
