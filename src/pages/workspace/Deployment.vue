@@ -268,9 +268,9 @@ export default {
       activeNames: ['0'],
       timer: '',
       isShow: false,
-      projectName: '',
-      platform: '',
-      privateHost: '',
+      projectName: 'null',
+      platform: 'null',
+      privateHost: 'null',
       deployField: '未上传',
       checkbox: [],
       CSAR: '',
@@ -358,9 +358,9 @@ export default {
   },
   created () { },
   mounted () {
-    this.fetchDataOnMounted()
     this.projectId = sessionStorage.getItem('mecDetailID')
     this.userId = sessionStorage.getItem('userId')
+    this.fetchDataOnMounted()
   }
 }
 </script>
