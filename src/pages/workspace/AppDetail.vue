@@ -356,7 +356,7 @@ export default {
     },
     selectImageType () {
       this.setApiHeight()
-      this.iframeUrl = 'https://59.36.11.4:427?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + token
+      this.iframeUrl = 'https://59.36.11.4:427?egUserId=' + this.userId + '&egUserName=' + this.userName + '&egToken=' + sessionStorage.getItem('access_token')
     }
   },
   mounted () {
