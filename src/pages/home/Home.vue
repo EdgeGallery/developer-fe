@@ -20,9 +20,10 @@
       <div class="topLine">
         <div class="title">
           <h2>{{ $t('home.bannerTitle') }}</h2>
+          <span />
           <p>
-            {{ $t('home.bannerText1') }}
-            <br>{{ $t('home.bannerText2') }}
+            {{ $t('home.bannerText3') }}
+            <br>{{ $t('home.bannerText4') }}
           </p>
         </div>
       </div>
@@ -120,21 +121,32 @@ export default {
   top:65px;
   .topLine {
     height: 400px;
-    background: url("../../assets/images/bg2.png") no-repeat center -80px;
+    background: url("../../assets/images/bg1.jpg") no-repeat center center;
     background-size: cover;
     .title {
       color: #fff;
-      padding: 120px 0 0 50px;
+      padding: 110px 0 0 200px;
+      h2{
+        font-size: 30px;
+      }
+      span{
+        display: inline-block;
+        width: 75px;
+        height: 3px;
+        background: #fff;
+        margin: 40px 0 10px;
+      }
       p {
-        margin-top: 20px;
+        font-size: 16px;
         line-height: 30px;
+        color: #ddd;
       }
     }
   }
   @media screen and (max-width: 1380px) {
     .topLine {
       height: 360px;
-      background: url("../../assets/images/bg2.png") no-repeat center -20px;
+      background: url("../../assets/images/bg1.jpg") no-repeat center center;
       background-size: cover;
       .title {
         padding: 100px 0 0 50px;
