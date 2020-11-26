@@ -83,6 +83,7 @@ export default {
     loginApi().then(res => {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
+      sessionStorage.setItem('access_token', res.data.accessToken)
       this.loginPage = res.data.loginPage
     })
   },
