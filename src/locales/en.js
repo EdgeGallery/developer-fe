@@ -31,6 +31,8 @@ const en = {
     bannerTitle: 'One-stop shop for developers',
     bannerText1: 'Provide developers with convenient development plug-ins',
     bannerText2: 'to help developers develop and test apps faster',
+    bannerText3: 'Provides a developer portal, including the development process, development tool, open API capabilities, and integration test verification',
+    bannerText4: 'Developers can quickly develop applications and integrate them into the EdgeGallery platform',
     createProjectTitle: 'Create Project',
     createProjectText: 'Create a brand new project, or view the status of the created project.',
     toolsDownloadTitle: 'Tools Downloads',

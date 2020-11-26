@@ -31,6 +31,8 @@ const cn = {
     bannerTitle: '一站式开发者平台',
     bannerText1: '为开发者提供便捷的开发插件',
     bannerText2: '帮助开发者快速完成应用开发和测试',
+    bannerText3: '提供开发者入口，包括开发流程、开发工具、开放的API能力、集成测试验证等',
+    bannerText4: '使开发者更加方便快捷的开发应用并集成到EdgeGallery平台',
     createProjectTitle: '创建项目',
     createProjectText: '创建一个新项目或查看新建项目的状态。',
     toolsDownloadTitle: '下载开发工具',

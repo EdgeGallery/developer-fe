@@ -55,7 +55,6 @@
             >
               <el-checkbox
                 :label="item.name"
-                :disabled="item.disabled"
               />
             </el-tooltip>
           </el-checkbox-group>
@@ -91,7 +90,6 @@
             >
               <el-checkbox
                 :label="item.name"
-                :disabled="item.disabled"
               />
             </el-tooltip>
           </el-checkbox-group>
@@ -114,8 +112,12 @@ export default {
   name: '',
   data () {
     return {
-      capability: ['Service Discovery'],
+      capability: [],
       capabilityEco: [],
+      secondStepAll: {
+        selectCapabilityId: [],
+        capabilitySelected: []
+      },
       secondStepSelect: {
         selectCapabilityId: [],
         capabilitySelected: []
@@ -133,12 +135,10 @@ export default {
       let language = localStorage.getItem('language')
       this.language = language
       this.getCapabilityList()
-      this.checkServicelanguage()
     }
   },
   mounted () {
     this.getCapabilityList()
-    this.checkServicelanguage()
     this.getSecondData()
   },
   methods: {
@@ -153,13 +153,6 @@ export default {
             this.capabilityEco.push(item.name)
           }
         })
-      }
-    },
-    checkServicelanguage () {
-      if (this.language === 'cn') {
-        this.capability = ['服务发现']
-      } else if (this.language === 'en') {
-        this.capability = ['Service Discovery']
       }
     },
     // 选择能力列表
@@ -198,13 +191,8 @@ export default {
       Workspace.getCapabilityListApi().then(res => {
         let capabilityData = res.data
         capabilityData.forEach(item => {
-          if (item.name === 'Service Discovery') {
-            item.disabled = true
-            this.secondStepSelect.selectCapabilityId.push(item.groupId)
-            this.secondStepSelect.capabilitySelected.push(item)
-          } else {
-            item.disabled = false
-          }
+          this.secondStepAll.selectCapabilityId.push(item.groupId)
+          this.secondStepAll.capabilitySelected.push(item)
           if (item.type === 'OPENMEP') {
             this.capabilityList.push(item)
           } else if (item.type === 'OPENMEP_ECO') {

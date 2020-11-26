@@ -58,6 +58,7 @@
           @click="nextStep"
           v-if="active<activeProject"
           class="nextStep"
+          :disabled="isGuest"
         >{{ $t('workspace.next') }}</el-button>
         <el-button
           id="confirmBtn"
@@ -125,7 +126,9 @@ export default {
       iconFileId: '',
       createSuccess: false,
       userId: sessionStorage.getItem('userId'),
-      activeProject: this.activeProjectprop
+      userName: sessionStorage.getItem('userName'),
+      activeProject: this.activeProjectprop,
+      isGuest: false
     }
   },
   mounted () {
@@ -211,20 +214,32 @@ export default {
           message: this.$t('promptMessage.introductionRule')
         })
       } else {
-        this.active++
-        // 调用子组件方法传递数据
-        this.changeComponent()
         this.getIconFileId()
+        if (this.userName === 'guest') {
+          this.isGuest = true
+        } else {
+          this.isGuest = false
+        }
+        if (!this.isGuest) {
+          this.active++
+          this.changeComponent()
+        }
       }
     },
     // 暂存图标生成图标ID
     getIconFileId () {
-      if (this.active === 1) {
+      if (this.active === 0) {
         let firstStepData = this.allFormData.first.appIcon[0]
         let formdata = new FormData()
         formdata.append('file', firstStepData)
         Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
+        }).catch(err => {
+          if (err.response.data.code === 403) {
+            this.isGuest = true
+          } else {
+            this.isGuest = false
+          }
         })
       }
     },

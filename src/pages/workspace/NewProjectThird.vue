@@ -29,7 +29,7 @@
     >
       <el-table-column
         type="selection"
-        :selectable="checkDisable"
+        :selectable="false"
         width="55"
       />
       <el-table-column
@@ -96,6 +96,9 @@ export default {
     getServiceList () {
       let count = 0
       let selectedCapablity = [...new Set(this.secondStepSelect.selectCapabilityId)]
+      if (selectedCapablity.length === 0) {
+        this.serviceDataLoading = false
+      }
       selectedCapablity.forEach(groupId => {
         Workspace.getServiceListApi(groupId).then(res => {
           let data = res.data
@@ -124,13 +127,6 @@ export default {
             }
           })
       })
-    },
-    checkDisable (row, rowIndex) {
-      let unable = true
-      if (row.name === 'Service Discovery') {
-        unable = false// 禁用
-      }
-      return unable
     },
     // 找到相同平台能力，合并单元格
     mergerTableData () {
@@ -174,9 +170,7 @@ export default {
     },
     // 选中/取消一个服务
     handleRowClick (row, column, event) {
-      if (row.name !== 'Service Discovery') {
-        this.$refs.thirdStepTable.toggleRowSelection(row)
-      }
+      this.$refs.thirdStepTable.toggleRowSelection(row)
     },
     // 选择表格中的数据
     handleSelectionChange (val) {
