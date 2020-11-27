@@ -19,7 +19,6 @@
     <el-table
       :data="appPublishListData"
       style="width: 100%"
-      border
     >
       <el-table-column
         prop="serviceName"
@@ -40,10 +39,18 @@
       <el-table-column
         :label="$t('workspace.operatioin')"
       >
-        <el-button size="mini">
+        <el-button
+          size="medium"
+          type="text"
+          class="editBtn"
+        >
           {{ $t('api.modify') }}
         </el-button>
-        <el-button size="mini">
+        <el-button
+          size="medium"
+          type="text"
+          class="deleteBtn"
+        >
           {{ $t('devTools.delete') }}
         </el-button>
       </el-table-column>

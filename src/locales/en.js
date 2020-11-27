@@ -170,8 +170,12 @@ const en = {
     },
     prepare: {
       toolTip: 'According to the development language of the application, the IDE is locally installed and configured',
-      pluginTip: 'Edgegallery provides ide plug-ins developed locally, which can be used to generate sample code (currently supports Python and java languages)',
-      codeTip: 'Edgegallery provides sample code of APP local development for reference by developers'
+      pluginTip1: 'Edgegallery provides locally developed',
+      pluginTip2: 'ide plugin',
+      pluginTip3: ',Sample code that can be used to generate (currently supports python and java languages)',
+      codeTip1: 'Edgegallery provides apps developed locally',
+      codeTip2: 'Sample code',
+      codeTip3: 'for developers\' reference'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',

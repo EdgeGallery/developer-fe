@@ -170,8 +170,12 @@ const cn = {
     },
     prepare: {
       toolTip: '根据应用的开发语言，本地安装配置编程IDE',
-      pluginTip: 'edgegallery提供本地开发的ide插件，可用来生成的样例代码（目前支持python和java语言）',
-      codeTip: 'edgegallery提供APP本地开发的示例代码供开发者参考'
+      pluginTip1: 'Edgegallery提供本地开发的',
+      pluginTip2: 'ide插件',
+      pluginTip3: '，可用来生成的样例代码（目前支持python和java语言）',
+      codeTip1: 'Edgegallery提供APP本地开发的',
+      codeTip2: '示例代码',
+      codeTip3: '供开发者参考'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',

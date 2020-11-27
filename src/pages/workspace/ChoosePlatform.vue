@@ -63,5 +63,12 @@ export default {
   .el-checkbox__label{
     font-size: 16px;
   }
+  .el-checkbox__input.is-checked+.el-checkbox__label{
+    color: #688ef3;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner{
+    background-color: #688ef3;
+    border-color: #688ef3;
+  }
 }
 </style>

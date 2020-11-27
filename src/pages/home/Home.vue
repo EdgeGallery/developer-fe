@@ -121,8 +121,7 @@ export default {
   top:65px;
   .topLine {
     height: 400px;
-    background: url("../../assets/images/bg1.jpg") no-repeat center center;
-    background-size: cover;
+    background: url("../../assets/images/bg1.jpg") no-repeat center center #205361;
     .title {
       color: #fff;
       padding: 110px 0 0 200px;
@@ -146,8 +145,7 @@ export default {
   @media screen and (max-width: 1380px) {
     .topLine {
       height: 360px;
-      background: url("../../assets/images/bg1.jpg") no-repeat center center;
-      background-size: cover;
+      background: url("../../assets/images/bg1.jpg") no-repeat center center #205361;
       .title {
         padding: 100px 0 0 50px;
       }

@@ -68,12 +68,13 @@
         <el-button
           @click="dialogVisible = false"
           size="medium"
+          class="cancel"
         >{{ $t('common.cancel') }}</el-button>
         <el-button
           type="primary"
           @click="dialogVisible = false"
           size="medium"
-          class="bg"
+          class="confirm"
         >{{ $t('common.confirm') }}</el-button>
       </span>
     </el-dialog>

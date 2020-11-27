@@ -22,22 +22,32 @@
       </div>
       <div class="way-desc">
         {{ $t('workspace.uploadImage.mode1Desc') }}
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="this.$t('workspace.uploadImage.mode1Tip')"
+          placement="right"
+        >
+          <em class="el-icon-question" />
+        </el-tooltip>
       </div>
     </h3>
-    <div class="tip red">
-      {{ $t('workspace.uploadImage.mode1Tip') }}
-    </div>
     <h3 class="title">
       <div class="way">
         {{ $t('workspace.uploadImage.mode2') }}
       </div>
       <div class="way-desc">
         {{ $t('workspace.uploadImage.mode2Desc') }}
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="this.$t('workspace.uploadImage.mode2Tip')"
+          placement="right"
+        >
+          <em class="el-icon-question" />
+        </el-tooltip>
       </div>
     </h3>
-    <div class="tip red">
-      {{ $t('workspace.uploadImage.mode2Tip') }}
-    </div>
     <el-button
       class="upload-image"
       type="primary"
@@ -232,8 +242,8 @@ export default {
     .upload-image {
       margin: 0px 72px 15px 72px;
     }
-    .red {
-      color: red;
+    .el-icon-question:before{
+      color: #688ef3;
     }
 
     .gray {
