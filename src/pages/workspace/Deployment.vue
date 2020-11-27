@@ -57,13 +57,13 @@
         </el-button>
         <el-button
           type="info"
-          @click="testCompleted"
+          @click="demoTestSuccess"
         >
           {{ $t('workspace.completeTest') }}
         </el-button>
         <el-button
           type="info"
-          @click="getAppDetailData"
+          @click="demoTessFail"
         >
           {{ $t('workspace.recycle') }}
         </el-button>
@@ -82,12 +82,21 @@
         <el-collapse-item name="0">
           <template
             slot="title"
-            v-if="testFinished"
+            v-if="testFinished && deploySuccess"
           >
             <em
-              class="header-icon el-icon-circle-check"
+              class="header-icon el-icon-success"
               style="color:lightgreen; "
             /> {{ $t('workspace.deploymentSuccess') }}
+          </template>
+          <template
+            slot="title"
+            v-if="testFinished && !deploySuccess"
+          >
+            <em
+              class="header-icon el-icon-error"
+              style="color:red; "
+            /> 部署失败
           </template>
           <div class="status-center">
             <el-checkbox-group
@@ -121,12 +130,22 @@
           </template>
           <div class="status-result">
             <div class="result-item result-top">
-              <p class="result-msg">
-                {{ $t('workspace.testMsg') }}
-              </p>
-              <el-button type="primary">
-                http://159.138.11.6:32115
-              </el-button>
+              <div v-if="testFinished && deploySuccess">
+                <p class="result-msg">
+                  {{ $t('workspace.testMsg') }}
+                </p>
+                <el-button type="primary">
+                  http://159.138.11.6:32115
+                </el-button>
+              </div>
+              <div v-if="testFinished && !deploySuccess">
+                <p class="result-msg">
+                  应用部署失败，请结合日志信息修改并重新部署
+                </p>
+                <el-button type="primary">
+                  Fail to instantiate app
+                </el-button>
+              </div>
             </div>
             <div class="result-item result-bottom">
               <div class="result-bottom-title">
@@ -259,6 +278,7 @@ export default {
 
   data () {
     return {
+      deploySuccess: false,
       deployButtonDisable: false,
       testFinished: false,
       deployStatus: 'NotDeploy',
@@ -275,7 +295,7 @@ export default {
       checkbox: [],
       CSAR: '',
       hostInfo: '',
-      InstantiateInfo: '',
+      instantiateInfo: '',
       workstatus: '',
       pods: [],
       projectId: '',
@@ -309,7 +329,7 @@ export default {
         if (status != null) {
           this.CSAR = status.csar === null ? null : status.csar
           this.hostInfo = status.hostInfo === null ? null : status.hostInfo
-          this.InstantiateInfo = status.InstantiateInfo === null ? null : status.InstantiateInfo
+          this.instantiateInfo = status.instantiateInfo === null ? null : status.instantiateInfo
           this.workstatus = status.workstatus === null ? null : status.workstatus
         }
         this.deployStatus = res.data.deployStatus
@@ -319,17 +339,25 @@ export default {
         if (this.hostInfo === 'Success') {
           this.checkbox.push(2)
         }
-        if (this.hostInfo === 'Success') {
+        if (this.instantiateInfo === 'Success') {
           this.checkbox.push(3)
         }
         if (this.workstatus === 'Success') {
           this.checkbox.push(4)
         }
-        if (this.deployStatus === 'Success') {
+        if (this.deployStatus === 'SUCCESS') {
           this.checkbox.push(5)
           this.activeNames = ['1']
           clearInterval(this.timer)
           this.testFinished = true
+          this.deploySuccess = true
+        }
+        if (this.CSAR === 'Fail' || this.hostInfo === 'Fail' || this.instantiateInfo === 'Fail' || this.workstatus === 'Fail') {
+          clearInterval(this.timer)
+          this.activeNames = ['1']
+          this.deployStatus = 'FAIL'
+          this.testCompleted = true
+          this.deploySuccess = false
         }
         this.deployButtonDisable = this.deployStatus === 'DEPLOYING'
       })
@@ -353,8 +381,23 @@ export default {
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
       })
       this.getTestConfig()
-    }
+    },
 
+    demoTestSuccess () {
+      this.checkbox = [1, 2, 3, 4, 5]
+      this.testFinished = true
+      this.deploySuccess = true
+      clearInterval(this.timer)
+      this.activeNames = ['1']
+    },
+
+    demoTessFail () {
+      this.checkbox = []
+      this.testFinished = true
+      this.deploySuccess = false
+      clearInterval(this.timer)
+      this.activeNames = ['1']
+    }
   },
   created () { },
   mounted () {
