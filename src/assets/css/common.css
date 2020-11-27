@@ -77,6 +77,37 @@ li{
 .cp, .curp{
   cursor: pointer;
 }
+.el-button.featuresBtn{
+  background: #e9edfa !important;
+  border: 1px solid #6381d7 !important;
+  color: #688ef3 !important;
+}
+.el-tabs__active-bar{
+  background-color: #688ef3;
+}
+.el-button.editBtn{
+  color: #7597f4;
+}
+.el-button.deleteBtn{
+  color: #f67878;
+}
+.el-button.bgBtn{
+  background-color: #688ef3;
+  border: 1px solid #688ef3;
+  color: #fff;
+}
+.el-button.confirm{
+  background: #688ef3;
+  color: #fff;
+}
+.el-button.cancel{
+  border: 1px solid #688ef3;
+  color: #688ef3;
+}
+.el-dialog__header{
+  background: #688ef3 !important;
+}
+
 
 
 /* 自适应

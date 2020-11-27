@@ -27,119 +27,65 @@
     >
       <el-row>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ $t('workspace.projectName') }} :
+          <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ item.appName }}
         </el-col>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ item.appName }}
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ $t('test.testApp.type') }} :
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ item.type }}
+          <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ item.type }}
         </el-col>
       </el-row>
       <el-row>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ $t('workspace.version') }} :
+          <span class="span_left">{{ $t('workspace.version') }}</span>{{ item.version }}
         </el-col>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ item.version }}
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ $t('workspace.architecture') }} :
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ item.architecture }}
+          <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ item.architecture }}
         </el-col>
       </el-row>
       <el-row>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ $t('workspace.dependentApp') }} :
+          <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ item.service }}
         </el-col>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ item.service }}
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ $t('workspace.instantiateId') }} :
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ item.instantiateId }}
+          <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ item.instantiateId }}
         </el-col>
       </el-row>
       <el-row>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ $t('workspace.deploymentPlatform') }} :
+          <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ item.platform }}
         </el-col>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="10"
+          :xs="24"
         >
-          {{ item.platform }}
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ $t('test.testTask.testStatus') }} :
-        </el-col>
-        <el-col
-          :sm="6"
-          :xs="12"
-        >
-          {{ item.status }}
+          <span class="span_left">{{ $t('test.testTask.testStatus') }}</span>{{ item.status }}
         </el-col>
       </el-row>
       <el-row>
         <el-col
-          :sm="6"
-          :xs="12"
+          :sm="24"
         >
-          {{ $t('workspace.applicationDesc') }} :
-        </el-col>
-        <el-col
-          :sm="18"
-          :xs="12"
-        >
+          <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
           <el-upload
             class="upload-demo clear"
             action=""
@@ -154,7 +100,7 @@
             <el-button
               slot="trigger"
               size="small"
-              type="primary"
+              class="featuresBtn"
             >
               {{ $t('workspace.uploadFile') }}
             </el-button>
@@ -176,12 +122,12 @@
       <!-- 应用规则配置 -->
       <p>{{ $t('workspace.ruleConfig') }}</p>
       <el-tabs
-        type="border-card"
         class="ruleconfig_tab"
       >
         <el-tab-pane :label="$t('workspace.trafficRules')">
           <el-button
-            class="addBtn"
+            size="small"
+            class="featuresBtn"
             @click="trafficDialog=true"
           >
             {{ $t('workspace.add')+$t('workspace.trafficRules') }}
@@ -198,7 +144,8 @@
         </el-tab-pane>
         <el-tab-pane :label="$t('workspace.dnsRules')">
           <el-button
-            class="addBtn"
+            size="small"
+            class="featuresBtn"
             @click="dnsDialog=true"
           >
             {{ $t('workspace.add')+$t('workspace.dnsRules') }}
@@ -217,7 +164,8 @@
       <!-- 应用服务发布配置 -->
       <p>{{ $t('workspace.appPublishConfig') }}</p>
       <el-button
-        class="addBtn margin_top"
+        size="small"
+        class="featuresBtn margin_top"
         @click="appPublishDialog=true"
       >
         {{ $t('workspace.add')+$t('workspace.applicationRelease') }}
@@ -237,7 +185,8 @@
     </h3>
     <div class="release_test">
       <el-button
-        class="test apptest"
+        size="small"
+        class="featuresBtn"
         @click="appDetaildialog=true"
       >
         {{ $t('workspace.appDetails') }}
@@ -249,17 +198,16 @@
         />
       </div>
       <el-button
-        class=" test apptest"
+        class="bgBtn btn_width1"
       >
         {{ $t('workspace.appTest') }}
       </el-button>
-      <p class="release_text">
+      <span class="release_text">
         {{ $t('workspace.releaseText') }}
-      </p>
+      </span>
       <!-- 应用测试任务列表 -->
       <el-table
         :data="appTestData"
-        border
         style="width: 100%"
       >
         <el-table-column
@@ -304,7 +252,8 @@
               {{ $t('workspace.detail') }}
             </el-link>
             <el-button
-              class="release_btn"
+              class="bgBtn"
+              size="small"
               :disabled="scope.row.status==='Success'?false:true"
               @click="dialogAppPublicSuccess=true"
             >
@@ -335,7 +284,7 @@
                   type="primary"
                   @click="dialogAppPublicSuccess = false"
                   size="medium"
-                  class="bg"
+                  class="confirm"
                 >{{ $t('common.confirm') }}</el-button>
               </span>
             </el-dialog>
@@ -457,6 +406,21 @@ export default {
   },
   mounted () {
     this.getAppstoreUrl()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      let spanLeft = document.getElementsByClassName('span_left')
+      if (language === 'en') {
+        spanLeft.forEach(item => {
+          item.style.width = 160 + 'px'
+        })
+      } else {
+        spanLeft.forEach(item => {
+          item.style.width = 95 + 'px'
+        })
+      }
+    }
   }
 }
 </script>
@@ -466,11 +430,8 @@ export default {
   .margin_top{
     margin-top: 20px;
   }
-  .el-table th{
-    background:#e8fdff;
-    padding: 5px 0;
-  }
   .el-table td, .el-table th{
+    padding: 2px 0;
     text-align: center;
     .icon{
       margin-right: 5px;
@@ -491,25 +452,30 @@ export default {
       border: 1px solid #aaa;
     }
   }
-  .el-button{
-    padding: 4px 15px;
-    background-color: #fff;
-    border: 1px solid #688ef3;
-    color: #688ef3;
-  }
-  .el-button.bg{
-    background: #688ef3;
-    color: #fff;
+  .el-table th{
+    background:#f5f5f6;
+    padding: 5px 0;
   }
   .el-button.margin_left{
     margin-left: 10px;
   }
   .project_detail{
-    margin: 25px 0;
+    margin: 25px 0 40px;
+    padding: 0 30px;
     font-size: 14px;
     .el-col{
       line-height: 28px;
       padding: 5px;
+      .span_left{
+        color: #adb0b8;
+        display: inline-block;
+        min-width: 95px;
+        text-align: right;
+        padding-right: 20px;
+      }
+      .upload-demo{
+        display: inline-block;
+      }
       .el-upload-list{
         float: left;
         width: 100%;
@@ -520,11 +486,11 @@ export default {
       }
       .el-upload{
         float: left;
-        margin-left: 10px;
       }
       .el-upload__tip{
         float: left;
         margin: 0 0 0 15px;
+        color: #adb0b8;
       }
       .el-button--primary{
         margin-top: 0;
@@ -533,9 +499,31 @@ export default {
   }
   .release_detail{
     margin-bottom: 20px;
+    padding: 0 30px;
     .el-tabs{
       .addBtn{
         margin-left: 15px;
+      }
+      .el-tabs__item{
+        height: 15px;
+        line-height: 15px;
+        padding: 0 30px 0 0;
+        font-size: 14px;
+        margin:0 30px 18px 0;
+        border-right: 1px solid #ddd;
+        border-radius: 0;
+      }
+      .el-tabs__item:last-child{
+        border-right: 0;
+      }
+      .el-tabs__item.is-active{
+        color: #688ef3;
+      }
+      .el-tabs__active-bar{
+        height: 4px;
+      }
+      .el-tab-pane{
+        padding: 24px 0;
       }
     }
     .el-table{
@@ -588,14 +576,13 @@ export default {
     }
   }
   .release_test{
-    border: 1px solid #ddd;
-    padding: 20px 40px;
+    padding: 0 30px;
     .test{
       display: block;
     }
-    .el-button{
+    .btn_width1{
       color: #fff;
-      padding: 6px 20px;
+      padding: 9px 15px;
       font-size: 12px;
       min-width: 100px;
     }
@@ -609,12 +596,18 @@ export default {
       margin: 15px 0;
     }
     .release_text{
-      color: #ff3300;
-      font-size: 14px;
-      margin-bottom: 20px;
+      color: #adb0b8;
+      font-size: 12px;
+      margin-left: 10px;
     }
+    .el-table{
+      margin-top: 14px;
+    }
+    .el-table td{
+        padding: 12px;
+      }
     .appstore_link{
-      background: #409EFF;
+      background: #688ef3;
       color: #fff;
       padding: 5px 20px;
       margin-top: 15px;
@@ -630,10 +623,6 @@ export default {
       }
       .el-dialog__header{
         text-align: left;
-      }
-      .el-button{
-        min-width: 60px;
-        background: #409EFF;
       }
     }
   }

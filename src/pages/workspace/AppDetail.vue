@@ -299,42 +299,38 @@ export default {
 .el-steps{
   margin-bottom: 40px;
   .el-step__icon-inner{
-    width: 8px;
-    height: 8px;
-    background-color: #fff;
-    text-indent: 99px;
-    border-radius: 50%;
-    overflow: hidden;
+    color: #adb0b8;
   }
   .el-step__icon.is-text{
     border: none;
   }
-  .el-step__head.is-success .el-step__line{
-    background-color: #6b92fa;
+  .el-step__icon-inner{
+    color: #fff;
   }
-  .el-step__head.is-success{
-    border-color: #6b92fa;
+  .is-process .el-step__icon{
+    background-color: #688ef3;
+  }
+  .el-step__title.is-process{
+    font-weight: normal;
+  }
+  .is-wait .el-step__icon{
+    background: #fff;
+    border: 1px solid #adb0b8;
+    .el-step__icon-inner{
+      color: #adb0b8;
+    }
+  }
+  .is-success .is-text{
+    background-color: #6b92fa;
   }
   .el-step__title.is-success{
-    color: #303133;
+    color: #688ef3;
   }
-  .el-step__head.is-wait .el-step__icon.is-text{
-    width: 24px;
-    height: 24px;
-    background-color: #b8becc;
-    border-radius: 50%;
-  }
-  .el-step__head.is-process .el-step__icon.is-text,.el-step__head.is-success .el-step__icon.is-text{
-    width: 24px;
-    height: 24px;
-    background-color: #6b92fa;
-    border-radius: 50%;
-  }
-  .el-step__head.is-success .el-step__icon-inner{
-    width: 16px;
-    height: 16px;
-    background: url('../../assets/images/step_success.png') no-repeat;
-    background-size: cover;
+  .el-step__head.is-success{
+    border-color: #688ef3;
+    .el-step__line{
+      background-color: #6b92fa;
+    }
   }
 }
 .upload-demo{
@@ -362,31 +358,40 @@ export default {
   }
   .el-tabs--left .el-tabs__item.is-left{
     text-align: center;
+    background: #fff;
   }
   .el-tabs--left .el-tabs__header.is-left{
-    margin-right: 0;
+    margin-right: 20px;
+  }
+  .el-tabs__nav-wrap.is-left::after{
+    width: 0;
+  }
+  .el-tabs--left .el-tabs__active-bar.is-left{
+    display: none;
   }
   .el-tabs__item{
+    height: 50px;
+    line-height: 50px;
     padding: 0 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
   }
   .el-tabs--left .el-tabs__item.is-left.is-active{
-    background:#41c7db;
-    color: #333;
-  }
-  .el-tabs__active-bar{
-    background-color: #138da0;
+    background:#688ef3;
+    color: #fff;
   }
   .el-tabs__item:hover{
-    color: #21c6e0;
+    color: #688ef3;
   }
   .elTabs {
-    background: #fff;
     padding: 20px 20px 20px 0;
     .el-tabs__header{
       min-width: 195px;
     }
     .el-tabs__content{
-      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 5px;
     }
     .elTabPane {
       padding: 30px;
@@ -411,11 +416,10 @@ export default {
       }
     }
     .elSteps {
-      margin: 0px 10% 0;
-      width: 80%;
+      margin: 0px 5% 0;
+      width: 90%;
       padding: 20px 40px;
       box-sizing: border-box;
-      border: 1px solid #ddd;
     }
     @media screen and (max-width: 1380px) {
       .elSteps {
@@ -432,10 +436,8 @@ export default {
     }
   }
   .title{
-    font-size: 18px;
-    font-weight: normal;
-    border-left: 2px solid #41c7db;
-    padding-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
     margin-bottom: 15px;
   }
 }

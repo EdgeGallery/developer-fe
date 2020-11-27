@@ -16,9 +16,6 @@
 
 <template>
   <div class="envPreparation">
-    <p class="p-top">
-      <strong>{{ $t('workspace.environmentPreparation') }}：</strong>{{ $t('workspace.environmentPreparationTip') }}
-    </p>
     <h3 class="title">
       <em class="el-icon-setting" />
       {{ $t('workspace.programTools') }}
@@ -31,32 +28,29 @@
       {{ $t('workspace.programPlugin') }}
     </h3>
     <div class="pad">
-      {{ $t('workspace.prepare.pluginTip') }}
-    </div>
-    <div class="pad">
-      <el-button
+      {{ $t('workspace.prepare.pluginTip1') }}
+      <el-link
+        :herf="projectLink"
         type="primary"
-        plain
-        size="mini"
+        :underline="false"
       >
-        {{ $t('workspace.detail') }}
-      </el-button>
+        {{ $t('workspace.prepare.pluginTip2') }}
+      </el-link>
+      {{ $t('workspace.prepare.pluginTip3') }}
     </div>
     <h3 class="title">
       <em class="el-icon-edit-outline" />
       {{ $t('workspace.sampleCode') }}
     </h3>
     <div class="pad">
-      {{ $t('workspace.prepare.codeTip') }}
-    </div>
-    <div class="pad">
-      <el-button
+      {{ $t('workspace.prepare.codeTip1') }}
+      <el-link
         type="primary"
-        plain
-        size="mini"
+        :underline="false"
       >
-        {{ $t('workspace.detail') }}
-      </el-button>
+        {{ $t('workspace.prepare.codeTip2') }}
+      </el-link>
+      {{ $t('workspace.prepare.codeTip3') }}
     </div>
   </div>
 </template>
@@ -66,7 +60,7 @@ export default {
   name: 'EnvPreparation',
   data () {
     return {
-
+      projectLink: '/#/mecDeveloper/plugin/list'
     }
   },
   methods: {
@@ -86,12 +80,20 @@ export default {
 
 <style lang="less">
 .envPreparation{
-  .p-top{
-    margin-bottom: 15px;
+  .title{
+    em{
+      margin-right: 15px;
+    }
   }
   .pad {
+    font-size: 13px;
+    color: #575d6c;
     padding-left: 35px;
     padding-bottom: 15px;
+    .el-link{
+      margin-top: -4px;
+      color: #688ef3;
+    }
   }
 }
 </style>

@@ -45,6 +45,7 @@ export default {
     position: absolute;
     height: 100%;
     width: 100%;
+    background: #f0f2f5;
     .pagebar{
       margin-top:25px;
       float:right;

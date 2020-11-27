@@ -79,6 +79,7 @@
               slot="trigger"
               size="small"
               type="primary"
+              class="featuresBtn"
             >
               {{ $t('devTools.uploadApi') }}
             </el-button>
@@ -108,6 +109,7 @@
               slot="trigger"
               size="small"
               type="primary"
+              class="featuresBtn"
             >
               {{ $t('workspace.uploadFile') }}
             </el-button>
@@ -159,12 +161,13 @@
         <el-button
           @click="dialogVisible = false"
           size="medium"
+          class="cancel"
         >{{ $t('common.cancel') }}</el-button>
         <el-button
           type="primary"
           @click="dialogVisible = false"
           size="medium"
-          class="bg"
+          class="confirm"
         >{{ $t('common.confirm') }}</el-button>
       </span>
     </el-dialog>
