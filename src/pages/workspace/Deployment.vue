@@ -69,6 +69,12 @@
         >
           {{ $t('workspace.recycle') }}
         </el-button>
+        <button @click="testDemoS">
+          11
+        </button>
+        <button @click="testDemoF">
+          22
+        </button>
       </div>
       <div class="main-msg-con">
         <span class="msg">{{ $t('workspace.completeMsg') }}</span>
@@ -302,11 +308,13 @@ export default {
           this.checkbox.push(4)
         }
         if (this.deployStatus === 'SUCCESS') {
+          console.log('走进部署成功的分支')
           clearInterval(this.timer)
           this.pods = JSON.parse(res.data).pods
           this.activeNames = ['1']
           this.testFinished = true
           this.deploySuccess = true
+          console.log('testFinished = ' + this.testFinished + ',deploySuccess' + this.deploySuccess)
           this.accessUrl = res.data.accessUrl
           this.errorLog = res.data.errorLog
         }
@@ -333,6 +341,16 @@ export default {
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
       })
       this.getTestConfig()
+    },
+
+    testDemoS () {
+      this.testFinished = true
+      this.deploySuccess = true
+    },
+
+    testDemoF () {
+      this.testFinished = true
+      this.deploySuccess = false
     }
   },
   created () { },
