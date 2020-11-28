@@ -58,13 +58,6 @@
         <el-button
           :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
           :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
-          @click="terminateTest"
-        >
-          {{ $t('workspace.completeTest') }}
-        </el-button>
-        <el-button
-          :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
-          :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
           @click="cleanTestEnv"
         >
           {{ $t('workspace.recycle') }}
@@ -88,7 +81,7 @@
           >
             <em
               class="header-icon el-icon-success"
-              style="color:lightgreen; "
+              style="color:green; "
             /> {{ $t('workspace.deploymentSuccess') }}
           </template>
           <template
@@ -134,6 +127,7 @@
                   {{ errorLog }}
                 </p>
                 <el-link
+                  class="result-url"
                   :href="accessUrl"
                   target="_blank"
                 >
@@ -145,6 +139,7 @@
                   {{ errorLog }}
                 </p>
                 <el-link
+                  class="result-url"
                   :href="accessUrl"
                   target="_blank"
                 >
@@ -210,8 +205,6 @@ export default {
   data () {
     return {
       deploySuccess: false,
-      testCompletedButtonDisable: false,
-      cleanEnvButtonDisable: false,
       testFinished: false,
       deployStatus: 'NOTDEPLOY',
       activeNames: ['0'],
@@ -250,11 +243,11 @@ export default {
         console.log(err)
       })
     },
-
-    terminateTest () {
-      Workspace.terminateProjectAPI(this.projectId, this.userId).then(response => {
+    cleanTestEnv () {
+      this.terminateTest()
+      Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
-          message: '测试结束'
+          message: '环境清空'
         })
         clearInterval(this.timer)
         this.checkbox = []
@@ -264,16 +257,11 @@ export default {
         console.log(err)
       })
     },
-
-    cleanTestEnv () {
-      Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
+    terminateTest () {
+      Workspace.terminateProjectAPI(this.projectId, this.userId).then(response => {
         this.$message({
-          message: '环境清空'
+          message: '测试结束'
         })
-        clearInterval(this.timer)
-        this.checkbox = []
-        this.activeNames = ['0']
-        this.testFinished = false
       }).catch(err => {
         console.log(err)
       })
@@ -505,6 +493,12 @@ export default {
           margin-bottom: 10px;
           color: #000;
           font-size: 14px;
+        }
+        .result-url {
+          width: 258px;
+          height: 38px;
+          color: white;
+          background: #6881f3;
         }
       }
       .result-bottom {
