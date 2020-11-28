@@ -30,9 +30,9 @@
     <div class="pad">
       {{ $t('workspace.prepare.pluginTip1') }}
       <el-link
-        :herf="projectLink"
-        type="primary"
-        :underline="false"
+        type="info"
+        :href="projectLink"
+        target="_blank"
       >
         {{ $t('workspace.prepare.pluginTip2') }}
       </el-link>
@@ -45,8 +45,9 @@
     <div class="pad">
       {{ $t('workspace.prepare.codeTip1') }}
       <el-link
-        type="primary"
+        type="info"
         :underline="false"
+        @click="getApiFileId"
       >
         {{ $t('workspace.prepare.codeTip2') }}
       </el-link>
@@ -56,10 +57,13 @@
 </template>
 
 <script>
+import { Workspace } from '../../tools/api.js'
 export default {
   name: 'EnvPreparation',
   data () {
     return {
+      apiFileIdArr: [],
+      userId: sessionStorage.getItem('userId'),
       projectLink: '/#/mecDeveloper/plugin/list'
     }
   },
@@ -69,6 +73,36 @@ export default {
       if (ifNext) {
         this.$emit('getStepData', { step: 'second', data: '', ifNext })
       }
+    },
+    async getApiFileId () {
+      this.apiFileIdArr = []
+      let projectId = sessionStorage.getItem('mecDetailID')
+      let getGroupid = async (groupId) => {
+        await Workspace.getServiceListApi(groupId).then(res => {
+          let data = res.data
+          data.capabilityDetailList.forEach(service => {
+            this.apiFileIdArr.push(service.apiFileId)
+          })
+        })
+        let serviceCount = Number(sessionStorage.getItem('serviceCount'))
+        if (this.apiFileIdArr.length === serviceCount) {
+          this.getSampleCode(this.apiFileIdArr)
+        }
+      }
+
+      await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
+        let data = res.data.capabilityList
+        if (data.length === 0) {
+          this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
+        } else {
+          data.forEach(dataItem => {
+            getGroupid(dataItem.groupId)
+          })
+        }
+      })
+    },
+    getSampleCode (apiFileIdArr) {
+      Workspace.getSampleCodeApi(apiFileIdArr)
     }
   },
   created () {

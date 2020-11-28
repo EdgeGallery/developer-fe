@@ -244,11 +244,12 @@ export default {
       func(projectId, this.userId, params).then(res => {
         this.$message.success(this.$t('promptMessage.saveSuccess'))
         this.getTestConfig()
+        this.activeName = '3'
       }, (error) => {
         if (error.response.data.code === 403) {
           this.$message.error(this.$t('promptMessage.guestPrompt'))
         } else {
-          this.$message.error(error.response.data.message)
+          this.$message.error(this.$t('promptMessage.saveFail'))
         }
       }).finally(() => {
         this.apiDataLoading = false
@@ -333,23 +334,6 @@ export default {
     }
   }
 }
-.upload-demo{
-  .el-button--primary{
-    background-color: #fff;
-    border-color: #688ef3;
-    color: #688ef3;
-    padding: 6px 20px;
-    margin-top: 8px;
-  }
-  .el-icon-warning{
-    color: #688ef3;
-    margin-right: 5px;
-    font-size: 14px;
-  }
-  .el-upload__tip{
-    margin-top: 10px;
-  }
-}
 .workdetail {
   // height: 100%;
   .el-tree-node__content{
@@ -416,10 +400,11 @@ export default {
       }
     }
     .elSteps {
-      margin: 0px 5% 0;
-      width: 90%;
-      padding: 20px 40px;
+      margin: 0px 10% 0;
+      width: 80%;
+      padding: 20px 0;
       box-sizing: border-box;
+      border-bottom:  1px dashed #dfe1e6;
     }
     @media screen and (max-width: 1380px) {
       .elSteps {

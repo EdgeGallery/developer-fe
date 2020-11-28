@@ -145,7 +145,8 @@ const en = {
     },
     uploadImage: {
       nodeInfoValidation: 'Please enter the correct IP and port,port range is 30000-30400',
-      successfulTest: 'The test was successful',
+      successfulTest: 'Test successfully',
+      failTest: 'Test failed',
       testfirst: 'Please test first',
       useEnvTip: 'note: after startup, the system will not redistribute the common test environment, and all test tasks will be completed on the user\'s own server',
       useEnv: 'Enable:',
@@ -171,7 +172,7 @@ const en = {
     prepare: {
       toolTip: 'According to the development language of the application, the IDE is locally installed and configured',
       pluginTip1: 'Edgegallery provides locally developed',
-      pluginTip2: 'ide plugin',
+      pluginTip2: 'IDE plugin',
       pluginTip3: ',Sample code that can be used to generate (currently supports python and java languages)',
       codeTip1: 'Edgegallery provides apps developed locally',
       codeTip2: 'Sample code',
@@ -465,7 +466,9 @@ const en = {
     checkFileType: 'Please upload a file that matches the format',
     downloading: 'Downloading, please wait...',
     guestPrompt: 'The guest user has no right to operate, please log in first!',
-    saveSuccess: 'Saved successfully!'
+    saveSuccess: 'Saved successfully!',
+    saveFail: 'Save failed!',
+    sampleCodeInfo: 'Cannot download sample code without selecting capability service'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

@@ -69,7 +69,11 @@ export default {
     // 获取第三步选择的能力的FileId
     getApiFileId () {
       this.apiFileIdArr = JSON.parse(sessionStorage.getItem('apiFileIdArr'))
-      Workspace.getSampleCodeApi(this.apiFileIdArr)
+      if (this.apiFileIdArr) {
+        Workspace.getSampleCodeApi(this.apiFileIdArr)
+      } else {
+        this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
+      }
     }
   }
 }

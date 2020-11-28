@@ -312,6 +312,7 @@ export default {
           this.$emit('closeFatherDialog', false)
           this.uploadBtnLoading = false
           this.$router.push('/mecDeveloper/work/detail')
+          sessionStorage.removeItem('apiFileIdArr')
         } else {
           this.$message({
             message: this.$t('promptMessage.addProjectFail'),
@@ -331,6 +332,7 @@ export default {
         } else {
           this.$message.error(this.$t('promptMessage.addProjectFail'))
         }
+        sessionStorage.removeItem('apiFileIdArr')
       })
     },
     // 将中文情况下选择的能力转成英文

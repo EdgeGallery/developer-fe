@@ -146,6 +146,7 @@ const cn = {
     uploadImage: {
       nodeInfoValidation: '请输入正确的IP、端口号，端口号范围30000-30400',
       successfulTest: '测试成功',
+      failTest: '测试失败',
       testfirst: '请先测试',
       useEnvTip: '注：启动后，系统不会再分配公共测试环境，所有测试任务在用户自己的服务器上完成',
       useEnv: '启用环境:',
@@ -171,7 +172,7 @@ const cn = {
     prepare: {
       toolTip: '根据应用的开发语言，本地安装配置编程IDE',
       pluginTip1: 'Edgegallery提供本地开发的',
-      pluginTip2: 'ide插件',
+      pluginTip2: 'IDE插件',
       pluginTip3: '，可用来生成的样例代码（目前支持python和java语言）',
       codeTip1: 'Edgegallery提供APP本地开发的',
       codeTip2: '示例代码',
@@ -465,7 +466,9 @@ const cn = {
     checkFileType: '请上传符合格式的文件',
     downloading: '正在下载，请稍后...',
     guestPrompt: 'Guest用户无权操作，请先登录！',
-    saveSuccess: '保存成功！'
+    saveSuccess: '保存成功！',
+    saveFail: '保存失败！',
+    sampleCodeInfo: '没有选择能力服务，不能下载样例代码'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
