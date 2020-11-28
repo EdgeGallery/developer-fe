@@ -284,13 +284,12 @@ export default {
           this.activeNames = ['1']
           this.testFinished = true
           this.deploySuccess = true
-          console.log('testFinished = ' + this.testFinished + ',deploySuccess' + this.deploySuccess)
           this.accessUrl = res.data.accessUrl
           this.errorLog = res.data.errorLog
         }
         if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
           clearInterval(this.timer)
-          this.pods = JSON.parse(res.data).pods
+          this.pods = JSON.parse(res.data.pods).pods
           this.activeNames = ['1']
           this.deployStatus = 'FAILED'
           this.testFinished = true
