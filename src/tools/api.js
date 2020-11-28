@@ -195,9 +195,13 @@ let Workspace = {
   deployTestApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + userId, '')
   },
+  // 终止部署
+  terminateProjectAPI: function (projectId, userId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/action/terminate?userId=' + userId, '')
+  },
   // 清空测试环境
-  cleanTestEnvApi: function (projectId, deployed, userId) {
-    return Post('mec/developer/v1/projects/' + projectId + '/action/clean?completed=' + deployed + '&userId=' + userId, '')
+  cleanTestEnvApi: function (projectId, userId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/action/clean?userId=' + userId, '')
   },
   // 添加镜像
   addImageNameApi: function (projectId, params) {
@@ -247,6 +251,7 @@ let Workspace = {
   isPublicApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + userId, '')
   }
+
 }
 
 export {
