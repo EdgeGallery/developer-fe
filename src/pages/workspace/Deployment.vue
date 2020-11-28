@@ -49,21 +49,23 @@
       </div>
       <div class="detail-button-con">
         <el-button
-          type="primary"
-          :disabled="deployButtonDisable"
+          :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
+          :disabled="deployStatus === 'DEPLOYING'"
           @click="startDeploy"
         >
           {{ $t('workspace.startDeployment') }}
         </el-button>
         <el-button
-          type="info"
-          @click="demoTestSuccess"
+          :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
+          :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
+          @click="terminateTest"
         >
           {{ $t('workspace.completeTest') }}
         </el-button>
         <el-button
-          type="info"
-          @click="demoTessFail"
+          :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
+          :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
+          @click="cleanTestEnv"
         >
           {{ $t('workspace.recycle') }}
         </el-button>
@@ -132,19 +134,25 @@
             <div class="result-item result-top">
               <div v-if="testFinished && deploySuccess">
                 <p class="result-msg">
-                  {{ $t('workspace.testMsg') }}
+                  {{ errorLog }}
                 </p>
-                <el-button type="primary">
-                  http://159.138.11.6:32115
-                </el-button>
+                <el-link
+                  :href="accessUrl"
+                  target="_blank"
+                >
+                  {{ accessUrl }}
+                </el-link>
               </div>
               <div v-if="testFinished && !deploySuccess">
                 <p class="result-msg">
-                  应用部署失败，请结合日志信息修改并重新部署
+                  {{ errorLog }}
                 </p>
-                <el-button type="primary">
-                  Fail to instantiate app
-                </el-button>
+                <el-link
+                  :href="accessUrl"
+                  target="_blank"
+                >
+                  {{ accessUrl }}
+                </el-link>
               </div>
             </div>
             <div class="result-item result-bottom">
@@ -280,32 +288,32 @@ export default {
     return {
       deploySuccess: false,
       deployButtonDisable: false,
+      testCompletedButtonDisable: false,
+      cleanEnvButtonDisable: false,
       testFinished: false,
-      deployStatus: 'NotDeploy',
-      deploymentButtonType: 'primary',
-      completeTestButtonType: 'information',
-      recycleButtonType: 'information',
+      deployStatus: 'NOTDEPLOY',
       activeNames: ['0'],
       timer: '',
       isShow: false,
-      projectName: 'null',
-      platform: 'null',
-      privateHost: 'null',
+      projectName: '',
+      platform: '',
+      privateHost: '',
       deployField: '未上传',
       checkbox: [],
       CSAR: '',
       hostInfo: '',
       instantiateInfo: '',
-      workstatus: '',
+      workStatus: '',
       pods: [],
       projectId: '',
-      userId: ''
-
+      userId: '',
+      accessUrl: 'https://119.8.47.5',
+      errorLog: ''
     }
   },
   methods: {
     startDeploy () {
-      this.deployButtonDisable = true
+      this.deployButtonDisable = true // 开始部署后禁止掉按钮
       this.deployStatus = 'DEPLOYING'
       this.deployTest()
       this.timer = setInterval(this.getTestConfig, 5000)
@@ -323,6 +331,34 @@ export default {
       })
     },
 
+    terminateTest () {
+      Workspace.terminateProjectAPI(this.projectId, this.userId).then(response => {
+        this.$message({
+          message: '测试结束'
+        })
+        clearInterval(this.timer)
+        this.checkbox = []
+        this.activeNames = ['0']
+        this.testFinished = false
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    cleanTestEnv () {
+      Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
+        this.$message({
+          message: '环境清空'
+        })
+        clearInterval(this.timer)
+        this.checkbox = []
+        this.activeNames = ['0']
+        this.testFinished = false
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
     getTestConfig () {
       Workspace.getTestConfigApi(this.projectId).then(res => {
         let status = res.data.stageStatus
@@ -330,7 +366,7 @@ export default {
           this.CSAR = status.csar === null ? null : status.csar
           this.hostInfo = status.hostInfo === null ? null : status.hostInfo
           this.instantiateInfo = status.instantiateInfo === null ? null : status.instantiateInfo
-          this.workstatus = status.workstatus === null ? null : status.workstatus
+          this.workStatus = status.workStatus === null ? null : status.workStatus
         }
         this.deployStatus = res.data.deployStatus
         if (this.CSAR === 'Success') {
@@ -342,7 +378,7 @@ export default {
         if (this.instantiateInfo === 'Success') {
           this.checkbox.push(3)
         }
-        if (this.workstatus === 'Success') {
+        if (this.workStatus === 'Success') {
           this.checkbox.push(4)
         }
         if (this.deployStatus === 'SUCCESS') {
@@ -351,24 +387,19 @@ export default {
           clearInterval(this.timer)
           this.testFinished = true
           this.deploySuccess = true
+          this.accessUrl = res.data.accessUrl
+          this.errorLog = res.data.errorLog
         }
-        if (this.CSAR === 'Fail' || this.hostInfo === 'Fail' || this.instantiateInfo === 'Fail' || this.workstatus === 'Fail') {
+        if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
           clearInterval(this.timer)
           this.activeNames = ['1']
-          this.deployStatus = 'FAIL'
-          this.testCompleted = true
+          this.deployStatus = 'FAILED'
+          this.testFinished = true
           this.deploySuccess = false
+          this.accessUrl = res.data.accessUrl
+          this.errorLog = res.data.errorLog
         }
-        this.deployButtonDisable = this.deployStatus === 'DEPLOYING'
       })
-    },
-
-    testCompleted () {
-      this.deployButtonDisable = false
-      this.testFinished = false
-      clearInterval(this.timer)
-      this.activeNames = ['0']
-      this.checkbox = []
     },
 
     fetchDataOnMounted () {
@@ -381,22 +412,6 @@ export default {
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
       })
       this.getTestConfig()
-    },
-
-    demoTestSuccess () {
-      this.checkbox = [1, 2, 3, 4, 5]
-      this.testFinished = true
-      this.deploySuccess = true
-      clearInterval(this.timer)
-      this.activeNames = ['1']
-    },
-
-    demoTessFail () {
-      this.checkbox = []
-      this.testFinished = true
-      this.deploySuccess = false
-      clearInterval(this.timer)
-      this.activeNames = ['1']
     }
   },
   created () { },
