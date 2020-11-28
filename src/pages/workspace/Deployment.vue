@@ -50,7 +50,7 @@
       <div class="detail-button-con">
         <el-button
           :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
-          :disabled="deployStatus === 'DEPLOYING'"
+          :disabled="deployStatus === 'DEPLOYING' || testFinished"
           @click="startDeploy"
         >
           {{ $t('workspace.startDeployment') }}
