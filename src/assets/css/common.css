@@ -107,6 +107,11 @@ li{
 .el-dialog__header{
   background: #688ef3 !important;
 }
+.el-icon-warning{
+  color: #688ef3;
+  margin:0 5px 0 10px;
+  font-size: 14px;
+}
 
 
 

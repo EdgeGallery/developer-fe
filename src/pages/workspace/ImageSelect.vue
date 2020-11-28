@@ -16,11 +16,9 @@
 
 <template>
   <div class="imageSelect">
-    <h3 class="title">
-      <div class="way">
-        {{ $t('workspace.uploadImage.mode1') }}
-      </div>
-      <div class="way-desc">
+    <h3 class="image_title">
+      <span class="span_left">{{ $t('workspace.uploadImage.mode1') }}</span>
+      <span class="span_right">
         {{ $t('workspace.uploadImage.mode1Desc') }}
         <el-tooltip
           class="item"
@@ -30,49 +28,45 @@
         >
           <em class="el-icon-question" />
         </el-tooltip>
-      </div>
+      </span>
     </h3>
-    <h3 class="title">
-      <div class="way">
-        {{ $t('workspace.uploadImage.mode2') }}
-      </div>
-      <div class="way-desc">
+    <h3
+      class="image_title gray"
+    >
+      <span class="span_left">{{ $t('workspace.uploadImage.mode2') }}</span>
+      <span class="span_right">
         {{ $t('workspace.uploadImage.mode2Desc') }}
-        <el-tooltip
-          class="item"
-          effect="dark"
-          :content="this.$t('workspace.uploadImage.mode2Tip')"
-          placement="right"
-        >
-          <em class="el-icon-question" />
-        </el-tooltip>
-      </div>
+        <em class="el-icon-question gray" />
+      </span>
     </h3>
     <el-button
       class="upload-image"
       type="primary"
       plain
       size="mini"
+      disabled
     >
       {{ $t('workspace.uploadImage.uploadAppImage') }}
     </el-button>
-    <h3 class="title">
-      <div class="way">
-        {{ $t('workspace.uploadImage.mode3') }}
-      </div>
-      <div class="way-desc">
-        {{ $t('workspace.uploadImage.mode3Desc') }}
-      </div>
+    <h3 class="image_title">
+      <span class="span_left">{{ $t('workspace.uploadImage.mode3') }}</span>
+      <span class="span_right">{{ $t('workspace.uploadImage.mode3Desc') }}</span>
     </h3>
     <div class="tip gray">
       {{ $t('workspace.uploadImage.mode3Tip') }}
+      <el-link
+        :href="install_href"
+        target="_blank"
+        type="primary"
+        class="install_link"
+      >
+        {{ $t('workspace.uploadImage.installation') }}
+      </el-link>
     </div>
     <div class="table-container">
       <el-table
-        :border="true"
         size="mini"
         :data="softwareList"
-        class="table"
       >
         <el-table-column
           prop="name"
@@ -83,9 +77,6 @@
           :label="$t('workspace.uploadImage.version')"
         />
       </el-table>
-      <div class="table-tip">
-        {{ $t('workspace.uploadImage.installation') }}
-      </div>
     </div>
     <div class="node-info">
       <div class="node-info-title">
@@ -158,7 +149,8 @@ export default {
         { name: 'Kubernetes', version: '1.18.7' },
         { name: 'Helm', version: '3.2.4' },
         { name: 'MEP', version: '0.9' }
-      ]
+      ],
+      install_href: 'https://gitee.com/edgegallery/platform-mgmt/tree/master/offline'
     }
   },
   methods: {
@@ -179,7 +171,7 @@ export default {
         if (error.response.data.code === 403) {
           this.$message.error(this.$t('promptMessage.guestPrompt'))
         } else {
-          this.$message.error(error.response.data.message)
+          this.$message.error(this.$t('workspace.uploadImage.failTest'))
         }
         this.enable = false
         this.validate = false
@@ -234,43 +226,62 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .imageSelect {
     width: 88%;
     margin-left: 6%;
-
+    .image_title{
+      font-size: 16px;
+      margin-bottom: 10px;
+      span{
+        float: left;
+        margin-bottom: 10px;
+      }
+      span.span_left{
+        width: 62px;
+        margin-right: 10px;
+      }
+      span.span_right{
+        width: calc( 100% - 72px);
+      }
+    }
     .upload-image {
-      margin: 0px 72px 15px 72px;
+      margin: 0px 0 15px 72px;
     }
     .el-icon-question:before{
       color: #688ef3;
     }
-
+    .el-icon-question.gray:before{
+      color: #adb0b8;
+    }
+    .install_link{
+      margin: 0 0 0 10px;
+      font-size: 13px;
+      color: #688ef3;
+    }
     .gray {
-      color: gray;
-    }
-
-    .way {
-      display: inline-block;
-      width: 60px;
-    }
-
-    .way-desc {
-      display: inline-block;
-      width: calc(100% - 60px);
+      color: #adb0b8;
     }
 
     .tip {
       font-size: 12px;
       margin: 0px 72px 15px 72px;
+      line-height: 20px;
     }
 
     .table-container {
       padding: 0px 72px;
     }
 
-    .table {
+    .el-table {
       width: 100%;
+      margin-bottom: 20px;
+    }
+    .el-table th{
+      background-color:#f5f5f6;
+    }
+    .el-table--mini td{
+      padding: 4px 0;
     }
 
     .table-tip {
@@ -290,7 +301,6 @@ export default {
         width: 200px;
       }
       .input {
-        /* display: inline-block; */
         margin-right: 15px;
       }
       .node-info-title {
@@ -299,9 +309,11 @@ export default {
         font-size: 14px;
         font-weight: normal;
       }
+      .el-switch{
+        margin-right: 15px;
+      }
       .env-tip {
         font-size: 12px;
-        padding-left: 15px;
         display: inline-block;
       }
     }

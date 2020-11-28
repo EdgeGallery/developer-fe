@@ -18,30 +18,22 @@
   <div class="config-yaml">
     <el-tabs
       v-model="activeName"
-      type="card"
       @tab-click="handleClick"
     >
       <el-tab-pane
         :label="$t('workspace.configYaml.importFile')"
         name="first"
       >
-        <h3 class="title">
-          {{ $t('workspace.configYaml.uploadFile') }}
-          <a
-            :href="demoYaml"
-            download="demo.yaml"
-            class="down-demo"
-          >{{ $t('workspace.configYaml.downloadDemo') }}</a>
-        </h3>
         <el-upload
           id="uploadYaml"
-          class="upload-demo"
+          class="upload-demo clear"
           action=""
           :on-change="handleChangeYaml"
           :limit="1"
           :file-list="yamlFileList"
           :auto-upload="false"
           :on-remove="removeUploadyaml"
+          :on-exceed="handleExceed"
           accept=".yaml"
           name="yamlFile"
           v-loading="uploadYamlLoading"
@@ -50,6 +42,7 @@
             slot="trigger"
             size="small"
             type="primary"
+            class="featuresBtn"
           >
             {{ $t('workspace.configYaml.uploadYaml') }}
           </el-button>
@@ -59,9 +52,17 @@
           >
             <em class="el-icon-warning" />{{ $t('workspace.configYaml.uploadYamlTip') }}
           </div>
+          <e-link
+            :href="demoYaml"
+            download="demo.yaml"
+            class="down-demo"
+          >
+            {{ $t('workspace.configYaml.downloadDemo') }}
+          </e-link>
         </el-upload>
+
         <div v-show="hasValidate">
-          <div :class="appYamlFileId ? 'green test' : 'red test'">
+          <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
           </div>
           <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
@@ -97,14 +98,14 @@
             />
             {{ $t('workspace.configYaml.serviceInfo') }}
           </div>
-          <div :class="checkFlag.mepAgentSuccess ? 'green test' : 'red test'">
+          <div :class="checkFlag.mepAgentSuccess ? 'green test' : 'yellow test'">
             <em
               v-show="checkFlag.mepAgentSuccess"
               class="el-icon-circle-check"
             />
             <em
               v-show="!checkFlag.mepAgentSuccess"
-              class="el-icon-circle-close"
+              class="el-icon-warning-outline"
             />
             {{ $t('workspace.configYaml.mepAgent') }}
           </div>
@@ -179,6 +180,11 @@ export default {
         this.submitYamlFile(yamlFileList)
       }
     },
+    handleExceed (file, fileList) {
+      if (fileList.length === 1) {
+        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+      }
+    },
     // 移除Yaml文件
     removeUploadyaml (file, fileList) {
       Workspace.deleteYamlFileApi(this.appYamlFileId)
@@ -211,7 +217,7 @@ export default {
         if (error.response.data.code === 403) {
           this.$message.error(this.$t('promptMessage.guestPrompt'))
         } else {
-          this.$message.error(error.response.data.message)
+          this.$message.error(this.$t('promptMessage.uploadFailure'))
         }
         this.appYamlFileId = ''
         this.yamlFileList = []
@@ -248,26 +254,65 @@ export default {
 
 <style lang="less">
 .config-yaml{
-  .el-tab-pane{
-    padding: 20px;
+  .el-tabs{
+    .el-tabs__item{
+      height: 15px;
+      line-height: 15px;
+      padding: 0 30px 0 0;
+      font-size: 16px;
+      margin:0 30px 18px 0;
+      border-right: 1px solid #ddd;
+      border-radius: 0;
+    }
+    .el-tabs__item:last-child{
+      border-right: 0;
+    }
+    .el-tabs__item:last-child:hover{
+      color: #c0c4cc;
+    }
+    .el-tabs__item.is-active{
+      color: #688ef3;
+    }
+    .el-tabs__active-bar{
+      height: 4px;
+    }
+    .el-tab-pane{
+      padding: 20px 0;
+    }
+    .upload-demo{
+      .el-upload{
+        float: left;
+      }
+      .el-upload__tip{
+        float: left;
+      }
+    }
+    .down-demo {
+      display: inline-block;
+      margin: 5px 0 0 15px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #688ef3;
+    }
+  }
+  .test {
+    font-size: 14px;
+    margin-top: 15px;
+    margin-right: 15px;
+    display: inline-block;
+  }
+  .test.tit{
+    display: block;
+  }
+  .green {
+    color: green
+  }
+  .red {
+    color: red
+  }
+  .yellow{
+  color:#dbb419;
   }
 }
-.down-demo {
-  margin-left: 15px;
-  font-size: 14px;
-  cursor: pointer;
-  color: #6c92fa;
-}
-.test {
-  font-size: 14px;
-  margin-top: 15px;
-  margin-right: 15px;
-  display: inline-block;
-}
-.green {
-  color: green
-}
-.red {
-  color: red
-}
+
 </style>
