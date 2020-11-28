@@ -52,13 +52,13 @@
           >
             <em class="el-icon-warning" />{{ $t('workspace.configYaml.uploadYamlTip') }}
           </div>
-          <e-link
+          <a
             :href="demoYaml"
             download="demo.yaml"
             class="down-demo"
           >
             {{ $t('workspace.configYaml.downloadDemo') }}
-          </e-link>
+          </a>
         </el-upload>
 
         <div v-show="hasValidate">
