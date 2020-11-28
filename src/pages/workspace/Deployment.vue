@@ -112,12 +112,9 @@
                 {{ $t('workspace.assignTestNodes') }}
               </el-checkbox>
               <el-checkbox :label="3">
-                {{ $t('workspace.applicationRelease2') }}
-              </el-checkbox>
-              <el-checkbox :label="4">
                 {{ $t('workspace.instantiateApplication') }}
               </el-checkbox>
-              <el-checkbox :label="5">
+              <el-checkbox :label="4">
                 {{ $t('workspace.getDeploymentStatus') }}
               </el-checkbox>
             </el-checkbox-group>
@@ -219,7 +216,6 @@ export default {
       deployStatus: 'NOTDEPLOY',
       activeNames: ['0'],
       timer: '',
-      isShow: false,
       projectName: '',
       platform: '',
       privateHost: '',
@@ -306,18 +302,17 @@ export default {
           this.checkbox.push(4)
         }
         if (this.deployStatus === 'SUCCESS') {
-          this.pods = JSON.parse(res.data).pods
-          this.checkbox.push(5)
-          this.activeNames = ['1']
           clearInterval(this.timer)
+          this.pods = JSON.parse(res.data).pods
+          this.activeNames = ['1']
           this.testFinished = true
           this.deploySuccess = true
           this.accessUrl = res.data.accessUrl
           this.errorLog = res.data.errorLog
         }
         if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
-          this.pods = JSON.parse(res.data).pods
           clearInterval(this.timer)
+          this.pods = JSON.parse(res.data).pods
           this.activeNames = ['1']
           this.deployStatus = 'FAILED'
           this.testFinished = true
