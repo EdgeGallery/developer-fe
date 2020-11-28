@@ -160,116 +160,42 @@
                 {{ $t('workspace.PODStatus') }}
               </div>
               <div class="result-bottom-center">
-                <div class="center-item">
-                  <el-row :gutter="5">
-                    <el-col :span="6">
-                      {{ $t('workspace.PODName') }}
-                    </el-col>
-                    <el-col :span="18">
-                      positioning-service-app-654654
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col :span="6">
-                      {{ $t('workspace.operatingStatus') }}
-                    </el-col>
-                    <el-col :span="18">
-                      Running
-                    </el-col>
-                  </el-row>
-                  <el-row
-                    :gutter="5"
+                <el-row>
+                  <el-col
+                    :lg="12"
+                    v-for="(item,index) in pods"
+                    :key="index"
                   >
-                    <el-col
-                      :span="6"
-                    >
-                      {{ $t('workspace.container') }}
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col
-                      :span="6"
-                      class="indent"
-                    >
-                      {{ $t('workspace.containerName') }}
-                    </el-col>
-                    <el-col :span="18">
-                      positioning-service
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col
-                      :span="6"
-                      class="indent"
-                    >
-                      {{ $t('workspace.containerResource') }}
-                    </el-col>
-                    <el-col :span="18">
-                      cpuusage：30% | memusage：23% | diskusage：0%
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col
-                      :span="24"
-                      class="download-log"
-                    >
-                      <el-button>{{ $t('workspace.downloadLog') }}</el-button>
-                    </el-col>
-                  </el-row>
-                </div>
-                <div class="center-item">
-                  <el-row :gutter="5">
-                    <el-col :span="4">
-                      {{ $t('workspace.PODName') }}
-                    </el-col>
-                    <el-col :span="20">
-                      positioning-service-app-654654
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col :span="4">
-                      {{ $t('workspace.operatingStatus') }}
-                    </el-col>
-                    <el-col :span="20">
-                      Running
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col :span="4">
-                      {{ $t('workspace.container') }}
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col
-                      :span="4"
-                      class="indent"
-                    >
-                      {{ $t('workspace.containerName') }}
-                    </el-col>
-                    <el-col :span="20">
-                      positioning-service
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col
-                      :span="4"
-                      class="indent"
-                    >
-                      {{ $t('workspace.containerResource') }}
-                    </el-col>
-                    <el-col :span="20">
-                      cpuusage：30% | memusage：23% | diskusage：0%
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="5">
-                    <el-col
-                      :span="24"
-                      class="download-log"
-                    >
-                      <el-button>{{ $t('workspace.downloadLog') }}</el-button>
-                    </el-col>
-                  </el-row>
-                </div>
+                    <div class="pod_list">
+                      <p class="pod_title">
+                        <span class="span_left">{{ $t('workspace.PODName') }}</span>{{ item.podname }}
+                      </p>
+                      <p><span class="span_left">{{ $t('workspace.operatingStatus') }}</span>{{ item.podstatus }}</p>
+
+                      <div
+                        class="container_div"
+                        v-for="(itemSub,indexSub) in item.containers"
+                        :key="indexSub"
+                      >
+                        <div class="container_tit">
+                          <span class="span_left">{{ $t('workspace.container') }}</span>
+                        </div>
+                        <p><span class="span_left">{{ $t('workspace.containerName') }}</span>{{ itemSub.containername }}</p>
+                        <p class="resource clear">
+                          <span class="span_left">{{ $t('workspace.containerResource') }}</span>
+                          <span class="span_resource">cpuusage：{{ itemSub.metricsusage.cpuusage }} <br> memusage：{{ itemSub.metricsusage.memusage }} <br> diskusage：{{ itemSub.metricsusage.memusage }}</span>
+                        </p>
+                      </div>
+
+                      <el-button
+                        type="text"
+                        class="downloadLog"
+                      >
+                        {{ $t('workspace.downloadLog') }}
+                      </el-button>
+                    </div>
+                  </el-col>
+                </el-row>
               </div>
             </div>
           </div>
@@ -287,7 +213,6 @@ export default {
   data () {
     return {
       deploySuccess: false,
-      deployButtonDisable: false,
       testCompletedButtonDisable: false,
       cleanEnvButtonDisable: false,
       testFinished: false,
@@ -304,7 +229,7 @@ export default {
       hostInfo: '',
       instantiateInfo: '',
       workStatus: '',
-      pods: [],
+      pods: {},
       projectId: '',
       userId: '',
       accessUrl: 'https://119.8.47.5',
@@ -313,7 +238,6 @@ export default {
   },
   methods: {
     startDeploy () {
-      this.deployButtonDisable = true // 开始部署后禁止掉按钮
       this.deployStatus = 'DEPLOYING'
       this.deployTest()
       this.timer = setInterval(this.getTestConfig, 5000)
@@ -382,6 +306,7 @@ export default {
           this.checkbox.push(4)
         }
         if (this.deployStatus === 'SUCCESS') {
+          this.pods = JSON.parse(res.data).pods
           this.checkbox.push(5)
           this.activeNames = ['1']
           clearInterval(this.timer)
@@ -391,6 +316,7 @@ export default {
           this.errorLog = res.data.errorLog
         }
         if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
+          this.pods = JSON.parse(res.data).pods
           clearInterval(this.timer)
           this.activeNames = ['1']
           this.deployStatus = 'FAILED'
@@ -572,7 +498,7 @@ export default {
     .status-result {
       height: 620px;
       .result-item {
-        height: 50%;
+        min-height: 200px;
       }
       .result-top {
         display: flex;
@@ -597,10 +523,65 @@ export default {
           font-size: 14px;
         }
         .result-bottom-center {
-          height: calc(100% - 48px);
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
+          height: 400px;
+          .el-row{
+            width: 100%;
+            .pod_title{
+              font-size: 16px;
+              font-weight: bold;
+            }
+            p{
+              line-height: 35px;
+            }
+            p.title{
+              .span_left{
+                color: #333;
+              }
+            }
+            .span_left{
+              color: #adb0b8;
+              display: inline-block;
+              min-width: 80px;
+            }
+            .container_div{
+              .container_tit{
+                line-height: 35px;
+              }
+              p{
+                padding-left: 15px;
+                .span_resource{
+                  display: inline-block;
+                }
+              }
+              p.resource{
+                span{
+                  float: left;
+                }
+              }
+            }
+            .downloadLog{
+              float: right;
+            }
+            .el-col{
+              padding: 30px;
+
+              border-radius: 5px;
+              .pod_list{
+                padding: 20px;
+                background: #f5f5f6;
+                border-radius: 5px;
+                height: 350px;
+                overflow: auto;
+              }
+            }
+            .pod_list::-webkit-scrollbar{
+              width: 6px;
+            }
+            .pod_list::-webkit-scrollbar-thumb{
+              border-radius: 10px;
+              background: rgba(0,0,0,0.1);
+            }
+          }
           .center-item {
             width: 40%;
             height: 80%;
