@@ -50,7 +50,7 @@
       <div class="detail-button-con">
         <el-button
           :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
-          :disabled="deployStatus === 'DEPLOYING'"
+          :disabled="deployStatus === 'DEPLOYING' || testFinished"
           @click="startDeploy"
         >
           {{ $t('workspace.startDeployment') }}
@@ -175,7 +175,7 @@
                         <p><span class="span_left">{{ $t('workspace.containerName') }}</span>{{ itemSub.containername }}</p>
                         <p class="resource clear">
                           <span class="span_left">{{ $t('workspace.containerResource') }}</span>
-                          <span class="span_resource">cpuusage：{{ itemSub.metricsusage.cpuusage }} <br> memusage：{{ itemSub.metricsusage.memusage }} <br> diskusage：{{ itemSub.metricsusage.memusage }}</span>
+                          <span class="span_resource">cpuusage：{{ getPercentage(itemSub.metricsusage.cpuusage) }} <br> memusage：{{ getPercentage(itemSub.metricsusage.memusage) }} <br> diskusage：{{ getPercentage(itemSub.metricsusage.memusage) }}</span>
                         </p>
                       </div>
 
@@ -244,7 +244,6 @@ export default {
       })
     },
     cleanTestEnv () {
-      this.terminateTest()
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
           message: '环境清空'
@@ -257,16 +256,6 @@ export default {
         console.log(err)
       })
     },
-    terminateTest () {
-      Workspace.terminateProjectAPI(this.projectId, this.userId).then(response => {
-        this.$message({
-          message: '测试结束'
-        })
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-
     getTestConfig () {
       Workspace.getTestConfigApi(this.projectId).then(res => {
         let status = res.data.stageStatus
@@ -322,6 +311,12 @@ export default {
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
       })
       this.getTestConfig()
+    },
+    getPercentage (input) {
+      var devide = input.indexOf('/')
+      var s1 = input.substring(0, devide)
+      var s2 = input.substring(devide + 1, input.length)
+      return (Math.round(s1 / s2 * 10000) / 100.00 + '%')
     }
   },
   created () { },
