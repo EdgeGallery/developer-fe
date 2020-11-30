@@ -61,6 +61,27 @@ function Get (url, params, type = 'developer') {
   })
 }
 
+function GetFun (url, params, type = 'developer') {
+  let prefixUrl = urlPrefix
+  if (type !== 'developer') {
+    prefixUrl = urlPrefixTool
+  }
+  return new Promise((resolve, reject) => {
+    axios.get(prefixUrl + url, {
+      params: params,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 function Delete (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
   if (type !== 'developer') {
@@ -199,5 +220,6 @@ export {
   downLoadReport,
   logoutApi,
   loginApi,
-  codeErr
+  codeErr,
+  GetFun
 }

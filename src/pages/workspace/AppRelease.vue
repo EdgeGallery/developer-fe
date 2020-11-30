@@ -191,12 +191,6 @@
       >
         {{ $t('workspace.appDetails') }}
       </el-button>
-      <!-- 应用包详情弹框 -->
-      <div v-if="appDetaildialog">
-        <appPackageDetail
-          v-model="appDetaildialog"
-        />
-      </div>
       <el-button
         class="bgBtn btn_width1"
       >
@@ -205,6 +199,12 @@
       <span class="release_text">
         {{ $t('workspace.releaseText') }}
       </span>
+      <!-- 应用包详情弹框 -->
+      <div v-if="appDetaildialog">
+        <appPackageDetail
+          v-model="appDetaildialog"
+        />
+      </div>
       <!-- 应用测试任务列表 -->
       <el-table
         :data="appTestData"

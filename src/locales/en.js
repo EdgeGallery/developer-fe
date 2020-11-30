@@ -468,7 +468,8 @@ const en = {
     guestPrompt: 'The guest user has no right to operate, please log in first!',
     saveSuccess: 'Saved successfully!',
     saveFail: 'Save failed!',
-    sampleCodeInfo: 'Cannot download sample code without selecting capability service'
+    sampleCodeInfo: 'Cannot download sample code without selecting capability service',
+    fileIsEmpty: 'File content is empty'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
