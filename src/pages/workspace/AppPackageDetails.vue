@@ -39,9 +39,10 @@
           />
         </el-col>
         <el-col :span="16">
-          <div class="file_desc">
-            {{ fileName }} 文件的描述
-          </div>
+          <div
+            class="file_desc"
+            v-html="fileContent"
+          />
         </el-col>
       </el-row>
     </el-dialog>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-// import { Workspace } from '../../tools/api.js'
+import { Workspace } from '../../tools/api.js'
 
 export default {
   props: {
@@ -61,17 +62,16 @@ export default {
   data () {
     return {
       dialogVisible: this.value,
-      testData: [
-        {
-          format: { 'name': 'a2bc9c59f52f4251849dcab5636af13a', 'childs': [{ 'name': '22406fba-fd5d-4f55-b3fa-89a45fee913a', 'childs': [{ 'name': 'Definitions', 'childs': [{ 'name': 'MainServiceTemplate.yaml', 'childs': [] }] }, { 'name': 'MainServiceTemplate.mf', 'childs': [] }, { 'name': 'TOSCA-Metadata', 'childs': [{ 'name': 'TOSCA.meta', 'childs': [] }] }, { 'name': 'Artifacts', 'childs': [{ 'name': 'Informational', 'childs': [{ 'name': 'user_guide.txt', 'childs': [] }] }, { 'name': 'Tests', 'childs': [{ 'name': 'health check.yaml', 'childs': [] }] }, { 'name': 'ChangeLog.txt', 'childs': [] }, { 'name': 'Other', 'childs': [{ 'name': 'my_script.csh', 'childs': [] }] }, { 'name': 'Deployment', 'childs': [{ 'name': 'Charts', 'childs': [{ 'name': '.gitkeep', 'childs': [] }, { 'name': '7e9b913f-748a-42b7-a088-abe3f750f04c.tgz', 'childs': [] }] }] }, { 'name': 'Docs', 'childs': [{ 'name': 'template.md', 'childs': [] }] }] }] }] }
-        }
-      ],
+      testData: [{ 'name': 'Artifacts', 'id': 'Artifacts', 'children': [{ 'name': 'ChangeLog.txt', 'id': 'ChangeLog.txt', 'children': null, 'parent': false }, { 'name': 'Deployment', 'id': 'Deployment', 'children': [{ 'name': 'Charts', 'id': 'Charts', 'children': [{ 'name': '.gitkeep', 'id': '.gitkeep', 'children': null, 'parent': false }, { 'name': '7e9b913f-748a-42b7-a088-abe3f750f04c.tgz', 'id': '7e9b913f-748a-42b7-a088-abe3f750f04c.tgz', 'children': null, 'parent': false }], 'parent': true }], 'parent': true }, { 'name': 'Docs', 'id': 'Docs', 'children': [{ 'name': 'template.md', 'id': 'template.md', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'Informational', 'id': 'Informational', 'children': [{ 'name': 'user_guide.txt', 'id': 'user_guide.txt', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'Other', 'id': 'Other', 'children': [{ 'name': 'my_script.csh', 'id': 'my_script.csh', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'Tests', 'id': 'Tests', 'children': [{ 'name': 'health check.yaml', 'id': 'health check.yaml', 'children': null, 'parent': false }], 'parent': true }], 'parent': true }, { 'name': 'Definitions', 'id': 'Definitions', 'children': [{ 'name': 'MainServiceTemplate.yaml', 'id': 'MainServiceTemplate.yaml', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'MainServiceTemplate.mf', 'id': 'MainServiceTemplate.mf', 'children': null, 'parent': false }, { 'name': 'TOSCA-Metadata', 'id': 'TOSCA-Metadata', 'children': [{ 'name': 'TOSCA.meta', 'id': 'TOSCA.meta', 'children': null, 'parent': false }], 'parent': true }],
       defaultProps: {
-        children: 'childs',
+        children: 'children',
         label: 'name'
       },
       appPageListData: [],
-      fileName: ''
+      fileName: '',
+      fileContent: '',
+      projectId: sessionStorage.getItem('mecDetailID'),
+      csarId: sessionStorage.getItem('csarId')
     }
   },
   methods: {
@@ -79,17 +79,27 @@ export default {
       this.$emit('input', false)
     },
     getAppPackageList () {
-      this.appPageListData = [this.testData[0].format]
-      /* if (this.appPageListData.length > 0) {
-        this.$nextTick().then(() => {
-          const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
+      Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
+        this.appPageListData = res.data.children
+        console.log(this.appPageListData)
+        this.$nextTick(function () {
+          const firstNode = document.querySelectorAll('.el-tree>div')[2]
           firstNode.click()
         })
-      } */
+      })
     },
-    getFileDetail (data) {
-      console.log(data)
-      this.fileName = data.name
+    getFileDetail (val) {
+      console.log(val)
+      this.fileName = val.name
+      if (!val.children) {
+        Workspace.getAppFileApi(this.projectId, val.name).then(res => {
+          this.fileContent = res.data
+        }).catch(err => {
+          if (err.response.data.message === 'file is null!') {
+            this.fileContent = this.$t('promptMessage.fileIsEmpty')
+          }
+        })
+      }
     },
     setApiHeight () {
       this.$nextTick(() => {
@@ -97,7 +107,9 @@ export default {
         const deviceHeight = document.documentElement.clientHeight
         oDiv.style.height = Number(deviceHeight) * 0.8 + 'px'
         const oDiv2 = document.getElementsByClassName('file_list')[0]
-        oDiv2.style.height = Number(deviceHeight) * 0.72 + 'px'
+        oDiv2.style.height = Number(deviceHeight) * 0.7 + 'px'
+        const oDiv3 = document.getElementsByClassName('file_desc')[0]
+        oDiv3.style.height = Number(deviceHeight) * 0.7 + 'px'
       })
     }
   },
@@ -125,15 +137,6 @@ export default {
       width: 80%;
       padding: 20px 10% 0;
     }
-
-    .file_list::-webkit-scrollbar{
-      width: 6px;
-      height: 6px;
-    }
-    .file_list::-webkit-scrollbar-thumb{
-      border-radius: 10px;
-      background: rgba(0,0,0,0.1);
-    }
     .el-tree-node .el-tree-node__children{
       overflow: inherit;
     }
@@ -143,6 +146,9 @@ export default {
     }
     .file_desc{
       padding: 10px;
+      white-space: pre-wrap;
+      line-height: 25px;
+      overflow-y: auto;
     }
   }
 }

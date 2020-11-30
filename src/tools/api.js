@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile } from './tool.js'
+import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
 
 let Plugin = {
   // 获取插件列表
@@ -242,6 +242,14 @@ let Workspace = {
   // 获取项目信息
   getProjectInfoApi: function (projectId, userId) {
     return Get('mec/developer/v1/projects/' + projectId + '?userId=' + userId)
+  },
+  // 获取csar包结构
+  getAppPackageListApi: function (projectId, csarId) {
+    return Get('mec/developer/v1/apprelease/' + projectId + '/' + csarId + '/action/get-pkg-structure')
+  },
+  // 获取csar包文件内容
+  getAppFileApi: function (projectId, fileName) {
+    return GetFun('mec/developer/v1/apprelease/' + projectId + '/' + 'action/get-pkg-content?fileName=' + fileName)
   },
   // 发布APP到Appstore
   isPublishApi: function (appInstanceId, projectId, userId, userName) {

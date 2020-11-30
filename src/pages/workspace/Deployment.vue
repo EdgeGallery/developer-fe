@@ -314,6 +314,7 @@ export default {
           this.deploySuccess = true
           this.accessUrl = res.data.accessUrl
           this.errorLog = res.data.errorLog
+          sessionStorage.setItem('csarId', res.data.appInstanceId)
         }
         if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
           this.pods = JSON.parse(res.data).pods

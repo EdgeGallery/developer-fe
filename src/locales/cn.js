@@ -468,7 +468,8 @@ const cn = {
     guestPrompt: 'Guest用户无权操作，请先登录！',
     saveSuccess: '保存成功！',
     saveFail: '保存失败！',
-    sampleCodeInfo: '没有选择能力服务，不能下载样例代码'
+    sampleCodeInfo: '没有选择能力服务，不能下载样例代码',
+    fileIsEmpty: '文件内容为空'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',
