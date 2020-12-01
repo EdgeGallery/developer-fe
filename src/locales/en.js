@@ -469,6 +469,7 @@ const en = {
     saveSuccess: 'Saved successfully!',
     saveFail: 'Save failed!',
     sampleCodeInfo: 'Cannot download sample code without selecting capability service',
+    fileNotReadable: 'File is not readable',
     fileIsEmpty: 'File content is empty'
   },
   breadCrumb: {

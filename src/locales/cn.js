@@ -469,6 +469,7 @@ const cn = {
     saveSuccess: '保存成功！',
     saveFail: '保存失败！',
     sampleCodeInfo: '没有选择能力服务，不能下载样例代码',
+    fileNotReadable: '文件不可读',
     fileIsEmpty: '文件内容为空'
   },
   breadCrumb: {

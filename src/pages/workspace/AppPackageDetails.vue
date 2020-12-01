@@ -81,15 +81,13 @@ export default {
     getAppPackageList () {
       Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
         this.appPageListData = res.data.children
-        console.log(this.appPageListData)
         this.$nextTick(function () {
-          const firstNode = document.querySelectorAll('.el-tree>div')[2]
+          const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
           firstNode.click()
         })
       })
     },
     getFileDetail (val) {
-      console.log(val)
       this.fileName = val.name
       if (!val.children) {
         Workspace.getAppFileApi(this.projectId, val.name).then(res => {
@@ -97,6 +95,8 @@ export default {
         }).catch(err => {
           if (err.response.data.message === 'file is null!') {
             this.fileContent = this.$t('promptMessage.fileIsEmpty')
+          } else if (err.response.data.message === 'file is not readable!') {
+            this.fileContent = this.$t('promptMessage.fileNotReadable')
           }
         })
       }
