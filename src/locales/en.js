@@ -347,7 +347,9 @@ const en = {
     operatingStatus: 'Operating Status',
     container: 'Container',
     containerName: 'Name',
-    containerResource: 'Resource'
+    containerResource: 'Resource',
+    hostInfo: 'Host Information',
+    deployConfig: 'Deploy Field'
   },
   test: {
     howToTest: {

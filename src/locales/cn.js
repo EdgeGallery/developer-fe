@@ -347,7 +347,9 @@ const cn = {
     operatingStatus: '运行状态:',
     container: '容器',
     containerName: '名称',
-    containerResource: '资源'
+    containerResource: '资源',
+    hostInfo: '节点信息',
+    deployConfig: '部署配置'
   },
   test: {
     howToTest: {
