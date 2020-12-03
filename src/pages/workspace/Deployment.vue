@@ -293,6 +293,7 @@ export default {
   methods: {
     startDeploy () {
       this.deployStatus = 'DEPLOYING'
+      this.initialTimeline()
       this.deployTest()
       this.timer = setInterval(this.getTestConfig, 5000)
     },
@@ -309,10 +310,12 @@ export default {
       })
     },
     cleanTestEnv () {
+      // 清空stageStatus
       this.CSAR = ''
       this.hostInfo = ''
       this.instantiateInfo = ''
       this.workStatus = ''
+
       this.testFinished = false
       this.deployStatus = 'NOTDEPLOY'
       this.flowShow = true
@@ -332,26 +335,29 @@ export default {
         this.deployField = res.data.deployField === null ? '未上传' : '已上传'
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
         if (status != null) {
-          this.CSAR = status.csar === null ? null : status.csar
-          this.hostInfo = status.hostInfo === null ? null : status.hostInfo
-          this.instantiateInfo = status.instantiateInfo === null ? null : status.instantiateInfo
-          this.workStatus = status.workStatus === null ? null : status.workStatus
+          this.CSAR = status.csar
+          this.hostInfo = status.hostInfo
+          this.instantiateInfo = status.instantiateInfo
+          this.workStatus = status.workStatus
         }
         this.deployStatus = res.data.deployStatus
-        this.initialTimeline()
+        this.initialTimeline() // update icon status according to stage status
+        // deploy successfully
         if (this.deployStatus === 'SUCCESS') {
           clearInterval(this.timer)
-          this.pods = JSON.parse(res.data.pods).pods
+          if (res.data.pods !== null && res.data.pods.length > 4) this.pods = JSON.parse(res.data.pods).pods
           this.flowShow = true
           this.testFinished = true
           this.deploySuccess = true
           this.accessUrl = res.data.accessUrl
           this.errorLog = res.data.errorLog
         }
+        // deploy failed
         if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
           clearInterval(this.timer)
-          this.pods = JSON.parse(res.data.pods).pods
+          if (res.data.pods !== null && res.data.pods.length > 4) this.pods = JSON.parse(res.data.pods).pods
           this.deployStatus = 'FAILED'
+          this.initialTimeline() // update icon status according to stage status
           this.testFinished = true
           this.deploySuccess = false
           this.flowShow = true
@@ -366,6 +372,7 @@ export default {
         this.projectName = res.data.name
       })
       this.getTestConfig()
+      this.initialTimeline()
     },
     getPercentage (input) {
       var devide = input.indexOf('/')
@@ -402,20 +409,18 @@ export default {
       ]
     },
     getIcon: function (field) {
-      return (this.deployStatus === 'NOTDEPLOY' ? null : (field === 'Success' ? 'el-icon-check' : ((field === 'Failed' || this.deployStatus === 'FAILED') ? 'el-icon-close' : 'el-icon-loading')))
+      return (this.deployStatus === 'DEPLOYING' ? 'el-icon-loading' : (field === 'Success' ? 'el-icon-check' : ((field === 'Failed' || this.deployStatus === 'FAILED') ? 'el-icon-close' : null)))
     },
 
     getColor: function (field) {
-      return (this.deployStatus === 'NOTDEPLOY' ? '#ddd' : (field === 'Success' ? '#778FEF' : ((field === 'Failed' || this.deployStatus === 'FAILED') ? 'red' : '#778FEF')))
+      return (this.deployStatus === 'DEPLOYING' ? '#778FEF' : (field === 'Success' ? '#778FEF' : ((field === 'Failed' || this.deployStatus === 'FAILED') ? 'red' : '#ddd')))
     }
-
   },
   created () { },
   mounted () {
     this.projectId = sessionStorage.getItem('mecDetailID')
     this.userId = sessionStorage.getItem('userId')
     this.fetchDataOnMounted()
-    this.initialTimeline()
   }
 }
 </script>
