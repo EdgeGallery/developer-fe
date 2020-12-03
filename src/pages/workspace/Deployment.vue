@@ -409,13 +409,26 @@ export default {
         }
       ]
     },
-    getIcon: function (field) {
-      return (this.deployStatus === 'DEPLOYING' ? 'el-icon-loading' : (field === 'Success' ? 'el-icon-check' : ((field === 'Failed' || this.deployStatus === 'FAILED') ? 'el-icon-close' : null)))
+    getIcon: function (status) {
+      if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
+        return null
+      } else if (status === 'Success') {
+        return 'el-icon-check'
+      } else if (status === 'Failed' || this.deployStatus === 'FAILED') {
+        return 'el-icon-close'
+      } else return 'el-icon-loading'
     },
 
-    getColor: function (field) {
-      return (this.deployStatus === 'DEPLOYING' ? '#778FEF' : (field === 'Success' ? '#778FEF' : ((field === 'Failed' || this.deployStatus === 'FAILED') ? 'red' : '#ddd')))
+    getColor: function (status) {
+      if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
+        return '#ddd'
+      } else if (status === 'Success') {
+        return '#778FEF'
+      } else if (status === 'Failed' || this.deployStatus === 'FAILED') {
+        return 'red'
+      } else return '#778FEF'
     }
+
   },
   created () { },
   mounted () {
