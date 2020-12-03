@@ -318,6 +318,7 @@ export default {
 
       this.testFinished = false
       this.deployStatus = 'NOTDEPLOY'
+      this.initialTimeline()
       this.flowShow = true
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
