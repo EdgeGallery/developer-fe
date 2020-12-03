@@ -427,7 +427,7 @@ export default {
       } else if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
         return '#ddd'
       } else return '#778FEF'
-    },
+    }
 
   },
   created () { },
