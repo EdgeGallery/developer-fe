@@ -410,24 +410,24 @@ export default {
       ]
     },
     getIcon: function (status) {
-      if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
-        return null
-      } else if (status === 'Success') {
+      if (status === 'Success') {
         return 'el-icon-check'
       } else if (status === 'Failed' || this.deployStatus === 'FAILED') {
         return 'el-icon-close'
+      } else if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
+        return null
       } else return 'el-icon-loading'
     },
 
     getColor: function (status) {
-      if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
-        return '#ddd'
-      } else if (status === 'Success') {
+      if (status === 'Success') {
         return '#778FEF'
       } else if (status === 'Failed' || this.deployStatus === 'FAILED') {
         return 'red'
+      } else if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
+        return '#ddd'
       } else return '#778FEF'
-    }
+    },
 
   },
   created () { },
