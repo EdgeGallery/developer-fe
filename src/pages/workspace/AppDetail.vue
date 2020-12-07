@@ -144,7 +144,7 @@ export default {
       apiDataLoading: false,
       projecDetailList: [],
       dialogVisible: false,
-      activeName: '4',
+      activeName: '1',
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       currentComponent: 'EnvPreparation',
