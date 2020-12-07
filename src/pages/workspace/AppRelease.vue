@@ -927,7 +927,6 @@ export default {
   .el-table td, .el-table th{
     padding: 2px 0;
     text-align: center;
-    border-bottom: none;
     .icon{
       margin-right: 5px;
     }
