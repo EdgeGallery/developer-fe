@@ -251,6 +251,10 @@ let Workspace = {
   getAppFileApi: function (projectId, fileName) {
     return GetFun('mec/developer/v1/apprelease/' + projectId + '/' + 'action/get-pkg-content?fileName=' + fileName)
   },
+  // 应用测试
+  getAtpTestApi: function (projectId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/action/atp')
+  },
   // 发布APP到Appstore
   isPublishApi: function (appInstanceId, projectId, userId, userName) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName + '&appInstanceId=' + appInstanceId, '')

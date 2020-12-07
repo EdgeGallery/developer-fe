@@ -99,7 +99,7 @@
           <span>{{ scope.row.status }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('workspace.operatioin')">
+      <el-table-column :label="$t('workspace.operation')">
         <template slot-scope="scope">
           <el-button
             id="deleteBtn"

@@ -17,7 +17,7 @@
 <template>
   <div class="addAppPublish">
     <el-dialog
-      :title="$t('workspace.add')+$t('workspace.applicationRelease')"
+      :title="$t('workspace.add')+$t('workspace.appPublishConfig')"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       width="50%"
@@ -32,29 +32,34 @@
           :label-width="formLabelWidth"
           class="service_row"
         >
-          <span>{{ $t('workspace.servicename') }} :</span>
+          <span class="span_left">{{ $t('workspace.servicename') }} :</span>
           <el-input
             v-model="form.serviceName"
             :placeholder="$t('workspace.servicename')"
           />
-          <span>{{ $t('workspace.inPort') }} :</span>
+          <span class="span_left">{{ $t('workspace.inPort') }} :</span>
           <el-input
             v-model="form.inPort"
             :placeholder="$t('workspace.inPort')"
           />
-          <span>{{ $t('workspace.version') }} :</span>
+        </el-form-item>
+        <el-form-item
+          :label-width="formLabelWidth"
+          class="service_row"
+        >
+          <span class="span_left">{{ $t('workspace.version') }} :</span>
           <el-input
             v-model="form.version"
             :placeholder="$t('workspace.version')"
           />
-          <span>{{ $t('workspace.protocol') }} :</span>
+          <span class="span_left">{{ $t('workspace.protocol') }} :</span>
           <el-select
             v-model="form.protocol"
             size="mini"
             class="select_right"
           >
             <el-option
-              v-for="item in form.optionsProtocol"
+              v-for="item in optionsProtocol"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -125,32 +130,33 @@
           :label-width="formLabelWidth"
           class="service_row trafficRules"
         >
-          <span>{{ $t('workspace.trafficRules') }} :</span>
-          <el-select
-            v-model="form.trafficRules"
-            size="mini"
-            class="select_right"
+          <span class="span_left">{{ $t('workspace.trafficRules') }} :</span>
+          <el-checkbox-group
+            v-model="form.trafficRulesList"
           >
-            <el-option
-              v-for="item in form.optionsTrafficRules"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+            <el-checkbox
+              v-for="(item,index) in optionsTrafficRules"
+              :key="index"
+              :label="item.ruleId"
+              name="trafficRulesList"
             />
-          </el-select>
-          <span>{{ $t('workspace.dnsRules') }} :</span>
-          <el-select
-            v-model="form.dnsRules"
-            size="mini"
-            class="select_right"
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item
+          :label-width="formLabelWidth"
+          class="service_row trafficRules"
+        >
+          <span class="span_left">{{ $t('workspace.dnsRules') }} :</span>
+          <el-checkbox-group
+            v-model="form.dnsRulesList"
           >
-            <el-option
-              v-for="item in form.optionsDnsRules"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+            <el-checkbox
+              v-for="(item,index) in optionsDnsRules"
+              :key="index"
+              :label="item.ruleId"
+              name="dnsRulesList"
             />
-          </el-select>
+          </el-checkbox-group>
         </el-form-item>
       </el-form>
 
@@ -159,13 +165,13 @@
         class="dialog-footer"
       >
         <el-button
-          @click="dialogVisible = false"
+          @click="handleClose"
           size="medium"
           class="cancel"
         >{{ $t('common.cancel') }}</el-button>
         <el-button
           type="primary"
-          @click="dialogVisible = false"
+          @click="addPublicConfig"
           size="medium"
           class="confirm"
         >{{ $t('common.confirm') }}</el-button>
@@ -180,6 +186,10 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    editRuleDataprop: {
+      type: Object,
+      default: () => { }
     }
   },
   data () {
@@ -189,37 +199,41 @@ export default {
         serviceName: '',
         inPort: '',
         version: '',
-        protocol: 'HTTPS',
-        optionsProtocol: [{
-          value: '0',
-          label: 'HTTP'
-        }, {
-          value: '1',
-          label: 'HTTPS'
-        }],
-        trafficRules: '',
-        optionsTrafficRules: [{
-          value: '0',
-          label: '流量规则1'
-        }, {
-          value: '1',
-          label: '流量规则2'
-        }],
-        dnsRules: '',
-        optionsDnsRules: [{
-          value: '0',
-          label: 'DNS规则1'
-        }, {
-          value: '1',
-          label: 'DNS规则2'
-        }]
+        protocol: 'HTTP',
+        trafficRulesList: [],
+        dnsRulesList: []
       },
+      // form: JSON.parse(JSON.stringify(this.editRuleDataprop)),
+      trafficRulesList: [],
+      dnsRulesList: [],
+      optionsProtocol: [{
+        value: '0',
+        label: 'HTTP'
+      }, {
+        value: '1',
+        label: 'HTTPS'
+      }],
+      optionsTrafficRules: [
+        { ruleId: '流量规则1' },
+        { ruleId: '流量规则2' },
+        { ruleId: '流量规则3' }
+      ],
+      optionsDnsRules: [
+        { ruleId: 'DNS规则1' },
+        { ruleId: 'DNS规则2' }
+      ],
       formLabelWidth: '0px',
       apiFileList: [],
       apiMdList: []
     }
   },
   methods: {
+    getEditConfigData () {
+      let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
+      this.form = data
+      this.form.trafficRulesList = data.trafficRulesList.split('，')
+      this.form.dnsRulesList = data.dnsRulesList.split('，')
+    },
     handleClose () {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
@@ -272,9 +286,17 @@ export default {
     },
     removeApiMd (file, fileList) {
       this.apiMdList = fileList
+    },
+    addPublicConfig () {
+      this.form.trafficRulesList = this.form.trafficRulesList.join('，')
+      this.form.dnsRulesList = this.form.dnsRulesList.join('，')
+      console.log(this.form)
+      this.$emit('getAddPublicConfigData', this.form)
+      this.handleClose()
     }
   },
   mounted () {
+    this.getEditConfigData()
   }
 }
 
@@ -288,22 +310,23 @@ export default {
   }
   .el-form{
     width: 100%;
+    .service_row .el-form-item__content > span{
+      float: left;
+    }
     .service_row{
-      span{
-        float: left;
-        height: 28px;
-        margin: 0 5px 10px 0;
+      span.span_left{
+        width: 100px;
       }
       .el-input{
-        width: 80px;
+        width: 120px;
         float: left;
         height: 28px;
-        margin: 0 15px 10px 0;
+        margin: 0 15px 0px 0;
       }
       .el-select{
         float: left;
         .el-input{
-          width: 90px;
+          width: 120px;
         }
       }
       .el-select.select_right{
@@ -313,15 +336,12 @@ export default {
         .el-input__icon{
           width: 20px;
         }
-        span{
-          margin: 0;
-        }
       }
     }
     .service_row.trafficRules{
       .el-select{
         .el-input{
-          width: 120px;
+          width: 300px;
         }
       }
     }
@@ -332,6 +352,11 @@ export default {
       .el-upload-list__item:first-child{
         width: 50%;
       }
+    }
+    .el-checkbox-group{
+      text-align: left;
+      float: left;
+      width: calc( 100% - 100px );
     }
   }
 }

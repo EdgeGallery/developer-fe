@@ -119,7 +119,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            :label="$t('workspace.operatioin')"
+            :label="$t('workspace.operation')"
             width="230"
           >
             <template slot-scope="scope">

@@ -37,7 +37,7 @@
         :label="$t('workspace.protocol')"
       />
       <el-table-column
-        :label="$t('workspace.operatioin')"
+        :label="$t('workspace.operation')"
       >
         <el-button
           size="medium"

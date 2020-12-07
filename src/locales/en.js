@@ -178,6 +178,30 @@ const en = {
       codeTip2: 'Sample code',
       codeTip3: 'for developers\' reference'
     },
+    appRelease: {
+      appConfig: 'Application Configuration',
+      appTest: 'Application Test',
+      appRelease: 'Application Release',
+      addFilter: 'Add flow filter',
+      srcAddress: 'Src IP Address',
+      srcPort: 'Src Port',
+      dstAddress: 'Dst IP Address',
+      dstPort: 'Dst Port',
+      trafficRuleId: 'Traffic Rule Id',
+      filterType: 'Filter Type',
+      priority: 'Priority',
+      protocol: 'Protocol',
+      action: 'Action',
+      dnsRuleId: 'DNS Rule Id',
+      ipAddress: 'IP Address',
+      ipAddressType: 'IP Address Type',
+      domainName: 'DomainName',
+      ttl: 'TTL',
+      checkRules: 'Check Rules',
+      dnsRule: 'DNS Rules',
+      trafficRule: 'Traffic Rules',
+      trafficFilter: 'Traffic Filter'
+    },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
     addNewProject: 'Add New Project',
@@ -472,7 +496,9 @@ const en = {
     saveFail: 'Save failed!',
     sampleCodeInfo: 'Cannot download sample code without selecting capability service',
     fileNotReadable: 'File is not readable',
-    fileIsEmpty: 'File content is empty'
+    fileIsEmpty: 'File content is empty',
+    addSuccess: 'Data added successfully',
+    editSuccess: 'Edit data successfully'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

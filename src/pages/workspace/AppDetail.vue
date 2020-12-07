@@ -144,7 +144,7 @@ export default {
       apiDataLoading: false,
       projecDetailList: [],
       dialogVisible: false,
-      activeName: '1',
+      activeName: '4',
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       currentComponent: 'EnvPreparation',
@@ -286,9 +286,8 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
-        if (res.data.appInstanceId) {
-          sessionStorage.setItem('csarId', res.data.appInstanceId)
-        }
+        console.log(res.data)
+        sessionStorage.setItem('csarId', res.data.appInstanceId)
       })
     }
   },
@@ -386,7 +385,7 @@ export default {
     }
     .elButton {
       width: 80%;
-      margin: 15px 10% 0;
+      margin: 35px 10% 0;
       text-align: right;
       button {
         height: 30px;
