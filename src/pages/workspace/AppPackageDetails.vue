@@ -81,10 +81,13 @@ export default {
     getAppPackageList () {
       Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
         this.appPageListData = res.data.children
-        this.$nextTick(function () {
-          const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
-          firstNode.click()
-        })
+        if (this.appPageListData.length > 0) {
+          this.$nextTick(function () {
+            const firstNode = document.querySelector('.el-tree-node .el-tree-node__children')
+            firstNode.click()
+            console.log(firstNode)
+          })
+        }
       })
     },
     getFileDetail (val) {

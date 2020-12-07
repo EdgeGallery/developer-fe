@@ -27,36 +27,56 @@
       <el-form
         :model="form"
         size="mini"
+        ref="form"
       >
         <el-form-item
-          label="domaiName"
+          label="DNS Rule Id"
           :label-width="formLabelWidth"
         >
           <el-input
-            v-model="form.filterType"
+            v-model="form.dnsRuleId"
           />
         </el-form-item>
         <el-form-item
-          label="ipAddressType"
+          label="Domain Name"
           :label-width="formLabelWidth"
         >
           <el-input
-            v-model="form.priority"
-          />
-        </el-form-item><el-form-item
-          label="ipAddress"
-          :label-width="formLabelWidth"
-        >
-          <el-input
-            v-model="form.priority"
+            v-model="form.domainName"
           />
         </el-form-item>
         <el-form-item
-          label="ttl"
+          label="IP Address Type"
+          :label-width="formLabelWidth"
+          class="ipAddressType"
+        >
+          <el-select
+            v-model="form.ipAddressType"
+            class="list-select"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+              :id="item.label"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="DNS Server IP"
           :label-width="formLabelWidth"
         >
           <el-input
-            v-model="form.priority"
+            v-model="form.dnsServerIp"
+          />
+        </el-form-item>
+        <el-form-item
+          label="TTL"
+          :label-width="formLabelWidth"
+        >
+          <el-input
+            v-model="form.ttl"
           />
         </el-form-item>
       </el-form>
@@ -66,13 +86,13 @@
         class="dialog-footer"
       >
         <el-button
-          @click="dialogVisible = false"
+          @click="handleClose"
           size="medium"
           class="cancel"
         >{{ $t('common.cancel') }}</el-button>
         <el-button
           type="primary"
-          @click="dialogVisible = false"
+          @click="addDnsRules"
           size="medium"
           class="confirm"
         >{{ $t('common.confirm') }}</el-button>
@@ -87,21 +107,25 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    editRuleDataprop: {
+      type: Object,
+      default: () => { }
     }
   },
   data () {
     return {
       dialogVisible: this.value,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
+      form: JSON.parse(JSON.stringify(this.editRuleDataprop)),
+      options: [
+        {
+          value: 0,
+          label: 'IP_V4'
+        }, {
+          value: 1,
+          label: 'IP_V6'
+        }
+      ],
       formLabelWidth: '120px'
     }
   },
@@ -109,6 +133,10 @@ export default {
     handleClose () {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
+    },
+    addDnsRules () {
+      this.$emit('getAddDnsData', this.form)
+      this.handleClose()
     }
   },
   mounted () {
@@ -125,6 +153,9 @@ export default {
   }
   .el-form{
     width: 85%;
+    .ipAddressType{
+      text-align: left;
+    }
   }
 }
 
