@@ -633,7 +633,7 @@
 </template>
 
 <script>
-// import { Workspace } from '../../tools/api.js'
+import { Workspace } from '../../tools/api.js'
 import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
 import addAppPublishConfig from './AddAppPublishConfig.vue'
@@ -876,9 +876,7 @@ export default {
     },
     // 集成应用测试页面
     getAtpTest () {
-      /* Workspace.getAtpTestApi(this.projectId).then(res => {
-        console.log(res.data)
-      }) */
+      Workspace.getAtpTestApi(this.projectId)
       this.setApiHeight()
       this.showAtp = true
       this.iframeUrl = 'https://www.baidu.com'

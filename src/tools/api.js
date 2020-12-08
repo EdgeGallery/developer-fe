@@ -255,6 +255,18 @@ let Workspace = {
   getAtpTestApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/action/atp')
   },
+  // 上传应用发布详情
+  PostReleaseApi: function (projectId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/action/get-release-config', params)
+  },
+  // 获取应用发布详情
+  getReleaseApi: function (projectId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/action/get-release-config')
+  },
+  // 修改应用发布详情
+  PutReleaseApi: function (projectId, params) {
+    return Put('mec/developer/v1/projects/' + projectId + '/action/get-release-config', params)
+  },
   // 发布APP到Appstore
   isPublishApi: function (appInstanceId, projectId, userId, userName) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName + '&appInstanceId=' + appInstanceId, '')
