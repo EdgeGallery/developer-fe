@@ -154,11 +154,11 @@ let Workspace = {
   postIconFileIdApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
   },
-  // 获取能力列表
+  // 获取能力组
   getCapabilityListApi: function () {
     return Get('mec/developer/v1/capability-groups')
   },
-  // 获取服务列表
+  // 获取能力详情服务列表
   getServiceListApi: function (groupId) {
     return Get('mec/developer/v1/capability-groups/' + groupId)
   },
