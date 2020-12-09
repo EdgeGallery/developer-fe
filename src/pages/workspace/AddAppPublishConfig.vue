@@ -137,7 +137,7 @@
             <el-checkbox
               v-for="(item,index) in optionsTrafficRules"
               :key="index"
-              :label="item.ruleId"
+              :label="item"
               name="trafficRulesList"
             />
           </el-checkbox-group>
@@ -153,7 +153,7 @@
             <el-checkbox
               v-for="(item,index) in optionsDnsRules"
               :key="index"
-              :label="item.ruleId"
+              :label="item"
               name="dnsRulesList"
             />
           </el-checkbox-group>
@@ -205,15 +205,8 @@ export default {
         value: '1',
         label: 'HTTPS'
       }],
-      optionsTrafficRules: [
-        { ruleId: '流量规则1' },
-        { ruleId: '流量规则2' },
-        { ruleId: '流量规则3' }
-      ],
-      optionsDnsRules: [
-        { ruleId: 'DNS规则1' },
-        { ruleId: 'DNS规则2' }
-      ],
+      optionsTrafficRules: [],
+      optionsDnsRules: [],
       formLabelWidth: '0px',
       apiFileList: [],
       apiMdList: []
@@ -229,9 +222,18 @@ export default {
       this.removeEmpty(this.form.dnsRulesList)
     },
     getRuleList () {
-      let listData = JSON.parse(sessionStorage.getItem('configData'))
-      console.log(listData)
-      console.log(typeof (listData))
+      let trafficData = JSON.parse(sessionStorage.getItem('trafficData'))
+      let dnsData = JSON.parse(sessionStorage.getItem('dnsData'))
+      let trafficArr = []
+      trafficData.forEach(item => {
+        trafficArr.push(item.trafficRuleId)
+      })
+      this.optionsTrafficRules = trafficArr
+      let dnsArr = []
+      dnsData.forEach(item => {
+        dnsArr.push(item.dnsRuleId)
+      })
+      this.optionsDnsRules = dnsArr
     },
     removeEmpty (arr) {
       for (var i = 0; i < arr.length; i++) {

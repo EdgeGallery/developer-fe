@@ -736,9 +736,9 @@ export default {
           }
         }).catch(() => {
           if (releaseId) {
-            this.$message.success(this.$t('promptMessage.editRuleFail'))
+            this.$message.error(this.$t('promptMessage.editRuleFail'))
           } else {
-            this.$message.success(this.$t('promptMessage.saveRuleFail'))
+            this.$message.error(this.$t('promptMessage.saveRuleFail'))
           }
         })
       })
