@@ -77,7 +77,7 @@
 import { Capability } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
 import firstStep from './NewProjectFirst.vue'
-import secondStep from './NewProjectSecond2.vue'
+import secondStep from './NewProjectSecond.vue'
 import thirdStep from './NewProjectThird.vue'
 import fourthStep from './NewProjectFourth.vue'
 import fourthStepMigration from './NewProjectFourth-migration.vue'
