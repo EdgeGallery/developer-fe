@@ -350,6 +350,9 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    emitStepData () {
+      this.$emit('getStepData', { data: '', step: 'second' })
     }
   }
 }
