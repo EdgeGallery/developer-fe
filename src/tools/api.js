@@ -251,6 +251,15 @@ let Workspace = {
   getAppFileApi: function (projectId, fileName) {
     return GetFun('mec/developer/v1/apprelease/' + projectId + '/' + 'action/get-pkg-content?fileName=' + fileName)
   },
+  // 获取规则配置
+  getReleaseConfigApi (projectId) {
+    return Get('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config')
+  },
+  // 保存/修改规则配置
+  saveRuleConfig (projectId, params, releaseId) {
+    let method = releaseId ? Put : Post
+    return method('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
+  },
   // 应用测试
   getAtpTestApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/action/atp')

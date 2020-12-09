@@ -68,7 +68,7 @@
           :label-width="formLabelWidth"
         >
           <el-input
-            v-model="form.dnsServerIp"
+            v-model="form.ipAddress"
           />
         </el-form-item>
         <el-form-item

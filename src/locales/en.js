@@ -200,7 +200,12 @@ const en = {
       checkRules: 'Check Rules',
       dnsRule: 'DNS Rules',
       trafficRule: 'Traffic Rules',
-      trafficFilter: 'Traffic Filter'
+      trafficFilter: 'Traffic Filter',
+      tag: 'Tag',
+      tgtTunnelAddress: 'Tunnel destination address',
+      dstTunnelPort: 'Tunnel destination port',
+      srcTunnelAddress: 'Tunnel source address',
+      srcTunnelPort: 'Tunnel source port'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
@@ -300,7 +305,7 @@ const en = {
     addimage: 'Add Image',
     servicename: 'Service Name',
     href: 'Href',
-    inPort: 'Internal Port',
+    internalPort: 'Internal Port',
     outPort: 'External Port',
     confirmUpload: 'Confirm upload',
     uploadSourceCode: 'Upload source code',
@@ -498,7 +503,11 @@ const en = {
     fileNotReadable: 'File is not readable',
     fileIsEmpty: 'File content is empty',
     addSuccess: 'Data added successfully',
-    editSuccess: 'Edit data successfully'
+    editSuccess: 'Edit data successfully',
+    saveRuleSuccess: 'Save the rule successfully',
+    editRuleSuccess: 'Edit rule successfully',
+    saveRuleFail: 'Failed to save rule',
+    editRuleFail: 'Edit rule failed'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',

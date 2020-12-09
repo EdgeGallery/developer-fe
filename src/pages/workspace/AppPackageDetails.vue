@@ -62,7 +62,6 @@ export default {
   data () {
     return {
       dialogVisible: this.value,
-      testData: [{ 'name': 'Artifacts', 'id': 'Artifacts', 'children': [{ 'name': 'ChangeLog.txt', 'id': 'ChangeLog.txt', 'children': null, 'parent': false }, { 'name': 'Deployment', 'id': 'Deployment', 'children': [{ 'name': 'Charts', 'id': 'Charts', 'children': [{ 'name': '.gitkeep', 'id': '.gitkeep', 'children': null, 'parent': false }, { 'name': '7e9b913f-748a-42b7-a088-abe3f750f04c.tgz', 'id': '7e9b913f-748a-42b7-a088-abe3f750f04c.tgz', 'children': null, 'parent': false }], 'parent': true }], 'parent': true }, { 'name': 'Docs', 'id': 'Docs', 'children': [{ 'name': 'template.md', 'id': 'template.md', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'Informational', 'id': 'Informational', 'children': [{ 'name': 'user_guide.txt', 'id': 'user_guide.txt', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'Other', 'id': 'Other', 'children': [{ 'name': 'my_script.csh', 'id': 'my_script.csh', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'Tests', 'id': 'Tests', 'children': [{ 'name': 'health check.yaml', 'id': 'health check.yaml', 'children': null, 'parent': false }], 'parent': true }], 'parent': true }, { 'name': 'Definitions', 'id': 'Definitions', 'children': [{ 'name': 'MainServiceTemplate.yaml', 'id': 'MainServiceTemplate.yaml', 'children': null, 'parent': false }], 'parent': true }, { 'name': 'MainServiceTemplate.mf', 'id': 'MainServiceTemplate.mf', 'children': null, 'parent': false }, { 'name': 'TOSCA-Metadata', 'id': 'TOSCA-Metadata', 'children': [{ 'name': 'TOSCA.meta', 'id': 'TOSCA.meta', 'children': null, 'parent': false }], 'parent': true }],
       defaultProps: {
         children: 'children',
         label: 'name'
@@ -83,7 +82,7 @@ export default {
         this.appPageListData = res.data.children
         if (this.appPageListData.length > 0) {
           this.$nextTick(function () {
-            const firstNode = document.querySelector('.el-tree-node .el-tree-node__children')
+            const firstNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
             firstNode.click()
             console.log(firstNode)
           })

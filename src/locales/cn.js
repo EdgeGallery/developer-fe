@@ -200,7 +200,12 @@ const cn = {
       checkRules: '查看详情',
       dnsRule: 'DNS规则',
       trafficRule: '分流规则',
-      trafficFilter: '流过滤规则'
+      trafficFilter: '流过滤规则',
+      tag: '标签',
+      tgtTunnelAddress: '隧道目的地址',
+      dstTunnelPort: '隧道目的端口',
+      srcTunnelAddress: '隧道源地址',
+      srcTunnelPort: '隧道源端口'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',
@@ -300,7 +305,7 @@ const cn = {
     addimage: '添加镜像',
     servicename: '服务名称',
     href: '链接',
-    inPort: '内部端口号',
+    internalPort: '内部端口号',
     outPort: '外部端口号',
     confirmUpload: '确定上传',
     uploadSourceCode: '上传源代码',
@@ -498,7 +503,11 @@ const cn = {
     fileNotReadable: '文件不可读',
     fileIsEmpty: '文件内容为空',
     addSuccess: '添加数据成功',
-    editSuccess: '编辑数据成功'
+    editSuccess: '编辑数据成功',
+    saveRuleSuccess: '保存规则成功',
+    editRuleSuccess: '编辑规则成功',
+    saveRuleFail: '保存规则失败',
+    editRuleFail: '编辑规则失败'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

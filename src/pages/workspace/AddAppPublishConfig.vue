@@ -37,10 +37,10 @@
             v-model="form.serviceName"
             :placeholder="$t('workspace.servicename')"
           />
-          <span class="span_left">{{ $t('workspace.inPort') }} :</span>
+          <span class="span_left">{{ $t('workspace.internalPort') }} :</span>
           <el-input
-            v-model="form.inPort"
-            :placeholder="$t('workspace.inPort')"
+            v-model="form.internalPort"
+            :placeholder="$t('workspace.internalPort')"
           />
         </el-form-item>
         <el-form-item
@@ -195,15 +195,7 @@ export default {
   data () {
     return {
       dialogVisible: this.value,
-      form: {
-        serviceName: '',
-        inPort: '',
-        version: '',
-        protocol: 'HTTP',
-        trafficRulesList: [],
-        dnsRulesList: []
-      },
-      // form: JSON.parse(JSON.stringify(this.editRuleDataprop)),
+      form: {},
       trafficRulesList: [],
       dnsRulesList: [],
       optionsProtocol: [{
@@ -231,8 +223,24 @@ export default {
     getEditConfigData () {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
       this.form = data
-      this.form.trafficRulesList = data.trafficRulesList.split('，')
-      this.form.dnsRulesList = data.dnsRulesList.split('，')
+      this.form.trafficRulesList = data.trafficRulesList.split(',')
+      this.form.dnsRulesList = data.dnsRulesList.split(',')
+      this.removeEmpty(this.form.trafficRulesList)
+      this.removeEmpty(this.form.dnsRulesList)
+    },
+    getRuleList () {
+      let listData = JSON.parse(sessionStorage.getItem('configData'))
+      console.log(listData)
+      console.log(typeof (listData))
+    },
+    removeEmpty (arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === '' || typeof (arr[i]) === 'undefined') {
+          arr.splice(i, 1)
+          i = i - 1
+        }
+      }
+      return arr
     },
     handleClose () {
       this.$emit('closeFatherDialog', false)
@@ -288,15 +296,15 @@ export default {
       this.apiMdList = fileList
     },
     addPublicConfig () {
-      this.form.trafficRulesList = this.form.trafficRulesList.join('，')
-      this.form.dnsRulesList = this.form.dnsRulesList.join('，')
-      console.log(this.form)
+      this.form.trafficRulesList = this.form.trafficRulesList.join(',')
+      this.form.dnsRulesList = this.form.dnsRulesList.join(',')
       this.$emit('getAddPublicConfigData', this.form)
       this.handleClose()
     }
   },
   mounted () {
     this.getEditConfigData()
+    this.getRuleList()
   }
 }
 

@@ -187,6 +187,7 @@
                         size="medium"
                         type="text"
                         class="editBtn"
+                        @click="editTrafficRule(scope.$index, scope.row)"
                       >
                         {{ $t('api.modify') }}
                       </el-button>
@@ -208,6 +209,7 @@
                   v-model="trafficDialog"
                   @closeFatherDialog="closeDialog"
                   @getAddTrafficData="getAddTrafficData"
+                  :edit-rule-dataprop="editRuleData"
                 />
               </div>
               <!-- 查看流量规则详情 -->
@@ -250,7 +252,7 @@
                       :label="$t('workspace.appRelease.protocol')"
                     />
                     <el-table-column
-                      prop="dstTunnelAddress"
+                      prop="tgtTunnelAddress"
                       label="隧道目的地址"
                     />
                     <el-table-column
@@ -358,8 +360,8 @@
                     label="ipAddressType"
                   />
                   <el-table-column
-                    prop="dnsServerIp"
-                    label="dnsServerIp"
+                    prop="ipAddress"
+                    label="ipAddress"
                   />
                   <el-table-column
                     prop="ttl"
@@ -420,8 +422,8 @@
                 :label="$t('workspace.servicename')"
               />
               <el-table-column
-                prop="inPort"
-                :label="$t('workspace.inPort')"
+                prop="internalPort"
+                :label="$t('workspace.internalPort')"
               />
               <el-table-column
                 prop="version"
@@ -683,7 +685,25 @@ export default {
       dnsListData: [],
       editRuleData: {},
       trafficListData: [],
-      trafficAllData: {},
+      trafficAllData: {
+        releaseId: '',
+        projectId: sessionStorage.getItem('mecDetailID'),
+        guideFileId: '',
+        appInstanceId: '',
+        capabilitiesDetail: {
+          appTrafficRule: [],
+          appDNSRule: [],
+          serviceDetails: []
+        },
+        atpTest: {
+          id: '',
+          appName: '',
+          status: '',
+          createTime: ''
+        },
+        testStatus: '',
+        createTime: ''
+      },
       filterShow: false,
       filterData: [],
       interfaceData: [],
@@ -694,11 +714,28 @@ export default {
       dialogAppPublicSuccess: false,
       appStoreUrl: '',
       showAtp: false,
-      iframeUrl: ''
+      iframeUrl: '',
+      projectId: sessionStorage.getItem('mecDetailID')
     }
   },
   methods: {
-    saveConfig () {
+    getReleaseConfig (params) {
+      Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        let releaseId = res.data.releaseId
+        Workspace.saveRuleConfig(this.projectId, params, releaseId).then(() => {
+          if (releaseId) {
+            this.$message.success(this.$t('promptMessage.editRuleSuccess'))
+          } else {
+            this.$message.success(this.$t('promptMessage.saveRuleSuccess'))
+          }
+        }).catch(() => {
+          if (releaseId) {
+            this.$message.success(this.$t('promptMessage.editRuleFail'))
+          } else {
+            this.$message.success(this.$t('promptMessage.saveRuleFail'))
+          }
+        })
+      })
     },
     next () {
       this.active++
@@ -776,23 +813,24 @@ export default {
           dnsRuleId: '',
           domainName: '',
           ipAddressType: 'IP_V4',
-          dnsServerIp: '',
+          ipAddress: '',
           ttl: ''
         }
       } else if (name === 'trafficRule') {
         this.trafficDialog = true
-        /* this.editRuleData = {
-          dnsRuleId: '',
-          domainName: '',
-          ipAddressType: 'IP_V4',
-          dnsServerIp: '',
-          ttl: ''
-        } */
+        this.editRuleData = {
+          action: 'PASSTHROUGH',
+          filterType: 'FLOW',
+          priority: 1,
+          trafficRuleId: '',
+          trafficFilter: [],
+          dstInterface: []
+        }
       } else if (name === 'publicConfig') {
         this.appPublishDialog = true
         this.editRuleData = {
           serviceName: '',
-          inPort: '',
+          internalPort: 0,
           version: '',
           protocol: 'HTTP',
           trafficRulesList: '',
@@ -832,6 +870,12 @@ export default {
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
     // 编辑规则列表
+    editTrafficRule (index, row) {
+      this.isAddRuleData = false
+      this.editIndex = index
+      this.trafficDialog = true
+      this.editRuleData = row
+    },
     editDnsRule (index, row) {
       this.isAddRuleData = false
       this.editIndex = index
@@ -873,6 +917,39 @@ export default {
       this.filterShow = true
       this.filterData = row.trafficFilter
       this.interfaceData = row.dstInterface
+    },
+    strToArray (str) {
+      let arr = []
+      arr = str.split(',')
+      return arr
+    },
+    // 保存配置的规则数据
+    saveConfig () {
+      let trafficDataTemp = JSON.parse(JSON.stringify(this.trafficListData))
+      trafficDataTemp.forEach(item => {
+        item.trafficFilter.forEach(subItem => {
+          subItem.dstAddress = this.strToArray(subItem.dstAddress)
+          subItem.dstPort = this.strToArray(subItem.dstPort)
+          subItem.dstTunnelPort = this.strToArray(subItem.dstTunnelPort)
+          subItem.protocol = this.strToArray(subItem.protocol)
+          subItem.srcAddress = this.strToArray(subItem.srcAddress)
+          subItem.srcPort = this.strToArray(subItem.srcPort)
+          subItem.srcTunnelAddress = this.strToArray(subItem.srcTunnelAddress)
+          subItem.srcTunnelPort = this.strToArray(subItem.srcTunnelPort)
+          subItem.tag = this.strToArray(subItem.tag)
+          subItem.tgtTunnelAddress = this.strToArray(subItem.tgtTunnelAddress)
+        })
+      })
+      let appPublishConfigTemp = JSON.parse(JSON.stringify(this.appPublishListData))
+      appPublishConfigTemp.forEach(item => {
+        item.dnsRulesList = this.strToArray(item.dnsRulesList)
+        item.trafficRulesList = this.strToArray(item.trafficRulesList)
+      })
+      this.trafficAllData.capabilitiesDetail.appTrafficRule = trafficDataTemp
+      this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
+      this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
+      console.log(this.trafficAllData)
+      this.getReleaseConfig(this.trafficAllData)
     },
     // 集成应用测试页面
     getAtpTest () {

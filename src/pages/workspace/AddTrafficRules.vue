@@ -125,7 +125,7 @@
               :label="$t('workspace.appRelease.dstPort')"
             />
             <el-table-column
-              prop="dstTunnelAddress"
+              prop="tgtTunnelAddress"
               label="隧道目的地址"
             />
             <el-table-column
@@ -353,7 +353,7 @@
                 </el-form-item>
                 <el-form-item label="隧道目的地址">
                   <el-input
-                    v-model="trafficFilter.dstTunnelAddress"
+                    v-model="trafficFilter.tgtTunnelAddress"
                   />
                 </el-form-item>
                 <el-form-item label="隧道目的端口">
@@ -595,69 +595,86 @@ export default {
           label: 'GRE'
         }
       ],
-      trafficRule: {
-        action: '',
-        filterType: '',
-        priority: 125,
+      trafficRule: JSON.parse(JSON.stringify(this.editRuleDataprop)),
+      /* trafficRule: {
+        action: 'PASSTHROUGH',
+        filterType: 'FLOW',
+        priority: 1,
         trafficRuleId: '',
         trafficFilter: [
           {
-            srcAddress: [],
-            srcPort: [],
-            dstAddress: [],
-            dstPort: [],
-            protocol: [],
-            qci: '1',
-            dscp: '0',
-            tc: '1',
-            srcTunnelAddress: '',
-            srcTunnelPort: '',
-            dstTunnelAddress: '',
-            dstTunnelPort: ''
+            srcAddress: '0.0.0.0/0',
+            srcPort: '8080',
+            dstAddress: '172.30.2.0/28',
+            dstPort: '8080',
+            protocol: 'ANY',
+            tag: '1234',
+            qci: 1,
+            dscp: 0,
+            tc: 1,
+            srcTunnelAddress: '10.10.10.10',
+            srcTunnelPort: '8080',
+            tgtTunnelAddress: '10.10.10.10',
+            dstTunnelPort: '8080'
           }
         ],
         dstInterface: [
           {
             interfaceType: '',
+            srcMACAddress: '',
+            dstMACAddress: '',
+            dstIPAddress: '',
             tunnelInfo: {
               tunnelType: '',
               tunnelDstAddress: '',
               tunnelsrcAddress: '',
               tunnelSpecificData: ''
-            },
-            srcMACAddress: '',
-            dstMACAddress: '',
-            dstIPAddress: ''
+            }
           }
         ]
-      },
+      }, */
       filterTableData: [],
       trafficFilter: {
         srcAddress: '',
         srcPort: '',
         dstAddress: '',
         dstPort: '',
-        protocol: 'ANY',
-        qci: '1',
-        dscp: '0',
-        tc: '1',
+        protocol: '',
         tag: '',
+        qci: 1,
+        dscp: 0,
+        tc: 1,
         srcTunnelAddress: '',
         srcTunnelPort: '',
-        dstTunnelAddress: '',
+        tgtTunnelAddress: '',
         dstTunnelPort: ''
       },
+      /* trafficFilter: {
+        srcAddress: '0.0.0.0/0',
+        srcPort: '8080',
+        dstAddress: '172.30.2.0/28',
+        dstPort: '8080',
+        protocol: 'ANY',
+        tag: '1234',
+        qci: 1,
+        dscp: 0,
+        tc: 1,
+        srcTunnelAddress: '10.10.10.10',
+        srcTunnelPort: '8080',
+        tgtTunnelAddress: '10.10.10.10',
+        dstTunnelPort: '8080'
+      }, */
       dstInterface: {
         interfaceType: '',
+        srcMACAddress: '',
+        dstMACAddress: '',
+        dstIPAddress: '',
         tunnelInfo: {
           tunnelType: '',
           tunnelDstAddress: '',
           tunnelsrcAddress: '',
           tunnelSpecificData: ''
-        },
-        srcMACAddress: '',
-        dstMACAddress: '',
-        dstIPAddress: ''
+        }
       },
       middleData: {
         ipAddressType: '',
@@ -666,9 +683,9 @@ export default {
         dstAddress: '',
         dstPort: '',
         protocol: 'ANY',
-        qci: '1',
-        dscp: '0',
-        tc: '1'
+        qci: 1,
+        dscp: 0,
+        tc: 1
       },
       interfaceTableData: []
     }
@@ -686,7 +703,7 @@ export default {
         this.filterTableData = []
       }
       if (sessionStorage.getItem('interfaceData')) {
-        this.interfaceTableData = JSON.parse(sessionStorage.getItem('configData'))
+        this.interfaceTableData = JSON.parse(sessionStorage.getItem('interfaceData'))
       } else {
         this.interfaceTableData = []
       }
@@ -697,13 +714,14 @@ export default {
         srcPort: '',
         dstAddress: '',
         dstPort: '',
-        protocol: 'ANY',
-        qci: '1',
-        dscp: '0',
-        tc: '1',
+        protocol: '',
+        tag: '',
+        qci: 1,
+        dscp: 0,
+        tc: 1,
         srcTunnelAddress: '',
         srcTunnelPort: '',
-        dstTunnelAddress: '',
+        tgtTunnelAddress: '',
         dstTunnelPort: ''
       }
       this.innerFilterVisible = true
@@ -712,15 +730,15 @@ export default {
     addNewInterface () {
       this.dstInterface = {
         interfaceType: '',
+        srcMACAddress: '',
+        dstMACAddress: '',
+        dstIPAddress: '',
         tunnelInfo: {
           tunnelType: '',
           tunnelDstAddress: '',
           tunnelsrcAddress: '',
           tunnelSpecificData: ''
-        },
-        srcMACAddress: '',
-        dstMACAddress: '',
-        dstIPAddress: ''
+        }
       }
       this.innerInterfaceVisible = true
       this.addType = 1
@@ -767,7 +785,7 @@ export default {
     deleteInterfaceLines (index, rows) {
       this.interfaceTableData.splice(index, 1)
       this.$message.success(this.$t('devTools.deleteSucc'))
-      sessionStorage.setItem('filterData', JSON.stringify(this.interfaceTableData))
+      sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     cancelEditFilter () {
       this.innerFilterVisible = false
@@ -776,6 +794,13 @@ export default {
       this.innerInterfaceVisible = false
     },
     addTrafficRules () {
+      this.trafficRule.trafficFilter = this.filterTableData
+      if (this.trafficRule.action === 'FORWARD_DECAPSULATED' || this.trafficRule.action === 'FORWARD_AS_IS') {
+        this.trafficRule.dstInterface = this.interfaceTableData
+      } else {
+        this.trafficRule.dstInterface = []
+      }
+      console.log(this.trafficRule)
       this.$emit('getAddTrafficData', this.trafficRule)
       this.handleClose()
     }
