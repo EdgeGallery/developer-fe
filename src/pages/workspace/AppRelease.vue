@@ -719,6 +719,12 @@ export default {
     }
   },
   methods: {
+    getTestConfig () {
+      let projectId = sessionStorage.getItem('mecDetailID')
+      Workspace.getTestConfigApi(projectId).then(res => {
+        sessionStorage.setItem('csarId', res.data.appInstanceId)
+      })
+    },
     getReleaseConfig (params) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -834,7 +840,8 @@ export default {
           version: '',
           protocol: 'HTTP',
           trafficRulesList: '',
-          dnsRulesList: ''
+          dnsRulesList: '',
+          groupId: ''
         }
       }
     },
@@ -976,6 +983,7 @@ export default {
   created () {
   },
   mounted () {
+    this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
   },
