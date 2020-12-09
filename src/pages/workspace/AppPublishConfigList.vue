@@ -25,8 +25,8 @@
         :label="$t('workspace.servicename')"
       />
       <el-table-column
-        prop="inPort"
-        :label="$t('workspace.inPort')"
+        prop="internalPort"
+        :label="$t('workspace.internalPort')"
       />
       <el-table-column
         prop="version"
@@ -64,7 +64,7 @@ export default {
     return {
       appPublishListData: [{
         serviceName: 'MEC20201113001',
-        inPort: 8080,
+        internalPort: 8080,
         version: 'v1.0',
         protocol: 'HTTP'
       }]

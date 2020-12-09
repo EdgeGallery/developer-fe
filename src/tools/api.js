@@ -251,9 +251,30 @@ let Workspace = {
   getAppFileApi: function (projectId, fileName) {
     return GetFun('mec/developer/v1/apprelease/' + projectId + '/' + 'action/get-pkg-content?fileName=' + fileName)
   },
+  // 获取规则配置
+  getReleaseConfigApi (projectId) {
+    return Get('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config')
+  },
+  // 保存/修改规则配置
+  saveRuleConfig (projectId, params, releaseId) {
+    let method = releaseId ? Put : Post
+    return method('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
+  },
   // 应用测试
   getAtpTestApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/action/atp')
+  },
+  // 上传应用发布详情
+  PostReleaseApi: function (projectId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/action/get-release-config', params)
+  },
+  // 获取应用发布详情
+  getReleaseApi: function (projectId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/action/get-release-config')
+  },
+  // 修改应用发布详情
+  PutReleaseApi: function (projectId, params) {
+    return Put('mec/developer/v1/projects/' + projectId + '/action/get-release-config', params)
   },
   // 发布APP到Appstore
   isPublishApi: function (appInstanceId, projectId, userId, userName) {
