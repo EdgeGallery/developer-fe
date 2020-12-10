@@ -102,7 +102,11 @@ const en = {
     video: 'Video',
     srviceIntroduction: 'Service Introduction',
     serviceList: 'Service List',
-    deleteApi: 'Click to delete public API'
+    deleteApi: 'Click to delete public API',
+    usageInstruction: 'Usage Instruction',
+    applicationCategory: 'Application Category',
+    serviceSelection: 'Service Selection:',
+    noDataNotice: 'No data available.'
   },
   nav: {
     home: 'Home',
@@ -112,7 +116,7 @@ const en = {
     upload: 'Upload',
     api: 'API',
     introduction: 'Introduction',
-    mepApi: 'MEP API',
+    mepApi: 'Competence Center',
     applicationApi: 'Application API',
     test: 'Test',
     howTest: 'How To Test',

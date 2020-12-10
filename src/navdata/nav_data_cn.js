@@ -55,26 +55,10 @@ const mecDeveloper = [
   },
   {
     id: '3.5',
-    name: 'API',
+    name: '能力中心',
     path: '/mecDeveloper/api/mep',
     pageId: '2.2.2',
-    display: true,
-    children: [
-      {
-        id: '3.6',
-        name: 'MEP API',
-        path: '/mecDeveloper/api/mep',
-        pageId: '2.2.2.1',
-        display: true
-      },
-      {
-        id: '3.7',
-        name: 'MEP-ECO API',
-        path: '/mecDeveloper/api/mep-eco',
-        pageId: '2.2.2.2',
-        display: true
-      }
-    ]
+    display: true
   },
   {
     id: '3.9',

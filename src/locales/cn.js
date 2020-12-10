@@ -102,7 +102,11 @@ const cn = {
     video: '视频',
     serviceIntroduction: '服务介绍',
     serviceList: '服务列表',
-    deleteApi: '点击删除已公开的API'
+    deleteApi: '点击删除已公开的API',
+    usageInstruction: '使用说明',
+    applicationCategory: '应用分类',
+    serviceSelection: '服务选择：',
+    noDataNotice: '暂无数据。'
   },
   nav: {
     home: '主页',
@@ -112,7 +116,7 @@ const cn = {
     upload: '上传',
     api: 'API',
     introduction: '简介',
-    mepApi: 'MEP API',
+    mepApi: '能力中心',
     applicationApi: '应用API',
     test: '测试',
     howTest: '如何测试',
