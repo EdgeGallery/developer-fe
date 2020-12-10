@@ -515,21 +515,12 @@
       </div>
       <!-- 第三步“应用发布” -->
       <div v-show="step==='step3'">
-        <!-- 应用发布测试 -->
-        <h3 class="title">
-          {{ $t('workspace.releaseTest') }}
-        </h3>
         <div class="release_test">
           <!-- 应用测试任务列表 -->
           <el-table
             :data="appTestData"
             style="width: 100%"
           >
-            <el-table-column
-              prop="taskNumber"
-              :label="$t('test.testTask.taskNumber')"
-              width="160px"
-            />
             <el-table-column
               prop="appName"
               :label="$t('test.testTask.appName')"
@@ -539,7 +530,11 @@
               :label="$t('test.testTask.version')"
             />
             <el-table-column
-              prop="beginTime"
+              prop="providerId"
+              :label="$t('workspace.provider')"
+            />
+            <el-table-column
+              prop="createTime"
               :label="$t('test.testTask.startTime')"
             />
             <el-table-column
@@ -548,15 +543,13 @@
               <template slot-scope="scope">
                 <span
                   class="el-icon-error failed icon"
-                  v-if="scope.row.status!=='Success'"
-                  title="In Progress"
+                  v-if="scope.row.status!=='success'"
                 />
                 <span
                   v-else
                   class="el-icon-success success icon"
-                  title="Completed"
                 />
-                <span :class="scope.row.status==='Success'?'success':'failed'">{{ scope.row.status }}</span>
+                <span :class="scope.row.status==='success'?'success':'failed'">{{ scope.row.status }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -566,7 +559,7 @@
                 <el-button
                   class="bgBtn"
                   size="small"
-                  :disabled="scope.row.status==='Success'?false:true"
+                  :disabled="scope.row.status==='success'?false:true"
                   @click="releaseApp"
                 >
                   {{ $t('workspace.publish') }}
@@ -665,13 +658,7 @@ export default {
         }
       ],
       appMdList: [],
-      appTestData: [{
-        'taskNumber': 'MEC20201110001',
-        'appName': 'zoneminder',
-        'appVersion': 'v1.0',
-        'beginTime': '2020-11-10',
-        'status': 'Success'
-      }],
+      appTestData: [],
       isAddRuleData: true,
       trafficDialog: false,
       dnsDialog: false,
@@ -790,6 +777,20 @@ export default {
       if (!checkPassed) {
         this.appMdList = []
       }
+      if (this.appMdList.length > 0) {
+        this.uploadFile(this.appMdList)
+      }
+    },
+    uploadFile (fileList) {
+      let fd = new FormData()
+      fd.append('file', fileList[0])
+      Workspace.submitApiFileApi(this.userId, fd).then(res => {
+        this.trafficAllData.guideFileId = res.data.fileId
+        this.$message.success(this.$t('promptMessage.uploadSuccess'))
+      }).catch(() => {
+        fileList = []
+        this.$message.error(this.$t('promptMessage.uploadFailure'))
+      })
     },
     removeAppStoreMd (file, fileList) {
       this.appMdList = fileList
@@ -841,9 +842,11 @@ export default {
           internalPort: 0,
           version: '',
           protocol: 'HTTP',
+          apiJson: '',
+          apiMd: '',
           trafficRulesList: '',
           dnsRulesList: '',
-          groupId: ''
+          groupId: 'c0db376b-ae50-48fc-b9f7-58a609e3ee12'
         }
       }
     },
@@ -957,6 +960,7 @@ export default {
       this.trafficAllData.capabilitiesDetail.appTrafficRule = trafficDataTemp
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
+      this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
       console.log(this.trafficAllData)
       this.getReleaseConfig(this.trafficAllData)
     },
@@ -972,6 +976,35 @@ export default {
           })
         }
       })
+    },
+    // 获取集成测试列表
+    getAtpList () {
+      Workspace.getAtpListApi().then(res => {
+        let data = res.data
+        data.forEach((item, index) => {
+          let newDateBegin = this.dateChange(item.beginTime)
+          item.beginTime = newDateBegin
+        })
+        this.appTestData = res.data
+      })
+    },
+    dateChange (dateStr) {
+      if (dateStr) {
+        let date = new Date(Date.parse(dateStr))
+        let Y = date.getFullYear()
+        let M = date.getMonth() + 1
+        let D = date.getDate()
+        let H = date.getHours()
+        let m = date.getMinutes()
+        let s = date.getSeconds()
+        let changeDate = Y + '-' +
+      (M > 9 ? M : ('0' + M)) + '-' +
+      (D > 9 ? D : ('0' + D)) + ' ' +
+      (H > 9 ? H : ('0' + H)) + ':' +
+      (m > 9 ? m : ('0' + m)) + ':' +
+      (s > 9 ? s : ('0' + s))
+        return changeDate
+      }
     },
     releaseApp () {
       let appInstanceId = sessionStorage.getItem('csarId')
@@ -1003,6 +1036,7 @@ export default {
   },
   mounted () {
     this.getTestConfig()
+    this.getAtpList()
     this.getAppstoreUrl()
     this.getAllListData()
   },
