@@ -555,11 +555,10 @@
             <el-table-column
               :label="$t('test.testTask.operation')"
             >
-              <template slot-scope="scope">
+              <template>
                 <el-button
                   class="bgBtn"
                   size="small"
-                  :disabled="scope.row.status==='success'?false:true"
                   @click="releaseApp"
                 >
                   {{ $t('workspace.publish') }}
@@ -747,6 +746,7 @@ export default {
         this.step = 'step2'
       } else if (active === 2) {
         this.step = 'step3'
+        this.getAtpList()
       }
     },
     // 检查上传文件类型
@@ -971,7 +971,7 @@ export default {
           Workspace.getReleaseApi(this.projectId).then(response => {
             this.taskId = response.data.id
             this.setApiHeight()
-            this.iframeUrl = this.atpUrl + '?taskid=' + this.taskId
+            this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
             this.showAtp = true
           })
         }
@@ -982,8 +982,8 @@ export default {
       Workspace.getAtpListApi().then(res => {
         let data = res.data
         data.forEach((item, index) => {
-          let newDateBegin = this.dateChange(item.beginTime)
-          item.beginTime = newDateBegin
+          let newDateBegin = this.dateChange(item.createTime)
+          item.createTime = newDateBegin
         })
         this.appTestData = res.data
       })
@@ -1036,7 +1036,7 @@ export default {
   },
   mounted () {
     this.getTestConfig()
-    this.getAtpList()
+    // this.getAtpList()
     this.getAppstoreUrl()
     this.getAllListData()
   },
