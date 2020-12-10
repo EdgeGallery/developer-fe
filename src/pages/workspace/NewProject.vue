@@ -30,11 +30,6 @@
       >
         <el-step :title="$t('workspace.basicInformation')" />
         <el-step :title="$t('workspace.chooseAbilities')" />
-        <el-step :title="$t('workspace.selectionAbilitiesDetail')" />
-        <el-step
-          :title="fourthstepTitle"
-          v-if="newProjectShow"
-        />
       </el-steps>
       <component
         :is="currentComponent"
@@ -78,16 +73,12 @@ import { Capability } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
 import firstStep from './NewProjectFirst.vue'
 import secondStep from './NewProjectSecond2.vue'
-import thirdStep from './NewProjectThird.vue'
-import fourthStep from './NewProjectFourth.vue'
 import fourthStepMigration from './NewProjectFourth-migration.vue'
 export default {
   name: 'Newproject',
   components: {
     firstStep,
     secondStep,
-    thirdStep,
-    fourthStep,
     fourthStepMigration
   },
   props: {
@@ -141,12 +132,6 @@ export default {
           break
         case 1:
           this.currentComponent = 'secondStep'
-          break
-        case 2:
-          this.currentComponent = 'thirdStep'
-          break
-        case 3:
-          this.currentComponent = 'fourthStep'
           break
         default:
           this.currentComponent = 'firstStep'
