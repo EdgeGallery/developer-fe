@@ -205,7 +205,20 @@ const en = {
       tgtTunnelAddress: 'Tunnel destination address',
       dstTunnelPort: 'Tunnel destination port',
       srcTunnelAddress: 'Tunnel source address',
-      srcTunnelPort: 'Tunnel source port'
+      srcTunnelPort: 'Tunnel source port',
+      multipleIP: 'Please separate multiple IPs with\',\'',
+      multiplePort: 'Please separate multiple Ports with\',\'',
+      forwardInterface: 'Forward Interface Information',
+      newInterface: 'New Interface Information',
+      interfaceType: 'Interface Type',
+      tunnelType: 'Tunnel Type',
+      tunnelParams: 'Tunnel Specified Parameters',
+      macAddress: 'Destination MAC Address',
+      sourceMacAddress: 'Source MAC Address',
+      interfaceInfo: 'Interface Information',
+      tunnelInfo: 'Tunnel Information',
+      macInfo: 'MAC Information',
+      IpInfo: 'IP Information'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
@@ -507,7 +520,9 @@ const en = {
     saveRuleSuccess: 'Save the rule successfully',
     editRuleSuccess: 'Edit rule successfully',
     saveRuleFail: 'Failed to save rule',
-    editRuleFail: 'Edit rule failed'
+    editRuleFail: 'Edit rule failed',
+    appReleaseSuccess: 'Application published successfully',
+    appReleaseFail: 'Application publishing failed'
   },
   breadCrumb: {
     mecDeveloper: 'MEC Developer',
