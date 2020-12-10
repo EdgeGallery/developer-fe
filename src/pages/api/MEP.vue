@@ -24,9 +24,8 @@
         {{ $t('breadCrumb.mecDeveloper') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep' }">
-        API
+        {{ $t('nav.mepApi') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('nav.mepApi') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div
       class="mep-main clear"
@@ -36,11 +35,6 @@
         class="mep-tree"
         :class="{'scroll-top':scrollTop}"
       >
-        <div class="treetop_tit">
-          <p>
-            {{ $t('api.serviceList') }}
-          </p>
-        </div>
         <el-tree
           :data="treeData"
           default-expand-all
@@ -48,27 +42,61 @@
           ref="tree"
           :highlight-current="true"
           :props="defaultProps"
-          @node-click="handleNodeClick"
+          @node-click="handleTreeNodeClick"
           v-loading="treeDataLoading"
         />
       </div>
       <div
-        class="doc-div"
-        :class="{'doc-left':scrollTop,'doc-right':apiPage}"
+        class="service-content"
       >
-        <Document
-          :guide-file-idprop="guideFileId"
-        />
-      </div>
-      <div
-        class="api-div"
-        v-if="apiPage"
-      >
-        <API
-          :api-file-idprop="apiFileId"
-          :service-detailprop="serviceDetail"
-          :is-delete-apiprop="false"
-        />
+        <div
+          class="serviceSelctor"
+          v-if="showServiceList && serviceList.length > 0"
+        >
+          <div class="selectLabel">
+            {{ $t('api.serviceSelection') }}
+          </div>
+          <el-radio-group
+            v-model="selectedService"
+            @change="serviceSelectedChange"
+            size="medium"
+          >
+            <el-radio-button
+              v-for="item in serviceList"
+              :key="item.service"
+              :label="item.service"
+            >
+              {{ item.service }}
+            </el-radio-button>
+          </el-radio-group>
+        </div>
+        <div>
+          <div
+            class="doc-div"
+            :class="{'doc-left':scrollTop,'doc-right':showApiPage}"
+          >
+            <Document
+              :guide-file-idprop="guideFileId"
+              v-if="guideFileId"
+            />
+            <div
+              v-else
+              class="noServiceInfo"
+            >
+              {{ $t('api.noDataNotice') }}
+            </div>
+          </div>
+          <div
+            class="api-div"
+            v-if="showApiPage"
+          >
+            <API
+              :api-file-idprop="apiFileId"
+              :service-detailprop="serviceDetail"
+              :is-delete-apiprop="false"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -79,6 +107,7 @@ import Document from './Document.vue'
 import API from './API.vue'
 import { Capability } from '../../tools/project_data.js'
 import { Api } from '../../tools/api.js'
+
 export default {
   name: 'Mepapi',
   components: {
@@ -87,7 +116,8 @@ export default {
   },
   data () {
     return {
-      apiPage: false,
+      showServiceList: false,
+      showApiPage: false,
       guideFileId: '',
       language: localStorage.getItem('language'),
       treeData: [],
@@ -103,74 +133,149 @@ export default {
       },
       apiFileId: '',
       treeDataLoading: true,
-      scrollTop: false
+      scrollTop: false,
+      serviceList: [],
+      selectedService: ''
     }
   },
   methods: {
-    handleNodeClick (val) {
-      if (!val.children) {
-        this.guideFileId = val.docId
-        this.apiFileId = val.apiFileId
-        this.apiPage = true
-        this.serviceDetail.capabilityType = val.capabilityType
-        this.serviceDetail.serviceName = val.label
-        this.serviceDetail.uploadTime = val.uploadTime
-        this.serviceDetail.version = val.version
+    insetNewNode (groupData, tempTreeData) {
+      let firstLevelName = groupData.oneLevelName
+      let secondLevelName = groupData.twoLevelName
+      let thirdLevelName = groupData.threeLevelName
+      let obj = {
+        label: '',
+        children: []
+      }
+      if (secondLevelName) {
+        if (thirdLevelName) {
+          let secondeLevelChildren = []
+          secondeLevelChildren.push({ label: thirdLevelName, groupId: groupData.groupId })
+          obj.children.push({
+            label: secondLevelName,
+            children: secondeLevelChildren
+          })
+        } else {
+          obj.children.push({
+            label: secondLevelName,
+            groupId: groupData.groupId
+          })
+        }
+      }
+      obj.label = firstLevelName
+      tempTreeData.push(obj)
+      return tempTreeData
+    },
+    showUsageInstru () {
+      this.showServiceList = false
+      this.guideFileId = '' // 使用说明file
+      this.showApiPage = false
+    },
+    handleTreeNodeClick (val) {
+      if (val.isInstruction) {
+        this.showUsageInstru()
+      } else {
+        if (!val.children) {
+          this.showServiceList = true
+          Api.getServiceListApi(val.groupId).then(res => {
+            if (res.data && res.data.capabilityDetailList) {
+              let tmpServiceList = res.data.capabilityDetailList
+              tmpServiceList = tmpServiceList.filter((item) => {
+                return item.service
+              })
+              if (tmpServiceList.length > 0) {
+                this.serviceList = tmpServiceList
+                this.serviceDetail.capabilityType = res.data.twoLevelName
+                this.selectedService = tmpServiceList[0].service
+                this.$nextTick().then(() => {
+                  this.serviceSelectedChange(this.selectedService)
+                })
+              } else {
+                this.serviceList = []
+                this.guideFileId = ''
+                this.showApiPage = false
+              }
+            } else {
+              this.serviceList = []
+              this.guideFileId = ''
+              this.showApiPage = false
+            }
+          })
+          this.checkProjectData()
+          document.getElementsByClassName('el-main')[0].scrollTop = 0
+        }
+      }
+    },
+    serviceSelectedChange (seletedLabel) {
+      for (let i = 0; i < this.serviceList.length; i++) {
+        if (this.serviceList[i].service === seletedLabel) {
+          this.guideFileId = this.serviceList[i].guideFileId
+          this.apiFileId = this.serviceList[i].apiFileId
+          this.showApiPage = true
+          this.serviceDetail.serviceName = this.serviceList[i].service
+          this.serviceDetail.uploadTime = this.serviceList[i].uploadTime
+          this.serviceDetail.version = this.serviceList[i].version
+          break
+        }
       }
       this.checkProjectData()
       document.getElementsByClassName('el-main')[0].scrollTop = 0
     },
-    // 获取服务列表
-    getServiceList () {
-      Api.getServiceApi('OPENMEP').then(res => {
-        let treeDataTemp = []
-        treeDataTemp = res.data.openCapability
-        for (let i in treeDataTemp) {
-          let obj = {
-            label: '',
-            children: []
-          }
-          let type = treeDataTemp[i].type
-          this.checkProjectData()
-          obj.label = treeDataTemp[i].name
-          let serviceTemp = treeDataTemp[i].capabilityDetailList
-          for (let j in serviceTemp) {
-            let subObj = {
-              id: 0,
-              label: '',
-              apiFileId: '',
-              userId: '',
-              type: '',
-              capabilityType: '',
-              uploadTime: '',
-              version: '',
-              docId: ''
+    // 获取所有能力组
+    getCapabilityGroups () {
+      Api.getCapabilityGroupsApi().then(res => {
+        let groupDataFromServer = res.data
+        let tempTreeData = []
+        for (let i = 0; i < groupDataFromServer.length; i++) {
+          let firstLevelName = groupDataFromServer[i].oneLevelName
+          let secondLevelName = groupDataFromServer[i].twoLevelName
+          let thirdLevelName = groupDataFromServer[i].threeLevelName
+          let sameFirstNameItem = tempTreeData.filter(function (item) {
+            if (item.label === firstLevelName) {
+              return item
             }
-            subObj.id = j
-            subObj.label = serviceTemp[j].service
-            subObj.apiFileId = serviceTemp[j].apiFileId
-            subObj.userId = serviceTemp[j].userId
-            subObj.type = type
-            subObj.capabilityType = treeDataTemp[i].name
-            let timeStr = this.dateChange(serviceTemp[j].uploadTime)
-            subObj.uploadTime = timeStr
-            subObj.version = serviceTemp[j].version
-            subObj.docId = serviceTemp[j].guideFileId
-            obj.children.push(subObj)
-          }
-          this.treeData.push(obj)
-        }
-        if (this.treeData.length > 0) {
-          this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
-            firstNode.click()
           })
+          if (sameFirstNameItem.length > 0) {
+            let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
+              if (item.label === secondLevelName) {
+                return item
+              }
+            })
+            if (sameSecondNameItem.length > 0) {
+              if (thirdLevelName) {
+                if (sameSecondNameItem[0].children) {
+                  sameSecondNameItem[0].children.push({ label: thirdLevelName, groupId: groupDataFromServer[i].groupId })
+                } else {
+                  sameSecondNameItem[0].children = [].concat({ label: thirdLevelName, groupId: groupDataFromServer[i].groupId })
+                }
+              }
+            } else {
+              if (thirdLevelName) {
+                sameFirstNameItem[0].children.push({ label: secondLevelName, groupId: groupDataFromServer[i].groupId, children: { label: thirdLevelName, groupId: groupDataFromServer[i].groupId } })
+              } else {
+                sameFirstNameItem[0].children.push({ label: secondLevelName, groupId: groupDataFromServer[i].groupId })
+              }
+            }
+          } else {
+            tempTreeData = this.insetNewNode(groupDataFromServer[i], tempTreeData)
+          }
         }
-        this.checkProjectData()
-        this.divHeight('mep-tree', 0, 195)
-        this.divHeight('el-tree', 0, 255)
-        this.treeDataLoading = false
+        this.treeData = [{
+          label: this.$t('api.usageInstruction'),
+          isInstruction: true
+        }, {
+          label: this.$t('api.applicationCategory'),
+          children: tempTreeData
+        }]
+        this.$nextTick().then(() => {
+          const firstNode = document.querySelector('.el-tree-node__content')
+          firstNode.click()
+        })
       })
+      this.checkProjectData()
+      this.divHeight('mep-tree', 0, 195)
+      this.divHeight('el-tree', 0, 255)
+      this.treeDataLoading = false
     },
     // 获取树状导航距离顶部高度
     getTreeTop () {
@@ -224,7 +329,7 @@ export default {
     }
   },
   mounted () {
-    this.getServiceList()
+    this.getCapabilityGroups()
     window.addEventListener('scroll', this.getTreeTop, true)
     window.onresize = () => {
       return (() => {
@@ -260,15 +365,6 @@ export default {
       padding: 20px 0px;
       background-color: #f7f7f7;
       overflow-y: hidden;
-      .treetop_tit{
-        font-size: 14px;
-        border-bottom: 1px solid #ddd;
-        p{
-          height: 35px;
-          line-height: 35px;
-          padding-left: 25px;
-        }
-      }
     }
     .mep-tree.scroll-top{
       position: fixed;
@@ -302,15 +398,28 @@ export default {
       border-radius: 10px;
       background: rgba(0,0,0,0.1);
     }
+    .service-content{
+      margin-left: 270px;
+      .serviceSelctor{
+        width: 100%;
+        padding: 0.5rem;
+        .selectLabel{
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
     .doc-div{
       float: left;
-      width: calc(100% - 270px);
-    }
-    .doc-div.doc-left{
-      margin-left: 270px;
+      width: 100%;
+      .noServiceInfo{
+        text-align: center;
+      }
     }
     .doc-div.doc-right{
-      width: calc(100% - 770px);
+      width: calc(100% - 500px);
+      .noServiceInfo{
+        text-align: center;
+      }
     }
     .api-div{
       float: left;

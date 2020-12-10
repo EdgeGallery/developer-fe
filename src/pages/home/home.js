@@ -36,7 +36,7 @@ const commonApp = [
     title: 'home.commonApiTitle',
     src: require('../../assets/images/home_step3.svg'),
     desc: 'home.commonApiText',
-    link: '/mecDeveloper/api/mep-eco',
+    link: '/mecDeveloper/api/mep',
     elementId: 'commomApi'
   },
   {

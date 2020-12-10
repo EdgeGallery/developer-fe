@@ -99,6 +99,14 @@ let Api = {
   // 删除公开的API
   deletePublicApi: function (capabilityId, userId) {
     return Delete('mec/developer/v1/capability-groups/capabilities/' + capabilityId + '?userId=' + userId)
+  },
+  // 获取所有能力组
+  getCapabilityGroupsApi: function () {
+    return Get('mec/developer/v1/capability-groups')
+  },
+  // 获取某group下的服务列表
+  getServiceListApi: function (groupId) {
+    return Get('mec/developer/v1/capability-groups/' + groupId)
   }
 }
 
