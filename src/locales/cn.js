@@ -205,7 +205,20 @@ const cn = {
       tgtTunnelAddress: '隧道目的地址',
       dstTunnelPort: '隧道目的端口',
       srcTunnelAddress: '隧道源地址',
-      srcTunnelPort: '隧道源端口'
+      srcTunnelPort: '隧道源端口',
+      multipleIP: '多个IP请用\',\'分隔',
+      multiplePort: '多个端口请用\',\'分隔',
+      forwardInterface: '转发接口信息',
+      newInterface: '新增接口信息',
+      interfaceType: '接口类型',
+      tunnelType: '隧道类型',
+      tunnelParams: '隧道指定参数',
+      macAddress: '目的MAC地址',
+      sourceMacAddress: '源MAC地址',
+      interfaceInfo: '接口信息',
+      tunnelInfo: '隧道信息',
+      macInfo: 'MAC信息',
+      IpInfo: 'IP信息'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',
@@ -507,7 +520,9 @@ const cn = {
     saveRuleSuccess: '保存规则成功',
     editRuleSuccess: '编辑规则成功',
     saveRuleFail: '保存规则失败',
-    editRuleFail: '编辑规则失败'
+    editRuleFail: '编辑规则失败',
+    appReleaseSuccess: '应用发布成功',
+    appReleaseFail: '应用发布失败'
   },
   breadCrumb: {
     mecDeveloper: 'MEC开发者',

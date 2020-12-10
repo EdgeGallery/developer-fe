@@ -126,21 +126,21 @@
             />
             <el-table-column
               prop="tgtTunnelAddress"
-              label="隧道目的地址"
+              :label="$t('workspace.appRelease.tgtTunnelAddress')"
             />
             <el-table-column
               prop="dstTunnelPort"
-              label="隧道目的端口"
+              :label="$t('workspace.appRelease.dstTunnelPort')"
               width="120px"
             />
             <el-table-column
               prop="srcTunnelAddress"
-              label="隧道源地址"
+              :label="$t('workspace.appRelease.srcTunnelAddress')"
               width="120px"
             />
             <el-table-column
               prop="srcTunnelPort"
-              label="隧道源端口"
+              :label="$t('workspace.appRelease.srcTunnelPort')"
               width="120px"
             />
             <el-table-column
@@ -190,14 +190,14 @@
         <!-- 新增interface -->
         <div v-if="trafficRule.action==='FORWARD_DECAPSULATED'||trafficRule.action==='FORWARD_AS_IS'">
           <p class="title">
-            转发接口信息
+            {{ $t('workspace.appRelease.forwardInterface') }}
             <el-button-group class="rt">
               <el-button
                 type="text"
                 class="btn"
                 @click="addNewInterface()"
               >
-                新增接口信息
+                {{ $t('workspace.appRelease.newInterface') }}
               </el-button>
             </el-button-group>
           </p>
@@ -213,36 +213,36 @@
             >
               <el-table-column
                 prop="interfaceType"
-                label="接口类型"
+                :label="$t('workspace.appRelease.interfaceType')"
               />
               <el-table-column
                 prop="tunnelInfo.tunnelType"
-                label="隧道类型"
+                :label="$t('workspace.appRelease.tunnelType')"
               />
               <el-table-column
                 prop="tunnelInfo.tunnelDstAddress"
-                label="隧道目的地址"
+                :label="$t('workspace.appRelease.tgtTunnelAddress')"
                 width="120px"
               />
               <el-table-column
                 prop="tunnelInfo.tunnelSrcAddress"
-                label="隧道源地址"
+                :label="$t('workspace.appRelease.srcTunnelAddress')"
               />
               <el-table-column
                 prop="tunnelInfo.tunnelSpecificData"
-                label="隧道指定参数"
+                :label="$t('workspace.appRelease.tunnelParams')"
               />
               <el-table-column
                 prop="dstMACAddress"
-                label="目的MAC地址"
+                :label="$t('workspace.appRelease.macAddress')"
               />
               <el-table-column
                 prop="srcMACAddress"
-                label="源MAC地址"
+                :label="$t('workspace.appRelease.sourceMacAddress')"
               />
               <el-table-column
                 prop="dstIPAddress"
-                label="目的IP地址"
+                :label="$t('workspace.appRelease.dstAddress')"
               />
               <el-table-column
                 :label="$t('workspace.operation')"
@@ -275,48 +275,59 @@
 
         <!-- Filter dialog -->
         <el-dialog
-          width="50%"
-          title="分流规则"
+          width="60%"
+          :title="$t('workspace.appRelease.trafficRule')"
           :visible.sync="innerFilterVisible"
           append-to-body
           :close-on-click-modal="false"
         >
           <el-row>
-            <el-form label-width="125px">
+            <el-form
+              label-width="125px"
+              class="filter_add"
+            >
               <el-col :span="12">
                 <el-form-item :label="$t('workspace.appRelease.srcAddress')">
                   <el-input
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.srcAddress"
-                    placeholder="多个IP请用','分割"
                   />
+                  <p class="input_promt">
+                    {{ $t('workspace.appRelease.multipleIP') }}
+                  </p>
                 </el-form-item>
                 <el-form-item :label="$t('workspace.appRelease.srcPort')">
                   <el-input
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.srcPort"
-                    placeholder="多个端口请用','分割"
                   />
+                  <p class="input_promt">
+                    {{ $t('workspace.appRelease.multiplePort') }}
+                  </p>
                 </el-form-item>
                 <el-form-item :label="$t('workspace.appRelease.dstAddress')">
                   <el-input
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.dstAddress"
-                    placeholder="多个IP请用','分割"
                   />
+                  <p class="input_promt">
+                    {{ $t('workspace.appRelease.multipleIP') }}
+                  </p>
                 </el-form-item>
                 <el-form-item :label="$t('workspace.appRelease.dstPort')">
                   <el-input
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.dstPort"
-                    placeholder="多个端口请用','分割"
                   />
+                  <p class="input_promt">
+                    {{ $t('workspace.appRelease.multiplePort') }}
+                  </p>
                 </el-form-item>
-                <el-form-item label="标签">
+                <el-form-item :label="$t('workspace.appRelease.tag')">
                   <el-input
                     v-model="trafficFilter.tag"
                   />
@@ -351,22 +362,22 @@
                     v-model="trafficFilter.tc"
                   />
                 </el-form-item>
-                <el-form-item label="隧道目的地址">
+                <el-form-item :label="$t('workspace.appRelease.tgtTunnelAddress')">
                   <el-input
                     v-model="trafficFilter.tgtTunnelAddress"
                   />
                 </el-form-item>
-                <el-form-item label="隧道目的端口">
+                <el-form-item :label="$t('workspace.appRelease.dstTunnelPort')">
                   <el-input
                     v-model="trafficFilter.dstTunnelPort"
                   />
                 </el-form-item>
-                <el-form-item label="隧道源地址">
+                <el-form-item :label="$t('workspace.appRelease.srcTunnelAddress')">
                   <el-input
                     v-model="trafficFilter.srcTunnelAddress"
                   />
                 </el-form-item>
-                <el-form-item label="隧道源端口">
+                <el-form-item :label="$t('workspace.appRelease.srcTunnelPort')">
                   <el-input
                     v-model="trafficFilter.srcTunnelPort"
                   />
@@ -379,21 +390,21 @@
             class="dialog-footer"
           >
             <el-button @click="cancelEditFilter()">
-              取 消
+              {{ $t('common.cancel') }}
             </el-button>
             <el-button
               type="primary"
               @click="confirmToAddFilter()"
             >
-              确认
+              {{ $t('common.confirm') }}
             </el-button>
           </div>
         </el-dialog>
 
         <!-- interface dialog -->
         <el-dialog
-          width="30%"
-          title="接口信息"
+          width="50%"
+          :title="$t('workspace.appRelease.interfaceInfo')"
           :visible.sync="innerInterfaceVisible"
           append-to-body
           :close-on-click-modal="false"
@@ -401,7 +412,7 @@
           <el-row>
             <el-form label-width="125px">
               <p class="title">
-                接口信息
+                {{ $t('workspace.appRelease.interfaceInfo') }}
               </p>
               <el-form-item
                 label="interfaceType"
@@ -420,9 +431,9 @@
               </el-form-item>
               <div v-if="dstInterface.interfaceType==='TUNNEL'">
                 <p class="title">
-                  隧道信息
+                  {{ $t('workspace.appRelease.tunnelInfo') }}
                 </p>
-                <el-form-item label="隧道类型">
+                <el-form-item :label="$t('workspace.appRelease.tunnelType')">
                   <el-select
                     v-model="dstInterface.tunnelInfo.tunnelType"
                     :placeholder="$t('common.select')"
@@ -435,17 +446,17 @@
                     />
                   </el-select>
                 </el-form-item>
-                <el-form-item label="隧道源地址">
+                <el-form-item :label="$t('workspace.appRelease.srcTunnelAddress')">
                   <el-input
                     v-model="dstInterface.tunnelInfo.tunnelSrcAddress"
                   />
                 </el-form-item>
-                <el-form-item label="隧道目的地址">
+                <el-form-item :label="$t('workspace.appRelease.tgtTunnelAddress')">
                   <el-input
                     v-model="dstInterface.tunnelInfo.tunnelDstAddress"
                   />
                 </el-form-item>
-                <el-form-item label="隧道指定参数">
+                <el-form-item :label="$t('workspace.appRelease.tunnelParams')">
                   <el-input
                     v-model="dstInterface.tunnelInfo.tunnelSpecificData"
                   />
@@ -453,14 +464,14 @@
               </div>
               <div v-if="dstInterface.interfaceType==='MAC'">
                 <p class="title">
-                  MAC信息
+                  {{ $t('workspace.appRelease.macInfo') }}
                 </p>
-                <el-form-item label="源MAC地址">
+                <el-form-item :label="$t('workspace.appRelease.sourceMacAddress')">
                   <el-input
                     v-model="dstInterface.srcMACAddress"
                   />
                 </el-form-item>
-                <el-form-item label="目的MAC地址">
+                <el-form-item :label="$t('workspace.appRelease.macAddress')">
                   <el-input
                     v-model="dstInterface.dstMACAddress"
                   />
@@ -468,9 +479,9 @@
               </div>
               <div v-if="dstInterface.interfaceType==='IP'">
                 <p class="title">
-                  IP信息
+                  {{ $t('workspace.appRelease.IpInfo') }}
                 </p>
-                <el-form-item label="目的IP地址">
+                <el-form-item :label="$t('workspace.appRelease.dstAddress')">
                   <el-input
                     v-model="dstInterface.dstIPAddress"
                   />
@@ -483,13 +494,13 @@
             class="dialog-footer"
           >
             <el-button @click="cancelEditInterface()">
-              取 消
+              {{ $t('common.cancel') }}
             </el-button>
             <el-button
               type="primary"
               @click="confirmToAddInterface()"
             >
-              确认
+              {{ $t('common.confirm') }}
             </el-button>
           </div>
         </el-dialog>
@@ -710,19 +721,19 @@ export default {
     },
     addNewFilter () {
       this.trafficFilter = {
-        srcAddress: '',
-        srcPort: '',
-        dstAddress: '',
-        dstPort: '',
-        protocol: '',
-        tag: '',
+        srcAddress: '0.0.0.0/0',
+        srcPort: '8080',
+        dstAddress: '172.30.2.0/28',
+        dstPort: '8080',
+        protocol: 'ANY',
+        tag: '1234',
         qci: 1,
         dscp: 0,
         tc: 1,
-        srcTunnelAddress: '',
-        srcTunnelPort: '',
-        tgtTunnelAddress: '',
-        dstTunnelPort: ''
+        srcTunnelAddress: '10.10.10.10',
+        srcTunnelPort: '8080',
+        tgtTunnelAddress: '10.10.10.10',
+        dstTunnelPort: '8080'
       }
       this.innerFilterVisible = true
       this.addType = 1
@@ -830,5 +841,14 @@ export default {
     position: relative;
     top: -10px;
     padding-right: 7px;;
+  }
+  .el-form-item__content{
+    line-height: none;
+  }
+  .input_promt{
+    font-size: 12px;
+    color: #ccc;
+    height: 15px;
+    margin-top: 5px;
   }
 </style>

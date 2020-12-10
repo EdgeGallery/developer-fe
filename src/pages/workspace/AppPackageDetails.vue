@@ -29,6 +29,7 @@
           class="file_list"
         >
           <el-tree
+            class="appDetail"
             :data="appPageListData"
             default-expand-all
             node-key="id"
@@ -82,7 +83,7 @@ export default {
         this.appPageListData = res.data.children
         if (this.appPageListData.length > 0) {
           this.$nextTick(function () {
-            const firstNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+            const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
             firstNode.click()
             console.log(firstNode)
           })

@@ -42,7 +42,7 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ item.appName }}
+              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ item.name }}
             </el-col>
             <el-col
               :sm="10"
@@ -62,7 +62,7 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ item.architecture }}
+              <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ item.platform[0] }}
             </el-col>
           </el-row>
           <el-row>
@@ -84,7 +84,7 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ item.platform }}
+              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ item.deployPlatform }}
             </el-col>
             <el-col
               :sm="10"
@@ -567,7 +567,7 @@
                   class="bgBtn"
                   size="small"
                   :disabled="scope.row.status==='Success'?false:true"
-                  @click="dialogAppPublicSuccess=true"
+                  @click="releaseApp"
                 >
                   {{ $t('workspace.publish') }}
                 </el-button>
@@ -654,13 +654,13 @@ export default {
       step: 'step1',
       projectDetailData: [
         {
-          appName: 'Video_Surveillance_app',
+          name: 'Video_Surveillance_app',
           type: 'Video Application',
           version: 'v1.0',
-          architecture: 'X86',
+          platform: ['X86'],
           service: 'Face Recognition',
           instantiateId: 'sdre635',
-          platform: 'Kubernetes',
+          deployPlatform: 'Kubernetes',
           status: 'Success'
         }
       ],
@@ -671,13 +671,6 @@ export default {
         'appVersion': 'v1.0',
         'beginTime': '2020-11-10',
         'status': 'Success'
-      },
-      {
-        'taskNumber': 'MEC20201110001',
-        'appName': 'zoneminder',
-        'appVersion': 'v1.0',
-        'beginTime': '2020-11-10',
-        'status': 'Failed'
       }],
       isAddRuleData: true,
       trafficDialog: false,
@@ -713,12 +706,21 @@ export default {
       appDetaildialog: false,
       dialogAppPublicSuccess: false,
       appStoreUrl: '',
+      atpUrl: '',
       showAtp: false,
       iframeUrl: '',
-      projectId: sessionStorage.getItem('mecDetailID')
+      projectId: sessionStorage.getItem('mecDetailID'),
+      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName'),
+      taskId: ''
     }
   },
   methods: {
+    getProjectInfo () {
+      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        this.projectDetailData = res.data
+      })
+    },
     getTestConfig () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
@@ -960,10 +962,25 @@ export default {
     },
     // 集成应用测试页面
     getAtpTest () {
-      Workspace.getAtpTestApi(this.projectId)
-      this.setApiHeight()
-      this.showAtp = true
-      this.iframeUrl = 'https://www.baidu.com'
+      Workspace.getAtpTestApi(this.projectId).then(res => {
+        if (res.data) {
+          Workspace.getReleaseApi(this.projectId).then(response => {
+            this.taskId = response.data.id
+            this.setApiHeight()
+            this.iframeUrl = this.appStoreUrl + '?taskid=' + this.taskId
+            this.showAtp = true
+          })
+        }
+      })
+    },
+    releaseApp () {
+      let appInstanceId = sessionStorage.getItem('csarId')
+      Workspace.isPublishApi(appInstanceId, this.projectId, this.userId, this.userName).then(() => {
+        this.$message.success(this.$t('promptMessage.appReleaseSuccess'))
+        this.dialogAppPublicSuccess = true
+      }).catch(() => {
+        this.$message.error(this.$t('promptMessage.appReleaseFail'))
+      })
     },
     // 关闭弹框
     closeDialog (data) {
@@ -975,8 +992,10 @@ export default {
       let currUrl = window.location.href
       if (currUrl.indexOf('30092') !== -1) {
         this.appStoreUrl = 'https://' + currUrl.split('//')[1].split(':')[0] + ':30091'
+        this.atpUrl = 'https://' + currUrl.split('//')[1].split(':')[0] + ':30094'
       } else {
         this.appStoreUrl = currUrl.replace('developer', 'appstore')
+        this.atpUrl = currUrl.replace('developer', 'atp')
       }
     }
   },
@@ -1084,9 +1103,9 @@ export default {
       .el-tabs__item{
         height: 15px;
         line-height: 15px;
-        padding: 0 30px 0 0;
+        padding: 0 20px;
         font-size: 14px;
-        margin:0 30px 18px 0;
+        margin:0 0 18px 0;
         border-right: 1px solid #ddd;
         border-radius: 0;
       }
