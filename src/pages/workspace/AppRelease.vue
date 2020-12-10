@@ -971,7 +971,7 @@ export default {
           Workspace.getReleaseApi(this.projectId).then(response => {
             this.taskId = response.data.id
             this.setApiHeight()
-            this.iframeUrl = this.appStoreUrl + '?taskid=' + this.taskId
+            this.iframeUrl = this.atpUrl + '?taskid=' + this.taskId
             this.showAtp = true
           })
         }
