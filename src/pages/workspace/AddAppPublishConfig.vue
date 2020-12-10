@@ -181,6 +181,7 @@
 </template>
 
 <script>
+import { Workspace } from '../../tools/api.js'
 export default {
   props: {
     value: {
@@ -209,7 +210,8 @@ export default {
       optionsDnsRules: [],
       formLabelWidth: '0px',
       apiFileList: [],
-      apiMdList: []
+      apiMdList: [],
+      userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
@@ -276,6 +278,9 @@ export default {
       if (!checkPassed) {
         this.apiFileList = []
       }
+      if (this.apiFileList.length > 0) {
+        this.uploadFile(this.apiFileList, 'api')
+      }
     },
     removeUploadapi (file, fileList) {
       this.apiFileList = fileList
@@ -293,9 +298,31 @@ export default {
       if (!checkPassed) {
         this.apiMdList = []
       }
+      if (this.apiMdList.length > 0) {
+        this.uploadFile(this.apiMdList, 'md')
+      }
     },
     removeApiMd (file, fileList) {
       this.apiMdList = fileList
+    },
+    uploadFile (fileList, name) {
+      let fd = new FormData()
+      fd.append('file', fileList[0])
+      Workspace.submitApiFileApi(this.userId, fd).then(res => {
+        if (name === 'api') {
+          this.form.apiJson = res.data.fileId
+        } else if (name === 'md') {
+          this.form.apiMd = res.data.fileId
+        }
+        this.$message.success(this.$t('promptMessage.uploadSuccess'))
+      }).catch(() => {
+        if (name === 'api') {
+          this.apiFileList = []
+        } else if (name === 'md') {
+          this.apiMdList = []
+        }
+        this.$message.error(this.$t('promptMessage.uploadFailure'))
+      })
     },
     addPublicConfig () {
       this.form.trafficRulesList = this.form.trafficRulesList.join(',')
