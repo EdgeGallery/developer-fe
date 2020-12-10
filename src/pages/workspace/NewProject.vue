@@ -30,11 +30,6 @@
       >
         <el-step :title="$t('workspace.basicInformation')" />
         <el-step :title="$t('workspace.chooseAbilities')" />
-        <el-step :title="$t('workspace.selectionAbilitiesDetail')" />
-        <el-step
-          :title="fourthstepTitle"
-          v-if="newProjectShow"
-        />
       </el-steps>
       <component
         :is="currentComponent"
@@ -56,14 +51,14 @@
         <el-button
           id="nextBtn"
           @click="nextStep"
-          v-if="active<activeProject"
+          v-if="active<1"
           class="nextStep"
           :disabled="isGuest"
         >{{ $t('workspace.next') }}</el-button>
         <el-button
           id="confirmBtn"
           type="primary"
-          v-if="active>=activeProject"
+          v-if="active>=1"
           :loading="uploadBtnLoading"
           @click="onSubmit"
           class="confirm"
@@ -77,17 +72,13 @@
 import { Capability } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
 import firstStep from './NewProjectFirst.vue'
-import secondStep from './NewProjectSecond.vue'
-import thirdStep from './NewProjectThird.vue'
-import fourthStep from './NewProjectFourth.vue'
+import secondStep from './NewProjectSecond2.vue'
 import fourthStepMigration from './NewProjectFourth-migration.vue'
 export default {
   name: 'Newproject',
   components: {
     firstStep,
     secondStep,
-    thirdStep,
-    fourthStep,
     fourthStepMigration
   },
   props: {
@@ -109,7 +100,7 @@ export default {
     },
     activeProjectprop: {
       type: Number,
-      default: 3
+      default: 1
     }
   },
   data () {
@@ -141,12 +132,6 @@ export default {
           break
         case 1:
           this.currentComponent = 'secondStep'
-          break
-        case 2:
-          this.currentComponent = 'thirdStep'
-          break
-        case 3:
-          this.currentComponent = 'fourthStep'
           break
         default:
           this.currentComponent = 'firstStep'
@@ -245,6 +230,7 @@ export default {
     },
     // 提交上传
     onSubmit () {
+      this.$refs.currentComponet.emitStepData()
       this.getApplicationProject()
     },
     handleClose () {

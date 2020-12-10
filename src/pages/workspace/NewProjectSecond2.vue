@@ -54,7 +54,8 @@
               <el-checkbox-button
                 v-for="capabilityDetail in capaList.capabilityDetailList"
                 :label="capabilityDetail"
-                :key="capabilityDetail"
+                :key="capabilityDetail.service"
+                @change="handleClickService(capabilityDetail)"
               >
                 {{ capabilityDetail.service }}
               </el-checkbox-button>
@@ -68,6 +69,7 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
+import { Capability, Type } from '../../tools/project_data.js'
 export default {
   props: {
     allStepData: {
@@ -81,7 +83,6 @@ export default {
       groupId: '',
       tree: [],
       tags: [],
-
       groups: [
         {
           'groupId': 'c0db376b-ae50-48fc-b9f7-58a609e3ee12',
@@ -212,18 +213,12 @@ export default {
       ],
 
       capability: [],
-      capabilityEco: [],
-      secondStepAll: {
-        selectCapabilityId: [],
-        capabilitySelected: []
-      },
       secondStepSelect: {
         selectCapabilityId: [],
         capabilitySelected: []
       },
+      thirdStepSelection: [],
       capabilityList: [],
-      capabilityEcoList: [],
-      selectCapabilityAll: [],
       capabilityLoading: true,
       language: localStorage.getItem('language'),
       capaList: {
@@ -277,14 +272,18 @@ export default {
     }
   },
   created () {},
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      this.language = language
+    }
+  },
   mounted () {
     this.getCapabilityGroups()
-    // this.buildTree()
   },
   methods: {
     // 退回到第二步时，保留上一次选择
     buildTree () {
-      console.log(this.groups)
       let oneLevelSet = new Set()
       for (let i in this.groups) {
         if (this.groups[i].oneLevelName !== null && !oneLevelSet.has(this.groups[i].oneLevelName)) {
@@ -312,7 +311,6 @@ export default {
           }
         }
       }
-      console.log(this.tree)
     },
     handleNodeClick (data) {
       if (!data.children) {
@@ -328,6 +326,8 @@ export default {
       if (!set.has(data)) {
         this.tags.push(data)
       }
+      this.updateCapabilitySelected()
+      this.updateThirdStepSelection()
     },
     handleDeleteTag (tag) {
       this.tags.splice(this.tags.indexOf(tag), 1)
@@ -335,6 +335,8 @@ export default {
       if (index !== -1) {
         this.tags.splice(index, 1)
       }
+      this.updateCapabilitySelected()
+      this.updateThirdStepSelection()
     },
     async getCapabilityGroups () {
       this.groups = []
@@ -343,6 +345,8 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+      this.buildTree()
+      this.checkProjectData(this.groups)
     },
     getCapaList () {
       Workspace.getServiceListApi(this.groupId).then(res => {
@@ -352,8 +356,53 @@ export default {
       })
     },
     emitStepData () {
-      this.$emit('getStepData', { data: '', step: 'second' })
+      console.log('before send to parent' + this.secondStepSelect)
+      this.$emit('getStepData', { data: this.secondStepSelect, step: 'second' })
+      this.$emit('getStepData', { data: this.thirdStepSelection, step: 'third' })
+    },
+    updateCapabilitySelected () {
+      let cachedCapabilitySelected = []
+      let cachedSelectCapabilityId = []
+      for (let tag of this.tags) {
+        for (let group of this.groups) {
+          if (tag.groupId === group.groupId) {
+            cachedCapabilitySelected.push(group)
+            cachedSelectCapabilityId.push(group.groupId)
+          }
+        }
+      }
+      this.secondStepSelect.capabilitySelected = Array.from(new Set([...cachedCapabilitySelected]))
+      this.secondStepSelect.selectCapabilityId = Array.from(new Set([...cachedSelectCapabilityId]))
+      console.log('after updated!' + this.secondStepSelect)
+    },
+    updateThirdStepSelection () {
+      let cachedThirdStepSelection = []
+      for (let tag of this.tags) {
+        cachedThirdStepSelection.push(tag)
+      }
+      this.thirdStepSelection = cachedThirdStepSelection
+      console.log(this.thirdStepSelection)
+    },
+    // 平台能力和开放能力中英文切换
+    checkProjectData (checkArr) {
+      checkArr.forEach(itemBe => {
+        Capability.forEach(itemFe => {
+          if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
+            itemBe.name = itemFe.label[0]
+          } else if (itemBe.name === itemFe.label[1] && this.language === 'en') {
+            itemBe.name = itemFe.label[1]
+          }
+        })
+        Type.forEach(itemFe => {
+          if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
+            itemBe.name = itemFe.label[0]
+          } else if (itemBe.name === itemFe.label[1] && this.language === 'en') {
+            itemBe.name = itemFe.label[1]
+          }
+        })
+      })
     }
+
   }
 }
 </script>
