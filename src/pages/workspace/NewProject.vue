@@ -56,14 +56,14 @@
         <el-button
           id="nextBtn"
           @click="nextStep"
-          v-if="active<activeProject"
+          v-if="active<1"
           class="nextStep"
           :disabled="isGuest"
         >{{ $t('workspace.next') }}</el-button>
         <el-button
           id="confirmBtn"
           type="primary"
-          v-if="active>=activeProject"
+          v-if="active>=1"
           :loading="uploadBtnLoading"
           @click="onSubmit"
           class="confirm"
@@ -77,7 +77,7 @@
 import { Capability } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
 import firstStep from './NewProjectFirst.vue'
-import secondStep from './NewProjectSecond.vue'
+import secondStep from './NewProjectSecond2.vue'
 import thirdStep from './NewProjectThird.vue'
 import fourthStep from './NewProjectFourth.vue'
 import fourthStepMigration from './NewProjectFourth-migration.vue'
@@ -109,7 +109,7 @@ export default {
     },
     activeProjectprop: {
       type: Number,
-      default: 3
+      default: 1
     }
   },
   data () {
@@ -245,6 +245,7 @@ export default {
     },
     // 提交上传
     onSubmit () {
+      this.$refs.currentComponet.emitStepData()
       this.getApplicationProject()
     },
     handleClose () {
