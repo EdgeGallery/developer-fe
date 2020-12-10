@@ -969,7 +969,7 @@ export default {
       Workspace.getAtpTestApi(this.projectId).then(res => {
         if (res.data) {
           Workspace.getReleaseApi(this.projectId).then(response => {
-            this.taskId = response.data.id
+            this.taskId = response.data.atpTest.id
             this.setApiHeight()
             this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
             this.showAtp = true
