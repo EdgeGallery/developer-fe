@@ -295,8 +295,8 @@ let Workspace = {
     return Put('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
   },
   // 发布APP到Appstore
-  isPublishApi: function (appInstanceId, projectId, userId, userName) {
-    return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName + '&appInstanceId=' + appInstanceId, '')
+  isPublishApi: function (projectId, userId, userName) {
+    return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName, '')
   },
   // 公开APP的API能力
   isPublicApi: function (projectId, userId) {

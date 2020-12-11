@@ -1005,8 +1005,7 @@ export default {
       }
     },
     releaseApp () {
-      let appInstanceId = sessionStorage.getItem('csarId')
-      Workspace.isPublishApi(appInstanceId, this.projectId, this.userId, this.userName).then(() => {
+      Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
         this.dialogAppPublicSuccess = true
       }).catch(() => {
         this.$message.error(this.$t('promptMessage.appReleaseFail'))
