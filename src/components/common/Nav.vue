@@ -135,7 +135,7 @@ export default {
     localStorage.setItem('language', 'cn')
     let language = localStorage.getItem('language')
     this.language = language === 'en' ? '简体中文' : 'English'
-    if (language === 'English') {
+    if (language === 'en') {
       this.jsonData = navData.mecDeveloper
     } else {
       this.jsonData = navDataCn.mecDeveloper
