@@ -188,7 +188,7 @@ export default {
     },
     showUsageInstru () {
       this.showServiceList = false
-      this.guideFileId = '742e66c3-b76c-4573-9773-600d6e72a8ac'
+      this.guideFileId = 'competenceCenterUsageInstruction'
       this.showApiPage = false
     },
     handleTreeNodeClick (val) {
