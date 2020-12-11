@@ -36,8 +36,8 @@
             accordion
           />
         </td>
-        <td>
-          <label>已选能力: </label>
+        <td style="vertical-align:text-top;">
+          <label>已选服务: </label>
           <el-tag
             v-for="tag in tags"
             :key="tag.service"
@@ -48,7 +48,9 @@
             {{ tag.service }}
           </el-tag>
           <div style="margin-top: 20px">
+            <label>可选服务: </label>
             <el-checkbox-group
+              style="margin-top: 15px"
               v-model="tags"
             >
               <el-checkbox-button
@@ -83,135 +85,7 @@ export default {
       groupId: '',
       tree: [],
       tags: [],
-      groups: [
-        {
-          'groupId': 'c0db376b-ae50-48fc-b9f7-58a609e3ee12',
-          'oneLevelName': 'Platform basic services',
-          'twoLevelName': 'Service governance',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'EdgeGallery MEC Service governance API',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': 'a6efaa2c-ad99-432f-9405-e28e90f44f15',
-          'oneLevelName': 'Telecom network capabilities',
-          'twoLevelName': 'Bandwidth management',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Bandwidth management',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '406593b4-c782-409c-8f46-a6fd5e1f6221',
-          'oneLevelName': 'Telecom network capabilities',
-          'twoLevelName': 'Location service',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': '自定义不规则区域分析API,标准栅格区域分析API,特定人群流动分析API,API区域原子报表分析,匿名历史位置轨',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '72a1434d-fbb0-459b-9b92-ce1e02a121c2',
-          'oneLevelName': 'Telecom network capabilities',
-          'twoLevelName': 'UE identity',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'UE标识',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': 'd8f06d28-390c-4a06-905e-120f56279bbc',
-          'oneLevelName': 'Telecom network capabilities',
-          'twoLevelName': 'Traffic Rule',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': '流量转发',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12',
-          'oneLevelName': 'AI capabilities',
-          'twoLevelName': 'Face Recognition',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Face Recognition',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': 'b97e4b44-e7b2-4246-9eaa-d5c8ad243114',
-          'oneLevelName': 'AI capabilities',
-          'twoLevelName': 'Card recognition',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Card recognition',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '3af01bd2-7af7-4523-be4f-01d99d739e30',
-          'oneLevelName': 'AI capabilities',
-          'twoLevelName': 'Gesture recognition',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Card recognition',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '53be0614-5e3f-41e3-9edb-b6671ba9fe32',
-          'oneLevelName': 'Video processing',
-          'twoLevelName': 'Encoding decoding',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Encoding decoding',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '293bebd8-a226-4df6-adff-2d4bed7b08d3',
-          'oneLevelName': 'DateBase',
-          'twoLevelName': 'Data management',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Data management',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '38d54f55-d981-47a3-824b-46f8f81d1091',
-          'oneLevelName': 'Public framework',
-          'twoLevelName': 'Data management',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Data management',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': 'fb9cc991-0025-4971-b89d-00da1b0b518b',
-          'oneLevelName': 'Public framework',
-          'twoLevelName': 'Message bus',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Message bus',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '4466a11e-c213-40ef-9d28-1907b63b8844',
-          'oneLevelName': 'Public framework',
-          'twoLevelName': 'Gateway',
-          'threeLevelName': null,
-          'type': 'OPENMEP',
-          'description': 'Gateway',
-          'capabilityDetailList': null
-        },
-        {
-          'groupId': '6900a6d2-e134-4ac6-ae9b-2f2c01717c2b',
-          'oneLevelName': 'Public framework',
-          'twoLevelName': 'Multi-cloud capabilities',
-          'threeLevelName': '',
-          'type': 'OPENMEP',
-          'description': 'Multi-cloud capabilities',
-          'capabilityDetailList': null
-        }
-      ],
-
+      groups: [],
       capability: [],
       secondStepSelect: {
         selectCapabilityId: [],
@@ -323,7 +197,7 @@ export default {
       for (let i in this.tags) {
         set.add(this.tags[i])
       }
-      if (!set.has(data)) {
+      if (!set.has(data) && data.service !== null) {
         this.tags.push(data)
       }
       this.updateCapabilitySelected()
