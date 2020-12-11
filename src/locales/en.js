@@ -104,7 +104,6 @@ const en = {
     serviceList: 'Service List',
     deleteApi: 'Click to delete public API',
     usageInstruction: 'Usage Instruction',
-    applicationCategory: 'Application Category',
     serviceSelection: 'Service Selection:',
     noDataNotice: 'No data available.'
   },

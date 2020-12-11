@@ -104,7 +104,6 @@ const cn = {
     serviceList: '服务列表',
     deleteApi: '点击删除已公开的API',
     usageInstruction: '使用说明',
-    applicationCategory: '应用分类',
     serviceSelection: '服务选择：',
     noDataNotice: '暂无数据。'
   },
