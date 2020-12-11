@@ -36,7 +36,7 @@
         :class="{'scroll-top':scrollTop}"
       >
         <el-tree
-          :data="treeData"
+          :data="treeData.cnData"
           default-expand-all
           :indent="10"
           ref="tree"
@@ -44,6 +44,18 @@
           :props="defaultProps"
           @node-click="handleTreeNodeClick"
           v-loading="treeDataLoading"
+          v-if="language==='cn'"
+        />
+        <el-tree
+          :data="treeData.enData"
+          default-expand-all
+          :indent="10"
+          ref="tree"
+          :highlight-current="true"
+          :props="defaultProps"
+          @node-click="handleTreeNodeClick"
+          v-loading="treeDataLoading"
+          v-else
         />
       </div>
       <div
@@ -107,6 +119,8 @@ import Document from './Document.vue'
 import API from './API.vue'
 import { Capability } from '../../tools/project_data.js'
 import { Api } from '../../tools/api.js'
+import en from '../../locales/en.js'
+import cn from '../../locales/cn.js'
 
 export default {
   name: 'Mepapi',
@@ -120,7 +134,10 @@ export default {
       showApiPage: false,
       guideFileId: '',
       language: localStorage.getItem('language'),
-      treeData: [],
+      treeData: {
+        cnData: [],
+        enData: []
+      },
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -139,30 +156,33 @@ export default {
     }
   },
   methods: {
-    insetNewNode (groupData, tempTreeData) {
+    insetNewNode (groupData, tempTreeData, lan) {
       let firstLevelName = groupData.oneLevelName
       let secondLevelName = groupData.twoLevelName
       let thirdLevelName = groupData.threeLevelName
       let obj = {
+        key: '',
         label: '',
         children: []
       }
       if (secondLevelName) {
         if (thirdLevelName) {
           let secondeLevelChildren = []
-          secondeLevelChildren.push({ label: thirdLevelName, groupId: groupData.groupId })
+          secondeLevelChildren.push({ key: thirdLevelName, label: this.getCapabilityLabel(thirdLevelName, lan), groupId: groupData.groupId })
           obj.children.push({
-            label: secondLevelName,
+            key: secondLevelName,
+            label: this.getCapabilityLabel(secondLevelName, lan),
             children: secondeLevelChildren
           })
         } else {
           obj.children.push({
-            label: secondLevelName,
+            key: secondLevelName,
+            label: this.getCapabilityLabel(secondLevelName, lan),
             groupId: groupData.groupId
           })
         }
       }
-      obj.label = firstLevelName
+      obj.label = this.getCapabilityLabel(firstLevelName, lan)
       tempTreeData.push(obj)
       return tempTreeData
     },
@@ -221,52 +241,76 @@ export default {
       this.checkProjectData()
       document.getElementsByClassName('el-main')[0].scrollTop = 0
     },
+    getTreeData (groupDataFromServer, lan) {
+      let tempTreeData = []
+      for (let i = 0; i < groupDataFromServer.length; i++) {
+        let firstLevelName = groupDataFromServer[i].oneLevelName
+        let secondLevelName = groupDataFromServer[i].twoLevelName
+        let thirdLevelName = groupDataFromServer[i].threeLevelName
+        let sameFirstNameItem = tempTreeData.filter(function (item) {
+          if (item.key === firstLevelName) {
+            return item
+          }
+        })
+        if (sameFirstNameItem.length > 0) {
+          let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
+            if (item.key === secondLevelName) {
+              return item
+            }
+          })
+          if (sameSecondNameItem.length > 0) {
+            if (thirdLevelName) {
+              if (sameSecondNameItem[0].children) {
+                sameSecondNameItem[0].children.push({
+                  key: thirdLevelName,
+                  label: this.getCapabilityLabel(thirdLevelName, lan),
+                  groupId: groupDataFromServer[i].groupId
+                })
+              } else {
+                sameSecondNameItem[0].children = [].concat({
+                  key: thirdLevelName,
+                  label: this.getCapabilityLabel(thirdLevelName, lan),
+                  groupId: groupDataFromServer[i].groupId
+                })
+              }
+            }
+          } else {
+            if (thirdLevelName) {
+              sameFirstNameItem[0].children.push({
+                key: secondLevelName,
+                label: this.getCapabilityLabel(secondLevelName, lan),
+                groupId: groupDataFromServer[i].groupId,
+                children: { label: this.getCapabilityLabel(thirdLevelName, lan), groupId: groupDataFromServer[i].groupId }
+              })
+            } else {
+              sameFirstNameItem[0].children.push({
+                key: secondLevelName,
+                label: this.getCapabilityLabel(secondLevelName, lan),
+                groupId: groupDataFromServer[i].groupId
+              })
+            }
+          }
+        } else {
+          tempTreeData = this.insetNewNode(groupDataFromServer[i], tempTreeData, lan)
+        }
+      }
+      tempTreeData = [{
+        key: 'usageInstruction',
+        label: lan === 'en' ? en.api['usageInstruction'] : cn.api['usageInstruction'],
+        isInstruction: true
+      }, {
+        key: 'applicationCategory',
+        label: lan === 'en' ? en.api['applicationCategory'] : cn.api['applicationCategory'],
+        children: tempTreeData
+      }]
+      return tempTreeData
+    },
     // 获取所有能力组
     getCapabilityGroups () {
       Api.getCapabilityGroupsApi().then(res => {
         let groupDataFromServer = res.data
-        let tempTreeData = []
-        for (let i = 0; i < groupDataFromServer.length; i++) {
-          let firstLevelName = groupDataFromServer[i].oneLevelName
-          let secondLevelName = groupDataFromServer[i].twoLevelName
-          let thirdLevelName = groupDataFromServer[i].threeLevelName
-          let sameFirstNameItem = tempTreeData.filter(function (item) {
-            if (item.label === firstLevelName) {
-              return item
-            }
-          })
-          if (sameFirstNameItem.length > 0) {
-            let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
-              if (item.label === secondLevelName) {
-                return item
-              }
-            })
-            if (sameSecondNameItem.length > 0) {
-              if (thirdLevelName) {
-                if (sameSecondNameItem[0].children) {
-                  sameSecondNameItem[0].children.push({ label: thirdLevelName, groupId: groupDataFromServer[i].groupId })
-                } else {
-                  sameSecondNameItem[0].children = [].concat({ label: thirdLevelName, groupId: groupDataFromServer[i].groupId })
-                }
-              }
-            } else {
-              if (thirdLevelName) {
-                sameFirstNameItem[0].children.push({ label: secondLevelName, groupId: groupDataFromServer[i].groupId, children: { label: thirdLevelName, groupId: groupDataFromServer[i].groupId } })
-              } else {
-                sameFirstNameItem[0].children.push({ label: secondLevelName, groupId: groupDataFromServer[i].groupId })
-              }
-            }
-          } else {
-            tempTreeData = this.insetNewNode(groupDataFromServer[i], tempTreeData)
-          }
-        }
-        this.treeData = [{
-          label: this.$t('api.usageInstruction'),
-          isInstruction: true
-        }, {
-          label: this.$t('api.applicationCategory'),
-          children: tempTreeData
-        }]
+        this.treeData.enData = this.getTreeData(groupDataFromServer, 'en')
+        this.treeData.cnData = this.getTreeData(groupDataFromServer, 'cn')
         this.$nextTick().then(() => {
           const firstNode = document.querySelector('.el-tree-node__content')
           firstNode.click()
@@ -318,14 +362,21 @@ export default {
             this.serviceDetail.capabilityType = itemFe.label[1]
           }
         }
-        this.treeData.forEach(itemBe => {
-          if (itemBe.label === itemFe.label[1] && this.language === 'cn') {
-            itemBe.label = itemFe.label[0]
-          } else if (itemBe.label === itemFe.label[0] && this.language === 'en') {
-            itemBe.label = itemFe.label[1]
-          }
-        })
       })
+    },
+    getCapabilityLabel (val, lan) {
+      let label = val
+      let resData = Capability.filter((res) => {
+        return res.value === val
+      })
+      if (resData.length > 0) {
+        if (lan === 'en') {
+          label = resData[0].label[1]
+        } else {
+          label = resData[0].label[0]
+        }
+      }
+      return label
     }
   },
   mounted () {

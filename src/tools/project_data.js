@@ -97,6 +97,63 @@ const Architecture = [
 
 const Capability = [
   {
+    value: 'Platform basic services',
+    label: ['平台基础服务', 'Platform basic services']
+  }, {
+    value: 'Service governance',
+    label: ['服务治理', 'Service governance']
+  }, {
+    value: 'Telecom network capabilities',
+    label: ['电信网络功能', 'Telecom network capabilities']
+  }, {
+    value: 'Bandwidth management',
+    label: ['带宽管理', 'Bandwidth management']
+  }, {
+    value: 'Location service',
+    label: ['定位服务', 'Location service']
+  }, {
+    value: 'UE identity',
+    label: ['UE身份', 'UE identity']
+  }, {
+    value: 'Traffic Rule',
+    label: ['交通规则', 'Traffic Rule']
+  }, {
+    value: 'AI capabilities',
+    label: ['AI功能', 'AI capabilities']
+  }, {
+    value: 'Face Recognition',
+    label: ['人脸识别', 'Face Recognition']
+  }, {
+    value: 'Card recognition',
+    label: ['卡识别', 'Card recognition']
+  }, {
+    value: 'Gesture recognition',
+    label: ['手势识别', 'Gesture recognition']
+  }, {
+    value: 'Video processing',
+    label: ['视频处理', 'Video processing']
+  }, {
+    value: 'Encoding decoding',
+    label: ['编码解码', 'Encoding decoding']
+  }, {
+    value: 'DateBase',
+    label: ['日期库', 'DateBase']
+  }, {
+    value: 'Data management',
+    label: ['数据管理', '']
+  }, {
+    value: 'Public framework',
+    label: ['公共框架', 'Public framework']
+  }, {
+    value: 'Message bus',
+    label: ['消息总线', 'Message bus']
+  }, {
+    value: 'Gateway',
+    label: ['网关', 'Gateway']
+  }, {
+    value: 'Multi-cloud capabilities',
+    label: ['多云功能', 'Multi-cloud capabilities']
+  }, {
     value: 'Traffic',
     label: ['分流', 'Traffic']
   }, {
