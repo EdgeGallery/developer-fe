@@ -188,7 +188,7 @@ export default {
     },
     showUsageInstru () {
       this.showServiceList = false
-      this.guideFileId = '' // 使用说明file
+      this.guideFileId = '742e66c3-b76c-4573-9773-600d6e72a8ac'
       this.showApiPage = false
     },
     handleTreeNodeClick (val) {
@@ -298,11 +298,7 @@ export default {
         key: 'usageInstruction',
         label: lan === 'en' ? en.api['usageInstruction'] : cn.api['usageInstruction'],
         isInstruction: true
-      }, {
-        key: 'applicationCategory',
-        label: lan === 'en' ? en.api['applicationCategory'] : cn.api['applicationCategory'],
-        children: tempTreeData
-      }]
+      }].concat(tempTreeData)
       return tempTreeData
     },
     // 获取所有能力组
