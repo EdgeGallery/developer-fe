@@ -555,46 +555,44 @@
             <el-table-column
               :label="$t('test.testTask.operation')"
             >
-              <template>
-                <el-button
-                  class="bgBtn"
-                  size="small"
-                  @click="releaseApp"
-                >
-                  {{ $t('workspace.publish') }}
-                </el-button>
-                <!-- 应用发布成功弹框 -->
-                <el-dialog
-                  :title="$t('workspace.applicationRelease')"
-                  :close-on-click-modal="false"
-                  :visible.sync="dialogAppPublicSuccess"
-                  width="40%"
-                  class="appPublishSuccess"
-                >
-                  <p>{{ $t('workspace.appPublishSuccess') }}</p>
-                  <el-link
-                    :href="appStoreUrl"
-                    type="primary"
-                    target="_blank"
-                    class="mt20"
-                  >
-                    {{ appStoreUrl }}
-                  </el-link>
-                  <span
-                    slot="footer"
-                    class="dialog-footer"
-                  >
-                    <el-button
-                      type="primary"
-                      @click="dialogAppPublicSuccess = false"
-                      size="medium"
-                      class="confirm"
-                    >{{ $t('common.confirm') }}</el-button>
-                  </span>
-                </el-dialog>
-              </template>
+              <el-button
+                class="bgBtn"
+                size="small"
+                @click="releaseApp"
+              >
+                {{ $t('workspace.publish') }}
+              </el-button>
             </el-table-column>
           </el-table>
+          <!-- 应用发布成功弹框 -->
+          <el-dialog
+            :title="$t('workspace.applicationRelease')"
+            :close-on-click-modal="false"
+            :visible.sync="dialogAppPublicSuccess"
+            width="40%"
+            class="appPublishSuccess"
+          >
+            <p>{{ $t('workspace.appPublishSuccess') }}</p>
+            <el-link
+              :href="appStoreUrl"
+              type="primary"
+              target="_blank"
+              class="mt20"
+            >
+              {{ appStoreUrl }}
+            </el-link>
+            <span
+              slot="footer"
+              class="dialog-footer"
+            >
+              <el-button
+                type="primary"
+                @click="dialogAppPublicSuccess = false"
+                size="medium"
+                class="confirm"
+              >{{ $t('common.confirm') }}</el-button>
+            </span>
+          </el-dialog>
         </div>
       </div>
     </div>
@@ -1009,7 +1007,6 @@ export default {
     releaseApp () {
       let appInstanceId = sessionStorage.getItem('csarId')
       Workspace.isPublishApi(appInstanceId, this.projectId, this.userId, this.userName).then(() => {
-        this.$message.success(this.$t('promptMessage.appReleaseSuccess'))
         this.dialogAppPublicSuccess = true
       }).catch(() => {
         this.$message.error(this.$t('promptMessage.appReleaseFail'))
@@ -1036,7 +1033,6 @@ export default {
   },
   mounted () {
     this.getTestConfig()
-    // this.getAtpList()
     this.getAppstoreUrl()
     this.getAllListData()
   },
@@ -1244,6 +1240,7 @@ export default {
       .el-dialog__body {
         padding: 50px;
         padding-top: 50px !important;
+        text-align: center;
       }
       .el-dialog__close{
         display: none;

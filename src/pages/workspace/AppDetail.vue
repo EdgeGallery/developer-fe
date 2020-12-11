@@ -286,6 +286,7 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
+        console.log(res.data)
         sessionStorage.setItem('csarId', res.data.appInstanceId)
       })
     }
