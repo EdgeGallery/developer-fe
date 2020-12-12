@@ -233,7 +233,7 @@ export default {
           this.apiFileId = this.serviceList[i].apiFileId
           this.showApiPage = true
           this.serviceDetail.serviceName = this.serviceList[i].service
-          this.serviceDetail.uploadTime = this.serviceList[i].uploadTime
+          this.serviceDetail.uploadTime = this.dateChange(this.serviceList[i].uploadTime)
           this.serviceDetail.version = this.serviceList[i].version
           break
         }
