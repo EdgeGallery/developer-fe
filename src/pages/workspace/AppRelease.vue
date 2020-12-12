@@ -170,14 +170,14 @@
                   />
                   <el-table-column
                     :label="$t('workspace.operation')"
-                    width="120"
+                    width="220px"
                     fixed="right"
                     align="center"
                   >
                     <template slot-scope="scope">
                       <el-button
                         type="text"
-                        size="small"
+                        size="medium"
                         class="editBtn"
                         @click="checkFilter(scope.row)"
                       >
@@ -214,9 +214,9 @@
               </div>
               <!-- 查看流量规则详情 -->
               <el-dialog
-                title="详情"
+                :title="$t('devTools.detail')"
                 :visible.sync="filterShow"
-                width="60%"
+                width="70%"
                 :close-on-click-modal="false"
               >
                 <div class="dialogContent">
@@ -253,23 +253,23 @@
                     />
                     <el-table-column
                       prop="tgtTunnelAddress"
-                      label="隧道目的地址"
+                      :label="$t('workspace.appRelease.tgtTunnelAddress')"
                     />
                     <el-table-column
                       prop="dstTunnelPort"
-                      label="隧道目的端口"
+                      :label="$t('workspace.appRelease.dstTunnelPort')"
                     />
                     <el-table-column
                       prop="srcTunnelAddress"
-                      label="隧道源地址"
+                      :label="$t('workspace.appRelease.srcTunnelAddress')"
                     />
                     <el-table-column
                       prop="srcTunnelPort"
-                      label="隧道源端口"
+                      :label="$t('workspace.appRelease.srcTunnelPort')"
                     />
                     <el-table-column
                       prop="tag"
-                      label="Tag"
+                      :label="$t('workspace.appRelease.tag')"
                     />
                     <el-table-column
                       prop="qci"
@@ -287,7 +287,7 @@
 
                   <!-- 接口信息 -->
                   <p class="title">
-                    接口信息
+                    {{ $t('workspace.appRelease.interfaceInfo') }}
                   </p>
                   <el-table
                     class="mt20"
@@ -298,36 +298,36 @@
                   >
                     <el-table-column
                       prop="interfaceType"
-                      label="接口类型"
+                      :label="$t('workspace.appRelease.interfaceType')"
                     />
                     <el-table-column
                       prop="tunnelInfo.tunnelType"
-                      label="隧道类型"
+                      :label="$t('workspace.appRelease.tunnelType')"
                     />
                     <el-table-column
                       prop="tunnelInfo.tunnelDstAddress"
-                      label="隧道目的地址"
+                      :label="$t('workspace.appRelease.tgtTunnelAddress')"
                       width="120px"
                     />
                     <el-table-column
                       prop="tunnelInfo.tunnelSrcAddress"
-                      label="隧道源地址"
+                      :label="$t('workspace.appRelease.srcTunnelAddress')"
                     />
                     <el-table-column
                       prop="tunnelInfo.tunnelSpecificData"
-                      label="隧道指定参数"
+                      :label="$t('workspace.appRelease.tunnelParams')"
                     />
                     <el-table-column
                       prop="dstMACAddress"
-                      label="目的MAC地址"
+                      :label="$t('workspace.appRelease.macAddress')"
                     />
                     <el-table-column
                       prop="srcMACAddress"
-                      label="源MAC地址"
+                      :label="$t('workspace.appRelease.sourceMacAddress')"
                     />
                     <el-table-column
                       prop="dstIPAddress"
-                      label="目的IP地址"
+                      :label="$t('workspace.appRelease.dstAddress')"
                     />
                   </el-table>
                 </div>
@@ -369,6 +369,7 @@
                   />
                   <el-table-column
                     :label="$t('workspace.operation')"
+                    width="220px"
                   >
                     <template slot-scope="scope">
                       <el-button
@@ -443,6 +444,7 @@
               />
               <el-table-column
                 :label="$t('workspace.operation')"
+                width="220px"
               >
                 <template slot-scope="scope">
                   <el-button
@@ -844,7 +846,7 @@ export default {
           apiMd: '',
           trafficRulesList: '',
           dnsRulesList: '',
-          groupId: 'c0db376b-ae50-48fc-b9f7-58a609e3ee12'
+          groupId: ''
         }
       }
     },
@@ -1152,7 +1154,7 @@ export default {
       }
     }
     .el-table{
-      margin-top: 20px;
+      margin: 20px 0;
     }
     .ruleconfig_tab{
       margin: 15px 0;

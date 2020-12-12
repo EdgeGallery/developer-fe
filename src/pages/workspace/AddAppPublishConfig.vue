@@ -20,12 +20,13 @@
       :title="$t('workspace.add')+$t('workspace.appPublishConfig')"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
-      width="50%"
+      width="40%"
       :before-close="handleClose"
       center
     >
       <el-form
         :model="form"
+        class="config_form"
         size="mini"
       >
         <el-form-item
@@ -158,6 +159,49 @@
             />
           </el-checkbox-group>
         </el-form-item>
+        <el-form-item
+          :label-width="formLabelWidth"
+          class="service_row trafficRules"
+        >
+          <span class="span_left">{{ $t('workspace.appRelease.capabilityType') }} :</span>
+          <span
+            class="selected_ability"
+            v-if="hasAbility"
+          >{{ capabilityType }}</span>
+          <el-button
+            class="ability_btn featuresBtn"
+            @click="selectCapability"
+          >
+            {{ $t('common.select') }}
+          </el-button>
+        </el-form-item>
+        <el-dialog
+          :title="$t('workspace.chooseAbilities')"
+          :visible.sync="capabilityDialog"
+          width="30%"
+          append-to-body
+          :close-on-click-modal="false"
+        >
+          <el-tree
+            class="capability_tree"
+            :data="treeData"
+            default-expand-all
+            highlight-current
+            :props="defaultProps"
+            @node-click="handleNodeClick"
+          />
+          <span
+            slot="footer"
+            class="dialog-footer"
+          >
+            <el-button @click="capabilityDialog=false">{{ $t('common.cancel') }}</el-button>
+            <el-button
+              type="primary"
+              class="bgBtn"
+              @click="closeCapability"
+            >{{ $t('common.confirm') }}</el-button>
+          </span>
+        </el-dialog>
       </el-form>
 
       <span
@@ -182,6 +226,7 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
+import { Capability } from '../../tools/project_data.js'
 export default {
   props: {
     value: {
@@ -211,7 +256,19 @@ export default {
       formLabelWidth: '0px',
       apiFileList: [],
       apiMdList: [],
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      treeData: [],
+      capabilityType: '',
+      capabilityTemp: '',
+      groupIdTemp: '',
+      capabilityDialog: false,
+      capabilityGroups: [],
+      hasAbility: false,
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -324,6 +381,127 @@ export default {
         this.$message.error(this.$t('promptMessage.uploadFailure'))
       })
     },
+    // 获取能力列表
+    getCapabilityData () {
+      this.treeData = []
+      Workspace.getCapabilityListApi().then(res => {
+        this.capabilityGroups = res.data
+        // oneLevel
+        let oneLevel = []
+        this.capabilityGroups.forEach(item => {
+          item.oneLevelName = this.checkProjectData(item.oneLevelName)
+          oneLevel.push(item.oneLevelName)
+        })
+        oneLevel = new Set(oneLevel)
+
+        oneLevel.forEach(item => {
+          let obj = {
+            label: '',
+            children: []
+          }
+          obj.label = item
+          this.treeData.push(obj)
+        })
+
+        this.capabilityGroups.forEach(item => {
+          this.treeData.forEach(itemTwo => {
+          // twoLevel
+            if (itemTwo.label === item.oneLevelName) {
+              let objTwo = {
+                label: '',
+                groupId: '',
+                children: []
+              }
+              if (item.twoLevelName) {
+                item.twoLevelName = this.checkProjectData(item.twoLevelName)
+                objTwo.label = item.twoLevelName
+                objTwo.groupId = item.groupId
+                itemTwo.children.push(objTwo)
+              }
+            }
+            // threeLevel
+            itemTwo.children.forEach(itemThree => {
+              if (itemThree.label === item.twoLevelName) {
+                let objThree = {
+                  label: '',
+                  groupId: '',
+                  children: []
+                }
+                if (item.threeLevelName) {
+                  item.threeLevelName = this.checkProjectData(item.threeLevelName)
+                  objThree.label = item.threeLevelName
+                  objThree.groupId = item.groupId
+                  itemThree.children.push(objThree)
+                }
+              }
+            })
+            itemTwo.children.forEach(itemFour => {
+            // console.log(itemFour)
+            })
+            // fourLevel
+            itemTwo.children.forEach(itemThree => {
+            // console.log(itemThree)
+            })
+          })
+        })
+      })
+    },
+    getFirstCapability () {
+      Workspace.getCapabilityListApi().then(res => {
+        let data = res.data[0]
+        if (data.fiveLevelName) {
+          this.capabilityType = data.fiveLevelName
+        } else if (data.fourLevelName) {
+          this.capabilityType = data.fourLevelName
+        } else if (data.threeLevelName) {
+          this.capabilityType = data.threeLevelName
+        } else if (data.twoLevelName) {
+          this.capabilityType = data.twoLevelName
+        } else if (data.oneLevelName) {
+          this.capabilityType = data.oneLevelName
+        }
+        this.hasAbility = true
+        this.capabilityType = this.checkProjectData(this.capabilityType)
+      })
+    },
+    // 中英文切换
+    checkProjectData (name) {
+      Capability.forEach(itemFe => {
+        if (this.language === 'cn') {
+          if (name === itemFe.label[1]) {
+            name = itemFe.label[0]
+          }
+        } else {
+          if (name === itemFe.label[0]) {
+            name = itemFe.label[1]
+          }
+        }
+      })
+      return name
+    },
+    selectCapability () {
+      this.capabilityDialog = true
+      this.getCapabilityData()
+      this.setApiHeight()
+    },
+    handleNodeClick (val) {
+      if (val.children.length === 0) {
+        this.capabilityTemp = val.label
+        this.groupIdTemp = val.groupId
+      }
+    },
+    setApiHeight () {
+      this.$nextTick(() => {
+        const oDiv = document.getElementsByClassName('capability_tree')[0]
+        const deviceHeight = document.documentElement.clientHeight
+        oDiv.style.height = Number(deviceHeight) * 0.4 + 'px'
+      })
+    },
+    closeCapability () {
+      this.capabilityType = this.capabilityTemp
+      this.form.groupId = this.groupIdTemp
+      this.capabilityDialog = false
+    },
     addPublicConfig () {
       this.form.trafficRulesList = this.form.trafficRulesList.join(',')
       this.form.dnsRulesList = this.form.dnsRulesList.join(',')
@@ -334,6 +512,7 @@ export default {
   mounted () {
     this.getEditConfigData()
     this.getRuleList()
+    this.getFirstCapability()
   }
 }
 
@@ -350,12 +529,15 @@ export default {
     .service_row .el-form-item__content > span{
       float: left;
     }
+    .el-form-item--mini.el-form-item{
+      margin-bottom: 22px;
+    }
     .service_row{
       span.span_left{
-        width: 100px;
+        width: 120px;
       }
       .el-input{
-        width: 120px;
+        width: 200px;
         float: left;
         height: 28px;
         margin: 0 15px 0px 0;
@@ -363,7 +545,7 @@ export default {
       .el-select{
         float: left;
         .el-input{
-          width: 120px;
+          width: 200px;
         }
       }
       .el-select.select_right{
@@ -393,9 +575,24 @@ export default {
     .el-checkbox-group{
       text-align: left;
       float: left;
-      width: calc( 100% - 100px );
+      width: calc( 100% - 120px );
     }
   }
 }
-
+.capability_tree{
+  overflow-y: auto;
+  margin-right: 20px;
+}
+.selected_ability{
+  float: left;
+  padding: 2px 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor:default;
+}
+.ability_btn{
+  float: left;
+  margin-left: 10px;
+  padding: 10px 15px;
+}
 </style>
