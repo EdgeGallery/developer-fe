@@ -221,7 +221,8 @@ const cn = {
       interfaceInfo: '接口信息',
       tunnelInfo: '隧道信息',
       macInfo: 'MAC信息',
-      IpInfo: 'IP信息'
+      IpInfo: 'IP信息',
+      capabilityType: '能力类型'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',

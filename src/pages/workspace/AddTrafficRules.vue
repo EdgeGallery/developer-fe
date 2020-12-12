@@ -479,7 +479,7 @@
               </div>
               <div v-if="dstInterface.interfaceType==='IP'">
                 <p class="title">
-                  {{ $t('workspace.appRelease.IpInfo') }}
+                  {{ $t('workspace.appRelease.ipInfo') }}
                 </p>
                 <el-form-item :label="$t('workspace.appRelease.dstAddress')">
                   <el-input

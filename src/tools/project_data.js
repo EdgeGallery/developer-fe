@@ -140,7 +140,7 @@ const Capability = [
     label: ['日期库', 'DateBase']
   }, {
     value: 'Data management',
-    label: ['数据管理', '']
+    label: ['数据管理', 'Data management']
   }, {
     value: 'Public framework',
     label: ['公共框架', 'Public framework']

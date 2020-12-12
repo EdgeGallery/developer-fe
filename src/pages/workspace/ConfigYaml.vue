@@ -61,12 +61,7 @@
           </a>
         </el-upload>
 
-        <div v-show="appYamlFileId && hasInited">
-          <div class="green test tit">
-            {{ $t('workspace.configYaml.pass') }}
-          </div>
-        </div>
-        <div v-show="!hasInited && hasValidate">
+        <div v-show="hasValidate">
           <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
           </div>
@@ -154,7 +149,6 @@ export default {
       yamlFileList: [],
       activeName: 'first',
       hasValidate: false,
-      hasInited: false,
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID')
     }
@@ -193,9 +187,6 @@ export default {
     },
     // 移除Yaml文件
     removeUploadyaml (file, fileList) {
-      if (this.hasInited) {
-        this.hasInited = false
-      }
       Workspace.deleteYamlFileApi(this.appYamlFileId)
       this.hasValidate = false
       this.yamlFileList = []
@@ -204,9 +195,6 @@ export default {
     },
     // 上传Yaml文件
     submitYamlFile (yamlFileList) {
-      if (this.hasInited) {
-        this.hasInited = false
-      }
       this.uploadYamlLoading = true
       let fd = new FormData()
       fd.append('file', yamlFileList[0])
@@ -245,9 +233,9 @@ export default {
         Workspace.getYamlFileApi(this.userId, this.projectId).then(res => {
           if (res && Array.isArray(res.data)) {
             const fileObj = res.data.find(s => s.fileId === this.projectBeforeConfig.deployFileId) || {}
+            let data = res.data[0]
             if (fileObj.fileId) {
-              this.checkFlag = { formatSuccess: true, imageSuccess: true, mepAgentSuccess: true, serviceSuccess: true }
-              this.hasInited = true
+              this.checkFlag = { formatSuccess: data.formatSuccess, imageSuccess: data.imageSuccess, mepAgentSuccess: data.mepAgentSuccess, serviceSuccess: data.serviceSuccess }
               this.hasValidate = true
               this.appYamlFileId = fileObj.fileId
               this.yamlFileList = [{ name: fileObj.fileName, fileId: fileObj.fileId }]

@@ -221,7 +221,8 @@ const en = {
       interfaceInfo: 'Interface Information',
       tunnelInfo: 'Tunnel Information',
       macInfo: 'MAC Information',
-      IpInfo: 'IP Information'
+      IpInfo: 'IP Information',
+      capabilityType: 'Capability Type'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
@@ -235,7 +236,7 @@ const en = {
     platform: 'Platform',
     industry: 'Industry',
     status: 'Status',
-    operatioin: 'Operation',
+    operation: 'Operation',
     remove: 'Remove',
     detail: 'Detail',
     clickHereToAddNewProject: 'Click here to add a new project',
