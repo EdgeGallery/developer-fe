@@ -57,7 +57,7 @@
                 v-for="capabilityDetail in capaList.capabilityDetailList"
                 :label="capabilityDetail"
                 :key="capabilityDetail.service"
-                @change="handleClickService(capabilityDetail)"
+                @change="handleClickService()"
               >
                 {{ capabilityDetail.service }}
               </el-checkbox-button>
@@ -95,50 +95,7 @@ export default {
       capabilityList: [],
       capabilityLoading: true,
       language: localStorage.getItem('language'),
-      capaList: {
-        'groupId': 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12',
-        'oneLevelName': 'AI capabilities',
-        'twoLevelName': 'Face Recognition',
-        'threeLevelName': null,
-        'type': 'OPENMEP',
-        'description': 'Face Recognition',
-        'capabilityDetailList': [
-          {
-            'detailId': '8d93cb64-e9ff-468f-a5b1-160efa5c4f05',
-            'groupId': 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12',
-            'service': 'Face Recognition service plus',
-            'version': 'v1',
-            'description': 'Face Recognition',
-            'provider': 'Huawei',
-            'apiFileId': '7dd477d8-bcc0-4e2a-a48d-2b587a30026a',
-            'guideFileId': 'b8b5d055-1024-4ea8-8439-64de19875834',
-            'uploadTime': '2020-11-19T16:00:00.000+0000',
-            'port': 0,
-            'host': 'face-recognition-plus',
-            'protocol': 'http',
-            'appId': null,
-            'packageId': null,
-            'userId': 'admin'
-          },
-          {
-            'detailId': '6f250fc0-0961-470f-bf17-e9bba8e56c12',
-            'groupId': 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12',
-            'service': 'Face Recognition service',
-            'version': 'v1',
-            'description': 'Face Recognition',
-            'provider': 'Huawei',
-            'apiFileId': 'd0f8fa57-2f4c-4182-be33-0a508964d04a',
-            'guideFileId': '10d8a909-742a-433f-8f7a-5c7667adf825',
-            'uploadTime': '2020-11-19T16:00:00.000+0000',
-            'port': 0,
-            'host': 'face-recognition',
-            'protocol': 'http',
-            'appId': null,
-            'packageId': null,
-            'userId': 'admin'
-          }
-        ]
-      },
+      capaList: {},
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -192,14 +149,7 @@ export default {
         this.getCapaList()
       }
     },
-    handleClickService (data) {
-      let set = new Set()
-      for (let i in this.tags) {
-        set.add(this.tags[i])
-      }
-      if (!set.has(data) && data.service !== null) {
-        this.tags.push(data)
-      }
+    handleClickService () {
       this.updateCapabilitySelected()
       this.updateThirdStepSelection()
     },
@@ -230,7 +180,6 @@ export default {
       })
     },
     emitStepData () {
-      console.log('before send to parent' + this.secondStepSelect)
       this.$emit('getStepData', { data: this.secondStepSelect, step: 'second' })
       this.$emit('getStepData', { data: this.thirdStepSelection, step: 'third' })
     },
@@ -247,7 +196,6 @@ export default {
       }
       this.secondStepSelect.capabilitySelected = Array.from(new Set([...cachedCapabilitySelected]))
       this.secondStepSelect.selectCapabilityId = Array.from(new Set([...cachedSelectCapabilityId]))
-      console.log('after updated!' + this.secondStepSelect)
     },
     updateThirdStepSelection () {
       let cachedThirdStepSelection = []
@@ -255,7 +203,6 @@ export default {
         cachedThirdStepSelection.push(tag)
       }
       this.thirdStepSelection = cachedThirdStepSelection
-      console.log(this.thirdStepSelection)
     },
     // 平台能力和开放能力中英文切换
     checkProjectData (checkArr) {
