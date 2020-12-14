@@ -172,7 +172,6 @@
       <div
         v-if="testFinished"
         class="deploy-finish-box"
-        style="marginTop: 70px"
       >
         <h5
           class="detail-result-title"
@@ -531,6 +530,7 @@ export default {
       }
     }
     .deploy-finish-box {
+      margin-top: 70px;
       width: 100%;
       .deploy-result-buttom {
         margin-top: 50px;
