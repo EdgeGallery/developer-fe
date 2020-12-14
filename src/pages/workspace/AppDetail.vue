@@ -32,6 +32,7 @@
       class="elTabs"
       v-model="activeName"
       tab-position="left"
+      @tab-click="handleClick"
     >
       <el-tab-pane
         :label="$t('workspace.capabilityDetails')"
@@ -39,7 +40,7 @@
         name="1"
         lazy
       >
-        <api />
+        <api v-if="isChildUpdate1" />
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.applicationDev')"
@@ -48,46 +49,48 @@
         lazy
         v-loading="isPublic"
       >
-        <el-steps
-          :active="active"
-          finish-status="success"
-          align-center
-        >
-          <el-step :title="$t('workspace.environmentPreparation')" />
-          <el-step :title="$t('workspace.choosePlatform')" />
-          <el-step :title="$t('workspace.selectImage')" />
-          <el-step :title="$t('workspace.configureYaml')" />
-        </el-steps>
-        <div class="elSteps">
-          <component
-            :is="currentComponent"
+        <div v-if="isChildUpdate2">
+          <el-steps
             :active="active"
-            @getStepData="getStepData"
-            @getBtnStatus="getBtnStatus"
-            :project-before-config="projectBeforeConfig"
-            :all-step-data="allStepData"
-            @getAppapiFileId="getAppapiFileId"
-            ref="currentComponet"
-          />
-        </div>
-        <div class="elButton">
-          <el-button
-            id="prevBtn"
-            type="text"
-            @click="previous"
-            v-if="active>0"
-            :disabled="isDeploying"
+            finish-status="success"
+            align-center
           >
-            <strong>{{ $t('workspace.previous') }}</strong>
-          </el-button>
-          <el-button
-            id="nextBtn"
-            type="primary"
-            v-loading="apiDataLoading"
-            @click="next"
-          >
-            <strong>{{ btnName }}</strong>
-          </el-button>
+            <el-step :title="$t('workspace.environmentPreparation')" />
+            <el-step :title="$t('workspace.choosePlatform')" />
+            <el-step :title="$t('workspace.selectImage')" />
+            <el-step :title="$t('workspace.configureYaml')" />
+          </el-steps>
+          <div class="elSteps">
+            <component
+              :is="currentComponent"
+              :active="active"
+              @getStepData="getStepData"
+              @getBtnStatus="getBtnStatus"
+              :project-before-config="projectBeforeConfig"
+              :all-step-data="allStepData"
+              @getAppapiFileId="getAppapiFileId"
+              ref="currentComponet"
+            />
+          </div>
+          <div class="elButton">
+            <el-button
+              id="prevBtn"
+              type="text"
+              @click="previous"
+              v-if="active>0"
+              :disabled="isDeploying"
+            >
+              <strong>{{ $t('workspace.previous') }}</strong>
+            </el-button>
+            <el-button
+              id="nextBtn"
+              type="primary"
+              v-loading="apiDataLoading"
+              @click="next"
+            >
+              <strong>{{ btnName }}</strong>
+            </el-button>
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -96,7 +99,7 @@
         name="3"
         lazy
       >
-        <deployment />
+        <deployment v-if="isChildUpdate3" />
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.applicationRelease')"
@@ -104,7 +107,7 @@
         name="4"
         lazy
       >
-        <appRelease />
+        <appRelease v-if="isChildUpdate4" />
       </el-tab-pane>
       <div v-if="dialogVisible">
         <publishAppDialog
@@ -157,7 +160,11 @@ export default {
       userId: sessionStorage.getItem('userId'),
       isPublic: false,
       isfail: true,
-      appApiFileIdTemp: true
+      appApiFileIdTemp: true,
+      isChildUpdate1: true,
+      isChildUpdate2: false,
+      isChildUpdate3: false,
+      isChildUpdate4: false
     }
   },
   computed: {
@@ -194,6 +201,8 @@ export default {
           this.active++
           this.handleStep()
         } else {
+          this.isChildUpdate2 = false
+          this.isChildUpdate3 = true
           this.submitData()
         }
       }
@@ -290,6 +299,29 @@ export default {
           sessionStorage.setItem('csarId', res.data.appInstanceId)
         }
       })
+    },
+    handleClick (tab) {
+      if (tab.name === '1') {
+        this.isChildUpdate1 = true
+        this.isChildUpdate2 = false
+        this.isChildUpdate3 = false
+        this.isChildUpdate4 = false
+      } else if (tab.name === '2') {
+        this.isChildUpdate1 = false
+        this.isChildUpdate2 = true
+        this.isChildUpdate3 = false
+        this.isChildUpdate4 = false
+      } else if (tab.name === '3') {
+        this.isChildUpdate1 = false
+        this.isChildUpdate2 = false
+        this.isChildUpdate3 = true
+        this.isChildUpdate4 = false
+      } else if (tab.name === '4') {
+        this.isChildUpdate1 = false
+        this.isChildUpdate2 = false
+        this.isChildUpdate3 = false
+        this.isChildUpdate4 = true
+      }
     }
   },
   mounted () {

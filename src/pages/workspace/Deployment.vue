@@ -292,6 +292,10 @@ export default {
   },
   methods: {
     startDeploy () {
+      if (this.deployField === '未上传') {
+        this.$message.error('Please upload your config file!')
+        return
+      }
       this.deployStatus = 'DEPLOYING'
       this.initialTimeline()
       this.deployTest()
@@ -331,6 +335,9 @@ export default {
     },
     getTestConfig () {
       Workspace.getTestConfigApi(this.projectId).then(res => {
+        if (res.data === null || res.data === '') {
+          return
+        }
         let status = res.data.stageStatus
         this.platform = res.data.platform
         this.deployField = res.data.deployField === null ? '未上传' : '已上传'
