@@ -182,6 +182,7 @@ export default {
           })
         }
       }
+      obj.key = firstLevelName
       obj.label = this.getCapabilityLabel(firstLevelName, lan)
       tempTreeData.push(obj)
       return tempTreeData
@@ -280,7 +281,7 @@ export default {
                 key: secondLevelName,
                 label: this.getCapabilityLabel(secondLevelName, lan),
                 groupId: groupDataFromServer[i].groupId,
-                children: { label: this.getCapabilityLabel(thirdLevelName, lan), groupId: groupDataFromServer[i].groupId }
+                children: { key: thirdLevelName, label: this.getCapabilityLabel(thirdLevelName, lan), groupId: groupDataFromServer[i].groupId }
               })
             } else {
               sameFirstNameItem[0].children.push({
