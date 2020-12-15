@@ -68,6 +68,9 @@ li{
 .mt20{
   margin-top:20px;
 }
+.ml10{
+  margin-left: 10px;
+}
 .flex{
   display: flex
 }

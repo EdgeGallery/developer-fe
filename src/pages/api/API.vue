@@ -13,18 +13,18 @@
         </el-col>
       </el-row>
       <el-row class="service_info">
-        <el-col :span="12">
+        <el-col :span="11">
           {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
         </el-col>
-        <el-col :span="12">
+        <el-col :span="13">
           {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
         </el-col>
       </el-row>
       <el-row class="service_info">
-        <el-col :span="12">
+        <el-col :span="11">
           {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
         </el-col>
-        <el-col :span="12">
+        <el-col :span="13">
           SDK {{ $t('common.download') }} ：
           <el-select
             v-model="codeLanguage"
@@ -44,6 +44,14 @@
             class="download_sdk"
             :href="downloadSDKApi()"
           />
+          <el-link
+            :href="guideUrl"
+            target="_blank"
+            type="primary"
+            class="ml10"
+          >
+            {{ $t('api.installGuide') }}
+          </el-link>
         </el-col>
       </el-row>
       <el-row
@@ -107,7 +115,8 @@ export default {
         }
       ],
       language: localStorage.getItem('language'),
-      downloadUrl: ''
+      downloadUrl: '',
+      guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md'
     }
   },
   methods: {

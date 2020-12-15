@@ -105,7 +105,8 @@ const en = {
     deleteApi: 'Click to delete public API',
     usageInstruction: 'Usage Instruction',
     serviceSelection: 'Service Selection:',
-    noDataNotice: 'No data available.'
+    noDataNotice: 'No data available.',
+    installGuide: 'Installation Guide'
   },
   nav: {
     home: 'Home',

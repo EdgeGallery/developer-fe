@@ -105,7 +105,8 @@ const cn = {
     deleteApi: '点击删除已公开的API',
     usageInstruction: '使用说明',
     serviceSelection: '服务选择：',
-    noDataNotice: '暂无数据。'
+    noDataNotice: '暂无数据。',
+    installGuide: '安装指导'
   },
   nav: {
     home: '主页',
