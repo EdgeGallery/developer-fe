@@ -281,8 +281,14 @@ export default {
       this.removeEmpty(this.form.dnsRulesList)
     },
     getRuleList () {
-      let trafficData = JSON.parse(sessionStorage.getItem('trafficData'))
-      let dnsData = JSON.parse(sessionStorage.getItem('dnsData'))
+      let trafficData = []
+      if (sessionStorage.getItem('trafficData')) {
+        trafficData = JSON.parse(sessionStorage.getItem('trafficData'))
+      }
+      let dnsData = []
+      if (sessionStorage.getItem('dnsData')) {
+        dnsData = JSON.parse(sessionStorage.getItem('dnsData'))
+      }
       let trafficArr = []
       trafficData.forEach(item => {
         trafficArr.push(item.trafficRuleId)
