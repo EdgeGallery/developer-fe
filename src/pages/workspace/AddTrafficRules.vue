@@ -840,7 +840,7 @@ export default {
   .btn{
     position: relative;
     top: -10px;
-    padding-right: 7px;;
+    padding-right: 7px;
   }
   .el-form-item__content{
     line-height: none;

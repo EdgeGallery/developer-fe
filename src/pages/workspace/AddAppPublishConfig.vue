@@ -392,7 +392,7 @@ export default {
           item.oneLevelName = this.checkProjectData(item.oneLevelName)
           oneLevel.push(item.oneLevelName)
         })
-        oneLevel = new Set(oneLevel)
+        oneLevel = Array.from(new Set(oneLevel))
 
         oneLevel.forEach(item => {
           let obj = {

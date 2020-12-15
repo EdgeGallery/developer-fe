@@ -331,9 +331,6 @@ export default {
 <style lang="less">
 .el-steps{
   margin-bottom: 40px;
-  .el-step__icon-inner{
-    color: #adb0b8;
-  }
   .el-step__icon.is-text{
     border: none;
   }
