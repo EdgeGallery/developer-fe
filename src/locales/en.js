@@ -145,7 +145,7 @@ const en = {
       format: 'format check',
       imageInfo: 'image info check',
       serviceInfo: 'service info check',
-      mepAgent: 'MEP Agent'
+      mepAgent: 'MEP Agent（If mepagent is not integrated, api cannot be released）'
     },
     uploadImage: {
       nodeInfoValidation: 'Please enter the correct IP and port,port range is 30000-30400',

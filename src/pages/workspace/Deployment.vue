@@ -17,9 +17,10 @@
 <template>
   <div class="deployment">
     <div class="deploy-detail-box">
-      <h5 class="detail-box-title">
+      <h4 class="detail-box-title">
         {{ $t("workspace.appDetail") }}
-      </h5>
+      </h4>
+
       <div class="detail-table">
         <el-row
           type="flex"
@@ -99,33 +100,84 @@
             </el-row>
           </el-col>
         </el-row>
-        <div class="deploy-btn-box">
-          <el-button
-            class="deploy-btn"
-            :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
-            :disabled="deployStatus === 'DEPLOYING' || testFinished"
-            @click="startDeploy"
+      </div>
+    </div>
+    <div class="test-env">
+      <el-row>
+        <h4>选择测试环境</h4>
+      </el-row>
+      <el-row>
+        <el-col
+          :span="12"
+          :push="2"
+        >
+          <div class="env-img">
+            <img
+              :src="sandboxImg"
+              alt=""
+              @click="selectEnv = isPhysical = false"
+              :class="{'imgBorder': !isPhysical}"
+            >
+            <p class="marginTop10">
+              选择沙箱环境，模拟真实场景，快速调测
+            </p>
+          </div>
+        </el-col>
+        <el-col
+          :span="12"
+          :pull="2"
+        >
+          <div class="env-img">
+            <img
+              :src="labImg"
+              alt=""
+              @click="selectEnv = isPhysical = true"
+              :class="{'imgBorder': isPhysical}"
+            >
+            <p
+              class="-margin-top10-"
+            >
+              选择真实5G环境进行测试验证
+            </p>
+            <p>
+              注：由于5G环境资源有限，有可能申请失败
+            </p>
+          </div>
+        </el-col>
+      </el-row>
+      <div class="deploy-btn-box">
+        <el-row>
+          <el-col
+            :span="24"
+            :push="8"
           >
-            {{ $t("workspace.startDeployment") }}
-          </el-button>
+            <el-button
+              class="deploy-btn"
+              :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
+              :disabled="deployStatus === 'DEPLOYING' || testFinished"
+              @click="startDeploy"
+            >
+              {{ $t("workspace.startDeployment") }}
+            </el-button>
 
-          <el-button
-            class="deploy-btn"
-            :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
-            :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
-            @click="cleanTestEnv"
-          >
-            {{ $t("workspace.recycle") }}
-          </el-button>
-        </div>
+            <el-button
+              class="deploy-btn"
+              :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
+              :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
+              @click="cleanTestEnv"
+            >
+              {{ $t("workspace.recycle") }}
+            </el-button>
+          </el-col>
+        </el-row>
       </div>
     </div>
     <div class="deploy-status-box">
       <!-- 状态头部 -->
       <div class="deploy-status-title-box">
-        <h5 class="detail-box-title">
+        <h4 class="detail-box-title">
           {{ $t("workspace.deploymentStatus") }}
-        </h5>
+        </h4>
         <div class="select-icon">
           <em
             v-if="flowShow"
@@ -146,7 +198,7 @@
       >
         <!-- 时间线 -->
         <div class="timeline-box">
-          <el-timeline>
+          <el-timeline class="timeline-class">
             <el-timeline-item
               v-for="(activity, index) in activities"
               :key="index"
@@ -162,10 +214,20 @@
         </div>
         <!--流程图 -->
         <div class="flow-img">
-          <img
-            :src="flowImg"
-            alt=""
-          >
+          <el-carousel :autoplay="true">
+            <el-carousel-item>
+              <img
+                :src="flowImg"
+                alt=""
+              >
+            </el-carousel-item>
+            <el-carousel-item>
+              <img
+                :src="flowImg"
+                alt=""
+              >
+            </el-carousel-item>
+          </el-carousel>
         </div>
       </div>
       <!-- 部署完成时内容 -->
@@ -173,11 +235,11 @@
         v-if="testFinished"
         class="deploy-finish-box"
       >
-        <h5
+        <h4
           class="detail-result-title"
         >
           {{ $t("workspace.deploymentResult") }}
-        </h5>
+        </h4>
         <!-- 中心内容 -->
         <div class="deploy-result-buttom">
           <div class="deploy-finish-center">
@@ -266,6 +328,8 @@ export default {
   data () {
     return {
       flowImg: require('@/assets/images/flowImg.png'),
+      labImg: require('@/assets/images/lab.png'),
+      sandboxImg: require('@/assets/images/sandBox.png'),
       deploySuccessImg: require('@/assets/images/deploySuccessImg.png'),
       deployFailedImg: require('@/assets/images/deployFailedImg.png'),
       deploySuccess: false,
@@ -284,9 +348,10 @@ export default {
       workStatus: '',
       projectId: '',
       userId: '',
-      accessUrl: 'https://119.8.47.5',
-      errorLog: '你的应用已经可以被EdgeGallery平台集成，请测试APP业务',
-      activities: []
+      accessUrl: '',
+      errorLog: '',
+      activities: [],
+      isPhysical: false
     }
   },
   methods: {
@@ -446,6 +511,12 @@ export default {
 </script>
 
 <style lang="less">
+
+.imgBorder{
+border-style:solid;
+border-color:red;
+border-width:2px;
+}
 .marginTop10 {
   margin-Top: 10px;
 }
@@ -472,6 +543,10 @@ export default {
       margin-top: 20px;
       margin-left: 30px;
       width: 70%;
+    }
+  }
+  .test-env {
+    margin-top: 30px;
       .deploy-btn-box {
         margin-top: 30px;
         width: 50%;
@@ -480,7 +555,17 @@ export default {
           margin-left: 30px;
         }
       }
-    }
+      .env-img {
+        margin-top: 20px;
+        float: left;
+        width: 50%;
+        cursor: pointer;
+        img{
+          width: 100%;
+          max-width: 300px;
+          max-height: 200px;
+        }
+      }
   }
   //部署状态
   .deploy-status-box {
@@ -498,12 +583,36 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .flow-img {
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+
+  }
+
+        float: left;
+        width: 60%;
+        margin-left: 5%;
+        img{
+          width: 100%;
+          max-width: 520px;
+        }
+      }
       .timeline-box {
         float: left;
         width: 30%;
+        .timeline-class {
+        font-size: 16px;
+        }
         .el-timeline-item__node--large {
           height: 20px;
           width: 20px;
+        }
+        .el-timeline-item {
+        height : 70px
         }
       }
       .el-timeline-item__icon {
@@ -519,15 +628,7 @@ export default {
       .el-timeline-item__tail{
         left: 7.5px;
       }
-      .flow-img {
-        float: left;
-        width: 60%;
-        margin-left: 5%;
-        img{
-          width: 100%;
-          max-width: 520px;
-        }
-      }
+
     }
     .deploy-finish-box {
       margin-top: 70px;
