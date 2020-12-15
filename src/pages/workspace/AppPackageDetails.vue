@@ -42,8 +42,17 @@
         <el-col :span="16">
           <div
             class="file_desc"
-            v-html="fileContent"
-          />
+          >
+            <mavon-editor
+              v-model="markdownSource"
+              :toolbars-flag="false"
+              :editable="false"
+              :subfield="false"
+              default-open="preview"
+              :box-shadow="false"
+              preview-background="#ffffff"
+            />
+          </div>
         </el-col>
       </el-row>
     </el-dialog>
@@ -71,7 +80,8 @@ export default {
       fileName: '',
       fileContent: '',
       projectId: sessionStorage.getItem('mecDetailID'),
-      csarId: sessionStorage.getItem('csarId')
+      csarId: sessionStorage.getItem('csarId'),
+      markdownSource: ''
     }
   },
   methods: {
@@ -79,13 +89,12 @@ export default {
       this.$emit('input', false)
     },
     getAppPackageList () {
-      Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
+      Workspace.getAppPackageListApi('4d28ccd3-7c9b-44c0-8ec6-f8b03b79e3f0', '22406fba-fd5d-4f55-b3fa-89a45fee913a').then(res => {
         this.appPageListData = res.data.children
         if (this.appPageListData.length > 0) {
           this.$nextTick(function () {
             const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
             firstNode.click()
-            console.log(firstNode)
           })
         }
       })
@@ -93,13 +102,17 @@ export default {
     getFileDetail (val) {
       this.fileName = val.name
       if (!val.children) {
-        Workspace.getAppFileApi(this.projectId, val.name).then(res => {
-          this.fileContent = res.data
+        Workspace.getAppFileApi('4d28ccd3-7c9b-44c0-8ec6-f8b03b79e3f0', val.name).then(res => {
+          if (val.name.indexOf('.md') >= 0) {
+            this.markdownSource = res.data
+          } else {
+            this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+          }
         }).catch(err => {
           if (err.response.data.message === 'file is null!') {
-            this.fileContent = this.$t('promptMessage.fileIsEmpty')
+            this.markdownSource = this.$t('promptMessage.fileIsEmpty')
           } else if (err.response.data.message === 'file is not readable!') {
-            this.fileContent = this.$t('promptMessage.fileNotReadable')
+            this.markdownSource = this.$t('promptMessage.fileNotReadable')
           }
         })
       }
@@ -152,6 +165,12 @@ export default {
       white-space: pre-wrap;
       line-height: 25px;
       overflow-y: auto;
+      .v-note-wrapper{
+        border: none;
+      }
+      .v-note-wrapper .v-note-panel .v-note-show{
+        overflow: hidden;
+      }
     }
   }
 }

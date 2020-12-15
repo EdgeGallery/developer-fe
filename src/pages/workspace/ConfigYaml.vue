@@ -18,7 +18,6 @@
   <div class="config-yaml">
     <el-tabs
       v-model="activeName"
-      @tab-click="handleClick"
     >
       <el-tab-pane
         :label="$t('workspace.configYaml.importFile')"
@@ -110,6 +109,20 @@
             {{ $t('workspace.configYaml.mepAgent') }}
           </div>
         </div>
+        <div
+          class="yaml_content"
+          v-if="hasValidate"
+        >
+          <mavon-editor
+            v-model="markdownSource"
+            :toolbars-flag="false"
+            :editable="false"
+            :subfield="false"
+            default-open="preview"
+            :box-shadow="false"
+            preview-background="#ffffff"
+          />
+        </div>
       </el-tab-pane>
       <el-tab-pane
         disabled
@@ -127,7 +140,6 @@
 <script>
 import { Workspace } from '../../tools/api.js'
 import demoYaml from '@/assets/file/test_helm_template.yaml'
-
 export default {
   name: 'ConfigYaml',
   props: {
@@ -150,13 +162,11 @@ export default {
       activeName: 'first',
       hasValidate: false,
       userId: sessionStorage.getItem('userId'),
-      projectId: sessionStorage.getItem('mecDetailID')
+      projectId: sessionStorage.getItem('mecDetailID'),
+      markdownSource: ''
     }
   },
   methods: {
-    handleClick (tab, event) {
-      // console.log(tab, event)
-    },
     emitStepData () {
       let ifNext = this.appYamlFileId
       if (ifNext) {
@@ -192,6 +202,7 @@ export default {
       this.yamlFileList = []
       this.appYamlFileId = ''
       this.checkFlag = {}
+      this.markdownSource = ''
     },
     // 上传Yaml文件
     submitYamlFile (yamlFileList) {
@@ -203,6 +214,7 @@ export default {
         if (res.data.fileId) {
           this.yamlFileList = yamlFileList
           this.appYamlFileId = res.data.fileId
+          this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
           this.$message({
             type: 'success',
             message: this.$t('promptMessage.uploadSuccess')
@@ -210,6 +222,7 @@ export default {
         } else {
           this.appYamlFileId = ''
           this.yamlFileList = []
+          this.markdownSource = ''
         }
         const { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess } = res.data
         this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
@@ -223,28 +236,24 @@ export default {
         this.yamlFileList = []
         this.hasValidate = false
         this.checkFlag = {}
+        this.markdownSource = ''
       }).finally(() => {
         this.uploadYamlLoading = false
       })
     },
     initFileList () {
-      if (this.projectBeforeConfig.deployFileId) {
-        this.uploadYamlLoading = true
-        Workspace.getYamlFileApi(this.userId, this.projectId).then(res => {
-          if (res && Array.isArray(res.data)) {
-            const fileObj = res.data.find(s => s.fileId === this.projectBeforeConfig.deployFileId) || {}
-            let data = res.data[0]
-            if (fileObj.fileId) {
-              this.checkFlag = { formatSuccess: data.formatSuccess, imageSuccess: data.imageSuccess, mepAgentSuccess: data.mepAgentSuccess, serviceSuccess: data.serviceSuccess }
-              this.hasValidate = true
-              this.appYamlFileId = fileObj.fileId
-              this.yamlFileList = [{ name: fileObj.fileName, fileId: fileObj.fileId }]
-            }
-          }
-        }).finally(() => {
-          this.uploadYamlLoading = false
-        })
-      }
+      Workspace.getYamlFileApi(this.userId, this.projectId).then(res => {
+        let data = res.data[0]
+        this.yamlFileList = [{ name: data.fileName, fileId: data.fileId }]
+        this.hasValidate = true
+        this.appYamlFileId = data.fileId
+        this.checkFlag = { formatSuccess: data.formatSuccess, imageSuccess: data.imageSuccess, mepAgentSuccess: data.mepAgentSuccess, serviceSuccess: data.serviceSuccess }
+        this.markdownSource = '```yaml\r\n' + data.fileContent + '\r\n```'
+      }).catch(() => {
+        this.uploadYamlLoading = false
+        this.hasValidate = false
+        this.markdownSource = ''
+      })
     }
   },
   mounted () {
@@ -287,6 +296,10 @@ export default {
       .el-upload__tip{
         float: left;
       }
+      .el-upload-list{
+        float: left;
+        width: 100%;
+      }
     }
     .down-demo {
       display: inline-block;
@@ -312,7 +325,18 @@ export default {
     color: red
   }
   .yellow{
-  color:#dbb419;
+    color:#dbb419;
+  }
+  .yaml_content{
+    line-height: 25px;
+    white-space: pre-wrap;
+    margin-top: 20px;
+    .v-note-wrapper{
+      border: none;
+    }
+    .v-note-wrapper .v-note-panel .v-note-show{
+      overflow: hidden;
+    }
   }
 }
 

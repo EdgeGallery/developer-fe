@@ -22,7 +22,7 @@
       align-center
     >
       <el-step :title="$t('workspace.appRelease.appConfig')" />
-      <el-step :title="$t('workspace.appRelease.appTest')" />
+      <el-step :title="$t('workspace.appRelease.appCertify')" />
       <el-step :title="$t('workspace.appRelease.appRelease')" />
     </el-steps>
     <div class="elSteps">
@@ -32,23 +32,19 @@
         <h3 class="title">
           {{ $t('workspace.projectDetails') }}
         </h3>
-        <div
-          class="project_detail"
-          v-for="(item,index) in projectDetailData"
-          :key="index"
-        >
+        <div class="project_detail">
           <el-row>
             <el-col
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ item.name }}
+              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
             </el-col>
             <el-col
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ item.type }}
+              <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
             </el-col>
           </el-row>
           <el-row>
@@ -56,27 +52,13 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.version') }}</span>{{ item.version }}
+              <span class="span_left">{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
             </el-col>
             <el-col
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ item.platform[0] }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="10"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ item.service }}
-            </el-col>
-            <el-col
-              :sm="10"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ item.instantiateId }}
+              <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
             </el-col>
           </el-row>
           <el-row>
@@ -84,13 +66,27 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ item.deployPlatform }}
+              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ projectDetailData.dependent }}
             </el-col>
             <el-col
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('test.testTask.testStatus') }}</span>{{ item.status }}
+              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ projectDetailData.instantiateId }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col
+              :sm="10"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ projectDetailData.deployPlatform }}
+            </el-col>
+            <el-col
+              :sm="10"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('test.testTask.testStatus') }}</span>{{ projectDetailData.status }}
             </el-col>
           </el-row>
           <el-row>
@@ -120,7 +116,7 @@
                   slot="tip"
                   class="el-upload__tip"
                 >
-                  <em class="el-icon-warning" />{{ $t('workspace.apiFunctionMd') }}
+                  <em class="el-icon-warning" />{{ $t('workspace.appStoreMd') }}
                 </div>
               </el-upload>
             </el-col>
@@ -476,19 +472,6 @@
               :edit-rule-dataprop="editRuleData"
             />
           </div>
-          <el-button
-            size="small"
-            class="featuresBtn mt20"
-            @click="appDetaildialog=true"
-          >
-            {{ $t('workspace.appDetails') }}
-          </el-button>
-          <!-- 应用包详情弹框 -->
-          <div v-if="appDetaildialog">
-            <appPackageDetail
-              v-model="appDetaildialog"
-            />
-          </div>
         </div>
       </div>
       <!-- 第二步“应用测试” -->
@@ -497,7 +480,7 @@
           class="bgBtn btn_width1"
           @click="getAtpTest"
         >
-          {{ $t('workspace.appTest') }}
+          {{ $t('workspace.appRelease.appCertify') }}
         </el-button>
         <span class="release_text">
           {{ $t('workspace.releaseText') }}
@@ -508,10 +491,9 @@
         >
           <iframe
             :src="iframeUrl"
-            :title="$t('workspace.appTest')"
+            :title="$t('workspace.appRelease.appCertify')"
             width="100%"
             height="100%"
-            frameborder="no"
           />
         </div>
       </div>
@@ -557,13 +539,16 @@
             <el-table-column
               :label="$t('test.testTask.operation')"
             >
-              <el-button
-                class="bgBtn"
-                size="small"
-                @click="releaseApp"
-              >
-                {{ $t('workspace.publish') }}
-              </el-button>
+              <template slot-scope="scope">
+                <el-button
+                  class="bgBtn"
+                  size="small"
+                  @click="releaseApp"
+                  :disabled="scope.row.status==='success'?false:true"
+                >
+                  {{ $t('workspace.publish') }}
+                </el-button>
+              </template>
             </el-table-column>
           </el-table>
           <!-- 应用发布成功弹框 -->
@@ -623,6 +608,24 @@
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
     </div>
+    <div
+      class="detail_btn"
+      v-if="detail_btn"
+    >
+      <el-button
+        size="small"
+        class="featuresBtn mt20"
+        @click="appDetaildialog=true"
+      >
+        {{ $t('workspace.appDetails') }}
+      </el-button>
+      <!-- 应用包详情弹框 -->
+      <div v-if="appDetaildialog">
+        <appPackageDetail
+          v-model="appDetaildialog"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -644,18 +647,16 @@ export default {
     return {
       active: 0,
       step: 'step1',
-      projectDetailData: [
-        {
-          name: 'Video_Surveillance_app',
-          type: 'Video Application',
-          version: 'v1.0',
-          platform: ['X86'],
-          service: 'Face Recognition',
-          instantiateId: 'sdre635',
-          deployPlatform: 'Kubernetes',
-          status: 'Success'
-        }
-      ],
+      projectDetailData: {
+        name: '',
+        type: '',
+        version: '',
+        platform: '',
+        dependent: '',
+        instantiateId: '',
+        deployPlatform: '',
+        status: ''
+      },
       appMdList: [],
       appTestData: [],
       isAddRuleData: true,
@@ -698,19 +699,37 @@ export default {
       projectId: sessionStorage.getItem('mecDetailID'),
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
-      taskId: ''
+      taskId: '',
+      detail_btn: true
     }
   },
   methods: {
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
-        this.projectDetailData = res.data
+        let data = res.data
+        this.projectDetailData.name = data.name
+        this.projectDetailData.type = data.type
+        this.projectDetailData.version = data.version
+        this.projectDetailData.platform = data.platform[0]
+        let dependent = res.data.capabilityList
+        let arr = []
+        dependent.forEach(item => {
+          item.capabilityDetailList.forEach(itemSub => {
+            arr.push(itemSub.service)
+          })
+        })
+        arr = Array.from(new Set(arr))
+        this.projectDetailData.dependent = arr.join('，')
       })
     },
     getTestConfig () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
         sessionStorage.setItem('csarId', res.data.appInstanceId)
+        this.projectDetailData.instantiateId = res.data.appInstanceId
+        this.projectDetailData.deployPlatform = res.data.platform
+        this.projectDetailData.status = res.data.deployStatus
+        console.log(this.projectDetailData)
       })
     },
     getReleaseConfig (params) {
@@ -742,11 +761,14 @@ export default {
     showStepContent (active) {
       if (active === 0) {
         this.step = 'step1'
+        this.detail_btn = true
       } else if (active === 1) {
         this.step = 'step2'
+        this.detail_btn = false
       } else if (active === 2) {
         this.step = 'step3'
         this.getAtpList()
+        this.detail_btn = false
       }
     },
     // 检查上传文件类型
@@ -1033,6 +1055,7 @@ export default {
   created () {
   },
   mounted () {
+    this.getProjectInfo()
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
@@ -1202,6 +1225,17 @@ export default {
       }
     }
   }
+  .detail_btn{
+    width: 80%;
+    margin: 0 10%;
+    padding: 0 30px;
+  }
+  @media screen and (max-width: 1380px){
+    .detail_btn{
+      width: 100%;
+      margin: 0;
+    }
+  }
   .btn_width1{
     color: #fff;
     padding: 9px 15px;
@@ -1215,6 +1249,9 @@ export default {
   }
   .atp_iframe{
     border: 1px solid #ddd;
+    iframe{
+      border: none;
+    }
   }
   .release_test{
     padding: 0 30px;
