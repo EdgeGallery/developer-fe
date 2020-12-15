@@ -183,7 +183,7 @@ const en = {
     },
     appRelease: {
       appConfig: 'Application Configuration',
-      appTest: 'Application Test',
+      appCertify: 'Application Certification',
       appRelease: 'Application Release',
       addFilter: 'Add flow filter',
       srcAddress: 'Src IP Address',

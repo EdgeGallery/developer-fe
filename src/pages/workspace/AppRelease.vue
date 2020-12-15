@@ -22,7 +22,7 @@
       align-center
     >
       <el-step :title="$t('workspace.appRelease.appConfig')" />
-      <el-step :title="$t('workspace.appRelease.appTest')" />
+      <el-step :title="$t('workspace.appRelease.appCertify')" />
       <el-step :title="$t('workspace.appRelease.appRelease')" />
     </el-steps>
     <div class="elSteps">
@@ -480,7 +480,7 @@
           class="bgBtn btn_width1"
           @click="getAtpTest"
         >
-          {{ $t('workspace.appTest') }}
+          {{ $t('workspace.appRelease.appCertify') }}
         </el-button>
         <span class="release_text">
           {{ $t('workspace.releaseText') }}
@@ -491,7 +491,7 @@
         >
           <iframe
             :src="iframeUrl"
-            :title="$t('workspace.appTest')"
+            :title="$t('workspace.appRelease.appCertify')"
             width="100%"
             height="100%"
           />
