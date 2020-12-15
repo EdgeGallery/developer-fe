@@ -71,7 +71,7 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
-import { Capability, Type } from '../../tools/project_data.js'
+import { Capability } from '../../tools/project_data.js'
 export default {
   props: {
     allStepData: {
@@ -107,6 +107,7 @@ export default {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
       this.language = language
+      this.checkProjectData(this.groups)
     }
   },
   mounted () {
@@ -169,8 +170,8 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      this.buildTree()
       this.checkProjectData(this.groups)
+      this.buildTree()
     },
     getCapaList () {
       Workspace.getServiceListApi(this.groupId).then(res => {
@@ -208,22 +209,21 @@ export default {
     checkProjectData (checkArr) {
       checkArr.forEach(itemBe => {
         Capability.forEach(itemFe => {
-          if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
-            itemBe.name = itemFe.label[0]
-          } else if (itemBe.name === itemFe.label[1] && this.language === 'en') {
-            itemBe.name = itemFe.label[1]
+          if (itemBe.oneLevelName === itemFe.label[1] && this.language === 'cn') {
+            itemBe.oneLevelName = itemFe.label[0]
+          } else if (itemBe.oneLevelName === itemFe.label[1] && this.language === 'en') {
+            itemBe.oneLevelName = itemFe.label[1]
           }
         })
-        Type.forEach(itemFe => {
-          if (itemBe.name === itemFe.label[1] && this.language === 'cn') {
-            itemBe.name = itemFe.label[0]
-          } else if (itemBe.name === itemFe.label[1] && this.language === 'en') {
-            itemBe.name = itemFe.label[1]
+        Capability.forEach(itemFe => {
+          if (itemBe.twoLevelName === itemFe.label[1] && this.language === 'cn') {
+            itemBe.twoLevelName = itemFe.label[0]
+          } else if (itemBe.twoLevelName === itemFe.label[1] && this.language === 'en') {
+            itemBe.twoLevelName = itemFe.label[1]
           }
         })
       })
     }
-
   }
 }
 </script>
