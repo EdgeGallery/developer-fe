@@ -28,7 +28,7 @@ const en = {
   home: {
     mecDeveloper: 'Developer',
     step: 'STEPS',
-    bannerTitle: 'One-stop shop for developers',
+    bannerTitle: 'One-stop application integration development platform',
     bannerText1: 'Provide developers with convenient development plug-ins',
     bannerText2: 'to help developers develop and test apps faster',
     bannerText3: 'Provides a developer portal, including the development process, development tool, open API capabilities, and integration test verification',
