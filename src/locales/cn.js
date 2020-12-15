@@ -144,7 +144,7 @@ const cn = {
       format: '格式校验',
       imageInfo: '镜像信息',
       serviceInfo: '服务信息',
-      mepAgent: 'MEP Agent'
+      mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）'
     },
     uploadImage: {
       nodeInfoValidation: '请输入正确的IP、端口号，端口号范围30000-30400',

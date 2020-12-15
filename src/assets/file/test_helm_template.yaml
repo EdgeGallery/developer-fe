@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: positioning-service
-  namespace: {{ .Value.appconfig.appnamespace }}
+  namespace: {{ .Values.appconfig.appnamespace }}
   labels:
     app: positioning-service
 spec:
@@ -13,14 +13,15 @@ spec:
       imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 9997
+    {{- if .Values.global.mepagent.enabled }}
     - name: mep-agent
-      image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-agent:1.0
+      image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-agent:latest
       imagePullPolicy: Always
       env:
         - name: ENABLE_WAIT
           value: "true"
         - name: MEP_IP
-          value: "mep-api-gw"
+          value: "mep-api-gw.mep"
         - name: MEP_APIGW_PORT
           value: "8443"
         - name: CA_CERT_DOMAIN_NAME
@@ -30,17 +31,17 @@ spec:
         - name: AK
           valueFrom:
             secretKeyRef:
-              name: {{ .Value.appconfig.aksk.secretname }}
+              name: {{ .Values.appconfig.aksk.secretname }}
               key: accesskey
         - name: SK
           valueFrom:
             secretKeyRef:
-              name: {{ .Value.appconfig.aksk.secretname }}
+              name: {{ .Values.appconfig.aksk.secretname }}
               key: secretkey
         - name: APPINSTID
           valueFrom:
             secretKeyRef:
-              name: {{ .Value.appconfig.aksk.secretname }}
+              name: {{ .Values.appconfig.aksk.secretname }}
               key: appInsId
       volumeMounts:
         - name: mep-agent-service-config-volume
@@ -50,14 +51,14 @@ spec:
   volumes:
     - name: mep-agent-service-config-volume
       configMap:
-        name: mep-agent-service-config   
-
+        name: {{ .Values.global.mepagent.configmapname }}   
+  {{- end }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: positioning-service
-  namespace: {{ .Value.appconfig.appnamespace }}
+  namespace: {{ .Values.appconfig.appnamespace }}
   labels:
     svc: positioning-service
 spec:

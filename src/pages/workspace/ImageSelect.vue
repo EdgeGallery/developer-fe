@@ -150,7 +150,7 @@ export default {
         { name: 'Helm', version: '3.2.4' },
         { name: 'MEP', version: '0.9' }
       ],
-      install_href: 'https://gitee.com/edgegallery/platform-mgmt/tree/master/offline'
+      install_href: 'https://gitee.com/edgegallery/installer/tree/master/offline'
     }
   },
   methods: {
