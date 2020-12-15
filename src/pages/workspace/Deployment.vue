@@ -20,6 +20,7 @@
       <h4 class="detail-box-title">
         {{ $t("workspace.appDetail") }}
       </h4>
+
       <div class="detail-table">
         <el-row
           type="flex"
@@ -213,10 +214,20 @@
         </div>
         <!--流程图 -->
         <div class="flow-img">
-          <img
-            :src="flowImg"
-            alt=""
-          >
+          <el-carousel :autoplay="true">
+            <el-carousel-item>
+              <img
+                :src="flowImg"
+                alt=""
+              >
+            </el-carousel-item>
+            <el-carousel-item>
+              <img
+                :src="flowImg"
+                alt=""
+              >
+            </el-carousel-item>
+          </el-carousel>
         </div>
       </div>
       <!-- 部署完成时内容 -->
@@ -572,15 +583,36 @@ border-width:2px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .flow-img {
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+
+  }
+
+        float: left;
+        width: 60%;
+        margin-left: 5%;
+        img{
+          width: 100%;
+          max-width: 520px;
+        }
+      }
       .timeline-box {
         float: left;
         width: 30%;
         .timeline-class {
-font-size: 16px;
+        font-size: 16px;
         }
         .el-timeline-item__node--large {
           height: 20px;
           width: 20px;
+        }
+        .el-timeline-item {
+        height : 70px
         }
       }
       .el-timeline-item__icon {
@@ -596,15 +628,7 @@ font-size: 16px;
       .el-timeline-item__tail{
         left: 7.5px;
       }
-      .flow-img {
-        float: left;
-        width: 60%;
-        margin-left: 5%;
-        img{
-          width: 100%;
-          max-width: 520px;
-        }
-      }
+
     }
     .deploy-finish-box {
       margin-top: 70px;
