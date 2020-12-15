@@ -31,7 +31,6 @@
             src="../../assets/images/logo.png"
             alt
           >
-          <span>{{ $t('home.mecDeveloper') }} V0.4</span>
         </div>
       </el-col>
       <el-col

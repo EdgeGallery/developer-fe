@@ -28,7 +28,7 @@ const cn = {
   home: {
     mecDeveloper: '开发者平台',
     step: '步骤',
-    bannerTitle: '一站式开发者平台',
+    bannerTitle: '一站式应用集成开发平台',
     bannerText1: '为开发者提供便捷的开发插件',
     bannerText2: '帮助开发者快速完成应用开发和测试',
     bannerText3: '提供开发者入口，包括开发流程、开发工具、开放的API能力、集成测试验证等',
