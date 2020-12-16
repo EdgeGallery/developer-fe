@@ -740,10 +740,10 @@ export default {
         })
       })
     },
-    getReleaseConfigFirst (params) {
+    getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
-        Workspace.saveRuleConfig(this.projectId, params, releaseId)
+        Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
       })
     },
     next () {
@@ -981,33 +981,6 @@ export default {
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
       this.getReleaseConfig(this.trafficAllData)
     },
-    saveConfigFirst () {
-      let trafficDataTemp = JSON.parse(JSON.stringify(this.trafficListData))
-      trafficDataTemp.forEach(item => {
-        item.trafficFilter.forEach(subItem => {
-          subItem.dstAddress = this.strToArray(subItem.dstAddress)
-          subItem.dstPort = this.strToArray(subItem.dstPort)
-          subItem.dstTunnelPort = this.strToArray(subItem.dstTunnelPort)
-          subItem.protocol = this.strToArray(subItem.protocol)
-          subItem.srcAddress = this.strToArray(subItem.srcAddress)
-          subItem.srcPort = this.strToArray(subItem.srcPort)
-          subItem.srcTunnelAddress = this.strToArray(subItem.srcTunnelAddress)
-          subItem.srcTunnelPort = this.strToArray(subItem.srcTunnelPort)
-          subItem.tag = this.strToArray(subItem.tag)
-          subItem.tgtTunnelAddress = this.strToArray(subItem.tgtTunnelAddress)
-        })
-      })
-      let appPublishConfigTemp = JSON.parse(JSON.stringify(this.appPublishListData))
-      appPublishConfigTemp.forEach(item => {
-        item.dnsRulesList = this.strToArray(item.dnsRulesList)
-        item.trafficRulesList = this.strToArray(item.trafficRulesList)
-      })
-      this.trafficAllData.capabilitiesDetail.appTrafficRule = trafficDataTemp
-      this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
-      this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
-      this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      this.getReleaseConfigFirst(this.trafficAllData)
-    },
     // 集成应用测试页面
     getAtpTest () {
       Workspace.getAtpTestApi(this.projectId).then(res => {
@@ -1083,7 +1056,7 @@ export default {
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
-    this.saveConfigFirst()
+    this.getReleaseConfigFirst()
   },
   watch: {
     '$i18n.locale': function () {
