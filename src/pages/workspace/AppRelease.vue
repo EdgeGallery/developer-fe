@@ -476,15 +476,6 @@
       </div>
       <!-- 第二步“应用测试” -->
       <div v-show="step==='step2'">
-        <el-button
-          class="bgBtn btn_width1"
-          @click="getAtpTest"
-        >
-          {{ $t('workspace.appRelease.appCertify') }}
-        </el-button>
-        <span class="release_text">
-          {{ $t('workspace.releaseText') }}
-        </span>
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
@@ -729,7 +720,6 @@ export default {
         this.projectDetailData.instantiateId = res.data.appInstanceId
         this.projectDetailData.deployPlatform = res.data.platform
         this.projectDetailData.status = res.data.deployStatus
-        console.log(this.projectDetailData)
       })
     },
     getReleaseConfig (params) {
@@ -764,6 +754,7 @@ export default {
         this.detail_btn = true
       } else if (active === 1) {
         this.step = 'step2'
+        this.getAtpTest()
         this.detail_btn = false
       } else if (active === 2) {
         this.step = 'step3'
@@ -947,7 +938,6 @@ export default {
     },
     // 查看流量规则
     checkFilter (row) {
-      console.log(row)
       this.filterShow = true
       this.filterData = row.trafficFilter
       this.interfaceData = row.dstInterface
@@ -995,6 +985,8 @@ export default {
             this.setApiHeight()
             this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
             this.showAtp = true
+          }).catch(() => {
+            this.$message.error(this.$t('promptMessage.getDataFail'))
           })
         }
       })
@@ -1059,6 +1051,7 @@ export default {
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
+    this.saveConfig()
   },
   watch: {
     '$i18n.locale': function () {
