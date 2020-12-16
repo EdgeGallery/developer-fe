@@ -65,43 +65,6 @@ const mecDeveloper = [
     display: true
   },
   {
-    id: '3.9',
-    name: 'Test',
-    path: '/mecDeveloper/test/how',
-    pageId: '2.2.3',
-    display: true,
-    children: [
-      {
-        id: '3.10',
-        name: 'How To Test',
-        path: '/mecDeveloper/test/how',
-        pageId: '2.2.3.1',
-        display: true
-      },
-      {
-        id: '3.11',
-        name: 'Test Specification',
-        path: '/mecDeveloper/test/specification',
-        pageId: '2.2.3.2',
-        display: true
-      },
-      {
-        id: '3.12',
-        name: 'Test Application',
-        path: '/mecDeveloper/test/apply',
-        pageId: '2.2.3.3',
-        display: true
-      },
-      {
-        id: '3.13',
-        name: 'Test Task Management',
-        path: '/mecDeveloper/test/task',
-        pageId: '2.2.3.4',
-        display: true
-      }
-    ]
-  },
-  {
     id: '3.14',
     name: 'Community',
     display: true

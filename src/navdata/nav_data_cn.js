@@ -65,43 +65,6 @@ const mecDeveloper = [
     display: true
   },
   {
-    id: '3.9',
-    name: '测试',
-    path: '/mecDeveloper/test/how',
-    pageId: '2.2.3',
-    display: true,
-    children: [
-      {
-        id: '3.10',
-        name: '如何测试',
-        path: '/mecDeveloper/test/how',
-        pageId: '2.2.3.1',
-        display: true
-      },
-      {
-        id: '3.11',
-        name: '测试规范',
-        path: '/mecDeveloper/test/specification',
-        pageId: '2.2.3.2',
-        display: true
-      },
-      {
-        id: '3.12',
-        name: '测试应用',
-        path: '/mecDeveloper/test/apply',
-        pageId: '2.2.3.3',
-        display: true
-      },
-      {
-        id: '3.13',
-        name: '测试任务管理',
-        path: '/mecDeveloper/test/task',
-        pageId: '2.2.3.4',
-        display: true
-      }
-    ]
-  },
-  {
     id: '3.14',
     name: '社区',
     display: true
