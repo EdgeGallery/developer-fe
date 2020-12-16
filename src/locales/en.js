@@ -241,8 +241,8 @@ const en = {
     remove: 'Remove',
     detail: 'Detail',
     clickHereToAddNewProject: 'Click here to add a new project',
-    createProject: 'Create Project',
-    migrationProject: 'Migration Project',
+    createProject: 'Add application development project',
+    migrationProject: 'Add application integration project',
     basicInformation: 'Basic Information',
     appName: 'App Name',
     uploadIcon: 'Upload Icon',
@@ -396,7 +396,9 @@ const en = {
     containerName: 'Name',
     containerResource: 'Resource',
     hostInfo: 'Host Information',
-    deployConfig: 'Deploy Field'
+    deployConfig: 'Deploy Field',
+    capabilityInfo1: 'Please select the ecological services that your application needs to rely on. For details on ecological capabilities, please refer to',
+    capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.'
   },
   test: {
     howToTest: {

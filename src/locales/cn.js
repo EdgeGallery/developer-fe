@@ -241,8 +241,8 @@ const cn = {
     remove: '移除',
     detail: '详情',
     clickHereToAddNewProject: '点击添加新项目',
-    createProject: '新建项目',
-    migrationProject: '迁移项目',
+    createProject: '新建应用开发项目',
+    migrationProject: '新建应用集成项目',
     basicInformation: '基本信息',
     appName: '应用名称',
     uploadIcon: '上传图标',
@@ -396,7 +396,9 @@ const cn = {
     containerName: '名称',
     containerResource: '资源',
     hostInfo: '节点信息',
-    deployConfig: '部署配置'
+    deployConfig: '部署配置',
+    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
+    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。'
   },
   test: {
     howToTest: {
