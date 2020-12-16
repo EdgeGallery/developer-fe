@@ -214,31 +214,16 @@
         </div>
         <!--流程图 -->
         <div class="flow-img">
-          <el-carousel
-            :autoplay="false"
-            ref="carousel"
-          >
-            <el-carousel-item name="1">
+          <el-carousel :autoplay="true">
+            <el-carousel-item>
               <img
                 :src="flowImg"
                 alt=""
               >
             </el-carousel-item>
-            <el-carousel-item name="2">
+            <el-carousel-item>
               <img
-                :src="deploySuccessImg"
-                alt=""
-              >
-            </el-carousel-item>
-            <el-carousel-item name="3">
-              <img
-                :src="sandboxImg"
-                alt=""
-              >
-            </el-carousel-item>
-            <el-carousel-item name="4">
-              <img
-                :src="deployFailedImg"
+                :src="flowImg"
                 alt=""
               >
             </el-carousel-item>
@@ -422,33 +407,10 @@ export default {
         this.deployField = res.data.deployField === null ? '未上传' : '已上传'
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
         if (status != null) {
-          if (status.csar !== this.CSAR) {
-            setTimeout(function () {
-              this.CSAR = status.csar
-              this.initialTimeline()
-            }, 1000)
-          }
-
-          if (status.hostInfo !== this.hostInfo) {
-            setTimeout(function () {
-              this.hostInfo = status.hostInfo
-              this.initialTimeline()
-            }, 1000)
-          }
-
-          if (status.instantiateInfo !== this.instantiateInfo) {
-            setTimeout(function () {
-              this.instantiateInfo = status.instantiateInfo
-              this.initialTimeline()
-            }, 1000)
-          }
-
-          if (status.workStatus !== this.workStatus) {
-            setTimeout(function () {
-              this.workStatus = status.workStatus
-              this.initialTimeline()
-            }, 1000)
-          }
+          this.CSAR = status.csar
+          this.hostInfo = status.hostInfo
+          this.instantiateInfo = status.instantiateInfo
+          this.workStatus = status.workStatus
         }
         this.deployStatus = res.data.deployStatus
         this.initialTimeline() // update icon status according to stage status
@@ -491,7 +453,6 @@ export default {
       return (Math.round(s1 / s2 * 10000) / 100.00 + '%')
     },
     initialTimeline () {
-      this.getStatusPic()
       this.activities = [
         {
           content: '生成部署文件',
@@ -537,22 +498,6 @@ export default {
       } else if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
         return '#ddd'
       } else return '#778FEF'
-    },
-
-    getStatusPic: function () {
-      if (this.deployStatus === 'NOTDEPLOY') {
-        this.$refs.carousel.setActiveItem('1')
-      } else if (this.workStatus === 'Success') {
-        this.$refs.carousel.setActiveItem('4')
-      } else if (this.instantiateInfo === 'Success') {
-        this.$refs.carousel.setActiveItem('4')
-      } else if (this.hostInfo === 'Success') {
-        this.$refs.carousel.setActiveItem('3')
-      } else if (this.CSAR === 'Success') {
-        this.$refs.carousel.setActiveItem('2')
-      } else {
-        this.$refs.carousel.setActiveItem('1')
-      }
     }
 
   },
