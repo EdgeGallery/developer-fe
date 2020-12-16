@@ -740,6 +740,12 @@ export default {
         })
       })
     },
+    getReleaseConfigFirst () {
+      Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        let releaseId = res.data.releaseId
+        Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
+      })
+    },
     next () {
       this.active++
       this.showStepContent(this.active)
@@ -973,7 +979,6 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      console.log(this.trafficAllData)
       this.getReleaseConfig(this.trafficAllData)
     },
     // 集成应用测试页面
@@ -1051,7 +1056,7 @@ export default {
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
-    this.saveConfig()
+    this.getReleaseConfigFirst()
   },
   watch: {
     '$i18n.locale': function () {
