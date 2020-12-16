@@ -50,6 +50,10 @@ const mecDeveloper = [
         path: '/mecDeveloper/plugin/toolchain',
         pageId: '2.2.1.3',
         display: true
+      }, {
+        id: '3.2.4',
+        name: '文档',
+        display: true
       }
     ]
   },
@@ -100,8 +104,6 @@ const mecDeveloper = [
   {
     id: '3.14',
     name: '社区',
-    path: '/mecDeveloper/community/Community',
-    pageId: '2.2.4',
     display: true
   },
   {
