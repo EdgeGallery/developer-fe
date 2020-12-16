@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     jumpToWorkSpace () {
-      this.$router.push('/mecDeveloper/work')
+      this.$router.push({ name: 'workspace', params: { from: 'index' } })
     },
     jumpTo (item) {
       this.$store.commit('changeTab', item.id)
