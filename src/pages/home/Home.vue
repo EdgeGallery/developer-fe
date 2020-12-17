@@ -203,13 +203,15 @@ export default {
       text-align: center;
       .el-button{
         margin-top: 0px !important;
-        font-size: 45px;
+        font-size: 35px;
+        width: 600px;
+        border-radius: 30px;
       }
     }
     .devProcess{
       height: 640px;
-      margin-left: 20px;
-      margin-right: 20px;
+      margin-left: 2%;
+      margin-right: 3%;
       background: url("../../assets/images/devProcess.png") no-repeat center center;
       background-size: contain;
     }
