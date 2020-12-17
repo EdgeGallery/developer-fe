@@ -209,9 +209,9 @@ export default {
       }
     }
     .devProcess{
-      height: 640px;
-      margin-left: 3%;
-      margin-right: 4%;
+      height: 600px;
+      margin-left: 5%;
+      margin-right: 6%;
       background: url("../../assets/images/devProcess.png") no-repeat center center;
       background-size: contain;
     }
