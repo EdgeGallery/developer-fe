@@ -29,10 +29,11 @@ const en = {
     mecDeveloper: 'Developer',
     step: 'STEPS',
     bannerTitle: 'One-stop application integration development platform',
-    bannerText1: 'Provide developers with convenient development plug-ins',
-    bannerText2: 'to help developers develop and test apps faster',
-    bannerText3: 'Provides a developer portal, including the development process, development tool, open API capabilities, and integration test verification',
-    bannerText4: 'Developers can quickly develop applications and integrate them into the EdgeGallery platform',
+    bannerText1: 'Wizard-based development process',
+    bannerText2: 'Codeless or low-bit-rate integration',
+    bannerText3: 'Abundant 5G network, industry, and IT capabilities',
+    bannerText4: 'Real E2E 5G verification environment',
+    bannerText5: 'Standard application certification and release specifications',
     createProjectTitle: 'Create Project',
     createProjectText: 'Create a brand new project, or view the status of the created project.',
     toolsDownloadTitle: 'Tools Downloads',
@@ -46,7 +47,8 @@ const en = {
     sdkText: 'Software development kit is a collection of development tools used by software engineers to create application software for specific software packages, software frameworks, hardware platforms, operating systems, etc. Generally speaking, SDK is the SDK used to develop applications under Windows platform.',
     apitext: 'Application program interface is defined function in advance, or it refers to the agreement of connecting different components of software system. The purpose is to provide the ability for applications and developers to access a set of routines based on a certain software or hardware without accessing the original code or understanding the details of internal working mechanism.',
     testText: 'The process of executing software to verify that it meets specified requirements and detects errors. Detect the differences between existing conditions, and evaluate the characteristics of software items. An activity in the software engineering process that runs software under predetermined conditions to determine whether the software meets expected results.',
-    ecologyText: 'We provide open source contributions to developers on the Huawei MEC platform, and developers who actively contribute will enjoy the priority download and test rights of Huawei MEC Developer Platform, and will reward medals in the open source eco-contribution section. Developers are welcome. Contribute your ability to help us improve the user experience at: http://git@139.9.0.160:MEP/mec-web.git.'
+    ecologyText: 'We provide open source contributions to developers on the Huawei MEC platform, and developers who actively contribute will enjoy the priority download and test rights of Huawei MEC Developer Platform, and will reward medals in the open source eco-contribution section. Developers are welcome. Contribute your ability to help us improve the user experience at: http://git@139.9.0.160:MEP/mec-web.git.',
+    travelStart: 'Begin your journey of application integration and development'
   },
   devTools: {
     mecDeveloper: 'MEC Developer',

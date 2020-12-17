@@ -20,38 +20,26 @@
       <div class="topLine">
         <div class="title">
           <h2>{{ $t('home.bannerTitle') }}</h2>
-          <span />
           <p>
-            {{ $t('home.bannerText3') }}
+            {{ $t('home.bannerText1') }}
+            <br>{{ $t('home.bannerText2') }}
+            <br>{{ $t('home.bannerText3') }}
             <br>{{ $t('home.bannerText4') }}
+            <br>{{ $t('home.bannerText5') }}
           </p>
         </div>
       </div>
       <div class="common-appliaction">
-        <div class="step">
-          {{ $t('home.step') }}
-        </div>
-        <div class="tabs clear">
-          <div
-            class="tabsPart"
-            v-for="(item,index) in commonApp"
-            :key="index"
-            :id="item.elementId"
+        <div class="devProcess" />
+        <el-row>
+          <el-button
+            type="primary"
+            round
+            @click="jumpToWorkSpace"
           >
-            <router-link :to="item.link">
-              <div>
-                <span>{{ index + 1 }}</span>
-              </div>
-              <img
-                :src="item.src"
-                alt=""
-              >
-              <h5 style="text-align: center;">
-                {{ $t(item.title) }}
-              </h5>
-            </router-link>
-          </div>
-        </div>
+            {{ $t('home.travelStart') }}
+          </el-button>
+        </el-row>
       </div>
       <div class="showLogo">
         <el-link
@@ -91,6 +79,9 @@ export default {
     ...mapState(['activeTab'])
   },
   methods: {
+    jumpToWorkSpace () {
+      this.$router.push({ name: 'workspace', params: { from: 'index' } })
+    },
     jumpTo (item) {
       this.$store.commit('changeTab', item.id)
       this.$router.push(item.path)
@@ -120,40 +111,33 @@ export default {
   overflow-y: auto;
   top:65px;
   .topLine {
-    height: 400px;
-    background: url("../../assets/images/bg1.jpg") no-repeat center center #205361;
+    height: 300px;
+    background: url("../../assets/images/banner.png") no-repeat center center #205361;
     .title {
       color: #fff;
-      padding: 110px 0 0 200px;
+      padding: 65px 0 0 200px;
       h2{
         font-size: 30px;
       }
-      span{
-        display: inline-block;
-        width: 75px;
-        height: 3px;
-        background: #fff;
-        margin: 40px 0 10px;
-      }
       p {
-        font-size: 16px;
+        margin-top: 20px;
+        font-size: 18px;
         line-height: 30px;
-        color: #ddd;
       }
     }
   }
   @media screen and (max-width: 1380px) {
     .topLine {
-      height: 360px;
-      background: url("../../assets/images/bg1.jpg") no-repeat center center #205361;
+      height: 300px;
+      background: url("../../assets/images/banner.png") no-repeat center center #205361;
       .title {
-        padding: 100px 0 0 50px;
+        padding: 60px 0 0 50px;
       }
     }
   }
   @media screen and (max-width: 640px){
     .topLine {
-      height: auto;
+      height: 300px;
       .title{
         padding: 60px 20px 100px;
       }
@@ -211,129 +195,23 @@ export default {
   }
 
   .common-appliaction {
-    width: 95%;
-    margin: 0 auto 20px;
+    padding-left: 18px;
     background: white;
     position: relative;
-    margin-top: -35px;
-    .step{
-      position: absolute;
-      top: 23px;
-      left: 23px;
-      font-size: 20px;
-      color: #282B33;
-    }
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      padding: 70px 0 55px;
-      .tabsPart {
-        height: 265px;
-        width: 23%;
-        box-shadow: 2px 2px 2px 2px #8888883f;
-        overflow: hidden;
-        a{
-          display: block;
-          height: 100%;
-          text-align: center;
-          padding-top: 50px;
-          box-sizing: border-box;
-          position: relative;
-          overflow: hidden;
-          div{
-            height: 100px;
-            width: 100px;
-            background: rebeccapurple;
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            border-radius: 50%;
-            span{
-              display: inline-block;
-              position: absolute;
-              left: 65px;
-              top: 65px;
-            }
-          }
-          img {
-            width: 98px;
-            height: 98px;
-          }
-          h5 {
-            font-weight: bold;
-            color: white;
-            font-size: 26px;
-            margin-top: 30px;
-          }
-          @media screen and (max-width: 1380px) {
-              h5 {
-                font-size: 22px;
-                margin-top: 20px;
-              }
-          }
-        }
-      }
-      @media screen and (max-width: 1380px){
-        .tabsPart {
-          height: 200px;
-          a{
-            padding-top: 30px;
-            img {
-              width: 80px;
-              height: 80px;
-            }
-          }
-        }
-      }
-      .tabsPart:nth-child(1){
-         background: linear-gradient(to top left, #8448d7 , #6c92fa 50%,#6c93ff );
-         a{
-           div{
-             background: #7e6efb;
-           }
-         }
-      }
-      .tabsPart:nth-child(2){
-         background: linear-gradient(to top left, #dac939, #acdb7e 50%, #a7dd82);
-         a{
-           div{
-             background: #a8f742;
-           }
-         }
-      }
-      .tabsPart:nth-child(3){
-         background: linear-gradient(to top left, #06dced, #80e1d9 50%, #80e1d9);
-         a{
-           div{
-             background: #29dde2;
-           }
-         }
-      }
-      .tabsPart:nth-child(4){
-         background: linear-gradient(to top left, #cdabff, #95c6ff 50%, #85caff);
-         a{
-           div{
-             background: #70b9f1;
-           }
-         }
+    padding-bottom: 26px;
+    .el-row{
+      text-align: center;
+      .el-button{
+        margin-top: 0px !important;
+        font-size: 45px;
       }
     }
-    @media screen and (max-width: 640px){
-      .tabs{
-        display: block;
-        padding: 70px 0 0;
-        .tabsPart {
-          float: left;
-          width: 50%;
-          h5 {
-            padding: 0 10px;
-          }
-
-        }
-      }
-      .tabs .tabsPart a h5 {
-        font-size: 18px;
-      }
+    .devProcess{
+      height: 640px;
+      margin-left: 20px;
+      margin-right: 20px;
+      background: url("../../assets/images/devProcess.png") no-repeat center center;
+      background-size: contain;
     }
   }
 }
