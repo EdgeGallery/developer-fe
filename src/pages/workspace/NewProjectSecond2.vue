@@ -16,6 +16,17 @@
 
 <template>
   <div class="secondstep">
+    <p class="capabilityInfo">
+      {{ $t('workspace.capabilityInfo1') }}
+      <el-link
+        type="primary"
+        :href="capabilityUrl"
+        target="_blank"
+      >
+        {{ $t('nav.mepApi') }}
+      </el-link>
+      {{ $t('workspace.capabilityInfo2') }}
+    </p>
     <table
       class="tableCapa"
     >
@@ -99,7 +110,8 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      capabilityUrl: '/#/mecDeveloper/api/mep'
     }
   },
   created () {},
@@ -249,6 +261,14 @@ export default {
   .tableCapa td:first-child {
     width: 40%;
     text-align: right;
+  }
+  .capabilityInfo{
+    font-size: 13px;
+    line-height: 25px;
+    margin-bottom: 15px;
+    a{
+      margin-top: -2px;
+    }
   }
 }
 </style>
