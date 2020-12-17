@@ -203,7 +203,8 @@ export default {
       text-align: center;
       .el-button{
         margin-top: 0px !important;
-        font-size: 30px;
+        font-size: 25px;
+        height: 55px;
         width: 650px;
         border-radius: 30px;
       }
