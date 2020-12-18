@@ -17,7 +17,7 @@
 <template>
   <div class="deployment">
     <div class="deploy-detail-box">
-      <h4 class="detail-box-title">
+      <h4 class="detail-box-title grayline">
         {{ $t("workspace.appDetail") }}
       </h4>
 
@@ -104,44 +104,47 @@
     </div>
     <div class="test-env">
       <el-row>
-        <h4>选择测试环境</h4>
+        <h4 class="grayline">
+          选择测试环境
+        </h4>
       </el-row>
-      <el-row>
+      <el-row class="marginTop15">
         <el-col
           :span="12"
-          :push="2"
+          :push="1"
         >
           <div class="env-img">
             <img
-              :src="sandboxImg"
+              :src="sandboxUnclickedImg"
               alt=""
               @click="selectEnv = isPhysical = false"
-              :class="{'imgBorder': !isPhysical}"
+              v-show="isPhysical"
             >
-            <p class="marginTop10">
-              选择沙箱环境，模拟真实场景，快速调测
-            </p>
+            <img
+              :src="sandboxClickedImg"
+              alt=""
+              @click="selectEnv = isPhysical = false"
+              v-show="!isPhysical"
+            >
           </div>
         </el-col>
         <el-col
           :span="12"
-          :pull="2"
+          :pull="4"
         >
           <div class="env-img">
             <img
-              :src="labImg"
+              :src="labUnclickedImg"
               alt=""
               @click="selectEnv = isPhysical = true"
-              :class="{'imgBorder': isPhysical}"
+              v-show="!isPhysical"
             >
-            <p
-              class="-margin-top10-"
+            <img
+              :src="labClickedImg"
+              alt=""
+              @click="selectEnv = isPhysical = true"
+              v-show="isPhysical"
             >
-              选择真实5G环境进行测试验证
-            </p>
-            <p>
-              注：由于5G环境资源有限，有可能申请失败
-            </p>
           </div>
         </el-col>
       </el-row>
@@ -149,7 +152,7 @@
         <el-row>
           <el-col
             :span="24"
-            :push="8"
+            :push="2"
           >
             <el-button
               class="deploy-btn"
@@ -174,7 +177,7 @@
     </div>
     <div class="deploy-status-box">
       <!-- 状态头部 -->
-      <div class="deploy-status-title-box">
+      <div class="deploy-status-title-box grayline">
         <h4 class="detail-box-title">
           {{ $t("workspace.deploymentStatus") }}
         </h4>
@@ -214,16 +217,32 @@
         </div>
         <!--流程图 -->
         <div class="flow-img">
-          <el-carousel :autoplay="true">
-            <el-carousel-item>
+          <el-carousel
+            :autoplay="false"
+            arrow="never"
+            ref="carousel"
+          >
+            <el-carousel-item name="1">
               <img
-                :src="flowImg"
+                :src="CSARImg"
                 alt=""
               >
             </el-carousel-item>
-            <el-carousel-item>
+            <el-carousel-item name="2">
               <img
-                :src="flowImg"
+                :src="nodeInfoImg"
+                alt=""
+              >
+            </el-carousel-item>
+            <el-carousel-item name="3">
+              <img
+                :src="applicationImg"
+                alt=""
+              >
+            </el-carousel-item>
+            <el-carousel-item name="4">
+              <img
+                :src="workStatusImg"
                 alt=""
               >
             </el-carousel-item>
@@ -332,6 +351,14 @@ export default {
       sandboxImg: require('@/assets/images/sandBox.png'),
       deploySuccessImg: require('@/assets/images/deploySuccessImg.png'),
       deployFailedImg: require('@/assets/images/deployFailedImg.png'),
+      labClickedImg: require('@/assets/images/5GClicked.png'),
+      labUnclickedImg: require('@/assets/images/5GUnclicked.png'),
+      applicationImg: require('@/assets/images/application.png'),
+      CSARImg: require('@/assets/images/CSAR.png'),
+      nodeInfoImg: require('@/assets/images/nodeInfo.png'),
+      workStatusImg: require('@/assets/images/workStatus.png'),
+      sandboxClickedImg: require('@/assets/images/sandBoxClicked.png'),
+      sandboxUnclickedImg: require('@/assets/images/sandBoxUnclicked.png'),
       deploySuccess: false,
       flowShow: true,
       testFinished: false,
@@ -407,13 +434,35 @@ export default {
         this.deployField = res.data.deployField === null ? '未上传' : '已上传'
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
         if (status != null) {
+          if (status.csar !== this.CSAR) {
+            setTimeout(function () {
+            }, 1000)
+          }
           this.CSAR = status.csar
+          this.initialTimeline()
+          if (status.hostInfo !== this.hostInfo) {
+            setTimeout(function () {
+            }, 1000)
+          }
           this.hostInfo = status.hostInfo
+          this.initialTimeline()
+          if (status.instantiateInfo !== this.instantiateInfo) {
+            setTimeout(function () {
+            }, 1000)
+          }
           this.instantiateInfo = status.instantiateInfo
+          this.initialTimeline()
+          if (status.workStatus !== this.workStatus) {
+            setTimeout(function () {
+            }, 1000)
+          }
           this.workStatus = status.workStatus
+          this.initialTimeline()
         }
+
         this.deployStatus = res.data.deployStatus
-        this.initialTimeline() // update icon status according to stage status
+        this.initialTimeline()
+        // update icon status according to stage status
         // deploy successfully
         if (this.deployStatus === 'SUCCESS') {
           clearInterval(this.timer)
@@ -453,6 +502,7 @@ export default {
       return (Math.round(s1 / s2 * 10000) / 100.00 + '%')
     },
     initialTimeline () {
+      this.getStatusPic()
       this.activities = [
         {
           content: '生成部署文件',
@@ -498,6 +548,22 @@ export default {
       } else if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
         return '#ddd'
       } else return '#778FEF'
+    },
+
+    getStatusPic: function () {
+      if (this.deployStatus === 'NOTDEPLOY') {
+        this.$refs.carousel.setActiveItem('1')
+      } else if (this.workStatus === 'Success') {
+        this.$refs.carousel.setActiveItem('4')
+      } else if (this.instantiateInfo === 'Success') {
+        this.$refs.carousel.setActiveItem('4')
+      } else if (this.hostInfo === 'Success') {
+        this.$refs.carousel.setActiveItem('3')
+      } else if (this.CSAR === 'Success') {
+        this.$refs.carousel.setActiveItem('2')
+      } else {
+        this.$refs.carousel.setActiveItem('1')
+      }
     }
 
   },
@@ -512,10 +578,9 @@ export default {
 
 <style lang="less">
 
-.imgBorder{
-border-style:solid;
-border-color:red;
-border-width:2px;
+.grayline {
+  background: #f0f0f0;
+  padding:10px
 }
 .marginTop10 {
   margin-Top: 10px;
@@ -554,6 +619,7 @@ border-width:2px;
         .deploy-btn {
           margin-left: 30px;
         }
+
       }
       .env-img {
         margin-top: 20px;
