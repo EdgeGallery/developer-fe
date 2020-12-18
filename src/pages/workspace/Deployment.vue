@@ -435,29 +435,36 @@ export default {
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
         if (status != null) {
           if (status.csar !== this.CSAR) {
+            this.CSAR = status.csar
+            this.initialTimeline()
             setTimeout(function () {
-            }, 1000)
+              console.log('csar finishes')
+            }, 2000)
           }
-          this.CSAR = status.csar
-          this.initialTimeline()
+
           if (status.hostInfo !== this.hostInfo) {
+            this.hostInfo = status.hostInfo
+            this.initialTimeline()
             setTimeout(function () {
-            }, 1000)
+              console.log('hostInfo finishes')
+            }, 2000)
           }
-          this.hostInfo = status.hostInfo
-          this.initialTimeline()
+
           if (status.instantiateInfo !== this.instantiateInfo) {
+            this.instantiateInfo = status.instantiateInfo
+            this.initialTimeline()
             setTimeout(function () {
-            }, 1000)
+              console.log('instantiateInfo finishes')
+            }, 2000)
           }
-          this.instantiateInfo = status.instantiateInfo
-          this.initialTimeline()
+
           if (status.workStatus !== this.workStatus) {
+            this.workStatus = status.workStatus
+            this.initialTimeline()
             setTimeout(function () {
-            }, 1000)
+              console.log('workStatus finishes')
+            }, 2000)
           }
-          this.workStatus = status.workStatus
-          this.initialTimeline()
         }
 
         this.deployStatus = res.data.deployStatus
@@ -556,7 +563,7 @@ export default {
       } else if (this.workStatus === 'Success') {
         this.$refs.carousel.setActiveItem('4')
       } else if (this.instantiateInfo === 'Success') {
-        this.$refs.carousel.setActiveItem('4')
+        this.$refs.carousel.setActiveItem('3')
       } else if (this.hostInfo === 'Success') {
         this.$refs.carousel.setActiveItem('3')
       } else if (this.CSAR === 'Success') {
