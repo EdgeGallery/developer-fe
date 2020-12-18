@@ -145,6 +145,7 @@ export default {
     loginApi().then(res => {
       sessionStorage.setItem('userId', res.data.userId)
       sessionStorage.setItem('userName', res.data.userName)
+      sessionStorage.setItem('accessToken', res.data.accessToken)
       this.loginPage = res.data.loginPage
       if (res.data.userName === 'guest') {
         this.ifGuest = true

@@ -35,12 +35,63 @@
       @tab-click="handleClick"
     >
       <el-tab-pane
-        :label="$t('workspace.capabilityDetails')"
+        :label="$t('workspace.projectDetails')"
         class="elTabPane"
         name="1"
         lazy
       >
-        <api v-if="isChildUpdate1" />
+        <div
+          v-if="isChildUpdate1"
+          class="project_detail"
+        >
+          <el-row>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
+            </el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.provider') }}</span>{{ projectDetailData.provider }}
+            </el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.industry') }}</span>{{ projectDetailData.industry }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
+            </el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.platform') }}</span>{{ projectDetailData.platform }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ projectDetailData.dependent }}
+            </el-col>
+          </el-row>
+        </div>
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.applicationDev')"
@@ -49,16 +100,25 @@
         lazy
         v-loading="isPublic"
       >
-        <div v-if="isChildUpdate2">
+        <api v-if="isChildUpdate2" />
+      </el-tab-pane>
+      <el-tab-pane
+        :label="$t('workspace.deploymentTest')"
+        class="elTabPane"
+        name="3"
+        lazy
+        v-loading="isPublic"
+      >
+        <div v-if="isChildUpdate3">
           <el-steps
             :active="active"
             finish-status="success"
             align-center
           >
-            <el-step :title="$t('workspace.environmentPreparation')" />
             <el-step :title="$t('workspace.choosePlatform')" />
             <el-step :title="$t('workspace.selectImage')" />
             <el-step :title="$t('workspace.configureYaml')" />
+            <el-step :title="$t('workspace.deploymentTest')" />
           </el-steps>
           <div class="elSteps">
             <component
@@ -87,19 +147,12 @@
               type="primary"
               v-loading="apiDataLoading"
               @click="next"
+              v-if="active<3"
             >
-              <strong>{{ btnName }}</strong>
+              <strong>{{ $t('workspace.next') }}</strong>
             </el-button>
           </div>
         </div>
-      </el-tab-pane>
-      <el-tab-pane
-        :label="$t('workspace.deploymentTest')"
-        class="elTabPane"
-        name="3"
-        lazy
-      >
-        <deployment v-if="isChildUpdate3" />
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.applicationRelease')"
@@ -150,7 +203,7 @@ export default {
       activeName: '1',
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
-      currentComponent: 'EnvPreparation',
+      currentComponent: 'choosePlatform',
       allStepData: {},
       projectBeforeConfig: {},
       viewReport: false,
@@ -164,33 +217,57 @@ export default {
       isChildUpdate1: true,
       isChildUpdate2: false,
       isChildUpdate3: false,
-      isChildUpdate4: false
-    }
-  },
-  computed: {
-    btnName: function () {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.nextButtonName = this.active >= 3 ? this.$t('workspace.saveData') : this.$t('workspace.nextStep')
-      return this.nextButtonName
+      isChildUpdate4: false,
+      projectDetailData: {
+        name: '',
+        version: '',
+        provider: '',
+        industry: '',
+        type: '',
+        platform: '',
+        dependent: ''
+      },
+      projectId: sessionStorage.getItem('mecDetailID')
     }
   },
   methods: {
+    // 获取项目详情
+    getProjectInfo () {
+      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        let data = res.data
+        this.projectDetailData.name = data.name
+        this.projectDetailData.version = data.version
+        this.projectDetailData.provider = data.provider
+        this.projectDetailData.industry = data.industry[0]
+        this.projectDetailData.type = data.type
+        this.projectDetailData.platform = data.platform[0]
+        let dependent = res.data.capabilityList
+        let arr = []
+        dependent.forEach(item => {
+          item.capabilityDetailList.forEach(itemSub => {
+            arr.push(itemSub.service)
+          })
+        })
+        arr = Array.from(new Set(arr))
+        this.projectDetailData.dependent = arr.join('，')
+      })
+    },
     changeComponent () {
       switch (this.active) {
         case 0:
-          this.currentComponent = 'EnvPreparation'
-          break
-        case 1:
           this.currentComponent = 'choosePlatform'
           break
-        case 2:
+        case 1:
           this.currentComponent = 'imageSelect'
           break
-        case 3:
+        case 2:
           this.currentComponent = 'configYaml'
           break
+        case 3:
+          this.currentComponent = 'deployment'
+          break
         default:
-          this.currentComponent = 'EnvPreparation'
+          this.currentComponent = 'choosePlatform'
       }
     },
     next () {
@@ -203,6 +280,8 @@ export default {
         } else {
           this.isChildUpdate2 = false
           this.isChildUpdate3 = true
+        }
+        if (this.active === 3) {
           this.submitData()
         }
       }
@@ -236,7 +315,6 @@ export default {
     },
     submitData () {
       this.apiDataLoading = true
-      const projectId = sessionStorage.getItem('mecDetailID')
       const params = {
         testId: this.projectBeforeConfig.testId,
         privateHost: !!this.allStepData.third.enable,
@@ -250,35 +328,17 @@ export default {
         ] : []
       }
       const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
-      func(projectId, this.userId, params).then(res => {
-        this.$message.success(this.$t('promptMessage.saveSuccess'))
+      func(this.projectId, this.userId, params).then(res => {
         this.getTestConfig()
-        this.activeName = '3'
-      }, (error) => {
-        if (error.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
-        } else {
-          this.$message.error(this.$t('promptMessage.saveFail'))
-        }
+        this.apiDataLoading = false
       }).finally(() => {
         this.apiDataLoading = false
-      })
-    },
-    // 部署
-    deployTest (projectId) {
-      Workspace.deployTestApi(projectId, this.userId).then(response => {
-        if (response.data.status === 'DEPLOYING') {
-          this.$message({
-            message: this.$t('workspace.startDeploySucc')
-          })
-        }
       })
     },
     // 清空测试环境
     cleanTestEnv (deployed) {
       this.isPublic = true
-      let projectId = sessionStorage.getItem('mecDetailID')
-      Workspace.cleanTestEnvApi(projectId, deployed, this.userId).then(res => {
+      Workspace.cleanTestEnvApi(this.projectId, deployed, this.userId).then(res => {
         if (res.data === true) {
           this.isPublic = false
         }
@@ -292,8 +352,7 @@ export default {
     },
     // 获取以前提交过的配置
     getTestConfig () {
-      let projectId = sessionStorage.getItem('mecDetailID')
-      Workspace.getTestConfigApi(projectId).then(res => {
+      Workspace.getTestConfigApi(this.projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
       })
     },
@@ -322,8 +381,24 @@ export default {
     }
   },
   mounted () {
+    this.getProjectInfo()
     this.handleStep()
     this.getTestConfig()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      let spanLeft = document.getElementsByClassName('span_left')
+      if (language === 'en') {
+        spanLeft.forEach(item => {
+          item.style.width = 160 + 'px'
+        })
+      } else {
+        spanLeft.forEach(item => {
+          item.style.width = 95 + 'px'
+        })
+      }
+    }
   }
 }
 </script>
@@ -364,7 +439,6 @@ export default {
   }
 }
 .workdetail {
-  // height: 100%;
   .el-tree-node__content{
     height: 35px;
     line-height: 35px;
@@ -447,6 +521,19 @@ export default {
     .elProgress {
       text-align: center;
       margin-top: 20px;
+    }
+    .project_detail{
+      .el-col{
+        padding: 15px 10px;
+        font-size: 13px;
+        .span_left{
+          color: #adb0b8;
+          display: inline-block;
+          min-width: 95px;
+          text-align: right;
+          padding-right: 20px;
+        }
+      }
     }
   }
   .title{

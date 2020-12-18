@@ -71,6 +71,12 @@ li{
 .ml10{
   margin-left: 10px;
 }
+.tit_gray_bg{
+  font-size: 16px;
+  background: #f0f0f0;
+  padding: 10px;
+  margin-bottom: 15px;
+}
 .flex{
   display: flex
 }

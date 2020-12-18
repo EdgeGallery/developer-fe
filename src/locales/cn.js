@@ -225,7 +225,10 @@ const cn = {
       tunnelInfo: '隧道信息',
       macInfo: 'MAC信息',
       IpInfo: 'IP信息',
-      capabilityType: '能力类型'
+      capabilityType: '能力类型',
+      noService: '您的应用没有依赖平台的生态服务',
+      blackWhiteList: '黑白名单',
+      UEIdentity: 'UE标识'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',
@@ -496,6 +499,7 @@ const cn = {
     addImage: '请添加镜像',
     selectService: '请选择一个服务器！',
     selectCommand: '编译命令不能为空！',
+    codeEmpty: '源码不能为空！',
     analysisCodeFail: '分析任务失败！',
     uploadCodeText: '正在上传源代码，请稍候...',
     analyzingText: '正在分析，请稍候...',

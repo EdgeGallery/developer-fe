@@ -16,74 +16,165 @@
 
 <template>
   <div class="api">
-    <el-row
-      :gutter="20"
-      v-loading="apiDataLoading"
+    <el-steps
+      :active="active"
+      finish-status="success"
+      align-center
     >
-      <el-col :span="6">
-        <el-tree
-          ref="treeList"
-          :data="treeData"
-          :props="defaultProps"
-          @node-click="handleNodeClick"
-          node-key="id"
-          :highlight-current="true"
-          :default-expanded-keys="defaultExpandKeys"
-          :current-node-key="0"
-        />
-      </el-col>
-      <el-col :span="18">
-        <div class="service_div">
-          <p class="api_top">
-            {{ $t('workspace.apiTopText') }} ：
-          </p>
-          <p class="title">
-            {{ $t('workspace.serviceDetails') }}
-          </p>
-          <el-row class="service_info">
-            <el-col :span="24">
-              {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
-            </el-col>
-          </el-row>
-          <el-row class="service_info">
-            <el-col :span="12">
-              {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
-            </el-col>
-            <el-col :span="12">
-              {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
-            </el-col>
-          </el-row>
-          <el-row class="service_info">
-            <el-col :span="12">
-              {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
-            </el-col>
-            <el-col :span="12">
-              SDK {{ $t('common.download') }} ：
-              <el-select
-                v-model="codeLanguage"
-                name="codeLanguage"
-                class="list-select"
-                size="mini"
-              >
-                <el-option
-                  v-for="item in optionsLanguage"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.label"
-                  :id="item.label"
+      <el-step :title="$t('workspace.capabilityDetails')" />
+      <el-step :title="$t('workspace.environmentPreparation')" />
+    </el-steps>
+    <div
+      class="elSteps"
+      v-if="api_div"
+    >
+      <el-row
+        :gutter="20"
+        v-loading="apiDataLoading"
+        v-if="hasService"
+      >
+        <el-col :span="6">
+          <el-tree
+            ref="treeList"
+            :data="treeData"
+            :props="defaultProps"
+            @node-click="handleNodeClick"
+            default-expand-all
+            highlight-current
+            class="api_tree"
+          />
+        </el-col>
+        <el-col :span="18">
+          <div class="service_div">
+            <p class="api_top">
+              {{ $t('workspace.apiTopText') }} ：
+            </p>
+            <p class="title">
+              {{ $t('workspace.serviceDetails') }}
+            </p>
+            <el-row class="service_info">
+              <el-col :span="24">
+                {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
+              </el-col>
+            </el-row>
+            <el-row class="service_info">
+              <el-col :span="12">
+                {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
+              </el-col>
+              <el-col :span="12">
+                {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
+              </el-col>
+            </el-row>
+            <el-row class="service_info">
+              <el-col :span="12">
+                {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
+              </el-col>
+              <el-col :span="12">
+                SDK {{ $t('common.download') }} ：
+                <el-select
+                  v-model="codeLanguage"
+                  name="codeLanguage"
+                  class="list-select"
+                  size="mini"
+                >
+                  <el-option
+                    v-for="item in optionsLanguage"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.label"
+                    :id="item.label"
+                  />
+                </el-select>
+                <el-link
+                  class="download_sdk"
+                  :href="downloadSDKApi()"
                 />
-              </el-select>
-              <el-link
-                class="download_sdk"
-                :href="downloadSDKApi()"
-              />
-            </el-col>
-          </el-row>
-        </div>
+                <el-link
+                  :href="guideUrl"
+                  target="_blank"
+                  type="primary"
+                  class="ml10"
+                >
+                  {{ $t('api.installGuide') }}
+                </el-link>
+              </el-col>
+            </el-row>
+          </div>
 
-        <div id="swagger-ui" />
-      </el-col>
-    </el-row>
+          <div id="swagger-ui" />
+        </el-col>
+      </el-row>
+      <div
+        class="no_service"
+        v-if="!hasService"
+      >
+        <p>{{ $t('workspace.appRelease.noService') }}</p>
+        <img
+          src="../../../assets/images/construct.png"
+          alt="a"
+        >
+      </div>
+    </div>
+    <div
+      class="elSteps"
+      v-if="env_div"
+    >
+      <div class="envPreparation">
+        <h3 class="title">
+          <em class="el-icon-setting" />
+          {{ $t('workspace.programTools') }}
+        </h3>
+        <div class="pad">
+          {{ $t('workspace.prepare.toolTip') }}
+        </div>
+        <h3 class="title">
+          <em class="el-icon-notebook-2" />
+          {{ $t('workspace.programPlugin') }}
+        </h3>
+        <div class="pad">
+          {{ $t('workspace.prepare.pluginTip1') }}
+          <el-link
+            type="info"
+            :href="projectLink"
+            target="_blank"
+          >
+            {{ $t('workspace.prepare.pluginTip2') }}
+          </el-link>
+          {{ $t('workspace.prepare.pluginTip3') }}
+        </div>
+        <h3 class="title">
+          <em class="el-icon-edit-outline" />
+          {{ $t('workspace.sampleCode') }}
+        </h3>
+        <div class="pad">
+          {{ $t('workspace.prepare.codeTip1') }}
+          <el-link
+            type="info"
+            :underline="false"
+            @click="getApiFileId"
+          >
+            {{ $t('workspace.prepare.codeTip2') }}
+          </el-link>
+          {{ $t('workspace.prepare.codeTip3') }}
+        </div>
+      </div>
+    </div>
+    <div class="elButton">
+      <el-button
+        type="text"
+        @click="previous"
+        v-if="active>0"
+      >
+        <strong>{{ $t('workspace.previous') }}</strong>
+      </el-button>
+      <el-button
+        type="primary"
+        v-if="active===0"
+        @click="next"
+      >
+        <strong>{{ $t('workspace.next') }}</strong>
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -124,84 +215,125 @@ export default {
         version: ''
       },
       language: localStorage.getItem('language'),
-      downloadUrl: ''
+      downloadUrl: '',
+      active: 0,
+      api_div: true,
+      env_div: false,
+      apiFileIdArr: [],
+      projectLink: '/#/mecDeveloper/plugin/list',
+      guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md',
+      hasService: true
     }
   },
   methods: {
+    next () {
+      this.active++
+      this.handleStep()
+    },
+    previous () {
+      this.active--
+      this.handleStep()
+    },
+    handleStep () {
+      if (this.active === 0) {
+        this.api_div = true
+        this.env_div = false
+      } else if (this.active === 1) {
+        this.api_div = false
+        this.env_div = true
+      }
+    },
+    // 获取项目详情
     getProjectDetail () {
+      this.treeData = []
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
+        if (res.data.capabilityList.length > 0) {
+          this.hasService = true
+        } else {
+          this.hasService = false
+        }
         this.apiType = res.data.type
         let treeDataTemp = []
-        treeDataTemp = res.data.capabilityList
-        let userId = res.data.userId
         let serviceCount = 0
-        for (let i in treeDataTemp) {
+        treeDataTemp = res.data.capabilityList
+        let oneLevel = []
+        treeDataTemp.forEach(item => {
+          item.oneLevelName = this.checkProjectData(item.oneLevelName)
+          oneLevel.push(item.oneLevelName)
+        })
+        oneLevel = Array.from(new Set(oneLevel))
+        // oneLevel
+        oneLevel.forEach(item => {
           let obj = {
             label: '',
             children: []
           }
-          let type = treeDataTemp[i].type
-          this.checkProjectData()
-          obj.label = treeDataTemp[i].name
-          let serviceTemp = treeDataTemp[i].capabilityDetailList
-          let hasService = false
-          for (let j in serviceTemp) {
+          obj.label = item
+          this.treeData.push(obj)
+        })
+        // twoLevel
+        treeDataTemp.forEach(item => {
+          this.treeData.forEach(itemTwo => {
+            if (itemTwo.label === item.oneLevelName) {
+              let objTwo = {
+                label: '',
+                children: []
+              }
+              if (item.twoLevelName) {
+                item.twoLevelName = this.checkProjectData(item.twoLevelName)
+                objTwo.label = item.twoLevelName
+                itemTwo.children.push(objTwo)
+              }
+            }
+          })
+        })
+        // threeLevel
+        treeDataTemp.forEach(item => {
+          item.capabilityDetailList.forEach(subItem => {
             serviceCount++
             sessionStorage.setItem('serviceCount', serviceCount)
-            let subHasService = false
-            let subObj = {
-              id: 0,
-              label: '',
-              apiFileId: '',
-              userId: '',
-              type: '',
-              capabilityType: '',
-              uploadTime: '',
-              version: ''
-            }
-            subObj.id = j
-            subObj.label = serviceTemp[j].service
-            subObj.userId = userId
-            subObj.type = type
-            subObj.capabilityType = treeDataTemp[i].name
-            let timeStr = this.dateChange(serviceTemp[j].uploadTime)
-            subObj.uploadTime = timeStr
-            subObj.version = serviceTemp[j].version
-            if (subObj.label) {
-              subHasService = true
-              hasService = true
-            }
-            subObj.apiFileId = serviceTemp[j].apiFileId
-            if (subHasService) obj.children.push(subObj)
-          }
-          if (hasService) this.treeData.push(obj)
-        }
-        this.defaultExpandKeys.push(this.treeData[0].children[0].id)
+            this.treeData.forEach(itemThree => {
+              itemThree.children.forEach(subTree => {
+                let objThree = {
+                  label: '',
+                  type: '',
+                  apiFileId: '',
+                  capabilityType: '',
+                  uploadTime: '',
+                  version: ''
+                }
+                objThree.label = subItem.service
+                objThree.type = item.type
+                objThree.apiFileId = subItem.apiFileId
+                objThree.capabilityType = item.twoLevelName
+                let timeStr = this.dateChange(subItem.uploadTime)
+                objThree.uploadTime = timeStr
+                objThree.version = subItem.version
+                if (item.twoLevelName === subTree.label) {
+                  subTree.children.push(objThree)
+                }
+              })
+            })
+          })
+        })
         if (this.treeData.length > 0) {
           this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.el-tree-node__children .el-tree-node__content')
+            const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node')
             firstNode.click()
           })
         }
-        this.checkProjectData()
         this.apiDataLoading = false
-      }).catch(err => {
-        console.log(err)
-        setTimeout(() => {
-          this.apiDataLoading = false
-        }, 2000)
       })
     },
     handleNodeClick (data) {
-      this.apiFileId = data.apiFileId
-      this.serviceDetail.capabilityType = data.capabilityType
-      this.serviceDetail.serviceName = data.label
-      this.serviceDetail.uploadTime = data.uploadTime
-      this.serviceDetail.version = data.version
-      this.checkProjectData()
       if (!data.children) {
-        let apiUrl = Workspace.getApiUrl(data.apiFileId, data.userId, data.type)
+        this.apiFileId = data.apiFileId
+        this.serviceDetail.capabilityType = data.capabilityType
+        this.serviceDetail.serviceName = data.label
+        this.serviceDetail.uploadTime = data.uploadTime
+        this.serviceDetail.version = data.version
+        let apiUrl = Workspace.getApiUrl(data.apiFileId, this.userId, data.type)
         SwaggerUIBundle({
           url: apiUrl,
           dom_id: '#swagger-ui',
@@ -228,10 +360,12 @@ export default {
       }
     },
     setApiHeight () {
-      const oApi = document.getElementById('swagger-ui')
-      const deviceHeight = document.documentElement.clientHeight
-      const oDivHeight = document.getElementsByClassName('service_div')[0].offsetHeight
-      oApi.style.height = Number(deviceHeight) - 260 - oDivHeight + 'px'
+      this.$nextTick(() => {
+        const oApi = document.getElementById('swagger-ui')
+        const deviceHeight = document.documentElement.clientHeight
+        const oDivHeight = document.getElementsByClassName('service_div')[0].offsetHeight
+        oApi.style.height = Number(deviceHeight) - 260 - oDivHeight + 'px'
+      })
     },
     dateChange (dateStr) {
       if (dateStr) {
@@ -244,44 +378,65 @@ export default {
       }
     },
     // 中英文切换
-    checkProjectData () {
+    checkProjectData (name) {
       Capability.forEach(itemFe => {
         if (this.language === 'cn') {
-          if (this.serviceDetail.capabilityType === itemFe.label[1]) {
-            this.serviceDetail.capabilityType = itemFe.label[0]
+          if (name === itemFe.label[1]) {
+            name = itemFe.label[0]
           }
         } else {
-          if (this.serviceDetail.capabilityType === itemFe.label[0]) {
-            this.serviceDetail.capabilityType = itemFe.label[1]
+          if (name === itemFe.label[0]) {
+            name = itemFe.label[1]
           }
         }
-        this.treeData.forEach(itemBe => {
-          if (itemBe.label === itemFe.label[1] && this.language === 'cn') {
-            itemBe.label = itemFe.label[0]
-          } else if (itemBe.label === itemFe.label[0] && this.language === 'en') {
-            itemBe.label = itemFe.label[1]
-          }
-        })
       })
+      return name
     },
     downloadSDKApi () {
       let lan = this.codeLanguage.toLowerCase()
       sessionStorage.setItem('lan', lan)
       sessionStorage.setItem('sdkFileId', this.apiFileId)
       return Api.downloadSDKApi(this.apiFileId, lan)
+    },
+    async getApiFileId () {
+      this.apiFileIdArr = []
+      let projectId = sessionStorage.getItem('mecDetailID')
+      let getGroupid = async (groupId) => {
+        await Workspace.getServiceListApi(groupId).then(res => {
+          let data = res.data
+          data.capabilityDetailList.forEach(service => {
+            this.apiFileIdArr.push(service.apiFileId)
+          })
+        })
+        let serviceCount = Number(sessionStorage.getItem('serviceCount'))
+        if (this.apiFileIdArr.length === serviceCount) {
+          this.getSampleCode(this.apiFileIdArr)
+        }
+      }
+
+      await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
+        let data = res.data.capabilityList
+        if (data.length === 0) {
+          this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
+        } else {
+          data.forEach(dataItem => {
+            getGroupid(dataItem.groupId)
+          })
+        }
+      })
+    },
+    getSampleCode (apiFileIdArr) {
+      Workspace.getSampleCodeApi(apiFileIdArr)
     }
-  },
-  created () {
-    this.getProjectDetail()
   },
   watch: {
     '$i18n.locale': function () {
-      let language = localStorage.getItem('language')
-      this.language = language
-      this.checkProjectData()
+      this.language = localStorage.getItem('language')
+      this.getProjectDetail()
     }
   },
   mounted () {
+    this.getProjectDetail()
     this.setApiHeight()
     let _this = this
     window.onresize = function () {
@@ -336,6 +491,46 @@ export default {
       margin-left: 10px;
     }
   }
-
+  .elSteps{
+    width: 80%;
+    margin: 0 10%;
+    .no_service{
+      text-align: center;
+      line-height: 25px;
+      img{
+        width: 50%;
+        max-width: 445px;
+      }
+    }
+  }
+  @media screen and (max-width: 1380px){
+    .elSteps{
+      width: 100%;
+      margin: 0;
+      .no_service{
+        img{
+          width: 80%;
+          max-width: 445px;
+        }
+      }
+    }
+  }
+  .envPreparation{
+    .title{
+      em{
+        margin-right: 15px;
+      }
+    }
+    .pad {
+      font-size: 13px;
+      color: #575d6c;
+      padding-left: 35px;
+      padding-bottom: 15px;
+      .el-link{
+        margin-top: -4px;
+        color: #688ef3;
+      }
+    }
+  }
 }
 </style>

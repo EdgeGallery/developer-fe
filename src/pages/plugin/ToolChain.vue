@@ -449,29 +449,33 @@ export default {
     },
     // 点击分析按钮，创建分析任务
     analysisCode () {
-      let params = {
-        'constructtool': this.form.buildTool,
-        'compilecommand': this.form.command,
-        'targetos': this.form.targetOs.toLocaleLowerCase(),
-        'targetkernel': this.form.systemVersion.slice(1),
-        'compiler': {
-          'type': 'gcc',
-          'version': this.form.compilerVersion.slice(4)
+      if (this.sourceCodeName === '') {
+        this.$message.warning(this.$t('promptMessage.codeEmpty'))
+      } else {
+        let params = {
+          'constructtool': this.form.buildTool,
+          'compilecommand': this.form.command,
+          'targetos': this.form.targetOs.toLocaleLowerCase(),
+          'targetkernel': this.form.systemVersion.slice(1),
+          'compiler': {
+            'type': 'gcc',
+            'version': this.form.compilerVersion.slice(4)
+          }
         }
+        this.analysisLoading = true
+        this.uploadCodeText = this.$t('promptMessage.analyzingText')
+        Plugin.analysisCodeApi(this.userId, params, 'toolchain').then(res => {
+          this.getScanTask()
+          this.analysisLoading = false
+        }).catch(err => {
+          this.analysisLoading = false
+          if (err.response.data.code === 403) {
+            this.$message.error(this.$t('promptMessage.guestPrompt'))
+          } else {
+            this.$message.error(this.$t('promptMessage.analysisCodeFail'))
+          }
+        })
       }
-      this.analysisLoading = true
-      this.uploadCodeText = this.$t('promptMessage.analyzingText')
-      Plugin.analysisCodeApi(this.userId, params, 'toolchain').then(res => {
-        this.getScanTask()
-        this.analysisLoading = false
-      }).catch(err => {
-        this.analysisLoading = false
-        if (err.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
-        } else {
-          this.$message.error(this.$t('promptMessage.analysisCodeFail'))
-        }
-      })
     },
     // 查询扫描任务列表
     getScanTask () {
@@ -530,6 +534,10 @@ export default {
     .el-form-item__content{
       float: left;
       width: calc(100% - 140px);
+    }
+    .el-form-item:last-child .el-form-item__content{
+      margin-left: 140px;
+      text-align: left;
     }
   }
   .analysis{

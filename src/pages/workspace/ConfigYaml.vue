@@ -215,6 +215,7 @@ export default {
           this.yamlFileList = yamlFileList
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
+          this.setApiHeight()
           this.$message({
             type: 'success',
             message: this.$t('promptMessage.uploadSuccess')
@@ -249,10 +250,18 @@ export default {
         this.appYamlFileId = data.fileId
         this.checkFlag = { formatSuccess: data.formatSuccess, imageSuccess: data.imageSuccess, mepAgentSuccess: data.mepAgentSuccess, serviceSuccess: data.serviceSuccess }
         this.markdownSource = '```yaml\r\n' + data.fileContent + '\r\n```'
+        this.setApiHeight()
       }).catch(() => {
         this.uploadYamlLoading = false
         this.hasValidate = false
         this.markdownSource = ''
+      })
+    },
+    setApiHeight () {
+      this.$nextTick(() => {
+        const oDiv = document.getElementsByClassName('yaml_content')[0]
+        const deviceHeight = document.documentElement.clientHeight
+        oDiv.style.height = Number(deviceHeight) * 0.28 + 'px'
       })
     }
   },
@@ -282,6 +291,9 @@ export default {
     }
     .el-tabs__item.is-active{
       color: #688ef3;
+    }
+    .el-tabs__item.is-disabled{
+      cursor: not-allowed;
     }
     .el-tabs__active-bar{
       height: 4px;
@@ -331,6 +343,7 @@ export default {
     line-height: 25px;
     white-space: pre-wrap;
     margin-top: 20px;
+    overflow: auto;
     .v-note-wrapper{
       border: none;
     }
