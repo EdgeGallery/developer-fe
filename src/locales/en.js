@@ -223,7 +223,10 @@ const en = {
       tunnelInfo: 'Tunnel Information',
       macInfo: 'MAC Information',
       IpInfo: 'IP Information',
-      capabilityType: 'Capability Type'
+      capabilityType: 'Capability Type',
+      noService: 'Your application does not rely on the ecosystem services of the platform',
+      blackWhiteList: 'Black and White list',
+      UEIdentity: 'UE Identity'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
@@ -494,6 +497,7 @@ const en = {
     addImage: 'Please add the Image',
     selectService: 'Please select a server!',
     selectCommand: 'Compile command cannot be empty!',
+    codeEmpty: 'Source code cannot be empty!',
     analysisCodeFail: 'Analysis task failed!',
     uploadCodeText: 'Please wait, uploading source code ...',
     analyzingText: 'Please wait, analyzing ...',

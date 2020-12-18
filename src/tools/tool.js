@@ -25,6 +25,7 @@ Vue.use(VueCookies)
 const urlPrefix = '/mec-developer/'
 const urlPrefixTool = '/toolchain/'
 
+let accessToken = JSON.stringify(sessionStorage.getItem('accessToken'))
 let codeErr = false
 
 function getCookie (name) {
@@ -115,7 +116,8 @@ function Post (url, params, type = 'developer') {
     axios.post(prefixUrl + url, params, {
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+        'access_token': accessToken
       }
     })
       .then(res => {

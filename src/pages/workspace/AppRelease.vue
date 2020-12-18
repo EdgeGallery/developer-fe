@@ -29,7 +29,7 @@
       <!-- 第一步“应用配置” -->
       <div v-show="step==='step1'">
         <!-- 项目详情 -->
-        <h3 class="title">
+        <h3 class="tit_gray_bg">
           {{ $t('workspace.projectDetails') }}
         </h3>
         <div class="project_detail">
@@ -123,7 +123,7 @@
           </el-row>
         </div>
         <!-- 能力发布详情 -->
-        <h3 class="title">
+        <h3 class="tit_gray_bg">
           {{ $t('workspace.releaseDetails') }}
         </h3>
         <div class="release_detail">
@@ -398,6 +398,14 @@
                 />
               </div>
             </el-tab-pane>
+            <el-tab-pane
+              :label="$t('workspace.appRelease.blackWhiteList')"
+              disabled
+            />
+            <el-tab-pane
+              :label="$t('workspace.appRelease.UEIdentity')"
+              disabled
+            />
           </el-tabs>
           <!-- 应用服务发布配置 -->
           <p>{{ $t('workspace.appPublishConfig') }}</p>
@@ -499,14 +507,6 @@
             <el-table-column
               prop="appName"
               :label="$t('test.testTask.appName')"
-            />
-            <el-table-column
-              prop="appVersion"
-              :label="$t('test.testTask.version')"
-            />
-            <el-table-column
-              prop="providerId"
-              :label="$t('workspace.provider')"
             />
             <el-table-column
               prop="createTime"
@@ -998,13 +998,10 @@ export default {
     },
     // 获取集成测试列表
     getAtpList () {
-      Workspace.getAtpListApi().then(res => {
-        let data = res.data
-        data.forEach((item, index) => {
-          let newDateBegin = this.dateChange(item.createTime)
-          item.createTime = newDateBegin
-        })
-        this.appTestData = res.data
+      Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        let data = res.data.atpTes
+        data.createTime = this.dateChange(data.createTime)
+        this.appTestData.push(data)
       })
     },
     dateChange (dateStr) {
@@ -1101,7 +1098,7 @@ export default {
     }
   }
   .el-table th{
-    background:#f5f5f6;
+    background:#eef3fe;
     padding: 5px 0;
   }
   .el-button.margin_left{
@@ -1166,6 +1163,12 @@ export default {
       }
       .el-tabs__item.is-active{
         color: #688ef3;
+      }
+      .el-tabs__item.is-disabled{
+        cursor:not-allowed;
+      }
+      .el-tabs__item.is-disabled:hover{
+        color: #C0C4CC;
       }
       .el-tabs__active-bar{
         height: 4px;
