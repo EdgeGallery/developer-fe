@@ -16,164 +16,91 @@
 
 <template>
   <div class="api">
-    <el-steps
-      :active="active"
-      finish-status="success"
-      align-center
+    <el-row
+      :gutter="20"
+      v-loading="apiDataLoading"
+      v-if="hasService"
     >
-      <el-step :title="$t('workspace.capabilityDetails')" />
-      <el-step :title="$t('workspace.environmentPreparation')" />
-    </el-steps>
-    <div
-      class="elSteps"
-      v-if="api_div"
-    >
-      <el-row
-        :gutter="20"
-        v-loading="apiDataLoading"
-        v-if="hasService"
-      >
-        <el-col :span="6">
-          <el-tree
-            ref="treeList"
-            :data="treeData"
-            :props="defaultProps"
-            @node-click="handleNodeClick"
-            default-expand-all
-            highlight-current
-            class="api_tree"
-          />
-        </el-col>
-        <el-col :span="18">
-          <div class="service_div">
-            <p class="api_top">
-              {{ $t('workspace.apiTopText') }} ：
-            </p>
-            <p class="title">
-              {{ $t('workspace.serviceDetails') }}
-            </p>
-            <el-row class="service_info">
-              <el-col :span="24">
-                {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
-              </el-col>
-            </el-row>
-            <el-row class="service_info">
-              <el-col :span="12">
-                {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
-              </el-col>
-              <el-col :span="12">
-                {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
-              </el-col>
-            </el-row>
-            <el-row class="service_info">
-              <el-col :span="12">
-                {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
-              </el-col>
-              <el-col :span="12">
-                SDK {{ $t('common.download') }} ：
-                <el-select
-                  v-model="codeLanguage"
-                  name="codeLanguage"
-                  class="list-select"
-                  size="mini"
-                >
-                  <el-option
-                    v-for="item in optionsLanguage"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.label"
-                    :id="item.label"
-                  />
-                </el-select>
-                <el-link
-                  class="download_sdk"
-                  :href="downloadSDKApi()"
+      <el-col :span="6">
+        <el-tree
+          ref="treeList"
+          :data="treeData"
+          :props="defaultProps"
+          @node-click="handleNodeClick"
+          default-expand-all
+          highlight-current
+          class="api_tree"
+        />
+      </el-col>
+      <el-col :span="18">
+        <div class="service_div">
+          <p class="api_top">
+            {{ $t('workspace.apiTopText') }} ：
+          </p>
+          <p class="title">
+            {{ $t('workspace.serviceDetails') }}
+          </p>
+          <el-row class="service_info">
+            <el-col :span="24">
+              {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
+            </el-col>
+          </el-row>
+          <el-row class="service_info">
+            <el-col :span="12">
+              {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
+            </el-col>
+            <el-col :span="12">
+              {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
+            </el-col>
+          </el-row>
+          <el-row class="service_info">
+            <el-col :span="12">
+              {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
+            </el-col>
+            <el-col :span="12">
+              SDK {{ $t('common.download') }} ：
+              <el-select
+                v-model="codeLanguage"
+                name="codeLanguage"
+                class="list-select"
+                size="mini"
+              >
+                <el-option
+                  v-for="item in optionsLanguage"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label"
+                  :id="item.label"
                 />
-                <el-link
-                  :href="guideUrl"
-                  target="_blank"
-                  type="primary"
-                  class="ml10"
-                >
-                  {{ $t('api.installGuide') }}
-                </el-link>
-              </el-col>
-            </el-row>
-          </div>
+              </el-select>
+              <el-link
+                class="download_sdk"
+                :href="downloadSDKApi()"
+              />
+              <el-link
+                :href="guideUrl"
+                target="_blank"
+                type="primary"
+                class="ml10"
+              >
+                {{ $t('api.installGuide') }}
+              </el-link>
+            </el-col>
+          </el-row>
+        </div>
 
-          <div id="swagger-ui" />
-        </el-col>
-      </el-row>
-      <div
-        class="no_service"
-        v-if="!hasService"
-      >
-        <p>{{ $t('workspace.appRelease.noService') }}</p>
-        <img
-          src="../../../assets/images/construct.png"
-          alt="a"
-        >
-      </div>
-    </div>
+        <div id="swagger-ui" />
+      </el-col>
+    </el-row>
     <div
-      class="elSteps"
-      v-if="env_div"
+      class="no_service"
+      v-if="!hasService"
     >
-      <div class="envPreparation">
-        <h3 class="title">
-          <em class="el-icon-setting" />
-          {{ $t('workspace.programTools') }}
-        </h3>
-        <div class="pad">
-          {{ $t('workspace.prepare.toolTip') }}
-        </div>
-        <h3 class="title">
-          <em class="el-icon-notebook-2" />
-          {{ $t('workspace.programPlugin') }}
-        </h3>
-        <div class="pad">
-          {{ $t('workspace.prepare.pluginTip1') }}
-          <el-link
-            type="info"
-            :href="projectLink"
-            target="_blank"
-          >
-            {{ $t('workspace.prepare.pluginTip2') }}
-          </el-link>
-          {{ $t('workspace.prepare.pluginTip3') }}
-        </div>
-        <h3 class="title">
-          <em class="el-icon-edit-outline" />
-          {{ $t('workspace.sampleCode') }}
-        </h3>
-        <div class="pad">
-          {{ $t('workspace.prepare.codeTip1') }}
-          <el-link
-            type="info"
-            :underline="false"
-            @click="getApiFileId"
-          >
-            {{ $t('workspace.prepare.codeTip2') }}
-          </el-link>
-          {{ $t('workspace.prepare.codeTip3') }}
-        </div>
-      </div>
-    </div>
-    <div class="elButton">
-      <el-button
-        type="text"
-        @click="previous"
-        v-if="active>0"
+      <p>{{ $t('workspace.appRelease.noService') }}</p>
+      <img
+        src="../../../assets/images/construct.png"
+        alt="a"
       >
-        <strong>{{ $t('workspace.previous') }}</strong>
-      </el-button>
-      <el-button
-        type="primary"
-        v-if="active===0"
-        @click="next"
-      >
-        <strong>{{ $t('workspace.next') }}</strong>
-      </el-button>
     </div>
   </div>
 </template>
@@ -216,33 +143,14 @@ export default {
       },
       language: localStorage.getItem('language'),
       downloadUrl: '',
-      active: 0,
       api_div: true,
       env_div: false,
       apiFileIdArr: [],
-      projectLink: '/#/mecDeveloper/plugin/list',
       guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md',
       hasService: true
     }
   },
   methods: {
-    next () {
-      this.active++
-      this.handleStep()
-    },
-    previous () {
-      this.active--
-      this.handleStep()
-    },
-    handleStep () {
-      if (this.active === 0) {
-        this.api_div = true
-        this.env_div = false
-      } else if (this.active === 1) {
-        this.api_div = false
-        this.env_div = true
-      }
-    },
     // 获取项目详情
     getProjectDetail () {
       this.treeData = []
@@ -491,44 +399,19 @@ export default {
       margin-left: 10px;
     }
   }
-  .elSteps{
-    width: 80%;
-    margin: 0 10%;
-    .no_service{
-      text-align: center;
-      line-height: 25px;
-      img{
-        width: 50%;
-        max-width: 445px;
-      }
+  .no_service{
+    text-align: center;
+    line-height: 25px;
+    img{
+      width: 50%;
+      max-width: 445px;
     }
   }
   @media screen and (max-width: 1380px){
-    .elSteps{
-      width: 100%;
-      margin: 0;
-      .no_service{
-        img{
-          width: 80%;
-          max-width: 445px;
-        }
-      }
-    }
-  }
-  .envPreparation{
-    .title{
-      em{
-        margin-right: 15px;
-      }
-    }
-    .pad {
-      font-size: 13px;
-      color: #575d6c;
-      padding-left: 35px;
-      padding-bottom: 15px;
-      .el-link{
-        margin-top: -4px;
-        color: #688ef3;
+    .no_service{
+      img{
+        width: 80%;
+        max-width: 445px;
       }
     }
   }

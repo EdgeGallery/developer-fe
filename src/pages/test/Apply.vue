@@ -257,7 +257,7 @@ export default {
         ],
         appDesc: [
           { required: true, validator: validateDesc },
-          { pattern: /^\S.{0,258}\S$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^\S.{0,259}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       appFileList: [],

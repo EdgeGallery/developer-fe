@@ -1002,6 +1002,7 @@ export default {
         let data = res.data.atpTes
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
+        console.log(this.appTestData)
       })
     },
     dateChange (dateStr) {

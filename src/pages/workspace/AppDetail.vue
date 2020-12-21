@@ -35,11 +35,11 @@
       @tab-click="handleClick"
     >
       <el-tab-pane
-        :label="$t('workspace.projectDetails')"
         class="elTabPane"
         name="1"
         lazy
       >
+        <span slot="label"><em :class="['tab_detail',activeName==='1'?'tab_active':'tab_default']" />{{ $t('workspace.projectDetails') }}</span>
         <div
           v-if="isChildUpdate1"
           class="project_detail"
@@ -94,22 +94,29 @@
         </div>
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.applicationDev')"
         class="elTabPane"
         name="2"
         lazy
-        v-loading="isPublic"
       >
+        <span slot="label"><em :class="['tab_capability',activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}</span>
         <api v-if="isChildUpdate2" />
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.deploymentTest')"
+        :label="$t('workspace.applicationDev')"
         class="elTabPane"
         name="3"
         lazy
-        v-loading="isPublic"
       >
-        <div v-if="isChildUpdate3">
+        <span slot="label"><em :class="['tab_appDev',activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.applicationDev') }}</span>
+        <EnvPreparation v-if="isChildUpdate3" />
+      </el-tab-pane>
+      <el-tab-pane
+        class="elTabPane"
+        name="4"
+        lazy
+      >
+        <span slot="label"><em :class="['tab_deploy',activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}</span>
+        <div v-if="isChildUpdate4">
           <el-steps
             :active="active"
             finish-status="success"
@@ -155,12 +162,12 @@
         </div>
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.applicationRelease')"
         class="elTabPane"
-        name="4"
+        name="5"
         lazy
       >
-        <appRelease v-if="isChildUpdate4" />
+        <span slot="label"><em :class="['tab_release',activeName==='5'?'tab_active':'tab_default']" />{{ $t('workspace.applicationRelease') }}</span>
+        <appRelease v-if="isChildUpdate5" />
       </el-tab-pane>
       <div v-if="dialogVisible">
         <publishAppDialog
@@ -211,13 +218,13 @@ export default {
       deployed: false,
       isCompleted: false,
       userId: sessionStorage.getItem('userId'),
-      isPublic: false,
       isfail: true,
       appApiFileIdTemp: true,
       isChildUpdate1: true,
       isChildUpdate2: false,
       isChildUpdate3: false,
       isChildUpdate4: false,
+      isChildUpdate5: false,
       projectDetailData: {
         name: '',
         version: '',
@@ -335,18 +342,6 @@ export default {
         this.apiDataLoading = false
       })
     },
-    // 清空测试环境
-    cleanTestEnv (deployed) {
-      this.isPublic = true
-      Workspace.cleanTestEnvApi(this.projectId, deployed, this.userId).then(res => {
-        if (res.data === true) {
-          this.isPublic = false
-        }
-        if (res.data === true && deployed) {
-          this.dialogVisible = true
-        }
-      })
-    },
     getViewReport (data) {
       this.viewReport = data
     },
@@ -362,21 +357,31 @@ export default {
         this.isChildUpdate2 = false
         this.isChildUpdate3 = false
         this.isChildUpdate4 = false
+        this.isChildUpdate5 = false
       } else if (tab.name === '2') {
         this.isChildUpdate1 = false
         this.isChildUpdate2 = true
         this.isChildUpdate3 = false
         this.isChildUpdate4 = false
+        this.isChildUpdate5 = false
       } else if (tab.name === '3') {
         this.isChildUpdate1 = false
         this.isChildUpdate2 = false
         this.isChildUpdate3 = true
         this.isChildUpdate4 = false
+        this.isChildUpdate5 = false
       } else if (tab.name === '4') {
         this.isChildUpdate1 = false
         this.isChildUpdate2 = false
         this.isChildUpdate3 = false
         this.isChildUpdate4 = true
+        this.isChildUpdate5 = false
+      } else if (tab.name === '5') {
+        this.isChildUpdate1 = false
+        this.isChildUpdate2 = false
+        this.isChildUpdate3 = false
+        this.isChildUpdate4 = false
+        this.isChildUpdate5 = true
       }
     }
   },
@@ -460,10 +465,51 @@ export default {
     height: 50px;
     line-height: 50px;
     padding: 0 10px;
-    margin-bottom: 10px;
+    margin-bottom: 13px;
     border-radius: 5px;
     font-size: 16px;
+    .tab_detail.tab_default{
+      background: url('../../assets/images/menu_iocn_details_default.png') no-repeat;
+    }
+    .tab_detail.tab_active{
+      background: url('../../assets/images/menu_iocn_details_selected.png') no-repeat;
+    }
+    .tab_capability.tab_default{
+      background: url('../../assets/images/menu_iocn_capability_default.png') no-repeat;
+    }
+    .tab_capability.tab_active{
+      background: url('../../assets/images/menu_iocn_capability_selected.png') no-repeat;
+    }
+    .tab_appDev.tab_default{
+      background: url('../../assets/images/menu_iocn_code_default.png') no-repeat;
+    }
+    .tab_appDev.tab_active{
+      background: url('../../assets/images/menu_iocn_code_selected.png') no-repeat;
+    }
+    .tab_deploy.tab_default{
+      background: url('../../assets/images/menu_iocn_deploy_default.png') no-repeat;
+    }
+    .tab_deploy.tab_active{
+      background: url('../../assets/images/menu_iocn_deploy_selected.png') no-repeat;
+    }
+    .tab_release.tab_default{
+      background: url('../../assets/images/menu_iocn_release_default.png') no-repeat;
+    }
+    .tab_release.tab_active{
+      background: url('../../assets/images/menu_iocn_release_selected.png') no-repeat;
+    }
+    span{
+      display: inline-block;
+      height: 50px;
+      em{
+        float: left;
+        width: 28px;
+        height: 28px;
+        margin: 11px 15px 0 0;
+      }
+    }
   }
+
   .el-tabs--left .el-tabs__item.is-left.is-active{
     background:#688ef3;
     color: #fff;

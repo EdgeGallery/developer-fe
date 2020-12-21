@@ -265,15 +265,15 @@ export default {
       rules: {
         name: [
           { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^[\w\\-][\w\\-\s]{0,29}$/g, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
-          { pattern: /^\S.{0,8}\S$/g, message: this.$t('promptMessage.versionRule') }
+          { pattern: /^[\w\\-][\w\\-\s.]{0,9}$/g, message: this.$t('promptMessage.versionRule') }
         ],
         provider: [
           { required: true, validator: validateProvider, trigger: 'blur' },
-          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.providerRule') }
+          { pattern: /^\S.{0,29}$/g, message: this.$t('promptMessage.providerRule') }
         ],
         industry: [
           { required: true, message: this.$t('promptMessage.industryEmpty') }
@@ -289,7 +289,7 @@ export default {
         ],
         description: [
           { required: true, validator: validateDescription, trigger: 'blur' },
-          { pattern: /^\S.{0,258}\S$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^\S.{0,259}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       formLabelWidth: '110px',
