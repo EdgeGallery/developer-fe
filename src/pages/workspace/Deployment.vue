@@ -288,6 +288,8 @@
             <p class="deploy-herf marginTop15">
               <el-link
                 type="primary"
+                :href="accessUrl"
+                target="_blank"
               >
                 {{ accessUrl }}
               </el-link>
@@ -502,7 +504,7 @@ export default {
     },
     initialTimeline () {
       this.getStatusPic()
-      this.activities = [
+      let tempActivities = [
         {
           content: '生成部署文件',
           size: 'large',
@@ -528,6 +530,7 @@ export default {
           color: this.getColor(this.workStatus)
         }
       ]
+      this.activities = tempActivities
     },
     getIcon: function (status) {
       if (status === 'Success') {
