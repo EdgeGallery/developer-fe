@@ -22,7 +22,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
       component: () => import('../pages/home/Home.vue')
     },
     {

@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-import axios from 'axios'
 import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
 
 let Plugin = {
