@@ -130,6 +130,21 @@ const Capability = [
     value: 'Gesture recognition',
     label: ['姿态识别', 'Gesture recognition']
   }, {
+    value: 'face and body recognition',
+    label: ['人脸和人体识别', 'Face and body recognition']
+  }, {
+    value: 'Picture text recognition',
+    label: ['图片和文字识别', 'Picture text recognition']
+  }, {
+    value: 'Knowledge Graph',
+    label: ['知识图谱', 'knowledge Graph']
+  }, {
+    value: 'Natural language processing',
+    label: ['自然语言处理', 'Natural language processing']
+  }, {
+    value: 'Video Surveillance',
+    label: ['视频监控', 'Video Surveillance']
+  }, {
     value: 'Video processing',
     label: ['视频处理', 'Video processing']
   }, {
