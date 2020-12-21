@@ -32,7 +32,6 @@
       class="elTabs"
       v-model="activeName"
       tab-position="left"
-      @tab-click="handleClick"
     >
       <el-tab-pane
         class="elTabPane"
@@ -41,7 +40,7 @@
       >
         <span slot="label"><em :class="['tab_detail',activeName==='1'?'tab_active':'tab_default']" />{{ $t('workspace.projectDetails') }}</span>
         <div
-          v-if="isChildUpdate1"
+          v-if="activeName === '1'"
           class="project_detail"
         >
           <el-row>
@@ -99,7 +98,7 @@
         lazy
       >
         <span slot="label"><em :class="['tab_capability',activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}</span>
-        <api v-if="isChildUpdate2" />
+        <api v-if="activeName === '2'" />
       </el-tab-pane>
       <el-tab-pane
         :label="$t('workspace.applicationDev')"
@@ -108,7 +107,7 @@
         lazy
       >
         <span slot="label"><em :class="['tab_appDev',activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.applicationDev') }}</span>
-        <EnvPreparation v-if="isChildUpdate3" />
+        <EnvPreparation v-if="activeName === '3'" />
       </el-tab-pane>
       <el-tab-pane
         class="elTabPane"
@@ -116,7 +115,7 @@
         lazy
       >
         <span slot="label"><em :class="['tab_deploy',activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}</span>
-        <div v-if="isChildUpdate4">
+        <div v-if="activeName === '4'">
           <el-steps
             :active="active"
             finish-status="success"
@@ -167,7 +166,7 @@
         lazy
       >
         <span slot="label"><em :class="['tab_release',activeName==='5'?'tab_active':'tab_default']" />{{ $t('workspace.applicationRelease') }}</span>
-        <appRelease v-if="isChildUpdate5" />
+        <appRelease v-if="activeName === '5'" />
       </el-tab-pane>
       <div v-if="dialogVisible">
         <publishAppDialog
@@ -284,9 +283,6 @@ export default {
         if (this.active < 3) {
           this.active++
           this.handleStep()
-        } else {
-          this.isChildUpdate2 = false
-          this.isChildUpdate3 = true
         }
         if (this.active === 3) {
           this.submitData()
@@ -350,39 +346,6 @@ export default {
       Workspace.getTestConfigApi(this.projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
       })
-    },
-    handleClick (tab) {
-      if (tab.name === '1') {
-        this.isChildUpdate1 = true
-        this.isChildUpdate2 = false
-        this.isChildUpdate3 = false
-        this.isChildUpdate4 = false
-        this.isChildUpdate5 = false
-      } else if (tab.name === '2') {
-        this.isChildUpdate1 = false
-        this.isChildUpdate2 = true
-        this.isChildUpdate3 = false
-        this.isChildUpdate4 = false
-        this.isChildUpdate5 = false
-      } else if (tab.name === '3') {
-        this.isChildUpdate1 = false
-        this.isChildUpdate2 = false
-        this.isChildUpdate3 = true
-        this.isChildUpdate4 = false
-        this.isChildUpdate5 = false
-      } else if (tab.name === '4') {
-        this.isChildUpdate1 = false
-        this.isChildUpdate2 = false
-        this.isChildUpdate3 = false
-        this.isChildUpdate4 = true
-        this.isChildUpdate5 = false
-      } else if (tab.name === '5') {
-        this.isChildUpdate1 = false
-        this.isChildUpdate2 = false
-        this.isChildUpdate3 = false
-        this.isChildUpdate4 = false
-        this.isChildUpdate5 = true
-      }
     }
   },
   mounted () {

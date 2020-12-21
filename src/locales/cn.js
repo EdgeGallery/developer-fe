@@ -111,7 +111,7 @@ const cn = {
     installGuide: '安装指导'
   },
   nav: {
-    home: '主页',
+    home: '首页',
     devtools: '开发工具',
     plugin: '插件',
     sdk: 'SDk',
