@@ -280,7 +280,7 @@ export default {
       rules: {
         pluginName: [
           { required: true, validator: validateName, trigger: 'blur' },
-          { pattern: /^\S.{0,28}\S$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^\S.{0,29}$/g, message: this.$t('promptMessage.pluginNameRule') }
         ],
         codeLanguage: [
           { required: true }
@@ -296,11 +296,11 @@ export default {
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
-          { pattern: /^\S.{0,8}\S$/g, message: this.$t('promptMessage.versionRule') }
+          { pattern: /^[\w\\-][\w\\-\s.]{0,9}$/g, message: this.$t('promptMessage.versionRule') }
         ],
         introduction: [
           { required: true, validator: validateDes, trigger: 'blur' },
-          { pattern: /^\S.{0,258}\S$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^\S.{0,259}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       options: [
@@ -365,16 +365,16 @@ export default {
     submitTrue () {
       this.uploadBtnLoading = true
       let pluginName = this.form.pluginName
-      let nameRule = pluginName.match(/^\S.{0,28}\S$/g)
+      let nameRule = pluginName.match(/^\S.{0,29}$/g)
       let codeLanguage = this.form.codeLanguage
       let pluginType = this.form.pluginType
       let plugFileList = this.plugFileList.length
       let logoFileList = this.logoFileList.length || this.defaultIconFile.length
       let apiFileList = this.apiFileList.length
       let version = this.form.version
-      let versionRule = version.match(/^\S.{0,8}\S$/g)
+      let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
       let introduction = this.form.introduction
-      let introductionRule = introduction.match(/^\S.{0,258}\S$/g)
+      let introductionRule = introduction.match(/^\S.{0,259}$/g)
       if (!pluginName) {
         this.$message({
           type: 'warning',
@@ -384,7 +384,7 @@ export default {
       } else if (!nameRule) {
         this.$message({
           type: 'warning',
-          message: this.$t('promptMessage.nameRule')
+          message: this.$t('promptMessage.pluginNameRule')
         })
         this.uploadBtnLoading = false
       } else if (!codeLanguage) {

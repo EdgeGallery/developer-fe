@@ -146,13 +146,13 @@ export default {
       this.$refs.currentComponet.emitStepData()
       let appIcon = this.allFormData.first.appIcon[0]
       let appname = this.allFormData.first.name
-      let nameRule = appname.match(/^\S.{0,28}\S$/g)
-      let provider = this.allFormData.first.provider
-      let providerRule = provider.match(/^\S.{0,28}\S$/g)
+      let nameRule = appname.match(/^[\w\\-][\w\\-\s]{0,29}$/g)
       let version = this.allFormData.first.version
-      let versionRule = version.match(/^\S.{0,8}\S$/g)
+      let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
+      let provider = this.allFormData.first.provider
+      let providerRule = provider.match(/^\S.{0,29}$/g)
       let description = this.allFormData.first.description
-      let descriptionRule = description.match(/^\S.{0,258}\S$/g)
+      let descriptionRule = description.match(/^\S.{0,259}$/g)
       if (!appname) {
         this.$message({
           type: 'warning',
@@ -181,7 +181,7 @@ export default {
       } else if (!providerRule) {
         this.$message({
           type: 'warning',
-          message: this.$t('promptMessage.proiderRule')
+          message: this.$t('promptMessage.providerRule')
         })
       } else if (!appIcon) {
         this.$message({

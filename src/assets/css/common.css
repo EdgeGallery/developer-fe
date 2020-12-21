@@ -116,6 +116,9 @@ li{
 .el-dialog__header{
   background: #688ef3 !important;
 }
+.el-dialog__title,.el-icon-close:before{
+  color: #fff !important;
+}
 .el-dialog--center .el-dialog__header{
   text-align: left;
 }
@@ -174,7 +177,6 @@ div::-webkit-scrollbar-thumb{
   margin-top:-3px;
 }
 
-
 .el-message{
   top: 65px !important;
 }
@@ -185,7 +187,7 @@ body .el-table th.gutter{
 
 .bread-crumb{
   height: 70px;
-  line-height: 70px;
+  line-height: 70px !important;
   font-size: 14px;
 }
 .clear:after{

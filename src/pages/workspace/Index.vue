@@ -44,7 +44,7 @@
           <div
             id="project-add"
             class="project-add"
-            @click="dialogVisible=true"
+            @click="addNewProject"
           >
             <div class="img-box">
               <img
@@ -54,41 +54,6 @@
             </div>
             <p>{{ $t('workspace.clickHereToAddNewProject') }}</p>
           </div>
-          <el-dialog
-            :title="$t('workspace.addNewProject')"
-            :close-on-click-modal="false"
-            :visible.sync="dialogVisible"
-            width="50%"
-          >
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <div
-                  id="addNewProject"
-                  class="project-add add"
-                  @click="addNewProject"
-                >
-                  <img
-                    src="../../assets/images/newProject_create.svg"
-                    alt=""
-                  >
-                  <p>{{ $t('workspace.createProject') }}</p>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div
-                  id="migrationProject"
-                  class="project-add add"
-                  @click="migrationProject"
-                >
-                  <img
-                    src="../../assets/images/newProject_migration.svg"
-                    alt=""
-                  >
-                  <p>{{ $t('workspace.migrationProject') }}</p>
-                </div>
-              </el-col>
-            </el-row>
-          </el-dialog>
         </div>
         <div class="graybg project-status">
           <div class="title">
@@ -179,14 +144,6 @@ export default {
       this.newProjectFourthprop = true
       this.getprojectTypeprop = 'CREATE_NEW'
       this.activeProjectprop = 3
-    },
-    // 迁移项目
-    migrationProject () {
-      this.newprojectDialog = true
-      this.fourthstepTitleprop = this.$t('workspace.toolChain')
-      this.newProjectFourthprop = false
-      this.getprojectTypeprop = 'MIGRATE'
-      this.activeProjectprop = 2
     },
     // 关闭弹框
     closeDialog (data) {
