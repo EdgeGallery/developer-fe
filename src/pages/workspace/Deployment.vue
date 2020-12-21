@@ -379,7 +379,32 @@ export default {
       userId: '',
       accessUrl: '',
       errorLog: '',
-      activities: [],
+      activities: [
+        {
+          content: '生成部署文件',
+          size: 'large',
+          icon: '',
+          color: ''
+        },
+        {
+          content: '分配测试节点',
+          size: 'large',
+          icon: '',
+          color: ''
+        },
+        {
+          content: '实例化应用',
+          size: 'large',
+          icon: '',
+          color: ''
+        },
+        {
+          content: '获取部署状态',
+          size: 'large',
+          icon: '',
+          color: ''
+        }
+      ],
       isPhysical: false
     }
   },
@@ -504,33 +529,17 @@ export default {
     },
     initialTimeline () {
       this.getStatusPic()
-      let tempActivities = [
-        {
-          content: '生成部署文件',
-          size: 'large',
-          icon: this.getIcon(this.CSAR),
-          color: this.getColor(this.CSAR)
-        },
-        {
-          content: '分配测试节点',
-          size: 'large',
-          icon: this.getIcon(this.hostInfo),
-          color: this.getColor(this.hostInfo)
-        },
-        {
-          content: '实例化应用',
-          size: 'large',
-          icon: this.getIcon(this.instantiateInfo),
-          color: this.getColor(this.instantiateInfo)
-        },
-        {
-          content: '获取部署状态',
-          size: 'large',
-          icon: this.getIcon(this.workStatus),
-          color: this.getColor(this.workStatus)
-        }
-      ]
-      this.activities = tempActivities
+      this.$set(this.activities[0], 'icon', this.getIcon(this.CSAR))
+      this.$set(this.activities[0], 'color', this.getColor(this.CSAR))
+
+      this.$set(this.activities[1], 'icon', this.getIcon(this.hostInfo))
+      this.$set(this.activities[1], 'color', this.getColor(this.hostInfo))
+
+      this.$set(this.activities[2], 'icon', this.getIcon(this.instantiateInfo))
+      this.$set(this.activities[2], 'color', this.getColor(this.instantiateInfo))
+
+      this.$set(this.activities[3], 'icon', this.getIcon(this.workStatus))
+      this.$set(this.activities[3], 'color', this.getColor(this.workStatus))
     },
     getIcon: function (status) {
       if (status === 'Success') {
