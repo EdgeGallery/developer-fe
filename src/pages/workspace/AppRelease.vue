@@ -517,14 +517,18 @@
             >
               <template slot-scope="scope">
                 <span
-                  class="el-icon-error failed icon"
-                  v-if="scope.row.status!=='success'"
+                  class="el-icon-loading Running icon"
+                  v-if="scope.row.status==='Running'"
                 />
                 <span
-                  v-else
+                  class="el-icon-error failed icon"
+                  v-if="scope.row.status==='failed'"
+                />
+                <span
+                  v-if="scope.row.status==='success'"
                   class="el-icon-success success icon"
                 />
-                <span :class="scope.row.status==='success'?'success':'failed'">{{ scope.row.status }}</span>
+                <span :class="scope.row.status">{{ scope.row.status }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -691,7 +695,8 @@ export default {
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
       taskId: '',
-      detail_btn: true
+      detail_btn: true,
+      interval: null
     }
   },
   methods: {
@@ -767,6 +772,10 @@ export default {
         this.getAtpList()
         this.detail_btn = false
       }
+    },
+    clearInterval () {
+      clearTimeout(this.interval)
+      this.interval = null
     },
     // 检查上传文件类型
     checkFileType (fileList, fileTypeArr, uploadFileList) {
@@ -1002,7 +1011,11 @@ export default {
         let data = res.data.atpTest
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
-        console.log(this.appTestData)
+        if (this.appTestData[0].status === 'success') {
+          this.clearInterval()
+        }
+      }).catch(() => {
+        this.clearInterval()
       })
     },
     dateChange (dateStr) {
@@ -1055,6 +1068,10 @@ export default {
     this.getAppstoreUrl()
     this.getAllListData()
     this.getReleaseConfigFirst()
+    this.getAtpList()
+    this.interval = setInterval(() => {
+      this.getAtpList()
+    }, 5000)
   },
   watch: {
     '$i18n.locale': function () {
