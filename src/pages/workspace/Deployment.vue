@@ -434,36 +434,28 @@ export default {
         this.deployField = res.data.deployField === null ? '未上传' : '已上传'
         this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
         if (status != null) {
-          if (status.csar !== this.CSAR) {
+          if (status.csar !== null && status.csar !== this.CSAR) {
             this.CSAR = status.csar
             this.initialTimeline()
-            setTimeout(function () {
-              console.log('csar finishes')
-            }, 2000)
+            this.pause(2000)
           }
 
-          if (status.hostInfo !== this.hostInfo) {
+          if (status.hostInfo !== null && status.hostInfo !== this.hostInfo) {
             this.hostInfo = status.hostInfo
             this.initialTimeline()
-            setTimeout(function () {
-              console.log('hostInfo finishes')
-            }, 2000)
+            this.pause(2000)
           }
 
-          if (status.instantiateInfo !== this.instantiateInfo) {
+          if (status.instantiateInfo !== null && status.instantiateInfo !== this.instantiateInfo) {
             this.instantiateInfo = status.instantiateInfo
             this.initialTimeline()
-            setTimeout(function () {
-              console.log('instantiateInfo finishes')
-            }, 2000)
+            this.pause(2000)
           }
 
-          if (status.workStatus !== this.workStatus) {
+          if (status.workStatus !== null && status.workStatus !== this.workStatus) {
             this.workStatus = status.workStatus
             this.initialTimeline()
-            setTimeout(function () {
-              console.log('workStatus finishes')
-            }, 2000)
+            this.pause(2000)
           }
         }
 
@@ -571,6 +563,10 @@ export default {
       } else {
         this.$refs.carousel.setActiveItem('1')
       }
+    },
+    pause: function (milliseconds) {
+      var dt = new Date()
+      while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
     }
 
   },
