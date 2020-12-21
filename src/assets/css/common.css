@@ -163,7 +163,7 @@ div::-webkit-scrollbar-thumb{
   padding-top:15px!important;
 }
 .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-icon-close,.el-dialog__headerbtn .el-dialog__close{
-  color:#fff;
+  color:#fff!important;
 }
 
 /* navBar */
