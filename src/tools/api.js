@@ -273,15 +273,6 @@ let Workspace = {
   getAtpTestApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/action/atp')
   },
-  // 获取应用测试列表
-  getAtpListApi: function () {
-    let url = 'mec-atp/edgegallery/atp/v1/tasks'
-    return axios.get(url, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  },
   // 上传应用发布详情
   PostReleaseApi: function (projectId, params) {
     return Post('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)

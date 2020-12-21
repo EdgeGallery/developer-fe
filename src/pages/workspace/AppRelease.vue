@@ -999,7 +999,7 @@ export default {
     // 获取集成测试列表
     getAtpList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        let data = res.data.atpTes
+        let data = res.data.atpTest
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
         console.log(this.appTestData)
