@@ -111,7 +111,7 @@ const cn = {
     installGuide: '安装指导'
   },
   nav: {
-    home: '主页',
+    home: '首页',
     devtools: '开发工具',
     plugin: '插件',
     sdk: 'SDk',
@@ -538,7 +538,7 @@ const cn = {
     appReleaseFail: '应用发布失败'
   },
   breadCrumb: {
-    mecDeveloper: 'MEC开发者',
+    mecDeveloper: '首页',
     api: 'API',
     applicationApi: '开发者平台API',
     mepapi: 'MEP API',
