@@ -134,12 +134,8 @@ export default {
         this.indexName = '/mecDeveloper/plugin/list'
       } else if (this.indexName === '/mecDeveloper/work/detail') {
         this.indexName = '/mecDeveloper/work'
-      } else if (this.indexName === '/mecDeveloper/test/report') {
-        this.indexName = '/mecDeveloper/test/task'
       } else if (this.indexName === '/mecDeveloper/api/mep' && this.fromPath === 'mep') {
         this.indexName = '/mecDeveloper/api/mep'
-      } else if (this.indexName === '/mecDeveloper/api/mep-eco' && this.fromPath === 'mep-eco') {
-        this.indexName = '/mecDeveloper/api/mep-eco'
       } else if (this.indexName === '/mecDeveloper/plugin/toolreport') {
         this.indexName = '/mecDeveloper/plugin/toolchain'
       } else if (this.indexName === '/') {
