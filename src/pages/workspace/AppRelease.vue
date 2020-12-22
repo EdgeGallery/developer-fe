@@ -1033,6 +1033,7 @@ export default {
     // 获取集成测试列表
     getAtpList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        this.appTestData = []
         let data = res.data.atpTest
         if (data.status !== '') {
           this.appCertify = false
