@@ -256,6 +256,10 @@ export default {
         })
         arr = Array.from(new Set(arr))
         this.projectDetailData.dependent = arr.join('，')
+        if (data.status !== 'ONLINE') {
+          this.active = 3
+          this.changeComponent()
+        }
       })
     },
     changeComponent () {
