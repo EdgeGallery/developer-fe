@@ -527,7 +527,7 @@ const en = {
     saveSuccess: 'Saved successfully!',
     saveFail: 'Save failed!',
     sampleCodeInfo: 'Cannot download sample code without selecting capability service',
-    fileNotReadable: 'File is not readable',
+    fileNotSupport: 'Compressed file, do not support online browsing',
     fileIsEmpty: 'File content is empty',
     addSuccess: 'Data added successfully',
     editSuccess: 'Edit data successfully',
@@ -536,7 +536,8 @@ const en = {
     saveRuleFail: 'Failed to save rule',
     editRuleFail: 'Edit rule failed',
     appReleaseSuccess: 'Application published successfully',
-    appReleaseFail: 'Application publishing failed'
+    appReleaseFail: 'Application publishing failed',
+    notDeploy: 'The application is not deployed and cannot be released'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

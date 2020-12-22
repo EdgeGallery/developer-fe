@@ -527,7 +527,7 @@ const cn = {
     saveSuccess: '保存成功！',
     saveFail: '保存失败！',
     sampleCodeInfo: '没有选择能力服务，不能下载样例代码',
-    fileNotReadable: '文件不可读',
+    fileNotSupport: '压缩文件，不支持在线浏览',
     fileIsEmpty: '文件内容为空',
     addSuccess: '添加数据成功',
     editSuccess: '编辑数据成功',
@@ -536,7 +536,8 @@ const cn = {
     saveRuleFail: '保存规则失败',
     editRuleFail: '编辑规则失败',
     appReleaseSuccess: '应用发布成功',
-    appReleaseFail: '应用发布失败'
+    appReleaseFail: '应用发布失败',
+    notDeploy: '应用没有部署调测，不能进行应用发布'
   },
   breadCrumb: {
     mecDeveloper: '首页',
