@@ -26,18 +26,6 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep' }">
         API
       </el-breadcrumb-item>
-      <el-breadcrumb-item
-        v-if="path==='mep'"
-        :to="{ path: '/mecDeveloper/api/mep' }"
-      >
-        {{ $t('breadCrumb.mepapi') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item
-        v-if="path==='mep-eco'"
-        :to="{ path: '/mecDeveloper/api/mep-eco' }"
-      >
-        {{ $t('breadCrumb.mepecoapi') }}
-      </el-breadcrumb-item>
       <el-breadcrumb-item>{{ $t('breadCrumb.apiDetail') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div id="swagger-ui" />

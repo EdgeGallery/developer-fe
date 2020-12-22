@@ -93,62 +93,6 @@ export default new Router({
           }
         },
         {
-          path: 'mecDeveloper/api/mep-eco',
-          name: 'mep-eco',
-          component: () => import('../pages/api/MepEco.vue'),
-          meta: {
-            id: '3.2.2'
-          }
-        },
-        {
-          path: 'mecDeveloper/test/how',
-          name: 'how',
-          component: () => import('../pages/test/How.vue'),
-          meta: {
-            id: '3.3.1'
-          }
-        },
-        {
-          path: 'mecDeveloper/test/specification',
-          name: 'how',
-          component: () => import('../components/common/Developing.vue'),
-          meta: {
-            id: '3.3.4'
-          }
-        },
-        {
-          path: 'mecDeveloper/test/apply',
-          name: 'apply',
-          component: () => import('../pages/test/Apply.vue'),
-          meta: {
-            id: '3.3.2'
-          }
-        },
-        {
-          path: 'mecDeveloper/test/task',
-          name: 'task',
-          component: () => import('../pages/test/Task.vue'),
-          meta: {
-            id: '3.3.3'
-          }
-        },
-        {
-          path: 'mecDeveloper/test/report',
-          name: 'report',
-          component: () => import('../pages/test/Report.vue'),
-          meta: {
-            id: '3.3.4'
-          }
-        },
-        {
-          path: 'mecDeveloper/community/Community',
-          name: 'devlopers',
-          component: () => import('../components/common/Developing.vue'),
-          meta: {
-            id: '3.4'
-          }
-        },
-        {
           path: '/mecDeveloper/work',
           name: 'workspace',
           component: () => import('../pages/workspace/Index.vue'),

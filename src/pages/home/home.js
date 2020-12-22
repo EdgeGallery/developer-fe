@@ -14,41 +14,6 @@
  *  limitations under the License.
  */
 
-const commonApp = [
-  {
-    id: 1,
-    title: 'home.createProjectTitle',
-    src: require('../../assets/images/home_step1.svg'),
-    desc: 'home.createProjectText',
-    link: { name: 'workspace', params: { from: 'index' } },
-    elementId: 'createProject'
-  },
-  {
-    id: 2,
-    title: 'home.toolsDownloadTitle',
-    src: require('../../assets/images/home_step2.svg'),
-    desc: 'home.toolsDownloadText',
-    link: '/mecDeveloper/plugin/list',
-    elementId: 'tooldDown'
-  },
-  {
-    id: 3,
-    title: 'home.commonApiTitle',
-    src: require('../../assets/images/home_step3.svg'),
-    desc: 'home.commonApiText',
-    link: '/mecDeveloper/api/mep',
-    elementId: 'commomApi'
-  },
-  {
-    id: 4,
-    title: 'home.testCaseTitle',
-    src: require('../../assets/images/home_step4.svg'),
-    desc: 'home.testCaseText',
-    link: '/mecDeveloper/test/apply',
-    elementId: 'testCase'
-  }
-]
-
 const aLinkList = [
   {
     id: 1,
@@ -155,5 +120,5 @@ const aLinkList = [
 ]
 
 export {
-  commonApp, aLinkList
+  aLinkList
 }
