@@ -268,8 +268,9 @@ export default {
       this.$nextTick(() => {
         const oApi = document.getElementById('swagger-ui')
         const deviceHeight = document.documentElement.clientHeight
-        const oDivHeight = document.getElementsByClassName('service_div')[0].offsetHeight
-        oApi.style.height = Number(deviceHeight) - 260 - oDivHeight + 'px'
+        console.log(document.getElementsByClassName('service_div'))
+        const oDiv = document.getElementsByClassName('service_div')[0]
+        oApi.style.height = Number(deviceHeight) - 260 - oDiv.offsetHeight + 'px'
       })
     },
     dateChange (dateStr) {

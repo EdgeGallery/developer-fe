@@ -484,6 +484,16 @@
       </div>
       <!-- 第二步“应用测试” -->
       <div v-show="step==='step2'">
+        <el-button
+          type="primary"
+          class="p8"
+          @click="getAtpTest"
+        >
+          {{ $t('workspace.appRelease.appCertify') }}
+        </el-button>
+        <span class="release_text">
+          {{ $t('workspace.releaseText') }}
+        </span>
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
@@ -696,7 +706,9 @@ export default {
       userName: sessionStorage.getItem('userName'),
       taskId: '',
       detail_btn: true,
-      interval: null
+      interval: null,
+      mdFileId: '',
+      appCertify: true
     }
   },
   methods: {
@@ -725,6 +737,19 @@ export default {
         this.projectDetailData.instantiateId = res.data.appInstanceId
         this.projectDetailData.deployPlatform = res.data.platform
         this.projectDetailData.status = res.data.deployStatus
+        if (res.data.testId && res.data.appInstanceId) {
+          this.getReleaseConfigFirst()
+        } else {
+          this.$message.warning(this.$t('promptMessage.notDeploy'))
+        }
+      })
+    },
+    getReleaseConfigList () {
+      Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        this.mdFileId = res.data.guideFileId
+        if (this.mdFileId) {
+          this.getFileList()
+        }
       })
     },
     getReleaseConfig (params) {
@@ -765,7 +790,6 @@ export default {
         this.detail_btn = true
       } else if (active === 1) {
         this.step = 'step2'
-        this.getAtpTest()
         this.detail_btn = false
       } else if (active === 2) {
         this.step = 'step3'
@@ -926,6 +950,7 @@ export default {
       this.isAddRuleData = false
       this.editIndex = index
       this.appPublishDialog = true
+      console.log(row)
       this.editRuleData = row
     },
     // 删除规则列表
@@ -993,7 +1018,7 @@ export default {
     // 集成应用测试页面
     getAtpTest () {
       Workspace.getAtpTestApi(this.projectId).then(res => {
-        if (res.data) {
+        if (res.data && this.appCertify) {
           Workspace.getReleaseApi(this.projectId).then(response => {
             this.taskId = response.data.atpTest.id
             this.setApiHeight()
@@ -1009,9 +1034,14 @@ export default {
     getAtpList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let data = res.data.atpTest
+        if (data.status !== '') {
+          this.appCertify = false
+        } else {
+          this.appCertify = true
+        }
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
-        if (this.appTestData[0].status === 'success') {
+        if (this.appTestData[0].status === 'success' || this.appTestData[0].status === '') {
           this.clearInterval()
         }
       }).catch(() => {
@@ -1058,6 +1088,13 @@ export default {
         this.appStoreUrl = currUrl.replace('developer', 'appstore')
         this.atpUrl = currUrl.replace('developer', 'atp')
       }
+    },
+    getFileList () {
+      Workspace.getApiFileApi(this.mdFileId, this.userId).then(res => {
+        let obj = { name: '' }
+        obj.name = res.data.fileName
+        this.appMdList.push(obj)
+      })
     }
   },
   created () {
@@ -1072,6 +1109,7 @@ export default {
     this.interval = setInterval(() => {
       this.getAtpList()
     }, 5000)
+    this.getReleaseConfigList()
   },
   watch: {
     '$i18n.locale': function () {
