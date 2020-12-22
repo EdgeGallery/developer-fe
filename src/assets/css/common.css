@@ -119,6 +119,9 @@ li{
   border: 1px solid #688ef3;
   color: #688ef3;
 }
+.el-button.p8{
+  padding: 8px 12px;
+}
 .el-dialog__header{
   background: #688ef3 !important;
 }
