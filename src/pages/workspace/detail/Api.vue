@@ -163,7 +163,6 @@ export default {
         }
         this.apiType = res.data.type
         let treeDataTemp = []
-        let serviceCount = 0
         treeDataTemp = res.data.capabilityList
         let oneLevel = []
         treeDataTemp.forEach(item => {
@@ -199,8 +198,6 @@ export default {
         // threeLevel
         treeDataTemp.forEach(item => {
           item.capabilityDetailList.forEach(subItem => {
-            serviceCount++
-            sessionStorage.setItem('serviceCount', serviceCount)
             this.treeData.forEach(itemThree => {
               itemThree.children.forEach(subTree => {
                 let objThree = {
@@ -305,36 +302,6 @@ export default {
       sessionStorage.setItem('lan', lan)
       sessionStorage.setItem('sdkFileId', this.apiFileId)
       return Api.downloadSDKApi(this.apiFileId, lan)
-    },
-    async getApiFileId () {
-      this.apiFileIdArr = []
-      let projectId = sessionStorage.getItem('mecDetailID')
-      let getGroupid = async (groupId) => {
-        await Workspace.getServiceListApi(groupId).then(res => {
-          let data = res.data
-          data.capabilityDetailList.forEach(service => {
-            this.apiFileIdArr.push(service.apiFileId)
-          })
-        })
-        let serviceCount = Number(sessionStorage.getItem('serviceCount'))
-        if (this.apiFileIdArr.length === serviceCount) {
-          this.getSampleCode(this.apiFileIdArr)
-        }
-      }
-
-      await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
-        let data = res.data.capabilityList
-        if (data.length === 0) {
-          this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
-        } else {
-          data.forEach(dataItem => {
-            getGroupid(dataItem.groupId)
-          })
-        }
-      })
-    },
-    getSampleCode (apiFileIdArr) {
-      Workspace.getSampleCodeApi(apiFileIdArr)
     }
   },
   watch: {

@@ -71,6 +71,9 @@ li{
 .mt20{
   margin-top:20px;
 }
+.el-button.mt20{
+  margin-top:20px;
+}
 .ml10{
   margin-left: 10px;
 }
@@ -119,7 +122,7 @@ li{
 .el-dialog__header{
   background: #688ef3 !important;
 }
-.el-dialog__title,.el-icon-close:before{
+.el-dialog__title{
   color: #fff !important;
 }
 .el-dialog--center .el-dialog__header{
@@ -168,7 +171,7 @@ div::-webkit-scrollbar-thumb{
 .el-dialog__body{
   padding-top:15px!important;
 }
-.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-icon-close,.el-dialog__headerbtn .el-dialog__close{
+.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
   color:#fff!important;
 }
 

@@ -255,9 +255,13 @@ export default {
           })
         })
         arr = Array.from(new Set(arr))
+        sessionStorage.setItem('serviceCount', arr.length)
         this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
           this.active = 3
+          this.changeComponent()
+        } else {
+          this.active = 0
           this.changeComponent()
         }
       })
