@@ -739,6 +739,7 @@ export default {
         this.projectDetailData.status = res.data.deployStatus
         if (res.data.testId && res.data.appInstanceId) {
           this.getReleaseConfigFirst()
+          this.showAtp = true
         } else {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
@@ -746,6 +747,7 @@ export default {
     },
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        console.log(res.data)
         this.mdFileId = res.data.guideFileId
         if (this.mdFileId) {
           this.getFileList()
@@ -771,6 +773,7 @@ export default {
       })
     },
     getReleaseConfigFirst () {
+      console.log(this.trafficAllData)
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
         Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
@@ -838,6 +841,7 @@ export default {
       fd.append('file', fileList[0])
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
         this.trafficAllData.guideFileId = res.data.fileId
+        this.getReleaseConfigFirst()
         this.$message.success(this.$t('promptMessage.uploadSuccess'))
       }).catch(() => {
         fileList = []
@@ -931,6 +935,8 @@ export default {
         this.appPublishListData.splice(this.editIndex, 1, data)
         this.$message.success(this.$t('promptMessage.editSuccess'))
       }
+      this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
+      this.getReleaseConfigFirst()
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
     // 编辑规则列表
@@ -1105,7 +1111,6 @@ export default {
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
-    this.getReleaseConfigFirst()
     this.getAtpList()
     this.interval = setInterval(() => {
       this.getAtpList()
