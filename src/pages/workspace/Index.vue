@@ -122,12 +122,13 @@ export default {
       chartExtend: {
         color: ['#5ab1ef', '#ffb980', '#19d4ae', '#f37f7f', '#67c23a']
       },
-      dialogVisible: false,
       userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
-    if (this.$route.params.from === 'index') this.dialogVisible = true
+    if (this.$route.params.from === 'index') {
+      this.newprojectDialog = true
+    }
     this.getProjectListData()
   },
   beforeRouteEnter (to, from, next) {
@@ -147,7 +148,6 @@ export default {
     },
     // 关闭弹框
     closeDialog (data) {
-      this.dialogVisible = data
       this.$refs.projectList.getProjectListData()
     },
     // 获取项目列表
