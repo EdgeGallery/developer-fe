@@ -752,7 +752,7 @@ export default {
           console.log(this.mdFileId)
           this.getFileList()
         }
-        if (res.data.appInstanceId && res.data.atpTest.id) {
+        if (res.data.atpTest.id) {
           this.showAtp = true
         }
       })
