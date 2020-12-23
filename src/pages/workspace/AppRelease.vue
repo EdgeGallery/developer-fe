@@ -25,7 +25,7 @@
       <el-step :title="$t('workspace.appRelease.appCertify')" />
       <el-step :title="$t('workspace.appRelease.appRelease')" />
     </el-steps>
-    <div class="elSteps">
+    <div class="release_steps">
       <!-- 第一步“应用配置” -->
       <div v-show="step==='step1'">
         <!-- 项目详情 -->
@@ -739,7 +739,6 @@ export default {
         this.projectDetailData.status = res.data.deployStatus
         if (res.data.testId && res.data.appInstanceId) {
           this.getReleaseConfigFirst()
-          this.showAtp = true
         } else {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
@@ -750,7 +749,11 @@ export default {
         console.log(res.data)
         this.mdFileId = res.data.guideFileId
         if (this.mdFileId) {
+          console.log(this.mdFileId)
           this.getFileList()
+        }
+        if (res.data.appInstanceId && res.data.atpTest.id) {
+          this.showAtp = true
         }
       })
     },
@@ -1101,6 +1104,7 @@ export default {
         let obj = { name: '' }
         obj.name = res.data.fileName
         this.appMdList.push(obj)
+        console.log(this.appMdList)
       })
     }
   },
@@ -1137,6 +1141,13 @@ export default {
 
 <style lang="less">
 .appRelease{
+  .elTabs{
+    .release_steps{
+      width: 90%;
+      margin: 0 5%;
+      padding: 20px 0;
+    }
+  }
   .el-table td, .el-table th{
     padding: 2px 0;
     text-align: center;
@@ -1321,7 +1332,6 @@ export default {
     .test{
       display: block;
     }
-
     .test.appdetails{
       background: #888;
       border: 1px solid #888;
