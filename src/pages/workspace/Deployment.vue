@@ -203,7 +203,7 @@
         <div class="timeline-box">
           <el-timeline class="timeline-class">
             <el-timeline-item
-              v-for="(activity, index) in activities"
+              v-for="(activity,index) in activities"
               :key="index"
               :icon="activity.icon"
               :type="activity.type"
@@ -417,7 +417,7 @@ export default {
       this.deployStatus = 'DEPLOYING'
       this.initialTimeline()
       this.deployTest()
-      this.timer = setInterval(this.getTestConfig, 5000)
+      this.timer = setInterval(this.getTestConfig, 2000)
     },
 
     deployTest () {
@@ -451,67 +451,66 @@ export default {
         console.log(err)
       })
     },
-    getTestConfig () {
-      Workspace.getTestConfigApi(this.projectId).then(res => {
-        if (res.data === null || res.data === '') {
-          return
-        }
-        let status = res.data.stageStatus
-        this.platform = res.data.platform
-        this.deployField = res.data.deployField === null ? '未上传' : '已上传'
-        this.privateHost = res.data.privateHost ? '私有节点' : '公有节点'
-        if (status != null) {
-          if (status.csar !== null && status.csar !== this.CSAR) {
-            this.CSAR = status.csar
-            this.initialTimeline()
-            this.pause(2000)
-          }
-
-          if (status.hostInfo !== null && status.hostInfo !== this.hostInfo) {
-            this.hostInfo = status.hostInfo
-            this.initialTimeline()
-            this.pause(2000)
-          }
-
-          if (status.instantiateInfo !== null && status.instantiateInfo !== this.instantiateInfo) {
-            this.instantiateInfo = status.instantiateInfo
-            this.initialTimeline()
-            this.pause(2000)
-          }
-
-          if (status.workStatus !== null && status.workStatus !== this.workStatus) {
-            this.workStatus = status.workStatus
-            this.initialTimeline()
-            this.pause(2000)
-          }
-        }
-
-        this.deployStatus = res.data.deployStatus
-        this.initialTimeline()
-        // update icon status according to stage status
-        // deploy successfully
-        if (this.deployStatus === 'SUCCESS') {
-          clearInterval(this.timer)
-          if (res.data.pods !== null && res.data.pods.length > 4) this.pods = JSON.parse(res.data.pods).pods
-          this.flowShow = true
-          this.testFinished = true
-          this.deploySuccess = true
-          this.accessUrl = res.data.accessUrl
-          this.errorLog = res.data.errorLog
-        }
-        // deploy failed
-        if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
-          clearInterval(this.timer)
-          if (res.data.pods !== null && res.data.pods.length > 4) this.pods = JSON.parse(res.data.pods).pods
-          this.deployStatus = 'FAILED'
-          this.initialTimeline() // update icon status according to stage status
-          this.testFinished = true
-          this.deploySuccess = false
-          this.flowShow = true
-          this.accessUrl = res.data.accessUrl
-          this.errorLog = res.data.errorLog
-        }
+    async getTestConfig () {
+      let cachedData = ''
+      await Workspace.getTestConfigApi(this.projectId).then(res => {
+        cachedData = res.data
       })
+      if (cachedData === null || cachedData === '') {
+        return
+      }
+
+      let status = cachedData.stageStatus
+      this.platform = cachedData.platform
+      this.deployField = cachedData.deployField === null ? '未上传' : '已上传'
+      this.privateHost = cachedData.privateHost ? '私有节点' : '公有节点'
+      if (status != null) {
+        if (status.csar !== null && status.csar !== this.CSAR) {
+          this.CSAR = status.csar
+          this.initialTimeline()
+        }
+
+        if (status.hostInfo !== null && status.hostInfo !== this.hostInfo) {
+          this.hostInfo = status.hostInfo
+          this.initialTimeline()
+        }
+
+        if (status.instantiateInfo !== null && status.instantiateInfo !== this.instantiateInfo) {
+          this.instantiateInfo = status.instantiateInfo
+          this.initialTimeline()
+        }
+
+        if (status.workStatus !== null && status.workStatus !== this.workStatus) {
+          this.workStatus = status.workStatus
+          this.initialTimeline()
+        }
+      }
+
+      this.deployStatus = cachedData.deployStatus
+      this.initialTimeline()
+      // update icon status according to stage status
+      // deploy successfully
+      if (this.deployStatus === 'SUCCESS') {
+        clearInterval(this.timer)
+        if (cachedData.pods !== null && cachedData.pods.length > 4) this.pods = JSON.parse(cachedData.pods).pods
+        this.flowShow = true
+        this.testFinished = true
+        this.deploySuccess = true
+        this.accessUrl = cachedData.accessUrl
+        this.errorLog = cachedData.errorLog
+      }
+      // deploy failed
+      if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
+        clearInterval(this.timer)
+        if (cachedData.pods !== null && cachedData.pods.length > 4) this.pods = JSON.parse(cachedData.pods).pods
+        this.deployStatus = 'FAILED'
+        this.initialTimeline() // update icon status according to stage status
+        this.testFinished = true
+        this.deploySuccess = false
+        this.flowShow = true
+        this.accessUrl = cachedData.accessUrl
+        this.errorLog = cachedData.errorLog
+      }
     },
 
     fetchDataOnMounted () {
@@ -529,17 +528,34 @@ export default {
     },
     initialTimeline () {
       this.getStatusPic()
-      this.$set(this.activities[0], 'icon', this.getIcon(this.CSAR))
-      this.$set(this.activities[0], 'color', this.getColor(this.CSAR))
 
-      this.$set(this.activities[1], 'icon', this.getIcon(this.hostInfo))
-      this.$set(this.activities[1], 'color', this.getColor(this.hostInfo))
-
-      this.$set(this.activities[2], 'icon', this.getIcon(this.instantiateInfo))
-      this.$set(this.activities[2], 'color', this.getColor(this.instantiateInfo))
-
-      this.$set(this.activities[3], 'icon', this.getIcon(this.workStatus))
-      this.$set(this.activities[3], 'color', this.getColor(this.workStatus))
+      this.activities = [
+        {
+          content: '生成部署文件',
+          size: 'large',
+          icon: this.getIcon(this.CSAR),
+          color: this.getColor(this.CSAR)
+        },
+        {
+          content: '分配测试节点',
+          size: 'large',
+          icon: this.getIcon(this.hostInfo),
+          color: this.getColor(this.hostInfo)
+        },
+        {
+          content: '实例化应用',
+          size: 'large',
+          icon: this.getIcon(this.instantiateInfo),
+          color: this.getColor(this.instantiateInfo)
+        },
+        {
+          content: '获取部署状态',
+          size: 'large',
+          icon: this.getIcon(this.workStatus),
+          color: this.getColor(this.workStatus)
+        }
+      ]
+      this.$forceUpdate()
     },
     getIcon: function (status) {
       if (status === 'Success') {
@@ -575,12 +591,7 @@ export default {
       } else {
         this.$refs.carousel.setActiveItem('1')
       }
-    },
-    pause: function (milliseconds) {
-      var dt = new Date()
-      while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
     }
-
   },
   created () { },
   mounted () {
