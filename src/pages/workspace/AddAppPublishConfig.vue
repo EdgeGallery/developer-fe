@@ -279,8 +279,13 @@ export default {
       this.form.dnsRulesList = data.dnsRulesList.split(',')
       this.removeEmpty(this.form.trafficRulesList)
       this.removeEmpty(this.form.dnsRulesList)
-      this.getFileList(this.form.apiJson, 'apiJson')
-      this.getFileList(this.form.apiMd, 'apiMd')
+      console.log(this.form)
+      if (this.form.apiJson) {
+        this.getFileList(this.form.apiJson, 'apiJson')
+      }
+      if (this.form.apiMd) {
+        this.getFileList(this.form.apiMd, 'apiMd')
+      }
     },
     getFileList (fileId, type) {
       Workspace.getApiFileApi(fileId, this.userId).then(res => {
