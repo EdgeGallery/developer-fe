@@ -753,7 +753,7 @@ export default {
           this.getFileList()
         }
         if (res.data.atpTest.id) {
-          this.showAtp = true
+          this.getAtpTest()
         }
       })
     },

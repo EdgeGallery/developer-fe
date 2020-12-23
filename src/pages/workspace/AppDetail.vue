@@ -90,6 +90,11 @@
               <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ projectDetailData.dependent }}
             </el-col>
           </el-row>
+          <el-row>
+            <el-col>
+              <span class="span_left">{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
+            </el-col>
+          </el-row>
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -231,7 +236,8 @@ export default {
         industry: '',
         type: '',
         platform: '',
-        dependent: ''
+        dependent: '',
+        description: ''
       },
       projectId: sessionStorage.getItem('mecDetailID')
     }
@@ -247,6 +253,7 @@ export default {
         this.projectDetailData.industry = data.industry[0]
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
+        this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
         dependent.forEach(item => {
