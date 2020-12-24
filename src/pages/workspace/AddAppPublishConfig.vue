@@ -20,7 +20,7 @@
       :title="$t('workspace.add')+$t('workspace.appPublishConfig')"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
-      width="40%"
+      width="35%"
       :before-close="handleClose"
       center
     >
@@ -30,30 +30,40 @@
         size="mini"
       >
         <el-form-item
+          :label="$t('workspace.servicename')"
           :label-width="formLabelWidth"
           class="service_row"
         >
-          <span class="span_left">{{ $t('workspace.servicename') }} :</span>
           <el-input
             v-model="form.serviceName"
             :placeholder="$t('workspace.servicename')"
           />
-          <span class="span_left">{{ $t('workspace.internalPort') }} :</span>
+        </el-form-item>
+        <el-form-item
+          :label="$t('workspace.internalPort')"
+          :label-width="formLabelWidth"
+          class="service_row"
+        >
           <el-input
             v-model="form.internalPort"
             :placeholder="$t('workspace.internalPort')"
           />
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.version')"
           :label-width="formLabelWidth"
           class="service_row"
         >
-          <span class="span_left">{{ $t('workspace.version') }} :</span>
           <el-input
             v-model="form.version"
             :placeholder="$t('workspace.version')"
           />
-          <span class="span_left">{{ $t('workspace.protocol') }} :</span>
+        </el-form-item>
+        <el-form-item
+          :label="$t('workspace.protocol')"
+          :label-width="formLabelWidth"
+          class="service_row"
+        >
           <el-select
             v-model="form.protocol"
             size="mini"
@@ -68,7 +78,8 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label-width="formLabelWidth"
+          label-width="0"
+          class="upload_file"
         >
           <el-upload
             class="upload-demo clear"
@@ -98,7 +109,8 @@
           </el-upload>
         </el-form-item>
         <el-form-item
-          :label-width="formLabelWidth"
+          label-width="0"
+          class="upload_file"
         >
           <el-upload
             class="upload-demo clear"
@@ -128,10 +140,10 @@
           </el-upload>
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.trafficRules')"
           :label-width="formLabelWidth"
           class="service_row trafficRules"
         >
-          <span class="span_left">{{ $t('workspace.trafficRules') }} :</span>
           <el-checkbox-group
             v-model="form.trafficRulesList"
           >
@@ -144,10 +156,10 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.dnsRules')"
           :label-width="formLabelWidth"
           class="service_row trafficRules"
         >
-          <span class="span_left">{{ $t('workspace.dnsRules') }} :</span>
           <el-checkbox-group
             v-model="form.dnsRulesList"
           >
@@ -160,10 +172,10 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.appRelease.capabilityType')"
           :label-width="formLabelWidth"
           class="service_row trafficRules"
         >
-          <span class="span_left">{{ $t('workspace.appRelease.capabilityType') }} :</span>
           <span
             class="selected_ability"
             v-if="hasAbility"
@@ -253,7 +265,7 @@ export default {
       }],
       optionsTrafficRules: [],
       optionsDnsRules: [],
-      formLabelWidth: '0px',
+      formLabelWidth: '120px',
       apiFileList: [],
       apiMdList: [],
       userId: sessionStorage.getItem('userId'),
@@ -557,46 +569,22 @@ export default {
     .el-form-item--mini.el-form-item{
       margin-bottom: 22px;
     }
+    .upload_file{
+        padding-left: 30px;
+      }
     .service_row{
-      span.span_left{
-        width: 120px;
-      }
-      .el-input{
-        width: 200px;
-        float: left;
-        height: 28px;
-        margin: 0 15px 0px 0;
-      }
       .el-select{
-        float: left;
-        .el-input{
-          width: 200px;
-        }
-      }
-      .el-select.select_right{
-        .el-input--suffix .el-input__inner{
-          padding-right: 10px;
-        }
-        .el-input__icon{
-          width: 20px;
-        }
+        width: 100%;
       }
     }
-    .service_row.trafficRules{
-      .el-select{
-        .el-input{
-          width: 300px;
-        }
-      }
-    }
-    .el-upload-list{
+    /* .el-upload-list{
       float: left;
       width: 100%;
       text-align: left;
       .el-upload-list__item:first-child{
         width: 50%;
       }
-    }
+    } */
     .el-checkbox-group{
       text-align: left;
       float: left;

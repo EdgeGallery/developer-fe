@@ -285,7 +285,7 @@ const en = {
     appDevelopment: 'Application development',
     buildTip: 'Your application has been integrated with EdgeGallery platform, please test your own APP business',
     finishTest: 'Finish Test',
-    saveData: 'Save',
+    saveData: 'Save Rules',
     statistics: 'Statistics',
     realTimeStatistics: 'Real-time Statistics',
     performaceStatistics: 'Performance Statistics',
@@ -535,7 +535,8 @@ const en = {
     editRuleFail: 'Edit rule failed',
     appReleaseSuccess: 'Application published successfully',
     appReleaseFail: 'Application publishing failed',
-    notDeploy: 'The application is not deployed and cannot be released'
+    isPublished: 'The application has been published to the application warehouse',
+    notDeploy: 'The application is not deployed, and the release operation cannot be performed'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

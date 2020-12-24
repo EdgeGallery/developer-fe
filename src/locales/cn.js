@@ -285,7 +285,7 @@ const cn = {
     appDevelopment: '应用开发',
     buildTip: '你的应用已经可以被EdgeGallery平台集成，请测试自身APP业务',
     finishTest: '完成测试',
-    saveData: '保存',
+    saveData: '保存规则',
     statistics: '数据统计',
     realTimeStatistics: '实时统计',
     performaceStatistics: '性能统计',
@@ -535,7 +535,8 @@ const cn = {
     editRuleFail: '编辑规则失败',
     appReleaseSuccess: '应用发布成功',
     appReleaseFail: '应用发布失败',
-    notDeploy: '应用没有部署调测，不能进行应用发布'
+    isPublished: '应用已经发布到应用仓库',
+    notDeploy: '应用没有部署调测，不能进行发布操作'
   },
   breadCrumb: {
     mecDeveloper: '首页',

@@ -72,7 +72,7 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ projectDetailData.instantiateId }}
+              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ projectDetailData.appInstanceId }}
             </el-col>
           </el-row>
           <el-row>
@@ -345,19 +345,19 @@
                 >
                   <el-table-column
                     prop="dnsRuleId"
-                    label="dnsRuleId"
+                    :label="$t('workspace.appRelease.dnsRuleId')"
                   />
                   <el-table-column
                     prop="domainName"
-                    label="domainName"
+                    :label="$t('workspace.appRelease.domainName')"
                   />
                   <el-table-column
                     prop="ipAddressType"
-                    label="ipAddressType"
+                    :label="$t('workspace.appRelease.ipAddressType')"
                   />
                   <el-table-column
                     prop="ipAddress"
-                    label="ipAddress"
+                    :label="$t('workspace.appRelease.ipAddress')"
                   />
                   <el-table-column
                     prop="ttl"
@@ -588,17 +588,22 @@
         </div>
       </div>
     </div>
-    <div class="elButton">
+    <div class="release_btn">
       <el-button
-        type="text"
         v-if="active===0"
         @click="saveConfig"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
       <el-button
+        class="featuresBtn"
+        @click="appDetaildialog=true"
+      >
+        {{ $t('workspace.appDetails') }}
+      </el-button>
+      <el-button
         id="prevBtn"
-        type="text"
+        type="primary"
         v-if="active>0"
         @click="previous"
       >
@@ -613,23 +618,11 @@
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
     </div>
-    <div
-      class="detail_btn"
-      v-if="detail_btn"
-    >
-      <el-button
-        size="small"
-        class="featuresBtn mt20"
-        @click="appDetaildialog=true"
-      >
-        {{ $t('workspace.appDetails') }}
-      </el-button>
-      <!-- 应用包详情弹框 -->
-      <div v-if="appDetaildialog">
-        <appPackageDetail
-          v-model="appDetaildialog"
-        />
-      </div>
+    <!-- 应用包详情弹框 -->
+    <div v-if="appDetaildialog">
+      <appPackageDetail
+        v-model="appDetaildialog"
+      />
     </div>
   </div>
 </template>
@@ -658,7 +651,7 @@ export default {
         version: '',
         platform: '',
         dependent: '',
-        instantiateId: '',
+        appInstanceId: '',
         deployPlatform: '',
         status: ''
       },
@@ -705,7 +698,6 @@ export default {
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
       taskId: '',
-      detail_btn: true,
       interval: null,
       mdFileId: '',
       appCertify: true
@@ -734,7 +726,7 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
         sessionStorage.setItem('csarId', res.data.appInstanceId)
-        this.projectDetailData.instantiateId = res.data.appInstanceId
+        this.projectDetailData.appInstanceId = res.data.appInstanceId
         this.projectDetailData.deployPlatform = res.data.platform
         this.projectDetailData.status = res.data.deployStatus
         if (res.data.testId && res.data.appInstanceId) {
@@ -746,10 +738,8 @@ export default {
     },
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        console.log(res.data)
         this.mdFileId = res.data.guideFileId
         if (this.mdFileId) {
-          console.log(this.mdFileId)
           this.getFileList()
         }
         if (res.data.atpTest.id) {
@@ -776,7 +766,6 @@ export default {
       })
     },
     getReleaseConfigFirst () {
-      console.log(this.trafficAllData)
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
         Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
@@ -793,14 +782,11 @@ export default {
     showStepContent (active) {
       if (active === 0) {
         this.step = 'step1'
-        this.detail_btn = true
       } else if (active === 1) {
         this.step = 'step2'
-        this.detail_btn = false
       } else if (active === 2) {
         this.step = 'step3'
         this.getAtpList()
-        this.detail_btn = false
       }
     },
     clearInterval () {
@@ -879,10 +865,10 @@ export default {
         this.dnsDialog = true
         this.editRuleData = {
           dnsRuleId: '',
-          domainName: '',
+          domainName: 'domainName',
           ipAddressType: 'IP_V4',
-          ipAddress: '',
-          ttl: ''
+          ipAddress: '192.5.14.68',
+          ttl: '85000'
         }
       } else if (name === 'trafficRule') {
         this.trafficDialog = true
@@ -959,7 +945,6 @@ export default {
       this.isAddRuleData = false
       this.editIndex = index
       this.appPublishDialog = true
-      console.log(row)
       this.editRuleData = row
     },
     // 删除规则列表
@@ -1022,7 +1007,11 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      this.getReleaseConfig(this.trafficAllData)
+      if (this.projectDetailData.appInstanceId) {
+        this.getReleaseConfig(this.trafficAllData)
+      } else {
+        this.$message.warning(this.$t('promptMessage.notDeploy'))
+      }
     },
     // 集成应用测试页面
     getAtpTest () {
@@ -1079,8 +1068,13 @@ export default {
     releaseApp () {
       Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
         this.dialogAppPublicSuccess = true
-      }).catch(() => {
-        this.$message.error(this.$t('promptMessage.appReleaseFail'))
+      }).catch(err => {
+        console.log(err.response)
+        if (err.response.data.message === 'publish app to appstore fail!') {
+          this.$message.warning(this.$t('promptMessage.isPublished'))
+        } else {
+          this.$message.error(this.$t('promptMessage.appReleaseFail'))
+        }
       })
     },
     // 关闭弹框
@@ -1104,7 +1098,6 @@ export default {
         let obj = { name: '' }
         obj.name = res.data.fileName
         this.appMdList.push(obj)
-        console.log(this.appMdList)
       })
     }
   },
@@ -1148,6 +1141,17 @@ export default {
       padding: 20px 0;
     }
   }
+  .release_btn{
+    width: 96%;
+    margin: 100px 2% 20px;
+    text-align: right;
+    .el-button{
+      padding: 8px 12px;
+      strong{
+        font-weight: normal;
+      }
+    }
+  }
   .el-table td, .el-table th{
     padding: 2px 0;
     text-align: center;
@@ -1157,13 +1161,6 @@ export default {
     .test_info{
       color: #688ef3;
       margin-right: 15px;
-    }
-    .release_btn{
-      display: inline-block;
-      background: #0099cc;
-      border: 1px solid #0099cc;
-      min-width: 60px;
-      padding: 6px 8px;
     }
     .is-disabled{
       background: #aaa;
@@ -1193,14 +1190,6 @@ export default {
       }
       .upload-demo{
         display: inline-block;
-      }
-      .el-upload-list{
-        float: left;
-        width: 100%;
-        text-align: left;
-        .el-upload-list__item:first-child{
-          width: 50%;
-        }
       }
       .el-upload{
         float: left;
@@ -1247,7 +1236,7 @@ export default {
         height: 4px;
       }
       .el-tab-pane{
-        padding: 24px 0;
+        padding: 24px 0 0;
       }
     }
     .el-table{
@@ -1297,17 +1286,6 @@ export default {
           top: 2px;
         }
       }
-    }
-  }
-  .detail_btn{
-    width: 80%;
-    margin: 0 10%;
-    padding: 0 30px;
-  }
-  @media screen and (max-width: 1380px){
-    .detail_btn{
-      width: 100%;
-      margin: 0;
     }
   }
   .btn_width1{
