@@ -144,6 +144,15 @@ div::-webkit-scrollbar-thumb{
   border-radius: 10px;
   background: rgba(0,0,0,0.1);
 }
+.el-upload-list{
+  float: left;
+  width: 100%;
+  text-align: left;
+}
+.el-upload-list__item:first-child{
+  width: 25%;
+  min-width: 200px;
+}
 
 
 /* 自适应
