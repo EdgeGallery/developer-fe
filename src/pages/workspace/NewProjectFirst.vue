@@ -265,7 +265,7 @@ export default {
       rules: {
         name: [
           { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^[\w\\-][\w\\-\s]{0,29}$/g, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^[a-zA-Z0-9][\w\\-\s]{3,127}$/g, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
