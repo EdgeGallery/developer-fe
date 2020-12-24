@@ -78,7 +78,7 @@
                 :pull="3"
                 :span="12"
               >
-                {{ privateHost }}
+                {{ privateHost ? $t("workspace.privateHost") : $t("workspace.publicHost") }}
               </el-col>
             </el-row>
           </el-col>
@@ -95,7 +95,7 @@
                 :span="12"
                 class="detail-title-value"
               >
-                {{ deployField }}
+                {{ deployField === (null || '') ? $t("workspace.unUploaded") : $t("workspace.uploaded") }}
               </el-col>
             </el-row>
           </el-col>
@@ -105,7 +105,7 @@
     <div class="test-env">
       <el-row>
         <h4 class="grayline">
-          选择测试环境
+          {{ $t("workspace.selectEnv") }}
         </h4>
       </el-row>
       <el-row class="marginTop15">
@@ -115,13 +115,13 @@
         >
           <div class="env-img">
             <img
-              :src="sandboxUnclickedImg"
+              :src="this.language === 'cn' ? sandboxUnclickedImg : sandboxUnclickedEngImg"
               alt=""
               @click="selectEnv = isPhysical = false"
               v-show="isPhysical"
             >
             <img
-              :src="sandboxClickedImg"
+              :src="this.language === 'cn' ? sandboxClickedImg : sandboxClickedEngImg"
               alt=""
               @click="selectEnv = isPhysical = false"
               v-show="!isPhysical"
@@ -134,13 +134,13 @@
         >
           <div class="env-img">
             <img
-              :src="labUnclickedImg"
+              :src="this.language === 'cn' ? labUnclickedImg :labUnclickedEngImg "
               alt=""
               @click="selectEnv = isPhysical = true"
               v-show="!isPhysical"
             >
             <img
-              :src="labClickedImg"
+              :src="this.language === 'cn' ? labClickedImg :labClickedEngImg"
               alt=""
               @click="selectEnv = isPhysical = true"
               v-show="isPhysical"
@@ -224,25 +224,25 @@
           >
             <el-carousel-item name="1">
               <img
-                :src="CSARImg"
+                :src="this.language === 'cn' ? CSARImg : CSAREngImg"
                 alt=""
               >
             </el-carousel-item>
             <el-carousel-item name="2">
               <img
-                :src="nodeInfoImg"
+                :src="this.language === 'cn' ? nodeInfoImg : nodeInfoEngImg"
                 alt=""
               >
             </el-carousel-item>
             <el-carousel-item name="3">
               <img
-                :src="applicationImg"
+                :src="this.language === 'cn' ? applicationImg : applicationEngImg"
                 alt=""
               >
             </el-carousel-item>
             <el-carousel-item name="4">
               <img
-                :src="workStatusImg"
+                :src="this.language === 'cn' ? workStatusImg : workStatusEngImg"
                 alt=""
               >
             </el-carousel-item>
@@ -349,8 +349,6 @@ export default {
   data () {
     return {
       flowImg: require('@/assets/images/flowImg.png'),
-      labImg: require('@/assets/images/lab.png'),
-      sandboxImg: require('@/assets/images/sandBox.png'),
       deploySuccessImg: require('@/assets/images/deploySuccessImg.png'),
       deployFailedImg: require('@/assets/images/deployFailedImg.png'),
       labClickedImg: require('@/assets/images/5GClicked.png'),
@@ -361,6 +359,15 @@ export default {
       workStatusImg: require('@/assets/images/workStatus.png'),
       sandboxClickedImg: require('@/assets/images/sandBoxClicked.png'),
       sandboxUnclickedImg: require('@/assets/images/sandBoxUnclicked.png'),
+
+      labClickedEngImg: require('@/assets/images/5GClickedEng.png'),
+      labUnclickedEngImg: require('@/assets/images/5GUnclickedEng.png'),
+      applicationEngImg: require('@/assets/images/applicationEng.png'),
+      CSAREngImg: require('@/assets/images/CSAREng.png'),
+      nodeInfoEngImg: require('@/assets/images/nodeInfoEng.png'),
+      workStatusEngImg: require('@/assets/images/workStatusEng.png'),
+      sandboxClickedEngImg: require('@/assets/images/sandBoxClickedEng.png'),
+      sandboxUnclickedEngImg: require('@/assets/images/sandBoxUnclickedEng.png'),
       deploySuccess: false,
       flowShow: true,
       testFinished: false,
@@ -370,7 +377,7 @@ export default {
       projectName: '',
       platform: '',
       privateHost: '',
-      deployField: '未上传',
+      deployField: '',
       CSAR: '',
       hostInfo: '',
       instantiateInfo: '',
@@ -379,39 +386,15 @@ export default {
       userId: '',
       accessUrl: '',
       errorLog: '',
-      activities: [
-        {
-          content: '生成部署文件',
-          size: 'large',
-          icon: '',
-          color: ''
-        },
-        {
-          content: '分配测试节点',
-          size: 'large',
-          icon: '',
-          color: ''
-        },
-        {
-          content: '实例化应用',
-          size: 'large',
-          icon: '',
-          color: ''
-        },
-        {
-          content: '获取部署状态',
-          size: 'large',
-          icon: '',
-          color: ''
-        }
-      ],
-      isPhysical: false
+      activities: '',
+      isPhysical: false,
+      language: 'cn'
     }
   },
   methods: {
     startDeploy () {
-      if (this.deployField === '未上传') {
-        this.$message.error('Please upload your config file!')
+      if (this.deployField === '' || this.deployField === null) {
+        this.$message.error(this.$t('workspace.uploadConfigMessage'))
         return
       }
       this.deployStatus = 'DEPLOYING'
@@ -444,7 +427,7 @@ export default {
       this.flowShow = true
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
-          message: '环境清空'
+          message: this.$t('workspace.clearEnv')
         })
         clearInterval(this.timer)
       }).catch(err => {
@@ -462,8 +445,8 @@ export default {
 
       let status = cachedData.stageStatus
       this.platform = cachedData.platform
-      this.deployField = cachedData.deployField === null ? '未上传' : '已上传'
-      this.privateHost = cachedData.privateHost ? '私有节点' : '公有节点'
+      this.deployField = cachedData.deployField
+      this.privateHost = cachedData.privateHost
       if (status != null) {
         if (status.csar !== null && status.csar !== this.CSAR) {
           this.CSAR = status.csar
@@ -531,25 +514,25 @@ export default {
 
       this.activities = [
         {
-          content: '生成部署文件',
+          content: this.$t('workspace.createDeploymentFile'),
           size: 'large',
           icon: this.getIcon(this.CSAR),
           color: this.getColor(this.CSAR)
         },
         {
-          content: '分配测试节点',
+          content: this.$t('workspace.assignTestNodes'),
           size: 'large',
           icon: this.getIcon(this.hostInfo),
           color: this.getColor(this.hostInfo)
         },
         {
-          content: '实例化应用',
+          content: this.$t('workspace.instantiateApplication'),
           size: 'large',
           icon: this.getIcon(this.instantiateInfo),
           color: this.getColor(this.instantiateInfo)
         },
         {
-          content: '获取部署状态',
+          content: this.$t('workspace.getDeploymentStatus'),
           size: 'large',
           icon: this.getIcon(this.workStatus),
           color: this.getColor(this.workStatus)
@@ -596,8 +579,16 @@ export default {
   created () { },
   mounted () {
     this.projectId = sessionStorage.getItem('mecDetailID')
+    this.language = localStorage.getItem('language')
     this.userId = sessionStorage.getItem('userId')
     this.fetchDataOnMounted()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.fetchDataOnMounted()
+      this.language = localStorage.getItem('language')
+      console.log(this.language)
+    }
   }
 }
 </script>
