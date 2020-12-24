@@ -134,6 +134,8 @@ export default {
         this.indexName = '/mecDeveloper/plugin/list'
       } else if (this.indexName === '/mecDeveloper/work/detail') {
         this.indexName = '/mecDeveloper/work'
+      } else if (this.indexName === '/mecDeveloper/work/vmDetail') {
+        this.indexName = '/mecDeveloper/work'
       } else if (this.indexName === '/mecDeveloper/api/mep' && this.fromPath === 'mep') {
         this.indexName = '/mecDeveloper/api/mep'
       } else if (this.indexName === '/mecDeveloper/plugin/toolreport') {

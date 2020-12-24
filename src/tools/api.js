@@ -143,6 +143,10 @@ let Workspace = {
     return func(path, data)
   },
   // 获取详情中节点信息
+  getDeployType: function () {
+    return Get('mec/developer/v1/config/deploy-platform')
+  },
+  // 获取详情中节点信息
   getNodeInfo: function (userId) {
     return Get('mec/developer/v1/hosts?userId=' + userId)
   },

@@ -401,7 +401,10 @@ const en = {
     privateHost: 'Private Host',
     publicHost: 'Public Host',
     capabilityInfo1: 'Please select the ecological services that your application needs to rely on. For details on ecological capabilities, please refer to',
-    capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.'
+    capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.',
+    deployType: 'Deployment Type',
+    containerImage: 'Container Image',
+    vmImage: 'VM Image'
   },
   test: {
     howToTest: {
@@ -535,6 +538,7 @@ const en = {
     editRuleFail: 'Edit rule failed',
     appReleaseSuccess: 'Application published successfully',
     appReleaseFail: 'Application publishing failed',
+    deployTypeEmpty: 'Deployment type can not be empty.',
     isPublished: 'The application has been published to the application warehouse',
     notDeploy: 'The application is not deployed, and the release operation cannot be performed'
   },

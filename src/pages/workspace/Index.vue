@@ -129,6 +129,7 @@ export default {
     if (this.$route.params.from === 'index') {
       this.newprojectDialog = true
     }
+    this.getDeploymentType()
     this.getProjectListData()
   },
   beforeRouteEnter (to, from, next) {
@@ -138,6 +139,13 @@ export default {
     next()
   },
   methods: {
+    // 获取部署方式
+    getDeploymentType () {
+      Workspace.getDeployType().then(res => {
+        sessionStorage.setItem('ifVM', res.data.isVertualMachine)
+        sessionStorage.setItem('Src', res.data.virtualMachineUrl)
+      })
+    },
     // 新建项目
     addNewProject () {
       this.newprojectDialog = true

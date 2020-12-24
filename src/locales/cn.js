@@ -401,7 +401,10 @@ const cn = {
     privateHost: '私有节点',
     publicHost: '公有节点',
     capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
-    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。'
+    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
+    deployType: '部署方式',
+    containerImage: '容器镜像',
+    vmImage: '虚机镜像'
   },
   test: {
     howToTest: {
@@ -535,6 +538,7 @@ const cn = {
     editRuleFail: '编辑规则失败',
     appReleaseSuccess: '应用发布成功',
     appReleaseFail: '应用发布失败',
+    deployTypeEmpty: '部署方式不能为空',
     isPublished: '应用已经发布到应用仓库',
     notDeploy: '应用没有部署调测，不能进行发布操作'
   },

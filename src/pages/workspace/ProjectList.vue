@@ -208,12 +208,21 @@ export default {
     toDetail (item) {
       let mecDetailID = item.id
       sessionStorage.setItem('mecDetailID', mecDetailID)
-      this.$router.push({
-        name: 'appDetail',
-        params: {
-          id: mecDetailID
-        }
-      })
+      if (item.deployPlatform === 'VIRTUALMACHINE') {
+        this.$router.push({
+          name: 'appVMDetail',
+          params: {
+            id: mecDetailID
+          }
+        })
+      } else {
+        this.$router.push({
+          name: 'appDetail',
+          params: {
+            id: mecDetailID
+          }
+        })
+      }
     },
     // 根据名称查询列表
     selectProjectList () {
