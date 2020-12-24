@@ -508,7 +508,7 @@ const cn = {
     isPublicFailed: '公开API能力到EdgeGallery生态系统失败！',
     canOnlyUpload: '只能上传.csar文件类型',
     pluginNameRule: '请输入1-30个字符的插件名称，开头不能为空',
-    nameRule: '请输入1-30个字符的应用名称，只能包含数字、字母、_、-和空格，开头不能为空',
+    nameRule: '请输入4-128个字符的应用名称，只能包含数字、字母、_、-和空格，开头为数字和字母',
     versionRule: '请输入1-10个字符的版本号，只能包含数字、字母、_、-和空格，开头不能为空',
     providerRule: '请输入1-30个字符的提供者名称，开头不能为空',
     introductionRule: '请输入1-260个字符的描述，开头不能为空',
