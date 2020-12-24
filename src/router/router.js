@@ -107,6 +107,14 @@ export default new Router({
           meta: {
             id: '3.6'
           }
+        },
+        {
+          path: '/mecDeveloper/work/vmDetail',
+          name: 'appVMDetail',
+          component: () => import('../pages/workspace/product/Vm.vue'),
+          meta: {
+            id: '3.7'
+          }
         }
       ]
     }

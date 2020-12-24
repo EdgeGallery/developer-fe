@@ -53,6 +53,25 @@
         />
       </el-form-item>
       <el-form-item
+        :label="$t('workspace.deployType')"
+        :label-width="formLabelWidth"
+        prop="deployPlatform"
+      >
+        <el-radio
+          v-model="form.deployPlatform"
+          label="KUBERNETES"
+        >
+          {{ $t('workspace.containerImage') }}
+        </el-radio>
+        <el-radio
+          v-model="form.deployPlatform"
+          label="VIRTUALMACHINE"
+          :disabled="!ifVM"
+        >
+          {{ $t('workspace.vmImage') }}
+        </el-radio>
+      </el-form-item>
+      <el-form-item
         :label="$t('workspace.industry')"
         :label-width="formLabelWidth"
         prop="industry"
@@ -248,8 +267,10 @@ export default {
         description: '',
         status: 'ONLINE',
         base64Session: false,
-        defaultActive: ''
+        defaultActive: '',
+        deployPlatform: 'KUBERNETES'
       },
+      ifVM: false,
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -274,6 +295,9 @@ export default {
         provider: [
           { required: true, validator: validateProvider, trigger: 'blur' },
           { pattern: /^\S.{0,29}$/g, message: this.$t('promptMessage.providerRule') }
+        ],
+        deployPlatform: [
+          { required: true, message: this.$t('promptMessage.deployTypeEmpty') }
         ],
         industry: [
           { required: true, message: this.$t('promptMessage.industryEmpty') }
@@ -433,6 +457,9 @@ export default {
     }
   },
   mounted () {
+    if (sessionStorage.getItem('ifVM')) {
+      this.ifVM = true
+    }
     this.getFirstData()
   }
 }

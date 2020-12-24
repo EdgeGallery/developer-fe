@@ -394,7 +394,10 @@ const cn = {
     hostInfo: '节点信息',
     deployConfig: '部署配置',
     capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
-    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。'
+    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
+    deployType: '部署方式',
+    containerImage: '容器镜像',
+    vmImage: '虚机镜像'
   },
   test: {
     howToTest: {
@@ -528,7 +531,8 @@ const cn = {
     editRuleFail: '编辑规则失败',
     appReleaseSuccess: '应用发布成功',
     appReleaseFail: '应用发布失败',
-    notDeploy: '应用没有部署调测，不能进行应用发布'
+    notDeploy: '应用没有部署调测，不能进行应用发布',
+    deployTypeEmpty: '部署方式不能为空'
   },
   breadCrumb: {
     mecDeveloper: '首页',

@@ -126,7 +126,6 @@
             finish-status="success"
             align-center
           >
-            <el-step :title="$t('workspace.choosePlatform')" />
             <el-step :title="$t('workspace.selectImage')" />
             <el-step :title="$t('workspace.configureYaml')" />
             <el-step :title="$t('workspace.deploymentTest')" />
@@ -265,7 +264,7 @@ export default {
         sessionStorage.setItem('serviceCount', arr.length)
         this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
-          this.active = 3
+          this.active = 2
           this.changeComponent()
         } else {
           this.active = 0
@@ -276,30 +275,27 @@ export default {
     changeComponent () {
       switch (this.active) {
         case 0:
-          this.currentComponent = 'choosePlatform'
-          break
-        case 1:
           this.currentComponent = 'imageSelect'
           break
-        case 2:
+        case 1:
           this.currentComponent = 'configYaml'
           break
-        case 3:
+        case 2:
           this.currentComponent = 'deployment'
           break
         default:
-          this.currentComponent = 'choosePlatform'
+          this.currentComponent = 'imageSelect'
       }
     },
     next () {
       // 获取组件内部的值
       this.$refs.currentComponet.emitStepData()
       if (this.allStepData.ifNext) {
-        if (this.active < 3) {
+        if (this.active < 2) {
           this.active++
           this.handleStep()
         }
-        if (this.active === 3) {
+        if (this.active === 2) {
           this.submitData()
         }
       }
