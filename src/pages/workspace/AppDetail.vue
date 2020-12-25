@@ -157,7 +157,7 @@
               type="primary"
               v-loading="apiDataLoading"
               @click="next"
-              v-if="active<3"
+              v-if="active<2"
             >
               <strong>{{ $t('workspace.next') }}</strong>
             </el-button>
@@ -261,7 +261,6 @@ export default {
           })
         })
         arr = Array.from(new Set(arr))
-        sessionStorage.setItem('serviceCount', arr.length)
         this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
           this.active = 2
