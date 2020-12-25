@@ -142,7 +142,7 @@ export default {
     // 获取部署方式
     getDeploymentType () {
       Workspace.getDeployType().then(res => {
-        sessionStorage.setItem('ifVM', res.data.isVertualMachine)
+        sessionStorage.setItem('ifVM', res.data.isVirtualMachine)
         sessionStorage.setItem('Src', res.data.virtualMachineUrl)
       })
     },
