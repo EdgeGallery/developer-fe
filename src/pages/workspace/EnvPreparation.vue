@@ -87,10 +87,7 @@ export default {
               this.apiFileIdArr.push(service.apiFileId)
             })
           })
-          let serviceCount = Number(sessionStorage.getItem('serviceCount'))
-          if (this.apiFileIdArr.length === serviceCount) {
-            this.getSampleCode(this.apiFileIdArr)
-          }
+          this.getSampleCode(this.apiFileIdArr)
         }
       })
     },

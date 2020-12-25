@@ -261,7 +261,6 @@ export default {
           })
         })
         arr = Array.from(new Set(arr))
-        sessionStorage.setItem('serviceCount', arr.length)
         this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
           this.active = 2
