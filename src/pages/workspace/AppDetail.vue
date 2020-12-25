@@ -157,7 +157,7 @@
               type="primary"
               v-loading="apiDataLoading"
               @click="next"
-              v-if="active<3"
+              v-if="active<2"
             >
               <strong>{{ $t('workspace.next') }}</strong>
             </el-button>
