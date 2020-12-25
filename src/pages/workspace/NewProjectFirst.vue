@@ -457,7 +457,7 @@ export default {
     }
   },
   mounted () {
-    if (sessionStorage.getItem('ifVM')) {
+    if (sessionStorage.getItem('ifVM') === 'true') {
       this.ifVM = true
     }
     this.getFirstData()
