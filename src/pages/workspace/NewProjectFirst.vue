@@ -143,7 +143,7 @@
       >
         <el-upload
           id="projectLogo"
-          class="upload-demo"
+          class="upload-demo clear"
           ref="upload"
           action=""
           :limit="1"
