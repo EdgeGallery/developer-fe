@@ -143,9 +143,9 @@ export default {
     } else {
       this.jsonData = navDataCn.mecDeveloper
     }
-    this.showToolchain(this.jsonData)
   },
   mounted () {
+    this.showToolchain(this.jsonData)
     this.getPageId()
     loginApi().then(res => {
       sessionStorage.setItem('userId', res.data.userId)
@@ -168,7 +168,7 @@ export default {
   },
   methods: {
     showToolchain (jsonData) {
-      if (this.userName !== 'guest') {
+      if (this.userName === 'guest') {
         jsonData.forEach(item => {
           if (item.children) {
             item.children.forEach((subItem, subIndex) => {
