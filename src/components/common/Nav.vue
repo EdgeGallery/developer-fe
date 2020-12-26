@@ -131,8 +131,6 @@ export default {
       }
     },
     '$i18n.locale': function () {
-      let language = localStorage.getItem('language')
-      this.language = language
       this.showToolchain(this.jsonData)
     }
   },
