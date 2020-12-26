@@ -699,8 +699,7 @@ export default {
       userName: sessionStorage.getItem('userName'),
       taskId: '',
       interval: null,
-      mdFileId: '',
-      appCertify: true
+      mdFileId: ''
     }
   },
   methods: {
@@ -1016,7 +1015,7 @@ export default {
     // 集成应用测试页面
     getAtpTest () {
       Workspace.getAtpTestApi(this.projectId).then(res => {
-        if (res.data && this.appCertify) {
+        if (res.data) {
           Workspace.getReleaseApi(this.projectId).then(response => {
             this.taskId = response.data.atpTest.id
             this.setApiHeight()
@@ -1033,11 +1032,6 @@ export default {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.appTestData = []
         let data = res.data.atpTest
-        if (data.status !== '') {
-          this.appCertify = false
-        } else {
-          this.appCertify = true
-        }
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
         if (this.appTestData[0].status === 'success' || this.appTestData[0].status === '') {
