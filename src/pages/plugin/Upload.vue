@@ -111,7 +111,7 @@
             >
               <el-upload
                 id="uploadLogo"
-                class="upload-demo"
+                class="upload-demo clear"
                 ref="uploadLogo"
                 action=""
                 :limit="1"
