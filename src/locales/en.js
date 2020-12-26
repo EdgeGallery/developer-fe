@@ -74,7 +74,12 @@ const en = {
     uploadNow: 'Upload Now',
     pluginList: 'Plugin',
     sdkList: 'SDK',
-    toolChainText: 'Can only upload .tar.gz files and no more than 10M'
+    toolChainText: 'Can only upload .tar.gz files and no more than 10M',
+    toolChainInfo1: 'The toolChain is an important feature of the MEC Developer developer platform. When an App on the x86 platform wants to get on the ARM platform, the underlying code inevitably needs to be modified or rewritten. App providers can analyze the source code through the toolChain integrated in the MEC Developer developer platform, locate the source code that needs to be modified and modify it according to the guidance, so that the App can be deployed on the ARM platform.',
+    toolChainInfo2: 'Currently, the following files can be analyzed',
+    toolChainInfo3: 'C/C++ software source code',
+    toolChainInfo4: 'C/C++ software construction project file',
+    toolChainInfo5: 'X86 assembly code'
   },
   api: {
     docs: 'Docs',
