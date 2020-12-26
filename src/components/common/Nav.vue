@@ -117,7 +117,7 @@ export default {
       screenHeight: document.body.clientHeight,
       timer: false,
       ifGuest: true,
-      userName: sessionStorage.getItem('userName')
+      userName: ''
     }
   },
   watch: {
@@ -145,7 +145,6 @@ export default {
     }
   },
   mounted () {
-    this.showToolchain(this.jsonData)
     this.getPageId()
     loginApi().then(res => {
       sessionStorage.setItem('userId', res.data.userId)
@@ -157,7 +156,9 @@ export default {
       } else {
         this.ifGuest = false
       }
+      this.showToolchain(this.jsonData)
     })
+
     // 监听到窗口大小变化时，重新给screenHeight变量赋值
     window.onresize = () => {
       return (() => {
@@ -168,6 +169,7 @@ export default {
   },
   methods: {
     showToolchain (jsonData) {
+      this.userName = sessionStorage.getItem('userName')
       if (this.userName === 'guest') {
         jsonData.forEach(item => {
           if (item.children) {
