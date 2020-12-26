@@ -74,7 +74,12 @@ const cn = {
     uploadNow: '立即上传',
     pluginList: '插件',
     sdkList: 'SDK',
-    toolChainText: '请上传.tar.gz文件，且大小不超过10M'
+    toolChainText: '请上传.tar.gz文件，且大小不超过10M',
+    toolChainInfo1: '工具链是MEC Developer开发者平台中的一个重要特性，当x86平台的App想要上车ARM平台时，底层的代码不可避免的需要进行修改或重写。 App提供者可以通过MEC Developer开发者平台中集成的工具链进行源代码分析，定位需要修改的源代码并根据指导意见进行修改，方便App 部署在ARM平台。',
+    toolChainInfo2: '目前，可以对以下文件进行分析',
+    toolChainInfo3: 'C/C++软件源码',
+    toolChainInfo4: 'C/C++软件构建工程文件',
+    toolChainInfo5: 'X86汇编代码'
   },
   api: {
     docs: '文档',
