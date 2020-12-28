@@ -741,9 +741,6 @@ export default {
         if (this.mdFileId) {
           this.getFileList()
         }
-        if (res.data.atpTest.id) {
-          this.getAtpTest()
-        }
       })
     },
     getReleaseConfig (params) {
@@ -785,6 +782,7 @@ export default {
         this.clearInterval()
       } else if (active === 1) {
         this.step = 'step2'
+        this.getAtpData()
         this.clearInterval()
       } else if (active === 2) {
         this.step = 'step3'
@@ -1022,15 +1020,20 @@ export default {
     getAtpTest () {
       Workspace.getAtpTestApi(this.projectId).then(res => {
         if (res.data) {
-          Workspace.getReleaseApi(this.projectId).then(response => {
-            this.taskId = response.data.atpTest.id
-            this.setApiHeight()
-            this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
-            this.showAtp = true
-          }).catch(() => {
-            this.$message.error(this.$t('promptMessage.getDataFail'))
-          })
+          this.getAtpData()
         }
+      })
+    },
+    getAtpData () {
+      Workspace.getReleaseApi(this.projectId).then(response => {
+        this.taskId = response.data.atpTest.id
+        if (this.taskId) {
+          this.setApiHeight()
+          this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
+          this.showAtp = true
+        }
+      }).catch(() => {
+        this.$message.error(this.$t('promptMessage.getDataFail'))
       })
     },
     // 获取集成测试列表
