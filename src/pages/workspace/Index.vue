@@ -96,7 +96,7 @@ export default {
   },
   data () {
     return {
-      getprojectTypeprop: '',
+      getprojectTypeprop: 'CREATE_NEW',
       activeProjectprop: 3,
       newprojectDialog: false,
       fourthstepTitleprop: '',

@@ -277,6 +277,8 @@ export default {
         font-size: 18px;
         padding: 15px 60px;
         border-radius: 30px;
+        position: relative;
+        z-index: 9999;
       }
     }
     .platform_link{
