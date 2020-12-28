@@ -528,7 +528,7 @@
               <template slot-scope="scope">
                 <span
                   class="el-icon-loading Running icon"
-                  v-if="scope.row.status==='Running'"
+                  v-if="scope.row.status==='running'"
                 />
                 <span
                   class="el-icon-error failed icon"
@@ -741,9 +741,9 @@ export default {
         if (this.mdFileId) {
           this.getFileList()
         }
-        /* if (res.data.atpTest.id) {
+        if (res.data.atpTest.id) {
           this.getAtpTest()
-        } */
+        }
       })
     },
     getReleaseConfig (params) {
@@ -767,6 +767,7 @@ export default {
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
+        this.trafficAllData.atpTest = res.data.atpTest
         Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
       })
     },
@@ -1041,6 +1042,10 @@ export default {
         this.appTestData.push(data)
         if (data.status === 'success' || data.status === 'failed') {
           this.clearInterval()
+        }
+        if (data.status === '') {
+          this.clearInterval()
+          this.appTestData = []
         }
       }).catch(() => {
         this.clearInterval()
