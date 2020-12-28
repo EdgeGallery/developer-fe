@@ -741,9 +741,9 @@ export default {
         if (this.mdFileId) {
           this.getFileList()
         }
-        if (res.data.atpTest.id) {
+        /* if (res.data.atpTest.id) {
           this.getAtpTest()
-        }
+        } */
       })
     },
     getReleaseConfig (params) {
@@ -781,11 +781,16 @@ export default {
     showStepContent (active) {
       if (active === 0) {
         this.step = 'step1'
+        this.clearInterval()
       } else if (active === 1) {
         this.step = 'step2'
+        this.clearInterval()
       } else if (active === 2) {
         this.step = 'step3'
         this.getAtpList()
+        this.interval = setInterval(() => {
+          this.getAtpList()
+        }, 1000)
       }
     },
     clearInterval () {
@@ -1034,7 +1039,7 @@ export default {
         let data = res.data.atpTest
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
-        if (this.appTestData[0].status === 'success' || this.appTestData[0].status === '') {
+        if (data.status === 'success' || data.status === 'failed') {
           this.clearInterval()
         }
       }).catch(() => {
@@ -1102,10 +1107,6 @@ export default {
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
-    this.getAtpList()
-    this.interval = setInterval(() => {
-      this.getAtpList()
-    }, 5000)
     this.getReleaseConfigList()
   },
   watch: {
@@ -1122,6 +1123,9 @@ export default {
         })
       }
     }
+  },
+  beforeDestroy () {
+    this.clearInterval()
   }
 }
 </script>
