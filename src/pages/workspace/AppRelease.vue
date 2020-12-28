@@ -764,7 +764,7 @@ export default {
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
-        if (res.data.atpTest.id) {
+        if (res.data.atpTest) {
           this.trafficAllData.atpTest = res.data.atpTest
         }
         Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
