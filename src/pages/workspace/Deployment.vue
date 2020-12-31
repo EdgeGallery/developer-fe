@@ -255,7 +255,7 @@
         class="deploy-finish-box"
       >
         <h4
-          class="detail-result-title"
+          class="detail-result-title grayline"
         >
           {{ $t("workspace.deploymentResult") }}
         </h4>
@@ -321,7 +321,7 @@
                     <p><span class="span_left">{{ $t('workspace.containerName') }}</span>{{ itemSub.containername }}</p>
                     <p class="resource clear">
                       <span class="span_left">{{ $t('workspace.containerResource') }}</span>
-                      <span class="span_resource">cpuusage：{{ getPercentage(itemSub.metricsusage.cpuusage) }} <br> memusage：{{ getPercentage(itemSub.metricsusage.memusage) }} <br> diskusage：{{ getPercentage(itemSub.metricsusage.memusage) }}</span>
+                      <span class="span_resource">CPU Usage：{{ getPercentage(itemSub.metricsusage.cpuusage) }} <br> Memory Usage：{{ getPercentage(itemSub.metricsusage.memusage) }} <br> Disk Usage：{{ getPercentage(itemSub.metricsusage.memusage) }}</span>
                     </p>
                   </div>
 
@@ -331,6 +331,7 @@
                   >
                     {{ $t('workspace.downloadLog') }}
                   </el-button>
+                  <div class="clearfix" />
                 </div>
               </el-col>
             </el-row>
@@ -766,8 +767,11 @@ export default {
               }
             }
             .downloadLog{
-              float: right;
+              float:right
             }
+            .clearfix{
+  clear: both;
+}
             .el-col{
               padding: 30px;
 
