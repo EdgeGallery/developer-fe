@@ -230,6 +230,13 @@ export default {
       }
     }
   }
+  .showLogo a:first-child {
+    width: 12%;
+  }
+  .showLogo a:first-child img {
+    width: 90%;
+    max-width: 180px;
+  }
   .showLogo a:last-child {
     width: 14%;
   }

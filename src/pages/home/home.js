@@ -16,6 +16,12 @@
 
 const aLinkList = [
   {
+    id: 4,
+    src: require('../../assets/images/homeAlink04.png'),
+    url: 'https://gitee.com/',
+    title: 'Gitee'
+  },
+  {
     id: 1,
     src: require('../../assets/images/homeAlink01.png'),
     url: 'https://jenkins.io/zh/',
@@ -34,12 +40,6 @@ const aLinkList = [
     title: 'Spinnaker'
   },
   {
-    id: 4,
-    src: require('../../assets/images/homeAlink04.png'),
-    url: 'https://about.gitlab.com/',
-    title: 'GitLab'
-  },
-  {
     id: 5,
     src: require('../../assets/images/homeAlink05.png'),
     url: 'https://www.jaegertracing.io/',
@@ -56,12 +56,6 @@ const aLinkList = [
     src: require('../../assets/images/homeAlink07.png'),
     url: 'https://prometheus.io/',
     title: 'Prometheus'
-  },
-  {
-    id: 8,
-    src: require('../../assets/images/homeAlink08.png'),
-    url: 'https://rook.io/',
-    title: 'ROOK'
   },
   {
     id: 9,
@@ -92,12 +86,6 @@ const aLinkList = [
     src: require('../../assets/images/homeAlink13.png'),
     url: 'https://kubernetes.io/',
     title: 'Kubernetes'
-  },
-  {
-    id: 14,
-    src: require('../../assets/images/homeAlink14.png'),
-    url: 'https://goharbor.io/',
-    title: 'HARBOR'
   },
   {
     id: 15,
