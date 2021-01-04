@@ -62,59 +62,44 @@
       >
         {{ $t('workspace.uploadImage.installation') }}
       </el-link>
-    </div>
-    <div class="table-container">
-      <el-table
-        size="mini"
-        :data="softwareList"
-      >
-        <el-table-column
-          prop="name"
-          :label="$t('workspace.uploadImage.software')"
+      <div class="node-info">
+        <div class="node-info-title">
+          {{ $t('workspace.uploadImage.importNode') }}
+        </div>
+        <el-input
+          @input="onChangeNodeInfo()"
+          class="input width-200"
+          size="small"
+          v-model="ip"
+          placeholder="IP"
         />
-        <el-table-column
-          prop="version"
-          :label="$t('workspace.uploadImage.version')"
+        <el-input
+          @input="onChangeNodeInfo()"
+          class="input  width-100"
+          size="small"
+          v-model="port"
+          placeholder="Port"
         />
-      </el-table>
-    </div>
-    <div class="node-info">
-      <div class="node-info-title">
-        {{ $t('workspace.uploadImage.importNode') }}
+        <el-button
+          type="primary"
+          plain
+          size="small"
+          @click="handleSaveNodeInfo()"
+        >
+          {{ $t('workspace.uploadImage.test') }}
+        </el-button>
       </div>
-      <el-input
-        @input="onChangeNodeInfo()"
-        class="input width-200"
-        size="small"
-        v-model="ip"
-        placeholder="IP"
-      />
-      <el-input
-        @input="onChangeNodeInfo()"
-        class="input  width-100"
-        size="small"
-        v-model="port"
-        placeholder="Port"
-      />
-      <el-button
-        type="primary"
-        plain
-        size="small"
-        @click="handleSaveNodeInfo()"
-      >
-        {{ $t('workspace.uploadImage.test') }}
-      </el-button>
-    </div>
-    <div class="node-info">
-      <div class="node-info-title">
-        {{ $t('workspace.uploadImage.useEnv') }}
-      </div>
-      <el-switch
-        @change="onChangeSwitch"
-        v-model="enable"
-      />
-      <div class="env-tip red">
-        {{ $t('workspace.uploadImage.useEnvTip') }}
+      <div class="node-info">
+        <div class="node-info-title">
+          {{ $t('workspace.uploadImage.useEnv') }}
+        </div>
+        <el-switch
+          @change="onChangeSwitch"
+          v-model="enable"
+        />
+        <div class="env-tip red">
+          {{ $t('workspace.uploadImage.useEnvTip') }}
+        </div>
       </div>
     </div>
   </div>
@@ -142,14 +127,6 @@ export default {
       ip: '',
       port: '',
       enable: false,
-      softwareList: [
-        { name: 'Ubuntu', version: '18.04' },
-        { name: 'Docker', version: '18.09' },
-        { name: 'APPLCM', version: '0.9' },
-        { name: 'Kubernetes', version: '1.18.7' },
-        { name: 'Helm', version: '3.2.4' },
-        { name: 'MEP', version: '0.9' }
-      ],
       install_href: 'https://gitee.com/edgegallery/installer/tree/master/offline'
     }
   },
@@ -233,6 +210,7 @@ export default {
     .image_title{
       font-size: 16px;
       margin-bottom: 10px;
+      padding: 20px 0px;
       span{
         float: left;
         margin-bottom: 10px;
@@ -270,7 +248,7 @@ export default {
     }
 
     .table-container {
-      padding: 0px 72px;
+      padding: 20px 72px;
     }
 
     .el-table {
@@ -286,14 +264,16 @@ export default {
 
     .table-tip {
       cursor: pointer;
-      padding: 15px 0px;
+      padding: 20px 0px;
       text-align: right;
       font-size: 14px;
       color: #6c92fa;
     }
 
     .node-info {
-      padding: 0px 72px 15px 72px;
+      cursor: pointer;
+      padding: 20px 75px 0px 0px;
+      color: #2c3e50;
       .width-100 {
         width: 100px;
       }
