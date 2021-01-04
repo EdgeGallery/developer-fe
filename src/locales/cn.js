@@ -353,7 +353,7 @@ const cn = {
     reportPromt: '您的报告已过期，无法在线查看，请下载后查看',
     serviceDetails: '服务详情',
     releaseTime: '发布时间',
-    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时使用以下服务名+内部端口号进行访问',
+    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url',
     projectDetails: '项目详情',
     releaseDetails: '能力发布详情',
     releaseTest: '应用发布测试',
