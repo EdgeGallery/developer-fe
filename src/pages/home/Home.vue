@@ -216,6 +216,8 @@ export default {
   .showLogo {
     padding: 25px 10%;
     text-align: center;
+    position: relative;
+    z-index: 999999;
     a {
       display: inline-block;
       width: 9%;
@@ -335,7 +337,7 @@ export default {
       -webkit-transition: transform 0.3s;
     }
     .process_div a:hover{
-      box-shadow:0 2px 12px 0 rgba(0,0,0,0.4)
+      box-shadow:0 8px 10px 0 rgba(0,0,0,0.4)
     }
     @media screen and (max-width: 1680px){
       .process_div{
