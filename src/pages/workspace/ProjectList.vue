@@ -195,7 +195,7 @@ export default {
     },
     // 删除项目
     handleDelete (item) {
-      this.$confirm(this.$t('devTools.deleteList'), {
+      this.$confirm(this.$t('devTools.deleteProject'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'

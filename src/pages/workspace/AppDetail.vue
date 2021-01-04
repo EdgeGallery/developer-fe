@@ -189,6 +189,7 @@ import configYaml from './ConfigYaml.vue'
 import EnvPreparation from './EnvPreparation.vue'
 import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
+import { Industry, Type } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
 import deployment from './Deployment.vue'
 import appRelease from './AppRelease.vue'
@@ -211,6 +212,7 @@ export default {
       projecDetailList: [],
       dialogVisible: false,
       activeName: '1',
+      language: localStorage.getItem('language'),
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       currentComponent: 'choosePlatform',
@@ -255,6 +257,28 @@ export default {
         this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
+        Industry.forEach(itemFe => {
+          if (this.language === 'cn') {
+            if (this.projectDetailData.industry === itemFe.label[1]) {
+              this.projectDetailData.industry = itemFe.label[0]
+            }
+          } else {
+            if (this.projectDetailData.industry === itemFe.label[0]) {
+              this.projectDetailData.industry = itemFe.label[1]
+            }
+          }
+        })
+        Type.forEach(itemFe => {
+          if (this.language === 'cn') {
+            if (this.projectDetailData.type === itemFe.label[1]) {
+              this.projectDetailData.type = itemFe.label[0]
+            }
+          } else {
+            if (this.projectDetailData.type === itemFe.label[0]) {
+              this.projectDetailData.type = itemFe.label[1]
+            }
+          }
+        })
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
             arr.push(itemSub.service)
@@ -544,7 +568,7 @@ export default {
     .project_detail{
       .el-col{
         padding: 15px 10px;
-        font-size: 13px;
+        font-size: 16px;
         .span_left{
           color: #adb0b8;
           display: inline-block;
