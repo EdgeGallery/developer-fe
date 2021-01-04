@@ -53,6 +53,7 @@ const en = {
     detail: 'Detail',
     delete: 'Delete',
     deleteList: 'Are you sure you want to delete the list?',
+    deleteProject: 'Are you sure you want to delete the project?',
     deleteSucc: 'Data deleted successfully',
     deleteFail: 'Failed to delete data',
     applicationName: 'Application Name',
