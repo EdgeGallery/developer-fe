@@ -257,33 +257,12 @@ export default {
         this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
-        Industry.forEach(itemFe => {
-          if (this.language === 'cn') {
-            if (this.projectDetailData.industry === itemFe.label[1]) {
-              this.projectDetailData.industry = itemFe.label[0]
-            }
-          } else {
-            if (this.projectDetailData.industry === itemFe.label[0]) {
-              this.projectDetailData.industry = itemFe.label[1]
-            }
-          }
-        })
-        Type.forEach(itemFe => {
-          if (this.language === 'cn') {
-            if (this.projectDetailData.type === itemFe.label[1]) {
-              this.projectDetailData.type = itemFe.label[0]
-            }
-          } else {
-            if (this.projectDetailData.type === itemFe.label[0]) {
-              this.projectDetailData.type = itemFe.label[1]
-            }
-          }
-        })
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
             arr.push(itemSub.service)
           })
         })
+        this.checkProjectData()
         arr = Array.from(new Set(arr))
         this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
@@ -380,18 +359,45 @@ export default {
       Workspace.getTestConfigApi(this.projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
       })
+    },
+    checkProjectData () {
+      Industry.forEach(itemFe => {
+        if (this.language === 'cn') {
+          if (this.projectDetailData.industry === itemFe.label[1]) {
+            this.projectDetailData.industry = itemFe.label[0]
+          }
+        } else {
+          if (this.projectDetailData.industry === itemFe.label[0]) {
+            this.projectDetailData.industry = itemFe.label[1]
+          }
+        }
+      })
+      Type.forEach(itemFe => {
+        if (this.language === 'cn') {
+          if (this.projectDetailData.type === itemFe.label[1]) {
+            this.projectDetailData.type = itemFe.label[0]
+          }
+        } else {
+          if (this.projectDetailData.type === itemFe.label[0]) {
+            this.projectDetailData.type = itemFe.label[1]
+          }
+        }
+      })
     }
   },
   mounted () {
     this.getProjectInfo()
     this.handleStep()
     this.getTestConfig()
+    this.checkProjectData()
   },
   watch: {
     '$i18n.locale': function () {
-      let language = localStorage.getItem('language')
       let spanLeft = document.getElementsByClassName('span_left')
-      if (language === 'en') {
+      let language = localStorage.getItem('language')
+      this.language = language
+      this.checkProjectData()
+      if (this.language === 'en') {
         spanLeft.forEach(item => {
           item.style.width = 160 + 'px'
         })
