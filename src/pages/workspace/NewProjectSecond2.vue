@@ -48,7 +48,8 @@
           />
         </td>
         <td style="vertical-align:text-top;">
-          <label>已选服务: </label>
+          <label>{{ $t("workspace.selectedService") }}: </label>
+          <span v-if="tags === null || tags.length === 0"> {{ $t("workspace.noService") }}</span>
           <el-tag
             v-for="tag in tags"
             :key="tag.service"
@@ -59,7 +60,7 @@
             {{ tag.service }}
           </el-tag>
           <div style="margin-top: 20px">
-            <label>可选服务: </label>
+            <label>{{ $t("workspace.availableService") }}: </label>
             <el-checkbox-group
               style="margin-top: 15px"
               v-model="tags"

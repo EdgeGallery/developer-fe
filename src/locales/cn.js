@@ -382,7 +382,7 @@ const cn = {
     deploymentStatus: '部署状态',
     startDeployment: '开始部署',
     completeTest: '完成测试',
-    recycle: '资源回收',
+    recycle: '释放资源',
     completeMsg: '点击完成测试后，会释放环境资源，否则平台会在24小时后自动释放环境资源',
     deploymentSuccess: '部署成功',
     createDeploymentFile: '生成部署文件',
@@ -410,7 +410,12 @@ const cn = {
     privateHost: '私有节点',
     publicHost: '公有节点',
     capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
-    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。'
+    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
+    availableService: '可选服务',
+    selectedService: '已选服务',
+    recycleTip: '注：请释放资源，否则应用认证测试将会失败',
+    noService: '您暂未选择任何服务',
+    testNode: '测试节点'
   },
   test: {
     howToTest: {

@@ -118,7 +118,7 @@ const en = {
     upload: 'Upload',
     api: 'API',
     introduction: 'Introduction',
-    mepApi: 'Competence Center',
+    mepApi: 'Ability Center',
     applicationApi: 'Application API',
     test: 'Test',
     howTest: 'How To Test',
@@ -253,7 +253,7 @@ const en = {
     uploadIcon: 'Upload Icon',
     limitition: 'Can only upload .jpg/.png files or select the default APP icon and no more than 2M',
     iconRequired: 'Icon is required',
-    chooseAbilities: 'Ability selection',
+    chooseAbilities: 'Ability Selection',
     openMEPCapabilities: 'EdgeGallery Capabilities',
     chooseMepC: 'Choose the EdgeGallery capabilities what you want',
     seviceDiscovery: 'Service Discovery',
@@ -382,7 +382,7 @@ const en = {
     deploymentStatus: 'Deployment Status',
     startDeployment: 'Start Deployment',
     completeTest: 'Complete Test',
-    recycle: 'Recycle',
+    recycle: 'Release Resouces',
     completeMsg: 'After clicking to complete test button, the environmental resources will be released, otherwise the platform will automatically release the environmental resources after 24 hours',
     deploymentSuccess: 'Deployment Success',
     createDeploymentFile: 'Create Deployment File',
@@ -410,7 +410,13 @@ const en = {
     privateHost: 'Private Host',
     publicHost: 'Public Host',
     capabilityInfo1: 'Please select the ecological services that your application needs to rely on. For details on ecological capabilities, please refer to',
-    capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.'
+    capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.',
+    availableService: 'Available Services',
+    selectedService: 'Selected Services',
+    recycleTip: 'Note: Please release resources in time, or ATP test will fail',
+    noService: "You haven't selected any services",
+    testNode: 'Test Node'
+
   },
   test: {
     howToTest: {
