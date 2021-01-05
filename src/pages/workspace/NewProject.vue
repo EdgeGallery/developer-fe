@@ -152,7 +152,7 @@ export default {
       let provider = this.allFormData.first.provider
       let providerRule = provider.match(/^\S.{0,29}$/g)
       let description = this.allFormData.first.description
-      let descriptionRule = description.match(/^\S.{0,259}$/g)
+      let descriptionRule = description.match(/^\S.{0,128}$/g)
       if (!appname) {
         this.$message({
           type: 'warning',
