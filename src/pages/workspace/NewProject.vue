@@ -146,7 +146,7 @@ export default {
       this.$refs.currentComponet.emitStepData()
       let appIcon = this.allFormData.first.appIcon[0]
       let appname = this.allFormData.first.name
-      let nameRule = appname.match(/^[a-zA-Z0-9][\w\\-\s]{3,127}$/g)
+      let nameRule = appname.match(/^[a-zA-Z0-9][\w\\-\s]{3,32}$/g)
       let version = this.allFormData.first.version
       let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
       let provider = this.allFormData.first.provider
