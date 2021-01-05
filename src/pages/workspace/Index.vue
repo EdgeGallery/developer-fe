@@ -96,7 +96,7 @@ export default {
   },
   data () {
     return {
-      getprojectTypeprop: '',
+      getprojectTypeprop: 'CREATE_NEW',
       activeProjectprop: 3,
       newprojectDialog: false,
       fourthstepTitleprop: '',
@@ -122,12 +122,14 @@ export default {
       chartExtend: {
         color: ['#5ab1ef', '#ffb980', '#19d4ae', '#f37f7f', '#67c23a']
       },
-      dialogVisible: false,
       userId: sessionStorage.getItem('userId')
     }
   },
   mounted () {
-    if (this.$route.params.from === 'index') this.dialogVisible = true
+    if (this.$route.params.from === 'index') {
+      this.newprojectDialog = true
+    }
+    this.getDeploymentType()
     this.getProjectListData()
   },
   beforeRouteEnter (to, from, next) {
@@ -137,6 +139,13 @@ export default {
     next()
   },
   methods: {
+    // 获取部署方式
+    getDeploymentType () {
+      Workspace.getDeployType().then(res => {
+        sessionStorage.setItem('ifVM', res.data.isVirtualMachine)
+        sessionStorage.setItem('Src', res.data.virtualMachineUrl)
+      })
+    },
     // 新建项目
     addNewProject () {
       this.newprojectDialog = true
@@ -147,7 +156,6 @@ export default {
     },
     // 关闭弹框
     closeDialog (data) {
-      this.dialogVisible = data
       this.$refs.projectList.getProjectListData()
     },
     // 获取项目列表

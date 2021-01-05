@@ -195,7 +195,7 @@ export default {
     },
     // 删除项目
     handleDelete (item) {
-      this.$confirm(this.$t('devTools.deleteList'), {
+      this.$confirm(this.$t('devTools.deleteProject'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
@@ -208,12 +208,21 @@ export default {
     toDetail (item) {
       let mecDetailID = item.id
       sessionStorage.setItem('mecDetailID', mecDetailID)
-      this.$router.push({
-        name: 'appDetail',
-        params: {
-          id: mecDetailID
-        }
-      })
+      if (item.deployPlatform === 'VIRTUALMACHINE') {
+        this.$router.push({
+          name: 'appVMDetail',
+          params: {
+            id: mecDetailID
+          }
+        })
+      } else {
+        this.$router.push({
+          name: 'appDetail',
+          params: {
+            id: mecDetailID
+          }
+        })
+      }
     },
     // 根据名称查询列表
     selectProjectList () {

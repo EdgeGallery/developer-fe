@@ -25,7 +25,7 @@
       <el-step :title="$t('workspace.appRelease.appCertify')" />
       <el-step :title="$t('workspace.appRelease.appRelease')" />
     </el-steps>
-    <div class="elSteps">
+    <div class="release_steps">
       <!-- 第一步“应用配置” -->
       <div v-show="step==='step1'">
         <!-- 项目详情 -->
@@ -72,7 +72,7 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ projectDetailData.instantiateId }}
+              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ projectDetailData.appInstanceId }}
             </el-col>
           </el-row>
           <el-row>
@@ -345,19 +345,19 @@
                 >
                   <el-table-column
                     prop="dnsRuleId"
-                    label="dnsRuleId"
+                    :label="$t('workspace.appRelease.dnsRuleId')"
                   />
                   <el-table-column
                     prop="domainName"
-                    label="domainName"
+                    :label="$t('workspace.appRelease.domainName')"
                   />
                   <el-table-column
                     prop="ipAddressType"
-                    label="ipAddressType"
+                    :label="$t('workspace.appRelease.ipAddressType')"
                   />
                   <el-table-column
                     prop="ipAddress"
-                    label="ipAddress"
+                    :label="$t('workspace.appRelease.ipAddress')"
                   />
                   <el-table-column
                     prop="ttl"
@@ -484,6 +484,16 @@
       </div>
       <!-- 第二步“应用测试” -->
       <div v-show="step==='step2'">
+        <el-button
+          type="primary"
+          class="p8"
+          @click="getAtpTest"
+        >
+          {{ $t('workspace.appRelease.appCertify') }}
+        </el-button>
+        <span class="release_text">
+          {{ $t('workspace.releaseText') }}
+        </span>
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
@@ -517,14 +527,18 @@
             >
               <template slot-scope="scope">
                 <span
-                  class="el-icon-error failed icon"
-                  v-if="scope.row.status!=='success'"
+                  class="el-icon-loading Running icon"
+                  v-if="scope.row.status==='running'"
                 />
                 <span
-                  v-else
+                  class="el-icon-error failed icon"
+                  v-if="scope.row.status==='failed'"
+                />
+                <span
+                  v-if="scope.row.status==='success'"
                   class="el-icon-success success icon"
                 />
-                <span :class="scope.row.status==='success'?'success':'failed'">{{ scope.row.status }}</span>
+                <span :class="scope.row.status">{{ scope.row.status }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -574,17 +588,22 @@
         </div>
       </div>
     </div>
-    <div class="elButton">
+    <div class="release_btn">
       <el-button
-        type="text"
         v-if="active===0"
         @click="saveConfig"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
       <el-button
+        class="featuresBtn"
+        @click="appDetaildialog=true"
+      >
+        {{ $t('workspace.appDetails') }}
+      </el-button>
+      <el-button
         id="prevBtn"
-        type="text"
+        type="primary"
         v-if="active>0"
         @click="previous"
       >
@@ -599,23 +618,11 @@
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
     </div>
-    <div
-      class="detail_btn"
-      v-if="detail_btn"
-    >
-      <el-button
-        size="small"
-        class="featuresBtn mt20"
-        @click="appDetaildialog=true"
-      >
-        {{ $t('workspace.appDetails') }}
-      </el-button>
-      <!-- 应用包详情弹框 -->
-      <div v-if="appDetaildialog">
-        <appPackageDetail
-          v-model="appDetaildialog"
-        />
-      </div>
+    <!-- 应用包详情弹框 -->
+    <div v-if="appDetaildialog">
+      <appPackageDetail
+        v-model="appDetaildialog"
+      />
     </div>
   </div>
 </template>
@@ -644,7 +651,7 @@ export default {
         version: '',
         platform: '',
         dependent: '',
-        instantiateId: '',
+        appInstanceId: '',
         deployPlatform: '',
         status: ''
       },
@@ -691,7 +698,8 @@ export default {
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
       taskId: '',
-      detail_btn: true
+      interval: null,
+      mdFileId: ''
     }
   },
   methods: {
@@ -717,9 +725,22 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
         sessionStorage.setItem('csarId', res.data.appInstanceId)
-        this.projectDetailData.instantiateId = res.data.appInstanceId
+        this.projectDetailData.appInstanceId = res.data.appInstanceId
         this.projectDetailData.deployPlatform = res.data.platform
         this.projectDetailData.status = res.data.deployStatus
+        if (res.data.testId && res.data.appInstanceId) {
+          this.getReleaseConfigFirst()
+        } else {
+          this.$message.warning(this.$t('promptMessage.notDeploy'))
+        }
+      })
+    },
+    getReleaseConfigList () {
+      Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        this.mdFileId = res.data.guideFileId
+        if (this.mdFileId) {
+          this.getFileList()
+        }
       })
     },
     getReleaseConfig (params) {
@@ -743,6 +764,9 @@ export default {
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
+        if (res.data.atpTest) {
+          this.trafficAllData.atpTest = res.data.atpTest
+        }
         Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
       })
     },
@@ -757,16 +781,22 @@ export default {
     showStepContent (active) {
       if (active === 0) {
         this.step = 'step1'
-        this.detail_btn = true
+        this.clearInterval()
       } else if (active === 1) {
         this.step = 'step2'
-        this.getAtpTest()
-        this.detail_btn = false
+        this.getAtpData()
+        this.clearInterval()
       } else if (active === 2) {
         this.step = 'step3'
         this.getAtpList()
-        this.detail_btn = false
+        this.interval = setInterval(() => {
+          this.getAtpList()
+        }, 1000)
       }
+    },
+    clearInterval () {
+      clearTimeout(this.interval)
+      this.interval = null
     },
     // 检查上传文件类型
     checkFileType (fileList, fileTypeArr, uploadFileList) {
@@ -805,6 +835,7 @@ export default {
       fd.append('file', fileList[0])
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
         this.trafficAllData.guideFileId = res.data.fileId
+        this.getReleaseConfigFirst()
         this.$message.success(this.$t('promptMessage.uploadSuccess'))
       }).catch(() => {
         fileList = []
@@ -839,10 +870,10 @@ export default {
         this.dnsDialog = true
         this.editRuleData = {
           dnsRuleId: '',
-          domainName: '',
+          domainName: 'domainName',
           ipAddressType: 'IP_V4',
-          ipAddress: '',
-          ttl: ''
+          ipAddress: '192.5.14.68',
+          ttl: '85000'
         }
       } else if (name === 'trafficRule') {
         this.trafficDialog = true
@@ -898,6 +929,8 @@ export default {
         this.appPublishListData.splice(this.editIndex, 1, data)
         this.$message.success(this.$t('promptMessage.editSuccess'))
       }
+      this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
+      this.getReleaseConfigFirst()
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
     // 编辑规则列表
@@ -979,30 +1012,48 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      this.getReleaseConfig(this.trafficAllData)
+      if (this.projectDetailData.appInstanceId) {
+        this.getReleaseConfig(this.trafficAllData)
+      } else {
+        this.$message.warning(this.$t('promptMessage.notDeploy'))
+      }
     },
     // 集成应用测试页面
     getAtpTest () {
       Workspace.getAtpTestApi(this.projectId).then(res => {
         if (res.data) {
-          Workspace.getReleaseApi(this.projectId).then(response => {
-            this.taskId = response.data.atpTest.id
-            this.setApiHeight()
-            this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
-            this.showAtp = true
-          }).catch(() => {
-            this.$message.error(this.$t('promptMessage.getDataFail'))
-          })
+          this.getAtpData()
         }
+      })
+    },
+    getAtpData () {
+      Workspace.getReleaseApi(this.projectId).then(response => {
+        this.taskId = response.data.atpTest.id
+        if (this.taskId) {
+          this.setApiHeight()
+          this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
+          this.showAtp = true
+        }
+      }).catch(() => {
+        this.$message.error(this.$t('promptMessage.getDataFail'))
       })
     },
     // 获取集成测试列表
     getAtpList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        let data = res.data.atpTes
+        this.appTestData = []
+        let data = res.data.atpTest
         data.createTime = this.dateChange(data.createTime)
         this.appTestData.push(data)
-        console.log(this.appTestData)
+        if (data.status === 'success' || data.status === 'failed') {
+          this.clearInterval()
+        }
+        if (data.status === '') {
+          this.clearInterval()
+          this.appTestData = []
+        }
+      }).catch(() => {
+        this.clearInterval()
       })
     },
     dateChange (dateStr) {
@@ -1026,8 +1077,13 @@ export default {
     releaseApp () {
       Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
         this.dialogAppPublicSuccess = true
-      }).catch(() => {
-        this.$message.error(this.$t('promptMessage.appReleaseFail'))
+      }).catch(err => {
+        console.log(err.response)
+        if (err.response.data.message === 'publish app to appstore fail!') {
+          this.$message.warning(this.$t('promptMessage.isPublished'))
+        } else {
+          this.$message.error(this.$t('promptMessage.appReleaseFail'))
+        }
       })
     },
     // 关闭弹框
@@ -1045,6 +1101,13 @@ export default {
         this.appStoreUrl = currUrl.replace('developer', 'appstore')
         this.atpUrl = currUrl.replace('developer', 'atp')
       }
+    },
+    getFileList () {
+      Workspace.getApiFileApi(this.mdFileId, this.userId).then(res => {
+        let obj = { name: '' }
+        obj.name = res.data.fileName
+        this.appMdList.push(obj)
+      })
     }
   },
   created () {
@@ -1054,7 +1117,7 @@ export default {
     this.getTestConfig()
     this.getAppstoreUrl()
     this.getAllListData()
-    this.getReleaseConfigFirst()
+    this.getReleaseConfigList()
   },
   watch: {
     '$i18n.locale': function () {
@@ -1070,12 +1133,33 @@ export default {
         })
       }
     }
+  },
+  beforeDestroy () {
+    this.clearInterval()
   }
 }
 </script>
 
 <style lang="less">
 .appRelease{
+  .elTabs{
+    .release_steps{
+      width: 90%;
+      margin: 0 5%;
+      padding: 20px 0;
+    }
+  }
+  .release_btn{
+    width: 96%;
+    margin: 100px 2% 20px;
+    text-align: right;
+    .el-button{
+      padding: 8px 12px;
+      strong{
+        font-weight: normal;
+      }
+    }
+  }
   .el-table td, .el-table th{
     padding: 2px 0;
     text-align: center;
@@ -1085,13 +1169,6 @@ export default {
     .test_info{
       color: #688ef3;
       margin-right: 15px;
-    }
-    .release_btn{
-      display: inline-block;
-      background: #0099cc;
-      border: 1px solid #0099cc;
-      min-width: 60px;
-      padding: 6px 8px;
     }
     .is-disabled{
       background: #aaa;
@@ -1121,14 +1198,6 @@ export default {
       }
       .upload-demo{
         display: inline-block;
-      }
-      .el-upload-list{
-        float: left;
-        width: 100%;
-        text-align: left;
-        .el-upload-list__item:first-child{
-          width: 50%;
-        }
       }
       .el-upload{
         float: left;
@@ -1175,7 +1244,7 @@ export default {
         height: 4px;
       }
       .el-tab-pane{
-        padding: 24px 0;
+        padding: 24px 0 0;
       }
     }
     .el-table{
@@ -1227,17 +1296,6 @@ export default {
       }
     }
   }
-  .detail_btn{
-    width: 80%;
-    margin: 0 10%;
-    padding: 0 30px;
-  }
-  @media screen and (max-width: 1380px){
-    .detail_btn{
-      width: 100%;
-      margin: 0;
-    }
-  }
   .btn_width1{
     color: #fff;
     padding: 9px 15px;
@@ -1260,7 +1318,6 @@ export default {
     .test{
       display: block;
     }
-
     .test.appdetails{
       background: #888;
       border: 1px solid #888;

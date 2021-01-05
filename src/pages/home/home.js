@@ -14,42 +14,13 @@
  *  limitations under the License.
  */
 
-const commonApp = [
-  {
-    id: 1,
-    title: 'home.createProjectTitle',
-    src: require('../../assets/images/home_step1.svg'),
-    desc: 'home.createProjectText',
-    link: { name: 'workspace', params: { from: 'index' } },
-    elementId: 'createProject'
-  },
-  {
-    id: 2,
-    title: 'home.toolsDownloadTitle',
-    src: require('../../assets/images/home_step2.svg'),
-    desc: 'home.toolsDownloadText',
-    link: '/mecDeveloper/plugin/list',
-    elementId: 'tooldDown'
-  },
-  {
-    id: 3,
-    title: 'home.commonApiTitle',
-    src: require('../../assets/images/home_step3.svg'),
-    desc: 'home.commonApiText',
-    link: '/mecDeveloper/api/mep',
-    elementId: 'commomApi'
-  },
+const aLinkList = [
   {
     id: 4,
-    title: 'home.testCaseTitle',
-    src: require('../../assets/images/home_step4.svg'),
-    desc: 'home.testCaseText',
-    link: '/mecDeveloper/test/apply',
-    elementId: 'testCase'
-  }
-]
-
-const aLinkList = [
+    src: require('../../assets/images/homeAlink04.png'),
+    url: 'https://gitee.com/',
+    title: 'Gitee'
+  },
   {
     id: 1,
     src: require('../../assets/images/homeAlink01.png'),
@@ -69,12 +40,6 @@ const aLinkList = [
     title: 'Spinnaker'
   },
   {
-    id: 4,
-    src: require('../../assets/images/homeAlink04.png'),
-    url: 'https://about.gitlab.com/',
-    title: 'GitLab'
-  },
-  {
     id: 5,
     src: require('../../assets/images/homeAlink05.png'),
     url: 'https://www.jaegertracing.io/',
@@ -91,12 +56,6 @@ const aLinkList = [
     src: require('../../assets/images/homeAlink07.png'),
     url: 'https://prometheus.io/',
     title: 'Prometheus'
-  },
-  {
-    id: 8,
-    src: require('../../assets/images/homeAlink08.png'),
-    url: 'https://rook.io/',
-    title: 'ROOK'
   },
   {
     id: 9,
@@ -129,12 +88,6 @@ const aLinkList = [
     title: 'Kubernetes'
   },
   {
-    id: 14,
-    src: require('../../assets/images/homeAlink14.png'),
-    url: 'https://goharbor.io/',
-    title: 'HARBOR'
-  },
-  {
     id: 15,
     src: require('../../assets/images/homeAlink15.png'),
     url: 'https://kubeedge.io/en/',
@@ -155,5 +108,5 @@ const aLinkList = [
 ]
 
 export {
-  commonApp, aLinkList
+  aLinkList
 }

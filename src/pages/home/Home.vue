@@ -30,10 +30,47 @@
         </div>
       </div>
       <div class="common-appliaction">
-        <div class="devProcess" />
+        <div class="platform_link clear">
+          <div class="devProcess">
+            <div class="process_div">
+              <img
+                :src="img_dev"
+                alt=""
+              >
+              <a />
+            </div>
+            <div class="process_div">
+              <img
+                :src="img_app"
+                alt=""
+              >
+              <a
+                :href="appStoreUrl"
+                target="_blank"
+              />
+            </div>
+            <div class="process_div">
+              <img
+                :src="img_mecm"
+                alt=""
+              >
+              <a
+                :href="mecmUrl"
+                target="_blank"
+              />
+            </div>
+          </div>
+          <div class="bg_process">
+            <img
+              :src="img_process"
+              alt=""
+            >
+          </div>
+        </div>
         <el-row>
           <el-button
             type="primary"
+            class="start_btn"
             round
             @click="jumpToWorkSpace"
           >
@@ -62,17 +99,22 @@
 
 <script>
 import { mapState } from 'vuex'
-import { commonApp, aLinkList } from './home.js'
+import { aLinkList } from './home.js'
 export default {
   name: '',
   data () {
     return {
-      commonApp: commonApp,
       showMain: false,
       inputValue: '',
       showError: false,
       dialogVisible: false,
-      aLinkList: aLinkList
+      aLinkList: aLinkList,
+      img_dev: require('../../assets/images/home_link_dev_cn.png'),
+      img_app: require('../../assets/images/home_link_app_cn.png'),
+      img_mecm: require('../../assets/images/home_link_mecm_cn.png'),
+      img_process: require('../../assets/images/home_link_process_cn.png'),
+      appStoreUrl: '',
+      mecmUrl: ''
     }
   },
   computed: {
@@ -88,6 +130,16 @@ export default {
     },
     getInputValue () {
       this.$store.commit('getKeyValue', this.inputValue)
+    },
+    getPlatformUrl () {
+      let currUrl = window.location.origin
+      if (currUrl.indexOf('30092') !== -1) {
+        this.appStoreUrl = currUrl.replace('30092', '30091')
+        this.mecmUrl = currUrl.replace('30092', '30093')
+      } else {
+        this.appStoreUrl = currUrl.replace('developer', 'appstore')
+        this.mecmUrl = currUrl.replace('developer', 'mecm')
+      }
     }
   },
   created () {
@@ -98,6 +150,24 @@ export default {
     }
   },
   mounted () {
+    this.getPlatformUrl()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      if (language === 'cn') {
+        this.img_dev = require('../../assets/images/home_link_dev_cn.png')
+        this.img_app = require('../../assets/images/home_link_app_cn.png')
+        this.img_mecm = require('../../assets/images/home_link_mecm_cn.png')
+        this.img_process = require('../../assets/images/home_link_process_cn.png')
+      } else {
+        this.img_dev = require('../../assets/images/home_link_dev_en.png')
+        this.img_app = require('../../assets/images/home_link_app_en.png')
+        this.img_mecm = require('../../assets/images/home_link_mecm_en.png')
+        this.img_process = require('../../assets/images/home_link_process_en.png')
+      }
+      console.log(this.img_dev)
+    }
   }
 }
 </script>
@@ -112,7 +182,7 @@ export default {
   top:65px;
   .topLine {
     height: 300px;
-    background: url("../../assets/images/banner.png") no-repeat center center #205361;
+    background: url("../../assets/images/banner.png") no-repeat center center #222a3f;
     .title {
       color: #fff;
       padding: 65px 0 0 200px;
@@ -121,7 +191,7 @@ export default {
       }
       p {
         margin-top: 20px;
-        font-size: 18px;
+        font-size: 14px;
         line-height: 30px;
       }
     }
@@ -129,7 +199,7 @@ export default {
   @media screen and (max-width: 1380px) {
     .topLine {
       height: 300px;
-      background: url("../../assets/images/banner.png") no-repeat center center #205361;
+      background: url("../../assets/images/banner.png") no-repeat center center #222a3f;
       .title {
         padding: 60px 0 0 50px;
       }
@@ -146,6 +216,8 @@ export default {
   .showLogo {
     padding: 25px 10%;
     text-align: center;
+    position: relative;
+    z-index: 999999;
     a {
       display: inline-block;
       width: 9%;
@@ -159,6 +231,13 @@ export default {
         opacity: 1;
       }
     }
+  }
+  .showLogo a:first-child {
+    width: 12%;
+  }
+  .showLogo a:first-child img {
+    width: 90%;
+    max-width: 180px;
   }
   .showLogo a:last-child {
     width: 14%;
@@ -201,20 +280,114 @@ export default {
     padding-bottom: 26px;
     .el-row{
       text-align: center;
-      .el-button{
-        margin-top: 0px !important;
-        font-size: 25px;
-        height: 55px;
-        width: 650px;
+      .el-button.start_btn{
+        background: #6c63ff;
+        margin: 30px 0 20px;
+        font-size: 18px;
+        padding: 15px 60px;
         border-radius: 30px;
+        position: relative;
+        z-index: 9999;
+      }
+    }
+    .platform_link{
+      padding: 40px 0 20px;
+    }
+    .platform_link>div{
+      float: left;
+      width: 100%;
+    }
+    .bg_process{
+      z-index: 1;
+      position: relative;
+      height: 210px;
+      margin-top: -255px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        height: 100%;
       }
     }
     .devProcess{
-      height: 600px;
-      margin-left: 5%;
-      margin-right: 6%;
-      background: url("../../assets/images/devProcess.png") no-repeat center center;
-      background-size: contain;
+      display: flex;
+      justify-content: center;
+    }
+    .process_div:nth-child(2){
+      margin: 0 30px;
+    }
+    .process_div{
+      text-align: center;
+      position: relative;
+      z-index: 999;
+      height: 500px;
+      img{
+        height: 100%;
+      }
+    }
+    .process_div a{
+      display: inline-block;
+      border-radius: 12px;
+      width: 100%;
+      height: 78.5%;
+      position: relative;
+      z-index: 2;
+      top: -79.5%;
+      transition: transform 0.3s;
+      -webkit-transition: transform 0.3s;
+    }
+    .process_div a:hover{
+      box-shadow:0 8px 10px 0 rgba(0,0,0,0.4)
+    }
+    @media screen and (max-width: 1680px){
+      .process_div{
+        height: 400px;
+      }
+      .bg_process{
+        height: 170px;
+        margin-top: -200px;
+      }
+    }
+    @media screen and (max-width: 1380px){
+      .process_div{
+        height: 360px;
+      }
+      .bg_process{
+        height: 160px;
+        margin-top: -180px;
+      }
+    }
+    @media screen and (max-width: 1280px){
+      .process_div{
+        height: 335px;
+      }
+      .bg_process{
+        height: 150px;
+        margin-top: -170px;
+      }
+    }
+    @media screen and (max-width: 1150px){
+      .process_div{
+        height: 300px;
+      }
+      .bg_process{
+        height: 135px;
+        margin-top: -150px;
+      }
+    }
+    @media screen and (max-width: 1030px){
+      .platform_link{
+        overflow-x: auto;
+      }
+      .platform_link>div{
+        width: auto;
+      }
+      .el-row{
+        .el-button.start_btn{
+          font-size: 16px;
+          padding: 15px 35px;
+        }
+      }
     }
   }
 }
@@ -237,8 +410,5 @@ export default {
 }
 .keyerror {
   color: #f66f6a;
-}
-.el-button--primary {
-  margin-top: 20px;
 }
 </style>

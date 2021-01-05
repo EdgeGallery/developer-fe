@@ -105,14 +105,14 @@ export default {
         Workspace.getAppFileApi(this.projectId, val.name).then(res => {
           if (val.name.indexOf('.md') >= 0) {
             this.markdownSource = res.data
+          } else if (val.name.indexOf('.tgz') >= 0) {
+            this.markdownSource = this.$t('promptMessage.fileNotSupport')
           } else {
             this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
           }
         }).catch(err => {
           if (err.response.data.message === 'file is null!') {
             this.markdownSource = this.$t('promptMessage.fileIsEmpty')
-          } else if (err.response.data.message === 'file is not readable!') {
-            this.markdownSource = this.$t('promptMessage.fileNotReadable')
           }
         })
       }

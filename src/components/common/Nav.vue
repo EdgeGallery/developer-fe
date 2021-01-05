@@ -116,7 +116,8 @@ export default {
       menu_small: false,
       screenHeight: document.body.clientHeight,
       timer: false,
-      ifGuest: true
+      ifGuest: true,
+      userName: ''
     }
   },
   watch: {
@@ -128,6 +129,9 @@ export default {
           this.timer = false
         }, 400)
       }
+    },
+    '$i18n.locale': function () {
+      this.showToolchain(this.jsonData)
     }
   },
   beforeMount () {
@@ -152,7 +156,9 @@ export default {
       } else {
         this.ifGuest = false
       }
+      this.showToolchain(this.jsonData)
     })
+
     // 监听到窗口大小变化时，重新给screenHeight变量赋值
     window.onresize = () => {
       return (() => {
@@ -162,6 +168,20 @@ export default {
     }
   },
   methods: {
+    showToolchain (jsonData) {
+      this.userName = sessionStorage.getItem('userName')
+      if (this.userName === 'guest') {
+        jsonData.forEach(item => {
+          if (item.children) {
+            item.children.forEach((subItem, subIndex) => {
+              if (subItem.name === '工具链' || subItem.name === 'ToolChain') {
+                item.children.splice(subIndex, 1)
+              }
+            })
+          }
+        })
+      }
+    },
     // 根据移动端屏幕高度设置导航外层div的高
     setScreenHeight (screenHeight) {
       let oDiv = document.getElementsByClassName('main-sidebar-small')
@@ -189,12 +209,6 @@ export default {
         '2.2.1.1',
         '2.2.1.2',
         '2.2.2',
-        '2.2.3',
-        '2.2.3.1',
-        '2.2.3.2',
-        '2.2.3.3',
-        '2.2.3.4',
-        '2.2.4',
         '2.2.5'
       ]
       this.initnavData(data)

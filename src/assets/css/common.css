@@ -63,9 +63,15 @@ li{
   color:#E6A23C;
 }
 .primary{
-  color:#409EFF;
+  color:#688ef3;
+}
+.Running{
+  color:#688ef3;
 }
 .mt20{
+  margin-top:20px;
+}
+.el-button.mt20{
   margin-top:20px;
 }
 .ml10{
@@ -113,10 +119,13 @@ li{
   border: 1px solid #688ef3;
   color: #688ef3;
 }
+.el-button.p8{
+  padding: 8px 12px;
+}
 .el-dialog__header{
   background: #688ef3 !important;
 }
-.el-dialog__title,.el-icon-close:before{
+.el-dialog__title{
   color: #fff !important;
 }
 .el-dialog--center .el-dialog__header{
@@ -134,6 +143,15 @@ div::-webkit-scrollbar{
 div::-webkit-scrollbar-thumb{
   border-radius: 10px;
   background: rgba(0,0,0,0.1);
+}
+.el-upload-list{
+  float: left;
+  width: 100%;
+  text-align: left;
+}
+.el-upload-list__item:first-child{
+  width: 25%;
+  min-width: 200px;
 }
 
 
@@ -165,7 +183,7 @@ div::-webkit-scrollbar-thumb{
 .el-dialog__body{
   padding-top:15px!important;
 }
-.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-icon-close,.el-dialog__headerbtn .el-dialog__close{
+.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
   color:#fff!important;
 }
 
