@@ -181,22 +181,9 @@
         <h4 class="detail-box-title">
           {{ $t("workspace.deploymentStatus") }}
         </h4>
-        <div class="select-icon">
-          <em
-            v-if="flowShow"
-            @click="selectFlow = flowShow = false"
-            class="el-icon-caret-top"
-          />
-          <em
-            v-else
-            @click="selectFlow = flowShow = true"
-            class=" el-icon-caret-bottom"
-          />
-        </div>
       </div>
       <!-- 部署未完成时内容 -->
       <div
-        v-if="flowShow"
         class="deploy-status-flow"
       >
         <!-- 时间线 -->
@@ -270,6 +257,9 @@
               <p class="marginTop10">
                 {{ $t("workspace.deploymentSuccess") }}
               </p>
+              <div class="tip gray">
+                {{ $t('workspace.recycleTip') }}
+              </div>
             </div>
             <div
               v-if="!deploySuccess"
@@ -285,16 +275,14 @@
             <p class="marginTop15 error-log">
               {{ errorLog }}
             </p>
-            <p class="deploy-herf marginTop15">
-              <el-link
-                type="primary"
-                :href="accessUrl"
-                target="_blank"
-              >
-                {{ accessUrl }}
-              </el-link>
+            <p
+              v-if="deploySuccess"
+              class="deploy-herf marginTop15   "
+            >
+              {{ $t("workspace.testNode") }} : {{ accessUrl }}
             </p>
           </div>
+
           <!-- 完成状态 -->
           <div class="deploy-finish-status-box">
             <!-- 此处根据返回数组数据渲染页面 -->
@@ -331,6 +319,7 @@
                   >
                     {{ $t('workspace.downloadLog') }}
                   </el-button>
+
                   <div class="clearfix" />
                 </div>
               </el-col>
@@ -370,7 +359,6 @@ export default {
       sandboxClickedEngImg: require('@/assets/images/sandBoxClickedEng.png'),
       sandboxUnclickedEngImg: require('@/assets/images/sandBoxUnclickedEng.png'),
       deploySuccess: false,
-      flowShow: true,
       testFinished: false,
       deployStatus: 'NOTDEPLOY',
       timer: '',
@@ -425,7 +413,6 @@ export default {
       this.testFinished = false
       this.deployStatus = 'NOTDEPLOY'
       this.initialTimeline()
-      this.flowShow = true
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
           message: this.$t('workspace.clearEnv')
@@ -477,7 +464,6 @@ export default {
       if (this.deployStatus === 'SUCCESS') {
         clearInterval(this.timer)
         if (cachedData.pods !== null && cachedData.pods.length > 4) this.pods = JSON.parse(cachedData.pods).pods
-        this.flowShow = true
         this.testFinished = true
         this.deploySuccess = true
         this.accessUrl = cachedData.accessUrl
@@ -491,7 +477,6 @@ export default {
         this.initialTimeline() // update icon status according to stage status
         this.testFinished = true
         this.deploySuccess = false
-        this.flowShow = true
         this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       }
@@ -717,6 +702,17 @@ export default {
     .deploy-finish-box {
       margin-top: 70px;
       width: 100%;
+      .gray {
+      color: #adb0b8;
+    }
+    .purple {
+      color : #778FEF;
+    }
+    .tip {
+      font-size: 12px;
+      margin: 15px;
+      line-height: 20px;
+    }
       .deploy-result-buttom {
         margin-top: 50px;
       }
@@ -730,7 +726,6 @@ export default {
     color: gray;
       }
       .deploy-finish-status-box {
-        height: 400px;
           .el-row{
             width: 100%;
             .pod_title{
