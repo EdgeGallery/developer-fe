@@ -1311,8 +1311,10 @@ export default {
   }
   .atp_iframe{
     border: 1px solid #ddd;
+    height: 790px;
     iframe{
       border: none;
+      height: 100%;
     }
   }
   .release_test{
