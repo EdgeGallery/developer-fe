@@ -242,7 +242,6 @@ const cn = {
     operation: '操作',
     remove: '移除',
     detail: '详情',
-    clickHereToAddNewProject: '点击添加新项目',
     createProject: '新建应用开发项目',
     migrationProject: '新建应用集成项目',
     basicInformation: '基本信息',

@@ -591,11 +591,13 @@
     <div class="release_btn">
       <el-button
         v-if="active===0"
+        class="featuresBtn"
         @click="saveConfig"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
       <el-button
+        v-if="active===0"
         class="featuresBtn"
         @click="appDetaildialog=true"
       >

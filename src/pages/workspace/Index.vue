@@ -52,7 +52,6 @@
                 alt=""
               >
             </div>
-            <p>{{ $t('workspace.clickHereToAddNewProject') }}</p>
           </div>
         </div>
         <div class="graybg project-status">
