@@ -22,10 +22,10 @@
           <h2>{{ $t('home.bannerTitle') }}</h2>
           <p>
             {{ $t('home.bannerText1') }}
-            <br>{{ $t('home.bannerText2') }}
+            <!-- <br>{{ $t('home.bannerText2') }}
             <br>{{ $t('home.bannerText3') }}
             <br>{{ $t('home.bannerText4') }}
-            <br>{{ $t('home.bannerText5') }}
+            <br>{{ $t('home.bannerText5') }} -->
           </p>
         </div>
       </div>
@@ -37,27 +37,27 @@
                 :src="img_dev"
                 alt=""
               >
-              <a />
+              <!-- <a /> -->
             </div>
             <div class="process_div">
               <img
                 :src="img_app"
                 alt=""
               >
-              <a
+              <!-- <a
                 :href="appStoreUrl"
                 target="_blank"
-              />
+              /> -->
             </div>
             <div class="process_div">
               <img
                 :src="img_mecm"
                 alt=""
               >
-              <a
+              <!-- <a
                 :href="mecmUrl"
                 target="_blank"
-              />
+              /> -->
             </div>
           </div>
           <div class="bg_process">
@@ -183,15 +183,17 @@ export default {
   .topLine {
     height: 300px;
     background: url("../../assets/images/banner.png") no-repeat center center #222a3f;
+    user-select: none;
     .title {
       color: #fff;
       padding: 65px 0 0 200px;
       h2{
         font-size: 30px;
+        font-weight: normal;
       }
       p {
         margin-top: 20px;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 30px;
       }
     }
@@ -274,10 +276,11 @@ export default {
   }
 
   .common-appliaction {
-    padding-left: 18px;
+    // padding-left: 18px;
     background: white;
     position: relative;
     padding-bottom: 26px;
+    background: url('../../assets/images/home_link_bg.png');
     .el-row{
       text-align: center;
       .el-button.start_btn{
@@ -291,7 +294,7 @@ export default {
       }
     }
     .platform_link{
-      padding: 40px 0 20px;
+      padding: 20px 20px 0px 20px;
     }
     .platform_link>div{
       float: left;
@@ -301,13 +304,13 @@ export default {
       z-index: 1;
       position: relative;
       height: 210px;
-      margin-top: -255px;
+      margin-top: -230px;
       display: flex;
       justify-content: center;
       align-items: center;
-      img{
-        height: 100%;
-      }
+      // img{
+      //   height: 100%;
+      // }
     }
     .devProcess{
       display: flex;
@@ -320,10 +323,10 @@ export default {
       text-align: center;
       position: relative;
       z-index: 999;
-      height: 500px;
-      img{
-        height: 100%;
-      }
+      height: 460px;
+      // img{
+      //   height: 100%;
+      // }
     }
     .process_div a{
       display: inline-block;
