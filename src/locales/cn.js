@@ -177,9 +177,9 @@ const cn = {
       pluginTip1: 'Edgegallery提供本地开发的',
       pluginTip2: 'IDE插件',
       pluginTip3: '，可用来生成的样例代码（目前支持python和java语言）',
-      codeTip1: 'Edgegallery提供APP本地开发的',
-      codeTip2: '示例代码',
-      codeTip3: '供开发者参考'
+      codeTip1: 'Edgegallery提供以下APP本地开发的示例代码供开发者参考，',
+      codeTip2: '或者',
+      codeTip3: '点击下载到本地'
     },
     appRelease: {
       appConfig: '应用配置',

@@ -177,9 +177,9 @@ const en = {
       pluginTip1: 'Edgegallery provides locally developed',
       pluginTip2: 'IDE plugin',
       pluginTip3: ',Sample code that can be used to generate (currently supports python and java languages)',
-      codeTip1: 'Edgegallery provides apps developed locally',
-      codeTip2: 'Sample code',
-      codeTip3: 'for developers\' reference'
+      codeTip1: 'Edgegallery provides the sample code of the following APP local development for developers\' reference,',
+      codeTip2: 'or',
+      codeTip3: 'Click to download to local'
     },
     appRelease: {
       appConfig: 'Application Configuration',

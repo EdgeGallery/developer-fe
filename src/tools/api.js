@@ -182,6 +182,14 @@ let Workspace = {
     }
     return downloadFile(params)
   },
+  // 获取样例代码结构
+  getSampleListApi: function (apiFileIdArr) {
+    return Post('mec/developer/v1/files/samplecode/get-pkg-structure', apiFileIdArr)
+  },
+  // 获取样例代码内容
+  getSampleContentApi: function (fileName) {
+    return Get('mec/developer/v1/files/samplecode/get-file-content?fileName=' + fileName)
+  },
   // 新建/迁移项目
   newProjectApi: function (userId, params) {
     return Post('mec/developer/v1/projects/?userId=' + userId, params)
