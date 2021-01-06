@@ -242,7 +242,6 @@ const en = {
     operation: 'Operation',
     remove: 'Remove',
     detail: 'Detail',
-    clickHereToAddNewProject: 'Click here to add a new project',
     createProject: 'Add application development project',
     migrationProject: 'Add application integration project',
     basicInformation: 'Basic Information',
