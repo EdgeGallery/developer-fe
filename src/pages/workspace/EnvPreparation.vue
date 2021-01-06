@@ -66,6 +66,7 @@
             highlight-current
             :props="defaultProps"
             @node-click="getFileDetail"
+            empty-text=""
           />
         </el-col>
         <el-col class="file_desc">
@@ -100,7 +101,8 @@ export default {
       sampleCodeListData: [],
       fileName: '',
       fileContent: '',
-      markdownSource: ''
+      markdownSource: '',
+      serviceNum: 0
     }
   },
   methods: {
@@ -115,9 +117,8 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         let data = res.data.capabilityList
-        if (data.length === 0) {
-          this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
-        } else {
+        this.serviceNum = data.length
+        if (data.length > 0) {
           data.forEach(dataItem => {
             dataItem.capabilityDetailList.forEach(service => {
               this.apiFileIdArr.push(service.apiFileId)
@@ -132,7 +133,11 @@ export default {
       this.getSampleCode(this.apiFileIdArr)
     },
     getSampleCode (apiFileIdArr) {
-      Workspace.getSampleCodeApi(apiFileIdArr)
+      if (this.serviceNum === 0) {
+        this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
+      } else {
+        Workspace.getSampleCodeApi(apiFileIdArr)
+      }
     },
     getSampleCodeList (apiFileIdArr) {
       Workspace.getSampleListApi(apiFileIdArr).then(res => {
