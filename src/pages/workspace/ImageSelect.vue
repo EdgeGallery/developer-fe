@@ -16,8 +16,8 @@
 
 <template>
   <div class="imageSelect">
-    <h3 class="image_title">
-      <span class="span_left">{{ $t('workspace.uploadImage.mode1') }}</span>
+    <h3 class="image_title clear">
+      <span class="span_lefts">{{ $t('workspace.uploadImage.mode1') }}</span>
       <span class="span_right">
         {{ $t('workspace.uploadImage.mode1Desc') }}
         <el-tooltip
@@ -31,9 +31,9 @@
       </span>
     </h3>
     <h3
-      class="image_title gray"
+      class="image_title clear gray"
     >
-      <span class="span_left">{{ $t('workspace.uploadImage.mode2') }}</span>
+      <span class="span_lefts">{{ $t('workspace.uploadImage.mode2') }}</span>
       <span class="span_right">
         {{ $t('workspace.uploadImage.mode2Desc') }}
         <em class="el-icon-question gray" />
@@ -48,8 +48,8 @@
     >
       {{ $t('workspace.uploadImage.uploadAppImage') }}
     </el-button>
-    <h3 class="image_title">
-      <span class="span_left">{{ $t('workspace.uploadImage.mode3') }}</span>
+    <h3 class="image_title clear">
+      <span class="span_lefts">{{ $t('workspace.uploadImage.mode3') }}</span>
       <span class="span_right">{{ $t('workspace.uploadImage.mode3Desc') }}</span>
     </h3>
     <div class="tip gray">
@@ -62,32 +62,44 @@
       >
         {{ $t('workspace.uploadImage.installation') }}
       </el-link>
-      <div class="node-info">
-        <div class="node-info-title">
+      <div class="node-info clear">
+        <div class="node-info-title p5">
           {{ $t('workspace.uploadImage.importNode') }}
         </div>
-        <el-input
-          @input="onChangeNodeInfo()"
-          class="input width-200"
-          size="small"
-          v-model="ip"
-          placeholder="IP"
-        />
-        <el-input
-          @input="onChangeNodeInfo()"
-          class="input  width-100"
-          size="small"
-          v-model="port"
-          placeholder="Port"
-        />
-        <el-button
-          type="primary"
-          plain
-          size="small"
-          @click="handleSaveNodeInfo()"
-        >
-          {{ $t('workspace.uploadImage.test') }}
-        </el-button>
+        <div class="ip_div">
+          <el-input
+            @input="onChangeNodeInfo()"
+            class="input width-200"
+            size="small"
+            v-model="ip"
+            placeholder="IP"
+          />
+          <span
+            class="ip_errInfp error"
+            v-if="isIpError"
+          >{{ $t('promptMessage.ipErrorInfo') }}</span>
+        </div>
+        <div class="port_div">
+          <el-input
+            @input="onChangePortInfo()"
+            class="input  width-100"
+            size="small"
+            v-model="port"
+            placeholder="Port"
+          />
+          <el-button
+            type="primary"
+            plain
+            size="small"
+            @click="handleSaveNodeInfo()"
+          >
+            {{ $t('workspace.uploadImage.test') }}
+          </el-button>
+          <span
+            class="port_errInfp error"
+            v-if="isPortError"
+          >{{ $t('promptMessage.portErrorInfo') }}</span>
+        </div>
       </div>
       <div class="node-info">
         <div class="node-info-title">
@@ -127,17 +139,13 @@ export default {
       ip: '',
       port: '',
       enable: false,
-      install_href: 'https://gitee.com/edgegallery/installer/tree/master/offline'
+      install_href: 'https://gitee.com/edgegallery/installer/tree/master/offline',
+      isIpError: false,
+      isPortError: false
     }
   },
   methods: {
     handleSaveNodeInfo () {
-      const portValidate = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/.test(this.port) && (this.port >= 30000 && this.port <= 30400)
-      const ipValidate = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(this.ip)
-      if (!ipValidate || !portValidate) {
-        this.$message.warning(this.$t('workspace.uploadImage.nodeInfoValidation'))
-        return
-      }
       Workspace.saveNodeInfo(this.userId, { hostId: this.hostId, ip: this.ip, port: this.port }).then(res => {
         if (res && res.data && res.data.hostId) {
           this.validate = true
@@ -157,6 +165,22 @@ export default {
     onChangeNodeInfo () {
       this.validate = false
       this.enable = false
+      const ipValidate = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/.test(this.ip)
+      if (!ipValidate) {
+        this.isIpError = true
+      } else {
+        this.isIpError = false
+      }
+    },
+    onChangePortInfo () {
+      this.validate = false
+      this.enable = false
+      const portValidate = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/.test(this.port) && (this.port >= 30000 && this.port <= 30400)
+      if (!portValidate) {
+        this.isPortError = true
+      } else {
+        this.isPortError = false
+      }
     },
     onChangeSwitch (v) {
       if (!this.validate && v) {
@@ -209,13 +233,11 @@ export default {
     margin-left: 6%;
     .image_title{
       font-size: 16px;
-      margin-bottom: 10px;
-      padding: 20px 0px;
       span{
         float: left;
         margin-bottom: 10px;
       }
-      span.span_left{
+      span.span_lefts{
         width: 62px;
         margin-right: 10px;
       }
@@ -271,7 +293,6 @@ export default {
     }
 
     .node-info {
-      cursor: pointer;
       padding: 20px 75px 0px 0px;
       color: #2c3e50;
       .width-100 {
@@ -289,12 +310,33 @@ export default {
         font-size: 14px;
         font-weight: normal;
       }
+      .p5{
+        padding-top: 5px;
+      }
       .el-switch{
         margin-right: 15px;
       }
       .env-tip {
         font-size: 12px;
         display: inline-block;
+      }
+      .port_div, .ip_div, .node-info-title{
+        float: left;
+        height: 35px;
+      }
+      .err_div{
+        float: left;
+        width: 100%;
+        span{
+          float: left;
+        }
+      }
+      .ip_errInfp{
+        display: block;
+        width: 200px;
+      }
+      .port_errInfp{
+        display: block;
       }
     }
   }

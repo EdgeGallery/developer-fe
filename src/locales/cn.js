@@ -147,7 +147,6 @@ const cn = {
       mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）'
     },
     uploadImage: {
-      nodeInfoValidation: '请输入正确的IP、端口号，端口号范围30000-30400',
       successfulTest: '测试成功',
       failTest: '测试失败',
       testfirst: '请先测试',
@@ -551,7 +550,9 @@ const cn = {
     appReleaseFail: '应用发布失败',
     deployTypeEmpty: '部署方式不能为空',
     isPublished: '应用已经发布到应用仓库',
-    notDeploy: '应用没有部署调测，不能进行发布操作'
+    notDeploy: '应用没有部署调测，不能进行发布操作',
+    ipErrorInfo: '请输入正确的IP地址',
+    portErrorInfo: '端口号范围30000-30400'
   },
   breadCrumb: {
     mecDeveloper: '首页',
