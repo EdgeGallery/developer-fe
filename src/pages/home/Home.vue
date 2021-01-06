@@ -183,6 +183,7 @@ export default {
   .topLine {
     height: 300px;
     background: url("../../assets/images/banner.png") no-repeat center center #222a3f;
+    user-select: none;
     .title {
       color: #fff;
       padding: 65px 0 0 200px;
