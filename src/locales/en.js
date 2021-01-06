@@ -147,7 +147,6 @@ const en = {
       mepAgent: 'MEP Agent（If mepagent is not integrated, api cannot be released）'
     },
     uploadImage: {
-      nodeInfoValidation: 'Please enter the correct IP and port,port range is 30000-30400',
       successfulTest: 'Test successfully',
       failTest: 'Test failed',
       testfirst: 'Please test first',
@@ -550,7 +549,9 @@ const en = {
     appReleaseFail: 'Application publishing failed',
     deployTypeEmpty: 'Deployment type can not be empty.',
     isPublished: 'The application has been published to the application warehouse',
-    notDeploy: 'The application is not deployed, and the release operation cannot be performed'
+    notDeploy: 'The application is not deployed, and the release operation cannot be performed',
+    ipErrorInfo: 'Please enter the correct IP address',
+    portErrorInfo: 'Port number range 30000-30400'
   },
   breadCrumb: {
     mecDeveloper: 'Home',
