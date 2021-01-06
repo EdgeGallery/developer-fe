@@ -170,6 +170,16 @@ export default {
       }
       .v-note-wrapper .v-note-panel .v-note-show{
         overflow: hidden;
+        .hljs, pre{
+          background: #1e1e1e;
+          color: #fff;
+        }
+        .hljs-string{
+          color: #ce8248;
+        }
+        .hljs-number{
+          color: #7bbea3;
+        }
       }
     }
   }

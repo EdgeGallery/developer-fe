@@ -44,14 +44,42 @@
     </h3>
     <div class="pad">
       {{ $t('workspace.prepare.codeTip1') }}
+
+      {{ $t('workspace.prepare.codeTip2') }}
       <el-link
         type="info"
         :underline="false"
-        @click="getApiFileId"
+        @click="downloadSampleCode"
       >
-        {{ $t('workspace.prepare.codeTip2') }}
+        {{ $t('workspace.prepare.codeTip3') }}
       </el-link>
-      {{ $t('workspace.prepare.codeTip3') }}
+      <el-row class="code_div">
+        <el-col
+          class="file_list"
+        >
+          <el-tree
+            class="codeDetail"
+            :data="sampleCodeListData"
+            default-expand-all
+            node-key="id"
+            ref="tree"
+            highlight-current
+            :props="defaultProps"
+            @node-click="getFileDetail"
+          />
+        </el-col>
+        <el-col class="file_desc">
+          <mavon-editor
+            v-model="markdownSource"
+            :toolbars-flag="false"
+            :editable="false"
+            :subfield="false"
+            default-open="preview"
+            :box-shadow="false"
+            preview-background="#ffffff"
+          />
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -64,7 +92,15 @@ export default {
     return {
       apiFileIdArr: [],
       userId: sessionStorage.getItem('userId'),
-      projectLink: '/#/mecDeveloper/plugin/list'
+      projectLink: '/#/mecDeveloper/plugin/list',
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
+      sampleCodeListData: [],
+      fileName: '',
+      fileContent: '',
+      markdownSource: ''
     }
   },
   methods: {
@@ -87,17 +123,42 @@ export default {
               this.apiFileIdArr.push(service.apiFileId)
             })
           })
-          this.getSampleCode(this.apiFileIdArr)
+          // this.getSampleCode(this.apiFileIdArr)
+          this.getSampleCodeList(this.apiFileIdArr)
         }
       })
     },
+    downloadSampleCode () {
+      this.getSampleCode(this.apiFileIdArr)
+    },
     getSampleCode (apiFileIdArr) {
       Workspace.getSampleCodeApi(apiFileIdArr)
+    },
+    getSampleCodeList (apiFileIdArr) {
+      Workspace.getSampleListApi(apiFileIdArr).then(res => {
+        this.sampleCodeListData = res.data.children
+        if (this.sampleCodeListData.length > 0) {
+          this.$nextTick(function () {
+            const firstNode = document.querySelector('.codeDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+            firstNode.click()
+          })
+        }
+      })
+    },
+    getFileDetail (val) {
+      this.fileName = val.name
+      if (!val.children) {
+        Workspace.getSampleContentApi(val.name).then(res => {
+          this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+        })
+      }
     }
   },
   created () {
   },
   mounted () {
+    this.getApiFileId()
+    // this.getSampleCodeList(this.apiFileIdArr)
   }
 }
 </script>
@@ -117,6 +178,41 @@ export default {
     .el-link{
       margin-top: -4px;
       color: #688ef3;
+    }
+  }
+  .code_div{
+    margin-top: 20px;
+  }
+  .el-tree-node>.el-tree-node__children{
+    overflow: auto;
+  }
+  .file_list{
+    width: 280px;
+  }
+  .file_desc{
+    width: calc(100% - 280px);
+    padding: 10px;
+    white-space: pre-wrap;
+    line-height: 25px;
+    max-height: 500px;
+    overflow: auto;
+    overflow-x: auto;
+    .v-note-wrapper{
+      border: none;
+    }
+    .v-note-wrapper .v-note-panel .v-note-show{
+      overflow: hidden;
+      .hljs, pre{
+        background: #1e1e1e;
+        color: #fff;
+        overflow-x: visible;
+      }
+      .hljs-string{
+        color: #ce8248;
+      }
+      .hljs-number{
+        color: #7bbea3;
+      }
     }
   }
 }
