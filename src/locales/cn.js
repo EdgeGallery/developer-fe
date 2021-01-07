@@ -131,6 +131,12 @@ const cn = {
     contact: '联系我们'
   },
   workspace: {
+    projectStatusEnum: {
+      createNew: '新建',
+      testing: '测试中',
+      tested: '测试完成',
+      released: '已发布'
+    },
     configYaml: {
       yamlFileType: '请选择后缀名为".yaml"的文件',
       uploadYamlFirst: '请先上传Yaml',

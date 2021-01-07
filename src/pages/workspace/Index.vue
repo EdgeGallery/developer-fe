@@ -87,6 +87,7 @@
 import { Workspace } from '../../tools/api.js'
 import projectList from './ProjectList.vue'
 import newProject from './NewProject.vue'
+import locale from '../../locales/i18n.js'
 
 export default {
   name: 'Workspace',
@@ -104,18 +105,19 @@ export default {
       chartData: {
         columns: ['Status', 'Number'],
         rows: [
-          { 'Status': 'ONLINE', 'Number': 0 },
-          { 'Status': 'DEPLOYING', 'Number': 0 },
-          { 'Status': 'DEPLOYED', 'Number': 0 },
-          { 'Status': 'DEPLOYED_FAILED', 'Number': 0 },
-          { 'Status': 'TESTED', 'Number': 0 }
+          { 'Status': locale.t('workspace.projectStatusEnum.createNew'), 'Number': 0 },
+          { 'Status': locale.t('workspace.projectStatusEnum.testing'), 'Number': 0 },
+          { 'Status': locale.t('workspace.projectStatusEnum.tested'), 'Number': 0 },
+          { 'Status': locale.t('workspace.projectStatusEnum.released'), 'Number': 0 }
+          // { 'Status': '测试完成', 'Number': 0 }
         ]
       },
       chartSettings: {
         radius: 70,
+        bottom: 10,
         offsetY: 140,
         label: {
-          formatter: '{b} : {c}' + '\n\r' + '({d}%)',
+          formatter: '{b} : {c}' + '({d}%)',
           lineHeight: 18
         }
       },
@@ -162,27 +164,31 @@ export default {
     getProjectListData () {
       Workspace.getProjectListApi(this.userId).then(res => {
         let dataTotal = res.data
-        let onlineNum = 0
-        let deployingNum = 0
-        let deployedNum = 0
-        let deployfailedNum = 0
+        let createNew = 0
+        let testingNum = 0
+        let releasedNum = 0
+        // let deployedNum = 0
+        // let deployfailedNum = 0
         let testedNum = 0
         for (let i = 0; i < dataTotal.length; i++) {
           if (dataTotal[i].status === 'ONLINE') {
-            onlineNum++
-            this.chartData.rows[0].Number = onlineNum
-          } else if (dataTotal[i].status === 'DEPLOYING') {
-            deployingNum++
-            this.chartData.rows[1].Number = deployingNum
-          } else if (dataTotal[i].status === 'DEPLOYED') {
-            deployedNum++
-            this.chartData.rows[2].Number = deployedNum
-          } else if (dataTotal[i].status === 'DEPLOYED_FAILED') {
-            deployfailedNum++
-            this.chartData.rows[3].Number = deployfailedNum
+            createNew++
+            this.chartData.rows[0].Number = createNew
+          } else if (dataTotal[i].status === 'DEPLOYING' || dataTotal[i].status === 'DEPLOYED' || dataTotal[i].status === 'DEPLOYED_FAILED') {
+            testingNum++
+            this.chartData.rows[1].Number = testingNum
+          // } else if (dataTotal[i].status === 'DEPLOYED') {
+          //   deployedNum++
+          //   this.chartData.rows[2].Number = deployedNum
+          // } else if (dataTotal[i].status === 'DEPLOYED_FAILED') {
+          //   deployfailedNum++
+          //   this.chartData.rows[3].Number = deployfailedNum
           } else if (dataTotal[i].status === 'TESTED') {
             testedNum++
-            this.chartData.rows[4].Number = testedNum
+            this.chartData.rows[2].Number = testedNum
+          } else if (dataTotal[i].status === 'RELEASED') {
+            releasedNum++
+            this.chartData.rows[3].Number = releasedNum
           }
         }
       })
@@ -251,12 +257,15 @@ export default {
       overflow-y: auto;
       background-color: white;
     }
+    .el-col-8{
+      height: 100%;
+    }
     .add-project{
-      height: 300px;
+      height: 40%;
       overflow: hidden;
     }
     .project-status{
-      height: 400px;
+      height: 60%;
       overflow: hidden;
     }
   }
