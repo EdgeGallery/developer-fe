@@ -166,7 +166,7 @@ const en = {
       mode2Tip: 'note: edgegallery ensures that images uploaded by users are not visible to other users',
       mode3: 'Mode 3:',
       mode3Desc: 'Do not upload images (for private images, not for public use)',
-      mode3Tip: 'Note: if the application developer does not upload the image, it is unable to provide sandbox environment for the developer. Users need to use the public network to connect the edge node, install the following software, and install the dependent image to the server in advance'
+      mode3Tip: 'Note: if the application developer does not upload the image, it is unable to provide sandbox environment for the developer.Please refer to the installation guide'
     },
     supportPlatform: {
       title: 'Select the deployment platform to support'
