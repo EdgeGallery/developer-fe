@@ -118,7 +118,9 @@ export default {
         offsetY: 140,
         label: {
           formatter: '{b} : {c}' + '({d}%)',
-          lineHeight: 18
+          lineHeight: 18,
+          show: true,
+          fontSize: 16
         }
       },
       chartExtend: {
