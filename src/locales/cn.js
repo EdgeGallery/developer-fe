@@ -393,12 +393,12 @@ const cn = {
     deploymentComplete: '部署完成',
     deploymentResult: '部署结果',
     testMsg: '你的应用已经可以被EdgeGallery平台集成，请测试APP业务',
-    PODStatus: 'POD状态:',
-    PODName: 'Pod名称:',
+    PODStatus: 'POD状态',
+    PODName: 'Pod名称',
     downloadLog: '下载日志',
-    operatingStatus: '运行状态:',
+    operatingStatus: '运行状态',
     container: '容器',
-    containerName: '名称',
+    containerName: '容器名称',
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
@@ -415,7 +415,12 @@ const cn = {
     selectedService: '已选服务',
     recycleTip: '注：请释放资源，否则应用认证测试将会失败',
     noService: '您暂未选择任何服务',
-    testNode: '测试节点'
+    testNode: '测试节点',
+    podBelongsTo: '所属Pod',
+    cpuUsage: 'CPU使用率',
+    memUsage: '内存使用率',
+    diskUsage: '硬盘使用率'
+
   },
   test: {
     howToTest: {
