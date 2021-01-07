@@ -75,6 +75,11 @@ const mecDeveloper = [
     path: '/mecDeveloper/work',
     pageId: '2.2.5',
     display: true
+  },
+  {
+    id: '3.17',
+    name: '社区实验室',
+    display: true
   }
 ]
 
