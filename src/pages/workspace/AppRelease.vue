@@ -1303,7 +1303,7 @@ export default {
   }
   .atp_iframe{
     border: 1px solid #ddd;
-    height: 790px;
+    height: 880px;
     iframe{
       border: none;
       height: 100%;
