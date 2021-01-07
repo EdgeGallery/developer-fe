@@ -18,7 +18,7 @@
   <div>
     <div class="service_div">
       <p class="api_top">
-        {{ $t('workspace.apiTopText') }} ：
+        {{ $t('workspace.apiTopText') }}
       </p>
       <p class="title">
         {{ $t('workspace.serviceDetails') }}

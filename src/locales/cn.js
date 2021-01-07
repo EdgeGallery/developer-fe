@@ -178,11 +178,11 @@ const cn = {
       title: '选择要支持的部署平台'
     },
     prepare: {
-      toolTip: '根据开发语言，选择合适的编程IDE，进行本地安装并完成相关的配置。E',
-      pluginTip1: 'EdgeGallery提供了本地开发使用的',
+      toolTip: '根据开发语言，选择合适的编程IDE，进行本地安装并完成相关的配置。',
+      pluginTip1: 'EdgeGallery平台提供了本地开发使用的',
       pluginTip2: 'IDE插件',
       pluginTip3: '，可用来生成的样例代码（目前支持Python和Java语言）',
-      codeTip1: 'Edgegallery提供了示例代码以供开发者参考，',
+      codeTip1: 'Edgegallery提供以下APP本地开发的示例代码供开发者参考，',
       codeTip2: '或者',
       codeTip3: '点击下载到本地'
     },
