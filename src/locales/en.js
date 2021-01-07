@@ -130,6 +130,12 @@ const en = {
     contact: 'Contact'
   },
   workspace: {
+    projectStatusEnum: {
+      createNew: 'New',
+      testing: 'Testing',
+      tested: 'Tested',
+      released: 'Released'
+    },
     configYaml: {
       yamlFileType: 'Please select files with the suffix ".yaml"',
       uploadYamlFirst: 'Please upload file first',
