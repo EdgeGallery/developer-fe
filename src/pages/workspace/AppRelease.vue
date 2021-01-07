@@ -970,13 +970,6 @@ export default {
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$message.success(this.$t('devTools.deleteSucc'))
     },
-    setApiHeight () {
-      this.$nextTick(() => {
-        const oDiv = document.getElementsByClassName('atp_iframe')[0]
-        const screenHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(screenHeight) - 330 + 'px'
-      })
-    },
     // 查看流量规则
     checkFilter (row) {
       this.filterShow = true
@@ -1032,7 +1025,6 @@ export default {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
         if (this.taskId) {
-          this.setApiHeight()
           this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
           this.showAtp = true
         }
