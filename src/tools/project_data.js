@@ -20,7 +20,7 @@ const Industry = [
     label: ['智慧园区', 'Smart Park']
   }, {
     value: 'Smart Supermarket',
-    label: ['智慧商超', 'Smart Supermarket']
+    label: ['智慧商城', 'Smart Supermarket']
   }, {
     value: 'Industrial Manufacturing',
     label: ['工业制造', 'Industrial Manufacturing']

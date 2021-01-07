@@ -33,6 +33,15 @@
       v-loading="analysisLoading"
       :element-loading-text="uploadCodeText"
     >
+      <div class="toochain_info">
+        <p>{{ $t('devTools.toolChainInfo1') }}</p>
+        <p>{{ $t('devTools.toolChainInfo2') }}</p>
+        <ul>
+          <li>{{ $t('devTools.toolChainInfo3') }}</li>
+          <li>{{ $t('devTools.toolChainInfo4') }}</li>
+          <li>{{ $t('devTools.toolChainInfo5') }}</li>
+        </ul>
+      </div>
       <el-row>
         <el-col
           :sm="16"
@@ -538,6 +547,23 @@ export default {
     .el-form-item:last-child .el-form-item__content{
       margin-left: 140px;
       text-align: left;
+    }
+    .toochain_info{
+      font-size: 14px;
+      width: 90%;
+      padding: 0 0 30px 10%;
+      line-height: 25px;
+      text-align: justify;
+      p{
+        margin-bottom: 10px;
+      }
+      ul{
+        padding-left: 30px;
+        li{
+          list-style: disc;
+          line-height: 25px;
+        }
+      }
     }
   }
   .analysis{

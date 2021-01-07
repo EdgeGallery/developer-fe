@@ -26,11 +26,11 @@
     >
       <el-form
         :model="form"
-        size="mini"
+        size="middle"
         ref="form"
       >
         <el-form-item
-          label="DNS Rule Id"
+          :label="$t('workspace.appRelease.dnsRuleId')"
           :label-width="formLabelWidth"
         >
           <el-input
@@ -38,7 +38,7 @@
           />
         </el-form-item>
         <el-form-item
-          label="Domain Name"
+          :label="$t('workspace.appRelease.domainName')"
           :label-width="formLabelWidth"
         >
           <el-input
@@ -46,7 +46,7 @@
           />
         </el-form-item>
         <el-form-item
-          label="IP Address Type"
+          :label="$t('workspace.appRelease.ipAddressType')"
           :label-width="formLabelWidth"
           class="ipAddressType"
         >
@@ -64,7 +64,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          label="DNS Server IP"
+          :label="$t('workspace.appRelease.ipAddress')"
           :label-width="formLabelWidth"
         >
           <el-input

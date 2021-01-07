@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-import axios from 'axios'
 import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
 
 let Plugin = {
@@ -142,6 +141,10 @@ let Workspace = {
     const path = params.hostId ? `mec/developer/v1/hosts/${params.hostId}/?userId=${userId}` : `mec/developer/v1/hosts/?userId=${userId}`
     const data = { architecture: 'X86', userId, status: 'NORMAL', ip, port, name: ip, address: ip }
     return func(path, data)
+  },
+  // 获取详情中节点信息
+  getDeployType: function () {
+    return Get('mec/developer/v1/config/deploy-platform')
   },
   // 获取详情中节点信息
   getNodeInfo: function (userId) {
@@ -272,15 +275,6 @@ let Workspace = {
   // 应用测试
   getAtpTestApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/action/atp')
-  },
-  // 获取应用测试列表
-  getAtpListApi: function () {
-    let url = 'mec-atp/edgegallery/atp/v1/tasks'
-    return axios.get(url, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
   },
   // 上传应用发布详情
   PostReleaseApi: function (projectId, params) {

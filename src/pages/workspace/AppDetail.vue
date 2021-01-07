@@ -90,6 +90,11 @@
               <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ projectDetailData.dependent }}
             </el-col>
           </el-row>
+          <el-row>
+            <el-col>
+              <span class="span_left">{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
+            </el-col>
+          </el-row>
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -121,7 +126,6 @@
             finish-status="success"
             align-center
           >
-            <el-step :title="$t('workspace.choosePlatform')" />
             <el-step :title="$t('workspace.selectImage')" />
             <el-step :title="$t('workspace.configureYaml')" />
             <el-step :title="$t('workspace.deploymentTest')" />
@@ -153,7 +157,7 @@
               type="primary"
               v-loading="apiDataLoading"
               @click="next"
-              v-if="active<3"
+              v-if="active<2"
             >
               <strong>{{ $t('workspace.next') }}</strong>
             </el-button>
@@ -185,6 +189,7 @@ import configYaml from './ConfigYaml.vue'
 import EnvPreparation from './EnvPreparation.vue'
 import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
+import { Industry, Type } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
 import deployment from './Deployment.vue'
 import appRelease from './AppRelease.vue'
@@ -207,6 +212,7 @@ export default {
       projecDetailList: [],
       dialogVisible: false,
       activeName: '1',
+      language: localStorage.getItem('language'),
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       currentComponent: 'choosePlatform',
@@ -231,7 +237,8 @@ export default {
         industry: '',
         type: '',
         platform: '',
-        dependent: ''
+        dependent: '',
+        description: ''
       },
       projectId: sessionStorage.getItem('mecDetailID')
     }
@@ -247,8 +254,31 @@ export default {
         this.projectDetailData.industry = data.industry[0]
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
+        this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
+        Industry.forEach(itemFe => {
+          if (this.language === 'cn') {
+            if (this.projectDetailData.industry === itemFe.label[1]) {
+              this.projectDetailData.industry = itemFe.label[0]
+            }
+          } else {
+            if (this.projectDetailData.industry === itemFe.label[0]) {
+              this.projectDetailData.industry = itemFe.label[1]
+            }
+          }
+        })
+        Type.forEach(itemFe => {
+          if (this.language === 'cn') {
+            if (this.projectDetailData.type === itemFe.label[1]) {
+              this.projectDetailData.type = itemFe.label[0]
+            }
+          } else {
+            if (this.projectDetailData.type === itemFe.label[0]) {
+              this.projectDetailData.type = itemFe.label[1]
+            }
+          }
+        })
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
             arr.push(itemSub.service)
@@ -256,35 +286,39 @@ export default {
         })
         arr = Array.from(new Set(arr))
         this.projectDetailData.dependent = arr.join('，')
+        if (data.status !== 'ONLINE') {
+          this.active = 2
+          this.changeComponent()
+        } else {
+          this.active = 0
+          this.changeComponent()
+        }
       })
     },
     changeComponent () {
       switch (this.active) {
         case 0:
-          this.currentComponent = 'choosePlatform'
-          break
-        case 1:
           this.currentComponent = 'imageSelect'
           break
-        case 2:
+        case 1:
           this.currentComponent = 'configYaml'
           break
-        case 3:
+        case 2:
           this.currentComponent = 'deployment'
           break
         default:
-          this.currentComponent = 'choosePlatform'
+          this.currentComponent = 'imageSelect'
       }
     },
     next () {
       // 获取组件内部的值
       this.$refs.currentComponet.emitStepData()
       if (this.allStepData.ifNext) {
-        if (this.active < 3) {
+        if (this.active < 2) {
           this.active++
           this.handleStep()
         }
-        if (this.active === 3) {
+        if (this.active === 2) {
           this.submitData()
         }
       }
@@ -534,7 +568,7 @@ export default {
     .project_detail{
       .el-col{
         padding: 15px 10px;
-        font-size: 13px;
+        font-size: 16px;
         .span_left{
           color: #adb0b8;
           display: inline-block;
