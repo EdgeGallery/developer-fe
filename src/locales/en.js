@@ -130,6 +130,12 @@ const en = {
     contact: 'Contact'
   },
   workspace: {
+    projectStatusEnum: {
+      createNew: 'New',
+      testing: 'Testing',
+      tested: 'Tested',
+      released: 'Released'
+    },
     configYaml: {
       yamlFileType: 'Please select files with the suffix ".yaml"',
       uploadYamlFirst: 'Please upload file first',
@@ -387,13 +393,13 @@ const en = {
     getDeploymentStatus: 'Get Deployment Status',
     deploymentComplete: 'Deployment Complete',
     deploymentResult: 'Deployment Result',
-    testMsg: 'Your application can be integrated by EdgeGallery platform, please test the APP business',
-    PODStatus: 'Pod Status:',
-    PODName: 'Pod name:',
+    testMsg: 'Your application has already been integrated by EdgeGallery platform, you can test it now',
+    PODStatus: 'Pod Status',
+    PODName: 'Pod name',
     downloadLog: 'Download Log',
     operatingStatus: 'Operating Status',
     container: 'Container',
-    containerName: 'Name',
+    containerName: 'Container Name',
     containerResource: 'Resource',
     hostInfo: 'Host Info',
     selectEnv: 'Select Testing Environment',
@@ -411,6 +417,10 @@ const en = {
     recycleTip: 'Note: Please release resources in time, or ATP test will fail',
     noService: "You haven't selected any services",
     testNode: 'Test Node',
+    podBelongsTo: 'Pod Name',
+    cpuUsage: 'CPU Usage',
+    memUsage: 'Memory Usage',
+    diskUsage: 'Disk Usage',
     deployType: 'Deployment Type',
     containerImage: 'Container Image',
     vmImage: 'VM Image'

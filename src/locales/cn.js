@@ -31,7 +31,7 @@ const cn = {
     bannerTitle: '一站式应用集成开发平台',
     bannerText1: '丰富的5G能力中心 | 真实的5G实验环境 | 向导式开发流程',
     bannerText2: '无码或低码集成',
-    bannerText3: '丰富的5G网络能力、行业能力、IT能力',
+    bannerText3: '丰富的5G网络能力、行业能力和IT能力',
     bannerText4: '真实的5G端到端验证环境',
     bannerText5: '标准的应用认证和发布规范',
     pluginText: '集成开发环境提供应用开发环境，通常包括代码编辑器、编译器、调试器、图形用户界面等工具。集成开发软件服务套件提供代码编写、分析、编译、调试等功能。',
@@ -130,6 +130,12 @@ const cn = {
     contact: '联系我们'
   },
   workspace: {
+    projectStatusEnum: {
+      createNew: '新建',
+      testing: '测试中',
+      tested: '测试完成',
+      released: '已发布'
+    },
     configYaml: {
       yamlFileType: '请选择后缀名为".yaml"的文件',
       uploadYamlFirst: '请先上传Yaml',
@@ -172,11 +178,11 @@ const cn = {
       title: '选择要支持的部署平台'
     },
     prepare: {
-      toolTip: '根据应用的开发语言，本地安装配置编程IDE',
-      pluginTip1: 'Edgegallery提供本地开发的',
+      toolTip: '根据开发语言，选择合适的编程IDE，进行本地安装并完成相关的配置。E',
+      pluginTip1: 'EdgeGallery提供了本地开发使用的',
       pluginTip2: 'IDE插件',
-      pluginTip3: '，可用来生成的样例代码（目前支持python和java语言）',
-      codeTip1: 'Edgegallery提供以下APP本地开发的示例代码供开发者参考，',
+      pluginTip3: '，可用来生成的样例代码（目前支持Python和Java语言）',
+      codeTip1: 'Edgegallery提供了示例代码以供开发者参考，',
       codeTip2: '或者',
       codeTip3: '点击下载到本地'
     },
@@ -388,12 +394,12 @@ const cn = {
     deploymentComplete: '部署完成',
     deploymentResult: '部署结果',
     testMsg: '你的应用已经可以被EdgeGallery平台集成，请测试APP业务',
-    PODStatus: 'POD状态:',
-    PODName: 'Pod名称:',
+    PODStatus: 'POD状态',
+    PODName: 'Pod名称',
     downloadLog: '下载日志',
-    operatingStatus: '运行状态:',
+    operatingStatus: '运行状态',
     container: '容器',
-    containerName: '名称',
+    containerName: '容器名称',
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
@@ -411,6 +417,10 @@ const cn = {
     recycleTip: '注：请释放资源，否则应用认证测试将会失败',
     noService: '您暂未选择任何服务',
     testNode: '测试节点',
+    podBelongsTo: '所属Pod',
+    cpuUsage: 'CPU使用率',
+    memUsage: '内存使用率',
+    diskUsage: '硬盘使用率',
     deployType: '部署方式',
     containerImage: '容器镜像',
     vmImage: '虚机镜像'

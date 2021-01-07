@@ -287,42 +287,47 @@
           <div class="deploy-finish-status-box">
             <!-- 此处根据返回数组数据渲染页面 -->
             <el-row>
-              <el-col
-                :lg="12"
-                v-for="(item,index) in pods"
-                :key="index"
+              <el-table
+                :data="containers"
+                size="small"
+                border
+                style="width: 100%"
+                class="containerTable"
+                v-if="deploySuccess"
               >
-                <div class="pod_list">
-                  <p class="pod_title">
-                    <span class="span_left">{{ $t('workspace.PODName') }}</span>{{ item.podname }}
-                  </p>
-                  <p><span class="span_left">{{ $t('workspace.operatingStatus') }}</span>{{ item.podstatus }}</p>
-
-                  <div
-                    class="container_div"
-                    v-for="(itemSub,indexSub) in item.containers"
-                    :key="indexSub"
-                  >
-                    <div class="container_tit">
-                      <span class="span_left">{{ $t('workspace.container') }}</span>
-                    </div>
-                    <p><span class="span_left">{{ $t('workspace.containerName') }}</span>{{ itemSub.containername }}</p>
-                    <p class="resource clear">
-                      <span class="span_left">{{ $t('workspace.containerResource') }}</span>
-                      <span class="span_resource">CPU Usage：{{ getPercentage(itemSub.metricsusage.cpuusage) }} <br> Memory Usage：{{ getPercentage(itemSub.metricsusage.memusage) }} <br> Disk Usage：{{ getPercentage(itemSub.metricsusage.memusage) }}</span>
-                    </p>
-                  </div>
-
-                  <el-button
-                    type="text"
-                    class="downloadLog"
-                  >
-                    {{ $t('workspace.downloadLog') }}
-                  </el-button>
-
-                  <div class="clearfix" />
-                </div>
-              </el-col>
+                <el-table-column
+                  prop="containername"
+                  :label="$t('workspace.containerName')"
+                  width="150"
+                />
+                <el-table-column
+                  prop="containerStatus"
+                  :label="$t('workspace.operatingStatus')"
+                  width="130"
+                />
+                <el-table-column
+                  prop="podName"
+                  :label="$t('workspace.podBelongsTo')"
+                  width="150"
+                />
+                <el-table-column
+                  prop="metricsusage.cpuusage"
+                  :label="$t('workspace.cpuUsage')"
+                  width="130"
+                  sortable
+                />
+                <el-table-column
+                  prop="metricsusage.memusage"
+                  :label="$t('workspace.memUsage')"
+                  width="130"
+                  sortable
+                />
+                <el-table-column
+                  prop="metricsusage.diskusage"
+                  :label="$t('workspace.diskUsage')"
+                  sortable
+                />
+              </el-table>
             </el-row>
           </div>
         </div>
@@ -377,7 +382,8 @@ export default {
       errorLog: '',
       activities: '',
       isPhysical: false,
-      language: 'cn'
+      language: 'cn',
+      containers: []
     }
   },
   methods: {
@@ -463,7 +469,10 @@ export default {
       // deploy successfully
       if (this.deployStatus === 'SUCCESS') {
         clearInterval(this.timer)
-        if (cachedData.pods !== null && cachedData.pods.length > 4) this.pods = JSON.parse(cachedData.pods).pods
+        if (cachedData.pods !== null && cachedData.pods.length > 4) {
+          this.pods = JSON.parse(cachedData.pods).pods
+          this.containers = this.podsToContainers()
+        }
         this.testFinished = true
         this.deploySuccess = true
         this.accessUrl = cachedData.accessUrl
@@ -544,6 +553,21 @@ export default {
       } else if (this.deployStatus === null || this.deployStatus === 'NOTDEPLOY') {
         return '#ddd'
       } else return '#778FEF'
+    },
+
+    podsToContainers: function () {
+      let temp = []
+      for (let pod of this.pods) {
+        for (let container of pod.containers) {
+          container.podName = pod.podname
+          container.containerStatus = pod.podstatus
+          container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
+          container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
+          container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
+          temp.push(container)
+        }
+      }
+      this.containers = temp
     },
 
     getStatusPic: function () {
@@ -726,6 +750,10 @@ export default {
     color: gray;
       }
       .deploy-finish-status-box {
+        .containerTable{
+          width:100%;
+          margin-top: 35px;
+        }
           .el-row{
             width: 100%;
             .pod_title{

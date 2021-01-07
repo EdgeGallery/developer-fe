@@ -1,19 +1,19 @@
 ---
-apiVersion: v1
+apiVersion: v1              # pod信息
 kind: Pod
 metadata:
-  name: positioning-service
+  name: positioning-service    # pod名
   namespace: {{ .Values.appconfig.appnamespace }}
   labels:
     app: positioning-service
 spec:
   containers:
-    - name: positioning
-      image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/positioning_service:1.0
-      imagePullPolicy: IfNotPresent
+    - name: positioning    # 容器名
+      image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/positioning_service:1.0  # 镜像信息
+      imagePullPolicy: IfNotPresent   # 镜像拉取策略
       ports:
-        - containerPort: 9997
-    {{- if .Values.global.mepagent.enabled }}
+        - containerPort: 9997         # 内部端口
+    {{- if .Values.global.mepagent.enabled }}    # 是否依赖平台能力，没有这部分无法使用平台的能力
     - name: mep-agent
       image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-agent:latest
       imagePullPolicy: Always
@@ -54,10 +54,10 @@ spec:
         name: {{ .Values.global.mepagent.configmapname }}   
   {{- end }}
 ---
-apiVersion: v1
+apiVersion: v1                 # 服务信息
 kind: Service
 metadata:
-  name: positioning-service
+  name: positioning-service    # 服务名
   namespace: {{ .Values.appconfig.appnamespace }}
   labels:
     svc: positioning-service
@@ -65,8 +65,8 @@ spec:
   type: NodePort
   ports:
     - port: 9997
-      targetPort: 9997
+      targetPort: 9997      # 内部端口
       protocol: TCP
-      nodePort: 32115
+      nodePort: 32115       # 暴露端口号3000-32000
   selector:
     app: positioning-service
