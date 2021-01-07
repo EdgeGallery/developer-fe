@@ -30,7 +30,6 @@ const cn = {
     step: '步骤',
     bannerTitle: '一站式应用集成开发平台',
     bannerText1: '丰富的5G能力中心 | 真实的5G实验环境 | 向导式开发流程',
-    // bannerText1: '向导式开发流程',
     bannerText2: '无码或低码集成',
     bannerText3: '丰富的5G网络能力、行业能力、IT能力',
     bannerText4: '真实的5G端到端验证环境',
@@ -167,7 +166,7 @@ const cn = {
       mode2Tip: '注：EdgeGallery会确保用户上传的镜像不被其他用户可见',
       mode3: '方式3:',
       mode3Desc: '不上传镜像（针对私有镜像、无法公开使用）',
-      mode3Tip: '注：如果应用开发者不上传镜像，无法为开发者提供沙箱环境，需要用户使用公网连接边缘节点，安装以下软件，并将依赖的镜像提前安装到服务器上'
+      mode3Tip: '注：如果应用开发者不上传镜像，无法为开发者提供沙箱环境，请参考安装向导'
     },
     supportPlatform: {
       title: '选择要支持的部署平台'

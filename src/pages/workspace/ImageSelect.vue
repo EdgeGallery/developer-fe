@@ -50,18 +50,27 @@
     </el-button>
     <h3 class="image_title clear">
       <span class="span_lefts">{{ $t('workspace.uploadImage.mode3') }}</span>
-      <span class="span_right">{{ $t('workspace.uploadImage.mode3Desc') }}</span>
+      <span class="span_right">
+        {{ $t('workspace.uploadImage.mode3Desc') }}
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="this.$t('workspace.uploadImage.mode3Tip')"
+          placement="right"
+        >
+          <em class="el-icon-question" />
+        </el-tooltip>
+        <el-link
+          :href="install_href"
+          target="_blank"
+          type="primary"
+          class="install_link"
+        >
+          {{ $t('workspace.uploadImage.installation') }}
+        </el-link>
+      </span>
     </h3>
     <div class="tip gray">
-      {{ $t('workspace.uploadImage.mode3Tip') }}
-      <el-link
-        :href="install_href"
-        target="_blank"
-        type="primary"
-        class="install_link"
-      >
-        {{ $t('workspace.uploadImage.installation') }}
-      </el-link>
       <div class="node-info clear">
         <div class="node-info-title p5">
           {{ $t('workspace.uploadImage.importNode') }}
@@ -109,9 +118,14 @@
           @change="onChangeSwitch"
           v-model="enable"
         />
-        <div class="env-tip red">
-          {{ $t('workspace.uploadImage.useEnvTip') }}
-        </div>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="this.$t('workspace.uploadImage.useEnvTip')"
+          placement="right"
+        >
+          <em class="el-icon-question" />
+        </el-tooltip>
       </div>
     </div>
   </div>
@@ -258,6 +272,9 @@ export default {
       margin: 0 0 0 10px;
       font-size: 13px;
       color: #688ef3;
+      span{
+        margin-bottom: 4px;
+      }
     }
     .gray {
       color: #adb0b8;
@@ -319,6 +336,13 @@ export default {
       .env-tip {
         font-size: 12px;
         display: inline-block;
+      }
+      .el-icon-question{
+        margin-top: 3px;
+        position:absolute;
+      }
+      .el-icon-question:before{
+        font-size: 16px;
       }
       .port_div, .ip_div, .node-info-title{
         float: left;
