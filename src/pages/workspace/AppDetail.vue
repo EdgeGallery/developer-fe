@@ -413,7 +413,7 @@ export default {
 
 <style lang="less">
 .el-steps{
-  margin-bottom: 40px;
+  margin-bottom: 15px;
   .el-step__icon.is-text{
     border: none;
   }
