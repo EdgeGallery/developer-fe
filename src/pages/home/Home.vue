@@ -280,7 +280,7 @@ export default {
     background: white;
     position: relative;
     padding-bottom: 26px;
-    background: url('../../assets/images/home_link_bg.png');
+    background: url('../../assets/images/home_link_bg.png') center bottom / cover no-repeat;
     .el-row{
       text-align: center;
       .el-button.start_btn{
@@ -308,9 +308,10 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      // img{
-      //   height: 100%;
-      // }
+      img{
+        width: 90%;
+        height: auto;
+      }
     }
     .devProcess{
       display: flex;
@@ -324,9 +325,10 @@ export default {
       position: relative;
       z-index: 999;
       height: 460px;
-      // img{
-      //   height: 100%;
-      // }
+      img{
+        width: 100%;
+        height: auto;
+      }
     }
     .process_div a{
       display: inline-block;
