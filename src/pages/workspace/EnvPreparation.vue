@@ -50,10 +50,14 @@
         type="info"
         :underline="false"
         @click="downloadSampleCode"
+        :disabled="serviceNum===0"
       >
         {{ $t('workspace.prepare.codeTip3') }}
       </el-link>
-      <el-row class="code_div">
+      <el-row
+        class="code_div"
+        v-show="serviceNum!==0"
+      >
         <el-col
           class="file_list"
         >
@@ -132,11 +136,7 @@ export default {
       this.getSampleCode(this.apiFileIdArr)
     },
     getSampleCode (apiFileIdArr) {
-      if (this.serviceNum === 0) {
-        this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
-      } else {
-        Workspace.getSampleCodeApi(apiFileIdArr)
-      }
+      Workspace.getSampleCodeApi(apiFileIdArr)
     },
     getSampleCodeList (apiFileIdArr) {
       Workspace.getSampleListApi(apiFileIdArr).then(res => {
@@ -181,6 +181,9 @@ export default {
     .el-link{
       margin-top: -4px;
       color: #688ef3;
+    }
+    .el-link.is-disabled{
+      color: #adb0b8;
     }
   }
   .code_div{
