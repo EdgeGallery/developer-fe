@@ -342,15 +342,7 @@ export default {
     padding: 30px 30px 0;
     padding-top: 30px!important;
     .el-steps{
-      margin-bottom: 40px;
-      .el-step__icon-inner{
-        width: 8px;
-        height: 8px;
-        background-color: #fff;
-        text-indent: 99px;
-        border-radius: 50%;
-        overflow: hidden;
-      }
+      margin-bottom: 15px;
       .el-step__icon.is-text{
         border: none;
       }
@@ -368,12 +360,14 @@ export default {
         height: 24px;
         background-color: #b8becc;
         border-radius: 50%;
+        color: #fff;
       }
       .el-step__head.is-process .el-step__icon.is-text,.el-step__head.is-success .el-step__icon.is-text{
         width: 24px;
         height: 24px;
         background-color: #6b92fa;
         border-radius: 50%;
+        color: #fff;
       }
       .el-step__head.is-success .el-step__icon-inner{
         width: 16px;

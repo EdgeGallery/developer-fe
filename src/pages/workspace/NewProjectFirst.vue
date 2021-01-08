@@ -20,7 +20,8 @@
       :model="form"
       ref="form"
       :rules="rules"
-      label-position="left"
+      label-position="right"
+      class="clear"
     >
       <el-form-item
         :label="$t('workspace.appName')"
@@ -56,6 +57,7 @@
         :label="$t('workspace.deployType')"
         :label-width="formLabelWidth"
         prop="deployPlatform"
+        class="f50"
       >
         <el-radio
           v-model="form.deployPlatform"
@@ -72,10 +74,31 @@
         </el-radio>
       </el-form-item>
       <el-form-item
+        :label="$t('workspace.architecture')"
+        :label-width="formLabelWidth"
+        prop="platform"
+        class="f50"
+      >
+        <el-checkbox-group id="projectArch">
+          <el-select
+            v-model="form.platform[0]"
+            class="list-select"
+          >
+            <el-option
+              v-for="(item,index) in architectureOptions"
+              :key="index"
+              :label="item.label"
+              :value="item.label"
+              :id="item.label"
+            />
+          </el-select>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item
         :label="$t('workspace.industry')"
         :label-width="formLabelWidth"
         prop="industry"
-        class="platform"
+        class="f50"
       >
         <el-checkbox-group id="projectIndustry">
           <el-select
@@ -97,7 +120,7 @@
         :label="$t('test.testApp.type')"
         :label-width="formLabelWidth"
         prop="type"
-        class="platform"
+        class="f50"
       >
         <el-checkbox-group id="projectType">
           <el-select
@@ -116,30 +139,10 @@
         </el-checkbox-group>
       </el-form-item>
       <el-form-item
-        :label="$t('workspace.architecture')"
-        :label-width="formLabelWidth"
-        prop="platform"
-        class="platform"
-      >
-        <el-checkbox-group id="projectArch">
-          <el-select
-            v-model="form.platform[0]"
-            class="list-select"
-          >
-            <el-option
-              v-for="(item,index) in architectureOptions"
-              :key="index"
-              :label="item.label"
-              :value="item.label"
-              :id="item.label"
-            />
-          </el-select>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item
         :label="$t('workspace.icon')"
         :label-width="formLabelWidth"
         prop="logoFileList"
+        class="icon"
       >
         <el-upload
           id="projectLogo"
@@ -162,23 +165,26 @@
           >
             {{ $t('workspace.uploadIcon') }}
           </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="this.$t('workspace.limitition')"
+            placement="right"
           >
-            <em class="el-icon-warning" />{{ $t('workspace.limitition') }}
-          </div>
+            <em class="el-icon-question" />
+          </el-tooltip>
         </el-upload>
         <div class="default-icon">
           <div
             class="box"
             v-for="(item, index) in defaultIcon"
-            @click="chooseDefaultIcon(item, index)"
-            :key="item"
+            @click="chooseDefaultIcon(item.src, index)"
+            :key="item.src"
           >
             <img
-              :src="item"
-              alt=""
+              :src="item.src"
+              :alt="item.name"
+              :title="item.name"
             >
             <em
               class="el-icon-success"
@@ -278,9 +284,54 @@ export default {
       logoFileList: [],
       defaultIconFile: [],
       defaultIcon: [
-        require('../../assets/images/appicon1.png'),
-        require('../../assets/images/appicon2.png'),
-        require('../../assets/images/appicon3.png')
+        {
+          src: require('../../assets/images/project_videoapp.png'),
+          name: '视频应用'
+        },
+        {
+          src: require('../../assets/images/project_game.png'),
+          name: '游戏'
+        },
+        {
+          src: require('../../assets/images/project_videosur.png'),
+          name: '视频监控'
+        },
+        {
+          src: require('../../assets/images/project_security.png'),
+          name: '安全'
+        },
+        {
+          src: require('../../assets/images/project_blockchain.png'),
+          name: '区块链'
+        },
+        {
+          src: require('../../assets/images/project_smartdevice.png'),
+          name: '智能设备'
+        },
+        {
+          src: require('../../assets/images/project_iot.png'),
+          name: '物联网'
+        },
+        {
+          src: require('../../assets/images/project_data.png'),
+          name: '大数据'
+        },
+        {
+          src: require('../../assets/images/project_vr.png'),
+          name: 'AR/VR'
+        },
+        {
+          src: require('../../assets/images/project_api.png'),
+          name: 'API'
+        },
+        {
+          src: require('../../assets/images/project_sdk.png'),
+          name: 'SDK'
+        },
+        {
+          src: require('../../assets/images/project_mep.png'),
+          name: 'MEP'
+        }
       ],
       showErr: false,
       rules: {
@@ -498,39 +549,57 @@ export default {
         margin-right: 5px;
         font-size: 14px;
       }
-      .el-upload__tip{
-        margin-top: 10px;
+      .el-upload{
+        float: left;
+      }
+      .el-icon-question:before {
+        color: #688ef3;
+        font-size: 16px;
+        margin-left: 10px;
       }
     }
     .default-icon{
-    display: flex;
-    flex-wrap: wrap;
-    .box{
-      position: relative;
-      width: 60px;
-      height: 60px;
-      margin: 10px 15px 10px 0;
-      img{
-        width: 56px;
-        height: 56px;
-      }
-      em{
-        display: inline-block;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-      }
-      .active{
-        color: #409EFF;
-        font-weight: 800;
+      float: left;
+      display: flex;
+      flex-wrap: wrap;
+      .box{
+        position: relative;
+        width: 44px;
+        height: 44px;
+        margin: 5px 15px 0 0;
+        img{
+          width: 40px;
+          height: 40px;
+        }
+        em{
+          display: inline-block;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+        .active{
+          color: #409EFF;
+          font-weight: 800;
+        }
       }
     }
-  }
     .el-form-item{
       margin-bottom: 15px;
     }
-    .el-form-item.platform{
-      margin-bottom: 8px;
+    .el-form-item.icon{
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .f50{
+      float: left;
+      width: 50%;
+      .el-form-item__content{
+        width: calc(100% - 110px);
+      }
+      .el-select{
+        width: 100%;
+      }
     }
     .el-upload-list__item:first-child{
       margin-top: 0;
