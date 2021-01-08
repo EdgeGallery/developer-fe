@@ -471,7 +471,7 @@ export default {
         clearInterval(this.timer)
         if (cachedData.pods !== null && cachedData.pods.length > 4) {
           this.pods = JSON.parse(cachedData.pods).pods
-          this.containers = this.podsToContainers()
+          this.podsToContainers()
         }
         this.testFinished = true
         this.deploySuccess = true
