@@ -174,12 +174,6 @@ export default {
           background: #1e1e1e;
           color: #fff;
         }
-        .hljs-string{
-          color: #ce8248;
-        }
-        .hljs-number{
-          color: #7bbea3;
-        }
       }
     }
   }

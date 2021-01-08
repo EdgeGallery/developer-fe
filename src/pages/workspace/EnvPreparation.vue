@@ -50,10 +50,14 @@
         type="info"
         :underline="false"
         @click="downloadSampleCode"
+        :disabled="serviceNum===0"
       >
         {{ $t('workspace.prepare.codeTip3') }}
       </el-link>
-      <el-row class="code_div">
+      <el-row
+        class="code_div"
+        v-show="serviceNum!==0"
+      >
         <el-col
           class="file_list"
         >
@@ -77,7 +81,7 @@
             :subfield="false"
             default-open="preview"
             :box-shadow="false"
-            preview-background="#ffffff"
+            preview-background="#1e1e1e"
           />
         </el-col>
       </el-row>
@@ -124,7 +128,6 @@ export default {
               this.apiFileIdArr.push(service.apiFileId)
             })
           })
-          // this.getSampleCode(this.apiFileIdArr)
           this.getSampleCodeList(this.apiFileIdArr)
         }
       })
@@ -133,11 +136,7 @@ export default {
       this.getSampleCode(this.apiFileIdArr)
     },
     getSampleCode (apiFileIdArr) {
-      if (this.serviceNum === 0) {
-        this.$message.warning(this.$t('promptMessage.sampleCodeInfo'))
-      } else {
-        Workspace.getSampleCodeApi(apiFileIdArr)
-      }
+      Workspace.getSampleCodeApi(apiFileIdArr)
     },
     getSampleCodeList (apiFileIdArr) {
       Workspace.getSampleListApi(apiFileIdArr).then(res => {
@@ -154,7 +153,7 @@ export default {
       this.fileName = val.name
       if (!val.children) {
         Workspace.getSampleContentApi(val.name).then(res => {
-          this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+          this.markdownSource = '```java\r\n' + res.data + '\r\n```'
         })
       }
     }
@@ -163,7 +162,6 @@ export default {
   },
   mounted () {
     this.getApiFileId()
-    // this.getSampleCodeList(this.apiFileIdArr)
   }
 }
 </script>
@@ -184,19 +182,29 @@ export default {
       margin-top: -4px;
       color: #688ef3;
     }
+    .el-link.is-disabled{
+      color: #adb0b8;
+    }
   }
   .code_div{
-    margin-top: 20px;
+    margin-top: 25px;
+    border: 1px solid #ddd;
+    background: #f8f8f8;
+  }
+  .el-tree.codeDetail{
+    background: #f8f8f8;
   }
   .el-tree-node>.el-tree-node__children{
     overflow: auto;
+  }
+  .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
+    background-color: #e0e8ff;
   }
   .file_list{
     width: 280px;
   }
   .file_desc{
     width: calc(100% - 280px);
-    padding: 10px;
     white-space: pre-wrap;
     line-height: 25px;
     max-height: 500px;
@@ -212,11 +220,8 @@ export default {
         color: #fff;
         overflow-x: visible;
       }
-      .hljs-string{
-        color: #ce8248;
-      }
-      .hljs-number{
-        color: #7bbea3;
+      .hljs-keyword{
+        color: #bab429;
       }
     }
   }
