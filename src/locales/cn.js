@@ -414,7 +414,7 @@ const cn = {
     capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
     availableService: '可选服务',
     selectedService: '已选服务',
-    recycleTip: '注：请释放资源，否则应用认证测试将会失败',
+    recycleTip: '注：测试完成请及时释放资源，否则应用认证测试将会失败',
     noService: '您暂未选择任何服务',
     testNode: '测试节点',
     podBelongsTo: '所属Pod',
