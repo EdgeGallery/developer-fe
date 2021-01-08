@@ -298,28 +298,23 @@
                 <el-table-column
                   prop="containername"
                   :label="$t('workspace.containerName')"
-                  width="150"
                 />
                 <el-table-column
                   prop="containerStatus"
                   :label="$t('workspace.operatingStatus')"
-                  width="130"
                 />
                 <el-table-column
                   prop="podName"
                   :label="$t('workspace.podBelongsTo')"
-                  width="150"
                 />
                 <el-table-column
                   prop="metricsusage.cpuusage"
                   :label="$t('workspace.cpuUsage')"
-                  width="130"
                   sortable
                 />
                 <el-table-column
                   prop="metricsusage.memusage"
                   :label="$t('workspace.memUsage')"
-                  width="130"
                   sortable
                 />
                 <el-table-column
