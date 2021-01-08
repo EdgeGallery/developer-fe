@@ -183,59 +183,62 @@
         </h4>
       </div>
       <!-- 部署未完成时内容 -->
-      <div
-        class="deploy-status-flow"
-      >
-        <!-- 时间线 -->
-        <div class="timeline-box">
-          <el-timeline class="timeline-class">
-            <el-timeline-item
-              v-for="(activity,index) in activities"
-              :key="index"
-              :icon="activity.icon"
-              :type="activity.type"
-              :color="activity.color"
-              :size="activity.size"
-              :timestamp="activity.timestamp"
+      <div class="deploy-status-flow-div">
+        <div
+          class="deploy-status-flow clear"
+        >
+          <!-- 时间线 -->
+          <div class="timeline-box">
+            <el-timeline class="timeline-class">
+              <el-timeline-item
+                v-for="(activity,index) in activities"
+                :key="index"
+                :icon="activity.icon"
+                :type="activity.type"
+                :color="activity.color"
+                :size="activity.size"
+                :timestamp="activity.timestamp"
+              >
+                {{ activity.content }}
+              </el-timeline-item>
+            </el-timeline>
+          </div>
+          <!--流程图 -->
+          <div class="flow-img">
+            <el-carousel
+              :autoplay="false"
+              arrow="never"
+              ref="carousel"
             >
-              {{ activity.content }}
-            </el-timeline-item>
-          </el-timeline>
-        </div>
-        <!--流程图 -->
-        <div class="flow-img">
-          <el-carousel
-            :autoplay="false"
-            arrow="never"
-            ref="carousel"
-          >
-            <el-carousel-item name="1">
-              <img
-                :src="this.language === 'cn' ? CSARImg : CSAREngImg"
-                alt=""
-              >
-            </el-carousel-item>
-            <el-carousel-item name="2">
-              <img
-                :src="this.language === 'cn' ? nodeInfoImg : nodeInfoEngImg"
-                alt=""
-              >
-            </el-carousel-item>
-            <el-carousel-item name="3">
-              <img
-                :src="this.language === 'cn' ? applicationImg : applicationEngImg"
-                alt=""
-              >
-            </el-carousel-item>
-            <el-carousel-item name="4">
-              <img
-                :src="this.language === 'cn' ? workStatusImg : workStatusEngImg"
-                alt=""
-              >
-            </el-carousel-item>
-          </el-carousel>
+              <el-carousel-item name="1">
+                <img
+                  :src="this.language === 'cn' ? CSARImg : CSAREngImg"
+                  alt=""
+                >
+              </el-carousel-item>
+              <el-carousel-item name="2">
+                <img
+                  :src="this.language === 'cn' ? nodeInfoImg : nodeInfoEngImg"
+                  alt=""
+                >
+              </el-carousel-item>
+              <el-carousel-item name="3">
+                <img
+                  :src="this.language === 'cn' ? applicationImg : applicationEngImg"
+                  alt=""
+                >
+              </el-carousel-item>
+              <el-carousel-item name="4">
+                <img
+                  :src="this.language === 'cn' ? workStatusImg : workStatusEngImg"
+                  alt=""
+                >
+              </el-carousel-item>
+            </el-carousel>
+          </div>
         </div>
       </div>
+
       <!-- 部署完成时内容 -->
       <div
         v-if="testFinished"
@@ -669,34 +672,46 @@ export default {
         margin-left: 7px;
       }
     }
+    .deploy-status-flow-div{
+      width: 100%;
+      margin-top: 30px;
+      padding-left: 30px;
+      overflow-x: auto;
+    }
     .deploy-status-flow {
-      width: 80%;
-      margin-top: 20px;
-      margin-left: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      min-width: 760px;
       .flow-img {
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 150px;
-    margin: 0;
-
-  }
-
+        .el-carousel__item h3 {
+          color: #475669;
+          font-size: 14px;
+          opacity: 0.75;
+          line-height: 150px;
+          margin: 0;
+        }
         float: left;
-        width: 60%;
-        margin-left: 5%;
+        width: calc(100% - 160px);
+        padding-left: 80px;
+        box-sizing: border-box;
         img{
           width: 100%;
-          max-width: 520px;
+        }
+        .el-carousel__container{
+          width: 100%;
+          max-width: 886px;
+          min-width: 600px;
+        }
+        .el-carousel__indicators--horizontal{
+          display: none;
+        }
+      }
+      @media screen and (max-width:1495px){
+        .flow-img{
+          padding-left: 0;
         }
       }
       .timeline-box {
         float: left;
-        width: 30%;
+        width: 160px;
         .timeline-class {
         font-size: 16px;
         }
@@ -705,7 +720,17 @@ export default {
           width: 20px;
         }
         .el-timeline-item {
-        height : 70px
+          height : 92px
+        }
+        @media screen and (max-width: 1380px){
+          .el-timeline-item {
+            height : 76px
+          }
+        }
+        @media screen and (max-width: 1201px){
+          .el-timeline-item {
+            height : 60px
+          }
         }
       }
       .el-timeline-item__icon {
