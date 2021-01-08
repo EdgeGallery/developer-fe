@@ -733,11 +733,11 @@ export default {
         color : #fff
       }
       .el-timeline-item__content {
-    margin-left: 15px;
-}
+        margin-left: 15px;
+      }
       .el-timeline-item__wrapper {
-     top: 0px;
-}
+        top: 0px;
+      }
       .el-timeline-item__tail{
         left: 7.5px;
       }
@@ -767,7 +767,7 @@ export default {
       }
       .error-log {
         font-size: 12px;
-    color: gray;
+        color: gray;
       }
       .deploy-finish-status-box {
         .containerTable{
@@ -813,8 +813,8 @@ export default {
               float:right
             }
             .clearfix{
-  clear: both;
-}
+              clear: both;
+            }
             .el-col{
               padding: 30px;
 
