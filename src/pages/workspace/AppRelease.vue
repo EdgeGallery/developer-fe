@@ -499,6 +499,7 @@
           class="atp_iframe mt20"
         >
           <iframe
+            id="atpIframe"
             :src="iframeUrl"
             :title="$t('workspace.appRelease.appCertify')"
             width="100%"
@@ -1025,6 +1026,8 @@ export default {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
         if (this.taskId) {
+          let atpIframe = document.getElementById('atpIframe')
+          atpIframe.contentWindow.location.reload(true)
           this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
           this.showAtp = true
         }
