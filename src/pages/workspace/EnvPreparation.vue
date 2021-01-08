@@ -198,7 +198,7 @@ export default {
     overflow: auto;
   }
   .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
-    background-color: #e0e8ff;
+    background-color: #e1f0ff;
   }
   .file_list{
     width: 280px;
