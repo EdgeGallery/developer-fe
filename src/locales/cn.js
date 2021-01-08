@@ -178,11 +178,11 @@ const cn = {
       title: '选择要支持的部署平台'
     },
     prepare: {
-      toolTip: '根据开发语言，选择合适的编程IDE，进行本地安装并完成相关的配置。E',
-      pluginTip1: 'EdgeGallery提供了本地开发使用的',
+      toolTip: '根据开发语言，选择合适的编程IDE，进行本地安装并完成相关的配置。',
+      pluginTip1: 'EdgeGallery平台提供了本地开发使用的',
       pluginTip2: 'IDE插件',
       pluginTip3: '，可用来生成的样例代码（目前支持Python和Java语言）',
-      codeTip1: 'Edgegallery提供了示例代码以供开发者参考，',
+      codeTip1: 'Edgegallery提供以下APP本地开发的示例代码供开发者参考，',
       codeTip2: '或者',
       codeTip3: '点击下载到本地'
     },
@@ -414,7 +414,7 @@ const cn = {
     capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
     availableService: '可选服务',
     selectedService: '已选服务',
-    recycleTip: '注：请释放资源，否则应用认证测试将会失败',
+    recycleTip: '注：测试完成请及时释放资源，否则应用认证测试将会失败',
     noService: '您暂未选择任何服务',
     testNode: '测试节点',
     podBelongsTo: '所属Pod',
