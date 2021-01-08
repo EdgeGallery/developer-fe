@@ -45,6 +45,8 @@
             highlight-current
             :props="defaultProps"
             accordion
+            default-expand-all
+            class="capability_tree"
           />
         </td>
         <td style="vertical-align:text-top;">
@@ -156,6 +158,12 @@ export default {
           }
         }
       }
+      if (this.tree.length > 0) {
+        this.$nextTick(function () {
+          const firstNode = document.querySelector('.capability_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+          firstNode.click()
+        })
+      }
     },
     handleNodeClick (data) {
       if (!data.children) {
@@ -262,6 +270,10 @@ export default {
   .tableCapa td:first-child {
     width: 40%;
     text-align: right;
+  }
+  .capability_tree{
+    height: 336px;
+    overflow-y: auto;
   }
   .capabilityInfo{
     font-size: 13px;
