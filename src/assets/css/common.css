@@ -153,6 +153,9 @@ div::-webkit-scrollbar-thumb{
   width: 25%;
   min-width: 200px;
 }
+.el-select-dropdown__list {
+  padding: 0px 0 !important;
+}
 
 
 /* 自适应
