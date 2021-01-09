@@ -288,7 +288,7 @@ export default {
     thead {
       color: #282b33;
       font-weight: 100;
-      font-size: 12px;
+      font-size: 14px;
       th,
       tr {
         background-color: #f5f5f5;
