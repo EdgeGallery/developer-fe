@@ -363,6 +363,7 @@ const cn = {
     releaseTest: '应用发布测试',
     developer: '开发者',
     dependentApp: '依赖应用',
+    noDependent: '无依赖',
     deploymentPlatform: '部署平台',
     uploadFile: '上传文件',
     appStoreMd: '请上传.md文件，用来描述应用介绍、场景等',
