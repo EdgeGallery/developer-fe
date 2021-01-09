@@ -177,6 +177,12 @@ const cn = {
     supportPlatform: {
       title: '选择要支持的部署平台'
     },
+    deployFailLog: {
+      CSAR: '应用包生成失败，请检查是否上传部署文件',
+      hostInfo: '没有可用的沙箱环境，请配置沙箱环境',
+      instantiateInfo: '应用实例化失败，可能原因有： 1.沙箱环境配置有误 2.应用名或者端口已被占用 3.其他问题请联系管理员处理',
+      workStatus: '获取应用状态失败,可能原因：镜像拉取失败，其他问题联系管理员处理'
+    },
     prepare: {
       toolTip: '根据开发语言，选择合适的编程IDE，进行本地安装并完成相关的配置。',
       pluginTip1: 'EdgeGallery平台提供了本地开发使用的',
