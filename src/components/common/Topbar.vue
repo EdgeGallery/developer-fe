@@ -118,6 +118,8 @@ export default {
         window.open('https://gitee.com/edgegallery', '_blank')
       } else if (item.$vnode.data.key === '3.2.4') {
         window.open('http://docs.edgegallery.org/zh_CN/latest/', '_blank')
+      } else if (item.$vnode.data.key === '3.17') {
+        window.open('#', '_blank')
       }
     }
   },
