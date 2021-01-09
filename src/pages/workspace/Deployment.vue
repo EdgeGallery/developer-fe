@@ -22,82 +22,24 @@
       </h4>
 
       <div class="detail-table">
-        <el-row
-          type="flex"
-          :gutter="20"
-        >
-          <el-col :span="12">
-            <el-row
-              type="flex"
-              :gutter="20"
-            >
-              <el-col
-                :span="9"
-                class="detail-title-key"
-              >
-                {{ $t("workspace.projectName") }}
-              </el-col>
-              <el-col
-                :pull="3"
-                :span="12"
-                class="detail-title-value"
-              >
-                {{ projectName }}
-              </el-col>
-            </el-row>
+        <el-row>
+          <el-col :lg="12">
+            <span class="detail-title-key">{{ $t("workspace.projectName") }}</span>
+            {{ projectName }}
           </el-col>
-          <el-col :span="12">
-            <el-row :gutter="20">
-              <el-col
-                :span="9"
-                class="detail-title-key"
-              >
-                {{ $t("workspace.deploymentPlatform") }}
-              </el-col>
-              <el-col
-                :pull="3"
-                :span="12"
-                class="detail-title-value"
-              >
-                {{ platform }}
-              </el-col>
-            </el-row>
+          <el-col :lg="12">
+            <span class="detail-title-key">{{ $t("workspace.deploymentPlatform") }}</span>
+            {{ platform }}
           </el-col>
         </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-row :gutter="20">
-              <el-col
-                :span="9"
-                class="detail-title-key"
-              >
-                {{ $t("workspace.hostInfo") }}
-              </el-col>
-              <el-col
-                class="detail-title-value"
-                :pull="3"
-                :span="12"
-              >
-                {{ privateHost ? $t("workspace.privateHost") : $t("workspace.publicHost") }}
-              </el-col>
-            </el-row>
+        <el-row>
+          <el-col :lg="12">
+            <span class="detail-title-key">{{ $t("workspace.hostInfo") }}</span>
+            {{ privateHost ? $t("workspace.privateHost") : $t("workspace.publicHost") }}
           </el-col>
-          <el-col :span="12">
-            <el-row :gutter="20">
-              <el-col
-                :span="9"
-                class="detail-title-key"
-              >
-                {{ $t("workspace.deployConfig") }}
-              </el-col>
-              <el-col
-                :pull="3"
-                :span="12"
-                class="detail-title-value"
-              >
-                {{ deployField === (null || '') ? $t("workspace.unUploaded") : $t("workspace.uploaded") }}
-              </el-col>
-            </el-row>
+          <el-col :lg="12">
+            <span class="detail-title-key">{{ $t("workspace.deployConfig") }}</span>
+            {{ deployField === (null || '') ? $t("workspace.unUploaded") : $t("workspace.uploaded") }}
           </el-col>
         </el-row>
       </div>
@@ -606,7 +548,28 @@ export default {
     '$i18n.locale': function () {
       this.fetchDataOnMounted()
       this.language = localStorage.getItem('language')
-      console.log(this.language)
+      let detailLeft = document.getElementsByClassName('detail-title-key')
+      let deployDiv = document.getElementsByClassName('deploy-status-flow')[0]
+      let deployLeft = document.getElementsByClassName('timeline-box')[0]
+      let deployRight = document.getElementsByClassName('flow-img')[0]
+      let language = localStorage.getItem('language')
+      this.language = language
+      if (this.language === 'en') {
+        detailLeft.forEach(item => {
+          item.style.width = 140 + 'px'
+        })
+        deployDiv.style.minWidth = 820 + 'px'
+        deployLeft.style.width = 220 + 'px'
+        deployRight.style.width = 'calc( 100% - 220px)'
+      } else {
+        detailLeft.forEach(item => {
+          item.style.width = 70 + 'px'
+        })
+        deployDiv.style.minWidth = 760 + 'px'
+        deployLeft.style.width = 160 + 'px'
+        deployRight.style.width = 'calc( 100% - 160px)'
+        console.log(deployRight.style.width)
+      }
     }
   }
 }
@@ -629,8 +592,12 @@ export default {
   height: 100%;
   //标题名
   .detail-title-key {
-    color: #a7a1a3;
-    font-size: 14px;
+    width: 70px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 10px;
+    color: #adb0b8;
+    font-size: 16px;
     line-height: 30px;
   }
   .detail-title-value {
@@ -643,7 +610,7 @@ export default {
     .detail-table {
       margin-top: 20px;
       margin-left: 30px;
-      width: 70%;
+      width: 100%;
     }
   }
   .test-env {

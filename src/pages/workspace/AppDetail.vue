@@ -87,7 +87,8 @@
           </el-row>
           <el-row>
             <el-col>
-              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ projectDetailData.dependent }}
+              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
+              {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
             </el-col>
           </el-row>
           <el-row>
@@ -240,7 +241,8 @@ export default {
         dependent: '',
         description: ''
       },
-      projectId: sessionStorage.getItem('mecDetailID')
+      projectId: sessionStorage.getItem('mecDetailID'),
+      dependentNum: 0
     }
   },
   methods: {
@@ -264,6 +266,7 @@ export default {
         })
         this.checkProjectData()
         arr = Array.from(new Set(arr))
+        this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
           this.active = 2
@@ -399,7 +402,7 @@ export default {
       this.checkProjectData()
       if (this.language === 'en') {
         spanLeft.forEach(item => {
-          item.style.width = 160 + 'px'
+          item.style.width = 165 + 'px'
         })
       } else {
         spanLeft.forEach(item => {
@@ -429,9 +432,6 @@ export default {
   .is-wait .el-step__icon{
     background: #fff;
     border: 1px solid #adb0b8;
-    .el-step__icon-inner{
-      color: #adb0b8;
-    }
   }
   .is-success .is-text{
     background-color: #6b92fa;

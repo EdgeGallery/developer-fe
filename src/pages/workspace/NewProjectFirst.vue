@@ -493,6 +493,21 @@ export default {
           this.form.type = itemFe.label[1]
         }
       })
+    },
+    // 中英文切换修改左侧标题宽度
+    editWidth () {
+      let selectWidth = document.getElementsByClassName('el-form-item__content')
+      if (this.language === 'cn') {
+        this.formLabelWidth = '110px'
+        selectWidth.forEach(item => {
+          item.style.width = 'calc(100% - 110px)'
+        })
+      } else {
+        this.formLabelWidth = '160px'
+        selectWidth.forEach(item => {
+          item.style.width = 'calc(100% - 160px)'
+        })
+      }
     }
   },
   created () {
@@ -512,6 +527,7 @@ export default {
       this.ifVM = true
     }
     this.getFirstData()
+    this.editWidth()
   }
 }
 </script>
@@ -528,6 +544,8 @@ export default {
     }
     .el-form-item__label{
       padding: 0 20px 0 0;
+      font-size: 16px;
+      color: #adb0bb;
     }
     .el-radio__input.is-checked .el-radio__inner{
       background-color: #688ef3;

@@ -369,6 +369,7 @@ const en = {
     releaseTest: 'Application Release Test',
     developer: 'Developer',
     dependentApp: 'Dependent Application',
+    noDependent: 'No dependence',
     deploymentPlatform: 'Deployment Platform',
     uploadFile: 'Upload Files',
     appStoreMd: 'Please upload the .md file to describe the application introduction, scene, etc.',
