@@ -89,7 +89,7 @@ export default {
       this.$emit('input', false)
     },
     getAppPackageList () {
-      Workspace.getAppPackageListApi('4d28ccd3-7c9b-44c0-8ec6-f8b03b79e3f0', '4d85c002-6fcf-4bc6-bd5c-128450ab68a5').then(res => {
+      Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
         this.appPageListData = res.data.children
         let APPD = {}
         this.appPageListData.forEach((item, index) => {
@@ -110,7 +110,7 @@ export default {
     getFileDetail (val) {
       this.fileName = val.name
       if (!val.children) {
-        Workspace.getAppFileApi('4d28ccd3-7c9b-44c0-8ec6-f8b03b79e3f0', val.name).then(res => {
+        Workspace.getAppFileApi(this.projectId, val.name).then(res => {
           if (val.name.indexOf('.md') >= 0) {
             this.markdownSource = res.data
           } else if (val.name.indexOf('.tgz') >= 0) {
