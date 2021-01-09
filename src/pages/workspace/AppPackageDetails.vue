@@ -89,11 +89,19 @@ export default {
       this.$emit('input', false)
     },
     getAppPackageList () {
-      Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
+      Workspace.getAppPackageListApi('4d28ccd3-7c9b-44c0-8ec6-f8b03b79e3f0', '4d85c002-6fcf-4bc6-bd5c-128450ab68a5').then(res => {
         this.appPageListData = res.data.children
+        let APPD = {}
+        this.appPageListData.forEach((item, index) => {
+          if (item.name === 'APPD') {
+            APPD = item
+            this.appPageListData.splice(index, 1)
+          }
+        })
+        this.appPageListData.unshift(APPD)
         if (this.appPageListData.length > 0) {
           this.$nextTick(function () {
-            const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+            const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
             firstNode.click()
           })
         }
@@ -102,7 +110,7 @@ export default {
     getFileDetail (val) {
       this.fileName = val.name
       if (!val.children) {
-        Workspace.getAppFileApi(this.projectId, val.name).then(res => {
+        Workspace.getAppFileApi('4d28ccd3-7c9b-44c0-8ec6-f8b03b79e3f0', val.name).then(res => {
           if (val.name.indexOf('.md') >= 0) {
             this.markdownSource = res.data
           } else if (val.name.indexOf('.tgz') >= 0) {
