@@ -177,6 +177,12 @@ const en = {
     supportPlatform: {
       title: 'Select the deployment platform to support'
     },
+    deployFailLog: {
+      CSAR: 'CSAR package generation failed, please check whether the deployment file is uploaded',
+      hostInfo: 'No test environment available, please configure the test environment',
+      instantiateInfo: 'APP instantiation failed. The possible reasons are: 1. The test environment is configured incorrectly. 2. APP name or port is already occupied 3. For other problems, please contact the administrator.',
+      workStatus: 'Failed to obtain APP status, possible reason: image pull fail, contact the administrator for other problems'
+    },
     prepare: {
       toolTip: 'According to the development language of the application, the IDE is locally installed and configured',
       pluginTip1: 'Edgegallery provides locally developed',
