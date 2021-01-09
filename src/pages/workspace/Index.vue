@@ -48,7 +48,7 @@
           >
             <div class="img-box">
               <img
-                src="../../assets/images/workAdd.png"
+                src="../../assets/images/projectAdd.png"
                 alt=""
               >
             </div>
@@ -210,14 +210,14 @@ export default {
       margin-bottom: 16px;
       .project-add{
         .img-box{
-          height: 128px;
-          width: 128px;
+          height: 158px;
+          width: 158px;
           margin: 0 auto;
-          background: rgba(216,216,216,0.30);
-          border: 2px dashed #D4D9E6;
           border-radius: 16px;
-          padding-top: 24px;
           box-sizing: border-box;
+          img{
+            width: 100%;
+          }
         }
         text-align:center;
         padding: 50px 0;
