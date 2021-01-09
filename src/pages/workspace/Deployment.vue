@@ -595,7 +595,21 @@ export default {
     '$i18n.locale': function () {
       this.fetchDataOnMounted()
       this.language = localStorage.getItem('language')
-      console.log(this.language)
+      let deployDiv = document.getElementsByClassName('deploy-status-flow')[0]
+      let deployLeft = document.getElementsByClassName('timeline-box')[0]
+      let deployRight = document.getElementsByClassName('flow-img')[0]
+      let language = localStorage.getItem('language')
+      this.language = language
+      if (this.language === 'en') {
+        deployDiv.style.minWidth = 820 + 'px'
+        deployLeft.style.width = 220 + 'px'
+        deployRight.style.width = 'calc( 100% - 220px)'
+      } else {
+        deployDiv.style.minWidth = 760 + 'px'
+        deployLeft.style.width = 160 + 'px'
+        deployRight.style.width = 'calc( 100% - 160px)'
+        console.log(deployRight.style.width)
+      }
     }
   }
 }
