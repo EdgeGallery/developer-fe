@@ -47,10 +47,20 @@
             @click="addNewProject"
           >
             <div class="img-box">
-              <img
-                src="../../assets/images/projectAdd.png"
-                alt=""
-              >
+              <div>
+                <img
+                  src="../../assets/images/kaifa.png"
+                  alt=""
+                >
+                <p>应用开发</p>
+              </div>
+              <div>
+                <img
+                  src="../../assets/images/jicheng.png"
+                  alt=""
+                >
+                <p>应用集成</p>
+              </div>
             </div>
           </div>
         </div>
@@ -211,12 +221,26 @@ export default {
       .project-add{
         .img-box{
           height: 158px;
-          width: 158px;
+          width: 100%;
           margin: 0 auto;
           border-radius: 16px;
           box-sizing: border-box;
-          img{
-            width: 100%;
+          div{
+            float: left;
+            width: 30%;
+            margin: 0 10%;
+            max-width: 200px;
+            p{
+              margin-top: 0;
+              font-size: 16px;
+            }
+          }
+          @media screen and (max-width: 1050px){
+            div{
+              width: 80%;
+              margin: 0 10% 20px;
+              max-width: 100px;
+            }
           }
         }
         text-align:center;
