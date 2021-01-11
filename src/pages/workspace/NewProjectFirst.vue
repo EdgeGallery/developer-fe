@@ -267,7 +267,7 @@ export default {
         provider: 'Huawei',
         industry: ['Smart Park'],
         type: 'Video Application',
-        platform: ['x86'],
+        platform: ['X86'],
         appIcon: [],
         iconFileId: '',
         description: '',

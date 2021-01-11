@@ -84,8 +84,8 @@ const Type = [
 
 const Architecture = [
   {
-    value: 'x86',
-    label: 'x86'
+    value: 'X86',
+    label: 'X86'
   }, {
     value: 'ARM64',
     label: 'ARM64'
