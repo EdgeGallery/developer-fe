@@ -39,7 +39,7 @@
         >
           <el-button
             slot="trigger"
-            size="small"
+            size="medium"
             type="primary"
             class="featuresBtn"
           >
@@ -278,8 +278,8 @@ export default {
       height: 15px;
       line-height: 15px;
       padding: 0 30px 0 0;
-      font-size: 16px;
-      margin:0 30px 18px 0;
+      font-size: 18px;
+      margin:10px 30px 18px 0;
       border-right: 1px solid #ddd;
       border-radius: 0;
     }
@@ -306,6 +306,7 @@ export default {
         float: left;
       }
       .el-upload__tip{
+        font-size: 16px;
         float: left;
       }
       .el-upload-list{
@@ -316,7 +317,7 @@ export default {
     .down-demo {
       display: inline-block;
       margin: 5px 0 0 15px;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
       color: #688ef3;
     }
