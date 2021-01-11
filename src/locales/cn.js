@@ -165,14 +165,14 @@ const cn = {
       version: '版本',
       uploadAppImage: '上传APP镜像包',
       mode1: '方式1:',
-      mode1Desc: '镜像包已上传至公共镜像仓库（支持dockerhub、SWR镜像仓库）',
+      mode1Desc: '镜像包上传至公共镜像仓库（支持dockerhub、SWR镜像仓库）',
       mode1Tip: '注：已上传到公共仓库的镜像，请在配置文件中直接引用',
       mode2: '方式2:',
-      mode2Desc: '上传APP镜像包到EdgeGallery镜像仓库',
+      mode2Desc: '镜像包上传至EdgeGallery镜像仓库',
       mode2Tip: '注：EdgeGallery会确保用户上传的镜像不被其他用户可见',
       mode3: '方式3:',
-      mode3Desc: '不上传镜像（针对私有镜像、无法公开使用）',
-      mode3Tip: '注：如果应用开发者不上传镜像，无法为开发者提供沙箱环境，请参考安装向导'
+      mode3Desc: '镜像包上传至私有边缘节点',
+      mode3Tip: '如何搭建私有边缘节点，请参考'
     },
     supportPlatform: {
       title: '选择要支持的部署平台'
