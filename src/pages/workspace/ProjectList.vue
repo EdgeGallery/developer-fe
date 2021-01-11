@@ -96,6 +96,10 @@
             v-if="scope.row.status==='TESTED'"
             class="el-icon-success tested"
           />
+          <em
+            v-if="scope.row.status==='RELEASED'"
+            class="el-icon-finished tested"
+          />
           <span>{{ scope.row.status }}</span>
         </template>
       </el-table-column>
