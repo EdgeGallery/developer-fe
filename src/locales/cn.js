@@ -105,7 +105,8 @@ const cn = {
     usageInstruction: '使用说明',
     serviceSelection: '服务选择：',
     noDataNotice: '暂无数据。',
-    installGuide: '安装指导'
+    installGuide: '安装指导',
+    hotServices: '热门服务'
   },
   nav: {
     home: '首页',
@@ -127,7 +128,9 @@ const cn = {
     logIn: '登录',
     logOut: '注销',
     help: '帮助',
-    contact: '联系我们'
+    contact: '联系我们',
+    serviceDoc: '服务文档',
+    apiMulator: '在线模拟器'
   },
   workspace: {
     projectStatusEnum: {
