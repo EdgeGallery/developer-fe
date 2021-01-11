@@ -29,7 +29,7 @@ const en = {
     mecDeveloper: 'Developer',
     step: 'STEPS',
     bannerTitle: 'One-stop application integration development platform',
-    bannerText1: 'Wizard-based development process',
+    bannerText1: 'Abundant 5G APPs | Real 5G Lab Environment | Wizard-based DevelopmentWizard-based development process',
     bannerText2: 'Codeless or low-bit-rate integration',
     bannerText3: 'Abundant 5G network, industry, and IT capabilities',
     bannerText4: 'Real E2E 5G verification environment',
@@ -156,7 +156,7 @@ const en = {
       successfulTest: 'Test successfully',
       failTest: 'Test failed',
       testfirst: 'Please test first',
-      useEnvTip: 'note: after startup, the system will not redistribute the common test environment, and all test tasks will be completed on the user\'s own server',
+      useEnvTip: 'Note: All of the test tasks will be completed on the private edge node when enable it',
       useEnv: 'Enable:',
       test: 'Test',
       importNode: 'Import Host IP:',
@@ -165,14 +165,14 @@ const en = {
       version: 'Version',
       uploadAppImage: 'Upload APP Image',
       mode1: 'Mode 1:',
-      mode1Desc: 'The image package has been uploaded to the public image warehouse (supports dockerhub and SWR image warehouse)',
-      mode1Tip: 'note: please refer to the image uploaded to the public warehouse directly in the configuration file',
+      mode1Desc: 'Upload app image to the public repository (supports dockerhub and SWR)',
+      mode1Tip: 'Note: Please refer to the image uploaded to the public repository directly in the deployment file',
       mode2: 'Mode 2:',
-      mode2Desc: 'Upload app image package to edgegallery image warehouse',
-      mode2Tip: 'note: edgegallery ensures that images uploaded by users are not visible to other users',
+      mode2Desc: 'Upload app image to the EdgeGallery repository',
+      mode2Tip: 'Note: EdgeGallery ensures that images uploaded by users are not visible to other users',
       mode3: 'Mode 3:',
-      mode3Desc: 'Do not upload images (for private images, not for public use)',
-      mode3Tip: 'Note: if the application developer does not upload the image, it is unable to provide sandbox environment for the developer.Please refer to the installation guide'
+      mode3Desc: 'Upload app image to the private Edge Node',
+      mode3Tip: 'How to build a private Edge Node, please refer to'
     },
     supportPlatform: {
       title: 'Select the deployment platform to support'
@@ -185,10 +185,10 @@ const en = {
     },
     prepare: {
       toolTip: 'According to the development language of the application, the IDE is locally installed and configured',
-      pluginTip1: 'Edgegallery provides locally developed',
+      pluginTip1: 'EdgeGallery provides locally developed',
       pluginTip2: 'IDE plugin',
       pluginTip3: ',Sample code that can be used to generate (currently supports python and java languages)',
-      codeTip1: 'Edgegallery provides the sample code of the following APP local development for developers\' reference,',
+      codeTip1: 'EdgeGallery provides the sample code of the following APP local development for developers\' reference,',
       codeTip2: 'or',
       codeTip3: 'Click to download to local'
     },
