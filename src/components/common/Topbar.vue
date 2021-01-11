@@ -119,7 +119,13 @@ export default {
       } else if (item.$vnode.data.key === '3.2.4') {
         window.open('http://docs.edgegallery.org/zh_CN/latest/', '_blank')
       } else if (item.$vnode.data.key === '3.17') {
-        window.open('#', '_blank')
+        let currUrl = window.location.origin
+        if (currUrl.indexOf('30092') !== -1) {
+          this.labUrl = 'http://' + currUrl.split('//')[1].split(':')[0] + ':30096'
+        } else {
+          this.labUrl = currUrl.replace('developer', 'lab')
+        }
+        window.open(this.labUrl, '_blank')
       }
     }
   },
