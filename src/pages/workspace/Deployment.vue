@@ -221,7 +221,7 @@
               {{ errorLog }}
             </p>
             <p
-              v-if="deploySuccess"
+              ]
               class="deploy-herf marginTop15   "
             >
               {{ $t("workspace.testNode") }} : {{ accessUrl }}
@@ -411,7 +411,9 @@ export default {
         clearInterval(this.timer)
         if (cachedData.pods !== null && cachedData.pods.length > 4) {
           this.pods = JSON.parse(cachedData.pods).pods
-          this.podsToContainers()
+          if (this.pods !== null && this.pods !== {} && this.pods !== undefined) {
+            this.podsToContainers()
+          }
         }
         this.testFinished = true
         this.deploySuccess = true
