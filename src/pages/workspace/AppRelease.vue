@@ -495,7 +495,7 @@
           {{ $t('workspace.releaseText') }}
         </span>
         <div
-          v-show="showAtp"
+          v-if="showAtp"
           class="atp_iframe mt20"
         >
           <iframe
@@ -1016,6 +1016,7 @@ export default {
     },
     // 集成应用测试页面
     getAtpTest () {
+      this.showAtp = false
       Workspace.getAtpTestApi(this.projectId).then(res => {
         if (res.data) {
           this.getAtpData()
@@ -1026,7 +1027,10 @@ export default {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
         if (this.taskId) {
+          console.log(this.taskId)
+          console.log(1)
           window.frames['atpIframe'].location.href = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
+          console.log(2)
           this.showAtp = true
         }
       }).catch(() => {
