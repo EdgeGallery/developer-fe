@@ -232,7 +232,6 @@ export default {
             float: left;
             width: 50%;
             padding: 20px;
-            max-width: 200px;
             img{
               width: 100%;
               max-width: 150px;
