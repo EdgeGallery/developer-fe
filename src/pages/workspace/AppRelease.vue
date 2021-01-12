@@ -499,7 +499,6 @@
           class="atp_iframe mt20"
         >
           <iframe
-            name="atpIframe"
             :src="iframeUrl"
             :title="$t('workspace.appRelease.appCertify')"
             width="100%"
@@ -1017,11 +1016,14 @@ export default {
     // 集成应用测试页面
     getAtpTest () {
       this.showAtp = false
-      Workspace.getAtpTestApi(this.projectId).then(res => {
-        if (res.data) {
-          this.getAtpData()
-        }
-      })
+      this.iframeUrl = ''
+      setTimeout(function () {
+        Workspace.getAtpTestApi(this.projectId).then(res => {
+          if (res.data) {
+            this.getAtpData()
+          }
+        })
+      }, 2000)
     },
     getAtpData () {
       Workspace.getReleaseApi(this.projectId).then(response => {
@@ -1029,7 +1031,8 @@ export default {
         if (this.taskId) {
           console.log(this.taskId)
           console.log(1)
-          window.frames['atpIframe'].location.href = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
+          // window.frames['atpIframe'].location.href = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
+          this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
           console.log(2)
           this.showAtp = true
         }
