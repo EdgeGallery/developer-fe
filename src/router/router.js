@@ -91,6 +91,27 @@ export default new Router({
           meta: {
             id: '3.2.1'
           }
+        }, {
+          path: 'mecDeveloper/api/mep-NEW',
+          name: 'mep-NEW',
+          component: () => import('../pages/abilityCenter/AbilityHome.vue'),
+          meta: {
+            id: '3.2.1.1'
+          }
+        }, {
+          path: 'mecDeveloper/api/mep-NEW/serviceDoc',
+          name: 'serviceDoc',
+          component: () => import('../pages/abilityCenter/ServiceDoc.vue'),
+          meta: {
+            id: '3.2.1.2'
+          }
+        }, {
+          path: 'mecDeveloper/api/mep-NEW/apiAmulator:id',
+          name: 'apiAmulator',
+          component: () => import('../pages/abilityCenter/ApiAmulator.vue'),
+          meta: {
+            id: '3.2.1.3'
+          }
         },
         {
           path: '/mecDeveloper/work',

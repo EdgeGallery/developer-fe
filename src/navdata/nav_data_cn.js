@@ -65,6 +65,11 @@ const mecDeveloper = [
     display: true
   },
   {
+    id: '3.14',
+    name: '社区',
+    display: true
+  },
+  {
     id: '3.15',
     name: '工作空间',
     path: '/mecDeveloper/work',
@@ -74,6 +79,13 @@ const mecDeveloper = [
   {
     id: '3.17',
     name: '社区实验室',
+    display: true
+  },
+  {
+    id: '3.18',
+    name: '能力中心-NEW',
+    path: '/mecDeveloper/api/mep-NEW',
+    pageId: '2.2.2.1',
     display: true
   }
 ]

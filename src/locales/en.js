@@ -127,7 +127,10 @@ const en = {
     logIn: 'Log In',
     logOut: 'Logout',
     help: 'Help',
-    contact: 'Contact'
+    contact: 'Contact',
+    serviceDoc: 'Service Document',
+    apiMulator: 'Online Simulator',
+    hotServices: 'Hot Service'
   },
   workspace: {
     projectStatusEnum: {
