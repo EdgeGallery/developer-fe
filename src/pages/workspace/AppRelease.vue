@@ -495,7 +495,7 @@
           {{ $t('workspace.releaseText') }}
         </span>
         <div
-          v-if="showAtp"
+          v-show="showAtp"
           class="atp_iframe mt20"
         >
           <iframe
