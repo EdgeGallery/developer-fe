@@ -297,7 +297,7 @@ export default {
 
           this.$emit('closeFatherDialog', false)
           this.uploadBtnLoading = false
-          if (sessionStorage.getItem('ifVM') === 'true') {
+          if (this.allFormData.first.deployPlatform === 'VIRTUALMACHINE') {
             this.$router.push('/mecDeveloper/work/vmDetail')
           } else {
             this.$router.push('/mecDeveloper/work/detail')
