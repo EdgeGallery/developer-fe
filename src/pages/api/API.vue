@@ -199,7 +199,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .service_div{
   padding-left: 20px;
   .api_top{

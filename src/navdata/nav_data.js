@@ -80,13 +80,6 @@ const mecDeveloper = [
     id: '3.17',
     name: 'Community Lab',
     display: true
-  },
-  {
-    id: '3.18',
-    name: 'Ability Center-NEW',
-    path: '/mecDeveloper/api/mep-NEW',
-    pageId: '2.2.2.1',
-    display: true
   }
 ]
 

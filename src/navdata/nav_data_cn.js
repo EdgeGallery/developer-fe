@@ -80,13 +80,6 @@ const mecDeveloper = [
     id: '3.17',
     name: '社区实验室',
     display: true
-  },
-  {
-    id: '3.18',
-    name: '能力中心-NEW',
-    path: '/mecDeveloper/api/mep-NEW',
-    pageId: '2.2.2.1',
-    display: true
   }
 ]
 
