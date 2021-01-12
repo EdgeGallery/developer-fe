@@ -65,11 +65,6 @@ const mecDeveloper = [
     display: true
   },
   {
-    id: '3.14',
-    name: '社区',
-    display: true
-  },
-  {
     id: '3.15',
     name: '工作空间',
     path: '/mecDeveloper/work',
