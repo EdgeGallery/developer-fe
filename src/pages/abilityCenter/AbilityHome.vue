@@ -22,14 +22,14 @@
     >
       <div class="topLine">
         <div class="title">
-          <p>丰富的5G能力、行业能力、IT能力</p>
+          <p>丰富的边缘能力随心选择，极致的5G体验触手可及</p>
         </div>
       </div>
       <div class="centerLine">
         <div class="inner">
           <div class="inner-hd">
             <h2 class="inner-hd-title">
-              5G能力，在边缘触手可及
+              EdgeGallery服务全景图
             </h2>
           </div>
           <div class="inner-bd">
@@ -86,6 +86,7 @@ import PracticePortal from './PracticePortal.vue'
 import ServiceDoc from './ServiceDoc.vue'
 import abilityAPI from './ability.js'
 import { Api } from '../../tools/api.js'
+
 export default {
   components: {
     AbilityPortal,
@@ -108,6 +109,7 @@ export default {
   methods: {
     updateAbilityInstru (clickIndex) {
       this.currentSelTabIndex = clickIndex
+      // 更新active的对象
     },
     showAbilityHomePage () {
       this.contentId = 'mep-NEW'
@@ -163,9 +165,9 @@ export default {
       color: #fff;
       padding: 65px 0 0 200px;
       p {
-        margin-left: 80px;
+        margin-left: 0px;
         margin-top: 20px;
-        font-size: 24px;
+        font-size: 30px;
         line-height: 30px;
       }
     }
