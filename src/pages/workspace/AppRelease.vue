@@ -1017,14 +1017,11 @@ export default {
     getAtpTest () {
       this.showAtp = false
       this.iframeUrl = ''
-
-      setTimeout(() => {
-        Workspace.getAtpTestApi(this.projectId).then(res => {
-          if (res.data) {
-            this.getAtpData()
-          }
-        })
-      }, 2000)
+      Workspace.getAtpTestApi(this.projectId).then(res => {
+        if (res.data) {
+          this.getAtpData()
+        }
+      })
     },
     getAtpData () {
       Workspace.getReleaseApi(this.projectId).then(response => {
