@@ -300,9 +300,6 @@ export default {
           this.active++
           this.handleStep()
         }
-        if (this.active === 2) {
-          this.submitData()
-        }
       }
     },
     previous () {
@@ -331,28 +328,6 @@ export default {
     },
     getAppapiFileId (data) {
       this.appApiFileIdTemp = data
-    },
-    submitData () {
-      this.apiDataLoading = true
-      const params = {
-        testId: this.projectBeforeConfig.testId,
-        privateHost: !!this.allStepData.third.enable,
-        deployFileId: this.allStepData.fourth.appYamlFileId,
-        platform: 'KUBERNETES',
-        hosts: this.allStepData.third.hostId ? [
-          {
-            hostId: this.allStepData.third.hostId,
-            userId: this.userId
-          }
-        ] : []
-      }
-      const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
-      func(this.projectId, this.userId, params).then(res => {
-        this.getTestConfig()
-        this.apiDataLoading = false
-      }).finally(() => {
-        this.apiDataLoading = false
-      })
     },
     getViewReport (data) {
       this.viewReport = data
