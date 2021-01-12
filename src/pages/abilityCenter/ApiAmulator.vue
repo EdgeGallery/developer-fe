@@ -78,7 +78,11 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    groupId () {
+      this.initServices()
+    }
+  },
   methods: {
     reloadContent (seletedLabel) {
       for (let i = 0; i < this.serviceList.length; i++) {
@@ -108,6 +112,12 @@ export default {
               this.serviceList = tmpServiceList
               this.selectedService = tmpServiceList[0].service
               this.apiFileId = tmpServiceList[0].apiFileId
+              this.serviceDetail = {
+                capabilityType: res.data.twoLevelName,
+                serviceName: tmpServiceList[0].service,
+                uploadTime: this.dateChange(tmpServiceList[0].uploadTime),
+                version: tmpServiceList[0].version
+              }
             }
           }
         })
