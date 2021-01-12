@@ -227,6 +227,7 @@ export default {
         }
         const { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess } = res.data
         this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
+        this.submitData(this.appYamlFileId)
       }, (error) => {
         if (error.response.data.code === 403) {
           this.$message.error(this.$t('promptMessage.guestPrompt'))
@@ -240,6 +241,25 @@ export default {
         this.markdownSource = ''
       }).finally(() => {
         this.uploadYamlLoading = false
+      })
+    },
+    submitData (appYamlFileId) {
+      const params = {
+        testId: this.projectBeforeConfig.testId,
+        privateHost: !!this.allStepData.third.enable,
+        deployFileId: appYamlFileId,
+        platform: 'KUBERNETES',
+        hosts: this.allStepData.third.hostId ? [
+          {
+            hostId: this.allStepData.third.hostId,
+            userId: this.userId
+          }
+        ] : []
+      }
+      const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
+      func(this.projectId, this.userId, params).then(() => {
+      }).catch(err => {
+        console.log(err)
       })
     },
     initFileList () {
@@ -345,6 +365,7 @@ export default {
     white-space: pre-wrap;
     margin-top: 20px;
     overflow: auto;
+    min-height: 600px;
     .v-note-wrapper{
       border: none;
     }
