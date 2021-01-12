@@ -221,7 +221,6 @@
               {{ errorLog }}
             </p>
             <p
-              ]
               class="deploy-herf marginTop15   "
             >
               {{ $t("workspace.testNode") }} : {{ accessUrl }}
