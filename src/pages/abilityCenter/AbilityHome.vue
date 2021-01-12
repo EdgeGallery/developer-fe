@@ -1,3 +1,19 @@
+<!--
+  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <div>
     <div
@@ -80,7 +96,7 @@ export default {
   },
   data () {
     return {
-      currentSelTabIndex: 0,
+      currentSelTabIndex: -1,
       contentId: 'mep-NEW', // 可取值 mep-NEW，serviceDoc，apiAmulator
       groupId: '',
       firstLineAbilities: [],
@@ -112,6 +128,7 @@ export default {
           let allAbilitys = abilityAPI.initAbilities(groupDataFromServer, 'cn')
           this.firstLineAbilities = allAbilitys.slice(0, 5)
           this.secondLineAbilities = allAbilitys.slice(5, 10)
+          this.currentSelTabIndex = 0
         })
     }
   },

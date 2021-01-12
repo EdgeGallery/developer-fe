@@ -1,6 +1,22 @@
+<!--
+  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <el-row class="operator-area">
-    <el-col :span="12">
+    <el-col :span="10">
       <div
         class="serviceSelctor"
         v-if="serviceList.length > 0"
@@ -22,8 +38,14 @@
           </el-radio-button>
         </el-radio-group>
       </div>
+      <div
+        class="occupancy"
+        v-else
+      >
+        occupancy
+      </div>
     </el-col>
-    <el-col :span="12">
+    <el-col :span="10">
       <span
         class="returnOper"
         @click="backToAbilityHome"
@@ -50,10 +72,12 @@ export default {
   },
   data () {
     return {
+      selectSer: ''
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+  },
   methods: {
     backToAbilityHome () {
       this.$emit('showAbilityHomePage')
@@ -90,5 +114,8 @@ export default {
   .selectLabel{
     margin-bottom: 0.5rem;
   }
+}
+.occupancy{
+  visibility: hidden;
 }
 </style>
