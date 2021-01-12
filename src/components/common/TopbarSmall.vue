@@ -125,7 +125,7 @@ export default {
       } else if (item.$vnode.data.key === '3.17') {
         let currUrl = window.location.origin
         if (currUrl.indexOf('30092') !== -1) {
-          this.labUrl = 'http://' + currUrl.split('//')[1].split(':')[0] + ':30096'
+          this.labUrl = 'http://' + currUrl.split('//')[1].split(':')[0] + ':30096' + '/lab'
         } else {
           this.labUrl = currUrl.replace('developer', 'lab')
         }
