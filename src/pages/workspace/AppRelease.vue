@@ -1291,6 +1291,7 @@ export default {
       margin-top: 0;
     }
     .el-upload__tip{
+      font-size: 14px;
       float: left;
       line-height: 26px;
       margin-top: 0;
