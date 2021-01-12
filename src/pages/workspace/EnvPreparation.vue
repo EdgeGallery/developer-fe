@@ -174,7 +174,7 @@ export default {
     }
   }
   .pad {
-    font-size: 13px;
+    font-size: 16px;
     color: #575d6c;
     padding-left: 35px;
     padding-bottom: 15px;

@@ -35,30 +35,30 @@
       <el-col :span="18">
         <div class="service_div">
           <p class="api_top">
-            {{ $t('workspace.apiTopText') }} ：
+            {{ $t('workspace.apiTopText') }}
           </p>
           <p class="title">
             {{ $t('workspace.serviceDetails') }}
           </p>
           <el-row class="service_info">
             <el-col :span="24">
-              {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
+              <span>{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
             </el-col>
           </el-row>
           <el-row class="service_info">
             <el-col :span="12">
-              {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
+              <span>{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
             </el-col>
             <el-col :span="12">
-              {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
+              <span>{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
             </el-col>
           </el-row>
           <el-row class="service_info">
             <el-col :span="12">
-              {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
+              <span>{{ $t('workspace.releaseTime') }} ：</span>{{ serviceDetail.uploadTime }}
             </el-col>
             <el-col :span="12">
-              SDK {{ $t('common.download') }} ：
+              <span>SDK {{ $t('common.download') }} ：</span>
               <el-select
                 v-model="codeLanguage"
                 name="codeLanguage"
@@ -113,7 +113,7 @@ import 'swagger-ui/dist/swagger-ui.css'
 export default {
   data () {
     return {
-      apiDataLoading: true,
+      apiDataLoading: false,
       treeData: [],
       defaultProps: {
         children: 'children',
@@ -201,6 +201,7 @@ export default {
             this.treeData.forEach(itemThree => {
               itemThree.children.forEach(subTree => {
                 let objThree = {
+                  host: '',
                   label: '',
                   type: '',
                   apiFileId: '',
@@ -208,6 +209,7 @@ export default {
                   uploadTime: '',
                   version: ''
                 }
+                objThree.host = subItem.host
                 objThree.label = subItem.service
                 objThree.type = item.type
                 objThree.apiFileId = subItem.apiFileId
@@ -235,7 +237,7 @@ export default {
       if (!data.children) {
         this.apiFileId = data.apiFileId
         this.serviceDetail.capabilityType = data.capabilityType
-        this.serviceDetail.serviceName = data.label
+        this.serviceDetail.serviceName = data.host
         this.serviceDetail.uploadTime = data.uploadTime
         this.serviceDetail.version = data.version
         let apiUrl = Workspace.getApiUrl(data.apiFileId, this.userId, data.type)
@@ -324,6 +326,11 @@ export default {
 </script>
 <style lang='less'>
 .api{
+  .api_tree{
+    .el-tree-node__label{
+      font-size:18px;
+    }
+  }
   #swagger-ui{
     width: 100%;
     height: 100%;
@@ -335,14 +342,20 @@ export default {
   .service_div{
     padding-left: 20px;
     .api_top{
-      line-height: 25px;
+      line-height: 30px;
+      font-size: 18px;
+    }
+    .service_info{
+      span{
+        color: #adb0b8;
+      }
     }
     .title{
-      font-size: 15px;
+      font-size: 18px;
       margin-top: 15px;
     }
     .el-row{
-      font-size: 13px;
+      font-size: 16px;
       .el-col{
         padding: 5px;
       }

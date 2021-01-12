@@ -1186,6 +1186,7 @@ export default {
     }
   }
   .el-table td, .el-table th{
+    font-size: 16px;
     padding: 2px 0;
     text-align: center;
     .icon{
@@ -1228,6 +1229,7 @@ export default {
         float: left;
       }
       .el-upload__tip{
+        font-size: 14px;
         float: left;
         margin: 0 0 0 15px;
         color: #adb0b8;
@@ -1248,7 +1250,7 @@ export default {
         height: 15px;
         line-height: 15px;
         padding: 0 20px;
-        font-size: 14px;
+        font-size: 16px;
         margin:0 0 18px 0;
         border-right: 1px solid #ddd;
         border-radius: 0;
