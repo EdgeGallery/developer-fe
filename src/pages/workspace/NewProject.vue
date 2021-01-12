@@ -297,7 +297,12 @@ export default {
 
           this.$emit('closeFatherDialog', false)
           this.uploadBtnLoading = false
-          this.$router.push('/mecDeveloper/work/detail')
+          if (sessionStorage.getItem('ifVM') === 'true') {
+            this.$router.push('/mecDeveloper/work/vmDetail')
+          } else {
+            this.$router.push('/mecDeveloper/work/detail')
+          }
+
           sessionStorage.removeItem('apiFileIdArr')
         } else {
           this.$message({

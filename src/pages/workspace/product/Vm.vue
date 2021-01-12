@@ -31,11 +31,11 @@ export default {
   },
   methods: {},
   mounted () {
-    let link = sessionStorage.getItem('src')
+    let link = sessionStorage.getItem('Src')
     let userId = sessionStorage.getItem('userId')
     let userName = sessionStorage.getItem('userName')
     let token = sessionStorage.getItem('accessToken')
-    this.src = link + '/overview?egUserId=' + userId + '&egUserName=' + userName + '&egToken=' + token
+    this.src = 'https://' + link + '/overview?egUserId=' + userId + '&egUserName=' + userName + '&egToken=' + token
   }
 }
 
