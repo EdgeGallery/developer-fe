@@ -15,6 +15,13 @@
   -->
 
 <template>
+  <div
+    class="returnOper"
+    @click="backToAbilityHome"
+  >
+    返回能力中心首页
+  </div>
+  <!--
   <el-row class="operator-area">
     <el-col :span="10">
       <div
@@ -54,6 +61,7 @@
       </span>
     </el-col>
   </el-row>
+  -->
 </template>
 
 <script>
@@ -102,9 +110,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .returnOper{
-  float: right;
+  // float: right;
   color: #00a4ff;
   cursor: pointer;
+  margin: 10px 0px;
 }
 .operator-area {
   margin: 20px 0px;
