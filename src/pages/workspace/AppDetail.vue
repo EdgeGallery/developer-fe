@@ -102,6 +102,7 @@
         class="elTabPane"
         name="2"
         lazy
+        v-if="isAppDevelopment"
       >
         <span slot="label"><em :class="['tab_capability',activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}</span>
         <api v-if="activeName === '2'" />
@@ -111,6 +112,7 @@
         class="elTabPane"
         name="3"
         lazy
+        v-if="isAppDevelopment"
       >
         <span slot="label"><em :class="['tab_appDev',activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.applicationDev') }}</span>
         <EnvPreparation v-if="activeName === '3'" />
@@ -242,7 +244,8 @@ export default {
         description: ''
       },
       projectId: sessionStorage.getItem('mecDetailID'),
-      dependentNum: 0
+      dependentNum: 0,
+      isAppDevelopment: true
     }
   },
   methods: {
@@ -250,6 +253,11 @@ export default {
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
         let data = res.data
+        if (data.projectType === 'CREATE_NEW') {
+          this.isAppDevelopment = true
+        } else if (data.projectType === 'INTEGRATED') {
+          this.isAppDevelopment = false
+        }
         this.projectDetailData.name = data.name
         this.projectDetailData.version = data.version
         this.projectDetailData.provider = data.provider

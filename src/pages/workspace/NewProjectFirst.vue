@@ -126,7 +126,7 @@
           <el-select
             v-model="form.type"
             class="list-select"
-            @change="checkProjectData"
+            @change="changeIcon"
           >
             <el-option
               v-for="(item,index) in typeOptions"
@@ -144,11 +144,34 @@
         prop="logoFileList"
         class="icon"
       >
+        <div class="default-icon">
+          <div
+            class="box"
+            v-for="(item, index) in defaultIcon"
+            @click="chooseDefaultIcon(item, index)"
+            :key="item"
+          >
+            <img
+              :src="item"
+              alt=""
+            >
+            <em
+              class="el-icon-success"
+              :class="{ active: form.defaultActive === index }"
+            />
+          </div>
+        </div>
+        <em
+          class="upIcon el-icon-success"
+          :class="{ active: uploadIcon }"
+          v-if="uploadIcon"
+        />
         <el-upload
           id="projectLogo"
           class="upload-demo clear"
           ref="upload"
           action=""
+          list-type="picture-card"
           :limit="1"
           :file-list="logoFileList"
           :on-change="handleChangeLogo"
@@ -158,40 +181,16 @@
           accept=".jpg,.png"
           name="file"
         >
-          <el-button
-            slot="trigger"
-            size="small"
-            type="primary"
-          >
-            {{ $t('workspace.uploadIcon') }}
-          </el-button>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            :content="this.$t('workspace.limitition')"
-            placement="right"
-          >
-            <em class="el-icon-question" />
-          </el-tooltip>
+          <em class="el-icon-plus" />
         </el-upload>
-        <div class="default-icon">
-          <div
-            class="box"
-            v-for="(item, index) in defaultIcon"
-            @click="chooseDefaultIcon(item.src, index)"
-            :key="item.src"
-          >
-            <img
-              :src="item.src"
-              :alt="item.name"
-              :title="item.name"
-            >
-            <em
-              class="el-icon-success"
-              :class="{ active: form.defaultActive === index }"
-            />
-          </div>
-        </div>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="this.$t('workspace.limitition')"
+          placement="right"
+        >
+          <em class="el-icon-question" />
+        </el-tooltip>
         <div
           class="el-form-error"
           v-if="showErr"
@@ -283,55 +282,22 @@ export default {
       value: 0,
       logoFileList: [],
       defaultIconFile: [],
+      defaultIconData: [
+        require('../../assets/images/project_videoapp.png'),
+        require('../../assets/images/project_game.png'),
+        require('../../assets/images/project_videosur.png'),
+        require('../../assets/images/project_security.png'),
+        require('../../assets/images/project_blockchain.png'),
+        require('../../assets/images/project_smartdevice.png'),
+        require('../../assets/images/project_iot.png'),
+        require('../../assets/images/project_data.png'),
+        require('../../assets/images/project_vr.png'),
+        require('../../assets/images/project_api.png'),
+        require('../../assets/images/project_sdk.png'),
+        require('../../assets/images/project_mep.png')
+      ],
       defaultIcon: [
-        {
-          src: require('../../assets/images/project_videoapp.png'),
-          name: '视频应用'
-        },
-        {
-          src: require('../../assets/images/project_game.png'),
-          name: '游戏'
-        },
-        {
-          src: require('../../assets/images/project_videosur.png'),
-          name: '视频监控'
-        },
-        {
-          src: require('../../assets/images/project_security.png'),
-          name: '安全'
-        },
-        {
-          src: require('../../assets/images/project_blockchain.png'),
-          name: '区块链'
-        },
-        {
-          src: require('../../assets/images/project_smartdevice.png'),
-          name: '智能设备'
-        },
-        {
-          src: require('../../assets/images/project_iot.png'),
-          name: '物联网'
-        },
-        {
-          src: require('../../assets/images/project_data.png'),
-          name: '大数据'
-        },
-        {
-          src: require('../../assets/images/project_vr.png'),
-          name: 'AR/VR'
-        },
-        {
-          src: require('../../assets/images/project_api.png'),
-          name: 'API'
-        },
-        {
-          src: require('../../assets/images/project_sdk.png'),
-          name: 'SDK'
-        },
-        {
-          src: require('../../assets/images/project_mep.png'),
-          name: 'MEP'
-        }
+        require('../../assets/images/project_videoapp.png')
       ],
       showErr: false,
       rules: {
@@ -368,7 +334,8 @@ export default {
         ]
       },
       formLabelWidth: '110px',
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      uploadIcon: false
     }
   },
 
@@ -384,34 +351,86 @@ export default {
         }
       }
     },
+    changeIcon (val) {
+      this.form.base64Session = true
+      this.defaultIconFile = []
+      this.form.defaultActive = 0
+      switch (val) {
+        case 'Video Application':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[0])
+          break
+        case 'Game':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[1])
+          break
+        case 'Video Surveillance':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[2])
+          break
+        case 'Safety':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[3])
+          break
+        case 'Blockchain':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[4])
+          break
+        case 'Smart Device':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[5])
+          break
+        case 'Internet of Things':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[6])
+          break
+        case 'Big Data':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[7])
+          break
+        case 'AR/VR':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[8])
+          break
+        case 'API':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[9])
+          break
+        case 'SDK':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[10])
+          break
+        case 'MEP':
+          this.defaultIcon.splice(0, 1, this.defaultIconData[11])
+          break
+      }
+      this.conversionIcon(this.defaultIcon[0])
+      this.checkProjectData()
+    },
     // 上传图标
-    handleChangeLogo (file, fileList) {
+    handleChangeLogo (file) {
+      let listTemp = []
       this.form.base64Session = true
       this.form.appIcon = []
       this.defaultIconFile = []
       this.form.defaultActive = ''
-      if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
-        this.logoFileList = []
-      } else {
-        this.logoFileList.push(file.raw)
-      }
-      if (file.size / 1024 / 1024 > 2) {
-        this.$message.warning(this.$t('promptMessage.moreThan2'))
-        this.logoFileList = []
-      }
-      let fileTypeArr = ['jpg', 'png']
-      this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
-      if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
-        this.logoFileList = []
+      if (file) {
+        if (file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('promptMessage.fileNameType'))
+          this.logoFileList = []
+        } else {
+          this.logoFileList.push(file)
+          listTemp.push(file.raw)
+          this.form.appIcon = listTemp
+          this.uploadIcon = true
+        }
+        if (file.size / 1024 / 1024 > 2) {
+          this.$message.warning(this.$t('promptMessage.moreThan2'))
+          this.logoFileList = []
+        }
+        let fileTypeArr = ['jpg', 'png']
+        this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
+          this.$message.warning(this.$t('promptMessage.checkFileType'))
+          this.logoFileList = []
+        }
       }
       this.showErr = !this.logoFileList
-      this.form.appIcon = this.logoFileList
     },
-    removeUploadLogo (file, fileList) {
-      this.logoFileList = fileList
+    removeUploadLogo (file) {
+      this.uploadIcon = false
+      this.logoFileList = []
       this.showErr = this.logoFileList
+      this.chooseDefaultIcon(this.defaultIcon[0], 0)
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
@@ -453,23 +472,27 @@ export default {
     },
     // 选择默认图标
     chooseDefaultIcon (file, index) {
-      this.form.base64Session = true
       this.logoFileList = []
+      this.uploadIcon = false
+      this.form.base64Session = true
       this.defaultIconFile = []
       if (this.form.defaultActive === index) {
         this.form.defaultActive = ''
       } else {
         this.form.defaultActive = index
-        let image = new Image()
-        image.src = file
-        image.onload = () => {
-          // 将静态图片转化为base64
-          let base64 = this.getBase64Image(image)
-          // base64转化为文件流
-          this.defaultIconFile.push(this.base64toFile(base64))
-          this.form.appIcon = this.defaultIconFile
-          this.showErr = !this.defaultIconFile
-        }
+        this.conversionIcon(file)
+      }
+    },
+    conversionIcon (file) {
+      let image = new Image()
+      image.src = file
+      image.onload = () => {
+        // 将静态图片转化为base64
+        let base64 = this.getBase64Image(image)
+        // base64转化为文件流
+        this.defaultIconFile.push(this.base64toFile(base64))
+        this.form.appIcon = this.defaultIconFile
+        this.showErr = !this.defaultIconFile
       }
     },
     // 将基本信息传值给父组件
@@ -528,6 +551,7 @@ export default {
     }
     this.getFirstData()
     this.editWidth()
+    this.chooseDefaultIcon(this.defaultIcon[0], 0)
   }
 }
 </script>
@@ -555,6 +579,7 @@ export default {
       color: #688ef3;
     }
     .upload-demo{
+      float: left;
       .el-button--primary{
         background-color: #fff;
         border-color: #688ef3;
@@ -569,11 +594,18 @@ export default {
       }
       .el-upload{
         float: left;
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        margin: 3px 15px 0 0;
       }
       .el-icon-question:before {
         color: #688ef3;
         font-size: 16px;
         margin-left: 10px;
+      }
+      .el-upload-list__item-preview{
+        opacity: 0;
       }
     }
     .default-icon{
@@ -584,7 +616,7 @@ export default {
         position: relative;
         width: 44px;
         height: 44px;
-        margin: 5px 15px 0 0;
+        margin: 0 15px 0 0;
         img{
           width: 40px;
           height: 40px;
@@ -597,9 +629,17 @@ export default {
         }
         .active{
           color: #409EFF;
-          font-weight: 800;
         }
       }
+    }
+    .upIcon.el-icon-success{
+      position: absolute;
+      top: 30px;
+      left: 88px;
+      z-index: 99;
+    }
+    .upIcon.active{
+      color: #409EFF;
     }
     .el-form-item{
       margin-bottom: 15px;
@@ -619,8 +659,18 @@ export default {
         width: 100%;
       }
     }
+    .el-upload-list{
+      width: auto;
+      /* width: 40px;
+      height: 40px;
+      margin-right: 15px; */
+    }
     .el-upload-list__item:first-child{
-      margin-top: 0;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border: none;
+      margin: 0 15px 0 0;
     }
     .el-form-error{
       padding-top: 0;

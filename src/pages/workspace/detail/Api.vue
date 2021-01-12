@@ -335,6 +335,7 @@ export default {
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    min-height: 600px;
     .swagger-ui .info{
       margin: 10px 0;
     }

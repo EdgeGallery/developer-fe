@@ -44,22 +44,21 @@
           <div
             id="project-add"
             class="project-add"
-            @click="addNewProject"
           >
             <div class="img-box">
-              <div>
+              <div @click="addNewProject('CREATE_NEW')">
                 <img
                   src="../../assets/images/kaifa.png"
                   alt=""
                 >
-                <p>应用开发</p>
+                <p>{{ $t('workspace.appDevelopment') }}</p>
               </div>
-              <div>
+              <div @click="addNewProject('INTEGRATED')">
                 <img
                   src="../../assets/images/jicheng.png"
                   alt=""
                 >
-                <p>应用集成</p>
+                <p>{{ $t('workspace.appIntegration') }}</p>
               </div>
             </div>
           </div>
@@ -80,7 +79,7 @@
         <div v-if="newprojectDialog">
           <newProject
             v-model="newprojectDialog"
-            :fourthstep-titleprop="fourthstepTitleprop"
+            :new-project-titleprop="newProjectTitleprop"
             :new-project-fourthprop="newProjectFourthprop"
             @closeFatherDialog="closeDialog"
             :getproject-typeprop="getprojectTypeprop"
@@ -109,7 +108,6 @@ export default {
       getprojectTypeprop: 'CREATE_NEW',
       activeProjectprop: 3,
       newprojectDialog: false,
-      fourthstepTitleprop: '',
       newProjectFourthprop: true,
       chartData: {
         columns: ['Status', 'Number'],
@@ -160,11 +158,16 @@ export default {
       })
     },
     // 新建项目
-    addNewProject () {
+    addNewProject (projectType) {
       this.newprojectDialog = true
-      this.fourthstepTitleprop = this.$t('workspace.projectLink')
+      if (projectType === 'CREATE_NEW') {
+        this.newProjectTitleprop = this.$t('workspace.createProject')
+      } else {
+        this.newProjectTitleprop = this.$t('workspace.migrationProject')
+      }
+
       this.newProjectFourthprop = true
-      this.getprojectTypeprop = 'CREATE_NEW'
+      this.getprojectTypeprop = projectType
       this.activeProjectprop = 3
     },
     // 关闭弹框
@@ -227,29 +230,55 @@ export default {
           box-sizing: border-box;
           div{
             float: left;
-            width: 30%;
-            margin: 0 10%;
+            width: 50%;
+            padding: 20px;
             max-width: 200px;
+            img{
+              width: 100%;
+              max-width: 150px;
+            }
             p{
               margin-top: 0;
               font-size: 16px;
             }
           }
-          @media screen and (max-width: 1050px){
-            div{
-              width: 80%;
-              margin: 0 10% 20px;
-              max-width: 100px;
+          div:hover{
+            box-shadow:0 1px 5px 0 rgba(0,0,0,0.2);
+            p{
+              color: #63b6f7;
             }
           }
         }
         text-align:center;
-        padding: 50px 0;
+        padding: 20px 0 0;
         cursor: pointer;
         p{
           font-size: 20px;
           color: black;
           margin-top: 20px;
+        }
+      }
+      @media screen and (max-width: 1050px){
+        .project-add{
+          padding: 10px 0 0;
+          .img-box{
+            div{
+              width: 80%;
+              margin: 0 10%;
+              padding:10px;
+              max-width: 105px;
+              img{
+                width: 80%;
+                margin: 0 10%;
+              }
+            }
+          }
+
+        }
+      }
+      @media screen and (max-width: 1380px){
+        .project-add{
+          padding: 40px 0 0;
         }
       }
       .add{

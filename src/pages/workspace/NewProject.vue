@@ -17,7 +17,7 @@
 <template>
   <div class="newproject">
     <el-dialog
-      :title="$t('workspace.addNewProject')"
+      :title="newProjectTitle"
       :close-on-click-modal="false"
       :visible.sync="dialogNewProject"
       width="60%"
@@ -27,6 +27,7 @@
         :active="active"
         finish-status="success"
         align-center
+        v-if="isAppDevelopment"
       >
         <el-step :title="$t('workspace.basicInformation')" />
         <el-step :title="$t('workspace.chooseAbilities')" />
@@ -41,6 +42,7 @@
       <span
         slot="footer"
         class="dialog-footer"
+        v-if="isAppDevelopment"
       >
         <el-button
           id="prevBtn"
@@ -61,6 +63,18 @@
           v-if="active>=1"
           :loading="uploadBtnLoading"
           @click="onSubmit"
+          class="confirm"
+        >{{ $t('workspace.confirm') }}</el-button>
+      </span>
+      <span
+        slot="footer"
+        class="dialog-footer"
+        v-else
+      >
+        <el-button
+          type="primary"
+          :loading="uploadBtnLoading"
+          @click="onSubmitIntegration"
           class="confirm"
         >{{ $t('workspace.confirm') }}</el-button>
       </span>
@@ -90,13 +104,9 @@ export default {
       type: Boolean,
       default: false
     },
-    newProjectFourthprop: {
-      type: Boolean,
-      default: true
-    },
-    fourthstepTitleprop: {
+    newProjectTitleprop: {
       type: String,
-      default: 'ToolChain'
+      default: ''
     },
     activeProjectprop: {
       type: Number,
@@ -111,20 +121,28 @@ export default {
       ApplicationProject: {},
       active: 0,
       dialogNewProject: this.value,
-      newProjectShow: this.newProjectFourthprop,
-      fourthstepTitle: this.fourthstepTitleprop,
+      newProjectTitle: this.newProjectTitleprop,
       uploadBtnLoading: false,
       iconFileId: '',
       createSuccess: false,
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
       activeProject: this.activeProjectprop,
-      isGuest: false
+      isGuest: false,
+      isAppDevelopment: true
     }
   },
   mounted () {
+    this.judgeProjectType()
   },
   methods: {
+    judgeProjectType () {
+      if (this.getprojectType === 'CREATE_NEW') {
+        this.isAppDevelopment = true
+      } else if (this.getprojectType === 'INTEGRATED') {
+        this.isAppDevelopment = false
+      }
+    },
     changeComponent () {
       switch (this.active) {
         case 0:
@@ -205,7 +223,7 @@ export default {
         } else {
           this.isGuest = false
         }
-        if (!this.isGuest) {
+        if (!this.isGuest && this.isAppDevelopment) {
           this.active++
           this.changeComponent()
         }
@@ -219,6 +237,10 @@ export default {
         formdata.append('file', firstStepData)
         Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
+          console.log(this.iconFileId)
+          if (!this.isGuest && !this.isAppDevelopment) {
+            this.getApplicationProject()
+          }
         }).catch(err => {
           if (err.response.data.code === 403) {
             this.isGuest = true
@@ -233,6 +255,9 @@ export default {
       this.$refs.currentComponet.emitStepData()
       this.getApplicationProject()
     },
+    onSubmitIntegration () {
+      this.nextStep()
+    },
     handleClose () {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
@@ -246,10 +271,6 @@ export default {
       let createDate = new Date()
       this.uploadBtnLoading = true
       let allFormData = this.allFormData
-      let projectType = allFormData.first.projectType
-      if (projectType === 'MIGRATE') {
-        this.nextStep()
-      }
       let params = {
         'id': '',
         'capabilityList': [],
@@ -260,23 +281,25 @@ export default {
           params[key] = allFormData.first[key]
         }
       }
-      this.checkPostProjectData(allFormData.second.capabilitySelected)
-      for (let capability of allFormData.second.capabilitySelected) {
-        let obj = {}
-        for (let capabilityKey in capability) {
-          obj[capabilityKey] = capability[capabilityKey]
-        }
-        obj.capabilityDetailList = []
-        for (let service of allFormData.third) {
-          if (service.groupId === capability.groupId) {
-            let serviceObj = {}
-            for (let serviceKey in service) {
-              serviceObj[serviceKey] = service[serviceKey]
-            }
-            obj.capabilityDetailList.push(serviceObj)
+      if (allFormData.second) {
+        this.checkPostProjectData(allFormData.second.capabilitySelected)
+        for (let capability of allFormData.second.capabilitySelected) {
+          let obj = {}
+          for (let capabilityKey in capability) {
+            obj[capabilityKey] = capability[capabilityKey]
           }
+          obj.capabilityDetailList = []
+          for (let service of allFormData.third) {
+            if (service.groupId === capability.groupId) {
+              let serviceObj = {}
+              for (let serviceKey in service) {
+                serviceObj[serviceKey] = service[serviceKey]
+              }
+              obj.capabilityDetailList.push(serviceObj)
+            }
+          }
+          params.capabilityList.push(obj)
         }
-        params.capabilityList.push(obj)
       }
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)

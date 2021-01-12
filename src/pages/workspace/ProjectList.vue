@@ -38,6 +38,7 @@
       :data="currentData"
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
+      :header-cell-style="{textAlign: 'center'}"
     >
       <el-table-column
         prop="index"
@@ -62,6 +63,14 @@
         :label="$t('workspace.projectName')"
         min-width="100"
       />
+      <el-table-column
+        prop="projectType"
+        :label="$t('workspace.projectType')"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.projectType==='CREATE_NEW'?$t('workspace.appDevelopment'):$t('workspace.appIntegration') }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
