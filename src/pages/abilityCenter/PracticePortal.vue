@@ -44,6 +44,7 @@
             <a
               class="practice-link"
               href="https://www.edgegallery.org/%e8%a7%86%e9%a2%91%e8%b5%84%e6%ba%90"
+              target="_blank"
             >查看详情</a>
           </footer>
         </div>
@@ -75,6 +76,7 @@
             <a
               class="practice-link"
               href="http://www.edgegallery.org/%E6%B2%9F%E9%80%9A%E4%BA%A4%E6%B5%81"
+              target="_blank"
             >查看详情</a>
           </footer>
         </div>

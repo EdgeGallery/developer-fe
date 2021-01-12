@@ -22,7 +22,7 @@
       :key="item.index"
       :id="item.index"
       @click="handleClick"
-      :class="{ 'active': item.isActive }"
+      :class="{ 'active': activeIndex === item.index }"
     ><i
       class="ability-switch-tab-icon"
     ><img
@@ -49,6 +49,7 @@ export default {
   },
   data () {
     return {
+      activeIndex: 0
     }
   },
   computed: {
@@ -61,17 +62,17 @@ export default {
   methods: {
     handleClick (ele) {
       this.$emit('updateAbilityInstru', parseInt(ele.currentTarget.id))
-      this.abilityItems = this.getAbilitys(parseInt(ele.currentTarget.id))
+      this.activeIndex = parseInt(ele.currentTarget.id)
     },
     getAbilitys (selId) {
       const abilityIcons = [
-        'https://main.qcloudimg.com/raw/7fc77f00172c5489d3d267a9d674d347.svg',
-        'https://main.qcloudimg.com/raw/7fc77f00172c5489d3d267a9d674d347.svg',
-        'https://main.qcloudimg.com/image/product/2463/32_32/blue.svg',
-        'https://main.qcloudimg.com/image/product/2346/32_32/blue.svg',
-        'https://main.qcloudimg.com/image/product/2406/32_32/blue.svg',
-        'https://main.qcloudimg.com/raw/7fc77f00172c5489d3d267a9d674d347.svg',
-        'https://main.qcloudimg.com/raw/554f4638148c26c5010456fbe9f4c72f.svg'
+        'https://img.icons8.com/windows/32/4a90e2/hotjar.png',
+        'https://img.icons8.com/windows/32/4a90e2/foundation.png',
+        'https://img.icons8.com/windows/32/4a90e2/network.png',
+        'https://img.icons8.com/windows/32/4a90e2/artificial-intelligence.png',
+        'https://img.icons8.com/windows/32/4a90e2/video-editing.png',
+        'https://img.icons8.com/windows/32/4a90e2/database.png',
+        'https://img.icons8.com/windows/32/4a90e2/product-architecture.png'
       ]
       let abilitiesTmp = []
       this.abilities.forEach(ele => {

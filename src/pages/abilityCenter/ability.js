@@ -81,7 +81,7 @@ let getHostAbility = function (data) {
       result = result.concat(ele.children)
     }
   })
-  return result
+  return result.slice(0, 8)
 }
 let initAbilities = function (groupDataFromServer, lan) {
   let tempTreeData = []
