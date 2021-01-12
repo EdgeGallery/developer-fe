@@ -52,14 +52,11 @@
       <span class="span_lefts">{{ $t('workspace.uploadImage.mode3') }}</span>
       <span class="span_right">
         {{ $t('workspace.uploadImage.mode3Desc') }}
-        <el-tooltip
-          class="item"
-          effect="dark"
-          :content="this.$t('workspace.uploadImage.mode3Tip')"
-          placement="right"
-        >
-          <em class="el-icon-question" />
-        </el-tooltip>
+      </span>
+    </h3>
+    <div class="tip gray">
+      <div>
+        {{ $t('workspace.uploadImage.mode3Tip') }}
         <el-link
           :href="install_href"
           target="_blank"
@@ -68,9 +65,7 @@
         >
           {{ $t('workspace.uploadImage.installation') }}
         </el-link>
-      </span>
-    </h3>
-    <div class="tip gray">
+      </div>
       <div class="node-info clear">
         <div class="node-info-title p5">
           {{ $t('workspace.uploadImage.importNode') }}
@@ -247,6 +242,7 @@ export default {
     margin-left: 6%;
     .image_title{
       font-size: 16px;
+      margin-top: 20px;
       span{
         float: left;
         margin-bottom: 10px;
@@ -310,7 +306,7 @@ export default {
     }
 
     .node-info {
-      padding: 20px 75px 0px 0px;
+      padding: 10px 75px 0px 0px;
       color: #2c3e50;
       .width-100 {
         width: 100px;
