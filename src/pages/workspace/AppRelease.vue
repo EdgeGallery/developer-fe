@@ -632,6 +632,7 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
+import { Capability, Type } from '../../tools/project_data.js'
 import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
 import addAppPublishConfig from './AddAppPublishConfig.vue'
@@ -658,6 +659,7 @@ export default {
         deployPlatform: '',
         status: ''
       },
+      language: localStorage.getItem('language'),
       appMdList: [],
       appTestData: [],
       isAddRuleData: true,
@@ -706,6 +708,19 @@ export default {
     }
   },
   methods: {
+    checkProjectData () {
+      Type.forEach(itemFe => {
+        if (this.language === 'cn') {
+          if (this.projectDetailData.type === itemFe.label[1]) {
+            this.projectDetailData.type = itemFe.label[0]
+          }
+        } else {
+          if (this.projectDetailData.type === itemFe.label[0]) {
+            this.projectDetailData.type = itemFe.label[1]
+          }
+        }
+      })
+    },
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
         let data = res.data
@@ -715,8 +730,20 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         let dependent = res.data.capabilityList
         let arr = []
+        this.checkProjectData()
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
+            Capability.forEach(itemFe => {
+              if (this.language === 'cn') {
+                if (itemSub.service === itemFe.label[1]) {
+                  itemSub.service = itemFe.label[0]
+                }
+              } else {
+                if (itemSub.service === itemFe.label[0]) {
+                  itemSub.service = itemFe.label[1]
+                }
+              }
+            })
             arr.push(itemSub.service)
           })
         })
@@ -1108,6 +1135,7 @@ export default {
   created () {
   },
   mounted () {
+    this.checkProjectData()
     this.getProjectInfo()
     this.getTestConfig()
     this.getAppstoreUrl()
@@ -1118,6 +1146,8 @@ export default {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
       let spanLeft = document.getElementsByClassName('span_left')
+      this.language = language
+      this.checkProjectData()
       if (language === 'en') {
         spanLeft.forEach(item => {
           item.style.width = 160 + 'px'
