@@ -314,11 +314,11 @@ export default {
       height: 100%;
     }
     .add-project{
-      height: 40%;
+      height: 45%;
       overflow: hidden;
     }
     .project-status{
-      height: 60%;
+      height: 55%;
       overflow: hidden;
     }
   }

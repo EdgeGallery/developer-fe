@@ -38,17 +38,17 @@
       :data="currentData"
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
-      :header-cell-style="{textAlign: 'center'}"
     >
       <el-table-column
         prop="index"
         :label="$t('workspace.serial')"
         align="center"
-        width="60"
+        width="80"
       />
       <el-table-column
         prop="iconUrl"
         :label="$t('workspace.icon')"
+        width="80"
       >
         <template slot-scope="scope">
           <img
@@ -74,6 +74,7 @@
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
+        width="80"
       />
       <el-table-column
         prop="provider"
@@ -82,6 +83,7 @@
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
+        width="100"
       />
       <el-table-column :label="$t('workspace.status')">
         <template slot-scope="scope">
@@ -109,7 +111,12 @@
             v-if="scope.row.status==='RELEASED'"
             class="el-icon-finished tested"
           />
-          <span>{{ scope.row.status }}</span>
+          <span v-if="scope.row.status==='ONLINE'">{{ $t('workspace.statusNew') }}</span>
+          <span v-if="scope.row.status==='DEPLOYING'">{{ $t('workspace.statusDeploying') }}</span>
+          <span v-if="scope.row.status==='DEPLOYED'">{{ $t('workspace.statusSuccess') }}</span>
+          <span v-if="scope.row.status==='DEPLOYED_FAILED'">{{ $t('workspace.statusFail') }}</span>
+          <span v-if="scope.row.status==='TESTED'">{{ $t('workspace.statusTested') }}</span>
+          <span v-if="scope.row.status==='RELEASED'">{{ $t('workspace.statusReleased') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('workspace.operation')">
@@ -330,6 +337,9 @@ export default {
         }
         .tested{
           color: #67c23a;
+        }
+        .cell{
+          padding-left: 0;
         }
       }
     }
