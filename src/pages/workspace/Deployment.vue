@@ -255,17 +255,38 @@
                   prop="metricsusage.cpuusage"
                   :label="$t('workspace.cpuUsage')"
                   sortable
-                />
+                >
+                  <template slot-scope="scope">
+                    <el-progress
+                      type="line"
+                      :percentage="scope.row.metricsusage.cpuusage"
+                    />
+                  </template>
+                </el-table-column>
                 <el-table-column
                   prop="metricsusage.memusage"
                   :label="$t('workspace.memUsage')"
                   sortable
-                />
+                >
+                  <template slot-scope="scope2">
+                    <el-progress
+                      type="line"
+                      :percentage="scope2.row.metricsusage.memusage"
+                    />
+                  </template>
+                </el-table-column>
                 <el-table-column
                   prop="metricsusage.diskusage"
                   :label="$t('workspace.diskUsage')"
                   sortable
-                />
+                >
+                  <template slot-scope="scope3">
+                    <el-progress
+                      type="line"
+                      :percentage="scope3.row.metricsusage.diskusage"
+                    />
+                  </template>
+                </el-table-column>
               </el-table>
             </el-row>
           </div>
@@ -454,7 +475,7 @@ export default {
       var devide = input.indexOf('/')
       var s1 = input.substring(0, devide)
       var s2 = input.substring(devide + 1, input.length)
-      return (Math.round(s1 / s2 * 10000) / 100.00 + '%')
+      return (Math.round(s1 / s2 * 10000) / 100.00)
     },
     initialTimeline () {
       this.getStatusPic()
