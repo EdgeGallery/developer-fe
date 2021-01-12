@@ -1044,7 +1044,8 @@ export default {
     getAtpTest () {
       this.showAtp = false
       this.iframeUrl = ''
-      setTimeout(function () {
+
+      setTimeout(() => {
         Workspace.getAtpTestApi(this.projectId).then(res => {
           if (res.data) {
             this.getAtpData()
