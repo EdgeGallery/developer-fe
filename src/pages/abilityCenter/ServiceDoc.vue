@@ -101,7 +101,7 @@ export default {
       this.$emit('showAbilityHomePage')
     },
     initServices () {
-      Api.getServiceListApi(this.$route.params.groupId)
+      Api.getServiceListApi(this.$route.query.groupId)
         .then(res => {
           if (res.data && res.data.capabilityDetailList) {
             let tmpServiceList = res.data.capabilityDetailList
