@@ -735,7 +735,7 @@ export default {
         }
       }
       .el-timeline-item__icon {
-        font-size: 15px;
+        font-size: 22px;
         color : #fff
       }
       .el-timeline-item__content {
