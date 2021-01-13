@@ -93,6 +93,22 @@ export default new Router({
           }
         },
         {
+          path: 'mecDeveloper/api/mep/serviceDoc',
+          name: 'serviceDoc',
+          component: () => import('../pages/abilityCenter/ServiceDoc.vue'),
+          meta: {
+            id: '3.2.1'
+          }
+        },
+        {
+          path: 'mecDeveloper/api/mep/apiAmulator',
+          name: 'apiAmulator',
+          component: () => import('../pages/abilityCenter/ApiAmulator.vue'),
+          meta: {
+            id: '3.2.1'
+          }
+        },
+        {
           path: '/mecDeveloper/work',
           name: 'workspace',
           component: () => import('../pages/workspace/Index.vue'),
