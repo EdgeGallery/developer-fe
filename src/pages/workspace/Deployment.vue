@@ -17,7 +17,7 @@
 <template>
   <div class="deployment">
     <div class="deploy-detail-box">
-      <h4 class="detail-box-title grayline">
+      <h4 class="detail-box-title grayline font18">
         {{ $t("workspace.appDetail") }}
       </h4>
 
@@ -46,7 +46,7 @@
     </div>
     <div class="test-env">
       <el-row>
-        <h4 class="grayline">
+        <h4 class="grayline font18">
           {{ $t("workspace.selectEnv") }}
         </h4>
       </el-row>
@@ -120,7 +120,7 @@
     <div class="deploy-status-box">
       <!-- 状态头部 -->
       <div class="deploy-status-title-box grayline">
-        <h4 class="detail-box-title">
+        <h4 class="detail-box-title font18">
           {{ $t("workspace.deploymentStatus") }}
         </h4>
       </div>
@@ -187,7 +187,7 @@
         class="deploy-finish-box"
       >
         <h4
-          class="detail-result-title grayline"
+          class="detail-result-title grayline font18"
         >
           {{ $t("workspace.deploymentResult") }}
         </h4>
@@ -598,6 +598,9 @@ export default {
 </script>
 
 <style lang="less">
+.font18{
+  font-size: 18px;
+}
 
 .grayline {
   background: #f0f0f0;
@@ -711,11 +714,14 @@ export default {
         font-size: 16px;
         }
         .el-timeline-item__node--large {
-          height: 20px;
-          width: 20px;
+          height: 23px;
+          width: 23px;
         }
         .el-timeline-item {
           height : 92px
+        }
+        .el-timeline-item__content {
+          font-size: 18px;
         }
         @media screen and (max-width: 1380px){
           .el-timeline-item {
@@ -737,6 +743,7 @@ export default {
       }
       .el-timeline-item__wrapper {
         top: 0px;
+        font-size: 18px;
       }
       .el-timeline-item__tail{
         left: 7.5px;
@@ -754,7 +761,7 @@ export default {
     }
     .tip {
       font-size: 12px;
-      margin: 15px;
+      margin-top: 15px;
       line-height: 20px;
     }
       .deploy-result-buttom {
