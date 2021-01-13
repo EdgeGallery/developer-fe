@@ -122,10 +122,12 @@ export default {
       this.instru = temp
     },
     serviceDocClick (event) {
-      this.$emit('showServiceDoc', event.currentTarget.id)
+      let routeUrl = this.$router.resolve({ name: 'serviceDoc', params: { groupId: event.currentTarget.id } })
+      window.open(routeUrl.href, '_blank')
     },
     amulatorClick () {
-      this.$emit('showAmulator', event.currentTarget.id)
+      let routeUrl = this.$router.resolve({ name: 'apiAmulator', params: { groupId: event.currentTarget.id } })
+      window.open(routeUrl.href, '_blank')
     }
   },
   created () {},

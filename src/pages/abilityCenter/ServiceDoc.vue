@@ -15,21 +15,44 @@
   -->
 
 <template>
-  <div class="service-content">
-    <Opers
-      :selected-service="selectedService"
-      :service-list="serviceList"
-      @showAbilityHomePage="showAbilityHomePage"
-      @reloadContent="reloadContent"
-    />
-    <div
-      class="doc-div"
-      v-if="serviceList.length > 0"
+  <div class="mepapi">
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
     >
-      <Document
-        :guide-file-idprop="guideFileId"
-        v-if="guideFileId"
-      />
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep' }">
+        {{ $t('nav.mepApi') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>
+        服务文档
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="service-content">
+      <!--
+      <Opers
+        :selected-service="selectedService"
+        :service-list="serviceList"
+        @showAbilityHomePage="showAbilityHomePage"
+        @reloadContent="reloadContent"
+      />-->
+      <div
+        class="doc-div"
+        v-if="serviceList.length > 0"
+      >
+        <Document
+          :guide-file-idprop="guideFileId"
+          v-if="guideFileId"
+        />
+        <div
+          v-else
+          class="noServiceInfo"
+        >
+          {{ $t('api.noDataNotice') }}
+        </div>
+      </div>
       <div
         v-else
         class="noServiceInfo"
@@ -37,24 +60,19 @@
         {{ $t('api.noDataNotice') }}
       </div>
     </div>
-    <div
-      v-else
-      class="noServiceInfo"
-    >
-      {{ $t('api.noDataNotice') }}
-    </div>
   </div>
 </template>
 
 <script>
 import Document from '../api/Document.vue'
-import Opers from './Opers.vue'
-import { Api } from '../../tools/api.js'
+// import Opers from './Opers.vue'
+// import { Api } from '../../tools/api.js'
+import axios from 'axios'
 
 export default {
   components: {
-    Document,
-    Opers
+    Document/*,
+    Opers */
   },
   props: {
     groupId: {
@@ -84,7 +102,8 @@ export default {
       this.$emit('showAbilityHomePage')
     },
     initServices () {
-      Api.getServiceListApi(this.groupId)
+      axios('services.json')
+      // Api.getServiceListApi(this.$route.params.groupId)
         .then(res => {
           if (res.data && res.data.capabilityDetailList) {
             let tmpServiceList = res.data.capabilityDetailList
@@ -126,18 +145,23 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-.mep-main{
-  background-color: #fff;
-  padding: 40px 40px 0;
-  position: relative;
-  .service-content {
-    padding-left: 5px;
-    .doc-div{
-      float: left;
-      width: 100%;
-    }
-    .noServiceInfo {
-      text-align: center;
+.mepapi{
+  *{
+    box-sizing: border-box;
+  }
+  .mep-main{
+    background-color: #fff;
+    padding: 40px 40px 0;
+    position: relative;
+    .service-content {
+      padding-left: 5px;
+      .doc-div{
+        float: left;
+        width: 100%;
+      }
+      .noServiceInfo {
+        text-align: center;
+      }
     }
   }
 }
