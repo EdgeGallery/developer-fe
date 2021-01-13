@@ -66,8 +66,7 @@
 <script>
 import Document from '../api/Document.vue'
 // import Opers from './Opers.vue'
-// import { Api } from '../../tools/api.js'
-import axios from 'axios'
+import { Api } from '../../tools/api.js'
 
 export default {
   components: {
@@ -102,8 +101,7 @@ export default {
       this.$emit('showAbilityHomePage')
     },
     initServices () {
-      axios('services.json')
-      // Api.getServiceListApi(this.$route.params.groupId)
+      Api.getServiceListApi(this.$route.params.groupId)
         .then(res => {
           if (res.data && res.data.capabilityDetailList) {
             let tmpServiceList = res.data.capabilityDetailList
