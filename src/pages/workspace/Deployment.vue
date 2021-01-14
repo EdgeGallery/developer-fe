@@ -751,7 +751,7 @@ export default {
 
     }
     .deploy-finish-box {
-      margin-top: 70px;
+      margin-top: 10px;
       width: 100%;
       .gray {
       color: #adb0b8;
