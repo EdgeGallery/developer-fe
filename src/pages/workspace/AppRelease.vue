@@ -110,7 +110,7 @@
                   size="small"
                   class="featuresBtn"
                 >
-                  {{ $t('workspace.uploadFile') }}
+                  {{ $t('workspace.configYaml.uploadFile') }}
                 </el-button>
                 <div
                   slot="tip"
@@ -122,13 +122,11 @@
             </el-col>
           </el-row>
         </div>
-        <!-- 能力发布详情 -->
+        <!-- 应用规则配置 -->
         <h3 class="tit_gray_bg">
-          {{ $t('workspace.releaseDetails') }}
+          {{ $t('workspace.ruleConfig') }}
         </h3>
         <div class="release_detail">
-          <!-- 应用规则配置 -->
-          <p>{{ $t('workspace.ruleConfig') }}</p>
           <el-tabs
             class="ruleconfig_tab"
           >
@@ -407,8 +405,12 @@
               disabled
             />
           </el-tabs>
-          <!-- 应用服务发布配置 -->
-          <p>{{ $t('workspace.appPublishConfig') }}</p>
+        </div>
+        <!-- 应用服务发布配置 -->
+        <h3 class="tit_gray_bg">
+          {{ $t('workspace.appPublishConfig') }}
+        </h3>
+        <div class="release_detail">
           <el-button
             size="small"
             class="featuresBtn mt20"
@@ -497,6 +499,7 @@
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
+          v-loading="iframeLoading"
         >
           <iframe
             :src="iframeUrl"
@@ -703,7 +706,8 @@ export default {
       userName: sessionStorage.getItem('userName'),
       taskId: '',
       interval: null,
-      mdFileId: ''
+      mdFileId: '',
+      iframeLoading: true
     }
   },
   methods: {
@@ -917,6 +921,8 @@ export default {
       } else if (name === 'publicConfig') {
         this.appPublishDialog = true
         this.editRuleData = {
+          twoLevelName: '',
+          description: '',
           serviceName: '',
           internalPort: 0,
           version: '',
@@ -925,9 +931,10 @@ export default {
           apiMd: '',
           trafficRulesList: '',
           dnsRulesList: '',
-          groupId: ''
+          oneLevelName: ''
         }
       }
+      console.log(this.editRuleData)
     },
     // 添加规则列表
     getAddDnsData (data) {
@@ -1054,15 +1061,15 @@ export default {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
         if (this.taskId) {
-          console.log(this.taskId)
-          console.log(1)
-          // window.frames['atpIframe'].location.href = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
           this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
-          console.log(2)
           this.showAtp = true
+          this.iframeLoading = false
         }
       }).catch(() => {
         this.$message.error(this.$t('promptMessage.getDataFail'))
+        setTimeout(() => {
+          this.iframeLoading = false
+        }, 2000)
       })
     },
     // 获取集成测试列表
@@ -1238,6 +1245,7 @@ export default {
         float: left;
         margin: 0 0 0 15px;
         color: #adb0b8;
+        text-align: left;
       }
       .el-button--primary{
         margin-top: 0;

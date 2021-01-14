@@ -15,23 +15,46 @@
   -->
 
 <template>
-  <div class="service-content">
-    <Opers
-      :selected-service="selectedService"
-      :service-list="serviceList"
-      @showAbilityHomePage="showAbilityHomePage"
-      @reloadContent="reloadContent"
-    />
-    <div
-      class="doc-div"
-      v-if="serviceList.length > 0"
+  <div class="mepapi">
+    <el-breadcrumb
+      separator="/"
+      class="bread-crumb"
     >
-      <API
-        :api-file-idprop="apiFileId"
-        :service-detailprop="serviceDetail"
-        :is-delete-apiprop="false"
-        v-if="apiFileId"
-      />
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
+        {{ $t('breadCrumb.mecDeveloper') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/mecDeveloper/api/mep' }">
+        {{ $t('nav.mepApi') }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>
+        在线模拟器
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="service-content">
+      <!--
+      <Opers
+        :selected-service="selectedService"
+        :service-list="serviceList"
+        @showAbilityHomePage="showAbilityHomePage"
+        @reloadContent="reloadContent"
+      />-->
+      <div
+        class="doc-div"
+        v-if="serviceList.length > 0"
+      >
+        <API
+          :api-file-idprop="apiFileId"
+          :service-detailprop="serviceDetail"
+          :is-delete-apiprop="false"
+          v-if="apiFileId"
+        />
+        <div
+          v-else
+          class="noServiceInfo"
+        >
+          {{ $t('api.noDataNotice') }}
+        </div>
+      </div>
       <div
         v-else
         class="noServiceInfo"
@@ -39,24 +62,18 @@
         {{ $t('api.noDataNotice') }}
       </div>
     </div>
-    <div
-      v-else
-      class="noServiceInfo"
-    >
-      {{ $t('api.noDataNotice') }}
-    </div>
   </div>
 </template>
 
 <script>
 import API from '../api/API.vue'
-import Opers from './Opers.vue'
+// import Opers from './Opers.vue'
 import { Api } from '../../tools/api.js'
 
 export default {
   components: {
-    API,
-    Opers
+    API/*,
+    Opers */
   },
   props: {
     groupId: {
@@ -101,7 +118,7 @@ export default {
       this.$emit('showAbilityHomePage')
     },
     initServices () {
-      Api.getServiceListApi(this.groupId)
+      Api.getServiceListApi(this.$route.query.groupId)
         .then(res => {
           if (res.data && res.data.capabilityDetailList) {
             let tmpServiceList = res.data.capabilityDetailList
@@ -149,7 +166,11 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-.noServiceInfo {
+.mepapi{
+  *{
+    box-sizing: border-box;
+  }
+  .noServiceInfo {
   text-align: center;
 }
 .service-content{
