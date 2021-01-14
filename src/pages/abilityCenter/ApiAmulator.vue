@@ -176,5 +176,6 @@ export default {
 .service-content{
   background: #ffffff;
   padding: 40px;
+  }
 }
 </style>
