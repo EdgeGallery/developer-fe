@@ -591,7 +591,7 @@ export default {
       this.language = language
       if (this.language === 'en') {
         detailLeft.forEach(item => {
-          item.style.width = 140 + 'px'
+          item.style.width = 150 + 'px'
         })
         deployDiv.style.minWidth = 820 + 'px'
         deployLeft.style.width = 220 + 'px'
@@ -790,6 +790,9 @@ export default {
         color: gray;
       }
       .deploy-finish-status-box {
+        .el-table--small {
+          font-size: 14px
+        }
         .containerTable{
           width:100%;
           margin-top: 35px;
@@ -828,12 +831,6 @@ export default {
                   float: left;
                 }
               }
-            }
-            .downloadLog{
-              float:right
-            }
-            .clearfix{
-              clear: both;
             }
             .el-col{
               padding: 30px;
