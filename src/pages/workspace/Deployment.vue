@@ -475,7 +475,11 @@ export default {
       var devide = input.indexOf('/')
       var s1 = input.substring(0, devide)
       var s2 = input.substring(devide + 1, input.length)
-      return (Math.round(s1 / s2 * 10000) / 100.00)
+      let res = (Math.round(s1 / s2 * 10000) / 100.00)
+      if (res > 100) {
+        res = 100
+      }
+      return res
     },
     initialTimeline () {
       this.getStatusPic()
@@ -530,8 +534,17 @@ export default {
 
     podsToContainers: function () {
       let temp = []
+      if (this.pods === null) {
+        return
+      }
       for (let pod of this.pods) {
+        if (pod === null || pod.containers === null || pod.containers === undefined) {
+          continue
+        }
         for (let container of pod.containers) {
+          if (container === null || container === undefined) {
+            continue
+          }
           container.podName = pod.podname
           container.containerStatus = pod.podstatus
           container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
@@ -751,7 +764,7 @@ export default {
 
     }
     .deploy-finish-box {
-      margin-top: 70px;
+      margin-top: 10px;
       width: 100%;
       .gray {
       color: #adb0b8;
