@@ -23,25 +23,26 @@
       <p class="title">
         {{ $t('workspace.serviceDetails') }}
       </p>
-      <el-row class="service_info">
+      <el-row class="title service_info">
         <el-col :span="24">
-          {{ $t('test.testApp.type') }} ：{{ serviceDetail.capabilityType }}
+          <span class="span_left">{{ $t('test.testApp.type') }} :</span>{{ serviceDetail.capabilityType }}
         </el-col>
       </el-row>
-      <el-row class="service_info">
+      <el-row class="title service_info">
         <el-col :span="11">
-          {{ $t('workspace.servicename') }} ：{{ serviceDetail.serviceName }}
+          <span class="span_left">{{ $t('workspace.servicename') }} :</span>{{ serviceDetail.serviceName }}
         </el-col>
         <el-col :span="13">
-          {{ $t('workspace.version') }} ：{{ serviceDetail.version }}
+          <span class="span_left">{{ $t('workspace.version') }} :</span>{{ serviceDetail.version }}
         </el-col>
       </el-row>
-      <el-row class="service_info">
+      <el-row class="title service_info">
         <el-col :span="11">
-          {{ $t('workspace.releaseTime') }} ：{{ serviceDetail.uploadTime }}
+          <span class="span_left">{{ $t('workspace.releaseTime') }} :</span>{{ serviceDetail.uploadTime }}
         </el-col>
         <el-col :span="13">
-          SDK {{ $t('common.download') }} ：
+          <span class="span_left">{{ $t('workspace.sdkDownload') }} :</span>
+
           <el-select
             v-model="codeLanguage"
             name="codeLanguage"
@@ -203,19 +204,40 @@ export default {
 .service_div{
   padding-left: 20px;
   .api_top{
-    line-height: 25px;
+    font-size: 20px;
+    line-height: 35px;
+    width: 70%;
+    max-width: 1400px;
+    padding: 0 20px;
+    margin: 20px 0 5px 120px;
   }
   .title{
-    font-size: 15px;
-    margin-top: 15px;
+    line-height: 35px;
+    max-width: 1400px;
+    padding: 0 20px;
+    margin: 5px 0 5px 120px;
+    font-size: 20px;
+  }
+  .service_info{
+    font-size: 18px;
+    .el-col {
+    padding: 0px;
+}
   }
   .el-row{
-    font-size: 13px;
+    font-size: 18px;
     .el-col{
       padding: 5px;
+      .span_left{
+        color: #adb0b8;
+        display: inline-block;
+        min-width: 70px;
+        text-align: right;
+        padding-right: 20px;
+      }
     }
     .el-select{
-      width: 65px;
+      width: 80px;
       .el-input__icon{
         width: 15px;
       }
@@ -237,5 +259,6 @@ export default {
   .deleteApi{
     margin-right: 10px;
   }
+
 }
 </style>
