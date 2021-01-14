@@ -20,7 +20,7 @@
       <p class="api_top">
         {{ $t('workspace.apiTopText') }}
       </p>
-      <p class="title">
+      <p class="title serviceTip">
         {{ $t('workspace.serviceDetails') }}
       </p>
       <el-row class="title service_info">
@@ -206,10 +206,13 @@ export default {
   .api_top{
     font-size: 20px;
     line-height: 35px;
-    width: 70%;
+    width: 90%;
     max-width: 1400px;
-    padding: 0 20px;
-    margin: 20px 0 5px 120px;
+    margin: 20px 0 5px 100px;
+  }
+  .serviceTip{
+    margin-top: 30px;
+    font-weight: 700;
   }
   .title{
     line-height: 35px;
@@ -231,7 +234,7 @@ export default {
       .span_left{
         color: #adb0b8;
         display: inline-block;
-        min-width: 70px;
+        min-width: 90px;
         text-align: right;
         padding-right: 20px;
       }
