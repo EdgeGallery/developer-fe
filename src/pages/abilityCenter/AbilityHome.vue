@@ -22,7 +22,7 @@
     >
       <div class="topLine">
         <div class="title">
-          <p>丰富的边缘能力随心选择，极致的5G体验触手可及</p>
+          <p>丰富的边缘能力随心选择 | 极致的5G体验触手可及</p>
         </div>
       </div>
       <div class="centerLine">

@@ -376,6 +376,7 @@ const en = {
     reportPromt: 'Your report has expired and cannot be viewed online, please download and view',
     serviceDetails: 'Service Details',
     releaseTime: 'Release Time',
+    sdkDownload: 'SDK Download',
     apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service ',
     projectDetails: 'Project Details',
     releaseDetails: 'Capability Release Details',

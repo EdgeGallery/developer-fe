@@ -130,7 +130,7 @@ export default {
               this.selectedService = tmpServiceList[0].service
               this.apiFileId = tmpServiceList[0].apiFileId
               this.serviceDetail = {
-                capabilityType: res.data.twoLevelName,
+                capabilityType: res.data.oneLevelName,
                 serviceName: tmpServiceList[0].service,
                 uploadTime: this.dateChange(tmpServiceList[0].uploadTime),
                 version: tmpServiceList[0].version
@@ -173,5 +173,8 @@ export default {
   .noServiceInfo {
   text-align: center;
 }
+.service-content{
+  background: #ffffff;
+  padding: 40px;
 }
 </style>
