@@ -413,7 +413,7 @@ export default {
     font-weight: normal;
   }
   .is-wait .el-step__icon{
-    background: #fff;
+    background: #b8becc;
     border: 1px solid #adb0b8;
   }
   .is-success .is-text{
