@@ -822,9 +822,10 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+.addTrafficRules{
   .title{
     margin:15px 3px;
-    font-size:18px;
+    font-size:16px;
     text-align: left;
   }
   .title::before{
@@ -837,6 +838,7 @@ export default {
     position: relative;
     top:2px;
   }
+}
   .btn{
     position: relative;
     top: -10px;

@@ -148,7 +148,7 @@ export default {
       ip: '',
       port: '',
       enable: false,
-      install_href: 'https://gitee.com/edgegallery/installer/tree/master/offline',
+      install_href: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/add_edgeNode_guide.md',
       isIpError: false,
       isPortError: false
     }
