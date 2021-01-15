@@ -217,8 +217,7 @@ export default {
   .title{
     line-height: 35px;
     max-width: 1400px;
-    padding: 0 20px;
-    margin: 5px 0 5px 120px;
+    margin: 5px 0 5px 100px;
     font-size: 20px;
   }
   .service_info{
