@@ -104,6 +104,10 @@
             class="el-icon-error deployfailed"
           />
           <em
+            v-if="scope.row.status==='TESTING'"
+            class="el-icon-loading deploying"
+          />
+          <em
             v-if="scope.row.status==='TESTED'"
             class="el-icon-success tested"
           />
@@ -115,6 +119,7 @@
           <span v-if="scope.row.status==='DEPLOYING'">{{ $t('workspace.statusDeploying') }}</span>
           <span v-if="scope.row.status==='DEPLOYED'">{{ $t('workspace.statusSuccess') }}</span>
           <span v-if="scope.row.status==='DEPLOYED_FAILED'">{{ $t('workspace.statusFail') }}</span>
+          <span v-if="scope.row.status==='TESTING'">{{ $t('workspace.statusTesting') }}</span>
           <span v-if="scope.row.status==='TESTED'">{{ $t('workspace.statusTested') }}</span>
           <span v-if="scope.row.status==='RELEASED'">{{ $t('workspace.statusReleased') }}</span>
         </template>

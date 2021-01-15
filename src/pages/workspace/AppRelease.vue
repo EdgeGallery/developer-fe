@@ -1050,7 +1050,7 @@ export default {
     getAtpTest () {
       this.showAtp = false
       this.iframeUrl = ''
-      Workspace.getAtpTestApi(this.projectId).then(res => {
+      Workspace.getAtpTestApi(this.projectId, this.userId).then(res => {
         if (res.data) {
           this.getAtpData()
         }

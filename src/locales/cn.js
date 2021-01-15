@@ -262,6 +262,7 @@ const cn = {
     statusDeploying: '部署中',
     statusSuccess: '部署成功',
     statusFail: '部署失败',
+    statusTesting: '测试中',
     statusTested: '测试完成',
     statusReleased: '已发布',
     createProject: '新建应用开发项目',
