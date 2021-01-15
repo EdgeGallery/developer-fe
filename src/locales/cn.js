@@ -385,7 +385,7 @@ const cn = {
     noDependent: '无依赖',
     deploymentPlatform: '部署平台',
     uploadFile: '说明文档',
-    appStoreMd: '请上传.md文件，用来描述应用介绍、场景等',
+    appStoreMd: '请上传.md文件，用来介绍APP的基本功能、使用场景等',
     apiFunctionMd: '请上传.md文件，用来描述API功能、使用等',
     routeConfig: '路由配置',
     protocol: '协议',

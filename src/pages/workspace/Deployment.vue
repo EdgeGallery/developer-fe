@@ -17,7 +17,7 @@
 <template>
   <div class="deployment">
     <div class="deploy-detail-box">
-      <h4 class="detail-box-title grayline">
+      <h4 class="detail-box-title grayline font18">
         {{ $t("workspace.appDetail") }}
       </h4>
 
@@ -46,7 +46,7 @@
     </div>
     <div class="test-env">
       <el-row>
-        <h4 class="grayline">
+        <h4 class="grayline font18">
           {{ $t("workspace.selectEnv") }}
         </h4>
       </el-row>
@@ -120,7 +120,7 @@
     <div class="deploy-status-box">
       <!-- 状态头部 -->
       <div class="deploy-status-title-box grayline">
-        <h4 class="detail-box-title">
+        <h4 class="detail-box-title font18">
           {{ $t("workspace.deploymentStatus") }}
         </h4>
       </div>
@@ -187,7 +187,7 @@
         class="deploy-finish-box"
       >
         <h4
-          class="detail-result-title grayline"
+          class="detail-result-title grayline font18"
         >
           {{ $t("workspace.deploymentResult") }}
         </h4>
@@ -475,7 +475,11 @@ export default {
       var devide = input.indexOf('/')
       var s1 = input.substring(0, devide)
       var s2 = input.substring(devide + 1, input.length)
-      return (Math.round(s1 / s2 * 10000) / 100.00)
+      let res = (Math.round(s1 / s2 * 10000) / 100.00)
+      if (res > 100) {
+        res = 100
+      }
+      return res
     },
     initialTimeline () {
       this.getStatusPic()
@@ -530,8 +534,17 @@ export default {
 
     podsToContainers: function () {
       let temp = []
+      if (this.pods === null) {
+        return
+      }
       for (let pod of this.pods) {
+        if (pod === null || pod.containers === null || pod.containers === undefined) {
+          continue
+        }
         for (let container of pod.containers) {
+          if (container === null || container === undefined) {
+            continue
+          }
           container.podName = pod.podname
           container.containerStatus = pod.podstatus
           container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
@@ -578,7 +591,7 @@ export default {
       this.language = language
       if (this.language === 'en') {
         detailLeft.forEach(item => {
-          item.style.width = 140 + 'px'
+          item.style.width = 150 + 'px'
         })
         deployDiv.style.minWidth = 820 + 'px'
         deployLeft.style.width = 220 + 'px'
@@ -598,6 +611,9 @@ export default {
 </script>
 
 <style lang="less">
+.font18{
+  font-size: 18px;
+}
 
 .grayline {
   background: #f0f0f0;
@@ -711,11 +727,14 @@ export default {
         font-size: 16px;
         }
         .el-timeline-item__node--large {
-          height: 20px;
-          width: 20px;
+          height: 23px;
+          width: 23px;
         }
         .el-timeline-item {
           height : 92px
+        }
+        .el-timeline-item__content {
+          font-size: 18px;
         }
         @media screen and (max-width: 1380px){
           .el-timeline-item {
@@ -729,7 +748,7 @@ export default {
         }
       }
       .el-timeline-item__icon {
-        font-size: 15px;
+        font-size: 22px;
         color : #fff
       }
       .el-timeline-item__content {
@@ -737,6 +756,7 @@ export default {
       }
       .el-timeline-item__wrapper {
         top: 0px;
+        font-size: 18px;
       }
       .el-timeline-item__tail{
         left: 7.5px;
@@ -744,7 +764,7 @@ export default {
 
     }
     .deploy-finish-box {
-      margin-top: 70px;
+      margin-top: 10px;
       width: 100%;
       .gray {
       color: #adb0b8;
@@ -754,7 +774,7 @@ export default {
     }
     .tip {
       font-size: 12px;
-      margin: 15px;
+      margin-top: 15px;
       line-height: 20px;
     }
       .deploy-result-buttom {
@@ -770,6 +790,9 @@ export default {
         color: gray;
       }
       .deploy-finish-status-box {
+        .el-table--small {
+          font-size: 14px
+        }
         .containerTable{
           width:100%;
           margin-top: 35px;
@@ -808,12 +831,6 @@ export default {
                   float: left;
                 }
               }
-            }
-            .downloadLog{
-              float:right
-            }
-            .clearfix{
-              clear: both;
             }
             .el-col{
               padding: 30px;
