@@ -934,7 +934,6 @@ export default {
           oneLevelName: ''
         }
       }
-      console.log(this.editRuleData)
     },
     // 添加规则列表
     getAddDnsData (data) {

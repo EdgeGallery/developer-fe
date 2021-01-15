@@ -293,7 +293,6 @@ export default {
       this.form.dnsRulesList = data.dnsRulesList.split(',')
       this.removeEmpty(this.form.trafficRulesList)
       this.removeEmpty(this.form.dnsRulesList)
-      console.log(this.form)
       if (this.form.apiJson) {
         this.getFileList(this.form.apiJson, 'apiJson')
       }
@@ -452,7 +451,6 @@ export default {
       this.form.dnsRulesList = this.form.dnsRulesList.join(',')
       this.$emit('getAddPublicConfigData', this.form)
       this.handleClose()
-      console.log(this.form)
     }
   },
   mounted () {

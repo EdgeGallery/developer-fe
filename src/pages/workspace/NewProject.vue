@@ -164,13 +164,13 @@ export default {
       this.$refs.currentComponet.emitStepData()
       let appIcon = this.allFormData.first.appIcon[0]
       let appname = this.allFormData.first.name
-      let nameRule = appname.match(/^[a-zA-Z0-9][\w\\-\s]{3,32}$/g)
+      let nameRule = appname.match(/^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-\s]{4,32}$/)
       let version = this.allFormData.first.version
       let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
       let provider = this.allFormData.first.provider
       let providerRule = provider.match(/^\S.{0,29}$/g)
       let description = this.allFormData.first.description
-      let descriptionRule = description.match(/^\S.{0,128}$/g)
+      let descriptionRule = description.match(/^(?!\s)[\S.\s\n\r]{1,128}$/)
       if (!appname) {
         this.$message({
           type: 'warning',
@@ -237,7 +237,6 @@ export default {
         formdata.append('file', firstStepData)
         Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
           this.iconFileId = res.data.fileId
-          console.log(this.iconFileId)
           if (!this.isGuest && !this.isAppDevelopment) {
             this.getApplicationProject()
           }
