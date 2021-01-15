@@ -153,12 +153,10 @@ export default {
       } else {
         this.indexName = to.path
       }
-      console.log(this.indexName)
     }
   },
   mounted () {
     this.indexName = this.$route.fullPath
-    console.log(this.indexName)
   }
 }
 

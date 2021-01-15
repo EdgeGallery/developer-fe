@@ -811,7 +811,6 @@ export default {
       } else {
         this.trafficRule.dstInterface = []
       }
-      console.log(this.trafficRule)
       this.$emit('getAddTrafficData', this.trafficRule)
       this.handleClose()
     }
