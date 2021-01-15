@@ -262,6 +262,7 @@ const en = {
     statusDeploying: 'Deploying',
     statusSuccess: 'Deploy Success',
     statusFail: 'Deploy Failed',
+    statusTesting: 'Testing',
     statusTested: 'Tested',
     statusReleased: 'Released',
     createProject: 'Add application development project',

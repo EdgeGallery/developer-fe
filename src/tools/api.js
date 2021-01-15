@@ -281,8 +281,8 @@ let Workspace = {
     return method('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
   },
   // 应用测试
-  getAtpTestApi: function (projectId) {
-    return Get('mec/developer/v1/projects/' + projectId + '/action/atp')
+  getAtpTestApi: function (projectId, userId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/action/atp?userId=' + userId)
   },
   // 上传应用发布详情
   PostReleaseApi: function (projectId, params) {
