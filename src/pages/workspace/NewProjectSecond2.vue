@@ -63,7 +63,7 @@
               {{ tag.service }}
             </el-tag>
           </div>
-          <div style="margin-top: 20px">
+          <div class="service_div">
             <label>{{ $t("workspace.availableService") }}: </label>
             <el-checkbox-group
               style="margin-top: 15px"
@@ -261,7 +261,6 @@ export default {
 <style lang="less">
 
 .upper-ability {
-  width:500px;
   height:80px;
 }
 .service-title {
@@ -296,6 +295,26 @@ export default {
   .tableCapa td:first-child {
     width: 40%;
     text-align: right;
+  }
+  .tableCapa td:last-child {
+    width: 60%;
+    .service_div{
+      margin-top: 20px;
+      .el-button, .el-checkbox{
+        word-wrap: break-word;
+        white-space: normal;
+      }
+      .el-checkbox{
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .el-checkbox:hover,.el-checkbox.is-checked{
+        .el-card{
+          border: 1px solid #bcceff;
+        }
+      }
+    }
   }
   .capability_tree{
     height: 336px;
