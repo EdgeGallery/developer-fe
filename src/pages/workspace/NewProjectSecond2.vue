@@ -50,31 +50,40 @@
           />
         </td>
         <td style="vertical-align:text-top;">
-          <label>{{ $t("workspace.selectedService") }}: </label>
-          <span v-if="tags === null || tags.length === 0"> {{ $t("workspace.noService") }}</span>
-          <el-tag
-            v-for="tag in tags"
-            :key="tag.service"
-            closable
-            @close="handleDeleteTag(tag)"
-            style="margin-left: 10px;"
-          >
-            {{ tag.service }}
-          </el-tag>
+          <div class="upper-ability">
+            <label>{{ $t("workspace.selectedService") }}: </label>
+            <span v-if="tags === null || tags.length === 0"> {{ $t("workspace.noService") }}</span>
+            <el-tag
+              v-for="tag in tags"
+              :key="tag.service"
+              closable
+              @close="handleDeleteTag(tag)"
+              style="margin-left: 10px;"
+            >
+              {{ tag.service }}
+            </el-tag>
+          </div>
           <div style="margin-top: 20px">
             <label>{{ $t("workspace.availableService") }}: </label>
             <el-checkbox-group
               style="margin-top: 15px"
               v-model="tags"
             >
-              <el-checkbox-button
+              <el-checkbox
                 v-for="capabilityDetail in capaList.capabilityDetailList"
                 :label="capabilityDetail"
                 :key="capabilityDetail.service"
                 @change="handleClickService()"
               >
-                {{ capabilityDetail.service }}
-              </el-checkbox-button>
+                <el-card>
+                  <div>
+                    <span class="service-title">{{ capabilityDetail.service }}</span>
+                    <p class="service-desc">
+                      {{ capabilityDetail.description }}
+                    </p>
+                  </div>
+                </el-card>
+              </el-checkbox>
             </el-checkbox-group>
           </div>
         </td>
@@ -250,6 +259,23 @@ export default {
 </script>
 
 <style lang="less">
+
+.upper-ability {
+  width:500px;
+  height:80px;
+}
+.service-title {
+    font-size: 16px;
+    color: #000;
+    line-height: 26px;
+    font-weight: 400;
+  }
+  .service-desc {
+    font-size: 14px;
+    color: #999;
+    line-height: 24px;
+    margin-top: 8px;
+  }
 .secondstep {
 .active {
     background: #fff
