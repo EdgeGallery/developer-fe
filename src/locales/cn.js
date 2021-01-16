@@ -107,7 +107,17 @@ const cn = {
     serviceSelection: '服务选择：',
     noDataNotice: '暂无数据。',
     installGuide: '安装指导',
-    hotServices: '热门服务'
+    hotServices: '热门服务',
+    capabilitieTitle: '丰富的边缘能力随心选择 | 极致的5G体验触手可及',
+    capabilitieOneTip: 'EdgeGallery服务全景图',
+    capabilitieTwoTip: '开发者实践专区',
+    serviceDoc: '服务文档',
+    onlineEmulator: '在线模拟器',
+    videoTutorial: '视频教程课堂专区',
+    developerCommunity: '开发者问答社区',
+    Detail: '查看详情',
+    videoTutorialDetail: '指导开发者基于edgegallery平台进行app应用开发、部署调测、测试认证以及应用发布的全流程。',
+    developerCommunityDetail: '用于开发者的交流和学习。'
   },
   nav: {
     home: '首页',

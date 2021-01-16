@@ -40,14 +40,14 @@
             @click="serviceDocClick"
             :id="item.id"
           >
-            服务文档
+            {{ $t('api.serviceDoc') }}
           </span>
           <span
             class="mulator-link"
             @click="amulatorClick"
             :id="item.id"
           >
-            在线模拟器
+            {{ $t('api.onlineEmulator') }}
           </span>
         </div>
       </div>

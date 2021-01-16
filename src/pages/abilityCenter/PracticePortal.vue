@@ -31,13 +31,13 @@
         </div>
         <div class="practice-panel-bd">
           <div class="practice-panel-title">
-            视频教程课堂专区
+            {{ $t('api.videoTutorial') }}
           </div>
           <div class="practice-panel-cont">
             <div
               class="practice-panel-desc practice-line-clamp-2"
             >
-              指导开发者基于edgegallery平台进行app应用开发、部署调测、测试认证以及应用发布的全流程。
+              {{ $t('api.videoTutorialDetail') }}
             </div>
           </div>
           <footer class="practice-panel-ft">
@@ -45,7 +45,7 @@
               class="practice-link"
               href="https://www.edgegallery.org/%e8%a7%86%e9%a2%91%e8%b5%84%e6%ba%90"
               target="_blank"
-            >查看详情</a>
+            >{{ $t('api.Detail') }}</a>
           </footer>
         </div>
       </div>
@@ -63,13 +63,13 @@
         </div>
         <div class="practice-panel-bd">
           <div class="practice-panel-title">
-            开发者问答社区
+            {{ $t('api.developerCommunity') }}
           </div>
           <div class="practice-panel-cont">
             <div
               class="practice-panel-desc practice-line-clamp-2"
             >
-              用于开发者的交流和学习。
+              {{ $t('api.developerCommunityDetail') }}
             </div>
           </div>
           <footer class="practice-panel-ft">
@@ -77,7 +77,7 @@
               class="practice-link"
               href="http://www.edgegallery.org/%E6%B2%9F%E9%80%9A%E4%BA%A4%E6%B5%81"
               target="_blank"
-            >查看详情</a>
+            >{{ $t('api.Detail') }}</a>
           </footer>
         </div>
       </div>

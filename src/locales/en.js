@@ -106,7 +106,18 @@ const en = {
     usageInstruction: 'Usage Instruction',
     serviceSelection: 'Service Selection:',
     noDataNotice: 'No data available.',
-    installGuide: 'Installation Guide'
+    installGuide: 'Installation Guide',
+    hotServices: 'Popular Service',
+    capabilitieTitle: 'Abundant edge capabilities | Ultimate 5G experience ',
+    capabilitieOneTip: 'EdgeGallery Service Showcase',
+    capabilitieTwoTip: 'Developer Practice Area',
+    serviceDoc: 'service docs',
+    onlineEmulator: 'online emulator',
+    videoTutorial: 'Video Tutorial Area',
+    developerCommunity: 'Developer Q&A Community',
+    Detail: 'Detail',
+    videoTutorialDetail: 'Guide developers in the whole process of app application developer, deploy, test, and release based on the edgegallery platform.',
+    developerCommunityDetail: 'Used for developer communication and learning.'
   },
   nav: {
     home: 'Home',
