@@ -22,14 +22,14 @@
     >
       <div class="topLine">
         <div class="title">
-          <p>丰富的边缘能力随心选择 | 极致的5G体验触手可及</p>
+          <p>{{ $t('api.capabilitieTitle') }}</p>
         </div>
       </div>
       <div class="centerLine">
         <div class="inner">
           <div class="inner-hd">
             <h2 class="inner-hd-title">
-              EdgeGallery服务全景图
+              {{ $t('api.capabilitieOneTip') }}
             </h2>
           </div>
           <div class="inner-bd">
@@ -56,7 +56,7 @@
         <div class="inner">
           <div class="inner-hd">
             <h2 class="inner-hd-title">
-              开发者实践专区
+              {{ $t('api.capabilitieTwoTip') }}
             </h2>
           </div>
           <div class="inner-bd">
