@@ -478,6 +478,8 @@ export default {
       this.defaultIconFile = []
       if (this.form.defaultActive === index) {
         this.form.defaultActive = ''
+        this.form.appIcon = []
+        this.showErr = !this.defaultIconFile.length
       } else {
         this.form.defaultActive = index
         this.conversionIcon(file)
@@ -599,14 +601,17 @@ export default {
         line-height: 34px;
         margin: 3px 15px 0 0;
       }
-      .el-icon-question:before {
-        color: #688ef3;
-        font-size: 16px;
-        margin-left: 10px;
-      }
       .el-upload-list__item-preview{
         opacity: 0;
       }
+    }
+    .el-icon-question{
+      float: left;
+      margin-top: 12px;
+    }
+    .el-icon-question:before {
+      color: #688ef3;
+      font-size: 16px;
     }
     .default-icon{
       float: left;
@@ -673,7 +678,11 @@ export default {
       margin: 0 15px 0 0;
     }
     .el-form-error{
-      padding-top: 0;
+      float: left;
+      color: #F56C6C;
+      font-size: 12px;
+      line-height: 1;
+      margin: 14px 0 0 10px;
     }
   }
 </style>

@@ -16,12 +16,12 @@
 
 <template>
   <div class="api">
-    <el-row
-      :gutter="20"
+    <div
       v-loading="apiDataLoading"
       v-if="hasService"
+      class="clear"
     >
-      <el-col :span="6">
+      <div class="api_left">
         <el-tree
           ref="treeList"
           :data="treeData"
@@ -31,8 +31,8 @@
           highlight-current
           class="api_tree"
         />
-      </el-col>
-      <el-col :span="18">
+      </div>
+      <div class="api_right">
         <div class="service_div">
           <p class="api_top">
             {{ $t('workspace.apiTopText') }}
@@ -90,8 +90,8 @@
         </div>
 
         <div id="swagger-ui" />
-      </el-col>
-    </el-row>
+      </div>
+    </div>
     <div
       class="no_service"
       v-if="!hasService"
@@ -270,7 +270,6 @@ export default {
       this.$nextTick(() => {
         const oApi = document.getElementById('swagger-ui')
         const deviceHeight = document.documentElement.clientHeight
-        console.log(document.getElementsByClassName('service_div'))
         const oDiv = document.getElementsByClassName('service_div')[0]
         oApi.style.height = Number(deviceHeight) - 260 - oDiv.offsetHeight + 'px'
       })
@@ -326,10 +325,27 @@ export default {
 </script>
 <style lang='less'>
 .api{
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+  .api_left{
+    float: left;
+    width: 320px;
+    padding: 20px 0;
+  }
+  .api_right{
+    float: left;
+    width: calc(100% - 320px);
+    background: #fff;
+    padding: 20px 20px 0 0;
+  }
   .api_tree{
+    background: #f8f8f8;
     .el-tree-node__label{
       font-size:18px;
     }
+  }
+  .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
+    background-color: #e1f0ff;
   }
   #swagger-ui{
     width: 100%;
