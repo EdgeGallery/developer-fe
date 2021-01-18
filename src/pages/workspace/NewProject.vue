@@ -440,15 +440,6 @@ export default {
     right: 0px;
     transform: translateY(-50%) translateX(-100%);
   }
-  .el-form-error{
-    color: #F56C6C;
-    font-size: 12px;
-    line-height: 1;
-    padding-top: 4px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
   .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
     background-color: #688ef3;
     border-color: #688ef3;

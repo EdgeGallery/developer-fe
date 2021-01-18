@@ -30,6 +30,7 @@
     </el-breadcrumb>
     <el-tabs
       class="elTabs"
+      :class="{'enLeft':language==='en'}"
       v-model="activeName"
       tab-position="left"
     >
@@ -103,6 +104,7 @@
         name="2"
         lazy
         v-if="isAppDevelopment"
+        style="padding:0"
       >
         <span slot="label"><em :class="['tab_capability',activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}</span>
         <api v-if="activeName === '2'" />
@@ -437,6 +439,9 @@ export default {
   .el-tabs--left .el-tabs__item.is-left{
     text-align: center;
     background: #fff;
+  }
+  .el-tabs--left.enLeft .el-tabs__item.is-left{
+    text-align: left;
   }
   .el-tabs--left .el-tabs__header.is-left{
     margin-right: 20px;
