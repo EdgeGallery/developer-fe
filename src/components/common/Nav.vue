@@ -75,6 +75,7 @@
           class="nav-tabs rt"
           v-else
         >
+          <span class="userName">{{ userName }}</span>
           <span
             @click="beforeLogout()"
           >{{ $t('nav.logOut') }}</span>
@@ -302,6 +303,14 @@ export default {
       color: #fff;
       cursor: pointer;
       margin-right: 10px;
+    }
+    span.userName{
+      border-right: 1px solid #686868;
+      height: 12px;
+      line-height: 12px;
+      cursor: default;
+      padding-right: 10px;
+      display: inline-block;
     }
   }
   .nav{
