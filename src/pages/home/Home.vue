@@ -276,8 +276,6 @@ export default {
   }
 
   .common-appliaction {
-    // padding-left: 18px;
-    background: white;
     position: relative;
     padding-bottom: 26px;
     background: url('../../assets/images/home_link_bg.png') center bottom / cover no-repeat;
@@ -309,8 +307,6 @@ export default {
       justify-content: center;
       align-items: center;
       img{
-        /* width: 90%;
-        height: auto; */
         height: 100%;
         max-height: 205px;
       }
@@ -328,8 +324,6 @@ export default {
       z-index: 999;
       height: 457px;
       img{
-        /* width: 100%;
-        height: auto; */
         height: 100%;
         max-height: 457px;
         display: block;
