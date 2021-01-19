@@ -27,6 +27,7 @@
             src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/platform/special/ai-platform/css/img/rno-12-media-panel/1.png"
             alt=""
             class="practice-panel-view"
+            rel="noopener noreferrer"
           >
         </div>
         <div class="practice-panel-bd">
@@ -45,6 +46,7 @@
               class="practice-link"
               href="https://www.edgegallery.org/%e8%a7%86%e9%a2%91%e8%b5%84%e6%ba%90"
               target="_blank"
+              rel="noopener noreferrer"
             >{{ $t('api.Detail') }}</a>
           </footer>
         </div>
@@ -165,7 +167,7 @@ export default {
     margin-bottom: -20px;
   }
   .practice-card>.practice-cell {
-    width: calc((100% - 20px - 1px)/ 2);
+    width: calc((100% - 20px - 1px) / 2);
   }
   .cell-1{
       margin-right: 20px;

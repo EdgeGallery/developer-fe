@@ -31,13 +31,6 @@
       </el-breadcrumb-item>
     </el-breadcrumb>
     <div class="service-content">
-      <!--
-      <Opers
-        :selected-service="selectedService"
-        :service-list="serviceList"
-        @showAbilityHomePage="showAbilityHomePage"
-        @reloadContent="reloadContent"
-      />-->
       <div
         class="doc-div"
         v-if="serviceList.length > 0"
@@ -65,13 +58,11 @@
 
 <script>
 import Document from '../api/Document.vue'
-// import Opers from './Opers.vue'
 import { Api } from '../../tools/api.js'
 
 export default {
   components: {
-    Document/*,
-    Opers */
+    Document
   },
   props: {
     groupId: {

@@ -23,12 +23,12 @@
       :id="item.index"
       @click="handleClick"
       :class="{ 'active': activeIndex === item.index }"
-    ><i
+    ><em
       class="ability-switch-tab-icon"
     ><img
       :src="item.abilityIconSrc"
       alt=""
-    ></i><span class="ability-switch-tab-title">{{ item.abilityName }}</span>
+    ></em><span class="ability-switch-tab-title">{{ item.abilityName }}</span>
     </a>
   </div>
 </template>

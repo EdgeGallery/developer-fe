@@ -116,7 +116,7 @@ const cn = {
     videoTutorial: '视频教程课堂专区',
     developerCommunity: '开发者问答社区',
     Detail: '查看详情',
-    videoTutorialDetail: '指导开发者基于edgegallery平台进行app应用开发、部署调测、测试认证以及应用发布的全流程。',
+    videoTutorialDetail: '指导开发者基于EdgeGallery平台进行app应用开发、部署调测、测试认证以及应用发布的全流程。',
     developerCommunityDetail: '用于开发者的交流和学习。'
   },
   nav: {
@@ -202,7 +202,7 @@ const cn = {
       pluginTip1: 'EdgeGallery平台提供了本地开发使用的',
       pluginTip2: 'IDE插件',
       pluginTip3: '，可用来生成的样例代码（目前支持Python和Java语言）',
-      codeTip1: 'Edgegallery提供以下APP本地开发的示例代码供开发者参考，',
+      codeTip1: 'EdgeGallery提供以下APP本地开发的示例代码供开发者参考，',
       codeTip2: '或者',
       codeTip3: '点击下载到本地'
     },
