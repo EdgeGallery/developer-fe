@@ -37,18 +37,27 @@
                 :src="img_dev"
                 alt=""
               >
+              <a />
             </div>
             <div class="process_div">
               <img
                 :src="img_app"
                 alt=""
               >
+              <a
+                :href="appStoreUrl"
+                target="_blank"
+              />
             </div>
             <div class="process_div">
               <img
                 :src="img_mecm"
                 alt=""
               >
+              <a
+                :href="mecmUrl"
+                target="_blank"
+              />
             </div>
           </div>
           <div class="bg_process">
@@ -283,7 +292,7 @@ export default {
       }
     }
     .platform_link{
-      padding: 20px 20px 0px 20px;
+      padding: 20px;
     }
     .platform_link>div{
       float: left;
@@ -298,8 +307,8 @@ export default {
       justify-content: center;
       align-items: center;
       img{
-        width: 90%;
-        height: auto;
+        height: 100%;
+        max-height: 205px;
       }
     }
     .devProcess{
@@ -313,65 +322,76 @@ export default {
       text-align: center;
       position: relative;
       z-index: 999;
-      height: 460px;
+      height: 457px;
       img{
-        width: 100%;
-        height: auto;
+        height: 100%;
+        max-height: 457px;
+        display: block;
       }
     }
     .process_div a{
       display: inline-block;
-      border-radius: 12px;
+      border-radius: 15px;
       width: 100%;
-      height: 78.5%;
+      height: 100%;
       position: relative;
       z-index: 2;
-      top: -79.5%;
+      top: -100%;
       transition: transform 0.3s;
       -webkit-transition: transform 0.3s;
     }
     .process_div a:hover{
-      box-shadow:0 8px 10px 0 rgba(0,0,0,0.4)
+      box-shadow:0 2px 5px 0 rgba(0,0,0,0.4)
     }
-    @media screen and (max-width: 1680px){
+    @media screen and (max-width: 1860px){
       .process_div{
         height: 400px;
       }
       .bg_process{
         height: 170px;
-        margin-top: -200px;
+        margin-top: -190px;
       }
     }
-    @media screen and (max-width: 1380px){
+    @media screen and (max-width: 1680px){
       .process_div{
         height: 360px;
       }
       .bg_process{
         height: 160px;
-        margin-top: -180px;
+        margin-top: -175px;
+      }
+    }
+    @media screen and (max-width: 1480px){
+      .process_div{
+        height: 320px;
+      }
+      .bg_process{
+        height: 140px;
+        margin-top: -155px;
       }
     }
     @media screen and (max-width: 1280px){
       .process_div{
-        height: 335px;
+        height: 280px;
       }
       .bg_process{
-        height: 150px;
-        margin-top: -170px;
+        height: 130px;
+        margin-top: -150px;
       }
     }
     @media screen and (max-width: 1150px){
       .process_div{
-        height: 300px;
+        height: 260px;
       }
       .bg_process{
-        height: 135px;
-        margin-top: -150px;
+        height: 120px;
+        margin-top: -130px;
       }
     }
     @media screen and (max-width: 1030px){
       .platform_link{
         overflow-x: auto;
+        overflow-y: hidden;
       }
       .platform_link>div{
         width: auto;
