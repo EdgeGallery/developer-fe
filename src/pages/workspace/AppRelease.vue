@@ -66,7 +66,8 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>{{ projectDetailData.dependent }}
+              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
+              {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
             </el-col>
             <el-col
               :sm="10"
@@ -707,7 +708,8 @@ export default {
       taskId: '',
       interval: null,
       mdFileId: '',
-      iframeLoading: true
+      iframeLoading: true,
+      dependentNum: 0
     }
   },
   methods: {
@@ -751,6 +753,7 @@ export default {
           })
         })
         arr = Array.from(new Set(arr))
+        this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
       })
     },
