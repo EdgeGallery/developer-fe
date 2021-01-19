@@ -1164,7 +1164,7 @@ export default {
       this.checkProjectData()
       if (language === 'en') {
         spanLeft.forEach(item => {
-          item.style.width = 160 + 'px'
+          item.style.width = 165 + 'px'
         })
       } else {
         spanLeft.forEach(item => {
