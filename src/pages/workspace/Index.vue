@@ -139,6 +139,7 @@ export default {
   mounted () {
     if (this.$route.params.from === 'index') {
       this.newprojectDialog = true
+      this.addNewProject('CREATE_NEW')
     }
     this.getDeploymentType()
     this.getProjectListData()
