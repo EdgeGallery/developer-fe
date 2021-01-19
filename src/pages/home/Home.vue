@@ -37,27 +37,18 @@
                 :src="img_dev"
                 alt=""
               >
-              <!-- <a /> -->
             </div>
             <div class="process_div">
               <img
                 :src="img_app"
                 alt=""
               >
-              <!-- <a
-                :href="appStoreUrl"
-                target="_blank"
-              /> -->
             </div>
             <div class="process_div">
               <img
                 :src="img_mecm"
                 alt=""
               >
-              <!-- <a
-                :href="mecmUrl"
-                target="_blank"
-              /> -->
             </div>
           </div>
           <div class="bg_process">
@@ -276,8 +267,6 @@ export default {
   }
 
   .common-appliaction {
-    // padding-left: 18px;
-    background: white;
     position: relative;
     padding-bottom: 26px;
     background: url('../../assets/images/home_link_bg.png') center bottom / cover no-repeat;

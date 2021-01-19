@@ -17,7 +17,7 @@
 <template>
   <div class="instru-container list-4">
     <div class="instru-arrows-wrap">
-      <i
+      <em
         class="instru-arrows"
         :class="uperArrowStyle"
       />
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="instru-arrows-wrap">
-      <i
+      <em
         class="instru-arrows down"
         :class="belowArrowStyle"
       />
