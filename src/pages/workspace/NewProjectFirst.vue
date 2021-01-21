@@ -57,12 +57,13 @@
         :label="$t('workspace.deployType')"
         :label-width="formLabelWidth"
         prop="deployPlatform"
-        class="f50"
+        class="f50 deployType"
       >
         <el-radio
           v-model="form.deployPlatform"
           label="KUBERNETES"
         >
+          <em class="dockerDeploy" />
           {{ $t('workspace.containerImage') }}
         </el-radio>
         <el-radio
@@ -70,6 +71,7 @@
           label="VIRTUALMACHINE"
           :disabled="!ifVM"
         >
+          <em class="vmDeploy" />
           {{ $t('workspace.vmImage') }}
         </el-radio>
       </el-form-item>
@@ -572,6 +574,26 @@ export default {
       padding: 0 20px 0 0;
       font-size: 16px;
       color: #adb0bb;
+    }
+    .deployType em,.deployType .is-checked em{
+      width: 28px;
+      height: 28px;
+      display: inline-block;
+      background-size: cover;
+      position: relative;
+      top: 9px;
+    }
+    .dockerDeploy{
+      background: url('../../assets/images/deploy_docker_dis.png') center center no-repeat;
+    }
+    .vmDeploy{
+      background: url('../../assets/images/deploy_vm_dis.png') center center no-repeat;
+    }
+    .is-checked .dockerDeploy{
+      background: url('../../assets/images/deploy_docker.png') center center no-repeat;
+    }
+    .is-checked .vmDeploy{
+      background: url('../../assets/images/deploy_vm.png') center center no-repeat;
     }
     .el-radio__input.is-checked .el-radio__inner{
       background-color: #688ef3;

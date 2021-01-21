@@ -20,7 +20,6 @@
       :title="newProjectTitle"
       :close-on-click-modal="false"
       :visible.sync="dialogNewProject"
-      width="60%"
       @close="handleClose"
     >
       <el-steps
@@ -364,6 +363,14 @@ export default {
 
 <style lang="less">
 .newproject{
+  .el-dialog{
+    width: 60%;
+  }
+  @media screen and (max-width:1290px){
+    .el-dialog{
+      width: 70%;
+    }
+  }
   .el-dialog__body{
     min-height: 490px;
     padding: 30px 30px 0;
