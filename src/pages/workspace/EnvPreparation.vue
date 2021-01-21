@@ -200,11 +200,14 @@ export default {
   .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
     background-color: #e1f0ff;
   }
+  .el-tree-node__label{
+    font-size: 18px;
+  }
   .file_list{
-    width: 280px;
+    width: 310px;
   }
   .file_desc{
-    width: calc(100% - 280px);
+    width: calc(100% - 310px);
     white-space: pre-wrap;
     line-height: 25px;
     max-height: 500px;
@@ -223,6 +226,9 @@ export default {
       .hljs-keyword{
         color: #bab429;
       }
+    }
+    .markdown-body code{
+      font-size: 15px;
     }
   }
 }
