@@ -67,6 +67,6 @@ spec:
     - port: 9997
       targetPort: 9997      # 内部端口
       protocol: TCP
-      nodePort: 32115       # 暴露端口号3000-32000
+      nodePort: 32218       # 暴露端口号3000-33000
   selector:
     app: positioning-service
