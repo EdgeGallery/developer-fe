@@ -236,6 +236,7 @@ export default {
             img{
               width: 100%;
               max-width: 150px;
+              margin-bottom: 20px;
             }
             p{
               margin-top: 0;
@@ -250,7 +251,7 @@ export default {
           }
         }
         text-align:center;
-        padding: 20px 0 0;
+        padding: 35px 0 0;
         cursor: pointer;
         p{
           font-size: 20px;
