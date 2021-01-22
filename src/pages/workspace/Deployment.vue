@@ -343,7 +343,8 @@ export default {
       activities: '',
       isPhysical: false,
       language: 'cn',
-      containers: []
+      containers: [],
+      isCleanTestEnv: sessionStorage.getItem('isCleanTestEnv') || ''
     }
   },
   methods: {
@@ -369,8 +370,19 @@ export default {
         console.log(err)
       })
     },
+    testEnvReleased () {
+      this.$emit('checkCleanEnv', true)
+      this.CSAR = ''
+      this.hostInfo = ''
+      this.instantiateInfo = ''
+      this.workStatus = ''
+
+      this.testFinished = false
+      this.deployStatus = 'NOTDEPLOY'
+    },
     cleanTestEnv () {
       // 清空stageStatus
+      this.$emit('checkCleanEnv', true)
       this.CSAR = ''
       this.hostInfo = ''
       this.instantiateInfo = ''
@@ -574,10 +586,16 @@ export default {
   },
   created () { },
   mounted () {
+    if (this.isCleanTestEnv === 'Releaseed') {
+      this.testEnvReleased()
+    }
     this.projectId = sessionStorage.getItem('mecDetailID')
     this.language = localStorage.getItem('language')
     this.userId = sessionStorage.getItem('userId')
     this.fetchDataOnMounted()
+  },
+  beforeDestroy () {
+    sessionStorage.removeItem('isCleanTestEnv')
   },
   watch: {
     '$i18n.locale': function () {
@@ -603,7 +621,6 @@ export default {
         deployDiv.style.minWidth = 760 + 'px'
         deployLeft.style.width = 160 + 'px'
         deployRight.style.width = 'calc( 100% - 160px)'
-        console.log(deployRight.style.width)
       }
     }
   }

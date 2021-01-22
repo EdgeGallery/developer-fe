@@ -447,7 +447,7 @@ const en = {
     capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.',
     availableService: 'Available Services',
     selectedService: 'Selected Services',
-    recycleTip: 'Note: Please release resources in time, or ATP test will fail',
+    recycleTip: 'Note: Please release the resources in time after the test is completed to avoid resource occupation, otherwise the system will automatically release after 24 hours',
     noService: "You haven't selected any services",
     testNode: 'Test Node',
     podBelongsTo: 'Pod Name',

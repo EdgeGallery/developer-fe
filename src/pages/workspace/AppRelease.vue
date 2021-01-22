@@ -554,6 +554,7 @@
                   size="small"
                   @click="releaseApp"
                   :disabled="scope.row.status==='success'?false:true"
+                  :loading="publishLoading"
                 >
                   {{ $t('workspace.publish') }}
                 </el-button>
@@ -630,6 +631,25 @@
         v-model="appDetaildialog"
       />
     </div>
+    <!-- 资源释放提示框 -->
+    <el-dialog
+      :title="$t('promptMessage.prompt')"
+      :visible.sync="isCleanEnvDialog"
+      width="50%"
+      :before-close="handleClose"
+      center
+    >
+      <el-button
+        type="primary"
+        @click="cleanTestEnvRelease"
+        class="mt20"
+      >
+        {{ $t('workspace.recycle') }}
+      </el-button>
+      <p class="mt20">
+        {{ $t('workspace.recycleTip') }}
+      </p>
+    </el-dialog>
   </div>
 </template>
 
@@ -642,6 +662,12 @@ import addAppPublishConfig from './AddAppPublishConfig.vue'
 import appPackageDetail from './AppPackageDetails.vue'
 export default {
   name: 'AppRelease',
+  props: {
+    isCleanEnvProp: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     addTrafficRules,
     addDnsRules,
@@ -664,7 +690,15 @@ export default {
       },
       language: localStorage.getItem('language'),
       appMdList: [],
-      appTestData: [],
+      // appTestData: [],
+      appTestData: [
+        {
+          id: '1',
+          appName: '1',
+          status: 'success',
+          createTime: '1'
+        }
+      ],
       isAddRuleData: true,
       trafficDialog: false,
       dnsDialog: false,
@@ -709,10 +743,29 @@ export default {
       interval: null,
       mdFileId: '',
       iframeLoading: true,
-      dependentNum: 0
+      dependentNum: 0,
+      isCleanEnv: this.isCleanEnvProp,
+      isCleanEnvDialog: false,
+      publishLoading: false
     }
   },
   methods: {
+    handleClose () {
+      this.isCleanEnvDialog = false
+    },
+    // 释放资源
+    cleanTestEnvRelease () {
+      Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
+        this.$message({
+          message: this.$t('workspace.clearEnv')
+        })
+        this.isCleanEnv = true
+        this.isCleanEnvDialog = false
+        sessionStorage.setItem('isCleanTestEnv', 'Releaseed')
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     checkProjectData () {
       Type.forEach(itemFe => {
         if (this.language === 'cn') {
@@ -769,8 +822,13 @@ export default {
         } else {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
+        let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
+        if (deployStatus && !this.isCleanEnv) {
+          this.isCleanEnvDialog = true
+        }
       })
     },
+    // 回显APP说明文档
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
@@ -779,6 +837,7 @@ export default {
         }
       })
     },
+    // 手动点击保存规则按钮
     getReleaseConfig (params) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -797,6 +856,7 @@ export default {
         })
       })
     },
+    // 默认保存/修改配置规则
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -1111,8 +1171,10 @@ export default {
       }
     },
     releaseApp () {
+      this.publishLoading = true
       Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
         this.dialogAppPublicSuccess = true
+        this.publishLoading = false
       }).catch(err => {
         console.log(err.response)
         if (err.response.data.message === 'publish app to appstore fail!') {
@@ -1120,6 +1182,7 @@ export default {
         } else {
           this.$message.error(this.$t('promptMessage.appReleaseFail'))
         }
+        this.publishLoading = false
       })
     },
     // 关闭弹框

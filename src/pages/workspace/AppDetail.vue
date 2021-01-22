@@ -145,6 +145,7 @@
               :all-step-data="allStepData"
               @getAppapiFileId="getAppapiFileId"
               ref="currentComponet"
+              @checkCleanEnv="checkCleanEnv"
             />
           </div>
           <div class="elButton">
@@ -175,7 +176,10 @@
         lazy
       >
         <span slot="label"><em :class="['tab_release',activeName==='5'?'tab_active':'tab_default']" />{{ $t('workspace.applicationRelease') }}</span>
-        <appRelease v-if="activeName === '5'" />
+        <appRelease
+          v-if="activeName === '5'"
+          :is-clean-env-prop="isCleanEnv"
+        />
       </el-tab-pane>
       <div v-if="dialogVisible">
         <publishAppDialog
@@ -247,7 +251,8 @@ export default {
       },
       projectId: sessionStorage.getItem('mecDetailID'),
       dependentNum: 0,
-      isAppDevelopment: true
+      isAppDevelopment: true,
+      isCleanEnv: false
     }
   },
   methods: {
@@ -341,6 +346,9 @@ export default {
     },
     getViewReport (data) {
       this.viewReport = data
+    },
+    checkCleanEnv (data) {
+      this.isCleanEnv = data
     },
     // 获取以前提交过的配置
     getTestConfig () {
