@@ -143,10 +143,6 @@ import demoYaml from '@/assets/file/test_helm_template.yaml'
 export default {
   name: 'ConfigYaml',
   props: {
-    projectBeforeConfig: {
-      type: Object,
-      default: () => { }
-    },
     allStepData: {
       type: Object,
       default: () => { }
@@ -154,6 +150,7 @@ export default {
   },
   data () {
     return {
+      projectBeforeConfig: {},
       demoYaml,
       checkFlag: {},
       appYamlFileId: '',
@@ -244,22 +241,26 @@ export default {
       })
     },
     submitData (appYamlFileId) {
-      const params = {
-        testId: this.projectBeforeConfig.testId,
-        privateHost: !!this.allStepData.third.enable,
-        deployFileId: appYamlFileId,
-        platform: 'KUBERNETES',
-        hosts: this.allStepData.third.hostId ? [
-          {
-            hostId: this.allStepData.third.hostId,
-            userId: this.userId
-          }
-        ] : []
-      }
-      const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
-      func(this.projectId, this.userId, params).then(() => {
-      }).catch(err => {
-        console.log(err)
+      // 获取以前提交过的配置
+      Workspace.getTestConfigApi(this.projectId).then(res => {
+        this.projectBeforeConfig = res.data || {}
+        const params = {
+          testId: this.projectBeforeConfig.testId,
+          privateHost: !!this.allStepData.third.enable,
+          deployFileId: appYamlFileId,
+          platform: 'KUBERNETES',
+          hosts: this.allStepData.third.hostId ? [
+            {
+              hostId: this.allStepData.third.hostId,
+              userId: this.userId
+            }
+          ] : []
+        }
+        const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
+        func(this.projectId, this.userId, params).then(() => {
+        }).catch(err => {
+          console.log(err)
+        })
       })
     },
     initFileList () {
