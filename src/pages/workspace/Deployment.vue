@@ -401,6 +401,9 @@ export default {
       })
     },
     async getTestConfig () {
+      if (this.$refs.carousel === undefined || this.$refs.carousel === null) {
+        return
+      }
       let cachedData = ''
       await Workspace.getTestConfigApi(this.projectId).then(res => {
         cachedData = res.data
