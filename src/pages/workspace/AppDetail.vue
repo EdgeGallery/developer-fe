@@ -49,27 +49,19 @@
               :sm="12"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
             </el-col>
             <el-col
               :sm="12"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.provider') }}</span>{{ projectDetailData.provider }}
-            </el-col>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.industry') }}</span>{{ projectDetailData.industry }}
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
             </el-col>
           </el-row>
           <el-row>
@@ -77,24 +69,56 @@
               :sm="12"
               :xs="24"
             >
-              <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.provider') }}</span>{{ projectDetailData.provider }}
             </el-col>
             <el-col
               :sm="12"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.platform') }}</span>{{ projectDetailData.platform }}
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.industry') }}</span>{{ projectDetailData.industry }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
+            </el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.platform') }}</span>{{ projectDetailData.platform }}
             </el-col>
           </el-row>
           <el-row>
             <el-col>
-              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.dependentApp') }}</span>
               {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
             </el-col>
           </el-row>
           <el-row>
             <el-col>
-              <span class="span_left">{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
             </el-col>
           </el-row>
         </div>
@@ -389,19 +413,8 @@ export default {
   },
   watch: {
     '$i18n.locale': function () {
-      let spanLeft = document.getElementsByClassName('span_left')
-      let language = localStorage.getItem('language')
-      this.language = language
+      this.language = localStorage.getItem('language')
       this.checkProjectData()
-      if (this.language === 'en') {
-        spanLeft.forEach(item => {
-          item.style.width = 165 + 'px'
-        })
-      } else {
-        spanLeft.forEach(item => {
-          item.style.width = 95 + 'px'
-        })
-      }
     }
   }
 }
@@ -577,6 +590,9 @@ export default {
           min-width: 95px;
           text-align: right;
           padding-right: 20px;
+        }
+        .span_left_en{
+          width: 165px;
         }
       }
     }
