@@ -522,7 +522,7 @@ export default {
     },
     // 删除报告
     deleteReport (reportId) {
-      this.$confirm(this.$t('devTools.deleteList'), {
+      this.$confirm(this.$t('devTools.deleteReport'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'

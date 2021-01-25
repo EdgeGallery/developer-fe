@@ -230,7 +230,7 @@
           width="30%"
           center
         >
-          <span>{{ $t('devTools.deleteList') }}</span>
+          <span>{{ $t('devTools.deletePlugin') }}</span>
           <span
             slot="footer"
             class="dialog-footer"
