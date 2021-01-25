@@ -382,7 +382,7 @@ const en = {
     lines: 'lines',
     assemblyCode: 'Assembly code',
     downloadReport: 'Download Report',
-    startDeploySucc: 'Already deployed',
+    startDeploySucc: 'Start Deployment',
     startDeployFail: 'Deployment failed',
     deploying: 'Deploying, please wait...',
     uploadCodeFail: 'Failed to upload source code！',
