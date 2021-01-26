@@ -464,18 +464,7 @@ export default {
         this.testFinished = true
         this.deploySuccess = false
         this.accessUrl = cachedData.accessUrl
-        if (this.CSAR === 'Failed') {
-          this.errorLog = this.$t('workspace.deployFailLog.CSAR')
-        }
-        if (this.hostInfo === 'Failed') {
-          this.errorLog = this.$t('workspace.deployFailLog.hostInfo')
-        }
-        if (this.instantiateInfo === 'Failed') {
-          this.errorLog = this.$t('workspace.deployFailLog.instantiateInfo')
-        }
-        if (this.workStatus === 'Failed') {
-          this.errorLog = this.$t('workspace.deployFailLog.workStatus')
-        }
+        this.errorLog = cachedData.errorLog
       }
     },
 
