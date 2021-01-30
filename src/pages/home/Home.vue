@@ -182,11 +182,13 @@ export default {
   top:65px;
   .topLine {
     height: 300px;
-    background: url("../../assets/images/banner.png") no-repeat center center #222a3f;
+    background-image: url("../../assets/images/membersAndPartners.png");
+    background-size:100%;
+    background-repeat: no-repeat;
     user-select: none;
     .title {
       color: #fff;
-      padding: 65px 0 0 200px;
+      padding: 106px 0 0 240px;
       h2{
         font-size: 30px;
         font-weight: normal;
@@ -201,7 +203,9 @@ export default {
   @media screen and (max-width: 1380px) {
     .topLine {
       height: 300px;
-      background: url("../../assets/images/banner.png") no-repeat center center #222a3f;
+      background-image: url("../../assets/images/membersAndPartners.png");
+      background-size:100%;
+      background-repeat: no-repeat;
       .title {
         padding: 60px 0 0 50px;
       }
