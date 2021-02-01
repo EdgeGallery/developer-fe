@@ -341,7 +341,7 @@ export default {
   .api_tree{
     background: #f8f8f8;
     .el-tree-node__label{
-      font-size:18px;
+      font-size:15px;
     }
   }
   .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
