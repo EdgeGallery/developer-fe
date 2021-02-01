@@ -492,7 +492,7 @@
           class="p8"
           @click="getAtpTest"
         >
-          {{ $t('workspace.appRelease.appCertify') }}
+          {{ $t('workspace.appRelease.startTest') }}
         </el-button>
         <span class="release_text">
           {{ $t('workspace.releaseText') }}

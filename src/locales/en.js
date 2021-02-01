@@ -211,6 +211,7 @@ const en = {
     appRelease: {
       appConfig: 'Application Configuration',
       appCertify: 'Application Certification',
+      startTest: 'Start Test',
       appRelease: 'Application Release',
       addFilter: 'Add flow filter',
       srcAddress: 'Src IP Address',

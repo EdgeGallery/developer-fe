@@ -210,6 +210,7 @@ const cn = {
     appRelease: {
       appConfig: '应用配置',
       appCertify: '应用认证',
+      startTest: '启动测试',
       appRelease: '应用发布',
       addFilter: '添加流量过滤器',
       srcAddress: '源IP地址',
