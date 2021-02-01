@@ -690,15 +690,7 @@ export default {
       },
       language: localStorage.getItem('language'),
       appMdList: [],
-      // appTestData: [],
-      appTestData: [
-        {
-          id: '1',
-          appName: '1',
-          status: 'success',
-          createTime: '1'
-        }
-      ],
+      appTestData: [],
       isAddRuleData: true,
       trafficDialog: false,
       dnsDialog: false,
@@ -1192,10 +1184,10 @@ export default {
       this.appPublishDialog = data
     },
     getAppstoreUrl () {
-      let currUrl = window.location.href
+      let currUrl = window.location.origin
       if (currUrl.indexOf('30092') !== -1) {
-        this.appStoreUrl = 'https://' + currUrl.split('//')[1].split(':')[0] + ':30091'
-        this.atpUrl = 'https://' + currUrl.split('//')[1].split(':')[0] + ':30094'
+        this.appStoreUrl = currUrl.replace('30092', '30091')
+        this.atpUrl = currUrl.replace('30092', '30094')
       } else {
         this.appStoreUrl = currUrl.replace('developer', 'appstore')
         this.atpUrl = currUrl.replace('developer', 'atp')

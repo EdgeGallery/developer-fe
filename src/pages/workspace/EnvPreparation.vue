@@ -201,7 +201,7 @@ export default {
     background-color: #e1f0ff;
   }
   .el-tree-node__label{
-    font-size: 18px;
+    font-size: 15px;
   }
   .file_list{
     width: 310px;
