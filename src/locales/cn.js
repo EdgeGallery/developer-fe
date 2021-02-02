@@ -266,6 +266,7 @@ const cn = {
     provider: '提供者',
     platform: '平台',
     industry: '行业',
+    createDate: '创建时间',
     status: '状态',
     operation: '操作',
     remove: '移除',
