@@ -290,7 +290,7 @@ export default {
       align-items: center;
       img{
         height: 100%;
-        max-height: 205px;
+        max-height: 222px;
       }
     }
     .devProcess{
@@ -330,7 +330,7 @@ export default {
         height: 400px;
       }
       .bg_process{
-        height: 170px;
+        height: 180px;
         margin-top: -190px;
       }
     }
@@ -339,7 +339,7 @@ export default {
         height: 360px;
       }
       .bg_process{
-        height: 160px;
+        height: 165px;
         margin-top: -175px;
       }
     }
@@ -348,7 +348,7 @@ export default {
         height: 320px;
       }
       .bg_process{
-        height: 140px;
+        height: 155px;
         margin-top: -155px;
       }
     }
@@ -358,7 +358,7 @@ export default {
       }
       .bg_process{
         height: 130px;
-        margin-top: -150px;
+        margin-top: -135px;
       }
     }
     @media screen and (max-width: 1150px){
@@ -371,6 +371,10 @@ export default {
       }
     }
     @media screen and (max-width: 1030px){
+      .bg_process{
+        height: 130px;
+        margin-top: -130px;
+      }
       .platform_link{
         overflow-x: auto;
         overflow-y: hidden;
