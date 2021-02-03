@@ -17,18 +17,10 @@
 <template>
   <div class="home">
     <div class="main-div">
-      <div class="topLine">
-        <div class="title">
-          <h2>{{ $t('home.bannerTitle') }}</h2>
-          <p>
-            {{ $t('home.bannerText1') }}
-            <!-- <br>{{ $t('home.bannerText2') }}
-            <br>{{ $t('home.bannerText3') }}
-            <br>{{ $t('home.bannerText4') }}
-            <br>{{ $t('home.bannerText5') }} -->
-          </p>
-        </div>
-      </div>
+      <div
+        class="topLine"
+        :class="{enBg: !isCn, cnBg:isCn}"
+      />
       <div class="common-appliaction">
         <div class="platform_link clear">
           <div class="devProcess">
@@ -114,7 +106,8 @@ export default {
       img_mecm: require('../../assets/images/home_link_mecm_cn.png'),
       img_process: require('../../assets/images/home_link_process_cn.png'),
       appStoreUrl: '',
-      mecmUrl: ''
+      mecmUrl: '',
+      isCn: true
     }
   },
   computed: {
@@ -166,7 +159,7 @@ export default {
         this.img_mecm = require('../../assets/images/home_link_mecm_en.png')
         this.img_process = require('../../assets/images/home_link_process_en.png')
       }
-      console.log(this.img_dev)
+      this.isCn = language === 'cn'
     }
   }
 }
@@ -180,43 +173,28 @@ export default {
   height: calc(100% - 65px);
   overflow-y: auto;
   top:65px;
+  .enBg {
+    background-image: url("../../assets/images/membersAndPartners_en.png");
+  }
+  .cnBg {
+    background-image: url("../../assets/images/membersAndPartners_cn.png");
+  }
   .topLine {
     height: 300px;
-    background-image: url("../../assets/images/membersAndPartners.png");
     background-size:100%;
     background-repeat: no-repeat;
     user-select: none;
-    .title {
-      color: #fff;
-      padding: 106px 0 0 240px;
-      h2{
-        font-size: 30px;
-        font-weight: normal;
-      }
-      p {
-        margin-top: 20px;
-        font-size: 16px;
-        line-height: 30px;
-      }
-    }
   }
   @media screen and (max-width: 1380px) {
     .topLine {
       height: 300px;
-      background-image: url("../../assets/images/membersAndPartners.png");
       background-size:100%;
       background-repeat: no-repeat;
-      .title {
-        padding: 60px 0 0 50px;
-      }
     }
   }
   @media screen and (max-width: 640px){
     .topLine {
       height: 300px;
-      .title{
-        padding: 60px 20px 100px;
-      }
     }
   }
   .showLogo {
