@@ -117,7 +117,7 @@ export default {
       return temp
     },
     serviceDocClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id } })
+      let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
       window.open(routeUrl.href, '_blank')
     },
     amulatorClick (event) {
