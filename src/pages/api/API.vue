@@ -114,7 +114,6 @@ export default {
   },
   data () {
     return {
-      serviceDetail: this.serviceDetailprop,
       isDeleteApi: this.isDeleteApiprop,
       apiFileId: this.apiFileIdprop,
       userId: sessionStorage.getItem('userId'),
@@ -134,6 +133,16 @@ export default {
       language: localStorage.getItem('language'),
       downloadUrl: '',
       guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md'
+    }
+  },
+  computed: {
+    serviceDetail () {
+      return {
+        capabilityType: this.$i18n.locale === 'en' ? this.serviceDetailprop.capabilityTypeEn : this.serviceDetailprop.capabilityType,
+        serviceName: this.$i18n.locale === 'en' ? this.serviceDetailprop.serviceNameeEn : this.serviceDetailprop.serviceName,
+        uploadTime: this.serviceDetailprop.uploadTime,
+        version: this.serviceDetailprop.version
+      }
     }
   },
   methods: {
@@ -166,7 +175,6 @@ export default {
       }, 200)
     },
     deletePublicApi () {
-      console.log(this.serviceDetail)
       Api.deletePublicApi(this.serviceDetail.detailId, this.userId).then(() => {
         this.$message({
           type: 'success',

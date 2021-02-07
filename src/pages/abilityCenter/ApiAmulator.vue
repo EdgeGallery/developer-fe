@@ -27,7 +27,7 @@
         {{ $t('nav.mepApi') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>
-        在线模拟器
+        {{ $t('nav.apiMulator') }}
       </el-breadcrumb-item>
     </el-breadcrumb>
     <div class="service-content">
@@ -77,6 +77,8 @@ export default {
       serviceDetail: {
         capabilityType: '',
         serviceName: '',
+        capabilityTypeEn: '',
+        serviceNameEn: '',
         uploadTime: '',
         version: ''
       },
@@ -92,22 +94,6 @@ export default {
     }
   },
   methods: {
-    reloadContent (seletedLabel) {
-      for (let i = 0; i < this.serviceList.length; i++) {
-        if (this.serviceList[i].service === seletedLabel) {
-          this.apiFileId = this.serviceList[i].apiFileId
-          this.serviceDetail = {
-            serviceName: this.serviceList[i].service,
-            uploadTime: this.dateChange(this.serviceList[i].uploadTime),
-            version: this.serviceList[i].version
-          }
-          break
-        }
-      }
-    },
-    showAbilityHomePage () {
-      this.$emit('showAbilityHomePage')
-    },
     initServices () {
       Api.getServiceListApi(this.$route.query.groupId)
         .then(res => {
@@ -122,7 +108,9 @@ export default {
               this.apiFileId = tmpServiceList[0].apiFileId
               this.serviceDetail = {
                 capabilityType: res.data.oneLevelName,
+                capabilityTypeEn: res.data.oneLevelNameEn,
                 serviceName: tmpServiceList[0].service,
+                serviceNameEn: tmpServiceList[0].serviceEn,
                 uploadTime: this.dateChange(tmpServiceList[0].uploadTime),
                 version: tmpServiceList[0].version
               }
