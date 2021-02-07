@@ -79,7 +79,7 @@ export default {
         let abilit = JSON.parse(JSON.stringify(ele))
         abilitiesTmp.push({
           abilityIconSrc: abilityIcons[abilit.index],
-          abilityName: abilit.label,
+          abilityName: this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label,
           index: abilit.index,
           isActive: abilit.index === selId
         })

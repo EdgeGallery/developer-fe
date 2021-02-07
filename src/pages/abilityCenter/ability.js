@@ -16,7 +16,7 @@
 
 import en from '../../locales/en.js'
 import cn from '../../locales/cn.js'
-import { Capability } from '../../tools/project_data.js'
+
 let allAbilities = []
 
 let getSecondLevelAbilitys = function (parentIndex) {
@@ -28,49 +28,43 @@ let getSecondLevelAbilitys = function (parentIndex) {
   return []
 }
 
-let getCapabilityLabel = function (val, lan) {
-  let label = val
-  let resData = Capability.filter((res) => {
-    return res.value === val
-  })
-  if (resData.length > 0) {
-    if (lan === 'en') {
-      label = resData[0].label[1]
-    } else {
-      label = resData[0].label[0]
-    }
-  }
-  return label
-}
 let insetNewNode = function (groupData, tempTreeData, lan) {
   let firstLevelName = groupData.oneLevelName
   let secondLevelName = groupData.twoLevelName
   let thirdLevelName = groupData.threeLevelName
+  let firstLevelNameEn = groupData.oneLevelNameEn
+  let secondLevelNameEn = groupData.twoLevelNameEn
+  let thirdLevelNameEn = groupData.threeLevelNameEn
   let obj = {
     key: '',
     label: '',
+    labelEn: '',
     children: []
   }
   if (secondLevelName) {
     if (thirdLevelName) {
       let secondeLevelChildren = []
-      secondeLevelChildren.push({ key: thirdLevelName, label: getCapabilityLabel(thirdLevelName, lan), groupId: groupData.groupId })
+      secondeLevelChildren.push({ key: thirdLevelName, label: thirdLevelName, labelEn: thirdLevelNameEn, groupId: groupData.groupId })
       obj.children.push({
         key: secondLevelName,
-        label: getCapabilityLabel(secondLevelName, lan),
+        label: secondLevelName,
+        labelEn: secondLevelNameEn,
         children: secondeLevelChildren
       })
     } else {
       obj.children.push({
         key: secondLevelName,
-        label: getCapabilityLabel(secondLevelName, lan),
+        label: secondLevelName,
+        labelEn: secondLevelNameEn,
         groupId: groupData.groupId,
-        description: groupData.description
+        description: groupData.description,
+        descriptionEn: groupData.descriptionEn
       })
     }
   }
   obj.key = firstLevelName
-  obj.label = getCapabilityLabel(firstLevelName, lan)
+  obj.label = firstLevelName
+  obj.labelEn = firstLevelNameEn
   tempTreeData.push(obj)
   return tempTreeData
 }
@@ -89,6 +83,8 @@ let initAbilities = function (groupDataFromServer, lan) {
     let firstLevelName = groupDataFromServer[i].oneLevelName
     let secondLevelName = groupDataFromServer[i].twoLevelName
     let thirdLevelName = groupDataFromServer[i].threeLevelName
+    let secondLevelNameEn = groupDataFromServer[i].twoLevelNameEn
+    let thirdLevelNameEn = groupDataFromServer[i].threeLevelNameEn
     let sameFirstNameItem = tempTreeData.filter(function (item) {
       if (item.key === firstLevelName) {
         return item
@@ -105,13 +101,15 @@ let initAbilities = function (groupDataFromServer, lan) {
           if (sameSecondNameItem[0].children) {
             sameSecondNameItem[0].children.push({
               key: thirdLevelName,
-              label: getCapabilityLabel(thirdLevelName, lan),
+              label: thirdLevelName,
+              labelEn: thirdLevelNameEn,
               groupId: groupDataFromServer[i].groupId
             })
           } else {
             sameSecondNameItem[0].children = [].concat({
               key: thirdLevelName,
-              label: getCapabilityLabel(thirdLevelName, lan),
+              label: thirdLevelName,
+              labelEn: thirdLevelNameEn,
               groupId: groupDataFromServer[i].groupId
             })
           }
@@ -120,16 +118,19 @@ let initAbilities = function (groupDataFromServer, lan) {
         if (thirdLevelName) {
           sameFirstNameItem[0].children.push({
             key: secondLevelName,
-            label: getCapabilityLabel(secondLevelName, lan),
+            label: secondLevelName,
+            labelEn: secondLevelNameEn,
             groupId: groupDataFromServer[i].groupId,
-            children: { key: thirdLevelName, label: getCapabilityLabel(thirdLevelName, lan), groupId: groupDataFromServer[i].groupId }
+            children: { key: thirdLevelName, label: thirdLevelName, labelEn: thirdLevelNameEn, groupId: groupDataFromServer[i].groupId }
           })
         } else {
           sameFirstNameItem[0].children.push({
             key: secondLevelName,
-            label: getCapabilityLabel(secondLevelName, lan),
+            label: secondLevelName,
+            labelEn: secondLevelNameEn,
             groupId: groupDataFromServer[i].groupId,
-            description: groupDataFromServer[i].description
+            description: groupDataFromServer[i].description,
+            descriptionEn: groupDataFromServer[i].descriptionEn
           })
         }
       }
@@ -139,7 +140,8 @@ let initAbilities = function (groupDataFromServer, lan) {
   }
   tempTreeData = [{
     key: 'hotServices',
-    label: lan === 'en' ? en.api['hotServices'] : cn.api['hotServices'],
+    label: cn.api['hotServices'],
+    labelEn: en.api['hotServices'],
     children: getHostAbility(tempTreeData)
   }].concat(tempTreeData)
   let tmpIndex = 0

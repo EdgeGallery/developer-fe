@@ -27,7 +27,7 @@
         {{ $t('nav.mepApi') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>
-        服务文档
+        {{ $t('nav.serviceDoc') }}
       </el-breadcrumb-item>
     </el-breadcrumb>
     <div class="service-content">
@@ -72,25 +72,16 @@ export default {
   },
   data () {
     return {
-      guideFileId: 'default',
-      serviceList: [],
-      selectedService: ''
+      serviceList: []
     }
   },
-  computed: {},
+  computed: {
+    guideFileId () {
+      return this.$i18n.locale === 'en' ? this.serviceList[0].guideFileIdEn : this.serviceList[0].guideFileId
+    }
+  },
   watch: {},
   methods: {
-    reloadContent (seletedLabel) {
-      for (let i = 0; i < this.serviceList.length; i++) {
-        if (this.serviceList[i].service === seletedLabel) {
-          this.guideFileId = this.serviceList[i].guideFileId
-          break
-        }
-      }
-    },
-    showAbilityHomePage () {
-      this.$emit('showAbilityHomePage')
-    },
     initServices () {
       Api.getServiceListApi(this.$route.query.groupId)
         .then(res => {
@@ -101,21 +92,9 @@ export default {
             })
             if (tmpServiceList.length > 0) {
               this.serviceList = tmpServiceList
-              this.selectedService = tmpServiceList[0].service
-              this.guideFileId = tmpServiceList[0].guideFileId
             }
           }
         })
-    },
-    dateChange (dateStr) {
-      if (dateStr) {
-        let date = new Date(Date.parse(dateStr))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
-        return changeDate
-      }
     }
   },
   created () {

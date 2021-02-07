@@ -71,12 +71,10 @@ export default {
       default: -1
     }
   },
-  data () {
-    return {
-      instru: []
-    }
-  },
   computed: {
+    instru () {
+      return this.getInstru(this.parentTabIndex)
+    },
     uperArrowStyle: function () {
       return {
         first: this.parentTabIndex === 0,
@@ -101,32 +99,29 @@ export default {
     }
   },
   watch: {
-    parentTabIndex (selIndex) {
-      this.updateInstru(selIndex)
-    }
   },
   methods: {
-    updateInstru (selIndex) {
+    getInstru (selIndex) {
       let subAbility = ability.getSecondLevelAbilitys(selIndex)
       let temp = []
       for (let i = 0; i < subAbility.length; i++) {
         temp.push({
           id: subAbility[i].groupId,
-          appName: subAbility[i].label,
+          appName: this.$i18n.locale === 'en' ? subAbility[i].labelEn : subAbility[i].label,
           appNameKey: subAbility[i].key, // Name国际化key
-          appInstru: subAbility[i].description, // TODO
+          appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description, // TODO
           docRouterIndex: '',
           apiRouterIndex: ''
         })
       }
-      this.instru = temp
+      return temp
     },
     serviceDocClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id } })
+      let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
       window.open(routeUrl.href, '_blank')
     },
     amulatorClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: event.currentTarget.id } })
+      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
       window.open(routeUrl.href, '_blank')
     }
   },
@@ -134,7 +129,6 @@ export default {
   mounted () {},
   beforeCreate () {},
   beforeMount () {
-    this.updateInstru(this.parentTabIndex)
   },
   beforeUpdate () {},
   updated () {},
