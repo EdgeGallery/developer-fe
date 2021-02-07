@@ -139,7 +139,7 @@ export default {
     serviceDetail () {
       return {
         capabilityType: this.$i18n.locale === 'en' ? this.serviceDetailprop.capabilityTypeEn : this.serviceDetailprop.capabilityType,
-        serviceName: this.$i18n.locale === 'en' ? this.serviceDetailprop.serviceNameeEn : this.serviceDetailprop.serviceName,
+        serviceName: this.$i18n.locale === 'en' ? this.serviceDetailprop.serviceNameEn : this.serviceDetailprop.serviceName,
         uploadTime: this.serviceDetailprop.uploadTime,
         version: this.serviceDetailprop.version
       }
