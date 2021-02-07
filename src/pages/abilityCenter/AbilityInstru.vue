@@ -121,7 +121,7 @@ export default {
       window.open(routeUrl.href, '_blank')
     },
     amulatorClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: event.currentTarget.id } })
+      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
       window.open(routeUrl.href, '_blank')
     }
   },

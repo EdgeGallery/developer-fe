@@ -159,6 +159,14 @@ export default {
       }
       this.showToolchain(this.jsonData)
     })
+    // 国际化切换
+    let lanIndex = window.location.href.search('language')
+    if (lanIndex > 0) {
+      let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
+      if (lan === 'en') {
+        this.changeLange()
+      }
+    }
 
     // 监听到窗口大小变化时，重新给screenHeight变量赋值
     window.onresize = () => {
