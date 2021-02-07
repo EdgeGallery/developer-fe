@@ -72,12 +72,14 @@ export default {
   },
   data () {
     return {
-      guideFileId: 'default',
-      serviceList: [],
-      selectedService: ''
+      serviceList: []
     }
   },
-  computed: {},
+  computed: {
+    guideFileId () {
+      return this.$i18n.locale === 'en' ? this.serviceList[0].guideFileIdEn : this.serviceList[0].guideFileId
+    }
+  },
   watch: {},
   methods: {
     initServices () {
@@ -90,8 +92,6 @@ export default {
             })
             if (tmpServiceList.length > 0) {
               this.serviceList = tmpServiceList
-              this.selectedService = tmpServiceList[0].service
-              this.guideFileId = tmpServiceList[0].guideFileId
             }
           }
         })

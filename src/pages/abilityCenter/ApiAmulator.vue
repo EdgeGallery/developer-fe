@@ -77,6 +77,8 @@ export default {
       serviceDetail: {
         capabilityType: '',
         serviceName: '',
+        capabilityTypeEn: '',
+        serviceNameEn: '',
         uploadTime: '',
         version: ''
       },
