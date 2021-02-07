@@ -40,12 +40,6 @@
       style="width: 100%"
     >
       <el-table-column
-        prop="index"
-        :label="$t('workspace.serial')"
-        align="center"
-        width="80"
-      />
-      <el-table-column
         prop="iconUrl"
         :label="$t('workspace.icon')"
         width="80"
@@ -61,7 +55,7 @@
       <el-table-column
         prop="name"
         :label="$t('workspace.projectName')"
-        min-width="100"
+        min-width="120"
       />
       <el-table-column
         prop="projectType"
@@ -79,11 +73,17 @@
       <el-table-column
         prop="provider"
         :label="$t('workspace.provider')"
+        width="80"
       />
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
-        width="100"
+        width="80"
+      />
+      <el-table-column
+        prop="createDate"
+        :label="$t('workspace.createDate')"
+        width="160"
       />
       <el-table-column :label="$t('workspace.status')">
         <template slot-scope="scope">
