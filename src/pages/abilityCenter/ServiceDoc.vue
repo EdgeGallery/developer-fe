@@ -27,7 +27,7 @@
         {{ $t('nav.mepApi') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>
-        服务文档
+        {{ $t('nav.serviceDoc') }}
       </el-breadcrumb-item>
     </el-breadcrumb>
     <div class="service-content">
@@ -80,17 +80,6 @@ export default {
   computed: {},
   watch: {},
   methods: {
-    reloadContent (seletedLabel) {
-      for (let i = 0; i < this.serviceList.length; i++) {
-        if (this.serviceList[i].service === seletedLabel) {
-          this.guideFileId = this.serviceList[i].guideFileId
-          break
-        }
-      }
-    },
-    showAbilityHomePage () {
-      this.$emit('showAbilityHomePage')
-    },
     initServices () {
       Api.getServiceListApi(this.$route.query.groupId)
         .then(res => {
@@ -106,16 +95,6 @@ export default {
             }
           }
         })
-    },
-    dateChange (dateStr) {
-      if (dateStr) {
-        let date = new Date(Date.parse(dateStr))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
-        return changeDate
-      }
     }
   },
   created () {

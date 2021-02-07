@@ -142,8 +142,7 @@ const en = {
     help: 'Help',
     contact: 'Contact',
     serviceDoc: 'Service Document',
-    apiMulator: 'Online Simulator',
-    hotServices: 'Hot Service'
+    apiMulator: 'Online Simulator'
   },
   workspace: {
     projectStatusEnum: {

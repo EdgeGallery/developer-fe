@@ -27,7 +27,7 @@
         {{ $t('nav.mepApi') }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>
-        在线模拟器
+        {{ $t('nav.apiMulator') }}
       </el-breadcrumb-item>
     </el-breadcrumb>
     <div class="service-content">
@@ -92,22 +92,6 @@ export default {
     }
   },
   methods: {
-    reloadContent (seletedLabel) {
-      for (let i = 0; i < this.serviceList.length; i++) {
-        if (this.serviceList[i].service === seletedLabel) {
-          this.apiFileId = this.serviceList[i].apiFileId
-          this.serviceDetail = {
-            serviceName: this.serviceList[i].service,
-            uploadTime: this.dateChange(this.serviceList[i].uploadTime),
-            version: this.serviceList[i].version
-          }
-          break
-        }
-      }
-    },
-    showAbilityHomePage () {
-      this.$emit('showAbilityHomePage')
-    },
     initServices () {
       Api.getServiceListApi(this.$route.query.groupId)
         .then(res => {

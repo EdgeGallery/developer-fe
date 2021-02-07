@@ -68,12 +68,10 @@
     <service-doc
       v-else-if="contentId === 'serviceDoc'"
       :group-id="groupId"
-      @showAbilityHomePage="showAbilityHomePage"
     />
     <api-amulator
       v-else-if="contentId === 'apiAmulator'"
       :group-id="groupId"
-      @showAbilityHomePage="showAbilityHomePage"
     />
   </div>
 </template>
@@ -111,10 +109,6 @@ export default {
       this.currentSelTabIndex = clickIndex
       // 更新active的对象
     },
-    showAbilityHomePage () {
-      this.contentId = 'mep-NEW'
-      this.groupId = ''
-    },
     showServiceDoc (groupId) {
       this.contentId = 'serviceDoc'
       this.groupId = groupId
@@ -127,7 +121,7 @@ export default {
       Api.getCapabilityGroupsApi()
         .then(res => {
           let groupDataFromServer = res.data
-          let allAbilitys = abilityAPI.initAbilities(groupDataFromServer, 'cn')
+          let allAbilitys = abilityAPI.initAbilities(groupDataFromServer, this.$i18n.locale)
           this.firstLineAbilities = allAbilitys.slice(0, 5)
           this.secondLineAbilities = allAbilitys.slice(5, 10)
           this.currentSelTabIndex = 0
