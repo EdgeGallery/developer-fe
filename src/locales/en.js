@@ -266,6 +266,7 @@ const en = {
     provider: 'Provider',
     platform: 'Platform',
     industry: 'Industry',
+    createDate: 'CreateDate',
     status: 'Status',
     operation: 'Operation',
     remove: 'Remove',
