@@ -655,7 +655,7 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
-import { Capability, Type } from '../../tools/project_data.js'
+import { Type } from '../../tools/project_data.js'
 import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
 import addAppPublishConfig from './AddAppPublishConfig.vue'
@@ -783,18 +783,11 @@ export default {
         this.checkProjectData()
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
-            Capability.forEach(itemFe => {
-              if (this.language === 'cn') {
-                if (itemSub.service === itemFe.label[1]) {
-                  itemSub.service = itemFe.label[0]
-                }
-              } else {
-                if (itemSub.service === itemFe.label[0]) {
-                  itemSub.service = itemFe.label[1]
-                }
-              }
-            })
-            arr.push(itemSub.service)
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
           })
         })
         arr = Array.from(new Set(arr))
@@ -1169,10 +1162,8 @@ export default {
         this.publishLoading = false
       }).catch(err => {
         console.log(err.response)
-        if (err.response.data.message === 'publish app to appstore fail!') {
+        if (err.response.data.message === 'upload app to appstore fail!') {
           this.$message.warning(this.$t('promptMessage.isPublished'))
-        } else if (err.response.data.message === 'upload app to appstore fail!') {
-          this.$message.error(this.$t('promptMessage.appReleaseFail'))
         }
         this.publishLoading = false
       })

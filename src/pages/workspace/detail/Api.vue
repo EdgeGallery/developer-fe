@@ -107,7 +107,6 @@
 
 <script>
 import { Workspace, Api } from '../../../tools/api.js'
-import { Capability } from '../../../tools/project_data.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -166,8 +165,11 @@ export default {
         treeDataTemp = res.data.capabilityList
         let oneLevel = []
         treeDataTemp.forEach(item => {
-          item.oneLevelName = this.checkProjectData(item.oneLevelName)
-          oneLevel.push(item.oneLevelName)
+          if (this.language === 'cn') {
+            oneLevel.push(item.oneLevelName)
+          } else {
+            oneLevel.push(item.oneLevelNameEn)
+          }
         })
         oneLevel = Array.from(new Set(oneLevel))
         // oneLevel
@@ -188,8 +190,11 @@ export default {
                 children: []
               }
               if (item.twoLevelName) {
-                item.twoLevelName = this.checkProjectData(item.twoLevelName)
-                objTwo.label = item.twoLevelName
+                if (this.language === 'cn') {
+                  objTwo.label = item.twoLevelName
+                } else {
+                  objTwo.label = item.twoLevelNameEn
+                }
                 itemTwo.children.push(objTwo)
               }
             }
@@ -283,21 +288,6 @@ export default {
         let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
         return changeDate
       }
-    },
-    // 中英文切换
-    checkProjectData (name) {
-      Capability.forEach(itemFe => {
-        if (this.language === 'cn') {
-          if (name === itemFe.label[1]) {
-            name = itemFe.label[0]
-          }
-        } else {
-          if (name === itemFe.label[0]) {
-            name = itemFe.label[1]
-          }
-        }
-      })
-      return name
     },
     downloadSDKApi () {
       let lan = this.codeLanguage.toLowerCase()

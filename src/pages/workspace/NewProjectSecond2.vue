@@ -77,9 +77,9 @@
               >
                 <el-card>
                   <div>
-                    <span class="service-title">{{ capabilityDetail.service }}</span>
+                    <span class="service-title">{{ language==='cn'?capabilityDetail.service:capabilityDetail.serviceEn }}</span>
                     <p class="service-desc">
-                      {{ capabilityDetail.description }}
+                      {{ language==='cn'?capabilityDetail.description:capabilityDetail.descriptionEn }}
                     </p>
                   </div>
                 </el-card>
@@ -94,7 +94,6 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
-import { Capability } from '../../tools/project_data.js'
 export default {
   props: {
     allStepData: {
@@ -131,7 +130,6 @@ export default {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
       this.language = language
-      this.checkProjectData(this.groups)
     }
   },
   mounted () {
@@ -147,6 +145,9 @@ export default {
             label: '',
             children: []
           }
+          if (this.language === 'en') {
+            this.groups[i].oneLevelName = this.groups[i].oneLevelNameEn
+          }
           obj.label = this.groups[i].oneLevelName
           this.tree.push(obj)
           oneLevelSet.add(this.groups[i].oneLevelName)
@@ -157,6 +158,9 @@ export default {
           let obj2 = {
             label: '',
             groupId: ''
+          }
+          if (this.language === 'en') {
+            this.groups[i].twoLevelName = this.groups[i].twoLevelNameEn
           }
           obj2.label = this.groups[i].twoLevelName
           obj2.groupId = this.groups[i].groupId
@@ -200,7 +204,6 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      this.checkProjectData(this.groups)
       this.buildTree()
     },
     getCapaList () {
@@ -234,25 +237,6 @@ export default {
         cachedThirdStepSelection.push(tag)
       }
       this.thirdStepSelection = cachedThirdStepSelection
-    },
-    // 平台能力和开放能力中英文切换
-    checkProjectData (checkArr) {
-      checkArr.forEach(itemBe => {
-        Capability.forEach(itemFe => {
-          if (itemBe.oneLevelName === itemFe.label[1] && this.language === 'cn') {
-            itemBe.oneLevelName = itemFe.label[0]
-          } else if (itemBe.oneLevelName === itemFe.label[1] && this.language === 'en') {
-            itemBe.oneLevelName = itemFe.label[1]
-          }
-        })
-        Capability.forEach(itemFe => {
-          if (itemBe.twoLevelName === itemFe.label[1] && this.language === 'cn') {
-            itemBe.twoLevelName = itemFe.label[0]
-          } else if (itemBe.twoLevelName === itemFe.label[1] && this.language === 'en') {
-            itemBe.twoLevelName = itemFe.label[1]
-          }
-        })
-      })
     }
   }
 }
