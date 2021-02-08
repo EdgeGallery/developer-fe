@@ -300,7 +300,11 @@ export default {
         let arr = []
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
-            arr.push(itemSub.service)
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
           })
         })
         this.checkProjectData()
