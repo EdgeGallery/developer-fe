@@ -161,8 +161,7 @@ export default {
           this.hasService = false
         }
         this.apiType = res.data.type
-        let treeDataTemp = []
-        treeDataTemp = res.data.capabilityList
+        let treeDataTemp = res.data.capabilityList
         let oneLevel = []
         treeDataTemp.forEach(item => {
           if (this.language === 'cn') {
@@ -183,47 +182,35 @@ export default {
         })
         // twoLevel
         treeDataTemp.forEach(item => {
+          let oneLevelName = this.language === 'en' ? item.oneLevelNameEn : item.oneLevelName
           this.treeData.forEach(itemTwo => {
-            if (itemTwo.label === item.oneLevelName) {
-              let objTwo = {
-                label: '',
-                children: []
-              }
-              if (item.twoLevelName) {
-                if (this.language === 'cn') {
-                  objTwo.label = item.twoLevelName
-                } else {
-                  objTwo.label = item.twoLevelNameEn
-                }
-                itemTwo.children.push(objTwo)
+            if (itemTwo.label === oneLevelName) {
+              let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
+              if (twoLevelName) {
+                itemTwo.children.push({
+                  label: twoLevelName,
+                  children: []
+                })
               }
             }
           })
         })
         // threeLevel
         treeDataTemp.forEach(item => {
+          let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
           item.capabilityDetailList.forEach(subItem => {
             this.treeData.forEach(itemThree => {
               itemThree.children.forEach(subTree => {
-                let objThree = {
-                  host: '',
-                  label: '',
-                  type: '',
-                  apiFileId: '',
-                  capabilityType: '',
-                  uploadTime: '',
-                  version: ''
-                }
-                objThree.host = subItem.host
-                objThree.label = subItem.service
-                objThree.type = item.type
-                objThree.apiFileId = subItem.apiFileId
-                objThree.capabilityType = item.twoLevelName
-                let timeStr = this.dateChange(subItem.uploadTime)
-                objThree.uploadTime = timeStr
-                objThree.version = subItem.version
-                if (item.twoLevelName === subTree.label) {
-                  subTree.children.push(objThree)
+                if (twoLevelName === subTree.label) {
+                  subTree.children.push({
+                    host: subItem.host,
+                    label: subItem.service,
+                    type: item.type,
+                    apiFileId: subItem.apiFileId,
+                    capabilityType: item.twoLevelName,
+                    uploadTime: this.dateChange(subItem.uploadTime),
+                    version: subItem.version
+                  })
                 }
               })
             })

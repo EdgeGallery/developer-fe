@@ -60,7 +60,7 @@
               @close="handleDeleteTag(tag)"
               style="margin-left: 10px;"
             >
-              {{ tag.service }}
+              {{ language === "en" ? tag.serviceEn : tag.service }}
             </el-tag>
           </div>
           <div class="service_div">
@@ -140,33 +140,27 @@ export default {
     buildTree () {
       let oneLevelSet = new Set()
       for (let i in this.groups) {
-        if (this.groups[i].oneLevelName !== null && !oneLevelSet.has(this.groups[i].oneLevelName)) {
-          let obj = {
-            label: '',
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+          this.tree.push({
+            label: oneLevelName,
             children: []
-          }
-          if (this.language === 'en') {
-            this.groups[i].oneLevelName = this.groups[i].oneLevelNameEn
-          }
-          obj.label = this.groups[i].oneLevelName
-          this.tree.push(obj)
-          oneLevelSet.add(this.groups[i].oneLevelName)
+          })
+          oneLevelSet.add(oneLevelName)
         }
       }
       for (let i in this.groups) {
-        if (this.groups[i].twoLevelName !== null) {
-          let obj2 = {
-            label: '',
-            groupId: ''
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
+        if (twoLevelName !== null) {
+          let node = {
+            label: twoLevelName,
+            groupId: this.groups[i].groupId
           }
-          if (this.language === 'en') {
-            this.groups[i].twoLevelName = this.groups[i].twoLevelNameEn
-          }
-          obj2.label = this.groups[i].twoLevelName
-          obj2.groupId = this.groups[i].groupId
           for (let k in this.tree) {
-            if (this.tree[k].label === this.groups[i].oneLevelName) {
-              this.tree[k].children.push(obj2)
+            if (this.tree[k].label === oneLevelName) {
+              this.tree[k].children.push(node)
+              break
             }
           }
         }
@@ -189,7 +183,6 @@ export default {
       this.updateThirdStepSelection()
     },
     handleDeleteTag (tag) {
-      this.tags.splice(this.tags.indexOf(tag), 1)
       let index = this.tags.indexOf(tag)
       if (index !== -1) {
         this.tags.splice(index, 1)
