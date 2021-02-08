@@ -204,10 +204,10 @@ export default {
                 if (twoLevelName === subTree.label) {
                   subTree.children.push({
                     host: subItem.host,
-                    label: subItem.service,
+                    label: this.language === 'en' ? subItem.serviceEn : subItem.service,
                     type: item.type,
                     apiFileId: subItem.apiFileId,
-                    capabilityType: item.twoLevelName,
+                    capabilityType: twoLevelName,
                     uploadTime: this.dateChange(subItem.uploadTime),
                     version: subItem.version
                   })

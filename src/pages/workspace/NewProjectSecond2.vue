@@ -153,13 +153,12 @@ export default {
         let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
         let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
         if (twoLevelName !== null) {
-          let node = {
-            label: twoLevelName,
-            groupId: this.groups[i].groupId
-          }
           for (let k in this.tree) {
             if (this.tree[k].label === oneLevelName) {
-              this.tree[k].children.push(node)
+              this.tree[k].children.push({
+                label: twoLevelName,
+                groupId: this.groups[i].groupId
+              })
               break
             }
           }
