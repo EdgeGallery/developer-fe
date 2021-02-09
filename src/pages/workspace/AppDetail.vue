@@ -276,10 +276,13 @@ export default {
         let arr = []
         dependent.forEach(item => {
           item.capabilityDetailList.forEach(itemSub => {
-            arr.push(itemSub.service)
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
           })
         })
-        this.checkProjectData()
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
@@ -391,6 +394,22 @@ export default {
     '$i18n.locale': function () {
       let spanLeft = document.getElementsByClassName('span_left')
       let language = localStorage.getItem('language')
+      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        let dependent = res.data.capabilityList
+        let arr = []
+        dependent.forEach(item => {
+          item.capabilityDetailList.forEach(itemSub => {
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
+          })
+        })
+        arr = Array.from(new Set(arr))
+        this.dependentNum = arr.length
+        this.projectDetailData.dependent = arr.join('，')
+      })
       this.language = language
       this.checkProjectData()
       if (this.language === 'en') {

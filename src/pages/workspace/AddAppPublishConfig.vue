@@ -250,7 +250,6 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
-import { Capability } from '../../tools/project_data.js'
 export default {
   props: {
     value: {
@@ -424,27 +423,15 @@ export default {
       Workspace.getCapabilityListApi().then(res => {
         let oneLevel = []
         res.data.forEach(item => {
-          item.oneLevelName = this.checkProjectData(item.oneLevelName)
-          oneLevel.push(item.oneLevelName)
+          if (this.language === 'cn') {
+            oneLevel.push(item.oneLevelName)
+          } else {
+            oneLevel.push(item.oneLevelNameEn)
+          }
         })
         oneLevel = Array.from(new Set(oneLevel))
         this.optionsCapability = oneLevel
       })
-    },
-    // 中英文切换
-    checkProjectData (name) {
-      Capability.forEach(itemFe => {
-        if (this.language === 'cn') {
-          if (name === itemFe.label[1]) {
-            name = itemFe.label[0]
-          }
-        } else {
-          if (name === itemFe.label[0]) {
-            name = itemFe.label[1]
-          }
-        }
-      })
-      return name
     },
     addPublicConfig () {
       this.form.trafficRulesList = this.form.trafficRulesList.join(',')

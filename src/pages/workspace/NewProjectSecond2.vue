@@ -60,7 +60,7 @@
               @close="handleDeleteTag(tag)"
               style="margin-left: 10px;"
             >
-              {{ tag.service }}
+              {{ language === "en" ? tag.serviceEn : tag.service }}
             </el-tag>
           </div>
           <div class="service_div">
@@ -77,9 +77,9 @@
               >
                 <el-card>
                   <div>
-                    <span class="service-title">{{ capabilityDetail.service }}</span>
+                    <span class="service-title">{{ language==='cn'?capabilityDetail.service:capabilityDetail.serviceEn }}</span>
                     <p class="service-desc">
-                      {{ capabilityDetail.description }}
+                      {{ language==='cn'?capabilityDetail.description:capabilityDetail.descriptionEn }}
                     </p>
                   </div>
                 </el-card>
@@ -94,7 +94,6 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
-import { Capability } from '../../tools/project_data.js'
 export default {
   props: {
     allStepData: {
@@ -131,7 +130,6 @@ export default {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
       this.language = language
-      this.checkProjectData(this.groups)
     }
   },
   mounted () {
@@ -142,27 +140,26 @@ export default {
     buildTree () {
       let oneLevelSet = new Set()
       for (let i in this.groups) {
-        if (this.groups[i].oneLevelName !== null && !oneLevelSet.has(this.groups[i].oneLevelName)) {
-          let obj = {
-            label: '',
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+          this.tree.push({
+            label: oneLevelName,
             children: []
-          }
-          obj.label = this.groups[i].oneLevelName
-          this.tree.push(obj)
-          oneLevelSet.add(this.groups[i].oneLevelName)
+          })
+          oneLevelSet.add(oneLevelName)
         }
       }
       for (let i in this.groups) {
-        if (this.groups[i].twoLevelName !== null) {
-          let obj2 = {
-            label: '',
-            groupId: ''
-          }
-          obj2.label = this.groups[i].twoLevelName
-          obj2.groupId = this.groups[i].groupId
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
+        if (twoLevelName !== null) {
           for (let k in this.tree) {
-            if (this.tree[k].label === this.groups[i].oneLevelName) {
-              this.tree[k].children.push(obj2)
+            if (this.tree[k].label === oneLevelName) {
+              this.tree[k].children.push({
+                label: twoLevelName,
+                groupId: this.groups[i].groupId
+              })
+              break
             }
           }
         }
@@ -185,7 +182,6 @@ export default {
       this.updateThirdStepSelection()
     },
     handleDeleteTag (tag) {
-      this.tags.splice(this.tags.indexOf(tag), 1)
       let index = this.tags.indexOf(tag)
       if (index !== -1) {
         this.tags.splice(index, 1)
@@ -200,7 +196,6 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      this.checkProjectData(this.groups)
       this.buildTree()
     },
     getCapaList () {
@@ -234,25 +229,6 @@ export default {
         cachedThirdStepSelection.push(tag)
       }
       this.thirdStepSelection = cachedThirdStepSelection
-    },
-    // 平台能力和开放能力中英文切换
-    checkProjectData (checkArr) {
-      checkArr.forEach(itemBe => {
-        Capability.forEach(itemFe => {
-          if (itemBe.oneLevelName === itemFe.label[1] && this.language === 'cn') {
-            itemBe.oneLevelName = itemFe.label[0]
-          } else if (itemBe.oneLevelName === itemFe.label[1] && this.language === 'en') {
-            itemBe.oneLevelName = itemFe.label[1]
-          }
-        })
-        Capability.forEach(itemFe => {
-          if (itemBe.twoLevelName === itemFe.label[1] && this.language === 'cn') {
-            itemBe.twoLevelName = itemFe.label[0]
-          } else if (itemBe.twoLevelName === itemFe.label[1] && this.language === 'en') {
-            itemBe.twoLevelName = itemFe.label[1]
-          }
-        })
-      })
     }
   }
 }
