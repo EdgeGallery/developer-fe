@@ -107,7 +107,6 @@
 
 <script>
 import { Workspace, Api } from '../../../tools/api.js'
-import { Capability } from '../../../tools/project_data.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -162,12 +161,14 @@ export default {
           this.hasService = false
         }
         this.apiType = res.data.type
-        let treeDataTemp = []
-        treeDataTemp = res.data.capabilityList
+        let treeDataTemp = res.data.capabilityList
         let oneLevel = []
         treeDataTemp.forEach(item => {
-          item.oneLevelName = this.checkProjectData(item.oneLevelName)
-          oneLevel.push(item.oneLevelName)
+          if (this.language === 'cn') {
+            oneLevel.push(item.oneLevelName)
+          } else {
+            oneLevel.push(item.oneLevelNameEn)
+          }
         })
         oneLevel = Array.from(new Set(oneLevel))
         // oneLevel
@@ -181,44 +182,35 @@ export default {
         })
         // twoLevel
         treeDataTemp.forEach(item => {
+          let oneLevelName = this.language === 'en' ? item.oneLevelNameEn : item.oneLevelName
           this.treeData.forEach(itemTwo => {
-            if (itemTwo.label === item.oneLevelName) {
-              let objTwo = {
-                label: '',
-                children: []
-              }
-              if (item.twoLevelName) {
-                item.twoLevelName = this.checkProjectData(item.twoLevelName)
-                objTwo.label = item.twoLevelName
-                itemTwo.children.push(objTwo)
+            if (itemTwo.label === oneLevelName) {
+              let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
+              if (twoLevelName) {
+                itemTwo.children.push({
+                  label: twoLevelName,
+                  children: []
+                })
               }
             }
           })
         })
         // threeLevel
         treeDataTemp.forEach(item => {
+          let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
           item.capabilityDetailList.forEach(subItem => {
             this.treeData.forEach(itemThree => {
               itemThree.children.forEach(subTree => {
-                let objThree = {
-                  host: '',
-                  label: '',
-                  type: '',
-                  apiFileId: '',
-                  capabilityType: '',
-                  uploadTime: '',
-                  version: ''
-                }
-                objThree.host = subItem.host
-                objThree.label = subItem.service
-                objThree.type = item.type
-                objThree.apiFileId = subItem.apiFileId
-                objThree.capabilityType = item.twoLevelName
-                let timeStr = this.dateChange(subItem.uploadTime)
-                objThree.uploadTime = timeStr
-                objThree.version = subItem.version
-                if (item.twoLevelName === subTree.label) {
-                  subTree.children.push(objThree)
+                if (twoLevelName === subTree.label) {
+                  subTree.children.push({
+                    host: subItem.host,
+                    label: this.language === 'en' ? subItem.serviceEn : subItem.service,
+                    type: item.type,
+                    apiFileId: subItem.apiFileId,
+                    capabilityType: twoLevelName,
+                    uploadTime: this.dateChange(subItem.uploadTime),
+                    version: subItem.version
+                  })
                 }
               })
             })
@@ -283,21 +275,6 @@ export default {
         let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
         return changeDate
       }
-    },
-    // 中英文切换
-    checkProjectData (name) {
-      Capability.forEach(itemFe => {
-        if (this.language === 'cn') {
-          if (name === itemFe.label[1]) {
-            name = itemFe.label[0]
-          }
-        } else {
-          if (name === itemFe.label[0]) {
-            name = itemFe.label[1]
-          }
-        }
-      })
-      return name
     },
     downloadSDKApi () {
       let lan = this.codeLanguage.toLowerCase()
