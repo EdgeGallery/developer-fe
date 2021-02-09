@@ -296,7 +296,20 @@ export default {
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
         this.projectDetailData.description = data.description
-        this.checkProjectData(res)
+        let dependent = res.data.capabilityList
+        let arr = []
+        dependent.forEach(item => {
+          item.capabilityDetailList.forEach(itemSub => {
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
+          })
+        })
+        arr = Array.from(new Set(arr))
+        this.dependentNum = arr.length
+        this.projectDetailData.dependent = arr.join('，')
         if (data.status !== 'ONLINE') {
           this.active = 2
           this.changeComponent()
@@ -370,21 +383,7 @@ export default {
         this.projectBeforeConfig = res.data || {}
       })
     },
-    checkProjectData (res) {
-      let dependent = res.data.capabilityList
-      let arr = []
-      dependent.forEach(item => {
-        item.capabilityDetailList.forEach(itemSub => {
-          if (this.language === 'cn') {
-            arr.push(itemSub.service)
-          } else {
-            arr.push(itemSub.serviceEn)
-          }
-        })
-      })
-      arr = Array.from(new Set(arr))
-      this.dependentNum = arr.length
-      this.projectDetailData.dependent = arr.join('，')
+    checkProjectData () {
       Industry.forEach(itemFe => {
         if (this.language === 'cn') {
           if (this.projectDetailData.industry === itemFe.label[1]) {
@@ -418,6 +417,22 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        let dependent = res.data.capabilityList
+        let arr = []
+        dependent.forEach(item => {
+          item.capabilityDetailList.forEach(itemSub => {
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
+          })
+        })
+        arr = Array.from(new Set(arr))
+        this.dependentNum = arr.length
+        this.projectDetailData.dependent = arr.join('，')
+      })
       this.checkProjectData()
     }
   }
