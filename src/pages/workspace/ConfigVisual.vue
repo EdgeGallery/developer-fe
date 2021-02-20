@@ -635,7 +635,8 @@ export default {
       },
       dialogVisible: false,
       projectBeforeConfig: {},
-      appYamlFileId: ''
+      appYamlFileId: '',
+      isPostConfigVisual: false
     }
   },
   methods: {
@@ -845,13 +846,14 @@ export default {
           this.$message.success('保存配置成功')
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
+          this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
           this.$emit('getConfigVisual', this.appYamlFileId)
           this.submitData(this.appYamlFileId)
           this.setApiHeight()
         }).catch(() => {
           this.$message.error('保存配置失败')
           this.appYamlFileId = ''
-          this.setApiHeight()
+          this.markdownSource = ''
         })
       }
     },
@@ -873,20 +875,21 @@ export default {
         }
         const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
         func(this.projectId, this.userId, params).then(() => {
-          this.getConfigFile(appYamlFileId)
+          // this.getConfigFile(appYamlFileId)
         }).catch(err => {
           console.log(err)
         })
       })
     },
     // 获取生成的配置文件
-    getConfigFile (appYamlFileId) {
+    /* getConfigFile (appYamlFileId) {
+      this.setApiHeight()
       Workspace.getConfigVisualApi(appYamlFileId).then(res => {
         this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
       }).catch(() => {
         this.markdownSource = ''
       })
-    },
+    }, */
     setApiHeight () {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
@@ -895,12 +898,15 @@ export default {
         const oDiv2 = document.getElementsByClassName('file_content')[0]
         oDiv2.style.height = Number(deviceHeight) * 0.75 - 155 + 'px'
       })
+    },
+    viewConfigFile () {
+      this.dialogVisible = true
+      // this.getConfigFile(this.appYamlFileId)
     }
   },
   created () {
   },
   mounted () {
-    console.log(this.allStepData)
   }
 }
 </script>
