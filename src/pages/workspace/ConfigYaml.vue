@@ -128,7 +128,10 @@
         :label="$t('workspace.configYaml.config')"
         name="second"
       >
-        <configVisual :all-step-data="allStepData" />
+        <configVisual
+          :all-step-data="allStepData"
+          @getConfigVisual="getConfigVisual"
+        />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -285,6 +288,9 @@ export default {
         const deviceHeight = document.documentElement.clientHeight
         oDiv.style.height = Number(deviceHeight) * 0.6 + 'px'
       })
+    },
+    getConfigVisual (val) {
+      this.appYamlFileId = val
     }
   },
   mounted () {
