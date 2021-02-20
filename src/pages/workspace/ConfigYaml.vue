@@ -125,13 +125,10 @@
         </div>
       </el-tab-pane>
       <el-tab-pane
-        disabled
         :label="$t('workspace.configYaml.config')"
         name="second"
       >
-        <h3 class="title">
-          {{ $t('workspace.configYaml.config') }}
-        </h3>
+        <configVisual :all-step-data="allStepData" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -140,6 +137,7 @@
 <script>
 import { Workspace } from '../../tools/api.js'
 import demoYaml from '@/assets/file/test_helm_template.yaml'
+import configVisual from './ConfigVisual.vue'
 export default {
   name: 'ConfigYaml',
   props: {
@@ -147,6 +145,9 @@ export default {
       type: Object,
       default: () => { }
     }
+  },
+  components: {
+    configVisual
   },
   data () {
     return {
@@ -298,17 +299,14 @@ export default {
     .el-tabs__item{
       height: 15px;
       line-height: 15px;
-      padding: 0 30px 0 0;
+      padding: 0 20px;
       font-size: 18px;
-      margin:10px 30px 18px 0;
+      margin:10px 0 18px 0;
       border-right: 1px solid #ddd;
       border-radius: 0;
     }
     .el-tabs__item:last-child{
       border-right: 0;
-    }
-    .el-tabs__item:last-child:hover{
-      color: #c0c4cc;
     }
     .el-tabs__item.is-active{
       color: #688ef3;

@@ -30,8 +30,12 @@ html,body{
   padding:20px 20px 60px 20px;
 }
 a{
+  color: #688ef3;
   text-decoration: none;
   color:#fff;
+}
+.markdown-body a{
+  color: #688ef3 !important;
 }
 li{
   list-style: none;
@@ -122,6 +126,9 @@ li{
 }
 .el-button.p8{
   padding: 8px 12px;
+}
+.el-button{
+  padding: 8px 24px;
 }
 .el-dialog__header{
   background: #688ef3 !important;

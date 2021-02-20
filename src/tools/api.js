@@ -211,6 +211,14 @@ let Workspace = {
   putTestConfigApi: function (projectId, userId, params) {
     return Put('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
+  // 保存可视化配置
+  postConfigVisualApi: function (projectId, userId, params) {
+    return Post('mec/developer/v1/deploy/' + projectId + '?userId=' + userId, params)
+  },
+  // 获取生成的可视化配置文件
+  getConfigVisualApi: function (fileId) {
+    return Get('mec/developer/v1/deploy/' + fileId)
+  },
   // 部署构建测试
   deployTestApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + userId, '')
