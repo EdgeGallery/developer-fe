@@ -845,6 +845,7 @@ export default {
           this.$message.success('保存配置成功')
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
+          this.$emit('getConfigVisual', this.appYamlFileId)
           this.submitData(this.appYamlFileId)
           this.setApiHeight()
         }).catch(() => {
