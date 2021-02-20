@@ -825,17 +825,16 @@ export default {
         podDataTemp.forEach(podItem => {
           podItem.metadata.labels.app = podItem.metadata.name
           podItem.spec.containers.forEach(containersItem => {
-            let str = containersItem.command
-            let arr = str.split(' ')
-            let str2 = JSON.stringify(arr)
-            let str3 = str2.replace(/"/g, '\\"')
-            containersItem.command = str3
+            if (containersItem.command !== '') {
+              let str = containersItem.command
+              let arr = str.split(' ')
+              let str2 = JSON.stringify(arr)
+              let str3 = str2.replace(/"/g, '\\"')
+              containersItem.command = str3
+            }
           })
           this.configData.deployYamls.push(podItem)
         })
-
-        // console.log(this.podData)
-        // console.log(this.serviceData)
         this.serviceData.forEach(serviceItem => {
           serviceItem.metadata.labels.svc = serviceItem.metadata.name
           serviceItem.spec.selector.app = serviceItem.metadata.name
@@ -850,7 +849,6 @@ export default {
           this.setApiHeight()
         }).catch(() => {
           this.$message.error('保存配置失败')
-          this.dialogVisible = true
           this.appYamlFileId = ''
           this.setApiHeight()
         })
