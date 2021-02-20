@@ -23,11 +23,12 @@ import locale from 'element-ui/lib/locale/lang/en'
 import i18n from './locales/i18n.js'
 import VueCookies from 'vue-cookies'
 
-import '../src/assets/css/common.css'
 import '../src/assets/css/theme/index.css'
 import VCharts from 'v-charts'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import '../src/assets/css/common.css'
+
 Vue.use(VCharts)
 Vue.use(ElementUI, { locale })
 Vue.use(mavonEditor)
