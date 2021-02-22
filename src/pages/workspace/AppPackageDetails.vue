@@ -115,6 +115,8 @@ export default {
             this.markdownSource = res.data
           } else if (val.name.indexOf('.tgz') >= 0) {
             this.markdownSource = this.$t('promptMessage.fileNotSupport')
+          } else if (val.name.indexOf('.json') >= 0) {
+            this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
           } else {
             this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
           }
