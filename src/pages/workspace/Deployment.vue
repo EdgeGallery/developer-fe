@@ -202,6 +202,12 @@
               <p class="marginTop10">
                 {{ $t("workspace.deploymentSuccess") }}
               </p>
+              <el-button
+                class="deploy-btn"
+                @click="refToVNC"
+              >
+                VNC
+              </el-button>
               <div class="tip gray">
                 {{ $t('workspace.recycleTip') }}
               </div>
@@ -484,6 +490,9 @@ export default {
         res = 100
       }
       return res
+    },
+    refToVNC () {
+      window.open('webssh.html', 'webssh')
     },
     initialTimeline () {
       this.getStatusPic()
