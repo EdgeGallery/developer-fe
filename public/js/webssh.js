@@ -3,7 +3,7 @@ function WSSHClient () {
 
 WSSHClient.prototype._generateEndpoint = function () {
   console.log(window.location.host)
-  var endpoint = 'ws://' + '127.0.0.1:9082/webssh'
+  var endpoint = 'wss://' + '119.8.63.144:30092/mec-developer/webssh'
   return endpoint
 }
 
