@@ -2,12 +2,8 @@ function WSSHClient () {
 };
 
 WSSHClient.prototype._generateEndpoint = function () {
-  if (window.location.protocol == 'https:') {
-    var protocol = 'wss://'
-  } else {
-    var protocol = 'ws://'
-  }
-  var endpoint = protocol + '127.0.0.1:9082/webssh'
+  console.log(window.location.host)
+  var endpoint = 'ws://' + '127.0.0.1:9082/webssh'
   return endpoint
 }
 
