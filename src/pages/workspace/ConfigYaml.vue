@@ -18,6 +18,7 @@
   <div class="config-yaml">
     <el-tabs
       v-model="activeName"
+      @tab-click="handleClick"
     >
       <el-tab-pane
         :label="$t('workspace.configYaml.importFile')"
@@ -131,6 +132,8 @@
         <configVisual
           :all-step-data="allStepData"
           @getConfigVisual="getConfigVisual"
+          :deploy-file-id="appYamlFileId"
+          ref="configVisual"
         />
       </el-tab-pane>
     </el-tabs>
@@ -199,6 +202,7 @@ export default {
     // 移除Yaml文件
     removeUploadyaml (file, fileList) {
       Workspace.deleteYamlFileApi(this.appYamlFileId)
+      this.submitData(null)
       this.hasValidate = false
       this.yamlFileList = []
       this.appYamlFileId = ''
@@ -210,7 +214,7 @@ export default {
       this.uploadYamlLoading = true
       let fd = new FormData()
       fd.append('file', yamlFileList[0])
-      Workspace.submitYamlFileApi(this.userId, this.projectId, fd).then(res => {
+      Workspace.submitYamlFileApi(this.userId, this.projectId, fd, 'upload').then(res => {
         this.hasValidate = true
         if (res.data.fileId) {
           this.yamlFileList = yamlFileList
@@ -268,18 +272,30 @@ export default {
       })
     },
     initFileList () {
-      Workspace.getYamlFileApi(this.userId, this.projectId).then(res => {
-        let data = res.data[0]
-        this.yamlFileList = [{ name: data.fileName, fileId: data.fileId }]
-        this.hasValidate = true
-        this.appYamlFileId = data.fileId
-        this.checkFlag = { formatSuccess: data.formatSuccess, imageSuccess: data.imageSuccess, mepAgentSuccess: data.mepAgentSuccess, serviceSuccess: data.serviceSuccess }
-        this.markdownSource = '```yaml\r\n' + data.fileContent + '\r\n```'
-        this.setApiHeight()
-      }).catch(() => {
-        this.uploadYamlLoading = false
-        this.hasValidate = false
-        this.markdownSource = ''
+      Workspace.getTestConfigApi(this.projectId).then(response => {
+        this.appYamlFileId = response.data.deployFileId
+        if (this.appYamlFileId) {
+          Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
+            if (res.data.configType === 'upload') {
+              let data = res.data
+              this.yamlFileList = [{ name: data.fileName, fileId: data.fileId }]
+              this.hasValidate = true
+              this.appYamlFileId = data.fileId
+              this.checkFlag = { formatSuccess: true, imageSuccess: true, mepAgentSuccess: true, serviceSuccess: true }
+              this.markdownSource = '```yaml\r\n' + data.content + '\r\n```'
+              this.setApiHeight()
+            } else {
+              this.yamlFileList = []
+              this.hasValidate = false
+              this.appYamlFileId = res.data.fileId
+              this.markdownSource = ''
+            }
+          }).catch(() => {
+            this.uploadYamlLoading = false
+            this.hasValidate = false
+            this.markdownSource = ''
+          })
+        }
       })
     },
     setApiHeight () {
@@ -291,6 +307,10 @@ export default {
     },
     getConfigVisual (val) {
       this.appYamlFileId = val
+    },
+    handleClick () {
+      this.initFileList()
+      this.$refs.configVisual.getConfigFile()
     }
   },
   mounted () {

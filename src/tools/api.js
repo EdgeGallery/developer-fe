@@ -212,12 +212,16 @@ let Workspace = {
     return Put('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
   // 保存可视化配置
-  postConfigVisualApi: function (projectId, userId, params) {
-    return Post('mec/developer/v1/deploy/' + projectId + '?userId=' + userId, params)
+  postConfigVisualApi: function (projectId, userId, params, configType) {
+    return Post('mec/developer/v1/deploy/' + projectId + '?userId=' + userId + '&configType=' + configType, params)
   },
   // 获取生成的可视化配置文件
   getConfigVisualApi: function (fileId) {
     return Get('mec/developer/v1/deploy/' + fileId)
+  },
+  // 编辑生成的可视化配置文件
+  editConfigVisualApi: function (fileId, params) {
+    return Put('mec/developer/v1/deploy/' + fileId, params)
   },
   // 部署构建测试
   deployTestApi: function (projectId, userId) {
@@ -240,8 +244,8 @@ let Workspace = {
     return Delete('mec/developer/v1/projects/' + projectId + '/image/' + itemId)
   },
   // 上传yaml文件
-  submitYamlFileApi: function (userId, projectId, params) {
-    return Post('mec/developer/v1/files/helm-template-yaml?userId=' + userId + '&projectId=' + projectId, params)
+  submitYamlFileApi: function (userId, projectId, params, configType) {
+    return Post('mec/developer/v1/files/helm-template-yaml?userId=' + userId + '&projectId=' + projectId + '&configType=' + configType, params)
   },
   // 上传Api文件
   submitApiFileApi: function (userId, params) {

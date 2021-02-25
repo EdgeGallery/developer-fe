@@ -445,6 +445,12 @@
 
     <p class="saveBtn addBtn_div">
       <el-button
+        v-if="viewConfigFileBtn"
+        @click="viewConfigFile"
+      >
+        查看Yaml文件
+      </el-button>
+      <el-button
         class="featuresBtn"
         @click="saveConfig"
       >
@@ -460,9 +466,8 @@
         <mavon-editor
           v-model="markdownSource"
           :toolbars-flag="false"
-          :editable="false"
           :subfield="false"
-          default-open="preview"
+          :default-open="viewOrEdit"
           :box-shadow="false"
           preview-background="#ffffff"
         />
@@ -471,10 +476,11 @@
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="viewOrEdit = 'edit'">编 辑</el-button>
+        <el-button @click="saveConfigFile">保 存</el-button>
         <el-button
           type="primary"
-          @click="dialogVisible = false"
+          @click="dialogVisible=false"
         >确 定</el-button>
       </span>
     </el-dialog>
@@ -636,7 +642,9 @@ export default {
       dialogVisible: false,
       projectBeforeConfig: {},
       appYamlFileId: '',
-      isPostConfigVisual: false
+      isPostConfigVisual: false,
+      viewOrEdit: 'preview',
+      viewConfigFileBtn: false
     }
   },
   methods: {
@@ -841,12 +849,12 @@ export default {
           serviceItem.spec.selector.app = serviceItem.metadata.name
           this.configData.deployYamls.push(serviceItem)
         })
-        console.log(this.configData)
-        Workspace.postConfigVisualApi(this.projectId, this.userId, this.configData).then(res => {
+        Workspace.postConfigVisualApi(this.projectId, this.userId, this.configData, 'config').then(res => {
           this.$message.success('保存配置成功')
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
+          this.viewConfigFileBtn = true
           this.$emit('getConfigVisual', this.appYamlFileId)
           this.submitData(this.appYamlFileId)
           this.setApiHeight()
@@ -875,38 +883,62 @@ export default {
         }
         const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
         func(this.projectId, this.userId, params).then(() => {
-          // this.getConfigFile(appYamlFileId)
         }).catch(err => {
           console.log(err)
         })
       })
     },
     // 获取生成的配置文件
-    /* getConfigFile (appYamlFileId) {
-      this.setApiHeight()
-      Workspace.getConfigVisualApi(appYamlFileId).then(res => {
-        this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
-      }).catch(() => {
-        this.markdownSource = ''
+    getConfigFile () {
+      Workspace.getTestConfigApi(this.projectId).then(response => {
+        this.appYamlFileId = response.data.deployFileId
+        if (this.appYamlFileId) {
+          Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
+            if (res.data.configType === 'config') {
+              this.viewConfigFileBtn = true
+              this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
+              this.setApiHeight()
+            } else {
+              this.viewConfigFileBtn = false
+            }
+          })
+        }
       })
-    }, */
+    },
     setApiHeight () {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
         oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
         const oDiv2 = document.getElementsByClassName('file_content')[0]
-        oDiv2.style.height = Number(deviceHeight) * 0.75 - 155 + 'px'
+        if (oDiv2) {
+          oDiv2.style.height = Number(deviceHeight) * 0.75 - 155 + 'px'
+        }
       })
     },
     viewConfigFile () {
       this.dialogVisible = true
-      // this.getConfigFile(this.appYamlFileId)
+      this.getConfigFile()
+    },
+    saveConfigFile () {
+      let editMarkDownstr = this.markdownSource
+      editMarkDownstr = editMarkDownstr.replace('```yaml', '')
+      editMarkDownstr = editMarkDownstr.replace('```', '')
+      Workspace.editConfigVisualApi(this.appYamlFileId, editMarkDownstr).then(res => {
+        this.viewOrEdit = 'preview'
+        this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
+      })
     }
   },
   created () {
   },
+  watch: {
+    markdownSource (newVal, oldVal) {
+      this.markdownSource = newVal
+    }
+  },
   mounted () {
+    this.getConfigFile()
   }
 }
 </script>
