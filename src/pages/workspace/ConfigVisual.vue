@@ -834,7 +834,7 @@ export default {
         podDataTemp.forEach(podItem => {
           podItem.metadata.labels.app = podItem.metadata.name
           podItem.spec.containers.forEach(containersItem => {
-            if (containersItem.command !== '') {
+            if (containersItem.command !== '' || containersItem.command !== null) {
               let str = containersItem.command
               let arr = str.split(' ')
               let str2 = JSON.stringify(arr)
@@ -849,11 +849,12 @@ export default {
           serviceItem.spec.selector.app = serviceItem.metadata.name
           this.configData.deployYamls.push(serviceItem)
         })
-        Workspace.postConfigVisualApi(this.projectId, this.userId, this.configData, 'config').then(res => {
+        let params = JSON.stringify(this.configData.deployYamls)
+        Workspace.postConfigVisualApi(this.projectId, this.userId, params, 'config').then(res => {
           this.$message.success('保存配置成功')
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
-          this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
+          this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
           this.viewConfigFileBtn = true
           this.$emit('getConfigVisual', this.appYamlFileId)
           this.submitData(this.appYamlFileId)
@@ -902,7 +903,39 @@ export default {
               this.viewConfigFileBtn = false
             }
           })
+          this.getEchoConfigFile()
         }
+      })
+    },
+    // 回显生成的配置文件
+    getEchoConfigFile () {
+      Workspace.getEchoConfigFileApi(this.appYamlFileId).then(res => {
+        let echoData = []
+        res.data.forEach(item => {
+          echoData.push(JSON.parse(item))
+        })
+        this.podData = []
+        this.serviceData = []
+        echoData.forEach(item => {
+          if (item.kind === 'Pod') {
+            item.spec.containers.forEach((itemContainer, indexContainer) => {
+              if (itemContainer.commond !== null && itemContainer.name !== 'mep-agent') {
+                let str = itemContainer.command
+                str = str.replaceAll('[', '')
+                str = str.replaceAll(']', '')
+                str = str.replaceAll('\\"', '')
+                let arr = str.split(',')
+                itemContainer.command = arr.join(' ')
+              }
+              if (itemContainer.name === 'mep-agent') {
+                item.spec.containers.splice(indexContainer, 1)
+                this.podData.push(item)
+              }
+            })
+          } else if (item.kind === 'Service') {
+            this.serviceData.push(item)
+          }
+        })
       })
     },
     setApiHeight () {
@@ -920,13 +953,13 @@ export default {
       this.dialogVisible = true
       this.getConfigFile()
     },
+    // 保存编辑的yaml文件
     saveConfigFile () {
-      let editMarkDownstr = this.markdownSource
-      editMarkDownstr = editMarkDownstr.replace('```yaml', '')
-      editMarkDownstr = editMarkDownstr.replace('```', '')
+      let editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
       Workspace.editConfigVisualApi(this.appYamlFileId, editMarkDownstr).then(res => {
         this.viewOrEdit = 'preview'
         this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
+        this.getEchoConfigFile()
       })
     }
   },

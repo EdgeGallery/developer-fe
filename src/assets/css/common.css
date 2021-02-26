@@ -130,6 +130,9 @@ li{
 .el-button{
   padding: 8px 24px;
 }
+.el-button.el-button--text{
+  padding: 8px 15px;
+}
 .el-dialog__header{
   background: #688ef3 !important;
 }
