@@ -212,12 +212,19 @@ let Workspace = {
     return Put('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
   // 保存可视化配置
-  postConfigVisualApi: function (projectId, userId, params, configType) {
+  /* postConfigVisualApi: function (projectId, userId, params, configType) {
     return Post('mec/developer/v1/deploy/' + projectId + '?userId=' + userId + '&configType=' + configType, params)
+  }, */
+  postConfigVisualApi: function (projectId, userId, params, configType) {
+    return Post('mec/developer/v1/deploy/' + projectId + '/action/save-yaml?userId=' + userId + '&configType=' + configType, params)
   },
   // 获取生成的可视化配置文件
   getConfigVisualApi: function (fileId) {
     return Get('mec/developer/v1/deploy/' + fileId)
+  },
+  // 回显生成的可视化配置文件
+  getEchoConfigFileApi: function (fileId) {
+    return Get('mec/developer/v1/deploy/' + fileId + '/action/get-json')
   },
   // 编辑生成的可视化配置文件
   editConfigVisualApi: function (fileId, params) {
