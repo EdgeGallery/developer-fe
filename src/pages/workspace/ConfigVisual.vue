@@ -929,6 +929,32 @@ export default {
         })
         podDataArr.forEach(podItem => {
           podItem.spec.containers.forEach((containersItem, containerIndex) => {
+            let keysArr = []
+            for (let keys in containersItem) {
+              keysArr.push(keys)
+            }
+            if (keysArr.indexOf('env') === -1) {
+              let envArr = [
+                { name: '', value: '' }
+              ]
+              containersItem['env'] = envArr
+            }
+            if (keysArr.indexOf('command') === -1) {
+              containersItem['command'] = ''
+            }
+            if (keysArr.indexOf('resources') === -1) {
+              let resourcesObj = {
+                limits: {
+                  memory: '',
+                  cpu: ''
+                },
+                requests: {
+                  memory: '',
+                  cpu: ''
+                }
+              }
+              containersItem['resources'] = resourcesObj
+            }
             if (containersItem.commond !== null && containersItem.name !== 'mep-agent') {
               let str = containersItem.command
               str = str.replaceAll('[', '')
@@ -943,6 +969,7 @@ export default {
           })
         })
         this.podData = podDataArr
+        console.log(this.podData)
       })
     },
     setApiHeight () {
