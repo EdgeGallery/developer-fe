@@ -476,11 +476,14 @@
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="viewOrEdit = 'edit'">编 辑</el-button>
-        <el-button @click="saveConfigFile">保 存</el-button>
+        <el-button @click="editConfigFile">编 辑</el-button>
+        <el-button
+          @click="saveConfigFile"
+          v-show="isEditFile"
+        >保 存</el-button>
         <el-button
           type="primary"
-          @click="dialogVisible=false"
+          @click="configEditFile"
         >确 定</el-button>
       </span>
     </el-dialog>
@@ -644,7 +647,8 @@ export default {
       appYamlFileId: '',
       isPostConfigVisual: false,
       viewOrEdit: 'preview',
-      viewConfigFileBtn: false
+      viewConfigFileBtn: false,
+      isEditFile: false
     }
   },
   methods: {
@@ -899,11 +903,11 @@ export default {
               this.viewConfigFileBtn = true
               this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
               this.setApiHeight()
+              this.getEchoConfigFile()
             } else {
               this.viewConfigFileBtn = false
             }
           })
-          this.getEchoConfigFile()
         }
       })
     },
@@ -914,28 +918,31 @@ export default {
         res.data.forEach(item => {
           echoData.push(JSON.parse(item))
         })
-        this.podData = []
         this.serviceData = []
+        let podDataArr = []
         echoData.forEach(item => {
           if (item.kind === 'Pod') {
-            item.spec.containers.forEach((itemContainer, indexContainer) => {
-              if (itemContainer.commond !== null && itemContainer.name !== 'mep-agent') {
-                let str = itemContainer.command
-                str = str.replaceAll('[', '')
-                str = str.replaceAll(']', '')
-                str = str.replaceAll('\\"', '')
-                let arr = str.split(',')
-                itemContainer.command = arr.join(' ')
-              }
-              if (itemContainer.name === 'mep-agent') {
-                item.spec.containers.splice(indexContainer, 1)
-                this.podData.push(item)
-              }
-            })
+            podDataArr.push(item)
           } else if (item.kind === 'Service') {
             this.serviceData.push(item)
           }
         })
+        podDataArr.forEach(podItem => {
+          podItem.spec.containers.forEach((containersItem, containerIndex) => {
+            if (containersItem.commond !== null && containersItem.name !== 'mep-agent') {
+              let str = containersItem.command
+              str = str.replaceAll('[', '')
+              str = str.replaceAll(']', '')
+              str = str.replaceAll('\\"', '')
+              let arr = str.split(',')
+              containersItem.command = arr.join(' ')
+            }
+            if (containersItem.name === 'mep-agent') {
+              podItem.spec.containers.splice(containerIndex, 1)
+            }
+          })
+        })
+        this.podData = podDataArr
       })
     },
     setApiHeight () {
@@ -953,14 +960,33 @@ export default {
       this.dialogVisible = true
       this.getConfigFile()
     },
+    editConfigFile () {
+      this.viewOrEdit = 'edit'
+      this.isEditFile = true
+    },
     // 保存编辑的yaml文件
     saveConfigFile () {
-      let editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
-      Workspace.editConfigVisualApi(this.appYamlFileId, editMarkDownstr).then(res => {
-        this.viewOrEdit = 'preview'
-        this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
-        this.getEchoConfigFile()
+      Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
+        let configFileContent = ''
+        if (res.data.configType === 'config') {
+          configFileContent = '```yaml\r\n' + res.data.content + '\r\n```'
+          if (configFileContent !== this.markdownSource) {
+            let editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
+            Workspace.editConfigVisualApi(this.appYamlFileId, editMarkDownstr).then(response => {
+              this.markdownSource = '```yaml\r\n' + response.data.content + '\r\n```'
+              this.getEchoConfigFile()
+            })
+          } else {
+            this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
+          }
+          this.viewOrEdit = 'preview'
+          this.isEditFile = false
+        }
       })
+    },
+    configEditFile () {
+      this.dialogVisible = false
+      this.isEditFile = false
     }
   },
   created () {
@@ -971,7 +997,6 @@ export default {
     }
   },
   mounted () {
-    this.getConfigFile()
   }
 }
 </script>
