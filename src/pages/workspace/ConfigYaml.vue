@@ -272,31 +272,28 @@ export default {
       })
     },
     initFileList () {
-      Workspace.getTestConfigApi(this.projectId).then(response => {
-        this.appYamlFileId = response.data.deployFileId
-        if (this.appYamlFileId) {
-          Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
-            if (res.data.configType === 'upload') {
-              let data = res.data
-              this.yamlFileList = [{ name: data.fileName, fileId: data.fileId }]
-              this.hasValidate = true
-              this.appYamlFileId = data.fileId
-              this.checkFlag = { formatSuccess: true, imageSuccess: true, mepAgentSuccess: true, serviceSuccess: true }
-              this.markdownSource = '```yaml\r\n' + data.content + '\r\n```'
-              this.setApiHeight()
-            } else {
-              this.yamlFileList = []
-              this.hasValidate = false
-              this.appYamlFileId = res.data.fileId
-              this.markdownSource = ''
-            }
-          }).catch(() => {
-            this.uploadYamlLoading = false
+      if (this.appYamlFileId) {
+        Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
+          if (res.data.configType === 'upload') {
+            let data = res.data
+            this.yamlFileList = [{ name: data.fileName, fileId: data.fileId }]
+            this.hasValidate = true
+            this.appYamlFileId = data.fileId
+            this.checkFlag = { formatSuccess: true, imageSuccess: true, mepAgentSuccess: true, serviceSuccess: true }
+            this.markdownSource = '```yaml\r\n' + data.content + '\r\n```'
+            this.setApiHeight()
+          } else {
+            this.yamlFileList = []
             this.hasValidate = false
+            this.appYamlFileId = res.data.fileId
             this.markdownSource = ''
-          })
-        }
-      })
+          }
+        }).catch(() => {
+          this.uploadYamlLoading = false
+          this.hasValidate = false
+          this.markdownSource = ''
+        })
+      }
     },
     setApiHeight () {
       this.$nextTick(() => {
@@ -308,13 +305,32 @@ export default {
     getConfigVisual (val) {
       this.appYamlFileId = val
     },
-    handleClick () {
-      this.initFileList()
-      this.$refs.configVisual.getConfigFile()
+    handleClick (tab) {
+      if (tab.name === 'first') {
+        this.initFileList()
+      } else if (tab.name === 'second') {
+        this.$refs.configVisual.getConfigFile()
+      }
+    },
+    getConfigType () {
+      Workspace.getTestConfigApi(this.projectId).then(response => {
+        this.appYamlFileId = response.data.deployFileId
+        if (this.appYamlFileId) {
+          Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
+            if (res.data.configType === 'upload') {
+              this.activeName = 'first'
+            } else if (res.data.configType === 'config') {
+              this.activeName = 'second'
+              this.$refs.configVisual.getConfigFile()
+            }
+          })
+        }
+        this.initFileList()
+      })
     }
   },
   mounted () {
-    this.initFileList()
+    this.getConfigType()
   }
 }
 </script>
