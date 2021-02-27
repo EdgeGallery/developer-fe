@@ -458,7 +458,7 @@ export default {
         }
         this.testFinished = true
         this.deploySuccess = true
-        this.accessUrl = cachedData.hosts[0].protocol + '://' + cachedData.accessUrl + ':' + cachedData.hosts[0].port
+        this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       }
       // deploy failed
@@ -469,7 +469,7 @@ export default {
         this.initialTimeline() // update icon status according to stage status
         this.testFinished = true
         this.deploySuccess = false
-        this.accessUrl = cachedData.hosts[0].protocol + '://' + cachedData.accessUrl + ':' + cachedData.hosts[0].port
+        this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       }
     },
