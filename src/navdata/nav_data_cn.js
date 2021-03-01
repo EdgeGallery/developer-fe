@@ -75,6 +75,28 @@ const mecDeveloper = [
     id: '3.17',
     name: '社区实验室',
     display: true
+  }, {
+    id: '3.18',
+    name: '系统',
+    display: true,
+    pageId: '2.2.6',
+    path: '/mecDeveloper/system',
+    children: [
+      {
+        id: '3.20',
+        name: '沙箱管理',
+        path: '/mecDeveloper/system/host',
+        display: true,
+        pageId: '2.2.6.2'
+      },
+      {
+        id: '3.21',
+        name: '能力中心管理',
+        path: '/mecDeveloper/system/mep',
+        display: true,
+        pageId: '2.2.6.3'
+      }
+    ]
   }
 ]
 
