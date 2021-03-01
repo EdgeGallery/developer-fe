@@ -503,6 +503,7 @@
           v-loading="iframeLoading"
         >
           <iframe
+            v-if="isRouterAlive"
             :src="iframeUrl"
             :title="$t('workspace.appRelease.appCertify')"
             width="100%"
@@ -727,6 +728,7 @@ export default {
       appStoreUrl: '',
       atpUrl: '',
       showAtp: false,
+      isRouterAlive: true,
       iframeUrl: '',
       projectId: sessionStorage.getItem('mecDetailID'),
       userId: sessionStorage.getItem('userId'),
@@ -1104,11 +1106,18 @@ export default {
         }
       })
     },
+    // 重新加载集成的ATP测试页面
+    rebuileComponents () {
+      this.isRouterAlive = false
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      })
+    },
     getAtpData () {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
         if (this.taskId) {
-          this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId
+          this.iframeUrl = this.atpUrl + '/#/selectscene?taskid=' + this.taskId + '&language=' + this.language
           this.showAtp = true
           this.iframeLoading = false
         }
@@ -1207,6 +1216,8 @@ export default {
       let language = localStorage.getItem('language')
       let spanLeft = document.getElementsByClassName('span_left')
       this.language = language
+      this.rebuileComponents()
+      this.getAppstoreUrl()
       this.checkProjectData()
       if (language === 'en') {
         spanLeft.forEach(item => {
