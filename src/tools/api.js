@@ -133,6 +133,36 @@ let Test = {
   }
 }
 
+let System = {
+  deleteHost: function ({ hostId, ...rest }) {
+    return Delete(`mec/developer/v1/system/hosts/${hostId}`, rest)
+  },
+  deleteService: function (params) {
+    return Delete('/mec/developer/v1/system/capability', params)
+  },
+  getLogData: function ({ hostId, userId }) {
+    return Get(`mec/developer/v1/system/hosts/${hostId}/log?userId=${userId}`)
+  },
+  saveNodeInfo: function (params) {
+    const func = params.hostId ? Put : Post
+    const path = params.hostId ? `mec/developer/v1/system/hosts/${params.hostId}` : `mec/developer/v1/system/hosts`
+    const data = { ...params }
+    return func(path, data)
+  },
+  saveService: function ({ userId, ...rest }) {
+    const func = Post
+    // const func = params.groupId ? Put : Post
+    const path = `/mec/developer/v1/system/capability?userId=${userId}`
+    return func(path, rest)
+  },
+  getNodes: function (params) {
+    return Get('mec/developer/v1/system/hosts', params)
+  },
+  getSerives: function (params) {
+    return Get('/mec/developer/v1/system/capability', params)
+  }
+}
+
 let Workspace = {
   // 测试并保存详情中节点信息
   saveNodeInfo: function (userId, params) {
@@ -330,5 +360,6 @@ export {
   Plugin,
   Api,
   Test,
-  Workspace
+  Workspace,
+  System
 }

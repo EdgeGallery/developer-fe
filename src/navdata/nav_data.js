@@ -80,6 +80,28 @@ const mecDeveloper = [
     id: '3.17',
     name: 'Community Lab',
     display: true
+  }, {
+    id: '3.18',
+    name: 'System',
+    display: true,
+    pageId: '2.2.6',
+    path: '/mecDeveloper/system',
+    children: [
+      {
+        id: '3.20',
+        name: 'Host Management',
+        path: '/mecDeveloper/system/host',
+        display: true,
+        pageId: '2.2.6.2'
+      },
+      {
+        id: '3.21',
+        name: 'Ability Center Management',
+        path: '/mecDeveloper/system/mep',
+        display: true,
+        pageId: '2.2.6.3'
+      }
+    ]
   }
 ]
 

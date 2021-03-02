@@ -131,6 +131,22 @@ export default new Router({
           meta: {
             id: '3.7'
           }
+        },
+        {
+          path: '/mecDeveloper/system/mep',
+          name: 'systemProject',
+          component: () => import('../pages/system/MepList.vue'),
+          meta: {
+            id: '3.8'
+          }
+        },
+        {
+          path: '/mecDeveloper/system/host',
+          name: 'systemHost',
+          component: () => import('../pages/system/HostList.vue'),
+          meta: {
+            id: '3.9'
+          }
         }
       ]
     }
