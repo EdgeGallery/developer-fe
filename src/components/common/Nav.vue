@@ -158,6 +158,22 @@ export default {
         this.ifGuest = false
       }
       this.showToolchain(this.jsonData)
+      const authorities = res.data.authorities || []
+      const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
+      const validateAuthority = (array) => {
+        const newArray = []
+        array.forEach(item => {
+          const s = { ...item }
+          if (!item.authority || item.authority.some(a => authorities.includes(a))) {
+            newArray.push(s)
+            if (item.children) {
+              s.children = validateAuthority(item.children)
+            }
+          }
+        })
+        return newArray
+      }
+      this.jsonData = validateAuthority(navJsonData)
     })
     // 国际化切换
     let lanIndex = window.location.href.search('language')

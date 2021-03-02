@@ -86,12 +86,14 @@ const mecDeveloper = [
     display: true,
     pageId: '2.2.6',
     path: '/mecDeveloper/system',
+    authority: ['ROLE_DEVELOPER_ADMIN'],
     children: [
       {
         id: '3.20',
         name: 'Host Management',
         path: '/mecDeveloper/system/host',
         display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN'],
         pageId: '2.2.6.2'
       },
       {
@@ -99,6 +101,7 @@ const mecDeveloper = [
         name: 'Ability Center Management',
         path: '/mecDeveloper/system/mep',
         display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN'],
         pageId: '2.2.6.3'
       }
     ]

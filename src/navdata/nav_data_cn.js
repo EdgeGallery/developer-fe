@@ -81,12 +81,14 @@ const mecDeveloper = [
     display: true,
     pageId: '2.2.6',
     path: '/mecDeveloper/system',
+    authority: ['ROLE_DEVELOPER_ADMIN'],
     children: [
       {
         id: '3.20',
         name: '沙箱管理',
         path: '/mecDeveloper/system/host',
         display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN'],
         pageId: '2.2.6.2'
       },
       {
@@ -94,6 +96,7 @@ const mecDeveloper = [
         name: '能力中心管理',
         path: '/mecDeveloper/system/mep',
         display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN'],
         pageId: '2.2.6.3'
       }
     ]
