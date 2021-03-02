@@ -138,7 +138,7 @@ let System = {
     return Delete(`mec/developer/v1/system/hosts/${hostId}`, rest)
   },
   deleteService: function (params) {
-    return Delete('/mec/developer/v1/system/capability', params)
+    return Delete('mec/developer/v1/system/capability', params)
   },
   getLogData: function ({ hostId, userId }) {
     return Get(`mec/developer/v1/system/hosts/${hostId}/log?userId=${userId}`)
@@ -152,14 +152,14 @@ let System = {
   saveService: function ({ userId, ...rest }) {
     const func = Post
     // const func = params.groupId ? Put : Post
-    const path = `/mec/developer/v1/system/capability?userId=${userId}`
+    const path = `mec/developer/v1/system/capability?userId=${userId}`
     return func(path, rest)
   },
   getNodes: function (params) {
     return Get('mec/developer/v1/system/hosts', params)
   },
   getSerives: function (params) {
-    return Get('/mec/developer/v1/system/capability', params)
+    return Get('mec/developer/v1/system/capability', params)
   }
 }
 
