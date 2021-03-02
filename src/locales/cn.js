@@ -118,7 +118,8 @@ const cn = {
     developerCommunity: '开发者问答社区',
     Detail: '查看详情',
     videoTutorialDetail: '指导开发者基于EdgeGallery平台进行app应用开发、部署调测、测试认证以及应用发布的全流程。',
-    developerCommunityDetail: '用于开发者的交流和学习。'
+    developerCommunityDetail: '用于开发者的交流和学习。',
+    telecomStandardCapabilitieTitle: '电信标准支持全景图'
   },
   nav: {
     home: '首页',

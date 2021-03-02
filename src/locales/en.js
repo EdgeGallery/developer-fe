@@ -118,7 +118,8 @@ const en = {
     developerCommunity: 'Developer Q&A Community',
     Detail: 'Detail',
     videoTutorialDetail: 'Guide developers in the whole process of app application developer, deploy, test, and release based on the EdgeGallery platform.',
-    developerCommunityDetail: 'Used for developer communication and learning.'
+    developerCommunityDetail: 'Used for developer communication and learning.',
+    telecomStandardCapabilitieTitle: 'Telecom Standard Capability Panorama'
   },
   nav: {
     home: 'Home',

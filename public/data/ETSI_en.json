@@ -1,0 +1,137 @@
+{
+  "root": {
+    "data": {
+      "id": "c9mjwnueybc0",
+      "created": 1614656351761,
+      "text": "ETSI MEC",
+      "priority": null,
+      "expandState": "expand"
+    },
+    "children": [
+      {
+        "data": {
+          "id": "c9mjzhsltqo0",
+          "created": 1614656573683,
+          "text": "API Principle and Guide - MEC 009",
+          "expandState": "expand",
+          "background": "#00b050",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0m1vraw0",
+          "created": 1614656661315,
+          "text": "Application package lifecycle and operation granting API - MEC 010-2",
+          "expandState": "expand",
+          "background": "#00b050",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0ql539k0",
+          "created": 1614656671187,
+          "text": "Multi-access Edge Platform Application Enablement API  - MEC 011",
+          "expandState": "expand",
+          "background": "#00b050",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0i2f8ko0",
+          "created": 1614656652641,
+          "text": "V2X Information Service API - MEC 030",
+          "expandState": "expand",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0t0gmeg0",
+          "created": 1614656676467,
+          "text": "Fixed Access Information API - MEC 029",
+          "expandState": "expand",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0rottsw0",
+          "created": 1614656673587,
+          "text": "UE Identity - MEC 014",
+          "expandState": "expand",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0uhinhk0",
+          "created": 1614656679675,
+          "text": "MEC WLAN Information API - MEC 028",
+          "expandState": "expand",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0vgk1z40",
+          "created": 1614656681794,
+          "text": "Application Mobility Service API - MEC 021",
+          "expandState": "expand",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0wh8fps0",
+          "created": 1614656684011,
+          "text": "UE Application Interface API - MEC 016",
+          "expandState": "expand",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mk0xwpbfk0",
+          "created": 1614656687123,
+          "text": "Bandwidth Management API - MEC 015",
+          "layout": null,
+          "expandState": "expand"
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mn6xfc8yg0",
+          "created": 1614665619588,
+          "text": "Location API - MEC 013",
+          "layout": null
+        },
+        "children": []
+      },
+      {
+        "data": {
+          "id": "c9mn75mmj7c0",
+          "created": 1614665637443,
+          "text": "Radio Network Information API - MEC 012",
+          "layout": null
+        },
+        "children": []
+      }
+    ]
+  },
+  "template": "default",
+  "theme": "fresh-purple-compat",
+  "version": "1.4.43"
+}
