@@ -85,6 +85,14 @@ export default new Router({
           }
         },
         {
+          path: 'mecDeveloper/plugin/docs',
+          name: 'devDocs',
+          component: () => import('../pages/plugin/Document.vue'),
+          meta: {
+            id: '3.1.6'
+          }
+        },
+        {
           path: 'mecDeveloper/api/mep',
           name: 'mep',
           component: () => import('../pages/abilityCenter/AbilityHome.vue'),
