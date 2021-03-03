@@ -22,7 +22,7 @@
       :key="item.index"
       :id="item.index"
       @click="handleClick"
-      :class="{ 'active': activeIndex === item.index }"
+      :class="{ 'active': activeIndex === item.index, 'widthWithFiveItems': !isTelecomAbilityPortals, 'widthWightTwoItems': isTelecomAbilityPortals }"
     ><em
       class="ability-switch-tab-icon"
     ><img
@@ -38,6 +38,10 @@ export default {
   name: 'AbilityPortal',
   components: {},
   props: {
+    isTelecomAbilityPortals: {
+      type: Boolean,
+      default: false
+    },
     abilityLineNo: {
       type: Number,
       default: 1
@@ -78,7 +82,7 @@ export default {
       this.abilities.forEach(ele => {
         let abilit = JSON.parse(JSON.stringify(ele))
         abilitiesTmp.push({
-          abilityIconSrc: abilityIcons[abilit.index],
+          abilityIconSrc: this.isTelecomAbilityPortals ? '' : abilityIcons[abilit.index],
           abilityName: this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label,
           index: abilit.index,
           isActive: abilit.index === selId
@@ -100,6 +104,12 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+.widthWithFiveItems {
+  width: calc(100% / 5)
+}
+.widthWightTwoItems {
+  width: calc(100% / 2)
+}
 .ability-switch-tab{
   line-height: 1.5;
   font-size: 0;
@@ -114,7 +124,6 @@ export default {
   box-sizing: border-box;
   cursor: pointer;
   border-left: 1px solid #E5E8ED;
-  width: calc(100% / 5);
   .ability-switch-tab-icon{
     line-height: 1.5;
     font-size: 0;

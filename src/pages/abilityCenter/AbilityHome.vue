@@ -52,6 +52,24 @@
           </div>
         </div>
       </div>
+      <div class="centerLine">
+        <div class="inner">
+          <div class="inner-hd">
+            <h2 class="inner-hd-title">
+              {{ $t('api.telecomStandardCapabilitieTitle') }}
+            </h2>
+          </div>
+          <div class="inner-bd">
+            <ability-portal
+              :is-telecom-ability-portals="true"
+              :ability-line-no="1"
+              :abilities="telecomStandardAbilities"
+              @updateAbilityInstru="updateTelecomStandardPanorama"
+            />
+            <ability-brain-map :parent-tab-index="telecomCurrentSelTabIndex" />
+          </div>
+        </div>
+      </div>
       <div class="bottomLine">
         <div class="inner">
           <div class="inner-hd">
@@ -84,6 +102,7 @@ import PracticePortal from './PracticePortal.vue'
 import ServiceDoc from './ServiceDoc.vue'
 import abilityAPI from './ability.js'
 import { Api } from '../../tools/api.js'
+import AbilityBrainMap from './AbilityBrainMap.vue'
 
 export default {
   components: {
@@ -91,7 +110,8 @@ export default {
     AbilityInstru,
     PracticePortal,
     ServiceDoc,
-    ApiAmulator
+    ApiAmulator,
+    AbilityBrainMap
   },
   data () {
     return {
@@ -99,12 +119,26 @@ export default {
       contentId: 'mep-NEW', // 可取值 mep-NEW，serviceDoc，apiAmulator
       groupId: '',
       firstLineAbilities: [],
-      secondLineAbilities: []
+      secondLineAbilities: [],
+      telecomStandardAbilities: [{
+        labelEn: 'ETSI',
+        label: 'ETSI',
+        index: 0
+      }, {
+        labelEn: '3GPP',
+        label: '3GPP',
+        index: 1
+      }],
+      telecomCurrentSelTabIndex: -1
     }
   },
   computed: {},
   watch: {},
   methods: {
+    // 更新全景图
+    updateTelecomStandardPanorama (clickIndex) {
+      this.telecomCurrentSelTabIndex = clickIndex
+    },
     updateAbilityInstru (clickIndex) {
       this.currentSelTabIndex = clickIndex
       // 更新active的对象
