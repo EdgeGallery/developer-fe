@@ -124,7 +124,10 @@
           <span v-if="scope.row.status==='RELEASED'">{{ $t('workspace.statusReleased') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('workspace.operation')">
+      <el-table-column
+        :label="$t('workspace.operation')"
+        width="120"
+      >
         <template slot-scope="scope">
           <el-button
             id="deleteBtn"
@@ -142,7 +145,6 @@
           >
             {{ $t('workspace.detail') }}
           </el-button>
-          <span id="projectId">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -322,9 +324,9 @@ export default {
     tbody {
       td {
         padding: 8px !important;
-        .el-button--text {
-          color: #5b7ede !important;
-        }
+        /* .el-button--text {
+          padding: 8px 0;
+        } */
         em{
           margin-right: 5px;
         }
