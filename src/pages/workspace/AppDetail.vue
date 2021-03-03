@@ -110,7 +110,12 @@
                 class="span_left"
                 :class="{'span_left_en':language==='en'}"
               >{{ $t('workspace.dependentApp') }}</span>
-              {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+              <span
+                class="span_right"
+                :class="{'span_right_en':language==='en'}"
+              >
+                {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+              </span>
             </el-col>
           </el-row>
           <el-row>
@@ -604,14 +609,23 @@ export default {
         padding: 15px 10px;
         font-size: 16px;
         .span_left{
+          float: left;
           color: #adb0b8;
-          display: inline-block;
-          min-width: 95px;
+          width: 95px;
           text-align: right;
           padding-right: 20px;
         }
         .span_left_en{
           width: 165px;
+        }
+        .span_right{
+          float: left;
+          width: calc(100% - 115px);
+          line-height: 25px;
+          margin-top: -4px;
+        }
+        .span_right_en{
+          width: calc(100% - 185px);
         }
       }
     }

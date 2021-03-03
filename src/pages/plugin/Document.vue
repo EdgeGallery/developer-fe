@@ -65,36 +65,36 @@ export default {
       docList: [
         {
           title: '概述',
-          titleEn: 'overView',
+          titleEn: 'OverView',
           docUrl: './Overview.md',
           docUrlEn: './Overview.md'
         },
         {
           title: '能力中心',
-          titleEn: 'capabilityCenter',
+          titleEn: 'Capability Center',
           docUrl: './mep-Introduction.md',
           docUrlEn: './mep-Introduction.md'
         },
         {
           title: '开发工具',
-          titleEn: 'developerTool',
+          titleEn: 'Developer Tool',
           docUrl: './developer_tool.md',
           docUrlEn: './developer_tool.md'
         },
         {
           title: '开发指导',
-          titleEn: 'developerGuidance',
+          titleEn: 'Developer Guidance',
           docUrl: './developer_guidance.md',
           docUrlEn: './developer_guidance.md'
         },
         {
           title: '常见问题',
-          titleEn: 'commonProblem',
+          titleEn: 'Common Problem',
           docUrl: './common_problem.md',
           docUrlEn: './common_problem.md'
         }
       ],
-      activeName: 'overView',
+      activeName: 'OverView',
       markdownSource: '',
       docsUrl: './Overview.md',
       docHandleData: {}
