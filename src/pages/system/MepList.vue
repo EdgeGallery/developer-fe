@@ -406,7 +406,7 @@ export default {
       allListData: [],
       enterQuery: '',
       loading: false,
-      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName'),
       language: localStorage.getItem('language')
     }
   },
@@ -426,7 +426,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        System.deleteService({ groupId, userId: this.userId }).finally(() => {
+        System.deleteService({ groupId }).finally(() => {
           this.loading = false
           this.handleChangePage('currentPage', 1)
         })
@@ -452,7 +452,6 @@ export default {
           const data = { ...this.form, ...params }
           const { host, provider, apiFileId, guideFileId, guideFileIdEn, port, version, protocol, ...rest } = data
           System.saveService({
-            userId: this.userId,
             type: 'OPENMEP',
             capabilityDetailList: [
               {
@@ -462,7 +461,7 @@ export default {
                 version,
                 port,
                 protocol,
-                userId: this.userId,
+                userId: this.userName,
                 apiFileId,
                 guideFileId,
                 guideFileIdEn,
@@ -490,7 +489,7 @@ export default {
     // 获取列表
     getListData () {
       this.loading = true
-      const qs = { userId: this.userId, offset: this.currentPage - 1, limit: this.pageSize }
+      const qs = { offset: this.currentPage - 1, limit: this.pageSize }
       if (this.language === 'cn') {
         qs.twoLevelName = this.enterQuery
       } else {

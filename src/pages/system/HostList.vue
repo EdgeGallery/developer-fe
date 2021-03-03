@@ -439,7 +439,7 @@ export default {
       listTotal: 0,
       enterQuery: '',
       loading: false,
-      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName'),
       language: localStorage.getItem('language')
     }
   },
@@ -459,7 +459,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        System.deleteHost({ hostId, userId: this.userId }).finally(() => {
+        System.deleteHost(hostId).finally(() => {
           this.loading = false
           this.handleChangePage('currentPage', 1)
         })
@@ -475,7 +475,7 @@ export default {
       this.$refs.form.validate((valid, params) => {
         if (valid) {
           this.loading = true
-          System.saveNodeInfo({ userId: this.userId, ...this.form, ...params }).then(res => {
+          System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
             if (res && res.data && res.data.hostId) {
               this.$message.success(`${this.$t(`${this.form.hostId ? 'api.modify' : 'system.addHost'}`)}${this.$t(`system.success`)}`)
               this.onClose()
@@ -502,7 +502,7 @@ export default {
     // 获取列表
     getListData () {
       this.loading = true
-      System.getNodes({ name: this.enterQuery, userId: this.userId, offset: this.currentPage - 1, limit: this.pageSize }).then(res => {
+      System.getHosts({ name: this.enterQuery, offset: this.currentPage - 1, limit: this.pageSize }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
       }).finally(() => {
@@ -511,7 +511,7 @@ export default {
     },
     getLogData ({ hostId }) {
       this.loading = true
-      System.getLogData({ userId: this.userId, hostId }).then(res => {
+      System.getLogData(hostId).then(res => {
         this.logData = res.data || []
         this.showLog = true
         this.visible = true
