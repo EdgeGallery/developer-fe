@@ -324,9 +324,6 @@ export default {
     tbody {
       td {
         padding: 8px !important;
-        /* .el-button--text {
-          padding: 8px 0;
-        } */
         em{
           margin-right: 5px;
         }
