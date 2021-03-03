@@ -130,8 +130,6 @@ export default {
           this.labUrl = currUrl.replace('developer', 'lab')
         }
         window.open(this.labUrl, '_blank')
-      } else if (item.$vnode.data.key === '3.2.4') {
-        window.open('http://docs.edgegallery.org/zh_CN/latest/', '_blank')
       }
       this.$emit('closeMenu', false)
     }
