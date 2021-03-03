@@ -53,6 +53,8 @@ const mecDeveloper = [
       }, {
         id: '3.2.4',
         name: 'Document',
+        path: '/mecDeveloper/plugin/docs',
+        pageId: '2.2.1.4',
         display: true
       }
     ]
