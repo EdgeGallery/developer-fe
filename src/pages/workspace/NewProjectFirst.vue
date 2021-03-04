@@ -69,7 +69,6 @@
         <el-radio
           v-model="form.deployPlatform"
           label="VIRTUALMACHINE"
-          :disabled="!ifVM"
         >
           <em class="vmDeploy" />
           {{ $t('workspace.vmImage') }}
@@ -277,7 +276,6 @@ export default {
         defaultActive: '',
         deployPlatform: 'KUBERNETES'
       },
-      ifVM: false,
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -550,9 +548,6 @@ export default {
     }
   },
   mounted () {
-    if (sessionStorage.getItem('ifVM') === 'true') {
-      this.ifVM = true
-    }
     this.getFirstData()
     this.editWidth()
     this.chooseDefaultIcon(this.defaultIcon[0], 0)

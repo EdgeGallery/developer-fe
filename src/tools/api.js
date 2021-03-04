@@ -173,10 +173,6 @@ let Workspace = {
     return func(path, data)
   },
   // 获取详情中节点信息
-  getDeployType: function () {
-    return Get('mec/developer/v1/config/deploy-platform')
-  },
-  // 获取详情中节点信息
   getNodeInfo: function (userId) {
     return Get('mec/developer/v1/hosts?userId=' + userId)
   },
@@ -356,10 +352,29 @@ let Workspace = {
 
 }
 
+let vmService = {
+  getProjectVmResList: function (projectId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/vm')
+  },
+  getVmConfigData: function () {
+    return Get('mec/developer/v1/vmconfig')
+  },
+  applyVmResource: function (projectId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm-create', params)
+  },
+  deleteVmResource: function (projectId, vmId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId)
+  },
+  uploadFile: function (projectId, vmId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files', params)
+  }
+}
+
 export {
   Plugin,
   Api,
   Test,
   Workspace,
-  System
+  System,
+  vmService
 }

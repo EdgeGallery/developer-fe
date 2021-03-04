@@ -155,48 +155,57 @@
       >
         <span slot="label"><em :class="['tab_deploy',activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}</span>
         <div v-if="activeName === '4'">
-          <el-steps
-            :active="active"
-            finish-status="success"
-            align-center
+          <div
+            id="div_deploydebug_k8s"
+            v-if="projectDetailData.deployPlatform === 'KUBERNETES'"
           >
-            <el-step :title="$t('workspace.selectImage')" />
-            <el-step :title="$t('workspace.configureYaml')" />
-            <el-step :title="$t('workspace.deploymentTest')" />
-          </el-steps>
-          <div class="elSteps">
-            <component
-              :is="currentComponent"
+            <el-steps
               :active="active"
-              @getStepData="getStepData"
-              @getBtnStatus="getBtnStatus"
-              :project-before-config="projectBeforeConfig"
-              :all-step-data="allStepData"
-              @getAppapiFileId="getAppapiFileId"
-              ref="currentComponet"
-              @checkCleanEnv="checkCleanEnv"
-            />
-          </div>
-          <div class="elButton">
-            <el-button
-              id="prevBtn"
-              type="text"
-              @click="previous"
-              v-if="active>0"
-              :disabled="isDeploying"
+              finish-status="success"
+              align-center
             >
-              <strong>{{ $t('workspace.previous') }}</strong>
-            </el-button>
-            <el-button
-              id="nextBtn"
-              type="primary"
-              v-loading="apiDataLoading"
-              @click="next"
-              v-if="active<2"
-            >
-              <strong>{{ $t('workspace.next') }}</strong>
-            </el-button>
+              <el-step :title="$t('workspace.selectImage')" />
+              <el-step :title="$t('workspace.configureYaml')" />
+              <el-step :title="$t('workspace.deploymentTest')" />
+            </el-steps>
+            <div class="elSteps">
+              <component
+                :is="currentComponent"
+                :active="active"
+                @getStepData="getStepData"
+                @getBtnStatus="getBtnStatus"
+                :project-before-config="projectBeforeConfig"
+                :all-step-data="allStepData"
+                @getAppapiFileId="getAppapiFileId"
+                ref="currentComponet"
+                @checkCleanEnv="checkCleanEnv"
+              />
+            </div>
+            <div class="elButton">
+              <el-button
+                id="prevBtn"
+                type="text"
+                @click="previous"
+                v-if="active>0"
+                :disabled="isDeploying"
+              >
+                <strong>{{ $t('workspace.previous') }}</strong>
+              </el-button>
+              <el-button
+                id="nextBtn"
+                type="primary"
+                v-loading="apiDataLoading"
+                @click="next"
+                v-if="active<2"
+              >
+                <strong>{{ $t('workspace.next') }}</strong>
+              </el-button>
+            </div>
           </div>
+          <DeployDebugVMMain
+            :project-id="projectId"
+            v-if="projectDetailData.deployPlatform === 'VIRTUALMACHINE'"
+          />
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -227,6 +236,7 @@ import configYaml from './ConfigYaml.vue'
 import EnvPreparation from './EnvPreparation.vue'
 import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
+import DeployDebugVMMain from './vmdebug/Main.vue'
 import { Industry, Type } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
 import deployment from './Deployment.vue'
@@ -239,6 +249,7 @@ export default {
     EnvPreparation,
     choosePlatform,
     publishAppDialog,
+    DeployDebugVMMain,
     api,
     deployment,
     appRelease
@@ -275,6 +286,7 @@ export default {
         industry: '',
         type: '',
         platform: '',
+        deployPlatform: '',
         dependent: '',
         description: ''
       },
@@ -300,6 +312,7 @@ export default {
         this.projectDetailData.industry = data.industry[0]
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
+        this.projectDetailData.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
@@ -315,12 +328,14 @@ export default {
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
-        if (data.status !== 'ONLINE') {
-          this.active = 2
-          this.changeComponent()
-        } else {
-          this.active = 0
-          this.changeComponent()
+        if (this.projectDetailData.deployPlatform === 'KUBERNETES') {
+          if (data.status !== 'ONLINE') {
+            this.active = 2
+            this.changeComponent()
+          } else {
+            this.active = 0
+            this.changeComponent()
+          }
         }
       })
     },
