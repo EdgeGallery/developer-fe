@@ -112,16 +112,12 @@ export default {
       allStepData: {}
     }
   },
-  watch: {
-    value (val) {
-    }
-  },
   methods: {
     getVmConfigData () {
       vmService.getVmConfigData().then(res => {
         this.vmConfigData = res.data
       }).catch(() => {
-        this.$message.error(this.$t('workspace.deployDebugVm.loadVmFailed'))
+        this.$message.error(this.$t('workspace.deployDebugVm.loadVmConfigFailed'))
       })
     },
     handleClose () {

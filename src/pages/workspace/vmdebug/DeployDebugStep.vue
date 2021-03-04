@@ -126,17 +126,25 @@
         @handleApplySuccess="handleApplySuccess"
       />
     </div>
+    <div v-if="showUploadAppDlg">
+      <UploadApp
+        v-model="showUploadAppDlg"
+        :project-id="projectId"
+        :vm-id="operatingVmId"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { vmService } from '../../../tools/api.js'
 import ApplyVMRes from './ApplyVMRes.vue'
+import UploadApp from './UploadApp.vue'
 
 export default {
   name: 'DeployDebugVMStep',
   components: {
-    ApplyVMRes
+    ApplyVMRes, UploadApp
   },
   props: {
     projectId: {
@@ -147,7 +155,9 @@ export default {
   data () {
     return {
       showApplyVMResDlg: false,
-      resourceListData: []
+      resourceListData: [],
+      showUploadAppDlg: false,
+      operatingVmId: ''
     }
   },
   methods: {
@@ -168,8 +178,11 @@ export default {
       })
     },
     handleVNC (vmData) {
+      window.open('webssh.html', 'webssh')
     },
     handleUploadFile (vmData) {
+      this.showUploadAppDlg = true
+      this.operatingVmId = vmData.vmId
     },
     handleDelResource (vmData) {
       this.$confirm(this.$t('workspace.deployDebugVm.deleteVmResPrompt'), this.$t('promptMessage.prompt'), {
@@ -231,7 +244,7 @@ export default {
 .funcBtn{
   padding: 8px 10px;
   float:right;
-  margin-left:2px!important;
+  margin-left:12px!important;
   position: relative;
 }
 .resCardTitle{
