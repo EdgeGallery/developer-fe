@@ -19,6 +19,10 @@ import cn from '../../locales/cn.js'
 
 let allAbilities = []
 
+let getAbilitysByFirstLevelName = function (firstLevelName) {
+  return allAbilities.filter(item => item.labelEn === firstLevelName)
+}
+
 let getSecondLevelAbilitys = function (parentIndex) {
   if (parentIndex >= 0 && parentIndex < allAbilities.length) {
     if (allAbilities[parentIndex].children && allAbilities[parentIndex].children.length > 0) {
@@ -156,5 +160,6 @@ let initAbilities = function (groupDataFromServer, lan) {
 
 export default {
   initAbilities,
-  getSecondLevelAbilitys
+  getSecondLevelAbilitys,
+  getAbilitysByFirstLevelName
 }
