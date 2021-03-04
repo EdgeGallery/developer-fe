@@ -87,9 +87,8 @@ import AbilityInstru from './AbilityInstru.vue'
 import AbilityPortal from './AbilityPortal.vue'
 import PracticePortal from './PracticePortal.vue'
 import abilityAPI from './ability.js'
-// import { Api } from '../../tools/api.js'
+import { Api } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
-import axios from 'axios'
 
 export default {
   components: {
@@ -128,8 +127,7 @@ export default {
       // 更新active的对象
     },
     initAbilities () {
-      // Api.getCapabilityGroupsApi()
-      axios('./response.json')
+      Api.getCapabilityGroupsApi()
         .then(res => {
           let groupDataFromServer = res.data
           let allAbilitys = abilityAPI.initAbilities(groupDataFromServer, this.$i18n.locale)
