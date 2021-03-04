@@ -1117,7 +1117,7 @@ export default {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
         if (this.taskId) {
-          this.iframeUrl = this.atpUrl + '/#/selectscene?taskid=' + this.taskId + '&language=' + this.language
+          this.iframeUrl = this.atpUrl + '/#/atpprocess?taskid=' + this.taskId + '&language=' + this.language
           this.showAtp = true
           this.iframeLoading = false
         }
