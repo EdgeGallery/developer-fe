@@ -109,7 +109,7 @@ export default {
           id: subAbility[i].groupId,
           appName: this.$i18n.locale === 'en' ? subAbility[i].labelEn : subAbility[i].label,
           appNameKey: subAbility[i].key, // Name国际化key
-          appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description, // TODO
+          appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description,
           docRouterIndex: '',
           apiRouterIndex: ''
         })

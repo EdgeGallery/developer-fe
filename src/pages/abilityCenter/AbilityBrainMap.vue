@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import ability from './ability'
 require('kity')
 require('kityminder-core')
 export default {
@@ -54,9 +54,7 @@ export default {
     uperArrowStyle: function () {
       return {
         first: this.parentTabIndex <= 0,
-        second: this.parentTabIndex === 1,
-        isShow: this.parentTabIndex <= 4,
-        noShow: this.parentTabIndex > 4
+        second: this.parentTabIndex === 1
       }
     }
   },
@@ -70,27 +68,45 @@ export default {
   },
   methods: {
     refreshMap () {
-      if (this.parentTabIndex !== 1) {
-        if (this.$i18n.locale === 'en') {
-          axios('./data/ETSI_en.json').then(res => {
-            this.km.importJson(res.data)
-          })
-        } else {
-          axios('./data/ETSI_cn.json').then(res => {
-            this.km.importJson(res.data)
-          })
-        }
+      let subAbilitys = []
+      let abilitys = []
+      if (this.parentTabIndex === 1) {
+        abilitys = ability.getAbilitysByFirstLevelName('3GPP')
       } else {
-        if (this.$i18n.locale === 'en') {
-          axios('./data/3GPP_en.json').then(res => {
-            this.km.importJson(res.data)
-          })
-        } else {
-          axios('./data/3GPP_cn.json').then(res => {
-            this.km.importJson(res.data)
-          })
-        }
+        abilitys = ability.getAbilitysByFirstLevelName('ETSI')
       }
+      if (abilitys.length > 0) {
+        subAbilitys = abilitys[0].children
+      }
+      let subAbilitysShown = []
+      for (let i = 0; i < subAbilitys.length; i++) {
+        subAbilitysShown.push({
+          data: {
+            id: subAbilitys[i].groupId,
+            text: this.$i18n.locale === 'en' ? subAbilitys[i].labelEn : subAbilitys[i].label,
+            expandState: 'expand',
+            hyperlink: window.location.href + '/apiAmulator?groupId=' + subAbilitys[i].groupId + '&language=' + this.$i18n.locale,
+            hyperlinkTitle: this.$i18n.t('api.swithToAPI'),
+            background: this.parentTabIndex === 1 ? ((i < 2) ? '#00b050' : '') : ((i < 3) ? '#00b050' : '')
+          },
+          children: []
+        })
+      }
+      this.km.importJson({
+        root: {
+          data: {
+            id: '0',
+            text: this.parentTabIndex === 1 ? '3GPP CAPIF' : 'ETSI MEC',
+            expandState: 'expand',
+            hyperlink: '',
+            hyperlinkTitle: ''
+          },
+          children: subAbilitysShown
+        },
+        template: 'default',
+        theme: 'fresh-purple-compat',
+        version: '1.0.0'
+      })
     }
   },
   created () {
@@ -131,12 +147,6 @@ export default {
 }
 .second {
   left: calc(75%)!important;
-}
-.isShow{
-  display: block;
-}
-.noShow{
-  display:none;
 }
 @media screen and (min-width: 769px) {
   .instru-arrows {

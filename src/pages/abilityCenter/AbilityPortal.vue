@@ -22,11 +22,13 @@
       :key="item.index"
       :id="item.index"
       @click="handleClick"
-      :class="{ 'active': activeIndex === item.index, 'widthWithFiveItems': !isTelecomAbilityPortals, 'widthWightTwoItems': isTelecomAbilityPortals }"
+      :class="{ 'active': activeIndex === item.index, 'widthWithFiveItems': !isTelecomAbilityPortals, 'widthWightTwoItems': isTelecomAbilityPortals, 'tabPadding30': tabPadding30((item.abilityRealName)), 'tabPadding14': tabPadding14((item.abilityRealName))}"
     ><em
       class="ability-switch-tab-icon"
+      :style="{ height: imageHeight(item.abilityRealName) + 'px', width: imageWidth(item.abilityRealName) + 'px' }"
     ><img
       :src="item.abilityIconSrc"
+      :style="{ height: imageHeight(item.abilityRealName) + 'px', width: imageWidth(item.abilityRealName) + 'px' }"
       alt=""
     ></em><span class="ability-switch-tab-title">{{ item.abilityName }}</span>
     </a>
@@ -59,6 +61,26 @@ export default {
   computed: {
     abilityItems () {
       return this.getAbilitys(0)
+    },
+    imageWidth () {
+      return function (abilityRealName) {
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
+      }
+    },
+    imageHeight () {
+      return function (abilityRealName) {
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
+      }
+    },
+    tabPadding30 () {
+      return function (abilityRealName) {
+        return !(abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1)
+      }
+    },
+    tabPadding14 () {
+      return function (abilityRealName) {
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1
+      }
     }
   },
   watch: {
@@ -69,21 +91,26 @@ export default {
       this.activeIndex = parseInt(ele.currentTarget.id)
     },
     getAbilitys (selId) {
-      const abilityIcons = [
-        'https://img.icons8.com/windows/32/4a90e2/hotjar.png',
-        'https://img.icons8.com/windows/32/4a90e2/foundation.png',
-        'https://img.icons8.com/windows/32/4a90e2/network.png',
-        'https://img.icons8.com/windows/32/4a90e2/artificial-intelligence.png',
-        'https://img.icons8.com/windows/32/4a90e2/video-editing.png',
-        'https://img.icons8.com/windows/32/4a90e2/database.png',
-        'https://img.icons8.com/windows/32/4a90e2/product-architecture.png'
-      ]
+      const abilityIcons = {
+        'Platform-basic-services': 'https://img.icons8.com/windows/32/4a90e2/foundation.png',
+        'Telecom-network-capabilities': 'https://img.icons8.com/windows/32/4a90e2/network.png',
+        'AI-capabilities': 'https://img.icons8.com/windows/32/4a90e2/artificial-intelligence.png',
+        'Video-processing': 'https://img.icons8.com/windows/32/4a90e2/video-editing.png',
+        'DateBase': 'https://img.icons8.com/windows/32/4a90e2/database.png',
+        'Public-framework': 'https://img.icons8.com/windows/32/4a90e2/product-architecture.png',
+        'ETSI': 'https://www.etsi.org/templates/etsi/img/logo.svg',
+        '3GPP': 'https://www.3gpp.org/templates/3gpp-home/images/logo-Transparent.png',
+        'Popular-Service': 'https://img.icons8.com/windows/32/4a90e2/hotjar.png'
+      }
+      const abilityDefaultIcons = 'https://img.icons8.com/ios/50/4a90e2/services--v1.png'
       let abilitiesTmp = []
       this.abilities.forEach(ele => {
         let abilit = JSON.parse(JSON.stringify(ele))
+        let iconKey = abilit.labelEn.replaceAll(' ', '-')
         abilitiesTmp.push({
-          abilityIconSrc: this.isTelecomAbilityPortals ? '' : abilityIcons[abilit.index],
-          abilityName: this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label,
+          abilityIconSrc: abilityIcons[iconKey] ? abilityIcons[iconKey] : abilityDefaultIcons,
+          abilityName: (abilit.labelEn.indexOf('ETSI') > -1 || abilit.labelEn.indexOf('3GPP') > -1) ? '' : (this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label),
+          abilityRealName: this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label,
           index: abilit.index,
           isActive: abilit.index === selId
         })
@@ -110,6 +137,12 @@ export default {
 .widthWightTwoItems {
   width: calc(100% / 2)
 }
+.tabPadding30{
+  padding: 30px 0;
+}
+.tabPadding14{
+  padding: 14px 0;
+}
 .ability-switch-tab{
   line-height: 1.5;
   font-size: 0;
@@ -119,7 +152,6 @@ export default {
   margin: 0;
   display: inline-block;
   text-align: center;
-  padding: 30px 0;
   border: 1px solid #E5E8ED;
   box-sizing: border-box;
   cursor: pointer;
@@ -137,8 +169,8 @@ export default {
     box-sizing: border-box;
     display: inline-block;
     vertical-align: middle;
-    width: 30px;
-    height: 30px;
+    // width: 30px;
+    // height: 30px;
   }
   .ability-switch-tab-title{
     text-align: center;
