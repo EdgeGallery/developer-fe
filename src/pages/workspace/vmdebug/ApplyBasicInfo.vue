@@ -18,7 +18,7 @@
   <div class="apply-basicInfo">
     <el-row :gutter="24">
       <el-form
-        label-width="120px"
+        label-width="200px"
         :model="form"
         ref="form"
         :rules="rules"
@@ -55,26 +55,20 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: this.$t('lab.verify.nameBlankTip'), trigger: 'blur' }
+          { required: true, message: this.$t('promptMessage.nameEmpty'), trigger: 'blur' },
+          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-\s]{4,32}$/, message: this.$t('promptMessage.nameRule') }
         ]
       }
     }
   },
   methods: {
     emitStepData () {
-      let ifNext = true
-      if (ifNext) {
+      this.$refs['form'].validate((valid) => {
+        let canNext = valid
         const data = { vmName: this.form.name }
-        this.$emit('getStepData', { step: 'basicSetting', data, ifNext })
-      }
+        this.$emit('getStepData', { step: 'basicSetting', data, canNext })
+      })
     }
-  },
-  created () { },
-  mounted () {
-  },
-  beforeDestroy () {
-  },
-  watch: {
   }
 }
 </script>

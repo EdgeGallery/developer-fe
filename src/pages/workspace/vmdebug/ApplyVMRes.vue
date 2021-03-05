@@ -17,11 +17,11 @@
 <template>
   <div>
     <el-dialog
-      :title="'申请资源'"
+      :title="$t('workspace.deployDebugVm.applyResource')"
       :close-on-click-modal="false"
       :visible.sync="dialogVisible"
       width="50%"
-      height="60%"
+      top="100px"
       :before-close="handleClose"
     >
       <el-steps
@@ -112,16 +112,12 @@ export default {
       allStepData: {}
     }
   },
-  watch: {
-    value (val) {
-    }
-  },
   methods: {
     getVmConfigData () {
       vmService.getVmConfigData().then(res => {
         this.vmConfigData = res.data
       }).catch(() => {
-        this.$message.error(this.$t('workspace.deployDebugVm.loadVmFailed'))
+        this.$message.error(this.$t('workspace.deployDebugVm.loadVmConfigFailed'))
       })
     },
     handleClose () {
@@ -148,14 +144,14 @@ export default {
     },
     getStepData (data) {
       this.allStepData[data.step] = data.data
-      this.allStepData.ifNext = data.ifNext
+      this.allStepData.canNext = data.canNext
     },
     getBtnStatus (status) {
       this.isDeploying = status.status
     },
     next () {
-      this.$refs.currComponent.emitStepData()
-      if (this.allStepData.ifNext) {
+      this.$refs.currComponent.emitStepData(true)
+      if (this.allStepData.canNext) {
         if (this.active < 2) {
           this.active++
           this.handleStep()
@@ -163,16 +159,20 @@ export default {
       }
     },
     previous () {
-      this.$refs.currComponent.emitStepData()
+      this.$refs.currComponent.emitStepData(false)
       this.active--
       this.handleStep()
     },
     handleStep () {
       this.changeComponent()
-      this.allStepData.ifNext = false
+      this.allStepData.canNext = false
     },
     confirm () {
-      this.$refs.currComponent.emitStepData()
+      this.$refs.currComponent.emitStepData(true)
+      if (!this.allStepData.canNext) {
+        return
+      }
+
       vmService.applyVmResource(this.projectId, this.getApplyData()).then(res => {
         this.$message.success(this.$t('workspace.deployDebugVm.applyVmResSuccess'))
         this.$emit('handleApplySuccess')
@@ -182,14 +182,11 @@ export default {
     },
     getApplyData () {
       let _applyData = {
-        'vmNetwork': {},
-        'basicSetting': {}
+        'vmName': this.allStepData.basicSetting.vmName
       }
       _applyData.vmRegulation = this.vmConfigData.vmRegulationList.find(item => item.regulationId === this.allStepData.specSetting.selectedRegulationId)
       _applyData.vmSystem = this.vmConfigData.vmSystemList.find(item => item.systemId === this.allStepData.specSetting.selectedSystemId)
       _applyData.vmNetwork = this.allStepData.networkSetting
-      _applyData.basicSetting.vmName = this.allStepData.basicSetting.vmName
-
       return _applyData
     },
     cancel () {

@@ -17,29 +17,27 @@
 <template>
   <div class="apply-specsetting">
     <el-row :gutter="24">
-      <p>选择虚拟机规格</p>
+      <strong>{{ $t('workspace.deployDebugVm.selectVmSpecTip') }}</strong>
     </el-row>
     <el-row :gutter="24">
-      <el-tabs
+      <el-radio-group
         v-model="archType"
-        type="card"
-        @tab-click="handleChangeArchTab"
+        size="mini"
+        @change="handleChangeArch"
       >
-        <el-tab-pane
-          label="X86"
-          name="X86"
-        />
-        <el-tab-pane
-          label="ARM"
-          name="ARM"
-        />
-      </el-tabs>
+        <el-radio-button label="X86">
+          X86
+        </el-radio-button>
+        <el-radio-button label="ARM">
+          ARM
+        </el-radio-button>
+      </el-radio-group>
       <el-table
         :data="vmRegulationDataList"
         border
         stripe
+        max-height="320px"
         size="small"
-        style="width: 100%;"
       >
         <el-table-column width="35">
           <template slot-scope="scope">
@@ -52,37 +50,23 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="sceneZh"
-          align="center"
-          :label="$t('workspace.deployDebugVm.scene')"
-          show-overflow-tooltip
-          v-if="isZh"
-        />
-        <el-table-column
-          prop="sceneEn"
-          align="center"
-          :label="$t('workspace.deployDebugVm.scene')"
-          show-overflow-tooltip
-          v-if="!isZh"
-        />
-        <el-table-column
-          prop="nameZh"
           align="center"
           :label="$t('workspace.name')"
+          width="150px"
+          :formatter="showNameCol"
           show-overflow-tooltip
-          v-if="isZh"
         />
         <el-table-column
-          prop="nameEn"
           align="center"
-          :label="$t('workspace.name')"
+          :label="$t('workspace.deployDebugVm.scene')"
+          :formatter="showSceneCol"
           show-overflow-tooltip
-          v-if="!isZh"
         />
         <el-table-column
           prop="cpu"
           align="center"
           label="CPU"
+          width="60px"
           :formatter="appendCPUUnit"
           show-overflow-tooltip
         />
@@ -90,6 +74,7 @@
           prop="memory"
           align="center"
           :label="$t('workspace.deployDebugVm.memory')"
+          width="70px"
           :formatter="appendSizeUnit"
           show-overflow-tooltip
         />
@@ -97,6 +82,7 @@
           prop="systemDisk"
           align="center"
           :label="$t('workspace.deployDebugVm.systemDisk')"
+          width="95px"
           :formatter="appendSizeUnit"
           show-overflow-tooltip
         />
@@ -104,6 +90,7 @@
           prop="dataDisk"
           align="center"
           :label="$t('workspace.deployDebugVm.dataDisk')"
+          width="80px"
           :formatter="appendSizeUnit"
           show-overflow-tooltip
         />
@@ -122,7 +109,7 @@
       </el-table>
     </el-row>
     <el-row :gutter="24">
-      <p>选择镜像</p>
+      <strong>{{ $t('workspace.deployDebugVm.selectVmImageTip') }}</strong>
     </el-row>
     <el-row :gutter="24">
       <el-radio-group
@@ -131,10 +118,10 @@
         @change="handleChangeImgType"
       >
         <el-radio-button label="public">
-          公共镜像
+          {{ $t('workspace.deployDebugVm.publicImage') }}
         </el-radio-button>
         <el-radio-button label="private">
-          私有镜像
+          {{ $t('workspace.deployDebugVm.privateImage') }}
         </el-radio-button>
       </el-radio-group>
     </el-row>
@@ -143,7 +130,7 @@
         <el-select
           id="elselect_osname"
           v-model="selectedOSName"
-          placeholder="请选择系统类型"
+          :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
           size="small"
           style="width:95%"
           @change="handleChangeOSName"
@@ -160,7 +147,7 @@
         <el-select
           id="elselect_ossystem"
           v-model="selectedSystemId"
-          placeholder="请选择镜像"
+          :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
           size="small"
           style="width:95%"
         >
@@ -208,20 +195,33 @@ export default {
     }
   },
   methods: {
-    emitStepData () {
-      let ifNext = true
-      if (ifNext) {
-        const data = {
-          'archType': this.archType,
-          'selectedRegulationId': this.selectedRegulationId,
-          'imageType': this.imageType,
-          'selectedOSName': this.selectedOSName,
-          'selectedSystemId': this.selectedSystemId
-        }
-        this.$emit('getStepData', { step: 'specSetting', data, ifNext })
+    emitStepData (isNext) {
+      let canNext = false
+      if (isNext) {
+        canNext = this.validateInput()
       }
+
+      const data = {
+        'archType': this.archType,
+        'selectedRegulationId': this.selectedRegulationId,
+        'imageType': this.imageType,
+        'selectedOSName': this.selectedOSName,
+        'selectedSystemId': this.selectedSystemId
+      }
+      this.$emit('getStepData', { step: 'specSetting', data, canNext })
     },
-    handleChangeArchTab () {
+    validateInput () {
+      if (this.selectedRegulationId === -1) {
+        this.$message.warning(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'))
+        return false
+      }
+      if (this.selectedSystemId === '') {
+        this.$message.warning(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'))
+        return false
+      }
+      return true
+    },
+    handleChangeArch () {
       this.filterVmRegulation()
       this.selectedRegulationId = -1
     },
@@ -230,6 +230,7 @@ export default {
     },
     handleChangeImgType () {
       this.filterOSName()
+      this.operateSystemOptionList = []
       this.selectedOSName = ''
       this.selectedSystemId = ''
     },
@@ -238,6 +239,13 @@ export default {
         .map(item => item.operateSystem))
     },
     handleChangeOSName () {
+      this.filterOperateSystemOption()
+      this.selectedSystemId = ''
+    },
+    filterOperateSystemOption () {
+      if (this.selectedOSName === '') {
+        return
+      }
       this.operateSystemOptionList = this.vmConfigData.vmSystemList.filter(item => item.type === this.imageType && item.operateSystem === this.selectedOSName)
         .map(item => {
           return {
@@ -246,7 +254,12 @@ export default {
           }
         }
         )
-      this.selectedSystemId = ''
+    },
+    showNameCol (row) {
+      return this.isZh ? row.nameZh : row.nameEn
+    },
+    showSceneCol (row) {
+      return this.isZh ? row.sceneZh : row.sceneEn
     },
     appendCPUUnit (row) {
       return row.cpu + 'vCPU'
@@ -255,21 +268,28 @@ export default {
       return cellValue + 'GB'
     }
   },
-  created () { },
   mounted () {
     this.isZh = this.$store.state.language === 'cn'
     this.filterVmRegulation()
     this.filterOSName()
-  },
-  beforeDestroy () {
-  },
-  watch: {
+    this.filterOperateSystemOption()
   }
 }
 </script>
 
 <style lang="less">
 .apply-specsetting{
-  padding:0% 10% 0% 10%;
+  padding: 0% 5% 0% 5%;
+  .el-row{
+    padding-bottom: 5px;
+  }
+  .el-table{
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .el-select{
+    margin-left: -10px;
+  }
 }
 </style>
