@@ -24,7 +24,7 @@
     </div>
     <div class="instru-container-inner">
       <div
-        style="height:400px"
+        style="height:480px"
         id="minder-container"
       />
     </div>
@@ -87,7 +87,7 @@ export default {
             expandState: 'expand',
             hyperlink: window.location.href + '/apiAmulator?groupId=' + subAbilitys[i].groupId + '&language=' + this.$i18n.locale,
             hyperlinkTitle: this.$i18n.t('api.swithToAPI'),
-            background: this.parentTabIndex === 1 ? ((i < 2) ? '#00b050' : '') : ((i < 3) ? '#00b050' : '')
+            background: this.parentTabIndex === 1 ? ((i < 5) ? '#00b050' : '') : ((i < 3) ? '#00b050' : '')
           },
           children: []
         })
