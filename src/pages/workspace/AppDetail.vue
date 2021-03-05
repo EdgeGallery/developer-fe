@@ -623,6 +623,9 @@ export default {
       .el-col{
         padding: 15px 10px;
         font-size: 16px;
+        span{
+          line-height: 25px;
+        }
         .span_left{
           float: left;
           color: #adb0b8;
@@ -636,8 +639,6 @@ export default {
         .span_right{
           float: left;
           width: calc(100% - 115px);
-          line-height: 25px;
-          margin-top: -4px;
         }
         .span_right_en{
           width: calc(100% - 185px);
