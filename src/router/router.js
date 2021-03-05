@@ -93,6 +93,14 @@ export default new Router({
           }
         },
         {
+          path: 'mecDeveloper/plugin/vueupload',
+          name: 'devDocs',
+          component: () => import('../pages/plugin/VueUpload.vue'),
+          meta: {
+            id: '3.1.6'
+          }
+        },
+        {
           path: 'mecDeveloper/api/mep',
           name: 'mep',
           component: () => import('../pages/abilityCenter/AbilityHome.vue'),
