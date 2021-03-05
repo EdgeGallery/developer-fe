@@ -17,7 +17,7 @@
 <template>
   <div class="apply-networksetting">
     <el-row :gutter="24">
-      <p>选择网络类型</p>
+      <strong>{{ $t('workspace.deployDebugVm.selectNetworkTypeTip') }}</strong>
     </el-row>
     <el-row :gutter="24">
       <el-table
@@ -45,18 +45,10 @@
           show-overflow-tooltip
         />
         <el-table-column
-          prop="descriptionZh"
           header-align="center"
           :label="$t('workspace.description')"
+          :formatter="showDescCol"
           show-overflow-tooltip
-          v-if="isZh"
-        />
-        <el-table-column
-          prop="descriptionEn"
-          header-align="center"
-          :label="$t('workspace.description')"
-          show-overflow-tooltip
-          v-if="!isZh"
         />
       </el-table>
     </el-row>
@@ -84,27 +76,37 @@ export default {
     }
   },
   methods: {
-    emitStepData () {
-      let ifNext = true
-      if (ifNext) {
-        const data = this.selectedNetwork
-        this.$emit('getStepData', { step: 'networkSetting', data, ifNext })
+    emitStepData (isNext) {
+      let canNext = false
+      if (isNext) {
+        canNext = this.validateInput()
       }
+
+      const data = this.selectedNetwork
+      this.$emit('getStepData', { step: 'networkSetting', data, canNext })
+    },
+    validateInput () {
+      if (!this.selectedNetwork || !this.selectedNetwork.length) {
+        this.$message.warning(this.$t('workspace.deployDebugVm.vmNetworkTypeMustSelectTip'))
+        return false
+      }
+      return true
+    },
+    showDescCol (row) {
+      return this.isZh ? row.descriptionZh : row.descriptionEn
     }
   },
-  created () { },
   mounted () {
     this.isZh = this.$store.state.language === 'cn'
-  },
-  beforeDestroy () {
-  },
-  watch: {
   }
 }
 </script>
 
 <style lang="less">
 .apply-networksetting{
-  padding:0% 10% 0% 10%;
+  padding: 0% 5% 0% 5%;
+  .el-row{
+    padding-bottom: 5px;
+  }
 }
 </style>

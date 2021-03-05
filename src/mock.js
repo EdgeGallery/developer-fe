@@ -181,17 +181,47 @@ const getProjectVmList = function () {
     {
       'vmId': 'ba32617a-99e0-4974-881f-68425f29f206-vm-1111',
       'projectId': 'ba32617a-99e0-4974-881f-68425f29f206',
-      'vmRegulation': 'X86|2vCPUs|4GB RAM|50GB+100GB Disk|8G GPU',
-      'vmSystem': 'Ubuntu 18.04 server 64bit',
-      'vmNetwork': 'Network_MEP',
-      'basicSetting': {
-        'vmName': 'TestVM',
-        'username': 'root'
+      'vmRegulation': {
+        'regulationId': 0,
+        'architecture': 'X86',
+        'nameZh': '通用计算型',
+        'nameEn': 'General Computing',
+        'sceneZh': '普通APP',
+        'sceneEn': 'Ordinary APP',
+        'memory': 8,
+        'cpu': 4,
+        'systemDisk': 50,
+        'dataDisk': 100,
+        'gpu': '',
+        'otherAbility': ''
       },
+      'vmSystem': {
+        'systemId': 0,
+        'type': 'public',
+        'operateSystem': 'ubuntu',
+        'version': '16.04',
+        'systemBit': '64bit',
+        'systemDisk': 50
+      },
+      'vmNetwork': ['Network_MEP', 'Network_N6'],
+      'vmName': 'TestVM',
       'status': 'Running',
-      'packageId': 'package-id',
+      'stageStatus': {
+        'csar': 'Failed',
+        'hostInfo': null,
+        'instantiateInfo': null,
+        'workStatus': null
+      },
+      'host': {
+        'address': '',
+        'ip': '192.8.23.3'
+      },
+      'lcmToken': null,
+      'vmInfo': null,
+      'appInstanceId': 'e52fc7e6-2ef1-43be-83d9-0fd4924bb159',
       'createTime': '2021-2-27 10:27',
-      'host': '192.32.2.4'
+      'log': 'generate  vm csar failed:null',
+      'nextStage': 'hostInfo'
     }
   ]
 }
@@ -296,17 +326,17 @@ const getVmConfig = function () {
       {
         'networkType': 'Network_N6',
         'descriptionZh': 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问',
-        'descriptionEn': ''
+        'descriptionEn': 'N6 network, when end-side devices access edge applications, they need to access through this network'
       },
       {
         'networkType': 'Network_MEP',
         'descriptionZh': '与边缘计算平台之间的网络，当应用存在服务依赖或需要发布服务时，需要该网络',
-        'descriptionEn': ''
+        'descriptionEn': 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed'
       },
       {
         'networkType': 'Network_Internet',
         'descriptionZh': 'Internet网络',
-        'descriptionEn': ''
+        'descriptionEn': 'Internet Network'
       }
     ]
   }

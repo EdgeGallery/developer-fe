@@ -33,7 +33,7 @@
             <table style="width:100%">
               <tr>
                 <td>
-                  <span class="resCardTitle">{{ item.basicSetting.vmName }}</span>
+                  <span class="resCardTitle">{{ item.vmName }}</span>
                 </td>
               </tr>
             </table>
@@ -45,17 +45,17 @@
                   label-width="120px"
                   class="formDetail"
                 >
-                  <el-form-item label="名称：">
-                    {{ item.basicSetting.vmName }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmNameLbl')">
+                    {{ item.vmName }}
                   </el-form-item>
-                  <el-form-item label="规格：">
-                    {{ item.vmRegulation }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmSpecLbl')">
+                    {{ buildSpecDesc(item) }}
                   </el-form-item>
-                  <el-form-item label="镜像：">
-                    {{ item.vmSystem }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmImageLbl')">
+                    {{ buildSystemDesc(item) }}
                   </el-form-item>
-                  <el-form-item label="网络：">
-                    {{ item.vmNetwork }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmNetworkLbl')">
+                    {{ item.vmNetwork.join(', ') }}
                   </el-form-item>
                 </el-form>
               </div>
@@ -66,13 +66,13 @@
                   label-width="120px"
                   class="formDetail"
                 >
-                  <el-form-item label="IP：">
-                    {{ item.host }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmIpLbl')">
+                    {{ item.host.ip }}
                   </el-form-item>
-                  <el-form-item label="状态：">
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
                     {{ item.status }}
                   </el-form-item>
-                  <el-form-item label="申请时间：">
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
                     {{ item.createTime }}
                   </el-form-item>
                 </el-form>
@@ -87,21 +87,21 @@
                 class="funcBtn"
                 @click="handleDelResource(item)"
               >
-                删除
+                {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
               </el-button>
               <el-button
                 class="funcBtn"
                 type="text"
                 @click="handleUploadFile(item)"
               >
-                文件上传
+                {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
               </el-button>
               <el-button
                 type="text"
                 class="funcBtn"
                 @click="handleVNC(item)"
               >
-                远程登录
+                {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
               </el-button>
             </el-col>
           </el-row>
@@ -114,7 +114,7 @@
             type="primary"
             @click="handleNewResource"
           >
-            申请资源
+            {{ $t('workspace.deployDebugVm.applyResource') }}
           </el-button>
         </el-card>
       </el-col>
@@ -154,6 +154,7 @@ export default {
   },
   data () {
     return {
+      isZh: true,
       showApplyVMResDlg: false,
       resourceListData: [],
       showUploadAppDlg: false,
@@ -204,15 +205,26 @@ export default {
     handleApplySuccess () {
       this.showApplyVMResDlg = false
       this.loadVmResourceDataList()
+    },
+    buildSpecDesc (item) {
+      let vmSpecName = this.isZh ? item.vmRegulation.nameZh : item.vmRegulation.nameEn
+      return item.vmRegulation.architecture +
+        '|' + vmSpecName +
+        '|' + item.vmRegulation.cpu + 'vCPUs' +
+        '|' + item.vmRegulation.memory + 'GB RAM' +
+        '|' + item.vmRegulation.systemDisk + 'GB' +
+        '+' + item.vmRegulation.dataDisk + 'GB Disk'
+    },
+    buildSystemDesc (item) {
+      return item.vmSystem.operateSystem +
+        ' ' + item.vmSystem.version +
+        ' ' + item.vmSystem.systemBit +
+        '(' + item.vmSystem.systemDisk + 'GB Disk)'
     }
   },
-  created () { },
   mounted () {
+    this.isZh = this.$store.state.language === 'cn'
     this.loadVmResourceDataList()
-  },
-  beforeDestroy () {
-  },
-  watch: {
   }
 }
 </script>
@@ -234,8 +246,8 @@ export default {
   line-height:240px;
 }
 .btn-addRes{
-  height: 60px;
-  width: 120px;
+  height: 50px;
+  width: 150px;
 }
 .funcBtnArea{
   height:150px;
