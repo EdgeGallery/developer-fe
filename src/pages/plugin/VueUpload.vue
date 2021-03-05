@@ -97,7 +97,7 @@ export default {
     console.log(this.mergerUrl)
 
     let urlHttp = window.location.origin
-    urlHttp = urlHttp.replace('https', 'http').replace('30092', '30098')
+    urlHttp = urlHttp.replace('30092', '30098')
     this.optionsHttp.target = urlHttp + '/mec/developer/v1/image/upload'
     this.mergerUrlHttp = urlHttp + '/mec/developer/v1/image/merge?fileName='
   },
