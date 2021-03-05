@@ -22,6 +22,7 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import i18n from './locales/i18n.js'
 import VueCookies from 'vue-cookies'
+import uploader from 'vue-simple-uploader'
 
 import '../src/assets/css/theme/index.css'
 import VCharts from 'v-charts'
@@ -33,6 +34,7 @@ Vue.use(VCharts)
 Vue.use(ElementUI, { locale })
 Vue.use(mavonEditor)
 Vue.use(VueCookies)
+Vue.use(uploader)
 
 Vue.config.productionTip = false
 
