@@ -22,7 +22,7 @@
 </template>
 
 <script>
-// import { urlPrefix, getCookie } from '../../tools/tool.js'
+import { urlPrefix, getCookie } from '../../tools/tool.js'
 import axios from 'axios'
 export default {
   name: '',
@@ -32,8 +32,8 @@ export default {
       mergerUrlHttp: '',
       options: {
         testChunks: false,
-        // headers: {},
-        // forceChunkSize: true,
+        headers: {},
+        forceChunkSize: true,
         simultaneousUploads: 5, // 并发数
         chunkSize: 8 * 1024 * 1024 // 块大小
       },
@@ -55,16 +55,10 @@ export default {
     }
   },
   created () {
-    // this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
+    this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
-    url = url.replace('8083', '9082')
-    console.log(url)
-    this.options.target = url + '/mec/developer/v1/image/upload'
-    // this.options.target = url + urlPrefix + 'mec/developer/v1/image/upload'
-    console.log(this.options.target)
-    this.mergerUrl = url + '/mec/developer/v1/image/merge?fileName='
-    // this.mergerUrl = url + urlPrefix + 'mec/developer/v1/image/merge?fileName='
-    console.log(this.mergerUrl)
+    this.options.target = url + urlPrefix + 'mec/developer/v1/image/upload'
+    this.mergerUrl = url + urlPrefix + 'mec/developer/v1/image/merge?fileName='
   },
   mounted () {
   }
@@ -88,7 +82,4 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
   }
-.uploader-file[status=success] .uploader-file-remove{
-  display: block;
-}
 </style>
