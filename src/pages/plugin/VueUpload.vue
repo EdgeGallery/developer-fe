@@ -31,6 +31,7 @@ export default {
       mergerUrl: '',
       mergerUrlHttp: '',
       options: {
+        target: '',
         testChunks: false,
         headers: {},
         forceChunkSize: true,
