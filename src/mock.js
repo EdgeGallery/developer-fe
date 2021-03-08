@@ -346,9 +346,40 @@ const doNothing = function () {
   return {}
 }
 
+const getCreateImageList = function () {
+  return [
+    {
+      'vmName': 'sdfsgrehgetr',
+      'imageName': 'fdghshstrjtrjj',
+      'progress': 30,
+      'status': 'create'
+    },
+    {
+      'vmName': 'jkyujtfgftg',
+      'imageName': 'sdgfrehgtjuyjtygjhnfg',
+      'progress': 50,
+      'status': 'progress'
+    },
+    {
+      'vmName': 'asdqwrghfgjtyiu',
+      'imageName': 'asefwegrehtrjhtrjtr',
+      'progress': 75,
+      'status': 'progress'
+    },
+    {
+      'vmName': 'sdfretytryutryutr',
+      'imageName': 'asefwegrehjghjyuio8uotrjhtrjtr',
+      'progress': 100,
+      'status': 'success'
+    }
+  ]
+}
+
 Mock.mock('/mock/developer/projectlist', getProjectList)
 Mock.mock('/mock/developer/projectinfo', getProjectInfo)
 Mock.mock('/mock/developer/project/vmlist', getProjectVmList)
 Mock.mock('/mock/developer/vmconfig', getVmConfig)
 
 Mock.mock('/mock/donothing', doNothing)
+
+Mock.mock('/mock/developer/imageList', getCreateImageList)
