@@ -440,6 +440,7 @@ export default {
       enterQuery: '',
       loading: false,
       userName: sessionStorage.getItem('userName'),
+      userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language')
     }
   },
