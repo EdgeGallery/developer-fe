@@ -31,23 +31,17 @@
       </span>
     </h3>
     <h3
-      class="image_title clear gray"
+      class="image_title clear"
     >
       <span class="span_lefts">{{ $t('workspace.uploadImage.mode2') }}</span>
       <span class="span_right">
         {{ $t('workspace.uploadImage.mode2Desc') }}
-        <em class="el-icon-question gray" />
       </span>
     </h3>
-    <el-button
-      class="upload-image"
-      type="primary"
-      plain
-      size="mini"
-      disabled
-    >
-      {{ $t('workspace.uploadImage.uploadAppImage') }}
-    </el-button>
+    <div class="upload-image">
+      <UploadBigFile />
+    </div>
+
     <h3 class="image_title clear">
       <span class="span_lefts">{{ $t('workspace.uploadImage.mode3') }}</span>
       <span class="span_right">
@@ -127,9 +121,13 @@
 </template>
 
 <script>
+import UploadBigFile from '../../components/common/UploadBigFile.vue'
 import { Workspace } from '../../tools/api.js'
 export default {
   name: 'ImageSelect',
+  components: {
+    UploadBigFile
+  },
   props: {
     projectBeforeConfig: {
       type: Object,
