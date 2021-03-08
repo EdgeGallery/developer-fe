@@ -104,7 +104,6 @@ export default {
       this.$emit('input', false)
     },
     handleChangeFile (file, fileList) {
-      // this.$store.state.pluginSize = file.size / 1024 / 1024
       if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
         this.appFileList = []
@@ -153,7 +152,7 @@ export default {
     },
     doUpload () {
       let formdata = new FormData()
-      formdata.append('appFile', this.appFileList[0])
+      formdata.append('file', this.appFileList[0])
       vmService.uploadFile(this.projectId, this.vmId, this.userId, formdata).then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
