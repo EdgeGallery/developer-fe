@@ -212,12 +212,19 @@ const getProjectVmList = function () {
         'instantiateInfo': null,
         'workStatus': null
       },
-      'host': {
-        'address': '',
-        'ip': '192.8.23.3'
-      },
       'lcmToken': null,
-      'vmInfo': null,
+      'vmInfo': [
+        {
+          'serverId': 'server--1',
+          'vncUrl': '',
+          'networks': [
+            {
+              'name': '',
+              'ip': '192.32.43.4'
+            }
+          ]
+        }
+      ],
       'appInstanceId': 'e52fc7e6-2ef1-43be-83d9-0fd4924bb159',
       'createTime': '2021-2-27 10:27',
       'log': 'generate  vm csar failed:null',

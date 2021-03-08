@@ -67,7 +67,7 @@
                   class="formDetail"
                 >
                   <el-form-item :label="$t('workspace.deployDebugVm.vmIpLbl')">
-                    {{ item.host.ip }}
+                    {{ getVmIp(item) }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
                     {{ item.status }}
@@ -154,6 +154,7 @@ export default {
   },
   data () {
     return {
+      userId: sessionStorage.getItem('userId'),
       isZh: true,
       showApplyVMResDlg: false,
       resourceListData: [],
@@ -170,7 +171,7 @@ export default {
       }
     },
     loadVmResourceDataList () {
-      vmService.getProjectVmResList(this.projectId).then(res => {
+      vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
         let _data = res.data
         this.resourceListData = _data
       }).catch(() => {
@@ -191,7 +192,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        vmService.deleteVmResource(this.projectId, vmData.vmId).then(res => {
+        vmService.deleteVmResource(this.projectId, this.userId, vmData.vmId).then(res => {
           this.$message.success(this.$t('workspace.deployDebugVm.deleteVmResSuccess'))
           this.loadVmResourceDataList()
         }).catch(() => {
@@ -220,6 +221,13 @@ export default {
         ' ' + item.vmSystem.version +
         ' ' + item.vmSystem.systemBit +
         '(' + item.vmSystem.systemDisk + 'GB Disk)'
+    },
+    getVmIp (item) {
+      if (item.vmInfo && item.vmInfo.length && item.vmInfo[0].networks && item.vmInfo[0].networks.length &&
+        item.vmInfo[0].networks[0]) {
+        return item.vmInfo[0].networks[0].ip
+      }
+      return ''
     }
   },
   mounted () {
