@@ -43,6 +43,9 @@ let vmService = {
   },
   uploadFile: function (projectId, params) {
     return axios.get('/mock/donothing')
+  },
+  getCreateImageListApi: function () {
+    return axios.get('/mock/developer/imageList')
   }
 }
 
