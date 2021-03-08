@@ -103,6 +103,7 @@ export default {
   },
   data () {
     return {
+      userId: sessionStorage.getItem('userId'),
       dialogVisible: this.value,
       active: 0,
       currentComponent: 'BasicInfoOnApplyVM',
@@ -173,7 +174,7 @@ export default {
         return
       }
 
-      vmService.applyVmResource(this.projectId, this.getApplyData()).then(res => {
+      vmService.applyVmResource(this.projectId, this.userId, this.getApplyData()).then(res => {
         this.$message.success(this.$t('workspace.deployDebugVm.applyVmResSuccess'))
         this.$emit('handleApplySuccess')
       }).catch(() => {

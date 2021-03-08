@@ -93,6 +93,7 @@ export default {
   },
   data () {
     return {
+      userId: sessionStorage.getItem('userId'),
       dialogVisible: this.value,
       appFileList: [],
       uploadBtnLoading: false
@@ -153,7 +154,7 @@ export default {
     doUpload () {
       let formdata = new FormData()
       formdata.append('appFile', this.appFileList[0])
-      vmService.uploadFile(this.projectId, this.vmId, formdata).then(res => {
+      vmService.uploadFile(this.projectId, this.vmId, this.userId, formdata).then(res => {
         this.$message({
           message: this.$t('promptMessage.uploadSuccess'),
           type: 'success'

@@ -353,20 +353,20 @@ let Workspace = {
 }
 
 let vmService = {
-  getProjectVmResList: function (projectId) {
-    return Get('mec/developer/v1/projects/' + projectId + '/vm')
+  getProjectVmResList: function (projectId, userId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/vm?userId=' + userId)
   },
   getVmConfigData: function () {
     return Get('mec/developer/v1/vmconfig')
   },
-  applyVmResource: function (projectId, params) {
-    return Post('mec/developer/v1/projects/' + projectId + '/vm-create', params)
+  applyVmResource: function (projectId, userId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId, params)
   },
-  deleteVmResource: function (projectId, vmId) {
-    return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId)
+  deleteVmResource: function (projectId, userId, vmId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '?userId=' + userId)
   },
-  uploadFile: function (projectId, vmId, params) {
-    return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files', params)
+  uploadFile: function (projectId, vmId, userId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
   }
 }
 
