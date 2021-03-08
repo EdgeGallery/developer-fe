@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style lang="less">
-.uploader-example {
+/* .uploader-example {
     width: 880px;
     padding: 15px;
     margin: 40px auto 0;
@@ -82,5 +82,5 @@ export default {
     overflow: auto;
     overflow-x: hidden;
     overflow-y: auto;
-  }
+  } */
 </style>
