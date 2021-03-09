@@ -156,7 +156,7 @@ export default {
     },
     // 下载镜像
     downloadVmImage (vmId) {
-      vmService.downloadVmImageApi(this.projectId, vmId)
+      vmService.downloadVmImageApi(this.projectId, vmId, this.userId)
     },
     clearInterval () {
       clearTimeout(this.interval)
