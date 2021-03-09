@@ -381,8 +381,11 @@ let vmService = {
     return Delete('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
   },
   // 下载镜像
-  downloadVmImageApi: function (projectId, vmId) {
-    return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package')
+  downloadVmImageApi: function (projectId, vmId, userId) {
+    let params = {
+      url: 'mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package?userId=' + userId
+    }
+    return downloadFile(params)
   }
 }
 
