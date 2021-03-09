@@ -23,6 +23,7 @@
         plain
         class="create_image_btn"
         @click="createVmImage"
+        :disabled="imageList.length>0"
       >
         生成
       </el-button>
@@ -50,26 +51,46 @@
         v-for="(item,index) in imageList"
         :key="index"
       >
-        <span class="span_vm lt">{{ item.vmName }}</span>
+        <span class="span_vm lt">
+          <em
+            v-if="item.vmName===null"
+            class="el-icon-loading"
+          />{{ item.vmName }}</span>
         <span
           class="span_image lt"
           :title="item.imageName"
-        >{{ item.imageName }}</span>
+        >
+          <em
+            v-if="item.imageName===null"
+            class="el-icon-loading"
+          />{{ item.imageName }}</span>
         <span class="span_progress lt">
-          <span class="span_stage_status">
-            <em>创建镜像信息</em>{{ item.stageStatus.createImageInfo }}
-          </span>
-          <span class="span_stage_status">
-            <em>镜像状态</em>{{ item.stageStatus.imageStatus }}
-          </span>
-          <span class="span_stage_status">
-            <em>下载镜像信息</em>{{ item.stageStatus.downloadImageInfo }}
-          </span>
+          <em
+            v-if="item.log===null"
+            class="el-icon-loading"
+          />{{ item.log }}
         </span>
-        <span class="span_status lt">{{ item.status }}</span>
+        <span class="span_status lt">
+          <em
+            v-if="item.status!=='SUCCESS'"
+            class="el-icon-loading deploying icon"
+          />
+          <em
+            v-if="item.status==='SUCCESS'"
+            class="el-icon-success success icon"
+          />{{ item.status }}</span>
         <span class="span_operation lt">
-          <el-button type="text">下载</el-button>
-          <el-button type="text">删除</el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="downloadVmImage(item.vmId)"
+            :disabled="item.status!=='SUCCESS'"
+          >下载</el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="deleteVmImage"
+          >删除</el-button>
         </span>
       </div>
     </el-card>
@@ -85,14 +106,17 @@ export default {
     return {
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID') || '',
-      imageList: []
+      imageList: [],
+      interval: null
     }
   },
   methods: {
     // 生成镜像
     createVmImage () {
       vmService.createVmImageApi(this.projectId, this.userId).then(res => {
-        console.log(res.data)
+        this.interval = setInterval(() => {
+          this.getCreateImageList()
+        }, 5000)
         if (res.data) {
           this.getCreateImageList()
         }
@@ -100,27 +124,54 @@ export default {
     },
     // 获取镜像
     getCreateImageList () {
+      this.imageList = []
       vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
-        console.log(res.data)
-        this.imageList.push(res.data)
+        if (res.data) {
+          this.imageList.push(res.data)
+        }
+        if (res.data.log === 'vm image import success') {
+          this.clearInterval()
+        }
       })
     },
-    customColorMethod (percentage) {
-      if (percentage < 30) {
-        return '#909399'
-      } else if (percentage < 70) {
-        return '#e6a23c'
-      } else {
-        return '#67c23a'
-      }
+    // 删除镜像
+    deleteVmImage () {
+      this.$confirm(this.$t('devTools.deleteProject'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        vmService.deleteVmImageApi(this.projectId, this.userId).then(() => {
+          this.$message({
+            type: 'success',
+            message: this.$t('devTools.deleteSucc')
+          })
+          this.getCreateImageList()
+        }).catch(() => {
+          this.$message.error({
+            message: this.$t('devTools.deleteFail')
+          })
+        })
+      })
+    },
+    // 下载镜像
+    downloadVmImage (vmId) {
+      vmService.downloadVmImageApi(this.projectId, vmId)
+    },
+    clearInterval () {
+      clearTimeout(this.interval)
+      this.interval = null
     }
   },
   created () { },
   mounted () {
-    console.log(1)
     this.getCreateImageList()
+    this.interval = setInterval(() => {
+      this.getCreateImageList()
+    }, 5000)
   },
   beforeDestroy () {
+    this.clearInterval()
   },
   watch: {
   }
@@ -141,6 +192,7 @@ export default {
     }
     .el-card__body{
       min-width: 715px;
+      min-height: 86px;
       font-size: 14px;
     }
     .nodata{
@@ -154,11 +206,13 @@ export default {
     .list_div{
       margin-bottom: 30px;
     }
+    span.lt{
+      cursor: default;
+    }
     span{
       display: inline-block;
-      cursor: default;
-      .el-button span{
-        cursor: pointer;
+      em.icon{
+        margin-right: 5px;
       }
     }
     span.span_stage_status{
