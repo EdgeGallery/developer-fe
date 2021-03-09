@@ -367,6 +367,22 @@ let vmService = {
   },
   uploadFile: function (projectId, vmId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
+  },
+  // 生成镜像
+  createVmImageApi: function (projectId, userId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
+  },
+  // 获取镜像列表
+  getCreateImageListApi: function (projectId, userId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
+  },
+  // 删除镜像
+  deleteVmImageApi: function (projectId, userId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
+  },
+  // 下载镜像
+  downloadVmImageApi: function (projectId, vmId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package')
   }
 }
 

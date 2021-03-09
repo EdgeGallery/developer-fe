@@ -22,6 +22,7 @@
         type="primary"
         plain
         class="create_image_btn"
+        @click="createVmImage"
       >
         生成
       </el-button>
@@ -29,14 +30,22 @@
     <el-card class="image_list">
       <div
         slot="header"
+        class="list_header clear"
       >
         <span class="span_vm">虚机名称</span>
         <span class="span_image">镜像名称</span>
-        <span class="span_progress">进度</span>
+        <span class="span_progress">阶段状态</span>
         <span class="span_status">状态</span>
         <span class="span_operation">操作</span>
       </div>
       <div
+        class="nodata"
+        v-show="imageList.length===0"
+      >
+        暂无数据
+      </div>
+      <div
+        v-show="imageList.length>0"
         class="list_div clear"
         v-for="(item,index) in imageList"
         :key="index"
@@ -47,10 +56,15 @@
           :title="item.imageName"
         >{{ item.imageName }}</span>
         <span class="span_progress lt">
-          <el-progress
-            :percentage="item.progress"
-            :color="customColorMethod"
-          />
+          <span class="span_stage_status">
+            <em>创建镜像信息</em>{{ item.stageStatus.createImageInfo }}
+          </span>
+          <span class="span_stage_status">
+            <em>镜像状态</em>{{ item.stageStatus.imageStatus }}
+          </span>
+          <span class="span_stage_status">
+            <em>下载镜像信息</em>{{ item.stageStatus.downloadImageInfo }}
+          </span>
         </span>
         <span class="span_status lt">{{ item.status }}</span>
         <span class="span_operation lt">
@@ -69,14 +83,26 @@ export default {
 
   data () {
     return {
+      userId: sessionStorage.getItem('userId'),
+      projectId: sessionStorage.getItem('mecDetailID') || '',
       imageList: []
     }
   },
   methods: {
-    getCreateImageList () {
-      vmService.getCreateImageListApi().then(res => {
+    // 生成镜像
+    createVmImage () {
+      vmService.createVmImageApi(this.projectId, this.userId).then(res => {
         console.log(res.data)
-        this.imageList = res.data
+        if (res.data) {
+          this.getCreateImageList()
+        }
+      })
+    },
+    // 获取镜像
+    getCreateImageList () {
+      vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
+        console.log(res.data)
+        this.imageList.push(res.data)
       })
     },
     customColorMethod (percentage) {
@@ -115,6 +141,15 @@ export default {
     }
     .el-card__body{
       min-width: 715px;
+      font-size: 14px;
+    }
+    .nodata{
+      text-align: center;
+    }
+    .list_header{
+      span{
+        float: left;
+      }
     }
     .list_div{
       margin-bottom: 30px;
@@ -126,20 +161,30 @@ export default {
         cursor: pointer;
       }
     }
+    span.span_stage_status{
+      width: 100%;
+      margin-bottom: 5px;
+      em{
+        font-style: normal;
+        display: inline-block;
+        width: 110px;
+        color: #adb0b8;
+      }
+    }
     .span_vm{
       width: 20%;
       min-width: 120px;
     }
     .span_image{
-      width: 25%;
-      min-width: 150px;
+      width: 20%;
+      min-width: 120px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .span_progress{
-      width: 25%;
-      min-width: 150px;
+      width: 30%;
+      min-width: 180px;
       .el-progress{
         width: 80%;
       }
