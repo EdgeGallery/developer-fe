@@ -77,6 +77,10 @@
         >
           <span class="userName">{{ userName }}</span>
           <span
+            class="userAccountCenter"
+            @click="openUserAccountCenter()"
+          >{{ $t('nav.userAccountCenter') }}</span>
+          <span
             @click="beforeLogout()"
           >{{ $t('nav.logOut') }}</span>
         </div>
@@ -114,6 +118,7 @@ export default {
       jsonData: [],
       language: 'English',
       loginPage: '',
+      userCenterPage: '',
       menu_small: false,
       screenHeight: document.body.clientHeight,
       timer: false,
@@ -152,6 +157,7 @@ export default {
       sessionStorage.setItem('userName', res.data.userName)
       sessionStorage.setItem('accessToken', res.data.accessToken)
       this.loginPage = res.data.loginPage
+      this.userCenterPage = res.data.userCenterPage
       if (res.data.userName === 'guest') {
         this.ifGuest = true
       } else {
@@ -306,6 +312,9 @@ export default {
       }).then(() => {
         this.logout()
       })
+    },
+    openUserAccountCenter () {
+      window.open(this.userCenterPage)
     }
   }
 }
@@ -335,6 +344,10 @@ export default {
       cursor: default;
       padding-right: 10px;
       display: inline-block;
+    }
+    span.userAccountCenter{
+      border-right: 1px solid #686868;
+      padding-right: 10px;
     }
   }
   .nav{

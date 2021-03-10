@@ -141,6 +141,7 @@ const cn = {
     workSpace: '工作空间',
     search: '搜索',
     logIn: '登录',
+    userAccountCenter: '我的帐号',
     logOut: '注销',
     help: '帮助',
     contact: '联系我们',
