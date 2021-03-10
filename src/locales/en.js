@@ -141,6 +141,7 @@ const en = {
     workSpace: 'WorkSpace',
     search: 'Search',
     logIn: 'Log In',
+    userAccountCenter: 'My Account',
     logOut: 'Logout',
     help: 'Help',
     contact: 'Contact',
