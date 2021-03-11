@@ -267,6 +267,7 @@
         v-loading="loading"
         row-key="groupId"
         :data="allListData"
+        header-cell-class-name="headerStyle"
       >
         <el-table-column
           prop="twoLevelName"
@@ -307,9 +308,26 @@
         <el-table-column
           prop="description"
           :label="$t('workspace.description')"
+          width="300"
         >
           <template slot-scope="scope">
             {{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}
+          </template>
+          <template slot-scope="scope">
+            <el-popover
+              placement="bottom"
+              width="300"
+              trigger="hover"
+              v-if="language === 'cn' ? scope.row.description : scope.row.descriptionEn >24"
+            >
+              <div>{{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}</div>
+              <div slot="reference">
+                {{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}
+              </div>
+            </el-popover>
+            <div v-else>
+              {{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}
+            </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('workspace.operation')">
@@ -324,6 +342,16 @@
             </el-button>
           </template>
         </el-table-column>
+        <template slot="empty">
+          <div>
+            <img
+              src="../../assets/images/empty.png"
+              alt=""
+              style="padding: 10px;"
+            >
+            <p>{{ $t('api.noDataNotice') }}</p>
+          </div>
+        </template>
       </el-table>
       <div class="pagebar">
         <el-pagination

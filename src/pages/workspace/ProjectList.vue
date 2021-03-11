@@ -38,6 +38,7 @@
       :data="currentData"
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
+      header-cell-class-name="headerStyle"
     >
       <el-table-column
         prop="iconUrl"
@@ -147,6 +148,16 @@
           </el-button>
         </template>
       </el-table-column>
+      <template slot="empty">
+        <div>
+          <img
+            src="../../assets/images/empty.png"
+            alt=""
+            style="padding: 10px;"
+          >
+          <p>{{ $t('api.noDataNotice') }}</p>
+        </div>
+      </template>
     </el-table>
     <div class="cleafix" />
     <div class="pagebar">

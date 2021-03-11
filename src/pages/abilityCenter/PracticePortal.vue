@@ -42,12 +42,13 @@
             </div>
           </div>
           <footer class="practice-panel-ft">
-            <a
-              class="practice-link"
-              href="https://www.edgegallery.org/%e8%a7%86%e9%a2%91%e8%b5%84%e6%ba%90"
+            <el-link
+              href="http://www.edgegallery.org/video"
               target="_blank"
-              rel="noopener noreferrer"
-            >{{ $t('api.Detail') }}</a>
+              type="primary"
+            >
+              {{ $t('api.Detail') }}
+            </el-link>
           </footer>
         </div>
       </div>
@@ -75,11 +76,13 @@
             </div>
           </div>
           <footer class="practice-panel-ft">
-            <a
-              class="practice-link"
-              href="http://www.edgegallery.org/%E6%B2%9F%E9%80%9A%E4%BA%A4%E6%B5%81"
+            <el-link
+              href="http://www.edgegallery.org/communication"
               target="_blank"
-            >{{ $t('api.Detail') }}</a>
+              type="primary"
+            >
+              {{ $t('api.Detail') }}
+            </el-link>
           </footer>
         </div>
       </div>
@@ -153,14 +156,6 @@ export default {
     border-top: 1px solid #E5E5E5;
     padding-top: 12px;
     margin-top: 12px;
-    .practice-link {
-      font-size: 14px;
-      color: #00A4FF;
-      line-height: 24px;
-    }
-}
-.practice-panel:hover .practice-panel-title {
-    color: #00A4FF;
 }
 @media (min-width: 769px){
   .practice-card{
