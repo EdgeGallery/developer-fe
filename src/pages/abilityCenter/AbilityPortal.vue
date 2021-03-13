@@ -64,22 +64,22 @@ export default {
     },
     imageWidth () {
       return function (abilityRealName) {
-        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1 ? 64 : 32
       }
     },
     imageHeight () {
       return function (abilityRealName) {
-        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1 ? 64 : 32
       }
     },
     tabPadding30 () {
       return function (abilityRealName) {
-        return !(abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1)
+        return !(abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1)
       }
     },
     tabPadding14 () {
       return function (abilityRealName) {
-        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1
       }
     }
   },
@@ -101,7 +101,7 @@ export default {
         'ETSI': 'https://www.etsi.org/templates/etsi/img/logo.svg',
         '3GPP': 'https://www.3gpp.org/templates/3gpp-home/images/logo-Transparent.png',
         'Popular-Service': 'https://img.icons8.com/windows/32/4a90e2/hotjar.png',
-        'Ascend': 'https://r.huaweistatic.com/s/ascendstatic/lst/header/header-logo.png'
+        'Ascend-AI': 'https://r.huaweistatic.com/s/ascendstatic/lst/header/header-logo.png'
       }
       const abilityDefaultIcons = 'https://img.icons8.com/ios/50/4a90e2/services--v1.png'
       let abilitiesTmp = []
@@ -110,7 +110,7 @@ export default {
         let iconKey = abilit.labelEn.replaceAll(' ', '-')
         abilitiesTmp.push({
           abilityIconSrc: abilityIcons[iconKey] ? abilityIcons[iconKey] : abilityDefaultIcons,
-          abilityName: (abilit.labelEn.indexOf('ETSI') > -1 || abilit.labelEn.indexOf('3GPP') > -1) ? '' : (this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label),
+          abilityName: (abilit.labelEn.indexOf('ETSI') > -1 || abilit.labelEn.indexOf('3GPP') > -1 || abilit.labelEn.indexOf('Ascend') > -1) ? '' : (this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label),
           abilityRealName: this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label,
           index: abilit.index,
           isActive: abilit.index === selId

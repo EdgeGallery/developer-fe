@@ -109,6 +109,7 @@ export default {
           id: subAbility[i].groupId,
           appName: this.$i18n.locale === 'en' ? subAbility[i].labelEn : subAbility[i].label,
           appNameKey: subAbility[i].key,
+          appNameEn: subAbility[i].labelEn,
           appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description,
           docRouterIndex: '',
           apiRouterIndex: ''
@@ -122,8 +123,8 @@ export default {
     },
     amulatorClick (item) {
       let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
-      if (item.oneLevelNameEn === 'Ascend AI') {
-        routeUrl = this.$router.resolve({ name: 'ascend', query: { groupId: item.id, towLevelName: item.towLevelNameEn, language: this.$i18n.locale } })
+      if (item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection') {
+        routeUrl = this.$router.resolve({ name: 'ascend', query: { groupId: item.id, towLevelName: item.appNameEn, language: this.$i18n.locale } })
       }
       window.open(routeUrl.href, '_blank')
     }
