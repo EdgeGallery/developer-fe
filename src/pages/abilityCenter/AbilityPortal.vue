@@ -87,7 +87,7 @@ export default {
     },
     tabPadding14 () {
       return function (abilityRealName) {
-        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend' || abilityRealName.indexOf('昇腾AI能力') > -1) > -1
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1
       }
     }
   },

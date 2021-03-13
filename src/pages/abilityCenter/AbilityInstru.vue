@@ -125,8 +125,10 @@ export default {
       let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
       if (item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection') {
         routeUrl = 'http://124.70.102.14:30222/#/' + item.appNameEn.replace(/\s*/g, '')
+        window.open(routeUrl, '_blank')
+      } else {
+        window.open(routeUrl.href, '_blank')
       }
-      window.open(routeUrl.href, '_blank')
     }
   }
 }
