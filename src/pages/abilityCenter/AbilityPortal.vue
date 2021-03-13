@@ -100,7 +100,8 @@ export default {
         'Public-framework': 'https://img.icons8.com/windows/32/4a90e2/product-architecture.png',
         'ETSI': 'https://www.etsi.org/templates/etsi/img/logo.svg',
         '3GPP': 'https://www.3gpp.org/templates/3gpp-home/images/logo-Transparent.png',
-        'Popular-Service': 'https://img.icons8.com/windows/32/4a90e2/hotjar.png'
+        'Popular-Service': 'https://img.icons8.com/windows/32/4a90e2/hotjar.png',
+        'Ascend': 'https://r.huaweistatic.com/s/ascendstatic/lst/header/header-logo.png'
       }
       const abilityDefaultIcons = 'https://img.icons8.com/ios/50/4a90e2/services--v1.png'
       let abilitiesTmp = []
@@ -117,17 +118,7 @@ export default {
       })
       return abilitiesTmp
     }
-  },
-  created () {},
-  mounted () {},
-  beforeCreate () {},
-  beforeMount () {
-  },
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>

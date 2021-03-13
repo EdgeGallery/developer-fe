@@ -125,6 +125,14 @@ export default new Router({
           }
         },
         {
+          path: 'mecDeveloper/api/mep/ascend',
+          name: 'ascend',
+          component: () => import('../pages/abilityCenter/Ascend.vue'),
+          meta: {
+            id: '3.2.1'
+          }
+        },
+        {
           path: '/mecDeveloper/work',
           name: 'workspace',
           component: () => import('../pages/workspace/Index.vue'),

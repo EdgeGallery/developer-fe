@@ -44,7 +44,7 @@
           </span>
           <span
             class="mulator-link"
-            @click="amulatorClick"
+            @click="amulatorClick(item)"
             :id="item.id"
           >
             {{ $t('api.onlineEmulator') }}
@@ -108,7 +108,7 @@ export default {
         temp.push({
           id: subAbility[i].groupId,
           appName: this.$i18n.locale === 'en' ? subAbility[i].labelEn : subAbility[i].label,
-          appNameKey: subAbility[i].key, // Name国际化key
+          appNameKey: subAbility[i].key,
           appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description,
           docRouterIndex: '',
           apiRouterIndex: ''
@@ -120,21 +120,14 @@ export default {
       let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
       window.open(routeUrl.href, '_blank')
     },
-    amulatorClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
+    amulatorClick (item) {
+      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
+      if (item.oneLevelNameEn === 'Ascend AI') {
+        routeUrl = this.$router.resolve({ name: 'ascend', query: { groupId: item.id, towLevelName: item.towLevelNameEn, language: this.$i18n.locale } })
+      }
       window.open(routeUrl.href, '_blank')
     }
-  },
-  created () {},
-  mounted () {},
-  beforeCreate () {},
-  beforeMount () {
-  },
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>
