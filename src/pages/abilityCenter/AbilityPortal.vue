@@ -64,14 +64,14 @@ export default {
     },
     imageWidth (abilityRealName) {
       if (abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1) {
-        return 64
+        return 90
       } else {
         return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
       }
     },
     imageHeight (abilityRealName) {
       if (abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1) {
-        return 90
+        return 64
       } else {
         return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
       }
