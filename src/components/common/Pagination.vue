@@ -26,7 +26,6 @@
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalNum"
-      v-if="totalNum!=0"
       id="pagination"
     />
     <el-pagination
@@ -37,7 +36,6 @@
       :current-page="currentPage"
       layout="prev, pager, next"
       :total="totalNum"
-      v-if="totalNum!=0"
       id="pagination"
       :page-size="pageSize"
       :pager-count="5"

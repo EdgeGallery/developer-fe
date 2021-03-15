@@ -271,6 +271,7 @@
         v-loading="loading"
         row-key="hostId"
         :data="allListData"
+        header-cell-class-name="headerStyle"
       >
         <el-table-column
           prop="name"
@@ -323,6 +324,16 @@
             </el-button>
           </template>
         </el-table-column>
+        <template slot="empty">
+          <div>
+            <img
+              src="../../assets/images/empty.png"
+              alt=""
+              style="padding: 10px;"
+            >
+            <p>{{ $t('api.noDataNotice') }}</p>
+          </div>
+        </template>
       </el-table>
       <div class="pagebar">
         <el-pagination
