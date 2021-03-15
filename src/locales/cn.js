@@ -506,7 +506,8 @@ const cn = {
     diskUsage: '硬盘使用率',
     deployType: '部署方式',
     containerImage: '容器镜像',
-    vmImage: '虚机镜像'
+    vmImage: '虚机镜像',
+    podEventsInfo: 'Pod日志详情'
   },
   test: {
     howToTest: {
