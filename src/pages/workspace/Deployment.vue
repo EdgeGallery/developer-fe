@@ -573,6 +573,7 @@ export default {
             continue
           }
           container.podName = pod.podname
+          container.podEventsInfo = pod.podEventsInfo
           container.containerStatus = pod.podstatus
           container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
           container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
