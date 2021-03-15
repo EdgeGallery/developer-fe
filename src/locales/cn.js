@@ -157,7 +157,7 @@ const cn = {
     },
     configYaml: {
       yamlFileType: '请选择后缀名为".yaml"的文件',
-      uploadYamlFirst: '请先上传Yaml',
+      uploadYamlFirst: '请先上传Yaml或者进行可视化配置',
       importFile: '文件导入',
       config: '可视化配置',
       uploadFile: '上传文件',
@@ -563,6 +563,7 @@ const cn = {
     noPermission: '您没有权限进入用户管理页面！',
     uploadSuccess: '上传成功！',
     uploadFailure: '上传失败！',
+    uploadYamlFailure: '文件内容有误，请参考样例文件！',
     nameEmpty: '名称不能为空！',
     pluginNameEmpty: '插件名称不能为空！',
     pluginFunEmpty: '插件语言不能为空！',
