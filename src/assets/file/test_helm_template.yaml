@@ -9,13 +9,13 @@ metadata:
 spec:
   containers:
     - name: positioning    # 容器名
-      image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/positioning_service:1.0  # 镜像信息
+      image: '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/positioning_service:1.0'  # 镜像信息
       imagePullPolicy: IfNotPresent   # 镜像拉取策略
       ports:
         - containerPort: 9997         # 内部端口
     {{- if .Values.global.mepagent.enabled }}    # 是否依赖平台能力，没有这部分无法使用平台的能力
     - name: mep-agent
-      image: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-agent:latest
+      image: '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/mep-agent:latest'
       imagePullPolicy: Always
       env:
         - name: ENABLE_WAIT

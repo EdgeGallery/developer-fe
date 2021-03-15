@@ -157,7 +157,7 @@ const en = {
     },
     configYaml: {
       yamlFileType: 'Please select files with the suffix ".yaml"',
-      uploadYamlFirst: 'Please upload file first',
+      uploadYamlFirst: 'Please upload Yaml first or perform visual configuration',
       importFile: 'Import File',
       config: 'Visual Configuration',
       uploadFile: 'Upload File',
@@ -564,6 +564,7 @@ const en = {
     noPermission: 'You have no permission to enter the user management page!',
     uploadSuccess: 'Upload success!',
     uploadFailure: 'Upload failure!',
+    uploadYamlFailure: 'The content of the file is wrong, please refer to the sample file!',
     nameEmpty: 'Name cannot be empty!',
     pluginNameEmpty: 'Plugin Name cannot be empty!',
     pluginFunEmpty: 'Plugin Language cannot be empty!',
