@@ -506,7 +506,8 @@ const en = {
     diskUsage: 'Disk Usage',
     deployType: 'Deployment Type',
     containerImage: 'Container Image',
-    vmImage: 'VM Image'
+    vmImage: 'VM Image',
+    podEventsInfo: 'Pod Events Info'
   },
   test: {
     howToTest: {
