@@ -56,6 +56,7 @@
             :id="item.id"
           >
             {{ $t('api.onlineExperience') }}
+            <span class="exp-icon" />
           </span>
         </div>
       </div>
@@ -205,11 +206,10 @@ export default {
     color: #f30a0a;
     cursor: pointer;
     border-left: 1px solid #ddd;
-    position: relative;
   }
   .exp-icon{
     display: block;
-    position: absolute;
+    position: relative;
     top: -5px;
     right: 3px;
     height: 21px;
