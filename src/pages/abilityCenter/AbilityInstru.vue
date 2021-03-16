@@ -49,6 +49,14 @@
           >
             {{ $t('api.onlineEmulator') }}
           </span>
+          <span
+            class="exp-link"
+            v-if="item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection'"
+            @click="toOnlineExperience(item)"
+            :id="item.id"
+          >
+            {{ $t('api.onlineEmulator') }}
+          </span>
         </div>
       </div>
     </div>
@@ -123,12 +131,11 @@ export default {
     },
     amulatorClick (item) {
       let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
-      if (item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection') {
-        routeUrl = 'http://124.70.102.14:30222/#/' + item.appNameEn.replace(/\s*/g, '')
-        window.open(routeUrl, '_blank')
-      } else {
-        window.open(routeUrl.href, '_blank')
-      }
+      window.open(routeUrl.href, '_blank')
+    },
+    toOnlineExperience (item) {
+      let routeUrl = 'http://124.70.102.14:30222/#/' + item.appNameEn.replace(/\s*/g, '')
+      window.open(routeUrl, '_blank')
     }
   }
 }
@@ -192,6 +199,23 @@ export default {
     padding-left: 5px;
     color: #00a4ff;
     cursor: pointer;
+  }
+  .exp-link{
+    padding-left: 5px;
+    color: #f30a0a;
+    cursor: pointer;
+    border-left: 1px solid #ddd;
+    position: relative;
+  }
+  .exp-icon{
+    display: block;
+    position: absolute;
+    top: -5px;
+    right: 3px;
+    height: 21px;
+    width: 18px;
+    background: url('../../assets/images/hot.png') center no-repeat;
+    background-size: contain;
   }
 }
 @media screen and (min-width: 769px) {
