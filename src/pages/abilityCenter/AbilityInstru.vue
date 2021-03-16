@@ -208,10 +208,10 @@ export default {
     border-left: 1px solid #ddd;
   }
   .exp-icon{
-    display: block;
+    display: inline-block;
     position: relative;
-    top: -5px;
-    right: 3px;
+    top: -4px;
+    right: 7px;
     height: 21px;
     width: 18px;
     background: url('../../assets/images/hot.png') center no-repeat;
