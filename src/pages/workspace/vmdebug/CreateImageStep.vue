@@ -17,7 +17,7 @@
 <template>
   <div class="create_image">
     <p>
-      应用调测完成，生成镜像
+      {{ $t('workspace.deployDebugVm.createImageText') }}
       <el-button
         type="primary"
         plain
@@ -25,7 +25,7 @@
         @click="createVmImage"
         :disabled="imageList.length>0"
       >
-        生成
+        {{ $t('workspace.deployDebugVm.generate') }}
       </el-button>
     </p>
     <el-card class="image_list">
@@ -33,17 +33,17 @@
         slot="header"
         class="list_header clear"
       >
-        <span class="span_vm">虚机名称</span>
-        <span class="span_image">镜像名称</span>
-        <span class="span_progress">阶段状态</span>
-        <span class="span_status">状态</span>
-        <span class="span_operation">操作</span>
+        <span class="span_vm">{{ $t('workspace.deployDebugVm.vmName') }}</span>
+        <span class="span_image">{{ $t('workspace.deployDebugVm.imagename') }}</span>
+        <span class="span_progress">{{ $t('workspace.stageStatus') }}</span>
+        <span class="span_status">{{ $t('workspace.deployDebugVm.vmStatusLbl') }}</span>
+        <span class="span_operation">{{ $t('workspace.operation') }}</span>
       </div>
       <div
         class="nodata"
         v-show="imageList.length===0"
       >
-        暂无数据
+        {{ $t('api.noDataNotice') }}
       </div>
       <div
         v-show="imageList.length>0"
@@ -66,8 +66,12 @@
           />{{ item.imageName }}</span>
         <span class="span_progress lt">
           <em
-            v-if="item.log===null"
-            class="el-icon-loading"
+            v-if="item.status!=='SUCCESS'"
+            class="el-icon-loading deploying icon"
+          />
+          <em
+            v-if="item.status==='SUCCESS'"
+            class="el-icon-success success icon"
           />{{ item.log }}
         </span>
         <span class="span_status lt">
@@ -85,12 +89,12 @@
             size="mini"
             @click="downloadVmImage(item.vmId)"
             :disabled="item.status!=='SUCCESS'"
-          >下载</el-button>
+          >{{ $t('common.download') }}</el-button>
           <el-button
             type="text"
             size="mini"
             @click="deleteVmImage"
-          >删除</el-button>
+          >{{ $t('workspace.deployDebugVm.deleteBtnLbl') }}</el-button>
         </span>
       </div>
     </el-card>
@@ -131,6 +135,7 @@ export default {
         }
         if (res.data.log === 'vm image import success') {
           this.clearInterval()
+          this.$emit('createImageStatus', res.data.status)
         }
       })
     },
@@ -192,8 +197,9 @@ export default {
     }
     .el-card__body{
       min-width: 715px;
-      min-height: 86px;
+      min-height: 56px;
       font-size: 14px;
+      padding: 30px 20px;
     }
     .nodata{
       text-align: center;
@@ -202,9 +208,6 @@ export default {
       span{
         float: left;
       }
-    }
-    .list_div{
-      margin-bottom: 30px;
     }
     span.lt{
       cursor: default;

@@ -259,13 +259,13 @@ const en = {
       UEIdentity: 'UE Identity'
     },
     deployDebugVm: {
-      vmNameLbl: 'Name:',
-      vmSpecLbl: 'Specification:',
-      vmImageLbl: 'System Image:',
-      vmNetworkLbl: 'Network:',
-      vmIpLbl: 'IP Address:',
-      vmStatusLbl: 'Status:',
-      vmApplyTimeLbl: 'Apply Time:',
+      vmNameLbl: 'Name',
+      vmSpecLbl: 'Specification',
+      vmImageLbl: 'System Image',
+      vmNetworkLbl: 'Network',
+      vmIpLbl: 'IP Address',
+      vmStatusLbl: 'Status',
+      vmApplyTimeLbl: 'Apply Time',
       vncBtnLbl: 'Remote Login',
       uploadBtnLbl: 'Upload Code',
       deleteBtnLbl: 'Delete',
@@ -300,7 +300,10 @@ const en = {
       applyVmResSuccess: 'Apply Virtual Machine Resource Succeed!',
       applyVmResFailed: 'Apply Virtual Machine Resource Failed!',
       deleteVmResSuccess: 'Delete Virtual Machine Resource Succeed!',
-      deleteVmResFailed: 'Delete Virtual Machine Resource Failed!'
+      deleteVmResFailed: 'Delete Virtual Machine Resource Failed!',
+      createImageText: 'Application commissioning completed, Generate the mirror',
+      generate: 'Generate',
+      stageStatus: 'Stage Status'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
