@@ -259,13 +259,13 @@ const cn = {
       UEIdentity: 'UE标识'
     },
     deployDebugVm: {
-      vmNameLbl: '名称：',
-      vmSpecLbl: '规格：',
-      vmImageLbl: '镜像：',
-      vmNetworkLbl: '网络：',
-      vmIpLbl: 'IP地址：',
-      vmStatusLbl: '状态：',
-      vmApplyTimeLbl: '申请时间：',
+      vmNameLbl: '名称',
+      vmSpecLbl: '规格',
+      vmImageLbl: '镜像',
+      vmNetworkLbl: '网络',
+      vmIpLbl: 'IP地址',
+      vmStatusLbl: '状态',
+      vmApplyTimeLbl: '申请时间',
       vncBtnLbl: '远程登录',
       uploadBtnLbl: '上传代码',
       deleteBtnLbl: '删除',
@@ -300,7 +300,10 @@ const cn = {
       applyVmResSuccess: '申请虚拟机资源成功！',
       applyVmResFailed: '申请虚拟机资源失败！',
       deleteVmResSuccess: '删除虚拟机资源成功！',
-      deleteVmResFailed: '删除虚拟机资源失败！'
+      deleteVmResFailed: '删除虚拟机资源失败！',
+      createImageText: '应用调测完成，生成镜像',
+      generate: '生成',
+      stageStatus: '阶段状态'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',

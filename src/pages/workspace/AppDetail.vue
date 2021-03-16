@@ -205,6 +205,7 @@
           <DeployDebugVMMain
             :project-id="projectId"
             v-if="projectDetailData.deployPlatform === 'VIRTUALMACHINE'"
+            @getImageStatus="getImageStatus"
           />
         </div>
       </el-tab-pane>
@@ -217,6 +218,7 @@
         <appRelease
           v-if="activeName === '5'"
           :is-clean-env-prop="isCleanEnv"
+          :image-status-prop="imageStatus"
         />
       </el-tab-pane>
       <div v-if="dialogVisible">
@@ -230,7 +232,7 @@
 </template>
 
 <script>
-import { Workspace } from '../../tools/api.js'
+import { Workspace, vmService } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
 import EnvPreparation from './EnvPreparation.vue'
@@ -293,7 +295,8 @@ export default {
       projectId: sessionStorage.getItem('mecDetailID'),
       dependentNum: 0,
       isAppDevelopment: true,
-      isCleanEnv: false
+      isCleanEnv: false,
+      imageStatus: 'CREATING'
     }
   },
   methods: {
@@ -426,12 +429,27 @@ export default {
           }
         }
       })
+    },
+    getImageStatus (data) {
+      this.imageStatus = data
+      this.isCleanEnv = true
+    },
+    getCreateImageList () {
+      vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
+        if (res.data) {
+          this.imageStatus = res.data.status
+          if (res.data.status === 'SUCCESS') {
+            this.isCleanEnv = true
+          }
+        }
+      })
     }
   },
   mounted () {
     this.getProjectInfo()
     this.handleStep()
     this.getTestConfig()
+    this.getCreateImageList()
     this.checkProjectData()
   },
   watch: {

@@ -667,6 +667,10 @@ export default {
     isCleanEnvProp: {
       type: Boolean,
       default: false
+    },
+    imageStatusProp: {
+      type: String,
+      default: 'CREATING'
     }
   },
   components: {
@@ -740,7 +744,8 @@ export default {
       dependentNum: 0,
       isCleanEnv: this.isCleanEnvProp,
       isCleanEnvDialog: false,
-      publishLoading: false
+      publishLoading: false,
+      imageStatus: this.imageStatusProp
     }
   },
   methods: {
@@ -804,7 +809,7 @@ export default {
         this.projectDetailData.appInstanceId = res.data.appInstanceId
         this.projectDetailData.deployPlatform = res.data.platform
         this.projectDetailData.status = res.data.deployStatus
-        if (res.data.testId && res.data.appInstanceId) {
+        if ((res.data.testId && res.data.appInstanceId) || this.imageStatus === 'SUCCESS') {
           this.getReleaseConfigFirst()
         } else {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
@@ -1090,7 +1095,7 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      if (this.projectDetailData.appInstanceId) {
+      if (this.projectDetailData.appInstanceId || this.imageStatus === 'SUCCESS') {
         this.getReleaseConfig(this.trafficAllData)
       } else {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
@@ -1298,6 +1303,11 @@ export default {
       }
       .el-upload{
         float: left;
+        .el-button{
+          span{
+            line-height: 0;
+          }
+        }
       }
       .el-upload__tip{
         font-size: 14px;
@@ -1409,7 +1419,7 @@ export default {
   }
   .atp_iframe{
     border: 1px solid #ddd;
-    height: 880px;
+    height: 900px;
     iframe{
       border: none;
       height: 100%;

@@ -28,9 +28,13 @@
           <div
             slot="header"
             class="clearfix"
-            style="height:10px"
           >
             <table style="width:100%">
+              <caption />
+              <tr>
+                <th scope="heads" />
+                <th scope="heads" />
+              </tr>
               <tr>
                 <td>
                   <span class="resCardTitle">{{ item.vmName }}</span>
@@ -39,7 +43,7 @@
             </table>
           </div>
           <el-row :gutter="24">
-            <el-col :span="11">
+            <el-col :span="13">
               <div>
                 <el-form
                   label-width="120px"
@@ -60,7 +64,7 @@
                 </el-form>
               </div>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="11">
               <div>
                 <el-form
                   label-width="120px"
@@ -70,41 +74,60 @@
                     {{ getVmIp(item) }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
+                    <em
+                      v-if="item.status!=='SUCCESS'"
+                      class="el-icon-loading deploying icon"
+                    />
+                    <em
+                      v-if="item.status==='SUCCESS'"
+                      class="el-icon-success success icon"
+                    />
                     {{ item.status }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
                     {{ item.createTime }}
                   </el-form-item>
+                  <el-form-item :label="$t('workspace.deployDebugVm.stageStatus')">
+                    <em
+                      v-if="item.status!=='SUCCESS'"
+                      class="el-icon-loading deploying icon"
+                    />
+                    <em
+                      v-if="item.status==='SUCCESS'"
+                      class="el-icon-success success icon"
+                    />
+                    {{ item.log }}
+                  </el-form-item>
                 </el-form>
               </div>
             </el-col>
-            <el-col
-              :span="6"
-              class="funcBtnArea"
-            >
-              <el-button
-                type="text"
-                class="funcBtn"
-                @click="handleDelResource(item)"
-              >
-                {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
-              </el-button>
-              <el-button
-                class="funcBtn"
-                type="text"
-                @click="handleUploadFile(item)"
-              >
-                {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
-              </el-button>
-              <el-button
-                type="text"
-                class="funcBtn"
-                @click="handleVNC(item)"
-              >
-                {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
-              </el-button>
-            </el-col>
           </el-row>
+          <p class="operation_btn">
+            <el-button
+              type="text"
+              class="funcBtn"
+              @click="handleDelResource(item)"
+              :disabled="item.status!=='SUCCESS'"
+            >
+              {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
+            </el-button>
+            <el-button
+              class="funcBtn"
+              type="text"
+              @click="handleUploadFile(item)"
+              :disabled="item.status!=='SUCCESS'"
+            >
+              {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
+            </el-button>
+            <el-button
+              type="text"
+              class="funcBtn"
+              @click="handleVNC(item)"
+              :disabled="item.status!=='SUCCESS'"
+            >
+              {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
+            </el-button>
+          </p>
         </el-card>
       </el-col>
       <el-col :span="24">
@@ -159,7 +182,8 @@ export default {
       showApplyVMResDlg: false,
       resourceListData: [],
       showUploadAppDlg: false,
-      operatingVmId: ''
+      operatingVmId: '',
+      interval: null
     }
   },
   methods: {
@@ -173,6 +197,12 @@ export default {
     loadVmResourceDataList () {
       vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
         let _data = res.data
+        _data.forEach(item => {
+          item.createTime = this.dateChange(item.createTime)
+          if (item.status === 'SUCCESS') {
+            this.clearInterval()
+          }
+        })
         this.resourceListData = _data
       }).catch(() => {
         this.resourceListData = []
@@ -205,7 +235,9 @@ export default {
     },
     handleApplySuccess () {
       this.showApplyVMResDlg = false
-      this.loadVmResourceDataList()
+      this.interval = setInterval(() => {
+        this.loadVmResourceDataList()
+      }, 5000)
     },
     buildSpecDesc (item) {
       let vmSpecName = this.isZh ? item.vmRegulation.nameZh : item.vmRegulation.nameEn
@@ -228,11 +260,46 @@ export default {
         return item.vmInfo[0].networks[0].ip
       }
       return ''
+    },
+    dateChange (dateStr) {
+      if (dateStr) {
+        let date = new Date(Date.parse(dateStr))
+        let Y = date.getFullYear()
+        let M = date.getMonth() + 1
+        let D = date.getDate()
+        let H = date.getHours()
+        let m = date.getMinutes()
+        let s = date.getSeconds()
+        let changeDate =
+          Y +
+          '-' +
+          (M > 9 ? M : '0' + M) +
+          '-' +
+          (D > 9 ? D : '0' + D) +
+          ' ' +
+          (H > 9 ? H : '0' + H) +
+          ':' +
+          (m > 9 ? m : '0' + m) +
+          ':' +
+          (s > 9 ? s : '0' + s)
+        return changeDate
+      }
+    },
+    clearInterval () {
+      clearTimeout(this.interval)
+      this.interval = null
     }
   },
   mounted () {
     this.isZh = this.$store.state.language === 'cn'
     this.loadVmResourceDataList()
+    this.loadVmResourceDataList()
+    this.interval = setInterval(() => {
+      this.loadVmResourceDataList()
+    }, 5000)
+  },
+  beforeDestroy () {
+    this.clearInterval()
   }
 }
 </script>
@@ -241,11 +308,21 @@ export default {
 .formDetail{
   .el-form-item{
     margin-bottom:0px!important ;
+    .el-form-item__label{
+      color: #adb0b8;
+      padding-right: 20px;
+    }
   }
 }
 .box-card{
   margin-bottom:10px;
-  height: 240px;
+  overflow: auto;
+  .el-card__header{
+    padding: 10px 20px;
+  }
+  .el-card__body{
+    min-width: 715px;
+  }
 }
 .addRes-box-card{
   margin-bottom:30px;
@@ -253,13 +330,15 @@ export default {
   text-align:center;
   line-height:240px;
 }
+.operation_btn{
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  margin-top: 10px;
+}
 .btn-addRes{
   height: 50px;
   width: 150px;
-}
-.funcBtnArea{
-  height:150px;
-  padding-top:120px;
 }
 .funcBtn{
   padding: 8px 10px;
