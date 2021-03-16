@@ -55,7 +55,7 @@
             @click="toOnlineExperience(item)"
             :id="item.id"
           >
-            {{ $t('api.onlineEmulator') }}
+            {{ $t('api.onlineExperience') }}
           </span>
         </div>
       </div>
