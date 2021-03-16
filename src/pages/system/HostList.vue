@@ -82,13 +82,37 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('workspace.appRelease.ipAddress')"
-          prop="ip"
+          :label="$t('breadCrumb.system')"
+          prop="os"
+          class="w50"
+        >
+          <el-radio-group v-model="form.os">
+            <el-radio label="K8S">
+              K8S
+            </el-radio>
+            <el-radio label="OpenStack">
+              OpenStack
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.lcmIp')"
+          prop="lcmIp"
           class="w50"
         >
           <el-input
             size="small"
-            v-model="form.ip"
+            v-model="form.lcmIp"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.mecHost')"
+          prop="mecHost"
+          class="w50"
+        >
+          <el-input
+            size="small"
+            v-model="form.mecHost"
           />
         </el-form-item>
         <el-form-item
@@ -278,8 +302,16 @@
           :label="$t('system.name')"
         />
         <el-table-column
-          prop="ip"
-          :label="$t('workspace.appRelease.ipAddress')"
+          prop="os"
+          :label="$t('breadCrumb.system')"
+        />
+        <el-table-column
+          prop="lcmIp"
+          :label="$t('system.lcmIp')"
+        />
+        <el-table-column
+          prop="mecHost"
+          :label="$t('system.mecHost')"
         />
         <el-table-column
           prop="port"
@@ -297,7 +329,10 @@
           prop="architecture"
           :label="$t('workspace.architecture')"
         />
-        <el-table-column :label="$t('workspace.operation')">
+        <el-table-column
+          :label="$t('workspace.operation')"
+          width="170"
+        >
           <template slot-scope="scope">
             <el-button
               size="medium"
@@ -396,14 +431,16 @@ export default {
         portRangeMax: '32767',
         architecture: 'X86',
         protocol: 'http',
-        status: 'NORMAL'
+        status: 'NORMAL',
+        os: 'K8S'
       },
       defaultForm: {
         portRangeMin: '30000',
         portRangeMax: '32767',
         architecture: 'X86',
         protocol: 'http',
-        status: 'NORMAL'
+        status: 'NORMAL',
+        os: 'K8S'
       },
       rules: {
         // configId: [{ required: true, validator: (r, v, callback) => { validate(['configId'], callback, this.$t('system.pleaseUpload')) } }],
@@ -411,8 +448,15 @@ export default {
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.name')}` },
           { min: 6, max: 50, message: `${this.$t('system.pleaseInput')}6~50 ${this.$t('system.char')}` }
         ],
-        ip: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.appRelease.ipAddress')}` },
+        os: [
+          { required: true }
+        ],
+        mecHost: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.mecHost')}` },
+          { message: this.$t('promptMessage.hostErrorInfo'), pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/ }
+        ],
+        lcmIp: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.lcmIp')}` },
           { message: this.$t('promptMessage.ipErrorInfo'), pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/ }
         ],
         port: [

@@ -651,6 +651,7 @@ const cn = {
     isPublished: '应用已经发布到应用仓库',
     notDeploy: '应用没有部署调测，不能进行发布操作',
     ipErrorInfo: '请输入正确的IP地址',
+    hostErrorInfo: '请输入正确的Host地址',
     portErrorInfo: '端口号范围30000-30400'
   },
   breadCrumb: {
@@ -719,7 +720,9 @@ const cn = {
       status: '状态',
       operation: '操作'
     },
-    type: '类型'
+    type: '类型',
+    lcmIp: 'lcmIP',
+    mecHost: 'mecHost'
   },
   ...zhLocale
 }

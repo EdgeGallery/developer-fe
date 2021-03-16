@@ -651,6 +651,7 @@ const en = {
     isPublished: 'The application has been published to the application warehouse',
     notDeploy: 'The application is not deployed, and the release operation cannot be performed',
     ipErrorInfo: 'Please enter the correct IP address',
+    hostErrorInfo: 'Please enter the correct Host address',
     portErrorInfo: 'Port number range 30000-30400'
   },
   breadCrumb: {
@@ -719,7 +720,9 @@ const en = {
       status: 'Status',
       operation: 'Operation'
     },
-    type: 'Type'
+    type: 'Type',
+    lcmIp: 'lcmIP',
+    mecHost: 'mecHost'
   },
   ...enLocale
 }
