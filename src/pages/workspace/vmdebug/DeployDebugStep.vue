@@ -75,19 +75,27 @@
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
                     <em
-                      v-if="item.status!=='SUCCESS'"
+                      v-if="item.status==='CREATING'"
                       class="el-icon-loading deploying icon"
                     />
                     <em
                       v-if="item.status==='SUCCESS'"
                       class="el-icon-success success icon"
                     />
+                    <em
+                      v-if="item.status==='FAILED'"
+                      class="el-icon-error error icon"
+                    />
                     {{ item.status }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
                     {{ item.createTime }}
                   </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.stageStatus')">
+                  <el-form-item
+                    :label="$t('workspace.deployDebugVm.stageStatus')"
+                    class="vm_log"
+                    :title="item.log"
+                  >
                     <em
                       v-if="item.status!=='SUCCESS'"
                       class="el-icon-loading deploying icon"
@@ -313,7 +321,13 @@ export default {
       padding-right: 20px;
     }
     .el-form-item__content{
-      line-height: none;
+      line-height: 40px;
+    }
+    .vm_log{
+      height: 40px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

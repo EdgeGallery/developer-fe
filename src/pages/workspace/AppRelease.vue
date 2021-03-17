@@ -66,28 +66,24 @@
               :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
-              {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
-            </el-col>
-            <el-col
-              :sm="10"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.instantiateId') }}</span>{{ projectDetailData.appInstanceId }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="10"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ projectDetailData.deployPlatform }}
+              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ deployPlatform }}
             </el-col>
             <el-col
               :sm="10"
               :xs="24"
             >
               <span class="span_left">{{ $t('test.testTask.testStatus') }}</span>{{ projectDetailData.status }}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
+              <span
+                class="span_right"
+                :class="{'span_right_en':language==='en'}"
+              >
+                {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+              </span>
             </el-col>
           </el-row>
           <el-row>
@@ -670,7 +666,11 @@ export default {
     },
     imageStatusProp: {
       type: String,
-      default: 'CREATING'
+      default: 'NOTDEPLOY'
+    },
+    deployPlatformProp: {
+      type: String,
+      default: 'KUBERNETES'
     }
   },
   components: {
@@ -690,8 +690,7 @@ export default {
         platform: '',
         dependent: '',
         appInstanceId: '',
-        deployPlatform: '',
-        status: ''
+        status: 'NOTDEPLOY'
       },
       language: localStorage.getItem('language'),
       appMdList: [],
@@ -745,7 +744,8 @@ export default {
       isCleanEnv: this.isCleanEnvProp,
       isCleanEnvDialog: false,
       publishLoading: false,
-      imageStatus: this.imageStatusProp
+      imageStatus: this.imageStatusProp,
+      deployPlatform: this.deployPlatformProp
     }
   },
   methods: {
@@ -785,6 +785,9 @@ export default {
         this.projectDetailData.type = data.type
         this.projectDetailData.version = data.version
         this.projectDetailData.platform = data.platform[0]
+        if (data.deployPlatform === 'VIRTUALMACHINE') {
+          this.projectDetailData.status = this.imageStatus
+        }
         let dependent = res.data.capabilityList
         let arr = []
         this.checkProjectData()
@@ -807,11 +810,15 @@ export default {
       Workspace.getTestConfigApi(projectId).then(res => {
         sessionStorage.setItem('csarId', res.data.appInstanceId)
         this.projectDetailData.appInstanceId = res.data.appInstanceId
-        this.projectDetailData.deployPlatform = res.data.platform
-        this.projectDetailData.status = res.data.deployStatus
-        if ((res.data.testId && res.data.appInstanceId) || this.imageStatus === 'SUCCESS') {
-          this.getReleaseConfigFirst()
-        } else {
+        if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
+          this.projectDetailData.status = res.data.deployStatus
+          if ((res.data.testId && res.data.appInstanceId)) {
+            this.getReleaseConfigFirst()
+          } else {
+            this.$message.warning(this.$t('promptMessage.notDeploy'))
+          }
+        }
+        if (this.imageStatus !== 'SUCCESS') {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
@@ -1289,7 +1296,7 @@ export default {
     padding: 0 30px;
     font-size: 14px;
     .el-col{
-      line-height: 28px;
+      line-height: 25px;
       padding: 5px;
       .span_left{
         color: #adb0b8;
@@ -1297,6 +1304,16 @@ export default {
         min-width: 95px;
         text-align: right;
         padding-right: 20px;
+      }
+      .span_left_en{
+        width: 165px;
+      }
+      .span_right{
+        float: left;
+        width: calc(100% - 115px);
+      }
+      .span_right_en{
+        width: calc(100% - 185px);
       }
       .upload-demo{
         display: inline-block;
