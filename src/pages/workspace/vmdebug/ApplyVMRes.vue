@@ -44,7 +44,10 @@
           ref="currComponent"
         />
       </div>
-      <div class="elButton">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button
           id="prevBtn"
           type="text"
@@ -75,7 +78,7 @@
         >
           <strong>{{ $t('common.cancel') }}</strong>
         </el-button>
-      </div>
+      </span>
     </el-dialog>
   </div>
 </template>

@@ -34,8 +34,8 @@
         class="list_header clear"
       >
         <span class="span_vm">{{ $t('workspace.deployDebugVm.vmName') }}</span>
-        <span class="span_image">{{ $t('workspace.deployDebugVm.imagename') }}</span>
-        <span class="span_progress">{{ $t('workspace.stageStatus') }}</span>
+        <span class="span_image">{{ $t('workspace.imagename') }}</span>
+        <span class="span_progress">{{ $t('workspace.deployDebugVm.stageStatus') }}</span>
         <span class="span_status">{{ $t('workspace.deployDebugVm.vmStatusLbl') }}</span>
         <span class="span_operation">{{ $t('workspace.operation') }}</span>
       </div>

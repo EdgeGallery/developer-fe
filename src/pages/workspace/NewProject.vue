@@ -318,11 +318,7 @@ export default {
 
           this.$emit('closeFatherDialog', false)
           this.uploadBtnLoading = false
-          if (this.allFormData.first.deployPlatform === 'VIRTUALMACHINE') {
-            this.$router.push('/mecDeveloper/work/vmDetail')
-          } else {
-            this.$router.push('/mecDeveloper/work/detail')
-          }
+          this.$router.push('/mecDeveloper/work/detail')
 
           sessionStorage.removeItem('apiFileIdArr')
         } else {
