@@ -66,7 +66,7 @@
           />{{ item.imageName }}</span>
         <span class="span_progress lt">
           <em
-            v-if="item.status!=='SUCCESS'"
+            v-if="item.status==='CREATING'"
             class="el-icon-loading deploying icon"
           />
           <em
