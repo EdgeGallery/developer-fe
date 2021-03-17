@@ -87,7 +87,7 @@ export default {
             expandState: 'expand',
             hyperlink: window.location.href + '/apiAmulator?groupId=' + subAbilitys[i].groupId + '&language=' + this.$i18n.locale,
             hyperlinkTitle: this.$i18n.t('api.swithToAPI'),
-            background: this.parentTabIndex === 1 ? ((i < 5) ? '#00b050' : '') : ((i < 3) ? '#00b050' : '')
+            background: this.parentTabIndex === 1 ? ((i < 5) ? '#00b050' : '') : ((i < 6) ? '#00b050' : '')
           },
           children: []
         })

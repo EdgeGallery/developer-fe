@@ -127,12 +127,10 @@ export default {
       return temp
     },
     serviceDocClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
-      window.open(routeUrl.href, '_blank')
+      this.$router.push({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
     },
     amulatorClick (item) {
-      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
-      window.open(routeUrl.href, '_blank')
+      this.$router.push({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
     },
     toOnlineExperience (item) {
       let routeUrl = 'http://124.70.102.14:30222/#/' + item.appNameEn.replace(/\s*/g, '')
