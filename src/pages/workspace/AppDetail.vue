@@ -157,7 +157,7 @@
         <div v-if="activeName === '4'">
           <div
             id="div_deploydebug_k8s"
-            v-if="projectDetailData.deployPlatform === 'KUBERNETES'"
+            v-if="deployPlatform === 'KUBERNETES'"
           >
             <el-steps
               :active="active"
@@ -204,7 +204,7 @@
           </div>
           <DeployDebugVMMain
             :project-id="projectId"
-            v-if="projectDetailData.deployPlatform === 'VIRTUALMACHINE'"
+            v-if="deployPlatform === 'VIRTUALMACHINE'"
             @getImageStatus="getImageStatus"
           />
         </div>
@@ -219,6 +219,7 @@
           v-if="activeName === '5'"
           :is-clean-env-prop="isCleanEnv"
           :image-status-prop="imageStatus"
+          :deploy-platform-prop="deployPlatform"
         />
       </el-tab-pane>
       <div v-if="dialogVisible">
@@ -288,7 +289,6 @@ export default {
         industry: '',
         type: '',
         platform: '',
-        deployPlatform: '',
         dependent: '',
         description: ''
       },
@@ -296,7 +296,8 @@ export default {
       dependentNum: 0,
       isAppDevelopment: true,
       isCleanEnv: false,
-      imageStatus: 'CREATING'
+      imageStatus: 'NOTDEPLOY',
+      deployPlatform: ''
     }
   },
   methods: {
@@ -309,13 +310,16 @@ export default {
         } else if (data.projectType === 'INTEGRATED') {
           this.isAppDevelopment = false
         }
+        if (data.deployPlatform === 'VIRTUALMACHINE') {
+          this.getCreateImageList()
+        }
         this.projectDetailData.name = data.name
         this.projectDetailData.version = data.version
         this.projectDetailData.provider = data.provider
         this.projectDetailData.industry = data.industry[0]
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
-        this.projectDetailData.deployPlatform = data.deployPlatform
+        this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
@@ -331,7 +335,7 @@ export default {
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
-        if (this.projectDetailData.deployPlatform === 'KUBERNETES') {
+        if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
             this.active = 2
             this.changeComponent()
@@ -449,7 +453,6 @@ export default {
     this.getProjectInfo()
     this.handleStep()
     this.getTestConfig()
-    this.getCreateImageList()
     this.checkProjectData()
   },
   watch: {
@@ -641,6 +644,7 @@ export default {
       .el-col{
         padding: 15px 10px;
         font-size: 16px;
+        line-height: 25px;
         span{
           line-height: 25px;
         }

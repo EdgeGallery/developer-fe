@@ -312,6 +312,9 @@ export default {
       color: #adb0b8;
       padding-right: 20px;
     }
+    .el-form-item__content{
+      line-height: none;
+    }
   }
 }
 .box-card{
