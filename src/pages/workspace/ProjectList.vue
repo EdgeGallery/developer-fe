@@ -159,7 +159,6 @@
         </div>
       </template>
     </el-table>
-    <div class="cleafix" />
     <div class="pagebar">
       <pagination
         :table-data="searchListData"
@@ -167,7 +166,7 @@
         ref="pagination"
       />
     </div>
-    <div class="cleafix" />
+    <div class="clear" />
   </div>
 </template>
 

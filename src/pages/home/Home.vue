@@ -107,7 +107,8 @@ export default {
       img_process: require('../../assets/images/home_link_process_cn.png'),
       appStoreUrl: '',
       mecmUrl: '',
-      isCn: true
+      isCn: true,
+      userName: sessionStorage.getItem('userName')
     }
   },
   computed: {
@@ -115,7 +116,11 @@ export default {
   },
   methods: {
     jumpToWorkSpace () {
-      this.$router.push({ name: 'workspace', params: { from: 'index' } })
+      if (this.userName === 'guest') {
+        this.$message.error(this.$t('promptMessage.guestPrompt'))
+      } else {
+        this.$router.push({ name: 'workspace', params: { from: 'index' } })
+      }
     },
     jumpTo (item) {
       this.$store.commit('changeTab', item.id)
