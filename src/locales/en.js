@@ -107,7 +107,7 @@ const en = {
     deleteApi: 'Click to delete public API',
     usageInstruction: 'Usage Instruction',
     serviceSelection: 'Service Selection:',
-    noDataNotice: 'No data available.',
+    noDataNotice: 'No data available',
     installGuide: 'Installation Guide',
     hotServices: 'Popular Service',
     capabilitieTitle: 'Abundant edge capabilities | Ultimate 5G experience ',

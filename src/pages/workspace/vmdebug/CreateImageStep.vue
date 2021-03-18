@@ -64,7 +64,10 @@
             v-if="item.imageName===null"
             class="el-icon-loading"
           />{{ item.imageName }}</span>
-        <span class="span_progress lt">
+        <span
+          class="span_progress lt"
+          :title="item.log"
+        >
           <em
             v-if="item.status==='CREATING'"
             class="el-icon-loading deploying icon"
@@ -94,6 +97,7 @@
             type="text"
             size="mini"
             @click="deleteVmImage"
+            :disabled="item.status!=='SUCCESS'"
           >{{ $t('workspace.deployDebugVm.deleteBtnLbl') }}</el-button>
         </span>
       </div>
@@ -130,12 +134,15 @@ export default {
     getCreateImageList () {
       this.imageList = []
       vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
-        if (res.data) {
-          this.imageList.push(res.data)
-        }
-        if (res.data.log === 'vm image import success') {
+        console.log(JSON.stringify(res.data))
+        if (JSON.stringify(res.data) === '{}') {
           this.clearInterval()
-          this.$emit('createImageStatus', res.data.status)
+        } else {
+          this.imageList.push(res.data)
+          if (res.data.status === 'SUCCESS') {
+            this.clearInterval()
+            this.$emit('createImageStatus', res.data.status)
+          }
         }
       })
     },
@@ -214,6 +221,7 @@ export default {
     }
     span{
       display: inline-block;
+      line-height: 25px;
       em.icon{
         margin-right: 5px;
       }
@@ -240,11 +248,22 @@ export default {
       text-overflow: ellipsis;
     }
     .span_progress{
-      width: 30%;
+      width: 29%;
+      margin-right: 1%;
       min-width: 180px;
       .el-progress{
         width: 80%;
       }
+    }
+    .span_progress.lt{
+      max-height: 50px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-overflow: -o-ellipsis-lastline;
+      display: -webkit-box;
+      line-clamp:2;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
     }
     .span_status{
       width: 15%;

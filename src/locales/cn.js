@@ -107,7 +107,7 @@ const cn = {
     deleteApi: '点击删除已公开的API',
     usageInstruction: '使用说明',
     serviceSelection: '服务选择：',
-    noDataNotice: '暂无数据。',
+    noDataNotice: '暂无数据',
     installGuide: '安装指导',
     hotServices: '热门服务',
     capabilitieTitle: '丰富的边缘能力随心选择 | 极致的5G体验触手可及',
