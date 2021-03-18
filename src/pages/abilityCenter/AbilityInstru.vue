@@ -179,9 +179,6 @@ export default {
   background: #fff;
   border: 1px solid #e5e8ed;
   box-shadow: 0 2px 8px 0 rgba(3, 27, 78, 0.12);
-  .instru-title {
-    color: #00a4ff;
-  }
 }
 .instru-link{
   float: right;
