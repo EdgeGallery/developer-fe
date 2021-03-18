@@ -402,21 +402,20 @@ export default {
     },
     cleanTestEnv () {
       // 清空stageStatus
-      this.$emit('checkCleanEnv', true)
-      this.CSAR = ''
-      this.hostInfo = ''
-      this.instantiateInfo = ''
-      this.workStatus = ''
-
-      this.testFinished = false
-      this.deployStatus = 'NOTDEPLOY'
-      this.initialTimeline()
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
-        this.$message({
-          message: this.$t('workspace.clearEnv')
-        })
+        this.$emit('checkCleanEnv', true)
+        this.CSAR = ''
+        this.hostInfo = ''
+        this.instantiateInfo = ''
+        this.workStatus = ''
+        this.deployStatus = 'NOTDEPLOY'
+        this.initialTimeline()
+        this.testFinished = false
+        this.$message.success(this.$t('workspace.clearEnv'))
         clearInterval(this.timer)
       }).catch(err => {
+        this.testFinished = true
+        this.$message.error(this.$t('workspace.clearEnvFail'))
         console.log(err)
       })
     },
