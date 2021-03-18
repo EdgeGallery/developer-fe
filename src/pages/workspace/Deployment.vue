@@ -408,15 +408,16 @@ export default {
       this.instantiateInfo = ''
       this.workStatus = ''
 
-      this.testFinished = false
       this.deployStatus = 'NOTDEPLOY'
       this.initialTimeline()
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
+        this.testFinished = false
         this.$message({
           message: this.$t('workspace.clearEnv')
         })
         clearInterval(this.timer)
       }).catch(err => {
+        this.testFinished = true
         console.log(err)
       })
     },
