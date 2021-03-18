@@ -45,7 +45,7 @@
             id="project-add"
             class="project-add"
           >
-            <div class="img-box">
+            <div class="img-box clear">
               <div @click="addNewProject('CREATE_NEW')">
                 <img
                   src="../../assets/images/kaifa.png"
@@ -133,7 +133,8 @@ export default {
       chartExtend: {
         color: ['#5ab1ef', '#ffb980', '#19d4ae', '#f37f7f', '#67c23a']
       },
-      userId: sessionStorage.getItem('userId')
+      userId: sessionStorage.getItem('userId'),
+      userName: sessionStorage.getItem('userName')
     }
   },
   mounted () {
@@ -152,16 +153,20 @@ export default {
   methods: {
     // 新建项目
     addNewProject (projectType) {
-      this.newprojectDialog = true
-      if (projectType === 'CREATE_NEW') {
-        this.newProjectTitleprop = this.$t('workspace.createProject')
+      if (this.userName === 'guest') {
+        this.$message.error(this.$t('promptMessage.guestPrompt'))
       } else {
-        this.newProjectTitleprop = this.$t('workspace.migrationProject')
-      }
+        this.newprojectDialog = true
+        if (projectType === 'CREATE_NEW') {
+          this.newProjectTitleprop = this.$t('workspace.createProject')
+        } else {
+          this.newProjectTitleprop = this.$t('workspace.migrationProject')
+        }
 
-      this.newProjectFourthprop = true
-      this.getprojectTypeprop = projectType
-      this.activeProjectprop = 3
+        this.newProjectFourthprop = true
+        this.getprojectTypeprop = projectType
+        this.activeProjectprop = 3
+      }
     },
     // 关闭弹框
     closeDialog (data) {
@@ -207,7 +212,7 @@ export default {
 <style lang="less">
 .workspace{
   .workcon{
-    height: 800px;
+    min-height: 743px;
     overflow: hidden;
     .graybg{
       background-color: white;
@@ -216,7 +221,6 @@ export default {
       margin-bottom: 16px;
       .project-add{
         .img-box{
-          height: 158px;
           width: 100%;
           margin: 0 auto;
           border-radius: 16px;
@@ -301,7 +305,7 @@ export default {
     }
     .el-col-16{
       height: 100%;
-      overflow-y: auto;
+      min-height: 500px;
       background-color: white;
     }
     .el-col-8{

@@ -285,7 +285,7 @@
             :loading="loading"
             :style="{marginLeft: '10px'}"
             size="medium"
-            @click="handleChangePage('currentPage', 1)"
+            @click="searchListData"
           >
             {{ $t('test.testTask.inquire') }}
           </el-button>
@@ -371,15 +371,11 @@
         </template>
       </el-table>
       <div class="pagebar">
-        <el-pagination
-          background
-          @size-change="v => handleChangePage('pageSize', v)"
-          @current-change="v => handleChangePage('currentPage', v)"
-          :current-page="currentPage"
-          :page-sizes="[10, 1]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="listTotal"
+        <pagination
+          :table-data="allListData"
+          :list-total="listTotal"
+          @getCurrentPageData="getCurrentPageData"
+          ref="pagination"
         />
       </div>
     </div>
@@ -387,12 +383,14 @@
 </template>
 
 <script>
+import pagination from '../../components/common/Pagination.vue'
 import { Workspace, System } from '@/tools/api.js'
 import { Architecture } from '@/tools/project_data.js'
 
 export default {
   name: 'HostList',
   components: {
+    pagination
   },
   data () {
     const validate = (v, callback, errorMsg, rules) => {
@@ -412,8 +410,9 @@ export default {
     return {
       showLog: false,
       configId_file_list: [],
-      pageSize: 10,
-      currentPage: 1,
+      limitSize: 2,
+      offsetPage: 0,
+      listTotal: 0,
       logData: [],
       protocolOptions: [
         { label: 'HTTP', value: 'http' },
@@ -491,7 +490,6 @@ export default {
       },
       visible: false,
       allListData: [],
-      listTotal: 0,
       enterQuery: '',
       loading: false,
       userName: sessionStorage.getItem('userName'),
@@ -505,6 +503,17 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+    },
+    $route (to, from) {
+      this.getListData()
+    },
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getListData()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
+      this.getListData()
     }
   },
   methods: {
@@ -517,7 +526,7 @@ export default {
         this.loading = true
         System.deleteHost(hostId).finally(() => {
           this.loading = false
-          this.handleChangePage('currentPage', 1)
+          this.getListData()
         })
       }, () => {})
     },
@@ -548,17 +557,14 @@ export default {
         }
       })
     },
-    handleChangePage (key, v) {
-      if (key === 'PageSize') {
-        this.currentPage = 1
-      }
-      this[key] = v
+    searchListData () {
+      sessionStorage.setItem('currentPage', 1)
       this.getListData()
     },
     // 获取列表
     getListData () {
       this.loading = true
-      System.getHosts({ name: this.enterQuery, offset: this.currentPage - 1, limit: this.pageSize }).then(res => {
+      System.getHosts({ name: this.enterQuery, offset: this.offsetPage, limit: this.limitSize }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
       }).finally(() => {
@@ -619,6 +625,10 @@ export default {
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
+    },
+    getCurrentPageData (val, pageSize, start) {
+      this.limitSize = pageSize
+      this.offsetPage = start
     }
   }
 }
