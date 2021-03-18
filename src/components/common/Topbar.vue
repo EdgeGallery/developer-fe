@@ -116,8 +116,6 @@ export default {
         this.indexName = index
       } else if (item.$vnode.data.key === '3.14') {
         window.open('https://gitee.com/edgegallery', '_blank')
-      } else if (item.$vnode.data.key === '3.2.4') {
-        window.open('http://docs.edgegallery.org/zh_CN/latest/', '_blank')
       } else if (item.$vnode.data.key === '3.17') {
         let currUrl = window.location.origin
         if (currUrl.indexOf('30092') !== -1) {

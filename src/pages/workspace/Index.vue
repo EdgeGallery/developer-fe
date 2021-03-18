@@ -141,7 +141,6 @@ export default {
       this.newprojectDialog = true
       this.addNewProject('CREATE_NEW')
     }
-    this.getDeploymentType()
     this.getProjectListData()
   },
   beforeRouteEnter (to, from, next) {
@@ -151,13 +150,6 @@ export default {
     next()
   },
   methods: {
-    // 获取部署方式
-    getDeploymentType () {
-      Workspace.getDeployType().then(res => {
-        sessionStorage.setItem('ifVM', res.data.isVirtualMachine)
-        sessionStorage.setItem('Src', res.data.virtualMachineUrl)
-      })
-    },
     // 新建项目
     addNewProject (projectType) {
       this.newprojectDialog = true

@@ -133,6 +133,36 @@ let Test = {
   }
 }
 
+let System = {
+  deleteHost: function (hostId) {
+    return Delete(`mec/developer/v1/system/hosts/${hostId}`)
+  },
+  deleteService: function (params) {
+    return Delete('mec/developer/v1/system/capability', params)
+  },
+  getLogData: function (hostId) {
+    return Get(`mec/developer/v1/system/hosts/${hostId}/log`)
+  },
+  saveHostInfo: function (params) {
+    const func = params.hostId ? Put : Post
+    const path = params.hostId ? `mec/developer/v1/system/hosts/${params.hostId}` : 'mec/developer/v1/system/hosts'
+    const data = { ...params }
+    return func(path, data)
+  },
+  saveService: function (params) {
+    const func = Post
+    // const func = params.groupId ? Put : Post
+    const path = 'mec/developer/v1/system/capability'
+    return func(path, params)
+  },
+  getHosts: function (params) {
+    return Get('mec/developer/v1/system/hosts', params)
+  },
+  getSerives: function (params) {
+    return Get('mec/developer/v1/system/capability', params)
+  }
+}
+
 let Workspace = {
   // 测试并保存详情中节点信息
   saveNodeInfo: function (userId, params) {
@@ -141,10 +171,6 @@ let Workspace = {
     const path = params.hostId ? `mec/developer/v1/hosts/${params.hostId}/?userId=${userId}` : `mec/developer/v1/hosts/?userId=${userId}`
     const data = { architecture: 'X86', userId, status: 'NORMAL', ip, port, name: ip, address: ip }
     return func(path, data)
-  },
-  // 获取详情中节点信息
-  getDeployType: function () {
-    return Get('mec/developer/v1/config/deploy-platform')
   },
   // 获取详情中节点信息
   getNodeInfo: function (userId) {
@@ -326,9 +352,48 @@ let Workspace = {
 
 }
 
+let vmService = {
+  getProjectVmResList: function (projectId, userId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/vm?userId=' + userId)
+  },
+  getVmConfigData: function () {
+    return Get('mec/developer/v1/vmconfig')
+  },
+  applyVmResource: function (projectId, userId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId, params)
+  },
+  deleteVmResource: function (projectId, userId, vmId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '?userId=' + userId)
+  },
+  uploadFile: function (projectId, vmId, userId, params) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
+  },
+  // 生成镜像
+  createVmImageApi: function (projectId, userId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
+  },
+  // 获取镜像列表
+  getCreateImageListApi: function (projectId, userId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
+  },
+  // 删除镜像
+  deleteVmImageApi: function (projectId, userId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
+  },
+  // 下载镜像
+  downloadVmImageApi: function (projectId, vmId, userId) {
+    let params = {
+      url: 'mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package?userId=' + userId
+    }
+    return downloadFile(params)
+  }
+}
+
 export {
   Plugin,
   Api,
   Test,
-  Workspace
+  Workspace,
+  System,
+  vmService
 }

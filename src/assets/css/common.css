@@ -32,7 +32,6 @@ html,body{
 a{
   color: #688ef3;
   text-decoration: none;
-  color:#fff;
 }
 .markdown-body a{
   color: #688ef3 !important;
@@ -131,7 +130,7 @@ li{
   padding: 8px 24px;
 }
 .el-button.el-button--text{
-  padding: 8px 15px;
+  padding: 0px;
 }
 .el-dialog__header{
   background: #688ef3 !important;

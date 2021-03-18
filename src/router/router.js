@@ -85,6 +85,22 @@ export default new Router({
           }
         },
         {
+          path: 'mecDeveloper/plugin/docs',
+          name: 'devDocs',
+          component: () => import('../pages/plugin/Document.vue'),
+          meta: {
+            id: '3.1.6'
+          }
+        },
+        {
+          path: 'mecDeveloper/plugin/vueupload',
+          name: 'devDocs',
+          component: () => import('../pages/plugin/VueUpload.vue'),
+          meta: {
+            id: '3.1.6'
+          }
+        },
+        {
           path: 'mecDeveloper/api/mep',
           name: 'mep',
           component: () => import('../pages/abilityCenter/AbilityHome.vue'),
@@ -109,6 +125,14 @@ export default new Router({
           }
         },
         {
+          path: 'mecDeveloper/api/mep/ascend',
+          name: 'ascend',
+          component: () => import('../pages/abilityCenter/Ascend.vue'),
+          meta: {
+            id: '3.2.1'
+          }
+        },
+        {
           path: '/mecDeveloper/work',
           name: 'workspace',
           component: () => import('../pages/workspace/Index.vue'),
@@ -125,11 +149,19 @@ export default new Router({
           }
         },
         {
-          path: '/mecDeveloper/work/vmDetail',
-          name: 'appVMDetail',
-          component: () => import('../pages/workspace/product/Vm.vue'),
+          path: '/mecDeveloper/system/mep',
+          name: 'systemProject',
+          component: () => import('../pages/system/MepList.vue'),
           meta: {
-            id: '3.7'
+            id: '3.8'
+          }
+        },
+        {
+          path: '/mecDeveloper/system/host',
+          name: 'systemHost',
+          component: () => import('../pages/system/HostList.vue'),
+          meta: {
+            id: '3.9'
           }
         }
       ]

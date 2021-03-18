@@ -53,6 +53,8 @@ const mecDeveloper = [
       }, {
         id: '3.2.4',
         name: 'Document',
+        path: '/mecDeveloper/plugin/docs',
+        pageId: '2.2.1.4',
         display: true
       }
     ]
@@ -80,6 +82,31 @@ const mecDeveloper = [
     id: '3.17',
     name: 'Community Lab',
     display: true
+  }, {
+    id: '3.18',
+    name: 'System',
+    display: true,
+    pageId: '2.2.6',
+    path: '/mecDeveloper/system',
+    authority: ['ROLE_DEVELOPER_ADMIN'],
+    children: [
+      {
+        id: '3.20',
+        name: 'Host Management',
+        path: '/mecDeveloper/system/host',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN'],
+        pageId: '2.2.6.2'
+      },
+      {
+        id: '3.21',
+        name: 'Ability Center Management',
+        path: '/mecDeveloper/system/mep',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN'],
+        pageId: '2.2.6.3'
+      }
+    ]
   }
 ]
 

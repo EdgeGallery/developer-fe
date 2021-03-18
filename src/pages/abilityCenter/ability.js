@@ -19,6 +19,10 @@ import cn from '../../locales/cn.js'
 
 let allAbilities = []
 
+let getAbilitysByFirstLevelName = function (firstLevelName) {
+  return allAbilities.filter(item => item.labelEn === firstLevelName)
+}
+
 let getSecondLevelAbilitys = function (parentIndex) {
   if (parentIndex >= 0 && parentIndex < allAbilities.length) {
     if (allAbilities[parentIndex].children && allAbilities[parentIndex].children.length > 0) {
@@ -46,14 +50,14 @@ let insetNewNode = function (groupData, tempTreeData, lan) {
       let secondeLevelChildren = []
       secondeLevelChildren.push({ key: thirdLevelName, label: thirdLevelName, labelEn: thirdLevelNameEn, groupId: groupData.groupId })
       obj.children.push({
-        key: secondLevelName,
+        key: lan === 'en' ? secondLevelNameEn : secondLevelName,
         label: secondLevelName,
         labelEn: secondLevelNameEn,
         children: secondeLevelChildren
       })
     } else {
       obj.children.push({
-        key: secondLevelName,
+        key: lan === 'en' ? secondLevelNameEn : secondLevelName,
         label: secondLevelName,
         labelEn: secondLevelNameEn,
         groupId: groupData.groupId,
@@ -62,7 +66,7 @@ let insetNewNode = function (groupData, tempTreeData, lan) {
       })
     }
   }
-  obj.key = firstLevelName
+  obj.key = lan === 'en' ? firstLevelNameEn : firstLevelName
   obj.label = firstLevelName
   obj.labelEn = firstLevelNameEn
   tempTreeData.push(obj)
@@ -81,18 +85,19 @@ let initAbilities = function (groupDataFromServer, lan) {
   let tempTreeData = []
   for (let i = 0; i < groupDataFromServer.length; i++) {
     let firstLevelName = groupDataFromServer[i].oneLevelName
+    let firstLevelNameEn = groupDataFromServer[i].oneLevelNameEn
     let secondLevelName = groupDataFromServer[i].twoLevelName
     let thirdLevelName = groupDataFromServer[i].threeLevelName
     let secondLevelNameEn = groupDataFromServer[i].twoLevelNameEn
     let thirdLevelNameEn = groupDataFromServer[i].threeLevelNameEn
     let sameFirstNameItem = tempTreeData.filter(function (item) {
-      if (item.key === firstLevelName) {
+      if (item.key === (lan === 'en' ? firstLevelNameEn : firstLevelName)) {
         return item
       }
     })
     if (sameFirstNameItem.length > 0) {
       let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
-        if (item.key === secondLevelName) {
+        if (item.key === (lan === 'en' ? secondLevelNameEn : secondLevelName)) {
           return item
         }
       })
@@ -100,14 +105,14 @@ let initAbilities = function (groupDataFromServer, lan) {
         if (thirdLevelName) {
           if (sameSecondNameItem[0].children) {
             sameSecondNameItem[0].children.push({
-              key: thirdLevelName,
+              key: lan === 'en' ? thirdLevelNameEn : thirdLevelName,
               label: thirdLevelName,
               labelEn: thirdLevelNameEn,
               groupId: groupDataFromServer[i].groupId
             })
           } else {
             sameSecondNameItem[0].children = [].concat({
-              key: thirdLevelName,
+              key: lan === 'en' ? thirdLevelNameEn : thirdLevelName,
               label: thirdLevelName,
               labelEn: thirdLevelNameEn,
               groupId: groupDataFromServer[i].groupId
@@ -117,7 +122,7 @@ let initAbilities = function (groupDataFromServer, lan) {
       } else {
         if (thirdLevelName) {
           sameFirstNameItem[0].children.push({
-            key: secondLevelName,
+            key: lan === 'en' ? secondLevelNameEn : secondLevelName,
             label: secondLevelName,
             labelEn: secondLevelNameEn,
             groupId: groupDataFromServer[i].groupId,
@@ -125,7 +130,7 @@ let initAbilities = function (groupDataFromServer, lan) {
           })
         } else {
           sameFirstNameItem[0].children.push({
-            key: secondLevelName,
+            key: lan === 'en' ? secondLevelNameEn : secondLevelName,
             label: secondLevelName,
             labelEn: secondLevelNameEn,
             groupId: groupDataFromServer[i].groupId,
@@ -155,5 +160,6 @@ let initAbilities = function (groupDataFromServer, lan) {
 
 export default {
   initAbilities,
-  getSecondLevelAbilitys
+  getSecondLevelAbilitys,
+  getAbilitysByFirstLevelName
 }

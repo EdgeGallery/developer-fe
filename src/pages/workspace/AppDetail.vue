@@ -110,7 +110,12 @@
                 class="span_left"
                 :class="{'span_left_en':language==='en'}"
               >{{ $t('workspace.dependentApp') }}</span>
-              {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+              <span
+                class="span_right"
+                :class="{'span_right_en':language==='en'}"
+              >
+                {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+              </span>
             </el-col>
           </el-row>
           <el-row>
@@ -150,48 +155,58 @@
       >
         <span slot="label"><em :class="['tab_deploy',activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}</span>
         <div v-if="activeName === '4'">
-          <el-steps
-            :active="active"
-            finish-status="success"
-            align-center
+          <div
+            id="div_deploydebug_k8s"
+            v-if="deployPlatform === 'KUBERNETES'"
           >
-            <el-step :title="$t('workspace.selectImage')" />
-            <el-step :title="$t('workspace.configureYaml')" />
-            <el-step :title="$t('workspace.deploymentTest')" />
-          </el-steps>
-          <div class="elSteps">
-            <component
-              :is="currentComponent"
+            <el-steps
               :active="active"
-              @getStepData="getStepData"
-              @getBtnStatus="getBtnStatus"
-              :project-before-config="projectBeforeConfig"
-              :all-step-data="allStepData"
-              @getAppapiFileId="getAppapiFileId"
-              ref="currentComponet"
-              @checkCleanEnv="checkCleanEnv"
-            />
-          </div>
-          <div class="elButton">
-            <el-button
-              id="prevBtn"
-              type="text"
-              @click="previous"
-              v-if="active>0"
-              :disabled="isDeploying"
+              finish-status="success"
+              align-center
             >
-              <strong>{{ $t('workspace.previous') }}</strong>
-            </el-button>
-            <el-button
-              id="nextBtn"
-              type="primary"
-              v-loading="apiDataLoading"
-              @click="next"
-              v-if="active<2"
-            >
-              <strong>{{ $t('workspace.next') }}</strong>
-            </el-button>
+              <el-step :title="$t('workspace.selectImage')" />
+              <el-step :title="$t('workspace.configureYaml')" />
+              <el-step :title="$t('workspace.deploymentTest')" />
+            </el-steps>
+            <div class="elSteps">
+              <component
+                :is="currentComponent"
+                :active="active"
+                @getStepData="getStepData"
+                @getBtnStatus="getBtnStatus"
+                :project-before-config="projectBeforeConfig"
+                :all-step-data="allStepData"
+                @getAppapiFileId="getAppapiFileId"
+                ref="currentComponet"
+                @checkCleanEnv="checkCleanEnv"
+              />
+            </div>
+            <div class="elButton">
+              <el-button
+                id="prevBtn"
+                type="text"
+                @click="previous"
+                v-if="active>0"
+                :disabled="isDeploying"
+              >
+                <strong>{{ $t('workspace.previous') }}</strong>
+              </el-button>
+              <el-button
+                id="nextBtn"
+                type="primary"
+                v-loading="apiDataLoading"
+                @click="next"
+                v-if="active<2"
+              >
+                <strong>{{ $t('workspace.next') }}</strong>
+              </el-button>
+            </div>
           </div>
+          <DeployDebugVMMain
+            :project-id="projectId"
+            v-if="deployPlatform === 'VIRTUALMACHINE'"
+            @getImageStatus="getImageStatus"
+          />
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -203,6 +218,8 @@
         <appRelease
           v-if="activeName === '5'"
           :is-clean-env-prop="isCleanEnv"
+          :image-status-prop="imageStatus"
+          :deploy-platform-prop="deployPlatform"
         />
       </el-tab-pane>
       <div v-if="dialogVisible">
@@ -216,12 +233,13 @@
 </template>
 
 <script>
-import { Workspace } from '../../tools/api.js'
+import { Workspace, vmService } from '../../tools/api.js'
 import imageSelect from './ImageSelect.vue'
 import configYaml from './ConfigYaml.vue'
 import EnvPreparation from './EnvPreparation.vue'
 import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
+import DeployDebugVMMain from './vmdebug/Main.vue'
 import { Industry, Type } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
 import deployment from './Deployment.vue'
@@ -234,6 +252,7 @@ export default {
     EnvPreparation,
     choosePlatform,
     publishAppDialog,
+    DeployDebugVMMain,
     api,
     deployment,
     appRelease
@@ -276,7 +295,9 @@ export default {
       projectId: sessionStorage.getItem('mecDetailID'),
       dependentNum: 0,
       isAppDevelopment: true,
-      isCleanEnv: false
+      isCleanEnv: false,
+      imageStatus: 'NOTDEPLOY',
+      deployPlatform: ''
     }
   },
   methods: {
@@ -289,12 +310,16 @@ export default {
         } else if (data.projectType === 'INTEGRATED') {
           this.isAppDevelopment = false
         }
+        if (data.deployPlatform === 'VIRTUALMACHINE') {
+          this.getCreateImageList()
+        }
         this.projectDetailData.name = data.name
         this.projectDetailData.version = data.version
         this.projectDetailData.provider = data.provider
         this.projectDetailData.industry = data.industry[0]
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
+        this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
         let dependent = res.data.capabilityList
         let arr = []
@@ -310,12 +335,14 @@ export default {
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
-        if (data.status !== 'ONLINE') {
-          this.active = 2
-          this.changeComponent()
-        } else {
-          this.active = 0
-          this.changeComponent()
+        if (this.deployPlatform === 'KUBERNETES') {
+          if (data.status !== 'ONLINE') {
+            this.active = 2
+            this.changeComponent()
+          } else {
+            this.active = 0
+            this.changeComponent()
+          }
         }
       })
     },
@@ -403,6 +430,20 @@ export default {
         } else {
           if (this.projectDetailData.type === itemFe.label[0]) {
             this.projectDetailData.type = itemFe.label[1]
+          }
+        }
+      })
+    },
+    getImageStatus (data) {
+      this.imageStatus = data
+      this.isCleanEnv = true
+    },
+    getCreateImageList () {
+      vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
+        if (res.data) {
+          this.imageStatus = res.data.status
+          if (res.data.status === 'SUCCESS') {
+            this.isCleanEnv = true
           }
         }
       })
@@ -603,15 +644,26 @@ export default {
       .el-col{
         padding: 15px 10px;
         font-size: 16px;
+        line-height: 25px;
+        span{
+          line-height: 25px;
+        }
         .span_left{
+          float: left;
           color: #adb0b8;
-          display: inline-block;
-          min-width: 95px;
+          width: 95px;
           text-align: right;
           padding-right: 20px;
         }
         .span_left_en{
           width: 165px;
+        }
+        .span_right{
+          float: left;
+          width: calc(100% - 115px);
+        }
+        .span_right_en{
+          width: calc(100% - 185px);
         }
       }
     }

@@ -44,10 +44,19 @@
           </span>
           <span
             class="mulator-link"
-            @click="amulatorClick"
+            @click="amulatorClick(item)"
             :id="item.id"
           >
             {{ $t('api.onlineEmulator') }}
+          </span>
+          <span
+            class="exp-link"
+            v-if="item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection'"
+            @click="toOnlineExperience(item)"
+            :id="item.id"
+          >
+            {{ $t('api.onlineExperience') }}
+            <span class="exp-icon" />
           </span>
         </div>
       </div>
@@ -108,8 +117,9 @@ export default {
         temp.push({
           id: subAbility[i].groupId,
           appName: this.$i18n.locale === 'en' ? subAbility[i].labelEn : subAbility[i].label,
-          appNameKey: subAbility[i].key, // Name国际化key
-          appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description, // TODO
+          appNameKey: subAbility[i].key,
+          appNameEn: subAbility[i].labelEn,
+          appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description,
           docRouterIndex: '',
           apiRouterIndex: ''
         })
@@ -117,24 +127,16 @@ export default {
       return temp
     },
     serviceDocClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
-      window.open(routeUrl.href, '_blank')
+      this.$router.push({ name: 'serviceDoc', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
     },
-    amulatorClick (event) {
-      let routeUrl = this.$router.resolve({ name: 'apiAmulator', query: { groupId: event.currentTarget.id, language: this.$i18n.locale } })
-      window.open(routeUrl.href, '_blank')
+    amulatorClick (item) {
+      this.$router.push({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
+    },
+    toOnlineExperience (item) {
+      let routeUrl = 'http://124.70.102.14:30222/#/' + item.appNameEn.replace(/\s*/g, '')
+      window.open(routeUrl, '_blank')
     }
-  },
-  created () {},
-  mounted () {},
-  beforeCreate () {},
-  beforeMount () {
-  },
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>
@@ -193,6 +195,22 @@ export default {
     padding-left: 5px;
     color: #00a4ff;
     cursor: pointer;
+  }
+  .exp-link{
+    padding-left: 5px;
+    color: #f30a0a;
+    cursor: pointer;
+    border-left: 1px solid #ddd;
+  }
+  .exp-icon{
+    display: inline-block;
+    position: relative;
+    top: -4px;
+    right: 7px;
+    height: 21px;
+    width: 18px;
+    background: url('../../assets/images/hot.png') center no-repeat;
+    background-size: contain;
   }
 }
 @media screen and (min-width: 769px) {

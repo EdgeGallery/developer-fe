@@ -258,6 +258,20 @@
                   :label="$t('workspace.podBelongsTo')"
                 />
                 <el-table-column
+                  prop="podEventsInfo"
+                  :label="$t('workspace.podEventsInfo')"
+                >
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="seeDetails(scope.row.podEventsInfo)"
+                    >
+                      {{ $t('workspace.podEventsInfo') }}
+                    </el-button>
+                  </template>
+                </el-table-column>
+
+                <el-table-column
                   prop="metricsusage.cpuusage"
                   :label="$t('workspace.cpuUsage')"
                   sortable
@@ -559,6 +573,7 @@ export default {
             continue
           }
           container.podName = pod.podname
+          container.podEventsInfo = pod.podEventsInfo
           container.containerStatus = pod.podstatus
           container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
           container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
@@ -583,6 +598,11 @@ export default {
       } else {
         this.$refs.carousel.setActiveItem('1')
       }
+    },
+    seeDetails: function (events) {
+      this.$alert(events, this.$t('workspace.podEventsInfo'), {
+        confirmButtonText: this.$t('common.confirm')
+      })
     }
   },
   created () { },

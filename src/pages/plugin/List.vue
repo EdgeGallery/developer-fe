@@ -71,6 +71,7 @@
         <el-table
           :data="searchListData"
           style="width: 100%"
+          header-cell-class-name="headerStyle"
         >
           <el-table-column
             :label="$t('workspace.icon')"
@@ -129,7 +130,7 @@
               >
                 <el-button
                   id="downloadBtn"
-                  class="btn el-icon-download"
+                  class="el-icon-download"
                   type="text"
                   @click="rateConfirm(scope.row)"
                 >
@@ -139,7 +140,6 @@
               <el-button
                 id="detailBtn"
                 type="text"
-                class="btn"
                 @click="toDetail(scope.row)"
               >
                 {{ $t('devTools.detail') }}
@@ -148,13 +148,22 @@
                 id="deleteBtn"
                 :disabled="scope.row.userId===userId?false:true"
                 type="text"
-                class="btn"
                 @click="deletePlug(scope.row)"
               >
                 {{ $t('devTools.delete') }}
               </el-button>
             </template>
           </el-table-column>
+          <template slot="empty">
+            <div>
+              <img
+                src="../../assets/images/empty.png"
+                alt=""
+                style="padding: 10px;"
+              >
+              <p>{{ $t('api.noDataNotice') }}</p>
+            </div>
+          </template>
         </el-table>
 
         <div
@@ -457,6 +466,9 @@ export default {
     .list-select{
       margin-right:10px;
     }
+    .el-select {
+      width: auto!important;
+    }
     .enterinput{
       display: inline-block;
       width: 200px;
@@ -485,7 +497,7 @@ export default {
       }
     }
     .el-table td{
-      padding: 30px 0;
+      padding: 30px 0!important;
       .cell p{
         line-height: 25px;
         .span-left{
@@ -508,7 +520,7 @@ export default {
         color: #c0c4cc;
       }
       .el-button{
-        margin-right: 15px;
+        margin-right: 15px!important;
         margin-left: 0;
       }
     }

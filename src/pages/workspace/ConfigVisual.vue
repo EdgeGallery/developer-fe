@@ -838,6 +838,7 @@ export default {
         podDataTemp.forEach(podItem => {
           podItem.metadata.labels.app = podItem.metadata.name
           podItem.spec.containers.forEach(containersItem => {
+            containersItem.image = '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/' + containersItem.image
             if (containersItem.command !== '' || containersItem.command !== null) {
               let str = containersItem.command
               let arr = str.split(' ')
@@ -929,6 +930,7 @@ export default {
         })
         podDataArr.forEach(podItem => {
           podItem.spec.containers.forEach((containersItem, containerIndex) => {
+            containersItem.image = containersItem.image.replace('{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/', '')
             let keysArr = []
             for (let keys in containersItem) {
               keysArr.push(keys)
@@ -969,7 +971,6 @@ export default {
           })
         })
         this.podData = podDataArr
-        console.log(this.podData)
       })
     },
     setApiHeight () {

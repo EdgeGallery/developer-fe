@@ -17,7 +17,6 @@
 <template>
   <div>
     <div
-      v-if="contentId === 'mep-NEW'"
       class="home"
     >
       <div class="topLine">
@@ -40,8 +39,6 @@
             />
             <ability-instru
               :parent-tab-index="currentSelTabIndex"
-              @showServiceDoc="showServiceDoc"
-              @showAmulator="showAmulator"
             />
             <ability-portal
               :ability-line-no="2"
@@ -49,6 +46,23 @@
               @updateAbilityInstru="updateAbilityInstru"
               style="margin-top: 20px"
             />
+          </div>
+        </div>
+      </div>
+      <div class="centerLine">
+        <div class="inner">
+          <div class="inner-hd">
+            <h2 class="inner-hd-title">
+              {{ $t('api.telecomStandardCapabilitieTitle') }}
+            </h2>
+          </div>
+          <div class="inner-bd">
+            <ability-portal
+              :is-telecom-ability-portals="true"
+              :abilities="telecomStandardAbilities"
+              @updateAbilityInstru="updateTelecomStandardPanorama"
+            />
+            <ability-brain-map :parent-tab-index="telecomCurrentSelTabIndex" />
           </div>
         </div>
       </div>
@@ -65,57 +79,52 @@
         </div>
       </div>
     </div>
-    <service-doc
-      v-else-if="contentId === 'serviceDoc'"
-      :group-id="groupId"
-    />
-    <api-amulator
-      v-else-if="contentId === 'apiAmulator'"
-      :group-id="groupId"
-    />
   </div>
 </template>
 
 <script>
 import AbilityInstru from './AbilityInstru.vue'
 import AbilityPortal from './AbilityPortal.vue'
-import ApiAmulator from './ApiAmulator.vue'
 import PracticePortal from './PracticePortal.vue'
-import ServiceDoc from './ServiceDoc.vue'
 import abilityAPI from './ability.js'
 import { Api } from '../../tools/api.js'
+import AbilityBrainMap from './AbilityBrainMap.vue'
 
 export default {
   components: {
     AbilityPortal,
     AbilityInstru,
     PracticePortal,
-    ServiceDoc,
-    ApiAmulator
+    AbilityBrainMap
   },
   data () {
     return {
       currentSelTabIndex: -1,
-      contentId: 'mep-NEW', // 可取值 mep-NEW，serviceDoc，apiAmulator
       groupId: '',
       firstLineAbilities: [],
-      secondLineAbilities: []
+      secondLineAbilities: [],
+      telecomStandardAbilities: [{
+        labelEn: 'ETSI',
+        label: 'ETSI',
+        index: 0
+      }, {
+        labelEn: '3GPP',
+        label: '3GPP',
+        index: 1
+      }],
+      telecomCurrentSelTabIndex: -1
     }
   },
   computed: {},
   watch: {},
   methods: {
+    // 更新全景图
+    updateTelecomStandardPanorama (clickIndex) {
+      this.telecomCurrentSelTabIndex = clickIndex
+    },
     updateAbilityInstru (clickIndex) {
       this.currentSelTabIndex = clickIndex
       // 更新active的对象
-    },
-    showServiceDoc (groupId) {
-      this.contentId = 'serviceDoc'
-      this.groupId = groupId
-    },
-    showAmulator (groupId) {
-      this.contentId = 'apiAmulator'
-      this.groupId = groupId
     },
     initAbilities () {
       Api.getCapabilityGroupsApi()
@@ -125,22 +134,13 @@ export default {
           this.firstLineAbilities = allAbilitys.slice(0, 5)
           this.secondLineAbilities = allAbilitys.slice(5, 10)
           this.currentSelTabIndex = 0
+          this.telecomCurrentSelTabIndex = 0
         })
     }
   },
-  created () {
-  },
-  mounted () {
-  },
-  beforeCreate () {},
   beforeMount () {
     this.initAbilities()
-  },
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>

@@ -13,10 +13,8 @@
 <script>
     openTerminal( {
         operate:'connect',
-        host: '',//IP
-        port: '',//端口号
-        username: '',//用户名
-        password: ''//密码
+        userId: window.sessionStorage.getItem("userId"),
+        projectId: window.sessionStorage.getItem("mecDetailID")
     });
     function openTerminal(options){
         var client = new WSSHClient();

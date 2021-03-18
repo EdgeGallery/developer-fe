@@ -38,6 +38,7 @@
       :data="currentData"
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
+      header-cell-class-name="headerStyle"
     >
       <el-table-column
         prop="iconUrl"
@@ -124,7 +125,10 @@
           <span v-if="scope.row.status==='RELEASED'">{{ $t('workspace.statusReleased') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('workspace.operation')">
+      <el-table-column
+        :label="$t('workspace.operation')"
+        width="120"
+      >
         <template slot-scope="scope">
           <el-button
             id="deleteBtn"
@@ -142,9 +146,18 @@
           >
             {{ $t('workspace.detail') }}
           </el-button>
-          <span id="projectId">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
+      <template slot="empty">
+        <div>
+          <img
+            src="../../assets/images/empty.png"
+            alt=""
+            style="padding: 10px;"
+          >
+          <p>{{ $t('api.noDataNotice') }}</p>
+        </div>
+      </template>
     </el-table>
     <div class="cleafix" />
     <div class="pagebar">
@@ -233,21 +246,12 @@ export default {
     toDetail (item) {
       let mecDetailID = item.id
       sessionStorage.setItem('mecDetailID', mecDetailID)
-      if (item.deployPlatform === 'VIRTUALMACHINE') {
-        this.$router.push({
-          name: 'appVMDetail',
-          params: {
-            id: mecDetailID
-          }
-        })
-      } else {
-        this.$router.push({
-          name: 'appDetail',
-          params: {
-            id: mecDetailID
-          }
-        })
-      }
+      this.$router.push({
+        name: 'appDetail',
+        params: {
+          id: mecDetailID
+        }
+      })
     },
     // 根据名称查询列表
     selectProjectList () {
@@ -322,9 +326,6 @@ export default {
     tbody {
       td {
         padding: 8px !important;
-        .el-button--text {
-          color: #5b7ede !important;
-        }
         em{
           margin-right: 5px;
         }

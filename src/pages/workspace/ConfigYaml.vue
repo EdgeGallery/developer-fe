@@ -237,7 +237,7 @@ export default {
         if (error.response.data.code === 403) {
           this.$message.error(this.$t('promptMessage.guestPrompt'))
         } else {
-          this.$message.error(this.$t('promptMessage.uploadFailure'))
+          this.$message.error(this.$t('promptMessage.uploadYamlFailure'))
         }
         this.appYamlFileId = ''
         this.yamlFileList = []

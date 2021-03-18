@@ -31,7 +31,8 @@ let codeErr = false
 function getCookie (name) {
   let arr = []
   let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-  if (arr === document.cookie.match(reg)) {
+  arr = document.cookie.match(reg)
+  if (arr) {
     return (arr[2])
   } else {
     return null
@@ -211,6 +212,16 @@ function loginApi () {
   })
 }
 
+function uniqueArray (arrData) {
+  let _resultData = []
+  for (let item of arrData) {
+    if (_resultData.indexOf(item) === -1) {
+      _resultData.push(item)
+    }
+  }
+  return _resultData
+}
+
 export {
   Get,
   Post,
@@ -223,5 +234,7 @@ export {
   logoutApi,
   loginApi,
   codeErr,
-  GetFun
+  GetFun,
+  uniqueArray,
+  getCookie
 }
