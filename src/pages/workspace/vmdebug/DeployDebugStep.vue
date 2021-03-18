@@ -97,12 +97,16 @@
                     :title="item.log"
                   >
                     <em
-                      v-if="item.status!=='SUCCESS'"
+                      v-if="item.status==='CREATING'"
                       class="el-icon-loading deploying icon"
                     />
                     <em
                       v-if="item.status==='SUCCESS'"
                       class="el-icon-success success icon"
+                    />
+                    <em
+                      v-if="item.status==='FAILED'"
+                      class="el-icon-error error icon"
                     />
                     {{ item.log }}
                   </el-form-item>
@@ -144,6 +148,7 @@
             class="btn-addRes"
             type="primary"
             @click="handleNewResource"
+            :disabled="resourceListData.length!==0"
           >
             {{ $t('workspace.deployDebugVm.applyResource') }}
           </el-button>
@@ -205,12 +210,16 @@ export default {
     loadVmResourceDataList () {
       vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
         let _data = res.data
-        _data.forEach(item => {
-          item.createTime = this.dateChange(item.createTime)
-          if (item.status === 'SUCCESS') {
-            this.clearInterval()
-          }
-        })
+        if (_data.length === 0) {
+          this.clearInterval()
+        } else {
+          _data.forEach(item => {
+            item.createTime = this.dateChange(item.createTime)
+            if (item.status === 'SUCCESS') {
+              this.clearInterval()
+            }
+          })
+        }
         this.resourceListData = _data
       }).catch(() => {
         this.resourceListData = []
@@ -323,12 +332,16 @@ export default {
     .el-form-item__content{
       line-height: 40px;
     }
-    .vm_log{
-      height: 40px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  }
+  .vm_log .el-form-item__content{
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-overflow: -o-ellipsis-lastline;
+    display: -webkit-box;
+    line-clamp:2;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
   }
 }
 .box-card{
