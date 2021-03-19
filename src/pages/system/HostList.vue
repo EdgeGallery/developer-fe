@@ -40,7 +40,7 @@
         >
           <el-table-column
             prop="userName"
-            :label="$t('system.log.userName')"
+            :label="$t('system.log.userId')"
           />
           <el-table-column
             prop="projectName"

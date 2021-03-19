@@ -258,6 +258,8 @@ export default {
     }
     .el-icon-question:before{
       color: #688ef3;
+      font-size: 16px;
+      margin-left: 5px;
     }
     .el-icon-question.gray:before{
       color: #adb0b8;
@@ -334,9 +336,6 @@ export default {
       .el-icon-question{
         margin-top: 3px;
         position:absolute;
-      }
-      .el-icon-question:before{
-        font-size: 16px;
       }
       .port_div, .ip_div, .node-info-title{
         float: left;

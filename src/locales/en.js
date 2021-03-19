@@ -661,7 +661,8 @@ const en = {
     systemCapaDescEn: 'Please enter a English description with a length of 1-200',
     systemServiceName: 'Please enter a service name with a length of 1-20',
     systemProviderName: 'Please enter a provider name with a length of 1-20',
-    systemDocument: 'Please upload Chinese and English documentation'
+    systemDocument: 'Please upload Chinese and English documentation',
+    imageFileType: 'Please upload files in .rar, .tar, .zip format'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

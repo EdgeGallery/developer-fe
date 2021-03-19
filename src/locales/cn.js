@@ -661,7 +661,8 @@ const cn = {
     systemCapaDescEn: '请输入长度1-200的英文描述',
     systemServiceName: '请输入长度1-20的服务名称',
     systemProviderName: '请输入长度1-20的供应商名称',
-    systemDocument: '请上传中文和英文说明文档'
+    systemDocument: '请上传中文和英文说明文档',
+    imageFileType: '请上传.rar，.tar，.zip格式的文件'
   },
   breadCrumb: {
     mecDeveloper: '首页',
