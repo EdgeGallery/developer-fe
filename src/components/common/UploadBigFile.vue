@@ -101,7 +101,4 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.uploader-file[status=success] .uploader-file-remove{
-  display: block !important;
-}
 </style>
