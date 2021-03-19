@@ -428,8 +428,8 @@ export default {
         protocol: 'http'
       },
       rules: {
-        apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile') }],
-        guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument') }],
+        apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
+        guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument'), trigger: 'change' }],
         twoLevelName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
           { pattern: /^[\u4E00-\u9FA5]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
@@ -557,9 +557,8 @@ export default {
             } else {
               throw new Error()
             }
-          }).catch((error) => {
-            const msg = (error && error.response && error.response.data) ? error.response.data.message : `${this.$t(`${this.form.groupId ? 'api.modify' : 'system.addMep'}`)}${this.$t(`system.error`)}`
-            this.$message.error(msg)
+          }).catch(() => {
+            this.$message.error(`${this.$t('system.addMep')}${this.$t('system.error')}`)
           }).finally(() => {
             this.loading = false
             this.getListData()

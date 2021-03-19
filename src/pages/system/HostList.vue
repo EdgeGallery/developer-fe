@@ -550,9 +550,8 @@ export default {
             } else {
               throw new Error()
             }
-          }).catch(error => {
-            const msg = (error && error.response && error.response.data) ? error.response.data.message : `${this.$t(`${this.form.hostId ? 'api.modify' : 'system.addHost'}`)}${this.$t(`system.error`)}`
-            this.$message.error(msg)
+          }).catch(() => {
+            this.$message.error(`${this.$t('system.addHost')}${this.$t('system.error')}`)
           }).finally(() => {
             this.loading = false
             this.getListData()
