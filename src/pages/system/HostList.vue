@@ -265,7 +265,7 @@
         </el-button>
       </div>
     </el-dialog>
-    <div class="list">
+    <div class="list clear">
       <div class="title">
         <el-button
           type="primary"
@@ -478,7 +478,7 @@ export default {
         ],
         password: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.password')}` },
-          { min: 1, max: 10, message: `${this.$t('system.pleaseInput')}1~10 ${this.$t('system.char')}` }
+          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
         ],
         status: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.status')}` }
@@ -647,7 +647,7 @@ export default {
     padding: 0 20px 0 0
   }
   .list {
-    height: 800px;
+    min-height: 500px;
     background-color: white;
     padding: 20px;
     .title{

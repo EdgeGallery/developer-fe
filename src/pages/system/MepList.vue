@@ -155,7 +155,7 @@
             :on-exceed="handleExceed"
             :on-remove="(file) => { handleRemove('guideFileIdEn', file) }"
             accept=".md"
-            class="w50 lt right_item"
+            class="w50 lt"
           >
             <el-button
               slot="trigger"
@@ -273,7 +273,7 @@
         </el-button>
       </div>
     </el-dialog>
-    <div class="list">
+    <div class="list clear">
       <div class="title">
         <el-button
           type="primary"
@@ -473,7 +473,7 @@ export default {
           { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemProviderName') }
         ]
       },
-      visible: true,
+      visible: false,
       allListData: [],
       enterQuery: '',
       loading: false,
@@ -698,7 +698,7 @@ export default {
     padding: 0 20px 0 0
   }
   .list {
-    height: 800px;
+    min-height: 500px;
     background-color: white;
     padding: 20px;
     .title{
