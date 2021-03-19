@@ -656,10 +656,10 @@ const cn = {
     hostErrorInfo: '请输入正确的Host地址',
     portErrorInfo: '端口号范围30000-30400',
     systemCapaNameCn: '请输入长度1-20的中文名称',
-    systemCapaNameEn: '请输入长度1-30的英文名称',
-    systemCapaDescCn: '请输入长度1-200的中文描述',
+    systemCapaNameEn: '请输入长度1-40的英文名称',
+    systemCapaDescCn: '请输入长度1-100的中文描述',
     systemCapaDescEn: '请输入长度1-200的英文描述',
-    systemServiceName: '请输入长度1-30的服务名称',
+    systemServiceName: '请输入长度1-20的服务名称',
     systemProviderName: '请输入长度1-20的供应商名称',
     systemDocument: '请上传中文和英文说明文档'
   },

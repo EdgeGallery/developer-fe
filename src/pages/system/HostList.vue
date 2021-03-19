@@ -445,7 +445,7 @@ export default {
         // configId: [{ required: true, validator: (r, v, callback) => { validate(['configId'], callback, this.$t('system.pleaseUpload')) } }],
         name: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.name')}` },
-          { min: 6, max: 50, message: `${this.$t('system.pleaseInput')}6~50 ${this.$t('system.char')}` }
+          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
         ],
         os: [
           { required: true }
@@ -470,7 +470,7 @@ export default {
         ],
         address: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.address')}` },
-          { min: 1, max: 200, message: `${this.$t('system.pleaseInput')}1~200 ${this.$t('system.char')}` }
+          { min: 1, max: 100, message: `${this.$t('system.pleaseInput')}1~100 ${this.$t('system.char')}` }
         ],
         userName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.username')}` },
