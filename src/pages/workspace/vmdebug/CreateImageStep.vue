@@ -134,8 +134,7 @@ export default {
     getCreateImageList () {
       this.imageList = []
       vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
-        console.log(JSON.stringify(res.data))
-        if (JSON.stringify(res.data) === '{}') {
+        if (JSON.stringify(res.data) === '') {
           this.clearInterval()
         } else {
           this.imageList.push(res.data)
