@@ -166,6 +166,12 @@ div::-webkit-scrollbar-thumb{
 .el-select-dropdown__list {
   padding: 0px 0 !important;
 }
+.el-form-item .el-form-item__content{
+  line-height:40px;
+}
+.el-form-item--small .el-form-item__content{
+  line-height:32px;
+}
 
 
 /* 自适应
