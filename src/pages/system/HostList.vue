@@ -39,8 +39,8 @@
           :style="{maxHeight: '300px', overflow: 'auto'}"
         >
           <el-table-column
-            prop="userName"
-            :label="$t('system.log.userId')"
+            prop="userId"
+            :label="$t('system.log.userName')"
           />
           <el-table-column
             prop="projectName"

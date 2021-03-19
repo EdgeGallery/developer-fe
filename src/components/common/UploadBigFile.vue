@@ -78,7 +78,6 @@ export default {
   },
   created () {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
-    this.options.headers = {}
     let url = window.location.origin
     this.options.target = url + urlPrefix + 'mec/developer/v1/image/upload'
     this.mergerUrl = url + urlPrefix + 'mec/developer/v1/image/merge?fileName='
