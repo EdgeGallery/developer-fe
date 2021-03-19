@@ -493,6 +493,7 @@ const en = {
     uploadConfigMessage: 'Please Upload Your Configure File',
     deployConfig: 'Deploy Field',
     clearEnv: 'Testing Environment Cleared',
+    clearEnvFail: 'Testing Environment Cleared Failed',
     unUploaded: 'Empty',
     uploaded: 'Uploaded',
     privateHost: 'Private Host',
@@ -653,7 +654,14 @@ const en = {
     notDeploy: 'The application is not deployed, and the release operation cannot be performed',
     ipErrorInfo: 'Please enter the correct IP address',
     hostErrorInfo: 'Please enter the correct Host address',
-    portErrorInfo: 'Port number range 30000-30400'
+    portErrorInfo: 'Port number range 30000-30400',
+    systemCapaNameCn: 'Please enter a Chinese name with a length of 1-20',
+    systemCapaNameEn: 'Please enter a English name with a length of 1-30',
+    systemCapaDescCn: 'Please enter a Chinese description with a length of 1-200',
+    systemCapaDescEn: 'Please enter a English description with a length of 1-200',
+    systemServiceName: 'Please enter a service name with a length of 1-30',
+    systemProviderName: 'Please enter a provider name with a length of 1-20',
+    systemDocument: 'Please upload Chinese and English documentation'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

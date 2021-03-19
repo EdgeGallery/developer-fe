@@ -493,6 +493,7 @@ const cn = {
     uploadConfigMessage: '请上传部署文件',
     deployConfig: '部署配置',
     clearEnv: '已清空环境',
+    clearEnvFail: '清空环境失败',
     unUploaded: '未上传',
     uploaded: '已上传',
     privateHost: '私有节点',
@@ -653,7 +654,14 @@ const cn = {
     notDeploy: '应用没有部署调测，不能进行发布操作',
     ipErrorInfo: '请输入正确的IP地址',
     hostErrorInfo: '请输入正确的Host地址',
-    portErrorInfo: '端口号范围30000-30400'
+    portErrorInfo: '端口号范围30000-30400',
+    systemCapaNameCn: '请输入长度1-20的中文名称',
+    systemCapaNameEn: '请输入长度1-30的英文名称',
+    systemCapaDescCn: '请输入长度1-200的中文描述',
+    systemCapaDescEn: '请输入长度1-200的英文描述',
+    systemServiceName: '请输入长度1-30的服务名称',
+    systemProviderName: '请输入长度1-20的供应商名称',
+    systemDocument: '请上传中文和英文说明文档'
   },
   breadCrumb: {
     mecDeveloper: '首页',

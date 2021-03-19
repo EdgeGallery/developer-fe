@@ -469,13 +469,16 @@ export default {
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.protocol')}` }
         ],
         address: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.address')}` }
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.address')}` },
+          { min: 1, max: 200, message: `${this.$t('system.pleaseInput')}1~200 ${this.$t('system.char')}` }
         ],
         userName: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.username')}` }
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.username')}` },
+          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
         ],
         password: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.password')}` }
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.password')}` },
+          { min: 1, max: 10, message: `${this.$t('system.pleaseInput')}1~10 ${this.$t('system.char')}` }
         ],
         status: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.status')}` }

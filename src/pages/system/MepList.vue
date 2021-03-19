@@ -38,6 +38,8 @@
         :rules="rules"
         :label-width="formLabelWidth"
         label-position="right"
+        class="clear"
+        size="small"
       >
         <h3 :style="{margin: '10px 0px '}">
           {{ $t('system.basicInfo') }}
@@ -45,35 +47,41 @@
         <el-form-item
           :label="$t('system.capType')"
           prop="oneLevelName"
+          class="w50 lt"
         >
           <el-input
-            size="small"
             :placeholder="$t('system.zh_cn')"
             v-model="form.oneLevelName"
-            :style="{width: '200px'}"
           />
+        </el-form-item>
+        <el-form-item
+          prop="oneLevelNameEn"
+          class="w50 lt right_item"
+          label-width="0"
+        >
           <el-input
-            size="small"
             :placeholder="$t('system.en')"
             v-model="form.oneLevelNameEn"
-            :style="{width: '200px',marginLeft:'24px'}"
           />
         </el-form-item>
         <el-form-item
           :label="$t('system.serviceName')"
           prop="twoLevelName"
+          class="w50 lt"
         >
           <el-input
-            size="small"
             :placeholder="$t('system.zh_cn')"
             v-model="form.twoLevelName"
-            :style="{width: '200px'}"
           />
+        </el-form-item>
+        <el-form-item
+          prop="twoLevelNameEn"
+          class="w50 lt right_item"
+          label-width="0"
+        >
           <el-input
-            size="small"
             :placeholder="$t('system.en')"
             v-model="form.twoLevelNameEn"
-            :style="{width: '200px',marginLeft:'24px'}"
           />
         </el-form-item>
         <el-form-item
@@ -85,9 +93,10 @@
             :file-list="apiFileId_file_list"
             :limit="1"
             :auto-upload="false"
-            :on-change="(file) => { handleUpload('apiFileId', file) }"
+            :on-change="(file,fileList) => { handleUpload('apiFileId', file,fileList,['yaml', 'json'],'apiFile') }"
             :on-exceed="handleExceed"
             :on-remove="(file) => { handleRemove('apiFileId', file) }"
+            accept=".yaml,.json"
           >
             <el-button
               slot="trigger"
@@ -97,6 +106,13 @@
             >
               {{ $t('system.upload') + $t('system.apiFileId') }}
             </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="this.$t('devTools.apiText')"
+              placement="right"
+            >
+              <em class="el-icon-question" />
+            </el-tooltip>
           </el-upload>
         </el-form-item>
         <el-form-item
@@ -108,9 +124,11 @@
             :file-list="guideFileId_file_list"
             :limit="1"
             :auto-upload="false"
-            :on-change="(file) => { handleUpload('guideFileId', file) }"
+            :on-change="(file,fileList) => { handleUpload('guideFileId', file,fileList,['md'],'documentFile') }"
             :on-exceed="handleExceed"
             :on-remove="(file) => { handleRemove('guideFileId', file) }"
+            accept=".md"
+            class="w50 lt"
           >
             <el-button
               slot="trigger"
@@ -120,16 +138,24 @@
             >
               {{ $t('system.guideFileId_zh') }}
             </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="this.$t('workspace.apiFunctionMd')"
+              placement="right"
+            >
+              <em class="el-icon-question" />
+            </el-tooltip>
           </el-upload>
           <el-upload
-            :style="{marginTop: '20px'}"
             action=""
             :file-list="guideFileIdEn_file_list"
             :limit="1"
             :auto-upload="false"
-            :on-change="(file) => { handleUpload('guideFileIdEn', file) }"
+            :on-change="(file,fileList) => { handleUpload('guideFileIdEn', file,fileList,['md'],'documentFileEn') }"
             :on-exceed="handleExceed"
             :on-remove="(file) => { handleRemove('guideFileIdEn', file) }"
+            accept=".md"
+            class="w50 lt right_item"
           >
             <el-button
               slot="trigger"
@@ -139,24 +165,34 @@
             >
               {{ $t('system.guideFileId_en') }}
             </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="this.$t('workspace.apiFunctionMd')"
+              placement="right"
+            >
+              <em class="el-icon-question" />
+            </el-tooltip>
           </el-upload>
         </el-form-item>
         <el-form-item
           :label="$t('workspace.description')"
           prop="description"
+          class="w50 lt"
         >
           <el-input
             :placeholder="$t('system.zh_cn')"
-            :style="{width: '200px'}"
             type="textarea"
-            size="small"
             v-model="form.description"
           />
+        </el-form-item>
+        <el-form-item
+          prop="descriptionEn"
+          class="w50 lt right_item"
+          label-width="0"
+        >
           <el-input
             :placeholder="$t('system.en')"
-            :style="{width: '200px',marginLeft:'24px'}"
             type="textarea"
-            size="small"
             v-model="form.descriptionEn"
           />
         </el-form-item>
@@ -257,7 +293,7 @@
             :loading="loading"
             :style="{marginLeft: '10px'}"
             size="medium"
-            @click="handleChangePage('currentPage', 1)"
+            @click="searchListData"
           >
             {{ $t('test.testTask.inquire') }}
           </el-button>
@@ -354,15 +390,11 @@
         </template>
       </el-table>
       <div class="pagebar">
-        <el-pagination
-          background
-          @size-change="v => handleChangePage('pageSize', v)"
-          @current-change="v => handleChangePage('currentPage', v)"
-          :current-page="currentPage"
-          :page-sizes="[10, 1]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="listTotal"
+        <pagination
+          :table-data="allListData"
+          :list-total="listTotal"
+          @getCurrentPageData="getCurrentPageData"
+          ref="pagination"
         />
       </div>
     </div>
@@ -370,34 +402,22 @@
 </template>
 
 <script>
+import pagination from '../../components/common/Pagination.vue'
 import { System, Workspace } from '@/tools/api.js'
 
 export default {
   name: 'HostList',
   components: {
+    pagination
   },
   data () {
-    const validate = (v, callback, errorMsg, rules) => {
-      if (rules) {
-        rules.forEach(item => {
-          if (!item.rule(v)) {
-            return callback(new Error(item.message))
-          }
-        })
-      } else {
-        if (v.some(s => [undefined, null, ''].includes(this.form[s]))) {
-          return callback(new Error(errorMsg))
-        }
-      }
-      return callback()
-    }
     return {
-      listTotal: 0,
       apiFileId_file_list: [],
       guideFileId_file_list: [],
       guideFileIdEn_file_list: [],
-      pageSize: 10,
-      currentPage: 1,
+      limitSize: 2,
+      offsetPage: 0,
+      listTotal: 0,
       protocolOptions: [
         { label: 'HTTP', value: 'http' },
         { label: 'HTTPS', value: 'https' }
@@ -408,29 +428,52 @@ export default {
         protocol: 'http'
       },
       rules: {
-        apiFileId: [{ required: true, validator: (r, v, callback) => { validate(['apiFileId'], callback, this.$t('system.pleaseUpload')) } }],
-        guideFileId: [{ required: true, validator: (r, v, callback) => { validate(['guideFileId', 'guideFileIdEn'], callback, this.$t('system.pleaseUpload')) } }],
-        twoLevelName: [{ required: true, validator: (r, v, callback) => { validate(['twoLevelName', 'twoLevelNameEn'], callback, `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`) } }],
-        oneLevelName: [{ required: true, validator: (r, v, callback) => { validate(['oneLevelName', 'oneLevelNameEn'], callback, `${this.$t('system.pleaseInput')}${this.$t('system.capType')}`) } }],
+        apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile') }],
+        guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument') }],
+        twoLevelName: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
+          { pattern: /^[\u4E00-\u9FA5]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+        ],
+        twoLevelNameEn: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
+          { pattern: /^[^\u4E00-\u9FA5]{1,30}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+        ],
+        oneLevelName: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
+          { pattern: /^[\u4E00-\u9FA5]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+        ],
+        oneLevelNameEn: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
+          { pattern: /^[^\u4E00-\u9FA5]{1,30}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+        ],
         port: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.inPort')}` },
           { message: `${this.$t('system.pleaseInput')}${this.$t('system.correct')}${this.$t('system.inPort')}`, pattern: /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/ }
         ],
-        description: [{ required: true, validator: (r, v, callback) => { validate(['description', 'descriptionEn'], callback, `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}`) } }],
+        description: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
+          { pattern: /^[\u4E00-\u9FA5]{1,200}$/g, message: this.$t('promptMessage.systemCapaDescCn') }
+        ],
+        descriptionEn: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
+          { pattern: /^[^\u4E00-\u9FA5]{1,200}$/g, message: this.$t('promptMessage.systemCapaDescEn') }
+        ],
         protocol: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.protocol')}` }
         ],
         host: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` }
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
+          { pattern: /^[\S\s]{1,30}$/g, message: this.$t('promptMessage.systemServiceName') }
         ],
         version: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.version')}` }
         ],
         provider: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.provider')}` }
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.provider')}` },
+          { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemProviderName') }
         ]
       },
-      visible: false,
+      visible: true,
       allListData: [],
       enterQuery: '',
       loading: false,
@@ -445,6 +488,22 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.$refs['form'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['form'].validateField(item.labelFor)
+        }
+      })
+    },
+    $route (to, from) {
+      this.getListData()
+    },
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getListData()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
+      this.getListData()
     }
   },
   methods: {
@@ -457,7 +516,7 @@ export default {
         this.loading = true
         System.deleteService({ groupId }).finally(() => {
           this.loading = false
-          this.handleChangePage('currentPage', 1)
+          this.getListData()
         })
       }, () => {})
     },
@@ -466,13 +525,6 @@ export default {
     },
     handleExceed () {
       this.$message.warning(this.$t('system.fileExceed'))
-    },
-    handleChangePage (key, v) {
-      if (key === 'PageSize') {
-        this.currentPage = 1
-      }
-      this[key] = v
-      this.getListData()
     },
     onSubmit () {
       this.$refs.form.validate((valid, params) => {
@@ -515,10 +567,14 @@ export default {
         }
       })
     },
+    searchListData () {
+      sessionStorage.setItem('currentPage', 1)
+      this.getListData()
+    },
     // 获取列表
     getListData () {
       this.loading = true
-      const qs = { offset: this.currentPage - 1, limit: this.pageSize }
+      const qs = { offset: this.offsetPage, limit: this.limitSize }
       if (this.language === 'cn') {
         qs.twoLevelName = this.enterQuery
       } else {
@@ -535,8 +591,30 @@ export default {
       this[`${key}_file_list`] = []
       this.form[key] = ''
     },
-    handleUpload (key, file) {
-      this.submitFile(key, [file.raw])
+    // 检查上传文件类型
+    checkFileType (fileList, fileTypeArr, uploadFileList) {
+      let checkPassed = true
+      this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
+      if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
+        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        checkPassed = false
+      }
+      return checkPassed
+    },
+    handleUpload (key, file, fileList, fileTypeArr, fileName) {
+      let fileNameProp = fileName
+      let checkPassed = this.checkFileType(fileList, fileTypeArr)
+      if (!checkPassed) {
+        if (fileNameProp === 'apiFile') {
+          this.apiFileId_file_list = []
+        } else if (fileNameProp === 'documentFile') {
+          this.guideFileId_file_list = []
+        } else if (fileNameProp === 'documentFileEn') {
+          this.guideFileIdEn_file_list = []
+        }
+      } else {
+        this.submitFile(key, [file.raw])
+      }
     },
     submitFile (key, fileList) {
       const fd = new FormData()
@@ -574,6 +652,10 @@ export default {
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
+    },
+    getCurrentPageData (val, pageSize, start) {
+      this.limitSize = pageSize
+      this.offsetPage = start
     }
   }
 }
@@ -581,6 +663,33 @@ export default {
 
 <style lang="less">
 .capManagement {
+  .el-dialog{
+    width: 45%;
+  }
+  @media screen and (max-width:1380px){
+    .el-dialog{
+      width: 65%;
+    }
+  }
+  h3{
+    float: left;
+    width: 100%;
+  }
+  .el-form-item{
+    float: left;
+    width: 100%;
+    .el-input{
+      max-width: 290px;
+    }
+    .el-icon-question:before {
+      color: #688ef3;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+  }
+  .right_item{
+    padding-left: 20px;
+  }
   .w50 {
     width: 50%;
     display: inline-block;
