@@ -818,7 +818,7 @@ export default {
             this.$message.warning(this.$t('promptMessage.notDeploy'))
           }
         }
-        if (this.imageStatus !== 'SUCCESS') {
+        if (this.imageStatus !== 'SUCCESS' && this.deployPlatform === 'VIRTUALMACHINE') {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
