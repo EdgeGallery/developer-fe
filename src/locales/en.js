@@ -656,12 +656,13 @@ const en = {
     hostErrorInfo: 'Please enter the correct Host address',
     portErrorInfo: 'Port number range 30000-30400',
     systemCapaNameCn: 'Please enter a Chinese name with a length of 1-20',
-    systemCapaNameEn: 'Please enter a English name with a length of 1-30',
-    systemCapaDescCn: 'Please enter a Chinese description with a length of 1-200',
+    systemCapaNameEn: 'Please enter a English name with a length of 1-4',
+    systemCapaDescCn: 'Please enter a Chinese description with a length of 1-100',
     systemCapaDescEn: 'Please enter a English description with a length of 1-200',
-    systemServiceName: 'Please enter a service name with a length of 1-30',
+    systemServiceName: 'Please enter a service name with a length of 1-20',
     systemProviderName: 'Please enter a provider name with a length of 1-20',
-    systemDocument: 'Please upload Chinese and English documentation'
+    systemDocument: 'Please upload Chinese and English documentation',
+    imageFileType: 'Please upload files in .rar, .tar, .zip format'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

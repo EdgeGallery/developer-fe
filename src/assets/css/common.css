@@ -172,7 +172,9 @@ div::-webkit-scrollbar-thumb{
 .el-form-item--small .el-form-item__content{
   line-height:32px;
 }
-
+.el-form-item--mini .el-form-item__content{
+  line-height: 28px;
+}
 
 /* 自适应
 @media screen and (min-width: 1201px) { 

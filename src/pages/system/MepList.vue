@@ -428,23 +428,23 @@ export default {
         protocol: 'http'
       },
       rules: {
-        apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile') }],
-        guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument') }],
+        apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
+        guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument'), trigger: 'change' }],
         twoLevelName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^[\u4E00-\u9FA5]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+          { pattern: /^[^a-zA-Z]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
         ],
         twoLevelNameEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^[^\u4E00-\u9FA5]{1,30}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+          { pattern: /^[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
         ],
         oneLevelName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
-          { pattern: /^[\u4E00-\u9FA5]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+          { pattern: /^[^a-zA-Z]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
         ],
         oneLevelNameEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
-          { pattern: /^[^\u4E00-\u9FA5]{1,30}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+          { pattern: /^[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
         ],
         port: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.inPort')}` },
@@ -452,7 +452,7 @@ export default {
         ],
         description: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
-          { pattern: /^[\u4E00-\u9FA5]{1,200}$/g, message: this.$t('promptMessage.systemCapaDescCn') }
+          { pattern: /^[^a-zA-Z]{1,100}$/g, message: this.$t('promptMessage.systemCapaDescCn') }
         ],
         descriptionEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
@@ -463,10 +463,11 @@ export default {
         ],
         host: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^[\S\s]{1,30}$/g, message: this.$t('promptMessage.systemServiceName') }
+          { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemServiceName') }
         ],
         version: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.version')}` }
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.version')}` },
+          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
         ],
         provider: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.provider')}` },
@@ -557,9 +558,8 @@ export default {
             } else {
               throw new Error()
             }
-          }).catch((error) => {
-            const msg = (error && error.response && error.response.data) ? error.response.data.message : `${this.$t(`${this.form.groupId ? 'api.modify' : 'system.addMep'}`)}${this.$t(`system.error`)}`
-            this.$message.error(msg)
+          }).catch(() => {
+            this.$message.error(`${this.$t('system.addMep')}${this.$t('system.error')}`)
           }).finally(() => {
             this.loading = false
             this.getListData()

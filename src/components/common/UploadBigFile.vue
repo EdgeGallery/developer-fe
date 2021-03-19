@@ -20,10 +20,18 @@
       :options="options"
       class="uploader-example"
       @file-complete="fileComplete"
+      @file-added="onFileAdded"
     >
       <uploader-unsupport />
       <uploader-drop>
         <uploader-btn>{{ $t('workspace.uploadImage.uploadAppImage') }}</uploader-btn>
+        <el-tooltip
+          effect="dark"
+          :content="this.$t('promptMessage.imageFileType')"
+          placement="right"
+        >
+          <em class="el-icon-question" />
+        </el-tooltip>
       </uploader-drop>
       <uploader-list />
     </uploader>
@@ -49,6 +57,14 @@ export default {
     }
   },
   methods: {
+    onFileAdded (file) {
+      let typeName = file.file.name.substring(file.file.name.lastIndexOf('.') + 1)
+      let typeArr = ['rar', 'tar', 'zip']
+      if (typeArr.indexOf(typeName) === -1) {
+        file.ignored = true
+        this.$message.warning(this.$t('promptMessage.imageFileType'))
+      }
+    },
     fileComplete () {
       console.log('file complete', arguments)
       const file = arguments[0].file
@@ -62,8 +78,8 @@ export default {
   },
   created () {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
+    this.options.headers = {}
     let url = window.location.origin
-    url = url.replace('8083', '9082')
     this.options.target = url + urlPrefix + 'mec/developer/v1/image/upload'
     this.mergerUrl = url + urlPrefix + 'mec/developer/v1/image/merge?fileName='
   },
@@ -100,8 +116,5 @@ export default {
   overflow: auto;
   overflow-x: hidden;
   overflow-y: auto;
-}
-.uploader-file[status=success] .uploader-file-remove{
-  display: block !important;
 }
 </style>

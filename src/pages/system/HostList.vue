@@ -40,7 +40,7 @@
         >
           <el-table-column
             prop="userName"
-            :label="$t('system.log.userName')"
+            :label="$t('system.log.userId')"
           />
           <el-table-column
             prop="projectName"
@@ -445,7 +445,7 @@ export default {
         // configId: [{ required: true, validator: (r, v, callback) => { validate(['configId'], callback, this.$t('system.pleaseUpload')) } }],
         name: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.name')}` },
-          { min: 6, max: 50, message: `${this.$t('system.pleaseInput')}6~50 ${this.$t('system.char')}` }
+          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
         ],
         os: [
           { required: true }
@@ -470,7 +470,7 @@ export default {
         ],
         address: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.address')}` },
-          { min: 1, max: 200, message: `${this.$t('system.pleaseInput')}1~200 ${this.$t('system.char')}` }
+          { min: 1, max: 100, message: `${this.$t('system.pleaseInput')}1~100 ${this.$t('system.char')}` }
         ],
         userName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.username')}` },
@@ -550,9 +550,8 @@ export default {
             } else {
               throw new Error()
             }
-          }).catch(error => {
-            const msg = (error && error.response && error.response.data) ? error.response.data.message : `${this.$t(`${this.form.hostId ? 'api.modify' : 'system.addHost'}`)}${this.$t(`system.error`)}`
-            this.$message.error(msg)
+          }).catch(() => {
+            this.$message.error(`${this.$t('system.addHost')}${this.$t('system.error')}`)
           }).finally(() => {
             this.loading = false
             this.getListData()
