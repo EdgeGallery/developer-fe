@@ -27,16 +27,6 @@ export default {
   name: 'App',
   components: {
     Navcomp
-  },
-  data () {
-    return {
-    }
-  },
-
-  methods: {
-  },
-  created () {},
-  mounted () {
   }
 }
 </script>

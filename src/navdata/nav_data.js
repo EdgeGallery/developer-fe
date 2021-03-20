@@ -62,7 +62,7 @@ const mecDeveloper = [
   {
     id: '3.5',
     name: 'Ability Center',
-    path: '/mecDeveloper/api/mep', // TODO path优化
+    path: '/mecDeveloper/api/mep',
     pageId: '2.2.2',
     display: true
   },

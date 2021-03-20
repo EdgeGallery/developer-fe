@@ -154,7 +154,7 @@ export default {
   props: {
     allStepData: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
   components: {
@@ -208,14 +208,15 @@ export default {
     },
     // 移除Yaml文件
     removeUploadyaml (file, fileList) {
-      Workspace.deleteYamlFileApi(this.appYamlFileId)
-      this.submitData(null)
-      this.hasValidate = false
-      this.fileUploadSuccess = false
-      this.yamlFileList = []
-      this.appYamlFileId = ''
-      this.checkFlag = {}
-      this.markdownSource = ''
+      Workspace.deleteYamlFileApi(this.appYamlFileId).then(() => {
+        this.submitData(null)
+        this.hasValidate = false
+        this.fileUploadSuccess = false
+        this.yamlFileList = []
+        this.appYamlFileId = ''
+        this.checkFlag = {}
+        this.markdownSource = ''
+      })
     },
     // 上传Yaml文件
     submitYamlFile (yamlFileList) {
@@ -277,10 +278,7 @@ export default {
           ] : []
         }
         const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
-        func(this.projectId, this.userId, params).then(() => {
-        }).catch(err => {
-          console.log(err)
-        })
+        func(this.projectId, this.userId, params)
       })
     },
     initFileList () {

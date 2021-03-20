@@ -538,7 +538,7 @@ export default {
     },
     editRuleDataprop: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
   data () {
@@ -607,43 +607,6 @@ export default {
         }
       ],
       trafficRule: JSON.parse(JSON.stringify(this.editRuleDataprop)),
-      /* trafficRule: {
-        action: 'PASSTHROUGH',
-        filterType: 'FLOW',
-        priority: 1,
-        trafficRuleId: '',
-        trafficFilter: [
-          {
-            srcAddress: '0.0.0.0/0',
-            srcPort: '8080',
-            dstAddress: '172.30.2.0/28',
-            dstPort: '8080',
-            protocol: 'ANY',
-            tag: '1234',
-            qci: 1,
-            dscp: 0,
-            tc: 1,
-            srcTunnelAddress: '10.10.10.10',
-            srcTunnelPort: '8080',
-            tgtTunnelAddress: '10.10.10.10',
-            dstTunnelPort: '8080'
-          }
-        ],
-        dstInterface: [
-          {
-            interfaceType: '',
-            srcMACAddress: '',
-            dstMACAddress: '',
-            dstIPAddress: '',
-            tunnelInfo: {
-              tunnelType: '',
-              tunnelDstAddress: '',
-              tunnelsrcAddress: '',
-              tunnelSpecificData: ''
-            }
-          }
-        ]
-      }, */
       filterTableData: [],
       trafficFilter: {
         srcAddress: '',
@@ -660,21 +623,6 @@ export default {
         tgtTunnelAddress: '',
         dstTunnelPort: ''
       },
-      /* trafficFilter: {
-        srcAddress: '0.0.0.0/0',
-        srcPort: '8080',
-        dstAddress: '172.30.2.0/28',
-        dstPort: '8080',
-        protocol: 'ANY',
-        tag: '1234',
-        qci: 1,
-        dscp: 0,
-        tc: 1,
-        srcTunnelAddress: '10.10.10.10',
-        srcTunnelPort: '8080',
-        tgtTunnelAddress: '10.10.10.10',
-        dstTunnelPort: '8080'
-      }, */
       dstInterface: {
         interfaceType: '',
         srcMACAddress: '',

@@ -113,13 +113,13 @@ export default {
     getInstru (selIndex) {
       let subAbility = ability.getSecondLevelAbilitys(selIndex)
       let temp = []
-      for (let i = 0; i < subAbility.length; i++) {
+      for (let item of subAbility) {
         temp.push({
-          id: subAbility[i].groupId,
-          appName: this.$i18n.locale === 'en' ? subAbility[i].labelEn : subAbility[i].label,
-          appNameKey: subAbility[i].key,
-          appNameEn: subAbility[i].labelEn,
-          appInstru: this.$i18n.locale === 'en' ? subAbility[i].descriptionEn : subAbility[i].description,
+          id: item.groupId,
+          appName: this.$i18n.locale === 'en' ? item.labelEn : item.label,
+          appNameKey: item.key,
+          appNameEn: item.labelEn,
+          appInstru: this.$i18n.locale === 'en' ? item.descriptionEn : item.description,
           docRouterIndex: '',
           apiRouterIndex: ''
         })

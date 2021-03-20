@@ -158,8 +158,6 @@ export default {
       }
     }
   },
-  created () {
-  },
   mounted () {
     this.getApiFileId()
   }

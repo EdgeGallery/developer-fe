@@ -604,7 +604,6 @@ export default {
       })
     }
   },
-  created () { },
   mounted () {
     if (this.isCleanTestEnv === 'Releaseed') {
       this.testEnvReleased()

@@ -168,8 +168,6 @@ export default {
         this.uploadBtnLoading = false
       })
     }
-  },
-  mounted () {
   }
 }
 

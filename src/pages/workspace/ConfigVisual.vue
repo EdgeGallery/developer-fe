@@ -497,7 +497,7 @@ export default {
   props: {
     allStepData: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
   data () {
@@ -888,10 +888,7 @@ export default {
           ] : []
         }
         const func = params.testId ? Workspace.putTestConfigApi : Workspace.postTestConfigApi
-        func(this.projectId, this.userId, params).then(() => {
-        }).catch(err => {
-          console.log(err)
-        })
+        func(this.projectId, this.userId, params)
       })
     },
     // 获取生成的配置文件
@@ -1017,14 +1014,10 @@ export default {
       this.isEditFile = false
     }
   },
-  created () {
-  },
   watch: {
     markdownSource (newVal, oldVal) {
       this.markdownSource = newVal
     }
-  },
-  mounted () {
   }
 }
 </script>

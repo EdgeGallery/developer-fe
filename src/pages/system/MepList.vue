@@ -519,7 +519,7 @@ export default {
           this.loading = false
           this.getListData()
         })
-      }, () => {})
+      })
     },
     onClose () {
       this.visible = false
@@ -553,13 +553,13 @@ export default {
             ...rest
           }).then(res => {
             if (res && res.data && res.data.groupId) {
-              this.$message.success(`${this.$t(`${this.form.groupId ? 'api.modify' : 'system.addMep'}`)}${this.$t(`system.success`)}`)
+              this.$message.success((this.form.groupId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'))
               this.onClose()
             } else {
               throw new Error()
             }
           }).catch(() => {
-            this.$message.error(`${this.$t('system.addMep')}${this.$t('system.error')}`)
+            this.$message.error(this.$t('system.addMep') + this.$t('system.error'))
           }).finally(() => {
             this.loading = false
             this.getListData()

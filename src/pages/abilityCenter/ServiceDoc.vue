@@ -80,7 +80,6 @@ export default {
       return this.$i18n.locale === 'en' ? this.serviceList[0].guideFileIdEn : this.serviceList[0].guideFileId
     }
   },
-  watch: {},
   methods: {
     initServices () {
       Api.getServiceListApi(this.$route.query.groupId)
@@ -97,19 +96,9 @@ export default {
         })
     }
   },
-  created () {
-  },
-  mounted () {
-  },
-  beforeCreate () {},
   beforeMount () {
     this.initServices()
-  },
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>

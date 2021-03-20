@@ -69,10 +69,6 @@ export default {
         protocol: 'HTTP'
       }]
     }
-  },
-  methods: {
-  },
-  mounted () {
   }
 }
 

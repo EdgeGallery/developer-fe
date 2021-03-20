@@ -105,7 +105,7 @@ export default {
     },
     serviceDetailprop: {
       type: Object,
-      default: () => { }
+      default: () => {}
     },
     isDeleteApiprop: {
       type: Boolean,

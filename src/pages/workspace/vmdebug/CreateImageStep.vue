@@ -174,7 +174,6 @@ export default {
       this.interval = null
     }
   },
-  created () { },
   mounted () {
     this.getCreateImageList()
     this.interval = setInterval(() => {
@@ -183,8 +182,6 @@ export default {
   },
   beforeDestroy () {
     this.clearInterval()
-  },
-  watch: {
   }
 }
 </script>

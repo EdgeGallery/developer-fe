@@ -534,8 +534,7 @@ export default {
       let ctx = canvas.getContext('2d')
       ctx.drawImage(img, 0, 0, img.width, img.height)
       let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
-      let dataURL = canvas.toDataURL('image/' + ext)
-      return dataURL
+      return canvas.toDataURL('image/' + ext)
     },
     base64toFile (dataurl) {
       let arr = dataurl.split(',')
@@ -583,8 +582,6 @@ export default {
   mounted () {
     this.form.userName = sessionStorage.getItem('userName')
     this.form.userId = sessionStorage.getItem('userId')
-  },
-  created () {
   }
 }
 </script>

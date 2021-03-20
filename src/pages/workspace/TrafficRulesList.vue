@@ -74,10 +74,6 @@ export default {
         interfaceType: 'TUNNEL'
       }]
     }
-  },
-  methods: {
-  },
-  mounted () {
   }
 }
 

@@ -272,8 +272,7 @@ export default {
         let Y = date.getFullYear()
         let M = date.getMonth() + 1
         let D = date.getDate()
-        let changeDate = Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
-        return changeDate
+        return Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
       }
     },
     downloadSDKApi () {
