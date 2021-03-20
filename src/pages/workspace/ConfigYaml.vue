@@ -65,54 +65,59 @@
           <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
           </div>
-          <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
-            <em
-              v-show="checkFlag.formatSuccess"
-              class="el-icon-circle-check"
-            />
-            <em
-              v-show="!checkFlag.formatSuccess"
-              class="el-icon-circle-close"
-            />
-            {{ $t('workspace.configYaml.format') }}
-          </div>
-          <div :class="checkFlag.imageSuccess ? 'green test' : 'red test'">
-            <em
-              v-show="checkFlag.imageSuccess"
-              class="el-icon-circle-check"
-            />
-            <em
-              v-show="!checkFlag.imageSuccess"
-              class="el-icon-circle-close"
-            />
-            {{ $t('workspace.configYaml.imageInfo') }}
-          </div>
-          <div :class="checkFlag.serviceSuccess ? 'green test' : 'red test'">
-            <em
-              v-show="checkFlag.serviceSuccess"
-              class="el-icon-circle-check"
-            />
-            <em
-              v-show="!checkFlag.serviceSuccess"
-              class="el-icon-circle-close"
-            />
-            {{ $t('workspace.configYaml.serviceInfo') }}
-          </div>
-          <div :class="checkFlag.mepAgentSuccess ? 'green test' : 'yellow test'">
-            <em
-              v-show="checkFlag.mepAgentSuccess"
-              class="el-icon-circle-check"
-            />
-            <em
-              v-show="!checkFlag.mepAgentSuccess"
-              class="el-icon-warning-outline"
-            />
-            {{ $t('workspace.configYaml.mepAgent') }}
+          <div
+            class="test tit"
+            v-show="showResult"
+          >
+            <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
+              <em
+                v-show="checkFlag.formatSuccess"
+                class="el-icon-circle-check"
+              />
+              <em
+                v-show="!checkFlag.formatSuccess"
+                class="el-icon-circle-close"
+              />
+              {{ $t('workspace.configYaml.format') }}
+            </div>
+            <div :class="checkFlag.imageSuccess ? 'green test' : 'red test'">
+              <em
+                v-show="checkFlag.imageSuccess"
+                class="el-icon-circle-check"
+              />
+              <em
+                v-show="!checkFlag.imageSuccess"
+                class="el-icon-circle-close"
+              />
+              {{ $t('workspace.configYaml.imageInfo') }}
+            </div>
+            <div :class="checkFlag.serviceSuccess ? 'green test' : 'red test'">
+              <em
+                v-show="checkFlag.serviceSuccess"
+                class="el-icon-circle-check"
+              />
+              <em
+                v-show="!checkFlag.serviceSuccess"
+                class="el-icon-circle-close"
+              />
+              {{ $t('workspace.configYaml.serviceInfo') }}
+            </div>
+            <div :class="checkFlag.mepAgentSuccess ? 'green test' : 'yellow test'">
+              <em
+                v-show="checkFlag.mepAgentSuccess"
+                class="el-icon-circle-check"
+              />
+              <em
+                v-show="!checkFlag.mepAgentSuccess"
+                class="el-icon-warning-outline"
+              />
+              {{ $t('workspace.configYaml.mepAgent') }}
+            </div>
           </div>
         </div>
         <div
           class="yaml_content"
-          v-if="hasValidate"
+          v-if="fileUploadSuccess"
         >
           <mavon-editor
             v-model="markdownSource"
@@ -167,7 +172,9 @@ export default {
       hasValidate: false,
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID'),
-      markdownSource: ''
+      markdownSource: '',
+      showResult: true,
+      fileUploadSuccess: false
     }
   },
   methods: {
@@ -204,6 +211,7 @@ export default {
       Workspace.deleteYamlFileApi(this.appYamlFileId)
       this.submitData(null)
       this.hasValidate = false
+      this.fileUploadSuccess = false
       this.yamlFileList = []
       this.appYamlFileId = ''
       this.checkFlag = {}
@@ -217,6 +225,7 @@ export default {
       Workspace.submitYamlFileApi(this.userId, this.projectId, fd, 'upload').then(res => {
         this.hasValidate = true
         if (res.data.fileId) {
+          this.fileUploadSuccess = true
           this.yamlFileList = yamlFileList
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
@@ -226,10 +235,12 @@ export default {
             message: this.$t('promptMessage.uploadSuccess')
           })
         } else {
+          this.fileUploadSuccess = false
           this.appYamlFileId = ''
           this.yamlFileList = []
           this.markdownSource = ''
         }
+        this.showResult = true
         const { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess } = res.data
         this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
         this.submitData(this.appYamlFileId)
@@ -242,6 +253,7 @@ export default {
         this.appYamlFileId = ''
         this.yamlFileList = []
         this.hasValidate = false
+        this.fileUploadSuccess = false
         this.checkFlag = {}
         this.markdownSource = ''
       }).finally(() => {
@@ -278,19 +290,22 @@ export default {
             let data = res.data
             this.yamlFileList = [{ name: data.fileName, fileId: data.fileId }]
             this.hasValidate = true
+            this.fileUploadSuccess = true
             this.appYamlFileId = data.fileId
-            this.checkFlag = { formatSuccess: true, imageSuccess: true, mepAgentSuccess: true, serviceSuccess: true }
+            this.showResult = false
             this.markdownSource = '```yaml\r\n' + data.content + '\r\n```'
             this.setApiHeight()
           } else {
             this.yamlFileList = []
             this.hasValidate = false
+            this.fileUploadSuccess = false
             this.appYamlFileId = res.data.fileId
             this.markdownSource = ''
           }
         }).catch(() => {
           this.uploadYamlLoading = false
           this.hasValidate = false
+          this.fileUploadSuccess = false
           this.markdownSource = ''
         })
       }
