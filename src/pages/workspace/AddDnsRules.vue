@@ -110,7 +110,7 @@ export default {
     },
     editRuleDataprop: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
   data () {
@@ -138,8 +138,6 @@ export default {
       this.$emit('getAddDnsData', this.form)
       this.handleClose()
     }
-  },
-  mounted () {
   }
 }
 

@@ -535,8 +535,6 @@ export default {
       }
     }
   },
-  created () {
-  },
   watch: {
     '$i18n.locale': function () {
       this.changeDataLanguage()

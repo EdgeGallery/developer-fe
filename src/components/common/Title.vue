@@ -29,13 +29,7 @@ export default {
       type: String,
       default: ''
     }
-  },
-  data () {
-    return {
-    }
-  },
-  methods: {},
-  mounted () {}
+  }
 }
 
 </script>

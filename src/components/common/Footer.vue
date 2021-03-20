@@ -26,12 +26,7 @@
 
 <script>
 export default {
-  name: 'FooterBar',
-  data () {
-    return {}
-  },
-  mounted () {},
-  methods: {}
+  name: 'FooterBar'
 }
 </script>
 

@@ -179,26 +179,18 @@ export default {
         let createNew = 0
         let testingNum = 0
         let releasedNum = 0
-        // let deployedNum = 0
-        // let deployfailedNum = 0
         let testedNum = 0
-        for (let i = 0; i < dataTotal.length; i++) {
-          if (dataTotal[i].status === 'ONLINE') {
+        for (let item of dataTotal) {
+          if (item.status === 'ONLINE') {
             createNew++
             this.chartData.rows[0].Number = createNew
-          } else if (dataTotal[i].status === 'DEPLOYING' || dataTotal[i].status === 'DEPLOYED' || dataTotal[i].status === 'DEPLOYED_FAILED') {
+          } else if (item.status === 'DEPLOYING' || item.status === 'DEPLOYED' || item.status === 'DEPLOYED_FAILED') {
             testingNum++
             this.chartData.rows[1].Number = testingNum
-          // } else if (dataTotal[i].status === 'DEPLOYED') {
-          //   deployedNum++
-          //   this.chartData.rows[2].Number = deployedNum
-          // } else if (dataTotal[i].status === 'DEPLOYED_FAILED') {
-          //   deployfailedNum++
-          //   this.chartData.rows[3].Number = deployfailedNum
-          } else if (dataTotal[i].status === 'TESTED') {
+          } else if (item.status === 'TESTED') {
             testedNum++
             this.chartData.rows[2].Number = testedNum
-          } else if (dataTotal[i].status === 'RELEASED') {
+          } else if (item.status === 'RELEASED') {
             releasedNum++
             this.chartData.rows[3].Number = releasedNum
           }

@@ -98,8 +98,7 @@ export default {
       let currentPageData = this.data.slice(start, end)
       this.$emit('getCurrentPageData', currentPageData, this.pageSize, start)
     }
-  },
-  mounted () {}
+  }
 }
 
 </script>

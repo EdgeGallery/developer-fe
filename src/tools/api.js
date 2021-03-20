@@ -151,7 +151,6 @@ let System = {
   },
   saveService: function (params) {
     const func = Post
-    // const func = params.groupId ? Put : Post
     const path = 'mec/developer/v1/system/capability'
     return func(path, params)
   },
@@ -222,8 +221,7 @@ let Workspace = {
   },
   // 获取Api的swaggerUI路径
   getApiUrl: function (apiFileId, userId, type) {
-    let apiUrl = urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=' + type
-    return apiUrl
+    return urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=' + type
   },
   // 获取以前提交过的配置
   getTestConfigApi: function (projectId) {

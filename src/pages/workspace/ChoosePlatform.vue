@@ -46,10 +46,6 @@ export default {
         this.$message.warning(this.$t('workspace.supportPlatform.title'))
       }
     }
-  },
-  created () {
-  },
-  mounted () {
   }
 }
 </script>

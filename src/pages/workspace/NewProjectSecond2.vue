@@ -125,7 +125,6 @@ export default {
       capabilityUrl: '/#/mecDeveloper/api/mep'
     }
   },
-  created () {},
   watch: {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')

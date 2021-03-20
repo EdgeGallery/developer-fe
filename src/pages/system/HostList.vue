@@ -531,7 +531,7 @@ export default {
           this.loading = false
           this.getListData()
         })
-      }, () => {})
+      })
     },
     onClose () {
       if (this.showLog) {
@@ -545,13 +545,13 @@ export default {
           this.loading = true
           System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
             if (res && res.data && res.data.hostId) {
-              this.$message.success(`${this.$t(`${this.form.hostId ? 'api.modify' : 'system.addHost'}`)}${this.$t(`system.success`)}`)
+              this.$message.success((this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'))
               this.onClose()
             } else {
               throw new Error()
             }
           }).catch(() => {
-            this.$message.error(`${this.$t('system.addHost')}${this.$t('system.error')}`)
+            this.$message.error(this.$t('system.addHost') + this.$t('system.error'))
           }).finally(() => {
             this.loading = false
             this.getListData()

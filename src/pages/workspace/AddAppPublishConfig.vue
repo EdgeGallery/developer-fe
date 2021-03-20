@@ -258,7 +258,7 @@ export default {
     },
     editRuleDataprop: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
   data () {
@@ -289,6 +289,7 @@ export default {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
       this.form = data
       this.form.trafficRulesList = data.trafficRulesList.split(',')
+      console.log(this.form.trafficRulesList)
       this.form.dnsRulesList = data.dnsRulesList.split(',')
       this.removeEmpty(this.form.trafficRulesList)
       this.removeEmpty(this.form.dnsRulesList)
@@ -335,7 +336,6 @@ export default {
       for (var i = 0; i < arr.length; i++) {
         if (arr[i] === '' || typeof (arr[i]) === 'undefined') {
           arr.splice(i, 1)
-          i = i - 1
         }
       }
       return arr

@@ -109,21 +109,12 @@ export default {
       })
     }
   },
-  created () {
-  },
   mounted () {
     this.km = new window.kityminder.Minder({
       renderTo: '#minder-container'
     })
     this.refreshMap()
-  },
-  beforeCreate () {},
-  beforeMount () {},
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>

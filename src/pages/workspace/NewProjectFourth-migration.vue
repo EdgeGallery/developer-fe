@@ -68,8 +68,6 @@ export default {
       ToolChainList: []
     }
   },
-  created () {
-  },
   mounted () {
     this.$refs.fourthStepMigration.toggleRowSelection(this.ToolChainList[0])
   },
