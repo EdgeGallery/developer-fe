@@ -71,7 +71,7 @@
                   class="formDetail"
                 >
                   <el-form-item :label="$t('workspace.deployDebugVm.vmIpLbl')">
-                    {{ getVmIp(item) }}
+                    {{ item.host.mecHost }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
                     <em
@@ -215,7 +215,7 @@ export default {
         } else {
           _data.forEach(item => {
             item.createTime = this.dateChange(item.createTime)
-            if (item.status === 'SUCCESS') {
+            if (item.status !== 'CREATING') {
               this.clearInterval()
             }
           })
@@ -271,13 +271,6 @@ export default {
         ' ' + item.vmSystem.systemBit +
         '(' + item.vmSystem.systemDisk + 'GB Disk)'
     },
-    getVmIp (item) {
-      if (item.vmInfo && item.vmInfo.length && item.vmInfo[0].networks && item.vmInfo[0].networks.length &&
-        item.vmInfo[0].networks[0]) {
-        return item.vmInfo[0].networks[0].ip
-      }
-      return ''
-    },
     dateChange (dateStr) {
       if (dateStr) {
         let date = new Date(Date.parse(dateStr))
@@ -287,8 +280,7 @@ export default {
         let H = date.getHours()
         let m = date.getMinutes()
         let s = date.getSeconds()
-        let changeDate =
-          Y +
+        return Y +
           '-' +
           (M > 9 ? M : '0' + M) +
           '-' +
@@ -299,7 +291,6 @@ export default {
           (m > 9 ? m : '0' + m) +
           ':' +
           (s > 9 ? s : '0' + s)
-        return changeDate
       }
     },
     clearInterval () {

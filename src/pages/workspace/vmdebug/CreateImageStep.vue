@@ -138,7 +138,7 @@ export default {
           this.clearInterval()
         } else {
           this.imageList.push(res.data)
-          if (res.data.status === 'SUCCESS') {
+          if (res.data.status !== 'CREATING') {
             this.clearInterval()
             this.$emit('createImageStatus', res.data.status)
           }
