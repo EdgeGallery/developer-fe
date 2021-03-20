@@ -1167,13 +1167,12 @@ export default {
         let H = date.getHours()
         let m = date.getMinutes()
         let s = date.getSeconds()
-        let changeDate = Y + '-' +
+        return Y + '-' +
       (M > 9 ? M : ('0' + M)) + '-' +
       (D > 9 ? D : ('0' + D)) + ' ' +
       (H > 9 ? H : ('0' + H)) + ':' +
       (m > 9 ? m : ('0' + m)) + ':' +
       (s > 9 ? s : ('0' + s))
-        return changeDate
       }
     },
     releaseApp () {
@@ -1184,7 +1183,7 @@ export default {
       }).catch(err => {
         console.log(err.response)
         if (err.response.data.message === 'upload app to appstore fail!') {
-          this.$message.warning(this.$t('promptMessage.isPublished'))
+          this.$message.warning(this.$t('promptMessage.appReleaseFail'))
         }
         this.publishLoading = false
       })
@@ -1212,8 +1211,6 @@ export default {
         this.appMdList.push(obj)
       })
     }
-  },
-  created () {
   },
   mounted () {
     this.checkProjectData()
