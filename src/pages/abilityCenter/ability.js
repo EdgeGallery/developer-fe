@@ -83,64 +83,29 @@ let getHostAbility = function (data) {
 }
 let initAbilities = function (groupDataFromServer, lan) {
   let tempTreeData = []
-  for (let i = 0; i < groupDataFromServer.length; i++) {
-    let firstLevelName = groupDataFromServer[i].oneLevelName
-    let firstLevelNameEn = groupDataFromServer[i].oneLevelNameEn
-    let secondLevelName = groupDataFromServer[i].twoLevelName
-    let thirdLevelName = groupDataFromServer[i].threeLevelName
-    let secondLevelNameEn = groupDataFromServer[i].twoLevelNameEn
-    let thirdLevelNameEn = groupDataFromServer[i].threeLevelNameEn
+  for (let groupItem of groupDataFromServer) {
+    let firstLevelName = groupItem.oneLevelName
+    let firstLevelNameEn = groupItem.oneLevelNameEn
+    let secondLevelName = groupItem.twoLevelName
+    let secondLevelNameEn = groupItem.twoLevelNameEn
     let sameFirstNameItem = tempTreeData.filter(function (item) {
-      if (item.key === (lan === 'en' ? firstLevelNameEn : firstLevelName)) {
+      if (item.key === getName(lan, firstLevelNameEn, firstLevelName)) {
         return item
       }
     })
     if (sameFirstNameItem.length > 0) {
       let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
-        if (item.key === (lan === 'en' ? secondLevelNameEn : secondLevelName)) {
+        if (item.key === getName(lan, secondLevelNameEn, secondLevelName)) {
           return item
         }
       })
       if (sameSecondNameItem.length > 0) {
-        if (thirdLevelName) {
-          if (sameSecondNameItem[0].children) {
-            sameSecondNameItem[0].children.push({
-              key: lan === 'en' ? thirdLevelNameEn : thirdLevelName,
-              label: thirdLevelName,
-              labelEn: thirdLevelNameEn,
-              groupId: groupDataFromServer[i].groupId
-            })
-          } else {
-            sameSecondNameItem[0].children = [].concat({
-              key: lan === 'en' ? thirdLevelNameEn : thirdLevelName,
-              label: thirdLevelName,
-              labelEn: thirdLevelNameEn,
-              groupId: groupDataFromServer[i].groupId
-            })
-          }
-        }
+        addThirdLevelNode(sameSecondNameItem, lan, groupItem)
       } else {
-        if (thirdLevelName) {
-          sameFirstNameItem[0].children.push({
-            key: lan === 'en' ? secondLevelNameEn : secondLevelName,
-            label: secondLevelName,
-            labelEn: secondLevelNameEn,
-            groupId: groupDataFromServer[i].groupId,
-            children: { key: thirdLevelName, label: thirdLevelName, labelEn: thirdLevelNameEn, groupId: groupDataFromServer[i].groupId }
-          })
-        } else {
-          sameFirstNameItem[0].children.push({
-            key: lan === 'en' ? secondLevelNameEn : secondLevelName,
-            label: secondLevelName,
-            labelEn: secondLevelNameEn,
-            groupId: groupDataFromServer[i].groupId,
-            description: groupDataFromServer[i].description,
-            descriptionEn: groupDataFromServer[i].descriptionEn
-          })
-        }
+        addTwoLevelNode(sameFirstNameItem, lan, groupItem)
       }
     } else {
-      tempTreeData = insetNewNode(groupDataFromServer[i], tempTreeData, lan)
+      tempTreeData = insetNewNode(groupItem, tempTreeData, lan)
     }
   }
   tempTreeData = [{
@@ -163,3 +128,55 @@ export default {
   getSecondLevelAbilitys,
   getAbilitysByFirstLevelName
 }
+
+function addTwoLevelNode(sameFirstNameItem, lan, groupItem) {
+  let secondLevelName = groupItem.twoLevelName
+  let thirdLevelName = groupItem.threeLevelName
+  let secondLevelNameEn = groupItem.twoLevelNameEn
+  let thirdLevelNameEn = groupItem.threeLevelNameEn
+  if (thirdLevelName) {
+    sameFirstNameItem[0].children.push({
+      key: getName(lan, secondLevelNameEn, secondLevelName),
+      label: secondLevelName,
+      labelEn: secondLevelNameEn,
+      groupId: groupItem.groupId,
+      children: { key: thirdLevelName, label: thirdLevelName, labelEn: thirdLevelNameEn, groupId: groupItem.groupId }
+    })
+  } else {
+    sameFirstNameItem[0].children.push({
+      key: getName(lan, secondLevelNameEn, secondLevelName),
+      label: secondLevelName,
+      labelEn: secondLevelNameEn,
+      groupId: groupItem.groupId,
+      description: groupItem.description,
+      descriptionEn: groupItem.descriptionEn
+    })
+  }
+}
+
+function addThirdLevelNode(sameSecondNameItem, lan, groupItem) {
+  let thirdLevelName = groupItem.threeLevelName
+  let thirdLevelNameEn = groupItem.threeLevelNameEn
+  if (thirdLevelName) {
+    if (sameSecondNameItem[0].children) {
+      sameSecondNameItem[0].children.push({
+        key: getName(lan, thirdLevelNameEn, thirdLevelName),
+        label: thirdLevelName,
+        labelEn: thirdLevelNameEn,
+        groupId: groupItem.groupId
+      })
+    } else {
+      sameSecondNameItem[0].children = [].concat({
+        key: getName(lan, thirdLevelNameEn, thirdLevelName),
+        label: thirdLevelName,
+        labelEn: thirdLevelNameEn,
+        groupId: groupItem.groupId
+      })
+    }
+  }
+}
+
+function getName(lan, enName, cnName) {
+  return lan === 'en' ? enName : cnName
+}
+
