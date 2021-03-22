@@ -20,41 +20,35 @@ const mecDeveloper = [
     id: '3.1',
     name: '首页',
     path: '/mecDeveloper',
-    pageId: '2.2.0',
     display: true
   },
   {
     id: '3.2',
     name: '开发工具',
     path: '/mecDeveloper/plugin/list',
-    pageId: '2.2.1',
     display: true,
     children: [
       {
         id: '3.3',
         name: '插件',
         path: '/mecDeveloper/plugin/list',
-        pageId: '2.2.1.1',
         display: true
       },
       {
         id: '3.4',
         name: '上传',
         path: '/mecDeveloper/plugin/upload',
-        pageId: '2.2.1.2',
         display: true
       },
       {
         id: '3.16',
         name: '工具链',
         path: '/mecDeveloper/plugin/toolchain',
-        pageId: '2.2.1.3',
         display: true
       }, {
         id: '3.2.4',
         name: '文档',
         path: '/mecDeveloper/plugin/docs',
-        pageId: '2.2.1.4',
         display: true
       }
     ]
@@ -63,14 +57,12 @@ const mecDeveloper = [
     id: '3.5',
     name: '能力中心',
     path: '/mecDeveloper/api/mep',
-    pageId: '2.2.2',
     display: true
   },
   {
     id: '3.15',
     name: '工作空间',
     path: '/mecDeveloper/work',
-    pageId: '2.2.5',
     display: true
   },
   {
@@ -81,7 +73,6 @@ const mecDeveloper = [
     id: '3.18',
     name: '系统',
     display: true,
-    pageId: '2.2.6',
     path: '/mecDeveloper/system',
     authority: ['ROLE_DEVELOPER_ADMIN'],
     children: [
@@ -90,16 +81,14 @@ const mecDeveloper = [
         name: '沙箱管理',
         path: '/mecDeveloper/system/host',
         display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN'],
-        pageId: '2.2.6.2'
+        authority: ['ROLE_DEVELOPER_ADMIN']
       },
       {
         id: '3.21',
         name: '能力中心管理',
         path: '/mecDeveloper/system/mep',
         display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN'],
-        pageId: '2.2.6.3'
+        authority: ['ROLE_DEVELOPER_ADMIN']
       }
     ]
   }

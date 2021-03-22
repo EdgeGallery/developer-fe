@@ -199,43 +199,46 @@ export default {
         if (!val.children) {
           this.showServiceList = true
           Api.getServiceListApi(val.groupId).then(res => {
-            if (res.data && res.data.capabilityDetailList) {
-              let tmpServiceList = res.data.capabilityDetailList
-              tmpServiceList = tmpServiceList.filter((item) => {
-                return item.service
-              })
-              if (tmpServiceList.length > 0) {
-                this.serviceList = tmpServiceList
-                this.serviceDetail.capabilityType = res.data.twoLevelName
-                this.selectedService = tmpServiceList[0].service
-                this.$nextTick().then(() => {
-                  this.serviceSelectedChange(this.selectedService)
-                })
-              } else {
-                this.serviceList = []
-                this.guideFileId = ''
-                this.showApiPage = false
-              }
-            } else {
-              this.serviceList = []
-              this.guideFileId = ''
-              this.showApiPage = false
-            }
+            this.handleCapabilityData(res)
           })
           this.checkProjectData()
           document.getElementsByClassName('el-main')[0].scrollTop = 0
         }
       }
     },
+    handleCapabilityData (res) {
+      if (res.data && res.data.capabilityDetailList) {
+        let tmpServiceList = res.data.capabilityDetailList
+        tmpServiceList = tmpServiceList.filter((item) => {
+          return item.service
+        })
+        if (tmpServiceList.length > 0) {
+          this.serviceList = tmpServiceList
+          this.serviceDetail.capabilityType = res.data.twoLevelName
+          this.selectedService = tmpServiceList[0].service
+          this.$nextTick().then(() => {
+            this.serviceSelectedChange(this.selectedService)
+          })
+        } else {
+          this.serviceList = []
+          this.guideFileId = ''
+          this.showApiPage = false
+        }
+      } else {
+        this.serviceList = []
+        this.guideFileId = ''
+        this.showApiPage = false
+      }
+    },
     serviceSelectedChange (seletedLabel) {
-      for (let i = 0; i < this.serviceList.length; i++) {
-        if (this.serviceList[i].service === seletedLabel) {
-          this.guideFileId = this.serviceList[i].guideFileId
-          this.apiFileId = this.serviceList[i].apiFileId
+      for (let serviceItem of this.serviceList) {
+        if (serviceItem.service === seletedLabel) {
+          this.guideFileId = serviceItem.guideFileId
+          this.apiFileId = serviceItem.apiFileId
           this.showApiPage = true
-          this.serviceDetail.serviceName = this.serviceList[i].service
-          this.serviceDetail.uploadTime = this.dateChange(this.serviceList[i].uploadTime)
-          this.serviceDetail.version = this.serviceList[i].version
+          this.serviceDetail.serviceName = serviceItem.service
+          this.serviceDetail.uploadTime = this.dateChange(serviceItem.uploadTime)
+          this.serviceDetail.version = serviceItem.version
           break
         }
       }
@@ -244,55 +247,19 @@ export default {
     },
     getTreeData (groupDataFromServer, lan) {
       let tempTreeData = []
-      for (let i = 0; i < groupDataFromServer.length; i++) {
-        let firstLevelName = groupDataFromServer[i].oneLevelName
-        let secondLevelName = groupDataFromServer[i].twoLevelName
-        let thirdLevelName = groupDataFromServer[i].threeLevelName
+      for (let groupDataItem of groupDataFromServer) {
+        let firstLevelName = groupDataItem.oneLevelName
+        let secondLevelName = groupDataItem.twoLevelName
+        let thirdLevelName = groupDataItem.threeLevelName
         let sameFirstNameItem = tempTreeData.filter(function (item) {
           if (item.key === firstLevelName) {
             return item
           }
         })
         if (sameFirstNameItem.length > 0) {
-          let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
-            if (item.key === secondLevelName) {
-              return item
-            }
-          })
-          if (sameSecondNameItem.length > 0) {
-            if (thirdLevelName) {
-              if (sameSecondNameItem[0].children) {
-                sameSecondNameItem[0].children.push({
-                  key: thirdLevelName,
-                  label: this.getCapabilityLabel(thirdLevelName, lan),
-                  groupId: groupDataFromServer[i].groupId
-                })
-              } else {
-                sameSecondNameItem[0].children = [].concat({
-                  key: thirdLevelName,
-                  label: this.getCapabilityLabel(thirdLevelName, lan),
-                  groupId: groupDataFromServer[i].groupId
-                })
-              }
-            }
-          } else {
-            if (thirdLevelName) {
-              sameFirstNameItem[0].children.push({
-                key: secondLevelName,
-                label: this.getCapabilityLabel(secondLevelName, lan),
-                groupId: groupDataFromServer[i].groupId,
-                children: { key: thirdLevelName, label: this.getCapabilityLabel(thirdLevelName, lan), groupId: groupDataFromServer[i].groupId }
-              })
-            } else {
-              sameFirstNameItem[0].children.push({
-                key: secondLevelName,
-                label: this.getCapabilityLabel(secondLevelName, lan),
-                groupId: groupDataFromServer[i].groupId
-              })
-            }
-          }
+          this.handleTreeData(sameFirstNameItem, secondLevelName, thirdLevelName, lan, groupDataItem)
         } else {
-          tempTreeData = this.insetNewNode(groupDataFromServer[i], tempTreeData, lan)
+          tempTreeData = this.insetNewNode(groupDataItem, tempTreeData, lan)
         }
       }
       tempTreeData = [{
@@ -301,6 +268,45 @@ export default {
         isInstruction: true
       }].concat(tempTreeData)
       return tempTreeData
+    },
+    handleTreeData (sameFirstNameItem, secondLevelName, thirdLevelName, lan, groupDataItem) {
+      let sameSecondNameItem = sameFirstNameItem[0].children.filter(function (item) {
+        if (item.key === secondLevelName) {
+          return item
+        }
+      })
+      if (sameSecondNameItem.length > 0) {
+        if (thirdLevelName) {
+          if (sameSecondNameItem[0].children) {
+            sameSecondNameItem[0].children.push({
+              key: thirdLevelName,
+              label: this.getCapabilityLabel(thirdLevelName, lan),
+              groupId: groupDataItem.groupId
+            })
+          } else {
+            sameSecondNameItem[0].children = [].concat({
+              key: thirdLevelName,
+              label: this.getCapabilityLabel(thirdLevelName, lan),
+              groupId: groupDataItem.groupId
+            })
+          }
+        }
+      } else {
+        if (thirdLevelName) {
+          sameFirstNameItem[0].children.push({
+            key: secondLevelName,
+            label: this.getCapabilityLabel(secondLevelName, lan),
+            groupId: groupDataItem.groupId,
+            children: { key: thirdLevelName, label: this.getCapabilityLabel(thirdLevelName, lan), groupId: groupDataItem.groupId }
+          })
+        } else {
+          sameFirstNameItem[0].children.push({
+            key: secondLevelName,
+            label: this.getCapabilityLabel(secondLevelName, lan),
+            groupId: groupDataItem.groupId
+          })
+        }
+      }
     },
     // 获取所有能力组
     getCapabilityGroups () {

@@ -927,48 +927,51 @@ export default {
         })
         podDataArr.forEach(podItem => {
           podItem.spec.containers.forEach((containersItem, containerIndex) => {
-            containersItem.image = containersItem.image.replace('{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/', '')
-            let keysArr = []
-            for (let keys in containersItem) {
-              keysArr.push(keys)
-            }
-            if (keysArr.indexOf('env') === -1) {
-              let envArr = [
-                { name: '', value: '' }
-              ]
-              containersItem['env'] = envArr
-            }
-            if (keysArr.indexOf('command') === -1) {
-              containersItem['command'] = ''
-            }
-            if (keysArr.indexOf('resources') === -1) {
-              let resourcesObj = {
-                limits: {
-                  memory: '',
-                  cpu: ''
-                },
-                requests: {
-                  memory: '',
-                  cpu: ''
-                }
-              }
-              containersItem['resources'] = resourcesObj
-            }
-            if (containersItem.commond !== null && containersItem.name !== 'mep-agent') {
-              let str = containersItem.command
-              str = str.replaceAll('[', '')
-              str = str.replaceAll(']', '')
-              str = str.replaceAll('\\"', '')
-              let arr = str.split(',')
-              containersItem.command = arr.join(' ')
-            }
-            if (containersItem.name === 'mep-agent') {
-              podItem.spec.containers.splice(containerIndex, 1)
-            }
+            this.handleEchoFile(containersItem, podItem, containerIndex)
           })
         })
         this.podData = podDataArr
       })
+    },
+    handleEchoFile (containersItem, podItem, containerIndex) {
+      containersItem.image = containersItem.image.replace('{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/', '')
+      let keysArr = []
+      for (let keys in containersItem) {
+        keysArr.push(keys)
+      }
+      if (keysArr.indexOf('env') === -1) {
+        let envArr = [
+          { name: '', value: '' }
+        ]
+        containersItem['env'] = envArr
+      }
+      if (keysArr.indexOf('command') === -1) {
+        containersItem['command'] = ''
+      }
+      if (keysArr.indexOf('resources') === -1) {
+        let resourcesObj = {
+          limits: {
+            memory: '',
+            cpu: ''
+          },
+          requests: {
+            memory: '',
+            cpu: ''
+          }
+        }
+        containersItem['resources'] = resourcesObj
+      }
+      if (containersItem.commond !== null && containersItem.name !== 'mep-agent') {
+        let str = containersItem.command
+        str = str.replaceAll('[', '')
+        str = str.replaceAll(']', '')
+        str = str.replaceAll('\\"', '')
+        let arr = str.split(',')
+        containersItem.command = arr.join(' ')
+      }
+      if (containersItem.name === 'mep-agent') {
+        podItem.spec.containers.splice(containerIndex, 1)
+      }
     },
     setApiHeight () {
       this.$nextTick(() => {

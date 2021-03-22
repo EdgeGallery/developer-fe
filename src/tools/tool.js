@@ -100,12 +100,16 @@ function Delete (url, params, type = 'developer') {
         resolve(res)
       })
       .catch(err => {
-        reject(err)
-        if (err.response.data.code === 403) {
-          ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
-        }
+        guestPrompt(reject, err)
       })
   })
+}
+
+function guestPrompt (reject, err) {
+  reject(err)
+  if (err.response.data.code === 403) {
+    ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
+  }
 }
 
 function Post (url, params, type = 'developer') {
@@ -125,10 +129,7 @@ function Post (url, params, type = 'developer') {
         resolve(res)
       })
       .catch(err => {
-        reject(err)
-        if (err.response.data.code === 403) {
-          ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
-        }
+        guestPrompt(reject, err)
       })
   })
 }
@@ -144,10 +145,7 @@ function Put (url, params) {
         resolve(res)
       })
       .catch(err => {
-        reject(err)
-        if (err.response.data.code === 403) {
-          ElementUI.Message.error(i18n.t('promptMessage.guestPrompt'))
-        }
+        guestPrompt(reject, err)
       })
   })
 }

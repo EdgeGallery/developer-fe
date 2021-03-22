@@ -151,36 +151,7 @@ export default {
     }
   },
   mounted () {
-    this.getPageId()
-    loginApi().then(res => {
-      sessionStorage.setItem('userId', res.data.userId)
-      sessionStorage.setItem('userName', res.data.userName)
-      sessionStorage.setItem('accessToken', res.data.accessToken)
-      this.loginPage = res.data.loginPage
-      this.userCenterPage = res.data.userCenterPage
-      if (res.data.userName === 'guest') {
-        this.ifGuest = true
-      } else {
-        this.ifGuest = false
-      }
-      this.showToolchain(this.jsonData)
-      const authorities = res.data.authorities || []
-      const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
-      const validateAuthority = (array) => {
-        const newArray = []
-        array.forEach(item => {
-          const s = { ...item }
-          if (!item.authority || item.authority.some(a => authorities.includes(a))) {
-            newArray.push(s)
-            if (item.children) {
-              s.children = validateAuthority(item.children)
-            }
-          }
-        })
-        return newArray
-      }
-      this.jsonData = validateAuthority(navJsonData)
-    })
+    this.loginFun()
     // 国际化切换
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
@@ -189,7 +160,6 @@ export default {
         this.changeLange()
       }
     }
-
     // 监听到窗口大小变化时，重新给screenHeight变量赋值
     window.onresize = () => {
       return (() => {
@@ -199,6 +169,41 @@ export default {
     }
   },
   methods: {
+    loginFun () {
+      loginApi().then(res => {
+        console.log(1)
+        sessionStorage.setItem('userId', res.data.userId)
+        sessionStorage.setItem('userName', res.data.userName)
+        sessionStorage.setItem('accessToken', res.data.accessToken)
+        this.loginPage = res.data.loginPage
+        this.userCenterPage = res.data.userCenterPage
+        if (res.data.userName === 'guest') {
+          this.ifGuest = true
+        } else {
+          this.ifGuest = false
+        }
+        this.showToolchain(this.jsonData)
+        const authorities = res.data.authorities || []
+        const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
+        const validateAuthority = (array) => {
+          const newArray = []
+          array.forEach(item => {
+            const s = { ...item }
+            this.handleNavData(item, authorities, newArray, s, validateAuthority)
+          })
+          return newArray
+        }
+        this.jsonData = validateAuthority(navJsonData)
+      })
+    },
+    handleNavData (item, authorities, newArray, s, validateAuthority) {
+      if (!item.authority || item.authority.some(a => authorities.includes(a))) {
+        newArray.push(s)
+        if (item.children) {
+          s.children = validateAuthority(item.children)
+        }
+      }
+    },
     showToolchain (jsonData) {
       this.userName = sessionStorage.getItem('userName')
       if (this.userName === 'guest') {
@@ -232,41 +237,6 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    },
-    getPageId () {
-      let data = [
-        '2.2.0',
-        '2.2.1',
-        '2.2.1.1',
-        '2.2.1.2',
-        '2.2.2',
-        '2.2.5'
-      ]
-      this.initnavData(data)
-    },
-    initnavData (data) {
-      for (let i = 0; i < this.jsonData.length; i++) {
-        for (let j in data) {
-          if (data[j].includes(this.jsonData[i].pageId)) {
-            this.jsonData[i].display = true
-          }
-          if (this.jsonData[i] && this.jsonData[i].children) {
-            for (let g = 0; g < this.jsonData[i].children.length; g++) {
-              if (data[j].includes(this.jsonData[i].children[g].pageId)) {
-                this.jsonData[i].children[g].display = true
-              }
-            }
-            if (this.jsonData[i] && this.jsonData[i].children && this.jsonData[i].children.children) {
-              for (let m = 0; m < this.jsonData[i].children.children.length; m++) {
-                if (data[j].includes(this.jsonData[i].children.children[m].pageId)) {
-                  this.jsonData[i].children.children[m].display = true
-                }
-              }
-            }
-          }
-        }
-      }
-      return this.jsonData
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
