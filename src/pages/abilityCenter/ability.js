@@ -123,13 +123,7 @@ let initAbilities = function (groupDataFromServer, lan) {
   return allAbilities
 }
 
-export default {
-  initAbilities,
-  getSecondLevelAbilitys,
-  getAbilitysByFirstLevelName
-}
-
-function addTwoLevelNode(sameFirstNameItem, lan, groupItem) {
+let addTwoLevelNode = function (sameFirstNameItem, lan, groupItem) {
   let secondLevelName = groupItem.twoLevelName
   let thirdLevelName = groupItem.threeLevelName
   let secondLevelNameEn = groupItem.twoLevelNameEn
@@ -154,7 +148,7 @@ function addTwoLevelNode(sameFirstNameItem, lan, groupItem) {
   }
 }
 
-function addThirdLevelNode(sameSecondNameItem, lan, groupItem) {
+let addThirdLevelNode = function (sameSecondNameItem, lan, groupItem) {
   let thirdLevelName = groupItem.threeLevelName
   let thirdLevelNameEn = groupItem.threeLevelNameEn
   if (thirdLevelName) {
@@ -176,7 +170,12 @@ function addThirdLevelNode(sameSecondNameItem, lan, groupItem) {
   }
 }
 
-function getName(lan, enName, cnName) {
+let getName = function (lan, enName, cnName) {
   return lan === 'en' ? enName : cnName
 }
 
+export default {
+  initAbilities,
+  getSecondLevelAbilitys,
+  getAbilitysByFirstLevelName
+}
