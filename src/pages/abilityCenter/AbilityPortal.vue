@@ -116,7 +116,7 @@ export default {
       this.abilities.forEach(ele => {
         let abilit = JSON.parse(JSON.stringify(ele))
         let iconKey = abilit.labelEn.replaceAll(' ', '-')
-        let name = (abilit.labelEn.indexOf('ETSI') > -1 || abilit.labelEn.indexOf('3GPP') > -1 || abilit.labelEn.indexOf('Ascend') > -1) ? '' : (this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label)
+        let name = this.getAbilityShownName(abilit)
         abilitiesTmp.push({
           abilityIconSrc: abilityIcons[iconKey] ? abilityIcons[iconKey] : abilityDefaultIcons,
           abilityName: name,
@@ -126,6 +126,16 @@ export default {
         })
       })
       return abilitiesTmp
+    },
+    getAbilityShownName (abilit) {
+      if (abilit.labelEn.indexOf('ETSI') > -1 || abilit.labelEn.indexOf('3GPP') > -1 || abilit.labelEn.indexOf('Ascend') > -1) {
+        return ''
+      }
+      if (this.$i18n.locale === 'en') {
+        return abilit.labelEn
+      } else {
+        return abilit.label
+      }
     }
   }
 }
