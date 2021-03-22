@@ -138,16 +138,7 @@ export default {
     // 退回到第二步时，保留上一次选择
     buildTree () {
       let oneLevelSet = new Set()
-      for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
-          this.tree.push({
-            label: oneLevelName,
-            children: []
-          })
-          oneLevelSet.add(oneLevelName)
-        }
-      }
+      this.handleOnelevelName(oneLevelSet)
       for (let i in this.groups) {
         let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
         let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
@@ -168,6 +159,18 @@ export default {
           const firstNode = document.querySelector('.capability_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
           firstNode.click()
         })
+      }
+    },
+    handleOnelevelName (oneLevelSet) {
+      for (let i in this.groups) {
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+          this.tree.push({
+            label: oneLevelName,
+            children: []
+          })
+          oneLevelSet.add(oneLevelName)
+        }
       }
     },
     handleNodeClick (data) {

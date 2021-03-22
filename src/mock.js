@@ -220,7 +220,7 @@ const getProjectVmList = function () {
           'networks': [
             {
               'name': '',
-              'ip': '192.32.43.4'
+              'ip': '0.0.0.0'
             }
           ]
         }

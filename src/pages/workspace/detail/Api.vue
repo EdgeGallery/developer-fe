@@ -181,41 +181,9 @@ export default {
           this.treeData.push(obj)
         })
         // twoLevel
-        treeDataTemp.forEach(item => {
-          let oneLevelName = this.language === 'en' ? item.oneLevelNameEn : item.oneLevelName
-          this.treeData.forEach(itemTwo => {
-            if (itemTwo.label === oneLevelName) {
-              let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
-              if (twoLevelName) {
-                itemTwo.children.push({
-                  label: twoLevelName,
-                  children: []
-                })
-              }
-            }
-          })
-        })
+        this.handleTwoLevel(treeDataTemp)
         // threeLevel
-        treeDataTemp.forEach(item => {
-          let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
-          item.capabilityDetailList.forEach(subItem => {
-            this.treeData.forEach(itemThree => {
-              itemThree.children.forEach(subTree => {
-                if (twoLevelName === subTree.label) {
-                  subTree.children.push({
-                    host: subItem.host,
-                    label: this.language === 'en' ? subItem.serviceEn : subItem.service,
-                    type: item.type,
-                    apiFileId: subItem.apiFileId,
-                    capabilityType: twoLevelName,
-                    uploadTime: this.dateChange(subItem.uploadTime),
-                    version: subItem.version
-                  })
-                }
-              })
-            })
-          })
-        })
+        this.handleThreeLevel(treeDataTemp)
         if (this.treeData.length > 0) {
           this.$nextTick().then(() => {
             const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node')
@@ -223,6 +191,44 @@ export default {
           })
         }
         this.apiDataLoading = false
+      })
+    },
+    handleTwoLevel (treeDataTemp) {
+      treeDataTemp.forEach(item => {
+        let oneLevelName = this.language === 'en' ? item.oneLevelNameEn : item.oneLevelName
+        this.treeData.forEach(itemTwo => {
+          if (itemTwo.label === oneLevelName) {
+            let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
+            if (twoLevelName) {
+              itemTwo.children.push({
+                label: twoLevelName,
+                children: []
+              })
+            }
+          }
+        })
+      })
+    },
+    handleThreeLevel (treeDataTemp) {
+      treeDataTemp.forEach(item => {
+        let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
+        item.capabilityDetailList.forEach(subItem => {
+          this.treeData.forEach(itemThree => {
+            itemThree.children.forEach(subTree => {
+              if (twoLevelName === subTree.label) {
+                subTree.children.push({
+                  host: subItem.host,
+                  label: this.language === 'en' ? subItem.serviceEn : subItem.service,
+                  type: item.type,
+                  apiFileId: subItem.apiFileId,
+                  capabilityType: twoLevelName,
+                  uploadTime: this.dateChange(subItem.uploadTime),
+                  version: subItem.version
+                })
+              }
+            })
+          })
+        })
       })
     },
     handleNodeClick (data) {

@@ -301,6 +301,22 @@ export default {
     }
   },
   methods: {
+    projectDependent (res) {
+      let dependent = res.data.capabilityList
+      let arr = []
+      dependent.forEach(item => {
+        item.capabilityDetailList.forEach(itemSub => {
+          if (this.language === 'cn') {
+            arr.push(itemSub.service)
+          } else {
+            arr.push(itemSub.serviceEn)
+          }
+        })
+      })
+      arr = Array.from(new Set(arr))
+      this.dependentNum = arr.length
+      this.projectDetailData.dependent = arr.join('，')
+    },
     // 获取项目详情
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
@@ -321,20 +337,7 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
-        let dependent = res.data.capabilityList
-        let arr = []
-        dependent.forEach(item => {
-          item.capabilityDetailList.forEach(itemSub => {
-            if (this.language === 'cn') {
-              arr.push(itemSub.service)
-            } else {
-              arr.push(itemSub.serviceEn)
-            }
-          })
-        })
-        arr = Array.from(new Set(arr))
-        this.dependentNum = arr.length
-        this.projectDetailData.dependent = arr.join('，')
+        this.this.projectDependent(res)
         if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
             this.active = 2
@@ -459,20 +462,7 @@ export default {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
-        let dependent = res.data.capabilityList
-        let arr = []
-        dependent.forEach(item => {
-          item.capabilityDetailList.forEach(itemSub => {
-            if (this.language === 'cn') {
-              arr.push(itemSub.service)
-            } else {
-              arr.push(itemSub.serviceEn)
-            }
-          })
-        })
-        arr = Array.from(new Set(arr))
-        this.dependentNum = arr.length
-        this.projectDetailData.dependent = arr.join('，')
+        this.projectDependent(res)
       })
       this.checkProjectData()
     }

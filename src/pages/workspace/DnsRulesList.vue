@@ -69,10 +69,6 @@ export default {
         ttl: '100'
       }]
     }
-  },
-  methods: {
-  },
-  mounted () {
   }
 }
 

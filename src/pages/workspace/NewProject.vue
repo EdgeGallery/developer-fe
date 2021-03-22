@@ -217,15 +217,18 @@ export default {
         })
       } else {
         this.getIconFileId()
-        if (this.userName === 'guest') {
-          this.isGuest = true
-        } else {
-          this.isGuest = false
-        }
-        if (!this.isGuest && this.isAppDevelopment) {
-          this.active++
-          this.changeComponent()
-        }
+        this.handleUserName()
+      }
+    },
+    handleUserName () {
+      if (this.userName === 'guest') {
+        this.isGuest = true
+      } else {
+        this.isGuest = false
+      }
+      if (!this.isGuest && this.isAppDevelopment) {
+        this.active++
+        this.changeComponent()
       }
     },
     // 暂存图标生成图标ID
@@ -287,20 +290,15 @@ export default {
             obj[capabilityKey] = capability[capabilityKey]
           }
           obj.capabilityDetailList = []
-          for (let service of allFormData.third) {
-            if (service.groupId === capability.groupId) {
-              let serviceObj = {}
-              for (let serviceKey in service) {
-                serviceObj[serviceKey] = service[serviceKey]
-              }
-              obj.capabilityDetailList.push(serviceObj)
-            }
-          }
+          this.handleCapabilityList(allFormData, capability, obj)
           params.capabilityList.push(obj)
         }
       }
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
+      this.addNewProject(params)
+    },
+    addNewProject (params) {
       Workspace.newProjectApi(this.userId, params).then(res => {
         if (res.status === 200) {
           let mecDetailID = res.data.id
@@ -342,6 +340,17 @@ export default {
         }
         sessionStorage.removeItem('apiFileIdArr')
       })
+    },
+    handleCapabilityList (allFormData, capability, obj) {
+      for (let service of allFormData.third) {
+        if (service.groupId === capability.groupId) {
+          let serviceObj = {}
+          for (let serviceKey in service) {
+            serviceObj[serviceKey] = service[serviceKey]
+          }
+          obj.capabilityDetailList.push(serviceObj)
+        }
+      }
     },
     // 将中文情况下选择的能力转成英文
     checkPostProjectData (checkArr) {

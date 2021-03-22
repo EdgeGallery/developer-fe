@@ -436,25 +436,7 @@ export default {
       this.deployField = cachedData.deployField
       this.privateHost = cachedData.privateHost
       if (status != null) {
-        if (status.csar !== null && status.csar !== this.CSAR) {
-          this.CSAR = status.csar
-          this.initialTimeline()
-        }
-
-        if (status.hostInfo !== null && status.hostInfo !== this.hostInfo) {
-          this.hostInfo = status.hostInfo
-          this.initialTimeline()
-        }
-
-        if (status.instantiateInfo !== null && status.instantiateInfo !== this.instantiateInfo) {
-          this.instantiateInfo = status.instantiateInfo
-          this.initialTimeline()
-        }
-
-        if (status.workStatus !== null && status.workStatus !== this.workStatus) {
-          this.workStatus = status.workStatus
-          this.initialTimeline()
-        }
+        this.handleDeployStatus(status)
       }
 
       this.deployStatus = cachedData.deployStatus
@@ -463,12 +445,7 @@ export default {
       // deploy successfully
       if (this.deployStatus === 'SUCCESS') {
         clearInterval(this.timer)
-        if (cachedData.pods !== null && cachedData.pods.length > 4) {
-          this.pods = JSON.parse(cachedData.pods).pods
-          if (this.pods !== null && this.pods !== {} && this.pods !== undefined) {
-            this.podsToContainers()
-          }
-        }
+        this.handlePodsData(cachedData)
         this.testFinished = true
         this.deploySuccess = true
         this.accessUrl = cachedData.accessUrl
@@ -484,6 +461,35 @@ export default {
         this.deploySuccess = false
         this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
+      }
+    },
+    handlePodsData (cachedData) {
+      if (cachedData.pods !== null && cachedData.pods.length > 4) {
+        this.pods = JSON.parse(cachedData.pods).pods
+        if (this.pods !== null && this.pods !== {} && this.pods !== undefined) {
+          this.podsToContainers()
+        }
+      }
+    },
+    handleDeployStatus (status) {
+      if (status.csar !== null && status.csar !== this.CSAR) {
+        this.CSAR = status.csar
+        this.initialTimeline()
+      }
+
+      if (status.hostInfo !== null && status.hostInfo !== this.hostInfo) {
+        this.hostInfo = status.hostInfo
+        this.initialTimeline()
+      }
+
+      if (status.instantiateInfo !== null && status.instantiateInfo !== this.instantiateInfo) {
+        this.instantiateInfo = status.instantiateInfo
+        this.initialTimeline()
+      }
+
+      if (status.workStatus !== null && status.workStatus !== this.workStatus) {
+        this.workStatus = status.workStatus
+        this.initialTimeline()
       }
     },
 
