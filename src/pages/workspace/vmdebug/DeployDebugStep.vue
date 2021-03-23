@@ -301,7 +301,6 @@ export default {
   mounted () {
     this.isZh = this.$store.state.language === 'cn'
     this.loadVmResourceDataList()
-    this.loadVmResourceDataList()
     this.interval = setInterval(() => {
       this.loadVmResourceDataList()
     }, 5000)

@@ -427,7 +427,7 @@ export default {
       formLabelWidth: '110px',
       form: {
         portRangeMin: '30000',
-        portRangeMax: '32767',
+        portRangeMax: '30400',
         architecture: 'X86',
         protocol: 'http',
         status: 'NORMAL',
@@ -435,7 +435,7 @@ export default {
       },
       defaultForm: {
         portRangeMin: '30000',
-        portRangeMax: '32767',
+        portRangeMax: '30400',
         architecture: 'X86',
         protocol: 'http',
         status: 'NORMAL',
@@ -445,7 +445,7 @@ export default {
         // configId: [{ required: true, validator: (r, v, callback) => { validate(['configId'], callback, this.$t('system.pleaseUpload')) } }],
         name: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.name')}` },
-          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
+          { min: 6, max: 50, message: `${this.$t('system.pleaseInput')}6~50 ${this.$t('system.char')}` }
         ],
         os: [
           { required: true }

@@ -35,7 +35,6 @@
         :project-id="projectId"
         @getStepData="getStepData"
         @getBtnStatus="getBtnStatus"
-        @createImageStatus="createImageStatus"
         ref="currComponent"
       />
     </div>
@@ -125,9 +124,6 @@ export default {
       // 改变动态组件的值
       this.changeComponent()
       this.allStepData.ifNext = false
-    },
-    createImageStatus (data) {
-      this.$emit('getImageStatus', data)
     }
   },
   mounted () {
