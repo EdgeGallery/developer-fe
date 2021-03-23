@@ -967,7 +967,7 @@ export default {
           dnsRuleId: '',
           domainName: 'domainName',
           ipAddressType: 'IP_V4',
-          ipAddress: '192.5.14.68',
+          ipAddress: '0.0.0.0',
           ttl: '85000'
         }
       } else if (name === 'trafficRule') {

@@ -98,7 +98,7 @@ export default {
   props: {
     allStepData: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   name: '',
