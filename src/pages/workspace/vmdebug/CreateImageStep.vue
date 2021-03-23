@@ -53,7 +53,7 @@
       >
         <span class="span_vm lt">
           <em
-            v-if="item.vmName===null"
+            v-if="item.status==='CREATING'"
             class="el-icon-loading"
           />{{ item.vmName }}</span>
         <span
@@ -61,7 +61,7 @@
           :title="item.imageName"
         >
           <em
-            v-if="item.imageName===null"
+            v-if="item.status==='CREATING'"
             class="el-icon-loading"
           />{{ item.imageName }}</span>
         <span
