@@ -441,7 +441,7 @@ export default {
     },
     getProjectVmList () {
       vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
-        if (res.data) {
+        if (res.data.length > 0) {
           this.imageStatus = res.data[0].status
           if (res.data[0].status === 'SUCCESS') {
             this.isCleanEnv = true

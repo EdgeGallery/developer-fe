@@ -797,6 +797,9 @@ export default {
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
+        if (this.imageStatus === 'ONLINE') {
+          this.$message.warning(this.$t('promptMessage.notDeploy'))
+        }
       })
     },
     getTestConfig () {
@@ -807,12 +810,7 @@ export default {
         if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
           if ((res.data.testId && res.data.appInstanceId)) {
             this.getReleaseConfigFirst()
-          } else {
-            this.$message.warning(this.$t('promptMessage.notDeploy'))
           }
-        }
-        if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'VIRTUALMACHINE') {
-          this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
         if (deployStatus && !this.isCleanEnv) {
