@@ -137,6 +137,11 @@ export default {
       userName: sessionStorage.getItem('userName')
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.checkProjectStatus()
+    }
+  },
   mounted () {
     if (this.$route.params.from === 'index') {
       this.newprojectDialog = true
@@ -196,6 +201,12 @@ export default {
           }
         }
       })
+    },
+    checkProjectStatus () {
+      this.chartData.rows[0].Status = this.$t('workspace.projectStatusEnum.createNew')
+      this.chartData.rows[1].Status = this.$t('workspace.projectStatusEnum.testing')
+      this.chartData.rows[2].Status = this.$t('workspace.projectStatusEnum.tested')
+      this.chartData.rows[3].Status = this.$t('workspace.projectStatusEnum.released')
     }
   }
 }
