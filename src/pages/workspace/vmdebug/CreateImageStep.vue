@@ -63,7 +63,12 @@
           <em
             v-if="item.status==='CREATING'"
             class="el-icon-loading"
-          />{{ item.imageName }}</span>
+          />
+          <em
+            v-if="item.status==='FAILED'"
+            class="el-icon-error error icon"
+          />
+          {{ item.imageName }}</span>
         <span
           class="span_progress lt"
           :title="item.log"
@@ -71,6 +76,10 @@
           <em
             v-if="item.status==='CREATING'"
             class="el-icon-loading deploying icon"
+          />
+          <em
+            v-if="item.status==='FAILED'"
+            class="el-icon-error error icon"
           />
           <em
             v-if="item.status==='SUCCESS'"
