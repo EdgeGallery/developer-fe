@@ -58,10 +58,14 @@ export default {
   },
   methods: {
     onFileAdded (file) {
+      let fileSize = file.file.size / 1024 / 1024 / 1024
       let typeName = file.file.name.substring(file.file.name.lastIndexOf('.') + 1)
       let typeArr = ['rar', 'tar', 'zip']
       if (typeArr.indexOf(typeName) === -1) {
         file.ignored = true
+        this.$message.warning(this.$t('promptMessage.imageFileType'))
+      }
+      if (fileSize > 5) {
         this.$message.warning(this.$t('promptMessage.imageFileType'))
       }
     },

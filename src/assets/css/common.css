@@ -203,6 +203,7 @@ div::-webkit-scrollbar-thumb{
 /* dialog */
 .el-dialog__body{
   padding-top:15px!important;
+  padding-bottom:30px!important;
 }
 .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
   color:#fff!important;

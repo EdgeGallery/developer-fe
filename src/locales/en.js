@@ -662,7 +662,7 @@ const en = {
     systemServiceName: 'Please enter a service name with a length of 1-20',
     systemProviderName: 'Please enter a provider name with a length of 1-20',
     systemDocument: 'Please upload Chinese and English documentation',
-    imageFileType: 'Please upload files in .rar, .tar, .zip format'
+    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G'
   },
   breadCrumb: {
     mecDeveloper: 'Home',
