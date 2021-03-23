@@ -119,7 +119,7 @@
               type="text"
               class="funcBtn"
               @click="handleDelResource(item)"
-              :disabled="item.status!=='SUCCESS'"
+              :disabled="item.status==='CREATING'"
             >
               {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
             </el-button>
@@ -127,7 +127,7 @@
               class="funcBtn"
               type="text"
               @click="handleUploadFile(item)"
-              :disabled="item.status!=='SUCCESS'"
+              :disabled="item.status==='CREATING'"
             >
               {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
             </el-button>
@@ -135,7 +135,7 @@
               type="text"
               class="funcBtn"
               @click="handleVNC(item)"
-              :disabled="item.status!=='SUCCESS'"
+              :disabled="item.status==='CREATING'"
             >
               {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
             </el-button>

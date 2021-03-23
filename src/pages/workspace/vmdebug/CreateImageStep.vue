@@ -95,13 +95,13 @@
             type="text"
             size="mini"
             @click="downloadVmImage(item.vmId)"
-            :disabled="item.status!=='CREATING'"
+            :disabled="item.status==='CREATING'"
           >{{ $t('common.download') }}</el-button>
           <el-button
             type="text"
             size="mini"
             @click="deleteVmImage"
-            :disabled="item.status!=='CREATING'"
+            :disabled="item.status==='CREATING'"
           >{{ $t('workspace.deployDebugVm.deleteBtnLbl') }}</el-button>
         </span>
       </div>
