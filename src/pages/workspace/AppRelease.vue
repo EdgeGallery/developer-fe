@@ -787,6 +787,8 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         if (data.deployPlatform === 'VIRTUALMACHINE') {
           this.projectDetailData.status = this.imageStatus
+        } else {
+          this.projectDetailData.status = data.status
         }
         let dependent = res.data.capabilityList
         let arr = []
@@ -811,7 +813,6 @@ export default {
         sessionStorage.setItem('csarId', res.data.appInstanceId)
         this.projectDetailData.appInstanceId = res.data.appInstanceId
         if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
-          this.projectDetailData.status = res.data.deployStatus
           if ((res.data.testId && res.data.appInstanceId)) {
             this.getReleaseConfigFirst()
           } else {

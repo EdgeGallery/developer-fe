@@ -337,7 +337,7 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
-        this.this.projectDependent(res)
+        this.projectDependent(res)
         if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
             this.active = 2
