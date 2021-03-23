@@ -218,7 +218,6 @@
         <appRelease
           v-if="activeName === '5'"
           :is-clean-env-prop="isCleanEnv"
-          :image-status-prop="imageStatus"
           :deploy-platform-prop="deployPlatform"
         />
       </el-tab-pane>
@@ -327,7 +326,7 @@ export default {
           this.isAppDevelopment = false
         }
         if (data.deployPlatform === 'VIRTUALMACHINE') {
-          this.getCreateImageList()
+          this.getProjectVmList()
         }
         this.projectDetailData.name = data.name
         this.projectDetailData.version = data.version
@@ -438,14 +437,13 @@ export default {
       })
     },
     getImageStatus (data) {
-      this.imageStatus = data
       this.isCleanEnv = true
     },
-    getCreateImageList () {
-      vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
+    getProjectVmList () {
+      vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
         if (res.data) {
-          this.imageStatus = res.data.status
-          if (res.data.status === 'SUCCESS') {
+          this.imageStatus = res.data[0].status
+          if (res.data[0].status === 'SUCCESS') {
             this.isCleanEnv = true
           }
         }

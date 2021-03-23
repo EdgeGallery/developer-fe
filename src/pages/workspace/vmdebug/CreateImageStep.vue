@@ -79,8 +79,12 @@
         </span>
         <span class="span_status lt">
           <em
-            v-if="item.status!=='SUCCESS'"
+            v-if="item.status==='CREATING'"
             class="el-icon-loading deploying icon"
+          />
+          <em
+            v-if="item.status==='FAILED'"
+            class="el-icon-error error icon"
           />
           <em
             v-if="item.status==='SUCCESS'"
@@ -91,13 +95,13 @@
             type="text"
             size="mini"
             @click="downloadVmImage(item.vmId)"
-            :disabled="item.status!=='SUCCESS'"
+            :disabled="item.status!=='CREATING'"
           >{{ $t('common.download') }}</el-button>
           <el-button
             type="text"
             size="mini"
             @click="deleteVmImage"
-            :disabled="item.status!=='SUCCESS'"
+            :disabled="item.status!=='CREATING'"
           >{{ $t('workspace.deployDebugVm.deleteBtnLbl') }}</el-button>
         </span>
       </div>
@@ -140,7 +144,6 @@ export default {
           this.imageList.push(res.data)
           if (res.data.status !== 'CREATING') {
             this.clearInterval()
-            this.$emit('createImageStatus', res.data.status)
           }
         }
       })

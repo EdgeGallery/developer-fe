@@ -664,10 +664,6 @@ export default {
       type: Boolean,
       default: false
     },
-    imageStatusProp: {
-      type: String,
-      default: 'NOTDEPLOY'
-    },
     deployPlatformProp: {
       type: String,
       default: 'KUBERNETES'
@@ -744,7 +740,7 @@ export default {
       isCleanEnv: this.isCleanEnvProp,
       isCleanEnvDialog: false,
       publishLoading: false,
-      imageStatus: this.imageStatusProp,
+      imageStatus: 'NOTDEPLOY',
       deployPlatform: this.deployPlatformProp
     }
   },
@@ -785,11 +781,7 @@ export default {
         this.projectDetailData.type = data.type
         this.projectDetailData.version = data.version
         this.projectDetailData.platform = data.platform[0]
-        if (data.deployPlatform === 'VIRTUALMACHINE') {
-          this.projectDetailData.status = this.imageStatus
-        } else {
-          this.projectDetailData.status = data.status
-        }
+        this.projectDetailData.status = this.imageStatus = data.status
         let dependent = res.data.capabilityList
         let arr = []
         this.checkProjectData()
@@ -819,7 +811,7 @@ export default {
             this.$message.warning(this.$t('promptMessage.notDeploy'))
           }
         }
-        if (this.imageStatus !== 'SUCCESS' && this.deployPlatform === 'VIRTUALMACHINE') {
+        if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'VIRTUALMACHINE') {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
@@ -1103,7 +1095,7 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      if (this.projectDetailData.appInstanceId || this.imageStatus === 'SUCCESS') {
+      if (this.projectDetailData.appInstanceId) {
         this.getReleaseConfig(this.trafficAllData)
       } else {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
