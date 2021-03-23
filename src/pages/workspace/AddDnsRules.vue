@@ -110,7 +110,7 @@ export default {
     },
     editRuleDataprop: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   data () {

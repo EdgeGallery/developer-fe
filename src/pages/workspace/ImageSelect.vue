@@ -131,11 +131,11 @@ export default {
   props: {
     projectBeforeConfig: {
       type: Object,
-      default: () => {}
+      required: true
     },
     allStepData: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   data () {

@@ -227,7 +227,7 @@ export default {
     },
     allStepData: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   data () {

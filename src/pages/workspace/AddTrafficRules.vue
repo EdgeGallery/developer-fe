@@ -538,7 +538,7 @@ export default {
     },
     editRuleDataprop: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   data () {
@@ -671,16 +671,16 @@ export default {
       this.trafficFilter = {
         srcAddress: '0.0.0.0/0',
         srcPort: '8080',
-        dstAddress: '172.30.2.0/28',
+        dstAddress: '0.0.0.0/0',
         dstPort: '8080',
         protocol: 'ANY',
         tag: '1234',
         qci: 1,
         dscp: 0,
         tc: 1,
-        srcTunnelAddress: '10.10.10.10',
+        srcTunnelAddress: '0.0.0.0',
         srcTunnelPort: '8080',
-        tgtTunnelAddress: '10.10.10.10',
+        tgtTunnelAddress: '0.0.0.0',
         dstTunnelPort: '8080'
       }
       this.innerFilterVisible = true

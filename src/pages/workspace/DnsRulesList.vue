@@ -65,7 +65,7 @@ export default {
       dnsListData: [{
         domaiName: 'service.org',
         ipAddressType: 'IP_V4',
-        ipAddress: '172.30.2.17',
+        ipAddress: '0.0.0.0',
         ttl: '100'
       }]
     }
