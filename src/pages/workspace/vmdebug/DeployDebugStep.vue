@@ -222,6 +222,7 @@ export default {
         }
         this.resourceListData = _data
       }).catch(() => {
+        this.clearInterval()
         this.resourceListData = []
         this.$message.error(this.$t('workspace.deployDebugVm.loadVmConfigFailed'))
       })

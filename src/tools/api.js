@@ -380,10 +380,7 @@ let vmService = {
   },
   // 下载镜像
   downloadVmImageApi: function (projectId, vmId, userId) {
-    let params = {
-      url: 'mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package?userId=' + userId
-    }
-    return downloadFile(params)
+    return urlPrefix + 'mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package?userId=' + userId
   }
 }
 

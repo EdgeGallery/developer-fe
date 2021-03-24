@@ -100,12 +100,13 @@
             class="el-icon-success success icon"
           />{{ item.status }}</span>
         <span class="span_operation lt">
-          <el-button
-            type="text"
-            size="mini"
-            @click="downloadVmImage(item.vmId)"
+          <el-link
+            :href="downloadVmImage(item.vmId)"
+            :underline="false"
             :disabled="item.status==='CREATING'"
-          >{{ $t('common.download') }}</el-button>
+          >
+            {{ $t('common.download') }}
+          </el-link>
           <el-button
             type="text"
             size="mini"
@@ -155,6 +156,8 @@ export default {
             this.clearInterval()
           }
         }
+      }).catch(() => {
+        this.clearInterval()
       })
     },
     // 删除镜像
@@ -179,7 +182,7 @@ export default {
     },
     // 下载镜像
     downloadVmImage (vmId) {
-      vmService.downloadVmImageApi(this.projectId, vmId, this.userId)
+      return vmService.downloadVmImageApi(this.projectId, vmId, this.userId)
     },
     clearInterval () {
       clearTimeout(this.interval)

@@ -304,7 +304,8 @@ const en = {
       deleteVmResFailed: 'Delete Virtual Machine Resource Failed!',
       createImageText: 'Application commissioning completed, Generate the mirror',
       generate: 'Generate',
-      stageStatus: 'Stage Status'
+      stageStatus: 'Stage Status',
+      uploadPromt: 'Note: The file is uploaded to the root directory of the virtual machine by default'
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',

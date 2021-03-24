@@ -304,7 +304,8 @@ const cn = {
       deleteVmResFailed: '删除虚拟机资源失败！',
       createImageText: '应用调测完成，生成镜像',
       generate: '生成',
-      stageStatus: '阶段状态'
+      stageStatus: '阶段状态',
+      uploadPromt: '注：文件默认上传到虚机的根目录下'
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',

@@ -51,6 +51,9 @@
             <em class="el-icon-warning" />{{ $t('workspace.deployDebugVm.uploadAppFileTip') }}
           </div>
         </el-upload>
+        <p class="prompt">
+          {{ $t('workspace.deployDebugVm.uploadPromt') }}
+        </p>
       </div>
       <div class="elButton">
         <el-button
@@ -196,6 +199,11 @@ export default {
   .upload-app .el-upload__tip{
     margin-left: -10px;
     margin-top: 5px;
+  }
+  .prompt{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #adadad;
   }
 }
 </style>
