@@ -138,6 +138,7 @@ export default {
     },
     '$i18n.locale': function () {
       this.showToolchain(this.jsonData)
+      this.loginFun()
     }
   },
   beforeMount () {
@@ -171,7 +172,6 @@ export default {
   methods: {
     loginFun () {
       loginApi().then(res => {
-        console.log(1)
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
