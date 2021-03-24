@@ -45,12 +45,10 @@
         </el-button>
       </p>
       <el-form
-        ref="rulesPodTop"
         label-width="110px"
         class="form_pod_top clear"
         :class="{'full':podData.length===1}"
         size="mini"
-        :rules="rulesPodTop"
         :model="itemPod.metadata"
       >
         <el-form-item
@@ -82,12 +80,19 @@
         </el-form-item>
         <el-form-item
           label="pod Name"
-          prop="name"
+          class="required"
         >
           <el-input
             v-model="itemPod.metadata.name"
             placeholder=""
+            @blur="checkInputName(itemPod.metadata)"
           />
+          <p
+            class="errInfo"
+            v-show="itemPod.metadata.showName"
+          >
+            pod Name不能为空，不能包含下划线
+          </p>
         </el-form-item>
       </el-form>
       <div class="addContainer clear">
@@ -121,29 +126,42 @@
             class="form_container"
             size="mini"
             :model="itemContainer"
-            :rules="rulesPodContainer"
           >
             <el-form-item
               label="容器名称"
-              prop="name"
+              class="required"
             >
               <el-input
                 v-model="itemContainer.name"
                 placeholder="请输入容器名称"
+                @blur="checkInputName(itemContainer)"
               />
+              <p
+                class="errInfo"
+                v-show="itemContainer.showName"
+              >
+                容器名称不能为空
+              </p>
             </el-form-item>
             <el-form-item
               label="镜像信息"
-              prop="image"
+              class="required"
             >
               <el-input
                 v-model="itemContainer.image"
-                placeholder="请输入镜像信息"
+                placeholder="imageName:version"
+                @blur="checkInputImage(itemContainer)"
               />
+              <p
+                class="errInfo"
+                v-show="itemContainer.showImage"
+              >
+                镜像信息不能为空
+              </p>
             </el-form-item>
             <el-form-item
               label="拉取策略"
-              prop="imagePullPolicy"
+              class="required"
             >
               <el-select
                 v-model="itemContainer.imagePullPolicy"
@@ -158,17 +176,23 @@
             </el-form-item>
             <el-form-item
               label="内部端口"
-              prop="ports[0].containerPort"
+              class="required"
             >
               <el-input-number
                 v-model="itemContainer.ports[0].containerPort"
                 :min="1"
                 :max="9999"
                 label="1-9999"
+                @change="checkInputInPort(itemContainer.ports[0])"
               />
+              <p
+                class="errInfo"
+                v-show="itemContainer.ports[0].showPort"
+              >
+                内部端口不能为空
+              </p>
             </el-form-item>
             <el-form-item
-              id="envDiv"
               label="环境变量"
               class="env_item"
             >
@@ -183,12 +207,6 @@
                       v-model="itemEnv.name"
                       placeholder="变量名"
                     />
-                    <p
-                      class="errInfo"
-                      v-if="itemEnv.name===''"
-                    >
-                      变量名不能为空
-                    </p>
                   </div>
                   <span class="equal">=</span>
                   <div class="env_input">
@@ -196,12 +214,6 @@
                       v-model="itemEnv.value"
                       placeholder="值"
                     />
-                    <p
-                      class="errInfo"
-                      v-if="itemEnv.value===''"
-                    >
-                      变量值不能为空
-                    </p>
                   </div>
                   <p
                     class="deleteLine"
@@ -216,12 +228,6 @@
                   </p>
                 </div>
               </div>
-              <p
-                v-if="isEnvDataEmpty"
-                class="errInfo"
-              >
-                请填写完整的环境变量，或删除多余的环境变量
-              </p>
               <el-button
                 type="primary"
                 @click="addPodEnv(indexPod,indexContainer)"
@@ -309,7 +315,6 @@
         :class="{'full':serviceData.length===1}"
         size="mini"
         :model="itemService"
-        :rules="rulesService"
       >
         <el-form-item
           label="apiVersion"
@@ -340,11 +345,18 @@
         </el-form-item>
         <el-form-item
           label="service Name"
-          prop="metadata.name"
+          class="required"
         >
           <el-input
             v-model="itemService.metadata.name"
+            @blur="checkInputName(itemService.metadata)"
           />
+          <p
+            class="errInfo"
+            v-show="itemService.metadata.showName"
+          >
+            service Name不能为空，不能包含下划线
+          </p>
         </el-form-item>
         <el-form-item
           label="类型"
@@ -356,10 +368,8 @@
           />
         </el-form-item>
         <el-form-item
-          id="portDiv"
           label="端口"
-          class="service_item"
-          prop="spec.ports"
+          class="service_item required"
         >
           <p class="port_title">
             <span>内部端口</span>
@@ -373,37 +383,40 @@
             class="service_port_div clear"
           >
             <div class="port_div">
-              <el-input
+              <el-input-number
                 v-model.number="itemPorts.port"
                 placeholder="port"
+                @change="checkInputPort(itemPorts)"
               />
               <p
                 class="errInfo"
-                v-if="itemPorts.port===''"
+                v-show="itemPorts.showPort"
               >
                 内部端口号不能为空
               </p>
             </div>
             <div class="port_div">
-              <el-input
+              <el-input-number
                 v-model="itemPorts.targetPort"
                 placeholder="targetPort"
+                @change="checkInputTargetPort(itemPorts)"
               />
               <p
                 class="errInfo"
-                v-if="itemPorts.targetPort===''"
+                v-show="itemPorts.showTargetPort"
               >
                 目标端口号不能为空
               </p>
             </div>
             <div class="port_div">
-              <el-input
+              <el-input-number
                 v-model="itemPorts.nodePort"
                 placeholder="nodePort"
+                @change="checkInputNodePort(itemPorts)"
               />
               <p
                 class="errInfo"
-                v-if="itemPorts.nodePort===''"
+                v-show="itemPorts.showNodePort"
               >
                 节点端口号不能为空
               </p>
@@ -501,13 +514,6 @@ export default {
     }
   },
   data () {
-    let podName = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('pod Name不能为空'))
-      } else {
-        return callback()
-      }
-    }
     return {
       configData: {
         deployYamls: []
@@ -518,6 +524,7 @@ export default {
           kind: 'Pod',
           metadata: {
             name: '',
+            showName: false,
             namespace: 'default',
             labels: {
               app: ''
@@ -527,7 +534,9 @@ export default {
             containers: [
               {
                 name: '',
+                showName: false,
                 image: '',
+                showImage: false,
                 imagePullPolicy: 'Always',
                 env: [
                   {
@@ -537,7 +546,8 @@ export default {
                 ],
                 ports: [
                   {
-                    containerPort: 9997
+                    containerPort: 9997,
+                    showInPort: false
                   }
                 ],
                 command: '',
@@ -562,6 +572,7 @@ export default {
           kind: 'Service',
           metadata: {
             name: '',
+            showName: false,
             namespace: 'default',
             labels: {
               svc: ''
@@ -571,9 +582,12 @@ export default {
             ports: [
               {
                 port: 9997,
+                showPort: false,
                 targetPort: 9997,
+                showTargetPort: false,
                 protocol: 'TCP',
-                nodePort: 32115
+                nodePort: 32115,
+                showNodePort: false
               }
             ],
             selector: {
@@ -611,44 +625,16 @@ export default {
       showConfigFile: false,
       showEnv: false,
       envDataNum: 1,
-      isEnvDataEmpty: false,
-      isPortDataEmpty: false,
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID'),
-      rulesPodTop: {
-        name: [
-          { required: true, validator: podName, trigger: 'blur' }
-        ]
-      },
-      rulesPodContainer: {
-        name: [
-          { required: true, message: '容器名称不能为空', trigger: 'blur' }
-        ],
-        image: [
-          { required: true, message: '镜像信息不能为空', trigger: 'blur' }
-        ],
-        imagePullPolicy: [
-          { required: true, message: '拉取策略不能为空', trigger: 'blur' }
-        ],
-        'ports[0].containerPort': [
-          { required: true, message: '内部端口不能为空', trigger: 'blur' }
-        ]
-      },
-      rulesService: {
-        'metadata.name': [
-          { required: true, message: 'service name不能为空', trigger: 'blur' }
-        ],
-        'spec.ports': [
-          { required: true }
-        ]
-      },
       dialogVisible: false,
       projectBeforeConfig: {},
       appYamlFileId: '',
       isPostConfigVisual: false,
       viewOrEdit: 'preview',
       viewConfigFileBtn: false,
-      isEditFile: false
+      isEditFile: false,
+      ifSaveConfig: true
     }
   },
   methods: {
@@ -659,6 +645,7 @@ export default {
         kind: 'Pod',
         metadata: {
           name: '',
+          showName: false,
           namespace: 'default',
           labels: {
             app: ''
@@ -668,7 +655,9 @@ export default {
           containers: [
             {
               name: '',
+              showName: false,
               image: '',
+              showImage: false,
               imagePullPolicy: 'Always',
               env: [
                 {
@@ -678,7 +667,8 @@ export default {
               ],
               ports: [
                 {
-                  containerPort: 9997
+                  containerPort: 9997,
+                  showInPort: false
                 }
               ],
               command: '',
@@ -705,7 +695,9 @@ export default {
     addContainer (indexPod) {
       let obj = {
         name: '',
+        showName: false,
         image: '',
+        showImage: false,
         imagePullPolicy: 'Always',
         env: [
           {
@@ -715,7 +707,8 @@ export default {
         ],
         ports: [
           {
-            containerPort: 9997
+            containerPort: 9997,
+            showInPort: false
           }
         ],
         command: '',
@@ -749,24 +742,6 @@ export default {
     },
     deletePodEnv (indexPod, indexContainer, indexEnv) {
       this.podData[indexPod].spec.containers[indexContainer].env.splice(indexEnv, 1)
-      this.checkEnvData()
-    },
-    // 整体检查环境变量的值是否有空值
-    checkEnvData () {
-      this.podData.forEach(podItem => {
-        podItem.spec.containers.forEach(containersItem => {
-          containersItem.env.forEach(envItem => {
-            if ((envItem.name === '' || envItem.value === '') && this.showEnv) {
-              this.isEnvDataEmpty = true
-            } else {
-              this.isEnvDataEmpty = false
-            }
-          })
-          if (containersItem.env.length === 0) {
-            this.isEnvDataEmpty = false
-          }
-        })
-      })
     },
     // 添加Service
     addService () {
@@ -775,6 +750,7 @@ export default {
         kind: 'Service',
         metadata: {
           name: '',
+          showName: false,
           namespace: 'default',
           labels: {
             svc: ''
@@ -784,9 +760,12 @@ export default {
           ports: [
             {
               port: 9997,
+              showPort: false,
               targetPort: 9997,
+              showTargetPort: false,
               protocol: 'TCP',
-              nodePort: 32115
+              nodePort: 32115,
+              showNodePort: false
             }
           ],
           selector: {
@@ -804,36 +783,148 @@ export default {
     addServicePort (indexService) {
       let objPort = {
         port: 9997,
+        showPort: false,
         targetPort: 9997,
+        showTargetPort: false,
         protocol: 'TCP',
-        nodePort: 32115
+        nodePort: 32115,
+        showNodePort: false
       }
       this.serviceData[indexService].spec.ports.push(objPort)
     },
     deleteServicePort (indexService, indexPorts) {
       this.serviceData[indexService].spec.ports.splice(indexPorts, 1)
     },
-    // 验证端口号是否为空
-    checkServicePort () {
-      this.serviceData.forEach(serviceItem => {
-        serviceItem.spec.ports.forEach(portItem => {
-          if (portItem.port === '' || portItem.targetPort === '' || portItem.nodePort === '') {
-            this.isPortDataEmpty = true
-          } else {
-            this.isPortDataEmpty = false
+    checkInputName (value) {
+      if (value.name === '') {
+        value.showName = true
+      } else {
+        value.showName = false
+      }
+    },
+    checkInputImage (value) {
+      if (value.image === '') {
+        value.showImage = true
+      } else {
+        value.showImage = false
+      }
+    },
+    checkInputInPort (value) {
+      if (value.containerPort === undefined) {
+        value.showInPort = true
+      } else {
+        value.showInPort = false
+      }
+    },
+    checkInputPort (value) {
+      if (value.port === undefined) {
+        value.showPort = true
+      } else {
+        value.showPort = false
+      }
+    },
+    checkInputTargetPort (value) {
+      if (value.targetPort === undefined) {
+        value.showTargetPort = true
+      } else {
+        value.showTargetPort = false
+      }
+    },
+    checkInputNodePort (value) {
+      if (value.nodePort === undefined) {
+        value.showNodePort = true
+      } else {
+        value.showNodePort = false
+      }
+    },
+    // 判断pod必填字段
+    checkPodDataRequired () {
+      this.ifSaveConfig = true
+      let podDatas = JSON.parse(JSON.stringify(this.podData))
+      podDatas.forEach(itemPo => {
+        itemPo.spec.containers.forEach(itemSub => {
+          if (itemSub.name === '') {
+            this.$message.warning('容器名称不能为空')
+            this.ifSaveConfig = false
+          }
+          if (itemSub.image === '') {
+            this.$message.warning('镜像信息不能为空')
+            this.ifSaveConfig = false
+          }
+          if (itemSub.ports[0].containerPort === undefined) {
+            this.$message.warning('内部端口不能为空')
+            this.ifSaveConfig = false
           }
         })
+        if (itemPo.metadata.name === '' || itemPo.metadata.name.toString().indexOf('_') !== -1) {
+          this.$message.warning('pod Name不能为空，不能包含下划线')
+          this.ifSaveConfig = false
+        }
       })
+      return this.ifSaveConfig
+    },
+    // 判断service必填字段
+    checkServiceDataRequired () {
+      this.ifSaveConfig = true
+      let serviceDatas = JSON.parse(JSON.stringify(this.serviceData))
+      serviceDatas.forEach(itemSer => {
+        itemSer.spec.ports.forEach(itemSub => {
+          if (itemSub.nodePort === undefined) {
+            this.$message.warning('节点端口不能为空')
+            this.ifSaveConfig = false
+          }
+          if (itemSub.targetPort === undefined) {
+            this.$message.warning('目标端口不能为空')
+            this.ifSaveConfig = false
+          }
+          if (itemSub.port === undefined) {
+            this.$message.warning('内部端口不能为空')
+            this.ifSaveConfig = false
+          }
+        })
+        if (itemSer.metadata.name === '' || itemSer.metadata.name.toString().indexOf('_') !== -1) {
+          this.$message.warning('service Name不能为空，不能包含下划线')
+          this.ifSaveConfig = false
+        }
+      })
+      return this.ifSaveConfig
+    },
+    deleteDataShow (podArr, serviceArr) {
+      // 处理pod中的show字段
+      let podDatasTemp = JSON.parse(JSON.stringify(this.podData))
+      podDatasTemp.forEach(itemTemp => {
+        delete itemTemp.metadata.showName
+        itemTemp.spec.containers.forEach(itemCon => {
+          delete itemCon.showName
+          delete itemCon.showImage
+          delete itemCon.ports[0].showInPort
+        })
+        podArr.push(itemTemp)
+      })
+      this.podData = podArr
+      // 处理service中的show字段
+      let serviceDatasTemp = JSON.parse(JSON.stringify(this.serviceData))
+      serviceDatasTemp.forEach(itemTemp => {
+        delete itemTemp.metadata.showName
+        itemTemp.spec.ports.forEach(itemport => {
+          delete itemport.showPort
+          delete itemport.showTargetPort
+          delete itemport.showNodePort
+        })
+        serviceArr.push(itemTemp)
+      })
+      this.serviceData = serviceArr
     },
     // 保存配置
     saveConfig () {
-      this.configData.deployYamls = []
-      this.checkEnvData()
-      if (this.isEnvDataEmpty) {
-        document.getElementById('envDiv').scrollIntoView()
-      } else if (this.isPortDataEmpty) {
-        document.getElementById('portDiv').scrollIntoView()
-      } else {
+      let isSaveConfig = this.checkPodDataRequired() && this.checkServiceDataRequired()
+      if (isSaveConfig) {
+        let podArr = []
+        let serviceArr = []
+        if (this.ifSaveConfig) {
+          this.deleteDataShow(podArr, serviceArr)
+        }
+        this.configData.deployYamls = []
         let podDataTemp = JSON.parse(JSON.stringify(this.podData))
         podDataTemp.forEach(podItem => {
           podItem.metadata.labels.app = podItem.metadata.name
@@ -1027,9 +1118,20 @@ export default {
 
 <style lang="less">
 .configVisual{
+  .el-form-item__content{
+    position: relative;
+  }
+  .required .el-form-item__label:before{
+    content:'*';
+    color: #F56C6C;
+    font-size: 12px;
+    margin-right: 4px;
+  }
   .errInfo{
     font-size: 12px;
     color: #F56C6C;
+    position: absolute;
+    top: 25px;
   }
   .el-select{
     width: 100%;
@@ -1045,7 +1147,7 @@ export default {
     padding: 20px;
     margin: 20px 0;
     .service_port_div{
-      margin-bottom: 10px;
+      margin-bottom: 18px;
     }
   }
   .pod_div.full{
@@ -1055,6 +1157,7 @@ export default {
     float: left;
     width: 23%;
     margin: 0 2% 0 0;
+    position: relative;
   }
   .port_div:last-child{
     width: 25%;
