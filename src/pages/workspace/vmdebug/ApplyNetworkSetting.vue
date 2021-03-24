@@ -72,7 +72,8 @@ export default {
   data () {
     return {
       isZh: true,
-      selectedNetwork: this.allStepData.networkSetting ? this.allStepData.networkSetting : []
+      defaultSelectType: [],
+      selectedNetwork: []
     }
   },
   methods: {
@@ -98,6 +99,8 @@ export default {
   },
   mounted () {
     this.isZh = this.$store.state.language === 'cn'
+    this.defaultSelectType.push(this.vmConfigData.vmNetworkList[0].networkType)
+    this.selectedNetwork = this.allStepData.networkSetting ? this.allStepData.networkSetting : this.defaultSelectType
   }
 }
 </script>

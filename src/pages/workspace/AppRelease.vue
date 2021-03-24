@@ -651,7 +651,7 @@
 </template>
 
 <script>
-import { Workspace } from '../../tools/api.js'
+import { Workspace, vmService } from '../../tools/api.js'
 import { Type } from '../../tools/project_data.js'
 import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
@@ -741,7 +741,8 @@ export default {
       isCleanEnvDialog: false,
       publishLoading: false,
       imageStatus: 'NOTDEPLOY',
-      deployPlatform: this.deployPlatformProp
+      deployPlatform: this.deployPlatformProp,
+      imageId: ''
     }
   },
   methods: {
@@ -1093,7 +1094,7 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      if (this.projectDetailData.appInstanceId) {
+      if (this.projectDetailData.appInstanceId || this.imageId !== '') {
         this.getReleaseConfig(this.trafficAllData)
       } else {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
@@ -1201,12 +1202,20 @@ export default {
         obj.name = res.data.fileName
         this.appMdList.push(obj)
       })
+    },
+    getCreateImageList () {
+      vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
+        if (res.data.imageId) {
+          this.imageId = res.data.imageId
+        }
+      })
     }
   },
   mounted () {
     this.checkProjectData()
     this.getProjectInfo()
     this.getTestConfig()
+    this.getCreateImageList()
     this.getAppstoreUrl()
     this.getAllListData()
     this.getReleaseConfigList()
