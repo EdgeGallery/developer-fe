@@ -104,6 +104,7 @@
             :href="downloadVmImage(item.vmId)"
             :underline="false"
             :disabled="item.status==='CREATING'"
+            class="download_btn"
           >
             {{ $t('common.download') }}
           </el-link>
@@ -283,6 +284,11 @@ export default {
     .span_operation{
       width: 15%;
       min-width: 100px;
+      .download_btn{
+        font-size: 12px;
+        color: #688ef3;
+        margin-right: 5px;
+      }
     }
   }
 }

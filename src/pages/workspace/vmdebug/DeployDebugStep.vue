@@ -19,11 +19,10 @@
     <el-row :gutter="24">
       <el-col
         :span="24"
-        v-for="(item,index) in resourceListData"
-        :key="index"
       >
         <el-card
           class="box-card"
+          v-loading="vmDataLoading"
         >
           <div
             slot="header"
@@ -37,12 +36,16 @@
               </tr>
               <tr>
                 <td>
-                  <span class="resCardTitle">{{ item.vmName }}</span>
+                  <span class="resCardTitle">{{ $t('workspace.deployDebugVm.vmList') }}</span>
                 </td>
               </tr>
             </table>
           </div>
-          <el-row :gutter="24">
+          <el-row
+            :gutter="24"
+            v-for="(item,index) in resourceListData"
+            :key="index"
+          >
             <el-col :span="13">
               <div>
                 <el-form
@@ -71,7 +74,7 @@
                   class="formDetail"
                 >
                   <el-form-item :label="$t('workspace.deployDebugVm.vmIpLbl')">
-                    {{ item.host.mecHost }}
+                    {{ item.host?item.host.mecHost:null }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
                     <em
@@ -113,33 +116,35 @@
                 </el-form>
               </div>
             </el-col>
+            <el-col :span="24">
+              <p class="operation_btn">
+                <el-button
+                  type="text"
+                  class="funcBtn"
+                  @click="handleDelResource(item)"
+                  :disabled="item.status==='CREATING'"
+                >
+                  {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
+                </el-button>
+                <el-button
+                  class="funcBtn"
+                  type="text"
+                  @click="handleUploadFile(item)"
+                  :disabled="item.status==='CREATING'"
+                >
+                  {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
+                </el-button>
+                <el-button
+                  type="text"
+                  class="funcBtn"
+                  @click="handleVNC(item)"
+                  :disabled="item.status==='CREATING'"
+                >
+                  {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
+                </el-button>
+              </p>
+            </el-col>
           </el-row>
-          <p class="operation_btn">
-            <el-button
-              type="text"
-              class="funcBtn"
-              @click="handleDelResource(item)"
-              :disabled="item.status==='CREATING'"
-            >
-              {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
-            </el-button>
-            <el-button
-              class="funcBtn"
-              type="text"
-              @click="handleUploadFile(item)"
-              :disabled="item.status==='CREATING'"
-            >
-              {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
-            </el-button>
-            <el-button
-              type="text"
-              class="funcBtn"
-              @click="handleVNC(item)"
-              :disabled="item.status==='CREATING'"
-            >
-              {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
-            </el-button>
-          </p>
         </el-card>
       </el-col>
       <el-col :span="24">
@@ -196,7 +201,8 @@ export default {
       resourceListData: [],
       showUploadAppDlg: false,
       operatingVmId: '',
-      interval: null
+      interval: null,
+      vmDataLoading: false
     }
   },
   methods: {
@@ -213,6 +219,7 @@ export default {
         if (_data.length === 0) {
           this.clearInterval()
         } else {
+          this.vmDataLoading = false
           _data.forEach(item => {
             item.createTime = this.dateChange(item.createTime)
             if (item.status !== 'CREATING') {
@@ -249,6 +256,7 @@ export default {
       })
     },
     handleNewResource () {
+      this.vmDataLoading = true
       this.showApplyVMResDlg = true
     },
     handleApplySuccess () {

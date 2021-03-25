@@ -178,7 +178,7 @@ export default {
       }
 
       vmService.applyVmResource(this.projectId, this.userId, this.getApplyData()).then(res => {
-        this.$message.success(this.$t('workspace.deployDebugVm.applyVmResSuccess'))
+        this.$message(this.$t('workspace.deployDebugVm.applyVmResStart'))
         this.$emit('handleApplySuccess')
       }).catch(() => {
         this.$message.error(this.$t('workspace.deployDebugVm.applyVmResFailed'))

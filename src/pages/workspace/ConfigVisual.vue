@@ -17,7 +17,7 @@
 <template>
   <div class="configVisual clear">
     <h3 class="tit_gray_bg">
-      Pod基本信息
+      {{ $t('workspace.visualConfig.podBasicInfo') }}
     </h3>
     <!-- 添加Pod -->
     <p class="addBtn_div">
@@ -25,7 +25,7 @@
         type="primary"
         @click="addPod"
       >
-        添加Pod
+        {{ $t('workspace.add') }}Pod
       </el-button>
     </p>
     <div
@@ -41,7 +41,7 @@
           v-if="podData.length>1"
           class="deleteText"
         >
-          删除
+          {{ $t('devTools.delete') }}
         </el-button>
       </p>
       <el-form
@@ -91,7 +91,7 @@
             class="errInfo"
             v-show="itemPod.metadata.showName"
           >
-            pod Name不能为空，不能包含下划线
+            {{ $t('workspace.visualConfig.podNameVerify') }}
           </p>
         </el-form-item>
       </el-form>
@@ -101,7 +101,7 @@
             type="primary"
             @click="addContainer(indexPod)"
           >
-            添加工作容器
+            {{ $t('workspace.add')+$t('workspace.visualConfig.workContainer') }}
           </el-button>
         </p>
         <div
@@ -111,41 +111,42 @@
           :key="indexContainer"
         >
           <h3>
-            工作容器
+            {{ $t('workspace.visualConfig.workContainer') }}
             <el-button
               type="text"
               @click="deleteContainer(indexPod,indexContainer)"
               v-if="itemPod.spec.containers.length>1"
               class="deleteText"
             >
-              删除
+              {{ $t('devTools.delete') }}
             </el-button>
           </h3>
           <el-form
-            label-width="80px"
             class="form_container"
             size="mini"
             :model="itemContainer"
           >
             <el-form-item
-              label="容器名称"
+              :label="$t('workspace.containerName')"
               class="required"
+              :class="{'span_left_en':language==='en'}"
             >
               <el-input
                 v-model="itemContainer.name"
-                placeholder="请输入容器名称"
+                :placeholder="$t('common.input')+$t('workspace.containerName')"
                 @blur="checkInputName(itemContainer)"
               />
               <p
                 class="errInfo"
                 v-show="itemContainer.showName"
               >
-                容器名称不能为空
+                {{ $t('workspace.visualConfig.containerNameVerify') }}
               </p>
             </el-form-item>
             <el-form-item
-              label="镜像信息"
+              :label="$t('workspace.configYaml.imageInfo')"
               class="required"
+              :class="{'span_left_en':language==='en'}"
             >
               <el-input
                 v-model="itemContainer.image"
@@ -156,12 +157,13 @@
                 class="errInfo"
                 v-show="itemContainer.showImage"
               >
-                镜像信息不能为空
+                {{ $t('workspace.visualConfig.imageInfoVerify') }}
               </p>
             </el-form-item>
             <el-form-item
-              label="拉取策略"
+              :label="$t('workspace.visualConfig.pullStrategy')"
               class="required"
+              :class="{'span_left_en':language==='en'}"
             >
               <el-select
                 v-model="itemContainer.imagePullPolicy"
@@ -175,8 +177,9 @@
               </el-select>
             </el-form-item>
             <el-form-item
-              label="内部端口"
+              :label="$t('workspace.visualConfig.internalPort')"
               class="required"
+              :class="{'span_left_en':language==='en'}"
             >
               <el-input-number
                 v-model="itemContainer.ports[0].containerPort"
@@ -189,12 +192,13 @@
                 class="errInfo"
                 v-show="itemContainer.ports[0].showPort"
               >
-                内部端口不能为空
+                {{ $t('workspace.visualConfig.internalPortVerify') }}
               </p>
             </el-form-item>
             <el-form-item
-              label="环境变量"
+              :label="$t('workspace.visualConfig.envVariable')"
               class="env_item"
+              :class="{'span_left_en':language==='en'}"
             >
               <div v-show="showEnv">
                 <div
@@ -205,14 +209,14 @@
                   <div class="env_input">
                     <el-input
                       v-model="itemEnv.name"
-                      placeholder="变量名"
+                      :placeholder="$t('workspace.visualConfig.variableName')"
                     />
                   </div>
                   <span class="equal">=</span>
                   <div class="env_input">
                     <el-input
                       v-model="itemEnv.value"
-                      placeholder="值"
+                      :placeholder="$t('workspace.visualConfig.variableValue')"
                     />
                   </div>
                   <p
@@ -223,7 +227,7 @@
                       class="deleteText"
                       @click="deletePodEnv(indexPod,indexContainer,indexEnv)"
                     >
-                      删除
+                      {{ $t('devTools.delete') }}
                     </el-button>
                   </p>
                 </div>
@@ -232,11 +236,12 @@
                 type="primary"
                 @click="addPodEnv(indexPod,indexContainer)"
               >
-                添加
+                {{ $t('workspace.add') }}
               </el-button>
             </el-form-item>
             <el-form-item
-              label="命令行"
+              :label="$t('workspace.visualConfig.commandLine')"
+              :class="{'span_left_en':language==='en'}"
             >
               <el-input
                 v-model="itemContainer.command"
@@ -244,7 +249,7 @@
               />
             </el-form-item>
             <el-form-item
-              label="资源"
+              :label="$t('workspace.containerResource')"
             >
               <p class="resouces_tit">
                 limits
@@ -282,7 +287,7 @@
       </div>
     </div>
     <h3 class="tit_gray_bg">
-      访问方式Service
+      {{ $t('workspace.visualConfig.accessMethod') }}
     </h3>
     <!-- 添加Service -->
     <p class="addBtn_div">
@@ -290,7 +295,7 @@
         type="primary"
         @click="addService"
       >
-        添加Service
+        {{ $t('workspace.add') }}Service
       </el-button>
     </p>
     <div
@@ -306,7 +311,7 @@
           v-if="serviceData.length>1"
           class="deleteText"
         >
-          删除
+          {{ $t('devTools.delete') }}
         </el-button>
       </p>
       <el-form
@@ -355,11 +360,11 @@
             class="errInfo"
             v-show="itemService.metadata.showName"
           >
-            service Name不能为空，不能包含下划线
+            {{ $t('workspace.visualConfig.serviceNameVerify') }}
           </p>
         </el-form-item>
         <el-form-item
-          label="类型"
+          :label="$t('system.type')"
         >
           <el-input
             v-model="itemService.spec.type"
@@ -368,14 +373,14 @@
           />
         </el-form-item>
         <el-form-item
-          label="端口"
+          :label="$t('workspace.port')"
           class="service_item required"
         >
           <p class="port_title">
-            <span>内部端口</span>
-            <span>目标端口</span>
-            <span>节点端口</span>
-            <span>协议</span>
+            <span>{{ $t('workspace.visualConfig.internalPort') }}</span>
+            <span>{{ $t('workspace.visualConfig.destinationPort') }}</span>
+            <span>{{ $t('workspace.visualConfig.nodePort') }}</span>
+            <span>{{ $t('workspace.protocol') }}</span>
           </p>
           <div
             v-for="(itemPorts,indexPorts) in itemService.spec.ports"
@@ -392,7 +397,7 @@
                 class="errInfo"
                 v-show="itemPorts.showPort"
               >
-                内部端口号不能为空
+                {{ $t('workspace.visualConfig.internalPortVerify') }}
               </p>
             </div>
             <div class="port_div">
@@ -405,7 +410,7 @@
                 class="errInfo"
                 v-show="itemPorts.showTargetPort"
               >
-                目标端口号不能为空
+                {{ $t('workspace.visualConfig.destinationPortVerify') }}
               </p>
             </div>
             <div class="port_div">
@@ -418,7 +423,7 @@
                 class="errInfo"
                 v-show="itemPorts.showNodePort"
               >
-                节点端口号不能为空
+                {{ $t('workspace.visualConfig.nodePortVerify') }}
               </p>
             </div>
             <div class="port_div">
@@ -442,7 +447,7 @@
                 class="deleteText"
                 @click="deleteServicePort(indexService,indexPorts)"
               >
-                删除
+                {{ $t('devTools.delete') }}
               </el-button>
             </p>
           </div>
@@ -450,7 +455,7 @@
             type="primary"
             @click="addServicePort(indexService)"
           >
-            添加
+            {{ $t('workspace.add') }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -461,17 +466,17 @@
         v-if="viewConfigFileBtn"
         @click="viewConfigFile"
       >
-        查看Yaml文件
+        {{ $t('workspace.visualConfig.viewYamlFile') }}
       </el-button>
       <el-button
         class="featuresBtn"
         @click="saveConfig"
       >
-        保存配置
+        {{ $t('workspace.saveData') }}
       </el-button>
     </p>
     <el-dialog
-      title="可视化配置文件"
+      :title="$t('workspace.visualConfig.visualConfigFile')"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
     >
@@ -489,15 +494,15 @@
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="editConfigFile">编 辑</el-button>
+        <el-button @click="editConfigFile">{{ $t('common.edit') }}</el-button>
         <el-button
           @click="saveConfigFile"
           v-show="isEditFile"
-        >保 存</el-button>
+        >{{ $t('common.save') }}</el-button>
         <el-button
           type="primary"
           @click="configEditFile"
-        >确 定</el-button>
+        >{{ $t('common.confirm') }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -515,6 +520,7 @@ export default {
   },
   data () {
     return {
+      language: localStorage.getItem('language'),
       configData: {
         deployYamls: []
       },
@@ -844,20 +850,20 @@ export default {
       podDatas.forEach(itemPo => {
         itemPo.spec.containers.forEach(itemSub => {
           if (itemSub.name === '') {
-            this.$message.warning('容器名称不能为空')
+            this.$message.warning(this.$t('workspace.visualConfig.containerNameVerify'))
             this.ifSaveConfig = false
           }
           if (itemSub.image === '') {
-            this.$message.warning('镜像信息不能为空')
+            this.$message.warning(this.$t('workspace.visualConfig.imageInfoVerify'))
             this.ifSaveConfig = false
           }
           if (itemSub.ports[0].containerPort === undefined) {
-            this.$message.warning('内部端口不能为空')
+            this.$message.warning(this.$t('workspace.visualConfig.internalPortVerify'))
             this.ifSaveConfig = false
           }
         })
         if (itemPo.metadata.name === '' || itemPo.metadata.name.toString().indexOf('_') !== -1) {
-          this.$message.warning('pod Name不能为空，不能包含下划线')
+          this.$message.warning(this.$t('workspace.visualConfig.podNameVerify'))
           this.ifSaveConfig = false
         }
       })
@@ -870,20 +876,20 @@ export default {
       serviceDatas.forEach(itemSer => {
         itemSer.spec.ports.forEach(itemSub => {
           if (itemSub.nodePort === undefined) {
-            this.$message.warning('节点端口不能为空')
+            this.$message.warning(this.$t('workspace.visualConfig.nodePortVerify'))
             this.ifSaveConfig = false
           }
           if (itemSub.targetPort === undefined) {
-            this.$message.warning('目标端口不能为空')
+            this.$message.warning(this.$t('workspace.visualConfig.destinationPortVerify'))
             this.ifSaveConfig = false
           }
           if (itemSub.port === undefined) {
-            this.$message.warning('内部端口不能为空')
+            this.$message.warning(this.$t('workspace.visualConfig.internalPortVerify'))
             this.ifSaveConfig = false
           }
         })
         if (itemSer.metadata.name === '' || itemSer.metadata.name.toString().indexOf('_') !== -1) {
-          this.$message.warning('service Name不能为空，不能包含下划线')
+          this.$message.warning(this.$t('workspace.visualConfig.serviceNameVerify'))
           this.ifSaveConfig = false
         }
       })
@@ -947,7 +953,7 @@ export default {
         })
         let params = JSON.stringify(this.configData.deployYamls)
         Workspace.postConfigVisualApi(this.projectId, this.userId, params, 'config').then(res => {
-          this.$message.success('保存配置成功')
+          this.$message.success(this.$t('workspace.visualConfig.saveConfigSuccess'))
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
@@ -956,7 +962,7 @@ export default {
           this.submitData(this.appYamlFileId)
           this.setApiHeight()
         }).catch(() => {
-          this.$message.error('保存配置失败')
+          this.$message.error(this.$t('workspace.visualConfig.saveConfigFail'))
           this.appYamlFileId = ''
           this.markdownSource = ''
         })
@@ -1111,6 +1117,9 @@ export default {
   watch: {
     markdownSource (newVal, oldVal) {
       this.markdownSource = newVal
+    },
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   }
 }
@@ -1118,8 +1127,18 @@ export default {
 
 <style lang="less">
 .configVisual{
+  .el-form-item__label{
+    width: 80px;
+  }
   .el-form-item__content{
     position: relative;
+    margin-left: 80px;
+  }
+  .span_left_en .el-form-item__label{
+    width: 165px;
+  }
+  .span_left_en .el-form-item__content{
+    margin-left: 165px;
   }
   .required .el-form-item__label:before{
     content:'*';
