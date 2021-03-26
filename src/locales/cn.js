@@ -315,7 +315,7 @@ const cn = {
       podNameVerify: 'pod Name不能为空，不能包含下划线',
       workContainer: '工作容器',
       containerNameVerify: '容器名称不能为空',
-      imageInfoVerify: '镜像信息不能为空',
+      imageInfoVerify: '镜像信息格式：imageName:version',
       pullStrategy: '拉取策略',
       internalPort: '内部端口',
       internalPortVerify: '内部端口不能为空',
