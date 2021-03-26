@@ -106,7 +106,7 @@
         </p>
         <div
           class="container_div"
-          :class="{'full':podData.length>1}"
+          :class="{'half':(podData.length===1 && itemPod.spec.containers.length>1)}"
           v-for="(itemContainer,indexContainer) in itemPod.spec.containers"
           :key="indexContainer"
         >
@@ -122,7 +122,8 @@
             </el-button>
           </h3>
           <el-form
-            class="form_container"
+            class="form_container clear"
+            :class="{'half':(podData.length===1 || itemPod.spec.containers.length===1),'full':podData.length>1}"
             size="mini"
             :model="itemContainer"
           >
@@ -250,6 +251,7 @@
             </el-form-item>
             <el-form-item
               :label="$t('workspace.containerResource')"
+              class="resouces"
             >
               <p class="resouces_tit">
                 limits
@@ -299,7 +301,7 @@
       </el-button>
     </p>
     <div
-      class="pod_div clear"
+      class="pod_div service_div clear"
       :class="{'full':serviceData.length===1}"
       v-for="(itemService,indexService) in serviceData"
       :key="'service-'+ indexService"
@@ -376,18 +378,14 @@
           :label="$t('workspace.port')"
           class="service_item required"
         >
-          <p class="port_title">
-            <span>{{ $t('workspace.visualConfig.internalPort') }}</span>
-            <span>{{ $t('workspace.visualConfig.destinationPort') }}</span>
-            <span>{{ $t('workspace.visualConfig.nodePort') }}</span>
-            <span>{{ $t('workspace.protocol') }}</span>
-          </p>
           <div
             v-for="(itemPorts,indexPorts) in itemService.spec.ports"
             :key="indexPorts"
             class="service_port_div clear"
+            :class="{'half':serviceData.length>1}"
           >
             <div class="port_div">
+              <span class="title">{{ $t('workspace.visualConfig.internalPort') }}</span>
               <el-input-number
                 v-model.number="itemPorts.port"
                 placeholder="port"
@@ -401,6 +399,7 @@
               </p>
             </div>
             <div class="port_div">
+              <span class="title">{{ $t('workspace.visualConfig.destinationPort') }}</span>
               <el-input-number
                 v-model="itemPorts.targetPort"
                 placeholder="targetPort"
@@ -414,6 +413,7 @@
               </p>
             </div>
             <div class="port_div">
+              <span class="title">{{ $t('workspace.visualConfig.nodePort') }}</span>
               <el-input-number
                 v-model="itemPorts.nodePort"
                 placeholder="nodePort"
@@ -427,6 +427,7 @@
               </p>
             </div>
             <div class="port_div">
+              <span class="title">{{ $t('workspace.protocol') }}</span>
               <el-select
                 v-model="itemPorts.protocol"
               >
@@ -1129,12 +1130,15 @@ export default {
 
 <style lang="less">
 .configVisual{
+  .el-input-number--mini{
+    width: 100%;
+  }
   .el-form-item__label{
-    width: 80px;
+    width: 100px;
   }
   .el-form-item__content{
     position: relative;
-    margin-left: 80px;
+    margin-left: 100px;
   }
   .span_left_en .el-form-item__label{
     width: 165px;
@@ -1167,22 +1171,65 @@ export default {
     border: 1px solid #ddd;
     padding: 20px;
     margin: 20px 0;
+    height: 670px;
+    overflow-y: auto;
     .service_port_div{
       margin-bottom: 18px;
+      .errInfo{
+        top: 55px;
+      }
+    }
+    .service_port_div.half{
+      .port_div{
+        width: 48%;
+        margin: 20px 2% 0 0;
+      }
+      .port_div:nth-child(even){
+        margin: 20px 0 0 0;
+      }
     }
   }
   .pod_div.full{
     width: 100%;
+    height: 570px;
+  }
+  .pod_div.full.service_div{
+    height: 340px;
+  }
+  .pod_div.service_div{
+    height: 440px;
+    overflow-y: auto;
   }
   .port_div{
     float: left;
     width: 23%;
     margin: 0 2% 0 0;
     position: relative;
+    .title{
+      font-size: 12px;
+      color: #aaa;
+      font-weight: normal;
+    }
   }
   .port_div:last-child{
     width: 25%;
     margin: 0;
+  }
+  .el-form{
+    .el-form-item{
+      float: left;
+      width: 100%;
+    }
+  }
+  .el-form.half{
+    .el-form-item{
+      width: 50%;
+    }
+  }
+  .el-form.half.full{
+    .el-form-item{
+      width: 100%;
+    }
   }
   .addBtn_div{
     float: left;
@@ -1203,16 +1250,6 @@ export default {
       width: 100%;
     }
   }
-  .service_item{
-    .port_title{
-        span{
-          float: left;
-          width: 25%;
-          font-size: 12px;
-          color: #aaa;
-        }
-      }
-  }
   .delete_div{
     height: 25px;
   }
@@ -1222,13 +1259,16 @@ export default {
   }
   .container_div{
     float: left;
-    width: 48%;
-    margin: 2% 1% 0;
+    width: 100%;
+    margin: 2% 0 0;
     background: #e8f9ff;
     border: 1px dashed #ddd;
     padding: 15px;
     .el-form{
       margin-top: 15px;
+      .el-form-item.resouces{
+        width: 100%;
+      }
       .pod_env_div{
         margin-bottom: 10px;
       }
@@ -1266,9 +1306,12 @@ export default {
     border-bottom:1px solid #ddd;
     height: 30px;
   }
-  .container_div.full{
-    width: 100%;
-    margin: 2% 0 0;
+  .container_div.half{
+    width: 48%;
+    margin: 2% 1% 0;
+    .el-form-item{
+      width: 100%;
+    }
   }
   .saveBtn{
     margin-top: 20px;
