@@ -1174,9 +1174,7 @@ export default {
         this.publishLoading = false
       }).catch(err => {
         console.log(err.response)
-        if (err.response.data.message === 'upload app to appstore fail!') {
-          this.$message.warning(this.$t('promptMessage.appReleaseFail'))
-        }
+        this.$message.warning(this.$t('promptMessage.appReleaseFail'))
         this.publishLoading = false
       })
     },
