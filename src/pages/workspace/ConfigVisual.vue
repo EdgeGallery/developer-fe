@@ -809,7 +809,8 @@ export default {
       }
     },
     checkInputImage (value) {
-      if (value.image === '') {
+      let arrTemp = value.image.split(':')
+      if (value.image === '' || arrTemp.length !== 2) {
         value.showImage = true
       } else {
         value.showImage = false
@@ -849,12 +850,13 @@ export default {
       let podDatas = JSON.parse(JSON.stringify(this.podData))
       podDatas.forEach(itemPo => {
         itemPo.spec.containers.forEach(itemSub => {
-          if (itemSub.name === '') {
-            this.$message.warning(this.$t('workspace.visualConfig.containerNameVerify'))
+          let arrTemp = itemSub.image.split(':')
+          if (itemSub.image === '' || arrTemp.length !== 2) {
+            this.$message.warning(this.$t('workspace.visualConfig.imageInfoVerify'))
             this.ifSaveConfig = false
           }
-          if (itemSub.image === '') {
-            this.$message.warning(this.$t('workspace.visualConfig.imageInfoVerify'))
+          if (itemSub.name === '') {
+            this.$message.warning(this.$t('workspace.visualConfig.containerNameVerify'))
             this.ifSaveConfig = false
           }
           if (itemSub.ports[0].containerPort === undefined) {

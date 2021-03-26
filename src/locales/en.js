@@ -170,8 +170,8 @@ const en = {
       pass: 'file detection passed',
       fail: 'file detection failed',
       format: 'format check',
-      imageInfo: 'image imageInfo',
-      serviceInfo: 'service imageInfo',
+      imageInfo: 'image information',
+      serviceInfo: 'service information',
       mepAgent: 'MEP Agent（If mepagent is not integrated, api cannot be released）'
     },
     uploadImage: {
@@ -315,7 +315,7 @@ const en = {
       podNameVerify: 'Pod name cannot be empty and cannot contain underscores',
       workContainer: 'Working Container',
       containerNameVerify: 'Container name cannot be empty',
-      imageInfoVerify: 'Image information cannot be empty',
+      imageInfoVerify: 'Image information format: imageName:version',
       pullStrategy: 'Pull Strategy',
       internalPort: 'Internal Port',
       internalPortVerify: 'Internal port cannot be empty',
