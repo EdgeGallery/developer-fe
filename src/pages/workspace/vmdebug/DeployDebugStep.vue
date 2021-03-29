@@ -165,6 +165,7 @@
         v-model="showApplyVMResDlg"
         :project-id="projectId"
         @handleApplySuccess="handleApplySuccess"
+        @closeLoading="closeLoading"
       />
     </div>
     <div v-if="showUploadAppDlg">
@@ -206,6 +207,9 @@ export default {
     }
   },
   methods: {
+    closeLoading (data) {
+      this.vmDataLoading = data
+    },
     emitStepData () {
       let ifNext = true
       if (ifNext) {

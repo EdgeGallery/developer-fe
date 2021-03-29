@@ -126,6 +126,7 @@ export default {
     },
     handleClose () {
       this.$emit('input', false)
+      this.$emit('closeLoading', false)
     },
     changeComponent () {
       switch (this.active) {
