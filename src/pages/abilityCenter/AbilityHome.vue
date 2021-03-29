@@ -148,7 +148,6 @@ export default {
   position: absolute;
   width: 100%;
   left: 0;
-  height: calc(100% - 65px);
   overflow-y: auto;
   top:65px;
   .topLine{
@@ -194,7 +193,7 @@ export default {
   }
   .bottomLine{
     background: #FFF;
-    padding: 0px 10px 50px;
+    height: 520px;
   }
 }
 </style>

@@ -22,14 +22,12 @@
       <div
         class="practice-panel"
       >
-        <div class="practice-panel-hd">
-          <img
-            src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/platform/special/ai-platform/css/img/rno-12-media-panel/1.png"
-            alt=""
-            class="practice-panel-view"
-            rel="noopener noreferrer"
-          >
-        </div>
+        <img
+          src="../../assets/images/videoClassArea.png"
+          alt=""
+          class="practice-panel-view"
+          rel="noopener noreferrer"
+        >
         <div class="practice-panel-bd">
           <div class="practice-panel-title">
             {{ $t('api.videoTutorial') }}
@@ -40,16 +38,14 @@
             >
               {{ $t('api.videoTutorialDetail') }}
             </div>
-          </div>
-          <footer class="practice-panel-ft">
-            <el-link
-              href="http://www.edgegallery.org/video"
-              target="_blank"
-              type="primary"
+            <el-button
+              round
+              class="practice-panel-ft"
+              @click="jumpToVideo"
             >
               {{ $t('api.Detail') }}
-            </el-link>
-          </footer>
+            </el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +55,7 @@
       >
         <div class="practice-panel-hd">
           <img
-            src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/platform/special/ai-platform/css/img/rno-12-media-panel/2.png"
+            src="../../assets/images/QA_area.png"
             alt=""
             class="practice-panel-view"
           >
@@ -74,22 +70,31 @@
             >
               {{ $t('api.developerCommunityDetail') }}
             </div>
-          </div>
-          <footer class="practice-panel-ft">
-            <el-link
-              href="http://www.edgegallery.org/communication"
-              target="_blank"
-              type="primary"
+            <el-button
+              round
+              class="practice-panel-ft"
+              @click="jumpToCommunicating"
             >
               {{ $t('api.Detail') }}
-            </el-link>
-          </footer>
+            </el-button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  methods: {
+    jumpToCommunicating () {
+      window.open('http://www.edgegallery.org/communication', '_blank')
+    },
+    jumpToVideo () {
+      window.open('http://www.edgegallery.org/video', '_blank')
+    }
+  }
+}
+</script>
 <style lang='less' scoped>
 .practice-card {
   font-size: 0;
@@ -109,11 +114,6 @@
   position: relative;
   top: 0;
   transition: all .2s linear;
-  box-shadow: 0 2px 4px rgba(3,27,78,.06);
-  border: 1px solid #E5E8ED;
-}
-.practice-panel-hd {
-  height: 100px;
 }
 .practice-panel-view {
   display: block;
@@ -121,37 +121,51 @@
   height: 100%;
 }
 .practice-panel-bd {
-    padding: 20px 20px 12px;
+    padding: 20px 20px 12px 30px;
+    margin-top: -255px;
+    width: 50%;
 }
 .practice-panel-title {
     margin-bottom: 12px;
     font-size: 18px;
+    font-weight: 600;
     line-height: 28px;
     color: #000;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.practice-panel-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;
+  height:18px;
+  margin-right:3px;
+  background: black;
+  position: relative;
+  top:4px;
+}
+.practice-panel-cont {
+  padding-left: 14px;
+  .el-button {
+    padding: 4px 10px
+  }
+}
 .practice-panel-ft {
-    border-top: 1px solid #E5E5E5;
-    padding-top: 12px;
-    margin-top: 12px;
+  margin-top: 18px;
 }
 @media (min-width: 769px){
   .practice-card{
     margin-bottom: -20px;
   }
   .practice-card>.practice-cell {
-    width: calc((100% - 20px - 1px) / 2);
+    width: calc((100% - 20px) / 2);
   }
   .cell-1{
       margin-right: 20px;
   }
   .practice-cell>* {
     white-space: normal;
-  }
-  .practice-panel-hd {
-    height: 140px;
   }
 }
 </style>

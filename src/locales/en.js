@@ -118,7 +118,7 @@ const en = {
     serviceDoc: 'service docs',
     onlineEmulator: 'online emulator',
     videoTutorial: 'Video Tutorial Area',
-    developerCommunity: 'Developer Q&A Community',
+    developerCommunity: 'Q&A Community',
     Detail: 'Detail',
     videoTutorialDetail: 'Guide developers in the whole process of app application developer, deploy, test, and release based on the EdgeGallery platform.',
     developerCommunityDetail: 'Used for developer communication and learning.',
