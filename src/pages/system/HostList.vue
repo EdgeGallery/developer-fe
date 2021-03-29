@@ -544,7 +544,7 @@ export default {
         if (valid) {
           this.loading = true
           System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
-            if (res && res.data && res.data.hostId) {
+            if (res.data) {
               this.$message.success((this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'))
               this.onClose()
             } else {
