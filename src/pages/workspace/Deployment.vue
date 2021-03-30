@@ -505,6 +505,9 @@ export default {
       var s1 = input.substring(0, devide)
       var s2 = input.substring(devide + 1, input.length)
       let res = (Math.round(s1 / s2 * 10000) / 100.00)
+      if (s2 === 0) {
+        res = 0
+      }
       if (res > 100) {
         res = 100
       }
