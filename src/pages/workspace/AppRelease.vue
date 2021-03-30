@@ -801,7 +801,7 @@ export default {
         if (this.imageStatus === 'ONLINE') {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
-        if ((data.deployPlatform = 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
+        if ((data.deployPlatform === 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
           this.getReleaseConfigFirst()
         }
       })
