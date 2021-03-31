@@ -24,7 +24,7 @@ const mecDeveloper = [
   },
   {
     id: '3.2',
-    name: 'DevTools',
+    name: 'Integrated Tools',
     path: '/mecDeveloper/plugin/list',
     display: true,
     children: [
