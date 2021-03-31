@@ -25,7 +25,7 @@ const mecDeveloper = [
   },
   {
     id: '3.2',
-    name: '开发工具',
+    name: '集成工具',
     path: '/mecDeveloper/plugin/list',
     pageId: '2.2.1',
     display: true,
