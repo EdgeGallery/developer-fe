@@ -129,10 +129,10 @@ export default {
     initAbilities () {
       Api.getCapabilityGroupsApi()
         .then(res => {
-          let groupDataFromServer = res.data
-          let allAbilitys = abilityAPI.initAbilities(groupDataFromServer, this.$i18n.locale)
-          this.firstLineAbilities = allAbilitys.slice(0, 5)
-          this.secondLineAbilities = allAbilitys.slice(5, 10)
+          let allAbilitys = abilityAPI.initAbilities(res.data, this.$i18n.locale)
+          let filteredData = allAbilitys.filter(item => item.label !== '3GPP' && item.label !== 'ETSI')
+          this.firstLineAbilities = filteredData.slice(0, 5)
+          this.secondLineAbilities = filteredData.slice(5, 10)
           this.currentSelTabIndex = 0
           this.telecomCurrentSelTabIndex = 0
         })
