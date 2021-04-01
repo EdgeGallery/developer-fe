@@ -551,7 +551,7 @@ export default {
               throw new Error()
             }
           }).catch(() => {
-            this.$message.error(this.$t('system.addHost') + this.$t('system.error'))
+            this.$message.error(this.$t('promptMessage.saveFail'))
           }).finally(() => {
             this.loading = false
             this.getListData()
