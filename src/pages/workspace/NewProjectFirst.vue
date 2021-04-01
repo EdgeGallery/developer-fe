@@ -303,7 +303,7 @@ export default {
       rules: {
         name: [
           { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-\s]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
@@ -393,7 +393,11 @@ export default {
           this.defaultIcon.splice(0, 1, this.defaultIconData[11])
           break
       }
-      this.conversionIcon(this.defaultIcon[0])
+      if (this.logoFileList.length !== 0) {
+        this.handleChangeLogo(this.logoFileList[0])
+      } else {
+        this.conversionIcon(this.defaultIcon[0])
+      }
       this.checkProjectData()
     },
     // 上传图标
@@ -402,6 +406,7 @@ export default {
       this.form.base64Session = true
       this.form.appIcon = []
       this.defaultIconFile = []
+      this.logoFileList = []
       this.form.defaultActive = ''
       if (file) {
         if (file.raw.name.indexOf(' ') !== -1) {
