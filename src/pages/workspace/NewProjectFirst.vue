@@ -393,7 +393,14 @@ export default {
           this.defaultIcon.splice(0, 1, this.defaultIconData[11])
           break
       }
-      this.conversionIcon(this.defaultIcon[0])
+      if (this.logoFileList.length !== 0) {
+        this.form.base64Session = true
+        this.defaultIconFile = []
+        this.form.defaultActive = ''
+        this.conversionIcon(this.form.appIcon[0])
+      } else {
+        this.conversionIcon(this.defaultIcon[0])
+      }
       this.checkProjectData()
     },
     // 上传图标
