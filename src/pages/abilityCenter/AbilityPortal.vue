@@ -100,7 +100,7 @@ export default {
     },
     getAbilitys (selId) {
       const abilityIcons = {
-        'Platform-basic-services': 'https://img.icons8.com/windows/32/4a90e2/foundation.png',
+        'Platform-services': 'https://img.icons8.com/windows/32/4a90e2/foundation.png',
         'Telecom-network': 'https://img.icons8.com/windows/32/4a90e2/network.png',
         'AI-capabilities': 'https://img.icons8.com/windows/32/4a90e2/artificial-intelligence.png',
         'Video-processing': 'https://img.icons8.com/windows/32/4a90e2/video-editing.png',
