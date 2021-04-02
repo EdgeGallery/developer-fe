@@ -253,6 +253,7 @@ export default {
     },
     // 提交上传
     onSubmit () {
+      this.uploadBtnLoading = true
       this.$refs.currentComponet.emitStepData()
       this.getApplicationProject()
     },
@@ -269,8 +270,8 @@ export default {
     },
     // 处理上传数据，新建/迁移项目
     getApplicationProject () {
-      let createDate = new Date()
       this.uploadBtnLoading = true
+      let createDate = new Date()
       let allFormData = this.allFormData
       let params = {
         'id': '',
