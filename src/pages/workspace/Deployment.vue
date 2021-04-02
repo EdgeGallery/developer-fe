@@ -580,17 +580,17 @@ export default {
           container.podName = pod.podname
           container.podEventsInfo = pod.podEventsInfo
           container.containerStatus = pod.podstatus
-          if (container.metricsusage.cpuusage !== '') {
+          if (container.metricsusage.cpuusage) {
             container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
           } else {
             container.metricsusage.cpuusage = 0
           }
-          if (container.metricsusage.memusage !== '') {
+          if (container.metricsusage.memusage) {
             container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
           } else {
             container.metricsusage.memusage = 0
           }
-          if (container.metricsusage.diskusage !== '') {
+          if (container.metricsusage.diskusage) {
             container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
           } else {
             container.metricsusage.diskusage = 0
