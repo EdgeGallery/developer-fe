@@ -505,9 +505,6 @@ export default {
       var s1 = input.substring(0, devide)
       var s2 = input.substring(devide + 1, input.length)
       let res = (Math.round(s1 / s2 * 10000) / 100.00)
-      if (s2 === 0) {
-        res = 0
-      }
       if (res > 100) {
         res = 100
       }
@@ -583,9 +580,21 @@ export default {
           container.podName = pod.podname
           container.podEventsInfo = pod.podEventsInfo
           container.containerStatus = pod.podstatus
-          container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
-          container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
-          container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
+          if (container.metricsusage.cpuusage) {
+            container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
+          } else {
+            container.metricsusage.cpuusage = 0
+          }
+          if (container.metricsusage.memusage) {
+            container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
+          } else {
+            container.metricsusage.memusage = 0
+          }
+          if (container.metricsusage.diskusage) {
+            container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
+          } else {
+            container.metricsusage.diskusage = 0
+          }
           temp.push(container)
         }
       }
