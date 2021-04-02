@@ -586,28 +586,31 @@ export default {
           container.podName = pod.podname
           container.podEventsInfo = pod.podEventsInfo
           container.containerStatus = pod.podstatus
-          if (container.metricsusage.cpuusage) {
-            this.showCpuusageProgress = true
-            container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
-          } else {
-            this.showCpuusageProgress = false
-          }
-          if (container.metricsusage.memusage) {
-            this.showMemusageProgress = true
-            container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
-          } else {
-            this.showMemusageProgress = false
-          }
-          if (container.metricsusage.diskusage) {
-            this.showDiskusageProgress = true
-            container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
-          } else {
-            this.showDiskusageProgress = false
-          }
+          this.handleContainerProgress(container)
           temp.push(container)
         }
       }
       this.containers = temp
+    },
+    handleContainerProgress (container) {
+      if (container.metricsusage.cpuusage) {
+        this.showCpuusageProgress = true
+        container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
+      } else {
+        this.showCpuusageProgress = false
+      }
+      if (container.metricsusage.memusage) {
+        this.showMemusageProgress = true
+        container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
+      } else {
+        this.showMemusageProgress = false
+      }
+      if (container.metricsusage.diskusage) {
+        this.showDiskusageProgress = true
+        container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
+      } else {
+        this.showDiskusageProgress = false
+      }
     },
 
     getStatusPic: function () {
