@@ -280,6 +280,7 @@
                     <el-progress
                       type="line"
                       :percentage="scope.row.metricsusage.cpuusage"
+                      v-show="showCpuusageProgress"
                     />
                   </template>
                 </el-table-column>
@@ -292,6 +293,7 @@
                     <el-progress
                       type="line"
                       :percentage="scope2.row.metricsusage.memusage"
+                      v-show="showMemusageProgress"
                     />
                   </template>
                 </el-table-column>
@@ -304,6 +306,7 @@
                     <el-progress
                       type="line"
                       :percentage="scope3.row.metricsusage.diskusage"
+                      v-show="showDiskusageProgress"
                     />
                   </template>
                 </el-table-column>
@@ -364,7 +367,10 @@ export default {
       isPhysical: false,
       language: 'cn',
       containers: [],
-      isCleanTestEnv: sessionStorage.getItem('isCleanTestEnv') || ''
+      isCleanTestEnv: sessionStorage.getItem('isCleanTestEnv') || '',
+      showCpuusageProgress: true,
+      showMemusageProgress: true,
+      showDiskusageProgress: true
     }
   },
   methods: {
@@ -581,19 +587,22 @@ export default {
           container.podEventsInfo = pod.podEventsInfo
           container.containerStatus = pod.podstatus
           if (container.metricsusage.cpuusage) {
+            this.showCpuusageProgress = true
             container.metricsusage.cpuusage = this.getPercentage(container.metricsusage.cpuusage)
           } else {
-            container.metricsusage.cpuusage = 0
+            this.showCpuusageProgress = false
           }
           if (container.metricsusage.memusage) {
+            this.showMemusageProgress = true
             container.metricsusage.memusage = this.getPercentage(container.metricsusage.memusage)
           } else {
-            container.metricsusage.memusage = 0
+            this.showMemusageProgress = false
           }
           if (container.metricsusage.diskusage) {
+            this.showDiskusageProgress = true
             container.metricsusage.diskusage = this.getPercentage(container.metricsusage.diskusage)
           } else {
-            container.metricsusage.diskusage = 0
+            this.showDiskusageProgress = false
           }
           temp.push(container)
         }
