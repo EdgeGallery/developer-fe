@@ -78,7 +78,7 @@ export default {
       rules: {
         name: [
           { required: true, message: this.$t('promptMessage.nameEmpty'), trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-\s]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
         ]
       }
     }

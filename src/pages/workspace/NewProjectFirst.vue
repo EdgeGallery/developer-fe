@@ -262,7 +262,7 @@ export default {
     return {
       form: {
         projectType: this.projectTypeprop,
-        name: 'Video_Surveillance_app',
+        name: '',
         version: '1.0',
         provider: 'Huawei',
         industry: ['Smart Park'],
