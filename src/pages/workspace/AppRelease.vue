@@ -605,7 +605,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="saveConfig"
-        :disabled="(imageStatus === 'ONLINE') || !(projectDetailData.appInstanceId || imageId !== '')"
+        :disabled="projectDetailData.status==='ONLINE'"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
@@ -613,7 +613,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="appDetaildialog=true"
-        :disabled="(imageStatus === 'ONLINE') || !(projectDetailData.appInstanceId || imageId !== '')"
+        :disabled="projectDetailData.status==='ONLINE'"
       >
         {{ $t('workspace.appDetails') }}
       </el-button>
@@ -630,7 +630,7 @@
         type="primary"
         v-if="active<2"
         @click="next"
-        :disabled="(imageStatus === 'ONLINE') || !(projectDetailData.appInstanceId || imageId !== '')"
+        :disabled="projectDetailData.status==='ONLINE'"
       >
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
