@@ -101,11 +101,14 @@
               <span
                 class="span_left"
                 :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.platform') }}</span>{{ projectDetailData.platform }}
+              >{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
             </el-col>
           </el-row>
           <el-row>
-            <el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
               <span
                 class="span_left"
                 :class="{'span_left_en':language==='en'}"
@@ -116,6 +119,15 @@
               >
                 {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
               </span>
+            </el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.createDate') }}</span>{{ projectDetailData.createDate }}
             </el-col>
           </el-row>
           <el-row>
@@ -288,6 +300,8 @@ export default {
         industry: '',
         type: '',
         platform: '',
+        deployType: '',
+        createDate: '',
         dependent: '',
         description: ''
       },
@@ -296,7 +310,7 @@ export default {
       isAppDevelopment: true,
       isCleanEnv: false,
       imageStatus: 'NOTDEPLOY',
-      deployPlatform: ''
+      deployPlatform: 'KUBERNETES'
     }
   },
   methods: {
@@ -334,8 +348,11 @@ export default {
         this.projectDetailData.industry = data.industry[0]
         this.projectDetailData.type = data.type
         this.projectDetailData.platform = data.platform[0]
+        this.projectDetailData.deployType = data.deployPlatform
+        this.projectDetailData.createDate = data.createDate
         this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
+        this.checkProjectData()
         this.projectDependent(res)
         if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
@@ -454,7 +471,6 @@ export default {
     this.getProjectInfo()
     this.handleStep()
     this.getTestConfig()
-    this.checkProjectData()
   },
   watch: {
     '$i18n.locale': function () {

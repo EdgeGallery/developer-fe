@@ -101,6 +101,10 @@ li{
   border: 1px solid #6381d7 !important;
   color: #688ef3 !important;
 }
+.el-button.featuresBtn.is-disabled{
+  border: 1px solid #b4c7f9 !important;
+  color: #b4c7f9 !important;
+}
 .el-tabs__active-bar{
   background-color: #688ef3;
 }

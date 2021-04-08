@@ -35,13 +35,13 @@
         <div class="project_detail">
           <el-row>
             <el-col
-              :sm="10"
+              :sm="12"
               :xs="24"
             >
               <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
             </el-col>
             <el-col
-              :sm="10"
+              :sm="12"
               :xs="24"
             >
               <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
@@ -49,13 +49,13 @@
           </el-row>
           <el-row>
             <el-col
-              :sm="10"
+              :sm="12"
               :xs="24"
             >
               <span class="span_left">{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
             </el-col>
             <el-col
-              :sm="10"
+              :sm="12"
               :xs="24"
             >
               <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
@@ -63,20 +63,23 @@
           </el-row>
           <el-row>
             <el-col
-              :sm="10"
+              :sm="12"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.deploymentPlatform') }}</span>{{ deployPlatform }}
+              <span class="span_left">{{ $t('workspace.deployType') }}</span>{{ deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
             </el-col>
             <el-col
-              :sm="10"
+              :sm="12"
               :xs="24"
             >
               <span class="span_left">{{ $t('test.testTask.testStatus') }}</span>{{ projectDetailData.status }}
             </el-col>
           </el-row>
           <el-row>
-            <el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
               <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
               <span
                 class="span_right"
@@ -85,11 +88,18 @@
                 {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
               </span>
             </el-col>
+            <el-col
+              :sm="12"
+              :xs="24"
+            >
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.createDate') }}</span>{{ projectDetailData.createDate }}
+            </el-col>
           </el-row>
           <el-row>
-            <el-col
-              :sm="24"
-            >
+            <el-col>
               <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
                 class="upload-demo clear"
@@ -595,6 +605,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="saveConfig"
+        :disabled="(imageStatus === 'ONLINE') || !(projectDetailData.appInstanceId || imageId !== '')"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
@@ -602,6 +613,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="appDetaildialog=true"
+        :disabled="(imageStatus === 'ONLINE') || !(projectDetailData.appInstanceId || imageId !== '')"
       >
         {{ $t('workspace.appDetails') }}
       </el-button>
@@ -618,6 +630,7 @@
         type="primary"
         v-if="active<2"
         @click="next"
+        :disabled="(imageStatus === 'ONLINE') || !(projectDetailData.appInstanceId || imageId !== '')"
       >
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
@@ -686,7 +699,8 @@ export default {
         platform: '',
         dependent: '',
         appInstanceId: '',
-        status: 'NOTDEPLOY'
+        status: 'NOTDEPLOY',
+        createDate: ''
       },
       language: localStorage.getItem('language'),
       appMdList: [],
@@ -782,6 +796,7 @@ export default {
         this.projectDetailData.type = data.type
         this.projectDetailData.version = data.version
         this.projectDetailData.platform = data.platform[0]
+        this.projectDetailData.createDate = data.createDate
         this.projectDetailData.status = this.imageStatus = data.status
         let dependent = res.data.capabilityList
         let arr = []
@@ -1214,7 +1229,6 @@ export default {
     }
   },
   mounted () {
-    this.checkProjectData()
     this.getProjectInfo()
     this.getTestConfig()
     this.getCreateImageList()
@@ -1230,6 +1244,7 @@ export default {
       this.rebuileComponents()
       this.getAppstoreUrl()
       this.checkProjectData()
+      this.getProjectInfo()
       if (language === 'en') {
         spanLeft.forEach(item => {
           item.style.width = 165 + 'px'
