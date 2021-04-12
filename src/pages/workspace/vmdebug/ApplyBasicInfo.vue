@@ -35,7 +35,6 @@
         </el-form-item>
         <el-form-item
           :label="$t('system.username')"
-          prop="vmUserName"
         >
           <el-input
             maxlength="128"
@@ -45,11 +44,10 @@
         </el-form-item>
         <el-form-item
           :label="$t('system.password')"
-          prop="vmPassword"
         >
           <el-input
             maxlength="128"
-            v-model="vmPassword"
+            placeholder="root"
             disabled
           />
         </el-form-item>
@@ -74,7 +72,6 @@ export default {
         name: this.allStepData.basicSetting ? this.allStepData.basicSetting.vmName : ''
       },
       vmUserName: 'root',
-      vmPassword: 'root',
       rules: {
         name: [
           { required: true, message: this.$t('promptMessage.nameEmpty'), trigger: 'blur' },
