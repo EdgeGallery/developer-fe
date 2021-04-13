@@ -123,7 +123,8 @@ const cn = {
     developerCommunityDetail: '用于开发者的交流和学习。',
     telecomStandardCapabilitieTitle: '电信标准支持全景图',
     swithToAPI: '点击跳转到接口在线模拟器界面',
-    onlineExperience: '在线体验'
+    onlineExperience: '在线体验',
+    onlineService: '在线体验服务暂未开通'
   },
   nav: {
     home: '首页',

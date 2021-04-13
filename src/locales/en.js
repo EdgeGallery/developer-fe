@@ -123,7 +123,8 @@ const en = {
     developerCommunityDetail: 'Used for developer communication and learning.',
     telecomStandardCapabilitieTitle: 'Telecom Standard Capability Landscape',
     swithToAPI: 'Click this button to go to the API simulator page',
-    onlineExperience: 'Online Experience'
+    onlineExperience: 'Online Experience',
+    onlineService: 'The online experience service is not enabled'
   },
   nav: {
     home: 'Home',

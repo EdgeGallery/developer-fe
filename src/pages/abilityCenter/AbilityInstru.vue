@@ -72,12 +72,19 @@
 
 <script>
 import ability from './ability'
+import { Api } from '../../tools/api.js'
 export default {
   components: {},
   props: {
     parentTabIndex: {
       type: Number,
       default: -1
+    }
+  },
+  data () {
+    return {
+      onLineUrl: '',
+      hasService: true
     }
   },
   computed: {
@@ -133,8 +140,21 @@ export default {
       this.$router.push({ name: 'apiAmulator', query: { groupId: item.id, language: this.$i18n.locale } })
     },
     toOnlineExperience (item) {
-      let routeUrl = 'http://124.70.102.14:30222/#/' + item.appNameEn.replace(/\s*/g, '')
-      window.open(routeUrl, '_blank')
+      Api.getServiceListApi(item.id).then(res => {
+        let capabilityDetail = res.data.capabilityDetailList[0]
+        if (capabilityDetail.host) {
+          this.onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port
+          this.hasService = true
+        } else {
+          this.hasService = false
+        }
+        if (this.hasService) {
+          let routeUrl = this.onLineUrl + '/#/' + item.appNameEn.replace(/\s*/g, '')
+          window.open(routeUrl, '_blank')
+        } else {
+          this.$message.warning(this.$t('api.onlineService'))
+        }
+      })
     }
   }
 }

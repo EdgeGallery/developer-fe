@@ -65,7 +65,7 @@ export default {
     imageWidth () {
       return function (abilityRealName) {
         if (abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1) {
-          return 90
+          return 99
         } else {
           return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
         }
@@ -74,7 +74,7 @@ export default {
     imageHeight () {
       return function (abilityRealName) {
         if (abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1) {
-          return 64
+          return 32
         } else {
           return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 ? 64 : 32
         }
@@ -82,12 +82,12 @@ export default {
     },
     tabPadding30 () {
       return function (abilityRealName) {
-        return !(abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1)
+        return !(abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1)
       }
     },
     tabPadding14 () {
       return function (abilityRealName) {
-        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1 || abilityRealName.indexOf('Ascend') > -1 || abilityRealName.indexOf('昇腾AI能力') > -1
+        return abilityRealName.indexOf('ETSI') > -1 || abilityRealName.indexOf('3GPP') > -1
       }
     }
   },
