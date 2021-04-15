@@ -115,13 +115,13 @@ export default {
       let abilitiesTmp = []
       this.abilities.forEach(ele => {
         let iconKey = ele.labelEn.replace(new RegExp(' ', 'gm'), '-')
-        let name = this.getAbilityShownName(abilit)
+        let name = this.getAbilityShownName(ele)
         abilitiesTmp.push({
           abilityIconSrc: abilityIcons[iconKey] ? abilityIcons[iconKey] : abilityDefaultIcons,
           abilityName: name,
-          abilityRealName: this.$i18n.locale === 'en' ? abilit.labelEn : abilit.label,
-          index: abilit.index,
-          isActive: abilit.index === selId
+          abilityRealName: this.$i18n.locale === 'en' ? ele.labelEn : ele.label,
+          index: ele.index,
+          isActive: ele.index === selId
         })
       })
       return abilitiesTmp
