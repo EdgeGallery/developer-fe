@@ -114,8 +114,7 @@ export default {
       const abilityDefaultIcons = 'https://img.icons8.com/ios/50/4a90e2/services--v1.png'
       let abilitiesTmp = []
       this.abilities.forEach(ele => {
-        let abilit = JSON.parse(JSON.stringify(ele))
-        let iconKey = abilit.labelEn.replaceAll(' ', '-')
+        let iconKey = ele.labelEn.replace(new RegExp(' ', 'gm'), '-')
         let name = this.getAbilityShownName(abilit)
         abilitiesTmp.push({
           abilityIconSrc: abilityIcons[iconKey] ? abilityIcons[iconKey] : abilityDefaultIcons,
