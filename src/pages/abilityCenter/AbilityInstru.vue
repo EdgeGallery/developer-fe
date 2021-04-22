@@ -51,7 +51,7 @@
           </span>
           <span
             class="exp-link"
-            v-if="item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection'"
+            v-if="item.appNameEn === 'Location service' || item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection'"
             @click="toOnlineExperience(item)"
             :id="item.id"
           >
