@@ -141,8 +141,7 @@ export default {
       Api.getServiceListApi(item.id).then(res => {
         let capabilityDetail = res.data.capabilityDetailList[0]
         if (capabilityDetail.host) {
-          let onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port
-          onLineUrl = onLineUrl + '/#/' + item.appNameEn.replace(/\s*/g, '')
+          let onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port + '/#/' + item.appNameEn.replace(/\s*/g, '')
           window.open(onLineUrl, '_blank')
         } else {
           this.$message.warning(this.$t('api.onlineService'))
