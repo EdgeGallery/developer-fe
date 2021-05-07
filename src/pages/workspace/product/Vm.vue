@@ -35,6 +35,10 @@ export default {
     let userId = sessionStorage.getItem('userId')
     let userName = sessionStorage.getItem('userName')
     let token = sessionStorage.getItem('accessToken')
+    let lan = localStorage.getItem('language')
+    if (lan === 'en') {
+      link += ':428'
+    }
     this.src = 'https://' + link + '/overview?egUserId=' + userId + '&egUserName=' + userName + '&egToken=' + token
   }
 }
