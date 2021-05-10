@@ -537,10 +537,11 @@ const en = {
     cpuUsage: 'CPU Usage',
     memUsage: 'Memory Usage',
     diskUsage: 'Disk Usage',
-    deployType: 'Deployment Type',
-    containerImage: 'Container Image',
-    vmImage: 'VM Image',
-    podEventsInfo: 'Pod Events Info'
+    deployType: 'Workload Type',
+    containerImage: 'Container',
+    vmImage: 'VM',
+    podEventsInfo: 'Pod Events Info',
+    projectExist: 'An application with the same name, version, and provider already exists'
   },
   test: {
     howToTest: {
@@ -677,7 +678,7 @@ const en = {
     editRuleFail: 'Edit rule failed',
     appReleaseSuccess: 'Application published successfully',
     appReleaseFail: 'Application publishing failed',
-    deployTypeEmpty: 'Deployment type can not be empty.',
+    deployTypeEmpty: 'Workload type can not be empty.',
     isPublished: 'The application has been published to the application warehouse',
     notDeploy: 'The application is not deployed, and the release operation cannot be performed',
     ipErrorInfo: 'Please enter the correct IP address',
@@ -690,7 +691,8 @@ const en = {
     systemServiceName: 'Please enter a service name with a length of 1-20',
     systemProviderName: 'Please enter a provider name with a length of 1-20',
     systemDocument: 'Please upload Chinese and English documentation',
-    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G'
+    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
+    imageInfoErr: 'Please make sure the image information is correct'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

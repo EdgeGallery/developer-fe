@@ -307,7 +307,7 @@ const cn = {
       createImageText: '应用调测完成，生成镜像',
       generate: '生成',
       stageStatus: '阶段状态',
-      uploadPromt: '注：文件默认上传到虚机的根目录下',
+      uploadPromt: '注：文件默认上传到虚拟机的根目录下',
       vmList: '虚拟机资源列表'
     },
     visualConfig: {
@@ -537,10 +537,11 @@ const cn = {
     cpuUsage: 'CPU使用率',
     memUsage: '内存使用率',
     diskUsage: '硬盘使用率',
-    deployType: '部署方式',
-    containerImage: '容器镜像',
-    vmImage: '虚机镜像',
-    podEventsInfo: 'Pod日志详情'
+    deployType: '负载类型',
+    containerImage: '容器',
+    vmImage: '虚拟机',
+    podEventsInfo: 'Pod日志详情',
+    projectExist: '已存在同名、同版本、同提供商的应用'
   },
   test: {
     howToTest: {
@@ -677,7 +678,7 @@ const cn = {
     editRuleFail: '编辑规则失败',
     appReleaseSuccess: '应用发布成功',
     appReleaseFail: '应用发布失败',
-    deployTypeEmpty: '部署方式不能为空',
+    deployTypeEmpty: '负载类型不能为空',
     isPublished: '应用已经发布到应用仓库',
     notDeploy: '应用没有部署调测，不能进行发布操作',
     ipErrorInfo: '请输入正确的IP地址',
@@ -690,7 +691,8 @@ const cn = {
     systemServiceName: '请输入长度1-20的服务名称',
     systemProviderName: '请输入长度1-20的供应商名称',
     systemDocument: '请上传中文和英文说明文档',
-    imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G'
+    imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G',
+    imageInfoErr: '请确保镜像信息正确'
   },
   breadCrumb: {
     mecDeveloper: '首页',

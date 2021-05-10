@@ -279,7 +279,15 @@ export default {
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       currentComponent: 'choosePlatform',
-      allStepData: {},
+      allStepData: {
+        ifNext: false,
+        third: {
+          enable: false,
+          hostId: '',
+          ip: '',
+          port: ''
+        }
+      },
       projectBeforeConfig: {},
       viewReport: false,
       isDeploying: false,

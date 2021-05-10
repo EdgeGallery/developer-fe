@@ -218,6 +218,7 @@
 
 <script>
 import { Industry, Type, Architecture } from '../../tools/project_data.js'
+import { Workspace } from '../../tools/api.js'
 export default {
   name: '',
   props: {
@@ -228,6 +229,10 @@ export default {
     allStepData: {
       type: Object,
       required: true
+    },
+    iconFileIdProp: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -335,7 +340,8 @@ export default {
       },
       formLabelWidth: '110px',
       language: localStorage.getItem('language'),
-      uploadIcon: false
+      uploadIcon: false,
+      userId: sessionStorage.getItem('userId')
     }
   },
 
@@ -345,11 +351,22 @@ export default {
       if (this.allStepData.first) {
         this.form = this.allStepData.first
         if (this.form.defaultActive !== '') {
-          this.form.logoFileList = []
+          this.logoFileList = []
+          this.changeIcon(this.allStepData.first.type)
         } else {
           this.logoFileList = this.form.appIcon
+          let iconUrl = this.getIcon(this.iconFileIdProp)
+          let currUrl = window.location.origin
+          this.logoFileList[0].url = currUrl + iconUrl
+          this.handleChangeLogo(this.logoFileList[0])
         }
+      } else {
+        this.chooseDefaultIcon(this.defaultIcon[0], 0)
       }
+    },
+    // 获取项目图标
+    getIcon (fileId) {
+      return Workspace.getIconApi(fileId, this.userId)
     },
     changeIcon (val) {
       this.form.base64Session = true
@@ -414,7 +431,7 @@ export default {
           this.logoFileList = []
         } else {
           this.logoFileList.push(file)
-          listTemp.push(file.raw)
+          listTemp.push(file)
           this.form.appIcon = listTemp
           this.uploadIcon = true
         }
@@ -553,7 +570,6 @@ export default {
   mounted () {
     this.getFirstData()
     this.editWidth()
-    this.chooseDefaultIcon(this.defaultIcon[0], 0)
   }
 }
 </script>

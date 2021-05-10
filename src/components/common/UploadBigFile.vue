@@ -111,11 +111,22 @@ export default {
   }
 }
 .uploader-example .uploader-list {
-  width: 60%;
+  width: 100%;
   min-width: 270px;
   max-height: 440px;
   overflow: auto;
   overflow-x: hidden;
   overflow-y: auto;
+  .uploader-file-name{
+    width: 35%;
+  }
+  .uploader-file-status{
+    width: 34%;
+    span{
+      em{
+        margin: 0 15px;
+      }
+    }
+  }
 }
 </style>

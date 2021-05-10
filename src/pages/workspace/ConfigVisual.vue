@@ -1063,9 +1063,9 @@ export default {
       }
       if (containersItem.commond !== null && containersItem.name !== 'mep-agent') {
         let str = containersItem.command
-        str = str.replaceAll('[', '')
-        str = str.replaceAll(']', '')
-        str = str.replaceAll('\\"', '')
+        str = str.replace(/\[/g, '')
+        str = str.replace(/]/g, '')
+        str = str.replace(/\\"/g, '')
         let arr = str.split(',')
         containersItem.command = arr.join(' ')
       }
