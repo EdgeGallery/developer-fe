@@ -51,7 +51,7 @@
           </span>
           <span
             class="exp-link"
-            v-if="item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection'"
+            v-if="item.appNameEn === 'Location service' || item.appNameEn === 'AI Image Repair' || item.appNameEn === 'Edge Detection' || item.appNameEn === 'Image Cartoonization' || item.appNameEn === 'Image Coloring' || item.appNameEn === 'Object Classification' || item.appNameEn === 'Object Detection'"
             @click="toOnlineExperience(item)"
             :id="item.id"
           >
@@ -83,8 +83,6 @@ export default {
   },
   data () {
     return {
-      onLineUrl: '',
-      hasService: true
     }
   },
   computed: {
@@ -143,14 +141,8 @@ export default {
       Api.getServiceListApi(item.id).then(res => {
         let capabilityDetail = res.data.capabilityDetailList[0]
         if (capabilityDetail.host) {
-          this.onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port
-          this.hasService = true
-        } else {
-          this.hasService = false
-        }
-        if (this.hasService) {
-          let routeUrl = this.onLineUrl + '/#/' + item.appNameEn.replace(/\s*/g, '')
-          window.open(routeUrl, '_blank')
+          let onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port + '/#/' + item.appNameEn.replace(/\s*/g, '')
+          window.open(onLineUrl, '_blank')
         } else {
           this.$message.warning(this.$t('api.onlineService'))
         }
