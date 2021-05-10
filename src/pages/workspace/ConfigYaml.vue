@@ -246,10 +246,12 @@ export default {
         this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
         this.submitData(this.appYamlFileId)
       }, (error) => {
-        if (error.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
-        } else {
+        if (error.response.data.message === 'Failed to read content of helm template yaml') {
           this.$message.error(this.$t('promptMessage.uploadYamlFailure'))
+        } else if (error.response.data.message === 'yaml file is empty!') {
+          this.$message.error(this.$t('promptMessage.fileIsEmpty'))
+        } else {
+          this.$message.error(this.$t('promptMessage.imageInfoErr'))
         }
         this.appYamlFileId = ''
         this.yamlFileList = []

@@ -41,88 +41,11 @@
     <div class="upload-image">
       <UploadBigFile />
     </div>
-
-    <h3 class="image_title clear">
-      <span class="span_lefts">{{ $t('workspace.uploadImage.mode3') }}</span>
-      <span class="span_right">
-        {{ $t('workspace.uploadImage.mode3Desc') }}
-      </span>
-    </h3>
-    <div class="tip gray">
-      <div>
-        {{ $t('workspace.uploadImage.mode3Tip') }}
-        <el-link
-          :href="install_href"
-          target="_blank"
-          type="primary"
-          class="install_link"
-        >
-          {{ $t('workspace.uploadImage.installation') }}
-        </el-link>
-      </div>
-      <div class="node-info clear">
-        <div class="node-info-title p5">
-          {{ $t('workspace.uploadImage.importNode') }}
-        </div>
-        <div class="ip_div">
-          <el-input
-            @input="onChangeNodeInfo()"
-            class="input width-200"
-            size="small"
-            v-model="ip"
-            placeholder="IP"
-          />
-          <span
-            class="ip_errInfp error"
-            v-if="isIpError"
-          >{{ $t('promptMessage.ipErrorInfo') }}</span>
-        </div>
-        <div class="port_div">
-          <el-input
-            @input="onChangePortInfo()"
-            class="input  width-100"
-            size="small"
-            v-model="port"
-            placeholder="Port"
-          />
-          <el-button
-            type="primary"
-            plain
-            size="small"
-            @click="handleSaveNodeInfo()"
-          >
-            {{ $t('workspace.uploadImage.test') }}
-          </el-button>
-          <span
-            class="port_errInfp error"
-            v-if="isPortError"
-          >{{ $t('promptMessage.portErrorInfo') }}</span>
-        </div>
-      </div>
-      <div class="node-info">
-        <div class="node-info-title">
-          {{ $t('workspace.uploadImage.useEnv') }}
-        </div>
-        <el-switch
-          @change="onChangeSwitch"
-          v-model="enable"
-        />
-        <el-tooltip
-          class="item"
-          effect="dark"
-          :content="this.$t('workspace.uploadImage.useEnvTip')"
-          placement="right"
-        >
-          <em class="el-icon-question" />
-        </el-tooltip>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import UploadBigFile from '../../components/common/UploadBigFile.vue'
-import { Workspace } from '../../tools/api.js'
 export default {
   name: 'ImageSelect',
   components: {
@@ -152,83 +75,12 @@ export default {
     }
   },
   methods: {
-    handleSaveNodeInfo () {
-      Workspace.saveNodeInfo(this.userId, { hostId: this.hostId, ip: this.ip, port: this.port }).then(res => {
-        if (res && res.data && res.data.hostId) {
-          this.validate = true
-          this.hostId = res.data.hostId
-          this.$message.success(this.$t('workspace.uploadImage.successfulTest'))
-        }
-      }, (error) => {
-        if (error.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
-        } else {
-          this.$message.error(this.$t('workspace.uploadImage.failTest'))
-        }
-        this.enable = false
-        this.validate = false
-      })
-    },
-    onChangeNodeInfo () {
-      this.validate = false
-      this.enable = false
-      const ipValidate = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/.test(this.ip)
-      if (!ipValidate) {
-        this.isIpError = true
-      } else {
-        this.isIpError = false
-      }
-    },
-    onChangePortInfo () {
-      this.validate = false
-      this.enable = false
-      const portValidate = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/.test(this.port) && (this.port >= 30000 && this.port <= 30400)
-      if (!portValidate) {
-        this.isPortError = true
-      } else {
-        this.isPortError = false
-      }
-    },
-    onChangeSwitch (v) {
-      if (!this.validate && v) {
-        this.$message.warning(this.$t('workspace.uploadImage.testfirst'))
-        this.enable = false
-        return
-      }
-      this.enable = v
-    },
-    getNodeInfo () {
-      if (Array.isArray(this.projectBeforeConfig.hosts) && this.projectBeforeConfig.hosts.length) {
-        Workspace.getNodeInfo(this.userId).then(res => {
-          if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
-            const nodeInfo = res.data.find(s => s.hostId === this.projectBeforeConfig.hosts[0].hostId) || {}
-            this.hostId = nodeInfo.hostId
-            this.ip = nodeInfo.ip
-            this.port = nodeInfo.port
-          }
-        })
-      }
-    },
     emitStepData () {
       let ifNext = true
       if (ifNext) {
-        const data = { ip: this.ip, port: this.port, hostId: this.hostId, enable: this.enable }
+        const data = { ip: '', port: '', hostId: '', enable: false }
         this.$emit('getStepData', { step: 'third', data, ifNext })
       }
-    }
-  },
-  mounted () {
-    if (this.allStepData.third) {
-      this.hostId = this.allStepData.third.hostId
-      this.ip = this.allStepData.third.ip
-      this.port = this.allStepData.third.port
-      this.enable = this.allStepData.third.enable
-    } else {
-      this.enable = !!this.projectBeforeConfig.privateHost
-      if (this.enable) {
-        this.validate = true
-      }
-      this.getNodeInfo()
     }
   }
 }

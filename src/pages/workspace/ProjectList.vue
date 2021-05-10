@@ -43,7 +43,7 @@
       <el-table-column
         prop="iconUrl"
         :label="$t('workspace.icon')"
-        width="80"
+        width="65"
       >
         <template slot-scope="scope">
           <img
@@ -56,7 +56,7 @@
       <el-table-column
         prop="name"
         :label="$t('workspace.projectName')"
-        min-width="120"
+        min-width="110"
       />
       <el-table-column
         prop="projectType"
@@ -69,13 +69,21 @@
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
-        width="80"
+        width="75"
       />
       <el-table-column
         prop="provider"
         :label="$t('workspace.provider')"
         width="80"
       />
+      <el-table-column
+        :label="$t('workspace.deployType')"
+        width="125"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
@@ -84,9 +92,12 @@
       <el-table-column
         prop="createDate"
         :label="$t('workspace.createDate')"
-        width="160"
+        width="150"
       />
-      <el-table-column :label="$t('workspace.status')">
+      <el-table-column
+        :label="$t('workspace.status')"
+        width="135"
+      >
         <template slot-scope="scope">
           <em
             v-if="scope.row.status==='ONLINE'"

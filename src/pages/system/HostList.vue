@@ -429,7 +429,7 @@ export default {
         portRangeMin: '30000',
         portRangeMax: '30400',
         architecture: 'X86',
-        protocol: 'http',
+        protocol: 'HTTPS',
         status: 'NORMAL',
         os: 'K8S'
       },
@@ -437,7 +437,7 @@ export default {
         portRangeMin: '30000',
         portRangeMax: '30400',
         architecture: 'X86',
-        protocol: 'http',
+        protocol: 'HTTPS',
         status: 'NORMAL',
         os: 'K8S'
       },

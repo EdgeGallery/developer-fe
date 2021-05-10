@@ -37,6 +37,7 @@
         ref="currentComponet"
         :all-step-data="allFormData"
         :project-typeprop="getprojectType"
+        :icon-file-id-prop="iconFileId"
       />
       <span
         slot="footer"
@@ -128,7 +129,8 @@ export default {
       userName: sessionStorage.getItem('userName'),
       activeProject: this.activeProjectprop,
       isGuest: false,
-      isAppDevelopment: true
+      isAppDevelopment: true,
+      projectExist: false
     }
   },
   mounted () {
@@ -161,64 +163,78 @@ export default {
     nextStep () {
       // 获取第一步数据，判断是否为空
       this.$refs.currentComponet.emitStepData()
-      let appIcon = this.allFormData.first.appIcon[0]
-      let appname = this.allFormData.first.name
-      let nameRule = appname.match(/^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/)
-      let version = this.allFormData.first.version
-      let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
-      let provider = this.allFormData.first.provider
-      let providerRule = provider.match(/^\S.{0,29}$/g)
-      let description = this.allFormData.first.description
-      let descriptionRule = description.match(/^(?!\s)[\S.\s\n\r]{1,128}$/)
-      if (!appname) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.projectNameEmpty')
-        })
-      } else if (!nameRule) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.nameRule')
-        })
-      } else if (!version) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.versionEmpty')
-        })
-      } else if (!versionRule) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.versionRule')
-        })
-      } else if (!provider) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.providerEmpty')
-        })
-      } else if (!providerRule) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.providerRule')
-        })
-      } else if (!appIcon) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.logoEmpty')
-        })
-      } else if (!description) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.descriptionEmpty')
-        })
-      } else if (!descriptionRule) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('promptMessage.introductionRule')
-        })
-      } else {
-        this.getIconFileId()
-        this.handleUserName()
-      }
+      let data = this.allFormData.first
+      Workspace.getProjectListApi(this.userId).then(res => {
+        let projectList = res.data
+        for (let i = 0; i < projectList.length; i++) {
+          if (data.name === projectList[i].name && data.provider === projectList[i].provider && data.version === projectList[i].version) {
+            this.projectExist = true
+            break
+          } else {
+            this.projectExist = false
+          }
+        }
+        let appIcon = this.allFormData.first.appIcon[0]
+        let appname = this.allFormData.first.name
+        let nameRule = appname.match(/^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/)
+        let version = this.allFormData.first.version
+        let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
+        let provider = this.allFormData.first.provider
+        let providerRule = provider.match(/^\S.{0,29}$/g)
+        let description = this.allFormData.first.description
+        let descriptionRule = description.match(/^(?!\s)[\S.\s\n\r]{1,128}$/)
+        if (!appname) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.projectNameEmpty')
+          })
+        } else if (!nameRule) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.nameRule')
+          })
+        } else if (!version) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.versionEmpty')
+          })
+        } else if (!versionRule) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.versionRule')
+          })
+        } else if (!provider) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.providerEmpty')
+          })
+        } else if (!providerRule) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.providerRule')
+          })
+        } else if (!appIcon) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.logoEmpty')
+          })
+        } else if (!description) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.descriptionEmpty')
+          })
+        } else if (!descriptionRule) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('promptMessage.introductionRule')
+          })
+        } else if (this.projectExist) {
+          this.$message.warning(this.$t('workspace.projectExist'))
+        } else {
+          this.getIconFileId()
+          this.handleUserName()
+        }
+      })
     },
     handleUserName () {
       if (this.userName === 'guest') {
@@ -234,7 +250,12 @@ export default {
     // 暂存图标生成图标ID
     getIconFileId () {
       if (this.active === 0) {
-        let firstStepData = this.allFormData.first.appIcon[0]
+        let firstStepData
+        if (this.allFormData.first.appIcon[0].raw) {
+          firstStepData = this.allFormData.first.appIcon[0].raw
+        } else {
+          firstStepData = this.allFormData.first.appIcon[0]
+        }
         let formdata = new FormData()
         formdata.append('file', firstStepData)
         Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
