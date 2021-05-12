@@ -752,6 +752,7 @@ const en = {
     en: 'please input english',
     portRange: 'Port Range',
     config_id: 'Config File',
+    other: 'Other',
     log: {
       userName: 'Username',
       projectName: 'Project Name',
