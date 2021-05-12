@@ -129,6 +129,7 @@
           :label="$t('system.username')"
           prop="userName"
           class="w50"
+          v-if="!form.hostId"
         >
           <el-input
             size="small"
@@ -139,6 +140,7 @@
           :label="$t('system.password')"
           prop="password"
           class="w50"
+          v-if="!form.hostId"
         >
           <el-input
             type="password"
@@ -622,6 +624,7 @@ export default {
     },
     handleShowForm (v) {
       this.form = JSON.parse(JSON.stringify(v))
+      delete this.form.userName
       this.configId_file_list = []
       this.visible = true
       this.$nextTick(() => {
