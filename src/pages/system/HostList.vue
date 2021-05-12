@@ -228,6 +228,12 @@
             v-model="form.address"
           />
         </el-form-item>
+        <el-form-item :label="$t('system.other')">
+          <el-input
+            size="small"
+            v-model="form.parameter"
+          />
+        </el-form-item>
         <el-form-item
           prop="configId"
         >
