@@ -541,7 +541,8 @@ const en = {
     containerImage: 'Container',
     vmImage: 'VM',
     podEventsInfo: 'Pod Events Info',
-    projectExist: 'An application with the same name, version, and provider already exists'
+    projectExist: 'An application with the same name, version, and provider already exists',
+    refresh: 'Refresh'
   },
   test: {
     howToTest: {

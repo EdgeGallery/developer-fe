@@ -541,7 +541,8 @@ const cn = {
     containerImage: '容器',
     vmImage: '虚拟机',
     podEventsInfo: 'Pod日志详情',
-    projectExist: '已存在同名、同版本、同提供商的应用'
+    projectExist: '已存在同名、同版本、同提供商的应用',
+    refresh: '刷新'
   },
   test: {
     howToTest: {
