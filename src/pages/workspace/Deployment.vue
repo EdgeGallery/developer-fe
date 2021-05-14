@@ -234,7 +234,13 @@
           </div>
 
           <!-- 完成状态 -->
-          <div class="deploy-finish-status-box">
+          <div
+            class="deploy-finish-status-box"
+            v-if="deploySuccess"
+          >
+            <el-button @click="refreshDeployStatus">
+              {{ $t("workspace.refresh") }}
+            </el-button>
             <!-- 此处根据返回数组数据渲染页面 -->
             <el-row>
               <el-table
@@ -243,7 +249,6 @@
                 border
                 style="width: 100%"
                 class="containerTable"
-                v-if="deploySuccess"
               >
                 <el-table-column
                   prop="containername"
@@ -498,7 +503,11 @@ export default {
         this.initialTimeline()
       }
     },
-
+    refreshDeployStatus () {
+      Workspace.refreshDeployStatusApi(this.projectId).then(() => {
+        this.getTestConfig()
+      })
+    },
     fetchDataOnMounted () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
         this.projectName = res.data.name
