@@ -227,6 +227,10 @@ let Workspace = {
   getTestConfigApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/test-config')
   },
+  // 刷新部署状态结果
+  refreshDeployStatusApi: function (projectId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/container/workStatus')
+  },
   // 上传配置
   postTestConfigApi: function (projectId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
