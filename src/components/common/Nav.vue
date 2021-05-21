@@ -375,7 +375,7 @@ export default {
       cursor: pointer;
     }
     .user_icon{
-      margin: 0 20px;
+      margin: 2px 20px 0;
       cursor: pointer;
     }
     .userName{
