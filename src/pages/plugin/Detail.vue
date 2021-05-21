@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="detail">
+  <div class="detail padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"

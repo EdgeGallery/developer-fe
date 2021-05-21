@@ -21,9 +21,9 @@
       :unique-opened="true"
       router
       @select="handleSelect"
-      text-color="#fff"
-      background-color="#282b33"
-      active-text-color="#6c92fa"
+      text-color="#bdb1e4"
+      background-color="#280b4e"
+      active-text-color="#fff"
       mode="horizontal"
     >
       <!-- 一级菜单 -->
@@ -167,22 +167,26 @@ export default {
   z-index: 99;
   float: left;
   .el-menu.el-menu--horizontal{
-    height: 65px;
+    height: 80px;
     border-bottom: none;
     .el-menu-item{
-      height: 65px;
-      line-height: 65px;
+      height: 80px;
+      line-height: 80px;
+      margin-right: 30px;
+    }
+    .el-submenu{
+      margin-right: 30px;
     }
   }
   .el-menu--horizontal>.el-submenu .el-submenu__title{
-    height: 65px !important;
-    line-height: 65px !important;
+    height: 80px !important;
+    line-height: 80px !important;
   }
   .el-menu{
     display: flex;
     .first-menu{
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 600;
     }
     .second-menu{
       font-size: 15px;

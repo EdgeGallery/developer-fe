@@ -145,11 +145,9 @@ export default {
 </script>
 <style lang='less' scoped>
 .home{
-  position: absolute;
   width: 100%;
-  left: 0;
   overflow-y: auto;
-  top:65px;
+  top:80px;
   .topLine{
     height: 300px;
     background: url("../../assets/images/banner.png") no-repeat center center #222a3f;

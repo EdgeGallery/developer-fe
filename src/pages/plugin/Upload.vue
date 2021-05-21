@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="upload">
+  <div class="upload padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"
