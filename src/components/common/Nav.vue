@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="navgation padding_default">
+  <div
+    class="navgation padding_default"
+    :class="{'isScroll':isScroll}"
+  >
     <div
       class="logo lt"
       @click="jumpFromLogo('/mecDeveloper')"
@@ -70,14 +73,6 @@
         </div>
       </div>
     </div>
-    <div class="search_div rt">
-      <el-input
-        placeholder="搜索"
-        v-model="searchCon"
-        class="input-with-select"
-        suffix-icon="el-icon-search"
-      />
-    </div>
     <div class="nav small rt">
       <em
         class="el-icon-menu"
@@ -110,6 +105,12 @@ export default {
     Topbar,
     TopbarSmall
   },
+  props: {
+    scrollTopProp: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
       userType: '',
@@ -124,7 +125,9 @@ export default {
       userName: '',
       showUserInfo: false,
       searchCon: '',
-      select: ''
+      select: '',
+      scrollTop: this.scrollTopProp,
+      isScroll: false
     }
   },
   watch: {
@@ -136,6 +139,9 @@ export default {
           this.timer = false
         }, 400)
       }
+    },
+    scrollTopProp (val) {
+      this.getPageScroll(val)
     },
     '$i18n.locale': function () {
       this.showToolchain(this.jsonData)
@@ -171,6 +177,13 @@ export default {
     }
   },
   methods: {
+    getPageScroll (scrollTop) {
+      if (scrollTop < 0) {
+        this.isScroll = true
+      } else {
+        this.isScroll = false
+      }
+    },
     loginFun () {
       loginApi().then(res => {
         sessionStorage.setItem('userId', res.data.userId)
@@ -498,5 +511,8 @@ export default {
       margin-right: 0;
     }
   }
+}
+.navgation.isScroll{
+  box-shadow: 0 6px 10px 0 rgba(27, 7, 118, 0.2)
 }
 </style>

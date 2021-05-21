@@ -174,6 +174,10 @@ export default {
       line-height: 80px;
       margin-right: 30px;
     }
+    .el-menu-item:not(.is-disabled):hover{
+      background: #280b4e !important;
+      border-bottom: 2px solid #fff !important;
+    }
     .el-submenu{
       margin-right: 30px;
     }
@@ -181,6 +185,10 @@ export default {
   .el-menu--horizontal>.el-submenu .el-submenu__title{
     height: 80px !important;
     line-height: 80px !important;
+  }
+  .el-menu--horizontal>.el-submenu .el-submenu__title:hover{
+    background: #280b4e !important;
+    border-bottom: 2px solid #fff !important;
   }
   .el-menu{
     display: flex;
