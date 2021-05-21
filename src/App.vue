@@ -18,8 +18,12 @@
   <div
     id="app"
     :class="{'defaultFontCn':language==='cn','defaultFontEn':language==='en'}"
+    ref="app"
   >
-    <Navcomp class="clearfix" />
+    <Navcomp
+      :scroll-top-prop="scrollTop"
+      class="clearfix"
+    />
     <router-view />
   </div>
 </template>
@@ -33,13 +37,30 @@ export default {
   },
   data () {
     return {
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      scrollTop: 0
     }
   },
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
     }
+  },
+  methods: {
+    getScrollTop () {
+      this.scrollTop = this.$refs.app.getBoundingClientRect().top
+    }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.getScrollTop, true)
+    window.onresize = () => {
+      return (() => {
+        this.getScrollTop()
+      })()
+    }
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.getScrollTop, true)
   }
 }
 </script>

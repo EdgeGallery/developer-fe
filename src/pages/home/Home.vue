@@ -81,10 +81,15 @@
         </div>
       </div>
       <!-- 应用集成、开发 -->
-      <ProjectHome
-        :screen-width-prop="screenWidth"
-        :screen-height-prop="screenHeight"
-      />
+      <div
+        id="homeProject"
+      >
+        <ProjectHome
+          :screen-width-prop="screenWidth"
+          :screen-height-prop="screenHeight"
+        />
+      </div>
+
       <!-- 合作伙伴 -->
       <div class="showLogo padding_default">
         <img
@@ -149,7 +154,8 @@ export default {
         require('../../assets/images/home_capa_pic4_ai.png'),
         require('../../assets/images/home_capa_pic5_spcl.png'),
         require('../../assets/images/home_capa_pic6_sjk.png'),
-        require('../../assets/images/home_capa_pic7_ggkj.png')
+        require('../../assets/images/home_capa_pic7_ggkj.png'),
+        require('../../assets/images/home_capa_pic0.png')
       ],
       capabilityGroupData: []
     }
@@ -206,6 +212,8 @@ export default {
               obj.imgSrc = this.capabilityGroupPic[5]
             } else if (oneLevelNameCn[i] === '公共框架') {
               obj.imgSrc = this.capabilityGroupPic[6]
+            } else {
+              obj.imgSrc = this.capabilityGroupPic[7]
             }
             obj.name = oneLevelNameCn[i]
             obj.nameEn = oneLevelNameEn[i]

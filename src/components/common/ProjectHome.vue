@@ -17,7 +17,6 @@
 <template>
   <div
     class="home_project"
-    id="homeProject"
     @mouseleave="addAnimationLeft=addAnimationRight=false"
   >
     <div
@@ -39,7 +38,10 @@
         <p class="tit_sub">
           Integrate
         </p>
-        <el-button @click="jumpToWorkSpace('Integrate')">
+        <el-button
+          @click="jumpToWorkSpace('Integrate')"
+          class="project_btn"
+        >
           {{ $t('home.select') }}
         </el-button>
       </div>
@@ -86,7 +88,10 @@
         <p class="tit_sub">
           Development
         </p>
-        <el-button @click="jumpToWorkSpace('Development')">
+        <el-button
+          @click="jumpToWorkSpace('Development')"
+          class="project_btn"
+        >
           {{ $t('home.start') }}
         </el-button>
       </div>
@@ -331,7 +336,7 @@ export default {
     .tit_sub{
       font-size: 20px;
     }
-    .el-button{
+    .project_btn{
       width: 210px;
       margin-top: 50px;
       border-radius: 12px;
