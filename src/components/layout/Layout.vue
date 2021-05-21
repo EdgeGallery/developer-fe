@@ -17,7 +17,7 @@
 <template>
   <div class="layout">
     <el-container>
-      <el-container style="position:absolute;height:100%;width:100%;">
+      <el-container>
         <el-main>
           <router-view />
         </el-main>
@@ -34,10 +34,8 @@ export default {
 
 <style lang='less'>
   .layout{
-    position: absolute;
-    height: 100%;
     width: 100%;
-    background: #f0f2f5;
+    background: #f9f4ff;
     .pagebar{
       margin-top:25px;
       float:right;
@@ -75,9 +73,8 @@ export default {
       z-index:50;
     }
     .el-main{
-      padding: 0 4% 20px;
-      margin-top: 65px;
-      height: calc(100% - 55px);
+      padding: 0;
+      overflow: hidden;
     }
     .el-footer{
       padding:0;

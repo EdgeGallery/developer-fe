@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="workspace">
+  <div class="workspace padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"
@@ -143,9 +143,12 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.params.from === 'index') {
+    if (this.$route.params.from === 'Development') {
       this.newprojectDialog = true
       this.addNewProject('CREATE_NEW')
+    } else if (this.$route.params.from === 'Integrate') {
+      this.newprojectDialog = true
+      this.addNewProject('INTEGRATED')
     }
     this.getProjectListData()
   },

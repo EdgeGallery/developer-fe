@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="workdetail">
+  <div class="workdetail padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"
@@ -151,13 +151,13 @@
         <api v-if="activeName === '2'" />
       </el-tab-pane>
       <el-tab-pane
-        :label="$t('workspace.applicationDev')"
+        :label="$t('workspace.appDevelopment')"
         class="elTabPane"
         name="3"
         lazy
         v-if="isAppDevelopment"
       >
-        <span slot="label"><em :class="['tab_appDev',activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.applicationDev') }}</span>
+        <span slot="label"><em :class="['tab_appDev',activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.appDevelopment') }}</span>
         <EnvPreparation v-if="activeName === '3'" />
       </el-tab-pane>
       <el-tab-pane

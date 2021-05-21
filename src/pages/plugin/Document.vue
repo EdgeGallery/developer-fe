@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="doc_div">
+  <div class="doc_div padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"

@@ -13,21 +13,38 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li{
+/*  @font-face
+ {
+   font-family: defaultFontEn;
+   src: url(../fonts/Crimson\ Foam\ Font.ttf);
+ } */
+ @font-face
+ {
+   font-family: defaultFontCn;
+   src: url(../fonts/方正兰亭纤黑.ttf);
+ }
+html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
   margin:0;
   padding:0;
   box-sizing: border-box;
 }
+.defaultFontEn button{
+  font-family:Arial, Helvetica, sans-serif;
+}
+.defaultFontCn button{
+  font-family:defaultFontCn;
+}
+.defaultFontEn{
+  font-family:Arial, Helvetica, sans-serif;
+}
+.defaultFontCn{
+  font-family:defaultFontCn;
+}
+
 html,body{
+  min-width: 1200px;
   height:100%;
-  overflow: hidden;
-}
-.home{
-  height:100%;
-}
-.el-main{
-  padding:20px 20px 60px 20px;
+  font-size: 14px;
 }
 a{
   color: #688ef3;
@@ -156,7 +173,15 @@ div::-webkit-scrollbar{
 }
 div::-webkit-scrollbar-thumb{
   border-radius: 10px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.2);
+}
+body::-webkit-scrollbar{
+  width: 6px;
+  height: 10px;
+}
+body::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
 }
 .el-upload-list{
   float: left;
@@ -180,20 +205,14 @@ div::-webkit-scrollbar-thumb{
   line-height: 28px;
 }
 
-/* 自适应
-@media screen and (min-width: 1201px) { 
-  .home-container {max-width: 1200px} 
-} 
-@media screen and (max-width: 1200px) { 
-  .home-container {max-width: 900px} 
-} 
-@media screen and (max-width: 901px) { 
-  .home-container {max-width: 800px;} 
+.padding_default{
+  padding: 0 10%;
 }
-.home-container{
-  margin:0 auto;
-} */
-
+@media screen and (max-width:1380px){
+  .padding_default{
+    padding: 0 56px;
+  }
+}
 @media screen and (min-width: 1201px) { 
   .monitor {max-width: 1200px} 
 } 

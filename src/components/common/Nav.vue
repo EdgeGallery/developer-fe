@@ -15,77 +15,75 @@
   -->
 
 <template>
-  <div class="navgation">
-    <el-row>
-      <el-col
-        :lg="7"
-        :md="8"
-        :sm="18"
-        :xs="13"
+  <div class="navgation padding_default">
+    <div
+      class="logo lt"
+      @click="jumpFromLogo('/mecDeveloper')"
+    >
+      <img
+        src="../../assets/images/logo.png"
+        alt
+      >
+    </div>
+    <div class="nav big lt">
+      <Topbar :json-data="jsonData" />
+    </div>
+    <div class="user_right rt">
+      <div class="language rt">
+        <span @click="changeLange">{{ language }}</span>
+      </div>
+      <div
+        class="user_icon rt"
+        v-if="ifGuest"
+      >
+        <img
+          src="../../assets/images/nav_user.png"
+          alt=""
+          title="登录"
+          @click="logout()"
+        >
+      </div>
+      <div
+        class="nav-tabs rt"
+        v-if="!ifGuest"
       >
         <div
-          class="logo lt"
-          @click="jumpFromLogo('/mecDeveloper')"
+          class="userName"
+          @mouseenter="showUserInfo=true"
+          @mouseleave="showUserInfo=false"
         >
-          <img
-            src="../../assets/images/logo.png"
-            alt
-          >
+          {{ userName }}
+          <el-collapse-transition>
+            <div
+              class="user_info"
+              v-show="showUserInfo"
+            >
+              <span
+                class="userAccountCenter"
+                @click="openUserAccountCenter()"
+              >{{ $t('nav.userAccountCenter') }}</span>
+              <span
+                @click="beforeLogout()"
+              >{{ $t('nav.logOut') }}</span>
+            </div>
+          </el-collapse-transition>
         </div>
-      </el-col>
-      <el-col
-        :lg="11"
-        :md="11"
-        :sm="7"
-        :xs="3"
-        class="nav big"
-      >
-        <Topbar :json-data="jsonData" />
-      </el-col>
-      <el-col
-        :lg="11"
-        :md="11"
-        :sm="2"
-        :xs="3"
-        class="nav small"
-      >
-        <em
-          class="el-icon-menu"
-          @click="clickSmallMenu"
-        />
-      </el-col>
-      <el-col
-        :lg="6"
-        :md="5"
-        :sm="4"
-        :xs="8"
-      >
-        <div class="language rt">
-          <span @click="changeLange">{{ language }}</span>
-        </div>
-        <div
-          class="nav-tabs rt"
-          v-if="ifGuest"
-        >
-          <span
-            @click="logout()"
-          >{{ $t('nav.logIn') }}</span>
-        </div>
-        <div
-          class="nav-tabs rt"
-          v-else
-        >
-          <span class="userName">{{ userName }}</span>
-          <span
-            class="userAccountCenter"
-            @click="openUserAccountCenter()"
-          >{{ $t('nav.userAccountCenter') }}</span>
-          <span
-            @click="beforeLogout()"
-          >{{ $t('nav.logOut') }}</span>
-        </div>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
+    <div class="search_div rt">
+      <el-input
+        placeholder="搜索"
+        v-model="searchCon"
+        class="input-with-select"
+        suffix-icon="el-icon-search"
+      />
+    </div>
+    <div class="nav small rt">
+      <em
+        class="el-icon-menu"
+        @click="clickSmallMenu"
+      />
+    </div>
     <el-collapse-transition>
       <div
         v-show="menu_small"
@@ -116,14 +114,17 @@ export default {
     return {
       userType: '',
       jsonData: [],
-      language: 'English',
+      language: 'En',
       loginPage: '',
       userCenterPage: '',
       menu_small: false,
       screenHeight: document.body.clientHeight,
       timer: false,
       ifGuest: true,
-      userName: ''
+      userName: '',
+      showUserInfo: false,
+      searchCon: '',
+      select: ''
     }
   },
   watch: {
@@ -144,7 +145,7 @@ export default {
   beforeMount () {
     localStorage.setItem('language', 'cn')
     let language = localStorage.getItem('language')
-    this.language = language === 'en' ? '简体中文' : 'English'
+    this.language = language === 'en' ? '中' : 'En'
     if (language === 'en') {
       this.jsonData = navData.mecDeveloper
     } else {
@@ -247,12 +248,12 @@ export default {
     },
     changeLange () {
       let language
-      if (this.language === 'English') {
-        this.language = '简体中文'
+      if (this.language === 'En') {
+        this.language = '中'
         language = 'en'
         this.jsonData = navData.mecDeveloper
       } else {
-        this.language = 'English'
+        this.language = 'En'
         language = 'cn'
         this.jsonData = navDataCn.mecDeveloper
       }
@@ -260,7 +261,7 @@ export default {
       localStorage.setItem('language', language)
       this.$store.commit('changelanguage', language)
       this.$root.$emit('languageChange')
-      let appDom = document.getElementById('app')
+      /* let appDom = document.getElementById('app')
       if (language === 'en') {
         appDom.style.fontFamily = 'Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif'
       } else {
@@ -269,7 +270,7 @@ export default {
         } else {
           appDom.style.fontFamily = 'Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif'
         }
-      }
+      } */
     },
     jumpFromLogo (newPath) {
       this.$router.push(newPath)
@@ -292,34 +293,12 @@ export default {
 
 <style lang='less'>
 .navgation {
-  background: #282b33;
-  height: 65px;
+  background: #280b4e;
+  height: 80px;
   top: 0px;
   width: 100%;
   position: fixed;
   z-index: 99;
-  .rt{
-    span{
-      height: 65px;
-      line-height: 65px;
-      font-size: 14px;
-      color: #fff;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    span.userName{
-      border-right: 1px solid #686868;
-      height: 12px;
-      line-height: 12px;
-      cursor: default;
-      padding-right: 10px;
-      display: inline-block;
-    }
-    span.userAccountCenter{
-      border-right: 1px solid #686868;
-      padding-right: 10px;
-    }
-  }
   .nav{
     display: flex;
     align-items: center;
@@ -330,24 +309,24 @@ export default {
   }
   .nav.small{
     display: none;
-    height: 65px;
+    height: 80px;
     text-align: center;
     .el-icon-menu{
       color: #fff;
-      font-size: 30px;
-      margin-top: 17px;
+      font-size: 46px;
+      margin: 17px 20px 0 0;
     }
   }
   .logo {
-    height: 65px;
-    line-height: 65px;
-    margin-left: 17px;
+    height: 80px;
+    line-height: 80px;
+    margin-right: 80px;
     display: flex;
 
     img {
-      height: 65px;
+      height: 29px;
       cursor: pointer;
-      margin-left: 25px;
+      margin-top: 25px;
     }
     span {
       font-size: 18px;
@@ -358,48 +337,137 @@ export default {
   .menu-div{
     overflow-y: auto;
   }
-
-  @media screen and (max-width: 1090px) {
-    .el-menu-item{
-      padding: 0 10px;
+  .el-menu-item{
+    padding: 0;
+  }
+  .el-submenu__title{
+    padding: 0;
+  }
+  .user_right{
+    color: #fff;
+    height: 26px;
+    line-height: 26px;
+    margin-top: 27px;
+    .language{
+      font-size: 12px;
+      transform: scale(0.8);
+      -webkit-transform: scale(0.8);
+      width: 26px;
+      height: 26px;
+      border:2px solid #fff;
+      border-radius: 50%;
+      text-align: center;
+      padding: 2px;
+      line-height: 20px;
+      cursor: pointer;
     }
-    .el-submenu__title{
-      padding: 0 10px;
+    .user_icon{
+      margin: 0 20px;
+      cursor: pointer;
     }
-    .main-sidebar .el-menu .first-menu{
-      font-size: 16px;
+    .userName{
+      position: relative;
+      cursor: pointer;
+      margin:0 20px;
     }
-    .logo{
+    .user_info{
+      background: #6319c2;
+      position: absolute;
+      width: 90px;
+      padding-bottom: 2px;
+      border-radius: 6px;
+      top: 30px;
       span{
-        font-size: 16px;
+        display: inline-block;
+        width: 100%;
+        height: 44px;
+        line-height: 44px;
+        font-size: 14px;
+        background: #3b0b7a;
+        border-radius: 6px;
+        margin-top: 2px;
+        text-align: center;
+        color: #acacac;
+      }
+      span:hover{
+        background: #2b0064;
+        color: #fff;
       }
     }
   }
-  @media screen and (max-width: 991px) {
+  .search_div{
+    margin-top: 20px;
+    position: relative;
+    .selectInput{
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background-color: #3f0c81;
+      z-index: 3;
+      width: 70px;
+      .el-input__inner{
+        height: 36px;
+        border: none;
+        background-color: #3f0c81;
+        padding: 0;
+        text-align: left;
+        padding-left: 10px;
+      }
+      .el-input__icon{
+        width: 15px;
+      }
+      .el-icon-arrow-up:before{
+        top: -2px;
+        position: relative;
+      }
+    }
+    .el-input__inner{
+      background-color: #280b4e;
+      border: 1px solid #9c8dd3;
+    }
+    .el-input.is-active .el-input__inner,.el-input__inner:focus {
+      border-color: #fff;
+    }
+    .el-select .el-input {
+      width: 70px;
+    }
+    .input-with-select{
+      width: 180px;
+      position: relative;
+      .el-input__inner{
+        width: 100%;
+      }
+
+    }
+    .input-with-select .el-input-group__prepend {
+      background-color: #3f0c81;
+      border: 1px solid #9c8dd3;
+      border-right: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 40px;
+      margin: 0 -20px;
+    }
+  }
+
+  @media screen and (max-width: 1090px) {
+    .main-sidebar .el-menu .first-menu{
+      font-size: 14px;
+    }
+    .logo{
+      span{
+        font-size: 14px;
+      }
+    }
+  }
+  @media screen and (max-width: 1100px) {
     .nav.big{
       display: none;
     }
     .nav.small{
       display: inline-block;
-    }
-    .el-col-md-5{
-      float: right;
-    }
-    .el-col-md-11{
-      float: right;
-    }
-  }
-  @media screen and (max-width: 767px){
-    .el-col-xs-8{
-      max-width: 135px;
-      float: right;
-    }
-    .el-col-xs-3{
-      float: right;
-    }
-    .logo img{
-      height: 50px;
-      margin: 5px 0 0 0;
     }
   }
   @media screen and (max-width: 553px){

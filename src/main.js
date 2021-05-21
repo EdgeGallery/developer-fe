@@ -28,8 +28,11 @@ import 'eg-view/src/assets/style/normal.css'
 import VCharts from 'v-charts'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import 'swiper/css/swiper.css'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 import '../src/assets/css/common.css'
 
+Vue.use(VueAwesomeSwiper)
 Vue.use(VCharts)
 Vue.use(ElementUI, { locale })
 Vue.use(mavonEditor)

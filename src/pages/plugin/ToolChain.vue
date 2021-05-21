@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="toolchain">
+  <div class="toolchain padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"

@@ -17,60 +17,81 @@
 <template>
   <div class="home">
     <div class="main-div">
-      <div
-        class="topLine"
-        :class="{enBg: !isCn, cnBg:isCn}"
-      />
-      <div class="common-appliaction">
-        <div class="platform_link clear">
-          <div class="devProcess">
-            <div class="process_div">
-              <img
-                :src="img_dev"
-                alt=""
-              >
-              <a />
-            </div>
-            <div class="process_div">
-              <img
-                :src="img_app"
-                alt=""
-              >
-              <a
-                :href="appStoreUrl"
-                target="_blank"
-              />
-            </div>
-            <div class="process_div">
-              <img
-                :src="img_mecm"
-                alt=""
-              >
-              <a
-                :href="mecmUrl"
-                target="_blank"
-              />
-            </div>
-          </div>
-          <div class="bg_process">
+      <div class="banner padding_default">
+        <img
+          src="../../assets/images/home_banner_text.png"
+          alt=""
+          class="banner_text"
+        >
+        <el-button
+          class="to_project"
+          @click="jumpToProject()"
+        >
+          {{ $t('home.enterDev') }}<span class="right">></span>
+        </el-button>
+      </div>
+      <!-- 平台能力 -->
+      <div class="home_capability">
+        <div class="capa_div">
+          <div class="title clear">
             <img
-              :src="img_process"
+              src="../../assets/images/home_tit_capability.png"
+              alt=""
+              class="capability"
+            >
+            <img
+              src="../../assets/images/home_capa_center.png"
+              class="capa_center"
               alt=""
             >
           </div>
-        </div>
-        <el-row>
-          <el-button
-            type="primary"
-            class="start_btn"
-            round
-            @click="jumpToWorkSpace"
+
+          <swiper
+            :options="swiperOption"
+            ref="mySwiper"
           >
-            {{ $t('home.travelStart') }}
-          </el-button>
-        </el-row>
+            <swiper-slide
+              v-for="(item,index) in capabilityGroupData"
+              :key="index"
+            >
+              <div class="capa_list">
+                <div class="icon_box">
+                  <img
+                    :src="item.imgSrc"
+                    alt=""
+                  >
+                </div>
+                <p
+                  class="app_name"
+                  @click="jumpTo('mep')"
+                >
+                  {{ language==='cn'?item.name:item.nameEn }}
+                </p>
+              </div>
+            </swiper-slide>
+            <div
+              class="swiper-button-prev"
+              slot="button-prev"
+            />
+            <div
+              class="swiper-button-next"
+              slot="button-next"
+            />
+          </swiper>
+        </div>
       </div>
-      <div class="showLogo">
+      <!-- 应用集成、开发 -->
+      <ProjectHome
+        :screen-width-prop="screenWidth"
+        :screen-height-prop="screenHeight"
+      />
+      <!-- 合作伙伴 -->
+      <div class="showLogo padding_default">
+        <img
+          src="../../assets/images/home_tit_parnter.png"
+          class="tit_parnter"
+          alt=""
+        >
         <el-link
           target="_blank"
           v-for="item in aLinkList"
@@ -85,6 +106,7 @@
           >
         </el-link>
       </div>
+      <Footer />
     </div>
   </div>
 </template>
@@ -92,172 +114,310 @@
 <script>
 import { mapState } from 'vuex'
 import { aLinkList } from './home.js'
+import Footer from '../../components/common/Footer.vue'
+import { Api } from '../../tools/api.js'
+import ProjectHome from '../../components/common/ProjectHome.vue'
 export default {
   name: '',
+  components: {
+    Footer,
+    ProjectHome
+  },
   data () {
     return {
-      showMain: false,
-      inputValue: '',
-      showError: false,
-      dialogVisible: false,
       aLinkList: aLinkList,
-      img_dev: require('../../assets/images/home_link_dev_cn.png'),
-      img_app: require('../../assets/images/home_link_app_cn.png'),
-      img_mecm: require('../../assets/images/home_link_mecm_cn.png'),
-      img_process: require('../../assets/images/home_link_process_cn.png'),
-      appStoreUrl: '',
-      mecmUrl: '',
-      isCn: true,
-      userName: sessionStorage.getItem('userName')
+      language: localStorage.getItem('language'),
+      userName: sessionStorage.getItem('userName'),
+      screenHeight: document.body.clientHeight,
+      screenWidth: document.body.clientWidth,
+      timer: false,
+      swiperOption: {
+        slidesPerView: 4.5,
+        /* autoplay: {
+          delay: 3000,
+          disableOnInteraction: false
+        }, */
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      },
+      capabilityGroupPic: [
+        require('../../assets/images/home_capa_pic1_ptjc.png'),
+        require('../../assets/images/home_capa_pic2_dxwl.png'),
+        require('../../assets/images/home_capa_pic3_ascend.png'),
+        require('../../assets/images/home_capa_pic4_ai.png'),
+        require('../../assets/images/home_capa_pic5_spcl.png'),
+        require('../../assets/images/home_capa_pic6_sjk.png'),
+        require('../../assets/images/home_capa_pic7_ggkj.png')
+      ],
+      capabilityGroupData: []
     }
   },
   computed: {
     ...mapState(['activeTab'])
   },
   methods: {
-    jumpToWorkSpace () {
-      if (this.userName === 'guest') {
-        this.$message.error(this.$t('promptMessage.guestPrompt'))
-      } else {
-        this.$router.push({ name: 'workspace', params: { from: 'index' } })
-      }
+    setScreenHeight (screenHeight) {
+      let oDiv = document.getElementsByClassName('banner')
+      oDiv[0].style.height = (Number(screenHeight) - 80) + 'px'
+
+      let oDiv1 = document.getElementsByClassName('home_project')
+      oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
     },
-    jumpTo (item) {
-      this.$store.commit('changeTab', item.id)
-      this.$router.push(item.path)
+    jumpToProject () {
+      document.getElementById('homeProject').scrollIntoView()
     },
-    getInputValue () {
-      this.$store.commit('getKeyValue', this.inputValue)
+    jumpTo (name) {
+      this.$router.push({ name: name })
     },
-    getPlatformUrl () {
-      let currUrl = window.location.origin
-      if (currUrl.indexOf('30092') !== -1) {
-        this.appStoreUrl = currUrl.replace('30092', '30091')
-        this.mecmUrl = currUrl.replace('30092', '30093')
-      } else {
-        this.appStoreUrl = currUrl.replace('developer', 'appstore')
-        this.mecmUrl = currUrl.replace('developer', 'mecm')
-      }
+    // 获取所有能力组
+    getCapabilityGroups () {
+      Api.getCapabilityGroupsApi().then(res => {
+        let oneLevelNameEn = []
+        let oneLevelNameCn = []
+        let groupData = res.data
+        groupData.forEach(item => {
+          oneLevelNameEn.push(item.oneLevelNameEn)
+          oneLevelNameCn.push(item.oneLevelName)
+        })
+        oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
+        oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
+        let length = oneLevelNameEn.length
+
+        for (let i = 0; i < length; i++) {
+          let obj = {
+            imgSrc: '',
+            name: '',
+            nameEn: ''
+          }
+          if (this.language === 'cn') {
+            if (oneLevelNameCn[i] === '平台基础服务') {
+              obj.imgSrc = this.capabilityGroupPic[0]
+            } else if (oneLevelNameCn[i] === '电信网络能力') {
+              obj.imgSrc = this.capabilityGroupPic[1]
+            } else if (oneLevelNameCn[i] === '昇腾AI能力') {
+              obj.imgSrc = this.capabilityGroupPic[2]
+            } else if (oneLevelNameCn[i] === 'AI能力') {
+              obj.imgSrc = this.capabilityGroupPic[3]
+            } else if (oneLevelNameCn[i] === '视频处理') {
+              obj.imgSrc = this.capabilityGroupPic[4]
+            } else if (oneLevelNameCn[i] === '数据库') {
+              obj.imgSrc = this.capabilityGroupPic[5]
+            } else if (oneLevelNameCn[i] === '公共框架') {
+              obj.imgSrc = this.capabilityGroupPic[6]
+            }
+            obj.name = oneLevelNameCn[i]
+            obj.nameEn = oneLevelNameEn[i]
+            this.capabilityGroupData.push(obj)
+          }
+        }
+      })
     }
   },
   created () {
-    if (sessionStorage.getItem('key')) {
-      this.showMain = true
-    } else {
-      this.dialogVisible = true
-    }
+    this.getCapabilityGroups()
   },
   mounted () {
-    this.getPlatformUrl()
+    this.setScreenHeight(this.screenHeight)
+    // 监听到窗口大小变化时，重新给screenHeight变量赋值
+    window.onresize = () => {
+      return (() => {
+        this.screenHeight = document.body.clientHeight
+        this.screenWidth = document.body.clientWidth
+        this.setScreenHeight(this.screenHeight)
+      })()
+    }
   },
   watch: {
-    '$i18n.locale': function () {
-      let language = localStorage.getItem('language')
-      if (language === 'cn') {
-        this.img_dev = require('../../assets/images/home_link_dev_cn.png')
-        this.img_app = require('../../assets/images/home_link_app_cn.png')
-        this.img_mecm = require('../../assets/images/home_link_mecm_cn.png')
-        this.img_process = require('../../assets/images/home_link_process_cn.png')
-      } else {
-        this.img_dev = require('../../assets/images/home_link_dev_en.png')
-        this.img_app = require('../../assets/images/home_link_app_en.png')
-        this.img_mecm = require('../../assets/images/home_link_mecm_en.png')
-        this.img_process = require('../../assets/images/home_link_process_en.png')
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setScreenHeight(this.screenHeight)
       }
-      this.isCn = language === 'cn'
+    },
+    screenWidth (val) {
+      if (!this.timer) {
+        this.screenWidth = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setScreenHeight(this.screenHeight)
+      }
+    },
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   }
 }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
 .home {
-  position: absolute;
   width: 100%;
-  left: 0;
-  height: calc(100% - 65px);
-  overflow-y: auto;
-  top:65px;
-  .enBg {
-    background-image: url("../../assets/images/membersAndPartners_en.png");
-  }
-  .cnBg {
-    background-image: url("../../assets/images/membersAndPartners_cn.png");
-  }
-  .topLine {
-    height: 300px;
-    background-size:100%;
-    background-repeat: no-repeat;
-    user-select: none;
-  }
-  @media screen and (max-width: 1380px) {
-    .topLine {
-      height: 300px;
-      background-size:100%;
-      background-repeat: no-repeat;
+  .banner{
+    background: url('../../assets/images/home_banner_bg.jpg');
+    background-size:cover;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    .banner_text{
+      margin-left:140px;
+    }
+    .el-button.to_project{
+      min-width: 200px;
+      height: 60px;
+      background: none;
+      border: 2px solid #fff;
+      font-size: 20px;
+      color: #fff;
+      border-radius: 8px;
+      margin: 118px 0 0 140px;
+      .right{
+        font-size: 14px;
+        margin-left: 20px;
+      }
+    }
+    .el-button.to_project:hover{
+      background: #fff;
+      color: #542c8a;
     }
   }
-  @media screen and (max-width: 640px){
-    .topLine {
-      height: 300px;
+  .home_capability{
+    background: url('../../assets/images/home_left_bg.png') left 85px no-repeat;
+    .capa_div{
+      position: relative;
+      padding: 150px 0 0 0;
+    }
+    .title{
+      height: 111px;
+      padding: 0 10%;
+      .capability{
+        float: left;
+        margin-left: 140px;
+      }
+      .capa_center{
+        float: right;
+        margin-right: 30px;
+      }
+    }
+    .swiper-container{
+      padding-top: 190px;
+      top: -100px;
+      padding-right: 10%;
+      .swiper-wrapper:hover{
+        cursor: move;
+      }
+      .swiper-slide:first-child{
+        margin-left: 10%;
+      }
+    }
+    .swiper-slide {
+      padding: 10px 16px 30px;
+      max-width: 380px;
+      .icon_box{
+        text-align: center;
+        img{
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      }
+      .capa_list{
+        border-radius: 10px;
+      }
+      .capa_list:hover{
+        box-shadow: 0 6px 20px 0 rgba(27, 7, 118, 0.23);
+      }
+      .app_name{
+        padding:8%;
+        font-size: 1.5rem;
+        color: #380879;
+        background: url('../../assets/images/home_capa_name_bg.png') 92% center #fff no-repeat;
+        border-radius: 0 0 10px 10px;
+      }
+      .app_name:hover{
+        cursor: pointer;
+      }
+      .el-rate__icon{
+        margin-right: 5px;
+      }
+    }
+    .swiper-button-prev{
+      right: 10%;
+      top: 30px;
+      left: auto;
+      margin-right: 110px;
+      width: 11px;
+      height: 20px;
+      background: url('../../assets/images/home_capa_left.png');
+    }
+    .swiper-button-next{
+      right: 10%;
+      top: 30px;
+      width: 11px;
+      height: 20px;
+      background: url('../../assets/images/home_capa_right.png');
+    }
+    .swiper-button-prev:after, .swiper-button-next:after{
+      content: '';
     }
   }
   .showLogo {
-    padding: 25px 10%;
-    text-align: center;
-    position: relative;
-    z-index: 999999;
+    background: #fff;
+    padding-top: 145px;
+    padding-bottom: 145px;
+    .tit_parnter{
+      margin:0 0 110px 140px;
+      display: block;
+    }
     a {
       display: inline-block;
-      width: 9%;
-      margin: 0 1% 1%;
+      width: 18%;
+      margin: 0 1% 2%;
+      padding: 5px 0;
+      border: 1px solid #9186b7;
+      text-align: center;
+      border-radius: 12px;
+      background: transparent;
       img {
         width: 80%;
         max-width: 110px;
-        opacity: 0.7;
-      }
-      img:hover {
-        opacity: 1;
       }
     }
-  }
-  .showLogo a:first-child {
-    width: 12%;
-  }
-  .showLogo a:first-child img {
-    width: 90%;
-    max-width: 180px;
-  }
-  .showLogo a:last-child {
-    width: 14%;
-  }
-  .showLogo a:last-child img {
-    width: 100%;
-    max-width: 210px;
+    a:hover{
+      box-shadow: 3px 3px 10px 0 rgba(40, 6, 85, 0.2), 3px 3px 8px 0 rgba(40, 6, 85, 0.1) inset;
+      cursor: pointer;
+      background: transparent;
+    }
   }
   @media screen and (max-width: 1024px){
-    .showLogo{
-      padding: 25px 5%;
-      a{
-        width: 10.1%;
-        margin: 0 0.5% 1%;
-      }
+    .banner_text{
+      width: 70%;
+      max-width: 566px;
     }
   }
   @media screen and (max-width: 768px){
     .showLogo{
       a{
-        width: 14.6%;
+        width: 31%;
       }
+    }
+    .banner .banner_text,.banner .el-button.to_project{
+      margin-left: 10%;
     }
   }
   @media screen and (max-width: 640px){
     .showLogo{
       a{
-        width: 24%;
-      }
-      a:last-child {
-        width: 24%;
+        width: 31%;
       }
     }
   }

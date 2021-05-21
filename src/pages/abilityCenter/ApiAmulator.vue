@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="mepapi">
+  <div class="mepapi padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"

@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="ideList">
+  <div class="ideList padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"

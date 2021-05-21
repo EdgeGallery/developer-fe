@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :class="{'defaultFontCn':language==='cn','defaultFontEn':language==='en'}"
+  >
     <Navcomp class="clearfix" />
     <router-view />
   </div>
@@ -27,20 +30,29 @@ export default {
   name: 'App',
   components: {
     Navcomp
+  },
+  data () {
+    return {
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
 
 <style lang="less">
 #app {
-  font-family: Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif;
+  // font-family: Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  position: absolute;
   height: 100%;
   width: 100%;
-  background:#F0F2F5;
-  min-width: 320px;
+  background:#f9f4ff;
+  padding-top: 80px;
 }
 </style>

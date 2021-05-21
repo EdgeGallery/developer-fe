@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="toolreport">
+  <div class="toolreport padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"
