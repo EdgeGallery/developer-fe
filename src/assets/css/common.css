@@ -45,6 +45,7 @@ html,body{
   min-width: 1200px;
   height:100%;
   font-size: 14px;
+  background: #f1f2f6;
 }
 a{
   color: #688ef3;
