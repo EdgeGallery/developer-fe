@@ -338,10 +338,11 @@ export default {
     }
     .project_btn{
       width: 210px;
+      flex-shrink: 0;
+      height: 64px;
       margin-top: 50px;
       border-radius: 12px;
       font-size: 26px;
-      padding: 18px 0;
     }
   }
   .project_info.hide{
