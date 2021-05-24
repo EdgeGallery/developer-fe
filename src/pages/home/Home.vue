@@ -214,7 +214,7 @@ export default {
               obj.imgSrc = this.capabilityGroupPic[6]
             } else if (oneLevelNameCn[i] === '公共框架') {
               obj.imgSrc = this.capabilityGroupPic[7]
-            } else if (oneLevelNameCn[i] === '3DPP') {
+            } else if (oneLevelNameCn[i] === '3GPP') {
               obj.imgSrc = this.capabilityGroupPic[8]
             } else if (oneLevelNameCn[i] === 'ETSI') {
               obj.imgSrc = this.capabilityGroupPic[9]
