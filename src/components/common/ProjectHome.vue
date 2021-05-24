@@ -341,12 +341,7 @@ export default {
       margin-top: 50px;
       border-radius: 12px;
       font-size: 26px;
-      padding: 0;
-      span{
-        display: inline-block;
-        height: 62px;
-        line-height: 62px;
-      }
+      padding: 18px 0;
     }
   }
   .project_info.hide{

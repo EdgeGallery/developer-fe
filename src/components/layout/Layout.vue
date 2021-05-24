@@ -35,7 +35,6 @@ export default {
 <style lang='less'>
   .layout{
     width: 100%;
-    background: #f9f4ff;
     .pagebar{
       margin-top:25px;
       float:right;

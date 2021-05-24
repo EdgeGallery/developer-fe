@@ -148,6 +148,7 @@ export default {
         }
       },
       capabilityGroupPic: [
+        require('../../assets/images/home_capa_pic0.png'),
         require('../../assets/images/home_capa_pic1_ptjc.png'),
         require('../../assets/images/home_capa_pic2_dxwl.png'),
         require('../../assets/images/home_capa_pic3_ascend.png'),
@@ -155,7 +156,8 @@ export default {
         require('../../assets/images/home_capa_pic5_spcl.png'),
         require('../../assets/images/home_capa_pic6_sjk.png'),
         require('../../assets/images/home_capa_pic7_ggkj.png'),
-        require('../../assets/images/home_capa_pic0.png')
+        require('../../assets/images/home_capa_pic8_3gpp.png'),
+        require('../../assets/images/home_capa_pic9_etsi.png')
       ],
       capabilityGroupData: []
     }
@@ -199,21 +201,25 @@ export default {
           }
           if (this.language === 'cn') {
             if (oneLevelNameCn[i] === '平台基础服务') {
-              obj.imgSrc = this.capabilityGroupPic[0]
-            } else if (oneLevelNameCn[i] === '电信网络能力') {
               obj.imgSrc = this.capabilityGroupPic[1]
-            } else if (oneLevelNameCn[i] === '昇腾AI能力') {
+            } else if (oneLevelNameCn[i] === '电信网络能力') {
               obj.imgSrc = this.capabilityGroupPic[2]
-            } else if (oneLevelNameCn[i] === 'AI能力') {
+            } else if (oneLevelNameCn[i] === '昇腾AI能力') {
               obj.imgSrc = this.capabilityGroupPic[3]
-            } else if (oneLevelNameCn[i] === '视频处理') {
+            } else if (oneLevelNameCn[i] === 'AI能力') {
               obj.imgSrc = this.capabilityGroupPic[4]
-            } else if (oneLevelNameCn[i] === '数据库') {
+            } else if (oneLevelNameCn[i] === '视频处理') {
               obj.imgSrc = this.capabilityGroupPic[5]
-            } else if (oneLevelNameCn[i] === '公共框架') {
+            } else if (oneLevelNameCn[i] === '数据库') {
               obj.imgSrc = this.capabilityGroupPic[6]
-            } else {
+            } else if (oneLevelNameCn[i] === '公共框架') {
               obj.imgSrc = this.capabilityGroupPic[7]
+            } else if (oneLevelNameCn[i] === '3DPP') {
+              obj.imgSrc = this.capabilityGroupPic[8]
+            } else if (oneLevelNameCn[i] === 'ETSI') {
+              obj.imgSrc = this.capabilityGroupPic[9]
+            } else {
+              obj.imgSrc = this.capabilityGroupPic[0]
             }
             obj.name = oneLevelNameCn[i]
             obj.nameEn = oneLevelNameEn[i]
