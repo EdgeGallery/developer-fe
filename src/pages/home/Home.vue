@@ -49,6 +49,7 @@
           <swiper
             :options="swiperOption"
             ref="mySwiper"
+            v-loading="dataLoading"
           >
             <swiper-slide
               v-for="(item,index) in capabilityGroupData"
@@ -159,7 +160,8 @@ export default {
         require('../../assets/images/home_capa_pic8_3gpp.png'),
         require('../../assets/images/home_capa_pic9_etsi.png')
       ],
-      capabilityGroupData: []
+      capabilityGroupData: [],
+      dataLoading: true
     }
   },
   computed: {
@@ -192,7 +194,7 @@ export default {
         oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
         oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
         let length = oneLevelNameEn.length
-
+        this.dataLoading = false
         for (let i = 0; i < length; i++) {
           let obj = {
             imgSrc: '',
@@ -226,6 +228,10 @@ export default {
             this.capabilityGroupData.push(obj)
           }
         }
+      }).catch(() => {
+        setTimeout(() => {
+          this.dataLoading = false
+        }, 2000)
       })
     }
   },
@@ -326,6 +332,7 @@ export default {
       padding-top: 190px;
       top: -100px;
       padding-right: 10%;
+      background: transparent;
       .swiper-wrapper:hover{
         cursor: move;
       }
