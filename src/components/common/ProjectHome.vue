@@ -21,8 +21,7 @@
   >
     <div
       class="integration lt"
-      @mouseenter="toRight"
-      :class="[{'start':addAnimationLeft}]"
+      :class="[{'start':addAnimationLeft,'select':addAnimationRight}]"
     >
       <div
         class="project_info"
@@ -39,6 +38,8 @@
           Integrate
         </p>
         <el-button
+          @mouseenter.native="toRight"
+          @mouseleave.native="addAnimationLeft=addAnimationRight=false"
           @click="jumpToWorkSpace('Integrate')"
           class="project_btn"
         >
@@ -47,22 +48,18 @@
       </div>
       <div
         class="project_step"
-        :class="[{'integration_step':addAnimationRight}]"
+        :class="[{'integration_step':addAnimationRight,'integration_hide':!addAnimationRight}]"
       >
-        <p class="step_tit">
-          操作步骤
-        </p>
-        <p class="tit_sub">
-          Operation guide
-        </p>
-        <el-timeline>
-          <el-timeline-item
-            v-for="(activity, index) in integrationStep"
-            :key="index"
-          >
-            {{ activity.content }}
-          </el-timeline-item>
-        </el-timeline>
+        <img
+          :src="integrationBig"
+          alt=""
+          v-if="isIntegrationBig"
+        >
+        <img
+          :src="integrationSmall"
+          alt=""
+          v-if="!isIntegrationBig"
+        >
       </div>
       <span
         class="right"
@@ -71,8 +68,7 @@
     </div>
     <div
       class="development rt"
-      @mouseenter="toLeft"
-      :class="[{'select':addAnimationRight}]"
+      :class="[{'select':addAnimationRight,'start':addAnimationLeft}]"
     >
       <div
         class="project_info"
@@ -89,6 +85,8 @@
           Development
         </p>
         <el-button
+          @mouseenter.native="toLeft"
+          @mouseleave.native="addAnimationLeft=addAnimationRight=false"
           @click="jumpToWorkSpace('Development')"
           class="project_btn"
         >
@@ -97,22 +95,18 @@
       </div>
       <div
         class="project_step dev"
-        :class="[{'integration_step':addAnimationLeft}]"
+        :class="[{'integration_step':addAnimationLeft,'integration_hide':!addAnimationLeft}]"
       >
-        <p class="step_tit">
-          操作步骤
-        </p>
-        <p class="tit_sub">
-          Operation guide
-        </p>
-        <el-timeline>
-          <el-timeline-item
-            v-for="(activity, index) in developmentStep"
-            :key="index"
-          >
-            {{ activity.content }}
-          </el-timeline-item>
-        </el-timeline>
+        <img
+          :src="developmentBig"
+          alt=""
+          v-if="isDevelopmentBig"
+        >
+        <img
+          :src="developmentSmall"
+          alt=""
+          v-if="!isDevelopmentBig"
+        >
       </div>
       <span
         class="left"
@@ -143,36 +137,19 @@ export default {
       timer: false,
       addAnimationLeft: false,
       addAnimationRight: false,
-      integrationStep: [{
-        content: '新建项目'
-      }, {
-        content: '上传镜像'
-      }, {
-        content: '部署调测'
-      }, {
-        content: '应用认证'
-      }, {
-        content: '应用发布'
-      }],
-      developmentStep: [{
-        content: '新建项目'
-      }, {
-        content: '选择能力'
-      }, {
-        content: '开发应用'
-      }, {
-        content: '部署调测'
-      }, {
-        content: '应用认证'
-      }, {
-        content: '应用发布'
-      }]
+      isIntegrationBig: true,
+      isDevelopmentBig: true,
+      integrationBig: require('../../assets/images/integrationBig.gif'),
+      integrationSmall: require('../../assets/images/integrationSmall.gif'),
+      developmentBig: require('../../assets/images/developmentBig.gif'),
+      developmentSmall: require('../../assets/images/developmentSmall.gif')
     }
   },
   methods: {
     setScreenHeight (screenHeight) {
       let oDiv1 = document.getElementsByClassName('home_project')
       oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
+      oDiv1[0].style.minHeight = 500 + 'px'
     },
     jumpToWorkSpace (type) {
       if (this.userName === 'guest') {
@@ -185,17 +162,21 @@ export default {
       this.addAnimationLeft = true
       this.addAnimationRight = false
       this.changezIndex('development', 'integration')
+      this.developmentBig = this.developmentBig + '?' + new Date()
+      this.developmentSmall = this.developmentSmall + '?' + new Date()
     },
     toRight () {
       this.addAnimationLeft = false
       this.addAnimationRight = true
       this.changezIndex('integration', 'development')
+      this.integrationBig = this.integrationBig + '?' + new Date()
+      this.integrationSmall = this.integrationSmall + '?' + new Date()
     },
     changezIndex (className1, className2) {
       let oDiv1 = document.getElementsByClassName(className1)
       oDiv1[0].style.zIndex = 9
       let oDiv2 = document.getElementsByClassName(className2)
-      oDiv2[0].style.zIndex = 1
+      oDiv2[0].style.zIndex = 2
     },
     mouseEnter (screenWidth) {
       let oDiv = document.getElementsByClassName('project_info')
@@ -204,9 +185,17 @@ export default {
 
       let oDiv1 = document.getElementsByClassName('project_step')
       oDiv1[0].style.marginTop = -(oDiv1[0].offsetHeight / 2) + 'px'
-      oDiv1[0].style.left = (Number(screenWidth) / 2 - 100) + 'px'
+      oDiv1[0].style.left = (Number(screenWidth) / 2 - 120) + 'px'
       oDiv1[1].style.marginTop = -(oDiv1[1].offsetHeight / 2) + 'px'
-      oDiv1[1].style.right = (Number(screenWidth) / 2 - 100) + 'px'
+      oDiv1[1].style.right = (Number(screenWidth) / 2 - 120) + 'px'
+
+      if (screenWidth <= 1380) {
+        this.isIntegrationBig = false
+        this.isDevelopmentBig = false
+      } else {
+        this.isIntegrationBig = true
+        this.isDevelopmentBig = true
+      }
     }
   },
   mounted () {
@@ -255,11 +244,15 @@ export default {
     color: #000;
     transition:width 0.3s;
     position: relative;
+    z-index: 9;
   }
   .integration{
     .el-button{
       background: #380879;
       color: #fff;
+    }
+    .el-button:hover{
+      background: #5a279f;
     }
     .right{
       display: inline-block;
@@ -284,6 +277,9 @@ export default {
       background: #fff;
       color: #380879;
     }
+    .el-button:hover{
+      background: #d9cfe6;
+    }
     .left{
       display: inline-block;
       width: 26px;
@@ -303,13 +299,13 @@ export default {
   .integration.start{
     width: 15%;
   }
-  .integration:hover{
+  .integration.select{
     width: 85%;
   }
   .development.select{
     width: 15%;
   }
-  .development:hover{
+  .development.start{
     width: 85%;
   }
   .project_info{
@@ -324,7 +320,7 @@ export default {
     justify-content: center;
     flex-direction: column;
     opacity: 1;
-    transition:opacity 0.5s;
+    transition:opacity 0.3s;
     img{
       width: 75%;
       max-width: 237px;
@@ -350,13 +346,14 @@ export default {
   }
   .project_step{
     position: absolute;
-    width: 550px;
+    width: 650px;
+    height: 484px;
     top: 50%;
     opacity: 0;
-    transition:opacity 0.7s;
+    transition:opacity 2.5s;
     background: #fcfcfc;
     border-radius: 15px;
-    padding: 50px 0 30px 100px;
+    padding: 50px 0 30px 55px;
     box-shadow: 0 0 20px 0 rgba(56, 8, 121, 0.14);
     color: #000;
     .step_tit{
@@ -387,11 +384,16 @@ export default {
   }
   @media screen and (max-width:1380px){
     .project_step{
-      width: 450px;
+      width: 468px;
+      padding: 50px 0 30px 20px;
     }
   }
   .project_step.integration_step{
     opacity: 1;
+  }
+  .project_step.integration_hide{
+    transition:display 0.5s;
+    visibility: hidden;
   }
   .project_step.dev{
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.14);
