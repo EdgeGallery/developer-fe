@@ -58,9 +58,6 @@
                   <el-form-item :label="$t('workspace.deployDebugVm.vmSpecLbl')">
                     {{ buildSpecDesc(item) }}
                   </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmNetworkLbl')">
-                    {{ item.vmNetwork.join(', ') }}
-                  </el-form-item>
                 </el-form>
               </div>
             </el-col>
