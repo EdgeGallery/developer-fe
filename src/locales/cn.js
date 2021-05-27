@@ -285,6 +285,7 @@ const cn = {
       applyResource: '申请资源',
       configSpec: '规格设置',
       configNetwork: '网络设置',
+      otherSetting: '其他设置',
       vmName: '虚拟机名称',
       selectVmSpecTip: '选择虚拟机规格',
       vmSpecMustSelectTip: '请选择虚拟机规格！',

@@ -32,6 +32,7 @@
         <el-step :title="$t('workspace.basicInformation')" />
         <el-step :title="$t('workspace.deployDebugVm.configSpec')" />
         <el-step :title="$t('workspace.deployDebugVm.configNetwork')" />
+        <el-step :title="$t('workspace.deployDebugVm.otherSetting')" />
       </el-steps>
       <div>
         <component
@@ -60,7 +61,7 @@
           id="nextBtn"
           type="primary"
           @click="next"
-          v-if="active<2"
+          v-if="active<3"
         >
           <strong>{{ $t('workspace.next') }}</strong>
         </el-button>
@@ -68,7 +69,7 @@
           id="confirmBtn"
           type="primary"
           @click="confirm"
-          v-if="active>=2"
+          v-if="active>=3"
         >
           <strong>{{ $t('common.confirm') }}</strong>
         </el-button>
@@ -88,11 +89,12 @@ import { vmService } from '../../../tools/api.js'
 import BasicInfoOnApplyVM from './ApplyBasicInfo.vue'
 import SpecSettingOnApplyVM from './ApplySpecSetting.vue'
 import NetworkSettingOnApplyVM from './ApplyNetworkSetting.vue'
+import OtherSetting from './OtherSetting.vue'
 
 export default {
   name: 'ApplyVMRes',
   components: {
-    BasicInfoOnApplyVM, SpecSettingOnApplyVM, NetworkSettingOnApplyVM
+    BasicInfoOnApplyVM, SpecSettingOnApplyVM, NetworkSettingOnApplyVM, OtherSetting
   },
   props: {
     value: {
@@ -142,6 +144,10 @@ export default {
           this.currentComponent = 'NetworkSettingOnApplyVM'
           break
         }
+        case 3: {
+          this.currentComponent = 'OtherSetting'
+          break
+        }
         default: {
           this.currentComponent = 'BasicInfoOnApplyVM'
         }
@@ -157,7 +163,7 @@ export default {
     next () {
       this.$refs.currComponent.emitStepData(true)
       if (this.allStepData.canNext) {
-        if (this.active < 2) {
+        if (this.active < 4) {
           this.active++
           this.handleStep()
         }
@@ -192,6 +198,14 @@ export default {
       _applyData.vmRegulation = this.vmConfigData.vmRegulationList.find(item => item.regulationId === this.allStepData.specSetting.selectedRegulationId)
       _applyData.vmSystem = this.vmConfigData.vmSystemList.find(item => item.systemId === this.allStepData.specSetting.selectedSystemId)
       _applyData.vmNetwork = this.allStepData.networkSetting
+      _applyData.ak = this.allStepData.otherSetting.ak
+      _applyData.sk = this.allStepData.otherSetting.sk
+      let userData = {}
+      userData.operateSystem = _applyData.vmSystem.operateSystem
+      userData.contents = this.allStepData.otherSetting.contents
+      userData.params = this.allStepData.otherSetting.params
+      userData.temp = this.allStepData.otherSetting.temp
+      _applyData.vmUserData = userData
       return _applyData
     },
     cancel () {

@@ -284,6 +284,7 @@ const en = {
       createImage: 'Create Image',
       applyResource: 'Apply Resource',
       configSpec: 'Specification Setting',
+      otherSetting: 'Other Setting',
       configNetwork: 'Network Setting',
       vmName: 'Virtual Machine Name',
       selectVmSpecTip: 'Select Virtual Machine Specification',

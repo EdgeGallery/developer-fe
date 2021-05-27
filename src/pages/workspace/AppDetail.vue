@@ -162,6 +162,15 @@
       </el-tab-pane>
       <el-tab-pane
         class="elTabPane"
+        name="6"
+        lazy
+        v-if="deployPlatform === 'VIRTUALMACHINE'"
+      >
+        <span slot="label"><em :class="['tab_config',activeName==='6'?'tab_active':'tab_default']" />资源配置</span>
+        <ResourceConfig v-if="activeName === '6'" />
+      </el-tab-pane>
+      <el-tab-pane
+        class="elTabPane"
         name="4"
         lazy
       >
@@ -255,6 +264,7 @@ import { Industry, Type } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
 import deployment from './Deployment.vue'
 import appRelease from './AppRelease.vue'
+import ResourceConfig from './vmdebug/DeployDebugStep.vue'
 export default {
   name: 'AppDetail',
   components: {
@@ -266,7 +276,8 @@ export default {
     DeployDebugVMMain,
     api,
     deployment,
-    appRelease
+    appRelease,
+    ResourceConfig
   },
   data () {
     return {
@@ -569,6 +580,12 @@ export default {
     }
     .tab_appDev.tab_active{
       background: url('../../assets/images/menu_iocn_code_selected.png') no-repeat;
+    }
+    .tab_config.tab_default{
+      background: url('../../assets/images/menu_iocn_config_default.png') no-repeat;
+    }
+    .tab_config.tab_active{
+      background: url('../../assets/images/menu_iocn_config_selected.png') no-repeat;
     }
     .tab_deploy.tab_default{
       background: url('../../assets/images/menu_iocn_deploy_default.png') no-repeat;

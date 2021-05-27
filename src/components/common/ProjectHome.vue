@@ -382,7 +382,7 @@ export default {
       padding-bottom: 10px;
     }
   }
-  @media screen and (max-width:1380px){
+  @media screen and (max-width:1550px){
     .project_step{
       width: 468px;
       padding: 50px 0 30px 20px;
