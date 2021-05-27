@@ -58,6 +58,9 @@
                   <el-form-item :label="$t('workspace.deployDebugVm.vmSpecLbl')">
                     {{ buildSpecDesc(item) }}
                   </el-form-item>
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
+                    {{ item.createTime }}
+                  </el-form-item>
                 </el-form>
               </div>
             </el-col>
@@ -69,9 +72,6 @@
                 >
                   <el-form-item :label="$t('workspace.deployDebugVm.vmImageLbl')">
                     {{ buildSystemDesc(item) }}
-                  </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
-                    {{ item.createTime }}
                   </el-form-item>
                   <el-form-item :label="$t('workspace.deployDebugVm.vmNetworkLbl')">
                     {{ item.vmNetwork.join(', ') }}
