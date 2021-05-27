@@ -667,14 +667,14 @@ export default {
       this.language = language
       if (this.language === 'en') {
         detailLeft.forEach(item => {
-          item.style.width = 150 + 'px'
+          item.style.width = 160 + 'px'
         })
         deployDiv.style.minWidth = 820 + 'px'
         deployLeft.style.width = 220 + 'px'
         deployRight.style.width = 'calc( 100% - 220px)'
       } else {
         detailLeft.forEach(item => {
-          item.style.width = 70 + 'px'
+          item.style.width = 80 + 'px'
         })
         deployDiv.style.minWidth = 760 + 'px'
         deployLeft.style.width = 160 + 'px'
@@ -705,7 +705,7 @@ export default {
   height: 100%;
   //标题名
   .detail-title-key {
-    width: 70px;
+    width: 80px;
     display: inline-block;
     text-align: right;
     padding-right: 10px;

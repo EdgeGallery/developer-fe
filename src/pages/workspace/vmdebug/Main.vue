@@ -19,56 +19,23 @@
     id="div_deploydebug_vm"
     class="deploydebug_vm"
   >
-    <el-steps
-      :active="active"
-      finish-status="success"
-      align-center
-    >
-      <el-step :title="$t('workspace.deploymentTest')" />
-      <el-step :title="$t('workspace.deployDebugVm.createImage')" />
-    </el-steps>
-    <div>
-      <component
-        :is="currentComponent"
-        :active="active"
-        :all-step-data="allStepData"
-        :project-id="projectId"
-        @getStepData="getStepData"
-        @getBtnStatus="getBtnStatus"
-        ref="currComponent"
-      />
-    </div>
-    <div class="elButton">
+    <el-card class="addRes-box-card">
       <el-button
-        id="prevBtn"
-        type="text"
-        @click="previous"
-        v-if="active>0"
-        :disabled="isDeploying"
-      >
-        <strong>{{ $t('workspace.previous') }}</strong>
-      </el-button>
-      <el-button
-        id="nextBtn"
+        class="btn-addRes"
         type="primary"
-        @click="next"
-        v-if="active<1"
+        @click="deployTest"
+        :disabled="deployListData.length!==0"
       >
-        <strong>{{ $t('workspace.next') }}</strong>
+        {{ $t('workspace.startDeployment') }}
       </el-button>
-    </div>
+    </el-card>
   </div>
 </template>
 
 <script>
-import DeployDebugVMStep from './DeployDebugStep.vue'
-import CreateVMImageStep from './CreateImageStep.vue'
-
+import { vmService } from '../../../tools/api.js'
 export default {
   name: 'DeployDebugVMMain',
-  components: {
-    DeployDebugVMStep, CreateVMImageStep
-  },
   props: {
     projectId: {
       required: true,
@@ -77,58 +44,18 @@ export default {
   },
   data () {
     return {
-      active: 0,
-      currentComponent: 'DeployDebugVMStep',
-      allStepData: {},
-      isDeploying: false
+      userId: sessionStorage.getItem('userId'),
+      deployListData: []
     }
   },
   methods: {
-    changeComponent () {
-      switch (this.active) {
-        case 0: {
-          this.currentComponent = 'DeployDebugVMStep'
-          break
-        }
-        case 1: {
-          this.currentComponent = 'CreateVMImageStep'
-          break
-        }
-        default: {
-          this.currentComponent = 'DeployDebugVMStep'
-        }
-      }
-    },
-    getStepData (data) {
-      this.allStepData[data.step] = data.data
-      this.allStepData.ifNext = data.ifNext
-    },
-    getBtnStatus (status) {
-      this.isDeploying = status.status
-    },
-    next () {
-      // 获取组件内部的值
-      this.$refs.currComponent.emitStepData()
-      if (this.allStepData.ifNext) {
-        if (this.active < 1) {
-          this.active++
-          this.handleStep()
-        }
-      }
-    },
-    previous () {
-      this.active--
-      this.handleStep()
-    },
-    handleStep () {
-      // 改变动态组件的值
-      this.changeComponent()
-      this.allStepData.ifNext = false
+    deployTest () {
+      vmService.vmDeployTestApi(this.projectId, this.userId).then(res => {
+        console.log(res.data)
+      })
     }
   },
   mounted () {
-    this.active = 0
-    this.changeComponent()
   }
 }
 </script>

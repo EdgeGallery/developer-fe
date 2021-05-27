@@ -362,13 +362,20 @@ let vmService = {
     return Get('mec/developer/v1/vmconfig')
   },
   applyVmResource: function (projectId, userId, params) {
-    return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId, params)
+    return Post('mec/developer/v1/projects/' + projectId + '/vm-package?userId=' + userId, params)
   },
-  deleteVmResource: function (projectId, userId, vmId) {
-    return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '?userId=' + userId)
+  getApplyVmResourceList: function (projectId, userId) {
+    return Get('mec/developer/v1/projects/' + projectId + '/vm-package?userId=' + userId)
+  },
+  deleteVmResource: function (projectId, userId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm-package?userId=' + userId)
   },
   uploadFile: function (projectId, vmId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
+  },
+  // 部署调测
+  vmDeployTestApi: function (projectId, userId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId)
   },
   // 生成镜像
   createVmImageApi: function (projectId, userId) {

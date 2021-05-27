@@ -58,11 +58,8 @@
                   <el-form-item :label="$t('workspace.deployDebugVm.vmSpecLbl')">
                     {{ buildSpecDesc(item) }}
                   </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmImageLbl')">
-                    {{ buildSystemDesc(item) }}
-                  </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmNetworkLbl')">
-                    {{ item.vmNetwork.join(', ') }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
+                    {{ item.createTime }}
                   </el-form-item>
                 </el-form>
               </div>
@@ -73,45 +70,11 @@
                   label-width="120px"
                   class="formDetail"
                 >
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmIpLbl')">
-                    {{ item.host?item.host.mecHost:null }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmImageLbl')">
+                    {{ buildSystemDesc(item) }}
                   </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmStatusLbl')">
-                    <em
-                      v-if="item.status==='CREATING'"
-                      class="el-icon-loading deploying icon"
-                    />
-                    <em
-                      v-if="item.status==='SUCCESS'"
-                      class="el-icon-success success icon"
-                    />
-                    <em
-                      v-if="item.status==='FAILED'"
-                      class="el-icon-error error icon"
-                    />
-                    {{ item.status }}
-                  </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
-                    {{ item.createTime }}
-                  </el-form-item>
-                  <el-form-item
-                    :label="$t('workspace.deployDebugVm.stageStatus')"
-                    class="vm_log"
-                    :title="item.log"
-                  >
-                    <em
-                      v-if="item.status==='CREATING'"
-                      class="el-icon-loading deploying icon"
-                    />
-                    <em
-                      v-if="item.status==='SUCCESS'"
-                      class="el-icon-success success icon"
-                    />
-                    <em
-                      v-if="item.status==='FAILED'"
-                      class="el-icon-error error icon"
-                    />
-                    {{ item.log }}
+                  <el-form-item :label="$t('workspace.deployDebugVm.vmNetworkLbl')">
+                    {{ item.vmNetwork.join(', ') }}
                   </el-form-item>
                 </el-form>
               </div>
@@ -188,14 +151,9 @@ export default {
   components: {
     ApplyVMRes, UploadApp
   },
-  props: {
-    projectId: {
-      required: true,
-      type: String
-    }
-  },
   data () {
     return {
+      projectId: sessionStorage.getItem('mecDetailID'),
       userId: sessionStorage.getItem('userId'),
       isZh: true,
       showApplyVMResDlg: false,
@@ -203,7 +161,7 @@ export default {
       showUploadAppDlg: false,
       operatingVmId: '',
       interval: null,
-      vmDataLoading: false
+      vmDataLoading: true
     }
   },
   methods: {
@@ -218,9 +176,17 @@ export default {
       }
     },
     loadVmResourceDataList () {
-      vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
+      vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
+        this.resourceListData = []
         let _data = res.data
-        if (_data.length === 0) {
+        this.vmDataLoading = false
+        if (JSON.stringify(_data) !== '""') {
+          _data.createTime = this.dateChange(_data.createTime)
+          this.resourceListData.push(_data)
+        }
+        this.clearInterval()
+
+        /* if (_data.length === 0) {
           this.clearInterval()
         } else {
           this.vmDataLoading = false
@@ -231,11 +197,7 @@ export default {
             }
           })
         }
-        this.resourceListData = _data
-      }).catch(() => {
-        this.clearInterval()
-        this.resourceListData = []
-        this.$message.error(this.$t('workspace.deployDebugVm.loadVmConfigFailed'))
+        this.resourceListData = _data */
       })
     },
     handleVNC (vmData) {
@@ -251,7 +213,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        vmService.deleteVmResource(this.projectId, this.userId, vmData.vmId).then(res => {
+        vmService.deleteVmResource(this.projectId, this.userId).then(() => {
           this.$message.success(this.$t('workspace.deployDebugVm.deleteVmResSuccess'))
           this.loadVmResourceDataList()
         }).catch(() => {
