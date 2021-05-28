@@ -19,9 +19,10 @@
     <div class="main-div">
       <div class="banner padding_default">
         <img
-          src="../../assets/images/home_banner_text.png"
+          :src="bannerTextUrl"
           alt=""
           class="banner_text"
+          :class="{'banner_en':language==='en'}"
         >
         <el-button
           class="to_project"
@@ -136,6 +137,7 @@ export default {
       userName: sessionStorage.getItem('userName'),
       screenHeight: document.body.clientHeight,
       screenWidth: document.body.clientWidth,
+      bannerTextUrl: require('../../assets/images/home_banner_text.png'),
       timer: false,
       swiperOption: {
         slidesPerView: 4.5,
@@ -272,6 +274,11 @@ export default {
     },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      if (this.language === 'en') {
+        this.bannerTextUrl = require('../../assets/images/home_banner_text_en.png')
+      } else {
+        this.bannerTextUrl = require('../../assets/images/home_banner_text.png')
+      }
     }
   }
 }
@@ -290,6 +297,12 @@ export default {
     flex-wrap: wrap;
     .banner_text{
       margin-left:140px;
+      width: 40%;
+      max-width: 566px;
+    }
+    .banner_text.banner_en{
+      width: 60%;
+      max-width: 868px;
     }
     .el-button.to_project{
       min-width: 200px;
@@ -417,12 +430,6 @@ export default {
       box-shadow: 3px 3px 10px 0 rgba(40, 6, 85, 0.2), 3px 3px 8px 0 rgba(40, 6, 85, 0.1) inset;
       cursor: pointer;
       background: transparent;
-    }
-  }
-  @media screen and (max-width: 1024px){
-    .banner_text{
-      width: 70%;
-      max-width: 566px;
     }
   }
   @media screen and (max-width: 768px){
