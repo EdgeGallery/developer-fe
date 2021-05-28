@@ -250,7 +250,7 @@ export default {
         .map(item => {
           return {
             'systemId': item.systemId,
-            'label': item.operateSystem + ' ' + item.version + ' ' + item.systemBit + '(' + item.systemDisk + 'GB)'
+            'label': item.systemName + '[' + item.operateSystem + ' ' + item.version + ' ' + item.systemBit + '(' + item.systemDisk + 'GB)]'
           }
         }
         )
