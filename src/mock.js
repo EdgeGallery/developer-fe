@@ -282,6 +282,7 @@ const getVmConfig = function () {
     'vmSystemList': [
       {
         'systemId': 1,
+        'systemName': 'testSysImg-1',
         'type': 'public',
         'operateSystem': 'Ubuntu',
         'version': '18.04',
@@ -290,6 +291,7 @@ const getVmConfig = function () {
       },
       {
         'systemId': 2,
+        'systemName': 'testSysImg-2',
         'type': 'public',
         'operateSystem': 'Ubuntu',
         'version': '18.05',
@@ -298,6 +300,7 @@ const getVmConfig = function () {
       },
       {
         'systemId': 3,
+        'systemName': 'testSysImg-3',
         'type': 'public',
         'operateSystem': 'Suse',
         'version': '12.1',
@@ -306,6 +309,7 @@ const getVmConfig = function () {
       },
       {
         'systemId': 4,
+        'systemName': 'testSysImg-4',
         'type': 'public',
         'operateSystem': 'Suse',
         'version': '12.3',
@@ -314,6 +318,7 @@ const getVmConfig = function () {
       },
       {
         'systemId': 5,
+        'systemName': 'testSysImg-5',
         'type': 'private',
         'operateSystem': 'Ubuntu',
         'version': '18.04',
@@ -322,6 +327,7 @@ const getVmConfig = function () {
       },
       {
         'systemId': 6,
+        'systemName': 'testSysImg-6',
         'type': 'private',
         'operateSystem': 'Ubuntu',
         'version': '18.05',
