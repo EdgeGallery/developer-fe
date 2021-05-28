@@ -26,7 +26,14 @@ const cn = {
     select: '请选择',
     developing: '页面正在开发中。',
     edit: '编辑',
-    save: '保存'
+    save: '保存',
+    search: '搜索',
+    reset: '重置',
+    delete: '删除',
+    status: '状态',
+    operation: '操作',
+    all: '全部',
+    unknown: '未知'
   },
   home: {
     enterDev: '进入开发',
@@ -727,7 +734,8 @@ const cn = {
     system: '系统',
     systemProject: '项目管理',
     systemMep: '能力中心管理',
-    systemHost: '沙箱管理'
+    systemHost: '沙箱管理',
+    systemImgMgmt: '系统镜像管理'
   },
   system: {
     upload: '上传',
@@ -777,7 +785,57 @@ const cn = {
     },
     type: '类型',
     lcmIp: 'lcmIP',
-    mecHost: 'mecHost'
+    mecHost: 'mecHost',
+
+    imageMgmt: {
+      imgName: '镜像名称',
+      imgType: '镜像类型',
+      osName: '操作系统',
+      osVersion: '版本',
+      osBit: '位数',
+      sysDisk: '磁盘大小',
+      userName: '用户名',
+      createTime: '创建时间',
+      uploadTime: '上传时间',
+      imgFormat: '镜像格式',
+      beginTime: '起始时间',
+      endTime: '结束时间',
+      typeValue: {
+        public: '公共',
+        private: '私有'
+      },
+      statusValue: {
+        uploadWait: '待上传',
+        uploading: '正在上传',
+        uploadSucceeded: '上传成功',
+        uploadFailed: '上传失败',
+        published: '已发布'
+      },
+      operation: {
+        newImg: '新建系统镜像',
+        upload: '上传',
+        uploadImg: '上传系统镜像',
+        publish: '发布'
+      },
+      tip: {
+        newImg: '新建系统镜像',
+        editImg: '修改系统镜像',
+        versionEmpty: '系统版本号不能为空！',
+        systemDiskEmpty: '系统磁盘大小不能为空！',
+        uploadImg: '上传系统镜像',
+        uploadIsoImgPromt: '请把iso格式的镜像文件压缩为zip后上传。',
+        uploadQcow2ImgPromt: '请把qcow2格式的镜像文件压缩为zip后上传。',
+        sysImageFileType: '请上传.zip格式的文件，且大小不超过5G！',
+        confirmDeleteImage: '确认要删除该系统镜像吗？',
+        confirmPublishImage: '确认要发布该系统镜像吗？',
+        newImgFailed: '新建系统镜像失败！',
+        modifyImgFailed: '修改系统镜像失败！',
+        deleteImgFailed: '删除系统镜像失败！',
+        publishImgFailed: '发布系统镜像失败！',
+        queryImgFailed: '查询系统镜像失败！',
+        uploadingHint: '系统镜像正在上传，请等待！'
+      }
+    }
   },
   ...zhLocale
 }

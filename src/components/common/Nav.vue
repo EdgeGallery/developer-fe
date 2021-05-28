@@ -198,6 +198,7 @@ export default {
         }
         this.showToolchain(this.jsonData)
         const authorities = res.data.authorities || []
+        sessionStorage.setItem('userAuthorities', authorities)
         const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
         const validateAuthority = (array) => {
           const newArray = []

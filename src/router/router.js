@@ -155,6 +155,14 @@ export default new Router({
           meta: {
             id: '3.9'
           }
+        },
+        {
+          path: '/mecDeveloper/system/imagemgmt',
+          name: 'systemImage',
+          component: () => import('../pages/system/imagemgmt/Index.vue'),
+          meta: {
+            id: '3.10'
+          }
         }
       ]
     }
