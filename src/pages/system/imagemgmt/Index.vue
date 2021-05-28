@@ -165,6 +165,7 @@
                 {{ $t('common.edit') }}
               </el-button>
               <el-button
+                v-if="scope.row.status!=='UPLOADING'"
                 id="deleteBtn"
                 @click.native.prevent="handleDelete(scope.row)"
                 type="text"
@@ -182,7 +183,7 @@
                 {{ $t('system.imageMgmt.operation.upload') }}
               </el-button>
               <el-button
-                v-if="isAdmin"
+                v-if="isAdmin && scope.row.status==='UPLOAD_SUCCEED'"
                 id="publishBtn"
                 @click.native.prevent="handlePublish(scope.row)"
                 type="text"
@@ -338,23 +339,6 @@ export default {
     },
     getImageDataList () {
       this.dataLoading = true
-      // this.imageListData = [{
-      //   'systemId': 1,
-      //   'systemName': 'TestImage-1',
-      //   'type': 'public',
-      //   'operateSystem': 'ubuntu',
-      //   'version': '16.05',
-      //   'systemBit': '64',
-      //   'systemDisk': 40,
-      //   'userName': 'TestUser',
-      //   'createTime': '2021-5-7 17:38:12',
-      //   'systemFormat': 'iso',
-      //   'uploadTime:': '',
-      //   'status': 'UPLOAD_WAIT'
-      // }]
-      // this.pageCtrl.totalNum = 1
-      // this.dataLoading = false
-
       imageMgmtService.getImageDataList(this.buildQueryReq(), this.userId).then(response => {
         this.imageListData = response.data.imageList
         this.pageCtrl.totalNum = response.data.totalCount
