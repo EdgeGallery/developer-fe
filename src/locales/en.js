@@ -26,7 +26,14 @@ const en = {
     select: 'Please select',
     developing: 'The page is under development.',
     edit: 'Edit',
-    save: 'Save'
+    save: 'Save',
+    search: 'Search',
+    reset: 'Reset',
+    delete: 'Delete',
+    status: 'Status',
+    operation: 'Operation',
+    all: 'All',
+    unknown: 'Unknown'
   },
   home: {
     enterDev: 'Enter development',
@@ -727,7 +734,8 @@ const en = {
     system: 'System',
     systemProject: 'Project Management',
     systemMep: 'Ability Center Management',
-    systemHost: 'Host Management'
+    systemHost: 'Host Management',
+    systemImgMgmt: 'System Image Management'
   },
   system: {
     upload: 'Upload',
@@ -777,7 +785,57 @@ const en = {
     },
     type: 'Type',
     lcmIp: 'lcmIP',
-    mecHost: 'mecHost'
+    mecHost: 'mecHost',
+
+    imageMgmt: {
+      imgName: 'Image Name',
+      imgType: 'Image Type',
+      osName: 'Operate System',
+      osVersion: 'Version',
+      osBit: 'System Bit',
+      sysDisk: 'Disk Size',
+      userName: 'User Name',
+      createTime: 'Create Time',
+      uploadTime: 'Upload Time',
+      imgFormat: 'Image Format',
+      beginTime: 'Begin Time',
+      endTime: 'End Time',
+      typeValue: {
+        public: 'Public',
+        private: 'Private'
+      },
+      statusValue: {
+        uploadWait: 'To be uploaded',
+        uploading: 'Uploading',
+        uploadSucceeded: 'Upload succeeded',
+        uploadFailed: 'Upload failed',
+        published: 'Published'
+      },
+      operation: {
+        newImg: 'New System Image',
+        upload: 'Upload',
+        uploadImg: 'Upload System Image',
+        publish: 'Publish'
+      },
+      tip: {
+        newImg: 'New System Image',
+        editImg: 'Edit System Image',
+        versionEmpty: 'System version cannot be empty!',
+        systemDiskEmpty: 'System disk size cannot be empty!',
+        uploadImg: 'Upload System Image',
+        uploadIsoImgPromt: 'Please zip the image file in iso format and upload it.',
+        uploadQcow2ImgPromt: 'Please zip the image file in qcow2 format and upload it.',
+        sysImageFileType: 'Please upload files in .zip format, and the size does not exceed 5G!',
+        confirmDeleteImage: 'Are you sure to delete this system image?',
+        confirmPublishImage: 'Are you sure to publish this system image?',
+        newImgFailed: 'New system image failed!',
+        modifyImgFailed: 'Modify system image failed!',
+        deleteImgFailed: 'Delete system image failed!',
+        publishImgFailed: 'Publish system image failed!',
+        queryImgFailed: 'Query system image failed!',
+        uploadingHint: 'The system image is uploading, please wait!'
+      }
+    }
   },
   ...enLocale
 }

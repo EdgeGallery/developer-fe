@@ -74,7 +74,7 @@ const mecDeveloper = [
     name: '系统',
     display: true,
     path: '/mecDeveloper/system',
-    authority: ['ROLE_DEVELOPER_ADMIN'],
+    authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT'],
     children: [
       {
         id: '3.20',
@@ -89,6 +89,13 @@ const mecDeveloper = [
         path: '/mecDeveloper/system/mep',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
+      },
+      {
+        id: '3.22',
+        name: '系统镜像管理',
+        path: '/mecDeveloper/system/imagemgmt',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }
     ]
   }

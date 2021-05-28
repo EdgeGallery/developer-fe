@@ -94,6 +94,13 @@ const mecDeveloper = [
         path: '/mecDeveloper/system/mep',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
+      },
+      {
+        id: '3.22',
+        name: 'System Image Management',
+        path: '/mecDeveloper/system/imagemgmt',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN']
       }
     ]
   }

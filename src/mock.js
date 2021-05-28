@@ -382,6 +382,84 @@ const getCreateImageList = function () {
   ]
 }
 
+const getImageDataList = function () {
+  return {
+    'totalCount': 20,
+    'imageList': [
+      {
+        'systemId': 1,
+        'systemName': 'TestImage-1',
+        'type': 'public',
+        'operateSystem': 'ubuntu',
+        'version': '16.05',
+        'systemBit': '64',
+        'systemDisk': 40,
+        'userName': 'TestUser',
+        'createTime': '2021-5-7 17:38:12',
+        'systemFormat': 'iso',
+        'uploadTime:': '',
+        'status': 'UPLOAD_WAIT'
+      },
+      {
+        'systemId': 2,
+        'systemName': 'TestImage-2',
+        'type': 'private',
+        'operateSystem': 'ubuntu',
+        'version': '16.04',
+        'systemBit': '64',
+        'systemDisk': 80,
+        'userName': 'TestUser2',
+        'createTime': '2021-5-6 15:03:21',
+        'systemFormat': 'iso',
+        'uploadTime:': '',
+        'status': 'UPLOADING'
+      },
+      {
+        'systemId': 3,
+        'systemName': 'TestImage-3',
+        'type': 'public',
+        'operateSystem': 'ubuntu',
+        'version': '16.05',
+        'systemBit': '64',
+        'systemDisk': 40,
+        'userName': 'TestUser2',
+        'createTime': '2021-5-5 17:38:12',
+        'systemFormat': 'qcow2',
+        'uploadTime:': '2021-5-5 17:45:23',
+        'status': 'UPLOAD_SUCCEED'
+      },
+      {
+        'systemId': 4,
+        'systemName': 'TestImage-4',
+        'type': 'private',
+        'operateSystem': 'ubuntu',
+        'version': '16.05',
+        'systemBit': '64',
+        'systemDisk': 40,
+        'userName': 'TestUser2',
+        'createTime': '2021-5-4 09:38:12',
+        'systemFormat': 'qcow2',
+        'uploadTime:': '',
+        'status': 'UPLOAD_FAILED'
+      },
+      {
+        'systemId': 5,
+        'systemName': 'TestImage-5',
+        'type': 'public',
+        'operateSystem': 'ubuntu',
+        'version': '16.05',
+        'systemBit': '64',
+        'systemDisk': 40,
+        'userName': 'TestUser',
+        'createTime': '2021-5-3 17:38:12',
+        'systemFormat': 'iso',
+        'uploadTime:': '2021-5-3 17:45:23',
+        'status': 'PUBLISHED'
+      }
+    ]
+  }
+}
+
 Mock.mock('/mock/developer/projectlist', getProjectList)
 Mock.mock('/mock/developer/projectinfo', getProjectInfo)
 Mock.mock('/mock/developer/project/vmlist', getProjectVmList)
@@ -390,3 +468,5 @@ Mock.mock('/mock/developer/vmconfig', getVmConfig)
 Mock.mock('/mock/donothing', doNothing)
 
 Mock.mock('/mock/developer/imageList', getCreateImageList)
+
+Mock.mock('/mock/developer/system/systemimage/list', getImageDataList)

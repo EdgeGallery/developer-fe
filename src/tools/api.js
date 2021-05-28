@@ -399,11 +399,30 @@ let vmService = {
   }
 }
 
+let imageMgmtService = {
+  getImageDataList: function (queryData, userId) {
+    return Post('mec/developer/v1/system/images/list?userId=' + userId, queryData)
+  },
+  newImage: function (imgData, userId) {
+    return Post('mec/developer/v1/system/images?userId=' + userId, imgData)
+  },
+  modifyImage: function (imgData, systemId, userId) {
+    return Put('mec/developer/v1/system/images/' + systemId + '?userId=' + userId, imgData)
+  },
+  deleteImage: function (systemId, userId) {
+    return Delete('mec/developer/v1/system/images/' + systemId + '?userId=' + userId)
+  },
+  publishImage: function (systemId, userId) {
+    return Put('mec/developer/v1/system/images/' + systemId + '/publish?userId=' + userId)
+  }
+}
+
 export {
   Plugin,
   Api,
   Test,
   Workspace,
   System,
-  vmService
+  vmService,
+  imageMgmtService
 }

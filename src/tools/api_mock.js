@@ -48,8 +48,26 @@ let vmService = {
     return axios.get('/mock/developer/imageList')
   }
 }
+let imageMgmtService = {
+  getImageDataList: function (queryData, userId) {
+    return axios.get('/mock/developer/system/systemimage/list')
+  },
+  newImage: function (imgData, userId) {
+    return axios.get('/mock/donothing')
+  },
+  modifyImage: function (imgData, systemId, userId) {
+    return axios.get('/mock/donothing')
+  },
+  deleteImage: function (systemId, userId) {
+    return axios.get('/mock/donothing')
+  },
+  publishImage: function (systemId, userId) {
+    return axios.get('/mock/donothing')
+  }
+}
 
 export {
   Workspace,
-  vmService
+  vmService,
+  imageMgmtService
 }
