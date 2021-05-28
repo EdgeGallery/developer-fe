@@ -377,6 +377,10 @@ let vmService = {
   vmDeployTestApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId)
   },
+  // 删除调测结果
+  deleteVmDeployListApi: function (projectId, vmId, userId) {
+    return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '?userId=' + userId)
+  },
   // 生成镜像
   createVmImageApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)

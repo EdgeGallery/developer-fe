@@ -755,8 +755,7 @@ export default {
       isCleanEnvDialog: false,
       publishLoading: false,
       imageStatus: 'NOTDEPLOY',
-      deployPlatform: this.deployPlatformProp,
-      imageId: ''
+      deployPlatform: this.deployPlatformProp
     }
   },
   methods: {
@@ -1112,7 +1111,7 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      if (this.projectDetailData.appInstanceId || this.imageId !== '') {
+      if (this.projectDetailData.appInstanceId) {
         this.getReleaseConfig(this.trafficAllData)
       } else {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
@@ -1220,10 +1219,10 @@ export default {
         this.appMdList.push(obj)
       })
     },
-    getCreateImageList () {
-      vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
-        if (res.data.imageId) {
-          this.imageId = res.data.imageId
+    getVmResourceList () {
+      vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
+        if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) === '""')) {
+          this.$message.warning(this.$t('workspace.deployDebugVm.releasePromt'))
         }
       })
     }
@@ -1231,7 +1230,7 @@ export default {
   mounted () {
     this.getProjectInfo()
     this.getTestConfig()
-    this.getCreateImageList()
+    this.getVmResourceList()
     this.getAppstoreUrl()
     this.getAllListData()
     this.getReleaseConfigList()

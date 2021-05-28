@@ -318,7 +318,11 @@ const cn = {
       generate: '生成',
       stageStatus: '阶段状态',
       uploadPromt: '注：文件默认上传到虚拟机的根目录下',
-      vmList: '虚拟机资源列表'
+      vmList: '虚拟机资源列表',
+      deployResultList: '部署调测结果',
+      deleteVmDeployList: '确定要删除该部署调测结果吗？',
+      resourceConfigPromt: '请先进行资源配置',
+      releasePromt: '应用没有资源配置，不能进行发布操作'
     },
     visualConfig: {
       podBasicInfo: 'Pod基本信息',

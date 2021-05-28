@@ -89,22 +89,6 @@
                 >
                   {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
                 </el-button>
-                <el-button
-                  class="funcBtn"
-                  type="text"
-                  @click="handleUploadFile(item)"
-                  :disabled="item.status==='CREATING'"
-                >
-                  {{ $t('workspace.deployDebugVm.uploadBtnLbl') }}
-                </el-button>
-                <el-button
-                  type="text"
-                  class="funcBtn"
-                  @click="handleVNC(item)"
-                  :disabled="item.status==='CREATING'"
-                >
-                  {{ $t('workspace.deployDebugVm.vncBtnLbl') }}
-                </el-button>
               </p>
             </el-col>
           </el-row>
@@ -116,7 +100,7 @@
             class="btn-addRes"
             type="primary"
             @click="handleNewResource"
-            :disabled="resourceListData.length!==0"
+            :disabled="isDisabled || resourceListData.length!==0"
           >
             {{ $t('workspace.deployDebugVm.applyResource') }}
           </el-button>
@@ -131,25 +115,17 @@
         @closeLoading="closeLoading"
       />
     </div>
-    <div v-if="showUploadAppDlg">
-      <UploadApp
-        v-model="showUploadAppDlg"
-        :project-id="projectId"
-        :vm-id="operatingVmId"
-      />
-    </div>
   </div>
 </template>
 
 <script>
 import { vmService } from '../../../tools/api.js'
 import ApplyVMRes from './ApplyVMRes.vue'
-import UploadApp from './UploadApp.vue'
 
 export default {
   name: 'DeployDebugVMStep',
   components: {
-    ApplyVMRes, UploadApp
+    ApplyVMRes
   },
   data () {
     return {
@@ -158,15 +134,16 @@ export default {
       isZh: true,
       showApplyVMResDlg: false,
       resourceListData: [],
-      showUploadAppDlg: false,
       operatingVmId: '',
       interval: null,
-      vmDataLoading: true
+      vmDataLoading: true,
+      isDisabled: false
     }
   },
   methods: {
     closeLoading (data) {
       this.vmDataLoading = data
+      this.isDisabled = false
     },
     emitStepData () {
       let ifNext = true
@@ -185,27 +162,7 @@ export default {
           this.resourceListData.push(_data)
         }
         this.clearInterval()
-
-        /* if (_data.length === 0) {
-          this.clearInterval()
-        } else {
-          this.vmDataLoading = false
-          _data.forEach(item => {
-            item.createTime = this.dateChange(item.createTime)
-            if (item.status !== 'CREATING') {
-              this.clearInterval()
-            }
-          })
-        }
-        this.resourceListData = _data */
       })
-    },
-    handleVNC (vmData) {
-      window.open('webssh.html', 'webssh')
-    },
-    handleUploadFile (vmData) {
-      this.showUploadAppDlg = true
-      this.operatingVmId = vmData.vmId
     },
     handleDelResource (vmData) {
       this.$confirm(this.$t('workspace.deployDebugVm.deleteVmResPrompt'), this.$t('promptMessage.prompt'), {
@@ -214,19 +171,21 @@ export default {
         type: 'warning'
       }).then(() => {
         vmService.deleteVmResource(this.projectId, this.userId).then(() => {
-          this.$message.success(this.$t('workspace.deployDebugVm.deleteVmResSuccess'))
+          this.$message.success(this.$t('devTools.deleteSucc'))
           this.loadVmResourceDataList()
         }).catch(() => {
-          this.$message.error(this.$t('workspace.deployDebugVm.deleteVmResFailed'))
+          this.$message.error(this.$t('devTools.deleteFail'))
         })
       })
     },
     handleNewResource () {
       this.vmDataLoading = true
       this.showApplyVMResDlg = true
+      this.isDisabled = true
     },
     handleApplySuccess () {
       this.showApplyVMResDlg = false
+      this.isDisabled = true
       this.interval = setInterval(() => {
         this.loadVmResourceDataList()
       }, 5000)
