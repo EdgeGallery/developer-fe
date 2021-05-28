@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="hostManagement">
+  <div class="hostManagement padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"

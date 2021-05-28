@@ -33,7 +33,12 @@
     </div>
     <div class="user_right rt">
       <div class="language rt">
-        <span @click="changeLange">{{ language }}</span>
+        <span>
+          <img
+            :src="languageIcon"
+            alt=""
+            @click="changeLange"
+          ></span>
       </div>
       <div
         class="user_icon rt"
@@ -42,7 +47,7 @@
         <img
           src="../../assets/images/nav_user.png"
           alt=""
-          title="登录"
+          :title="$t('nav.logIn')"
           @click="logout()"
         >
       </div>
@@ -116,6 +121,7 @@ export default {
       userType: '',
       jsonData: [],
       language: 'En',
+      languageIcon: require('../../assets/images/nav_en.png'),
       loginPage: '',
       userCenterPage: '',
       menu_small: false,
@@ -151,7 +157,7 @@ export default {
   beforeMount () {
     localStorage.setItem('language', 'cn')
     let language = localStorage.getItem('language')
-    this.language = language === 'en' ? '中' : 'En'
+    this.language = language === 'en' ? 'Cn' : 'En'
     if (language === 'en') {
       this.jsonData = navData.mecDeveloper
     } else {
@@ -262,11 +268,13 @@ export default {
     changeLange () {
       let language
       if (this.language === 'En') {
-        this.language = '中'
+        this.language = 'Cn'
+        this.languageIcon = require('../../assets/images/nav_cn.png')
         language = 'en'
         this.jsonData = navData.mecDeveloper
       } else {
         this.language = 'En'
+        this.languageIcon = require('../../assets/images/nav_en.png')
         language = 'cn'
         this.jsonData = navDataCn.mecDeveloper
       }
@@ -358,30 +366,23 @@ export default {
   }
   .user_right{
     color: #fff;
-    height: 26px;
-    line-height: 26px;
-    margin-top: 27px;
+    height: 23px;
+    margin-top: 28px;
     .language{
-      font-size: 12px;
-      transform: scale(0.8);
-      -webkit-transform: scale(0.8);
-      width: 26px;
-      height: 26px;
-      border:2px solid #fff;
-      border-radius: 50%;
-      text-align: center;
-      padding: 2px;
-      line-height: 20px;
+      width: 23px;
+      height: 23px;
       cursor: pointer;
     }
     .user_icon{
-      margin: 2px 20px 0;
+      margin: 0 20px 0;
       cursor: pointer;
     }
     .userName{
       position: relative;
       cursor: pointer;
       margin:0 20px;
+      height: 23px;
+      line-height: 23px;
     }
     .user_info{
       background: #6319c2;

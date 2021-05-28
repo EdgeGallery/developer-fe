@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="capManagement">
+  <div class="capManagement padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"
