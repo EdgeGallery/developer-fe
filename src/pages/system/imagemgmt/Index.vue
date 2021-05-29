@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="imagelist">
+  <div class="imagelist padding_default">
     <el-breadcrumb
       separator="/"
       class="bread-crumb"
