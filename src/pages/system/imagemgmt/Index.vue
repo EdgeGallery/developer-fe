@@ -461,10 +461,9 @@ export default {
 <style lang="less">
 .imagelist{
   top: 65px;
-  height: calc(100% - 65px);
   width: 100%;
   box-sizing: border-box;
-  background: #fff;
+  padding-bottom: 20px;
 }
 .cls_imagelist{
   padding: 0 20px;
