@@ -19,6 +19,7 @@
     <el-row :gutter="24">
       <el-col
         :span="24"
+        v-if="resourceListData.length!==0"
       >
         <el-card
           class="box-card"
@@ -94,19 +95,14 @@
           </el-row>
         </el-card>
       </el-col>
-      <el-col :span="24">
-        <el-card class="addRes-box-card">
-          <el-button
-            class="btn-addRes"
-            type="primary"
-            @click="handleNewResource"
-            :disabled="isDisabled || resourceListData.length!==0"
-          >
-            {{ $t('workspace.deployDebugVm.applyResource') }}
-          </el-button>
-        </el-card>
-      </el-col>
     </el-row>
+    <ApplyVMRes
+      v-model="showApplyVMResDlg"
+      :project-id="projectId"
+      @handleApplySuccess="handleApplySuccess"
+      @closeLoading="closeLoading"
+      v-if="resourceListData.length===0"
+    />
     <div v-if="showApplyVMResDlg">
       <ApplyVMRes
         v-model="showApplyVMResDlg"
@@ -162,6 +158,8 @@ export default {
           this.resourceListData.push(_data)
         }
         this.clearInterval()
+      }).catch(() => {
+        this.clearInterval()
       })
     },
     handleDelResource (vmData) {
@@ -177,11 +175,6 @@ export default {
           this.$message.error(this.$t('devTools.deleteFail'))
         })
       })
-    },
-    handleNewResource () {
-      this.vmDataLoading = true
-      this.showApplyVMResDlg = true
-      this.isDisabled = true
     },
     handleApplySuccess () {
       this.showApplyVMResDlg = false

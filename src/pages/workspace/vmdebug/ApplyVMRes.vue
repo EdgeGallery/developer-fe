@@ -15,72 +15,57 @@
   -->
 
 <template>
-  <div>
-    <el-dialog
-      :title="$t('workspace.deployDebugVm.applyResource')"
-      :close-on-click-modal="false"
-      :visible.sync="dialogVisible"
-      width="50%"
-      top="100px"
-      :before-close="handleClose"
+  <div class="vm_res">
+    <el-steps
+      :active="active"
+      finish-status="success"
+      align-center
     >
-      <el-steps
+      <el-step :title="$t('workspace.basicInformation')" />
+      <el-step :title="$t('workspace.deployDebugVm.configSpec')" />
+      <el-step :title="$t('workspace.deployDebugVm.configNetwork')" />
+      <el-step :title="$t('workspace.deployDebugVm.otherSetting')" />
+    </el-steps>
+    <div>
+      <component
+        :is="currentComponent"
         :active="active"
-        finish-status="success"
-        align-center
+        :all-step-data="allStepData"
+        :vm-config-data="vmConfigData"
+        @getStepData="getStepData"
+        @getBtnStatus="getBtnStatus"
+        ref="currComponent"
+      />
+    </div>
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
+      <el-button
+        id="prevBtn"
+        type="text"
+        @click="previous"
+        v-if="active>0"
       >
-        <el-step :title="$t('workspace.basicInformation')" />
-        <el-step :title="$t('workspace.deployDebugVm.configSpec')" />
-        <el-step :title="$t('workspace.deployDebugVm.configNetwork')" />
-        <el-step :title="$t('workspace.deployDebugVm.otherSetting')" />
-      </el-steps>
-      <div>
-        <component
-          :is="currentComponent"
-          :active="active"
-          :all-step-data="allStepData"
-          :vm-config-data="vmConfigData"
-          @getStepData="getStepData"
-          @getBtnStatus="getBtnStatus"
-          ref="currComponent"
-        />
-      </div>
-      <span
-        slot="footer"
-        class="dialog-footer"
+        <strong>{{ $t('workspace.previous') }}</strong>
+      </el-button>
+      <el-button
+        id="nextBtn"
+        type="primary"
+        @click="next"
+        v-if="active<3"
       >
-        <el-button
-          id="prevBtn"
-          type="text"
-          @click="previous"
-          v-if="active>0"
-        >
-          <strong>{{ $t('workspace.previous') }}</strong>
-        </el-button>
-        <el-button
-          id="nextBtn"
-          type="primary"
-          @click="next"
-          v-if="active<3"
-        >
-          <strong>{{ $t('workspace.next') }}</strong>
-        </el-button>
-        <el-button
-          id="confirmBtn"
-          type="primary"
-          @click="confirm"
-          v-if="active>=3"
-        >
-          <strong>{{ $t('common.confirm') }}</strong>
-        </el-button>
-        <el-button
-          id="cancelBtn"
-          @click="cancel"
-        >
-          <strong>{{ $t('common.cancel') }}</strong>
-        </el-button>
-      </span>
-    </el-dialog>
+        <strong>{{ $t('workspace.next') }}</strong>
+      </el-button>
+      <el-button
+        id="confirmBtn"
+        type="primary"
+        @click="confirm"
+        v-if="active>=3"
+      >
+        <strong>{{ $t('common.save') }}</strong>
+      </el-button>
+    </span>
   </div>
 </template>
 
@@ -202,14 +187,12 @@ export default {
       _applyData.sk = this.allStepData.otherSetting.sk
       let userData = {}
       userData.operateSystem = _applyData.vmSystem.operateSystem
+      userData.flavorExtraSpecs = this.allStepData.otherSetting.flavorExtraSpecs
       userData.contents = this.allStepData.otherSetting.contents
       userData.params = this.allStepData.otherSetting.params
       userData.temp = this.allStepData.otherSetting.temp
       _applyData.vmUserData = userData
       return _applyData
-    },
-    cancel () {
-      this.$emit('input', false)
     }
   },
   mounted () {
@@ -220,3 +203,10 @@ export default {
 }
 
 </script>
+<style lang="less">
+.vm_res{
+  .dialog-footer{
+    margin:20px 5% 0
+  }
+}
+</style>

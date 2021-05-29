@@ -325,11 +325,13 @@ const en = {
       generate: 'Generate',
       stageStatus: 'Stage Status',
       uploadPromt: 'Note: The file is uploaded to the root directory of the virtual machine by default',
-      vmList: 'Virtual machine resource list',
+      vmList: 'Virtual machine resource detail',
       deployResultList: 'Deployment Test results',
       deleteVmDeployList: 'Are you sure you want to delete the deployment test result?',
       resourceConfigPromt: 'Please configure resources first',
-      releasePromt: 'The application has no resource configuration and cannot be published'
+      releasePromt: 'The application has no resource configuration and cannot be published',
+      flavorExtraSpecs: 'Flavor Extra Specs',
+      useScript: 'Whether to use injection script'
     },
     visualConfig: {
       podBasicInfo: 'Pod Basic Information',

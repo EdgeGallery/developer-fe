@@ -29,8 +29,27 @@
           v-model="sk"
         />
       </p>
+      <p>
+        {{ $t('workspace.deployDebugVm.flavorExtraSpecs') }}
+        <el-link
+          class="edit"
+          :underline="false"
+          @click.stop="clickEdit('flavor')"
+        >
+          {{ $t('common.edit') }}
+        </el-link>
+      </p>
+      <mavon-editor
+        v-model="sourceFlavor"
+        :toolbars-flag="false"
+        :subfield="false"
+        :default-open="viewOrEditFlavor"
+        :box-shadow="false"
+        preview-background="#ffffff"
+        class="mavon_editor"
+      />
       <div class="select_div">
-        是否使用注入脚本
+        {{ $t('workspace.deployDebugVm.useScript') }}
         <el-radio-group
           v-model="selectScript"
           @change="changeSelect"
@@ -60,7 +79,7 @@
               :underline="false"
               @click.stop="clickEdit('content')"
             >
-              编辑
+              {{ $t('common.edit') }}
             </el-link>
           </template>
           <mavon-editor
@@ -81,7 +100,7 @@
               :underline="false"
               @click.stop="clickEdit('params')"
             >
-              编辑
+              {{ $t('common.edit') }}
             </el-link>
           </template>
           <mavon-editor
@@ -125,7 +144,9 @@ export default {
       sourceParams: '',
       paramsDefaultData: '',
       viewOrEditParams: 'preview',
-      text: ''
+      sourceFlavor: '',
+      FlavorDefaultData: '',
+      viewOrEditFlavor: 'preview'
     }
   },
   methods: {
@@ -134,6 +155,8 @@ export default {
       let selectSystem = vmSystem.operateSystem
       this.vmConfigData.vmUserDataList.forEach(item => {
         if (item.operateSystem === selectSystem) {
+          this.flavorDefaultData = item.flavorExtraSpecs
+          this.sourceFlavor = '```shell\r\n' + item.flavorExtraSpecs.replace(/\\r\\n/g, '\n') + '\r\n```'
           this.contentDefaultData = item.contents
           this.sourceContent = '```shell\r\n' + item.contents.replace(/\\r\\n/g, '\n') + '\r\n```'
           this.paramsDefaultData = item.params
@@ -151,6 +174,7 @@ export default {
         data = {
           'ak': this.ak,
           'sk': this.sk,
+          'flavorExtraSpecs': this.sourceFlavor,
           'contents': this.sourceContent,
           'params': this.sourceParams,
           'temp': this.changeResult
@@ -159,24 +183,32 @@ export default {
         data = {
           'ak': this.ak,
           'sk': this.sk,
+          'flavorExtraSpecs': this.sourceFlavor,
           'contents': '',
           'params': '',
           'temp': this.changeResult
         }
       }
+      data.flavorExtraSpecs = data.flavorExtraSpecs.replace(/\n/g, '\\r\\n')
       data.contents = data.contents.replace(/\n/g, '\\r\\n')
       data.params = data.params.replace(/\n/g, '\\r\\n')
+      let flavorTemp = data.flavorExtraSpecs
       let contentTemp = data.contents
       let paramsTemp = data.params
+      data.flavorExtraSpecs = flavorTemp.substring(13, (flavorTemp.length - 8))
       data.contents = contentTemp.substring(13, (contentTemp.length - 8))
       data.params = paramsTemp.substring(13, (paramsTemp.length - 8))
 
+      if (this.flavorDefaultData !== data.flavorExtraSpecs) {
+        data.flavorExtraSpecs = flavorTemp.substring(12, (flavorTemp.length - 7))
+      }
       if (this.contentDefaultData !== data.contents) {
         data.contents = contentTemp.substring(12, (contentTemp.length - 7))
       }
       if (this.paramsDefaultData !== data.params) {
         data.params = paramsTemp.substring(12, (paramsTemp.length - 7))
       }
+      console.log(data)
       this.$emit('getStepData', { step: 'otherSetting', data, canNext })
     },
     changeSelect (val) {
@@ -189,8 +221,10 @@ export default {
     clickEdit (name) {
       if (name === 'content') {
         this.viewOrEditContent = 'edit'
-      } else {
+      } else if (name === 'params') {
         this.viewOrEditParams = 'edit'
+      } else if (name === 'flavor') {
+        this.viewOrEditFlavor = 'edit'
       }
     }
   },
@@ -205,6 +239,9 @@ export default {
 <style lang="less">
 .other_set{
   padding: 10px 5% 0;
+  .v-note-wrapper{
+    width: 100%;
+  }
   .top{
     p{
       margin-bottom: 10px;
@@ -218,6 +255,9 @@ export default {
         width: calc(100% - 30px);
         float: left;
       }
+      .edit{
+        float: right;
+      }
     }
     .select_div{
       padding: 20px 0;
@@ -227,6 +267,11 @@ export default {
       .el-radio{
         margin-right: 20px;
       }
+    }
+    .mavon_editor{
+      min-height: 120px;
+      max-height: 300px;
+      overflow: auto;
     }
   }
   .el-collapse {
