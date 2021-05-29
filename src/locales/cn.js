@@ -811,10 +811,17 @@ const cn = {
         uploadFailed: '上传失败',
         published: '已发布'
       },
+      uploadStatusText: {
+        success: '上传成功',
+        error: '上传失败',
+        uploading: '正在上传',
+        paused: '暂停',
+        waiting: '等待'
+      },
       operation: {
         newImg: '新建系统镜像',
         upload: '上传',
-        uploadImg: '上传系统镜像',
+        selectImgFile: '选择文件',
         publish: '发布'
       },
       tip: {
@@ -826,6 +833,8 @@ const cn = {
         uploadIsoImgPromt: '请把iso格式的镜像文件压缩为zip后上传。',
         uploadQcow2ImgPromt: '请把qcow2格式的镜像文件压缩为zip后上传。',
         sysImageFileType: '请上传.zip格式的文件，且大小不超过5G！',
+        onlyOneImageFile: '只能上传一个文件！',
+        noFileSelected: '未选择上传的文件',
         confirmDeleteImage: '确认要删除该系统镜像吗？',
         confirmPublishImage: '确认要发布该系统镜像吗？',
         newImgFailed: '新建系统镜像失败！',

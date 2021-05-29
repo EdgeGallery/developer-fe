@@ -29,16 +29,25 @@
         </p>
         <uploader
           :options="options"
-          class="uploader-example"
-          @file-complete="fileComplete"
+          :auto-start="true"
+          :file-status-text="fileStatusText"
+          @file-complete="onFileComplete"
           @file-added="onFileAdded"
         >
           <uploader-unsupport />
-          <uploader-drop>
-            <uploader-btn>{{ $t('system.imageMgmt.operation.uploadImg') }}</uploader-btn>
-          </uploader-drop>
+          <uploader-btn
+            :single="true"
+          >
+            {{ $t('system.imageMgmt.operation.selectImgFile') }}
+          </uploader-btn>
           <uploader-list />
         </uploader>
+        <p
+          class="prompt_nofile"
+          v-if="!hasFileFlag"
+        >
+          {{ $t('system.imageMgmt.tip.noFileSelected') }}
+        </p>
       </div>
       <div style="text-align:center;margin-top:20px">
         <el-button
@@ -75,6 +84,7 @@ export default {
   data () {
     return {
       isUploading: false,
+      hasFileFlag: false,
       uploadPromt: '',
       sysImgFileTypeArr: ['zip'],
       mergerUrl: '',
@@ -85,6 +95,13 @@ export default {
         forceChunkSize: true,
         simultaneousUploads: 5, // 并发数
         chunkSize: 8 * 1024 * 1024 // 块大小
+      },
+      fileStatusText: {
+        success: this.$t('system.imageMgmt.uploadStatusText.success'),
+        error: this.$t('system.imageMgmt.uploadStatusText.error'),
+        uploading: this.$t('system.imageMgmt.uploadStatusText.uploading'),
+        paused: this.$t('system.imageMgmt.uploadStatusText.paused'),
+        waiting: this.$t('system.imageMgmt.uploadStatusText.waiting')
       }
     }
   },
@@ -103,6 +120,12 @@ export default {
   },
   methods: {
     onFileAdded (file) {
+      if (this.hasFileFlag) {
+        file.ignored = true
+        this.$message.warning(this.$t('system.imageMgmt.tip.onlyOneImageFile'))
+        return
+      }
+
       let fileSize = file.file.size / 1024 / 1024 / 1024
       let typeName = file.file.name.substring(file.file.name.lastIndexOf('.') + 1)
       if (this.sysImgFileTypeArr.indexOf(typeName) === -1 || fileSize > 5) {
@@ -112,9 +135,9 @@ export default {
       }
 
       this.isUploading = true
+      this.hasFileFlag = true
     },
-    fileComplete () {
-      console.log('file complete', arguments)
+    onFileComplete () {
       const file = arguments[0].file
       let url = this.mergerUrl + file.name + '&identifier=' + arguments[0].uniqueIdentifier
       axios.get(url).then(function (response) {
@@ -166,6 +189,11 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     color: #3e4863;
+  }
+  .prompt_nofile{
+    margin-top: 10px;
+    font-size: 14px;
+    color: #688ef3;
   }
 }
 </style>
