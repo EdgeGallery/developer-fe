@@ -23,7 +23,10 @@
       width="40%"
     >
       <div style="margin-top:10px;margin-left:5%;margin-right:5%">
-        <el-form label-width="150px" label-position="left">
+        <el-form
+          label-width="150px"
+          label-position="left"
+        >
           <el-row :gutter="5">
             <el-col :span="12">
               <el-form-item

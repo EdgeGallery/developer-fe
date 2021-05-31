@@ -30,7 +30,7 @@
       class="cls_imagelist clear"
       id="div_imagelist"
     >
-      <div class="title">
+      <div>
         <el-button
           id="addBtn"
           @click.native.prevent="handleAddImg()"
@@ -38,6 +38,8 @@
         >
           {{ $t('system.imageMgmt.operation.newImg') }}
         </el-button>
+      </div>
+      <div class="title">
         <el-tabs
           v-if="isAdmin"
           v-model="imageType"
@@ -445,7 +447,7 @@ export default {
     .title{
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-top: 10px;
     }
     margin-top: 10px;
     .el-table {

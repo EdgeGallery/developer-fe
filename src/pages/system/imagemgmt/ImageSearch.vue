@@ -22,7 +22,7 @@
     <el-form
       :model="formData"
       ref="formData"
-      label-position="right"
+      label-position="center"
     >
       <el-row>
         <el-col :span="5">
