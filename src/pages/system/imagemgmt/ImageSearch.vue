@@ -29,7 +29,7 @@
           <el-form-item
             :label="$t('system.imageMgmt.imgName')"
             prop="systemName"
-            label-width="100px"
+            label-width="120px"
           >
             <el-input
               id="elinput_systemName"
