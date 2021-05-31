@@ -18,6 +18,7 @@
   <div>
     <el-dialog
       :title="dlgTitle"
+      :close-on-click-modal="false"
       :visible.sync="showDlg"
       @closed="cancel"
       width="25%"
@@ -244,7 +245,9 @@ export default {
       }
     },
     resetForm () {
-      this.$refs['imageDataForm'].resetFields()
+      if (this.$refs['imageDataForm']) {
+        this.$refs['imageDataForm'].resetFields()
+      }
     },
     initOptionList () {
       this.imageTypeOptionList = [
@@ -266,6 +269,10 @@ export default {
         this.isModify = true
         this.systemIdToModi = this.imageData.systemId
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
+      } else {
+        this.isModify = false
+        this.systemIdToModi = -1
+        this.dlgTitle = this.$t('system.imageMgmt.tip.newImg')
       }
     },
     cancel () {
