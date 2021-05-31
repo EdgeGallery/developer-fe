@@ -270,6 +270,14 @@ export default {
         this.systemIdToModi = this.imageData.systemId
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
       } else {
+        this.imageDataForm.systemName = ''
+        this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
+        this.imageDataForm.operateSystem = 'ubuntu'
+        this.imageDataForm.version = ''
+        this.imageDataForm.systemBit = '32'
+        this.imageDataForm.systemDisk = ''
+        this.imageDataForm.systemFormat = 'qcow2'
+
         this.isModify = false
         this.systemIdToModi = -1
         this.dlgTitle = this.$t('system.imageMgmt.tip.newImg')
