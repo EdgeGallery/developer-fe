@@ -813,10 +813,17 @@ const en = {
         uploadFailed: 'Upload failed',
         published: 'Published'
       },
+      uploadStatusText: {
+        success: 'Upload succeeded',
+        error: 'Upload failed',
+        uploading: 'Uploading',
+        paused: 'Paused',
+        waiting: 'Waiting'
+      },
       operation: {
         newImg: 'New System Image',
         upload: 'Upload',
-        uploadImg: 'Upload System Image',
+        selectImgFile: 'Select File',
         publish: 'Publish'
       },
       tip: {
@@ -828,6 +835,8 @@ const en = {
         uploadIsoImgPromt: 'Please zip the image file in iso format and upload it.',
         uploadQcow2ImgPromt: 'Please zip the image file in qcow2 format and upload it.',
         sysImageFileType: 'Please upload files in .zip format, and the size does not exceed 5G!',
+        onlyOneImageFile: 'You can only upload one file!',
+        noFileSelected: 'No file selected',
         confirmDeleteImage: 'Are you sure to delete this system image?',
         confirmPublishImage: 'Are you sure to publish this system image?',
         newImgFailed: 'New system image failed!',
