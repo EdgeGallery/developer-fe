@@ -18,13 +18,14 @@
   <div>
     <el-dialog
       :title="dlgTitle"
+      :close-on-click-modal="false"
       :visible.sync="showDlg"
       @closed="cancel"
       width="25%"
     >
       <div style="margin-top:20px">
         <el-form
-          label-width="120px"
+          label-width="150px"
           :model="imageDataForm"
           ref="imageDataForm"
           :rules="rules"
@@ -35,7 +36,7 @@
           >
             <el-input
               id="elinput_systemName"
-              maxlength="20"
+              maxlength="32"
               size="small"
               style="width:95%"
               v-model="imageDataForm.systemName"
@@ -82,7 +83,7 @@
           >
             <el-input
               id="elinput_osversion"
-              maxlength="20"
+              maxlength="10"
               size="small"
               style="width:95%"
               v-model="imageDataForm.version"
@@ -110,7 +111,7 @@
           >
             <el-input
               id="elinput_sysdisk"
-              maxlength="20"
+              maxlength="4"
               size="small"
               style="width:95%"
               v-model="imageDataForm.systemDisk"
@@ -173,7 +174,7 @@ export default {
   },
   data () {
     return {
-      userId: sessionStorage.getItem('userId'),
+      userId: '',
       isAdmin: false,
       dlgTitle: this.$t('system.imageMgmt.tip.newImg'),
       imageTypeOptionList: [],
@@ -191,7 +192,7 @@ export default {
         'operateSystem': 'ubuntu',
         'version': '',
         'systemBit': '32',
-        'systemDisk': 0,
+        'systemDisk': '',
         'systemFormat': 'qcow2'
       },
       rules: {
@@ -200,10 +201,12 @@ export default {
           { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
-          { required: true, message: this.$t('system.imageMgmt.tip.versionEmpty'), trigger: 'blur' }
+          { required: true, message: this.$t('system.imageMgmt.tip.versionEmpty'), trigger: 'blur' },
+          { pattern: /^[\w\\-][\w\\-\s.]{0,9}$/g, message: this.$t('promptMessage.versionRule') }
         ],
         systemDisk: [
-          { required: true, message: this.$t('system.imageMgmt.tip.systemDiskEmpty'), trigger: 'blur' }
+          { required: true, message: this.$t('system.imageMgmt.tip.systemDiskEmpty'), trigger: 'blur' },
+          { pattern: /^\d{2,4}$/, message: this.$t('system.imageMgmt.tip.systemDiskRule') }
         ]
       },
 
@@ -219,6 +222,13 @@ export default {
     },
     '$i18n.locale': function () {
       this.initOptionList()
+      this.$refs['imageDataForm'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['imageDataForm'].validateField(item.labelFor)
+        }
+      })
+      this.dlgTitle = this.isModify ? this.$t('system.imageMgmt.tip.editImg')
+        : this.$t('system.imageMgmt.tip.newImg')
     }
   },
   mounted () {
@@ -235,7 +245,9 @@ export default {
       }
     },
     resetForm () {
-      this.$refs['imageDataForm'].resetFields()
+      if (this.$refs['imageDataForm']) {
+        this.$refs['imageDataForm'].resetFields()
+      }
     },
     initOptionList () {
       this.imageTypeOptionList = [
@@ -257,6 +269,18 @@ export default {
         this.isModify = true
         this.systemIdToModi = this.imageData.systemId
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
+      } else {
+        this.imageDataForm.systemName = ''
+        this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
+        this.imageDataForm.operateSystem = 'ubuntu'
+        this.imageDataForm.version = ''
+        this.imageDataForm.systemBit = '32'
+        this.imageDataForm.systemDisk = ''
+        this.imageDataForm.systemFormat = 'qcow2'
+
+        this.isModify = false
+        this.systemIdToModi = -1
+        this.dlgTitle = this.$t('system.imageMgmt.tip.newImg')
       }
     },
     cancel () {

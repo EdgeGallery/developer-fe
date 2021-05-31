@@ -27,187 +27,162 @@
       <el-breadcrumb-item>{{ $t('breadCrumb.systemImgMgmt') }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div
-      class="cls_imagelist"
+      class="cls_imagelist clear"
       id="div_imagelist"
     >
-      <el-button
-        id="addBtn"
-        @click.native.prevent="handleAddImg()"
-        type="primary"
-      >
-        {{ $t('system.imageMgmt.operation.newImg') }}
-      </el-button>
-      <el-tabs
-        v-if="isAdmin"
-        v-model="imageType"
-        type="card"
-        @tab-click="handleChangeTypeTab"
-      >
-        <el-tab-pane
-          :label="$t('common.all')"
-          name="All"
-        />
-        <el-tab-pane
-          :label="$t('system.imageMgmt.typeValue.public')"
-          name="public"
-        />
-        <el-tab-pane
-          :label="$t('system.imageMgmt.typeValue.private')"
-          name="private"
-        />
-      </el-tabs>
-      <Search
-        @getSearchData="getSearchData"
-      />
-      <div class="tableDiv">
-        <el-table
-          :data="imageListData"
-          @sort-change="doSort"
-          :default-sort="{prop: 'createTime', order: 'descending'}"
-          v-loading="dataLoading"
-          border
-          stripe
-          size="small"
-          style="width: 100%;"
+      <div>
+        <el-button
+          id="addBtn"
+          @click.native.prevent="handleAddImg()"
+          type="primary"
         >
-          <el-table-column
-            prop="systemName"
-            header-align="center"
-            align="left"
-            sortable="custom"
-            :label="$t('system.imageMgmt.imgName')"
-            show-overflow-tooltip
+          {{ $t('system.imageMgmt.operation.newImg') }}
+        </el-button>
+      </div>
+      <div class="title">
+        <el-tabs
+          v-if="isAdmin"
+          v-model="imageType"
+          type="card"
+          @tab-click="handleChangeTypeTab"
+        >
+          <el-tab-pane
+            :label="$t('common.all')"
+            name="All"
           />
-          <el-table-column
-            width="100"
-            align="center"
-            :label="$t('system.imageMgmt.imgType')"
-            :formatter="convertType"
-            show-overflow-tooltip
+          <el-tab-pane
+            :label="$t('system.imageMgmt.typeValue.public')"
+            name="public"
           />
-          <el-table-column
-            prop="operateSystem"
-            width="120"
-            align="center"
-            :label="$t('system.imageMgmt.osName')"
-            show-overflow-tooltip
+          <el-tab-pane
+            :label="$t('system.imageMgmt.typeValue.private')"
+            name="private"
           />
-          <el-table-column
-            prop="version"
-            width="120"
-            align="center"
-            :label="$t('system.imageMgmt.osVersion')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="systemBit"
-            width="100"
-            align="center"
-            :label="$t('system.imageMgmt.osBit')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="systemDisk"
-            width="100"
-            align="center"
-            :label="$t('system.imageMgmt.sysDisk')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="userName"
-            width="150"
-            align="center"
-            :label="$t('system.imageMgmt.userName')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="createTime"
-            width="200"
-            align="center"
-            sortable="custom"
-            :label="$t('system.imageMgmt.createTime')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="uploadTime"
-            width="200"
-            align="center"
-            :label="$t('system.imageMgmt.uploadTime')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="systemFormat"
-            width="135"
-            align="center"
-            :label="$t('system.imageMgmt.imgFormat')"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            width="150"
-            align="center"
-            :label="$t('common.status')"
-            :formatter="convertStatus"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            :label="$t('common.operation')"
-            align="center"
-            width="225"
-            show-overflow-tooltip
-          >
-            <template slot-scope="scope">
-              <el-button
-                id="editBtn"
-                @click.native.prevent="handleEdit(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('common.edit') }}
-              </el-button>
-              <el-button
-                v-if="scope.row.status!=='UPLOADING'"
-                id="deleteBtn"
-                @click.native.prevent="handleDelete(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('common.delete') }}
-              </el-button>
-              <el-button
-                v-if="scope.row.status!=='UPLOADING'"
-                id="uploadBtn"
-                @click.native.prevent="handleUpload(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('system.imageMgmt.operation.upload') }}
-              </el-button>
-              <el-button
-                v-if="isAdmin && scope.row.status==='UPLOAD_SUCCEED'"
-                id="publishBtn"
-                @click.native.prevent="handlePublish(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('system.imageMgmt.operation.publish') }}
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="pageBar">
-          <el-pagination
-            background
-            class="rt"
-            @size-change="handlePageSizeChange"
-            @current-change="handleCurrentPageChange"
-            :current-page="pageCtrl.currentPage"
-            :page-sizes="[10, 15, 20, 25]"
-            :page-size="pageCtrl.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="pageCtrl.totalNum"
-            v-if="pageCtrl.totalNum!=0"
-          />
-        </div>
+        </el-tabs>
+        <Search
+          @getSearchData="getSearchData"
+        />
+      </div>
+      <el-table
+        :data="imageListData"
+        @sort-change="doSort"
+        :default-sort="{prop: 'createTime', order: 'descending'}"
+        v-loading="dataLoading"
+        border
+        stripe
+        size="small"
+        style="width: 100%;"
+        header-cell-class-name="headerStyle"
+      >
+        <el-table-column
+          prop="systemName"
+          sortable="custom"
+          :label="$t('system.imageMgmt.imgName')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              @click="handleView(scope.row)"
+            >
+              {{ scope.row.systemName }}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          width="120"
+          :label="$t('system.imageMgmt.imgType')"
+          :formatter="convertType"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="operateSystem"
+          width="135"
+          :label="$t('system.imageMgmt.osName')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="version"
+          width="120"
+          :label="$t('system.imageMgmt.osVersion')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="createTime"
+          width="200"
+          sortable="custom"
+          :label="$t('system.imageMgmt.createTime')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="uploadTime"
+          width="200"
+          :label="$t('system.imageMgmt.uploadTime')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          width="150"
+          :label="$t('common.status')"
+          :formatter="convertStatus"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          :label="$t('common.operation')"
+          width="225"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <el-button
+              id="editBtn"
+              @click.native.prevent="handleEdit(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('common.edit') }}
+            </el-button>
+            <el-button
+              v-if="scope.row.status!=='UPLOADING'"
+              id="deleteBtn"
+              @click.native.prevent="handleDelete(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('common.delete') }}
+            </el-button>
+            <el-button
+              v-if="scope.row.status!=='UPLOADING'"
+              id="uploadBtn"
+              @click.native.prevent="handleUpload(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('system.imageMgmt.operation.upload') }}
+            </el-button>
+            <el-button
+              v-if="isAdmin && scope.row.status==='UPLOAD_SUCCEED'"
+              id="publishBtn"
+              @click.native.prevent="handlePublish(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('system.imageMgmt.operation.publish') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pageBar">
+        <el-pagination
+          background
+          class="rt"
+          @size-change="handlePageSizeChange"
+          @current-change="handleCurrentPageChange"
+          :current-page="pageCtrl.currentPage"
+          :page-sizes="[10, 15, 20, 25]"
+          :page-size="pageCtrl.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pageCtrl.totalNum"
+          v-if="pageCtrl.totalNum!=0"
+        />
       </div>
     </div>
     <EditImage
@@ -215,6 +190,11 @@
       :image-data="currentImageData"
       @cancelEditImageDlg="cancelEditImageDlg"
       @processEditImageSuccess="processEditImageSuccess"
+    />
+    <ViewImage
+      :show-dlg="showViewImageDlg"
+      :image-data="currentImageData"
+      @processCloseViewImage="processCloseViewImage"
     />
     <UploadImage
       v-if="showUploadImageDlg"
@@ -227,13 +207,14 @@
 <script>
 import Search from './ImageSearch.vue'
 import EditImage from './EditImage.vue'
+import ViewImage from './ViewImage.vue'
 import UploadImage from './UploadImage.vue'
 import { imageMgmtService } from '../../../tools/api.js'
 
 export default {
   name: 'ImageMgmt',
   components: {
-    Search, EditImage, UploadImage
+    Search, EditImage, UploadImage, ViewImage
   },
   data () {
     return {
@@ -265,6 +246,7 @@ export default {
 
       showEditImageDlg: false,
       showUploadImageDlg: false,
+      showViewImageDlg: false,
       currentImageData: {}
     }
   },
@@ -398,6 +380,13 @@ export default {
       this.showEditImageDlg = false
       this.getImageDataList()
     },
+    handleView (row) {
+      this.currentImageData = row
+      this.showViewImageDlg = true
+    },
+    processCloseViewImage () {
+      this.showViewImageDlg = false
+    },
     handleDelete (row) {
       this.$confirm(this.$t('system.imageMgmt.tip.confirmDeleteImage'), this.$t('promptMessage.prompt'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -444,18 +433,22 @@ export default {
 </script>
 <style lang="less">
 .imagelist{
-  top: 65px;
-  width: 100%;
-  box-sizing: border-box;
-  padding-bottom: 20px;
-}
-.cls_imagelist{
-  padding: 0 20px;
-  height: calc(100% - 125px);
-  min-height: 300px;
-  background: #fff;
-  padding-top:20px;
-  .tableDiv {
+  .w50 {
+    width: 50%;
+    display: inline-block;
+  }
+  .el-form-item__label {
+    padding: 0 20px 0 0
+  }
+  .cls_imagelist{
+    min-height: 500px;
+    background-color: white;
+    padding: 20px;
+    .title{
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
     margin-top: 10px;
     .el-table {
       font-size: 14px;
@@ -465,6 +458,7 @@ export default {
         border-radius: 50%;
       }
       thead {
+        color: #282b33;
         font-weight: 100;
         font-size: 14px;
         th,
@@ -484,21 +478,6 @@ export default {
         }
       }
     }
-  }
-  .el-tabs__nav{
-    margin-top: 10px;
-    position: static;
-  }
-}
-.el-col{
-  padding-left:0 !important;
-}
-.smallSpaceFormItem{
-  margin-bottom:5px;
-}
-.applyDialog{
-  .el-form-item{
-    margin:0 !important;
   }
 }
 </style>

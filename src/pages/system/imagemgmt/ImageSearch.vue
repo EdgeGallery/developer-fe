@@ -22,14 +22,14 @@
     <el-form
       :model="formData"
       ref="formData"
-      label-position="right"
+      label-position="center"
     >
       <el-row>
         <el-col :span="5">
           <el-form-item
             :label="$t('system.imageMgmt.imgName')"
             prop="systemName"
-            label-width="100px"
+            label-width="120px"
           >
             <el-input
               id="elinput_systemName"
