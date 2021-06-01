@@ -425,7 +425,7 @@ export default {
       formLabelWidth: '120px',
       form: {},
       defaultForm: {
-        protocol: 'HTTPS'
+        protocol: 'https'
       },
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
