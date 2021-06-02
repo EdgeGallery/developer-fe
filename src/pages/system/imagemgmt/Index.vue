@@ -41,7 +41,6 @@
       </div>
       <div class="title">
         <el-tabs
-          v-if="isAdmin"
           v-model="imageType"
           type="card"
           @tab-click="handleChangeTypeTab"
@@ -51,12 +50,12 @@
             name="All"
           />
           <el-tab-pane
-            :label="$t('system.imageMgmt.typeValue.public')"
-            name="public"
-          />
-          <el-tab-pane
             :label="$t('system.imageMgmt.typeValue.private')"
             name="private"
+          />
+          <el-tab-pane
+            :label="$t('system.imageMgmt.typeValue.public')"
+            name="public"
           />
         </el-tabs>
         <Search
@@ -93,6 +92,12 @@
           width="120"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="userName"
+          width="120"
+          :label="$t('system.imageMgmt.userName')"
           show-overflow-tooltip
         />
         <el-table-column
@@ -134,6 +139,7 @@
           <template slot-scope="scope">
             <el-button
               id="editBtn"
+              v-if="isAdmin || userId===scope.row.userId"
               @click.native.prevent="handleEdit(scope.row)"
               type="text"
               size="small"
@@ -141,7 +147,8 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
-              v-if="scope.row.status!=='UPLOADING'"
+              v-if="isAdmin || userId===scope.row.userId"
+              :disabled="scope.row.status==='UPLOADING'"
               id="deleteBtn"
               @click.native.prevent="handleDelete(scope.row)"
               type="text"
@@ -150,7 +157,8 @@
               {{ $t('common.delete') }}
             </el-button>
             <el-button
-              v-if="scope.row.status!=='UPLOADING'"
+              v-if="isAdmin || userId===scope.row.userId"
+              :disabled="scope.row.status==='UPLOADING'"
               id="uploadBtn"
               @click.native.prevent="handleUpload(scope.row)"
               type="text"
@@ -159,7 +167,8 @@
               {{ $t('system.imageMgmt.operation.upload') }}
             </el-button>
             <el-button
-              v-if="isAdmin && scope.row.status==='UPLOAD_SUCCEED'"
+              v-if="isAdmin"
+              :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
               id="publishBtn"
               @click.native.prevent="handlePublish(scope.row)"
               type="text"
@@ -469,9 +478,6 @@ export default {
       tbody {
         td {
           padding: 8px;
-          .el-button--text {
-            color: #5b7ede;
-          }
           .cell{
             padding-left: 0;
           }
