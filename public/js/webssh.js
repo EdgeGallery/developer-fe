@@ -23,10 +23,10 @@ WSSHClient.prototype.connect = function (options) {
   var endpoint = this._generateEndpoint()
 
   if (window.WebSocket) {
-    // 如果支持websocket
+    // If it supportswebsocket
     this._connection = new WebSocket(endpoint)
   } else {
-    // 否则报错
+    // Otherwise report an error
     options.onError('WebSocket Not Supported')
     return
   }
@@ -51,12 +51,12 @@ WSSHClient.prototype.send = function (data) {
 }
 
 WSSHClient.prototype.sendInitData = function (options) {
-  // 连接参数
+  // Connection parameters
   this._connection.send(JSON.stringify(options))
 }
 
 WSSHClient.prototype.sendClientData = function (data) {
-  // 发送指令
+  // Send instructions
   this._connection.send(JSON.stringify({ 'operate': 'command', 'command': data }))
 }
 
