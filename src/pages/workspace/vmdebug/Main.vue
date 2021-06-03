@@ -143,6 +143,7 @@ export default {
         }, 2000)
       }).catch(err => {
         this.isDisabled = false
+        this.vmDataLoading = false
         if (err.response.data.message === 'Can not get vm package config') {
           this.$message.warning(this.$t('workspace.deployDebugVm.resourceConfigPromt'))
         }

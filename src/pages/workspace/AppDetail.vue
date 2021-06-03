@@ -166,7 +166,7 @@
         lazy
         v-if="deployPlatform === 'VIRTUALMACHINE'"
       >
-        <span slot="label"><em :class="['tab_config',activeName==='6'?'tab_active':'tab_default']" />资源配置</span>
+        <span slot="label"><em :class="['tab_config',activeName==='6'?'tab_active':'tab_default']" />{{ $t('workspace.deployDebugVm.resourceConfig') }}</span>
         <ResourceConfig v-if="activeName === '6'" />
       </el-tab-pane>
       <el-tab-pane

@@ -331,7 +331,8 @@ const en = {
       resourceConfigPromt: 'Please configure resources first',
       releasePromt: 'The application has no resource configuration and cannot be published',
       flavorExtraSpecs: 'Flavor Extra Specs',
-      useScript: 'Whether to use injection script'
+      useScript: 'Whether to use injection script',
+      resourceConfig: 'Resource Allocation'
     },
     visualConfig: {
       podBasicInfo: 'Pod Basic Information',
