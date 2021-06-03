@@ -331,7 +331,8 @@ const cn = {
       resourceConfigPromt: '请先进行资源配置',
       releasePromt: '应用没有资源配置，不能进行发布操作',
       flavorExtraSpecs: '主机主配置',
-      useScript: '是否使用注入脚本'
+      useScript: '是否使用注入脚本',
+      resourceConfig: '资源配置'
     },
     visualConfig: {
       podBasicInfo: 'Pod基本信息',
