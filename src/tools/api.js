@@ -17,117 +17,117 @@
 import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
 
 let Plugin = {
-  // 获取插件列表
+  // Get the list of plugins
   getPluginListApi: function (limitSize, offsetPage, inputPluginName, selectCodeLanguage) {
     return Get('mec/developer/v1/plugins/?pluginType=1&limit=' + limitSize + '&offset=' + offsetPage + '&pluginName=' + inputPluginName + '&codeLanguage=' + selectCodeLanguage)
   },
-  // 获取插件图标
+  // Get plugin icon
   getImageUrlApi: function (pluginId) {
     return urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/get-logofile'
   },
-  // 获取插件下载路径
+  // Get plugin download path
   getDownloadUrlApi: function (pluginId) {
     return urlPrefix + 'mec/developer/v1/plugins/' + pluginId + '/action/download'
   },
-  // 删除插件
+  // Remove plugin
   deletePluginApi: function (pluginId, userId) {
     return Delete('mec/developer/v1/plugins/' + pluginId + '?userId=' + userId)
   },
-  // 给插件评分
+  // Rate the plugin
   ratePluginApi: function (rateId, valueRate, userId, userName) {
     return Put('mec/developer/v1/plugins/' + rateId + '/action/score?score=' + valueRate + '&userId=' + userId + '&userName=' + userName)
   },
-  // 上传插件
+  // Upload plugin
   uploadPluginApi: function (params) {
     return Post('mec/developer/v1/plugins/', params)
   },
-  // 获取已上传的源码
+  // Get the uploaded source code
   getSourceCodeApi: function (userId, type) {
     return Get('mec/toolchain/v1/porting/' + userId, '', type)
   },
-  // 删除源码
+  // Delete source code
   deleteSourceCodeApi: function (userId, type) {
     return Delete('mec/toolchain/v1/porting/' + userId, '', type)
   },
-  // 上传源码
+  // Upload source code
   uploadSourceCodeApi: function (userId, params, type) {
     return Post('mec/toolchain/v1/porting/' + userId, params, type)
   },
-  // 分析源码
+  // Analyze the source code
   analysisCodeApi: function (userId, params, type) {
     return Post('mec/toolchain/v1/porting/' + userId + '/tasks', params, type)
   },
-  // 获取扫描任务列表
+  // Get a list of scan tasks
   getScanTaskApi: function (userId, type) {
     return Get('mec/toolchain/v1/porting/' + userId + '/tasks', '', type)
   },
-  // 下载报告
+  // Download report
   downLoadReportApi: function (userId, reportId) {
     return urlPrefixTool + 'mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId + '/download'
   },
-  // 删除报告
+  // Delete report
   deleteReportApi: function (userId, reportId, type) {
     return Delete('mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId, '', type)
   },
-  // 获取单个报告信息
+  // Get single report information
   getTaskInformationApi: function (userId, reportId, type) {
     return Get('mec/toolchain/v1/porting/' + userId + '/tasks/' + reportId, '', type)
   }
 }
 
 let Api = {
-  // 获取Mep服务列表
+  // ObtainMepService list
   getMepServiceApi: function () {
     return Get('mec/developer/v1/capability-groups/openmep-api')
   },
-  // 获取MEP-Eco服务列表
+  // ObtainMEP-EcoService list
   getMepEcoServiceApi: function () {
     return Get('mec/developer/v1/capability-groups/openmepeco-api')
   },
-  // 获取服务列表
+  // Get a list of services
   getServiceApi: function (type) {
     return Get('mec/developer/v1/capability-groups/open-api/' + type)
   },
-  // 获取Api-swaggerUI路径
+  // ObtainApi-swaggerUIpath
   getSwaggerUrlApi: function (apiFileId, userId) {
     return urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=OPENMEP'
   },
-  // SDK下载
+  // SDKdownload
   downloadSDKApi: function (fileId, lan) {
     return urlPrefix + 'mec/developer/v1/files/sdk/' + fileId + '/download/' + lan
   },
-  // 删除公开的API
+  // Delete publicAPI
   deletePublicApi: function (capabilityId, userId) {
     return Delete('mec/developer/v1/capability-groups/capabilities/' + capabilityId + '?userId=' + userId)
   },
-  // 获取所有能力组
+  // Get all ability groups
   getCapabilityGroupsApi: function () {
     return Get('mec/developer/v1/capability-groups')
   },
-  // 获取某group下的服务列表
+  // Get agroupList of services under
   getServiceListApi: function (groupId) {
     return Get('mec/developer/v1/capability-groups/' + groupId)
   }
 }
 
 let Test = {
-  // 上传应用APP
+  // Upload applicationAPP
   uploadAppApi: function (params) {
     return Post('mec/developer/v1/apps/', params)
   },
-  // 上传成功后开始测试任务
+  // Start the test task after uploading successfully
   startTestApi: function (appId, userId) {
     return Get('mec/developer/v1/apps/' + appId + '/action/start-test?userId=' + userId)
   },
-  // 获取测试任务列表
+  // Get a list of test tasks
   getTaskListApi: function (userId, params) {
     return Get('mec/developer/v1/apps/?userId=' + userId, params)
   },
-  // 获取测试子任务
+  // Get test subtask
   getSubTaskApi: function (appId, taskId) {
     return Get('mec/developer/v1/apps/' + appId + '/task/' + taskId + '/subtasks')
   },
-  // 测试完成后上传到AppStore
+  // Upload toAppStore
   uploadTaskApi: function (appId, userId, userName) {
     return Post('mec/developer/v1/apps/' + appId + '/action/upload?userId=' + userId + '&userName=' + userName, '')
   }
@@ -163,7 +163,7 @@ let System = {
 }
 
 let Workspace = {
-  // 测试并保存详情中节点信息
+  // Test and save the node information in the details
   saveNodeInfo: function (userId, params) {
     const { ip, port } = params
     const func = params.hostId ? Put : Post
@@ -171,35 +171,35 @@ let Workspace = {
     const data = { architecture: 'X86', userId, status: 'NORMAL', ip, port, name: ip, address: ip }
     return func(path, data)
   },
-  // 获取详情中节点信息
+  // Get node information in details
   getNodeInfo: function (userId) {
     return Get('mec/developer/v1/hosts?userId=' + userId)
   },
-  // 获取项目列表
+  // Get a list of items
   getProjectListApi: function (userId) {
     return Get('mec/developer/v1/projects/?userId=' + userId)
   },
-  // 获取项目图标
+  // Get the project icon
   getIconApi: function (fileId, userId) {
     return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP_ECO'
   },
-  // 删除项目
+  // Delete item
   deleteProjectApi: function (itemId, userId) {
     return Delete('mec/developer/v1/projects/' + itemId + '?userId=' + userId)
   },
-  // 暂存图标生成图标ID
+  // Staging icon generation iconID
   postIconFileIdApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
   },
-  // 获取能力组
+  // Acquiring Ability Group
   getCapabilityListApi: function () {
     return Get('mec/developer/v1/capability-groups')
   },
-  // 获取能力详情服务列表
+  // Get a list of capabilities details services
   getServiceListApi: function (groupId) {
     return Get('mec/developer/v1/capability-groups/' + groupId)
   },
-  // 下载样例代码
+  // Download sample code
   getSampleCodeApi: function (apiFileIdArr) {
     let params = {
       url: 'mec/developer/v1/files/samplecode',
@@ -207,147 +207,147 @@ let Workspace = {
     }
     return downloadFile(params)
   },
-  // 获取样例代码结构
+  // Get sample code structure
   getSampleListApi: function (apiFileIdArr) {
     return Post('mec/developer/v1/files/samplecode/get-pkg-structure', apiFileIdArr)
   },
-  // 获取样例代码内容
+  // Get sample code content
   getSampleContentApi: function (fileName) {
     return Get('mec/developer/v1/files/samplecode/get-file-content?fileName=' + fileName)
   },
-  // 新建/迁移项目
+  // New/Migration project
   newProjectApi: function (userId, params) {
     return Post('mec/developer/v1/projects/?userId=' + userId, params)
   },
-  // 获取Api的swaggerUI路径
+  // ObtainApiofswaggerUIpath
   getApiUrl: function (apiFileId, userId, type) {
     return urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=' + type
   },
-  // 获取以前提交过的配置
+  // Get the previously submitted configuration
   getTestConfigApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/test-config')
   },
-  // 刷新部署状态结果
+  // Refresh the deployment status result
   refreshDeployStatusApi: function (projectId) {
     return Get('mec/developer/v1/projects/' + projectId + '/container/workStatus')
   },
-  // 上传配置
+  // Upload configuration
   postTestConfigApi: function (projectId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
-  // 修改配置
+  // Change setting
   putTestConfigApi: function (projectId, userId, params) {
     return Put('mec/developer/v1/projects/' + projectId + '/test-config?userId=' + userId, params)
   },
-  // 保存可视化配置
+  // Save the visualization configuration
   /* postConfigVisualApi: function (projectId, userId, params, configType) {
     return Post('mec/developer/v1/deploy/' + projectId + '?userId=' + userId + '&configType=' + configType, params)
   }, */
   postConfigVisualApi: function (projectId, userId, params, configType) {
     return Post('mec/developer/v1/deploy/' + projectId + '/action/save-yaml?userId=' + userId + '&configType=' + configType, params)
   },
-  // 获取生成的可视化配置文件
+  // Obtain the generated visualization configuration file
   getConfigVisualApi: function (fileId) {
     return Get('mec/developer/v1/deploy/' + fileId)
   },
-  // 回显生成的可视化配置文件
+  // Echo the generated visualization configuration file
   getEchoConfigFileApi: function (fileId) {
     return Get('mec/developer/v1/deploy/' + fileId + '/action/get-json')
   },
-  // 编辑生成的可视化配置文件
+  // Edit the generated visualization configuration file
   editConfigVisualApi: function (fileId, params) {
     return Put('mec/developer/v1/deploy/' + fileId, params)
   },
-  // 部署构建测试
+  // Deploy build test
   deployTestApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/deploy?userId=' + userId, '')
   },
-  // 终止部署
+  // Terminate deployment
   terminateProjectAPI: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/terminate?userId=' + userId, '')
   },
-  // 清空测试环境
+  // Empty the test environment
   cleanTestEnvApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/clean?userId=' + userId, '')
   },
-  // 添加镜像
+  // Add mirror
   addImageNameApi: function (projectId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/image', params)
   },
-  // 删除镜像
+  // Delete mirror
   deleteImageNameApi: function (projectId, itemId) {
     return Delete('mec/developer/v1/projects/' + projectId + '/image/' + itemId)
   },
-  // 上传yaml文件
+  // Uploadyamlfile
   submitYamlFileApi: function (userId, projectId, params, configType) {
     return Post('mec/developer/v1/files/helm-template-yaml?userId=' + userId + '&projectId=' + projectId + '&configType=' + configType, params)
   },
-  // 上传Api文件
+  // UploadApifile
   submitApiFileApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
   },
-  // 获取上传的Api文件
+  // Get uploadedApifile
   getApiFileApi: function (appApiFileId, userId) {
     return Get('mec/developer/v1/files/api-info/' + appApiFileId + '?userId=' + userId)
   },
-  // 获取已添加的镜像
+  // Get the added image
   getImageApi: function (projectId, params) {
     return Get('mec/developer/v1/projects/' + projectId + '/image', params)
   },
-  // 获取已上传的yaml文件
+  // Get uploadedyamlfile
   getYamlFileApi: function (userId, projectId) {
     return Get('mec/developer/v1/files/helm-template-yaml?userId=' + userId + '&projectId=' + projectId)
   },
-  // 删除已上传的yaml文件
+  // Delete uploadedyamlfile
   deleteYamlFileApi: function (fileId) {
     return Delete('mec/developer/v1/files/helm-template-yaml?fileId=' + fileId)
   },
-  // 获取服务器列表
+  // Get server list
   getHostsApi: function () {
     return Get('mec/developer/v1/hosts')
   },
-  // 获取项目信息
+  // Get project information
   getProjectInfoApi: function (projectId, userId) {
     return Get('mec/developer/v1/projects/' + projectId + '?userId=' + userId)
   },
-  // 获取csar包结构
+  // ObtaincsarPackage structure
   getAppPackageListApi: function (projectId, csarId) {
     return Get('mec/developer/v1/apprelease/' + projectId + '/' + csarId + '/action/get-pkg-structure')
   },
-  // 获取csar包文件内容
+  // ObtaincsarPackage file content
   getAppFileApi: function (projectId, fileName) {
     return GetFun('mec/developer/v1/apprelease/' + projectId + '/' + 'action/get-pkg-content?fileName=' + fileName)
   },
-  // 获取规则配置
+  // Get rule configuration
   getReleaseConfigApi (projectId) {
     return Get('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config')
   },
-  // 保存/修改规则配置
+  // save/Modify rule configuration
   saveRuleConfig (projectId, params, releaseId) {
     let method = releaseId ? Put : Post
     return method('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
   },
-  // 应用测试
+  // Application test
   getAtpTestApi: function (projectId, userId) {
     return Get('mec/developer/v1/projects/' + projectId + '/action/atp?userId=' + userId)
   },
-  // 上传应用发布详情
+  // Upload application release details
   PostReleaseApi: function (projectId, params) {
     return Post('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
   },
-  // 获取应用发布详情
+  // Get app release details
   getReleaseApi: function (projectId) {
     return Get('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config')
   },
-  // 修改应用发布详情
+  // Modify app release details
   PutReleaseApi: function (projectId, params) {
     return Put('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
   },
-  // 发布APP到Appstore
+  // releaseAPPToAppstore
   isPublishApi: function (projectId, userId, userName) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName, '')
   },
-  // 公开APP的API能力
+  // publicAPPofAPIability
   isPublicApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/action/open-api?userId=' + userId, '')
   }
@@ -373,27 +373,27 @@ let vmService = {
   uploadFile: function (projectId, vmId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
   },
-  // 部署调测
+  // Deployment and commissioning
   vmDeployTestApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId)
   },
-  // 删除调测结果
+  // Delete the commissioning result
   deleteVmDeployListApi: function (projectId, vmId, userId) {
     return Delete('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '?userId=' + userId)
   },
-  // 生成镜像
+  // Generate mirror
   createVmImageApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
   },
-  // 获取镜像列表
+  // Get mirror list
   getCreateImageListApi: function (projectId, userId) {
     return Get('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
   },
-  // 删除镜像
+  // Delete mirror
   deleteVmImageApi: function (projectId, userId) {
     return Delete('mec/developer/v1/projects/' + projectId + '/vm/image?userId=' + userId)
   },
-  // 下载镜像
+  // Download mirror
   downloadVmImageApi: function (projectId, vmId, userId) {
     return urlPrefix + 'mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/package?userId=' + userId
   }
