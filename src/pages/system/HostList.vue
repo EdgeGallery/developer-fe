@@ -434,16 +434,18 @@ export default {
       architectureOptions: Architecture,
       formLabelWidth: '110px',
       form: {
+        port: 31252,
         portRangeMin: '30000',
-        portRangeMax: '30400',
+        portRangeMax: '32000',
         architecture: 'X86',
         protocol: 'https',
         status: 'NORMAL',
         os: 'K8S'
       },
       defaultForm: {
+        port: 31252,
         portRangeMin: '30000',
-        portRangeMax: '30400',
+        portRangeMax: '32000',
         architecture: 'X86',
         protocol: 'https',
         status: 'NORMAL',

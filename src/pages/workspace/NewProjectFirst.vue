@@ -268,7 +268,7 @@ export default {
       form: {
         projectType: this.projectTypeprop,
         name: '',
-        version: '1.0',
+        version: 'v1.0',
         provider: 'Huawei',
         industry: ['Smart Park'],
         type: 'Video Application',
