@@ -413,7 +413,6 @@ export default {
         this.capabilityServiceList.forEach(item => {
           item.uploadTime = this.dateChange(item.uploadTime)
         })
-        this.filterSefvice('hot')
         this.serviceLoading = false
         let objTemp = {}
         groupData.forEach(item => {
@@ -495,6 +494,7 @@ export default {
             this.dialogVisible = false
           }
         }
+        this.filterSefvice('hot')
       }).catch(() => {
         setTimeout(() => {
           this.groupLoading = false
