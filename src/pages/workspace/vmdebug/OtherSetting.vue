@@ -208,7 +208,6 @@ export default {
       if (this.paramsDefaultData !== data.params) {
         data.params = paramsTemp.substring(12, (paramsTemp.length - 7))
       }
-      console.log(data)
       this.$emit('getStepData', { step: 'otherSetting', data, canNext })
     },
     changeSelect (val) {

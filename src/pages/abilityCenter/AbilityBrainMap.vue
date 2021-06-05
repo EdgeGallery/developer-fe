@@ -16,16 +16,10 @@
 
 <template>
   <div class="instru-container">
-    <div class="instru-arrows-wrap">
-      <em
-        class="instru-arrows"
-        :class="uperArrowStyle"
-      />
-    </div>
     <div class="instru-container-inner">
       <div
         style="height:480px"
-        id="minder-container"
+        :id="containerId"
       />
     </div>
   </div>
@@ -42,20 +36,16 @@ export default {
     parentTabIndex: {
       type: Number,
       default: -1
+    },
+    containerId: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
       km: null,
       data: null
-    }
-  },
-  computed: {
-    uperArrowStyle: function () {
-      return {
-        first: this.parentTabIndex <= 0,
-        second: this.parentTabIndex === 1
-      }
     }
   },
   watch: {
@@ -80,8 +70,8 @@ export default {
       }
       let subAbilitysShown = []
       for (let i = 0; i < subAbilitys.length; i++) {
-        let thirdGpp = (i < 5) ? '#00b050' : ''
-        let etsiNodeBackground = (i < 6) ? '#00b050' : ''
+        let thirdGpp = (i < 5) ? '#e7dbf6' : ''
+        let etsiNodeBackground = (i < 6) ? '#e7dbf6' : ''
         subAbilitysShown.push({
           data: {
             id: subAbilitys[i].groupId,
@@ -101,7 +91,8 @@ export default {
             text: this.parentTabIndex === 1 ? '3GPP CAPIF' : 'ETSI MEC',
             expandState: 'expand',
             hyperlink: '',
-            hyperlinkTitle: ''
+            hyperlinkTitle: '',
+            background: '#997ebd'
           },
           children: subAbilitysShown
         },
@@ -113,7 +104,7 @@ export default {
   },
   mounted () {
     this.km = new window.kityminder.Minder({
-      renderTo: '#minder-container'
+      renderTo: '#' + this.containerId
     })
     this.refreshMap()
   }
@@ -121,8 +112,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .instru-container {
-  margin-top: 20px;
-  background: #f5f7fa;
+  margin: 90px 175px 0;
   border: 1px solid #e5e8ed;
   box-shadow: 0 2px 4px 0 rgba(3, 27, 78, 0.06);
   box-sizing: border-box;
