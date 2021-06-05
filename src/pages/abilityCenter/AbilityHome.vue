@@ -388,6 +388,7 @@ export default {
       return Workspace.getIconApi(iconFileId, this.userId)
     },
     viewServiceDetail (item, index) {
+      console.log(item)
       sessionStorage.setItem('capaSelectDetailIndex', index)
       this.dialogVisible = true
       this.serviceDetail = []
@@ -410,7 +411,7 @@ export default {
         this.capabilityAllService = res.data
         this.capabilityServiceList = res.data
         this.capabilityServiceList.forEach(item => {
-          item.createTime = this.dateChange(item.createTime)
+          item.uploadTime = this.dateChange(item.uploadTime)
         })
         this.filterSefvice('hot')
         this.serviceLoading = false
