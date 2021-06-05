@@ -173,6 +173,51 @@ export default {
     }
   },
   data () {
+    var validateImgNameEmpty = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('promptMessage.nameEmpty')))
+      } else {
+        callback()
+      }
+    }
+    var validateImgNameRule = (rule, value, callback) => {
+      let pattern = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/
+      if (value.match(pattern) === null) {
+        callback(new Error(this.$t('system.imageMgmt.tip.nameRule')))
+      } else {
+        callback()
+      }
+    }
+    var validateVersionEmpty = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('system.imageMgmt.tip.versionEmpty')))
+      } else {
+        callback()
+      }
+    }
+    var validateVersionRule = (rule, value, callback) => {
+      let pattern = /^[\w\\-][\w\\-\s.]{0,9}$/g
+      if (value.match(pattern) === null) {
+        callback(new Error(this.$t('system.imageMgmt.tip.versionRule')))
+      } else {
+        callback()
+      }
+    }
+    var validateSystemDiskEmpty = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('system.imageMgmt.tip.systemDiskEmpty')))
+      } else {
+        callback()
+      }
+    }
+    var validateSystemDiskRule = (rule, value, callback) => {
+      let pattern = /^\d{2,4}$/
+      if (value.match(pattern) === null) {
+        callback(new Error(this.$t('system.imageMgmt.tip.systemDiskRule')))
+      } else {
+        callback()
+      }
+    }
     return {
       userId: '',
       isAdmin: false,
@@ -197,16 +242,16 @@ export default {
       },
       rules: {
         systemName: [
-          { required: true, message: this.$t('promptMessage.nameEmpty'), trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          { validator: validateImgNameEmpty, trigger: 'blur' },
+          { validator: validateImgNameRule }
         ],
         version: [
-          { required: true, message: this.$t('system.imageMgmt.tip.versionEmpty'), trigger: 'blur' },
-          { pattern: /^[\w\\-][\w\\-\s.]{0,9}$/g, message: this.$t('promptMessage.versionRule') }
+          { validator: validateVersionEmpty, trigger: 'blur' },
+          { validator: validateVersionRule }
         ],
         systemDisk: [
-          { required: true, message: this.$t('system.imageMgmt.tip.systemDiskEmpty'), trigger: 'blur' },
-          { pattern: /^\d{2,4}$/, message: this.$t('system.imageMgmt.tip.systemDiskRule') }
+          { validator: validateSystemDiskEmpty, trigger: 'blur' },
+          { validator: validateSystemDiskRule }
         ]
       },
 
@@ -296,17 +341,27 @@ export default {
         if (!this.isModify) {
           imageMgmtService.newImage(this.imageDataForm, this.userId).then(() => {
             this.$emit('processEditImageSuccess')
-          }).catch(() => {
-            this.$message.error(this.$t('system.imageMgmt.tip.newImgFailed'))
+          }).catch((error) => {
+            this.processEditError(error)
           })
         } else {
           imageMgmtService.modifyImage(this.imageDataForm, this.systemIdToModi, this.userId).then(() => {
             this.$emit('processEditImageSuccess')
-          }).catch(() => {
-            this.$message.error(this.$t('system.imageMgmt.tip.modifyImgFailed'))
+          }).catch((error) => {
+            this.processEditError(error)
           })
         }
       })
+    },
+    processEditError (error) {
+      if (error && error.response && error.response.data && error.response.data.message) {
+        if (error.response.data.message === 'SystemName can not duplicate.') {
+          this.$message.error(this.$t('system.imageMgmt.tip.systemNameExist'))
+          return
+        }
+      }
+      let _resKey = this.isModify ? 'system.imageMgmt.tip.modifyImgFailed' : 'system.imageMgmt.tip.newImgFailed'
+      this.$message.error(this.$t(_resKey))
     }
   }
 }
