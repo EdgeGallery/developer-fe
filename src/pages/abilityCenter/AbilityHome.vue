@@ -147,9 +147,9 @@
               </p>
             </div>
           </div>
-          <p class="button_more">
+          <!-- <p class="button_more">
             <el-button>显示更多</el-button>
-          </p>
+          </p> -->
         </div>
       </div>
       <!-- 服务详情弹框 -->
@@ -348,9 +348,6 @@ export default {
       this.dropDown = !this.dropDown
     },
     filterSefvice (filter) {
-      this.capabilityServiceList.forEach(itemService => {
-        itemService.uploadTime = itemService.uploadTime.substring(0, 10)
-      })
       let length = this.capabilityServiceList.length
       if (length > 0) {
         if (filter === 'hot') {
@@ -412,6 +409,9 @@ export default {
         let groupData = res.data
         this.capabilityAllService = res.data
         this.capabilityServiceList = res.data
+        this.capabilityServiceList.forEach(item => {
+          item.createTime = this.dateChange(item.createTime)
+        })
         this.filterSefvice('hot')
         this.serviceLoading = false
         let objTemp = {}
@@ -535,6 +535,23 @@ export default {
         this.listBottom = true
       } else {
         this.listBottom = false
+      }
+    },
+    dateChange (time) {
+      if (time) {
+        let date = new Date(Date.parse(time))
+        let Y = date.getFullYear()
+        let M = date.getMonth() + 1
+        let D = date.getDate()
+        let H = date.getHours()
+        let m = date.getMinutes()
+        let s = date.getSeconds()
+        return Y + '-' +
+      (M > 9 ? M : ('0' + M)) + '-' +
+      (D > 9 ? D : ('0' + D)) + ' ' +
+      (H > 9 ? H : ('0' + H)) + ':' +
+      (m > 9 ? m : ('0' + m)) + ':' +
+      (s > 9 ? s : ('0' + s))
       }
     }
   },
