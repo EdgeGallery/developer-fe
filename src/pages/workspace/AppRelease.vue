@@ -1036,7 +1036,8 @@ export default {
         this.$message.success(this.$t('promptMessage.editSuccess'))
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
-      this.getReleaseConfigFirst()
+      // this.getReleaseConfigFirst()
+      this.getReleaseConfigList()
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
     // 编辑规则列表

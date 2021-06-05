@@ -425,7 +425,9 @@ export default {
       formLabelWidth: '120px',
       form: {},
       defaultForm: {
-        protocol: 'https'
+        protocol: 'https',
+        iconFileId: '35a52055-42b5-4b5f-bc2b-8a02259f2572',
+        author: sessionStorage.getItem('userName')
       },
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],

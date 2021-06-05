@@ -183,6 +183,10 @@ let Workspace = {
   getIconApi: function (fileId, userId) {
     return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP_ECO'
   },
+  // 获取项目图标
+  getServiceIconApi: function (fileId, userId) {
+    return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP'
+  },
   // 删除项目
   deleteProjectApi: function (itemId, userId) {
     return Delete('mec/developer/v1/projects/' + itemId + '?userId=' + userId)
