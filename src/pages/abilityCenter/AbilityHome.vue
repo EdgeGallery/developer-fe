@@ -84,28 +84,33 @@
               v-for="(item,index) in capabilityGroupsList"
               :key="index"
               @click="selectGroupList(item,index)"
-              @mouseenter="activeIndex=index"
-              @mouseleave="activeIndex=-1"
-              :class="{'select':selectIndex===index}"
+              @mouseenter="groupListHover(index)"
+              @mouseleave="groupListLeave(index)"
+              class="group_list"
             >
-              <img
-                :src="item.icon"
-                alt=""
-                v-if="selectIndex!==index && activeIndex!==index"
+              <div
+                class="li_list"
+                :class="{'select':selectIndex===index}"
               >
-              <img
-                :src="item.iconSelect"
-                alt=""
-                v-if="selectIndex===index || activeIndex===index"
-              >
-              <span class="icon" />
-              {{ item.name }}
-              <span
-                class="counts"
-                :class="{'select':activeIndex===index}"
-              >{{ item.counts }}</span>
+                <img
+                  :src="item.icon"
+                  alt=""
+                  :class="{'icon_default':selectIndex!==index && activeIndex!==index}"
+                >
+                <img
+                  :src="item.iconSelect"
+                  alt=""
+                  class="icon_show"
+                  :class="{'icon_select':selectIndex===index || activeIndex===index}"
+                >
+                {{ item.name }}
+                <span
+                  class="counts"
+                  :class="{'select':activeIndex===index}"
+                >{{ item.counts }}</span>
+              </div>
             </li>
-            <!-- <div class="select_style" /> -->
+            <div class="select_style" />
           </ul>
         </div>
         <!-- 右侧列表 -->
@@ -113,9 +118,10 @@
           class="list_right clear rt"
           v-loading="serviceLoading"
           :class="{'scroll_top':scrollTop}"
+          ref="rightService"
         >
           <div
-            v-for="(item,index) in capabilityServiceList"
+            v-for="(item,index) in capabilityServiceList.slice(0,showNum)"
             :key="index"
             class="service_list"
             @mouseenter="hoverServiceList(index)"
@@ -147,9 +153,14 @@
               </p>
             </div>
           </div>
-          <!-- <p class="button_more">
-            <el-button>显示更多</el-button>
-          </p> -->
+          <p
+            class="button_more"
+            v-if="showNum<capabilityServiceList.length"
+          >
+            <el-button @click="showMore()">
+              显示更多
+            </el-button>
+          </p>
         </div>
       </div>
       <!-- 服务详情弹框 -->
@@ -334,7 +345,8 @@ export default {
       isFirstEnter: true,
       scrollTop: false,
       listBottom: false,
-      hotFilter: true
+      hotFilter: true,
+      showNum: 12
     }
   },
   watch: {
@@ -365,6 +377,16 @@ export default {
       this.showFilter = false
       this.dropDown = false
     },
+    groupListHover (index) {
+      this.activeIndex = index
+      let oDiv = document.getElementsByClassName('select_style')
+      oDiv[0].style.top = (58 * index + 5) + 'px'
+    },
+    groupListLeave (index) {
+      this.activeIndex = -1
+      let oDiv = document.getElementsByClassName('select_style')
+      oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
+    },
     selectGroupList (item, index) {
       sessionStorage.setItem('capaSelectListIndex', index)
       this.selectIndex = index
@@ -386,6 +408,9 @@ export default {
     // 获取插件图标
     getImageUrl (iconFileId) {
       return Workspace.getIconApi(iconFileId, this.userId)
+    },
+    showMore () {
+      this.showNum += 12
     },
     viewServiceDetail (item, index) {
       console.log(item)
@@ -525,15 +550,19 @@ export default {
     // 获取树状导航距离顶部高度
     getTreeTop () {
       let treeTop = this.$refs.meptree.getBoundingClientRect().top
-      if (treeTop <= 120) {
-        this.scrollTop = true
-      } else {
-        this.scrollTop = false
-      }
+      let rightTop = this.$refs.rightService.getBoundingClientRect().top
       const elOffsetTop = document.getElementById('panorama').offsetTop
       const docScrollTop = document.documentElement.scrollTop
-      if (elOffsetTop >= docScrollTop && elOffsetTop < (docScrollTop + window.innerHeight)) {
+      let scrollBottom = elOffsetTop >= docScrollTop && elOffsetTop < (docScrollTop + window.innerHeight)
+      if (rightTop > 194 || treeTop < 120) {
+        this.scrollTop = false
+      } else {
+        this.scrollTop = true
+      }
+
+      if (scrollBottom) {
         this.listBottom = true
+        this.scrollTop = false
       } else {
         this.listBottom = false
       }
@@ -558,12 +587,12 @@ export default {
   },
   beforeMount () {
     this.initAbilities()
-    /* window.addEventListener('scroll', this.getTreeTop, true)
+    window.addEventListener('scroll', this.getTreeTop, true)
     window.onresize = () => {
       return (() => {
         this.getTreeTop()
       })()
-    } */
+    }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => { // vm为vue的实例,代替this
@@ -575,10 +604,10 @@ export default {
         vm.isFirstEnter = false
       }
     })
-  }
-  /* beforeDestroy () {
+  },
+  beforeDestroy () {
     window.removeEventListener('scroll', this.getTreeTop, true)
-  } */
+  }
 }
 </script>
 <style lang='less'>
@@ -829,18 +858,34 @@ export default {
       position: relative;
       background: #f1f2f6;
       li{
-        height: 48px;
-        line-height: 48px;
-        padding: 0 15px;
+        height: 58px;
+        padding: 5px 0;
+        .li_list{
+          height: 48px;
+          line-height: 48px;
+          padding: 0 15px 0 50px;
+        }
+
         font-size: 21px;
         color: #7a6e8a;
         cursor: pointer;
-        margin-bottom: 10px;
         position: relative;
         z-index: 2;
         img{
-          float: left;
-          margin: 12px 15px 0 0;
+          position: absolute;
+          top: 18px;
+          left: 15px;
+        }
+        img.icon_default{
+          opacity: 1;
+          transition: all 1s;
+        }
+        img.icon_show{
+          opacity: 0;
+        }
+        img.icon_select{
+          opacity: 1;
+          transition: all 1s;
         }
         .counts{
           float: right;
@@ -851,7 +896,7 @@ export default {
           color: #380879;
         }
       }
-      li.select{
+      .li_list.select{
         background: #fdfcff;
         border-radius: 8px;
         color: #380879;
@@ -860,31 +905,25 @@ export default {
           color: #380879;
         }
       }
-      li:hover{
+      /* li:hover{
         background: #fdfcff;
         border-radius: 8px;
         color: #380879;
         box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-      }
-      /* .select_style{
+      } */
+      .select_style{
         width: 100%;
         height: 48px;
         z-index: 1;
         position: absolute;
-        top: 0;
+        top: 5px;
         left: 0;
         transition: all 0.5s ease;
         background: #fdfcff;
         border-radius: 8px;
         color: #380879;
         box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-      } */
-      /* li:nth-of-type(1):hover .select_style{
-        top: 0;
       }
-      li:nth-of-type(2):hover .select_style{
-        top: 58px;
-      } */
     }
     .list_right.scroll_top{
       margin-left: 320px;
