@@ -29,7 +29,10 @@
           <span>{{ $t('api.capabilitieTitle2') }}</span>
         </div>
       </div>
-      <div class="capa_tit_div padding_default">
+      <div
+        class="capa_tit_div padding_default"
+        id="capa_tit_div"
+      >
         <div class="title_top title_left clear">
           <img
             src="../../assets/images/home_tit_capability.png"
@@ -84,28 +87,33 @@
               v-for="(item,index) in capabilityGroupsList"
               :key="index"
               @click="selectGroupList(item,index)"
-              @mouseenter="activeIndex=index"
-              @mouseleave="activeIndex=-1"
-              :class="{'select':selectIndex===index}"
+              @mouseenter="groupListHover(index)"
+              @mouseleave="groupListLeave(index)"
+              class="group_list"
             >
-              <img
-                :src="item.icon"
-                alt=""
-                v-if="selectIndex!==index && activeIndex!==index"
+              <div
+                class="li_list"
+                :class="{'select':selectIndex===index}"
               >
-              <img
-                :src="item.iconSelect"
-                alt=""
-                v-if="selectIndex===index || activeIndex===index"
-              >
-              <span class="icon" />
-              {{ item.name }}
-              <span
-                class="counts"
-                :class="{'select':activeIndex===index}"
-              >{{ item.counts }}</span>
+                <img
+                  :src="item.icon"
+                  alt=""
+                  :class="{'icon_default':selectIndex!==index && activeIndex!==index}"
+                >
+                <img
+                  :src="item.iconSelect"
+                  alt=""
+                  class="icon_show"
+                  :class="{'icon_select':selectIndex===index || activeIndex===index}"
+                >
+                {{ item.name }}
+                <span
+                  class="counts"
+                  :class="{'select':activeIndex===index}"
+                >{{ item.counts }}</span>
+              </div>
             </li>
-            <!-- <div class="select_style" /> -->
+            <div class="select_style" />
           </ul>
         </div>
         <!-- 右侧列表 -->
@@ -113,9 +121,10 @@
           class="list_right clear rt"
           v-loading="serviceLoading"
           :class="{'scroll_top':scrollTop}"
+          ref="rightService"
         >
           <div
-            v-for="(item,index) in capabilityServiceList"
+            v-for="(item,index) in capabilityServiceList.slice(0,showNum)"
             :key="index"
             class="service_list"
             @mouseenter="hoverServiceList(index)"
@@ -147,9 +156,14 @@
               </p>
             </div>
           </div>
-          <!-- <p class="button_more">
-            <el-button>显示更多</el-button>
-          </p> -->
+          <p
+            class="button_more"
+            v-if="showNum<capabilityServiceList.length"
+          >
+            <el-button @click="showMore()">
+              显示更多
+            </el-button>
+          </p>
         </div>
       </div>
       <!-- 服务详情弹框 -->
@@ -260,6 +274,7 @@
 </template>
 
 <script>
+import abilityAPI from './ability.js'
 import { Api, Workspace } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
 
@@ -327,14 +342,15 @@ export default {
       capabilityServiceList: [],
       activeInfo: -1,
       dialogVisible: false,
-      groupLoading: false,
-      serviceLoading: false,
+      groupLoading: true,
+      serviceLoading: true,
       serviceDetail: [],
       toOnline: false,
       isFirstEnter: true,
       scrollTop: false,
       listBottom: false,
-      hotFilter: true
+      hotFilter: true,
+      showNum: 12
     }
   },
   watch: {
@@ -365,7 +381,19 @@ export default {
       this.showFilter = false
       this.dropDown = false
     },
+    groupListHover (index) {
+      this.activeIndex = index
+      let oDiv = document.getElementsByClassName('select_style')
+      oDiv[0].style.top = (58 * index + 5) + 'px'
+    },
+    groupListLeave (index) {
+      this.activeIndex = -1
+      let oDiv = document.getElementsByClassName('select_style')
+      oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
+    },
     selectGroupList (item, index) {
+      document.getElementById('capa_tit_div').scrollIntoView()
+      this.listBottom = false
       sessionStorage.setItem('capaSelectListIndex', index)
       this.selectIndex = index
       this.capabilityServiceList = []
@@ -387,8 +415,10 @@ export default {
     getImageUrl (iconFileId) {
       return Workspace.getIconApi(iconFileId, this.userId)
     },
+    showMore () {
+      this.showNum += 12
+    },
     viewServiceDetail (item, index) {
-      console.log(item)
       sessionStorage.setItem('capaSelectDetailIndex', index)
       this.dialogVisible = true
       this.serviceDetail = []
@@ -401,106 +431,104 @@ export default {
     },
     // 获取左侧一级能力列表
     initAbilities () {
-      Api.getCapabilityGroupsApi().then(res => {
-        this.capabilityGroupsList = []
-        this.etsiIndex = 0
-        this.threeGppIndex = 1
-        let oneLevelNameEn = []
-        let oneLevelNameCn = []
-        let groupData = res.data
-        this.capabilityAllService = res.data
-        this.capabilityServiceList = res.data
-        this.capabilityServiceList.forEach(item => {
-          item.uploadTime = this.dateChange(item.uploadTime)
-        })
-        this.serviceLoading = false
-        let objTemp = {}
-        groupData.forEach(item => {
-          oneLevelNameEn.push(item.oneLevelNameEn)
-          oneLevelNameCn.push(item.oneLevelName)
-          if (objTemp[item.oneLevelName]) {
-            objTemp[item.oneLevelName]++
-          } else {
-            objTemp[item.oneLevelName] = 1
-          }
-        })
-        oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
-        oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
-        let length = oneLevelNameEn.length
-        this.groupLoading = false
-        for (let i = 0; i < length; i++) {
-          let obj = {
-            name: '',
-            nameEn: '',
-            icon: '',
-            iconSelect: '',
-            counts: 0
-          }
-          for (let key in objTemp) {
-            if (key === oneLevelNameCn[i]) {
-              obj.counts = objTemp[key]
-            }
-          }
-          if (this.language === 'cn') {
-            if (oneLevelNameCn[i] === '平台基础服务') {
-              obj.icon = this.capabilityIconList[1].icon
-              obj.iconSelect = this.capabilityIconList[1].iconSelect
-            } else if (oneLevelNameCn[i] === '电信网络能力') {
-              obj.icon = this.capabilityIconList[2].icon
-              obj.iconSelect = this.capabilityIconList[2].iconSelect
-            } else if (oneLevelNameCn[i] === '昇腾AI能力') {
-              obj.icon = this.capabilityIconList[3].icon
-              obj.iconSelect = this.capabilityIconList[3].iconSelect
-            } else if (oneLevelNameCn[i] === 'AI能力') {
-              obj.icon = this.capabilityIconList[4].icon
-              obj.iconSelect = this.capabilityIconList[4].iconSelect
-            } else if (oneLevelNameCn[i] === '视频处理') {
-              obj.icon = this.capabilityIconList[5].icon
-              obj.iconSelect = this.capabilityIconList[5].iconSelect
-            } else if (oneLevelNameCn[i] === '数据库') {
-              obj.icon = this.capabilityIconList[6].icon
-              obj.iconSelect = this.capabilityIconList[6].iconSelect
-            } else if (oneLevelNameCn[i] === '公共框架') {
-              obj.icon = this.capabilityIconList[7].icon
-              obj.iconSelect = this.capabilityIconList[7].iconSelect
-            } else if (oneLevelNameCn[i] === '3GPP') {
-              obj.icon = this.capabilityIconList[7].icon
-              obj.iconSelect = this.capabilityIconList[7].iconSelect
-            } else if (oneLevelNameCn[i] === 'ETSI') {
-              obj.icon = this.capabilityIconList[6].icon
-              obj.iconSelect = this.capabilityIconList[6].iconSelect
-            } else {
-              obj.icon = this.capabilityIconList[0].icon
-              obj.iconSelect = this.capabilityIconList[0].iconSelect
-            }
-            obj.name = oneLevelNameCn[i]
-            obj.nameEn = oneLevelNameEn[i]
-            this.capabilityGroupsList.push(obj)
-          }
-        }
-        let objfirst = {
-          name: '所有',
-          nameEn: 'All',
-          icon: this.capabilityIconList[0].icon,
-          iconSelect: this.capabilityIconList[0].iconSelect,
-          counts: this.capabilityAllService.length
-        }
-        this.capabilityGroupsList.unshift(objfirst)
-        if (!this.isFirstEnter) {
-          this.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
-          if (sessionStorage.getItem('capaSelectDetailIndex')) {
-            this.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
-          } else {
-            this.dialogVisible = false
-          }
-        }
-        this.filterSefvice('hot')
-      }).catch(() => {
-        setTimeout(() => {
-          this.groupLoading = false
+      Api.getCapabilityGroupsApi()
+        .then(res => {
+          abilityAPI.initAbilities(res.data, this.$i18n.locale)
+          this.capabilityGroupsList = []
+          this.etsiIndex = 0
+          this.threeGppIndex = 1
+          let oneLevelNameEn = []
+          let oneLevelNameCn = []
+          let groupData = res.data
+          this.capabilityAllService = res.data
+          this.capabilityServiceList = res.data
+          this.capabilityServiceList.forEach(item => {
+            item.uploadTime = this.dateChange(item.uploadTime)
+          })
           this.serviceLoading = false
-        }, 2000)
-      })
+          let objTemp = {}
+          groupData.forEach(item => {
+            if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
+              oneLevelNameEn.push(item.oneLevelNameEn)
+              oneLevelNameCn.push(item.oneLevelName)
+            }
+            if (objTemp[item.oneLevelName]) {
+              objTemp[item.oneLevelName]++
+            } else {
+              objTemp[item.oneLevelName] = 1
+            }
+          })
+          oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
+          oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
+          let length = oneLevelNameEn.length
+          this.groupLoading = false
+          for (let i = 0; i < length; i++) {
+            let obj = {
+              name: '',
+              nameEn: '',
+              icon: '',
+              iconSelect: '',
+              counts: 0
+            }
+            for (let key in objTemp) {
+              if (key === oneLevelNameCn[i]) {
+                obj.counts = objTemp[key]
+              }
+            }
+            if (this.language === 'cn') {
+              if (oneLevelNameCn[i] === '平台基础服务') {
+                obj.icon = this.capabilityIconList[1].icon
+                obj.iconSelect = this.capabilityIconList[1].iconSelect
+              } else if (oneLevelNameCn[i] === '电信网络能力') {
+                obj.icon = this.capabilityIconList[2].icon
+                obj.iconSelect = this.capabilityIconList[2].iconSelect
+              } else if (oneLevelNameCn[i] === '昇腾AI能力') {
+                obj.icon = this.capabilityIconList[3].icon
+                obj.iconSelect = this.capabilityIconList[3].iconSelect
+              } else if (oneLevelNameCn[i] === 'AI能力') {
+                obj.icon = this.capabilityIconList[4].icon
+                obj.iconSelect = this.capabilityIconList[4].iconSelect
+              } else if (oneLevelNameCn[i] === '视频处理') {
+                obj.icon = this.capabilityIconList[5].icon
+                obj.iconSelect = this.capabilityIconList[5].iconSelect
+              } else if (oneLevelNameCn[i] === '数据库') {
+                obj.icon = this.capabilityIconList[6].icon
+                obj.iconSelect = this.capabilityIconList[6].iconSelect
+              } else if (oneLevelNameCn[i] === '公共框架') {
+                obj.icon = this.capabilityIconList[7].icon
+                obj.iconSelect = this.capabilityIconList[7].iconSelect
+              } else {
+                obj.icon = this.capabilityIconList[0].icon
+                obj.iconSelect = this.capabilityIconList[0].iconSelect
+              }
+              obj.name = oneLevelNameCn[i]
+              obj.nameEn = oneLevelNameEn[i]
+              this.capabilityGroupsList.push(obj)
+            }
+          }
+          let objfirst = {
+            name: '所有',
+            nameEn: 'All',
+            icon: this.capabilityIconList[0].icon,
+            iconSelect: this.capabilityIconList[0].iconSelect,
+            counts: this.capabilityAllService.length
+          }
+          this.capabilityGroupsList.unshift(objfirst)
+          if (!this.isFirstEnter) {
+            this.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
+            if (sessionStorage.getItem('capaSelectDetailIndex')) {
+              this.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
+            } else {
+              this.dialogVisible = false
+            }
+          }
+          this.filterSefvice('hot')
+        }).catch(() => {
+          setTimeout(() => {
+            this.groupLoading = false
+            this.serviceLoading = false
+          }, 2000)
+        })
     },
     serviceDocClick (item) {
       this.$router.push({ name: 'serviceDoc', query: { groupId: item.groupId, language: this.$i18n.locale } })
@@ -525,15 +553,19 @@ export default {
     // 获取树状导航距离顶部高度
     getTreeTop () {
       let treeTop = this.$refs.meptree.getBoundingClientRect().top
-      if (treeTop <= 120) {
-        this.scrollTop = true
-      } else {
-        this.scrollTop = false
-      }
+      let rightTop = this.$refs.rightService.getBoundingClientRect().top
       const elOffsetTop = document.getElementById('panorama').offsetTop
       const docScrollTop = document.documentElement.scrollTop
-      if (elOffsetTop >= docScrollTop && elOffsetTop < (docScrollTop + window.innerHeight)) {
+      let scrollBottom = elOffsetTop >= docScrollTop && elOffsetTop < (docScrollTop + window.innerHeight)
+      if (rightTop > 194 || treeTop < 120) {
+        this.scrollTop = false
+      } else {
+        this.scrollTop = true
+      }
+
+      if (scrollBottom) {
         this.listBottom = true
+        this.scrollTop = false
       } else {
         this.listBottom = false
       }
@@ -556,14 +588,20 @@ export default {
       }
     }
   },
+  mounted () {
+    this.listBottom = false
+    this.$nextTick(() => {
+      document.getElementsByClassName('el-main')[0].scrollTop = 0
+    })
+  },
   beforeMount () {
     this.initAbilities()
-    /* window.addEventListener('scroll', this.getTreeTop, true)
+    window.addEventListener('scroll', this.getTreeTop, true)
     window.onresize = () => {
       return (() => {
         this.getTreeTop()
       })()
-    } */
+    }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => { // vm为vue的实例,代替this
@@ -575,10 +613,10 @@ export default {
         vm.isFirstEnter = false
       }
     })
-  }
-  /* beforeDestroy () {
+  },
+  beforeDestroy () {
     window.removeEventListener('scroll', this.getTreeTop, true)
-  } */
+  }
 }
 </script>
 <style lang='less'>
@@ -609,13 +647,13 @@ export default {
       text-align: center;
       .el-button{
         font-size: 18px;
-        color: #7a6e8a;
+        color: #ffffff;
         height: 50px;
         line-height: 34px;
         border: 1px solid #7a6e8a;
-        border-radius: 25px;
+        border-radius: 10px;
         padding: 8px 45px;
-        background: transparent;
+        background: #7a6e8a;
         position: relative;
       }
       .el-button + .el-button {
@@ -673,6 +711,7 @@ export default {
         // max-width: 432px;
         width: 432px;
         height: 252px;
+        border-radius: 10px;
       }
       .service_right{
         width: calc(100% - 432px);
@@ -762,6 +801,7 @@ export default {
   }
   .capa_list_div{
     position: relative;
+    min-height: 470px;
     .filter_div{
       position: absolute;
       top: -90px;
@@ -829,18 +869,34 @@ export default {
       position: relative;
       background: #f1f2f6;
       li{
-        height: 48px;
-        line-height: 48px;
-        padding: 0 15px;
+        height: 58px;
+        padding: 5px 0;
+        .li_list{
+          height: 48px;
+          line-height: 48px;
+          padding: 0 15px 0 50px;
+        }
+
         font-size: 21px;
         color: #7a6e8a;
         cursor: pointer;
-        margin-bottom: 10px;
         position: relative;
         z-index: 2;
         img{
-          float: left;
-          margin: 12px 15px 0 0;
+          position: absolute;
+          top: 18px;
+          left: 15px;
+        }
+        img.icon_default{
+          opacity: 1;
+          transition: all 1s;
+        }
+        img.icon_show{
+          opacity: 0;
+        }
+        img.icon_select{
+          opacity: 1;
+          transition: all 1s;
         }
         .counts{
           float: right;
@@ -851,7 +907,7 @@ export default {
           color: #380879;
         }
       }
-      li.select{
+      .li_list.select{
         background: #fdfcff;
         border-radius: 8px;
         color: #380879;
@@ -860,31 +916,25 @@ export default {
           color: #380879;
         }
       }
-      li:hover{
+      /* li:hover{
         background: #fdfcff;
         border-radius: 8px;
         color: #380879;
         box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-      }
-      /* .select_style{
+      } */
+      .select_style{
         width: 100%;
         height: 48px;
         z-index: 1;
         position: absolute;
-        top: 0;
+        top: 5px;
         left: 0;
         transition: all 0.5s ease;
         background: #fdfcff;
         border-radius: 8px;
         color: #380879;
         box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-      } */
-      /* li:nth-of-type(1):hover .select_style{
-        top: 0;
       }
-      li:nth-of-type(2):hover .select_style{
-        top: 58px;
-      } */
     }
     .list_right.scroll_top{
       margin-left: 320px;
