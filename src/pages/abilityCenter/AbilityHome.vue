@@ -29,7 +29,10 @@
           <span>{{ $t('api.capabilitieTitle2') }}</span>
         </div>
       </div>
-      <div class="capa_tit_div padding_default">
+      <div
+        class="capa_tit_div padding_default"
+        id="capa_tit_div"
+      >
         <div class="title_top title_left clear">
           <img
             src="../../assets/images/home_tit_capability.png"
@@ -271,6 +274,7 @@
 </template>
 
 <script>
+import abilityAPI from './ability.js'
 import { Api, Workspace } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
 
@@ -338,8 +342,8 @@ export default {
       capabilityServiceList: [],
       activeInfo: -1,
       dialogVisible: false,
-      groupLoading: false,
-      serviceLoading: false,
+      groupLoading: true,
+      serviceLoading: true,
       serviceDetail: [],
       toOnline: false,
       isFirstEnter: true,
@@ -388,6 +392,8 @@ export default {
       oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
     },
     selectGroupList (item, index) {
+      document.getElementById('capa_tit_div').scrollIntoView()
+      this.listBottom = false
       sessionStorage.setItem('capaSelectListIndex', index)
       this.selectIndex = index
       this.capabilityServiceList = []
@@ -413,7 +419,6 @@ export default {
       this.showNum += 12
     },
     viewServiceDetail (item, index) {
-      console.log(item)
       sessionStorage.setItem('capaSelectDetailIndex', index)
       this.dialogVisible = true
       this.serviceDetail = []
@@ -426,106 +431,104 @@ export default {
     },
     // 获取左侧一级能力列表
     initAbilities () {
-      Api.getCapabilityGroupsApi().then(res => {
-        this.capabilityGroupsList = []
-        this.etsiIndex = 0
-        this.threeGppIndex = 1
-        let oneLevelNameEn = []
-        let oneLevelNameCn = []
-        let groupData = res.data
-        this.capabilityAllService = res.data
-        this.capabilityServiceList = res.data
-        this.capabilityServiceList.forEach(item => {
-          item.uploadTime = this.dateChange(item.uploadTime)
-        })
-        this.serviceLoading = false
-        let objTemp = {}
-        groupData.forEach(item => {
-          oneLevelNameEn.push(item.oneLevelNameEn)
-          oneLevelNameCn.push(item.oneLevelName)
-          if (objTemp[item.oneLevelName]) {
-            objTemp[item.oneLevelName]++
-          } else {
-            objTemp[item.oneLevelName] = 1
-          }
-        })
-        oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
-        oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
-        let length = oneLevelNameEn.length
-        this.groupLoading = false
-        for (let i = 0; i < length; i++) {
-          let obj = {
-            name: '',
-            nameEn: '',
-            icon: '',
-            iconSelect: '',
-            counts: 0
-          }
-          for (let key in objTemp) {
-            if (key === oneLevelNameCn[i]) {
-              obj.counts = objTemp[key]
-            }
-          }
-          if (this.language === 'cn') {
-            if (oneLevelNameCn[i] === '平台基础服务') {
-              obj.icon = this.capabilityIconList[1].icon
-              obj.iconSelect = this.capabilityIconList[1].iconSelect
-            } else if (oneLevelNameCn[i] === '电信网络能力') {
-              obj.icon = this.capabilityIconList[2].icon
-              obj.iconSelect = this.capabilityIconList[2].iconSelect
-            } else if (oneLevelNameCn[i] === '昇腾AI能力') {
-              obj.icon = this.capabilityIconList[3].icon
-              obj.iconSelect = this.capabilityIconList[3].iconSelect
-            } else if (oneLevelNameCn[i] === 'AI能力') {
-              obj.icon = this.capabilityIconList[4].icon
-              obj.iconSelect = this.capabilityIconList[4].iconSelect
-            } else if (oneLevelNameCn[i] === '视频处理') {
-              obj.icon = this.capabilityIconList[5].icon
-              obj.iconSelect = this.capabilityIconList[5].iconSelect
-            } else if (oneLevelNameCn[i] === '数据库') {
-              obj.icon = this.capabilityIconList[6].icon
-              obj.iconSelect = this.capabilityIconList[6].iconSelect
-            } else if (oneLevelNameCn[i] === '公共框架') {
-              obj.icon = this.capabilityIconList[7].icon
-              obj.iconSelect = this.capabilityIconList[7].iconSelect
-            } else if (oneLevelNameCn[i] === '3GPP') {
-              obj.icon = this.capabilityIconList[7].icon
-              obj.iconSelect = this.capabilityIconList[7].iconSelect
-            } else if (oneLevelNameCn[i] === 'ETSI') {
-              obj.icon = this.capabilityIconList[6].icon
-              obj.iconSelect = this.capabilityIconList[6].iconSelect
-            } else {
-              obj.icon = this.capabilityIconList[0].icon
-              obj.iconSelect = this.capabilityIconList[0].iconSelect
-            }
-            obj.name = oneLevelNameCn[i]
-            obj.nameEn = oneLevelNameEn[i]
-            this.capabilityGroupsList.push(obj)
-          }
-        }
-        let objfirst = {
-          name: '所有',
-          nameEn: 'All',
-          icon: this.capabilityIconList[0].icon,
-          iconSelect: this.capabilityIconList[0].iconSelect,
-          counts: this.capabilityAllService.length
-        }
-        this.capabilityGroupsList.unshift(objfirst)
-        if (!this.isFirstEnter) {
-          this.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
-          if (sessionStorage.getItem('capaSelectDetailIndex')) {
-            this.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
-          } else {
-            this.dialogVisible = false
-          }
-        }
-        this.filterSefvice('hot')
-      }).catch(() => {
-        setTimeout(() => {
-          this.groupLoading = false
+      Api.getCapabilityGroupsApi()
+        .then(res => {
+          abilityAPI.initAbilities(res.data, this.$i18n.locale)
+          this.capabilityGroupsList = []
+          this.etsiIndex = 0
+          this.threeGppIndex = 1
+          let oneLevelNameEn = []
+          let oneLevelNameCn = []
+          let groupData = res.data
+          this.capabilityAllService = res.data
+          this.capabilityServiceList = res.data
+          this.capabilityServiceList.forEach(item => {
+            item.uploadTime = this.dateChange(item.uploadTime)
+          })
           this.serviceLoading = false
-        }, 2000)
-      })
+          let objTemp = {}
+          groupData.forEach(item => {
+            if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
+              oneLevelNameEn.push(item.oneLevelNameEn)
+              oneLevelNameCn.push(item.oneLevelName)
+            }
+            if (objTemp[item.oneLevelName]) {
+              objTemp[item.oneLevelName]++
+            } else {
+              objTemp[item.oneLevelName] = 1
+            }
+          })
+          oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
+          oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
+          let length = oneLevelNameEn.length
+          this.groupLoading = false
+          for (let i = 0; i < length; i++) {
+            let obj = {
+              name: '',
+              nameEn: '',
+              icon: '',
+              iconSelect: '',
+              counts: 0
+            }
+            for (let key in objTemp) {
+              if (key === oneLevelNameCn[i]) {
+                obj.counts = objTemp[key]
+              }
+            }
+            if (this.language === 'cn') {
+              if (oneLevelNameCn[i] === '平台基础服务') {
+                obj.icon = this.capabilityIconList[1].icon
+                obj.iconSelect = this.capabilityIconList[1].iconSelect
+              } else if (oneLevelNameCn[i] === '电信网络能力') {
+                obj.icon = this.capabilityIconList[2].icon
+                obj.iconSelect = this.capabilityIconList[2].iconSelect
+              } else if (oneLevelNameCn[i] === '昇腾AI能力') {
+                obj.icon = this.capabilityIconList[3].icon
+                obj.iconSelect = this.capabilityIconList[3].iconSelect
+              } else if (oneLevelNameCn[i] === 'AI能力') {
+                obj.icon = this.capabilityIconList[4].icon
+                obj.iconSelect = this.capabilityIconList[4].iconSelect
+              } else if (oneLevelNameCn[i] === '视频处理') {
+                obj.icon = this.capabilityIconList[5].icon
+                obj.iconSelect = this.capabilityIconList[5].iconSelect
+              } else if (oneLevelNameCn[i] === '数据库') {
+                obj.icon = this.capabilityIconList[6].icon
+                obj.iconSelect = this.capabilityIconList[6].iconSelect
+              } else if (oneLevelNameCn[i] === '公共框架') {
+                obj.icon = this.capabilityIconList[7].icon
+                obj.iconSelect = this.capabilityIconList[7].iconSelect
+              } else {
+                obj.icon = this.capabilityIconList[0].icon
+                obj.iconSelect = this.capabilityIconList[0].iconSelect
+              }
+              obj.name = oneLevelNameCn[i]
+              obj.nameEn = oneLevelNameEn[i]
+              this.capabilityGroupsList.push(obj)
+            }
+          }
+          let objfirst = {
+            name: '所有',
+            nameEn: 'All',
+            icon: this.capabilityIconList[0].icon,
+            iconSelect: this.capabilityIconList[0].iconSelect,
+            counts: this.capabilityAllService.length
+          }
+          this.capabilityGroupsList.unshift(objfirst)
+          if (!this.isFirstEnter) {
+            this.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
+            if (sessionStorage.getItem('capaSelectDetailIndex')) {
+              this.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
+            } else {
+              this.dialogVisible = false
+            }
+          }
+          this.filterSefvice('hot')
+        }).catch(() => {
+          setTimeout(() => {
+            this.groupLoading = false
+            this.serviceLoading = false
+          }, 2000)
+        })
     },
     serviceDocClick (item) {
       this.$router.push({ name: 'serviceDoc', query: { groupId: item.groupId, language: this.$i18n.locale } })
@@ -585,6 +588,12 @@ export default {
       }
     }
   },
+  mounted () {
+    this.listBottom = false
+    this.$nextTick(() => {
+      document.getElementsByClassName('el-main')[0].scrollTop = 0
+    })
+  },
   beforeMount () {
     this.initAbilities()
     window.addEventListener('scroll', this.getTreeTop, true)
@@ -638,13 +647,13 @@ export default {
       text-align: center;
       .el-button{
         font-size: 18px;
-        color: #7a6e8a;
+        color: #ffffff;
         height: 50px;
         line-height: 34px;
         border: 1px solid #7a6e8a;
-        border-radius: 25px;
+        border-radius: 10px;
         padding: 8px 45px;
-        background: transparent;
+        background: #7a6e8a;
         position: relative;
       }
       .el-button + .el-button {
@@ -702,6 +711,7 @@ export default {
         // max-width: 432px;
         width: 432px;
         height: 252px;
+        border-radius: 10px;
       }
       .service_right{
         width: calc(100% - 432px);
@@ -791,6 +801,7 @@ export default {
   }
   .capa_list_div{
     position: relative;
+    min-height: 470px;
     .filter_div{
       position: absolute;
       top: -90px;

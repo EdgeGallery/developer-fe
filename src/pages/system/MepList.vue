@@ -196,65 +196,6 @@
             v-model="form.descriptionEn"
           />
         </el-form-item>
-        <el-form-item
-          :label="$t('workspace.icon')"
-          :label-width="formLabelWidth"
-          class="icon"
-        >
-          <div class="default-icon">
-            <div
-              class="box"
-              v-for="(item, index) in defaultIcon"
-              @click="chooseDefaultIcon(item, index)"
-              :key="item"
-            >
-              <img
-                :src="item"
-                alt=""
-              >
-              <em
-                class="el-icon-success"
-                :class="{ active: defaultForm.defaultActive === index }"
-              />
-            </div>
-          </div>
-          <em
-            class="upIcon el-icon-success"
-            :class="{ active: uploadIcon }"
-            v-if="uploadIcon"
-          />
-          <el-upload
-            id="projectLogo"
-            class="upload-demo clear"
-            ref="upload"
-            action=""
-            list-type="picture-card"
-            :limit="1"
-            :file-list="logoFileList"
-            :on-change="handleChangeLogo"
-            :on-exceed="handleExceedIcon"
-            :auto-upload="false"
-            :on-remove="removeUploadLogo"
-            accept=".jpg,.png"
-            name="file"
-          >
-            <em class="el-icon-plus" />
-          </el-upload>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            :content="this.$t('workspace.limitition')"
-            placement="right"
-          >
-            <em class="el-icon-question" />
-          </el-tooltip>
-          <div
-            class="el-form-error"
-            v-if="showErr"
-          >
-            {{ $t('workspace.iconRequired') }}
-          </div>
-        </el-form-item>
         <h3 :style="{margin: '10px 0px '}">
           {{ $t('system.registerInfo') }}
         </h3>
@@ -485,12 +426,8 @@ export default {
       form: {},
       defaultForm: {
         protocol: 'https',
-        // iconFileId: '35a52055-42b5-4b5f-bc2b-8a02259f2572',
-        author: sessionStorage.getItem('userName'),
-        appIcon: [],
-        iconFileId: '',
-        base64Session: false,
-        defaultActive: ''
+        iconFileId: '35a52055-42b5-4b5f-bc2b-8a02259f2572',
+        author: sessionStorage.getItem('userName')
       },
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
@@ -545,14 +482,7 @@ export default {
       loading: false,
       userName: sessionStorage.getItem('userName'),
       userId: sessionStorage.getItem('userId'),
-      language: localStorage.getItem('language'),
-      defaultIcon: [
-        // require('../../assets/images/project_videoapp.png')
-        require('../../assets/images/home_capa_pic0.png')
-      ],
-      showErr: false,
-      logoFileList: [],
-      uploadIcon: false
+      language: localStorage.getItem('language')
     }
   },
   mounted () {
@@ -580,109 +510,6 @@ export default {
     }
   },
   methods: {
-    // 上传图标
-    handleChangeLogo (file) {
-      let listTemp = []
-      this.defaultForm.base64Session = true
-      this.defaultForm.appIcon = []
-      this.defaultIconFile = []
-      this.logoFileList = []
-      this.defaultForm.defaultActive = ''
-      if (file) {
-        if (file.raw.name.indexOf(' ') !== -1) {
-          this.$message.warning(this.$t('promptMessage.fileNameType'))
-          this.logoFileList = []
-        } else {
-          this.logoFileList.push(file)
-          listTemp.push(file)
-          this.defaultForm.appIcon = listTemp
-          this.uploadIcon = true
-        }
-        if (file.size / 1024 / 1024 > 2) {
-          this.$message.warning(this.$t('promptMessage.moreThan2'))
-          this.logoFileList = []
-        }
-        let fileTypeArr = ['jpg', 'png']
-        this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-        if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-          this.$message.warning(this.$t('promptMessage.checkFileType'))
-          this.logoFileList = []
-        }
-      }
-      this.showErr = !this.logoFileList
-    },
-    removeUploadLogo (file) {
-      this.uploadIcon = false
-      this.logoFileList = []
-      this.showErr = this.logoFileList
-      this.chooseDefaultIcon(this.defaultIcon[0], 0)
-    },
-    handleExceedIcon (file, fileList) {
-      if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
-      }
-    },
-    fileToBase64 (file) {
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = (e) => {
-        sessionStorage.setItem('base64', reader.result)
-      }
-    },
-    getBase64Image (img) {
-      let canvas = document.createElement('canvas')
-      canvas.width = img.width
-      canvas.height = img.height
-      let ctx = canvas.getContext('2d')
-      ctx.drawImage(img, 0, 0, img.width, img.height)
-      let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
-      let dataURL = canvas.toDataURL('image/' + ext)
-      sessionStorage.setItem('base64', dataURL)
-      return dataURL
-    },
-    base64toFile (dataurl) {
-      let arr = dataurl.split(',')
-      let filename = new Date().getTime()
-      let mime = arr[0].match(/:(.*?);/)[1]
-      let suffix = mime.split('/')[1]
-      let bstr = atob(arr[1])
-      let n = bstr.length
-      let u8arr = new Uint8Array(n)
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n)
-      }
-      return new File([u8arr], filename + '.' + suffix, {
-        type: mime
-      })
-    },
-    // 选择默认图标
-    chooseDefaultIcon (file, index) {
-      console.log(file)
-      this.logoFileList = []
-      this.uploadIcon = false
-      this.defaultForm.base64Session = true
-      this.defaultIconFile = []
-      if (this.defaultForm.defaultActive === index) {
-        this.defaultForm.defaultActive = ''
-        this.defaultForm.appIcon = []
-        this.showErr = !this.defaultIconFile.length
-      } else {
-        this.defaultForm.defaultActive = index
-        this.conversionIcon(file)
-      }
-    },
-    conversionIcon (file) {
-      let image = new Image()
-      image.src = file
-      image.onload = () => {
-        // 将静态图片转化为base64
-        let base64 = this.getBase64Image(image)
-        // base64转化为文件流
-        this.defaultIconFile.push(this.base64toFile(base64))
-        this.defaultForm.appIcon = this.defaultIconFile
-        this.showErr = !this.defaultIconFile
-      }
-    },
     handleDelete ({ groupId }) {
       this.$confirm(this.$t('system.deleteConfirm'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -824,7 +651,6 @@ export default {
       this.guideFileId_file_list = []
       this.guideFileIdEn_file_list = []
       this.visible = true
-      this.chooseDefaultIcon(this.defaultIcon[0], 0)
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
@@ -865,95 +691,6 @@ export default {
   }
   .right_item{
     padding-left: 20px;
-  }
-
-  .el-form-item.icon{
-    content: '';
-    display: block;
-    clear: both;
-    .upload-demo{
-      float: left;
-      .el-button--primary{
-        background-color: #fff;
-        border-color: #688ef3;
-        color: #688ef3;
-        padding: 6px 20px;
-        margin-top: 8px;
-      }
-      .el-icon-warning{
-        color: #688ef3;
-        margin-right: 5px;
-        font-size: 14px;
-      }
-      .el-upload{
-        float: left;
-        width: 34px;
-        height: 34px;
-        line-height: 34px;
-        margin: 3px 15px 0 0;
-      }
-      .el-upload-list__item-preview{
-        opacity: 0;
-      }
-    }
-    .el-icon-question{
-      float: left;
-      margin-top: 12px;
-    }
-    .el-icon-question:before {
-      color: #688ef3;
-      font-size: 16px;
-    }
-    .default-icon{
-      float: left;
-      display: flex;
-      flex-wrap: wrap;
-      .box{
-        position: relative;
-        width: 44px;
-        height: 44px;
-        margin: 0 15px 0 0;
-        img{
-          width: 40px;
-          height: 40px;
-        }
-        em{
-          display: inline-block;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-        }
-        .active{
-          color: #409EFF;
-        }
-      }
-    }
-    .upIcon.el-icon-success{
-      position: absolute;
-      top: 30px;
-      left: 88px;
-      z-index: 99;
-    }
-    .upIcon.active{
-      color: #409EFF;
-    }
-    .el-form-item{
-      margin-bottom: 15px;
-    }
-    .el-upload-list__item:first-child{
-      width: 40px;
-      height: 40px;
-      min-width: 40px;
-      border: none;
-      margin: 0 15px 0 0;
-    }
-    .el-form-error{
-      float: left;
-      color: #F56C6C;
-      font-size: 12px;
-      line-height: 1;
-      margin: 14px 0 0 10px;
-    }
   }
   .w50 {
     width: 50%;

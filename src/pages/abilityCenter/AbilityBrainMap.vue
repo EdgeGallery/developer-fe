@@ -62,7 +62,7 @@ export default {
       let abilitys = []
       if (this.parentTabIndex === 1) {
         abilitys = ability.getAbilitysByFirstLevelName('3GPP')
-      } else {
+      } else if (this.parentTabIndex === 0) {
         abilitys = ability.getAbilitysByFirstLevelName('ETSI')
       }
       if (abilitys.length > 0) {
@@ -84,11 +84,17 @@ export default {
           children: []
         })
       }
+      let rootName = ''
+      if (this.parentTabIndex === 1) {
+        rootName = '3GPP CAPIF'
+      } else if (this.parentTabIndex === 0) {
+        rootName = 'ETSI MEC'
+      }
       this.km.importJson({
         root: {
           data: {
             id: '0',
-            text: this.parentTabIndex === 1 ? '3GPP CAPIF' : 'ETSI MEC',
+            text: rootName,
             expandState: 'expand',
             hyperlink: '',
             hyperlinkTitle: '',
@@ -103,10 +109,12 @@ export default {
     }
   },
   mounted () {
-    this.km = new window.kityminder.Minder({
-      renderTo: '#' + this.containerId
+    this.$nextTick(() => {
+      this.km = new window.kityminder.Minder({
+        renderTo: '#' + this.containerId
+      })
+      this.refreshMap()
     })
-    this.refreshMap()
   }
 }
 </script>
