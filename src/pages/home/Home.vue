@@ -33,12 +33,12 @@
       </div>
       <!-- 平台能力 -->
       <div class="home_capability">
-        <div class="capa_div">
+        <div class="capa_div title_top">
           <div class="title clear">
             <img
               src="../../assets/images/home_tit_capability.png"
               alt=""
-              class="capability"
+              class="title_left lt"
             >
             <img
               src="../../assets/images/home_capa_center.png"
@@ -93,10 +93,10 @@
       </div>
 
       <!-- 合作伙伴 -->
-      <div class="showLogo padding_default">
+      <div class="showLogo padding_default title_top">
         <img
           src="../../assets/images/home_tit_parnter.png"
-          class="tit_parnter"
+          class="tit_parnter title_left"
           alt=""
         >
         <el-link
@@ -171,11 +171,13 @@ export default {
   },
   methods: {
     setScreenHeight (screenHeight) {
-      let oDiv = document.getElementsByClassName('banner')
-      oDiv[0].style.height = (Number(screenHeight) - 80) + 'px'
+      this.$nextTick(() => {
+        let oDiv = document.getElementsByClassName('banner')
+        oDiv[0].style.height = (Number(screenHeight) - 80) + 'px'
 
-      let oDiv1 = document.getElementsByClassName('home_project')
-      oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
+        let oDiv1 = document.getElementsByClassName('home_project')
+        oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
+      })
     },
     jumpToProject () {
       document.getElementById('homeProject').scrollIntoView()
@@ -327,15 +329,10 @@ export default {
     background: url('../../assets/images/home_left_bg.png') left 85px no-repeat;
     .capa_div{
       position: relative;
-      padding: 150px 0 0 0;
     }
     .title{
       height: 111px;
       padding: 0 10%;
-      .capability{
-        float: left;
-        margin-left: 140px;
-      }
       .capa_center{
         float: right;
         margin-right: 30px;
@@ -406,10 +403,9 @@ export default {
   }
   .showLogo {
     background: #fff;
-    padding-top: 145px;
     padding-bottom: 145px;
     .tit_parnter{
-      margin:0 0 110px 140px;
+      margin-bottom: 110px;
       display: block;
     }
     a {

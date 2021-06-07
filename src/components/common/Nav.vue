@@ -332,7 +332,7 @@ export default {
   top: 0px;
   width: 100%;
   position: fixed;
-  z-index: 99;
+  z-index: 2001;
   .nav{
     display: flex;
     align-items: center;

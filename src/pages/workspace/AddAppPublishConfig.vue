@@ -436,6 +436,8 @@ export default {
     addPublicConfig () {
       this.form.trafficRulesList = this.form.trafficRulesList.join(',')
       this.form.dnsRulesList = this.form.dnsRulesList.join(',')
+      this.form.iconFileId = '35a52055-42b5-4b5f-bc2b-8a02259f2572'
+      this.form.author = sessionStorage.getItem('userName')
       this.$emit('getAddPublicConfigData', this.form)
       this.handleClose()
     }

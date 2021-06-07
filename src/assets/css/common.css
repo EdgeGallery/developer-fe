@@ -38,7 +38,7 @@ html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
   font-family:Arial, Helvetica, sans-serif;
 }
 .defaultFontCn{
-  font-family:defaultFontCn;
+  font-family:Arial, defaultFontCn;
 }
 
 html,body{
@@ -208,6 +208,12 @@ body::-webkit-scrollbar-thumb{
 
 .padding_default{
   padding: 0 10%;
+}
+.title_left{
+  margin-left: 140px;
+}
+.title_top{
+  padding-top: 150px !important;
 }
 @media screen and (max-width:1380px){
   .padding_default{
