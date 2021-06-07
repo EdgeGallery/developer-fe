@@ -440,17 +440,19 @@ export default {
           let oneLevelNameEn = []
           let oneLevelNameCn = []
           let groupData = res.data
-          this.capabilityAllService = res.data
-          this.capabilityServiceList = res.data
-          this.capabilityServiceList.forEach(item => {
-            item.uploadTime = this.dateChange(item.uploadTime)
-          })
+          this.capabilityAllService = []
+          this.capabilityServiceList = []
           this.serviceLoading = false
           let objTemp = {}
           groupData.forEach(item => {
             if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
               oneLevelNameEn.push(item.oneLevelNameEn)
               oneLevelNameCn.push(item.oneLevelName)
+              this.capabilityAllService.push(item)
+              this.capabilityServiceList.push(item)
+              this.capabilityServiceList.forEach(itemService => {
+                itemService.uploadTime = this.dateChange(itemService.uploadTime)
+              })
             }
             if (objTemp[item.oneLevelName]) {
               objTemp[item.oneLevelName]++
