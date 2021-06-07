@@ -124,7 +124,6 @@ export default {
       languageIcon: require('../../assets/images/nav_en.png'),
       loginPage: '',
       userCenterPage: '',
-      forceModifyPwPage: '',
       menu_small: false,
       screenHeight: document.body.clientHeight,
       timer: false,
@@ -198,9 +197,9 @@ export default {
         sessionStorage.setItem('accessToken', res.data.accessToken)
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
-        this.forceModifyPwPage = res.data.forceModifyPwPage
         this.ifGuest = res.data.userName === 'guest'
-        if (this.jumpToForceModifyPw()) {
+        if (!this.ifGuest && res.data.forceModifyPwPage) {
+          window.location.href = res.data.forceModifyPwPage
           return
         }
         this.showToolchain(this.jsonData)
@@ -255,7 +254,9 @@ export default {
     },
     logout () {
       logoutApi().then(res => {
-        window.location.href = this.loginPage + '&return_to=https://' + window.location.host
+        window.location.href = window.location.href.indexOf('https') > -1
+          ? this.loginPage + '&return_to=' + 'https://' + window.location.host
+          : this.loginPage + '&return_to=' + 'http://' + window.location.host
       }).catch(err => {
         console.log(err)
       })
@@ -309,17 +310,6 @@ export default {
     },
     openUserAccountCenter () {
       window.open(this.userCenterPage)
-    },
-    jumpToForceModifyPw () {
-      if (this.ifGuest) {
-        return false
-      }
-      if (this.forceModifyPwPage) {
-        window.location.href = this.forceModifyPwPage
-        return true
-      }
-
-      return false
     }
   }
 }

@@ -211,8 +211,9 @@ export default {
       }
     }
     var validateSystemDiskRule = (rule, value, callback) => {
+      let _strValue = value.toString()
       let pattern = /^\d{2,4}$/
-      if (value.match(pattern) === null) {
+      if (_strValue.match(pattern) === null) {
         callback(new Error(this.$t('system.imageMgmt.tip.systemDiskRule')))
       } else {
         callback()
