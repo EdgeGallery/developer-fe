@@ -845,6 +845,8 @@ const cn = {
         noFileSelected: '未选择上传的文件',
         confirmDeleteImage: '确认要删除该系统镜像吗？',
         confirmPublishImage: '确认要发布该系统镜像吗？',
+        confirmReUploadImage: '已经上传了该系统镜像，再次上传将覆盖原有镜像。是否继续？',
+        confirmDownloadImage: '系统镜像文件较大，下载耗时较长。是否继续下载该镜像？',
         systemNameExist: '已存在同名的系统镜像！',
         newImgFailed: '新建系统镜像失败！',
         modifyImgFailed: '修改系统镜像失败！',
