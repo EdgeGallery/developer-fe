@@ -133,7 +133,7 @@
         />
         <el-table-column
           :label="$t('common.operation')"
-          width="225"
+          width="250"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -165,6 +165,15 @@
               size="small"
             >
               {{ $t('system.imageMgmt.operation.upload') }}
+            </el-button>
+            <el-button
+              :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
+              id="downloadBtn"
+              @click.native.prevent="handleDownload(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('common.download') }}
             </el-button>
             <el-button
               v-if="isAdmin"
@@ -414,8 +423,28 @@ export default {
       })
     },
     handleUpload (row) {
-      this.currentImageData = row
-      this.showUploadImageDlg = true
+      if (row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED') {
+        this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
+          this.currentImageData = row
+          this.showUploadImageDlg = true
+        })
+      } else {
+        this.currentImageData = row
+        this.showUploadImageDlg = true
+      }
+    },
+    handleDownload (row) {
+      this.$confirm(this.$t('system.imageMgmt.tip.confirmDownloadImage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        window.open(imageMgmtService.downloadSystemImageUrl(row.systemId, this.userId))
+      })
     },
     processCloseUploadImageDlg () {
       this.showUploadImageDlg = false
