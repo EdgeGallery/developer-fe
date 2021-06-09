@@ -816,7 +816,7 @@ const en = {
         published: 'Published'
       },
       uploadStatusText: {
-        success: 'Upload succeeded',
+        success: 'Merging file',
         error: 'Upload failed',
         uploading: 'Uploading',
         paused: 'Paused',
@@ -853,7 +853,10 @@ const en = {
         deleteImgFailed: 'Delete system image failed!',
         publishImgFailed: 'Publish system image failed!',
         queryImgFailed: 'Query system image failed!',
-        uploadingHint: 'The system image is uploading, please wait!'
+        uploadingHint: 'The system image is uploading, please wait!',
+        mergingHint: 'The system image is merging, please wait!',
+        uploadImgSucceed: 'The system image upload succeed!',
+        uploadImgFailed: 'Upload system image failed!'
       }
     }
   },
