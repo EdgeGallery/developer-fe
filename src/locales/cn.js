@@ -816,7 +816,7 @@ const cn = {
         published: '已发布'
       },
       uploadStatusText: {
-        success: '上传成功',
+        success: '正在合并',
         error: '上传失败',
         uploading: '正在上传',
         paused: '暂停',
@@ -853,7 +853,10 @@ const cn = {
         deleteImgFailed: '删除系统镜像失败！',
         publishImgFailed: '发布系统镜像失败！',
         queryImgFailed: '查询系统镜像失败！',
-        uploadingHint: '系统镜像正在上传，请等待！'
+        uploadingHint: '系统镜像正在上传，请等待！',
+        mergingHint: '系统镜像正在合并，请等待！',
+        uploadImgSucceed: '系统镜像上传处理成功！',
+        uploadImgFailed: '上传系统镜像失败！'
       }
     }
   },
