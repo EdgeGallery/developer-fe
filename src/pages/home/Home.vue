@@ -31,7 +31,7 @@
           {{ $t('home.enterDev') }}<span class="right">></span>
         </el-button>
       </div>
-      <!-- 平台能力 -->
+      <!-- Platform capabilities -->
       <div class="home_capability">
         <div class="capa_div title_top">
           <div class="title clear">
@@ -65,7 +65,7 @@
                 </div>
                 <p
                   class="app_name"
-                  @click="jumpTo('mep')"
+                  @click="jumpTo('mep',index)"
                 >
                   {{ language==='cn'?item.name:item.nameEn }}
                 </p>
@@ -82,7 +82,7 @@
           </swiper>
         </div>
       </div>
-      <!-- 应用集成、开发 -->
+      <!-- Application integration and development -->
       <div
         id="homeProject"
       >
@@ -92,7 +92,7 @@
         />
       </div>
 
-      <!-- 合作伙伴 -->
+      <!-- Partner -->
       <div class="showLogo padding_default title_top">
         <img
           src="../../assets/images/home_tit_parnter.png"
@@ -141,10 +141,6 @@ export default {
       timer: false,
       swiperOption: {
         slidesPerView: 4.5,
-        /* autoplay: {
-          delay: 3000,
-          disableOnInteraction: false
-        }, */
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
@@ -182,18 +178,20 @@ export default {
     jumpToProject () {
       document.getElementById('homeProject').scrollIntoView()
     },
-    jumpTo (name) {
-      this.$router.push({ name: name })
+    jumpTo (name, index) {
+      this.$router.push({ name: name, params: { index: index } })
     },
-    // 获取所有能力组
+    // Get all ability groups
     getCapabilityGroups () {
       Api.getCapabilityGroupsApi().then(res => {
         let oneLevelNameEn = []
         let oneLevelNameCn = []
         let groupData = res.data
         groupData.forEach(item => {
-          oneLevelNameEn.push(item.oneLevelNameEn)
-          oneLevelNameCn.push(item.oneLevelName)
+          if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
+            oneLevelNameEn.push(item.oneLevelNameEn)
+            oneLevelNameCn.push(item.oneLevelName)
+          }
         })
         oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
         oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
@@ -205,32 +203,26 @@ export default {
             name: '',
             nameEn: ''
           }
-          if (this.language === 'cn') {
-            if (oneLevelNameCn[i] === '平台基础服务') {
-              obj.imgSrc = this.capabilityGroupPic[1]
-            } else if (oneLevelNameCn[i] === '电信网络能力') {
-              obj.imgSrc = this.capabilityGroupPic[2]
-            } else if (oneLevelNameCn[i] === '昇腾AI能力') {
-              obj.imgSrc = this.capabilityGroupPic[3]
-            } else if (oneLevelNameCn[i] === 'AI能力') {
-              obj.imgSrc = this.capabilityGroupPic[4]
-            } else if (oneLevelNameCn[i] === '视频处理') {
-              obj.imgSrc = this.capabilityGroupPic[5]
-            } else if (oneLevelNameCn[i] === '数据库') {
-              obj.imgSrc = this.capabilityGroupPic[6]
-            } else if (oneLevelNameCn[i] === '公共框架') {
-              obj.imgSrc = this.capabilityGroupPic[7]
-            } else if (oneLevelNameCn[i] === '3GPP') {
-              obj.imgSrc = this.capabilityGroupPic[8]
-            } else if (oneLevelNameCn[i] === 'ETSI') {
-              obj.imgSrc = this.capabilityGroupPic[9]
-            } else {
-              obj.imgSrc = this.capabilityGroupPic[0]
-            }
-            obj.name = oneLevelNameCn[i]
-            obj.nameEn = oneLevelNameEn[i]
-            this.capabilityGroupData.push(obj)
+          if (oneLevelNameEn[i] === 'Platform services') {
+            obj.imgSrc = this.capabilityGroupPic[1]
+          } else if (oneLevelNameEn[i] === 'Telecom network') {
+            obj.imgSrc = this.capabilityGroupPic[2]
+          } else if (oneLevelNameEn[i] === 'Ascend AI') {
+            obj.imgSrc = this.capabilityGroupPic[3]
+          } else if (oneLevelNameEn[i] === 'AI capabilities') {
+            obj.imgSrc = this.capabilityGroupPic[4]
+          } else if (oneLevelNameEn[i] === 'Video processing') {
+            obj.imgSrc = this.capabilityGroupPic[5]
+          } else if (oneLevelNameEn[i] === 'DateBase') {
+            obj.imgSrc = this.capabilityGroupPic[6]
+          } else if (oneLevelNameEn[i] === 'Public framework') {
+            obj.imgSrc = this.capabilityGroupPic[7]
+          } else {
+            obj.imgSrc = this.capabilityGroupPic[0]
           }
+          obj.name = oneLevelNameCn[i]
+          obj.nameEn = oneLevelNameEn[i]
+          this.capabilityGroupData.push(obj)
         }
       }).catch(() => {
         setTimeout(() => {
@@ -243,8 +235,13 @@ export default {
     this.getCapabilityGroups()
   },
   mounted () {
+    if (this.language === 'en') {
+      this.bannerTextUrl = require('../../assets/images/home_banner_text_en.png')
+    } else {
+      this.bannerTextUrl = require('../../assets/images/home_banner_text.png')
+    }
     this.setScreenHeight(this.screenHeight)
-    // 监听到窗口大小变化时，重新给screenHeight变量赋值
+    // Listen to the window size change
     window.onresize = () => {
       return (() => {
         this.screenHeight = document.body.clientHeight

@@ -141,7 +141,12 @@ const en = {
     telecomStandardCapabilitieTitle: 'Telecom Standard Capability Landscape',
     swithToAPI: 'Click this button to go to the API simulator page',
     onlineExperience: 'Online Experience',
-    onlineService: 'The online experience service is not enabled'
+    onlineService: 'The online experience service is not enabled',
+    mostPopular: 'Most Popular',
+    latestUpdate: 'Latest Update',
+    hot: 'Hot',
+    showMore: 'More',
+    partition: 'Owning Partition'
   },
   nav: {
     home: 'Home',

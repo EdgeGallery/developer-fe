@@ -141,7 +141,12 @@ const cn = {
     telecomStandardCapabilitieTitle: '电信标准支持全景图',
     swithToAPI: '点击跳转到接口在线模拟器界面',
     onlineExperience: '在线体验',
-    onlineService: '在线体验服务暂未开通'
+    onlineService: '在线体验服务暂未开通',
+    mostPopular: '最受欢迎',
+    latestUpdate: '最新更新',
+    hot: '热度',
+    showMore: '显示更多',
+    partition: '所属分区'
   },
   nav: {
     home: '首页',

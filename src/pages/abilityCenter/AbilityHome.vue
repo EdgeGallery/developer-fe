@@ -45,9 +45,11 @@
         <div class="filter_div">
           <p
             class="filter_default"
-            @click="filterDropDown"
+            :class="{'filter_default_en':language==='en'}"
+            @mouseenter="filterDropDown"
+            @mouseleave="filterDropUp"
           >
-            {{ hotFilter?'最受欢迎':'最新更新' }}
+            {{ hotFilter==='hot'?$t('api.mostPopular'):$t('api.latestUpdate') }}
             <img
               src="../../assets/images/capa_filter_icon.png"
               alt=""
@@ -59,18 +61,21 @@
             <div
               v-show="showFilter"
               class="down_div"
+              :class="{'down_div_en':language==='en'}"
+              @mouseenter="filterDropDown"
+              @mouseleave="filterDropUp"
             >
               <div
                 class="transition-box"
                 @click="filterSefvice('hot')"
               >
-                最受欢迎
+                {{ $t('api.mostPopular') }}
               </div>
               <div
                 class="transition-box"
                 @click="filterSefvice('new')"
               >
-                最新更新
+                {{ $t('api.latestUpdate') }}
               </div>
             </div>
           </el-collapse-transition>
@@ -80,41 +85,19 @@
           class="list_left lt"
           v-loading="groupLoading"
           ref="meptree"
-          :class="{'scroll_top':scrollTop,'list_bottom':listBottom}"
+          :class="{'scroll_top':scrollTop,'list_bottom':listBottom && capabilityServiceList.length>=4}"
         >
-          <ul>
-            <li
-              v-for="(item,index) in capabilityGroupsList"
-              :key="index"
-              @click="selectGroupList(item,index)"
-              @mouseenter="groupListHover(index)"
-              @mouseleave="groupListLeave(index)"
-              class="group_list"
-            >
-              <div
-                class="li_list"
-                :class="{'select':selectIndex===index}"
-              >
-                <img
-                  :src="item.icon"
-                  alt=""
-                  :class="{'icon_default':selectIndex!==index && activeIndex!==index}"
-                >
-                <img
-                  :src="item.iconSelect"
-                  alt=""
-                  class="icon_show"
-                  :class="{'icon_select':selectIndex===index || activeIndex===index}"
-                >
-                {{ item.name }}
-                <span
-                  class="counts"
-                  :class="{'select':activeIndex===index}"
-                >{{ item.counts }}</span>
-              </div>
-            </li>
-            <div class="select_style" />
-          </ul>
+          <CapabilityGroupList
+            :capability-groups-list="capabilityGroupsList"
+            :language="language"
+            :is-refrsh-page="isRefrshPage"
+            :list-bottom="listBottom"
+            :capability-all-service="capabilityAllService"
+            @getCapaServiceList="getCapaServiceList"
+            ref="groupList"
+            v-if="capabilityGroupsList.length>0"
+            @getPageScroll="getPageScroll"
+          />
         </div>
         <!-- 右侧列表 -->
         <div
@@ -123,127 +106,24 @@
           :class="{'scroll_top':scrollTop}"
           ref="rightService"
         >
-          <div
-            v-for="(item,index) in capabilityServiceList.slice(0,showNum)"
-            :key="index"
-            class="service_list"
-            @mouseenter="hoverServiceList(index)"
-            @mouseleave="activeInfo=-1"
-            @click="viewServiceDetail(item,index)"
-          >
-            <img
-              :src="getImageUrl(item.iconFileId)"
-              alt=""
-            >
-            <div
-              class="service_info"
-              :class="{'service_hover':activeInfo===index}"
-            >
-              <p class="tit">
-                {{ language==='cn'?item.twoLevelName:item.twoLevelNameEn }}
-                <span
-                  class="detail"
-                  :class="{'show':activeInfo===index}"
-                >
-                  详情
-                </span>
-              </p>
-              <p
-                class="desc"
-                :class="{'all':activeInfo===index}"
-              >
-                {{ language==='cn'?item.description:item.descriptionEn }}
-              </p>
-            </div>
-          </div>
+          <CapabilityServiceList
+            :capability-service-list="capabilityServiceList"
+            :language="language"
+            :show-num="showNum"
+            ref="serviceList"
+            :user-id="userId"
+            v-if="capabilityServiceList.length>0"
+          />
           <p
             class="button_more"
             v-if="showNum<capabilityServiceList.length"
           >
             <el-button @click="showMore()">
-              显示更多
+              {{ $t('api.showMore') }}
             </el-button>
           </p>
         </div>
       </div>
-      <!-- 服务详情弹框 -->
-      <el-dialog
-        :visible.sync="dialogVisible"
-        :before-close="handleClose"
-        :close-on-click-modal="false"
-        v-for="(item,index) in serviceDetail"
-        :key="index"
-      >
-        <div
-          class="service_detail"
-        >
-          <p class="title">
-            {{ language==='cn'?item.twoLevelName:item.twoLevelNameEn }}
-          </p>
-          <div class="user_div clear">
-            <img
-              src="../../assets/images/capa_service_user.jpg"
-              alt=""
-            >
-            <p class="user_info">
-              作者: {{ item.author }}
-            </p>
-            <p>发布时间: {{ item.uploadTime }}</p>
-          </div>
-          <div class="service_div clear">
-            <img
-              :src="getImageUrl(item.iconFileId)"
-              class="pic"
-              alt=""
-            >
-            <div class="service_right rt">
-              <div>
-                <p class="service_desc">
-                  简介:
-                </p>
-                <p class="service_desc">
-                  {{ language==='cn'?item.description:item.descriptionEn }}
-                </p>
-              </div>
-              <div>
-                <p class="service_level clear">
-                  <span class="lt">所属分区</span>
-                  <span class="level_right rt">{{ language==='cn'?item.oneLevelName:item.oneLevelNameEn }}</span>
-                </p>
-                <p class="service_level clear">
-                  <img
-                    src="../../assets/images/capa_service_detail_tag.png"
-                    alt=""
-                    class="icon lt"
-                  >
-                  <span class="lt">标签</span>
-                  <span class="tag rt">{{ item.type }}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="service_footer">
-          <el-button @click="serviceDocClick(item)">
-            服务文档
-          </el-button>
-          <el-button @click="amulatorClick(item)">
-            在线模拟器
-          </el-button>
-          <el-button
-            v-if="toOnline"
-            @click="toOnlineExperience(item)"
-          >
-            在线体验
-            <img
-              src="../../assets/images/capa_service_detail_hot.png"
-              alt=""
-              class="button_hot"
-            >
-          </el-button>
-        </div>
-      </el-dialog>
-
       <!-- 电信标准支持全景图 -->
       <div
         class="panorama padding_default"
@@ -275,32 +155,25 @@
 
 <script>
 import abilityAPI from './ability.js'
-import { Api, Workspace } from '../../tools/api.js'
+import { Api } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
+import CapabilityGroupList from './CapabilityGroupList.vue'
+import CapabilityServiceList from './CapabilityServiceList.vue'
 
 export default {
   components: {
-    AbilityBrainMap
+    AbilityBrainMap,
+    CapabilityGroupList,
+    CapabilityServiceList
   },
   data () {
     return {
       userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
-      groupId: '',
-      telecomStandardAbilities: [{
-        labelEn: 'ETSI',
-        label: 'ETSI',
-        index: 0
-      }, {
-        labelEn: '3GPP',
-        label: '3GPP',
-        index: 1
-      }],
       etsiIndex: -1,
       threeGppIndex: -1,
       showFilter: false,
       dropDown: false,
-      activeIndex: 0,
       selectIndex: 0,
       selectDetailIndex: 0,
       capabilityIconList: [
@@ -337,20 +210,19 @@ export default {
           iconSelect: require('../../assets/images/capalist_icon8_select.png')
         }
       ],
-      capabilityGroupsList: [],
       capabilityAllService: [],
+      capabilityGroupsList: [],
       capabilityServiceList: [],
-      activeInfo: -1,
       dialogVisible: false,
       groupLoading: true,
       serviceLoading: true,
-      serviceDetail: [],
-      toOnline: false,
       isFirstEnter: true,
       scrollTop: false,
       listBottom: false,
-      hotFilter: true,
-      showNum: 12
+      hotFilter: 'hot',
+      showNum: 12,
+      fromHomeIndex: 0,
+      isRefrshPage: true
     }
   },
   watch: {
@@ -360,19 +232,22 @@ export default {
   },
   methods: {
     filterDropDown () {
-      this.showFilter = !this.showFilter
-      this.dropDown = !this.dropDown
+      this.showFilter = true
+      this.dropDown = true
+    },
+    filterDropUp () {
+      this.showFilter = false
+      this.dropDown = false
     },
     filterSefvice (filter) {
       let length = this.capabilityServiceList.length
       if (length > 0) {
+        this.hotFilter = filter
         if (filter === 'hot') {
-          this.hotFilter = true
           this.capabilityServiceList.sort(function (a, b) {
             return a.selectCount < b.selectCount ? 1 : -1
           })
         } else if (filter === 'new') {
-          this.hotFilter = false
           this.capabilityServiceList.sort(function (a, b) {
             return a.uploadTime < b.uploadTime ? 1 : -1
           })
@@ -381,55 +256,13 @@ export default {
       this.showFilter = false
       this.dropDown = false
     },
-    groupListHover (index) {
-      this.activeIndex = index
-      let oDiv = document.getElementsByClassName('select_style')
-      oDiv[0].style.top = (58 * index + 5) + 'px'
-    },
-    groupListLeave (index) {
-      this.activeIndex = -1
-      let oDiv = document.getElementsByClassName('select_style')
-      oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
-    },
-    selectGroupList (item, index) {
-      document.getElementById('capa_tit_div').scrollIntoView()
-      this.listBottom = false
-      sessionStorage.setItem('capaSelectListIndex', index)
-      this.selectIndex = index
-      this.capabilityServiceList = []
-      if (index === 0) {
-        this.capabilityServiceList = this.capabilityAllService
-      } else {
-        this.capabilityAllService.forEach(itemService => {
-          if (item.name === itemService.oneLevelName) {
-            this.capabilityServiceList.push(itemService)
-          }
-        })
-      }
-      this.filterSefvice('hot')
-    },
-    hoverServiceList (index) {
-      this.activeInfo = index
-    },
-    // 获取插件图标
-    getImageUrl (iconFileId) {
-      return Workspace.getIconApi(iconFileId, this.userId)
+    getCapaServiceList (data) {
+      this.capabilityServiceList = data
     },
     showMore () {
       this.showNum += 12
     },
-    viewServiceDetail (item, index) {
-      sessionStorage.setItem('capaSelectDetailIndex', index)
-      this.dialogVisible = true
-      this.serviceDetail = []
-      this.serviceDetail.push(item)
-      if (item.twoLevelNameEn === 'Location service' || item.twoLevelNameEn === 'AI Image Repair' || item.twoLevelNameEn === 'Edge Detection' || item.twoLevelNameEn === 'Image Cartoonization' || item.twoLevelNameEn === 'Image Coloring' || item.twoLevelNameEn === 'Object Classification' || item.twoLevelNameEn === 'Object Detection') {
-        this.toOnline = true
-      } else {
-        this.toOnline = false
-      }
-    },
-    // 获取左侧一级能力列表
+    // Get all services
     initAbilities () {
       Api.getCapabilityGroupsApi()
         .then(res => {
@@ -477,36 +310,34 @@ export default {
                 obj.counts = objTemp[key]
               }
             }
-            if (this.language === 'cn') {
-              if (oneLevelNameCn[i] === '平台基础服务') {
-                obj.icon = this.capabilityIconList[1].icon
-                obj.iconSelect = this.capabilityIconList[1].iconSelect
-              } else if (oneLevelNameCn[i] === '电信网络能力') {
-                obj.icon = this.capabilityIconList[2].icon
-                obj.iconSelect = this.capabilityIconList[2].iconSelect
-              } else if (oneLevelNameCn[i] === '昇腾AI能力') {
-                obj.icon = this.capabilityIconList[3].icon
-                obj.iconSelect = this.capabilityIconList[3].iconSelect
-              } else if (oneLevelNameCn[i] === 'AI能力') {
-                obj.icon = this.capabilityIconList[4].icon
-                obj.iconSelect = this.capabilityIconList[4].iconSelect
-              } else if (oneLevelNameCn[i] === '视频处理') {
-                obj.icon = this.capabilityIconList[5].icon
-                obj.iconSelect = this.capabilityIconList[5].iconSelect
-              } else if (oneLevelNameCn[i] === '数据库') {
-                obj.icon = this.capabilityIconList[6].icon
-                obj.iconSelect = this.capabilityIconList[6].iconSelect
-              } else if (oneLevelNameCn[i] === '公共框架') {
-                obj.icon = this.capabilityIconList[7].icon
-                obj.iconSelect = this.capabilityIconList[7].iconSelect
-              } else {
-                obj.icon = this.capabilityIconList[0].icon
-                obj.iconSelect = this.capabilityIconList[0].iconSelect
-              }
-              obj.name = oneLevelNameCn[i]
-              obj.nameEn = oneLevelNameEn[i]
-              this.capabilityGroupsList.push(obj)
+            if (oneLevelNameCn[i] === 'Platform services') {
+              obj.icon = this.capabilityIconList[1].icon
+              obj.iconSelect = this.capabilityIconList[1].iconSelect
+            } else if (oneLevelNameCn[i] === 'Telecom network') {
+              obj.icon = this.capabilityIconList[2].icon
+              obj.iconSelect = this.capabilityIconList[2].iconSelect
+            } else if (oneLevelNameCn[i] === 'Ascend AI') {
+              obj.icon = this.capabilityIconList[3].icon
+              obj.iconSelect = this.capabilityIconList[3].iconSelect
+            } else if (oneLevelNameCn[i] === 'AI capabilities') {
+              obj.icon = this.capabilityIconList[4].icon
+              obj.iconSelect = this.capabilityIconList[4].iconSelect
+            } else if (oneLevelNameCn[i] === 'Video processing') {
+              obj.icon = this.capabilityIconList[5].icon
+              obj.iconSelect = this.capabilityIconList[5].iconSelect
+            } else if (oneLevelNameCn[i] === 'DateBase') {
+              obj.icon = this.capabilityIconList[6].icon
+              obj.iconSelect = this.capabilityIconList[6].iconSelect
+            } else if (oneLevelNameCn[i] === 'Public framework') {
+              obj.icon = this.capabilityIconList[7].icon
+              obj.iconSelect = this.capabilityIconList[7].iconSelect
+            } else {
+              obj.icon = this.capabilityIconList[0].icon
+              obj.iconSelect = this.capabilityIconList[0].iconSelect
             }
+            obj.name = oneLevelNameCn[i]
+            obj.nameEn = oneLevelNameEn[i]
+            this.capabilityGroupsList.push(obj)
           }
           let objfirst = {
             name: '所有',
@@ -517,12 +348,25 @@ export default {
           }
           this.capabilityGroupsList.unshift(objfirst)
           if (!this.isFirstEnter) {
-            this.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
+            this.$nextTick(() => {
+              this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
+            })
             if (sessionStorage.getItem('capaSelectDetailIndex')) {
-              this.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
+              this.$nextTick(() => {
+                this.$refs.serviceList.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
+              })
             } else {
               this.dialogVisible = false
             }
+          }
+          if (this.fromHomeIndex) {
+            this.$nextTick(() => {
+              this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.fromHomeIndex], this.fromHomeIndex)
+            })
+          } else {
+            this.$nextTick(() => {
+              this.$refs.groupList.selectGroupList(this.capabilityGroupsList[0], 0)
+            })
           }
           this.filterSefvice('hot')
         }).catch(() => {
@@ -532,27 +376,9 @@ export default {
           }, 2000)
         })
     },
-    serviceDocClick (item) {
-      this.$router.push({ name: 'serviceDoc', query: { groupId: item.groupId, language: this.$i18n.locale } })
-    },
-    amulatorClick (item) {
-      this.$router.push({ name: 'apiAmulator', query: { groupId: item.groupId, language: this.$i18n.locale } })
-    },
-    toOnlineExperience (item) {
-      Api.getServiceListApi(item.id).then(res => {
-        let capabilityDetail = res.data.capabilityDetailList[0]
-        if (capabilityDetail.host) {
-          let onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port + '/#/' + item.twoLevelNameEn.replace(/\s*/g, '')
-          window.open(onLineUrl, '_blank')
-        } else {
-          this.$message.warning(this.$t('api.onlineService'))
-        }
-      })
-    },
     handleClose () {
       this.dialogVisible = false
     },
-    // 获取树状导航距离顶部高度
     getTreeTop () {
       let treeTop = this.$refs.meptree.getBoundingClientRect().top
       let rightTop = this.$refs.rightService.getBoundingClientRect().top
@@ -588,13 +414,18 @@ export default {
       (m > 9 ? m : ('0' + m)) + ':' +
       (s > 9 ? s : ('0' + s))
       }
+    },
+    getPageScroll (data) {
+      if (this.isRefrshPage && data < 1) {
+        document.getElementById('app').scrollIntoView()
+      } else {
+        document.getElementById('capa_tit_div').scrollIntoView()
+      }
     }
   },
   mounted () {
+    this.fromHomeIndex = this.$route.params.index + 1
     this.listBottom = false
-    this.$nextTick(() => {
-      document.getElementsByClassName('el-main')[0].scrollTop = 0
-    })
   },
   beforeMount () {
     this.initAbilities()
@@ -606,7 +437,13 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    next(vm => { // vm为vue的实例,代替this
+    // vm is an instance of vue, instead of this
+    next(vm => {
+      if (from.path === '/') {
+        vm.isRefrshPage = true
+      } else {
+        vm.isRefrshPage = false
+      }
       let isFromDoc = from.path.indexOf('mecDeveloper/api/mep/serviceDoc')
       let isFromApi = from.path.indexOf('mecDeveloper/api/mep/apiAmulator')
       if (isFromDoc !== -1 || isFromApi !== -1) {
@@ -626,129 +463,6 @@ export default {
   width: 100%;
   overflow-y: auto;
   top:80px;
-  .el-dialog{
-    width: 40%;
-    min-width: 910px;
-    background: #efefef;
-    border-radius: 15px;
-    .el-dialog__header{
-      border-radius: 15px;
-      background: #efefef !important;
-    }
-    .el-icon-close:before{
-      font-size: 32px;
-      color: #787878 !important;
-    }
-    .el-dialog__body{
-      padding: 10px 0 0 !important;
-    }
-    .service_footer{
-      border-top: 1px solid #7a6e8a;
-      padding: 35px 0;
-      margin-top: 45px;
-      text-align: center;
-      .el-button{
-        font-size: 18px;
-        color: #ffffff;
-        height: 50px;
-        line-height: 34px;
-        border: 1px solid #7a6e8a;
-        border-radius: 10px;
-        padding: 8px 45px;
-        background: #7a6e8a;
-        position: relative;
-      }
-      .el-button + .el-button {
-        margin-left: 25px;
-      }
-      .button_hot{
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      .el-button:hover{
-        background: #fff;
-        color: #380879;
-        border: 1px solid #fff;
-      }
-    }
-  }
-  @media screen and (max-width:1290px){
-    .el-dialog{
-      width: 60%;
-    }
-  }
-  .service_detail{
-    padding: 0 90px;
-    .title{
-      font-size: 25px;
-      color: #380879;
-    }
-    .user_div{
-      margin: 35px 0;
-      img{
-        float: left;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-      }
-      p{
-        float: right;
-        width: calc(100% - 60px);
-        font-size: 15px;
-        color: #7a6e8a;
-        height: 25px;
-        line-height: 25px;
-        padding-left: 15px;
-      }
-      p.user_info{
-        margin-top: 5px;
-      }
-    }
-    .service_div{
-      position: relative;
-      .pic{
-        float: left;
-        // width: 55%;
-        // max-width: 432px;
-        width: 432px;
-        height: 252px;
-        border-radius: 10px;
-      }
-      .service_right{
-        width: calc(100% - 432px);
-        height: 252px;
-        padding-left: 45px;
-        font-size: 14px;
-        color: #7a6e8a;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .service_desc{
-          line-height: 22px;
-        }
-        .service_level{
-          border-top: 1px solid #bdbec0;
-          min-height: 50px;
-          line-height: 20px;
-          padding: 15px 0;
-          .icon{
-            margin-right: 10px;
-          }
-          .level_right{
-            width: 60%;
-            text-align: right;
-          }
-          .tag{
-            font-size: 12px;
-            background: #e1dde6;
-            border-radius: 10px;
-            padding: 3px 6px;
-          }
-        }
-      }
-    }
-  }
   .topLine{
     height: 430px;
     background: url("../../assets/images/capa_banner_bg.jpg") no-repeat center center;
@@ -808,14 +522,13 @@ export default {
       position: absolute;
       top: -90px;
       right: 10%;
-      z-index: 2000;
+      z-index: 1998;
       .filter_default{
         background: #fdfcff;
         border-radius: 12px;
         padding: 10px 20px;
         font-size: 16px;
         color: #773fc1;
-        // font-weight: bold;
         letter-spacing: 2px;
         cursor: pointer;
         box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
@@ -830,6 +543,9 @@ export default {
         .filter_icon.filter_down{
           transform:rotate(180deg);
         }
+      }
+      .filter_default_en{
+        letter-spacing: 0;
       }
       .down_div{
         border-radius: 12px;
@@ -852,173 +568,42 @@ export default {
           border-bottom: none;
         }
         .transition-box:hover{
-          background: #fff;
+          background: #ab87db;
+          color: #fff;
           border-radius: 12px;
         }
+      }
+      .down_div_en{
+        letter-spacing: 0;
       }
     }
     .list_left.scroll_top{
       position: fixed;
-      top: 120px;
+      bottom: 200px;
     }
     .list_left.list_bottom{
       position: absolute;
       top: auto;
-      bottom: 130px;
+      bottom: 200px;
+    }
+    .list_left.small_screen{
+      position: fixed;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
     }
     .list_left{
-      width: 320px;
+      width: 300px;
       position: relative;
       background: #f1f2f6;
-      li{
-        height: 58px;
-        padding: 5px 0;
-        .li_list{
-          height: 48px;
-          line-height: 48px;
-          padding: 0 15px 0 50px;
-        }
-
-        font-size: 21px;
-        color: #7a6e8a;
-        cursor: pointer;
-        position: relative;
-        z-index: 2;
-        img{
-          position: absolute;
-          top: 18px;
-          left: 15px;
-        }
-        img.icon_default{
-          opacity: 1;
-          transition: all 1s;
-        }
-        img.icon_show{
-          opacity: 0;
-        }
-        img.icon_select{
-          opacity: 1;
-          transition: all 1s;
-        }
-        .counts{
-          float: right;
-          font-size: 14px;
-          color: #7a6e8a;
-        }
-        .counts.select{
-          color: #380879;
-        }
-      }
-      .li_list.select{
-        background: #fdfcff;
-        border-radius: 8px;
-        color: #380879;
-        box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-        .counts{
-          color: #380879;
-        }
-      }
-      /* li:hover{
-        background: #fdfcff;
-        border-radius: 8px;
-        color: #380879;
-        box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-      } */
-      .select_style{
-        width: 100%;
-        height: 48px;
-        z-index: 1;
-        position: absolute;
-        top: 5px;
-        left: 0;
-        transition: all 0.5s ease;
-        background: #fdfcff;
-        border-radius: 8px;
-        color: #380879;
-        box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
-      }
     }
     .list_right.scroll_top{
-      margin-left: 320px;
+      margin-left: 300px;
     }
     .list_right{
-      width: calc(100% - 320px);
+      width: calc(100% - 300px);
       padding-left: 110px;
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: space-between;
-      .service_list{
-        float: left;
-        width: 31%;
-        margin: 0 0 3% 2%;
-        padding-bottom: 82px;
-        border-radius: 12px;
-        position: relative;
-        cursor: pointer;
-        img{
-          width: 100%;
-          display: block;
-          border-radius: 12px 12px 0 0;
-        }
-        .service_info{
-          background: #fff;
-          border-radius: 12px;
-          position: absolute;
-          width: 100%;
-          bottom: 0px;
-          right: 0;
-          z-index: 2;
-          padding: 20px;
-          color: #535353;
-          .tit{
-            font-size: 19px;
-            margin-bottom: 10px;
-            .detail{
-              float: right;
-              font-size: 14px;
-              color: #380879;
-              padding: 0 10px;
-              border: 1px solid #380879;
-              border-radius: 15px;
-              position: relative;
-              top: -1px;
-              opacity: 0;
-              // transition: opacity 0.4s linear;
-              transition: all 0.3s ease-in-out;
-            }
-            .detail.show{
-              opacity: 1;
-              transition: all 0.4s ease-in-out 0.5s;
-            }
-          }
-          .desc{
-            font-size: 14px;
-            width: 100%;
-            max-height: 20px;
-            // height: 20px;
-            line-height: 20px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            // transition: all 0.6s ease-in-out 0.3s;
-            transition: all 0.6s ease-in-out;
-          }
-          .desc.all{
-            max-height: 80px;
-            // height: 40px;
-            white-space: normal;
-            transition: all 0.6s ease-in-out;
-          }
-        }
-      }
-      .service_list:hover{
-        box-shadow: 0 0 20px 0 rgba(56, 8, 121, 0.14);
-      }
-      @media screen and (max-width:1450px){
-        .service_list{
-          width: 48%;
-        }
-      }
       .button_more{
         float: left;
         width: 100%;
@@ -1070,7 +655,6 @@ export default {
   }
   .centerLine{
     padding: 45px 10px 50px;
-    // background-color: #fff;
   }
   .inner{
     margin: 0 auto;
@@ -1095,7 +679,6 @@ export default {
     }
   }
   .bottomLine{
-    // background: #FFF;
     height: 520px;
   }
 }
