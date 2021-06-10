@@ -92,7 +92,7 @@ export default {
     confirmPublish () {
       let projectId = sessionStorage.getItem('mecDetailID')
       let appInstanceId = sessionStorage.getItem('appInstanceId')
-      // 发布APP到Appstore
+      // Publish App to AppStore
       if (this.isPublish) {
         this.confimLoading = true
         Workspace.isPublishApi(appInstanceId, projectId, this.userId, this.userName).then(res => {
@@ -103,7 +103,7 @@ export default {
           this.confimLoading = false
         })
       }
-      // 公开APP的API能力
+      // Make App api ability public
       if (this.isPublic) {
         this.confimLoading = true
         Workspace.isPublicApi(projectId, this.userId).then(res => {

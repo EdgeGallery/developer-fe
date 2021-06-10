@@ -26,9 +26,9 @@
       <el-step :title="$t('workspace.appRelease.appRelease')" />
     </el-steps>
     <div class="release_steps">
-      <!-- 第一步“应用配置” -->
+      <!-- First step Application config -->
       <div v-show="step==='step1'">
-        <!-- 项目详情 -->
+        <!-- Project detail -->
         <h3 class="tit_gray_bg">
           {{ $t('workspace.projectDetails') }}
         </h3>
@@ -129,7 +129,7 @@
             </el-col>
           </el-row>
         </div>
-        <!-- 应用规则配置 -->
+        <!-- Application rule config -->
         <h3 class="tit_gray_bg">
           {{ $t('workspace.ruleConfig') }}
         </h3>
@@ -145,7 +145,7 @@
               >
                 {{ $t('workspace.add')+$t('workspace.trafficRules') }}
               </el-button>
-              <!-- 流量规则列表 -->
+              <!-- Traffic rule config -->
               <div class="trafficRulesList">
                 <el-table
                   :data="trafficListData"
@@ -204,7 +204,7 @@
                   </el-table-column>
                 </el-table>
               </div>
-              <!-- 流量规则弹框 -->
+              <!-- Traffic rule pop up -->
               <div v-if="trafficDialog">
                 <addTrafficRules
                   v-model="trafficDialog"
@@ -213,7 +213,7 @@
                   :edit-rule-dataprop="editRuleData"
                 />
               </div>
-              <!-- 查看流量规则详情 -->
+              <!-- Check traffic rule details -->
               <el-dialog
                 :title="$t('devTools.detail')"
                 :visible.sync="filterShow"
@@ -221,7 +221,7 @@
                 :close-on-click-modal="false"
               >
                 <div class="dialogContent">
-                  <!-- 分流规则 -->
+                  <!-- Traffic fileter detail -->
                   <p class="title">
                     {{ $t('workspace.appRelease.trafficFilter') }}
                   </p>
@@ -286,7 +286,7 @@
                     />
                   </el-table>
 
-                  <!-- 接口信息 -->
+                  <!-- Interface information -->
                   <p class="title">
                     {{ $t('workspace.appRelease.interfaceInfo') }}
                   </p>
@@ -342,7 +342,7 @@
               >
                 {{ $t('workspace.add')+$t('workspace.dnsRules') }}
               </el-button>
-              <!-- DNS规则列表 -->
+              <!-- DNS rules list -->
               <div class="dnsRulesList">
                 <el-table
                   :data="dnsListData"
@@ -393,7 +393,7 @@
                   </el-table-column>
                 </el-table>
               </div>
-              <!-- DNS规则弹框 -->
+              <!-- DNS rules pop up -->
               <div v-if="dnsDialog">
                 <addDnsRules
                   v-model="dnsDialog"
@@ -413,7 +413,7 @@
             />
           </el-tabs>
         </div>
-        <!-- 应用服务发布配置 -->
+        <!-- Application publish config -->
         <h3 class="tit_gray_bg">
           {{ $t('workspace.appPublishConfig') }}
         </h3>
@@ -425,7 +425,7 @@
           >
             {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}
           </el-button>
-          <!-- 应用服务发布配置列表 -->
+          <!-- Application service pulish config -->
           <div class="appPublicConfig">
             <el-table
               :data="appPublishListData"
@@ -480,7 +480,7 @@
               </el-table-column>
             </el-table>
           </div>
-          <!-- 应用服务发布配置弹框 -->
+          <!-- Application publish dialog -->
           <div v-if="appPublishDialog">
             <addAppPublishConfig
               v-model="appPublishDialog"
@@ -491,7 +491,7 @@
           </div>
         </div>
       </div>
-      <!-- 第二步“应用测试” -->
+      <!-- Second steop “App test” -->
       <div v-show="step==='step2'">
         <el-button
           type="primary"
@@ -517,10 +517,10 @@
           />
         </div>
       </div>
-      <!-- 第三步“应用发布” -->
+      <!--Third step “App publish” -->
       <div v-show="step==='step3'">
         <div class="release_test">
-          <!-- 应用测试任务列表 -->
+          <!-- App test list -->
           <el-table
             :data="appTestData"
             style="width: 100%"
@@ -568,7 +568,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <!-- 应用发布成功弹框 -->
+          <!-- App publish success dialog-->
           <el-dialog
             :title="$t('workspace.applicationRelease')"
             :close-on-click-modal="false"
@@ -635,13 +635,13 @@
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
     </div>
-    <!-- 应用包详情弹框 -->
+    <!-- Application details pop up -->
     <div v-if="appDetaildialog">
       <appPackageDetail
         v-model="appDetaildialog"
       />
     </div>
-    <!-- 资源释放提示框 -->
+    <!-- Resouce release pop up -->
     <el-dialog
       :title="$t('promptMessage.prompt')"
       :visible.sync="isCleanEnvDialog"

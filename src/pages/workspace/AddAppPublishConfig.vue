@@ -344,7 +344,7 @@ export default {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
     },
-    // 检查上传文件类型
+    // Check uploaded file type
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
@@ -359,7 +359,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    // 上传Api
+    // Upload API
     handleChangeApi (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
@@ -379,7 +379,7 @@ export default {
     removeUploadapi (file, fileList) {
       this.apiFileList = fileList
     },
-    // 上传API描述文件
+    // Upload Api description file
     changeApiMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
@@ -418,7 +418,7 @@ export default {
         this.$message.error(this.$t('promptMessage.uploadFailure'))
       })
     },
-    // 获取一级能力列表
+    // Fetch first left capability list
     getOneLevelCapability () {
       Workspace.getCapabilityListApi().then(res => {
         let oneLevel = []

@@ -19,7 +19,7 @@
     <h3 class="tit_gray_bg">
       {{ $t('workspace.visualConfig.podBasicInfo') }}
     </h3>
-    <!-- 添加Pod -->
+    <!-- Add Pod -->
     <p class="addBtn_div">
       <el-button
         type="primary"
@@ -645,7 +645,7 @@ export default {
     }
   },
   methods: {
-    // 添加Pod
+    // Add Pod
     addPod () {
       let podDataObj = {
         apiVersion: 'v1',
@@ -698,7 +698,7 @@ export default {
     deletePod (indexPod) {
       this.podData.splice(indexPod, 1)
     },
-    // 添加工作容器
+    // Add new working container
     addContainer (indexPod) {
       let obj = {
         name: '',
@@ -735,7 +735,7 @@ export default {
     deleteContainer (indexPod, indexContainer) {
       this.podData[indexPod].spec.containers.splice(indexContainer, 1)
     },
-    // 添加环境变量
+    // Add pod environment parameters
     addPodEnv (indexPod, indexContainer) {
       this.showEnv = true
       this.envDataNum += 1
@@ -750,7 +750,7 @@ export default {
     deletePodEnv (indexPod, indexContainer, indexEnv) {
       this.podData[indexPod].spec.containers[indexContainer].env.splice(indexEnv, 1)
     },
-    // 添加Service
+    // Add Service
     addService () {
       let serviceDataObj = {
         apiVersion: 'v1',
@@ -786,7 +786,7 @@ export default {
     deleteService (indexService) {
       this.serviceData.splice(indexService, 1)
     },
-    // 添加service端口
+    // Add service port
     addServicePort (indexService) {
       let objPort = {
         port: 9997,
@@ -845,7 +845,7 @@ export default {
         value.showNodePort = false
       }
     },
-    // 判断pod必填字段
+    // Check pod required fields
     checkPodDataRequired () {
       this.ifSaveConfig = true
       let podDatas = JSON.parse(JSON.stringify(this.podData))
@@ -872,7 +872,7 @@ export default {
       })
       return this.ifSaveConfig
     },
-    // 判断service必填字段
+    // Check pod service fields
     checkServiceDataRequired () {
       this.ifSaveConfig = true
       let serviceDatas = JSON.parse(JSON.stringify(this.serviceData))
@@ -899,7 +899,7 @@ export default {
       return this.ifSaveConfig
     },
     deleteDataShow (podArr, serviceArr) {
-      // 处理pod中的show字段
+      // process boolean variable called show
       let podDatasTemp = JSON.parse(JSON.stringify(this.podData))
       podDatasTemp.forEach(itemTemp => {
         delete itemTemp.metadata.showName
@@ -911,7 +911,7 @@ export default {
         podArr.push(itemTemp)
       })
       this.podData = podArr
-      // 处理service中的show字段
+      // delete boolean variable called show in service
       let serviceDatasTemp = JSON.parse(JSON.stringify(this.serviceData))
       serviceDatasTemp.forEach(itemTemp => {
         delete itemTemp.metadata.showName
@@ -924,7 +924,7 @@ export default {
       })
       this.serviceData = serviceArr
     },
-    // 保存配置
+    // Save config
     saveConfig () {
       let isSaveConfig = this.checkPodDataRequired() && this.checkServiceDataRequired()
       if (isSaveConfig) {
@@ -972,7 +972,7 @@ export default {
       }
     },
     submitData (appYamlFileId) {
-      // 获取以前提交过的配置
+      // Fetch config submiited before
       Workspace.getTestConfigApi(this.projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
         const params = {
@@ -991,7 +991,7 @@ export default {
         func(this.projectId, this.userId, params)
       })
     },
-    // 获取生成的配置文件
+    // Fetch config file generated
     getConfigFile () {
       Workspace.getTestConfigApi(this.projectId).then(response => {
         this.appYamlFileId = response.data.deployFileId
@@ -1009,7 +1009,7 @@ export default {
         }
       })
     },
-    // 回显生成的配置文件
+    // Echo config file
     getEchoConfigFile () {
       Workspace.getEchoConfigFileApi(this.appYamlFileId).then(res => {
         let echoData = []
@@ -1092,7 +1092,7 @@ export default {
       this.viewOrEdit = 'edit'
       this.isEditFile = true
     },
-    // 保存编辑的yaml文件
+    // Save draft config file
     saveConfigFile () {
       Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
         let configFileContent = ''

@@ -150,7 +150,7 @@ export default {
     }
   },
   methods: {
-    // 获取项目详情
+    // Fetch project detail
     getProjectDetail () {
       this.treeData = []
       let projectId = sessionStorage.getItem('mecDetailID')

@@ -227,7 +227,7 @@ export default {
     this.getTaskInformation()
   },
   methods: {
-    // 查询单个移植扫描任务信息
+    // Look up certain scan task info
     getTaskInformation () {
       Plugin.getTaskInformationApi(this.userId, this.reportId, '', 'toolchain').then(res => {
         if (res.status === 200) {
@@ -248,12 +248,12 @@ export default {
         }, 2000)
       })
     },
-    // 下载报告
+    // Download report
     downloadReport () {
       let reportId = this.reportId
       return Plugin.downLoadReportApi(this.userId, reportId)
     },
-    // 点击展开分析结果
+    // Click to expand analysis result
     showIcon () {
       this.showicon = false
     },

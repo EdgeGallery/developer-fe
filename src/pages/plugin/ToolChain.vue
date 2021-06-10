@@ -392,14 +392,14 @@ export default {
       const deviceHeight = document.documentElement.clientHeight
       oDiv.style.height = Number(deviceHeight) - 330 + 'px'
     },
-    // 查询已上传的源代码
+    // Get source code uploaded
     getSourceCode () {
       Plugin.getSourceCodeApi(this.userId, '', 'toolchain').then(res => {
         this.sourceCodeName = res.data.sourceCodeName
         this.sourceCodeExist = res.data.sourceCodeExist
       })
     },
-    // 删除已上传的源代码
+    // Delete uploaded source code
     deleteSourceCode () {
       Plugin.deleteSourceCodeApi(this.userId, '', 'toolchain').then(res => {
         this.codeFileList = []
@@ -407,7 +407,7 @@ export default {
         sessionStorage.setItem('sourceCodePath', '')
       })
     },
-    // 上传源代码
+    // Upload source code
     handleChangeCode (file, fileList) {
       let fileTypeArr = ['tar.gz']
       this.fileType = fileList[0].name.substr(fileList[0].name.lastIndexOf('.', fileList[0].name.lastIndexOf('.') - 1) + 1)
@@ -456,7 +456,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    // 点击分析按钮，创建分析任务
+    // Click analysis button to create a new task
     analysisCode () {
       if (this.sourceCodeName === '') {
         this.$message.warning(this.$t('promptMessage.codeEmpty'))
@@ -486,7 +486,7 @@ export default {
         })
       }
     },
-    // 查询扫描任务列表
+    // Get scan tasks list
     getScanTask () {
       Plugin.getScanTaskApi(this.userId, '', 'toolchain').then(res => {
         if (res.status === 200) {
@@ -506,7 +506,7 @@ export default {
         }, 2000)
       })
     },
-    // 查看报告详情
+    // Check report detail
     viewReport (reportId) {
       sessionStorage.setItem('reportId', reportId)
       this.$router.push({
@@ -516,11 +516,11 @@ export default {
         }
       })
     },
-    // 下载报告
+    // Download report
     downloadReport (reportId) {
       return Plugin.downLoadReportApi(this.userId, reportId)
     },
-    // 删除报告
+    // Delete report
     deleteReport (reportId) {
       this.$confirm(this.$t('devTools.deleteReport'), {
         confirmButtonText: this.$t('common.confirm'),

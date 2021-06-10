@@ -281,7 +281,6 @@ export default {
   },
   data () {
     return {
-      firstEnter: true,
       apiDataLoading: false,
       projecDetailList: [],
       dialogVisible: false,
@@ -349,7 +348,7 @@ export default {
       this.dependentNum = arr.length
       this.projectDetailData.dependent = arr.join('，')
     },
-    // 获取项目详情
+    // Fetch poject infomation
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
         let data = res.data
@@ -400,7 +399,7 @@ export default {
       }
     },
     next () {
-      // 获取组件内部的值
+      // Fetch component internal value
       this.$refs.currentComponet.emitStepData()
       if (this.allStepData.ifNext) {
         if (this.active < 2) {
@@ -414,7 +413,7 @@ export default {
       this.handleStep()
     },
     handleStep () {
-      // 改变动态组件的值
+      // Change dynamic component value
       this.changeComponent()
       this.allStepData.ifNext = false
     },
@@ -442,7 +441,7 @@ export default {
     checkCleanEnv (data) {
       this.isCleanEnv = data
     },
-    // 获取以前提交过的配置
+    // Fetch test configue value
     getTestConfig () {
       Workspace.getTestConfigApi(this.projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
