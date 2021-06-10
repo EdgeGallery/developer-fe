@@ -337,7 +337,7 @@ export default {
     }
   },
   methods: {
-    // 提交上传
+    // Submit upload
     onSubmit () {
       let formdata = new FormData()
       Object.keys(this.form).forEach(item => {
@@ -361,7 +361,7 @@ export default {
         this.uploadBtnLoading = false
       })
     },
-    // 确认上传
+    // Confirm upload
     submitTrue () {
       this.uploadBtnLoading = true
       let pluginName = this.form.pluginName
@@ -448,7 +448,7 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
-    // 检查上传文件类型
+    // Check the type of files uploaded
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
@@ -458,7 +458,7 @@ export default {
       }
       return checkPassed
     },
-    // 上传图标
+    // Upload Icon
     handleChangeLogo (file, fileList) {
       this.form.appIcon = []
       this.defaultIconFile = []
@@ -480,7 +480,7 @@ export default {
       }
       this.form.appIcon = this.logoFileList
     },
-    // 上传插件包
+    // Upload plugin package
     handleChangePlug (file, fileList) {
       this.$store.state.pluginSize = file.size / 1024 / 1024
       if (file.raw.name.indexOf(' ') !== -1) {
@@ -504,7 +504,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    // 上传Api
+    // Upload API
     handleChangeApi (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
@@ -551,7 +551,7 @@ export default {
         type: mime
       })
     },
-    // 选择默认图标
+    // Select default icon
     chooseDefaultIcon (file, index) {
       this.logoFileList = []
       this.defaultIconFile = []
@@ -562,9 +562,9 @@ export default {
         let image = new Image()
         image.src = file
         image.onload = () => {
-          // 将静态图片转化为base64
+          // Transfer static picture to base64
           let base64 = this.getBase64Image(image)
-          // base64转化为文件流
+          // Change base64 to file stream
           this.defaultIconFile.push(this.base64toFile(base64))
         }
       }

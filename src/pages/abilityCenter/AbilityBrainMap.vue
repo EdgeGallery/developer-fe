@@ -58,26 +58,26 @@ export default {
   },
   methods: {
     refreshMap () {
-      let subAbilitys = []
-      let abilitys = []
+      let subAbilities = []
+      let abilities = []
       if (this.parentTabIndex === 1) {
-        abilitys = ability.getAbilitysByFirstLevelName('3GPP')
+        abilities = ability.getAbilitiesByFirstLevelName('3GPP')
       } else if (this.parentTabIndex === 0) {
-        abilitys = ability.getAbilitysByFirstLevelName('ETSI')
+        abilities = ability.getAbilitiesByFirstLevelName('ETSI')
       }
-      if (abilitys.length > 0) {
-        subAbilitys = abilitys[0].children
+      if (abilities.length > 0) {
+        subAbilities = abilities[0].children
       }
-      let subAbilitysShown = []
-      for (let i = 0; i < subAbilitys.length; i++) {
+      let subAbilitiesShown = []
+      for (let i = 0; i < subAbilities.length; i++) {
         let thirdGpp = (i < 5) ? '#e7dbf6' : ''
         let etsiNodeBackground = (i < 6) ? '#e7dbf6' : ''
-        subAbilitysShown.push({
+        subAbilitiesShown.push({
           data: {
-            id: subAbilitys[i].groupId,
-            text: this.$i18n.locale === 'en' ? subAbilitys[i].labelEn : subAbilitys[i].label,
+            id: subAbilities[i].groupId,
+            text: this.$i18n.locale === 'en' ? subAbilities[i].labelEn : subAbilities[i].label,
             expandState: 'expand',
-            hyperlink: window.location.href + '/apiAmulator?groupId=' + subAbilitys[i].groupId + '&language=' + this.$i18n.locale,
+            hyperlink: window.location.href + '/apiAmulator?groupId=' + subAbilities[i].groupId + '&language=' + this.$i18n.locale,
             hyperlinkTitle: this.$i18n.t('api.swithToAPI'),
             background: this.parentTabIndex === 1 ? thirdGpp : etsiNodeBackground
           },
@@ -100,7 +100,7 @@ export default {
             hyperlinkTitle: '',
             background: '#997ebd'
           },
-          children: subAbilitysShown
+          children: subAbilitiesShown
         },
         template: 'default',
         theme: 'fresh-purple-compat',

@@ -83,7 +83,7 @@
           </el-row>
         </el-form>
 
-        <!-- 新增Filter -->
+        <!-- Add new filter -->
         <div>
           <p class="title">
             {{ $t('workspace.appRelease.trafficFilter') }}
@@ -187,7 +187,7 @@
           </el-table>
         </div>
 
-        <!-- 新增interface -->
+        <!-- Add new interface -->
         <div v-if="trafficRule.action==='FORWARD_DECAPSULATED'||trafficRule.action==='FORWARD_AS_IS'">
           <p class="title">
             {{ $t('workspace.appRelease.forwardInterface') }}
