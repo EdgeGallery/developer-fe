@@ -19,7 +19,7 @@ import cn from '../../locales/cn.js'
 
 let allAbilities = []
 
-let getAbilitysByFirstLevelName = function (firstLevelName) {
+let getAbilitiesByFirstLevelName = function (firstLevelName) {
   return allAbilities.filter(item => item.labelEn === firstLevelName)
 }
 
@@ -177,5 +177,5 @@ let getName = function (lan, enName, cnName) {
 export default {
   initAbilities,
   getSecondLevelAbilitys,
-  getAbilitysByFirstLevelName
+  getAbilitiesByFirstLevelName
 }
