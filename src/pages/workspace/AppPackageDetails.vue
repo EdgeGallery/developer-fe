@@ -77,7 +77,7 @@ export default {
         label: 'name'
       },
       appPageListData: [],
-      fileName: '',
+      fileType: '',
       fileContent: '',
       projectId: sessionStorage.getItem('mecDetailID'),
       csarId: sessionStorage.getItem('csarId'),
@@ -108,21 +108,21 @@ export default {
       })
     },
     getFileDetail (val) {
-      this.fileName = val.name
+      let temp = val.name
+      this.fileType = temp.substr(temp.lastIndexOf('.'))
       if (!val.children) {
         Workspace.getAppFileApi(this.projectId, val.name).then(res => {
-          if (val.name.indexOf('.md') >= 0) {
+          let typeArr = ['.zip', '.tgz']
+          if (this.fileType === '.md') {
             this.markdownSource = res.data
-          } else if (val.name.indexOf('.tgz') >= 0) {
+          } else if (typeArr.includes(this.fileType)) {
             this.markdownSource = this.$t('promptMessage.fileNotSupport')
-          } else if (val.name.indexOf('.json') >= 0) {
+          } else if (this.fileType === '.json') {
             this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+          } else if (JSON.stringify(res.data) === '""') {
+            this.markdownSource = this.$t('promptMessage.fileIsEmpty')
           } else {
             this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
-          }
-        }).catch(err => {
-          if (err.response.data.message === 'file is null!') {
-            this.markdownSource = this.$t('promptMessage.fileIsEmpty')
           }
         })
       }

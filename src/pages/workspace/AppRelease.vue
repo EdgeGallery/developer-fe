@@ -762,7 +762,7 @@ export default {
     handleClose () {
       this.isCleanEnvDialog = false
     },
-    // 释放资源
+    // Release resources
     cleanTestEnvRelease () {
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
@@ -812,7 +812,7 @@ export default {
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
-        if (this.imageStatus === 'ONLINE') {
+        if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
           this.$message.warning(this.$t('promptMessage.notDeploy'))
         }
         if ((data.deployPlatform === 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
@@ -836,7 +836,7 @@ export default {
         }
       })
     },
-    // 回显APP说明文档
+    // Echo the APP description document
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
@@ -845,7 +845,7 @@ export default {
         }
       })
     },
-    // 手动点击保存规则按钮
+    // Manually click the Save Rules button
     getReleaseConfig (params) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -864,7 +864,7 @@ export default {
         })
       })
     },
-    // 默认保存/修改配置规则
+    // Save/modify configuration rules by default
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -902,7 +902,7 @@ export default {
       clearTimeout(this.interval)
       this.interval = null
     },
-    // 检查上传文件类型
+    // Check upload file type
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
@@ -917,7 +917,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    // 上传应用描述文件
+    // Upload application description file
     changeAppStoreMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
@@ -949,7 +949,7 @@ export default {
     removeAppStoreMd (file, fileList) {
       this.appMdList = fileList
     },
-    // 获取规则列表
+    // Get the list of rules
     getAllListData () {
       if (sessionStorage.getItem('dnsData')) {
         this.dnsListData = JSON.parse(sessionStorage.getItem('dnsData'))
@@ -967,7 +967,7 @@ export default {
         this.trafficListData = []
       }
     },
-    // 打开添加规则弹框
+    // Open the add rule popup
     openDialog (name) {
       this.isAddRuleData = true
       if (name === 'dnsRule') {
@@ -1006,7 +1006,7 @@ export default {
         }
       }
     },
-    // 添加规则列表
+    // Add rule list
     getAddDnsData (data) {
       if (this.isAddRuleData) {
         this.dnsListData.push(data)
@@ -1040,7 +1040,7 @@ export default {
       this.getReleaseConfigList()
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
-    // 编辑规则列表
+    // Edit rule list
     editTrafficRule (index, row) {
       this.isAddRuleData = false
       this.editIndex = index
@@ -1059,7 +1059,7 @@ export default {
       this.appPublishDialog = true
       this.editRuleData = row
     },
-    // 删除规则列表
+    // Delete rule list
     deleteRuleData (index) {
       this.dnsListData.splice(index, 1)
       sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
@@ -1075,7 +1075,7 @@ export default {
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$message.success(this.$t('devTools.deleteSucc'))
     },
-    // 查看流量规则
+    // View traffic rules
     checkFilter (row) {
       this.filterShow = true
       this.filterData = row.trafficFilter
@@ -1086,7 +1086,7 @@ export default {
       arr = str.split(',')
       return arr
     },
-    // 保存配置的规则数据
+    // Save configured rule data
     saveConfig () {
       let trafficDataTemp = JSON.parse(JSON.stringify(this.trafficListData))
       trafficDataTemp.forEach(item => {
@@ -1118,7 +1118,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
       }
     },
-    // 集成应用测试页面
+    // Integrated application test page
     getAtpTest () {
       this.showAtp = false
       this.iframeUrl = ''
@@ -1128,7 +1128,7 @@ export default {
         }
       })
     },
-    // 重新加载集成的ATP测试页面
+    // Reload the integrated ATP test page
     rebuileComponents () {
       this.isRouterAlive = false
       this.$nextTick(() => {
@@ -1139,8 +1139,13 @@ export default {
     getAtpData () {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
+        let testStatus = response.data.atpTest.status
         if (this.taskId) {
-          this.iframeUrl = this.atpUrl + '/#/selectscene?taskid=' + this.taskId + '&language=' + this.language
+          if (testStatus === '') {
+            this.iframeUrl = this.atpUrl + '/#/selectscene?taskId=' + this.taskId + '&language=' + this.language
+          } else {
+            this.iframeUrl = this.atpUrl + '/#/atpprocess?taskId=' + this.taskId + '&language=' + this.language
+          }
           this.showAtp = true
           this.iframeLoading = false
         }
@@ -1151,7 +1156,7 @@ export default {
         }, 2000)
       })
     },
-    // 获取集成测试列表
+    // Get the list of integration tests
     getAtpList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.appTestData = []
@@ -1197,7 +1202,7 @@ export default {
         this.publishLoading = false
       })
     },
-    // 关闭弹框
+    // Close the bullet box
     closeDialog (data) {
       this.trafficDialog = data
       this.dnsDialog = data
