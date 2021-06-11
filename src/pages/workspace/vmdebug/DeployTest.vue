@@ -259,7 +259,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.userId)
     this.getProjectVmList()
     this.interval = setInterval(() => {
       this.getProjectVmList()
