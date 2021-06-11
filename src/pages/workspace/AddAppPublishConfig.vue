@@ -289,7 +289,6 @@ export default {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
       this.form = data
       this.form.trafficRulesList = data.trafficRulesList.split(',')
-      console.log(this.form.trafficRulesList)
       this.form.dnsRulesList = data.dnsRulesList.split(',')
       this.removeEmpty(this.form.trafficRulesList)
       this.removeEmpty(this.form.dnsRulesList)
@@ -436,7 +435,7 @@ export default {
     addPublicConfig () {
       this.form.trafficRulesList = this.form.trafficRulesList.join(',')
       this.form.dnsRulesList = this.form.dnsRulesList.join(',')
-      this.form.iconFileId = '35a52055-42b5-4b5f-bc2b-8a02259f2572'
+      this.form.iconFileId = '20aeed6a-f05f-4789-94b5-8a50db67d096'
       this.form.author = sessionStorage.getItem('userName')
       this.$emit('getAddPublicConfigData', this.form)
       this.handleClose()

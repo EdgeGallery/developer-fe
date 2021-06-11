@@ -426,7 +426,7 @@ export default {
       form: {},
       defaultForm: {
         protocol: 'https',
-        iconFileId: '35a52055-42b5-4b5f-bc2b-8a02259f2572',
+        iconFileId: '20aeed6a-f05f-4789-94b5-8a50db67d096',
         author: sessionStorage.getItem('userName')
       },
       rules: {
@@ -573,7 +573,7 @@ export default {
       sessionStorage.setItem('currentPage', 1)
       this.getListData()
     },
-    // 获取列表
+    // Get a list of capabilities
     getListData () {
       this.loading = true
       const qs = { offset: this.offsetPage, limit: this.limitSize }
@@ -593,7 +593,7 @@ export default {
       this[`${key}_file_list`] = []
       this.form[key] = ''
     },
-    // 检查上传文件类型
+    // Check upload file type
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
