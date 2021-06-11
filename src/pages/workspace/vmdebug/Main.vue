@@ -129,7 +129,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.projectId)
     this.active = 0
     this.changeComponent()
   }

@@ -90,20 +90,22 @@ export default {
     },
     getAppPackageList () {
       Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
-        this.appPageListData = res.data.children
-        let APPD = {}
-        this.appPageListData.forEach((item, index) => {
-          if (item.name === 'APPD') {
-            APPD = item
-            this.appPageListData.splice(index, 1)
-          }
-        })
-        this.appPageListData.unshift(APPD)
-        if (this.appPageListData.length > 0) {
-          this.$nextTick(function () {
-            const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
-            firstNode.click()
+        if (res.data.children) {
+          this.appPageListData = res.data.children
+          let APPD = {}
+          this.appPageListData.forEach((item, index) => {
+            if (item.name === 'APPD') {
+              APPD = item
+              this.appPageListData.splice(index, 1)
+            }
           })
+          this.appPageListData.unshift(APPD)
+          if (this.appPageListData.length > 0) {
+            this.$nextTick(function () {
+              const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+              firstNode.click()
+            })
+          }
         }
       })
     },

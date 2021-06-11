@@ -605,7 +605,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="saveConfig"
-        :disabled="projectDetailData.status==='ONLINE'"
+        :disabled="isRelease"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
@@ -613,7 +613,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="appDetaildialog=true"
-        :disabled="projectDetailData.status==='ONLINE'"
+        :disabled="isRelease"
       >
         {{ $t('workspace.appDetails') }}
       </el-button>
@@ -630,7 +630,7 @@
         type="primary"
         v-if="active<2"
         @click="next"
-        :disabled="projectDetailData.status==='ONLINE'"
+        :disabled="isRelease"
       >
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
@@ -755,7 +755,8 @@ export default {
       isCleanEnvDialog: false,
       publishLoading: false,
       imageStatus: 'NOTDEPLOY',
-      deployPlatform: this.deployPlatformProp
+      deployPlatform: this.deployPlatformProp,
+      isRelease: true
     }
   },
   methods: {
@@ -813,7 +814,10 @@ export default {
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
         if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
+          this.isRelease = true
           this.$message.warning(this.$t('promptMessage.notDeploy'))
+        } else {
+          this.isRelease = false
         }
         if ((data.deployPlatform === 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
           this.getReleaseConfigFirst()
@@ -1114,8 +1118,10 @@ export default {
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
       if (this.projectDetailData.appInstanceId) {
         this.getReleaseConfig(this.trafficAllData)
+        this.isRelease = false
       } else {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
+        this.isRelease = true
       }
     },
     // Integrated application test page
@@ -1229,6 +1235,10 @@ export default {
       vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
         if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) === '""')) {
           this.$message.warning(this.$t('workspace.deployDebugVm.releasePromt'))
+          this.isRelease = true
+        } else if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) !== '""')) {
+          this.getReleaseConfigFirst()
+          this.isRelease = false
         }
       })
     }
