@@ -166,7 +166,7 @@ export default {
   },
   mounted () {
     this.loginFun()
-    // 国际化切换
+    // Switch language
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
@@ -174,7 +174,7 @@ export default {
         this.changeLange()
       }
     }
-    // 监听到窗口大小变化时，重新给screenHeight变量赋值
+    // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
       return (() => {
         this.screenHeight = document.body.clientHeight
@@ -239,7 +239,7 @@ export default {
         })
       }
     },
-    // 根据移动端屏幕高度设置导航外层div的高
+    // According to the height of mobile device, adjust the height of external layer div
     setScreenHeight (screenHeight) {
       let oDiv = document.getElementsByClassName('main-sidebar-small')
       oDiv[0].style.height = (Number(screenHeight) - 65) + 'px'
@@ -248,7 +248,7 @@ export default {
       this.setScreenHeight(this.screenHeight)
       this.menu_small = !this.menu_small
     },
-    // 移动端选择菜单后，收起菜单栏
+    // When mobile user selects menu, close the menu tab
     closeMenu (data) {
       this.menu_small = data
     },

@@ -118,18 +118,18 @@
       </div>
     </div>
     <div class="deploy-status-box">
-      <!-- 状态头部 -->
+      <!-- Status top -->
       <div class="deploy-status-title-box grayline">
         <h4 class="detail-box-title font18">
           {{ $t("workspace.deploymentStatus") }}
         </h4>
       </div>
-      <!-- 部署未完成时内容 -->
+      <!-- Deploy unfinished -->
       <div class="deploy-status-flow-div">
         <div
           class="deploy-status-flow clear"
         >
-          <!-- 时间线 -->
+          <!-- Timeline -->
           <div class="timeline-box">
             <el-timeline class="timeline-class">
               <el-timeline-item
@@ -145,7 +145,7 @@
               </el-timeline-item>
             </el-timeline>
           </div>
-          <!--流程图 -->
+          <!--Work flow -->
           <div class="flow-img">
             <el-carousel
               :autoplay="false"
@@ -181,7 +181,7 @@
         </div>
       </div>
 
-      <!-- 部署完成时内容 -->
+      <!-- Deploy finish -->
       <div
         v-if="testFinished"
         class="deploy-finish-box"
@@ -191,7 +191,7 @@
         >
           {{ $t("workspace.deploymentResult") }}
         </h4>
-        <!-- 中心内容 -->
+        <!-- Center part -->
         <div class="deploy-result-buttom">
           <div class="deploy-finish-center">
             <div v-if="deploySuccess">
@@ -233,7 +233,7 @@
             </p>
           </div>
 
-          <!-- 完成状态 -->
+          <!-- Finish status -->
           <div
             class="deploy-finish-status-box"
             v-if="deploySuccess"
@@ -241,7 +241,6 @@
             <el-button @click="refreshDeployStatus">
               {{ $t("workspace.refresh") }}
             </el-button>
-            <!-- 此处根据返回数组数据渲染页面 -->
             <el-row>
               <el-table
                 :data="containers"
@@ -412,7 +411,7 @@ export default {
       this.deployStatus = 'NOTDEPLOY'
     },
     cleanTestEnv () {
-      // 清空stageStatus
+      // Clear stage status
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$emit('checkCleanEnv', true)
         this.CSAR = ''
@@ -703,7 +702,7 @@ export default {
 .deployment {
   width: 100%;
   height: 100%;
-  //标题名
+  //title name
   .detail-title-key {
     width: 80px;
     display: inline-block;
@@ -718,7 +717,7 @@ export default {
     font-size: 14px;
     line-height: 30px;
   }
-  //部署详情
+  //deploy detail
   .deploy-detail-box {
     .detail-table {
       margin-top: 20px;
@@ -749,7 +748,7 @@ export default {
         }
       }
   }
-  //部署状态
+  //deploy status
   .deploy-status-box {
     margin-top: 30px;
     .deploy-status-title-box {

@@ -367,7 +367,7 @@ export default {
       sessionStorage.setItem('currentPage', 1)
       this.getPluginListData()
     },
-    // 获取插件列表
+    // Fetch plugin list
     getPluginListData () {
       Plugin.getPluginListApi(this.limitSize, this.offsetPage, this.inputPluginName, this.selectCodeLanguage).then(res => {
         this.searchListData = res.data.results
@@ -390,15 +390,15 @@ export default {
         }
       })
     },
-    // 获取插件图标
+    // Get plugin icon
     getImageUrl (pluginId) {
       return Plugin.getImageUrlApi(pluginId)
     },
-    // 获取插件下载路径
+    // Get plugin download link
     getDownloadUrl (pluginId) {
       return Plugin.getDownloadUrlApi(pluginId)
     },
-    // 删除插件
+    // Delete plugin
     deletePlug (item) {
       this.centerDialogVisible = true
       this.delId = item.pluginId
@@ -437,7 +437,7 @@ export default {
     rateChange (val) {
       this.valueRate = val
     },
-    // 给插件评分
+    // Rate plugin
     rateHandel (rateId) {
       Plugin.ratePluginApi(rateId, this.valueRate, this.userId, this.userName).then(res => {
         this.getPluginListData()

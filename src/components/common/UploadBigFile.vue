@@ -73,8 +73,8 @@ export default {
         testChunks: false,
         headers: {},
         forceChunkSize: true,
-        simultaneousUploads: 5, // 并发数
-        chunkSize: 8 * 1024 * 1024 // 块大小
+        simultaneousUploads: 5, // Concurrent number supported
+        chunkSize: 8 * 1024 * 1024 // Chunk size
       }
     }
   },

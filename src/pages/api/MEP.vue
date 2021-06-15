@@ -308,7 +308,7 @@ export default {
         }
       }
     },
-    // 获取所有能力组
+    // Fetch capibility list
     getCapabilityGroups () {
       Api.getCapabilityGroupsApi().then(res => {
         let groupDataFromServer = res.data
@@ -324,7 +324,7 @@ export default {
       this.divHeight('el-tree', 0, 255)
       this.treeDataLoading = false
     },
-    // 获取树状导航距离顶部高度
+    // Fetch tree height
     getTreeTop () {
       let treeTop = this.$refs.meptree.getBoundingClientRect().top
       if (treeTop > 85) {
@@ -337,7 +337,7 @@ export default {
         this.divHeight('el-tree', 0, 165)
       }
     },
-    // 设置元素的高度
+    // Set element height
     divHeight (className, num, height) {
       let oDiv = document.getElementsByClassName(className)
       let clientHeight = document.documentElement.clientHeight
@@ -352,7 +352,7 @@ export default {
         return Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
       }
     },
-    // 中英文切换
+    // Swtich language
     checkProjectData () {
       Capability.forEach(itemFe => {
         if (this.language === 'cn') {

@@ -161,7 +161,7 @@ export default {
       this.changeComponent()
     },
     nextStep () {
-      // 获取第一步数据，判断是否为空
+      // Get first step data, chech whether it's null
       this.$refs.currentComponet.emitStepData()
       let data = this.allFormData.first
       Workspace.getProjectListApi(this.userId).then(res => {
@@ -250,7 +250,7 @@ export default {
         this.changeComponent()
       }
     },
-    // 暂存图标生成图标ID
+    // get Icon ID
     getIconFileId () {
       if (this.active === 0) {
         let firstStepData
@@ -275,7 +275,7 @@ export default {
         })
       }
     },
-    // 提交上传
+    // Submit project
     onSubmit () {
       this.uploadBtnLoading = true
       this.$refs.currentComponet.emitStepData()
@@ -288,11 +288,11 @@ export default {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
     },
-    // 获取子组件数据
+    // Fetch children component data
     getStepData ({ data, step }) {
       this.allFormData[step] = data
     },
-    // 处理上传数据，新建/迁移项目
+    // Handle uploaded data
     getApplicationProject () {
       this.uploadBtnLoading = true
       let createDate = new Date()
@@ -377,7 +377,7 @@ export default {
         }
       }
     },
-    // 将中文情况下选择的能力转成英文
+    // Translate ability name
     checkPostProjectData (checkArr) {
       checkArr.forEach(itemBe => {
         Capability.forEach(itemFe => {

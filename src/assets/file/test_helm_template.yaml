@@ -1,20 +1,20 @@
 
 ---
-apiVersion: v1              # pod信息
+apiVersion: v1              # pod information
 kind: Pod
 metadata:
-  name: positioning-service    # pod名
+  name: positioning-service    # pod name
   namespace: '{{ .Values.appconfig.appnamespace }}'
   labels:
     app: positioning-service
 spec:
   containers:
-    - name: positioning    # 容器名
-      image: '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/positioning_service:1.0'  # 镜像信息
-      imagePullPolicy: IfNotPresent   # 镜像拉取策略
+    - name: positioning    # container namer
+      image: '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/positioning_service:1.0'  # image information
+      imagePullPolicy: IfNotPresent   # image pulling policy
       ports:
-        - containerPort: 9997         # 内部端口
-    {{- if .Values.global.mepagent.enabled }}    # 是否依赖平台能力，没有这部分无法使用平台的能力
+        - containerPort: 9997         # internal port
+    {{- if .Values.global.mepagent.enabled }}    # dependency of mep, without this user can't use mep ability
     - name: mep-agent
       image: '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/mep-agent:latest'
       imagePullPolicy: IfNotPresent
@@ -55,10 +55,10 @@ spec:
         name: '{{ .Values.global.mepagent.configmapname }}'
   {{- end }}
 ---
-apiVersion: v1                 # 服务信息
+apiVersion: v1                 # service information
 kind: Service
 metadata:
-  name: positioning-service    # 服务名
+  name: positioning-service    # service name
   namespace: '{{ .Values.appconfig.appnamespace }}'
   labels:
     svc: positioning-service
@@ -66,8 +66,8 @@ spec:
   type: NodePort
   ports:
     - port: 9997
-      targetPort: 9997      # 内部端口
+      targetPort: 9997      # internal mport
       protocol: TCP
-      nodePort: 32218       # 暴露端口号3000-33000
+      nodePort: 32218       # exposed port number 3000-33000
   selector:
     app: positioning-service

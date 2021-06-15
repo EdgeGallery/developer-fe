@@ -1259,7 +1259,7 @@ export default {
       let language = localStorage.getItem('language')
       let spanLeft = document.getElementsByClassName('span_left')
       this.language = language
-      this.rebuileComponents()
+      this.rebuildComponents()
       this.getAppstoreUrl()
       this.checkProjectData()
       this.getProjectInfo()

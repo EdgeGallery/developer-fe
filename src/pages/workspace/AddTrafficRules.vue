@@ -654,7 +654,7 @@ export default {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
     },
-    // 获取规则列表
+    // Fetch rule list
     getAllListData () {
       if (sessionStorage.getItem('filterData')) {
         this.filterTableData = JSON.parse(sessionStorage.getItem('filterData'))
