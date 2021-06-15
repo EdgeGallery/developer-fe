@@ -756,7 +756,8 @@ export default {
       publishLoading: false,
       imageStatus: 'NOTDEPLOY',
       deployPlatform: this.deployPlatformProp,
-      isRelease: true
+      isRelease: true,
+      vmRelease: false
     }
   },
   methods: {
@@ -827,10 +828,10 @@ export default {
     getTestConfig () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
-        sessionStorage.setItem('csarId', res.data.appInstanceId)
-        this.projectDetailData.appInstanceId = res.data.appInstanceId
-        if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
-          if ((res.data.testId && res.data.appInstanceId)) {
+        if (res.data.testId && res.data.appInstanceId) {
+          sessionStorage.setItem('csarId', res.data.appInstanceId)
+          this.projectDetailData.appInstanceId = res.data.appInstanceId
+          if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
             this.getReleaseConfigFirst()
           }
         }
@@ -1116,7 +1117,7 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      if (this.projectDetailData.appInstanceId) {
+      if (this.projectDetailData.appInstanceId || this.vmRelease) {
         this.getReleaseConfig(this.trafficAllData)
         this.isRelease = false
       } else {
@@ -1237,8 +1238,10 @@ export default {
           this.$message.warning(this.$t('workspace.deployDebugVm.releasePromt'))
           this.isRelease = true
         } else if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) !== '""')) {
+          sessionStorage.setItem('csarId', res.data.appInstanceId)
           this.getReleaseConfigFirst()
           this.isRelease = false
+          this.vmRelease = true
         }
       })
     }
