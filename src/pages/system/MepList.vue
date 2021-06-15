@@ -573,7 +573,7 @@ export default {
       sessionStorage.setItem('currentPage', 1)
       this.getListData()
     },
-    // 获取列表
+    // Fetch list data
     getListData () {
       this.loading = true
       const qs = { offset: this.offsetPage, limit: this.limitSize }
@@ -593,7 +593,7 @@ export default {
       this[`${key}_file_list`] = []
       this.form[key] = ''
     },
-    // 检查上传文件类型
+    // Check file type uploaded
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)

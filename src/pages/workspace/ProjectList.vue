@@ -213,7 +213,6 @@ export default {
     getCurrentPageData (val) {
       this.currentData = val
     },
-    // 获取项目列表
     getProjectListData () {
       Workspace.getProjectListApi(this.userId).then(res => {
         this.pageData = this.searchListData = res.data
@@ -237,11 +236,11 @@ export default {
         }, 2000)
       })
     },
-    // 获取项目图标
+    // Project icon
     getIcon (fileId) {
       return Workspace.getIconApi(fileId, this.userId)
     },
-    // 删除项目
+    // Delete project
     handleDelete (item) {
       this.$confirm(this.$t('devTools.deleteProject'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -263,7 +262,7 @@ export default {
         }
       })
     },
-    // 根据名称查询列表
+    // Search according to name
     selectProjectList () {
       sessionStorage.setItem('currentPage', 1)
       let selectListData = []

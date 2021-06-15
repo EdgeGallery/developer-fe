@@ -186,7 +186,7 @@ export default {
         this.$message.warning(this.$t('workspace.configYaml.uploadYamlFirst'))
       }
     },
-    // 选择Yaml文件
+    // Choose YAML file
     handleChangeYaml (file, fileList) {
       let yamlFileList = []
       yamlFileList.push(file.raw)
@@ -206,7 +206,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    // 移除Yaml文件
+    // Remove uploaded YAML file
     removeUploadyaml (file, fileList) {
       Workspace.deleteYamlFileApi(this.appYamlFileId).then(() => {
         this.submitData(null)
@@ -218,7 +218,7 @@ export default {
         this.markdownSource = ''
       })
     },
-    // 上传Yaml文件
+    // Submit YAML file
     submitYamlFile (yamlFileList) {
       this.uploadYamlLoading = true
       let fd = new FormData()
@@ -264,7 +264,7 @@ export default {
       })
     },
     submitData (appYamlFileId) {
-      // 获取以前提交过的配置
+      // Get test configuration
       Workspace.getTestConfigApi(this.projectId).then(res => {
         this.projectBeforeConfig = res.data || {}
         const params = {

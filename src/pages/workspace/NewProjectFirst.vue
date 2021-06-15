@@ -346,7 +346,7 @@ export default {
   },
 
   methods: {
-    // 退回到第一步时，保留上一次选择
+    // When returning to the first step. fetch first step data
     getFirstData () {
       if (this.allStepData.first) {
         this.form = this.allStepData.first
@@ -364,7 +364,7 @@ export default {
         this.chooseDefaultIcon(this.defaultIcon[0], 0)
       }
     },
-    // 获取项目图标
+    // Get project Icon
     getIcon (fileId) {
       return Workspace.getIconApi(fileId, this.userId)
     },
@@ -417,7 +417,7 @@ export default {
       }
       this.checkProjectData()
     },
-    // 上传图标
+    // Upload logo
     handleChangeLogo (file) {
       let listTemp = []
       this.form.base64Session = true
@@ -492,7 +492,7 @@ export default {
         type: mime
       })
     },
-    // 选择默认图标
+    // Select default icon
     chooseDefaultIcon (file, index) {
       this.logoFileList = []
       this.uploadIcon = false
@@ -511,15 +511,15 @@ export default {
       let image = new Image()
       image.src = file
       image.onload = () => {
-        // 将静态图片转化为base64
+        // Transfer static pic to base64 format
         let base64 = this.getBase64Image(image)
-        // base64转化为文件流
+        // Transfer base64 format to file steam
         this.defaultIconFile.push(this.base64toFile(base64))
         this.form.appIcon = this.defaultIconFile
         this.showErr = !this.defaultIconFile
       }
     },
-    // 将基本信息传值给父组件
+    // Pass the parameters to parent component
     emitStepData () {
       this.$emit('getStepData', { data: this.form, step: 'first' })
     },
@@ -527,7 +527,7 @@ export default {
       let language = localStorage.getItem('language')
       this.language = language
     },
-    // 行业、类型的选型中英文切换
+    // Translate to English
     checkProjectData () {
       Industry.forEach(itemFe => {
         let pos = this.form.industry.indexOf(itemFe.label[0])
@@ -541,7 +541,7 @@ export default {
         }
       })
     },
-    // 中英文切换修改左侧标题宽度
+    // Adjust width when language changes
     editWidth () {
       let selectWidth = document.getElementsByClassName('el-form-item__content')
       if (this.language === 'cn') {

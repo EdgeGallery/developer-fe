@@ -195,14 +195,14 @@ export default {
         this.markdownSource = res.data
       })
     },
-    // 获取插件列表
+    // Fetch plugin list
     getPluginListData () {
       Plugin.getPluginListApi(this.limitSize, this.offsetPage, this.inputPluginName, this.selectCodeLanguage).then(res => {
         this.pluginListData = res.data.results
         this.getListDetail()
       })
     },
-    // 获取插件详情
+    // Get plugin detail
     getListDetail () {
       this.detailContent = []
       this.pluginListData.forEach(item => {
@@ -213,11 +213,11 @@ export default {
         }
       })
     },
-    // 获取插件图标
+    // Get plugin icon
     getImageUrl (pluginId) {
       return Plugin.getImageUrlApi(pluginId)
     },
-    // 获取插件下载路径
+    // Get plugin dowload link
     getDownloadUrl (pluginId) {
       return Plugin.getDownloadUrlApi(pluginId)
     },
@@ -239,7 +239,7 @@ export default {
     rateChange (val) {
       this.valueRate = val
     },
-    // 给插件评分
+    // Rate plugin
     rateHandel (rateId) {
       Plugin.ratePluginApi(rateId, this.valueRate, this.userId, this.userName).then(res => {
         this.getPluginListData()

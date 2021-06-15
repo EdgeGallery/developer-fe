@@ -134,7 +134,7 @@ export default {
     }
   },
   methods: {
-    // 生成镜像
+    // Create image
     createVmImage () {
       vmService.createVmImageApi(this.projectId, this.userId).then(res => {
         this.interval = setInterval(() => {
@@ -145,7 +145,7 @@ export default {
         }
       })
     },
-    // 获取镜像
+    // Get image
     getCreateImageList () {
       this.imageList = []
       vmService.getCreateImageListApi(this.projectId, this.userId).then(res => {
@@ -161,7 +161,7 @@ export default {
         this.clearInterval()
       })
     },
-    // 删除镜像
+    // Delete image
     deleteVmImage () {
       this.$confirm(this.$t('devTools.deleteProject'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -181,7 +181,7 @@ export default {
         })
       })
     },
-    // 下载镜像
+    // Download image
     downloadVmImage (vmId) {
       return vmService.downloadVmImageApi(this.projectId, vmId, this.userId)
     },

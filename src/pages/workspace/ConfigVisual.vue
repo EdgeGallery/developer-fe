@@ -291,7 +291,7 @@
     <h3 class="tit_gray_bg">
       {{ $t('workspace.visualConfig.accessMethod') }}
     </h3>
-    <!-- 添加Service -->
+    <!-- Add Service -->
     <p class="addBtn_div">
       <el-button
         type="primary"

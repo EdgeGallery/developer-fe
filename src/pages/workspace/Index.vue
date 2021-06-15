@@ -116,7 +116,6 @@ export default {
           { 'Status': locale.t('workspace.projectStatusEnum.testing'), 'Number': 0 },
           { 'Status': locale.t('workspace.projectStatusEnum.tested'), 'Number': 0 },
           { 'Status': locale.t('workspace.projectStatusEnum.released'), 'Number': 0 }
-          // { 'Status': '测试完成', 'Number': 0 }
         ]
       },
       chartSettings: {
@@ -159,7 +158,7 @@ export default {
     next()
   },
   methods: {
-    // 新建项目
+    // Create a new project
     addNewProject (projectType) {
       if (this.userName === 'guest') {
         this.$message.error(this.$t('promptMessage.guestPrompt'))
@@ -176,11 +175,11 @@ export default {
         this.activeProjectprop = 3
       }
     },
-    // 关闭弹框
+    // Close diglog
     closeDialog (data) {
       this.$refs.projectList.getProjectListData()
     },
-    // 获取项目列表
+    // Get project list
     getProjectListData () {
       Workspace.getProjectListApi(this.userId).then(res => {
         let dataTotal = res.data

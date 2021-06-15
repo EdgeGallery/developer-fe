@@ -40,7 +40,7 @@ export default {
       float:right;
     }
 
-    /* 修改md文件显示区域滚动条 */
+    /* Edit md file scroll bar */
     .editormd-preview-container, .editormd-html-preview{
       margin:0;
       padding:0;
@@ -51,7 +51,7 @@ export default {
     .el-dialog--center .el-dialog__body{
       text-align: center;
     }
-    /* 颜色 */
+    /* Color */
     .success{
       color:#67C23A;
     }

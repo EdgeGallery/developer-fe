@@ -48,7 +48,7 @@ export default new Router({
           path: 'mecDeveloper/plugin/list',
           component: () => import('../pages/plugin/List.vue'),
           meta: {
-            keepAlive: true, // 此组件需要被缓存
+            keepAlive: true, // this component needs to be cached
             id: '3.1.1'
           }
         },

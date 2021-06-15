@@ -135,7 +135,6 @@ export default {
     this.getCapabilityGroups()
   },
   methods: {
-    // 退回到第二步时，保留上一次选择
     buildTree () {
       let oneLevelSet = new Set()
       this.handleOnelevelName(oneLevelSet)

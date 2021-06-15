@@ -146,7 +146,7 @@ export default {
     }
   },
   methods: {
-    // 获取Api-swaggerUI路径
+    // Feth Api-swaggerUI path
     getApiUrl () {
       console.log(this.apiFileId)
       let apiUrl = Api.getSwaggerUrlApi(this.apiFileId, this.userId)

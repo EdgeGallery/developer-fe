@@ -573,7 +573,7 @@ export default {
       sessionStorage.setItem('currentPage', 1)
       this.getListData()
     },
-    // 获取列表
+    // Fetch list data
     getListData () {
       this.loading = true
       System.getHosts({ name: this.enterQuery, offset: this.offsetPage, limit: this.limitSize }).then(res => {

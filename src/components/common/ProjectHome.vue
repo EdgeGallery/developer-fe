@@ -201,7 +201,7 @@ export default {
   mounted () {
     this.mouseEnter(this.screenWidth)
     this.setScreenHeight(this.screenHeight)
-    // 监听到窗口大小变化时，重新给screenHeight变量赋值
+    // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
       return (() => {
         this.screenHeight = document.body.clientHeight

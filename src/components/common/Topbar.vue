@@ -26,7 +26,7 @@
       active-text-color="#fff"
       mode="horizontal"
     >
-      <!-- 一级菜单 -->
+      <!-- First layer menu -->
       <template v-for="item in jsonData">
         <el-submenu
           v-if="item.children && item.children.length"
@@ -38,7 +38,7 @@
             <em :class="item.icon" /><span class="first-menu">{{ item.name }}</span>
           </template>
 
-          <!-- 二级菜单 -->
+          <!-- Second layer menu -->
           <template v-for="itemChild in item.children">
             <el-submenu
               v-if="itemChild.children && itemChild.children.length"
@@ -49,7 +49,7 @@
                 <em :class="itemChild.icon" /><span class="second-menu">{{ itemChild.name }}</span>
               </template>
 
-              <!-- 三级菜单 -->
+              <!-- Third layer menu -->
               <el-menu-item
                 v-for="itemChild_Child in itemChild.children"
                 :index="itemChild_Child.path"
@@ -131,7 +131,7 @@ export default {
     $route (to, from) {
       this.indexName = to.path
       this.fromPath = from.name
-      // 解决MECDeveloper下DevTools导航子菜单首次点击没有选中状态问题
+      //  Edge case of having not selected any status yet for the first time user
       if (this.indexName === '/mecDeveloper/plugin/list') {
         this.indexName = '/mecDeveloper/plugin/list'
       } else if (this.indexName === '/mecDeveloper/plugin/upload') {
