@@ -133,11 +133,17 @@ export default {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(deviceHeight) * 0.8 + 'px'
+        if (oDiv) {
+          oDiv.style.height = Number(deviceHeight) * 0.8 + 'px'
+        }
         const oDiv2 = document.getElementsByClassName('file_list')[0]
-        oDiv2.style.height = Number(deviceHeight) * 0.7 + 'px'
+        if (oDiv2) {
+          oDiv2.style.height = Number(deviceHeight) * 0.7 + 'px'
+        }
         const oDiv3 = document.getElementsByClassName('file_desc')[0]
-        oDiv3.style.height = Number(deviceHeight) * 0.7 + 'px'
+        if (oDiv3) {
+          oDiv3.style.height = Number(deviceHeight) * 0.7 + 'px'
+        }
       })
     }
   },
