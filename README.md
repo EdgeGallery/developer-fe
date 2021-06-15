@@ -1,32 +1,32 @@
-# developer-fe
+# 开发者-fe
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![Jenkins](https://img.shields.io/jenkins/build?jobUrl=http%3A%2F%2Fjenkins.edgegallery.org%2Fview%2FMEC-PLATFORM-BUILD%2Fjob%2Fdeveloper-frontend-docker-image-build-update-daily-master%2F)
+[![许可证](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![詹金斯](https://img.shields.io/jenkins/build?jobUrl=http%3A%2F%2Fjenkins.edgegallery.org%2Fview%2FMEC-PLATFORM-BUILD%2Fjob%2Fdeveloper-frontend-docker-image -build-update-daily-master%2F)
 
-## Project setup
-```
-npm install
-```
+##项目设置
+``
+安装
+``
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### 编译和热重载以进行开发
+``
+npm 运行服务
+``
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### 编译并缩小用于生产
+``
+npm 运行构建
+``
 
-### Run your tests
-```
-npm run test
-```
+### 运行你的测试
+``
+npm 运行测试
+``
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Lints 和修复文件
+``
+npm 运行 lint
+``
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+###自定义配置
+参见【配置参考】(https://cli.vuejs.org/config/)

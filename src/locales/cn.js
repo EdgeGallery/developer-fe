@@ -141,7 +141,12 @@ const cn = {
     telecomStandardCapabilitieTitle: '电信标准支持全景图',
     swithToAPI: '点击跳转到接口在线模拟器界面',
     onlineExperience: '在线体验',
-    onlineService: '在线体验服务暂未开通'
+    onlineService: '在线体验服务暂未开通',
+    mostPopular: '最受欢迎',
+    latestUpdate: '最新更新',
+    hot: '热度',
+    showMore: '显示更多',
+    partition: '所属分区'
   },
   nav: {
     home: '首页',
@@ -816,7 +821,7 @@ const cn = {
         published: '已发布'
       },
       uploadStatusText: {
-        success: '上传成功',
+        success: '正在合并',
         error: '上传失败',
         uploading: '正在上传',
         paused: '暂停',
@@ -845,13 +850,18 @@ const cn = {
         noFileSelected: '未选择上传的文件',
         confirmDeleteImage: '确认要删除该系统镜像吗？',
         confirmPublishImage: '确认要发布该系统镜像吗？',
+        confirmReUploadImage: '已经上传了该系统镜像，再次上传将覆盖原有镜像。是否继续？',
+        confirmDownloadImage: '系统镜像文件较大，下载耗时较长。是否继续下载该镜像？',
         systemNameExist: '已存在同名的系统镜像！',
         newImgFailed: '新建系统镜像失败！',
         modifyImgFailed: '修改系统镜像失败！',
         deleteImgFailed: '删除系统镜像失败！',
         publishImgFailed: '发布系统镜像失败！',
         queryImgFailed: '查询系统镜像失败！',
-        uploadingHint: '系统镜像正在上传，请等待！'
+        uploadingHint: '系统镜像正在上传，请等待！',
+        mergingHint: '系统镜像正在合并，请等待！',
+        uploadImgSucceed: '系统镜像上传处理成功！',
+        uploadImgFailed: '上传系统镜像失败！'
       }
     }
   },

@@ -84,6 +84,7 @@ export default {
   data () {
     return {
       isUploading: false,
+      isMerging: false,
       hasFileFlag: false,
       uploadPromt: '',
       sysImgFileTypeArr: ['zip'],
@@ -138,20 +139,36 @@ export default {
       this.hasFileFlag = true
     },
     onFileComplete () {
+      this.isUploading = false
+      this.isMerging = true
       const file = arguments[0].file
       let url = this.mergerUrl + file.name + '&identifier=' + arguments[0].uniqueIdentifier
-      axios.get(url).then(function (response) {
-        console.log(response)
-      }).catch(function (error) {
-        console.log(error)
+      axios.get(url).then(() => {
+        this.$message.success(this.$t('system.imageMgmt.tip.uploadImgSucceed'))
+        let _timer = setTimeout(() => {
+          clearTimeout(_timer)
+          this.doClose()
+        }, 1000)
+      }).catch(() => {
+        this.$message.error(this.$t('system.imageMgmt.tip.uploadImgFailed'))
+        let _timer = setTimeout(() => {
+          clearTimeout(_timer)
+          this.doClose()
+        }, 1000)
       })
-      this.isUploading = false
     },
     handleClose () {
       if (this.isUploading) {
         this.$message.warning(this.$t('system.imageMgmt.tip.uploadingHint'))
         return
       }
+      if (this.isMerging) {
+        this.$message.warning(this.$t('system.imageMgmt.tip.mergingHint'))
+        return
+      }
+      this.doClose()
+    },
+    doClose () {
       this.showDlg = false
       this.$emit('processCloseUploadImageDlg')
     }

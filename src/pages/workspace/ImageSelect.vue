@@ -39,7 +39,12 @@
       </span>
     </h3>
     <div class="upload-image">
-      <UploadBigFile />
+      <UploadBigFile
+        :upload-url-prop="uploadUrl"
+        :merge-url-prop="mergeUrl"
+        :btn-name-prop="btnName"
+        :params-name-prop="paramsName"
+      />
     </div>
   </div>
 </template>
@@ -61,6 +66,11 @@ export default {
       required: true
     }
   },
+  computed: {
+    btnName () {
+      return this.$t('workspace.uploadImage.uploadAppImage')
+    }
+  },
   data () {
     return {
       validate: false,
@@ -71,7 +81,10 @@ export default {
       enable: false,
       install_href: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/add_edgeNode_guide.md',
       isIpError: false,
-      isPortError: false
+      isPortError: false,
+      uploadUrl: 'mec/developer/v1/image/upload',
+      mergeUrl: 'mec/developer/v1/image/merge?fileName=',
+      paramsName: 'guid'
     }
   },
   methods: {

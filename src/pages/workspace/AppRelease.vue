@@ -605,7 +605,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="saveConfig"
-        :disabled="projectDetailData.status==='ONLINE'"
+        :disabled="isRelease"
       >
         <strong>{{ $t('workspace.saveData') }}</strong>
       </el-button>
@@ -613,7 +613,7 @@
         v-if="active===0"
         class="featuresBtn"
         @click="appDetaildialog=true"
-        :disabled="projectDetailData.status==='ONLINE'"
+        :disabled="isRelease"
       >
         {{ $t('workspace.appDetails') }}
       </el-button>
@@ -630,7 +630,7 @@
         type="primary"
         v-if="active<2"
         @click="next"
-        :disabled="projectDetailData.status==='ONLINE'"
+        :disabled="isRelease"
       >
         <strong>{{ $t('workspace.nextStep') }}</strong>
       </el-button>
@@ -755,14 +755,16 @@ export default {
       isCleanEnvDialog: false,
       publishLoading: false,
       imageStatus: 'NOTDEPLOY',
-      deployPlatform: this.deployPlatformProp
+      deployPlatform: this.deployPlatformProp,
+      isRelease: true,
+      vmRelease: false
     }
   },
   methods: {
     handleClose () {
       this.isCleanEnvDialog = false
     },
-    // Release resource
+    // Release resources
     cleanTestEnvRelease () {
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$message({
@@ -812,8 +814,11 @@ export default {
         arr = Array.from(new Set(arr))
         this.dependentNum = arr.length
         this.projectDetailData.dependent = arr.join('，')
-        if (this.imageStatus === 'ONLINE') {
+        if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
+          this.isRelease = true
           this.$message.warning(this.$t('promptMessage.notDeploy'))
+        } else {
+          this.isRelease = false
         }
         if ((data.deployPlatform === 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
           this.getReleaseConfigFirst()
@@ -823,10 +828,10 @@ export default {
     getTestConfig () {
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getTestConfigApi(projectId).then(res => {
-        sessionStorage.setItem('csarId', res.data.appInstanceId)
-        this.projectDetailData.appInstanceId = res.data.appInstanceId
-        if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
-          if ((res.data.testId && res.data.appInstanceId)) {
+        if (res.data.testId && res.data.appInstanceId) {
+          sessionStorage.setItem('csarId', res.data.appInstanceId)
+          this.projectDetailData.appInstanceId = res.data.appInstanceId
+          if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
             this.getReleaseConfigFirst()
           }
         }
@@ -836,7 +841,7 @@ export default {
         }
       })
     },
-    // Echo APP documents
+    // Echo the APP description document
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
@@ -845,7 +850,7 @@ export default {
         }
       })
     },
-    // Click on rules save button manually
+    // Manually click the Save Rules button
     getReleaseConfig (params) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -864,7 +869,7 @@ export default {
         })
       })
     },
-    // Default save/edit configuration rules
+    // Save/modify configuration rules by default
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
@@ -902,7 +907,7 @@ export default {
       clearTimeout(this.interval)
       this.interval = null
     },
-    // Check type of file uploaded
+    // Check upload file type
     checkFileType (fileList, fileTypeArr, uploadFileList) {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
@@ -917,7 +922,7 @@ export default {
         this.$message.warning(this.$t('promptMessage.onlyOneFile'))
       }
     },
-    // Upload app description file
+    // Upload application description file
     changeAppStoreMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
         this.$message.warning(this.$t('promptMessage.fileNameType'))
@@ -949,7 +954,7 @@ export default {
     removeAppStoreMd (file, fileList) {
       this.appMdList = fileList
     },
-    // Get rules list
+    // Get the list of rules
     getAllListData () {
       if (sessionStorage.getItem('dnsData')) {
         this.dnsListData = JSON.parse(sessionStorage.getItem('dnsData'))
@@ -967,7 +972,7 @@ export default {
         this.trafficListData = []
       }
     },
-    // Open dialog to add rules
+    // Open the add rule popup
     openDialog (name) {
       this.isAddRuleData = true
       if (name === 'dnsRule') {
@@ -1006,7 +1011,7 @@ export default {
         }
       }
     },
-    // Get DNS rules list
+    // Add rule list
     getAddDnsData (data) {
       if (this.isAddRuleData) {
         this.dnsListData.push(data)
@@ -1040,7 +1045,7 @@ export default {
       this.getReleaseConfigList()
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
-    // edit traffic rules
+    // Edit rule list
     editTrafficRule (index, row) {
       this.isAddRuleData = false
       this.editIndex = index
@@ -1059,7 +1064,7 @@ export default {
       this.appPublishDialog = true
       this.editRuleData = row
     },
-    // delete rules
+    // Delete rule list
     deleteRuleData (index) {
       this.dnsListData.splice(index, 1)
       sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
@@ -1075,7 +1080,7 @@ export default {
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$message.success(this.$t('devTools.deleteSucc'))
     },
-    // Check data rules
+    // View traffic rules
     checkFilter (row) {
       this.filterShow = true
       this.filterData = row.trafficFilter
@@ -1086,7 +1091,7 @@ export default {
       arr = str.split(',')
       return arr
     },
-    // Save traffic rule configuration data
+    // Save configured rule data
     saveConfig () {
       let trafficDataTemp = JSON.parse(JSON.stringify(this.trafficListData))
       trafficDataTemp.forEach(item => {
@@ -1112,13 +1117,15 @@ export default {
       this.trafficAllData.capabilitiesDetail.appDNSRule = this.dnsListData
       this.trafficAllData.capabilitiesDetail.serviceDetails = appPublishConfigTemp
       this.trafficAllData.appInstanceId = sessionStorage.getItem('csarId')
-      if (this.projectDetailData.appInstanceId) {
+      if (this.projectDetailData.appInstanceId || this.vmRelease) {
         this.getReleaseConfig(this.trafficAllData)
+        this.isRelease = false
       } else {
         this.$message.warning(this.$t('promptMessage.notDeploy'))
+        this.isRelease = true
       }
     },
-    // Integrate ATP test page
+    // Integrated application test page
     getAtpTest () {
       this.showAtp = false
       this.iframeUrl = ''
@@ -1128,8 +1135,8 @@ export default {
         }
       })
     },
-    // Reload ATP test page
-    rebuildComponents () {
+    // Reload the integrated ATP test page
+    rebuileComponents () {
       this.isRouterAlive = false
       this.$nextTick(() => {
         this.isRouterAlive = true
@@ -1139,8 +1146,13 @@ export default {
     getAtpData () {
       Workspace.getReleaseApi(this.projectId).then(response => {
         this.taskId = response.data.atpTest.id
+        let testStatus = response.data.atpTest.status
         if (this.taskId) {
-          this.iframeUrl = this.atpUrl + '/#/selectscene?taskid=' + this.taskId + '&language=' + this.language
+          if (testStatus === '') {
+            this.iframeUrl = this.atpUrl + '/#/selectscene?taskId=' + this.taskId + '&language=' + this.language
+          } else {
+            this.iframeUrl = this.atpUrl + '/#/atpprocess?taskId=' + this.taskId + '&language=' + this.language
+          }
           this.showAtp = true
           this.iframeLoading = false
         }
@@ -1151,7 +1163,7 @@ export default {
         }, 2000)
       })
     },
-    // Get ATP test list
+    // Get the list of integration tests
     getAtpList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.appTestData = []
@@ -1197,7 +1209,7 @@ export default {
         this.publishLoading = false
       })
     },
-    // Close dialog
+    // Close the bullet box
     closeDialog (data) {
       this.trafficDialog = data
       this.dnsDialog = data
@@ -1224,6 +1236,12 @@ export default {
       vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
         if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) === '""')) {
           this.$message.warning(this.$t('workspace.deployDebugVm.releasePromt'))
+          this.isRelease = true
+        } else if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) !== '""')) {
+          sessionStorage.setItem('csarId', res.data.appInstanceId)
+          this.getReleaseConfigFirst()
+          this.isRelease = false
+          this.vmRelease = true
         }
       })
     }

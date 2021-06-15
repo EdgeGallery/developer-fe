@@ -24,7 +24,7 @@
     >
       <uploader-unsupport />
       <uploader-drop>
-        <uploader-btn>{{ $t('workspace.uploadImage.uploadAppImage') }}</uploader-btn>
+        <uploader-btn>{{ btnNameProp }}</uploader-btn>
         <el-tooltip
           effect="dark"
           :content="this.$t('promptMessage.imageFileType')"
@@ -43,6 +43,28 @@ import { urlPrefix, getCookie } from '../../tools/tool.js'
 import axios from 'axios'
 export default {
   name: '',
+  props: {
+    uploadUrlProp: {
+      require: true,
+      type: String,
+      default: ''
+    },
+    mergeUrlProp: {
+      require: true,
+      type: String,
+      default: ''
+    },
+    btnNameProp: {
+      require: true,
+      type: String,
+      default: ''
+    },
+    paramsNameProp: {
+      require: true,
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       mergerUrl: '',
@@ -69,7 +91,7 @@ export default {
     fileComplete () {
       console.log('file complete', arguments)
       const file = arguments[0].file
-      let url = this.mergerUrl + file.name + '&guid=' + arguments[0].uniqueIdentifier
+      let url = this.mergerUrl + file.name + '&' + this.paramsNameProp + '=' + arguments[0].uniqueIdentifier
       axios.get(url).then(function (response) {
         console.log(response)
       }).catch(function (error) {
@@ -80,50 +102,58 @@ export default {
   created () {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
-    this.options.target = url + urlPrefix + 'mec/developer/v1/image/upload'
-    this.mergerUrl = url + urlPrefix + 'mec/developer/v1/image/merge?fileName='
+    this.options.target = url + urlPrefix + this.uploadUrlProp
+    this.mergerUrl = url + urlPrefix + this.mergeUrlProp
   }
 }
 </script>
 
 <style lang="less">
-.uploader-example {
-  font-size: 12px;
-  .uploader-drop{
-    border: none;
-    background: none;
-    padding: 0;
-    margin-bottom: 10px;
-    .uploader-btn{
-      border: 1px solid #c3d2fa;
-      background:#f0f4fe;
-      color: #688ef3;
-      padding: 8px 24px;
-      border-radius: 3px;
-    }
-    .uploader-btn:hover{
-      background:#688ef3;
-      color: #fff;
-    }
-  }
-}
-.uploader-example .uploader-list {
-  width: 100%;
-  min-width: 270px;
-  max-height: 440px;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  .uploader-file-name{
-    width: 35%;
-  }
-  .uploader-file-status{
-    width: 34%;
-    span{
-      em{
-        margin: 0 15px;
+.uploader_container{
+  .uploader-example {
+    font-size: 12px;
+    .uploader-drop{
+      border: none;
+      background: none;
+      padding: 0;
+      margin-bottom: 10px;
+      .uploader-btn{
+        border: 1px solid #c3d2fa;
+        background:#f0f4fe;
+        color: #688ef3;
+        padding: 8px 24px;
+        border-radius: 3px;
+      }
+      .uploader-btn:hover{
+        background:#688ef3;
+        color: #fff;
       }
     }
   }
+  .uploader-example .uploader-list {
+    width: 100%;
+    min-width: 270px;
+    max-height: 440px;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .uploader-file-name{
+      width: 35%;
+    }
+    .uploader-file-status{
+      width: 34%;
+      span{
+        em{
+          margin: 0 15px;
+        }
+      }
+    }
+  }
+  .el-icon-question:before{
+    color: #688ef3;
+    font-size: 16px;
+    margin-left: 5px;
+  }
 }
+
 </style>

@@ -77,7 +77,7 @@ export default {
         label: 'name'
       },
       appPageListData: [],
-      fileName: '',
+      fileType: '',
       fileContent: '',
       projectId: sessionStorage.getItem('mecDetailID'),
       csarId: sessionStorage.getItem('csarId'),
@@ -90,39 +90,41 @@ export default {
     },
     getAppPackageList () {
       Workspace.getAppPackageListApi(this.projectId, this.csarId).then(res => {
-        this.appPageListData = res.data.children
-        let APPD = {}
-        this.appPageListData.forEach((item, index) => {
-          if (item.name === 'APPD') {
-            APPD = item
-            this.appPageListData.splice(index, 1)
-          }
-        })
-        this.appPageListData.unshift(APPD)
-        if (this.appPageListData.length > 0) {
-          this.$nextTick(function () {
-            const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
-            firstNode.click()
+        if (res.data.children) {
+          this.appPageListData = res.data.children
+          let APPD = {}
+          this.appPageListData.forEach((item, index) => {
+            if (item.name === 'APPD') {
+              APPD = item
+              this.appPageListData.splice(index, 1)
+            }
           })
+          this.appPageListData.unshift(APPD)
+          if (this.appPageListData.length > 0) {
+            this.$nextTick(function () {
+              const firstNode = document.querySelector('.appDetail .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+              firstNode.click()
+            })
+          }
         }
       })
     },
     getFileDetail (val) {
-      this.fileName = val.name
+      let temp = val.name
+      this.fileType = temp.substr(temp.lastIndexOf('.'))
       if (!val.children) {
         Workspace.getAppFileApi(this.projectId, val.name).then(res => {
-          if (val.name.indexOf('.md') >= 0) {
+          let typeArr = ['.zip', '.tgz']
+          if (this.fileType === '.md') {
             this.markdownSource = res.data
-          } else if (val.name.indexOf('.tgz') >= 0) {
+          } else if (typeArr.includes(this.fileType)) {
             this.markdownSource = this.$t('promptMessage.fileNotSupport')
-          } else if (val.name.indexOf('.json') >= 0) {
+          } else if (this.fileType === '.json') {
             this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+          } else if (JSON.stringify(res.data) === '""') {
+            this.markdownSource = this.$t('promptMessage.fileIsEmpty')
           } else {
             this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
-          }
-        }).catch(err => {
-          if (err.response.data.message === 'file is null!') {
-            this.markdownSource = this.$t('promptMessage.fileIsEmpty')
           }
         })
       }
@@ -131,11 +133,17 @@ export default {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(deviceHeight) * 0.8 + 'px'
+        if (oDiv) {
+          oDiv.style.height = Number(deviceHeight) * 0.8 + 'px'
+        }
         const oDiv2 = document.getElementsByClassName('file_list')[0]
-        oDiv2.style.height = Number(deviceHeight) * 0.7 + 'px'
+        if (oDiv2) {
+          oDiv2.style.height = Number(deviceHeight) * 0.7 + 'px'
+        }
         const oDiv3 = document.getElementsByClassName('file_desc')[0]
-        oDiv3.style.height = Number(deviceHeight) * 0.7 + 'px'
+        if (oDiv3) {
+          oDiv3.style.height = Number(deviceHeight) * 0.7 + 'px'
+        }
       })
     }
   },

@@ -417,6 +417,9 @@ let imageMgmtService = {
   },
   publishImage: function (systemId, userId) {
     return Put('mec/developer/v1/system/images/' + systemId + '/publish?userId=' + userId)
+  },
+  downloadSystemImageUrl: function (systemId, userId) {
+    return urlPrefix + 'mec/developer/v1/system/images/' + systemId + '/download?userId=' + userId
   }
 }
 

@@ -24,46 +24,17 @@
       :before-close="handleClose"
     >
       <div class="uploadAppBody">
-        <el-upload
-          id="elupload_vmapp"
-          class="upload-app"
-          action=""
-          :limit="2"
-          :on-change="handleChangeFile"
-          :on-exceed="handleExceed"
-          :file-list="appFileList"
-          :auto-upload="false"
-          :on-remove="removeUpload"
-          accept=".zip,.rar,.tar"
-          name="appFile"
-        >
-          <el-button
-            slot="trigger"
-            size="small"
-            type="primary"
-          >
-            {{ $t('workspace.deployDebugVm.selectFile') }}
-          </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
-          >
-            <em class="el-icon-warning" />{{ $t('workspace.deployDebugVm.uploadAppFileTip') }}
-          </div>
-        </el-upload>
+        <UploadBigFile
+          :upload-url-prop="uploadUrl"
+          :merge-url-prop="mergeUrl"
+          :btn-name-prop="btnName"
+          :params-name-prop="paramsName"
+        />
         <p class="prompt">
           {{ $t('workspace.deployDebugVm.uploadPromt') }}
         </p>
       </div>
       <div class="elButton">
-        <el-button
-          id="confirmBtn"
-          type="primary"
-          :loading="uploadBtnLoading"
-          @click="handleUpload"
-        >
-          <strong>{{ $t('workspace.deployDebugVm.upload') }}</strong>
-        </el-button>
         <el-button
           id="closeBtn"
           @click="handleClose"
@@ -76,10 +47,13 @@
 </template>
 
 <script>
-import { vmService } from '../../../tools/api.js'
+import UploadBigFile from '../../../components/common/UploadBigFile.vue'
 
 export default {
   name: 'UploadApp',
+  components: {
+    UploadBigFile
+  },
   props: {
     value: {
       type: Boolean,
@@ -94,82 +68,23 @@ export default {
       type: String
     }
   },
+  computed: {
+    btnName () {
+      return this.$t('workspace.deployDebugVm.selectFile')
+    }
+  },
   data () {
     return {
-      userId: sessionStorage.getItem('userId'),
       dialogVisible: this.value,
-      appFileList: [],
-      uploadBtnLoading: false
+      uploadBtnLoading: false,
+      uploadUrl: 'mec/developer/v1/projects/' + this.projectId + '/vm/' + this.vmId + '/files?userId=' + sessionStorage.getItem('userId'),
+      mergeUrl: 'mec/developer/v1/projects/' + this.projectId + '/vm/' + this.vmId + '/merge?userId=' + sessionStorage.getItem('userId') + '&fileName=',
+      paramsName: 'identifier'
     }
   },
   methods: {
     handleClose () {
       this.$emit('input', false)
-    },
-    handleChangeFile (file, fileList) {
-      if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
-        this.appFileList = []
-      } else {
-        this.appFileList.push(file.raw)
-      }
-      if (file.size / 1024 / 1024 > 500) {
-        this.$message.warning(this.$t('promptMessage.moreThan500M'))
-        this.appFileList = []
-      }
-      let fileTypeArr = ['zip', 'rar', 'tar']
-      let checkPassed = this.checkFileType(fileList, fileTypeArr)
-      if (!checkPassed) {
-        this.appFileList = []
-      }
-    },
-    handleExceed (file, fileList) {
-      if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
-      }
-    },
-    removeUpload (file, fileList) {
-      this.appFileList = fileList
-    },
-    checkFileType (fileList, fileTypeArr) {
-      let checkPassed = true
-      let fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
-      if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
-        checkPassed = false
-      }
-      return checkPassed
-    },
-    handleUpload () {
-      this.uploadBtnLoading = true
-      if (!this.appFileList.length) {
-        this.$message({
-          type: 'warning',
-          message: this.$t('workspace.deployDebugVm.appPackageFileEmpty')
-        })
-        this.uploadBtnLoading = false
-        return
-      }
-
-      this.doUpload()
-    },
-    doUpload () {
-      let formdata = new FormData()
-      formdata.append('file', this.appFileList[0])
-      vmService.uploadFile(this.projectId, this.vmId, this.userId, formdata).then(res => {
-        this.$message({
-          message: this.$t('promptMessage.uploadSuccess'),
-          type: 'success'
-        })
-        this.$emit('input', false)
-      }).catch(err => {
-        if (err.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
-        } else {
-          this.$message.error(this.$t('promptMessage.uploadFailure'))
-        }
-        this.uploadBtnLoading = false
-      })
     }
   }
 }
@@ -178,28 +93,6 @@ export default {
 <style lang='less'>
 .uploadAppBody{
   padding: 20px 30px 20px 30px;
-  .el-upload{
-    margin-right: 10px;
-    .el-button--primary{
-      background-color: #fff;
-      border-color: #688ef3;
-      color: #282B33;
-      padding: 8px 16px;
-      margin-top: 2px;
-    }
-  }
-  .el-icon-warning{
-    color: #688ef3;
-    margin-right: 15px;
-    font-size: 14px;
-  }
-  .el-upload-list__item:first-child{
-    width: 100%;
-  }
-  .upload-app .el-upload__tip{
-    margin-left: -10px;
-    margin-top: 5px;
-  }
   .prompt{
     margin-top: 10px;
     font-size: 12px;

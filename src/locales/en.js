@@ -141,7 +141,12 @@ const en = {
     telecomStandardCapabilitieTitle: 'Telecom Standard Capability Landscape',
     swithToAPI: 'Click this button to go to the API simulator page',
     onlineExperience: 'Online Experience',
-    onlineService: 'The online experience service is not enabled'
+    onlineService: 'The online experience service is not enabled',
+    mostPopular: 'Most Popular',
+    latestUpdate: 'Latest Update',
+    hot: 'Hot',
+    showMore: 'More',
+    partition: 'Owning Partition'
   },
   nav: {
     home: 'Home',
@@ -816,7 +821,7 @@ const en = {
         published: 'Published'
       },
       uploadStatusText: {
-        success: 'Upload succeeded',
+        success: 'Merging file',
         error: 'Upload failed',
         uploading: 'Uploading',
         paused: 'Paused',
@@ -845,13 +850,18 @@ const en = {
         noFileSelected: 'No file selected',
         confirmDeleteImage: 'Are you sure to delete this system image?',
         confirmPublishImage: 'Are you sure to publish this system image?',
+        confirmReUploadImage: 'The system image has been uploaded, and the original image will be overwritten if it is uploaded again. Continue?',
+        confirmDownloadImage: 'The system image is large, it will takes a long time to download. Do you want to continue downloading the image?',
         systemNameExist: 'A system image with the same name is already exists!',
         newImgFailed: 'New system image failed!',
         modifyImgFailed: 'Modify system image failed!',
         deleteImgFailed: 'Delete system image failed!',
         publishImgFailed: 'Publish system image failed!',
         queryImgFailed: 'Query system image failed!',
-        uploadingHint: 'The system image is uploading, please wait!'
+        uploadingHint: 'The system image is uploading, please wait!',
+        mergingHint: 'The system image is merging, please wait!',
+        uploadImgSucceed: 'The system image upload succeed!',
+        uploadImgFailed: 'Upload system image failed!'
       }
     }
   },
