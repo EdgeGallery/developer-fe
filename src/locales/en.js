@@ -338,7 +338,9 @@ const en = {
       releasePromt: 'The application has no resource configuration and cannot be published',
       flavorExtraSpecs: 'Flavor Extra Specs',
       useScript: 'Whether to use injection script',
-      resourceConfig: 'Resource Allocation'
+      resourceConfig: 'Resource Allocation',
+      deploySelect: 'Optional deployment and commissioning',
+      deployTips: 'Through deployment and commissioning, you can apply for the virtual machine environment to import the app test package and test it, and you can directly publish the vm package without the deployment and commissioning.'
     },
     visualConfig: {
       podBasicInfo: 'Pod Basic Information',
