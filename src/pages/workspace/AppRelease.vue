@@ -1148,10 +1148,10 @@ export default {
         this.taskId = response.data.atpTest.id
         let testStatus = response.data.atpTest.status
         if (this.taskId) {
-          if (testStatus === '') {
-            this.iframeUrl = this.atpUrl + '/#/selectscene?taskId=' + this.taskId + '&language=' + this.language
-          } else {
+          if (testStatus === 'success' || testStatus === 'failed' || testStatus === 'running') {
             this.iframeUrl = this.atpUrl + '/#/atpprocess?taskId=' + this.taskId + '&language=' + this.language
+          } else {
+            this.iframeUrl = this.atpUrl + '/#/selectscene?taskId=' + this.taskId + '&language=' + this.language
           }
           this.showAtp = true
           this.iframeLoading = false
