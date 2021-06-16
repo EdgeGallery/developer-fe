@@ -338,7 +338,9 @@ const cn = {
       releasePromt: '应用没有资源配置，不能进行发布操作',
       flavorExtraSpecs: '主机主配置',
       useScript: '是否使用注入脚本',
-      resourceConfig: '资源配置'
+      resourceConfig: '资源配置',
+      deploySelect: '部署调测可选',
+      deployTips: '通过部署调测可申请虚拟机环境导入app测试包并测试，不通过部署调测也可直接发布vm包'
     },
     visualConfig: {
       podBasicInfo: 'Pod基本信息',

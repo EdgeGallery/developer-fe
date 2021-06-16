@@ -20,7 +20,7 @@
     class="deploydebug_vm"
   >
     <el-card
-      class="box-card"
+      class="box-card result"
       v-loading="vmDataLoading"
     >
       <div
@@ -35,7 +35,12 @@
           </tr>
           <tr>
             <td>
-              <span class="resCardTitle">{{ $t('workspace.deployDebugVm.deployResultList') }}</span>
+              <p class="p_tit">
+                {{ $t('workspace.deployDebugVm.deploySelect') }}
+              </p>
+              <p class="p_info">
+                {{ $t('workspace.deployDebugVm.deployTips') }}
+              </p>
             </td>
           </tr>
         </table>
@@ -269,6 +274,14 @@ export default {
 
 <style lang='less'>
 .deploydebug_vm {
+  .box-card.result{
+    p{
+      line-height: 24px;
+    }
+    .p_info{
+      color: #919090;
+    }
+  }
   .resCardTitle{
     display:block;
     white-space:nowrap;
