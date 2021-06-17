@@ -60,11 +60,6 @@ const mecDeveloper = [
     display: true
   },
   {
-    id: '3.14',
-    name: 'Community',
-    display: true
-  },
-  {
     id: '3.15',
     name: 'Workspace',
     path: '/mecDeveloper/work',
