@@ -370,11 +370,10 @@ export default {
         float: right;
         font-size: 14px;
         color: #fff;
-        padding: 0 10px;
-        border: 1px solid #380879;
+        padding: 1px 10px;
         border-radius: 15px;
         position: relative;
-        top: -1px;
+        top: -2px;
         opacity: 0;
         transition: all 0.3s ease-in-out;
         background: #5844be;
@@ -411,6 +410,9 @@ export default {
         white-space: normal;
         transition: all 0.6s ease-in-out;
       }
+    }
+    .service_info.service_hover{
+      padding: 20px;
     }
   }
   .service_list:hover{

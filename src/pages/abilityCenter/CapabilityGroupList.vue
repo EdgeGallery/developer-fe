@@ -72,11 +72,6 @@ export default {
       require: true,
       type: Boolean,
       default: true
-    },
-    listBottom: {
-      require: true,
-      type: Boolean,
-      default: false
     }
   },
   data () {
@@ -84,7 +79,8 @@ export default {
       activeIndex: 0,
       selectIndex: 0,
       capabilityServiceList: [],
-      clickGroupListNum: 0
+      clickGroupListNum: 0,
+      listBottom: false
     }
   },
   methods: {
@@ -99,24 +95,26 @@ export default {
       oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
     },
     selectGroupList (item, index) {
-      this.clickGroupListNum++
-      this.$emit('getPageScroll', this.clickGroupListNum)
-      this.listBottom = false
-      sessionStorage.setItem('capaSelectListIndex', index)
-      this.selectIndex = index
-      this.groupListLeave(this.selectIndex)
-      this.capabilityServiceList = []
-      if (index === 0) {
-        this.capabilityServiceList = this.capabilityAllService
-      } else {
-        this.capabilityAllService.forEach(itemService => {
-          if (item.name === itemService.oneLevelName) {
-            this.capabilityServiceList.push(itemService)
-          }
-        })
+      if (this.selectIndex !== index) {
+        this.clickGroupListNum++
+        this.$emit('getPageScroll', this.clickGroupListNum, this.listBottom)
+        this.listBottom = false
+        sessionStorage.setItem('capaSelectListIndex', index)
+        this.selectIndex = index
+        this.groupListLeave(this.selectIndex)
+        this.capabilityServiceList = []
+        if (index === 0) {
+          this.capabilityServiceList = this.capabilityAllService
+        } else {
+          this.capabilityAllService.forEach(itemService => {
+            if (item.name === itemService.oneLevelName) {
+              this.capabilityServiceList.push(itemService)
+            }
+          })
+        }
+        this.$emit('getCapaServiceList', this.capabilityServiceList)
+        this.$parent.filterSefvice('hot')
       }
-      this.$emit('getCapaServiceList', this.capabilityServiceList)
-      this.$parent.filterSefvice('hot')
     }
   }
 }

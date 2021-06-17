@@ -30,7 +30,7 @@
         </div>
       </div>
       <div
-        class="capa_tit_div padding_default"
+        class="title_bg padding_default"
         id="capa_tit_div"
       >
         <div class="title_top title_left clear">
@@ -91,7 +91,6 @@
             :capability-groups-list="capabilityGroupsList"
             :language="language"
             :is-refrsh-page="isRefrshPage"
-            :list-bottom="listBottom"
             :capability-all-service="capabilityAllService"
             @getCapaServiceList="getCapaServiceList"
             ref="groupList"
@@ -310,25 +309,25 @@ export default {
                 obj.counts = objTemp[key]
               }
             }
-            if (oneLevelNameCn[i] === 'Platform services') {
+            if (oneLevelNameEn[i] === 'Platform services') {
               obj.icon = this.capabilityIconList[1].icon
               obj.iconSelect = this.capabilityIconList[1].iconSelect
-            } else if (oneLevelNameCn[i] === 'Telecom network') {
+            } else if (oneLevelNameEn[i] === 'Telecom network') {
               obj.icon = this.capabilityIconList[2].icon
               obj.iconSelect = this.capabilityIconList[2].iconSelect
-            } else if (oneLevelNameCn[i] === 'Ascend AI') {
+            } else if (oneLevelNameEn[i] === 'Ascend AI') {
               obj.icon = this.capabilityIconList[3].icon
               obj.iconSelect = this.capabilityIconList[3].iconSelect
-            } else if (oneLevelNameCn[i] === 'AI capabilities') {
+            } else if (oneLevelNameEn[i] === 'AI capabilities') {
               obj.icon = this.capabilityIconList[4].icon
               obj.iconSelect = this.capabilityIconList[4].iconSelect
-            } else if (oneLevelNameCn[i] === 'Video processing') {
+            } else if (oneLevelNameEn[i] === 'Video processing') {
               obj.icon = this.capabilityIconList[5].icon
               obj.iconSelect = this.capabilityIconList[5].iconSelect
-            } else if (oneLevelNameCn[i] === 'DateBase') {
+            } else if (oneLevelNameEn[i] === 'DateBase') {
               obj.icon = this.capabilityIconList[6].icon
               obj.iconSelect = this.capabilityIconList[6].iconSelect
-            } else if (oneLevelNameCn[i] === 'Public framework') {
+            } else if (oneLevelNameEn[i] === 'Public framework') {
               obj.icon = this.capabilityIconList[7].icon
               obj.iconSelect = this.capabilityIconList[7].iconSelect
             } else {
@@ -384,7 +383,7 @@ export default {
       let rightTop = this.$refs.rightService.getBoundingClientRect().top
       const elOffsetTop = document.getElementById('panorama').offsetTop
       const docScrollTop = document.documentElement.scrollTop
-      let scrollBottom = elOffsetTop >= docScrollTop && elOffsetTop < (docScrollTop + window.innerHeight)
+      let scrollBottom = (elOffsetTop >= docScrollTop) && elOffsetTop < (docScrollTop + window.innerHeight)
       if (rightTop > 194 || treeTop < 120) {
         this.scrollTop = false
       } else {
@@ -415,8 +414,9 @@ export default {
       (s > 9 ? s : ('0' + s))
       }
     },
-    getPageScroll (data) {
-      if (this.isRefrshPage && data < 1) {
+    getPageScroll (clickGroupListNum, listBottom) {
+      this.listBottom = listBottom
+      if (this.isRefrshPage && clickGroupListNum < 2) {
         document.getElementById('app').scrollIntoView()
       } else {
         document.getElementById('capa_tit_div').scrollIntoView()
@@ -439,10 +439,11 @@ export default {
   beforeRouteEnter (to, from, next) {
     // vm is an instance of vue, instead of this
     next(vm => {
-      if (from.path === '/') {
-        vm.isRefrshPage = true
-      } else {
+      let fromHome = sessionStorage.getItem('fromHome')
+      if (fromHome === 'home') {
         vm.isRefrshPage = false
+      } else {
+        vm.isRefrshPage = true
       }
       let isFromDoc = from.path.indexOf('mecDeveloper/api/mep/serviceDoc')
       let isFromApi = from.path.indexOf('mecDeveloper/api/mep/apiAmulator')
@@ -510,10 +511,6 @@ export default {
         }
       }
     }
-  }
-  .capa_tit_div{
-    background: url(/img/home_left_bg.03ff33ec.png) left 85px no-repeat;
-    padding-bottom: 107px;
   }
   .capa_list_div{
     position: relative;
@@ -610,14 +607,14 @@ export default {
         text-align: center;
         margin: 30px 0 50px;
         .el-button{
-          background: transparent;
+          background: #7a6e8a;
           border: 1px solid #7a6e8a;
           border-radius: 10px;
-          font-size: 26px;
-          color: #7a6e8a;
+          font-size: 20px;
+          color: #fff;
           padding: 8px 30px;
-          height: 60px;
-          line-height: 44px;
+          height: 46px;
+          line-height: 26px;
         }
         .el-button:hover{
           background: #fff;
