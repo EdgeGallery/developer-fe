@@ -214,6 +214,11 @@ body::-webkit-scrollbar-thumb{
 }
 .title_top{
   padding-top: 150px !important;
+  position: relative;
+}
+.title_bg{
+  background: url('../images/home_left_bg.png') left 85px no-repeat;
+  padding-bottom: 107px;
 }
 @media screen and (max-width:1380px){
   .padding_default{
@@ -270,4 +275,11 @@ body .el-table th.gutter{
 }
 .v-note-wrapper{
   z-index: 1 !important;
+}
+.tableStyle.el-table th{
+  background: #ebe6f1;
+  font-size: 18px;
+  color: #62517a;
+  font-weight: normal;
+  height: 60px;
 }
