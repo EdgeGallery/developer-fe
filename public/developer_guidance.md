@@ -1,3 +1,22 @@
+### How to wirte a proper deployment yaml
+
+1.When deploying and commissioning containerized applications,you can download and use the sample yaml provided by the developer platform.
+
+2.Note that the developer platform does not provided verification of images on other kind type(except pod and deployment).
+
+3.If the kind type is another type, upload the image to edgegallery image repository in advance to prevent subsequent deployment and commissioning failures. 
+
+4.If the kind type is another type, the recommand image format is '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/xxx:xxx'.
+
+5.If the kind type is another type, the namespace format is '{{ .Values.appconfig.appnamespace }}'.
+
+6.If the kind type is another type, configure namespace as much as possible.
+  
+7.Ensure that other parameters, such as the port exposed by the service or container and the enviroment variables set in the container,are correctly configured.
+
+8.If possible,modify and use the downloaded yaml sample.
+
+
 ### How to develop an example application
 
 1.Consumer application can easily integrate with MEP/MEP-AGENT to obtain producer application services

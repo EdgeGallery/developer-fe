@@ -133,6 +133,14 @@ export default new Router({
           }
         },
         {
+          path: '/mecDeveloper/projectType',
+          name: 'selectProjectType',
+          component: () => import('../pages/workspace/SelectProjectType.vue'),
+          meta: {
+            id: '3.5.1'
+          }
+        },
+        {
           path: '/mecDeveloper/work/detail',
           name: 'appDetail',
           component: () => import('../pages/workspace/AppDetail.vue'),
@@ -166,5 +174,11 @@ export default new Router({
         }
       ]
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    }
+  }
 })

@@ -17,7 +17,6 @@
 <template>
   <div class="my-pagination">
     <el-pagination
-      background
       class="page rt"
       @size-change="handlePageSizeChange"
       @current-change="handleCurrentPageChange"
@@ -104,11 +103,6 @@ export default {
 </script>
 <style lang='less'>
 .my-pagination{
-  .el-pagination.is-background .el-pager li:not(.disabled).active{
-    background-color: #688ef3;
-    height: 24px;
-    line-height: 24px;
-  }
   .el-input--mini .el-input__inner,.el-pager li,.el-pagination button, .el-pagination span:not([class*=suffix]),.el-pagination__editor.el-input .el-input__inner{
     height: 24px;
     line-height: 24px;

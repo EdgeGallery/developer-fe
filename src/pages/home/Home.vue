@@ -17,7 +17,7 @@
 <template>
   <div class="home">
     <div class="main-div">
-      <div class="banner padding_default">
+      <div class="banner_home padding_default">
         <img
           :src="bannerTextUrl"
           alt=""
@@ -32,7 +32,7 @@
         </el-button>
       </div>
       <!-- Platform capabilities -->
-      <div class="home_capability">
+      <div class="home_capability title_bg">
         <div class="capa_div title_top">
           <div class="title clear">
             <img
@@ -168,7 +168,7 @@ export default {
   methods: {
     setScreenHeight (screenHeight) {
       this.$nextTick(() => {
-        let oDiv = document.getElementsByClassName('banner')
+        let oDiv = document.getElementsByClassName('banner_home')
         oDiv[0].style.height = (Number(screenHeight) - 80) + 'px'
 
         let oDiv1 = document.getElementsByClassName('home_project')
@@ -179,6 +179,7 @@ export default {
       document.getElementById('homeProject').scrollIntoView()
     },
     jumpTo (name, index) {
+      sessionStorage.setItem('fromHome', 'home')
       this.$router.push({ name: name, params: { index: index } })
     },
     // Get all ability groups
@@ -286,7 +287,7 @@ export default {
 <style lang='less'>
 .home {
   width: 100%;
-  .banner{
+  .banner_home{
     background: url('../../assets/images/home_banner_bg.jpg');
     background-size:cover;
     display: flex;
@@ -323,7 +324,7 @@ export default {
     }
   }
   .home_capability{
-    background: url('../../assets/images/home_left_bg.png') left 85px no-repeat;
+    padding-bottom: 0;
     .capa_div{
       position: relative;
     }
@@ -431,7 +432,7 @@ export default {
         width: 31%;
       }
     }
-    .banner .banner_text,.banner .el-button.to_project{
+    .banner_home .banner_text,.banner_home .el-button.to_project{
       margin-left: 10%;
     }
   }

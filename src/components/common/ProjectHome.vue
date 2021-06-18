@@ -113,12 +113,24 @@
         :class="[{'show':addAnimationLeft}]"
       />
     </div>
+    <div v-if="newprojectDialog">
+      <newProject
+        v-model="newprojectDialog"
+        :new-project-titleprop="newProjectTitleprop"
+        :getproject-typeprop="getprojectTypeprop"
+        :active-projectprop="activeProjectprop"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import newProject from '../../pages/workspace/NewProject.vue'
 export default {
   name: '',
+  components: {
+    newProject
+  },
   props: {
     screenWidthProp: {
       type: Number,
@@ -142,7 +154,9 @@ export default {
       integrationBig: require('../../assets/images/integrationBig.gif'),
       integrationSmall: require('../../assets/images/integrationSmall.gif'),
       developmentBig: require('../../assets/images/developmentBig.gif'),
-      developmentSmall: require('../../assets/images/developmentSmall.gif')
+      developmentSmall: require('../../assets/images/developmentSmall.gif'),
+      newprojectDialog: false,
+      activeProjectprop: 3
     }
   },
   methods: {
@@ -155,7 +169,13 @@ export default {
       if (this.userName === 'guest') {
         this.$message.error(this.$t('promptMessage.guestPrompt'))
       } else {
-        this.$router.push({ name: 'workspace', params: { from: type } })
+        if (type === 'Development') {
+          this.newprojectDialog = true
+          this.addNewProject('CREATE_NEW')
+        } else if (type === 'Integrate') {
+          this.newprojectDialog = true
+          this.addNewProject('INTEGRATED')
+        }
       }
     },
     toLeft () {
@@ -195,6 +215,21 @@ export default {
       } else {
         this.isIntegrationBig = true
         this.isDevelopmentBig = true
+      }
+    },
+    // Create a new project
+    addNewProject (projectType) {
+      if (this.userName === 'guest') {
+        this.$message.error(this.$t('promptMessage.guestPrompt'))
+      } else {
+        this.newprojectDialog = true
+        if (projectType === 'CREATE_NEW') {
+          this.newProjectTitleprop = this.$t('workspace.createProject')
+        } else {
+          this.newProjectTitleprop = this.$t('workspace.migrationProject')
+        }
+        this.getprojectTypeprop = projectType
+        this.activeProjectprop = 3
       }
     }
   },

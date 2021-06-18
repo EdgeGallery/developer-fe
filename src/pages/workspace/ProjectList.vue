@@ -17,33 +17,32 @@
 <template>
   <div class="projectlist">
     <div class="title">
-      {{ $t('workspace.myProjectList') }}
       <el-input
-        clearable
         v-model="enterQuery"
         :placeholder="$t('workspace.projectName')"
         id="inputProjectName"
         class="enterinput"
         @clear="selectProjectList"
-      />
-      <el-button
-        class="searchBtn"
-        @click="selectProjectList"
+        @change="selectProjectList"
       >
-        {{ $t('test.testTask.inquire') }}
-      </el-button>
+        <i
+          slot="suffix"
+          class="search_icon"
+          @click="selectProjectList"
+        />
+      </el-input>
     </div>
     <el-table
       v-loading="dataLoading"
       :data="currentData"
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
-      header-cell-class-name="headerStyle"
+      class="tableStyle"
     >
       <el-table-column
         prop="iconUrl"
         :label="$t('workspace.icon')"
-        width="65"
+        width="115"
       >
         <template slot-scope="scope">
           <img
@@ -56,11 +55,12 @@
       <el-table-column
         prop="name"
         :label="$t('workspace.projectName')"
-        min-width="110"
+        min-width="130"
       />
       <el-table-column
         prop="projectType"
         :label="$t('workspace.projectType')"
+        width="170"
       >
         <template slot-scope="scope">
           {{ scope.row.projectType==='CREATE_NEW'?$t('workspace.appDevelopment'):$t('workspace.appIntegration') }}
@@ -69,16 +69,16 @@
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
-        width="75"
+        width="95"
       />
       <el-table-column
         prop="provider"
         :label="$t('workspace.provider')"
-        width="80"
+        width="140"
       />
       <el-table-column
         :label="$t('workspace.deployType')"
-        width="125"
+        width="155"
       >
         <template slot-scope="scope">
           {{ scope.row.deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
@@ -87,45 +87,48 @@
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
-        width="80"
+        width="100"
       />
       <el-table-column
-        prop="createDate"
         :label="$t('workspace.createDate')"
         width="150"
-      />
+      >
+        <template slot-scope="scope">
+          {{ scope.row.createDate.substr(0,10) }}
+        </template>
+      </el-table-column>
       <el-table-column
         :label="$t('workspace.status')"
-        width="135"
+        width="155"
       >
         <template slot-scope="scope">
           <em
             v-if="scope.row.status==='ONLINE'"
-            class="el-icon-circle-plus online"
+            class="online"
           />
           <em
             v-if="scope.row.status==='DEPLOYING'"
-            class="el-icon-loading deploying"
+            class="deploying"
           />
           <em
             v-if="scope.row.status==='DEPLOYED'"
-            class="el-icon-success deployed"
+            class="deployed"
           />
           <em
             v-if="scope.row.status==='DEPLOYED_FAILED'"
-            class="el-icon-error deployfailed"
+            class="deployfailed"
           />
           <em
             v-if="scope.row.status==='TESTING'"
-            class="el-icon-loading deploying"
+            class="deploying"
           />
           <em
             v-if="scope.row.status==='TESTED'"
-            class="el-icon-success tested"
+            class="tested"
           />
           <em
             v-if="scope.row.status==='RELEASED'"
-            class="el-icon-finished tested"
+            class="pubilshed"
           />
           <span v-if="scope.row.status==='ONLINE'">{{ $t('workspace.statusNew') }}</span>
           <span v-if="scope.row.status==='DEPLOYING'">{{ $t('workspace.statusDeploying') }}</span>
@@ -143,16 +146,14 @@
         <template slot-scope="scope">
           <el-button
             id="deleteBtn"
-            size="mini"
-            type="text"
+            class="operation_button"
             @click="handleDelete(scope.row)"
           >
             {{ $t('workspace.remove') }}
           </el-button>
           <el-button
             id="detailBtn"
-            size="mini"
-            type="text"
+            class="operation_button"
             @click="toDetail(scope.row)"
           >
             {{ $t('workspace.detail') }}
@@ -215,20 +216,22 @@ export default {
     },
     getProjectListData () {
       Workspace.getProjectListApi(this.userId).then(res => {
-        this.pageData = this.searchListData = res.data
-        if (this.pageData.length > 0) {
-          this.pageData.sort(function (a, b) {
-            return a.createDate < b.createDate ? 1 : -1
+        if (res.data) {
+          this.pageData = this.searchListData = res.data
+          if (this.pageData.length > 0) {
+            this.pageData.sort(function (a, b) {
+              return a.createDate < b.createDate ? 1 : -1
+            })
+          }
+          let newItem = this.pageData.forEach((item, index) => {
+            item.index = index + 1
+            return newItem
           })
+          this.pageData.forEach(item => {
+            this.getIcon(item.iconFileId)
+          })
+          this.dataLoading = false
         }
-        let newItem = this.pageData.forEach((item, index) => {
-          item.index = index + 1
-          return newItem
-        })
-        this.pageData.forEach(item => {
-          this.getIcon(item.iconFileId)
-        })
-        this.dataLoading = false
       }).catch(err => {
         console.log(err)
         setTimeout(() => {
@@ -283,88 +286,116 @@ export default {
 
 <style lang="less">
 .projectlist {
-  .title{
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 60px;
+  margin-top: 110px;
+  .title {
     font-size: 20px;
-    color: #282B33;
+    color: #282b33;
     position: relative;
     line-height: 24px;
     margin: 20px 0;
-    .el-input{
-      position: absolute;
-      top: 0;
-      right: 70px;
+    .el-input {
       width: 300px;
     }
-    .enterinput{
+    .enterinput {
       display: inline-block;
       width: 200px;
+      .el-input__inner {
+        border: 1px solid #380879;
+        border-radius: 8px;
+      }
+      .search_icon{
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background: url('../../assets/images/work_project_search_icon.png');
+        position: relative;
+        top: 5px;
+        cursor: pointer;
+      }
     }
-    .searchBtn{
-      position: absolute;
-      top: 0;
-      right: 0;
+    .searchBtn {
       width: 65px;
       height: 30px;
       line-height: 30px;
       margin-left: 10px;
       padding: 0 10px;
     }
-    .el-input__inner{
+    .el-input__inner {
       height: 30px;
     }
-    .el-input__icon{
+    .el-input__icon {
       line-height: 30px;
     }
   }
+  .icon_pic {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+  }
   .el-table {
-    font-size: 14px;
+    margin-top: 30px;
     .icon_pic {
       width: 36px;
       height: 36px;
       border-radius: 50%;
     }
-    thead {
-      color: #282b33;
-      font-weight: 100;
-      font-size: 14px;
-      th,
-      tr {
-        background-color: #f5f5f5;
-      }
-    }
     tbody {
       td {
-        padding: 8px !important;
-        em{
-          margin-right: 5px;
+        padding: 8px 0 !important;
+        em {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          margin-right: 6px;
+          position: relative;
+          top: 3px;
         }
-        .online{
-          color: #5ab1ef;
+        .online {
+          background: url('../../assets/images/work_project_icon_new.png') no-repeat;
+          background-size: cover;
         }
-        .deploying{
-          color: #ffb980;
+        .deploying {
+          background: url('../../assets/images/work_project_icon_testing.png') no-repeat;
+          background-size: cover;
         }
-        .deployed{
-          color: #19d4ae;
+        .deployed {
+          background: url('../../assets/images/work_project_icon_deployed.png') no-repeat;
+          background-size: cover;
         }
-        .deployfailed{
-          color: #f37f7f;
+        .deployfailed {
+          background: url('../../assets/images/work_project_icon_failed.png') no-repeat;
+          background-size: cover;
         }
-        .tested{
-          color: #67c23a;
+        .tested {
+          background: url('../../assets/images/work_project_icon_tested.png') no-repeat;
+          background-size: cover;
         }
-        .cell{
+        .pubilshed {
+          background: url('../../assets/images/work_project_icon_published.png') no-repeat;
+          background-size: cover;
+        }
+        .cell {
           padding-left: 0;
+          .operation_button{
+            padding: 5px !important;
+            background: #efefef;
+            border: none;
+            color: #7a6e8a;
+            display: block;
+            border-radius: 3px;
+          }
+          .operation_button + .el-button {
+            margin-left: 0px;
+            margin-top: 8px;
+          }
         }
       }
     }
   }
-  .pagebar {
-    .el-pager li:not(.disabled).active {
-      background-color: #6c92fa !important;
-    }
-  }
-  #projectId{
+  #projectId {
     display: none;
   }
 }
