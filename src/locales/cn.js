@@ -845,8 +845,7 @@ const cn = {
         systemDiskEmpty: '系统磁盘大小不能为空！',
         systemDiskRule: '请输入两到四位的整数！',
         uploadImg: '上传系统镜像',
-        uploadIsoImgPromt: '请把iso格式的镜像文件压缩为zip后上传。',
-        uploadQcow2ImgPromt: '请把qcow2格式的镜像文件压缩为zip后上传。',
+        uploadImgPromt: '请把qcow2或iso格式的镜像文件压缩为zip后上传。',
         sysImageFileType: '请上传.zip格式的文件，且大小不超过5G！',
         onlyOneImageFile: '只能上传一个文件！',
         noFileSelected: '未选择上传的文件',
@@ -863,7 +862,8 @@ const cn = {
         uploadingHint: '系统镜像正在上传，请等待！',
         mergingHint: '系统镜像正在合并，请等待！',
         uploadImgSucceed: '系统镜像上传处理成功！',
-        uploadImgFailed: '上传系统镜像失败！'
+        uploadImgFailed: '上传系统镜像失败！',
+        invalidUploadFile: '文件格式不满足要求，压缩文件中应该有且只有一个qcow2或iso文件。'
       }
     }
   },

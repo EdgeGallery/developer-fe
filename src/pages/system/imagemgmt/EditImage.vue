@@ -119,20 +119,6 @@
               clearable
             />
           </el-form-item>
-          <el-form-item
-            :label="$t('system.imageMgmt.imgFormat')"
-            prop="systemFormat"
-          >
-            <el-radio-group v-model="imageDataForm.systemFormat">
-              <el-radio
-                v-for="(item,index) in systemFormatOptionList"
-                :key="index"
-                :label="item"
-              >
-                {{ item }}
-              </el-radio>
-            </el-radio-group>
-          </el-form-item>
         </el-form>
       </div>
       <div style="margin-top:20px;text-align:right">
@@ -238,8 +224,7 @@ export default {
         'operateSystem': 'ubuntu',
         'version': '',
         'systemBit': '32',
-        'systemDisk': '',
-        'systemFormat': 'qcow2'
+        'systemDisk': ''
       },
       rules: {
         systemName: [
@@ -310,7 +295,6 @@ export default {
         this.imageDataForm.version = this.imageData.version
         this.imageDataForm.systemBit = this.imageData.systemBit
         this.imageDataForm.systemDisk = this.imageData.systemDisk
-        this.imageDataForm.systemFormat = this.imageData.systemFormat
 
         this.isModify = true
         this.systemIdToModi = this.imageData.systemId
@@ -322,7 +306,6 @@ export default {
         this.imageDataForm.version = ''
         this.imageDataForm.systemBit = '32'
         this.imageDataForm.systemDisk = ''
-        this.imageDataForm.systemFormat = 'qcow2'
 
         this.isModify = false
         this.systemIdToModi = -1

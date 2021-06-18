@@ -25,7 +25,7 @@
     >
       <div class="uploadImageBody">
         <p class="prompt">
-          {{ uploadPromt }}
+          {{ $t('system.imageMgmt.tip.uploadImgPromt') }}
         </p>
         <uploader
           :options="options"
@@ -86,7 +86,6 @@ export default {
       isUploading: false,
       isMerging: false,
       hasFileFlag: false,
-      uploadPromt: '',
       sysImgFileTypeArr: ['zip'],
       mergerUrl: '',
       mergerUrlHttp: '',
@@ -111,13 +110,6 @@ export default {
     let url = window.location.origin
     this.options.target = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/upload'
     this.mergerUrl = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/merge?fileName='
-  },
-  mounted () {
-    if (this.imageData.systemFormat === 'iso') {
-      this.uploadPromt = this.$t('system.imageMgmt.tip.uploadIsoImgPromt')
-    } else {
-      this.uploadPromt = this.$t('system.imageMgmt.tip.uploadQcow2ImgPromt')
-    }
   },
   methods: {
     onFileAdded (file) {
@@ -149,13 +141,22 @@ export default {
           clearTimeout(_timer)
           this.doClose()
         }, 1000)
-      }).catch(() => {
-        this.$message.error(this.$t('system.imageMgmt.tip.uploadImgFailed'))
+      }).catch((error) => {
+        this.processMergeError(error)
         let _timer = setTimeout(() => {
           clearTimeout(_timer)
           this.doClose()
         }, 1000)
       })
+    },
+    processMergeError (error) {
+      if (error && error.response && error.response.status) {
+        if (error.response.status === 400) {
+          this.$message.error(this.$t('system.imageMgmt.tip.invalidUploadFile'))
+          return
+        }
+      }
+      this.$message.error(this.$t('system.imageMgmt.tip.uploadImgFailed'))
     },
     handleClose () {
       if (this.isUploading) {
