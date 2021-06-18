@@ -209,7 +209,9 @@
           type="textarea"
           v-model="form.description"
           :placeholder="$t('test.testApp.description')"
-          :rows="2"
+          :rows="3"
+          maxlength="1024"
+          show-word-limit
         />
       </el-form-item>
     </el-form>
@@ -335,7 +337,7 @@ export default {
         ],
         description: [
           { required: true, validator: validateDescription, trigger: 'blur' },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,128}$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       formLabelWidth: '110px',

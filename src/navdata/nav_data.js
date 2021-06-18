@@ -45,11 +45,6 @@ const mecDeveloper = [
         name: 'ToolChain',
         path: '/mecDeveloper/plugin/toolchain',
         display: true
-      }, {
-        id: '3.2.4',
-        name: 'Document',
-        path: '/mecDeveloper/plugin/docs',
-        display: true
       }
     ]
   },
@@ -98,6 +93,12 @@ const mecDeveloper = [
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }
     ]
+  },
+  {
+    id: '3.6',
+    name: 'Document',
+    path: '/mecDeveloper/docs',
+    display: true
   }
 ]
 

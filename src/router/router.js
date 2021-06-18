@@ -85,9 +85,9 @@ export default new Router({
           }
         },
         {
-          path: 'mecDeveloper/plugin/docs',
+          path: 'mecDeveloper/docs',
           name: 'devDocs',
-          component: () => import('../pages/plugin/Document.vue'),
+          component: () => import('../pages/Document/Document.vue'),
           meta: {
             id: '3.1.6'
           }

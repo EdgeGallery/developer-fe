@@ -270,6 +270,7 @@ body .el-table th.gutter{
 }
 .v-note-wrapper{
   z-index: 1 !important;
+  border: none !important;
 }
 .tableStyle.el-table th{
   background: #ebe6f1;
@@ -328,4 +329,7 @@ body .el-table th.gutter{
 }
 .el-select-dropdown__item.selected{
   color: #380879 !important;
+}
+.el-textarea .el-textarea__inner{
+  min-height: 80px !important;
 }
