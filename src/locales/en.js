@@ -845,8 +845,7 @@ const en = {
         systemDiskEmpty: 'System disk size cannot be empty!',
         systemDiskRule: 'Please enter a 2 to 4-digit integer!',
         uploadImg: 'Upload System Image',
-        uploadIsoImgPromt: 'Please zip the image file in iso format and upload it.',
-        uploadQcow2ImgPromt: 'Please zip the image file in qcow2 format and upload it.',
+        uploadImgPromt: 'Please zip the image file in qcow2 or ISO format and upload it.',
         sysImageFileType: 'Please upload files in .zip format, and the size does not exceed 5G!',
         onlyOneImageFile: 'You can only upload one file!',
         noFileSelected: 'No file selected',
@@ -863,7 +862,8 @@ const en = {
         uploadingHint: 'The system image is uploading, please wait!',
         mergingHint: 'The system image is merging, please wait!',
         uploadImgSucceed: 'The system image upload succeed!',
-        uploadImgFailed: 'Upload system image failed!'
+        uploadImgFailed: 'Upload system image failed!',
+        invalidUploadFile: 'The file format does not meet the requirements. There should be only one qcow2 or ISO file in the compressed file!'
       }
     }
   },
