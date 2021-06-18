@@ -138,7 +138,7 @@ export default {
         this.indexName = '/mecDeveloper/plugin/upload'
       } else if (this.indexName === '/mecDeveloper/plugin/detail') {
         this.indexName = '/mecDeveloper/plugin/list'
-      } else if (this.indexName === '/mecDeveloper/work/detail') {
+      } else if (this.indexName === '/mecDeveloper/work/detail' || this.indexName === '/mecDeveloper/projectType') {
         this.indexName = '/mecDeveloper/work'
       } else if (this.indexName === '/mecDeveloper/work/vmDetail') {
         this.indexName = '/mecDeveloper/work'
