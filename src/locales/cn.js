@@ -693,7 +693,7 @@ const cn = {
     nameRule: '请输入不含空格的4-32个字符名称，可以包含数字、字母、_、-，开头结尾不能为_、-',
     versionRule: '请输入1-10个字符的版本号，只能包含数字、字母、_、-和空格，开头不能为空',
     providerRule: '请输入1-30个字符的提供者名称，开头不能为空',
-    introductionRule: '请输入1-128个字符的描述，开头不能为空',
+    introductionRule: '请输入1-1024个字符的描述，开头不能为空',
     checkFileType: '请上传符合格式的文件',
     downloading: '正在下载，请稍后...',
     guestPrompt: 'Guest用户无权操作，请先登录！',
