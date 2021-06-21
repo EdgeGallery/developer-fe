@@ -314,6 +314,7 @@ export default {
         position: relative;
         top: 5px;
         cursor: pointer;
+        margin-right: 5px;
       }
     }
     .searchBtn {

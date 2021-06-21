@@ -177,7 +177,7 @@ export default {
     position: absolute;
     top: 5px;
     left: 0;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     background: #fdfcff;
     border-radius: 8px;
     color: #380879;
