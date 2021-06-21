@@ -817,6 +817,8 @@ export default {
         if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
           this.isRelease = true
           this.$message.warning(this.$t('promptMessage.notDeploy'))
+        } else if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'VIRTUALMACHINE') {
+          this.isRelease = true
         } else {
           this.isRelease = false
         }
@@ -1239,7 +1241,6 @@ export default {
           this.isRelease = true
         } else if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) !== '""')) {
           sessionStorage.setItem('csarId', res.data.appInstanceId)
-          this.getReleaseConfigFirst()
           this.isRelease = false
           this.vmRelease = true
         }

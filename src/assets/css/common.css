@@ -213,7 +213,7 @@ body::-webkit-scrollbar-thumb{
 }
 .title_bg{
   background: url('../images/home_left_bg.png') left 85px no-repeat;
-  padding-bottom: 107px;
+  padding-bottom: 107px !important;
 }
 @media screen and (max-width:1380px){
   .padding_default{

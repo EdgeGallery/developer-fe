@@ -285,6 +285,9 @@ export default {
       box-shadow: 4px 4px 25px 5px rgba(36, 20, 119, 0.1) inset;
       padding: 10px 30px 15px;
     }
+    .markdown-body{
+      min-height: 650px;
+    }
   }
 }
 </style>
