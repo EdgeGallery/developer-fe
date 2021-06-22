@@ -24,10 +24,10 @@ html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
   box-sizing: border-box;
 }
 .defaultFont button{
-  font-family:defaultFont;
+  font-family:defaultFont, Arial, Helvetica;
 }
 .defaultFont{
-  font-family:defaultFont;
+  font-family:defaultFont, Arial, Helvetica;
 }
 
 html,body{
@@ -41,7 +41,7 @@ a{
   text-decoration: none;
 }
 .markdown-body{
-  font-family: defaultFont !important;
+  font-family: defaultFont, Arial, Helvetica !important;
 }
 .markdown-body a{
   color: #688ef3 !important;
