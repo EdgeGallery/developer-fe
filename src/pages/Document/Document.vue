@@ -58,7 +58,7 @@
             </li>
             <div
               class="select_style"
-              :class="{'select_style_en':language==='en'}"
+              :class="{'select_style_en':language==='en','select_style_nobg':hideBg}"
             />
           </ul>
         </div>
@@ -134,7 +134,8 @@ export default {
       docHandleData: {},
       activeIndex: 0,
       selectIndex: 0,
-      scrollTop: false
+      scrollTop: false,
+      hideBg: true
     }
   },
   methods: {
@@ -156,11 +157,17 @@ export default {
       })
     },
     groupListHover (index) {
+      if (this.selectIndex !== index) {
+        this.hideBg = false
+      } else {
+        this.hideBg = true
+      }
       this.activeIndex = index
       let oDiv = document.getElementsByClassName('select_style')
       oDiv[0].style.top = (58 * index + 5) + 'px'
     },
     groupListLeave (index) {
+      this.hideBg = true
       this.activeIndex = -1
       let oDiv = document.getElementsByClassName('select_style')
       oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
@@ -224,6 +231,7 @@ export default {
       cursor: pointer;
       position: relative;
       z-index: 2;
+      display: inline-block;
       .li_list{
         width: 175px;
         height: 48px;
@@ -266,7 +274,7 @@ export default {
       position: absolute;
       top: 5px;
       left: 0;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       background: #fdfcff;
       border-radius: 8px;
       color: #380879;
@@ -274,6 +282,9 @@ export default {
     }
     .select_style.select_style_en{
       width: 270px;
+    }
+    .select_style.select_style_nobg{
+      box-shadow: none;
     }
   }
   .doc_right{

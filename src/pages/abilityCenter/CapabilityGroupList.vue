@@ -45,7 +45,10 @@
         >{{ item.counts }}</span>
       </div>
     </li>
-    <div class="select_style" />
+    <div
+      class="select_style"
+      :class="{'select_style_nobg':hideBg}"
+    />
   </ul>
 </template>
 
@@ -80,16 +83,23 @@ export default {
       selectIndex: 0,
       capabilityServiceList: [],
       clickGroupListNum: 0,
-      listBottom: false
+      listBottom: false,
+      hideBg: true
     }
   },
   methods: {
     groupListHover (index) {
+      if (this.selectIndex !== index) {
+        this.hideBg = false
+      } else {
+        this.hideBg = true
+      }
       this.activeIndex = index
       let oDiv = document.getElementsByClassName('select_style')
       oDiv[0].style.top = (58 * index + 5) + 'px'
     },
     groupListLeave (index) {
+      this.hideBg = true
       this.activeIndex = -1
       let oDiv = document.getElementsByClassName('select_style')
       oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
@@ -125,17 +135,19 @@ export default {
   li{
     height: 58px;
     padding: 5px 0;
-    .li_list{
-      height: 48px;
-      line-height: 48px;
-      padding: 0 15px 0 50px;
-    }
-
     font-size: 21px;
     color: #7a6e8a;
     cursor: pointer;
     position: relative;
     z-index: 2;
+    .li_list{
+      height: 48px;
+      line-height: 48px;
+      padding: 0 15px 0 50px;
+    }
+    .li_list:hover{
+      color: #380879;
+    }
     img{
       position: absolute;
       top: 18px;
@@ -182,6 +194,9 @@ export default {
     border-radius: 8px;
     color: #380879;
     box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
+  }
+  .select_style.select_style_nobg{
+    box-shadow: none;
   }
 }
 </style>

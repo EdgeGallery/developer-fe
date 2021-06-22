@@ -25,7 +25,7 @@
         @clear="selectProjectList"
         @change="selectProjectList"
       >
-        <i
+        <em
           slot="suffix"
           class="search_icon"
           @click="selectProjectList"
