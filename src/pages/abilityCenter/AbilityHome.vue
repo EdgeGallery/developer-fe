@@ -322,27 +322,7 @@ export default {
             counts: this.capabilityAllService.length
           }
           this.capabilityGroupsList.unshift(objfirst)
-          if (!this.isFirstEnter) {
-            this.$nextTick(() => {
-              this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
-            })
-            if (sessionStorage.getItem('capaSelectDetailIndex')) {
-              this.$nextTick(() => {
-                this.$refs.serviceList.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
-              })
-            } else {
-              this.dialogVisible = false
-            }
-          }
-          if (this.fromHomeIndex) {
-            this.$nextTick(() => {
-              this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.fromHomeIndex], this.fromHomeIndex)
-            })
-          } else {
-            this.$nextTick(() => {
-              this.$refs.groupList.selectGroupList(this.capabilityGroupsList[0], 0)
-            })
-          }
+          this.isFirstEnterPage()
           this.filterSefvice('hot')
         }).catch(() => {
           setTimeout(() => {
@@ -376,6 +356,29 @@ export default {
       } else {
         obj.icon = this.capabilityIconList[0].icon
         obj.iconSelect = this.capabilityIconList[0].iconSelect
+      }
+    },
+    isFirstEnterPage () {
+      if (!this.isFirstEnter) {
+        this.$nextTick(() => {
+          this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
+        })
+        if (sessionStorage.getItem('capaSelectDetailIndex')) {
+          this.$nextTick(() => {
+            this.$refs.serviceList.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
+          })
+        } else {
+          this.dialogVisible = false
+        }
+      }
+      if (this.fromHomeIndex) {
+        this.$nextTick(() => {
+          this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.fromHomeIndex], this.fromHomeIndex)
+        })
+      } else {
+        this.$nextTick(() => {
+          this.$refs.groupList.selectGroupList(this.capabilityGroupsList[0], 0)
+        })
       }
     },
     handleClose () {
