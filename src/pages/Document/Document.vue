@@ -231,6 +231,7 @@ export default {
       cursor: pointer;
       position: relative;
       z-index: 2;
+      display: inline-block;
       .li_list{
         width: 175px;
         height: 48px;
@@ -273,7 +274,7 @@ export default {
       position: absolute;
       top: 5px;
       left: 0;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       background: #fdfcff;
       border-radius: 8px;
       color: #380879;

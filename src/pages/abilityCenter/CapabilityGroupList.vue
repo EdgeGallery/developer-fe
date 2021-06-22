@@ -135,17 +135,19 @@ export default {
   li{
     height: 58px;
     padding: 5px 0;
-    .li_list{
-      height: 48px;
-      line-height: 48px;
-      padding: 0 15px 0 50px;
-    }
-
     font-size: 21px;
     color: #7a6e8a;
     cursor: pointer;
     position: relative;
     z-index: 2;
+    .li_list{
+      height: 48px;
+      line-height: 48px;
+      padding: 0 15px 0 50px;
+    }
+    .li_list:hover{
+      color: #380879;
+    }
     img{
       position: absolute;
       top: 18px;
