@@ -166,9 +166,6 @@ export default {
     },
     emitStepData (isNext) {
       let canNext = true
-      /* if (isNext) {
-        canNext = this.validateInput()
-      } */
       let data = {}
       if (this.changeResult) {
         data = {
@@ -226,8 +223,6 @@ export default {
         this.viewOrEditFlavor = 'edit'
       }
     }
-  },
-  created () {
   },
   mounted () {
     this.getScriptData()

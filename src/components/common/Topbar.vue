@@ -193,8 +193,7 @@ export default {
   .el-menu{
     display: flex;
     .first-menu{
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 16px;
     }
     .second-menu{
       font-size: 15px;

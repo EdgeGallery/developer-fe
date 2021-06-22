@@ -26,14 +26,6 @@ export default {
   name: 'SelectProjectType',
   components: {
     selectProjectType
-  },
-  data () {
-    return {
-    }
   }
 }
 </script>
-
-<style lang="less">
-
-</style>

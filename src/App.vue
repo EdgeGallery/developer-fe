@@ -17,7 +17,7 @@
 <template>
   <div
     id="app"
-    :class="{'defaultFontCn':language==='cn','defaultFontEn':language==='en'}"
+    class="defaultFont"
     ref="app"
   >
     <Navcomp

@@ -285,16 +285,6 @@ export default {
       localStorage.setItem('language', language)
       this.$store.commit('changelanguage', language)
       this.$root.$emit('languageChange')
-      /* let appDom = document.getElementById('app')
-      if (language === 'en') {
-        appDom.style.fontFamily = 'Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif'
-      } else {
-        if (this.os.isMac) {
-          appDom.style.fontFamily = 'PingFang, FZLTXHJW, Hiragino Sans GB, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif'
-        } else {
-          appDom.style.fontFamily = 'Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif'
-        }
-      } */
     },
     jumpFromLogo (newPath) {
       this.$router.push(newPath)
@@ -471,7 +461,7 @@ export default {
 
   @media screen and (max-width: 1090px) {
     .main-sidebar .el-menu .first-menu{
-      font-size: 14px;
+      font-size: 16px;
     }
     .logo{
       span{

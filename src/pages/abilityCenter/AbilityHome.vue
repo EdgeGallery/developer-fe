@@ -309,31 +309,7 @@ export default {
                 obj.counts = objTemp[key]
               }
             }
-            if (oneLevelNameEn[i] === 'Platform services') {
-              obj.icon = this.capabilityIconList[1].icon
-              obj.iconSelect = this.capabilityIconList[1].iconSelect
-            } else if (oneLevelNameEn[i] === 'Telecom network') {
-              obj.icon = this.capabilityIconList[2].icon
-              obj.iconSelect = this.capabilityIconList[2].iconSelect
-            } else if (oneLevelNameEn[i] === 'Ascend AI') {
-              obj.icon = this.capabilityIconList[3].icon
-              obj.iconSelect = this.capabilityIconList[3].iconSelect
-            } else if (oneLevelNameEn[i] === 'AI capabilities') {
-              obj.icon = this.capabilityIconList[4].icon
-              obj.iconSelect = this.capabilityIconList[4].iconSelect
-            } else if (oneLevelNameEn[i] === 'Video processing') {
-              obj.icon = this.capabilityIconList[5].icon
-              obj.iconSelect = this.capabilityIconList[5].iconSelect
-            } else if (oneLevelNameEn[i] === 'DateBase') {
-              obj.icon = this.capabilityIconList[6].icon
-              obj.iconSelect = this.capabilityIconList[6].iconSelect
-            } else if (oneLevelNameEn[i] === 'Public framework') {
-              obj.icon = this.capabilityIconList[7].icon
-              obj.iconSelect = this.capabilityIconList[7].iconSelect
-            } else {
-              obj.icon = this.capabilityIconList[0].icon
-              obj.iconSelect = this.capabilityIconList[0].iconSelect
-            }
+            this.handleOneLevelName(oneLevelNameEn, i, obj)
             obj.name = oneLevelNameCn[i]
             obj.nameEn = oneLevelNameEn[i]
             this.capabilityGroupsList.push(obj)
@@ -374,6 +350,33 @@ export default {
             this.serviceLoading = false
           }, 2000)
         })
+    },
+    handleOneLevelName (oneLevelNameEn, i, obj) {
+      if (oneLevelNameEn[i] === 'Platform services') {
+        obj.icon = this.capabilityIconList[1].icon
+        obj.iconSelect = this.capabilityIconList[1].iconSelect
+      } else if (oneLevelNameEn[i] === 'Telecom network') {
+        obj.icon = this.capabilityIconList[2].icon
+        obj.iconSelect = this.capabilityIconList[2].iconSelect
+      } else if (oneLevelNameEn[i] === 'Ascend AI') {
+        obj.icon = this.capabilityIconList[3].icon
+        obj.iconSelect = this.capabilityIconList[3].iconSelect
+      } else if (oneLevelNameEn[i] === 'AI capabilities') {
+        obj.icon = this.capabilityIconList[4].icon
+        obj.iconSelect = this.capabilityIconList[4].iconSelect
+      } else if (oneLevelNameEn[i] === 'Video processing') {
+        obj.icon = this.capabilityIconList[5].icon
+        obj.iconSelect = this.capabilityIconList[5].iconSelect
+      } else if (oneLevelNameEn[i] === 'DateBase') {
+        obj.icon = this.capabilityIconList[6].icon
+        obj.iconSelect = this.capabilityIconList[6].iconSelect
+      } else if (oneLevelNameEn[i] === 'Public framework') {
+        obj.icon = this.capabilityIconList[7].icon
+        obj.iconSelect = this.capabilityIconList[7].iconSelect
+      } else {
+        obj.icon = this.capabilityIconList[0].icon
+        obj.iconSelect = this.capabilityIconList[0].iconSelect
+      }
     },
     handleClose () {
       this.dialogVisible = false

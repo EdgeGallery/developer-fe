@@ -345,7 +345,6 @@ export default {
   }
   .project_info{
     width: 240px;
-    height: 100%;
     position: absolute;
     height: 50%;
     top: 25%;
