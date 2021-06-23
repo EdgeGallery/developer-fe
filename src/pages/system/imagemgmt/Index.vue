@@ -133,7 +133,7 @@
         />
         <el-table-column
           :label="$t('common.operation')"
-          width="250"
+          width="275"
           show-overflow-tooltip
         >
           <template slot-scope="scope">

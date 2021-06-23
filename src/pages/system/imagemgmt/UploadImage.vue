@@ -180,28 +180,6 @@ export default {
 <style lang='less'>
 .uploadImageBody{
   padding: 20px 30px 20px 30px;
-  .el-upload{
-    margin-right: 10px;
-    .el-button--primary{
-      background-color: #fff;
-      border-color: #688ef3;
-      color: #282B33;
-      padding: 8px 16px;
-      margin-top: 2px;
-    }
-  }
-  .el-icon-warning{
-    color: #688ef3;
-    margin-right: 15px;
-    font-size: 14px;
-  }
-  .el-upload-list__item:first-child{
-    width: 100%;
-  }
-  .upload-app .el-upload__tip{
-    margin-left: -10px;
-    margin-top: 5px;
-  }
   .prompt{
     margin-top: 5px;
     margin-bottom: 5px;
@@ -212,6 +190,9 @@ export default {
     margin-top: 10px;
     font-size: 14px;
     color: #688ef3;
+  }
+  .uploader-list {
+    padding-top: 10px;
   }
 }
 </style>
