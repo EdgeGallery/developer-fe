@@ -291,6 +291,7 @@ export default {
     background: url('../../assets/images/home_banner_bg.jpg');
     background-size:cover;
     display: flex;
+    min-height:750px;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
