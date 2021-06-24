@@ -24,10 +24,10 @@ html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
   box-sizing: border-box;
 }
 .defaultFont button{
-  font-family:defaultFont, Arial, Helvetica;
+  font-family:defaultFont, Arial, Helvetica, sans-serif;
 }
 .defaultFont{
-  font-family:defaultFont, Arial, Helvetica;
+  font-family:defaultFont, Arial, Helvetica, sans-serif;
 }
 
 html,body{
@@ -41,7 +41,7 @@ a{
   text-decoration: none;
 }
 .markdown-body{
-  font-family: defaultFont, Arial, Helvetica !important;
+  font-family: defaultFont, Arial, Helvetica, sans-serif !important;
 }
 .markdown-body a{
   color: #688ef3 !important;
@@ -201,6 +201,9 @@ body::-webkit-scrollbar-thumb{
 .padding_default{
   padding: 0 10%;
 }
+.footer_top{
+  padding-bottom: 100px !important;
+}
 .title_left{
   margin-left: 140px;
 }
@@ -210,7 +213,7 @@ body::-webkit-scrollbar-thumb{
 }
 .title_bg{
   background: url('../images/home_left_bg.png') left 85px no-repeat;
-  padding-bottom: 107px !important;
+  min-height: 370px;
 }
 @media screen and (max-width:1380px){
   .padding_default{

@@ -17,14 +17,14 @@
 <template>
   <div class="other_set">
     <div class="top">
-      <p class="clear">
-        <span>ak</span><el-input
+      <p class="lt clear">
+        <span>AK</span><el-input
           size="mini"
           v-model="ak"
         />
       </p>
-      <p class="clear">
-        <span>sk</span><el-input
+      <p class="lt clear">
+        <span>SK</span><el-input
           size="mini"
           v-model="sk"
         />
@@ -238,6 +238,7 @@ export default {
   }
   .top{
     p{
+      width: 50%;
       margin-bottom: 10px;
       span{
         float: left;
@@ -246,7 +247,7 @@ export default {
         line-height: 28px;
       }
       .el-input{
-        width: calc(100% - 30px);
+        width: calc(100% - 50px);
         float: left;
       }
       .edit{

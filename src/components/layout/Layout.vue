@@ -73,6 +73,7 @@ export default {
     }
     .el-main{
       padding: 0;
+      min-height: 620px;
       overflow: hidden;
     }
     .el-footer{
