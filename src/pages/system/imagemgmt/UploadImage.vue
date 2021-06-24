@@ -207,5 +207,16 @@ export default {
   .uploader-list {
     padding-top: 10px;
   }
+  .uploader-btn{
+    border: 1px solid #c3d2fa;
+    background:#f0f4fe;
+    color: #688ef3;
+    padding: 8px 24px;
+    border-radius: 3px;
+  }
+  .uploader-btn:hover{
+    background:#688ef3;
+    color: #fff;
+  }
 }
 </style>
