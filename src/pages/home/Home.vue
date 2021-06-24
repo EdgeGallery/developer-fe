@@ -113,7 +113,6 @@
           >
         </el-link>
       </div>
-      <Footer />
     </div>
   </div>
 </template>
@@ -121,13 +120,11 @@
 <script>
 import { mapState } from 'vuex'
 import { aLinkList } from './home.js'
-import Footer from '../../components/common/Footer.vue'
 import { Api } from '../../tools/api.js'
 import ProjectHome from '../../components/common/ProjectHome.vue'
 export default {
   name: '',
   components: {
-    Footer,
     ProjectHome
   },
   data () {
@@ -401,7 +398,6 @@ export default {
   }
   .showLogo {
     background: #fff;
-    padding-bottom: 145px;
     .tit_parnter{
       margin-bottom: 110px;
       display: block;

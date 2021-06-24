@@ -637,7 +637,6 @@ export default {
   }
   .panorama{
     background: #fff;
-    padding-bottom: 90px;
     .tit_panorama{
       display: block;
     }

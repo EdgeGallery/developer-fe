@@ -15,8 +15,14 @@
   -->
 
 <template>
-  <div class="footerBar">
-    <div class="footer_list">
+  <div
+    class="footerBar"
+    :class="{'white_bg':whiteBg}"
+  >
+    <div
+      class="footer_list"
+      v-if="homePage"
+    >
       <div class="list_div padding_default clear">
         <ul>
           <li>
@@ -31,28 +37,15 @@
                 EdgeGallery {{ $t('footer.website') }}
               </el-link>
             </p>
-            <p>
+            <p
+              v-for="(item,index) in platformData"
+              :key="index"
+            >
               <el-link
-                :href="appStoreUrl"
+                :href="item.url"
                 target="_blank"
               >
-                AppStore
-              </el-link>
-            </p>
-            <p>
-              <el-link
-                :href="atpUrl"
-                target="_blank"
-              >
-                ATP
-              </el-link>
-            </p>
-            <p>
-              <el-link
-                :href="mecmUrl"
-                target="_blank"
-              >
-                MECM
+                {{ item.name }}
               </el-link>
             </p>
           </li>
@@ -294,12 +287,16 @@
 <script>
 export default {
   name: 'FooterBar',
+  props: {
+    platformData: {
+      require: true,
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       language: localStorage.getItem('language'),
-      appStoreUrl: '',
-      atpUrl: '',
-      mecmUrl: '',
       videoUrl: 'https://www.edgegallery.org/video/',
       trainUrl: 'https://www.edgegallery.org/training-material/',
       docUrl: 'http://docs.edgegallery.org/zh_CN/latest/',
@@ -317,11 +314,10 @@ export default {
       showWechat: false,
       showGitee: false,
       showWeibo: false,
-      showEmail: false
+      showEmail: false,
+      homePage: true,
+      whiteBg: true
     }
-  },
-  mounted () {
-    this.getPlatformUrl()
   },
   watch: {
     '$i18n.locale': function () {
@@ -349,19 +345,17 @@ export default {
         this.legalNoticeUrl = 'https://www.edgegallery.org/en/legal-notice/'
         this.privacyPolicyUrl = 'https://www.edgegallery.org/en/privacy-policy/'
       }
-    }
-  },
-  methods: {
-    getPlatformUrl () {
-      let currUrl = window.location.origin
-      if (currUrl.indexOf('30092') !== -1) {
-        this.appStoreUrl = currUrl.replace('30092', '30091')
-        this.atpUrl = currUrl.replace('30092', '30094')
-        this.mecmUrl = currUrl.replace('30092', '30093')
+    },
+    $route (to, from) {
+      if (to.path === '/mecDeveloper' || to.path === '/') {
+        this.homePage = true
       } else {
-        this.appStoreUrl = currUrl.replace('developer', 'appstore')
-        this.atpUrl = currUrl.replace('developer', 'atp')
-        this.mecmUrl = currUrl.replace('developer', 'mecm')
+        this.homePage = false
+      }
+      if (to.path === '/mecDeveloper' || to.path === '/' || to.path === '/mecDeveloper/api/mep') {
+        this.whiteBg = true
+      } else {
+        this.whiteBg = false
       }
     }
   }
@@ -372,6 +366,7 @@ export default {
 .footerBar{
   width: 100%;
   z-index: 99;
+  padding-top: 100px;
   .footer_list{
     background: #380879;
     padding: 50px 0;
@@ -475,5 +470,8 @@ export default {
       }
     }
   }
+}
+.footerBar.white_bg{
+  background: #fff;
 }
 </style>
