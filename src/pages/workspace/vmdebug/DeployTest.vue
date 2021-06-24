@@ -108,7 +108,7 @@
               @click="handleUploadFile(item)"
               :disabled="item.status==='CREATING'"
             >
-              {{ $t('workspace.uploadFile') }}
+              {{ $t('workspace.configYaml.uploadFile') }}
             </el-button>
             <el-button
               type="text"

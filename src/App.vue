@@ -26,6 +26,7 @@
     />
     <router-view />
     <EgFooter
+      v-if="platformData[0].url!==''"
       :language="language"
       :platform-data="platformData"
       :home-page="homePage"
