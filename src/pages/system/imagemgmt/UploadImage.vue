@@ -27,6 +27,15 @@
         <p class="prompt">
           {{ $t('system.imageMgmt.tip.uploadImgPromt') }}
         </p>
+        <p class="prompt">
+          {{ $t('system.imageMgmt.tip.uploadImgPromtExample') }}
+        </p>
+        <div style="text-align:center">
+          <img
+            :src="uploadSystemImageTipImg"
+            alt=""
+          >
+        </div>
         <uploader
           :options="options"
           :auto-start="true"
@@ -102,7 +111,8 @@ export default {
         uploading: this.$t('system.imageMgmt.uploadStatusText.uploading'),
         paused: this.$t('system.imageMgmt.uploadStatusText.paused'),
         waiting: this.$t('system.imageMgmt.uploadStatusText.waiting')
-      }
+      },
+      uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png')
     }
   },
   created () {
@@ -190,6 +200,9 @@ export default {
     margin-top: 10px;
     font-size: 14px;
     color: #688ef3;
+  }
+  .uploader {
+    padding-top: 20px;
   }
   .uploader-list {
     padding-top: 10px;
