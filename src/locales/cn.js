@@ -749,6 +749,7 @@ const cn = {
     systemImgMgmt: '系统镜像管理'
   },
   system: {
+    completeInfo: '请填写完整的信息',
     upload: '上传',
     name: '名称',
     addHost: '新增沙箱环境',

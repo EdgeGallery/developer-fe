@@ -749,6 +749,7 @@ const en = {
     systemImgMgmt: 'System Image Management'
   },
   system: {
+    completeInfo: 'Please fill in the complete information',
     upload: 'Upload',
     error: 'Error',
     success: 'Success',
