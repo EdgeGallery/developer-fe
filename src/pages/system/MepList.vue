@@ -87,6 +87,7 @@
         <el-form-item
           :label="$t('system.apiFileId')"
           prop="apiFileId"
+          ref="apiFileItem"
         >
           <el-upload
             action=""
@@ -115,65 +116,74 @@
             </el-tooltip>
           </el-upload>
         </el-form-item>
-        <el-form-item
-          :label="$t('system.guideFileId')"
-          prop="guideFileId"
-        >
-          <el-upload
-            action=""
-            :file-list="guideFileId_file_list"
-            :limit="1"
-            :auto-upload="false"
-            :on-change="(file,fileList) => { handleUpload('guideFileId', file,fileList,['md'],'documentFile') }"
-            :on-exceed="handleExceed"
-            :on-remove="(file) => { handleRemove('guideFileId', file) }"
-            accept=".md"
+        <div class="clear lt">
+          <el-form-item
+            :label="$t('system.guideFileId')"
+            prop="guideFileId"
+            ref="guideFileItem"
             class="w50 lt"
           >
-            <el-button
-              slot="trigger"
-              size="medium"
-              plain
-              type="primary"
+            <el-upload
+              action=""
+              :file-list="guideFileId_file_list"
+              :limit="1"
+              :auto-upload="false"
+              :on-change="(file,fileList) => { handleUpload('guideFileId', file,fileList,['md'],'documentFile') }"
+              :on-exceed="handleExceed"
+              :on-remove="(file) => { handleRemove('guideFileId', file) }"
+              accept=".md"
             >
-              {{ $t('system.guideFileId_zh') }}
-            </el-button>
-            <el-tooltip
-              effect="dark"
-              :content="this.$t('workspace.apiFunctionMd')"
-              placement="right"
-            >
-              <em class="el-icon-question" />
-            </el-tooltip>
-          </el-upload>
-          <el-upload
-            action=""
-            :file-list="guideFileIdEn_file_list"
-            :limit="1"
-            :auto-upload="false"
-            :on-change="(file,fileList) => { handleUpload('guideFileIdEn', file,fileList,['md'],'documentFileEn') }"
-            :on-exceed="handleExceed"
-            :on-remove="(file) => { handleRemove('guideFileIdEn', file) }"
-            accept=".md"
+              <el-button
+                slot="trigger"
+                size="medium"
+                plain
+                type="primary"
+              >
+                {{ $t('system.guideFileId_zh') }}
+              </el-button>
+              <el-tooltip
+                effect="dark"
+                :content="this.$t('workspace.apiFunctionMd')"
+                placement="right"
+              >
+                <em class="el-icon-question" />
+              </el-tooltip>
+            </el-upload>
+          </el-form-item>
+          <el-form-item
+            prop="guideFileIdEn"
+            ref="guideFileEnItem"
             class="w50 lt"
           >
-            <el-button
-              slot="trigger"
-              size="medium"
-              plain
-              type="primary"
+            <el-upload
+              action=""
+              :file-list="guideFileIdEn_file_list"
+              :limit="1"
+              :auto-upload="false"
+              :on-change="(file,fileList) => { handleUpload('guideFileIdEn', file,fileList,['md'],'documentFileEn') }"
+              :on-exceed="handleExceed"
+              :on-remove="(file) => { handleRemove('guideFileIdEn', file) }"
+              accept=".md"
             >
-              {{ $t('system.guideFileId_en') }}
-            </el-button>
-            <el-tooltip
-              effect="dark"
-              :content="this.$t('workspace.apiFunctionMd')"
-              placement="right"
-            >
-              <em class="el-icon-question" />
-            </el-tooltip>
-          </el-upload>
-        </el-form-item>
+              <el-button
+                slot="trigger"
+                size="medium"
+                plain
+                type="primary"
+              >
+                {{ $t('system.guideFileId_en') }}
+              </el-button>
+              <el-tooltip
+                effect="dark"
+                :content="this.$t('workspace.apiFunctionMd')"
+                placement="right"
+              >
+                <em class="el-icon-question" />
+              </el-tooltip>
+            </el-upload>
+          </el-form-item>
+        </div>
+
         <el-form-item
           :label="$t('workspace.description')"
           prop="description"
@@ -183,6 +193,8 @@
             :placeholder="$t('system.zh_cn')"
             type="textarea"
             v-model="form.description"
+            maxlength="200"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item
@@ -194,6 +206,8 @@
             :placeholder="$t('system.en')"
             type="textarea"
             v-model="form.descriptionEn"
+            maxlength="400"
+            show-word-limit
           />
         </el-form-item>
         <h3 :style="{margin: '10px 0px '}">
@@ -422,7 +436,7 @@ export default {
         { label: 'HTTP', value: 'http' },
         { label: 'HTTPS', value: 'https' }
       ],
-      formLabelWidth: '120px',
+      formLabelWidth: '125px',
       form: {},
       defaultForm: {
         protocol: 'https',
@@ -432,21 +446,22 @@ export default {
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
         guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument'), trigger: 'change' }],
+        guideFileIdEn: [{ required: true, message: this.$t('promptMessage.systemDocumentEn'), trigger: 'change' }],
         twoLevelName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^[^a-zA-Z]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
         ],
         twoLevelNameEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+          { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
         ],
         oneLevelName: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
-          { pattern: /^[^a-zA-Z]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
         ],
         oneLevelNameEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
-          { pattern: /^[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+          { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
         ],
         port: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.inPort')}` },
@@ -454,11 +469,11 @@ export default {
         ],
         description: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
-          { pattern: /^[^a-zA-Z]{1,100}$/g, message: this.$t('promptMessage.systemCapaDescCn') }
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,200}$/g, message: this.$t('promptMessage.systemCapaDescCn') }
         ],
         descriptionEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
-          { pattern: /^[^\u4E00-\u9FA5]{1,200}$/g, message: this.$t('promptMessage.systemCapaDescEn') }
+          { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,400}$/g, message: this.$t('promptMessage.systemCapaDescEn') }
         ],
         protocol: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.protocol')}` }
@@ -555,7 +570,7 @@ export default {
             ...rest
           }).then(res => {
             if (res && res.data && res.data.groupId) {
-              this.$message.success((this.form.groupId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'))
+              this.$message.success((this.form.groupId ? this.$t('api.modify') : this.$t('system.addMep')) + this.$t('system.success'))
               this.onClose()
             } else {
               throw new Error()
@@ -564,6 +579,7 @@ export default {
             this.$message.error(this.$t('system.addMep') + this.$t('system.error'))
           }).finally(() => {
             this.loading = false
+            sessionStorage.setItem('currentPage', 1)
             this.getListData()
           })
         }
@@ -630,6 +646,15 @@ export default {
             type: 'success',
             message: this.$t('promptMessage.uploadSuccess')
           })
+          if (this[`${key}_file_list`].length !== 0) {
+            if (key === 'apiFileId') {
+              this.$refs.apiFileItem.clearValidate()
+            } else if (key === 'guideFileId') {
+              this.$refs.guideFileItem.clearValidate()
+            } else if (key === 'guideFileIdEn') {
+              this.$refs.guideFileEnItem.clearValidate()
+            }
+          }
         } else {
           this.handleRemove(key)
           throw new Error()

@@ -319,7 +319,6 @@ body .el-table th.gutter{
 .el-icon-arrow-up:before{
   font-size: 16px;
   position: relative;
-  top: -3px;
 }
 .el-icon-arrow-left:before{
   font-size: 16px;

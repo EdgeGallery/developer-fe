@@ -476,8 +476,8 @@ export default {
       listTotal: 0,
       logData: [],
       protocolOptions: [
-        { label: 'HTTP', value: 'http' },
-        { label: 'HTTPS', value: 'https' }
+        { label: 'http', value: 'http' },
+        { label: 'https', value: 'https' }
       ],
       statusOptions: [
         { label: 'NORMAL', value: 'NORMAL' },
