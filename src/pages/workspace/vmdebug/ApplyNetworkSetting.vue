@@ -47,16 +47,18 @@
         <el-table-column
           header-align="center"
           :label="$t('workspace.description')"
-          :formatter="showDescCol"
           show-overflow-tooltip
-        />
+        >
+          <template slot-scope="scope">
+            {{ language==='cn'?scope.row.descriptionZh:scope.row.descriptionEn }}
+          </template>
+        </el-table-column>
       </el-table>
     </el-row>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'NetworkSettingOnApplyVM',
   props: {
@@ -71,9 +73,14 @@ export default {
   },
   data () {
     return {
-      isZh: true,
+      language: localStorage.getItem('language'),
       defaultSelectType: [],
       selectedNetwork: []
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
@@ -92,13 +99,9 @@ export default {
         return false
       }
       return true
-    },
-    showDescCol (row) {
-      return this.isZh ? row.descriptionZh : row.descriptionEn
     }
   },
   mounted () {
-    this.isZh = this.$store.state.language === 'cn'
     this.vmConfigData.vmNetworkList.forEach((item) => {
       this.defaultSelectType.push(item.networkType)
     })
