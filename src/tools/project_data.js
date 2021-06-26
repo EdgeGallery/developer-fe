@@ -79,6 +79,9 @@ const Type = [
   }, {
     value: 'MEP',
     label: ['MEP', 'MEP']
+  }, {
+    value: 'Other',
+    label: ['其他', 'Other']
   }
 ]
 

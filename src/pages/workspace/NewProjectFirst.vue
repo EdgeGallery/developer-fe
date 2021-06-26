@@ -337,7 +337,7 @@ export default {
         ],
         description: [
           { required: true, validator: validateDescription, trigger: 'blur' },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       formLabelWidth: '110px',
