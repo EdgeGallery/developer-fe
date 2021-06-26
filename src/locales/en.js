@@ -693,7 +693,7 @@ const en = {
     nameRule: 'Please enter a 4-32 character name without spaces, which can contain numbers, letters, _, -, and cannot start and end with _,-',
     versionRule: 'Please enter the version number of 1-10 characters, can only contain numbers, letters, _,-and spaces, and cannot be empty at the beginning',
     providerRule: 'Please enter a provider name of 1-30 characters, the beginning cannot be empty',
-    introductionRule: 'Please enter a description of 1-1024 characters, the beginning cannot be empty',
+    introductionRule: 'Please enter a description of 1-1024 characters, the beginning cannot be empty or all numbers',
     checkFileType: 'Please upload a file that matches the format',
     downloading: 'Downloading, please wait...',
     guestPrompt: 'The guest user has no right to operate, please log in first!',

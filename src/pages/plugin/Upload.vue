@@ -300,7 +300,7 @@ export default {
         ],
         introduction: [
           { required: true, validator: validateDes, trigger: 'blur' },
-          { pattern: /^\S.{0,259}$/g, message: this.$t('promptMessage.introductionRule') }
+          { pattern: /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
       options: [
@@ -374,7 +374,7 @@ export default {
       let version = this.form.version
       let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
       let introduction = this.form.introduction
-      let introductionRule = introduction.match(/^\S.{0,259}$/g)
+      let introductionRule = introduction.match(/^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g)
       if (!pluginName) {
         this.$message({
           type: 'warning',
