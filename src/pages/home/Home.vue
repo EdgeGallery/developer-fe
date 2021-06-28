@@ -288,7 +288,7 @@ export default {
     background: url('../../assets/images/home_banner_bg.jpg');
     background-size:cover;
     display: flex;
-    min-height:750px;
+    min-height:500px;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
@@ -299,8 +299,10 @@ export default {
       max-width: 566px;
     }
     .banner_text.banner_en{
-      width: 60%;
+      height: 40%;
       max-width: 868px;
+      width: auto;
+      min-height: 200px;
     }
     .el-button.to_project{
       min-width: 200px;
