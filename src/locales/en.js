@@ -717,7 +717,7 @@ const en = {
     hostErrorInfo: 'Please enter the correct Host address',
     portErrorInfo: 'Port number range 30000-30400',
     systemCapaNameCn: 'Please enter a Chinese name with a length of 1-20, and the beginning cannot be empty',
-    systemCapaNameEn: 'Please enter a English name with a length of 1-4, and the beginning cannot be empty',
+    systemCapaNameEn: 'Please enter a English name with a length of 1-40, and the beginning cannot be empty',
     systemCapaDescCn: 'Please enter a Chinese description with a length of 1-200, and the beginning cannot be empty',
     systemCapaDescEn: 'Please enter a English description with a length of 1-400, and the beginning cannot be empty',
     systemServiceName: 'Please enter a service name with a length of 1-20',
@@ -725,7 +725,9 @@ const en = {
     systemDocument: 'Please upload Chinese documentation',
     systemDocumentEn: 'Please upload English documentation',
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
-    imageInfoErr: 'Please make sure the image information is correct'
+    imageInfoErr: 'Please make sure the image information is correct',
+    twoLevelName: 'Please enter the service name with a length of 1-40, the beginning cannot be empty',
+    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

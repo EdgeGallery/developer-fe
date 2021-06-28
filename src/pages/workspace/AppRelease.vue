@@ -1004,7 +1004,7 @@ export default {
           serviceName: '',
           internalPort: 0,
           version: '',
-          protocol: 'HTTP',
+          protocol: 'https',
           apiJson: '',
           apiMd: '',
           trafficRulesList: '',

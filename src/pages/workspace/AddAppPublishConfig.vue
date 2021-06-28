@@ -25,6 +25,8 @@
     >
       <el-form
         :model="form"
+        ref="form"
+        :rules="rules"
         class="config_form"
         size="mini"
       >
@@ -37,6 +39,7 @@
           :label="$t('workspace.name')"
           :label-width="formLabelWidth"
           class="service_row"
+          prop="twoLevelName"
         >
           <el-input
             v-model="form.twoLevelName"
@@ -47,6 +50,7 @@
           :label="$t('workspace.appRelease.capabilityType')"
           :label-width="formLabelWidth"
           class="service_row"
+          prop="oneLevelName"
         >
           <el-select
             v-model="form.oneLevelName"
@@ -65,6 +69,8 @@
           :label="$t('devTools.uploadApiFile')"
           :label-width="formLabelWidth"
           class="service_row f50 fileP"
+          prop="apiJson"
+          ref="apiFileItem"
         >
           <el-upload
             class="upload-demo clear"
@@ -99,6 +105,8 @@
           :label="$t('workspace.uploadFile')"
           :label-width="formLabelWidth"
           class="service_row f50 fileP"
+          prop="apiMd"
+          ref="apiMdItem"
         >
           <el-upload
             class="upload-demo clear"
@@ -133,12 +141,15 @@
           :label="$t('workspace.description')"
           :label-width="formLabelWidth"
           class="service_row"
+          prop="description"
         >
           <el-input
             type="textarea"
             v-model="form.description"
             :placeholder="$t('workspace.description')"
             :rows="2"
+            maxlength="400"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item
@@ -150,6 +161,7 @@
           :label="$t('workspace.servicename')"
           :label-width="formLabelWidth"
           class="service_row f50"
+          prop="serviceName"
         >
           <el-input
             v-model="form.serviceName"
@@ -160,6 +172,7 @@
           :label="$t('workspace.internalPort')"
           :label-width="formLabelWidth"
           class="service_row f50"
+          prop="internalPort"
         >
           <el-input
             v-model="form.internalPort"
@@ -170,6 +183,7 @@
           :label="$t('workspace.version')"
           :label-width="formLabelWidth"
           class="service_row f50"
+          prop="version"
         >
           <el-input
             v-model="form.version"
@@ -180,6 +194,7 @@
           :label="$t('workspace.protocol')"
           :label-width="formLabelWidth"
           class="service_row f50"
+          prop="protocol"
         >
           <el-select
             v-model="form.protocol"
@@ -269,10 +284,10 @@ export default {
       dnsRulesList: [],
       optionsProtocol: [{
         value: '0',
-        label: 'HTTP'
+        label: 'http'
       }, {
         value: '1',
-        label: 'HTTPS'
+        label: 'https'
       }],
       optionsCapability: [],
       optionsTrafficRules: [],
@@ -281,22 +296,54 @@ export default {
       apiFileList: [],
       apiMdList: [],
       userId: sessionStorage.getItem('userId'),
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      rules: {
+        twoLevelName: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,40}$/g, message: this.$t('promptMessage.twoLevelName') }
+        ],
+        oneLevelName: [
+          { required: true, message: this.$t('test.testApp.choosetype'), trigger: 'change' }
+        ],
+        apiJson: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
+        apiMd: [{ required: true, message: `${this.$t('system.pleaseUpload')}${this.$t('system.guideFileId')}`, trigger: 'change' }],
+        description: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,400}$/g, message: this.$t('promptMessage.serviceDesc') }
+        ],
+        serviceName: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
+          { pattern: /^(?!\s)[\S.\s\n\r]{1,40}$/g, message: this.$t('promptMessage.twoLevelName') }
+        ],
+        internalPort: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.inPort')}` },
+          { message: `${this.$t('system.pleaseInput')}${this.$t('system.correct')}${this.$t('system.inPort')}`, pattern: /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/ }
+        ],
+        version: [
+          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.version')}` },
+          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
+        ],
+        protocol: [
+          { required: true, trigger: 'change' }
+        ]
+      }
     }
   },
   methods: {
     getEditConfigData () {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
-      this.form = data
-      this.form.trafficRulesList = data.trafficRulesList.split(',')
-      this.form.dnsRulesList = data.dnsRulesList.split(',')
-      this.removeEmpty(this.form.trafficRulesList)
-      this.removeEmpty(this.form.dnsRulesList)
-      if (this.form.apiJson) {
-        this.getFileList(this.form.apiJson, 'apiJson')
-      }
-      if (this.form.apiMd) {
-        this.getFileList(this.form.apiMd, 'apiMd')
+      if (data) {
+        this.form = data
+        this.form.trafficRulesList = data.trafficRulesList.split(',')
+        this.form.dnsRulesList = data.dnsRulesList.split(',')
+        this.removeEmpty(this.form.trafficRulesList)
+        this.removeEmpty(this.form.dnsRulesList)
+        if (this.form.apiJson) {
+          this.getFileList(this.form.apiJson, 'apiJson')
+        }
+        if (this.form.apiMd) {
+          this.getFileList(this.form.apiMd, 'apiMd')
+        }
       }
     },
     getFileList (fileId, type) {
@@ -365,6 +412,7 @@ export default {
         this.apiFileList = []
       } else {
         this.apiFileList.push(file.raw)
+        this.$refs.apiFileItem.clearValidate()
       }
       let fileTypeArr = ['yaml', 'json']
       let checkPassed = this.checkFileType(fileList, fileTypeArr)
@@ -385,6 +433,7 @@ export default {
         this.apiMdList = []
       } else {
         this.apiMdList.push(file.raw)
+        this.$refs.apiMdItem.clearValidate()
       }
       let fileTypeArr = ['md']
       let checkPassed = this.checkFileType(fileList, fileTypeArr)
@@ -429,16 +478,27 @@ export default {
           }
         })
         oneLevel = Array.from(new Set(oneLevel))
+        this.form.oneLevelName = oneLevel[0]
         this.optionsCapability = oneLevel
       })
     },
     addPublicConfig () {
-      this.form.trafficRulesList = this.form.trafficRulesList.join(',')
-      this.form.dnsRulesList = this.form.dnsRulesList.join(',')
-      this.form.iconFileId = '20aeed6a-f05f-4789-94b5-8a50db67d096'
-      this.form.author = sessionStorage.getItem('userName')
-      this.$emit('getAddPublicConfigData', this.form)
-      this.handleClose()
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          this.form.trafficRulesList = this.form.trafficRulesList.join(',')
+          this.form.dnsRulesList = this.form.dnsRulesList.join(',')
+          this.form.iconFileId = '20aeed6a-f05f-4789-94b5-8a50db67d096'
+          this.form.author = sessionStorage.getItem('userName')
+          this.$emit('getAddPublicConfigData', this.form)
+          this.handleClose()
+        }
+      })
+      if (this.apiMdList.length !== 0) {
+        this.$refs.apiMdItem.clearValidate()
+      }
+      if (this.apiFileList.length !== 0) {
+        this.$refs.apiFileItem.clearValidate()
+      }
     }
   },
   mounted () {

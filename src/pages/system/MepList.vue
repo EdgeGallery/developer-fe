@@ -433,8 +433,8 @@ export default {
       offsetPage: 0,
       listTotal: 0,
       protocolOptions: [
-        { label: 'HTTP', value: 'http' },
-        { label: 'HTTPS', value: 'https' }
+        { label: 'http', value: 'http' },
+        { label: 'https', value: 'https' }
       ],
       formLabelWidth: '125px',
       form: {},
