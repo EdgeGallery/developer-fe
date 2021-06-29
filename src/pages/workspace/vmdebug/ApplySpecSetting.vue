@@ -53,15 +53,21 @@
           align="center"
           :label="$t('workspace.name')"
           width="150px"
-          :formatter="showNameCol"
           show-overflow-tooltip
-        />
+        >
+          <template slot-scope="scope">
+            {{ language==='cn'?scope.row.nameZh:scope.row.nameEn }}
+          </template>
+        </el-table-column>
         <el-table-column
           align="center"
           :label="$t('workspace.deployDebugVm.scene')"
-          :formatter="showSceneCol"
           show-overflow-tooltip
-        />
+        >
+          <template slot-scope="scope">
+            {{ language==='cn'?scope.row.sceneZh:scope.row.sceneEn }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="cpu"
           align="center"
@@ -181,8 +187,7 @@ export default {
   },
   data () {
     return {
-      isZh: true,
-
+      language: localStorage.getItem('language'),
       archType: this.allStepData.specSetting ? this.allStepData.specSetting.archType : 'X86',
       vmRegulationDataList: [],
       selectedRegulationId: this.allStepData.specSetting ? this.allStepData.specSetting.selectedRegulationId : -1,
@@ -192,6 +197,11 @@ export default {
       selectedOSName: this.allStepData.specSetting ? this.allStepData.specSetting.selectedOSName : '',
       operateSystemOptionList: [],
       selectedSystemId: this.allStepData.specSetting ? this.allStepData.specSetting.selectedSystemId : ''
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
@@ -255,12 +265,6 @@ export default {
         }
         )
     },
-    showNameCol (row) {
-      return this.isZh ? row.nameZh : row.nameEn
-    },
-    showSceneCol (row) {
-      return this.isZh ? row.sceneZh : row.sceneEn
-    },
     appendCPUUnit (row) {
       return row.cpu + 'vCPU'
     },
@@ -269,7 +273,6 @@ export default {
     }
   },
   mounted () {
-    this.isZh = this.$store.state.language === 'cn'
     this.filterVmRegulation()
     this.filterOSName()
     this.filterOperateSystemOption()
