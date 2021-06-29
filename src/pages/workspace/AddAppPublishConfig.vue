@@ -56,12 +56,13 @@
             v-model="form.oneLevelName"
             size="mini"
             class="select_right"
+            @change="selectOnelevelName"
           >
             <el-option
               v-for="item in optionsCapability"
-              :key="item"
-              :label="item"
-              :value="item"
+              :key="item.key"
+              :label="language==='cn'?item.key:item.value"
+              :value="language==='cn'?item.key:item.value"
             />
           </el-select>
         </el-form-item>
@@ -326,10 +327,23 @@ export default {
         protocol: [
           { required: true, trigger: 'change' }
         ]
-      }
+      },
+      oneLevelMap: new Map()
     }
   },
   methods: {
+    selectOnelevelName (name) {
+      this.optionsCapability.forEach(item => {
+        if (name === item.key) {
+          this.form.oneLevelName = item.key
+          this.form.oneLevelNameEn = item.value
+        }
+        if (name === item.value) {
+          this.form.oneLevelName = item.value
+          this.form.oneLevelNameEn = item.key
+        }
+      })
+    },
     getEditConfigData () {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
       if (data) {
@@ -471,14 +485,12 @@ export default {
       Workspace.getCapabilityListApi().then(res => {
         let oneLevel = []
         res.data.forEach(item => {
-          if (this.language === 'cn') {
-            oneLevel.push(item.oneLevelName)
-          } else {
-            oneLevel.push(item.oneLevelNameEn)
-          }
+          this.oneLevelMap.set(item.oneLevelName, item.oneLevelNameEn)
         })
-        oneLevel = Array.from(new Set(oneLevel))
-        this.form.oneLevelName = oneLevel[0]
+        this.oneLevelMap.forEach(function (value, key) {
+          oneLevel.push({ key, value })
+        })
+        this.form.oneLevelName = this.language === 'cn' ? oneLevel[0].key : oneLevel[0].value
         this.optionsCapability = oneLevel
       })
     },

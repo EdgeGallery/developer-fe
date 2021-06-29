@@ -17,10 +17,12 @@
         projectId: window.sessionStorage.getItem("mecDetailID")
     });
     function openTerminal(options){
+        var window_width=$(window).width()
+        var window_height=$(window).height()
         var client = new WSSHClient();
         var term = new Terminal({
-            cols: 97,
-            rows: 37,
+            cols: Math.floor(window_width/9),
+            rows: Math.floor(window_height/20),
             cursorBlink: true, // Cursor blink configuration
             cursorStyle: "block", // Cursor Stgyle  null | 'block' | 'underline' | 'bar'
             scrollback: 800, // Scroll back
