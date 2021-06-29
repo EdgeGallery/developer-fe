@@ -22,11 +22,12 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: 'mecDeveloper',
       component: () => import('../pages/home/Home.vue')
     },
     {
       path: '/index',
-      redirect: '/',
+      redirect: 'mecDeveloper',
       component: () => import('../pages/home/Home.vue')
     },
     {

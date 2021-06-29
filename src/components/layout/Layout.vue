@@ -70,12 +70,12 @@ export default {
   },
   methods: {
     getPagePath (path) {
-      if (path === '/mecDeveloper' || path === '/') {
+      if (path === '/mecDeveloper') {
         this.showFullFooterPage = true
       } else {
         this.showFullFooterPage = false
       }
-      if (path === '/mecDeveloper' || path === '/' || path === '/mecDeveloper/api/mep') {
+      if (path === '/mecDeveloper' || path === '/mecDeveloper/api/mep') {
         this.specificBg = true
       } else {
         this.specificBg = false
