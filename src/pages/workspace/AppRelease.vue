@@ -1138,7 +1138,7 @@ export default {
       })
     },
     // Reload the integrated ATP test page
-    rebuileComponents () {
+    rebuildComponents () {
       this.isRouterAlive = false
       this.$nextTick(() => {
         this.isRouterAlive = true
