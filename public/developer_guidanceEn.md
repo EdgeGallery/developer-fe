@@ -1,33 +1,34 @@
-### 如何编写一个正确的部署yaml
+### How to write a correct deployment yaml
 
-1.开发者对容器应用部署调测时，可以下载开发者平台提供的样例yaml，根据自己需要部署的应用，修改样例yaml并上传使用。
+1.When developers deploy and debug container applications, they can download the sample yaml provided by the developer platform, modify the sample yaml according to the application they need to deploy, and upload it for use.
 
-2.开发者平台会对上传的yaml中的镜像信息进行校验，yaml中配置的镜像不拘泥于固定格式，但是需要注意的是镜像需要为开源镜像或者EdgeGallery仓库已有镜像。
+2.The developer platform will verify the image information in the uploaded yaml. The image configured in the yaml is not limited to a fixed format, but it should be noted that the image needs to be an open source image or an existing image in the EdgeGallery warehouse.
 
-3.如果yaml中配置的镜像形式为EdgeGallery仓库镜像形式，请提前上传镜像到EdgeGallery仓库，防止容器应用部署调测失败。 
+3.If the image format configured in yaml is the EdgeGallery warehouse image format, please upload the image to the EdgeGallery warehouse in advance to prevent the deployment and commissioning of the container application from failing.
 
-4.如果yaml中配置的镜像形式为EdgeGallery仓库镜像形式，建议的镜像配置格式如下：
+4.If the image format configured in yaml is EdgeGallery warehouse image format, the recommended image configuration format is as follows:
 - '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/xxx:xxx'
 
-5.如果yaml中配置的镜像属于其他开源镜像仓库，请确保镜像配置形式正确。
+5.If the image configured in yaml belongs to other open source image warehouses, please ensure that the image configuration form is correct.
 
-6.请尽可能的配置yaml中的namespace，并确保其格式为'{{ .Values.appconfig.appnamespace }}'。
+6.Please configure the namespace in yaml as much as possible, and ensure that its format is'{{ .Values.appconfig.appnamespace }}'.
 
-7.尽可能一次性配置正确，确保yaml中的关键参数配置正确，例如暴露的端口，配置的环境变量等等。
+7.Configure the correct one-time as much as possible, and ensure that the key parameters in yaml are configured correctly, such as exposed ports, configured environment variables, and so on.
 
-### 如何开发示例应用程序
 
-1.消费者应用可以方便地与MEP/MEP-AGENT集成，获得生产者应用服务
+### How to develop an example application
 
-2.每个消费者应用程序都应该编写 2 到 3 行代码来实现此功能
+1.Consumer application can easily integrate with MEP/MEP-AGENT to obtain producer application services
 
-3.Mep-agent 应该公开一个 API 来获取令牌和服务端点
+2.Every consumer application should be writing 2 to 3 lines of code to acheive this functionality
 
-4.消费者应用程序使用消费者客户端来执行 CRUD 操作。
+3.Mep-agent should expose an API’s to get token and service endpoint
 
-5.示例消费者应用程序可以利用 mep-agent 和 consumerclient 通过 kong 与 mep-service 通信
+4.Consumer application uses consumer client to perform CRUD operations.
 
-6. ClientFactory 代码实现向 mep-agent 发送请求以获取服务端点，并根据端点信息创建一个客户端对象
+5.Example consumer application can leverage mep-agent and consumerclient to communicate with mep-service via kong
+
+6. ClientFactory code is implemented to send request to mep-agent to get service endpoint and based on endpoint information will create a client object
 ```
 def get_service_endpoint(service):
     url = restclient.mep_agent_url + "/mep-agent/v1/endpoint/{0}".format(service)
@@ -58,7 +59,7 @@ class ClientFactory:
         return clientObjects[service]
 ```
 
-7.实现了消费者客户端代码以获取访问令牌并通过 kong 向 mep 服务发送请求
+7.Consumerclient code is implemented to get access token and send request to mep service via kong
 ```
 def get_access_token():
     url = mep_agent_url + "/mep-agent/v1/token"
@@ -93,7 +94,7 @@ class RestClient:
         return self.endpoint
 ```
 
-8.应用代码实现通过kong api网关向消费者客户端发送与mep服务通信的请求
+8.Application code is implemented to send request to consumer client for communicating with mep service via kong api gateway
 ```
 rest_client = clientFactory.get_client_by_service_name(constants.face_recognition_service)
 url = rest_client.get_endpoint() + "/v1/face-recognition/recognition"
