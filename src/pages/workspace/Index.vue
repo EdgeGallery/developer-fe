@@ -66,7 +66,7 @@ export default {
   .newproject_btn{
     position: absolute;
     right: 0;
-    bottom: -80px;
+    bottom: 30px;
     height: 64px;
     background: #5844be;
     color: #fff;

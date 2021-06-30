@@ -177,21 +177,25 @@ export default {
       } else {
         this.scrollTop = false
       }
-    }
-  },
-  watch: {
-    '$i18n.locale': function () {
-      this.language = localStorage.getItem('language')
+    },
+    getDocUrl () {
       if (this.language === 'cn') {
         this.docsUrl = this.docList[this.selectIndex].docUrl
       } else {
         this.docsUrl = this.docList[this.selectIndex].docUrlEn
       }
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.getDocUrl()
       this.getMarkDown(this.docsUrl)
     }
   },
   mounted () {
     this.docHandleData = this.docList[0]
+    this.getDocUrl()
     this.getMarkDown(this.docsUrl)
     window.addEventListener('scroll', this.getTreeTop, true)
     window.onresize = () => {
