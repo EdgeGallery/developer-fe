@@ -38,7 +38,8 @@ const cn = {
   home: {
     enterDev: '进入开发',
     select: '选择',
-    start: '开始'
+    start: '开始',
+    partner: '合作伙伴'
   },
   footer: {
     about: '关于',
@@ -164,6 +165,7 @@ const cn = {
     testTask: '测试任务管理',
     mecOpenSource: 'MEC开源生态',
     workSpace: '工作空间',
+    docs: '文档',
     search: '搜索',
     logIn: '登录',
     userAccountCenter: '我的帐号',
@@ -172,6 +174,9 @@ const cn = {
     contact: '联系我们',
     serviceDoc: '服务文档',
     apiMulator: '在线模拟器'
+  },
+  capabilityCenter: {
+    telecomStandards: '电信标准支持全景图'
   },
   workspace: {
     projectStatusEnum: {

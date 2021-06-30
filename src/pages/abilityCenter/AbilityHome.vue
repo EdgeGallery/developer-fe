@@ -28,19 +28,19 @@
           <span class="dots" />
           <span>{{ $t('api.capabilitieTitle2') }}</span>
         </div>
+        <div id="position" />
       </div>
       <div
-        class="title_bg padding_default"
+        class="padding_default"
         id="capa_tit_div"
       >
-        <div class="title_top title_left clear">
-          <img
-            src="../../assets/images/home_tit_capability.png"
-            alt=""
-          >
+        <div class="title_bg" />
+        <div class="title_top title_left defaultFontBlod clear">
+          {{ $t('workspace.platformCapabilities') }}
+          <span class="line_bot1" />
         </div>
       </div>
-      <!-- 能力列表 -->
+      <!-- Ability list -->
       <div class="capa_list_div padding_default clear">
         <div class="filter_div">
           <p
@@ -80,7 +80,7 @@
             </div>
           </el-collapse-transition>
         </div>
-        <!-- 左侧菜单 -->
+        <!-- Left menu -->
         <div
           class="list_left lt"
           v-loading="groupLoading"
@@ -98,7 +98,7 @@
             @getPageScroll="getPageScroll"
           />
         </div>
-        <!-- 右侧列表 -->
+        <!-- List on the right -->
         <div
           class="list_right clear rt"
           v-loading="serviceLoading"
@@ -123,16 +123,15 @@
           </p>
         </div>
       </div>
-      <!-- 电信标准支持全景图 -->
+      <!-- Telecom standards support panorama -->
       <div
         class="panorama padding_default"
         id="panorama"
       >
-        <img
-          src="../../assets/images/capa_tit_panorama.png"
-          alt=""
-          class="tit_panorama title_left title_top"
-        >
+        <div class="tit_panorama title_top title_left defaultFontBlod">
+          {{ $t('capabilityCenter.telecomStandards') }}
+          <span class="line_bot1" />
+        </div>
         <p class="title title_left">
           <span class="dots" />ETSI
         </p>
@@ -221,10 +220,22 @@ export default {
       hotFilter: 'hot',
       showNum: 12,
       fromHomeIndex: 0,
-      isRefrshPage: true
+      isRefrshPage: true,
+      screenHeight: document.body.clientHeight,
+      timer: false
     }
   },
   watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
+    },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
     }
@@ -403,6 +414,14 @@ export default {
         this.listBottom = false
       }
     },
+    setDivHeight (screenHeight) {
+      this.$nextTick(() => {
+        let oDiv = document.getElementsByClassName('capa_list_div')
+        if (oDiv[0]) {
+          oDiv[0].style.minHeight = (Number(screenHeight) - 210) + 'px'
+        }
+      })
+    },
     dateChange (time) {
       if (time) {
         let date = new Date(Date.parse(time))
@@ -422,16 +441,25 @@ export default {
     },
     getPageScroll (clickGroupListNum, listBottom) {
       this.listBottom = listBottom
-      if (this.isRefrshPage && clickGroupListNum < 2) {
+      console.log(clickGroupListNum)
+      if (this.isRefrshPage && clickGroupListNum < 1) {
         document.getElementById('app').scrollIntoView()
       } else {
-        document.getElementById('capa_tit_div').scrollIntoView()
+        document.getElementById('position').scrollIntoView()
       }
     }
   },
   mounted () {
     this.fromHomeIndex = this.$route.params.index + 1
     this.listBottom = false
+    this.setDivHeight(this.screenHeight)
+    // Listen to the window size change
+    window.onresize = () => {
+      return (() => {
+        this.screenHeight = document.body.clientHeight
+        this.setDivHeight(this.screenHeight)
+      })()
+    }
   },
   beforeMount () {
     this.initAbilities()
@@ -470,11 +498,15 @@ export default {
   width: 100%;
   overflow-y: auto;
   top:80px;
+  #capa_tit_div{
+    position: relative;
+  }
   .topLine{
     height: 430px;
     background: url("../../assets/images/capa_banner_bg.jpg") no-repeat center center;
     user-select: none;
     padding-top: 176px;
+    position: relative;
     .title {
       width: 100%;
       text-align: center;
@@ -508,6 +540,10 @@ export default {
       .dots{
         margin: 0 20px;
       }
+    }
+    #position{
+      position: absolute;
+      bottom: 80px;
     }
     @media screen and (max-width:1380px){
       .title{
@@ -599,7 +635,6 @@ export default {
     .list_left{
       width: 300px;
       position: relative;
-      background: #f1f2f6;
     }
     .list_right.scroll_top{
       margin-left: 300px;
@@ -611,7 +646,7 @@ export default {
         float: left;
         width: 100%;
         text-align: center;
-        margin: 30px 0 50px;
+        margin: 30px 0 80px;
         .el-button{
           background: #7a6e8a;
           border: 1px solid #7a6e8a;

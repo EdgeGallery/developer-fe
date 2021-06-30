@@ -289,7 +289,6 @@ export default {
   background: #fff;
   border-radius: 12px;
   padding: 30px 60px;
-  margin-top: 110px;
   .title {
     font-size: 20px;
     color: #282b33;

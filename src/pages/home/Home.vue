@@ -32,14 +32,14 @@
         </el-button>
       </div>
       <!-- Platform capabilities -->
-      <div class="home_capability title_bg">
-        <div class="capa_div title_top">
+      <div class="home_capability">
+        <div class="title_bg" />
+        <div class="capa_div title_top_home">
           <div class="title clear">
-            <img
-              src="../../assets/images/home_tit_capability.png"
-              alt=""
-              class="title_left lt"
-            >
+            <div class="title_left defaultFontBlod lt">
+              {{ $t('workspace.platformCapabilities') }}
+              <span class="line_bot1" />
+            </div>
             <img
               src="../../assets/images/home_capa_center.png"
               class="capa_center"
@@ -93,12 +93,11 @@
       </div>
 
       <!-- Partner -->
-      <div class="showLogo padding_default title_top">
-        <img
-          src="../../assets/images/home_tit_parnter.png"
-          class="tit_parnter title_left"
-          alt=""
-        >
+      <div class="showLogo padding_default title_top_home">
+        <div class="tit_parnter title_left defaultFontBlod">
+          {{ $t('home.partner') }}
+          <span class="line_bot1" />
+        </div>
         <el-link
           target="_blank"
           v-for="item in aLinkList"
@@ -163,13 +162,12 @@ export default {
     ...mapState(['activeTab'])
   },
   methods: {
-    setScreenHeight (screenHeight) {
+    setDivHeight (screenHeight) {
       this.$nextTick(() => {
         let oDiv = document.getElementsByClassName('banner_home')
-        oDiv[0].style.height = (Number(screenHeight) - 80) + 'px'
-
-        let oDiv1 = document.getElementsByClassName('home_project')
-        oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
+        if (oDiv[0]) {
+          oDiv[0].style.height = (Number(screenHeight) - 80) + 'px'
+        }
       })
     },
     jumpToProject () {
@@ -238,13 +236,13 @@ export default {
     } else {
       this.bannerTextUrl = require('../../assets/images/home_banner_text.png')
     }
-    this.setScreenHeight(this.screenHeight)
+    this.setDivHeight(this.screenHeight)
     // Listen to the window size change
     window.onresize = () => {
       return (() => {
         this.screenHeight = document.body.clientHeight
         this.screenWidth = document.body.clientWidth
-        this.setScreenHeight(this.screenHeight)
+        this.setDivHeight(this.screenHeight)
       })()
     }
   },
@@ -256,7 +254,7 @@ export default {
         setTimeout(function () {
           this.timer = false
         }, 400)
-        this.setScreenHeight(this.screenHeight)
+        this.setDivHeight(this.screenHeight)
       }
     },
     screenWidth (val) {
@@ -266,7 +264,7 @@ export default {
         setTimeout(function () {
           this.timer = false
         }, 400)
-        this.setScreenHeight(this.screenHeight)
+        this.setDivHeight(this.screenHeight)
       }
     },
     '$i18n.locale': function () {
@@ -325,6 +323,7 @@ export default {
   }
   .home_capability{
     padding-bottom: 0;
+    position: relative;
     .capa_div{
       position: relative;
     }
@@ -337,7 +336,7 @@ export default {
       }
     }
     .swiper-container{
-      padding-top: 190px;
+      padding-top: 160px;
       top: -100px;
       padding-right: 10%;
       background: transparent;
