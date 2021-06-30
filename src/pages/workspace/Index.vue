@@ -15,27 +15,22 @@
   -->
 
 <template>
-  <div class="workspace">
-    <div
-      class="title_bg padding_default"
-    >
-      <div class="title_top title_left clear">
-        <img
-          src="../../assets/images/work_tit.png"
-          alt=""
-        >
-        <el-button
-          class="newproject_btn"
-          id="newproject_btn"
-          @click="jumpTo"
-        >
-          <em class="new_icon" />
-          {{ $t('workspace.addNewProject') }}
-        </el-button>
-      </div>
-      <div class="project_list">
-        <projectList ref="projectList" />
-      </div>
+  <div class="workspace padding_default">
+    <div class="title_bg" />
+    <div class="title_top title_left defaultFontBlod clear">
+      {{ $t('nav.workSpace') }}
+      <span class="line_bot1" />
+      <el-button
+        class="newproject_btn"
+        id="newproject_btn"
+        @click="jumpTo"
+      >
+        <em class="new_icon" />
+        {{ $t('workspace.addNewProject') }}
+      </el-button>
+    </div>
+    <div class="project_list">
+      <projectList ref="projectList" />
     </div>
   </div>
 </template>
@@ -67,6 +62,7 @@ export default {
 
 <style lang="less">
 .workspace{
+  position: relative;
   .newproject_btn{
     position: absolute;
     right: 0;

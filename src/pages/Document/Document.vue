@@ -17,11 +17,9 @@
 <template>
   <div class="doc_div">
     <div class="padding_default">
-      <div class="title_top title_left doc_tit">
-        <img
-          src="../../assets/images/docs_tit.png"
-          alt=""
-        >
+      <div class="title_top title_left defaultFontBlod">
+        {{ $t('nav.docs') }}
+        <span class="line_bot1" />
       </div>
       <div
         class="docs_content clear"
@@ -205,9 +203,6 @@ export default {
 <style lang="less">
 .doc_div{
   background: url('../../assets/images/docs_bg.png') right 70px no-repeat;
-  .doc_tit{
-    padding-bottom: 107px;
-  }
   .docs_content{
     background: #fbfbfb;
     padding: 50px;
@@ -290,7 +285,6 @@ export default {
   .doc_right{
     float: right;
     width: calc(100% - 310px);
-    background: #f1f2f6;
     .v-note-wrapper .v-note-panel .v-note-show .v-show-content, .v-note-wrapper .v-note-panel .v-note-show .v-show-content-html{
       border-radius: 16px;
       box-shadow: 4px 4px 25px 5px rgba(36, 20, 119, 0.1) inset;

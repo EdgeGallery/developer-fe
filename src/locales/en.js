@@ -38,7 +38,8 @@ const en = {
   home: {
     enterDev: 'Enter development',
     select: 'Select',
-    start: 'Start'
+    start: 'Start',
+    partner: 'Partner'
   },
   footer: {
     about: 'About',
@@ -164,6 +165,7 @@ const en = {
     testTask: 'Test Task Management',
     mecOpenSource: 'MEC Open Source Ecology',
     workSpace: 'WorkSpace',
+    docs: 'Document',
     search: 'Search',
     logIn: 'Log In',
     userAccountCenter: 'My Account',
@@ -172,6 +174,9 @@ const en = {
     contact: 'Contact',
     serviceDoc: 'Service Document',
     apiMulator: 'Online Simulator'
+  },
+  capabilityCenter: {
+    telecomStandards: 'Telecom standards support panorama'
   },
   workspace: {
     projectStatusEnum: {

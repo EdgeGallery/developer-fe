@@ -21,22 +21,20 @@
   >
     <div
       class="integration lt"
-      :class="[{'start':addAnimationLeft,'select':addAnimationRight}]"
+      :class="{'start':addAnimationLeft,'select':addAnimationRight}"
     >
       <div
         class="project_info"
-        :class="[{'hide':addAnimationLeft}]"
+        :class="{'hide':addAnimationLeft}"
       >
         <img
           src="../../assets/images/home_project_integration.png"
           alt=""
         >
         <p class="tit">
-          应用集成
+          {{ $t('workspace.appIntegration') }}
         </p>
-        <p class="tit_sub">
-          Integrate
-        </p>
+        <span class="line_bot1" />
         <el-button
           @mouseenter.native="toRight"
           @mouseleave.native="addAnimationLeft=addAnimationRight=false"
@@ -79,11 +77,9 @@
           alt=""
         >
         <p class="tit">
-          应用开发
+          {{ $t('workspace.appDevelopment') }}
         </p>
-        <p class="tit_sub">
-          Development
-        </p>
+        <span class="line_bot2" />
         <el-button
           @mouseenter.native="toLeft"
           @mouseleave.native="addAnimationLeft=addAnimationRight=false"
@@ -356,12 +352,12 @@ export default {
     opacity: 1;
     transition:opacity 0.3s;
     img{
-      width: 75%;
+      width: 90%;
       max-width: 237px;
     }
     .tit{
       font-size: 36px;
-      margin: 110px 0 25px;
+      margin: 110px 0 0;
     }
     .tit_sub{
       font-size: 20px;

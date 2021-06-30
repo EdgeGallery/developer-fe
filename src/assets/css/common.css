@@ -14,10 +14,15 @@
  *  limitations under the License.
  */
 @font-face
- {
-   font-family: defaultFont;
-   src: url(../fonts/Harmony-Regular.ttf);
- }
+{
+  font-family: defaultFont;
+  src: url(../fonts/Harmony-Regular.ttf);
+}
+@font-face
+{
+  font-family: defaultFontBlod;
+  src: url(../fonts/Harmony-SemiBold.ttf);
+}
 html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
   margin:0;
   padding:0;
@@ -29,12 +34,14 @@ html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
 .defaultFont{
   font-family:defaultFont, Arial, Helvetica, sans-serif;
 }
+.defaultFontBlod{
+  font-family:defaultFontBlod, Arial, Helvetica, sans-serif;
+}
 
 html,body{
   min-width: 1200px;
   height:100%;
   font-size: 14px;
-  background: #f1f2f6;
 }
 a{
   color: #688ef3;
@@ -206,14 +213,42 @@ body::-webkit-scrollbar-thumb{
 }
 .title_left{
   margin-left: 140px;
+  font-size: 36px;
+  color: #380879;
+}
+.line_bot1{
+  display: block;
+  width: 88px;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(141, 73, 231, 0.2);
+  margin-top: 15px;
+  flex-shrink: 0;
+}
+.line_bot2{
+  display: block;
+  width: 88px;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(214, 196, 139, 0.2);
+  margin-top: 15px;
+  flex-shrink: 0;
 }
 .title_top{
+  padding: 80px 0 60px !important;
+  position: relative;
+}
+.title_top_home{
   padding-top: 150px !important;
   position: relative;
 }
 .title_bg{
   background: url('../images/home_left_bg.png') left 85px no-repeat;
+  width: 150px;
   min-height: 370px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 @media screen and (max-width:1380px){
   .padding_default{
