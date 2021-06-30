@@ -91,7 +91,7 @@ export default {
           icon: require('../../assets/images/docs_left_icon_overview.png'),
           iconSelect: require('../../assets/images/docs_left_icon_overview_select.png'),
           docUrl: './Overview.md',
-          docUrlEn: './Overview.md'
+          docUrlEn: './OverviewEn.md'
         },
         {
           title: '能力中心',
@@ -99,7 +99,7 @@ export default {
           icon: require('../../assets/images/docs_left_icon_capability.png'),
           iconSelect: require('../../assets/images/docs_left_icon_capability_select.png'),
           docUrl: './mep-Introduction.md',
-          docUrlEn: './mep-Introduction.md'
+          docUrlEn: './mep-IntroductionEn.md'
         },
         {
           title: '开发工具',
@@ -107,7 +107,7 @@ export default {
           icon: require('../../assets/images/docs_left_icon_tool.png'),
           iconSelect: require('../../assets/images/docs_left_icon_tool_select.png'),
           docUrl: './developer_tool.md',
-          docUrlEn: './developer_tool.md'
+          docUrlEn: './developer_toolEn.md'
         },
         {
           title: '开发指导',
@@ -115,7 +115,7 @@ export default {
           icon: require('../../assets/images/docs_left_icon_guidance.png'),
           iconSelect: require('../../assets/images/docs_left_icon_guidance_select.png'),
           docUrl: './developer_guidance.md',
-          docUrlEn: './developer_guidance.md'
+          docUrlEn: './developer_guidanceEn.md'
         },
         {
           title: '常见问题',
@@ -123,7 +123,7 @@ export default {
           icon: require('../../assets/images/docs_left_icon_faq.png'),
           iconSelect: require('../../assets/images/docs_left_icon_faq_select.png'),
           docUrl: './common_problem.md',
-          docUrlEn: './common_problem.md'
+          docUrlEn: './common_problemEn.md'
         }
       ],
       activeName: 'OverView',
@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     handleClick (data, index) {
-      document.documentElement.scrollTop = 300
+      document.documentElement.scrollTop = 0
       this.selectIndex = index
       this.docHandleData = data
       this.activeName = data.titleEn
@@ -182,6 +182,12 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      if (this.language === 'cn') {
+        this.docsUrl = this.docList[this.selectIndex].docUrl
+      } else {
+        this.docsUrl = this.docList[this.selectIndex].docUrlEn
+      }
+      this.getMarkDown(this.docsUrl)
     }
   },
   mounted () {
