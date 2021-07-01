@@ -1043,8 +1043,6 @@ export default {
         this.$message.success(this.$t('promptMessage.editSuccess'))
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
-      // this.getReleaseConfigFirst()
-      this.getReleaseConfigList()
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
     // Edit rule list
@@ -1229,7 +1227,6 @@ export default {
     },
     getFileList () {
       Workspace.getApiFileApi(this.mdFileId, this.userId).then(res => {
-        this.appMdList = []
         let obj = { name: '' }
         obj.name = res.data.fileName
         this.appMdList.push(obj)
