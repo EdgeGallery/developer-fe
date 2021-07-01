@@ -188,7 +188,7 @@ body::-webkit-scrollbar-thumb{
   width: 100%;
   text-align: left;
 }
-.el-upload-list__item:first-child{
+.el-upload-list__item{
   width: 25%;
   min-width: 200px;
 }
