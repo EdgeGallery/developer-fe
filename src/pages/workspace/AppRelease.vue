@@ -1229,6 +1229,7 @@ export default {
     },
     getFileList () {
       Workspace.getApiFileApi(this.mdFileId, this.userId).then(res => {
+        this.appMdList = []
         let obj = { name: '' }
         obj.name = res.data.fileName
         this.appMdList.push(obj)
