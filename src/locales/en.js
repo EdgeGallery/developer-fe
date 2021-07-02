@@ -695,7 +695,7 @@ const en = {
     isPublicFailed: 'Exposing API capabilities to EdgeGallery ecosystem failed!',
     canOnlyUpload: 'Can only upload .csar files',
     pluginNameRule: 'Please enter a plugin name of 1-30 characters, the beginning cannot be empty',
-    nameRule: 'Please enter a 4-32 character name without spaces, which can contain numbers, letters, _, -, and cannot start and end with _,-',
+    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, _, -, and cannot start and end with _,-',
     versionRule: 'Please enter the version number of 1-10 characters, can only contain numbers, letters, _,-and spaces, and cannot be empty at the beginning',
     providerRule: 'Please enter a provider name of 1-30 characters, the beginning cannot be empty',
     introductionRule: 'Please enter a description of 1-1024 characters, the beginning cannot be empty or all numbers',

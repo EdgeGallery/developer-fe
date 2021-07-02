@@ -180,7 +180,7 @@ export default {
     checkRules () {
       let appIcon = this.allFormData.first.appIcon[0]
       let appname = this.allFormData.first.name
-      let nameRule = appname.match(/^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/)
+      let nameRule = appname.match(/^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/)
       let version = this.allFormData.first.version
       let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
       let provider = this.allFormData.first.provider
