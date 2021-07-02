@@ -39,13 +39,13 @@ const mecDeveloper = [
         name: 'Upload',
         path: '/mecDeveloper/plugin/upload',
         display: true
-      },
-      {
+      }
+      /* {
         id: '3.16',
         name: 'ToolChain',
         path: '/mecDeveloper/plugin/toolchain',
         display: true
-      }
+      } */
     ]
   },
   {
@@ -60,11 +60,12 @@ const mecDeveloper = [
     path: '/mecDeveloper/work',
     display: true
   },
-  {
+  /* {
     id: '3.17',
     name: 'Community Lab',
     display: true
-  }, {
+  }, */
+  {
     id: '3.18',
     name: 'System',
     display: true,

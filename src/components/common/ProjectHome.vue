@@ -158,8 +158,10 @@ export default {
   methods: {
     setScreenHeight (screenHeight) {
       let oDiv1 = document.getElementsByClassName('home_project')
-      oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
-      oDiv1[0].style.minHeight = 500 + 'px'
+      if (oDiv1) {
+        oDiv1[0].style.height = (Number(screenHeight) - 80) + 'px'
+        oDiv1[0].style.minHeight = 500 + 'px'
+      }
     },
     jumpToWorkSpace (type) {
       if (this.userName === 'guest') {

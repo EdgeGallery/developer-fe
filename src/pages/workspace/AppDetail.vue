@@ -328,10 +328,16 @@ export default {
       isAppDevelopment: true,
       isCleanEnv: false,
       imageStatus: 'NOTDEPLOY',
-      deployPlatform: 'KUBERNETES'
+      deployPlatform: 'KUBERNETES',
+      screenHeight: document.body.clientHeight,
+      timer: null
     }
   },
   methods: {
+    setDivHeight (screenHeight) {
+      let oDiv1 = document.getElementsByClassName('elTabs')
+      oDiv1[0].style.minHeight = (Number(screenHeight) - 331) + 'px'
+    },
     projectDependent (res) {
       let dependent = res.data.capabilityList
       let arr = []
@@ -489,8 +495,26 @@ export default {
     this.getProjectInfo()
     this.handleStep()
     this.getTestConfig()
+    this.setDivHeight(this.screenHeight)
+    // When window size changes, adjust the value of screenHeight
+    window.onresize = () => {
+      return (() => {
+        this.screenHeight = document.body.clientHeight
+        this.setDivHeight(this.screenHeight)
+      })()
+    }
   },
   watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
+    },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
