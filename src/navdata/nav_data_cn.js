@@ -39,13 +39,13 @@ const mecDeveloper = [
         name: '上传',
         path: '/mecDeveloper/plugin/upload',
         display: true
-      },
-      {
+      }
+      /* {
         id: '3.16',
         name: '工具链',
         path: '/mecDeveloper/plugin/toolchain',
         display: true
-      }
+      } */
     ]
   },
   {
@@ -60,11 +60,12 @@ const mecDeveloper = [
     path: '/mecDeveloper/work',
     display: true
   },
-  {
+  /* {
     id: '3.17',
     name: '社区实验室',
     display: true
-  }, {
+  }, */
+  {
     id: '3.18',
     name: '系统',
     display: true,
