@@ -265,7 +265,7 @@
 </template>
 
 <script>
-import { Workspace } from '../../tools/api.js'
+import { Workspace, Api } from '../../tools/api.js'
 export default {
   props: {
     value: {
@@ -482,7 +482,7 @@ export default {
     },
     // Fetch first left capability list
     getOneLevelCapability () {
-      Workspace.getCapabilityListApi().then(res => {
+      Api.getCapabilityGroupsApi().then(res => {
         let oneLevel = []
         res.data.forEach(item => {
           this.oneLevelMap.set(item.oneLevelName, item.oneLevelNameEn)
@@ -491,6 +491,7 @@ export default {
           oneLevel.push({ key, value })
         })
         this.form.oneLevelName = this.language === 'cn' ? oneLevel[0].key : oneLevel[0].value
+        this.form.oneLevelNameEn = oneLevel[0].value
         this.optionsCapability = oneLevel
       })
     },

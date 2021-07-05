@@ -1009,7 +1009,8 @@ export default {
           apiMd: '',
           trafficRulesList: '',
           dnsRulesList: '',
-          oneLevelName: ''
+          oneLevelName: '',
+          oneLevelNameEn: ''
         }
       }
     },
