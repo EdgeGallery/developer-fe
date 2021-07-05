@@ -26,6 +26,8 @@
       <div
         class="project_info"
         :class="{'hide':addAnimationLeft}"
+        @mouseenter="toRight"
+        @mouseleave="addAnimationLeft=addAnimationRight=false"
       >
         <img
           src="../../assets/images/home_project_integration.png"
@@ -36,12 +38,10 @@
         </p>
         <span class="line_bot1" />
         <el-button
-          @mouseenter.native="toRight"
-          @mouseleave.native="addAnimationLeft=addAnimationRight=false"
           @click="jumpToWorkSpace('Integrate')"
           class="project_btn"
         >
-          {{ $t('home.select') }}
+          {{ $t('home.start') }}
         </el-button>
       </div>
       <div
@@ -71,6 +71,8 @@
       <div
         class="project_info"
         :class="[{'hide':addAnimationRight}]"
+        @mouseenter="toLeft"
+        @mouseleave="addAnimationLeft=addAnimationRight=false"
       >
         <img
           src="../../assets/images/home_project_development.png"
@@ -81,8 +83,6 @@
         </p>
         <span class="line_bot2" />
         <el-button
-          @mouseenter.native="toLeft"
-          @mouseleave.native="addAnimationLeft=addAnimationRight=false"
           @click="jumpToWorkSpace('Development')"
           class="project_btn"
         >

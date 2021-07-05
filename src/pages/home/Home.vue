@@ -28,7 +28,7 @@
           class="to_project"
           @click="jumpToProject()"
         >
-          {{ $t('home.enterDev') }}<span class="right">></span>
+          {{ $t('workspace.addNewProject') }}<span class="right">></span>
         </el-button>
       </div>
       <!-- Platform capabilities -->

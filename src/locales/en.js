@@ -373,7 +373,7 @@ const en = {
     },
     workSpace: 'WorkSpace',
     myProjectList: 'My Project List',
-    addNewProject: 'New Project',
+    addNewProject: 'Create Project',
     projectStatus: 'Project Status',
     serial: 'Serials',
     icon: 'Icon',

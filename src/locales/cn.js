@@ -373,7 +373,7 @@ const cn = {
     },
     workSpace: '工作空间',
     myProjectList: '我的项目',
-    addNewProject: '新建项目',
+    addNewProject: '创建项目',
     projectStatus: '项目状态',
     serial: '序号',
     icon: '图标',
