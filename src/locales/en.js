@@ -856,7 +856,7 @@ const en = {
         uploadImg: 'Upload System Image',
         uploadImgPromt: 'Please put the image file in qcow2 or ISO format into a folder with the same name as the image file, and then zip the folder and upload it.',
         uploadImgPromtExample: 'Example:',
-        sysImageFileType: 'Please upload files in .zip format, and the size does not exceed 5G!',
+        sysImageFileType: 'Please upload files in .zip format, and the size does not exceed 100G!',
         onlyOneImageFile: 'You can only upload one file!',
         noFileSelected: 'No file selected',
         confirmDeleteImage: 'Are you sure to delete this system image?',

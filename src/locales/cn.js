@@ -856,7 +856,7 @@ const cn = {
         uploadImg: '上传系统镜像',
         uploadImgPromt: '请把qcow2或iso格式的镜像文件放到与该镜像文件同名的文件夹下，然后把该文件夹压缩为zip后上传。',
         uploadImgPromtExample: '示意：',
-        sysImageFileType: '请上传.zip格式的文件，且大小不超过5G！',
+        sysImageFileType: '请上传.zip格式的文件，且大小不超过100G！',
         onlyOneImageFile: '只能上传一个文件！',
         noFileSelected: '未选择上传的文件',
         confirmDeleteImage: '确认要删除该系统镜像吗？',
