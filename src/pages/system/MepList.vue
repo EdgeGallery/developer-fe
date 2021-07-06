@@ -292,7 +292,7 @@
         <el-button
           type="primary"
           size="medium"
-          @click="handleShowForm(defaultForm)"
+          @click="handleShowForm"
         >
           {{ $t('system.addMep') }}
         </el-button>
@@ -437,11 +437,13 @@ export default {
         { label: 'https', value: 'https' }
       ],
       formLabelWidth: '125px',
-      form: {},
-      defaultForm: {
+      form: {
         protocol: 'https',
         iconFileId: '20aeed6a-f05f-4789-94b5-8a50db67d096',
-        author: sessionStorage.getItem('userName')
+        author: sessionStorage.getItem('userName'),
+        apiFileId: '',
+        guideFileId: '',
+        guideFileIdEn: ''
       },
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
@@ -545,7 +547,7 @@ export default {
       this.$message.warning(this.$t('system.fileExceed'))
     },
     onSubmit () {
-      this.$refs.form.validate((valid, params) => {
+      this.$refs['form'].validate((valid, params) => {
         if (valid) {
           this.loading = true
           const data = { ...this.form, ...params }
@@ -572,6 +574,7 @@ export default {
             if (res && res.data && res.data.groupId) {
               this.$message.success((this.form.groupId ? this.$t('api.modify') : this.$t('system.addMep')) + this.$t('system.success'))
               this.onClose()
+              this.$refs['form'].resetFields()
             } else {
               throw new Error()
             }
@@ -670,8 +673,7 @@ export default {
         this.loading = false
       })
     },
-    handleShowForm (v) {
-      this.form = JSON.parse(JSON.stringify(v))
+    handleShowForm () {
       this.apiFileId_file_list = []
       this.guideFileId_file_list = []
       this.guideFileIdEn_file_list = []
