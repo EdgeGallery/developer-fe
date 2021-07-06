@@ -131,7 +131,7 @@ export default {
 
       let fileSize = file.file.size / 1024 / 1024 / 1024
       let typeName = file.file.name.substring(file.file.name.lastIndexOf('.') + 1)
-      if (this.sysImgFileTypeArr.indexOf(typeName) === -1 || fileSize > 5) {
+      if (this.sysImgFileTypeArr.indexOf(typeName) === -1 || fileSize > 100) {
         file.ignored = true
         this.$message.warning(this.$t('system.imageMgmt.tip.sysImageFileType'))
         return
