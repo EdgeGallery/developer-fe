@@ -62,7 +62,7 @@
       <el-table-column
         prop="projectType"
         :label="$t('workspace.projectType')"
-        width="170"
+        width="160"
       >
         <template slot-scope="scope">
           {{ scope.row.projectType==='CREATE_NEW'?$t('workspace.appDevelopment'):$t('workspace.appIntegration') }}
@@ -71,16 +71,16 @@
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
-        width="95"
+        width="100"
       />
       <el-table-column
         prop="provider"
         :label="$t('workspace.provider')"
-        width="140"
+        width="130"
       />
       <el-table-column
         :label="$t('workspace.deployType')"
-        width="155"
+        width="165"
       >
         <template slot-scope="scope">
           {{ scope.row.deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
@@ -89,7 +89,7 @@
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
-        width="100"
+        width="110"
       />
       <el-table-column
         :label="$t('workspace.createDate')"
@@ -101,7 +101,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.status')"
-        width="155"
+        width="165"
         fixed="right"
       >
         <template slot-scope="scope">
@@ -144,7 +144,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.operation')"
-        width="150"
+        width="155"
         fixed="right"
       >
         <template slot-scope="scope">
