@@ -42,20 +42,22 @@
       <el-table-column
         prop="iconUrl"
         :label="$t('workspace.icon')"
-        width="115"
+        width="120"
+        fixed="left"
       >
         <template slot-scope="scope">
           <img
             :src="getIcon(scope.row.iconFileId)"
             class="icon_pic"
-            :alt="scope.row.name"
+            :alt="scope.row.name.length>4?scope.row.name.substr(0,4)+'...':scope.row.name"
           >
         </template>
       </el-table-column>
       <el-table-column
         prop="name"
         :label="$t('workspace.projectName')"
-        min-width="130"
+        min-width="145"
+        fixed="left"
       />
       <el-table-column
         prop="projectType"
@@ -100,6 +102,7 @@
       <el-table-column
         :label="$t('workspace.status')"
         width="155"
+        fixed="right"
       >
         <template slot-scope="scope">
           <em
@@ -141,7 +144,8 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.operation')"
-        width="120"
+        width="150"
+        fixed="right"
       >
         <template slot-scope="scope">
           <el-button
@@ -330,21 +334,15 @@ export default {
       line-height: 30px;
     }
   }
-  .icon_pic {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-  }
   .el-table {
     margin-top: 30px;
     .icon_pic {
-      width: 36px;
-      height: 36px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
     }
     tbody {
       td {
-        padding: 8px 0 !important;
         em {
           display: inline-block;
           width: 18px;
@@ -384,12 +382,7 @@ export default {
             background: #efefef;
             border: none;
             color: #7a6e8a;
-            display: block;
             border-radius: 3px;
-          }
-          .operation_button + .el-button {
-            margin-left: 0px;
-            margin-top: 8px;
           }
         }
       }

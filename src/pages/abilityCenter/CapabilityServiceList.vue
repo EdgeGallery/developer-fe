@@ -385,12 +385,12 @@ export default {
       .sort{
         color: #5844be;
         .hot{
-          background: url('../../assets/images/capa_service_icon_hot.png') no-repeat;
+          background: url('../../assets/images/capa_service_icon_hot.png') no-repeat left center;
           padding-left: 20px;
           margin-right: 15px;
         }
         .time{
-          background: url('../../assets/images/capa_service_icon_time.png') no-repeat;
+          background: url('../../assets/images/capa_service_icon_time.png') no-repeat left center;
           padding-left: 20px;
         }
       }

@@ -168,16 +168,16 @@ li{
   font-size: 14px;
 }
 div::-webkit-scrollbar{
-  width: 6px;
-  height: 10px;
+  width: 8px;
+  height: 12px;
 }
 div::-webkit-scrollbar-thumb{
   border-radius: 10px;
   background: rgba(0,0,0,0.2);
 }
 body::-webkit-scrollbar{
-  width: 6px;
-  height: 10px;
+  width: 8px;
+  height: 12px;
 }
 body::-webkit-scrollbar-thumb{
   border-radius: 10px;
@@ -308,23 +308,42 @@ body .el-table th.gutter{
   border: none !important;
 }
 .tableStyle.el-table th{
-  background: #ebe6f1;
+  background: #f6effe;
   font-size: 18px;
   color: #62517a;
   font-weight: normal;
   height: 60px;
 }
-.tableStyle.el-table th.is-leaf:first-child{
+.tableStyle.el-table th.is-leaf:first-child,.el-table__fixed th.is-leaf:first-child{
   border-radius: 8px 0 0 8px;
 }
-.tableStyle.el-table th.is-leaf:nth-last-child(2){
+.tableStyle.el-table th.is-leaf:last-child{
   border-radius: 0 8px 8px 0;
 }
+.el-table__header-wrapper{
+  border-radius: 8px;
+}
+.el-table .el-table__fixed,.el-table__fixed-right {
+  height:auto !important; 
+  bottom:12px; 
+}
+.el-table__fixed::before, .el-table__fixed-right::before{
+  height: 0px;
+}
 .tableStyle.el-table .cell {
-  padding: 0 0 0 30px !important;
+  padding: 0 5px 0 30px !important;
+  word-wrap : break-word ;
+  word-break:keep-all;
+  max-height: 50px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .tableStyle.el-table tbody td {
   border-bottom: 2px solid #f5eeff;
+  padding: 10px 0 !important;
 }
 
 /* el-pagination */
