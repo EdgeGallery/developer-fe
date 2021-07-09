@@ -62,7 +62,7 @@
       <el-table-column
         prop="projectType"
         :label="$t('workspace.projectType')"
-        width="170"
+        width="160"
       >
         <template slot-scope="scope">
           {{ scope.row.projectType==='CREATE_NEW'?$t('workspace.appDevelopment'):$t('workspace.appIntegration') }}
@@ -71,16 +71,16 @@
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
-        width="95"
+        width="100"
       />
       <el-table-column
         prop="provider"
         :label="$t('workspace.provider')"
-        width="140"
+        width="130"
       />
       <el-table-column
         :label="$t('workspace.deployType')"
-        width="155"
+        width="165"
       >
         <template slot-scope="scope">
           {{ scope.row.deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
@@ -89,7 +89,7 @@
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
-        width="100"
+        width="110"
       />
       <el-table-column
         :label="$t('workspace.createDate')"
@@ -101,7 +101,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.status')"
-        width="155"
+        width="165"
         fixed="right"
       >
         <template slot-scope="scope">
@@ -144,7 +144,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.operation')"
-        width="150"
+        width="155"
         fixed="right"
       >
         <template slot-scope="scope">
@@ -208,13 +208,36 @@ export default {
       url: '',
       userId: sessionStorage.getItem('userId'),
       searchListData: [],
-      enterQuery: ''
+      enterQuery: '',
+      screenHeight: document.body.clientHeight,
+      timer: false
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
     }
   },
   mounted () {
     this.getProjectListData()
+    this.setDivHeight(this.screenHeight)
   },
   methods: {
+    setDivHeight (screenHeight) {
+      this.$nextTick(() => {
+        let oDiv = document.getElementsByClassName('workspace')
+        if (oDiv[0]) {
+          oDiv[0].style.minHeight = (Number(screenHeight) - 261) + 'px'
+        }
+      })
+    },
     getCurrentPageData (val) {
       this.currentData = val
     },
