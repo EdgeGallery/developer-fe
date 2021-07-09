@@ -418,6 +418,12 @@ let imageMgmtService = {
   publishImage: function (systemId, userId) {
     return Put('mec/developer/v1/system/images/' + systemId + '/publish?userId=' + userId)
   },
+  mergeImage: function (systemId, fileName, identifier) {
+    return Get('mec/developer/v1/system/images/' + systemId + '/merge?fileName=' + fileName + '&identifier=' + identifier)
+  },
+  cancelUploadImage: function (systemId) {
+    return Delete('mec/developer/v1/system/images/' + systemId + '/upload')
+  },
   downloadSystemImageUrl: function (systemId, userId) {
     return urlPrefix + 'mec/developer/v1/system/images/' + systemId + '/download?userId=' + userId
   }

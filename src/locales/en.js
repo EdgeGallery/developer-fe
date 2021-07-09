@@ -827,8 +827,10 @@ const en = {
       statusValue: {
         uploadWait: 'To be uploaded',
         uploading: 'Uploading',
+        merging: 'Merging',
         uploadSucceeded: 'Upload succeeded',
         uploadFailed: 'Upload failed',
+        uploadCancelled: 'Upload cancelled',
         published: 'Published'
       },
       uploadStatusText: {
@@ -873,7 +875,11 @@ const en = {
         mergingHint: 'The system image is merging, please wait!',
         uploadImgSucceed: 'The system image upload succeed!',
         uploadImgFailed: 'Upload system image failed!',
-        invalidUploadFile: 'The uploaded file does not meet the requirements!'
+        invalidUploadFile: 'The uploaded file does not meet the requirements!',
+        mergingHintForCancel: 'The system image is merging, the upload operation cannot be cancelled!',
+        confirmCancelUpload: 'Are you sure to cancel the upload operation?',
+        cancelUploadFailed: 'Cancel upload operation failed!',
+        cancelingHint: 'Canceling, please wait...'
       }
     }
   },

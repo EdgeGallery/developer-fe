@@ -827,8 +827,10 @@ const cn = {
       statusValue: {
         uploadWait: '待上传',
         uploading: '正在上传',
+        merging: '正在合并',
         uploadSucceeded: '上传成功',
         uploadFailed: '上传失败',
+        uploadCancelled: '上传已取消',
         published: '已发布'
       },
       uploadStatusText: {
@@ -873,7 +875,11 @@ const cn = {
         mergingHint: '系统镜像正在合并，请等待！',
         uploadImgSucceed: '系统镜像上传处理成功！',
         uploadImgFailed: '上传系统镜像失败！',
-        invalidUploadFile: '上传的文件不符合要求！'
+        invalidUploadFile: '上传的文件不符合要求！',
+        mergingHintForCancel: '系统镜像已经在进行合并处理，无法取消！',
+        confirmCancelUpload: '确认要取消上传吗？',
+        cancelUploadFailed: '取消上传失败！',
+        cancelingHint: '正在取消，请稍候...'
       }
     }
   },
