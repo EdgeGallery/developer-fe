@@ -64,6 +64,12 @@ let imageMgmtService = {
   publishImage: function (systemId, userId) {
     return axios.get('/mock/donothing')
   },
+  mergeImage: function (systemId, fileName, identifier) {
+    return axios.get('/mock/donothing')
+  },
+  cancelUploadImage: function (systemId) {
+    return axios.get('/mock/donothing')
+  },
   downloadSystemImageUrl: function (systemId, userId) {
     return 'mec/developer/v1/system/images/' + systemId + '/download?userId=' + userId
   }

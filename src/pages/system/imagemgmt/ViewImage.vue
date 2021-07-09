@@ -19,7 +19,7 @@
     <el-dialog
       :title="$t('system.imageMgmt.tip.viewImg')"
       :visible.sync="showDlg"
-      @closed="cancel"
+      @closed="close"
       width="40%"
     >
       <div style="margin-top:10px;margin-left:5%;margin-right:5%">
@@ -172,8 +172,10 @@ export default {
       this.statusOptionList = [
         { value: 'UPLOAD_WAIT', label: this.$t('system.imageMgmt.statusValue.uploadWait') },
         { value: 'UPLOADING', label: this.$t('system.imageMgmt.statusValue.uploading') },
+        { value: 'UPLOADING_MERGING', label: this.$t('system.imageMgmt.statusValue.merging') },
         { value: 'UPLOAD_SUCCEED', label: this.$t('system.imageMgmt.statusValue.uploadSucceeded') },
         { value: 'UPLOAD_FAILED', label: this.$t('system.imageMgmt.statusValue.uploadFailed') },
+        { value: 'UPLOAD_CANCELLED', label: this.$t('system.imageMgmt.statusValue.uploadCancelled') },
         { value: 'PUBLISHED', label: this.$t('system.imageMgmt.statusValue.published') }
       ]
     },

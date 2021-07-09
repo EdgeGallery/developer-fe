@@ -148,7 +148,7 @@
             </el-button>
             <el-button
               v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING'"
+              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
               id="deleteBtn"
               @click.native.prevent="handleDelete(scope.row)"
               type="text"
@@ -158,7 +158,7 @@
             </el-button>
             <el-button
               v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING'"
+              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
               id="uploadBtn"
               @click.native.prevent="handleUpload(scope.row)"
               type="text"
@@ -294,8 +294,10 @@ export default {
       this.statusOptionList = [
         { value: 'UPLOAD_WAIT', label: this.$t('system.imageMgmt.statusValue.uploadWait') },
         { value: 'UPLOADING', label: this.$t('system.imageMgmt.statusValue.uploading') },
+        { value: 'UPLOADING_MERGING', label: this.$t('system.imageMgmt.statusValue.merging') },
         { value: 'UPLOAD_SUCCEED', label: this.$t('system.imageMgmt.statusValue.uploadSucceeded') },
         { value: 'UPLOAD_FAILED', label: this.$t('system.imageMgmt.statusValue.uploadFailed') },
+        { value: 'UPLOAD_CANCELLED', label: this.$t('system.imageMgmt.statusValue.uploadCancelled') },
         { value: 'PUBLISHED', label: this.$t('system.imageMgmt.statusValue.published') }
       ]
     },

@@ -15,13 +15,17 @@
   -->
 
 <template>
-  <div>
+  <div id="div_upload_image">
     <el-dialog
       :title="$t('system.imageMgmt.tip.uploadImg')"
       :close-on-click-modal="false"
       :visible.sync="showDlg"
-      width="600px"
+      width="1000px"
       :before-close="handleClose"
+      v-loading="showCancelLoadingFlag"
+      :element-loading-text="$t('system.imageMgmt.tip.cancelingHint')"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0)"
     >
       <div class="uploadImageBody">
         <p class="prompt">
@@ -37,6 +41,7 @@
           >
         </div>
         <uploader
+          v-if="showUploader"
           :options="options"
           :auto-start="true"
           :file-status-text="fileStatusText"
@@ -49,14 +54,43 @@
           >
             {{ $t('system.imageMgmt.operation.selectImgFile') }}
           </uploader-btn>
-          <uploader-list />
+          <uploader-list>
+            <div slot-scope="uploaderList">
+              <div
+                v-if="isUploading || isMerging"
+                class="cancel_upload"
+              >
+                <el-button
+                  id="cancelUploadBtn"
+                  class="cancel_upload_btn"
+                  type="text"
+                  @click="handleCancelUpload(uploaderList)"
+                >
+                  {{ $t('common.cancel') }}
+                </el-button>
+              </div>
+              <ul class="file-list">
+                <li
+                  v-for="file in uploaderList.fileList"
+                  :key="file.id"
+                >
+                  <uploader-file
+                    :class="'file_' + file.id"
+                    ref="files"
+                    :file="file"
+                    :list="true"
+                  />
+                </li>
+                <div
+                  class="prompt_nofile"
+                  v-if="!uploaderList.fileList.length"
+                >
+                  {{ $t('system.imageMgmt.tip.noFileSelected') }}
+                </div>
+              </ul>
+            </div>
+          </uploader-list>
         </uploader>
-        <p
-          class="prompt_nofile"
-          v-if="!hasFileFlag"
-        >
-          {{ $t('system.imageMgmt.tip.noFileSelected') }}
-        </p>
       </div>
       <div style="text-align:center;margin-top:20px">
         <el-button
@@ -72,7 +106,7 @@
 
 <script>
 import { urlPrefix, getCookie } from '../../../tools/tool.js'
-import axios from 'axios'
+import { imageMgmtService } from '../../../tools/api.js'
 
 export default {
   name: 'UploadImage',
@@ -92,12 +126,12 @@ export default {
   },
   data () {
     return {
+      showCancelLoadingFlag: false,
+      showUploader: true,
       isUploading: false,
       isMerging: false,
       hasFileFlag: false,
       sysImgFileTypeArr: ['zip'],
-      mergerUrl: '',
-      mergerUrlHttp: '',
       options: {
         testChunks: false,
         headers: {},
@@ -119,7 +153,6 @@ export default {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
     this.options.target = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/upload'
-    this.mergerUrl = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/merge?fileName='
   },
   methods: {
     onFileAdded (file) {
@@ -144,8 +177,7 @@ export default {
       this.isUploading = false
       this.isMerging = true
       const file = arguments[0].file
-      let url = this.mergerUrl + file.name + '&identifier=' + arguments[0].uniqueIdentifier
-      axios.get(url).then(() => {
+      imageMgmtService.mergeImage(this.imageData.systemId, file.name, arguments[0].uniqueIdentifier).then(response => {
         this.$message.success(this.$t('system.imageMgmt.tip.uploadImgSucceed'))
         let _timer = setTimeout(() => {
           clearTimeout(_timer)
@@ -182,6 +214,59 @@ export default {
     doClose () {
       this.showDlg = false
       this.$emit('processCloseUploadImageDlg')
+    },
+    handleCancelUpload (uploaderList) {
+      if (this.isMerging) {
+        this.$message.warning(this.$t('system.imageMgmt.tip.mergingHintForCancel'))
+        return
+      }
+
+      if (this.isUploading) {
+        this.$confirm(this.$t('system.imageMgmt.tip.confirmCancelUpload'), this.$t('promptMessage.prompt'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
+          if (this.isMerging) {
+            this.$message.warning(this.$t('system.imageMgmt.tip.mergingHintForCancel'))
+            return
+          }
+
+          uploaderList.fileList[0].paused = true
+          this.showCancelLoadingFlag = true
+          let _delayCancelTimer = setTimeout(() => {
+            clearTimeout(_delayCancelTimer)
+            _delayCancelTimer = null
+
+            this.showCancelLoadingFlag = false
+            this.cancelUpload(uploaderList)
+          }, 5000)
+        })
+      }
+    },
+    cancelUpload (uploaderList) {
+      imageMgmtService.cancelUploadImage(this.imageData.systemId).then(response => {
+        this.isUploading = false
+        this.isMerging = false
+        this.hasFileFlag = false
+        uploaderList.fileList.splice(0, 1)
+
+        this.showUploader = false
+        let _resetUploaderTimer = setTimeout(() => {
+          clearTimeout(_resetUploaderTimer)
+          _resetUploaderTimer = null
+          this.showUploader = true
+        }, 10)
+      }).catch((error) => {
+        uploaderList.fileList[0].paused = false
+        if (error && error.response && error.response.status) {
+          if (error.response.status === 400) {
+            this.$message.warning(this.$t('system.imageMgmt.tip.mergingHintForCancel'))
+            return
+          }
+        }
+        this.$message.error(this.$t('system.imageMgmt.tip.cancelUploadFailed'))
+      })
     }
   }
 }
@@ -217,6 +302,18 @@ export default {
   .uploader-btn:hover{
     background:#688ef3;
     color: #fff;
+  }
+  .cancel_upload{
+    z-index: 100;
+    background:#ffffff;
+    position: absolute;
+    top: 10px;
+    left: 800px;
+    height: 48px;
+    width: 100px;
+  }
+  .cancel_upload_btn{
+    height: 48px;
   }
 }
 </style>
