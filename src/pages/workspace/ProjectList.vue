@@ -208,13 +208,36 @@ export default {
       url: '',
       userId: sessionStorage.getItem('userId'),
       searchListData: [],
-      enterQuery: ''
+      enterQuery: '',
+      screenHeight: document.body.clientHeight,
+      timer: false
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
     }
   },
   mounted () {
     this.getProjectListData()
+    this.setDivHeight(this.screenHeight)
   },
   methods: {
+    setDivHeight (screenHeight) {
+      this.$nextTick(() => {
+        let oDiv = document.getElementsByClassName('workspace')
+        if (oDiv[0]) {
+          oDiv[0].style.minHeight = (Number(screenHeight) - 261) + 'px'
+        }
+      })
+    },
     getCurrentPageData (val) {
       this.currentData = val
     },

@@ -727,7 +727,7 @@ export default {
     padding: 0 20px 0 0
   }
   .list {
-    min-height: 500px;
+    min-height: 638px;
     background-color: white;
     padding: 20px;
     .title{
