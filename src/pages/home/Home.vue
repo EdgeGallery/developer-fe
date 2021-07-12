@@ -34,7 +34,10 @@
       <!-- Platform capabilities -->
       <div class="home_capability">
         <div class="title_bg" />
-        <div class="capa_div title_top_home">
+        <div
+          class="capa_div title_top_home"
+          id="capa_div"
+        >
           <div class="title clear">
             <div class="title_left defaultFontBlod lt">
               {{ $t('workspace.platformCapabilities') }}
@@ -67,7 +70,7 @@
                   class="app_name"
                   @click="jumpTo('mep',index)"
                 >
-                  {{ language==='cn'?item.name:item.nameEn }}
+                  {{ language==='cn'?item.key:item.value }}
                 </p>
               </div>
             </swiper-slide>
@@ -80,12 +83,11 @@
               slot="button-next"
             />
           </swiper>
+          <div id="homeProjectPos" />
         </div>
       </div>
       <!-- Application integration and development -->
-      <div
-        id="homeProject"
-      >
+      <div>
         <ProjectHome
           :screen-width-prop="screenWidth"
           :screen-height-prop="screenHeight"
@@ -117,7 +119,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { aLinkList } from './home.js'
 import { Api } from '../../tools/api.js'
 import ProjectHome from '../../components/common/ProjectHome.vue'
@@ -130,7 +131,6 @@ export default {
     return {
       aLinkList: aLinkList,
       language: localStorage.getItem('language'),
-      userName: sessionStorage.getItem('userName'),
       screenHeight: document.body.clientHeight,
       screenWidth: document.body.clientWidth,
       bannerTextUrl: require('../../assets/images/home_banner_text.png'),
@@ -143,23 +143,39 @@ export default {
         }
       },
       capabilityGroupPic: [
-        require('../../assets/images/home_capa_pic0.png'),
-        require('../../assets/images/home_capa_pic1_ptjc.png'),
-        require('../../assets/images/home_capa_pic2_dxwl.png'),
-        require('../../assets/images/home_capa_pic3_ascend.png'),
-        require('../../assets/images/home_capa_pic4_ai.png'),
-        require('../../assets/images/home_capa_pic5_spcl.png'),
-        require('../../assets/images/home_capa_pic6_sjk.png'),
-        require('../../assets/images/home_capa_pic7_ggkj.png'),
-        require('../../assets/images/home_capa_pic8_3gpp.png'),
-        require('../../assets/images/home_capa_pic9_etsi.png')
+        {
+          name: 'Platform services',
+          src: require('../../../src/assets/images/home_capa_platform_services.png')
+        },
+        {
+          name: 'Telecom network',
+          src: require('../../../src/assets/images/home_capa_telecom_network.png')
+        },
+        {
+          name: 'Ascend AI',
+          src: require('../../../src/assets/images/home_capa_ascend_AI.png')
+        },
+        {
+          name: 'AI capabilities',
+          src: require('../../../src/assets/images/home_capa_AI_capabilities.png')
+        },
+        {
+          name: 'Video processing',
+          src: require('../../../src/assets/images/home_capa_video_processing.png')
+        },
+        {
+          name: 'DateBase',
+          src: require('../../../src/assets/images/home_capa_datebase.png')
+        },
+        {
+          name: 'Public framework',
+          src: require('../../../src/assets/images/home_capa_public_framework.png')
+        }
       ],
       capabilityGroupData: [],
-      dataLoading: true
+      dataLoading: true,
+      oneLevelMap: new Map()
     }
-  },
-  computed: {
-    ...mapState(['activeTab'])
   },
   methods: {
     setDivHeight (screenHeight) {
@@ -171,7 +187,7 @@ export default {
       })
     },
     jumpToProject () {
-      document.getElementById('homeProject').scrollIntoView()
+      document.getElementById('homeProjectPos').scrollIntoView()
     },
     jumpTo (name, index) {
       sessionStorage.setItem('fromHome', 'home')
@@ -180,46 +196,25 @@ export default {
     // Get all ability groups
     getCapabilityGroups () {
       Api.getCapabilityGroupsApi().then(res => {
-        let oneLevelNameEn = []
-        let oneLevelNameCn = []
-        let groupData = res.data
-        groupData.forEach(item => {
+        let oneLevel = []
+        res.data.forEach(item => {
           if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
-            oneLevelNameEn.push(item.oneLevelNameEn)
-            oneLevelNameCn.push(item.oneLevelName)
+            this.oneLevelMap.set(item.oneLevelName, item.oneLevelNameEn)
           }
         })
-        oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
-        oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
-        let length = oneLevelNameEn.length
+        this.oneLevelMap.forEach(function (value, key) {
+          oneLevel.push({ key, value })
+        })
+        this.capabilityGroupData = oneLevel
         this.dataLoading = false
-        for (let i = 0; i < length; i++) {
-          let obj = {
-            imgSrc: '',
-            name: '',
-            nameEn: ''
-          }
-          if (oneLevelNameEn[i] === 'Platform services') {
-            obj.imgSrc = this.capabilityGroupPic[1]
-          } else if (oneLevelNameEn[i] === 'Telecom network') {
-            obj.imgSrc = this.capabilityGroupPic[2]
-          } else if (oneLevelNameEn[i] === 'Ascend AI') {
-            obj.imgSrc = this.capabilityGroupPic[3]
-          } else if (oneLevelNameEn[i] === 'AI capabilities') {
-            obj.imgSrc = this.capabilityGroupPic[4]
-          } else if (oneLevelNameEn[i] === 'Video processing') {
-            obj.imgSrc = this.capabilityGroupPic[5]
-          } else if (oneLevelNameEn[i] === 'DateBase') {
-            obj.imgSrc = this.capabilityGroupPic[6]
-          } else if (oneLevelNameEn[i] === 'Public framework') {
-            obj.imgSrc = this.capabilityGroupPic[7]
-          } else {
-            obj.imgSrc = this.capabilityGroupPic[0]
-          }
-          obj.name = oneLevelNameCn[i]
-          obj.nameEn = oneLevelNameEn[i]
-          this.capabilityGroupData.push(obj)
-        }
+
+        this.capabilityGroupData.forEach(item => {
+          this.capabilityGroupPic.forEach(itemPic => {
+            if (item.value === itemPic.name) {
+              item.imgSrc = itemPic.src
+            }
+          })
+        })
       }).catch(() => {
         setTimeout(() => {
           this.dataLoading = false
@@ -275,6 +270,15 @@ export default {
         this.bannerTextUrl = require('../../assets/images/home_banner_text.png')
       }
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    // vm is an instance of vue, instead of this
+    next(vm => {
+      let isFromCapabilityCenter = from.path.indexOf('mecDeveloper/api/mep')
+      if (isFromCapabilityCenter !== -1) {
+        document.getElementById('capa_div').scrollIntoView()
+      }
+    })
   }
 }
 </script>
@@ -397,6 +401,10 @@ export default {
     .swiper-button-prev:after, .swiper-button-next:after{
       content: '';
     }
+    #homeProjectPos{
+      position: absolute;
+      bottom: 79px;
+    }
   }
   .showLogo {
     background: #fff;
@@ -412,7 +420,6 @@ export default {
       border: 1px solid #9186b7;
       text-align: center;
       border-radius: 12px;
-      background: transparent;
       img {
         width: 80%;
         max-width: 110px;
@@ -421,179 +428,7 @@ export default {
     a:hover{
       box-shadow: 3px 3px 10px 0 rgba(40, 6, 85, 0.2), 3px 3px 8px 0 rgba(40, 6, 85, 0.1) inset;
       cursor: pointer;
-      background: transparent;
     }
   }
-  @media screen and (max-width: 768px){
-    .showLogo{
-      a{
-        width: 31%;
-      }
-    }
-    .banner_home .banner_text,.banner_home .el-button.to_project{
-      margin-left: 10%;
-    }
-  }
-  @media screen and (max-width: 640px){
-    .showLogo{
-      a{
-        width: 31%;
-      }
-    }
-  }
-
-  .common-appliaction {
-    position: relative;
-    padding-bottom: 26px;
-    background: url('../../assets/images/home_link_bg.png') center bottom / cover no-repeat;
-    .el-row{
-      text-align: center;
-      .el-button.start_btn{
-        background: #6c63ff;
-        margin: 30px 0 20px;
-        font-size: 18px;
-        padding: 15px 60px;
-        border-radius: 30px;
-        position: relative;
-        z-index: 9999;
-      }
-    }
-    .platform_link{
-      padding: 20px;
-    }
-    .platform_link>div{
-      float: left;
-      width: 100%;
-    }
-    .bg_process{
-      z-index: 1;
-      position: relative;
-      height: 210px;
-      margin-top: -230px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img{
-        height: 100%;
-        max-height: 222px;
-      }
-    }
-    .devProcess{
-      display: flex;
-      justify-content: center;
-    }
-    .process_div:nth-child(2){
-      margin: 0 30px;
-    }
-    .process_div{
-      text-align: center;
-      position: relative;
-      z-index: 999;
-      height: 457px;
-      img{
-        height: 100%;
-        max-height: 457px;
-        display: block;
-      }
-    }
-    .process_div a{
-      display: inline-block;
-      border-radius: 15px;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      z-index: 2;
-      top: -100%;
-      transition: transform 0.3s;
-      -webkit-transition: transform 0.3s;
-    }
-    .process_div a:hover{
-      box-shadow:0 2px 5px 0 rgba(0,0,0,0.4)
-    }
-    @media screen and (max-width: 1860px){
-      .process_div{
-        height: 400px;
-      }
-      .bg_process{
-        height: 180px;
-        margin-top: -190px;
-      }
-    }
-    @media screen and (max-width: 1680px){
-      .process_div{
-        height: 360px;
-      }
-      .bg_process{
-        height: 165px;
-        margin-top: -175px;
-      }
-    }
-    @media screen and (max-width: 1480px){
-      .process_div{
-        height: 320px;
-      }
-      .bg_process{
-        height: 155px;
-        margin-top: -155px;
-      }
-    }
-    @media screen and (max-width: 1280px){
-      .process_div{
-        height: 280px;
-      }
-      .bg_process{
-        height: 130px;
-        margin-top: -135px;
-      }
-    }
-    @media screen and (max-width: 1150px){
-      .process_div{
-        height: 260px;
-      }
-      .bg_process{
-        height: 120px;
-        margin-top: -130px;
-      }
-    }
-    @media screen and (max-width: 1030px){
-      .bg_process{
-        height: 130px;
-        margin-top: -130px;
-      }
-      .platform_link{
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
-      .platform_link>div{
-        width: auto;
-      }
-      .el-row{
-        .el-button.start_btn{
-          font-size: 16px;
-          padding: 15px 35px;
-        }
-      }
-    }
-  }
-}
-.el-row {
-  margin: 0 !important;
-}
-.dialog {
-  width: 30%;
-  height: 200px;
-  border: 1px solid #ddd;
-  padding: 2%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -15%;
-  margin-top: -180px;
-}
-.keyInput {
-  margin: 20px 0 10px;
-}
-.keyerror {
-  color: #f66f6a;
 }
 </style>

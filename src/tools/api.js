@@ -194,10 +194,6 @@ let Workspace = {
   postIconFileIdApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
   },
-  // Acquiring Ability Group
-  getCapabilityListApi: function () {
-    return Get('mec/developer/v1/capability-groups')
-  },
   // Get a list of capabilities details services
   getServiceListApi: function (groupId) {
     return Get('mec/developer/v1/capability-groups/' + groupId)

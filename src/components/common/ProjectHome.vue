@@ -361,9 +361,6 @@ export default {
       font-size: 36px;
       margin: 110px 0 0;
     }
-    .tit_sub{
-      font-size: 20px;
-    }
     .project_btn{
       width: 210px;
       flex-shrink: 0;
@@ -388,31 +385,6 @@ export default {
     padding: 50px 0 30px 55px;
     box-shadow: 0 0 20px 0 rgba(56, 8, 121, 0.14);
     color: #000;
-    .step_tit{
-      font-size: 34px;
-    }
-    .tit_sub{
-      font-size: 20px;
-      margin: 20px 0 70px;
-    }
-    .el-timeline-item__content{
-      font-size: 22px;
-      color: #000;
-      position: relative;
-      top: -4px;
-    }
-    .el-timeline-item__node--normal{
-      width: 16px;
-      height: 16px;
-      background: #d5b4fd;
-      left: -3px;
-    }
-    .el-timeline-item__tail{
-      border-left: 2px dotted #d5b4fd;
-    }
-    .el-timeline-item{
-      padding-bottom: 10px;
-    }
   }
   @media screen and (max-width:1550px){
     .project_step{

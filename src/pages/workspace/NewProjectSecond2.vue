@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { Workspace } from '../../tools/api.js'
+import { Workspace, Api } from '../../tools/api.js'
 export default {
   props: {
     allStepData: {
@@ -192,7 +192,7 @@ export default {
     },
     async getCapabilityGroups () {
       this.groups = []
-      await Workspace.getCapabilityListApi().then(res => {
+      await Api.getCapabilityGroupsApi().then(res => {
         this.groups = res.data
       }).catch(err => {
         console.log(err)
