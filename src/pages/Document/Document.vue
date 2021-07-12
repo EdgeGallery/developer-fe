@@ -126,10 +126,8 @@ export default {
           docUrlEn: './common_problemEn.md'
         }
       ],
-      activeName: 'OverView',
       markdownSource: '',
       docsUrl: './Overview.md',
-      docHandleData: {},
       activeIndex: 0,
       selectIndex: 0,
       scrollTop: false,
@@ -140,8 +138,6 @@ export default {
     handleClick (data, index) {
       document.documentElement.scrollTop = 0
       this.selectIndex = index
-      this.docHandleData = data
-      this.activeName = data.titleEn
       if (this.language === 'cn') {
         this.docsUrl = data.docUrl
       } else {
@@ -194,7 +190,6 @@ export default {
     }
   },
   mounted () {
-    this.docHandleData = this.docList[0]
     this.getDocUrl()
     this.getMarkDown(this.docsUrl)
     window.addEventListener('scroll', this.getTreeTop, true)
@@ -219,9 +214,9 @@ export default {
     border-radius: 20px;
   }
   .doc_left.scroll_top,.doc_left_en.scroll_top{
-      position: fixed;
-      top: 110px;
-    }
+    position: fixed;
+    top: 110px;
+  }
   .doc_left,.doc_left_en{
     float: left;
     width: 290px;
