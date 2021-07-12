@@ -146,7 +146,8 @@ export default {
         paused: this.$t('system.imageMgmt.uploadStatusText.paused'),
         waiting: this.$t('system.imageMgmt.uploadStatusText.waiting')
       },
-      uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png')
+      uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png'),
+      fileIdentifier: ''
     }
   },
   created () {
@@ -172,6 +173,7 @@ export default {
 
       this.isUploading = true
       this.hasFileFlag = true
+      this.fileIdentifier = file.uniqueIdentifier
     },
     onFileComplete () {
       this.isUploading = false
@@ -245,7 +247,7 @@ export default {
       }
     },
     cancelUpload (uploaderList) {
-      imageMgmtService.cancelUploadImage(this.imageData.systemId).then(response => {
+      imageMgmtService.cancelUploadImage(this.imageData.systemId, this.fileIdentifier).then(response => {
         this.isUploading = false
         this.isMerging = false
         this.hasFileFlag = false
