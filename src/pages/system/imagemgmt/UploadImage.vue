@@ -96,6 +96,7 @@
         <el-button
           id="closeBtn"
           @click="handleClose"
+          :disabled="isUploading"
         >
           <strong>{{ $t('common.close') }}</strong>
         </el-button>
@@ -205,10 +206,6 @@ export default {
     handleClose () {
       if (this.isUploading) {
         this.$message.warning(this.$t('system.imageMgmt.tip.uploadingHint'))
-        return
-      }
-      if (this.isMerging) {
-        this.$message.warning(this.$t('system.imageMgmt.tip.mergingHint'))
         return
       }
       this.doClose()

@@ -872,7 +872,6 @@ const en = {
         publishImgFailed: 'Publish system image failed!',
         queryImgFailed: 'Query system image failed!',
         uploadingHint: 'The system image is uploading, please wait!',
-        mergingHint: 'The system image is merging, please wait!',
         uploadImgSucceed: 'The system image upload succeed!',
         uploadImgFailed: 'Upload system image failed!',
         invalidUploadFile: 'The uploaded file does not meet the requirements!',
