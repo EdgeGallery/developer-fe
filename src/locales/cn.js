@@ -872,7 +872,6 @@ const cn = {
         publishImgFailed: '发布系统镜像失败！',
         queryImgFailed: '查询系统镜像失败！',
         uploadingHint: '系统镜像正在上传，请等待！',
-        mergingHint: '系统镜像正在合并，请等待！',
         uploadImgSucceed: '系统镜像上传处理成功！',
         uploadImgFailed: '上传系统镜像失败！',
         invalidUploadFile: '上传的文件不符合要求！',

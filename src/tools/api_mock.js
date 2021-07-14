@@ -67,7 +67,7 @@ let imageMgmtService = {
   mergeImage: function (systemId, fileName, identifier) {
     return axios.get('/mock/donothing')
   },
-  cancelUploadImage: function (systemId) {
+  cancelUploadImage: function (systemId, identifier) {
     return axios.get('/mock/donothing')
   },
   downloadSystemImageUrl: function (systemId, userId) {
