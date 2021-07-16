@@ -16,7 +16,6 @@
 
 <template>
   <div class="workspace padding_default">
-    <div class="title_bg" />
     <div class="title_top title_left defaultFontBlod clear">
       {{ $t('nav.workSpace') }}
       <span class="line_bot1" />
@@ -67,24 +66,42 @@ export default {
     position: absolute;
     right: 0;
     bottom: 30px;
-    height: 64px;
-    background: #5844be;
+    height: 50px;
+    background-image: linear-gradient(127deg, #54aaf3, #53dabd);
     color: #fff;
     font-size: 20px;
-    border-radius: 10px;
-    min-width: 210px;
+    border-radius: 25px;
+    padding: 0 35px;
+    border: none;
+    span{
+      position: relative;
+      z-index: 2;
+    }
     .new_icon{
       display: inline-block;
       width: 19px;
       height: 19px;
       background: url('../../assets/images/work_new_project.png');
-      margin-right: 10px;
+      margin-right: 3px;
       position: relative;
       top: 2px;
     }
   }
-  .newproject_btn:hover{
-    background: #3a2898;
+  .newproject_btn::after {
+    content: '';
+    width: 86%;
+    height: 100%;
+    position: absolute;
+    right: 7%;
+    bottom: -10px;
+    background: inherit;
+    filter: blur(0.65rem);
+    opacity: 0.7;
+    z-index: 1;
+  }
+  .newproject_btn:active{
+    background-image: linear-gradient(127deg, #60a9e7, #4cc1a8);
+    border: none;
   }
 }
 </style>

@@ -206,7 +206,7 @@ body::-webkit-scrollbar-thumb{
 }
 
 .padding_default{
-  padding: 0 10%;
+  padding: 0 13%;
 }
 .footer_top{
   padding-bottom: 100px !important;
@@ -250,9 +250,9 @@ body::-webkit-scrollbar-thumb{
   top: 0;
   left: 0;
 }
-@media screen and (max-width:1380px){
+@media screen and (max-width:1600px){
   .padding_default{
-    padding: 0 56px;
+    padding: 0 6.5%;
   }
 }
 @media screen and (min-width: 1201px) { 
@@ -260,9 +260,6 @@ body::-webkit-scrollbar-thumb{
 } 
 @media screen and (max-width: 1200px) { 
   .monitor {max-width: 900px} 
-} 
-@media screen and (max-width: 901px) { 
-  .monitor {max-width: 800px;} 
 }
 
 /* dialog */
@@ -308,30 +305,16 @@ body .el-table th.gutter{
   border: none !important;
 }
 .tableStyle.el-table th{
-  background: #f6effe;
+  background: #edeef8;
   font-size: 18px;
   color: #62517a;
   font-weight: normal;
-  height: 60px;
-}
-.tableStyle.el-table th.is-leaf:first-child,.el-table__fixed th.is-leaf:first-child{
-  border-radius: 8px 0 0 8px;
-}
-.tableStyle.el-table th.is-leaf:last-child{
-  border-radius: 0 8px 8px 0;
 }
 .el-table__header-wrapper{
   border-radius: 8px;
 }
-.el-table .el-table__fixed,.el-table__fixed-right {
-  height:auto !important; 
-  bottom:12px; 
-}
-.el-table__fixed::before, .el-table__fixed-right::before{
-  height: 0px;
-}
 .tableStyle.el-table .cell {
-  padding: 0 5px 0 30px !important;
+  padding: 0 0 0 30px !important;
   word-wrap : break-word ;
   word-break:keep-all;
   max-height: 50px;
@@ -344,6 +327,13 @@ body .el-table th.gutter{
 .tableStyle.el-table tbody td {
   border-bottom: 2px solid #f5eeff;
   padding: 10px 0 !important;
+}
+.tableStyle.el-table .el-button{
+  margin-bottom: 5px;
+  margin-right: 10px !important;
+}
+.tableStyle.el-table .el-button + .el-button{
+  margin-left: 0;
 }
 
 /* el-pagination */
