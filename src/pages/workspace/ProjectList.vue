@@ -38,12 +38,12 @@
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
       class="tableStyle"
+      :class="{'tableStyle_en':language=='en'}"
     >
       <el-table-column
         prop="iconUrl"
         :label="$t('workspace.icon')"
-        width="120"
-        fixed="left"
+        min-width="9.7%"
       >
         <template slot-scope="scope">
           <img
@@ -56,13 +56,12 @@
       <el-table-column
         prop="name"
         :label="$t('workspace.projectName')"
-        min-width="145"
-        fixed="left"
+        min-width="10.3%"
       />
       <el-table-column
         prop="projectType"
         :label="$t('workspace.projectType')"
-        width="160"
+        min-width="9.9%"
       >
         <template slot-scope="scope">
           {{ scope.row.projectType==='CREATE_NEW'?$t('workspace.appDevelopment'):$t('workspace.appIntegration') }}
@@ -71,16 +70,16 @@
       <el-table-column
         prop="version"
         :label="$t('workspace.version')"
-        width="100"
+        min-width="9.7%"
       />
       <el-table-column
         prop="provider"
         :label="$t('workspace.provider')"
-        width="130"
+        min-width="9.7%"
       />
       <el-table-column
         :label="$t('workspace.deployType')"
-        width="165"
+        min-width="9.7%"
       >
         <template slot-scope="scope">
           {{ scope.row.deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
@@ -89,11 +88,11 @@
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
-        width="110"
+        min-width="9.8%"
       />
       <el-table-column
         :label="$t('workspace.createDate')"
-        width="150"
+        min-width="9.7%"
       >
         <template slot-scope="scope">
           {{ scope.row.createDate.substr(0,10) }}
@@ -101,8 +100,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.status')"
-        width="165"
-        fixed="right"
+        min-width="9.7%"
       >
         <template slot-scope="scope">
           <em
@@ -144,8 +142,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.operation')"
-        width="155"
-        fixed="right"
+        min-width="12.0%"
       >
         <template slot-scope="scope">
           <el-button
@@ -196,6 +193,7 @@ export default {
   },
   data () {
     return {
+      language: localStorage.getItem('language'),
       pageData: [],
       currentData: [],
       dataLoading: true,
@@ -214,6 +212,9 @@ export default {
     }
   },
   watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    },
     screenHeight (val) {
       if (!this.timer) {
         this.screenHeight = val

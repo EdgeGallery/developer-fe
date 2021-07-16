@@ -69,7 +69,7 @@
             :subfield="false"
             default-open="preview"
             :box-shadow="false"
-            preview-background="#f1f2f6"
+            preview-background="#f6f5f8"
           />
         </div>
       </div>
