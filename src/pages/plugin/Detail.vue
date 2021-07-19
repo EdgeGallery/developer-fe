@@ -136,6 +136,7 @@
 <script>
 import { mapState } from 'vuex'
 import { Plugin } from '../../tools/api.js'
+import { common } from '../../tools/common.js'
 export default {
   name: 'ListDetail',
   computed: {
@@ -178,14 +179,19 @@ export default {
       limitSize: 10,
       offsetPage: 0,
       selectCodeLanguage: '',
-      inputPluginName: ''
+      inputPluginName: '',
+      screenHeight: document.body.clientHeight
     }
   },
   mounted () {
     this.getPluginListData()
     this.getDetailMarkDown()
+    this.setDivHeight()
   },
   methods: {
+    setDivHeight () {
+      common.setDivHeightFun(this.screenHeight, 'detail', 261)
+    },
     getDetailMarkDown () {
       Plugin.getDetailDocsApi(this.pluginId).then(res => {
         this.markdownSource = res.data
