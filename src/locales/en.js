@@ -101,7 +101,8 @@ const en = {
     toolChainInfo2: 'Currently, the following files can be analyzed',
     toolChainInfo3: 'C/C++ software source code',
     toolChainInfo4: 'C/C++ software construction project file',
-    toolChainInfo5: 'X86 assembly code'
+    toolChainInfo5: 'X86 assembly code',
+    mdText: 'Please upload an .md file to explain the functions and usage of the plug-in, etc.'
   },
   api: {
     docs: 'Docs',

@@ -287,6 +287,9 @@ export default {
           this.capabilityServiceList = []
           this.serviceLoading = false
           let objTemp = {}
+          groupData.sort(function (a, b) {
+            return a.uploadTime > b.uploadTime ? 1 : -1
+          })
           groupData.forEach(item => {
             if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
               oneLevelNameEn.push(item.oneLevelNameEn)

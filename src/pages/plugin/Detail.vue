@@ -136,7 +136,6 @@
 <script>
 import { mapState } from 'vuex'
 import { Plugin } from '../../tools/api.js'
-import axios from 'axios'
 export default {
   name: 'ListDetail',
   computed: {
@@ -175,6 +174,7 @@ export default {
       markdownSource: '',
       userId: sessionStorage.getItem('userId'),
       userName: sessionStorage.getItem('userName'),
+      pluginId: sessionStorage.getItem('mecDetailID'),
       limitSize: 10,
       offsetPage: 0,
       selectCodeLanguage: '',
@@ -183,15 +183,11 @@ export default {
   },
   mounted () {
     this.getPluginListData()
-    this.getDetailMarkDown(this.language)
+    this.getDetailMarkDown()
   },
   methods: {
-    getDetailMarkDown (language) {
-      let url = './MECPLUGIN_EN.md'
-      if (language === 'cn') {
-        url = './MECPLUGIN_CN.md'
-      }
-      axios(url).then(res => {
+    getDetailMarkDown () {
+      Plugin.getDetailDocsApi(this.pluginId).then(res => {
         this.markdownSource = res.data
       })
     },
@@ -206,8 +202,7 @@ export default {
     getListDetail () {
       this.detailContent = []
       this.pluginListData.forEach(item => {
-        let mecDetailID = sessionStorage.getItem('mecDetailID')
-        if (item.pluginId === mecDetailID) {
+        if (item.pluginId === this.pluginId) {
           this.detailContent.push(item)
           this.dataLoading = false
         }
