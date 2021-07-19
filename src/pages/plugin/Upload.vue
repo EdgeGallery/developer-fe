@@ -156,7 +156,7 @@
               </div>
             </el-form-item>
             <el-form-item
-              :label="$t('devTools.uploadApi')"
+              :label="$t('system.guideFileId')"
               prop="apiFileList"
             >
               <el-upload
@@ -170,7 +170,7 @@
                 :file-list="apiFileList"
                 :auto-upload="false"
                 :on-remove="removeUploadapi"
-                accept=".json,.yaml"
+                accept=".md"
                 name="apiFile"
               >
                 <el-button
@@ -178,13 +178,13 @@
                   size="small"
                   type="primary"
                 >
-                  {{ $t('devTools.uploadApi') }}
+                  {{ $t('workspace.configYaml.uploadFile') }}
                 </el-button>
                 <div
                   slot="tip"
                   class="el-upload__tip"
                 >
-                  <em class="el-icon-warning" />{{ $t('devTools.apiText') }}
+                  <em class="el-icon-warning" />{{ $t('devTools.mdText') }}
                 </div>
               </el-upload>
             </el-form-item>
@@ -414,7 +414,7 @@ export default {
       } else if (!apiFileList) {
         this.$message({
           type: 'warning',
-          message: this.$t('promptMessage.apiEmpty')
+          message: this.$t('system.pleaseUpload') + this.$t('system.guideFileId')
         })
         this.uploadBtnLoading = false
       } else if (!version) {
@@ -512,7 +512,7 @@ export default {
       } else {
         this.apiFileList.push(file.raw)
       }
-      let fileTypeArr = ['yaml', 'json']
+      let fileTypeArr = ['md']
       let checkPassed = this.checkFileType(fileList, fileTypeArr)
       if (!checkPassed) {
         this.apiFileList = []

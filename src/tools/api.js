@@ -41,6 +41,10 @@ let Plugin = {
   uploadPluginApi: function (params) {
     return Post('mec/developer/v1/plugins/', params)
   },
+  // Get Plugin Detail Document
+  getDetailDocsApi: function (pluginId) {
+    return Get('mec/developer/v1/plugins/' + pluginId + '/action/content')
+  },
   // Get the uploaded source code
   getSourceCodeApi: function (userId, type) {
     return Get('mec/toolchain/v1/porting/' + userId, '', type)

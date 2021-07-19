@@ -101,7 +101,8 @@ const cn = {
     toolChainInfo2: '目前，可以对以下文件进行分析',
     toolChainInfo3: 'C/C++软件源码',
     toolChainInfo4: 'C/C++软件构建工程文件',
-    toolChainInfo5: 'X86汇编代码'
+    toolChainInfo5: 'X86汇编代码',
+    mdText: '请上传.md文件，用来说明插件的功能、使用方法等'
   },
   api: {
     docs: '文档',
