@@ -291,6 +291,7 @@
 
 <script>
 import { Plugin } from '../../tools/api.js'
+import { common } from '../../tools/common.js'
 import pagination from '../../components/common/Pagination.vue'
 
 export default {
@@ -333,11 +334,13 @@ export default {
       userName: sessionStorage.getItem('userName'),
       limitSize: 2,
       offsetPage: 0,
-      listTotal: 0
+      listTotal: 0,
+      screenHeight: document.body.clientHeight
     }
   },
   mounted () {
     this.getPluginListData()
+    this.setDivHeight()
   },
   watch: {
     $route (to, from) {
@@ -359,6 +362,9 @@ export default {
     next()
   },
   methods: {
+    setDivHeight () {
+      common.setDivHeightFun(this.screenHeight, 'ideList', 261)
+    },
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
