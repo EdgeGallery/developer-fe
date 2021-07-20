@@ -20,7 +20,7 @@
       {{ $t('nav.workSpace') }}
       <span class="line_bot1" />
       <el-button
-        class="newproject_btn"
+        class="newproject_btn linearGradient"
         id="newproject_btn"
         @click="jumpTo"
       >
@@ -67,16 +67,10 @@ export default {
     right: 0;
     bottom: 30px;
     height: 50px;
-    background-image: linear-gradient(127deg, #54aaf3, #53dabd);
     color: #fff;
     font-size: 20px;
     border-radius: 25px;
     padding: 0 35px;
-    border: none;
-    span{
-      position: relative;
-      z-index: 2;
-    }
     .new_icon{
       display: inline-block;
       width: 19px;
@@ -86,22 +80,6 @@ export default {
       position: relative;
       top: 2px;
     }
-  }
-  .newproject_btn::after {
-    content: '';
-    width: 86%;
-    height: 100%;
-    position: absolute;
-    right: 7%;
-    bottom: -10px;
-    background: inherit;
-    filter: blur(0.65rem);
-    opacity: 0.7;
-    z-index: 1;
-  }
-  .newproject_btn:active{
-    background-image: linear-gradient(127deg, #60a9e7, #4cc1a8);
-    border: none;
   }
 }
 </style>

@@ -34,7 +34,6 @@
         class="padding_default"
         id="capa_tit_div"
       >
-        <div class="title_bg" />
         <div class="title_top title_left defaultFontBlod clear">
           {{ $t('workspace.platformCapabilities') }}
           <span class="line_bot1" />
@@ -117,7 +116,10 @@
             class="button_more"
             v-if="showNum<capabilityServiceList.length"
           >
-            <el-button @click="showMore()">
+            <el-button
+              class="linearGradient"
+              @click="showMore()"
+            >
               {{ $t('api.showMore') }}
             </el-button>
           </p>
@@ -563,7 +565,7 @@ export default {
     .filter_div{
       position: absolute;
       top: -90px;
-      right: 10%;
+      right: 13%;
       z-index: 1998;
       .filter_default{
         background: #fdfcff;
@@ -573,7 +575,7 @@ export default {
         color: #773fc1;
         letter-spacing: 2px;
         cursor: pointer;
-        box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
+        box-shadow: 0 6px 24px -9px rgba(40, 12, 128, 0.24);
         position: relative;
         z-index: 2;
         .filter_icon{
@@ -651,19 +653,13 @@ export default {
         text-align: center;
         margin: 30px 0 80px;
         .el-button{
-          background: #7a6e8a;
-          border: 1px solid #7a6e8a;
           border-radius: 10px;
           font-size: 20px;
           color: #fff;
           padding: 8px 30px;
           height: 46px;
           line-height: 26px;
-        }
-        .el-button:hover{
-          background: #fff;
-          border: 1px solid #fff;
-          color: #380879;
+          position: relative;
         }
       }
     }
