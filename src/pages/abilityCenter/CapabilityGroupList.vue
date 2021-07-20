@@ -177,7 +177,7 @@ export default {
     background: #fdfcff;
     border-radius: 8px;
     color: #380879;
-    box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
+    box-shadow: 0 6px 24px -9px rgba(40, 12, 128, 0.24);
     .counts{
       color: #380879;
     }

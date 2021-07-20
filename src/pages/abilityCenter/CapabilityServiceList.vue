@@ -376,11 +376,26 @@ export default {
         top: -2px;
         opacity: 0;
         transition: all 0.3s ease-in-out;
-        background: #5844be;
+        background-image: linear-gradient(127deg, #78b8ef, #53dabd);
       }
       .detail.show{
         opacity: 1;
         transition: all 0.4s ease-in-out 0.5s;
+      }
+      .detail::after {
+        content: '';
+        width: 80%;
+        height: 100%;
+        position: absolute;
+        right: 10%;
+        bottom: -5px;
+        background: inherit;
+        filter: blur(0.25rem);
+        opacity: 0.7;
+        z-index: -1;
+      }
+      .detail:active{
+        background-image: linear-gradient(127deg, #60a9e7, #4cc1a8);
       }
       .sort{
         color: #5844be;
@@ -416,7 +431,7 @@ export default {
     }
   }
   .service_list:hover{
-    box-shadow: 0 0 20px 0 rgba(56, 8, 121, 0.14);
+    box-shadow: 0 6px 24px -7px rgba(56, 8, 121, 0.24);
   }
   @media screen and (max-width:1500px){
     .service_list{
