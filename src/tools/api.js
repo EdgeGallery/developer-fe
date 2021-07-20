@@ -180,8 +180,8 @@ let Workspace = {
     return Get('mec/developer/v1/hosts?userId=' + userId)
   },
   // Get a list of items
-  getProjectListApi: function (userId) {
-    return Get('mec/developer/v1/projects/?userId=' + userId)
+  getProjectListApi: function (userId, params) {
+    return Get('mec/developer/v1/projects/?userId=' + userId, params)
   },
   // Get the project icon
   getIconApi: function (fileId, userId) {

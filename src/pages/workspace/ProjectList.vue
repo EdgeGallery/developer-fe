@@ -34,7 +34,7 @@
     </div>
     <el-table
       v-loading="dataLoading"
-      :data="currentData"
+      :data="allListData"
       :row-style="{marginBottom:'10px'}"
       style="width: 100%"
       class="tableStyle"
@@ -174,7 +174,8 @@
     </el-table>
     <div class="pagebar">
       <pagination
-        :table-data="searchListData"
+        :table-data="allListData"
+        :list-total="listTotal"
         @getCurrentPageData="getCurrentPageData"
         ref="pagination"
       />
@@ -195,7 +196,6 @@ export default {
     return {
       language: localStorage.getItem('language'),
       pageData: [],
-      currentData: [],
       dataLoading: true,
       form: {
         appName: '',
@@ -205,10 +205,13 @@ export default {
       },
       url: '',
       userId: sessionStorage.getItem('userId'),
-      searchListData: [],
+      allListData: [],
       enterQuery: '',
       screenHeight: document.body.clientHeight,
-      timer: false
+      timer: false,
+      limitSize: 12,
+      offsetPage: 0,
+      listTotal: 0
     }
   },
   watch: {
@@ -224,6 +227,14 @@ export default {
         }, 400)
         this.setDivHeight(this.screenHeight)
       }
+    },
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getProjectListData()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
+      this.getProjectListData()
     }
   },
   mounted () {
@@ -239,13 +250,16 @@ export default {
         }
       })
     },
-    getCurrentPageData (val) {
-      this.currentData = val
+    getCurrentPageData (pageSize, start) {
+      this.limitSize = pageSize
+      this.offsetPage = start
     },
     getProjectListData () {
-      Workspace.getProjectListApi(this.userId).then(res => {
+      const qs = { projectName: this.enterQuery, limit: this.limitSize, offset: this.offsetPage }
+      Workspace.getProjectListApi(this.userId, qs).then(res => {
         if (res.data) {
-          this.pageData = this.searchListData = res.data
+          this.allListData = res.data.results || []
+          this.listTotal = res.data.total
           if (this.pageData.length > 0) {
             this.pageData.sort(function (a, b) {
               return a.createDate < b.createDate ? 1 : -1
@@ -296,17 +310,7 @@ export default {
     // Search according to name
     selectProjectList () {
       sessionStorage.setItem('currentPage', 1)
-      let selectListData = []
-      this.pageData.forEach(item => {
-        if (item.name.toLowerCase().indexOf(this.enterQuery.toLowerCase()) !== -1) {
-          selectListData.push(item)
-        }
-      })
-      if (this.enterQuery) {
-        this.searchListData = selectListData
-      } else {
-        this.searchListData = this.pageData
-      }
+      this.getProjectListData()
     }
   }
 }
