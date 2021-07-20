@@ -250,7 +250,7 @@ export default {
         }
       })
     },
-    getCurrentPageData (pageSize, start) {
+    getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
     },

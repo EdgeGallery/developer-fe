@@ -163,9 +163,10 @@ export default {
     nextStep () {
       // Get first step data, chech whether it's null
       this.$refs.currentComponet.emitStepData()
-      let data = this.allFormData.first
-      Workspace.getProjectListApi(this.userId).then(res => {
-        let projectList = res.data
+      /* let data = this.allFormData.first
+      const qs = { projectName: '', limit: 12, offset: 0 }
+      Workspace.getProjectListApi(this.userId, qs).then(res => {
+        let projectList = res.data.results
         for (let value of projectList) {
           if (data.name === value.name && data.provider === value.provider && data.version === value.version) {
             this.projectExist = true
@@ -175,7 +176,8 @@ export default {
           }
         }
         this.checkRules()
-      })
+      }) */
+      this.checkRules()
     },
     checkRules () {
       let appIcon = this.allFormData.first.appIcon[0]
