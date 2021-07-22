@@ -360,11 +360,10 @@ export default {
           this.uploadBtnLoading = false
         }
       }).catch(err => {
-        if (err.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
-        } else {
-          this.$message.error(this.$t('promptMessage.addProjectFail'))
+        if (err.response.data.message === 'the same project exists') {
+          this.$message.warning(this.$t('workspace.projectExist'))
         }
+        this.uploadBtnLoading = false
         sessionStorage.removeItem('apiFileIdArr')
       })
     },
