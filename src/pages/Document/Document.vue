@@ -207,11 +207,13 @@ export default {
 
 <style lang="less">
 .doc_div{
-  background: url('../../assets/images/docs_bg.png') right 70px no-repeat;
+  background: url('../../assets/images/docs_bg.png') right top no-repeat;
+  background-size: contain;
   .docs_content{
     background: #fbfbfb;
     padding: 50px;
     border-radius: 20px;
+    box-shadow: 0 0 32px 0 rgba(81, 27, 152, 0.12);
   }
   .doc_left.scroll_top,.doc_left_en.scroll_top{
     position: fixed;
@@ -248,7 +250,7 @@ export default {
       .li_list.select{
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
+        box-shadow: 0 0 14px 0 rgba(40, 12, 128, 0.10);
       }
       img{
         position: absolute;
@@ -278,7 +280,7 @@ export default {
       background: #fdfcff;
       border-radius: 8px;
       color: #380879;
-      box-shadow: 0 0 24px 0 rgba(40, 12, 128, 0.24);
+      box-shadow: 0 0 14px 0 rgba(40, 12, 128, 0.10);
     }
     .select_style.select_style_en{
       width: 270px;
