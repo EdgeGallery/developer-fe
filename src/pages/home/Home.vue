@@ -25,15 +25,14 @@
           :class="{'banner_en':language==='en'}"
         >
         <el-button
-          class="to_project"
+          class="to_project linearGradient"
           @click="jumpToProject()"
         >
-          {{ $t('workspace.addNewProject') }}<span class="right">></span>
+          {{ $t('workspace.addNewProject') }}
         </el-button>
       </div>
       <!-- Platform capabilities -->
       <div class="home_capability">
-        <div class="title_bg" />
         <div
           class="capa_div title_top_home"
           id="capa_div"
@@ -75,13 +74,17 @@
               </div>
             </swiper-slide>
             <div
-              class="swiper-button-prev"
+              class="swiper-button-prev swiperBtn"
               slot="button-prev"
-            />
+            >
+              <span class="spanText">{{ buttonPrev }}</span>
+            </div>
             <div
-              class="swiper-button-next"
+              class="swiper-button-next swiperBtn"
               slot="button-next"
-            />
+            >
+              <span class="spanText">></span>
+            </div>
           </swiper>
           <div id="homeProjectPos" />
         </div>
@@ -174,7 +177,8 @@ export default {
       ],
       capabilityGroupData: [],
       dataLoading: true,
-      oneLevelMap: new Map()
+      oneLevelMap: new Map(),
+      buttonPrev: '<'
     }
   },
   methods: {
@@ -197,7 +201,8 @@ export default {
     getCapabilityGroups () {
       Api.getCapabilityGroupsApi().then(res => {
         let oneLevel = []
-        res.data.forEach(item => {
+        let data = res.data.reverse()
+        data.forEach(item => {
           if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
             this.oneLevelMap.set(item.oneLevelName, item.oneLevelNameEn)
           }
@@ -309,20 +314,12 @@ export default {
     .el-button.to_project{
       min-width: 200px;
       height: 60px;
-      background: none;
-      border: 2px solid #fff;
+      border: none;
       font-size: 20px;
       color: #fff;
-      border-radius: 8px;
+      border-radius: 30px;
       margin: 118px 0 0 140px;
-      .right{
-        font-size: 14px;
-        margin-left: 20px;
-      }
-    }
-    .el-button.to_project:hover{
-      background: #fff;
-      color: #542c8a;
+      position: relative;
     }
   }
   .home_capability{
@@ -330,25 +327,27 @@ export default {
     position: relative;
     .capa_div{
       position: relative;
+      background: url('../../assets/images/home_capa_bg.png') bottom center no-repeat;
+      background-size: contain;
     }
     .title{
       height: 111px;
       padding: 0 10%;
       .capa_center{
         float: right;
-        margin-right: 30px;
+        margin-right: 40px;
       }
     }
     .swiper-container{
       padding-top: 160px;
       top: -100px;
-      padding-right: 10%;
+      padding-right: 13%;
       background: transparent;
       .swiper-wrapper:hover{
         cursor: move;
       }
       .swiper-slide:first-child{
-        margin-left: 10%;
+        margin-left: 13%;
       }
     }
     .swiper-slide {
@@ -364,9 +363,10 @@ export default {
       }
       .capa_list{
         border-radius: 10px;
+        box-shadow: 0 3px 15px 0 rgba(27, 7, 118, 0.13);
       }
       .capa_list:hover{
-        box-shadow: 0 6px 20px 0 rgba(27, 7, 118, 0.23);
+        box-shadow: 0 6px 20px 0 rgba(27, 7, 118, 0.35);
       }
       .app_name{
         padding:8%;
@@ -382,24 +382,65 @@ export default {
         margin-right: 5px;
       }
     }
+    .spanText{
+      float: left;
+      height: 19px;
+      line-height: 18px;
+      text-align: center;
+      transform: scale(1.0,1.5);
+    }
+    .swiperBtn{
+      width: 28px;
+      height: 28px;
+      border: 1px solid #2bcfe0;
+      opacity: 1;
+      border-radius: 50%;
+      color: #fff;
+    }
     .swiper-button-prev{
       right: 10%;
       top: 30px;
       left: auto;
       margin-right: 110px;
-      width: 11px;
-      height: 20px;
-      background: url('../../assets/images/home_capa_left.png');
+      background-image: linear-gradient(90deg, #2bcfe0, #2bcfe0);
+    }
+    .swiper-button-prev::after {
+      content: '';
+      width: 70%;
+      height: 100%;
+      position: absolute;
+      right: 15%;
+      bottom: -3px;
+      background: inherit;
+      filter: blur(0.35rem);
+      opacity: 0.7;
+      z-index: -1;
     }
     .swiper-button-next{
       right: 10%;
       top: 30px;
-      width: 11px;
-      height: 20px;
-      background: url('../../assets/images/home_capa_right.png');
+      background-image: linear-gradient(90deg, #2bcfe0, #2bcfe0);
+    }
+    .swiper-button-next::after {
+      content: '';
+      width: 70%;
+      height: 100%;
+      position: absolute;
+      right: 15%;
+      bottom: -3px;
+      background: inherit;
+      filter: blur(0.35rem);
+      opacity: 0.7;
+      z-index: -1;
     }
     .swiper-button-prev:after, .swiper-button-next:after{
       content: '';
+    }
+    .swiper-button-prev.swiper-button-disabled,.swiper-button-next.swiper-button-disabled{
+      background: none;
+      span{
+        color: #2bcfe0;
+      }
     }
     #homeProjectPos{
       position: absolute;
@@ -407,7 +448,6 @@ export default {
     }
   }
   .showLogo {
-    background: #fff;
     .tit_parnter{
       margin-bottom: 110px;
       display: block;

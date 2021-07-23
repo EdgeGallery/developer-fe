@@ -23,46 +23,48 @@
       class="integration lt"
       :class="{'start':addAnimationLeft,'select':addAnimationRight}"
     >
-      <div
-        class="project_info"
-        :class="{'hide':addAnimationLeft}"
-        @mouseenter="toRight"
-        @mouseleave="addAnimationLeft=addAnimationRight=false"
-      >
-        <img
-          src="../../assets/images/home_project_integration.png"
-          alt=""
+      <div class="integration_con">
+        <div
+          class="project_info"
+          :class="{'hide':addAnimationLeft}"
+          @mouseenter="toRight"
+          @mouseleave="addAnimationLeft=addAnimationRight=false"
         >
-        <p class="tit">
-          {{ $t('workspace.appIntegration') }}
-        </p>
-        <span class="line_bot1" />
-        <el-button
-          @click="jumpToWorkSpace('Integrate')"
-          class="project_btn"
+          <img
+            src="../../assets/images/home_project_integration.png"
+            alt=""
+          >
+          <p class="tit">
+            {{ $t('workspace.appIntegration') }}
+          </p>
+          <span class="line_bot1" />
+          <el-button
+            @click="jumpToWorkSpace('Integrate')"
+            class="project_btn"
+          >
+            {{ $t('home.start') }}
+          </el-button>
+        </div>
+        <div
+          class="project_step"
+          :class="[{'integration_step':addAnimationRight,'integration_hide':!addAnimationRight}]"
         >
-          {{ $t('home.start') }}
-        </el-button>
+          <img
+            :src="integrationBig"
+            alt=""
+            v-if="isIntegrationBig"
+          >
+          <img
+            :src="integrationSmall"
+            alt=""
+            v-if="!isIntegrationBig"
+          >
+        </div>
+        <span
+          class="right"
+          :class="[{'show':addAnimationRight}]"
+        />
       </div>
-      <div
-        class="project_step"
-        :class="[{'integration_step':addAnimationRight,'integration_hide':!addAnimationRight}]"
-      >
-        <img
-          :src="integrationBig"
-          alt=""
-          v-if="isIntegrationBig"
-        >
-        <img
-          :src="integrationSmall"
-          alt=""
-          v-if="!isIntegrationBig"
-        >
-      </div>
-      <span
-        class="right"
-        :class="[{'show':addAnimationRight}]"
-      />
     </div>
     <div
       class="development rt"
@@ -280,12 +282,25 @@ export default {
     z-index: 9;
   }
   .integration{
-    .el-button{
-      background: #380879;
-      color: #fff;
+    background: #5e40c8;
+    .integration_con{
+      width: 100%;
+      height: 100%;
+      background: #f6f5f8;
+      border-radius: 0 0 50px 0;
     }
-    .el-button:hover{
-      background: #5a279f;
+    .el-button{
+      background-image: linear-gradient(127deg, #4444d0, #6724cb);
+      border: none;
+      color: #fff;
+      position: relative;
+      span{
+        position: relative;
+        z-index: 2;
+      }
+    }
+    .el-button:active{
+      background-image: linear-gradient(127deg, #4a4aac, #6724cb);
     }
     .right{
       display: inline-block;
@@ -305,13 +320,20 @@ export default {
   }
   .development{
     color: #fff;
-    background: #380879;
+    background: #5e40c8;
+    border-radius: 50px 0 0 0;
     .el-button{
-      background: #fff;
-      color: #380879;
+      background-image: linear-gradient(127deg, #54aaf3, #53dabd);
+      border: none;
+      color: #fff;
+      position: relative;
+      span{
+        position: relative;
+        z-index: 2;
+      }
     }
-    .el-button:hover{
-      background: #d9cfe6;
+    .el-button:active{
+      background-image: linear-gradient(127deg, #60a9e7, #4cc1a8);
     }
     .left{
       display: inline-block;
@@ -361,13 +383,25 @@ export default {
       font-size: 36px;
       margin: 110px 0 0;
     }
-    .project_btn{
+    .el-button{
       width: 210px;
       flex-shrink: 0;
       height: 64px;
       margin-top: 50px;
       border-radius: 12px;
       font-size: 26px;
+    }
+    .el-button::after {
+      content: '';
+      width: 90%;
+      height: 100%;
+      position: absolute;
+      right: 5%;
+      bottom: -20px;
+      background: inherit;
+      filter: blur(1.5rem);
+      opacity: 0.4;
+      z-index: 1;
     }
   }
   .project_info.hide{

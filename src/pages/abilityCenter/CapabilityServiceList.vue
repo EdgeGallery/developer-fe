@@ -116,14 +116,21 @@
           </div>
         </div>
         <div class="service_footer">
-          <el-button @click="serviceDocClick(item)">
+          <el-button
+            class="defaultBtn"
+            @click="serviceDocClick(item)"
+          >
             {{ $t('api.serviceDoc') }}
           </el-button>
-          <el-button @click="amulatorClick(item)">
+          <el-button
+            class="defaultBtn"
+            @click="amulatorClick(item)"
+          >
             {{ $t('api.onlineEmulator') }}
           </el-button>
           <el-button
             v-if="toOnline"
+            class="defaultBtn"
             @click="toOnlineExperience(item)"
           >
             {{ $t('api.onlineExperience') }}
@@ -239,14 +246,12 @@ export default {
       margin-top: 45px;
       text-align: center;
       .el-button{
-        font-size: 18px;
+        font-size: 14px;
         color: #ffffff;
-        height: 50px;
-        line-height: 34px;
-        border: 1px solid #7a6e8a;
+        height: 40px;
+        line-height: 24px;
         border-radius: 10px;
         padding: 8px 45px;
-        background: #7a6e8a;
         position: relative;
       }
       .el-button + .el-button {
@@ -256,11 +261,6 @@ export default {
         position: absolute;
         right: 0;
         top: 0;
-      }
-      .el-button:hover{
-        background: #fff;
-        color: #380879;
-        border: 1px solid #fff;
       }
     }
   }
@@ -346,6 +346,7 @@ export default {
     border-radius: 12px;
     position: relative;
     cursor: pointer;
+    box-shadow: 0 6px 24px -7px rgba(27, 7, 118, 0.14);
     img{
       width: 100%;
       display: block;
@@ -431,7 +432,7 @@ export default {
     }
   }
   .service_list:hover{
-    box-shadow: 0 6px 24px -7px rgba(56, 8, 121, 0.24);
+    box-shadow: 0 10px 20px -7px rgba(27, 7, 118, 0.24);
   }
   @media screen and (max-width:1500px){
     .service_list{

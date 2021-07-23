@@ -284,7 +284,7 @@ export default {
           this.threeGppIndex = 1
           let oneLevelNameEn = []
           let oneLevelNameCn = []
-          let groupData = res.data
+          let groupData = res.data.reverse()
           this.capabilityAllService = []
           this.capabilityServiceList = []
           this.serviceLoading = false
@@ -304,9 +304,6 @@ export default {
             } else {
               objTemp[item.oneLevelName] = 1
             }
-          })
-          this.capabilityServiceList.sort(function (a, b) {
-            return a.uploadTime > b.uploadTime ? 1 : -1
           })
           oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
           oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
@@ -446,7 +443,6 @@ export default {
     },
     getPageScroll (clickGroupListNum, listBottom) {
       this.listBottom = listBottom
-      console.log(clickGroupListNum)
       if (this.isRefrshPage && clickGroupListNum < 1) {
         document.getElementById('app').scrollIntoView()
       } else {

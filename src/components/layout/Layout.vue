@@ -75,7 +75,7 @@ export default {
       } else {
         this.showFullFooterPage = false
       }
-      if (path === '/mecDeveloper' || path === '/mecDeveloper/api/mep') {
+      if (path === '/mecDeveloper/api/mep') {
         this.specificBg = true
       } else {
         this.specificBg = false
