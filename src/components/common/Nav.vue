@@ -307,7 +307,7 @@ export default {
 
 <style lang='less'>
 .navgation {
-  background: #280b4e;
+  background: #5e40c8;
   height: 80px;
   top: 0px;
   width: 100%;

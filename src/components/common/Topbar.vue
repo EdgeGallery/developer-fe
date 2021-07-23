@@ -22,7 +22,7 @@
       router
       @select="handleSelect"
       text-color="#bdb1e4"
-      background-color="#280b4e"
+      background-color="#5e40c8"
       active-text-color="#fff"
       mode="horizontal"
     >
@@ -175,7 +175,7 @@ export default {
       margin-right: 30px;
     }
     .el-menu-item:not(.is-disabled):hover{
-      background: #280b4e !important;
+      background: #5e40c8 !important;
       border-bottom: 2px solid #fff !important;
     }
     .el-submenu{
@@ -187,7 +187,7 @@ export default {
     line-height: 80px !important;
   }
   .el-menu--horizontal>.el-submenu .el-submenu__title:hover{
-    background: #280b4e !important;
+    background: #5e40c8 !important;
     border-bottom: 2px solid #fff !important;
   }
   .el-menu{
