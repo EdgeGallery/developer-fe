@@ -503,6 +503,15 @@
         <span class="release_text">
           {{ $t('workspace.releaseText') }}
         </span>
+        <el-link
+          class="atp_link rt"
+          :href="atpUrl"
+          target="_blank"
+          :underline="false"
+        >
+          {{ $t('workspace.appRelease.enterAtp') }}
+          <em class="el-icon-d-arrow-right" />
+        </el-link>
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
@@ -1465,6 +1474,12 @@ export default {
     color: #adb0b8;
     font-size: 12px;
     margin-left: 10px;
+  }
+  .atp_link{
+    margin-top: 5px;
+    color: #688ef3;
+    border-bottom: 1px solid #688ef3;
+    font-size: 16px;
   }
   .atp_iframe{
     border: 1px solid #ddd;

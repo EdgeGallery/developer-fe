@@ -286,7 +286,8 @@ const cn = {
       capabilityType: '能力类型',
       noService: '您的应用没有依赖平台的生态服务',
       blackWhiteList: '黑白名单',
-      UEIdentity: 'UE标识'
+      UEIdentity: 'UE标识',
+      enterAtp: '进入应用测试认证平台'
     },
     deployDebugVm: {
       vmNameLbl: '名称',
