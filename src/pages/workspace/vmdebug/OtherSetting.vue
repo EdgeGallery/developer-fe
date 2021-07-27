@@ -17,7 +17,11 @@
 <template>
   <div class="other_set">
     <div class="top">
-      <p class="lt clear">
+      <p class="tips">
+        {{ $t('workspace.deployDebugVm.setTips') }}
+      </p>
+      <p>{{ $t('workspace.deployDebugVm.akTitle') }}</p>
+      <p class="lt clear ak">
         <span>AK</span><el-input
           size="mini"
           v-model="ak"
@@ -29,16 +33,16 @@
           v-model="sk"
         />
       </p>
-      <p>
+      <div class="host_master">
         {{ $t('workspace.deployDebugVm.flavorExtraSpecs') }}
         <el-link
-          class="edit"
+          class="rt"
           :underline="false"
           @click.stop="clickEdit('flavor')"
         >
           {{ $t('common.edit') }}
         </el-link>
-      </p>
+      </div>
       <mavon-editor
         v-model="sourceFlavor"
         :toolbars-flag="false"
@@ -135,8 +139,8 @@ export default {
     return {
       ak: '',
       sk: '',
-      selectScript: 'select',
-      changeResult: true,
+      selectScript: 'cancel',
+      changeResult: false,
       activeName: '1',
       sourceContent: '',
       contentDefaultData: '',
@@ -236,7 +240,13 @@ export default {
   .v-note-wrapper{
     width: 100%;
   }
+  .v-note-panel{
+    border: 1px solid #ddd !important;
+  }
   .top{
+    .tips{
+      color: #aaa;
+    }
     p{
       width: 50%;
       margin-bottom: 10px;
@@ -247,12 +257,19 @@ export default {
         line-height: 28px;
       }
       .el-input{
-        width: calc(100% - 50px);
+        width: calc(100% - 30px);
         float: left;
       }
       .edit{
         float: right;
       }
+    }
+    .ak .el-input{
+      width: calc(100% - 50px);
+      float: left;
+    }
+    .host_master{
+      margin-bottom: 10px;
     }
     .select_div{
       padding: 20px 0;
@@ -264,7 +281,7 @@ export default {
       }
     }
     .mavon_editor{
-      min-height: 120px;
+      min-height: 80px;
       max-height: 300px;
       overflow: auto;
     }

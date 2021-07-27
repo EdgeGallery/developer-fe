@@ -160,6 +160,9 @@ export default {
 </script>
 <style lang='less'>
 .appPackageDetails{
+  .markdown-body .highlight pre, .markdown-body pre{
+    font-size:110%;
+  }
   .el-dialog{
     margin: 0 auto;
   }
