@@ -310,7 +310,7 @@ export default {
       rules: {
         name: [
           { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_.]){1,50}$/, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
