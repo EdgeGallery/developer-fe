@@ -286,7 +286,8 @@ const en = {
       capabilityType: 'Capability Type',
       noService: 'Your application does not rely on the ecosystem services of the platform',
       blackWhiteList: 'Black and White list',
-      UEIdentity: 'UE Identity'
+      UEIdentity: 'UE Identity',
+      enterAtp: 'Enter Application Testing Platform'
     },
     deployDebugVm: {
       vmNameLbl: 'Name',
