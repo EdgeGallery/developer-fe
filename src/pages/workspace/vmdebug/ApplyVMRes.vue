@@ -63,7 +63,7 @@
         @click="confirm"
         v-if="active>=3"
       >
-        <strong>{{ $t('common.save') }}</strong>
+        <strong>{{ $t('workspace.deployDebugVm.generatePackage') }}</strong>
       </el-button>
     </span>
   </div>

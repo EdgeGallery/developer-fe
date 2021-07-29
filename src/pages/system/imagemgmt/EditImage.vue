@@ -108,16 +108,16 @@
           <el-form-item
             :label="$t('system.imageMgmt.sysDisk')"
             prop="systemDisk"
+            class="elinput_sysdisk"
           >
             <el-input
               id="elinput_sysdisk"
               maxlength="4"
               size="small"
-              style="width:95%"
               v-model="imageDataForm.systemDisk"
               :placeholder="$t('system.imageMgmt.sysDisk')"
               clearable
-            />
+            />G
           </el-form-item>
         </el-form>
       </div>
@@ -223,7 +223,7 @@ export default {
         'type': '',
         'operateSystem': 'ubuntu',
         'version': '',
-        'systemBit': '32',
+        'systemBit': '64',
         'systemDisk': ''
       },
       rules: {
@@ -304,7 +304,7 @@ export default {
         this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
         this.imageDataForm.operateSystem = 'ubuntu'
         this.imageDataForm.version = ''
-        this.imageDataForm.systemBit = '32'
+        this.imageDataForm.systemBit = '64'
         this.imageDataForm.systemDisk = ''
 
         this.isModify = false
@@ -350,8 +350,12 @@ export default {
   }
 }
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .el-form-item{
   margin:20 !important;
+}
+.elinput_sysdisk .el-input{
+  width: 90%;
+  margin-right: 5px;
 }
 </style>
