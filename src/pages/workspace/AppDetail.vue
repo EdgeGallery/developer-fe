@@ -384,7 +384,6 @@ export default {
   },
   methods: {
     groupListHover (index) {
-      console.log(index)
       this.selectedName = index
     },
     groupListLeave (index) {
