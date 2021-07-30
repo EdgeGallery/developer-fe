@@ -236,11 +236,11 @@ const en = {
     prepare: {
       toolTip: 'According to the development language of the application, the IDE is locally installed and configured',
       pluginTip1: 'EdgeGallery provides locally developed',
-      pluginTip2: 'IDE plugin',
+      pluginTip2: ' IDE plugin ',
       pluginTip3: ',Sample code that can be used to generate (currently supports python and java languages)',
-      codeTip1: 'EdgeGallery provides the sample code of the following APP local development for developers\' reference,',
-      codeTip2: 'or',
-      codeTip3: 'Click to download to local'
+      codeTip1: 'EdgeGallery provides the sample code of the following APP local development for developers\' reference,or click to ',
+      codeTip2: ' download ',
+      codeTip3: 'to local'
     },
     appRelease: {
       appConfig: 'Application Configuration',
@@ -436,7 +436,7 @@ const en = {
     confirm: 'Confirm',
     capabilityDetails: 'Capability Details',
     deploymentTest: 'Deployment Test',
-    applicationRelease: 'Application Release',
+    applicationRelease: 'App Release',
     environmentPreparation: 'Environment Preparation',
     environmentPreparationTip: 'According to the application development requirements, prepare the development environment',
     choosePlatform: 'Choose Deployment Platform',
@@ -445,7 +445,7 @@ const en = {
     server: 'Select Server',
     test: 'Deployment Test',
     abilitiesDetail: 'Abilities Detail',
-    appDevelopment: 'Application Development',
+    appDevelopment: 'App Development',
     appIntegration: 'Application Integration',
     buildTip: 'Your application has been integrated with EdgeGallery platform, please test your own APP business',
     finishTest: 'Finish Test',

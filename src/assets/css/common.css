@@ -23,6 +23,15 @@
   font-family: defaultFontBlod;
   src: url(../fonts/Harmony-SemiBold.ttf);
 }
+@font-face {
+  font-family: defaultFontUltraLight;
+  src: url(../fonts/Harmony-UltraLight.ttf);
+}
+
+@font-face {
+  font-family: defaultFontLight;
+  src: url(../fonts/Harmony-Light.ttf);
+}
 html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
   margin:0;
   padding:0;
@@ -36,6 +45,26 @@ html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
 }
 .defaultFontBlod{
   font-family:defaultFontBlod, Arial, Helvetica, sans-serif;
+}
+.defaultFontUltraLight {
+  font-family: defaultFontUltraLight,
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+.defaultFontLight {
+  font-family: defaultFontLight,
+    Arial,
+    Helvetica,
+    sans-serif !important;
+}
+
+.defaultFontLight button {
+  font-family: defaultFontLight,
+    Arial,
+    Helvetica,
+    sans-serif !important;
 }
 
 html,body{

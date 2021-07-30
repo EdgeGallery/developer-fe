@@ -16,239 +16,287 @@
 
 <template>
   <div class="workdetail padding_default">
-    <el-breadcrumb
-      separator="/"
-      class="bread-crumb"
-    >
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
-        {{ $t('breadCrumb.mecDeveloper') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper/work' }">
-        {{ $t('breadCrumb.workspace') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.detail') }}</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-tabs
-      class="elTabs"
-      :class="{'enLeft':language==='en'}"
-      v-model="activeName"
-      tab-position="left"
-    >
-      <el-tab-pane
-        class="elTabPane"
-        name="1"
-        lazy
+    <div class="newprojectTitle defaultFontBlod">
+      {{ $t('workspace.createProject') }}
+    </div>
+    <div class="newprojectcontent">
+      <el-tabs
+        class="elTabs"
+        :class="{'enLeft':language==='en'}"
+        v-model="activeName"
+        tab-position="left"
       >
-        <span slot="label"><em :class="['tab_detail',activeName==='1'?'tab_active':'tab_default']" />{{ $t('workspace.projectDetails') }}</span>
-        <div
-          v-if="activeName === '1'"
-          class="project_detail"
+        <el-tab-pane
+          class="elTabPane"
+          name="1"
+          lazy
         >
-          <el-row>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
-            </el-col>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.provider') }}</span>{{ projectDetailData.provider }}
-            </el-col>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.industry') }}</span>{{ projectDetailData.industry }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
-            </el-col>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.dependentApp') }}</span>
-              <span
-                class="span_right"
-                :class="{'span_right_en':language==='en'}"
-              >
-                {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
-              </span>
-            </el-col>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.createDate') }}</span>{{ projectDetailData.createDate }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <span
-                class="span_left"
-                :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
-            </el-col>
-          </el-row>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane
-        class="elTabPane"
-        name="2"
-        lazy
-        v-if="isAppDevelopment"
-        style="padding:0"
-      >
-        <span slot="label"><em :class="['tab_capability',activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}</span>
-        <api v-if="activeName === '2'" />
-      </el-tab-pane>
-      <el-tab-pane
-        :label="$t('workspace.appDevelopment')"
-        class="elTabPane"
-        name="3"
-        lazy
-        v-if="isAppDevelopment"
-      >
-        <span slot="label"><em :class="['tab_appDev',activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.appDevelopment') }}</span>
-        <EnvPreparation v-if="activeName === '3'" />
-      </el-tab-pane>
-      <el-tab-pane
-        class="elTabPane"
-        name="6"
-        lazy
-        v-if="deployPlatform === 'VIRTUALMACHINE'"
-      >
-        <span slot="label"><em :class="['tab_config',activeName==='6'?'tab_active':'tab_default']" />{{ $t('workspace.deployDebugVm.resourceConfig') }}</span>
-        <ResourceConfig v-if="activeName === '6'" />
-      </el-tab-pane>
-      <el-tab-pane
-        class="elTabPane"
-        name="4"
-        lazy
-      >
-        <span slot="label"><em :class="['tab_deploy',activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}</span>
-        <div v-if="activeName === '4'">
-          <div
-            id="div_deploydebug_k8s"
-            v-if="deployPlatform === 'KUBERNETES'"
+          <span
+            slot="label"
+            @mouseenter="groupListHover('1')"
+            @mouseleave="groupListLeave('1')"
           >
-            <el-steps
-              :active="active"
-              finish-status="success"
-              align-center
-            >
-              <el-step :title="$t('workspace.selectImage')" />
-              <el-step :title="$t('workspace.configureYaml')" />
-              <el-step :title="$t('workspace.deploymentTest')" />
-            </el-steps>
-            <div class="elSteps">
-              <component
-                :is="currentComponent"
-                :active="active"
-                @getStepData="getStepData"
-                @getBtnStatus="getBtnStatus"
-                :project-before-config="projectBeforeConfig"
-                :all-step-data="allStepData"
-                @getAppapiFileId="getAppapiFileId"
-                ref="currentComponet"
-                @checkCleanEnv="checkCleanEnv"
-              />
-            </div>
-            <div class="elButton">
-              <el-button
-                id="prevBtn"
-                type="text"
-                @click="previous"
-                v-if="active>0"
-                :disabled="isDeploying"
+            <em :class="['tab_detail', selectedName==='1' || activeName==='1' ?'tab_active':'tab_default']" />
+            {{ $t('workspace.projectDetails') }}
+          </span>
+          <div
+            v-if="activeName === '1'"
+            class="project_detail"
+          >
+            <el-row>
+              <el-col
+                :sm="12"
+                :xs="24"
               >
-                <strong>{{ $t('workspace.previous') }}</strong>
-              </el-button>
-              <el-button
-                id="nextBtn"
-                type="primary"
-                v-loading="apiDataLoading"
-                @click="next"
-                v-if="active<2"
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
+              </el-col>
+              <el-col
+                :sm="12"
+                :xs="24"
               >
-                <strong>{{ $t('workspace.next') }}</strong>
-              </el-button>
-            </div>
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col
+                :sm="12"
+                :xs="24"
+              >
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.provider') }}</span>{{ projectDetailData.provider }}
+              </el-col>
+              <el-col
+                :sm="12"
+                :xs="24"
+              >
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.industry') }}</span>{{ projectDetailData.industry }}
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col
+                :sm="12"
+                :xs="24"
+              >
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
+              </el-col>
+              <el-col
+                :sm="12"
+                :xs="24"
+              >
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col
+                :sm="12"
+                :xs="24"
+              >
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.dependentApp') }}</span>
+                <span
+                  class="span_right"
+                  :class="{'span_right_en':language==='en'}"
+                >
+                  {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+                </span>
+              </el-col>
+              <el-col
+                :sm="12"
+                :xs="24"
+              >
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.createDate') }}</span>{{ projectDetailData.createDate }}
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col>
+                <span
+                  class="span_left"
+                  :class="{'span_left_en':language==='en'}"
+                >{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
+              </el-col>
+            </el-row>
           </div>
-          <DeployDebugVMMain
-            :project-id="projectId"
-            v-if="deployPlatform === 'VIRTUALMACHINE'"
-            @getImageStatus="getImageStatus"
+        </el-tab-pane>
+        <el-tab-pane
+          class="elTabPane"
+          name="2"
+          lazy
+          v-if="isAppDevelopment"
+          style="padding:0"
+        >
+          <span
+            slot="label"
+            @mouseenter="groupListHover('2')"
+            @mouseleave="groupListLeave('2')"
+          >
+            <em :class="['tab_capability',selectedName==='2' || activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}
+          </span>
+          <api v-if="activeName === '2'" />
+        </el-tab-pane>
+        <el-tab-pane
+          :label="$t('workspace.appDevelopment')"
+          class="elTabPane"
+          name="3"
+          lazy
+          v-if="isAppDevelopment"
+        >
+          <span
+            slot="label"
+            @mouseenter="groupListHover('3')"
+            @mouseleave="groupListLeave('3')"
+          >
+            <em :class="['tab_appDev',selectedName==='3' || activeName==='3'?'tab_active':'tab_default']" />{{ $t('workspace.appDevelopment') }}
+          </span>
+          <EnvPreparation v-if="activeName === '3'" />
+          <div class="elButton defaultFontLight">
+            <el-button
+              id="prevBtn"
+              type="primary"
+              @click="previousPane"
+              :disabled="isDeploying"
+            >
+              {{ $t('workspace.previous') }}
+            </el-button>
+            <el-button
+              id="nextBtn"
+              type="primary"
+              v-loading="apiDataLoading"
+              @click="nextPane"
+            >
+              {{ $t('workspace.next') }}
+            </el-button>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane
+          class="elTabPane"
+          name="6"
+          lazy
+          v-if="deployPlatform === 'VIRTUALMACHINE'"
+        >
+          <span
+            slot="label"
+            @mouseenter="groupListHover('6')"
+            @mouseleave="groupListLeave('6')"
+          >
+            <em :class="['tab_config',selectedName==='6' || activeName==='6'?'tab_active':'tab_default']" />{{ $t('workspace.deployDebugVm.resourceConfig') }}
+          </span>
+          <ResourceConfig v-if="activeName === '6'" />
+        </el-tab-pane>
+        <el-tab-pane
+          class="elTabPane"
+          name="4"
+          lazy
+        >
+          <span
+            slot="label"
+            @mouseenter="groupListHover('4')"
+            @mouseleave="groupListLeave('4')"
+          >
+            <em :class="['tab_deploy',selectedName==='4' || activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}
+          </span>
+          <div v-if="activeName === '4'">
+            <div
+              id="div_deploydebug_k8s"
+              v-if="deployPlatform === 'KUBERNETES'"
+            >
+              <el-steps
+                :active="active"
+                finish-status="success"
+                align-center
+              >
+                <el-step :title="$t('workspace.selectImage')" />
+                <el-step :title="$t('workspace.configureYaml')" />
+                <el-step :title="$t('workspace.deploymentTest')" />
+              </el-steps>
+              <div class="elSteps">
+                <component
+                  :is="currentComponent"
+                  :active="active"
+                  @getStepData="getStepData"
+                  @getBtnStatus="getBtnStatus"
+                  :project-before-config="projectBeforeConfig"
+                  :all-step-data="allStepData"
+                  @getAppapiFileId="getAppapiFileId"
+                  ref="currentComponet"
+                  @checkCleanEnv="checkCleanEnv"
+                />
+              </div>
+              <div class="elButton">
+                <el-button
+                  id="prevBtn"
+                  type="text"
+                  @click="previous"
+                  v-if="active>0"
+                  :disabled="isDeploying"
+                >
+                  <strong>{{ $t('workspace.previous') }}</strong>
+                </el-button>
+                <el-button
+                  id="nextBtn"
+                  type="primary"
+                  v-loading="apiDataLoading"
+                  @click="next"
+                  v-if="active<2"
+                >
+                  <strong>{{ $t('workspace.next') }}</strong>
+                </el-button>
+              </div>
+            </div>
+            <DeployDebugVMMain
+              :project-id="projectId"
+              v-if="deployPlatform === 'VIRTUALMACHINE'"
+              @getImageStatus="getImageStatus"
+            />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane
+          class="elTabPane"
+          name="5"
+          lazy
+        >
+          <span
+            slot="label"
+            @mouseenter="groupListHover('5')"
+            @mouseleave="groupListLeave('5')"
+          >
+            <em :class="['tab_release',selectedName==='5' || activeName==='5'?'tab_active':'tab_default']" />{{ $t('workspace.applicationRelease') }}
+          </span>
+          <appRelease
+            v-if="activeName === '5'"
+            :is-clean-env-prop="isCleanEnv"
+            :deploy-platform-prop="deployPlatform"
+          />
+        </el-tab-pane>
+        <div v-if="dialogVisible">
+          <publishAppDialog
+            v-model="dialogVisible"
+            :app-api-file-id-temp="appApiFileIdTemp"
           />
         </div>
-      </el-tab-pane>
-      <el-tab-pane
-        class="elTabPane"
-        name="5"
-        lazy
-      >
-        <span slot="label"><em :class="['tab_release',activeName==='5'?'tab_active':'tab_default']" />{{ $t('workspace.applicationRelease') }}</span>
-        <appRelease
-          v-if="activeName === '5'"
-          :is-clean-env-prop="isCleanEnv"
-          :deploy-platform-prop="deployPlatform"
-        />
-      </el-tab-pane>
-      <div v-if="dialogVisible">
-        <publishAppDialog
-          v-model="dialogVisible"
-          :app-api-file-id-temp="appApiFileIdTemp"
-        />
-      </div>
-    </el-tabs>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -285,6 +333,7 @@ export default {
       projecDetailList: [],
       dialogVisible: false,
       activeName: '1',
+      selectedName: '0',
       language: localStorage.getItem('language'),
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
@@ -334,6 +383,13 @@ export default {
     }
   },
   methods: {
+    groupListHover (index) {
+      console.log(index)
+      this.selectedName = index
+    },
+    groupListLeave (index) {
+      this.selectedName = '0'
+    },
     setDivHeight (screenHeight) {
       let oDiv1 = document.getElementsByClassName('elTabs')
       oDiv1[0].style.minHeight = (Number(screenHeight) - 331) + 'px'
@@ -417,6 +473,21 @@ export default {
     previous () {
       this.active--
       this.handleStep()
+    },
+    nextPane () {
+      console.log('next')
+      this.activeName = '4'
+      if (this.deployPlatform === 'VIRTUALMACHINE') {
+        this.activeName = '6'
+      }
+    },
+    previousPane () {
+      console.log('pre')
+      if (this.isAppDevelopment) {
+        this.activeName = '2'
+      } else {
+        this.activeName = '1'
+      }
     },
     handleStep () {
       // Change dynamic component value
@@ -565,13 +636,26 @@ export default {
   }
   .el-tabs--left .el-tabs__item.is-left{
     text-align: center;
-    background: #fff;
+    background: #fbfbfb;
+    font-size:20px;
+    color: #7a6e8a;
+  }
+  .el-tabs__item span{
+    letter-spacing: 4px;
+  }
+  .el-tabs--left.enLeft {
+    .el-tabs__item span{
+      letter-spacing: 0px;
+    }
   }
   .el-tabs--left.enLeft .el-tabs__item.is-left{
     text-align: left;
   }
   .el-tabs--left .el-tabs__header.is-left{
-    margin-right: 20px;
+    margin-right: 102px;
+  }
+  .el-tabs--left.enLeft .el-tabs__header.is-left{
+    margin-right: 45px;
   }
   .el-tabs__nav-wrap.is-left::after{
     width: 0;
@@ -580,11 +664,10 @@ export default {
     display: none;
   }
   .el-tabs__item{
-    height: 50px;
+    height: 49px;
     line-height: 50px;
-    padding: 0 10px;
-    margin-bottom: 13px;
-    border-radius: 5px;
+    margin:7px 8.5px;
+    border-radius: 8px;
     font-size: 16px;
     .tab_detail.tab_default{
       background: url('../../assets/images/menu_iocn_details_default.png') no-repeat;
@@ -629,38 +712,40 @@ export default {
         float: left;
         width: 28px;
         height: 28px;
-        margin: 11px 15px 0 0;
+        margin: 15px 3px 0 0;
       }
     }
   }
 
   .el-tabs--left .el-tabs__item.is-left.is-active{
-    background:#688ef3;
-    color: #fff;
+    background:#fff;
+    color: #5e40c8;
+    box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
   }
-  .el-tabs__item:hover{
-    color: #688ef3;
+  .el-tabs--left .el-tabs__item.is-left:hover {
+    background:#fff;
+    color: #5e40c8;
+    box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
   }
   .elTabs {
-    padding: 20px 20px 20px 0;
+    padding: 0px 0px 0px 0;
     .el-tabs__header{
       min-width: 195px;
     }
     .el-tabs__content{
-      background: #fff;
       border-radius: 5px;
     }
     .elTabPane {
-      padding: 30px;
+      padding: 10px 0 0 0px;
       min-height: 300px;
     }
     .elButton {
-      width: 80%;
-      margin: 35px 10% 0;
+      width: 100%;
+      margin: 43px 0 0;
       text-align: right;
       button {
-        height: 30px;
-        width: 110px;
+        height: 46px;
+        width: 174px;
         line-height: 30px;
         padding: 0;
       }
@@ -668,8 +753,11 @@ export default {
         border: 1px solid #688ef3;
       }
       .el-button--primary {
-        background-color: #688ef3;
-        color: #fff;
+        background-color: #5e40c8;
+        color: #ffffff;
+        border-radius: 8px;
+        margin-left: 30px;
+        font-size: 20px;
       }
     }
     .elSteps {
@@ -726,4 +814,18 @@ export default {
     margin-bottom: 15px;
   }
 }
+.newprojectTitle{
+   font-size:26px;
+   color:#5e40c8;
+   margin-top:50px;
+ }
+.newprojectcontent{
+   width:1414px;
+   min-height:750px;
+   background-color:#fbfbfb;
+   margin-top:20px;
+   border-radius:20px;
+   padding:50px 57px 60px 57px;
+   box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+   }
 </style>

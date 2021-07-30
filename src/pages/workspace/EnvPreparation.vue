@@ -16,44 +16,60 @@
 
 <template>
   <div class="envPreparation">
-    <h3 class="title">
-      <em class="el-icon-setting" />
-      {{ $t('workspace.programTools') }}
-    </h3>
-    <div class="pad">
-      {{ $t('workspace.prepare.toolTip') }}
-    </div>
-    <h3 class="title">
-      <em class="el-icon-notebook-2" />
-      {{ $t('workspace.programPlugin') }}
-    </h3>
-    <div class="pad">
-      {{ $t('workspace.prepare.pluginTip1') }}
-      <el-link
-        type="info"
-        :href="projectLink"
-        target="_blank"
-      >
-        {{ $t('workspace.prepare.pluginTip2') }}
-      </el-link>
-      {{ $t('workspace.prepare.pluginTip3') }}
-    </div>
-    <h3 class="title">
-      <em class="el-icon-edit-outline" />
-      {{ $t('workspace.sampleCode') }}
-    </h3>
-    <div class="pad">
-      {{ $t('workspace.prepare.codeTip1') }}
-
-      {{ $t('workspace.prepare.codeTip2') }}
-      <el-link
-        type="info"
-        :underline="false"
-        @click="downloadSampleCode"
-        :disabled="serviceNum===0"
-      >
-        {{ $t('workspace.prepare.codeTip3') }}
-      </el-link>
+    <div>
+      <table class="table-content">
+        <!-- programTools -->
+        <tr>
+          <td
+            class="title-EnvPreparation"
+            :class="{'enTitle':language==='en'}"
+          >
+            {{ $t('workspace.programTools') }}
+          </td>
+          <td class="pad fontUltraLight">
+            {{ $t('workspace.prepare.toolTip') }}
+          </td>
+        </tr>
+        <!-- programPlugin -->
+        <tr>
+          <td
+            class="title-EnvPreparation"
+            :class="{'enTitle':language==='en'}"
+          >
+            {{ $t('workspace.programPlugin') }}
+          </td>
+          <td class="pad fontUltraLight">
+            {{ $t('workspace.prepare.pluginTip1') }}
+            <a
+              @click="jumpToProject"
+              target="_blank"
+              class="link defaultFont"
+            >{{ $t('workspace.prepare.pluginTip2') }}
+            </a>
+            {{ $t('workspace.prepare.pluginTip3') }}
+          </td>
+        </tr>
+        <!-- sampleCode -->
+        <tr>
+          <td
+            class="title-EnvPreparation"
+            :class="{'enTitle':language==='en'}"
+          >
+            {{ $t('workspace.sampleCode') }}
+          </td>
+          <td class="pad fontUltraLight">
+            {{ $t('workspace.prepare.codeTip1') }}
+            <a
+              @click="downloadSampleCode"
+              target="_blank"
+              class="link defaultFont"
+              :disabled="serviceNum===0"
+            >{{ $t('workspace.prepare.codeTip2') }}
+            </a>
+            {{ $t('workspace.prepare.codeTip3') }}
+          </td>
+        </tr>
+      </table>
       <el-row
         class="code_div"
         v-show="serviceNum!==0"
@@ -71,7 +87,21 @@
             :props="defaultProps"
             @node-click="getFileDetail"
             empty-text=""
-          />
+          >
+            <span
+              class="el-tree-node__label"
+              slot-scope="{ node }"
+            >
+              <el-tooltip
+                popper-class="atooltip"
+                class="item"
+                :content="node.label"
+                placement="right"
+              >
+                <span> {{ node.label }} </span>
+              </el-tooltip>
+            </span>
+          </el-tree>
         </el-col>
         <el-col class="file_desc">
           <mavon-editor
@@ -95,6 +125,7 @@ export default {
   name: 'EnvPreparation',
   data () {
     return {
+      language: localStorage.getItem('language'),
       apiFileIdArr: [],
       userId: sessionStorage.getItem('userId'),
       projectLink: '/#/mecDeveloper/plugin/list',
@@ -110,6 +141,9 @@ export default {
     }
   },
   methods: {
+    jumpToProject () {
+      this.$router.push('/mecDeveloper/plugin/list')
+    },
     emitStepData () {
       let ifNext = true
       if (ifNext) {
@@ -160,59 +194,96 @@ export default {
   },
   mounted () {
     this.getApiFileId()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
 
 <style lang="less">
+.fontUltraLight {
+  font-family: defaultFontUltraLight,Arial,Helvetica,sans-serif !important;
+}
 .envPreparation{
-  .title{
-    em{
-      margin-right: 15px;
+  .title-EnvPreparation{
+    color: #5e40c8;
+    font-size: 16px;
+  }
+  .title-EnvPreparation.enTitle{
+    width: 150px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .table-content{
+    td {
+      padding-top: 10px;
     }
   }
   .pad {
+    padding-left: 13px;
     font-size: 16px;
-    color: #575d6c;
-    padding-left: 35px;
-    padding-bottom: 15px;
-    .el-link{
-      margin-top: -4px;
-      color: #688ef3;
+    color: #5e40c8;
+    padding-bottom: 1px;
+    .link{
+      cursor: pointer;
+      color: #5e40c8;
+      font-size: 16px;
     }
-    .el-link.is-disabled{
-      color: #adb0b8;
+    .link.is-disabled{
+      color: #bd3f3f;
     }
   }
+  .el-row {
+    margin-bottom: 18px;
+  }
   .code_div{
-    margin-top: 25px;
-    border: 1px solid #ddd;
+    margin-top: 27px;
     background: #f8f8f8;
+    border-radius: 16px;
+    height: 468px;
   }
   .el-tree.codeDetail{
     background: #f8f8f8;
+    border-radius: 16px 0 0 16px;
+    height: 466px;
+    box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
+    overflow: scroll;
   }
-  .el-tree-node>.el-tree-node__children{
-    overflow: auto;
+  .el-tree.codeDetail::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
   }
   .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
-    background-color: #e1f0ff;
+    background-color: #dfeefe;
+    border-radius: 16px 0 0 0;
+  }
+  .el-tree-node__content:hover {
+    background-color: #dfeefe;
+    border-radius: 16px 0 0 0;
   }
   .el-tree-node__label{
     font-size: 15px;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 151px;
   }
   .file_list{
-    width: 310px;
+    width: 260px;
   }
   .file_desc{
-    width: calc(100% - 310px);
+    border-radius: 0 16px 16px 0;
+    width: calc(100% - 260px);
     white-space: pre-wrap;
     line-height: 25px;
-    max-height: 500px;
+    max-height: 466px;
     overflow: auto;
     overflow-x: auto;
     .v-note-wrapper{
       border: none;
+      min-height: 467px;
     }
     .v-note-wrapper .v-note-panel .v-note-show{
       overflow: hidden;
@@ -229,5 +300,17 @@ export default {
       font-size: 15px;
     }
   }
+  .file_desc::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+}
+.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
+  border-right-color: #5e40c8;
+}
+.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow:after {
+  border-right-color: #5e40c8;
+}
+.atooltip {
+  background: #5e40c8 !important;
 }
 </style>
