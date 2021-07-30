@@ -823,8 +823,8 @@ const cn = {
       createTime: '创建时间',
       uploadTime: '上传时间',
       imgFormat: '镜像格式',
-      beginTime: '起始时间',
-      endTime: '结束时间',
+      beginTime: '创建时间（起始）',
+      endTime: '创建时间（结束）',
       typeValue: {
         public: '公共',
         private: '私有'
