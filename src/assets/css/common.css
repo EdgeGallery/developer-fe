@@ -46,11 +46,11 @@ html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
 .defaultFontBlod{
   font-family:defaultFontBlod, Arial, Helvetica, sans-serif;
 }
-.defaultFontUltraLight {
+.fontUltraLight {
   font-family: defaultFontUltraLight,
     Arial,
     Helvetica,
-    sans-serif;
+    sans-serif !important;
 }
 
 .defaultFontLight {

@@ -204,9 +204,6 @@ export default {
 </script>
 
 <style lang="less">
-.fontUltraLight {
-  font-family: defaultFontUltraLight,Arial,Helvetica,sans-serif !important;
-}
 .envPreparation{
   .title-EnvPreparation{
     color: #5e40c8;
