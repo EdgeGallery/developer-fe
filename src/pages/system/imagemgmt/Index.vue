@@ -15,230 +15,76 @@
   -->
 
 <template>
-  <div class="imagelist padding_default">
-    <el-breadcrumb
-      separator="/"
-      class="bread-crumb"
-    >
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
-        {{ $t('breadCrumb.mecDeveloper') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.system') }}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.systemImgMgmt') }}</el-breadcrumb-item>
-    </el-breadcrumb>
-    <div
-      class="cls_imagelist clear"
-      id="div_imagelist"
-    >
-      <div>
-        <el-button
-          id="addBtn"
-          @click.native.prevent="handleAddImg()"
-          type="primary"
-        >
-          {{ $t('system.imageMgmt.operation.newImg') }}
-        </el-button>
-      </div>
-      <div class="title">
-        <el-tabs
-          v-model="imageType"
-          type="card"
-          @tab-click="handleChangeTypeTab"
-        >
-          <el-tab-pane
-            :label="$t('common.all')"
-            name="All"
-          />
-          <el-tab-pane
-            :label="$t('system.imageMgmt.typeValue.private')"
-            name="private"
-          />
-          <el-tab-pane
-            :label="$t('system.imageMgmt.typeValue.public')"
-            name="public"
-          />
-        </el-tabs>
-        <Search
-          @getSearchData="getSearchData"
-        />
-      </div>
-      <el-table
-        :data="imageListData"
-        @sort-change="doSort"
-        :default-sort="{prop: 'createTime', order: 'descending'}"
-        v-loading="dataLoading"
-        border
-        stripe
-        size="small"
-        style="width: 100%;"
-        header-cell-class-name="headerStyle"
+  <div class="image_div padding_default">
+    <div class="title_top title_left defaultFontBlod">
+      {{ $t('breadCrumb.systemImgMgmt') }}
+      <span class="line_bot1" />
+      <el-button
+        class="createimage_btn linearGradient2"
+        id="createimage_btn"
+        @click="handleAddImg"
       >
-        <el-table-column
-          prop="systemName"
-          sortable="custom"
-          :label="$t('system.imageMgmt.imgName')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-button
-              type="text"
-              @click="handleView(scope.row)"
-            >
-              {{ scope.row.systemName }}
-            </el-button>
-          </template>
-        </el-table-column>
-        <el-table-column
-          width="120"
-          :label="$t('system.imageMgmt.imgType')"
-          :formatter="convertType"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="userName"
-          width="120"
-          :label="$t('system.imageMgmt.userName')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="operateSystem"
-          width="135"
-          :label="$t('system.imageMgmt.osName')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="version"
-          width="120"
-          :label="$t('system.imageMgmt.osVersion')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="createTime"
-          width="200"
-          sortable="custom"
-          :label="$t('system.imageMgmt.createTime')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="uploadTime"
-          width="200"
-          :label="$t('system.imageMgmt.uploadTime')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          width="150"
-          :label="$t('common.status')"
-          :formatter="convertStatus"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          :label="$t('common.operation')"
-          width="275"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-button
-              id="editBtn"
-              v-if="isAdmin || userId===scope.row.userId"
-              @click.native.prevent="handleEdit(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('common.edit') }}
-            </el-button>
-            <el-button
-              v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-              id="deleteBtn"
-              @click.native.prevent="handleDelete(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('common.delete') }}
-            </el-button>
-            <el-button
-              v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-              id="uploadBtn"
-              @click.native.prevent="handleUpload(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('system.imageMgmt.operation.upload') }}
-            </el-button>
-            <el-button
-              :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
-              id="downloadBtn"
-              @click.native.prevent="handleDownload(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('common.download') }}
-            </el-button>
-            <el-button
-              v-if="isAdmin"
-              :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
-              id="publishBtn"
-              @click.native.prevent="handlePublish(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('system.imageMgmt.operation.publish') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="pageBar">
-        <el-pagination
-          background
-          class="rt"
-          @size-change="handlePageSizeChange"
-          @current-change="handleCurrentPageChange"
-          :current-page="pageCtrl.currentPage"
-          :page-sizes="[10, 15, 20, 25]"
-          :page-size="pageCtrl.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="pageCtrl.totalNum"
-          v-if="pageCtrl.totalNum!=0"
-        />
-      </div>
+        <em class="new_icon" />
+        {{ $t('system.imageMgmt.tip.newImg') }}
+      </el-button>
+    </div>
+    <ul class="list_top clear">
+      <li
+        @click="activeName='container'"
+        :class="{'container_active':activeName==='container','container_default':activeName==='vm'}"
+      >
+        <span>
+          <em class="image_container" />容器
+        </span>
+      </li>
+      <li
+        @click="activeName='vm'"
+        :class="{'vm_active':activeName==='vm','vm_default':activeName==='container'}"
+      >
+        <span>
+          <em class="image_vm" />虚拟机
+        </span>
+      </li>
+      <li
+        class="last_li"
+        :class="{'vm_active':activeName==='vm','vm_default':activeName==='container'}"
+      >
+        <span />
+      </li>
+    </ul>
+    <div
+      class="container_div"
+      :class="{'vm_div':activeName==='vm'}"
+    >
+      <ContainerImage v-show="activeName==='container'" />
+      <VMImage
+        v-show="activeName==='vm'"
+        ref="VMImage"
+      />
     </div>
     <EditImage
-      :show-dlg="showEditImageDlg"
+      v-model="showEditImageDlg"
       :image-data="currentImageData"
       @cancelEditImageDlg="cancelEditImageDlg"
       @processEditImageSuccess="processEditImageSuccess"
     />
-    <ViewImage
-      :show-dlg="showViewImageDlg"
-      :image-data="currentImageData"
-      @processCloseViewImage="processCloseViewImage"
-    />
-    <UploadImage
-      v-if="showUploadImageDlg"
-      :show-dlg="showUploadImageDlg"
-      :image-data="currentImageData"
-      @processCloseUploadImageDlg="processCloseUploadImageDlg"
-    />
   </div>
 </template>
 <script>
-import Search from './ImageSearch.vue'
+import ContainerImage from './ContainerImage.vue'
+import VMImage from './VMImage.vue'
 import EditImage from './EditImage.vue'
-import ViewImage from './ViewImage.vue'
-import UploadImage from './UploadImage.vue'
-import { imageMgmtService } from '../../../tools/api.js'
+import { common } from '../../../tools/common.js'
 
 export default {
   name: 'ImageMgmt',
   components: {
-    Search, EditImage, UploadImage, ViewImage
+    ContainerImage, VMImage, EditImage
   },
   data () {
     return {
-      userId: '',
-      isAdmin: false,
-
+      userId: sessionStorage.getItem('userId'),
+      // isAdmin: false,
       dataLoading: false,
       searchCondition: {
         systemName: '',
@@ -265,7 +111,9 @@ export default {
       showEditImageDlg: false,
       showUploadImageDlg: false,
       showViewImageDlg: false,
-      currentImageData: {}
+      currentImageData: {},
+      screenHeight: document.body.clientHeight,
+      activeName: 'vm'
     }
   },
   watch: {
@@ -274,123 +122,14 @@ export default {
     }
   },
   mounted () {
-    this.initUser()
-    this.initOptionList()
-    this.getImageDataList()
+    this.setDivHeight()
   },
   methods: {
-    initUser () {
-      this.userId = sessionStorage.getItem('userId')
-      let _authorities = sessionStorage.getItem('userAuthorities')
-      if (_authorities && _authorities.length > 0) {
-        this.isAdmin = _authorities.includes('ROLE_DEVELOPER_ADMIN')
-      }
-    },
-    initOptionList () {
-      this.imageTypeOptionList = [
-        { value: 'public', label: this.$t('system.imageMgmt.typeValue.public') },
-        { value: 'private', label: this.$t('system.imageMgmt.typeValue.private') }
-      ]
-      this.statusOptionList = [
-        { value: 'UPLOAD_WAIT', label: this.$t('system.imageMgmt.statusValue.uploadWait') },
-        { value: 'UPLOADING', label: this.$t('system.imageMgmt.statusValue.uploading') },
-        { value: 'UPLOADING_MERGING', label: this.$t('system.imageMgmt.statusValue.merging') },
-        { value: 'UPLOAD_SUCCEED', label: this.$t('system.imageMgmt.statusValue.uploadSucceeded') },
-        { value: 'UPLOAD_FAILED', label: this.$t('system.imageMgmt.statusValue.uploadFailed') },
-        { value: 'UPLOAD_CANCELLED', label: this.$t('system.imageMgmt.statusValue.uploadCancelled') },
-        { value: 'PUBLISHED', label: this.$t('system.imageMgmt.statusValue.published') }
-      ]
-    },
-    handlePageSizeChange (val) {
-      this.pageCtrl.currentPage = 1
-      this.pageCtrl.pageSize = val
-      this.getImageDataList()
-    },
-    handleCurrentPageChange (val) {
-      this.pageCtrl.currentPage = val
-      this.getImageDataList()
-    },
-    getSearchData (searchFormData) {
-      this.pageCtrl.currentPage = 1
-      this.searchCondition.systemName = searchFormData.systemName
-      this.searchCondition.operateSystem = searchFormData.operateSystem
-      this.searchCondition.status = searchFormData.status
-      this.searchCondition.createTimeBegin = ''
-      this.searchCondition.createTimeEnd = ''
-      if (searchFormData.createTimeRange && searchFormData.createTimeRange.length === 2) {
-        this.searchCondition.createTimeBegin = searchFormData.createTimeRange[0]
-        this.searchCondition.createTimeEnd = searchFormData.createTimeRange[1]
-      }
-      this.getImageDataList()
-    },
-    handleChangeTypeTab (tab, event) {
-      this.pageCtrl.currentPage = 1
-      this.getImageDataList()
-    },
-    doSort (sortRule) {
-      if (sortRule.order) {
-        let _ascendingFlag = sortRule.order === 'ascending'
-        this.sortCtrl.sortBy = sortRule.prop
-        this.sortCtrl.sortOrder = _ascendingFlag ? 'ASC' : 'DESC'
-      } else {
-        this.sortCtrl.sortBy = 'createTime'
-        this.sortCtrl.sortOrder = 'DESC'
-      }
-      this.pageCtrl.currentPage = 1
-      this.getImageDataList()
-    },
-    getImageDataList () {
-      this.dataLoading = true
-      imageMgmtService.getImageDataList(this.buildQueryReq(), this.userId).then(response => {
-        this.imageListData = response.data.imageList
-        this.pageCtrl.totalNum = response.data.totalCount
-
-        this.dataLoading = false
-      }).catch(() => {
-        this.dataLoading = false
-        this.$message.error(this.$t('system.imageMgmt.tip.queryImgFailed'))
-      })
-    },
-    buildQueryReq () {
-      let _queryReq = this.searchCondition
-      _queryReq.type = this.imageType
-
-      let _queryCtrl = {
-        'offset': (this.pageCtrl.currentPage - 1) * this.pageCtrl.pageSize,
-        'limit': this.pageCtrl.pageSize,
-        'sortBy': this.sortCtrl.sortBy,
-        'sortOrder': this.sortCtrl.sortOrder
-      }
-      _queryReq.queryCtrl = _queryCtrl
-
-      return _queryReq
-    },
-    convertType (row) {
-      if (row.type) {
-        let imgTypeOption = this.imageTypeOptionList.find(item => item.value === row.type)
-        if (imgTypeOption) {
-          return imgTypeOption.label
-        }
-      }
-
-      return this.$t('common.unknown')
-    },
-    convertStatus (row) {
-      if (row.status) {
-        let statusOption = this.statusOptionList.find(item => item.value === row.status)
-        if (statusOption) {
-          return statusOption.label
-        }
-      }
-
-      return this.$t('common.unknown')
+    setDivHeight () {
+      common.setDivHeightFun(this.screenHeight, 'image_div', 261)
     },
     handleAddImg () {
       this.currentImageData = {}
-      this.showEditImageDlg = true
-    },
-    handleEdit (row) {
-      this.currentImageData = row
       this.showEditImageDlg = true
     },
     cancelEditImageDlg () {
@@ -398,123 +137,135 @@ export default {
     },
     processEditImageSuccess () {
       this.showEditImageDlg = false
-      this.getImageDataList()
-    },
-    handleView (row) {
-      this.currentImageData = row
-      this.showViewImageDlg = true
-    },
-    processCloseViewImage () {
-      this.showViewImageDlg = false
-    },
-    handleDelete (row) {
-      this.$confirm(this.$t('system.imageMgmt.tip.confirmDeleteImage'), this.$t('promptMessage.prompt'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        this.doDeleteImage(row.systemId)
-      })
-    },
-    doDeleteImage (systemId) {
-      imageMgmtService.deleteImage(systemId, this.userId).then(() => {
-        this.pageCtrl.currentPage = 1
-        this.getImageDataList()
-      }).catch(() => {
-        this.$message.error(this.$t('system.imageMgmt.tip.deleteImgFailed'))
-      })
-    },
-    handleUpload (row) {
-      if (row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED') {
-        this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
-          confirmButtonText: this.$t('common.confirm'),
-          cancelButtonText: this.$t('common.cancel'),
-          type: 'warning'
-        }).then(() => {
-          this.currentImageData = row
-          this.showUploadImageDlg = true
-        })
-      } else {
-        this.currentImageData = row
-        this.showUploadImageDlg = true
-      }
-    },
-    handleDownload (row) {
-      this.$confirm(this.$t('system.imageMgmt.tip.confirmDownloadImage'), this.$t('promptMessage.prompt'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        window.open(imageMgmtService.downloadSystemImageUrl(row.systemId, this.userId))
-      })
-    },
-    processCloseUploadImageDlg () {
-      this.showUploadImageDlg = false
-      this.getImageDataList()
-    },
-    handlePublish (row) {
-      this.$confirm(this.$t('system.imageMgmt.tip.confirmPublishImage'), this.$t('promptMessage.prompt'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        this.doPublishImage(row.systemId)
-      })
-    },
-    doPublishImage (systemId) {
-      imageMgmtService.publishImage(systemId, this.userId).then(() => {
-        this.getImageDataList()
-      }).catch(() => {
-        this.$message.error(this.$t('system.imageMgmt.tip.publishImgFailed'))
-      })
+      this.$refs.VMImage.getImageDataList()
     }
   }
 }
 </script>
 <style lang="less">
-.imagelist{
-  .w50 {
-    width: 50%;
-    display: inline-block;
-  }
-  .el-form-item__label {
-    padding: 0 20px 0 0
-  }
-  .cls_imagelist{
-    min-height: 628px;
-    background-color: white;
-    padding: 20px;
-    .title{
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 10px;
+.image_div{
+  .createimage_btn{
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 25px;
+    padding: 0 35px;
+    .new_icon{
+      display: inline-block;
+      width: 19px;
+      height: 19px;
+      background: url('../../../assets/images/work_new_project.png');
+      margin-right: 3px;
+      position: relative;
+      top: 2px;
     }
-    margin-top: 10px;
-    .el-table {
-      font-size: 14px;
-      .icon_pic {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-      }
-      thead {
-        color: #282b33;
-        font-weight: 100;
-        font-size: 14px;
-        th,
-        tr {
-          background-color: #f5f5f5;
-        }
-      }
-      tbody {
-        td {
-          padding: 8px;
-          .cell{
-            padding-left: 0;
-          }
-        }
+  }
+  .list_top{
+    li{
+      float: left;
+      height: 50px;
+      line-height: 50px;
+      cursor: pointer;
+      span{
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0 30px;
+        font-size: 20px;
+        color: #fff;
+        transition: all 0.5s;
       }
     }
+    em{
+      display: inline-block;
+      width: 19px;
+      height: 22px;
+      position: relative;
+      top: 4px;
+      margin-right: 10px;
+    }
+    .image_container{
+      background: url('../../../assets/images/system_image_container.png');
+    }
+    .image_vm{
+      background: url('../../../assets/images/system_image_vm.png');
+    }
+    .container_active .image_container{
+      background: url('../../../assets/images/system_image_container_active.png');
+    }
+    .vm_active .image_vm{
+      background: url('../../../assets/images/system_image_vm_active.png');
+    }
+    .container_active{
+      background: #d4d1ec;
+      border-radius: 16px 0 0 0;
+      transition: all 0.5s;
+      span{
+        background: #fff;
+        border-radius: 16px 16px 0 0;
+        color: #5e40c8;
+        transition: all 0.5s;
+      }
+    }
+    .vm_default{
+      background: #fff;
+      border-radius: 0 16px 0 0;
+      transition: all 0.5s;
+      span{
+        background: #d4d1ec;
+        border-radius: 0 16px 0 16px;
+        transition: all 0.5s;
+      }
+    }
+    .last_li.vm_default{
+      background: #d4d1ec;
+      span{
+        background: #f5f6f8;
+        border-radius: 0 0 0 16px;
+        transition: all 0.5s;
+      }
+    }
+    .container_default{
+      background: #fff;
+      border-radius: 16px 0 0 0;
+      transition: all 0.5s;
+      span{
+        background: #d4d1ec;
+        border-radius: 16px 0 16px 0;
+        transition: all 0.5s;
+      }
+    }
+    .vm_active{
+      background: #d4d1ec;
+      border-radius: 0 16px 0 0;
+      transition: all 0.5s;
+      span{
+        background: #fff;
+        border-radius: 16px 16px 0 0;
+        color: #5e40c8;
+        transition: all 0.5s;
+      }
+    }
+    .last_li.vm_active{
+      background: #fff;
+      span{
+        background: #f5f6f8;
+        border-radius: 0 0 0 16px;
+      }
+    }
+  }
+  .container_div{
+    background: #fff;
+    border-radius: 0 16px 16px 16px;
+    transition: all 0.5s;
+  }
+  .vm_div{
+    background: #d4d1ec;
+    border-radius: 0 16px 16px 16px;
+    transition: all 0.5s;
   }
 }
 </style>

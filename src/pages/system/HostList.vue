@@ -447,6 +447,7 @@
 import pagination from '../../components/common/Pagination.vue'
 import { Workspace, System } from '@/tools/api.js'
 import { Architecture } from '@/tools/project_data.js'
+import { common } from '../../tools/common.js'
 
 export default {
   name: 'HostList',
@@ -574,10 +575,12 @@ mec_internet_ip=0.0.0.0`
       userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
       innerVisible: false,
-      otherData: []
+      otherData: [],
+      screenHeight: document.body.clientHeight
     }
   },
   mounted () {
+    this.setDivHeight()
     this.getListData()
   },
   watch: {
@@ -597,6 +600,9 @@ mec_internet_ip=0.0.0.0`
     }
   },
   methods: {
+    setDivHeight () {
+      common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)
+    },
     addMore () {
       this.innerVisible = true
       this.otherData = []
@@ -814,7 +820,6 @@ mec_internet_ip=0.0.0.0`
     padding: 0 20px 0 0
   }
   .list {
-    min-height: 638px;
     background-color: white;
     padding: 20px;
     .title{

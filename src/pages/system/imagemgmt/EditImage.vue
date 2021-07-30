@@ -145,7 +145,7 @@ import { imageMgmtService } from '../../../tools/api.js'
 export default {
   name: 'EditImage',
   props: {
-    showDlg: {
+    value: {
       type: Boolean,
       default: function () {
         return false
@@ -240,24 +240,26 @@ export default {
           { validator: validateSystemDiskRule }
         ]
       },
-
       isModify: false,
-      systemIdToModi: -1
+      systemIdToModi: -1,
+      showDlg: this.value
     }
   },
   watch: {
-    showDlg (val) {
+    value (val) {
+      this.showDlg = val
       if (val) {
         this.init()
       }
     },
     '$i18n.locale': function () {
       this.initOptionList()
-      this.$refs['imageDataForm'].fields.forEach(item => {
-        if (item.validateState === 'error') {
-          this.$refs['imageDataForm'].validateField(item.labelFor)
-        }
-      })
+      console.log(this.$refs['imageDataForm'])
+      // this.$refs['imageDataForm'].fields.forEach(item => {
+      //   if (item.validateState === 'error') {
+      //     this.$refs['imageDataForm'].validateField(item.labelFor)
+      //   }
+      // })
       this.dlgTitle = this.isModify ? this.$t('system.imageMgmt.tip.editImg')
         : this.$t('system.imageMgmt.tip.newImg')
     }
@@ -313,8 +315,9 @@ export default {
       }
     },
     cancel () {
-      this.showDlg = false
-      this.$emit('cancelEditImageDlg')
+      // this.showDlg = false
+      // this.$emit('cancelEditImageDlg')
+      this.$emit('input', false)
     },
     confirm () {
       this.$refs['imageDataForm'].validate((valid) => {

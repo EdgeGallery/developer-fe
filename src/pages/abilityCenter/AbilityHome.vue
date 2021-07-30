@@ -254,16 +254,16 @@ export default {
     filterSefvice (filter) {
       let length = this.capabilityServiceList.length
       if (length > 0) {
-        this.hotFilter = filter
-        if (filter === 'hot') {
+        if (filter === 'hot' && this.hotFilter !== 'hot') {
           this.capabilityServiceList.sort(function (a, b) {
             return a.selectCount < b.selectCount ? 1 : -1
           })
-        } else if (filter === 'new') {
+        } else if (filter === 'new' && this.hotFilter !== 'new') {
           this.capabilityServiceList.sort(function (a, b) {
             return a.uploadTime < b.uploadTime ? 1 : -1
           })
         }
+        this.hotFilter = filter
       }
       this.showFilter = false
       this.dropDown = false

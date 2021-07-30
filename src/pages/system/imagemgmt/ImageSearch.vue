@@ -16,9 +16,6 @@
 
 <template>
   <div class="search">
-    <el-row>
-      <el-col :span="24" />
-    </el-row>
     <el-form
       :model="formData"
       ref="formData"
@@ -27,99 +24,44 @@
       <el-row>
         <el-col :span="5">
           <el-form-item
-            :label="$t('system.imageMgmt.imgName')"
             prop="systemName"
-            label-width="120px"
           >
             <el-input
               id="elinput_systemName"
               maxlength="50"
               size="small"
-              style="width:95%"
               v-model="formData.systemName"
               :placeholder="$t('system.imageMgmt.imgName')"
               @keyup.enter.native="search"
               clearable
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            :label="$t('system.imageMgmt.osName')"
-            prop="operateSystem"
-            label-width="135px"
-          >
-            <el-input
-              id="elinput_operateSystem"
-              maxlength="20"
-              size="small"
-              style="width:95%"
-              v-model="formData.operateSystem"
-              :placeholder="$t('system.imageMgmt.osName')"
-              @keyup.enter.native="search"
-              clearable
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            :label="$t('common.status')"
-            prop="status"
-            label-width="60px"
-          >
-            <el-select
-              id="elselect_status"
-              v-model="formData.status"
-              size="small"
-              style="width:95%"
+              class="image_name_input"
+              @clear="search"
               @change="search"
             >
-              <el-option
-                v-for="item in statusOptionList"
-                :label="item.label"
-                :value="item.value"
-                :key="item.value"
+              <em
+                slot="suffix"
+                class="search_icon"
+                @click="search"
               />
-            </el-select>
+            </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="10">
           <el-form-item
-            :label="$t('system.imageMgmt.createTime')"
             prop="createTimeRange"
-            label-width="150px"
           >
             <el-date-picker
               id="eldatepicker_createTimeRange"
               v-model="formData.createTimeRange"
               type="daterange"
               size="small"
-              style="width:95%"
               value-format="yyyy-MM-dd"
               :start-placeholder="$t('system.imageMgmt.beginTime')"
               :end-placeholder="$t('system.imageMgmt.endTime')"
+              class="create_time"
+              @change="search"
             />
           </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <div
-            class="flex"
-            style="justify-content: center; align-items: center;"
-          >
-            <el-button
-              id="resetBtn"
-              @click="resetForm('formData')"
-            >
-              {{ $t('common.reset') }}
-            </el-button>
-            <el-button
-              id="searchBtn"
-              type="primary"
-              @click="search"
-            >
-              {{ $t('common.search') }}
-            </el-button>
-          </div>
         </el-col>
       </el-row>
     </el-form>
@@ -172,13 +114,53 @@ export default {
   }
 }
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .search{
   margin-top: 10px;
-  .el-select{
-    width:80%;
+  .image_name_input{
+    width: 215px;
+    .el-input__inner{
+      border-radius: 8px;
+      border-color: #5e40c8;
+      height: 30px;
+      line-height: 30px;
+    }
+    .search_icon{
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      background: url('../../../assets/images/work_project_search_icon.png');
+      position: relative;
+      top: 3px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
   }
-  .el-input{
+  .create_time{
+    width: 260px;
+    border-radius: 8px;
+    border-color: #5e40c8;
+    height: 30px;
+    line-height: 30px;
+    .el-icon-date:before{
+      display: none;
+    }
+    .el-range-input{
+      width: 45%;
+    }
+    .el-icon-circle-close:before{
+      position: relative;
+      top: 2px;
+    }
+  }
+  .el-range-editor.el-input__inner{
+    padding: 0;
+  }
+  .el-form-item .el-form-item__content{
+    height: 30px;
+    line-height: 30px;
+  }
+  .el-select{
     width:80%;
   }
 }

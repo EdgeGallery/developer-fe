@@ -823,8 +823,8 @@ const en = {
       createTime: 'Create Time',
       uploadTime: 'Upload Time',
       imgFormat: 'Image Format',
-      beginTime: 'Begin Time',
-      endTime: 'End Time',
+      beginTime: 'Create Time(Begin)',
+      endTime: 'Create Time(End)',
       typeValue: {
         public: 'Public',
         private: 'Private'
