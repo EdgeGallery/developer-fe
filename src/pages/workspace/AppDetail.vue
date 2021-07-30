@@ -475,14 +475,12 @@ export default {
       this.handleStep()
     },
     nextPane () {
-      console.log('next')
       this.activeName = '4'
       if (this.deployPlatform === 'VIRTUALMACHINE') {
         this.activeName = '6'
       }
     },
     previousPane () {
-      console.log('pre')
       if (this.isAppDevelopment) {
         this.activeName = '2'
       } else {
