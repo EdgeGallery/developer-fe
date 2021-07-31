@@ -17,7 +17,12 @@
 <template>
   <div class="workdetail padding_default">
     <div class="newprojectTitle defaultFontBlod">
-      {{ $t('workspace.createProject') }}
+      <div v-if="isAppDevelopment">
+        {{ $t('workspace.createProject') }}
+      </div>
+      <div v-else>
+        {{ $t('workspace.migrationProject') }}
+      </div>
     </div>
     <div class="newprojectcontent">
       <el-tabs
