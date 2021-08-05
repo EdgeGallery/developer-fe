@@ -142,10 +142,10 @@ let System = {
     return Delete(`mec/developer/v1/hosts/${hostId}`)
   },
   deleteService: function (params) {
-    return Delete('mec/developer/v1/system/capability', params)
+    return Delete('mec/developer/v1/capabilities', params)
   },
   getLogData: function (hostId) {
-    return Get(`mec/developer/v1/hosts/${hostId}/log`)
+    return Get(`mec/developer/v1/hosts/${hostId}/logs`)
   },
   saveHostInfo: function (params) {
     const func = params.hostId ? Put : Post
@@ -155,14 +155,14 @@ let System = {
   },
   saveService: function (params) {
     const func = Post
-    const path = 'mec/developer/v1/system/capability'
+    const path = 'mec/developer/v1/capabilities'
     return func(path, params)
   },
   getHosts: function (params) {
     return Get('mec/developer/v1/hosts', params)
   },
   getSerives: function (params) {
-    return Get('mec/developer/v1/system/capability', params)
+    return Get('mec/developer/v1/capabilities', params)
   }
 }
 
