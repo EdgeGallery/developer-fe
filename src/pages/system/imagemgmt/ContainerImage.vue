@@ -19,25 +19,372 @@
     <div
       class="cls_imagelist clear"
       id="div_imagelist"
+    >
+      <div class="title">
+        <Search
+          @getSearchData="getSearchData"
+        />
+      </div>
+      <el-table
+        :data="imageListData"
+        @sort-change="doSort"
+        :default-sort="{prop: 'createTime', order: 'descending'}"
+        v-loading="dataLoading"
+        style="width: 100%"
+        class="tableStyle"
+      >
+        <el-table-column
+          prop="imageName"
+          :label="$t('system.imageMgmt.imgName')"
+          show-overflow-tooltip
+          min-width="12%"
+        >
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              @click="handleView(scope.row)"
+            >
+              {{ scope.row.imageName }}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="12%"
+          :label="$t('system.imageMgmt.imgType')"
+          :formatter="convertType"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="userName"
+          min-width="12%"
+          :label="$t('system.imageMgmt.userName')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="imageVersion"
+          min-width="10%"
+          :label="$t('system.imageMgmt.osVersion')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="createTime"
+          min-width="13%"
+          sortable="custom"
+          :label="$t('system.imageMgmt.createTime')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            {{ scope.row.createTime?scope.row.createTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="uploadTime"
+          min-width="13%"
+          :label="$t('system.imageMgmt.uploadTime')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="13%"
+          :label="$t('common.status')"
+          :formatter="convertStatus"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          :label="$t('common.operation')"
+          min-width="15%"
+        >
+          <template slot-scope="scope">
+            <el-button
+              id="editBtn"
+              v-if="isAdmin || userId===scope.row.userId"
+              @click.native.prevent="handleEdit(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('common.edit') }}
+            </el-button>
+            <el-button
+              v-if="isAdmin || userId===scope.row.userId"
+              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+              id="deleteBtn"
+              @click.native.prevent="handleDelete(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('common.delete') }}
+            </el-button>
+            <el-button
+              v-if="isAdmin || userId===scope.row.userId"
+              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+              id="uploadBtn"
+              type="text"
+              size="small"
+            >
+              {{ $t('system.imageMgmt.operation.upload') }}
+            </el-button>
+            <el-button
+              :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
+              id="downloadBtn"
+              type="text"
+              size="small"
+            >
+              {{ $t('common.download') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagebar">
+        <pagination
+          :table-data="imageListData"
+          :list-total="listTotal"
+          @getCurrentPageData="getCurrentPageData"
+          ref="pagination"
+        />
+      </div>
+    </div>
+    <EditContainerImage
+      v-model="showEditImageDlg"
+      :image-data="currentImageData"
+      @cancelEditImageDlg="cancelEditImageDlg"
+      @processEditImageSuccess="processEditImageSuccess"
+    />
+    <ViewContainerImage
+      :show-dlg="showViewImageDlg"
+      :image-data="currentImageData"
+      @processCloseViewImage="processCloseViewImage"
+    />
+    <UploadImage
+      v-if="showUploadImageDlg"
+      :show-dlg="showUploadImageDlg"
+      :image-data="currentImageData"
+      @processCloseUploadImageDlg="processCloseUploadImageDlg"
     />
   </div>
 </template>
 <script>
+import Search from './ImageSearch.vue'
+import EditContainerImage from './EditContainerImage.vue'
+import ViewContainerImage from './ViewContainerImage.vue'
+import UploadImage from './UploadImage.vue'
+import Pagination from '../../../components/common/Pagination.vue'
+import { imageMgmtService } from '../../../tools/api.js'
 import { common } from '../../../tools/common.js'
 
 export default {
   name: 'ImageMgmt',
+  components: {
+    Search, EditContainerImage, UploadImage, ViewContainerImage, Pagination
+  },
   data () {
     return {
-      screenHeight: document.body.clientHeight
+      language: localStorage.getItem('language'),
+      userId: '',
+      isAdmin: false,
+      dataLoading: false,
+      searchCondition: {
+        imageName: '',
+        imageType: '',
+        userId: '',
+        imageStatus: '',
+        createTimeBegin: '',
+        createTimeEnd: '',
+        limit: 12,
+        offset: 0,
+        sortBy: 'create_time',
+        sortOrder: 'desc'
+      },
+      limitSize: 12,
+      offsetPage: 0,
+      listTotal: 0,
+      imageListData: [],
+      imageTypeOptionList: [],
+      statusOptionList: [],
+      showEditImageDlg: false,
+      showUploadImageDlg: false,
+      showViewImageDlg: false,
+      currentImageData: {},
+      screenHeight: document.body.clientHeight,
+      typeDataMap: new Map()
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.initOptionList()
+    },
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getImageDataList()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
+      this.getImageDataList()
     }
   },
   mounted () {
-    this.setDivHeight()
+    this.initUser()
+    this.initOptionList()
+    this.getImageDataList()
   },
   methods: {
-    setDivHeight () {
-      common.setDivHeightFun(this.screenHeight, 'containerlist', 521)
+    initUser () {
+      this.userId = sessionStorage.getItem('userId')
+      this.searchCondition.userId = this.userId
+      let _authorities = sessionStorage.getItem('userAuthorities')
+      if (_authorities && _authorities.length > 0) {
+        this.isAdmin = _authorities.includes('ROLE_DEVELOPER_ADMIN')
+      }
+    },
+    initOptionList () {
+      this.imageTypeOptionList = [
+        { value: 'public', label: this.$t('system.imageMgmt.typeValue.public') },
+        { value: 'private', label: this.$t('system.imageMgmt.typeValue.private') }
+      ]
+      this.statusOptionList = [
+        { value: 'UPLOAD_WAIT', label: this.$t('system.imageMgmt.statusValue.uploadWait') },
+        { value: 'UPLOADING', label: this.$t('system.imageMgmt.statusValue.uploading') },
+        { value: 'UPLOADING_MERGING', label: this.$t('system.imageMgmt.statusValue.merging') },
+        { value: 'UPLOAD_SUCCEED', label: this.$t('system.imageMgmt.statusValue.uploadSucceeded') },
+        { value: 'UPLOAD_FAILED', label: this.$t('system.imageMgmt.statusValue.uploadFailed') },
+        { value: 'UPLOAD_CANCELLED', label: this.$t('system.imageMgmt.statusValue.uploadCancelled') },
+        { value: 'PUBLISHED', label: this.$t('system.imageMgmt.statusValue.published') }
+      ]
+    },
+    getSearchData (searchFormData) {
+      this.searchCondition.imageName = searchFormData.systemName
+      this.searchCondition.createTimeBegin = ''
+      this.searchCondition.createTimeEnd = ''
+      if (searchFormData.createTimeRange && searchFormData.createTimeRange.length === 2) {
+        this.searchCondition.createTimeBegin = searchFormData.createTimeRange[0]
+        this.searchCondition.createTimeEnd = searchFormData.createTimeRange[1]
+      }
+      this.getImageDataList()
+    },
+    doSort (column) {
+      if (column.prop == null || column.order == null) {
+        this.searchCondition.sortBy = 'create_time'
+        this.searchCondition.sortOrder = 'desc'
+      } else {
+        this.prop = column.prop
+        if (column.order === 'ascending') {
+          this.searchCondition.sortOrder = 'asc'
+        } else {
+          this.searchCondition.sortOrder = 'desc'
+        }
+      }
+      this.getImageDataList()
+    },
+    getImageDataList () {
+      this.dataLoading = true
+      imageMgmtService.getContainerImageDataList(this.buildQueryReq()).then(response => {
+        this.imageListData = response.data.results
+        this.imageListData.forEach(item => {
+          item.createTime = common.dateChange(item.createTime)
+          item.uploadTime = common.dateChange(item.uploadTime)
+        })
+        this.listTotal = response.data.total
+        this.dataLoading = false
+      }).catch(() => {
+        this.dataLoading = false
+        this.$message.error(this.$t('system.imageMgmt.tip.queryImgFailed'))
+      })
+    },
+    buildQueryReq () {
+      let _queryReq = this.searchCondition
+      this.searchCondition.limit = this.limitSize
+      this.searchCondition.offset = this.offsetPage
+      return _queryReq
+    },
+    convertType (row) {
+      if (row.imageType) {
+        let imgTypeOption = this.imageTypeOptionList.find(item => item.value === row.imageType)
+        if (imgTypeOption) {
+          return imgTypeOption.label
+        }
+      }
+
+      return this.$t('common.unknown')
+    },
+    convertStatus (row) {
+      if (row.imageStatus) {
+        let statusOption = this.statusOptionList.find(item => item.value === row.imageStatus)
+        if (statusOption) {
+          return statusOption.label
+        }
+      }
+
+      return this.$t('common.unknown')
+    },
+    handleEdit (row) {
+      this.currentImageData = row
+      this.showEditImageDlg = true
+    },
+    cancelEditImageDlg () {
+      this.showEditImageDlg = false
+    },
+    processEditImageSuccess () {
+      this.showEditImageDlg = false
+      this.getImageDataList()
+    },
+    handleView (row) {
+      this.currentImageData = row
+      this.showViewImageDlg = true
+    },
+    processCloseViewImage () {
+      this.showViewImageDlg = false
+    },
+    handleDelete (row) {
+      this.$confirm(this.$t('system.imageMgmt.tip.confirmDeleteImage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        this.doDeleteImage(row.imageId)
+      })
+    },
+    doDeleteImage (imageId) {
+      imageMgmtService.deleteContainerImage(imageId).then(() => {
+        this.$message.success(this.$t('devTools.deleteSucc'))
+        this.getImageDataList()
+      }).catch(() => {
+        this.$message.error(this.$t('system.imageMgmt.tip.deleteImgFailed'))
+      })
+    },
+    handleUpload (row) {
+      if (row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED') {
+        this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
+          this.currentImageData = row
+          this.showUploadImageDlg = true
+        })
+      } else {
+        this.currentImageData = row
+        this.showUploadImageDlg = true
+      }
+    },
+    handleDownload (row) {
+      this.$confirm(this.$t('system.imageMgmt.tip.confirmDownloadImage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        window.open(imageMgmtService.downloadSystemImageUrl(row.systemId, this.userId))
+      })
+    },
+    processCloseUploadImageDlg () {
+      this.showUploadImageDlg = false
+      this.getImageDataList()
+    },
+    getCurrentPageData (val, pageSize, start) {
+      this.limitSize = pageSize
+      this.offsetPage = start
     }
   }
 }
@@ -46,6 +393,6 @@ export default {
 .containerlist{
   border-radius: 16px;
   background: #fff;
-
+  padding: 30px 60px;
 }
 </style>

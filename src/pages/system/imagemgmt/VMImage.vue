@@ -30,16 +30,14 @@
         @sort-change="doSort"
         :default-sort="{prop: 'createTime', order: 'descending'}"
         v-loading="dataLoading"
-        border
-        stripe
-        size="small"
-        style="width: 100%;"
-        header-cell-class-name="headerStyle"
+        style="width: 100%"
+        class="tableStyle"
       >
         <el-table-column
           prop="systemName"
           :label="$t('system.imageMgmt.imgName')"
           show-overflow-tooltip
+          min-width="10.5%"
         >
           <template slot-scope="scope">
             <el-button
@@ -51,20 +49,20 @@
           </template>
         </el-table-column>
         <el-table-column
-          width="120"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
           show-overflow-tooltip
         />
         <el-table-column
           prop="userName"
-          width="120"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.userName')"
           show-overflow-tooltip
         />
         <el-table-column
           prop="operateSystem"
-          width="135"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.osName')"
           show-overflow-tooltip
           :filter-method="filterOs"
@@ -72,33 +70,40 @@
         />
         <el-table-column
           prop="version"
-          width="120"
+          min-width="8%"
           :label="$t('system.imageMgmt.osVersion')"
           show-overflow-tooltip
         />
         <el-table-column
           prop="createTime"
-          width="200"
+          min-width="12.5%"
           sortable="custom"
           :label="$t('system.imageMgmt.createTime')"
           show-overflow-tooltip
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.createTime?scope.row.createTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="uploadTime"
-          width="200"
+          min-width="12.5%"
           :label="$t('system.imageMgmt.uploadTime')"
           show-overflow-tooltip
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
         <el-table-column
-          width="150"
+          min-width="10.5%"
           :label="$t('common.status')"
           :formatter="convertStatus"
           show-overflow-tooltip
         />
         <el-table-column
           :label="$t('common.operation')"
-          width="275"
-          show-overflow-tooltip
+          min-width="13%"
         >
           <template slot-scope="scope">
             <el-button
@@ -320,7 +325,6 @@ export default {
         this.pageCtrl.totalNum = response.data.totalCount
         this.osData = []
         this.osData = this.handleFilterData(this.imageListData, 'operateSystem')
-        console.log(this.osData)
         this.dataLoading = false
       }).catch(() => {
         this.dataLoading = false
@@ -459,6 +463,7 @@ export default {
 .vmlist{
   border-radius: 16px;
   background: #fff;
+  padding: 30px 60px;
   .createimage_btn{
     position: absolute;
     right: 0;
@@ -486,36 +491,10 @@ export default {
     padding: 0 20px 0 0
   }
   .cls_vmlist{
-    padding: 20px;
     .title{
       align-items: center;
       justify-content: space-between;
       margin-top: 10px;
-    }
-    .el-table {
-      font-size: 14px;
-      .icon_pic {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-      }
-      thead {
-        color: #282b33;
-        font-weight: 100;
-        font-size: 14px;
-        th,
-        tr {
-          background-color: #f5f5f5;
-        }
-      }
-      tbody {
-        td {
-          padding: 8px;
-          .cell{
-            padding-left: 0;
-          }
-        }
-      }
     }
   }
 }

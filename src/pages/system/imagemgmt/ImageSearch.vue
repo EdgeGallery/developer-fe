@@ -21,49 +21,43 @@
       ref="formData"
       label-position="center"
     >
-      <el-row>
-        <el-col :span="5">
-          <el-form-item
-            prop="systemName"
-          >
-            <el-input
-              id="elinput_systemName"
-              maxlength="50"
-              size="small"
-              v-model="formData.systemName"
-              :placeholder="$t('system.imageMgmt.imgName')"
-              @keyup.enter.native="search"
-              clearable
-              class="image_name_input"
-              @clear="search"
-              @change="search"
-            >
-              <em
-                slot="suffix"
-                class="search_icon"
-                @click="search"
-              />
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item
-            prop="createTimeRange"
-          >
-            <el-date-picker
-              id="eldatepicker_createTimeRange"
-              v-model="formData.createTimeRange"
-              type="daterange"
-              size="small"
-              value-format="yyyy-MM-dd"
-              :start-placeholder="$t('system.imageMgmt.beginTime')"
-              :end-placeholder="$t('system.imageMgmt.endTime')"
-              class="create_time"
-              @change="search"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item
+        prop="systemName"
+        class="lt"
+      >
+        <el-input
+          maxlength="50"
+          size="small"
+          v-model="formData.systemName"
+          :placeholder="$t('system.imageMgmt.imgName')"
+          @keyup.enter.native="search"
+          clearable
+          class="image_name_input"
+          @clear="search"
+          @change="search"
+        >
+          <em
+            slot="suffix"
+            class="search_icon"
+            @click="search"
+          />
+        </el-input>
+      </el-form-item>
+      <el-form-item
+        prop="createTimeRange"
+        class="lt"
+      >
+        <el-date-picker
+          v-model="formData.createTimeRange"
+          type="daterange"
+          size="small"
+          value-format="yyyy-MM-dd"
+          :start-placeholder="$t('system.imageMgmt.beginTime')"
+          :end-placeholder="$t('system.imageMgmt.endTime')"
+          class="create_time"
+          @change="search"
+        />
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -77,8 +71,6 @@ export default {
       statusOptionList: [],
       formData: {
         systemName: '',
-        operateSystem: '',
-        status: 'All',
         createTimeRange: []
       }
     }
@@ -93,6 +85,7 @@ export default {
   },
   methods: {
     search () {
+      sessionStorage.setItem('currentPage', 1)
       this.$emit('getSearchData', this.formData)
     },
     resetForm (formName) {
@@ -141,7 +134,9 @@ export default {
     border-radius: 8px;
     border-color: #5e40c8;
     height: 30px;
-    line-height: 30px;
+    margin-left: 30px;
+    position: relative;
+    top: -1px;
     .el-icon-date:before{
       display: none;
     }
