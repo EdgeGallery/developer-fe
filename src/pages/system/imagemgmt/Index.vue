@@ -20,12 +20,38 @@
       {{ $t('breadCrumb.systemImgMgmt') }}
       <span class="line_bot1" />
       <el-button
-        class="createimage_btn linearGradient2"
+        class="createimage_btn linearGradient2 image_mgmt"
         id="createimage_btn"
-        @click="handleAddImg"
+        @mouseenter.native="showImageType=true"
+        @mouseleave.native="showImageType=false"
       >
         <em class="new_icon" />
         {{ $t('system.imageMgmt.tip.newImg') }}
+        <em
+          class="system_up"
+          v-show="showImageType"
+        />
+        <el-collapse-transition>
+          <div
+            v-show="showImageType"
+            class="down_div"
+            @mouseenter="showImageType=true"
+            @mouseleave="showImageType=false"
+          >
+            <div
+              class="transition-box"
+              @click="selectAddType('container')"
+            >
+              <em />{{ $t('workspace.containerImage') }}
+            </div>
+            <div
+              class="transition-box"
+              @click="selectAddType('vm')"
+            >
+              <em />{{ $t('workspace.vmImage') }}
+            </div>
+          </div>
+        </el-collapse-transition>
       </el-button>
     </div>
     <ul class="list_top clear">
@@ -34,7 +60,7 @@
         :class="{'container_active':activeName==='container','container_default':activeName==='vm'}"
       >
         <span>
-          <em class="image_container" />容器
+          <em class="image_container" />{{ $t('workspace.containerImage') }}
         </span>
       </li>
       <li
@@ -42,7 +68,7 @@
         :class="{'vm_active':activeName==='vm','vm_default':activeName==='container'}"
       >
         <span>
-          <em class="image_vm" />虚拟机
+          <em class="image_vm" />{{ $t('workspace.vmImage') }}
         </span>
       </li>
       <li
@@ -56,12 +82,21 @@
       class="container_div"
       :class="{'vm_div':activeName==='vm'}"
     >
-      <ContainerImage v-show="activeName==='container'" />
+      <ContainerImage
+        v-show="activeName==='container'"
+        ref="ContainerImage"
+      />
       <VMImage
         v-show="activeName==='vm'"
         ref="VMImage"
       />
     </div>
+    <EditContainerImage
+      v-model="showEditContainerImageDlg"
+      :image-data="currentImageData"
+      @cancelEditImageDlg="cancelEditImageDlg"
+      @processEditImageSuccess="processEditImageSuccess"
+    />
     <EditImage
       v-model="showEditImageDlg"
       :image-data="currentImageData"
@@ -73,52 +108,23 @@
 <script>
 import ContainerImage from './ContainerImage.vue'
 import VMImage from './VMImage.vue'
+import EditContainerImage from './EditContainerImage.vue'
 import EditImage from './EditImage.vue'
 import { common } from '../../../tools/common.js'
 
 export default {
   name: 'ImageMgmt',
   components: {
-    ContainerImage, VMImage, EditImage
+    ContainerImage, VMImage, EditContainerImage, EditImage
   },
   data () {
     return {
-      userId: sessionStorage.getItem('userId'),
-      // isAdmin: false,
-      dataLoading: false,
-      searchCondition: {
-        systemName: '',
-        operateSystem: '',
-        status: 'All',
-        createTimeBegin: '',
-        createTimeEnd: ''
-      },
-      pageCtrl: {
-        totalNum: 0,
-        pageSize: 10,
-        currentPage: 1
-      },
-      sortCtrl: {
-        sortBy: 'createTime',
-        sortOrder: 'DESC'
-      },
-      imageListData: [],
-
-      imageType: 'All',
-      imageTypeOptionList: [],
-      statusOptionList: [],
-
+      showEditContainerImageDlg: false,
       showEditImageDlg: false,
-      showUploadImageDlg: false,
-      showViewImageDlg: false,
       currentImageData: {},
       screenHeight: document.body.clientHeight,
-      activeName: 'vm'
-    }
-  },
-  watch: {
-    '$i18n.locale': function () {
-      this.initOptionList()
+      activeName: 'container',
+      showImageType: false
     }
   },
   mounted () {
@@ -128,16 +134,27 @@ export default {
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'image_div', 261)
     },
-    handleAddImg () {
+    selectAddType (type) {
+      if (type === 'container') {
+        this.showEditContainerImageDlg = true
+      } else {
+        this.showEditImageDlg = true
+      }
       this.currentImageData = {}
-      this.showEditImageDlg = true
     },
     cancelEditImageDlg () {
       this.showEditImageDlg = false
     },
-    processEditImageSuccess () {
-      this.showEditImageDlg = false
-      this.$refs.VMImage.getImageDataList()
+    processEditImageSuccess (type) {
+      if (type === 'container') {
+        this.activeName = 'container'
+        this.$refs.ContainerImage.getImageDataList()
+        this.showEditContainerImageDlg = false
+      } else {
+        this.activeName = 'vm'
+        this.$refs.VMImage.getImageDataList()
+        this.showEditImageDlg = false
+      }
     }
   }
 }
@@ -147,7 +164,7 @@ export default {
   .createimage_btn{
     position: absolute;
     right: 0;
-    bottom: 30px;
+    bottom: -20px;
     height: 50px;
     color: #fff;
     font-size: 20px;
@@ -161,6 +178,51 @@ export default {
       margin-right: 3px;
       position: relative;
       top: 2px;
+    }
+  }
+  .system_up{
+    display: inline-block;
+      width: 10px;
+      height: 6px;
+      background: url('../../../assets/images/system_up.png');
+      position: absolute;
+      right: 25px;
+      top: 54px;
+      z-index: 99999;
+    }
+  .down_div{
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 60px;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #b793e9;
+    background-image: linear-gradient(127deg, #4444d0, #6724cb);
+    // box-shadow: 0 0 10px 0 rgba(40, 12, 128, 0.4);
+    .transition-box{
+      height: 40px;
+      line-height: 40px;
+      position: relative;
+      z-index: 2;
+      em{
+        display: inline-block;
+        width: 3px;
+        height: 15px;
+        border-radius: 1.5px;
+        position: absolute;
+        top: 12px;
+        left: 4px;
+      }
+    }
+    .transition-box:last-child{
+      border-top: 1px solid #4215c8;
+    }
+    .transition-box:hover{
+      color: #fff;
+      em{
+        background: #a1a7e6;
+      }
     }
   }
   .list_top{
@@ -178,6 +240,9 @@ export default {
         color: #fff;
         transition: all 0.5s;
       }
+    }
+    .last_li{
+      cursor: default;
     }
     em{
       display: inline-block;

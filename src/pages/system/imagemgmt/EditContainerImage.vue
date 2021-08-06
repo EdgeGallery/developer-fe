@@ -36,72 +36,39 @@
     >
       <el-form-item
         :label="$t('system.imageMgmt.imgName')"
-        prop="systemName"
+        prop="imageName"
         class="half"
       >
         <el-input
-          id="elinput_systemName"
+          id="elinput_systemName_container"
           maxlength="32"
           size="small"
-          v-model="imageDataForm.systemName"
+          v-model="imageDataForm.imageName"
           :placeholder="$t('system.imageMgmt.imgName')"
           clearable
         />
       </el-form-item>
       <el-form-item
-        :label="$t('system.imageMgmt.osName')"
-        prop="operateSystem"
-        class="half"
-      >
-        <el-select
-          id="elselect_operateSystem"
-          v-model="imageDataForm.operateSystem"
-          size="small"
-        >
-          <el-option
-            v-for="item in operateSystemOptList"
-            :label="item"
-            :value="item"
-            :key="item"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item
         :label="$t('system.imageMgmt.osVersion')"
-        prop="version"
+        prop="imageVersion"
         class="half"
       >
         <el-input
-          id="elinput_osversion"
+          id="elinput_osversion_container"
           maxlength="10"
           size="small"
-          v-model="imageDataForm.version"
+          v-model="imageDataForm.imageVersion"
           :placeholder="$t('system.imageMgmt.osVersion')"
           clearable
         />
       </el-form-item>
       <el-form-item
-        :label="$t('system.imageMgmt.sysDisk')"
-        prop="systemDisk"
-        class="elinput_sysdisk half"
-      >
-        <el-input
-          id="elinput_sysdisk"
-          maxlength="4"
-          size="small"
-          v-model="imageDataForm.systemDisk"
-          :placeholder="$t('system.imageMgmt.sysDisk')"
-          clearable
-        />G
-      </el-form-item>
-      <el-form-item
         v-show="isAdmin"
         :label="$t('system.imageMgmt.imgType')"
-        prop="type"
         class="lt"
       >
         <el-radio-group
-          v-model="imageDataForm.type"
+          v-model="imageDataForm.imageType"
           class="default_radio"
         >
           <el-radio
@@ -113,35 +80,17 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item
-        :label="$t('system.imageMgmt.osBit')"
-        prop="systemBit"
-        class="lt"
-      >
-        <el-radio-group
-          v-model="imageDataForm.systemBit"
-          class="default_radio"
-        >
-          <el-radio
-            v-for="(item,index) in systemBitOptionList"
-            :key="index"
-            :label="item"
-          >
-            {{ item }}
-          </el-radio>
-        </el-radio-group>
-      </el-form-item>
     </el-form>
     <div style="margin-top:20px;text-align:right">
       <el-button
-        id="btn_cancel"
+        id="btn_cancel_container"
         @click="cancel()"
         class="bgBtn defaultFontLight"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
-        id="btn_confirm"
+        id="btn_confirm_container"
         type="primary"
         @click="confirm()"
         class="bgBtn defaultFontLight"
@@ -155,7 +104,7 @@
 <script>
 import { imageMgmtService } from '../../../tools/api.js'
 export default {
-  name: 'EditImage',
+  name: 'EditImageContainer',
   props: {
     value: {
       type: Boolean,
@@ -201,58 +150,35 @@ export default {
         callback()
       }
     }
-    var validateSystemDiskEmpty = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error(this.$t('system.imageMgmt.tip.systemDiskEmpty')))
-      } else {
-        callback()
-      }
-    }
-    var validateSystemDiskRule = (rule, value, callback) => {
-      let _strValue = value.toString()
-      let pattern = /^\d{2,4}$/
-      if (_strValue.match(pattern) === null) {
-        callback(new Error(this.$t('system.imageMgmt.tip.systemDiskRule')))
-      } else {
-        callback()
-      }
-    }
     return {
       formLabelWidth: '100px',
       formLabelWidthEn: '130px',
       language: localStorage.getItem('language'),
       userId: '',
+      userName: '',
       isAdmin: false,
       dlgTitle: this.$t('system.imageMgmt.tip.newImg'),
       imageTypeOptionList: [],
-      operateSystemOptList: [
-        'ubuntu',
-        'centos',
-        'window',
-        'cirros'
-      ],
-      systemBitOptionList: ['64', '32'],
-      systemFormatOptionList: ['qcow2', 'iso'],
       imageDataForm: {
-        'systemName': '',
-        'type': '',
-        'operateSystem': 'ubuntu',
-        'version': '',
-        'systemBit': '64',
-        'systemDisk': ''
+        'imageId': '',
+        'imageName': '',
+        'imageVersion': '',
+        'userId': '',
+        'userName': '',
+        'uploadTime': '',
+        'createTime': '',
+        'imageType': '',
+        'imagePath': '',
+        'fileName': ''
       },
       rules: {
-        systemName: [
+        imageName: [
           { validator: validateImgNameEmpty, trigger: 'blur' },
           { validator: validateImgNameRule }
         ],
-        version: [
+        imageVersion: [
           { validator: validateVersionEmpty, trigger: 'blur' },
           { validator: validateVersionRule }
-        ],
-        systemDisk: [
-          { validator: validateSystemDiskEmpty, trigger: 'blur' },
-          { validator: validateSystemDiskRule }
         ]
       },
       isModify: false,
@@ -277,11 +203,14 @@ export default {
   mounted () {
     this.initUser()
     this.initOptionList()
-    this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
+    this.imageDataForm.imageType = this.isAdmin ? 'public' : 'private'
   },
   methods: {
     initUser () {
       this.userId = sessionStorage.getItem('userId')
+      this.userName = sessionStorage.getItem('userName')
+      this.imageDataForm.userId = this.userId
+      this.imageDataForm.userName = this.userName
       let _authorities = sessionStorage.getItem('userAuthorities')
       if (_authorities && _authorities.length > 0) {
         this.isAdmin = _authorities.includes('ROLE_DEVELOPER_ADMIN')
@@ -300,24 +229,20 @@ export default {
     },
     init () {
       this.resetForm()
-      if (this.imageData && this.imageData.systemName) {
-        this.imageDataForm.systemName = this.imageData.systemName
-        this.imageDataForm.type = this.imageData.type
-        this.imageDataForm.operateSystem = this.imageData.operateSystem
-        this.imageDataForm.version = this.imageData.version
-        this.imageDataForm.systemBit = this.imageData.systemBit
-        this.imageDataForm.systemDisk = this.imageData.systemDisk
+      if (this.imageData && this.imageData.imageId) {
+        this.imageDataForm.imageName = this.imageData.imageName
+        this.imageDataForm.imageVersion = this.imageData.imageVersion
+        this.imageDataForm.imageType = this.imageData.imageType
+        this.imageDataForm.imageStatus = this.imageData.imageStatus
 
         this.isModify = true
-        this.systemIdToModi = this.imageData.systemId
+        this.systemIdToModi = this.imageData.imageId
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
       } else {
-        this.imageDataForm.systemName = ''
-        this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
-        this.imageDataForm.operateSystem = 'ubuntu'
-        this.imageDataForm.version = ''
-        this.imageDataForm.systemBit = '64'
-        this.imageDataForm.systemDisk = ''
+        this.imageDataForm.imageName = ''
+        this.imageDataForm.imageVersion = ''
+        this.imageDataForm.imageStatus = this.imageData.imageStatus
+        this.imageDataForm.imageType = this.isAdmin ? 'public' : 'private'
 
         this.isModify = false
         this.systemIdToModi = -1
@@ -332,18 +257,17 @@ export default {
         if (!valid) {
           return
         }
-
         if (!this.isModify) {
-          imageMgmtService.newImage(this.imageDataForm, this.userId).then(() => {
+          imageMgmtService.newContainerImage(this.imageDataForm).then(() => {
             this.$message.success(this.$t('system.imageMgmt.tip.newImg') + this.$t('system.success'))
-            this.$emit('processEditImageSuccess', 'vm')
+            this.$emit('processEditImageSuccess', 'container')
           }).catch((error) => {
             this.processEditError(error)
           })
         } else {
-          imageMgmtService.modifyImage(this.imageDataForm, this.systemIdToModi, this.userId).then(() => {
+          imageMgmtService.modifyContainerImage(this.imageDataForm, this.systemIdToModi).then(() => {
             this.$message.success(this.$t('promptMessage.editSuccess'))
-            this.$emit('processEditImageSuccess', 'vm')
+            this.$emit('processEditImageSuccess', 'container')
           }).catch((error) => {
             this.processEditError(error)
           })
@@ -352,7 +276,7 @@ export default {
     },
     processEditError (error) {
       if (error && error.response && error.response.data && error.response.data.message) {
-        if (error.response.data.message === 'SystemName can not duplicate.') {
+        if (error.response.data.message === 'exist the same imageName') {
           this.$message.error(this.$t('system.imageMgmt.tip.systemNameExist'))
           return
         }
@@ -375,9 +299,5 @@ export default {
 }
 .el-form-item{
   margin:20 !important;
-}
-.elinput_sysdisk .el-input{
-  width: 90%;
-  margin-right: 5px;
 }
 </style>

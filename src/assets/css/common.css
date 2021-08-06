@@ -213,9 +213,10 @@ li{
   color: #f67878;
 }
 .el-button.bgBtn{
-  background-color: #688ef3;
-  border: 1px solid #688ef3;
+  background-color: #5844be;
+  border: none;
   color: #fff;
+  border-radius: 10px;
 }
 .el-button.confirm{
   background: #688ef3;
@@ -237,11 +238,73 @@ li{
 .el-dialog__header{
   background: #688ef3 !important;
 }
-.el-dialog__title{
-  color: #fff !important;
+.half{
+  float: left;
+  width: 50% !important;
+}
+.default_dialog .el-dialog{
+  font-family: defaultFontLight;
+}
+.default_dialog .el-dialog__body{
+  padding: 0 80px 45px !important;
+}
+.default_dialog .el-dialog__header{
+  background: #efefef !important;
+  border-radius: 12px 12px 0 0;
+  padding: 40px 40px 20px 40px;
+}
+.default_dialog .el-dialog .el-dialog__title{
+  color: #380879 !important;
+  font-size: 20px;
+}
+.default_dialog .el-form-item{
+  width: 100%;
+}
+.default_dialog .el-dialog .el-form-item__label{
+  color: #380879;
+  font-size: 16px;
+}
+.default_dialog .title_icon{
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border-radius: 3px;
+  background-image: linear-gradient(45deg, #72dcc8, #c0e8e0);
+  margin-right: 20px;
+  position: relative;
+  top: 2px;
+}
+.default_dialog .el-dialog__close{
+  display: none;
 }
 .el-dialog--center .el-dialog__header{
   text-align: left;
+}
+.default_radio .el-radio__inner::after{
+  width: 8px;
+  height: 8px;
+  background: #ceccdc;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+.default_radio .el-radio__input.is-checked .el-radio__inner::after{
+  background: #55d8bf;
+}
+.default_radio .el-radio__inner{
+  width: 18px;
+  height: 18px;
+  border-color: #5844be;
+}
+.default_radio .el-radio__input.is-checked .el-radio__inner{
+  background: none;
+  border-color: #5844be;
+}
+.default_radio .el-radio__label{
+  color: #380879;
+  font-size: 16px;
+}
+.default_radio .el-radio__input.is-checked + .el-radio__label{
+  color: #380879;
 }
 .el-icon-warning{
   color: #688ef3;
@@ -442,9 +505,6 @@ body .el-table th.gutter{
 .el-icon-arrow-up:before{
   font-size: 16px;
   position: relative;
-}
-.el-icon-arrow-left:before{
-  font-size: 16px;
 }
 .el-select .el-input.is-focus .el-input__inner,.el-pagination__sizes .el-input .el-input__inner:hover{
   border-color: #b2b2b2 !important;

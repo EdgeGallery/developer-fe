@@ -426,6 +426,19 @@ let imageMgmtService = {
   },
   downloadSystemImageUrl: function (systemId, userId) {
     return urlPrefix + 'mec/developer/v1/system/images/' + systemId + '/download?userId=' + userId
+  },
+  // ContainerImage
+  newContainerImage: function (imgData) {
+    return Post('mec/developer/v2/container/images', imgData)
+  },
+  deleteContainerImage: function (imageId) {
+    return Delete('mec/developer/v2/container/images/' + imageId)
+  },
+  modifyContainerImage: function (imgData, imageId) {
+    return Put('mec/developer/v2/container/images/' + imageId, imgData)
+  },
+  getContainerImageDataList: function (queryData) {
+    return Post('mec/developer/v2/container/images/list', queryData)
   }
 }
 
