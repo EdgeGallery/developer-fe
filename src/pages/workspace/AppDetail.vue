@@ -54,7 +54,7 @@
                 :fromreadonly="readonly"
                 ref="firstStep"
                 :project-typeprop="projectTypeprop"
-                @getStepDataJc="getStepDataJc"
+                @getFormData="getFormData"
                 :all-step-data="allFormData"
                 :icon-file-id-prop="iconFileId"
               />
@@ -113,7 +113,7 @@
           <div v-else>
             <secondStep
               ref="secondStep"
-              @getStepDataJc="getStepDataJc"
+              @getFormData="getFormData"
               :all-step-data="allFormData"
             />
             <div class="elButton defaultFontLight">
@@ -736,7 +736,7 @@ export default {
       this.allStepData[data.step] = data.data
       this.allStepData.ifNext = data.ifNext
     },
-    getStepDataJc ({ data, step }) {
+    getFormData ({ data, step }) {
       this.allFormData[step] = data
     },
     getBtnStatus (status) {
@@ -812,6 +812,7 @@ export default {
         this.isCreate()
       } else {
         this.getProjectInfo()
+        this.getTestConfig()
         this.isShowForm = false
         this.showCapability = true
         this.isClick = false
@@ -828,7 +829,6 @@ export default {
   mounted () {
     this.isAddNewProject()
     this.handleStep()
-    this.getTestConfig()
     this.setDivHeight(this.screenHeight)
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
