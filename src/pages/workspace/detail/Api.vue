@@ -154,7 +154,6 @@ export default {
     getProjectDetail () {
       this.treeData = []
       let projectId = sessionStorage.getItem('mecDetailID')
-      console.log(projectId)
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         if (res.data.capabilityList.length > 0) {
           this.hasService = true
