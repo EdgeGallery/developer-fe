@@ -578,17 +578,15 @@ export default {
           })
 
           this.deployPlatform = this.allFormData.first.deployPlatform
+          this.readonly = true
+          this.depPlatform = this.deployPlatform
           if (this.isAppDevelopment) {
-            this.readonly = true
             this.activeName = '3'
-            this.depPlatform = this.deployPlatform
             this.isClick = false
             this.nextBtnDevApp = false
             this.showCapability = true
           } else {
-            this.readonly = true
             this.nextBtn = false
-            this.depPlatform = this.deployPlatform
             if (this.deployPlatform === 'KUBERNETES') {
               this.activeName = '4'
               this.isClick = false
