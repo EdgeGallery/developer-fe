@@ -812,6 +812,7 @@ export default {
         this.isCreate()
       } else {
         this.getProjectInfo()
+        this.getTestConfig()
         this.isShowForm = false
         this.showCapability = true
         this.isClick = false
@@ -828,7 +829,7 @@ export default {
   mounted () {
     this.isAddNewProject()
     this.handleStep()
-    this.getTestConfig()
+
     this.setDivHeight(this.screenHeight)
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
