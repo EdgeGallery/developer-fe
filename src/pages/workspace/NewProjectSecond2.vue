@@ -207,8 +207,8 @@ export default {
       })
     },
     emitStepData () {
-      this.$emit('getStepData', { data: this.secondStepSelect, step: 'second' })
-      this.$emit('getStepData', { data: this.thirdStepSelection, step: 'third' })
+      this.$emit('getStepDataJc', { data: this.secondStepSelect, step: 'second' })
+      this.$emit('getStepDataJc', { data: this.thirdStepSelection, step: 'third' })
     },
     updateCapabilitySelected () {
       let cachedCapabilitySelected = []

@@ -340,7 +340,7 @@ body::-webkit-scrollbar-thumb{
   padding: 0px 0 !important;
 }
 .el-form-item .el-form-item__content{
-  line-height:40px;
+  line-height:30px;
 }
 .el-form-item--small .el-form-item__content{
   line-height:32px;
