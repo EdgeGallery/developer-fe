@@ -26,6 +26,7 @@
     </div>
     <div class="newprojectcontent">
       <el-tabs
+        @tab-click="setActive"
         class="elTabs"
         :class="{'enLeft':language==='en'}"
         v-model="activeName"
@@ -48,100 +49,49 @@
             v-if="activeName === '1'"
             class="project_detail"
           >
-            <el-row>
-              <el-col
-                :sm="12"
-                :xs="24"
+            <div v-if="isShowForm">
+              <firstStep
+                :fromreadonly="readonly"
+                ref="firstStep"
+                :project-typeprop="projectTypeprop"
+                @getStepDataJc="getStepDataJc"
+                :all-step-data="allFormData"
+                :icon-file-id-prop="iconFileId"
+              />
+              <div
+                class="elButton defaultFontLight"
+                v-if="!isAppDevelopment"
               >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
-              </el-col>
-              <el-col
-                :sm="12"
-                :xs="24"
-              >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col
-                :sm="12"
-                :xs="24"
-              >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.provider') }}</span>{{ projectDetailData.provider }}
-              </el-col>
-              <el-col
-                :sm="12"
-                :xs="24"
-              >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.industry') }}</span>{{ projectDetailData.industry }}
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col
-                :sm="12"
-                :xs="24"
-              >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
-              </el-col>
-              <el-col
-                :sm="12"
-                :xs="24"
-              >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col
-                :sm="12"
-                :xs="24"
-              >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.dependentApp') }}</span>
-                <span
-                  class="span_right"
-                  :class="{'span_right_en':language==='en'}"
+                <el-button
+                  v-show="nextBtn"
+                  id="nextBtn"
+                  type="primary"
+                  v-loading="uploadBtnLoading"
+                  @click="onSubmitIntegration"
                 >
-                  {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
-                </span>
-              </el-col>
-              <el-col
-                :sm="12"
-                :xs="24"
+                  {{ $t('workspace.confirm') }}
+                </el-button>
+              </div>
+              <div
+                class="elButton defaultFontLight"
+                v-else
               >
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.createDate') }}</span>{{ projectDetailData.createDate }}
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <span
-                  class="span_left"
-                  :class="{'span_left_en':language==='en'}"
-                >{{ $t('workspace.description') }}</span>{{ projectDetailData.description }}
-              </el-col>
-            </el-row>
+                <el-button
+                  id="nextBtn"
+                  type="primary"
+                  v-if="nextBtnDevApp"
+                  v-loading="uploadBtnLoading"
+                  @click="nextStep"
+                >
+                  {{ $t('workspace.next') }}
+                </el-button>
+              </div>
+            </div>
+            <div v-if="detailFlag">
+              <ProjectFormDetail
+                :project-detail-data="projectDetailData"
+              />
+            </div>
           </div>
         </el-tab-pane>
         <el-tab-pane
@@ -150,6 +100,7 @@
           lazy
           v-if="isAppDevelopment"
           style="padding:0"
+          :disabled="isClick"
         >
           <span
             slot="label"
@@ -158,7 +109,35 @@
           >
             <em :class="['tab_capability',selectedName==='2' || activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}
           </span>
-          <api v-if="activeName === '2'" />
+          <api v-if="showCapability" />
+          <div v-else>
+            <secondStep
+              ref="secondStep"
+              @getStepDataJc="getStepDataJc"
+              :all-step-data="allFormData"
+            />
+            <div class="elButton defaultFontLight">
+              <el-button
+                id="prevBtn"
+                type="primary"
+                v-if="active>0"
+                @click="previousStep"
+                class="prevStep"
+              >
+                {{ $t('workspace.previous') }}
+              </el-button>
+              <el-button
+                id="confirmBtn"
+                type="primary"
+                v-if="active>=1"
+                :loading="uploadBtnLoading"
+                @click="onSubmit"
+                class="confirm"
+              >
+                {{ $t('workspace.confirm') }}
+              </el-button>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane
           :label="$t('workspace.appDevelopment')"
@@ -166,6 +145,7 @@
           name="3"
           lazy
           v-if="isAppDevelopment"
+          :disabled="isClick"
         >
           <span
             slot="label"
@@ -198,7 +178,8 @@
           class="elTabPane"
           name="6"
           lazy
-          v-if="deployPlatform === 'VIRTUALMACHINE'"
+          v-if="depPlatform === 'VIRTUALMACHINE'"
+          :disabled="isClick"
         >
           <span
             slot="label"
@@ -213,6 +194,7 @@
           class="elTabPane"
           name="4"
           lazy
+          :disabled="isClick"
         >
           <span
             slot="label"
@@ -280,6 +262,7 @@
           class="elTabPane"
           name="5"
           lazy
+          :disabled="isClick"
         >
           <span
             slot="label"
@@ -313,11 +296,14 @@ import EnvPreparation from './EnvPreparation.vue'
 import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
 import DeployDebugVMMain from './vmdebug/Main.vue'
-import { Industry, Type } from '../../tools/project_data.js'
+import { Industry, Type, Capability } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
 import deployment from './Deployment.vue'
 import appRelease from './AppRelease.vue'
 import ResourceConfig from './vmdebug/DeployDebugStep.vue'
+import firstStep from './NewProjectFirst.vue'
+import secondStep from './NewProjectSecond2.vue'
+import ProjectFormDetail from './ProjectFormDetail.vue'
 export default {
   name: 'AppDetail',
   components: {
@@ -330,10 +316,23 @@ export default {
     api,
     deployment,
     appRelease,
-    ResourceConfig
+    ResourceConfig,
+    firstStep,
+    secondStep,
+    Capability,
+    ProjectFormDetail
   },
   data () {
     return {
+      detailFlag: false,
+      showCapability: false,
+      isShowForm: true,
+      nextBtn: true,
+      nextBtnDevApp: true,
+      readonly: false,
+      isClick: true,
+      depPlatform: '',
+      projectTypeprop: this.$route.params.projectType,
       apiDataLoading: false,
       projecDetailList: [],
       dialogVisible: false,
@@ -375,7 +374,8 @@ export default {
         deployType: '',
         createDate: '',
         dependent: '',
-        description: ''
+        description: '',
+        iconFileId: ''
       },
       projectId: sessionStorage.getItem('mecDetailID'),
       dependentNum: 0,
@@ -384,10 +384,241 @@ export default {
       imageStatus: 'NOTDEPLOY',
       deployPlatform: 'KUBERNETES',
       screenHeight: document.body.clientHeight,
-      timer: null
+      timer: null,
+      allFormData: {}
+
     }
   },
   methods: {
+    onSubmitIntegration () {
+      this.nextStep()
+    },
+    onSubmit () {
+      this.uploadBtnLoading = true
+      this.$refs.secondStep.emitStepData()
+      this.getApplicationProject()
+    },
+    nextStep () {
+      this.$refs.firstStep.emitStepData()
+      this.checkRules()
+    },
+    checkRules () {
+      let appIcon = this.allFormData.first.appIcon[0]
+      let appname = this.allFormData.first.name
+      let nameRule = appname.match(/^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[\u4E00-\u9FA5a-zA-Z0-9_-]{4,32}$/)
+      let version = this.allFormData.first.version
+      let versionRule = version.match(/^[\w\\-][\w\\-\s.]{0,9}$/g)
+      let provider = this.allFormData.first.provider
+      let providerRule = provider.match(/^\S.{0,29}$/g)
+      let description = this.allFormData.first.description
+      let descriptionRule = description.match(/^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/)
+      if (!appname) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.projectNameEmpty')
+        })
+      } else if (!nameRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.nameRule')
+        })
+      } else if (!version) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.versionEmpty')
+        })
+      } else if (!versionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.versionRule')
+        })
+      } else if (!provider) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.providerEmpty')
+        })
+      } else if (!providerRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.providerRule')
+        })
+      } else if (!appIcon) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.logoEmpty')
+        })
+      } else if (!description) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.descriptionEmpty')
+        })
+      } else if (!descriptionRule) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('promptMessage.introductionRule')
+        })
+      } else if (this.projectExist) {
+        this.$message.warning(this.$t('workspace.projectExist'))
+      } else {
+        this.getIconFileId()
+        this.handleUserName()
+      }
+    },
+    handleUserName () {
+      if (this.userName === 'guest') {
+        this.isGuest = true
+      } else {
+        this.isGuest = false
+      }
+      if (!this.isGuest && this.isAppDevelopment) {
+        this.active++
+        this.changeComponentApp()
+      }
+    },
+    // get Icon ID
+    getIconFileId () {
+      if (this.active === 0) {
+        let firstStepData
+        if (this.allFormData.first.appIcon[0].raw) {
+          firstStepData = this.allFormData.first.appIcon[0].raw
+        } else {
+          firstStepData = this.allFormData.first.appIcon[0]
+        }
+        let formdata = new FormData()
+        formdata.append('file', firstStepData)
+        Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
+          this.iconFileId = res.data.fileId
+          if (!this.isGuest && !this.isAppDevelopment) {
+            this.getApplicationProject()
+          }
+        }).catch(err => {
+          if (err.response.data.code === 403) {
+            this.isGuest = true
+          } else {
+            this.isGuest = false
+          }
+        })
+      }
+    },
+    changeComponentApp () {
+      switch (this.active) {
+        case 0:
+          this.activeName = '1'
+          break
+        case 1:
+          this.activeName = '2'
+          break
+        default:
+          this.activeName = '1'
+      }
+    },
+    previousStep () {
+      this.active--
+      this.changeComponentApp()
+    },
+    checkPostProjectData (checkArr) {
+      checkArr.forEach(itemBe => {
+        Capability.forEach(itemFe => {
+          if (itemBe.name === itemFe.label[0]) {
+            itemBe.name = itemFe.label[1]
+          }
+        })
+      })
+    },
+    getApplicationProject () {
+      this.uploadBtnLoading = true
+      let createDate = new Date()
+      let allFormData = this.allFormData
+      let params = {
+        'id': '',
+        'capabilityList': [],
+        'createDate': createDate
+      }
+      for (let key in allFormData.first) {
+        if (key !== 'appIcon') {
+          params[key] = allFormData.first[key]
+        }
+      }
+      if (allFormData.second) {
+        this.checkPostProjectData(allFormData.second.capabilitySelected)
+        for (let capability of allFormData.second.capabilitySelected) {
+          let obj = {}
+          for (let capabilityKey in capability) {
+            obj[capabilityKey] = capability[capabilityKey]
+          }
+          obj.capabilityDetailList = []
+          this.handleCapabilityList(allFormData, capability, obj)
+          params.capabilityList.push(obj)
+        }
+      }
+      let iconFileId = { iconFileId: this.iconFileId }
+      params = Object.assign(params, iconFileId)
+      this.addNewProject(params)
+    },
+    handleCapabilityList (allFormData, capability, obj) {
+      for (let service of allFormData.third) {
+        if (service.groupId === capability.groupId) {
+          let serviceObj = {}
+          for (let serviceKey in service) {
+            serviceObj[serviceKey] = service[serviceKey]
+          }
+          obj.capabilityDetailList.push(serviceObj)
+        }
+      }
+    },
+    addNewProject (params) {
+      Workspace.newProjectApi(this.userId, params).then(res => {
+        if (res.status === 200) {
+          let mecDetailID = res.data.id
+          sessionStorage.setItem('mecDetailID', mecDetailID)
+          this.$message({
+            message: this.$t('promptMessage.addProjectSuccess'),
+            type: 'success',
+            duration: '2000'
+          })
+
+          this.deployPlatform = this.allFormData.first.deployPlatform
+          this.readonly = true
+          this.depPlatform = this.deployPlatform
+          if (this.isAppDevelopment) {
+            this.activeName = '3'
+            this.isClick = false
+            this.nextBtnDevApp = false
+            this.showCapability = true
+          } else {
+            this.nextBtn = false
+            if (this.deployPlatform === 'KUBERNETES') {
+              this.activeName = '4'
+              this.isClick = false
+            } else {
+              this.activeName = '6'
+              this.isClick = false
+            }
+          }
+          this.uploadBtnLoading = false
+          sessionStorage.removeItem('apiFileIdArr')
+        } else {
+          this.$message({
+            message: this.$t('promptMessage.addProjectFail'),
+            type: 'error',
+            duration: '2000'
+          })
+          setTimeout(() => {
+            this.dialogNewProject = false
+          }, 1500)
+
+          this.$emit('closeFatherDialog', false)
+          this.uploadBtnLoading = false
+        }
+      }).catch(err => {
+        if (err.response.data.message === 'the same project exists') {
+          this.$message.warning(this.$t('workspace.projectExist'))
+        }
+        this.uploadBtnLoading = false
+        sessionStorage.removeItem('apiFileIdArr')
+      })
+    },
+
     groupListHover (index) {
       this.selectedName = index
     },
@@ -417,7 +648,10 @@ export default {
     // Fetch poject infomation
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        this.detailFlag = true
         let data = res.data
+        this.listDataProp = data
+        this.depPlatform = data.deployPlatform
         if (data.projectType === 'CREATE_NEW') {
           this.isAppDevelopment = true
         } else if (data.projectType === 'INTEGRATED') {
@@ -434,8 +668,10 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         this.projectDetailData.deployType = data.deployPlatform
         this.projectDetailData.createDate = data.createDate
+        this.projectDetailData.iconFileId = data.iconFileId
         this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
+
         this.checkProjectData()
         this.projectDependent(res)
         if (this.deployPlatform === 'KUBERNETES') {
@@ -496,14 +732,12 @@ export default {
       this.changeComponent()
       this.allStepData.ifNext = false
     },
-    handleClose () {
-      this.$router.push({
-        name: 'workspace'
-      })
-    },
     getStepData (data) {
       this.allStepData[data.step] = data.data
       this.allStepData.ifNext = data.ifNext
+    },
+    getStepDataJc ({ data, step }) {
+      this.allFormData[step] = data
     },
     getBtnStatus (status) {
       this.isDeploying = status.status
@@ -562,10 +796,37 @@ export default {
           }
         }
       })
+    },
+
+    // Click nav to set thie active
+    setActive () {
+      if (this.activeName === '1') {
+        this.active = 0
+      } else if (this.activeName === '2') {
+        this.active = 1
+      }
+    },
+    // Determine the source of entry
+    isAddNewProject () {
+      if (this.$route.params.isAddnewproject) {
+        this.isCreate()
+      } else {
+        this.getProjectInfo()
+        this.isShowForm = false
+        this.showCapability = true
+        this.isClick = false
+      }
+    },
+    isCreate () {
+      if (this.$route.params.projectType === 'CREATE_NEW') {
+        this.isAppDevelopment = true
+      } else {
+        this.isAppDevelopment = false
+      }
     }
   },
   mounted () {
-    this.getProjectInfo()
+    this.isAddNewProject()
     this.handleStep()
     this.getTestConfig()
     this.setDivHeight(this.screenHeight)
@@ -600,6 +861,7 @@ export default {
 </script>
 
 <style lang="less">
+@import '../../assets/css/work.css';
 .el-steps{
   margin-bottom: 15px;
   .el-step__icon.is-text{
@@ -631,7 +893,194 @@ export default {
     }
   }
 }
+
 .workdetail {
+   .project_detail{
+    .el-input__inner{
+      border:1px solid #f1f2f6;
+      height: 36px;
+      line-height: 36px;
+      border-radius:8px;
+      background-color: #f1f2f6;
+    }
+    .list-select input{
+      height: 35px;
+      line-height: 35px;
+    }
+    .el-form-item__label{
+      padding: 0 20px 0 0;
+      font-size: 16px;
+      color: #380879;
+    }
+    .deployType em,.deployType .is-checked em{
+      width: 28px;
+      height: 28px;
+      display: inline-block;
+      background-size: cover;
+      position: relative;
+      top: 9px;
+    }
+    .dockerDeploy{
+      background: url('../../assets/images/deploy_docker_dis.png') center center no-repeat;
+    }
+    .vmDeploy{
+      background: url('../../assets/images/deploy_vm_dis.png') center center no-repeat;
+    }
+    .is-checked .dockerDeploy{
+      background: url('../../assets/images/deploy_docker.png') center center no-repeat;
+    }
+    .is-checked .vmDeploy{
+      background: url('../../assets/images/deploy_vm.png') center center no-repeat;
+    }
+    .el-radio__input.is-checked .el-radio__inner{
+      background-color: #5e40c8;
+      border-color: #5e40c8;
+    }
+    .el-radio__label{
+      color:#380879
+    }
+    .el-radio__input.is-checked+.el-radio__label{
+      color: #380879;
+    }
+    .upload-demo{
+      float: left;
+      .el-button--primary{
+        background-color: #fff;
+        border-color: #688ef3;
+        color: #688ef3;
+        padding: 6px 20px;
+        margin-top: 8px;
+      }
+      .el-icon-warning{
+        color: #688ef3;
+        margin-right: 5px;
+        font-size: 16px;
+      }
+      .el-upload{
+        float: left;
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        margin: 3px 15px 0 0;
+      }
+      .el-upload-list__item-preview{
+        opacity: 0;
+      }
+    }
+    .uploadIconSpan{
+      font-size:16px;
+      color:#380879;
+      margin-right:10px;
+    }
+
+    .el-icon-info{
+      margin-top: 12px;
+    }
+    .el-icon-info:before {
+      color: #5e40c8;
+      font-size: 16px;
+    }
+    .default-icon{
+      float: left;
+      display: flex;
+      flex-wrap: wrap;
+      .box{
+        position: ab;
+        width: 134px;
+        height: 44px;
+        margin: 0 15px 0 0;
+        img{
+          width: 40px;
+          height: 40px;
+        }
+        span{
+          vertical-align: top;
+          margin-left:10px;
+          font-size:16px;
+          color:#380879;
+          position: relative;
+          top: 5px;
+
+        }
+        em{
+          display: inline-block;
+          position: relative;
+          bottom: 0;
+          right: 0;
+          color:#000;
+          }
+        .active{
+          color: #5e40c8;
+        }
+
+      }
+    }
+    .upIcon.el-icon-success{
+      position: absolute;
+      top: 30px;
+      left: 180px;
+      z-index: 99;
+    }
+    .upIcon.active{
+      color: #5e40c8;
+    }
+    .el-form-item{
+      margin-bottom: 29px;
+    }
+    .el-form-item.icon{
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .f50{
+      float: left;
+      width: 50%;
+      .el-form-item__content{
+        width: calc(100% - 110px);
+      }
+      .el-select{
+        width: 100%;
+      }
+    }
+    .el-upload-list{
+      width: auto;
+      /* width: 40px;
+      height: 40px;
+      margin-right: 15px; */
+    }
+    .el-upload-list__item:first-child{
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border: none;
+      margin: 0 15px 0 0;
+    }
+    .el-form-error{
+      float: left;
+      color: #F56C6C;
+      font-size: 12px;
+      line-height: 1;
+      margin: 14px 10px 0px 0px;
+    }
+    .el-textarea__inner{
+      border:1px solid #f1f2f6;
+      background-color: #f1f2f6;
+    }
+    .el-textarea .el-input__count{
+      background-color: #f1f2f6;
+    }
+    .el-button.nextstep{
+      margin-top:50px;
+      background-color: #5e40c8;
+      border-color: #5e40c8;
+      width:174px;
+      height:46px;
+      font-size:20px;
+      float:right;
+      color:#fff;
+}
+  }
+
   .el-tree-node__content{
     height: 35px;
     line-height: 35px;
@@ -729,6 +1178,7 @@ export default {
     color: #5e40c8;
     box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
   }
+
   .elTabs {
     padding: 0px 0px 0px 0;
     .el-tabs__header{
@@ -741,6 +1191,7 @@ export default {
       padding: 10px 0 0 0px;
       min-height: 300px;
     }
+
     .elButton {
       width: 100%;
       margin: 43px 0 0;
