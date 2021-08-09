@@ -536,7 +536,7 @@ export default {
     },
     // Pass the parameters to parent component
     emitStepData () {
-      this.$emit('getStepDataJc', { data: this.form, step: 'first' })
+      this.$emit('getFormData', { data: this.form, step: 'first' })
     },
     changeDataLanguage () {
       let language = localStorage.getItem('language')

@@ -54,7 +54,7 @@
                 :fromreadonly="readonly"
                 ref="firstStep"
                 :project-typeprop="projectTypeprop"
-                @getStepDataJc="getStepDataJc"
+                @getFormData="getFormData"
                 :all-step-data="allFormData"
                 :icon-file-id-prop="iconFileId"
               />
@@ -113,7 +113,7 @@
           <div v-else>
             <secondStep
               ref="secondStep"
-              @getStepDataJc="getStepDataJc"
+              @getFormData="getFormData"
               :all-step-data="allFormData"
             />
             <div class="elButton defaultFontLight">
@@ -736,7 +736,7 @@ export default {
       this.allStepData[data.step] = data.data
       this.allStepData.ifNext = data.ifNext
     },
-    getStepDataJc ({ data, step }) {
+    getFormData ({ data, step }) {
       this.allFormData[step] = data
     },
     getBtnStatus (status) {
