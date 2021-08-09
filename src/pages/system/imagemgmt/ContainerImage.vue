@@ -32,6 +32,7 @@
         v-loading="dataLoading"
         style="width: 100%"
         class="tableStyle"
+        @filter-change="filterChange"
       >
         <el-table-column
           prop="imageName"
@@ -49,10 +50,12 @@
           </template>
         </el-table-column>
         <el-table-column
+          :column-key="'imageType'"
           min-width="12%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
           show-overflow-tooltip
+          :filters="typeData"
         />
         <el-table-column
           prop="userName"
@@ -88,10 +91,12 @@
           </template>
         </el-table-column>
         <el-table-column
+          :column-key="'imageStatus'"
           min-width="13%"
           :label="$t('common.status')"
           :formatter="convertStatus"
           show-overflow-tooltip
+          :filters="statusData"
         />
         <el-table-column
           :label="$t('common.operation')"
@@ -117,7 +122,7 @@
             >
               {{ $t('common.delete') }}
             </el-button>
-            <el-button
+            <!-- <el-button
               v-if="isAdmin || userId===scope.row.userId"
               :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
               id="uploadBtn"
@@ -125,7 +130,7 @@
               size="small"
             >
               {{ $t('system.imageMgmt.operation.upload') }}
-            </el-button>
+            </el-button> -->
             <el-button
               :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
               id="downloadBtn"
@@ -201,14 +206,13 @@ export default {
       offsetPage: 0,
       listTotal: 0,
       imageListData: [],
-      imageTypeOptionList: [],
-      statusOptionList: [],
       showEditImageDlg: false,
       showUploadImageDlg: false,
       showViewImageDlg: false,
       currentImageData: {},
       screenHeight: document.body.clientHeight,
-      typeDataMap: new Map()
+      statusData: [],
+      typeData: []
     }
   },
   watch: {
@@ -231,6 +235,19 @@ export default {
     this.getImageDataList()
   },
   methods: {
+    filterChange (filters) {
+      if (filters.imageStatus && filters.imageStatus.length >= 1) {
+        this.searchCondition.imageStatus = filters.imageStatus.join(',')
+      } else if (filters.imageStatus && filters.imageStatus.length === 0) {
+        this.searchCondition.imageStatus = ''
+      }
+      if (filters.imageType && filters.imageType.length >= 1) {
+        this.searchCondition.imageType = filters.imageType.join(',')
+      } else if (filters.imageType && filters.imageType.length === 0) {
+        this.searchCondition.imageType = ''
+      }
+      this.getImageDataList()
+    },
     initUser () {
       this.userId = sessionStorage.getItem('userId')
       this.searchCondition.userId = this.userId
@@ -240,18 +257,18 @@ export default {
       }
     },
     initOptionList () {
-      this.imageTypeOptionList = [
-        { value: 'public', label: this.$t('system.imageMgmt.typeValue.public') },
-        { value: 'private', label: this.$t('system.imageMgmt.typeValue.private') }
+      this.statusData = [
+        { text: this.$t('system.imageMgmt.statusValue.uploadWait'), value: 'UPLOAD_WAIT' },
+        { text: this.$t('system.imageMgmt.statusValue.uploading'), value: 'UPLOADING' },
+        { text: this.$t('system.imageMgmt.statusValue.merging'), value: 'UPLOADING_MERGING' },
+        { text: this.$t('system.imageMgmt.statusValue.uploadSucceeded'), value: 'UPLOAD_SUCCEED' },
+        { text: this.$t('system.imageMgmt.statusValue.uploadFailed'), value: 'UPLOAD_FAILED' },
+        { text: this.$t('system.imageMgmt.statusValue.uploadCancelled'), value: 'UPLOAD_CANCELLED' },
+        { text: this.$t('system.imageMgmt.statusValue.published'), value: 'PUBLISHED' }
       ]
-      this.statusOptionList = [
-        { value: 'UPLOAD_WAIT', label: this.$t('system.imageMgmt.statusValue.uploadWait') },
-        { value: 'UPLOADING', label: this.$t('system.imageMgmt.statusValue.uploading') },
-        { value: 'UPLOADING_MERGING', label: this.$t('system.imageMgmt.statusValue.merging') },
-        { value: 'UPLOAD_SUCCEED', label: this.$t('system.imageMgmt.statusValue.uploadSucceeded') },
-        { value: 'UPLOAD_FAILED', label: this.$t('system.imageMgmt.statusValue.uploadFailed') },
-        { value: 'UPLOAD_CANCELLED', label: this.$t('system.imageMgmt.statusValue.uploadCancelled') },
-        { value: 'PUBLISHED', label: this.$t('system.imageMgmt.statusValue.published') }
+      this.typeData = [
+        { text: this.$t('system.imageMgmt.typeValue.public'), value: 'public' },
+        { text: this.$t('system.imageMgmt.typeValue.private'), value: 'private' }
       ]
     },
     getSearchData (searchFormData) {
@@ -301,9 +318,9 @@ export default {
     },
     convertType (row) {
       if (row.imageType) {
-        let imgTypeOption = this.imageTypeOptionList.find(item => item.value === row.imageType)
+        let imgTypeOption = this.typeData.find(item => item.value === row.imageType)
         if (imgTypeOption) {
-          return imgTypeOption.label
+          return imgTypeOption.text
         }
       }
 
@@ -311,9 +328,9 @@ export default {
     },
     convertStatus (row) {
       if (row.imageStatus) {
-        let statusOption = this.statusOptionList.find(item => item.value === row.imageStatus)
+        let statusOption = this.statusData.find(item => item.value === row.imageStatus)
         if (statusOption) {
-          return statusOption.label
+          return statusOption.text
         }
       }
 
