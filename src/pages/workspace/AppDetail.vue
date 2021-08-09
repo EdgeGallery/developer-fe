@@ -829,7 +829,6 @@ export default {
   mounted () {
     this.isAddNewProject()
     this.handleStep()
-
     this.setDivHeight(this.screenHeight)
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
