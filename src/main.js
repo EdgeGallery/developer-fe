@@ -31,7 +31,9 @@ import 'mavon-editor/dist/css/index.css'
 import 'swiper/css/swiper.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import '../src/assets/css/common.css'
+import EgMessageBox from './components/common/MessageBox'
 
+Vue.use(EgMessageBox)
 Vue.use(VueAwesomeSwiper)
 Vue.use(VCharts)
 Vue.use(ElementUI, { locale })
