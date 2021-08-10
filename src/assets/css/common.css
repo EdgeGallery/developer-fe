@@ -515,3 +515,79 @@ body .el-table th.gutter{
 .el-textarea .el-textarea__inner{
   min-height: 80px !important;
 }
+.el-table .sort-caret.descending{
+  border-top-color: #b5e8e9;
+  bottom: 4px;
+}
+.el-table .descending .sort-caret.descending{
+  border-top-color: #61cdd0;
+}
+.el-table .sort-caret.ascending{
+  border-bottom-color: #b5e8e9;
+  top: 4px;
+}
+.el-table .ascending .sort-caret.ascending{
+  border-bottom-color: #61cdd0;
+}
+.el-table .sort-caret{
+  border: solid 6px transparent;
+}
+.default_dropdown .el-table__column-filter-trigger i{
+  font-size: 16px;
+  transform: scale(1.0);
+  margin-left: 8px;
+}
+.default_dropdown .el-icon-arrow-down:before{
+  color: #61cdd0;
+  background: url('../images/table_filter_down.png') center center no-repeat;
+}
+.el-table-filter{
+  box-shadow: none;
+  border: none;
+  margin: 15px 0 2px;
+  background: url('../images/table_filter_content_up.png') 80% 0 no-repeat;
+  padding-top: 6px;
+}
+.el-table-filter .el-table-filter__content{
+  background-color: #edeef8;
+  border-radius: 6px 6px 0 0;
+}
+.el-table-filter .el-table-filter__content .el-checkbox__inner{
+  border: 1px solid #c8c8e0;
+  background: none;
+  border-radius: 3px;
+}
+.el-table-filter .el-table-filter__content .el-checkbox__label{
+  color: #abaecb;
+}
+.el-table-filter .el-table-filter__content .is-checked .el-checkbox__inner{
+  border: 1px solid #a19aac;
+  background: none;
+}
+.el-table-filter .el-table-filter__content .is-checked .el-checkbox__label,.el-table-filter .el-table-filter__content .el-checkbox__label:hover{
+  color: #62517a;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner::after{
+  width: 7px;
+  height: 7px;
+  left: 2.5px;
+  top: 2.5px;
+  border: none;
+  background: #61cdd0;
+  border-radius: 50%;
+  transform: rotate(0deg);
+}
+.el-table-filter .el-table-filter__bottom{
+  background-color: #edeef8;
+  border-radius: 0 0 6px 6px;
+  border-top: 1px solid #fff;
+}
+.el-table-filter__bottom button:hover{
+  color: #5e40c8;
+}
+.el-table-filter__bottom button.is-disabled,.el-table-filter__bottom button.is-disabled:hover{
+  color: #abaecb;
+}
+.el-table th>.cell.highlight{
+  color: #5e40c8;
+}
