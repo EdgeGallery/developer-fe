@@ -31,7 +31,7 @@
         :default-sort="{prop: 'createTime', order: 'descending'}"
         v-loading="dataLoading"
         style="width: 100%"
-        class="tableStyle"
+        class="tableStyle default_dropdown"
         @filter-change="filterChange"
       >
         <el-table-column
