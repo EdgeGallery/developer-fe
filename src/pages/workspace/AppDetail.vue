@@ -861,7 +861,6 @@ export default {
 </script>
 
 <style lang="less">
-@import '../../assets/css/work.css';
 .el-steps{
   margin-bottom: 15px;
   .el-step__icon.is-text{
