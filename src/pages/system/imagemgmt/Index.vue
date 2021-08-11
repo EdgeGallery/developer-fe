@@ -199,7 +199,8 @@ export default {
     font-size: 16px;
     color: #b793e9;
     background-image: linear-gradient(127deg, #4444d0, #6724cb);
-    // box-shadow: 0 0 10px 0 rgba(40, 12, 128, 0.4);
+    box-shadow:0px -20px 15px -15px rgba(94,64,200,0.6),
+               0px 30px 30px -15px rgba(94,64,200,0.6);
     .transition-box{
       height: 40px;
       line-height: 40px;
@@ -208,11 +209,11 @@ export default {
       em{
         display: inline-block;
         width: 3px;
-        height: 15px;
         border-radius: 1.5px;
         position: absolute;
-        top: 12px;
+        top: 16px;
         left: 4px;
+        transition:all 0.6s;
       }
     }
     .transition-box:last-child{
@@ -222,6 +223,8 @@ export default {
       color: #fff;
       em{
         background: #a1a7e6;
+        height: 8px;
+        transform: scale(1,2);
       }
     }
   }
