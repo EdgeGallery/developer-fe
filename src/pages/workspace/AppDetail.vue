@@ -109,13 +109,19 @@
           >
             <em :class="['tab_capability',selectedName==='2' || activeName==='2'?'tab_active':'tab_default']" />{{ $t('workspace.capabilityDetails') }}
           </span>
-          <api v-if="showCapability" />
-          <div v-else>
-            <secondStep
-              ref="secondStep"
-              @getFormData="getFormData"
-              :all-step-data="allFormData"
-            />
+          <api
+            ref="secondStep"
+            @getFormData="getFormData"
+            :show-capability="showCapability"
+            v-if="!showCapability"
+          />
+          <api
+            ref="secondStep"
+            @getFormData="getFormData"
+            :show-capability="showCapability"
+            v-if="showCapability"
+          />
+          <div v-if="!showCapability">
             <div class="elButton defaultFontLight">
               <el-button
                 id="prevBtn"
@@ -396,6 +402,7 @@ export default {
     onSubmit () {
       this.uploadBtnLoading = true
       this.$refs.secondStep.emitStepData()
+      this.showCapability = true
       this.getApplicationProject()
     },
     nextStep () {

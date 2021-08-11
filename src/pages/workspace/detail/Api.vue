@@ -15,92 +15,169 @@
   -->
 
 <template>
-  <div class="api">
-    <div
-      v-loading="apiDataLoading"
-      v-if="hasService"
-      class="clear"
-    >
-      <div class="api_left">
-        <el-tree
-          ref="treeList"
-          :data="treeData"
-          :props="defaultProps"
-          @node-click="handleNodeClick"
-          default-expand-all
-          highlight-current
-          class="api_tree"
-        />
+  <div class="main">
+    <div class="prompt_content">
+      <div>
+        <img
+          src="../../../assets/images/capability_hint.png"
+          class="tip"
+          alt=""
+        >
+        <p class="capabilityInfo fontUltraLight">
+          {{ $t('workspace.capabilityInfo1') }}
+        </p>
+        <p class="capabilityInfo fontUltraLight">
+          {{ $t('workspace.capabilityInfo2') }}
+        </p>
       </div>
-      <div class="api_right">
-        <div class="service_div">
-          <p class="api_top">
-            {{ $t('workspace.apiTopText') }}
-          </p>
-          <p class="title">
-            {{ $t('workspace.serviceDetails') }}
-          </p>
-          <el-row class="service_info">
-            <el-col :span="24">
-              <span>{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
-            </el-col>
-          </el-row>
-          <el-row class="service_info">
-            <el-col :span="12">
-              <span>{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
-            </el-col>
-            <el-col :span="12">
-              <span>{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
-            </el-col>
-          </el-row>
-          <el-row class="service_info">
-            <el-col :span="12">
-              <span>{{ $t('workspace.releaseTime') }} ：</span>{{ serviceDetail.uploadTime }}
-            </el-col>
-            <el-col :span="12">
-              <span>SDK {{ $t('common.download') }} ：</span>
-              <el-select
-                v-model="codeLanguage"
-                name="codeLanguage"
-                class="list-select"
-                size="mini"
-              >
-                <el-option
-                  v-for="item in optionsLanguage"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.label"
-                  :id="item.label"
-                />
-              </el-select>
-              <el-link
-                class="download_sdk"
-                :href="downloadSDKApi()"
-              />
-              <el-link
-                :href="guideUrl"
-                target="_blank"
-                type="primary"
-                class="ml10"
-              >
-                {{ $t('api.installGuide') }}
-              </el-link>
-            </el-col>
-          </el-row>
-        </div>
-
-        <div id="swagger-ui" />
+      <div class="upper-ability">
+        <label class="selected-service defaultFont">{{ $t("workspace.selectedService") }}: </label>
+        <el-tag
+          v-for="tag in tags"
+          :key="tag.groupId"
+          :closable="isClosable"
+          class="defaultFontLight"
+          @close="handleDeleteTag(tag)"
+          style="margin-left: 10px;"
+        >
+          {{ language === "en" ? tag.labelEn : tag.labelCn }}
+        </el-tag>
       </div>
     </div>
-    <div
-      class="no_service"
-      v-if="!hasService"
-    >
-      <p>{{ $t('workspace.appRelease.noService') }}</p>
-      <img
-        src="../../../assets/images/construct.png"
-        alt="a"
+    <div class="api">
+      <div
+        v-loading="apiDataLoading"
+        v-if="hasService"
+        class="clear"
       >
+        <div class="api_left">
+          <el-tree
+            :data="tree"
+            :check-strictly="true"
+            :props="defaultProps"
+            :render-after-expand="false"
+            :show-checkbox="showCheckbox"
+            :default-expand-all="isExpandAll"
+            accordion
+            node-key="groupId"
+            ref="treeList"
+            highlight-current
+            @node-click="handleNodeClick"
+            @check-change="handleCheckChange"
+            icon-class="none"
+            class="api_tree defaultFontLight"
+          >
+            <span
+              class="el-tree-node__label"
+              slot-scope="{ node }"
+            >
+              <el-tooltip
+                popper-class="atooltip"
+                class="item"
+                :content="node.label"
+                placement="right"
+              >
+                <span> {{ node.label }} </span>
+              </el-tooltip>
+            </span>
+          </el-tree>
+        </div>
+        <div class="api_right">
+          <div class="service_div">
+            <p class="api_top defaultFont">
+              {{ $t('workspace.apiTopText') }}
+            </p>
+            <p class="title defaultFontBlod">
+              {{ $t('workspace.serviceDetails') }}
+            </p>
+            <el-row class="service_info">
+              <el-col :span="12">
+                <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
+              </el-col>
+              <el-col :span="12">
+                <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
+              </el-col>
+            </el-row>
+            <el-row class="service_info">
+              <el-col :span="12">
+                <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ serviceDetail.uploadTime }}
+              </el-col>
+              <el-col :span="12">
+                <span class="defaultFontBlod">{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
+              </el-col>
+            </el-row>
+            <el-row class="service_info">
+              <el-col :span="24">
+                <span class="defaultFontBlod">SDK {{ $t('common.download') }} ：</span>
+                <el-select
+                  v-model="codeLanguage"
+                  name="codeLanguage"
+                  class="list-select defaultFont"
+                  size="mini"
+                >
+                  <el-option
+                    v-for="item in optionsLanguage"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.label"
+                    :id="item.label"
+                  />
+                </el-select>
+                <el-tooltip
+                  popper-class="atooltip"
+                  class="item"
+                  :content="$t('workspace.sdkDownload')"
+                  placement="right"
+                >
+                  <span>
+                    <el-link
+                      class="download_sdk"
+                      :underline="false"
+                      :href="downloadSDKApi()"
+                    />
+                  </span>
+                </el-tooltip>
+                <el-tooltip
+                  popper-class="atooltip"
+                  class="item"
+                  :content="$t('api.installGuide')"
+                  placement="right"
+                >
+                  <el-link
+                    :href="guideUrl"
+                    target="_blank"
+                    :underline="false"
+                    type="primary"
+                    class="guide_url"
+                  />
+                </el-tooltip>
+              </el-col>
+            </el-row>
+          </div>
+
+          <div id="swagger-ui" />
+        </div>
+      </div>
+      <div
+        class="no_service"
+        v-if="!hasService"
+      >
+        <p>{{ $t('workspace.appRelease.noService') }}</p>
+        <img
+          src="../../../assets/images/construct.png"
+          alt="a"
+        >
+      </div>
+      <div
+        class="select_initialization"
+        v-if="!hasNoSelect"
+      >
+        <img
+          src="../../../assets/images/select_initialization.png"
+          alt="a"
+        >
+        <p>{{ $t('workspace.appRelease.selectInitialization') }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -110,10 +187,18 @@ import { Workspace, Api } from '../../../tools/api.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
+  props: {
+    showCapability: {
+      type: Boolean,
+      required: true
+    }
+  },
+  name: '',
   data () {
     return {
       apiDataLoading: false,
       treeData: [],
+      isExpandAll: false,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -145,22 +230,87 @@ export default {
       api_div: true,
       env_div: false,
       apiFileIdArr: [],
+      secondStepSelect: {
+        selectCapabilityId: [],
+        capabilitySelected: []
+      },
+      thirdStepSelection: [],
       guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md',
-      hasService: true
+      hasService: true,
+      hasNoSelect: true,
+      groups: [],
+      tree: [],
+      capabilityList: [],
+      groupId: '',
+      capa: {},
+      tags: [],
+      serviceList: [],
+      serviceGroupIdList: [],
+      showCheckbox: true,
+      isClosable: true
     }
   },
   methods: {
+    // create new project
+    async getCapabilityGroups () {
+      this.groups = []
+      this.tree = []
+      await Api.getCapabilityGroupsApi().then(res => {
+        this.groups = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+      this.buildTree()
+    },
+    buildTree () {
+      let oneLevelSet = new Set()
+      this.handleOnelevelName(oneLevelSet)
+      for (let i in this.groups) {
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
+        let twoLevelNameEn = this.groups[i].twoLevelNameEn
+        let twoLevelNameCn = this.groups[i].twoLevelName
+        if (twoLevelName !== null) {
+          for (let k in this.tree) {
+            if (this.tree[k].label === oneLevelName) {
+              this.tree[k].children.push({
+                label: twoLevelName,
+                labelEn: twoLevelNameEn,
+                labelCn: twoLevelNameCn,
+                groupId: this.groups[i].groupId
+              })
+              break
+            }
+          }
+        }
+      }
+      this.tree.reverse()
+      if (this.tree.length > 0) {
+        this.$nextTick(function () {
+          const firstFathreNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__content')
+          firstFathreNode.click()
+          const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node')
+          firstNode.click()
+        })
+      }
+    },
+    handleOnelevelName (oneLevelSet) {
+      for (let i in this.groups) {
+        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+          this.tree.push({
+            label: oneLevelName,
+            children: []
+          })
+          oneLevelSet.add(oneLevelName)
+        }
+      }
+    },
     // Fetch project detail
     getProjectDetail () {
-      this.treeData = []
+      this.tree = []
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
-        if (res.data.capabilityList.length > 0) {
-          this.hasService = true
-        } else {
-          this.hasService = false
-        }
-        this.apiType = res.data.type
         let treeDataTemp = res.data.capabilityList
         let oneLevel = []
         treeDataTemp.forEach(item => {
@@ -178,67 +328,67 @@ export default {
             children: []
           }
           obj.label = item
-          this.treeData.push(obj)
+          this.tree.push(obj)
         })
         // twoLevel
         this.handleTwoLevel(treeDataTemp)
-        // threeLevel
-        this.handleThreeLevel(treeDataTemp)
-        if (this.treeData.length > 0) {
-          this.$nextTick().then(() => {
-            const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node')
+        if (res.data.capabilityList.length > 0) {
+          this.hasService = true
+          let capaList = res.data.capabilityList
+          capaList.forEach(capa => {
+            this.$nextTick(() => {
+              this.$refs.treeList.setChecked(capa.groupId, true)
+              this.$refs.treeList.setCurrentKey(capa.groupId)
+            })
+          })
+          this.$nextTick(function () {
+            const firstFathreNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__content')
+            firstFathreNode.click()
+            const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node')
             firstNode.click()
           })
+        } else {
+          this.hasService = false
         }
+        this.apiType = res.data.type
         this.apiDataLoading = false
       })
     },
     handleTwoLevel (treeDataTemp) {
       treeDataTemp.forEach(item => {
         let oneLevelName = this.language === 'en' ? item.oneLevelNameEn : item.oneLevelName
-        this.treeData.forEach(itemTwo => {
+        this.tree.forEach(itemTwo => {
           if (itemTwo.label === oneLevelName) {
             let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
             if (twoLevelName) {
               itemTwo.children.push({
                 label: twoLevelName,
-                children: []
+                labelEn: item.twoLevelNameEn,
+                labelCn: item.twoLevelName,
+                groupId: item.groupId
               })
             }
           }
         })
       })
     },
-    handleThreeLevel (treeDataTemp) {
-      treeDataTemp.forEach(item => {
-        let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
-        item.capabilityDetailList.forEach(subItem => {
-          this.treeData.forEach(itemThree => {
-            itemThree.children.forEach(subTree => {
-              if (twoLevelName === subTree.label) {
-                subTree.children.push({
-                  host: subItem.host,
-                  label: this.language === 'en' ? subItem.serviceEn : subItem.service,
-                  type: item.type,
-                  apiFileId: subItem.apiFileId,
-                  capabilityType: twoLevelName,
-                  uploadTime: this.dateChange(subItem.uploadTime),
-                  version: subItem.version
-                })
-              }
-            })
-          })
-        })
-      })
-    },
-    handleNodeClick (data) {
+    async handleNodeClick (data) {
+      this.hasNoSelect = false
       if (!data.children) {
-        this.apiFileId = data.apiFileId
-        this.serviceDetail.capabilityType = data.capabilityType
-        this.serviceDetail.serviceName = data.host
-        this.serviceDetail.uploadTime = data.uploadTime
-        this.serviceDetail.version = data.version
-        let apiUrl = Workspace.getApiUrl(data.apiFileId, this.userId, data.type)
+        let apiUrl = ''
+        this.groupId = data.groupId
+        await this.getCapa()
+        let capaDetailData = this.capa.capabilityDetailList[0]
+        if (capaDetailData.capabilityType === '' || capaDetailData.capabilityType === undefined) {
+          this.serviceDetail.capabilityType = this.language === 'en' ? this.capa.twoLevelNameEn : this.capa.twoLevelName
+        } else {
+          this.serviceDetail.capabilityType = capaDetailData.capabilityType
+        }
+        this.serviceDetail.serviceName = capaDetailData.host
+        this.serviceDetail.uploadTime = this.dateChange(capaDetailData.uploadTime)
+        this.serviceDetail.version = capaDetailData.version
+        this.apiFileId = capaDetailData.apiFileId
+        apiUrl = Workspace.getApiUrl(this.apiFileId, this.userId, this.capa.type)
         SwaggerUIBundle({
           url: apiUrl,
           dom_id: '#swagger-ui',
@@ -264,6 +414,13 @@ export default {
         }, 200)
       }
     },
+    async getCapa () {
+      await Workspace.getServiceListApi(this.groupId).then(res => {
+        this.capa = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     setApiHeight () {
       this.$nextTick(() => {
         const oApi = document.getElementById('swagger-ui')
@@ -286,16 +443,110 @@ export default {
       sessionStorage.setItem('lan', lan)
       sessionStorage.setItem('sdkFileId', this.apiFileId)
       return Api.downloadSDKApi(this.apiFileId, lan)
+    },
+    async handleCheckChange (data, is) {
+      let service = {}
+      await Workspace.getServiceListApi(data.groupId).then(res => {
+        service = res.data.capabilityDetailList[0]
+      }).catch(err => {
+        console.log(err)
+      })
+      if (is) {
+        this.tags.push(data)
+        this.serviceList.push(service)
+        this.serviceGroupIdList.push(service.groupId)
+      } else {
+        let index = this.tags.indexOf(data)
+        if (index !== -1) {
+          this.tags.splice(index, 1)
+        }
+        let serviceIndex = this.serviceGroupIdList.indexOf(service.groupId)
+        if (serviceIndex !== -1) {
+          this.serviceList.splice(serviceIndex, 1)
+          this.serviceGroupIdList.splice(serviceIndex, 1)
+        }
+      }
+      this.updateCapabilitySelected()
+      this.updateThirdStepSelection()
+    },
+    async handleDeleteTag (tag) {
+      let service = {}
+      await Workspace.getServiceListApi(tag.groupId).then(res => {
+        service = res.data.capabilityDetailList[0]
+      }).catch(err => {
+        console.log(err)
+      })
+      let index = this.tags.indexOf(tag)
+      if (index !== -1) {
+        this.tags.splice(index, 1)
+      }
+      let serviceIndex = this.serviceGroupIdList.indexOf(service.groupId)
+      if (serviceIndex !== -1) {
+        this.serviceList.splice(serviceIndex, 1)
+        this.serviceGroupIdList.splice(serviceIndex, 1)
+      }
+      this.$refs.treeList.setChecked(tag.groupId, false)
+      this.updateCapabilitySelected()
+      this.updateThirdStepSelection()
+    },
+    updateCapabilitySelected () {
+      let cachedCapabilitySelected = []
+      let cachedSelectCapabilityId = []
+      for (let tag of this.tags) {
+        for (let group of this.groups) {
+          if (tag.groupId === group.groupId) {
+            cachedCapabilitySelected.push(group)
+            cachedSelectCapabilityId.push(group.groupId)
+          }
+        }
+      }
+      this.secondStepSelect.capabilitySelected = Array.from(new Set([...cachedCapabilitySelected]))
+      this.secondStepSelect.selectCapabilityId = Array.from(new Set([...cachedSelectCapabilityId]))
+    },
+    updateThirdStepSelection () {
+      let cachedThirdStepSelection = []
+      for (let service of this.serviceList) {
+        cachedThirdStepSelection.push(service)
+      }
+      this.thirdStepSelection = cachedThirdStepSelection
+    },
+    emitStepData () {
+      this.$emit('getFormData', { data: this.secondStepSelect, step: 'second' })
+      this.$emit('getFormData', { data: this.thirdStepSelection, step: 'third' })
     }
   },
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      this.getProjectDetail()
+      if (!this.showCapability) {
+        this.getCapabilityGroups()
+      } else {
+        this.getProjectDetail()
+      }
+    },
+    showCapability: {
+      deep: true,
+      handler (newVal, oldVal) {
+        this.tags = []
+        if (!this.showCapability) {
+          this.getCapabilityGroups()
+        } else {
+          this.getProjectDetail()
+          this.showCheckbox = false
+          this.isClosable = false
+        }
+      }
     }
   },
   mounted () {
-    this.getProjectDetail()
+    this.tags = []
+    if (!this.showCapability) {
+      this.getCapabilityGroups()
+    } else {
+      this.getProjectDetail()
+      this.showCheckbox = false
+      this.isClosable = false
+    }
     this.setApiHeight()
     let _this = this
     window.onresize = function () {
@@ -306,28 +557,210 @@ export default {
 
 </script>
 <style lang='less'>
+.main{
+  padding-top: 19px;
+}
+.tip{
+  float: left;
+  padding-top: 10px;
+  padding-right: 12px;
+}
+
+.capabilityInfo{
+  font-size: 12px;
+  color: #5e40c8;
+  letter-spacing: 1px;
+  line-height: 24.07px;
+}
+.upper-ability{
+  margin-left: 42px;
+  margin-top: 49px;
+  margin-bottom: 49px;
+  margin-right: 13px;
+}
+.selected-service{
+  color: #5e40c8;
+  font-size: 16px;
+}
+.el-tag .el-icon-close {
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    margin-right: -12px;
+    line-height: 20px;
+    vertical-align: middle;
+    top: -15px;
+    background-color: red;
+    right: -4px;
+}
+.el-select-dropdown__item{
+  font-size: 12px;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+    background-color: #efeef5;
+    color: #5844be;
+    border: 0px;
+}
+.el-select-dropdown__item.selected {
+    color: #5844be;;
+    font-weight: normal;
+}
+.el-icon-close:before {
+  color: #fbf8f8 !important;
+    /* font-size: 16px; */
+}
+.el-tree-node .el-tree-node__content .el-tree-node__label{
+  font-size: 20px !important;
+}
+.el-tree-node .el-tree-node__children .el-tree-node__content .el-tree-node__label{
+  font-size: 16px !important;
+}
+.el-tree-node:focus>.el-tree-node__content{
+  background-color: #e6e8f3 !important;
+  color: #409eff !important;//节点的字体颜色
+}
+.el-tag--light{
+    background-color: #5e40c8 !important;
+    height: 33px !important;
+    padding: 0 16px !important;
+    line-height: 30px !important;
+    font-size: 14px !important;
+    color: #ffffff !important;
+    border-radius: 15.5px !important;
+}
+.el-select-dropdown{
+  border-radius: 8px;
+}
+.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
+  border-right-color: #5e40c8;
+}
+.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow:after {
+  border-right-color: #5e40c8;
+}
+.atooltip {
+  background: #5e40c8 !important;
+}
+.el-scrollbar__view .el-select-dropdown__item:nth-child(2){
+  border-top: 1px solid #efeef5;
+  border-bottom: 1px solid #efeef5;
+}
 .api{
   border: 1px solid #ddd;
   background: #f8f8f8;
+  border-radius: 16px;
+  width: 1001px;
+  height: 609px;
+  box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
   .api_left{
     float: left;
     width: 320px;
-    padding: 20px 0;
   }
   .api_right{
     float: left;
     width: calc(100% - 320px);
-    background: #fff;
-    padding: 20px 20px 0 0;
+    border-radius: 16px;
+    padding: 34px 0px 0 0;
   }
   .api_tree{
-    background: #f8f8f8;
-    .el-tree-node__label{
-      font-size:15px;
+    max-height: 445px;
+    width: 269px;
+    overflow: scroll;
+    display: inline-block;
+    border-radius: 16px 0 0 0px;
+    .el-tree-node__label {
+      font-size:20px;
+      color: #7a6e8a;
     }
   }
-  .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{
-    background-color: #e1f0ff;
+  .api_tree::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+  .el-tree-node__children>.el-tree-node .el-tooltip.item {
+    display:inline-block;
+    width: 115px !important;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-top: 10px;
+  }
+  .el-tree{
+    background-color:transparent;
+    padding-top: 12px;
+  }
+  .el-tree-node__content {
+    padding-left: 23px !important;
+  }
+  .el-tree-node.is-expanded.is-focusable {
+    padding-right: 51px;
+    border-radius: 0 26px 26px 0;
+    padding-bottom: 15px;
+  }
+  .el-tree-node__expand-icon.is-leaf {
+    padding-left: 54px!important;
+  }
+  .el-tree-node__children>.el-tree-node {
+    padding-top: 0px;
+    height: 35px;
+    .el-tree-node__content {
+      height: 35px;
+    }
+  }
+  .el-tree-node {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    .el-tree-node__content {
+      height: 48px;
+    }
+  }
+  .el-tree-node.is-expanded.is-focusable {
+    border-radius: 0 26px 26px 0;
+    //box-shadow: 20px 0px 29px 0 rgba(113, 113, 170, 0.11) inset;
+    background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+  }
+  .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+    background-color: transparent !important;
+    border-radius: 0 26px 26px 0;
+  }
+  .el-tree-node__children .el-tree-node.is-current>.el-tree-node__content {
+    background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+    border-radius: 0 8px 8px 0 !important;
+  }
+  .el-tree-node__children>.el-tree-node>.el-tree-node__content:hover {
+    background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+    border-radius: 0 8px 8px 0 !important;
+  }
+  .el-tree-node__children>.el-tree-node.is-current>.el-tree-node__content:hover {
+    background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+    border-radius: 0 8px 8px 0 !important;
+  }
+  .el-tree-node__content:hover {
+    border-radius: 0 26px 26px 0;
+    background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+  }
+  .el-tree-node.is-current>.el-tree-node__content:hover {
+    border-radius: 0 26px 26px 0;
+    background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+  }
+
+  .el-checkbox__input.is-checked .el-checkbox__inner{
+    border-color: #55d8bf;
+    background-color: #55d8bf;
+  }
+
+  .el-checkbox__input .el-checkbox__inner{
+    border-color: #a19aac;
+    background-color: #ffffff;
+  }
+  .el-checkbox__inner:hover {
+    border-color: #a19aac;
+    background-color: #ffffff;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner::after {
+    display: none;
   }
   #swagger-ui{
     width: 100%;
@@ -341,22 +774,29 @@ export default {
   .service_div{
     padding-left: 20px;
     .api_top{
-      line-height: 30px;
-      font-size: 18px;
+      line-height: 25px;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      color: #536170;
+      padding-right: 16px;
     }
     .service_info{
       span{
-        color: #adb0b8;
+        color: #536170;
+        font-size: 14px;
       }
     }
     .title{
       font-size: 18px;
-      margin-top: 15px;
+      margin-top: 20px;
+      letter-spacing: 1.5px;
     }
     .el-row{
       font-size: 16px;
       .el-col{
-        padding: 5px;
+        padding-top: 5px;
+        padding-left: 0px;
+        padding-bottom: 7px;
       }
       .el-select{
         width: 65px;
@@ -364,19 +804,35 @@ export default {
           width: 15px;
         }
         .el-input__inner{
-          padding: 0 5px;
+          padding: 0 6px;
         }
         .el-input--suffix .el-input__inner{
-          padding-right: 20px;
+          padding-right: 8px;
+          border-radius: 8px;
+          font-size: 12px;
+          width: 66px;
+          color: #5844be;
         }
       }
     }
     .download_sdk{
-      width: 21px;
-      height: 21px;
+      width: 16px;
+      height: 16px;
       display: inline-block;
-      background: url('../../../assets/images/download.png');
+      background: url('../../../assets/images/download_new.png') center center no-repeat;
+      background-color: #5e40c8;
+      border-radius: 50%;
+      margin-left: 14px;
+    }
+    .guide_url{
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: url('../../../assets/images/guide_new.png') center center no-repeat;
+      background-color: #5e40c8;
+      border-radius: 50%;
       margin-left: 10px;
+      margin-top: 1px;
     }
   }
   .no_service{
@@ -386,6 +842,18 @@ export default {
       width: 50%;
       max-width: 445px;
     }
+  }
+  .el-popper[x-placement^="bottom"] {
+    margin-top: 12px;
+    border-radius: 8px;
+  }
+  .el-tree-node {
+      .is-leaf + .el-checkbox .el-checkbox__inner {
+          display:inline-block;
+      }
+      .el-checkbox__input> .el-checkbox__inner {
+          display:none;
+      }
   }
   @media screen and (max-width: 1380px){
     .no_service{
