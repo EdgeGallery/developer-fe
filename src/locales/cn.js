@@ -288,7 +288,8 @@ const cn = {
       noService: '您的应用没有依赖平台的生态服务',
       blackWhiteList: '黑白名单',
       UEIdentity: 'UE标识',
-      enterAtp: '进入应用测试认证平台'
+      enterAtp: '进入应用测试认证平台',
+      selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {
       vmNameLbl: '名称',
@@ -569,8 +570,8 @@ const cn = {
     uploaded: '已上传',
     privateHost: '私有节点',
     publicHost: '公有节点',
-    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
-    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
+    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。',
+    capabilityInfo2: '如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
     availableService: '可选服务',
     selectedService: '已选服务',
     recycleTip: '注：测试完成请及时释放资源，避免资源占用，否则系统24小时后自动释放',
