@@ -44,9 +44,10 @@
             ref="tree"
             highlight-current
             :props="defaultProps"
+            :load="loadNode"
             accordion
-            default-expand-all
             class="capability_tree"
+            lazy
           />
         </td>
         <td style="vertical-align:text-top;">
@@ -70,16 +71,16 @@
               v-model="tags"
             >
               <el-checkbox
-                v-for="capabilityDetail in capaList.capabilityDetailList"
-                :label="capabilityDetail"
-                :key="capabilityDetail.service"
+                v-for="capa in capaList"
+                :label="capa"
+                :key="capa.id"
                 @change="handleClickService()"
               >
                 <el-card>
                   <div>
-                    <span class="service-title">{{ language==='cn'?capabilityDetail.service:capabilityDetail.serviceEn }}</span>
+                    <span class="service-title">{{ language==='cn'?capa.nameEn : capa.name }}</span>
                     <p class="service-desc">
-                      {{ language==='cn'?capabilityDetail.description:capabilityDetail.descriptionEn }}
+                      {{ language==='cn'?capa.description : capa.descriptionEn }}
                     </p>
                   </div>
                 </el-card>
@@ -93,7 +94,7 @@
 </template>
 
 <script>
-import { Workspace, Api } from '../../tools/api.js'
+import { Capability } from '../../tools/api.js'
 export default {
   props: {
     allStepData: {
@@ -104,7 +105,6 @@ export default {
   name: '',
   data () {
     return {
-      groupId: '',
       tree: [],
       tags: [],
       groups: [],
@@ -120,7 +120,8 @@ export default {
       capaList: {},
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'label',
+        isLeaf: 'leaf'
       },
       capabilityUrl: '/#/mecDeveloper/api/mep'
     }
@@ -132,27 +133,45 @@ export default {
     }
   },
   mounted () {
-    this.getCapabilityGroups()
+    this.$nextTick(function () {
+      const firstNode = document.querySelector('.capability_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+      firstNode.click()
+    })
   },
   methods: {
-    buildTree () {
-      let oneLevelSet = new Set()
-      this.handleOnelevelName(oneLevelSet)
-      for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
-        if (twoLevelName !== null) {
-          for (let k in this.tree) {
-            if (this.tree[k].label === oneLevelName) {
-              this.tree[k].children.push({
-                label: twoLevelName,
-                groupId: this.groups[i].groupId
-              })
-              break
-            }
-          }
-        }
+    loadNode (node, resolve) {
+      if (node.level === 0) {
+        Capability.getAllCapabilityGroup().then(result => {
+          let groups = result.data
+          groups.forEach(group => {
+            group.label = this.language === 'en' ? group.nameEn : group.name
+            group.leaf = false
+          })
+          resolve(groups)
+        })
       }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        let groupId = node.data.id
+        Capability.getCapabilityByGroupId(groupId).then(result => {
+          let capabilities = result.data
+          this.capaList = capabilities
+          capabilities.forEach(capa => {
+            capa.label = this.language === 'en' ? this.capa.nameEn : capa.name
+            capa.leaf = true
+          })
+          resolve(capabilities)
+        })
+      }
+    },
+    buildTree () {
+      this.groups.forEach(group => {
+        group.label = this.language === 'en' ? group.nameEn : group.name
+        group.leaf = false
+        this.tree.push(group)
+      })
+
       if (this.tree.length > 0) {
         this.$nextTick(function () {
           const firstNode = document.querySelector('.capability_tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
@@ -160,25 +179,12 @@ export default {
         })
       }
     },
-    handleOnelevelName (oneLevelSet) {
-      for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
-          this.tree.push({
-            label: oneLevelName,
-            children: []
-          })
-          oneLevelSet.add(oneLevelName)
-        }
-      }
-    },
     handleNodeClick (data) {
       if (!data.children) {
-        this.groupId = data.groupId
-        this.getCapaList()
+        // this.getCapaList(data)
       }
     },
-    handleClickService () {
+    handleClickService (capa) {
       this.updateCapabilitySelected()
       this.updateThirdStepSelection()
     },
@@ -192,16 +198,21 @@ export default {
     },
     async getCapabilityGroups () {
       this.groups = []
-      await Api.getCapabilityGroupsApi().then(res => {
+      await Capability.getAllCapabilityGroup().then(res => {
         this.groups = res.data
+        this.buildTree()
       }).catch(err => {
         console.log(err)
       })
-      this.buildTree()
     },
-    getCapaList () {
-      Workspace.getServiceListApi(this.groupId).then(res => {
+    getCapaList (group) {
+      Capability.getCapabilityByGroupId(group.id).then(res => {
         this.capaList = res.data
+        this.capaList.forEach(capa => {
+          capa.label = this.language === 'en' ? this.capa.nameEn : capa.name
+          capa.leaf = true
+        })
+        group.children = this.capaList
       }).catch(err => {
         console.log(err)
       })

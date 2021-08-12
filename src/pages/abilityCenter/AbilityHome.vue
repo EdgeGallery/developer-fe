@@ -16,9 +16,7 @@
 
 <template>
   <div>
-    <div
-      class="capa_home"
-    >
+    <div class="capa_home">
       <div class="topLine">
         <div
           class="title"
@@ -39,6 +37,7 @@
           <span class="line_bot1" />
         </div>
       </div>
+
       <!-- Ability list -->
       <div class="capa_list_div padding_default clear">
         <div class="filter_div">
@@ -79,6 +78,7 @@
             </div>
           </el-collapse-transition>
         </div>
+
         <!-- Left menu -->
         <div
           class="list_left lt"
@@ -87,13 +87,13 @@
           :class="{'scroll_top':scrollTop,'list_bottom':listBottom && capabilityServiceList.length>=4}"
         >
           <CapabilityGroupList
-            :capability-groups-list="capabilityGroupsList"
+            :capability-group-stats="capabilityGroupStats"
             :language="language"
             :is-refrsh-page="isRefrshPage"
             :capability-all-service="capabilityAllService"
             @getCapaServiceList="getCapaServiceList"
             ref="groupList"
-            v-if="capabilityGroupsList.length>0"
+            v-if="capabilityGroupStats.length>0"
             @getPageScroll="getPageScroll"
           />
         </div>
@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import abilityAPI from './ability.js'
+// import abilityAPI from './ability.js'
 import { Api } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
 import CapabilityGroupList from './CapabilityGroupList.vue'
@@ -211,7 +211,7 @@ export default {
         }
       ],
       capabilityAllService: [],
-      capabilityGroupsList: [],
+      capabilityGroupStats: [],
       capabilityServiceList: [],
       dialogVisible: false,
       groupLoading: true,
@@ -274,111 +274,94 @@ export default {
     showMore () {
       this.showNum += 12
     },
-    // Get all services
-    initAbilities () {
-      Api.getCapabilityGroupsApi()
-        .then(res => {
-          abilityAPI.initAbilities(res.data, this.$i18n.locale)
-          this.capabilityGroupsList = []
-          this.etsiIndex = 0
-          this.threeGppIndex = 1
-          let oneLevelNameEn = []
-          let oneLevelNameCn = []
-          let groupData = res.data.reverse()
-          this.capabilityAllService = []
-          this.capabilityServiceList = []
-          this.serviceLoading = false
-          let objTemp = {}
-          groupData.forEach(item => {
-            if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
-              oneLevelNameEn.push(item.oneLevelNameEn)
-              oneLevelNameCn.push(item.oneLevelName)
-              this.capabilityAllService.push(item)
-              this.capabilityServiceList.push(item)
-              this.capabilityServiceList.forEach(itemService => {
-                itemService.uploadTime = this.dateChange(itemService.uploadTime)
-              })
-            }
-            if (objTemp[item.oneLevelName]) {
-              objTemp[item.oneLevelName]++
-            } else {
-              objTemp[item.oneLevelName] = 1
-            }
-          })
-          oneLevelNameEn = Array.from(new Set(oneLevelNameEn))
-          oneLevelNameCn = Array.from(new Set(oneLevelNameCn))
-          let length = oneLevelNameEn.length
-          this.groupLoading = false
-          for (let i = 0; i < length; i++) {
-            let obj = {
-              name: '',
-              nameEn: '',
-              icon: '',
-              iconSelect: '',
-              counts: 0
-            }
-            for (let key in objTemp) {
-              if (key === oneLevelNameCn[i]) {
-                obj.counts = objTemp[key]
-              }
-            }
-            this.handleOneLevelName(oneLevelNameEn, i, obj)
-            obj.name = oneLevelNameCn[i]
-            obj.nameEn = oneLevelNameEn[i]
-            this.capabilityGroupsList.push(obj)
+    initCapabilityGroupStats () {
+      let totalCapabilityCount = 0
+      Api.getCapabilityGroupStatsApi().then(result => {
+        result.data.forEach(capabilityGroupStat => {
+          let obj = {
+            id: capabilityGroupStat.id,
+            name: capabilityGroupStat.name,
+            nameEn: capabilityGroupStat.nameEn,
+            icon: this.getIcon(capabilityGroupStat.nameEn),
+            iconSelect: this.getIconSelect(capabilityGroupStat.nameEn),
+            counts: capabilityGroupStat.capabilityCount
           }
-          let objfirst = {
-            name: '所有',
-            nameEn: 'All',
-            icon: this.capabilityIconList[0].icon,
-            iconSelect: this.capabilityIconList[0].iconSelect,
-            counts: this.capabilityAllService.length
+          if (obj.nameEn !== 'ETSI' && obj.nameEn !== '3GPP') {
+            totalCapabilityCount += obj.counts
+            this.capabilityGroupStats.push(obj)
           }
-          this.capabilityGroupsList.unshift(objfirst)
-          this.isFirstEnterPage()
-          this.filterSefvice('hot')
-        }).catch(() => {
-          setTimeout(() => {
-            this.groupLoading = false
-            this.serviceLoading = false
-          }, 2000)
         })
+      }).then(() => {
+        let objfirst = {
+          id: 'all',
+          name: '所有',
+          nameEn: 'All',
+          icon: this.capabilityIconList[0].icon,
+          iconSelect: this.capabilityIconList[0].iconSelect,
+          counts: totalCapabilityCount
+        }
+        this.capabilityGroupStats.unshift(objfirst)
+        this.groupLoading = false
+        this.serviceLoading = false
+        this.isFirstEnterPage()
+        this.filterSefvice('hot')
+      }).catch(() => {
+        setTimeout(() => {
+          this.groupLoading = false
+          this.serviceLoading = false
+        }, 2000)
+      })
     },
-    handleOneLevelName (oneLevelNameEn, i, obj) {
-      if (oneLevelNameEn[i] === 'Platform services') {
-        obj.icon = this.capabilityIconList[1].icon
-        obj.iconSelect = this.capabilityIconList[1].iconSelect
-      } else if (oneLevelNameEn[i] === 'Telecom network') {
-        obj.icon = this.capabilityIconList[2].icon
-        obj.iconSelect = this.capabilityIconList[2].iconSelect
-      } else if (oneLevelNameEn[i] === 'Ascend AI') {
-        obj.icon = this.capabilityIconList[3].icon
-        obj.iconSelect = this.capabilityIconList[3].iconSelect
-      } else if (oneLevelNameEn[i] === 'AI capabilities') {
-        obj.icon = this.capabilityIconList[4].icon
-        obj.iconSelect = this.capabilityIconList[4].iconSelect
-      } else if (oneLevelNameEn[i] === 'Video processing') {
-        obj.icon = this.capabilityIconList[5].icon
-        obj.iconSelect = this.capabilityIconList[5].iconSelect
-      } else if (oneLevelNameEn[i] === 'DateBase') {
-        obj.icon = this.capabilityIconList[6].icon
-        obj.iconSelect = this.capabilityIconList[6].iconSelect
-      } else if (oneLevelNameEn[i] === 'Public framework') {
-        obj.icon = this.capabilityIconList[7].icon
-        obj.iconSelect = this.capabilityIconList[7].iconSelect
-      } else {
-        obj.icon = this.capabilityIconList[0].icon
-        obj.iconSelect = this.capabilityIconList[0].iconSelect
+    getIcon (nameEn) {
+      if (nameEn === 'Platform services') {
+        return this.capabilityIconList[1].icon
+      } else if (nameEn === 'Telecom network') {
+        return this.capabilityIconList[2].icon
+      } else if (nameEn === 'Ascend AI') {
+        return this.capabilityIconList[3].icon
+      } else if (nameEn === 'AI capabilities') {
+        return this.capabilityIconList[4].icon
+      } else if (nameEn === 'Video processing') {
+        return this.capabilityIconList[5].icon
+      } else if (nameEn === 'DateBase') {
+        return this.capabilityIconList[6].icon
+      } else if (nameEn === 'Public framework') {
+        return this.capabilityIconList[7].icon
       }
+      return this.capabilityIconList[0].icon
+    },
+    getIconSelect (nameEn) {
+      if (nameEn === 'Platform services') {
+        return this.capabilityIconList[1].iconSelect
+      }
+      if (nameEn === 'Telecom network') {
+        return this.capabilityIconList[2].iconSelect
+      }
+      if (nameEn === 'Ascend AI') {
+        return this.capabilityIconList[3].iconSelect
+      }
+      if (nameEn === 'AI capabilities') {
+        return this.capabilityIconList[4].iconSelect
+      }
+      if (nameEn === 'Video processing') {
+        return this.capabilityIconList[5].iconSelect
+      }
+      if (nameEn === 'DateBase') {
+        return this.capabilityIconList[6].iconSelect
+      }
+      if (nameEn === 'Public framework') {
+        return this.capabilityIconList[7].iconSelect
+      }
+      return this.capabilityIconList[0].iconSelect
     },
     isFirstEnterPage () {
       if (!this.isFirstEnter) {
         this.$nextTick(() => {
-          this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.selectIndex], this.selectIndex)
+          this.$refs.groupList.selectGroupList(this.capabilityGroupStats[this.selectIndex], this.selectIndex)
         })
         if (sessionStorage.getItem('capaSelectDetailIndex')) {
           this.$nextTick(() => {
-            this.$refs.serviceList.viewServiceDetail(this.capabilityServiceList[this.selectDetailIndex])
+            this.$refs.serviceList.viewServiceDetail(this.capabilityGroupStats[this.selectDetailIndex])
           })
         } else {
           this.dialogVisible = false
@@ -386,11 +369,11 @@ export default {
       }
       if (this.fromHomeIndex) {
         this.$nextTick(() => {
-          this.$refs.groupList.selectGroupList(this.capabilityGroupsList[this.fromHomeIndex], this.fromHomeIndex)
+          this.$refs.groupList.selectGroupList(this.capabilityGroupStats[this.fromHomeIndex], this.fromHomeIndex)
         })
       } else {
         this.$nextTick(() => {
-          this.$refs.groupList.selectGroupList(this.capabilityGroupsList[0], 0)
+          this.$refs.groupList.selectGroupList(this.capabilityGroupStats[0], 0)
         })
       }
     },
@@ -424,23 +407,6 @@ export default {
         }
       })
     },
-    dateChange (time) {
-      if (time) {
-        let date = new Date(Date.parse(time))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        let H = date.getHours()
-        let m = date.getMinutes()
-        let s = date.getSeconds()
-        return Y + '-' +
-      (M > 9 ? M : ('0' + M)) + '-' +
-      (D > 9 ? D : ('0' + D)) + ' ' +
-      (H > 9 ? H : ('0' + H)) + ':' +
-      (m > 9 ? m : ('0' + m)) + ':' +
-      (s > 9 ? s : ('0' + s))
-      }
-    },
     getPageScroll (clickGroupListNum, listBottom) {
       this.listBottom = listBottom
       if (this.isRefrshPage && clickGroupListNum < 1) {
@@ -463,7 +429,8 @@ export default {
     }
   },
   beforeMount () {
-    this.initAbilities()
+    // this.initAbilities()
+    this.initCapabilityGroupStats()
     window.addEventListener('scroll', this.getTreeTop, true)
     window.onresize = () => {
       return (() => {

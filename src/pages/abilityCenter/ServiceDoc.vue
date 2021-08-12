@@ -33,11 +33,11 @@
     <div class="service-content">
       <div
         class="doc-div"
-        v-if="serviceList.length > 0"
+        v-if="refGuideFileId"
       >
         <Document
-          :guide-file-idprop="guideFileId"
-          v-if="guideFileId"
+          :guide-file-idprop="refGuideFileId"
+          v-if="refGuideFileId"
         />
         <div
           v-else
@@ -58,46 +58,35 @@
 
 <script>
 import Document from '../api/Document.vue'
-import { Api } from '../../tools/api.js'
+// import { Api } from '../../tools/api.js'
 
 export default {
   components: {
     Document
   },
   props: {
-    groupId: {
+    guideFileId: {
+      type: String,
+      default: ''
+    },
+    guideFileIdEn: {
       type: String,
       default: ''
     }
   },
   data () {
     return {
-      serviceList: []
+
     }
   },
   computed: {
-    guideFileId () {
-      return this.$i18n.locale === 'en' ? this.serviceList[0].guideFileIdEn : this.serviceList[0].guideFileId
+    refGuideFileId: function () {
+      return this.$i18n.locale === 'en' ? this.$route.query.guideFileIdEn : this.$route.query.guideFileId
     }
   },
   methods: {
-    initServices () {
-      Api.getServiceListApi(this.$route.query.groupId)
-        .then(res => {
-          if (res.data && res.data.capabilityDetailList) {
-            let tmpServiceList = res.data.capabilityDetailList
-            tmpServiceList = tmpServiceList.filter((item) => {
-              return item.service
-            })
-            if (tmpServiceList.length > 0) {
-              this.serviceList = tmpServiceList
-            }
-          }
-        })
-    }
   },
   beforeMount () {
-    this.initServices()
   }
 }
 </script>

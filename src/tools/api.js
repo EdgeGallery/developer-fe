@@ -82,15 +82,16 @@ let Plugin = {
 let Api = {
   // ObtainMepService list
   getMepServiceApi: function () {
-    return Get('mec/developer/v1/capability-groups/openmep-api')
+    return Get('mec/developer/v2/capability-groups/openmep-api')
   },
   // ObtainMEP-EcoService list
   getMepEcoServiceApi: function () {
-    return Get('mec/developer/v1/capability-groups/openmepeco-api')
+    return Get('mec/developer/v2/capability-groups/openmepeco-api')
   },
   // Get a list of services
   getServiceApi: function (type) {
-    return Get('mec/developer/v1/capability-groups/open-api/' + type)
+    // return Get('mec/developer/v1/capability-groups/open-api/' + type)
+    return Get('mec/developer/v1/query/capability-groups/type/' + type)
   },
   // ObtainApi-swaggerUIpath
   getSwaggerUrlApi: function (apiFileId, userId) {
@@ -102,15 +103,58 @@ let Api = {
   },
   // Delete publicAPI
   deletePublicApi: function (capabilityId, userId) {
-    return Delete('mec/developer/v1/capability-groups/capabilities/' + capabilityId + '?userId=' + userId)
+    return Delete('mec/developer/v1/capabilities/' + capabilityId + '?userId=' + userId)
   },
   // Get all ability groups
   getCapabilityGroupsApi: function () {
-    return Get('mec/developer/v1/capability-groups')
+    return Get('mec/developer/v2/capability-groups')
+  },
+  // Get all capability group stat
+  getCapabilityGroupStatsApi: function () {
+    return Get('mec/developer/v2/capability-group-stats')
+  },
+  // Get all ability groups
+  getAllCapabilitiesApi: function () {
+    return Get('mec/developer/v2/capabilities')
+  },
+  // Get all ability groups
+  getCapabilityByIdApi: function (id) {
+    return Get('mec/developer/v2/capabilities/' + id)
+  },
+  // Get all ability groups
+  getCapabilitiesByGroupIdApi: function (groupId) {
+    return Get('mec/developer/v2/query/capabilities/group-id/' + groupId)
   },
   // Get agroupList of services under
   getServiceListApi: function (groupId) {
-    return Get('mec/developer/v1/capability-groups/' + groupId)
+    return Get('mec/developer/v2/capability-groups/' + groupId)
+  }
+}
+
+let Capability = {
+  getCapabilityByNameWithFuzzy: function (params) {
+    return Get('mec/developer/v2/query/capabilities/name', params)
+  },
+  getCapabilityByNameEnWithFuzzy: function (params) {
+    return Get('mec/developer/v2/query/capabilities/name-en', params)
+  },
+  createCapability: function (capability) {
+    return Post('mec/developer/v2/capabilities', capability)
+  },
+  deleteCapabilityById: function (id) {
+    return Delete('mec/developer/v2/capabilities/' + id)
+  },
+  getAllCapability: function () {
+    return Get('mec/developer/v2/capabilities')
+  },
+  getCapabilityByGroupId: function (groupId) {
+    return Get('mec/developer/v2/query/capabilities/group-id/' + groupId)
+  },
+  getAllCapabilityGroup: function () {
+    return Get('mec/developer/v2/capability-groups')
+  },
+  getCapabilityGroupByType: function (type) {
+    return Get('mec/developer/v2/query/capability-groups/type/' + type)
   }
 }
 
@@ -158,11 +202,16 @@ let System = {
     const path = 'mec/developer/v1/capabilities'
     return func(path, params)
   },
+  saveCapabilityGroup: function (params) {
+    const func = Post
+    const path = 'mec/developer/v2/capability-groups'
+    return func(path, params)
+  },
   getHosts: function (params) {
     return Get('mec/developer/v1/hosts', params)
   },
   getSerives: function (params) {
-    return Get('mec/developer/v1/capabilities', params)
+    return Get('mec/developer/v2/capabilities', params)
   }
 }
 
@@ -200,7 +249,7 @@ let Workspace = {
   },
   // Get a list of capabilities details services
   getServiceListApi: function (groupId) {
-    return Get('mec/developer/v1/capability-groups/' + groupId)
+    return Get('mec/developer/v2/capability-groups/' + groupId)
   },
   // Download sample code
   getSampleCodeApi: function (apiFileIdArr) {
@@ -436,5 +485,6 @@ export {
   Workspace,
   System,
   vmService,
-  imageMgmtService
+  imageMgmtService,
+  Capability
 }

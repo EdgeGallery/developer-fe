@@ -17,7 +17,7 @@
 <template>
   <ul class="group_list">
     <li
-      v-for="(item,index) in capabilityGroupsList"
+      v-for="(item,index) in capabilityGroupStats"
       :key="index"
       @click="selectGroupList(item,index)"
       @mouseenter="groupListHover(index)"
@@ -53,10 +53,11 @@
 </template>
 
 <script>
+import { Api } from '../../tools/api.js'
 export default {
   name: '',
   props: {
-    capabilityGroupsList: {
+    capabilityGroupStats: {
       require: true,
       type: Array,
       default: () => []
@@ -105,25 +106,25 @@ export default {
       oDiv[0].style.top = (58 * this.selectIndex + 5) + 'px'
     },
     selectGroupList (item, index) {
-      if (this.selectIndex !== index) {
-        this.clickGroupListNum++
-        this.$emit('getPageScroll', this.clickGroupListNum, this.listBottom)
-        this.listBottom = false
-        sessionStorage.setItem('capaSelectListIndex', index)
-        this.selectIndex = index
-        this.groupListLeave(this.selectIndex)
-        this.capabilityServiceList = []
-        if (index === 0) {
-          this.capabilityServiceList = this.capabilityAllService
-        } else {
-          this.capabilityAllService.forEach(itemService => {
-            if (item.name === itemService.oneLevelName) {
-              this.capabilityServiceList.push(itemService)
-            }
-          })
-        }
-        this.$emit('getCapaServiceList', this.capabilityServiceList)
-        this.$parent.filterSefvice('hot')
+      this.clickGroupListNum++
+      this.$emit('getPageScroll', this.clickGroupListNum, this.listBottom)
+      this.listBottom = false
+      sessionStorage.setItem('capaSelectListIndex', index)
+      this.selectIndex = index
+      this.groupListLeave(this.selectIndex)
+      this.capabilityServiceList = []
+      if (index === 0) {
+        Api.getAllCapabilitiesApi().then(result => {
+          this.capabilityServiceList = result.data
+          this.$emit('getCapaServiceList', this.capabilityServiceList)
+          this.$parent.filterSefvice('hot')
+        })
+      } else {
+        Api.getCapabilitiesByGroupIdApi(item.id).then(result => {
+          this.capabilityServiceList = result.data
+          this.$emit('getCapaServiceList', this.capabilityServiceList)
+          this.$parent.filterSefvice('hot')
+        })
       }
     }
   }
