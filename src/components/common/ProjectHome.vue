@@ -111,14 +111,6 @@
         :class="[{'show':addAnimationLeft}]"
       />
     </div>
-    <div v-if="newprojectDialog">
-      <newProject
-        v-model="newprojectDialog"
-        :new-project-titleprop="newProjectTitleprop"
-        :getproject-typeprop="getprojectTypeprop"
-        :active-projectprop="activeProjectprop"
-      />
-    </div>
   </div>
 </template>
 
@@ -217,17 +209,10 @@ export default {
       if (this.userName === 'guest') {
         this.$message.error(this.$t('promptMessage.guestPrompt'))
       } else {
-        if (projectType === 'CREATE_NEW') {
-          this.newProjectTitleprop = this.$t('workspace.createProject')
-        } else {
-          this.newProjectTitleprop = this.$t('workspace.migrationProject')
-        }
-        this.getprojectTypeprop = projectType
-        this.activeProjectprop = 3
+        sessionStorage.setItem('appType', projectType)
         this.$router.push({
           name: 'appDetail',
           params: {
-            isAddnewproject: true,
             projectType: projectType
           }
         })

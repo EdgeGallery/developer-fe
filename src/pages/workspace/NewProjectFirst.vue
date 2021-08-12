@@ -353,7 +353,7 @@ export default {
           { pattern: /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
         ]
       },
-      formLabelWidth: '110px',
+      formLabelWidth: '95px',
       language: localStorage.getItem('language'),
       uploadIcon: false,
       userId: sessionStorage.getItem('userId')
@@ -442,7 +442,12 @@ export default {
       this.form.defaultActive = ''
       if (file) {
         if (file.raw.name.indexOf(' ') !== -1) {
-          this.$message.warning(this.$t('promptMessage.fileNameType'))
+          this.$eg_messagebox({
+            type: 'warnning',
+            title: '',
+            desc: this.$t('promptMessage.fileNameType'),
+            cancelText: this.$t('common.cancelText')
+          })
           this.logoFileList = []
         } else {
           this.logoFileList.push(file)
@@ -451,13 +456,23 @@ export default {
           this.uploadIcon = true
         }
         if (file.size / 1024 / 1024 > 2) {
-          this.$message.warning(this.$t('promptMessage.moreThan2'))
+          this.$eg_messagebox({
+            type: 'warnning',
+            title: '',
+            desc: this.$t('promptMessage.moreThan2'),
+            cancelText: this.$t('common.cancelText')
+          })
           this.logoFileList = []
         }
         let fileTypeArr = ['jpg', 'png']
         this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
         if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-          this.$message.warning(this.$t('promptMessage.checkFileType'))
+          this.$eg_messagebox({
+            type: 'warnning',
+            title: '',
+            desc: this.$t('promptMessage.checkFileType'),
+            cancelText: this.$t('common.cancelText')
+          })
           this.logoFileList = []
         }
       }
@@ -471,7 +486,12 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.$eg_messagebox({
+          type: 'warnning',
+          title: '',
+          desc: this.$t('promptMessage.onlyOneFile'),
+          cancelText: this.$t('common.cancelText')
+        })
       }
     },
     fileToBase64 (file) {
@@ -560,14 +580,14 @@ export default {
     editWidth () {
       let selectWidth = document.getElementsByClassName('el-form-item__content')
       if (this.language === 'cn') {
-        this.formLabelWidth = '110px'
+        this.formLabelWidth = '95px'
         selectWidth.forEach(item => {
-          item.style.width = 'calc(100% - 110px)'
+          item.style.width = 'calc(100% - 95px)'
         })
       } else {
-        this.formLabelWidth = '160px'
+        this.formLabelWidth = '140px'
         selectWidth.forEach(item => {
-          item.style.width = 'calc(100% - 160px)'
+          item.style.width = 'calc(100% - 140px)'
         })
       }
     }

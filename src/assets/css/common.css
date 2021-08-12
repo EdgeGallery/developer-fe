@@ -507,7 +507,7 @@ body .el-table th.gutter{
 }
 .tableStyle.el-table .el-button{
   margin-bottom: 5px;
-  margin-right: 10px !important;
+  margin-right: 5px !important;
 }
 .tableStyle.el-table .el-button + .el-button{
   margin-left: 0;

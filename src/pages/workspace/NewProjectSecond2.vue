@@ -238,7 +238,7 @@ export default {
 <style lang="less">
 
 .upper-ability {
-  height:80px;
+  min-height:35px;
 }
 .service-title {
     font-size: 16px;

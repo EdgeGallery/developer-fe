@@ -112,6 +112,8 @@
                 <el-select
                   v-model="codeLanguage"
                   name="codeLanguage"
+                  popper-class="setSelect"
+                  :popper-append-to-body="false"
                   class="list-select defaultFont"
                   size="mini"
                 >
@@ -155,7 +157,9 @@
             </el-row>
           </div>
 
-          <div id="swagger-ui" />
+          <div class="swagger-wrapper">
+            <div id="swagger-ui" />
+          </div>
         </div>
       </div>
       <div
@@ -305,6 +309,26 @@ export default {
           oneLevelSet.add(oneLevelName)
         }
       }
+    },
+    // edit projectDetail
+    editProjectDetail () {
+      this.tree = []
+      this.getCapabilityGroups()
+      let projectId = sessionStorage.getItem('mecDetailID')
+      Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
+        this.hasService = true
+        if (res.data.capabilityList.length > 0) {
+          let capaList = res.data.capabilityList
+          capaList.forEach(capa => {
+            this.$nextTick(() => {
+              this.$refs.treeList.setCurrentKey(capa.groupId)
+              this.$refs.treeList.setChecked(capa.groupId, true)
+            })
+          })
+        }
+        this.apiType = res.data.type
+        this.apiDataLoading = false
+      })
     },
     // Fetch project detail
     getProjectDetail () {
@@ -518,8 +542,12 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      if (!this.showCapability) {
+      let toDetailType = sessionStorage.getItem('toDetailType')
+      this.tags = []
+      if (!this.showCapability && toDetailType === 'addNewPro') {
         this.getCapabilityGroups()
+      } else if (!this.showCapability && toDetailType === 'editNewPro') {
+        this.editProjectDetail()
       } else {
         this.getProjectDetail()
       }
@@ -528,8 +556,11 @@ export default {
       deep: true,
       handler (newVal, oldVal) {
         this.tags = []
-        if (!this.showCapability) {
+        let toDetailType = sessionStorage.getItem('toDetailType')
+        if (!this.showCapability && toDetailType === 'addNewPro') {
           this.getCapabilityGroups()
+        } else if (!this.showCapability && toDetailType === 'editNewPro') {
+          this.editProjectDetail()
         } else {
           this.getProjectDetail()
           this.showCheckbox = false
@@ -539,9 +570,13 @@ export default {
     }
   },
   mounted () {
+    let toDetailType = sessionStorage.getItem('toDetailType')
     this.tags = []
-    if (!this.showCapability) {
+    // if (!this.showCapability) {
+    if (!this.showCapability && toDetailType === 'addNewPro') {
       this.getCapabilityGroups()
+    } else if (!this.showCapability && toDetailType === 'editNewPro') {
+      this.editProjectDetail()
     } else {
       this.getProjectDetail()
       this.showCheckbox = false
@@ -556,7 +591,7 @@ export default {
 }
 
 </script>
-<style lang='less'>
+<style lang="less">
 .main{
   padding-top: 19px;
 }
@@ -573,9 +608,10 @@ export default {
   line-height: 24.07px;
 }
 .upper-ability{
+  min-height:35px !important;
   margin-left: 42px;
-  margin-top: 49px;
-  margin-bottom: 49px;
+  margin-top: 34px;
+  margin-bottom: 36px;
   margin-right: 13px;
 }
 .selected-service{
@@ -611,7 +647,6 @@ export default {
 }
 .el-icon-close:before {
   color: #fbf8f8 !important;
-    /* font-size: 16px; */
 }
 .el-tree-node .el-tree-node__content .el-tree-node__label{
   font-size: 20px !important;
@@ -644,16 +679,13 @@ export default {
 .atooltip {
   background: #5e40c8 !important;
 }
-.el-scrollbar__view .el-select-dropdown__item:nth-child(2){
-  border-top: 1px solid #efeef5;
-  border-bottom: 1px solid #efeef5;
-}
+
 .api{
   border: 1px solid #ddd;
   background: #f8f8f8;
   border-radius: 16px;
   width: 1001px;
-  height: 609px;
+  height: 469px;
   box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
   .api_left{
     float: left;
@@ -663,7 +695,7 @@ export default {
     float: left;
     width: calc(100% - 320px);
     border-radius: 16px;
-    padding: 34px 0px 0 0;
+    padding: 28px 0px 0 0;
   }
   .api_tree{
     max-height: 445px;
@@ -718,7 +750,6 @@ export default {
   }
   .el-tree-node.is-expanded.is-focusable {
     border-radius: 0 26px 26px 0;
-    //box-shadow: 20px 0px 29px 0 rgba(113, 113, 170, 0.11) inset;
     background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
   }
   .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
@@ -762,13 +793,25 @@ export default {
   .el-checkbox__input.is-checked .el-checkbox__inner::after {
     display: none;
   }
+  .setSelect {
+    .el-scrollbar__view .el-select-dropdown__item:nth-child(2){
+      border-top: 1px solid #efeef5;
+      border-bottom: 1px solid #efeef5;
+    }
+  }
+  .swagger-wrapper {
+    height: 250px;
+    padding: 20px 0 10px 0;
+  }
+  #swagger-ui::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
   #swagger-ui{
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     overflow-y: auto;
-    min-height: 480px;
     .swagger-ui .info{
-      margin: 10px 0;
+      margin: -25px 0;
     }
   }
   .service_div{
@@ -788,20 +831,21 @@ export default {
     }
     .title{
       font-size: 18px;
-      margin-top: 20px;
+      margin-top: 10px;
+      margin-bottom: 0px;
       letter-spacing: 1.5px;
     }
     .el-row{
-      font-size: 16px;
+      font-size: 14px;
       .el-col{
         padding-top: 5px;
         padding-left: 0px;
-        padding-bottom: 7px;
       }
       .el-select{
         width: 65px;
         .el-input__icon{
           width: 15px;
+          line-height: 22px;
         }
         .el-input__inner{
           padding: 0 6px;
@@ -812,6 +856,8 @@ export default {
           font-size: 12px;
           width: 66px;
           color: #5844be;
+          height: 22px !important;
+          line-height: 22px !important;
         }
       }
     }
