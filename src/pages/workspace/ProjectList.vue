@@ -165,7 +165,7 @@
             :disabled="scope.row.status!=='ONLINE'"
             @click="toEdit(scope.row)"
           >
-            {{ $t('workspace.edit') }}
+            {{ $t('common.edit') }}
           </el-button>
         </template>
       </el-table-column>

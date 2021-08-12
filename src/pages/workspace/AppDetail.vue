@@ -78,7 +78,7 @@
                   v-loading="uploadBtnLoading"
                   @click="onSubmitIntegration"
                 >
-                  {{ $t('workspace.save') }}
+                  {{ $t('common.save') }}
                 </el-button>
               </div>
               <div
@@ -159,7 +159,7 @@
                 @click="onSubmit"
                 class="confirm"
               >
-                {{ $t('workspace.save') }}
+                {{ $t('common.save') }}
               </el-button>
             </div>
           </div>
