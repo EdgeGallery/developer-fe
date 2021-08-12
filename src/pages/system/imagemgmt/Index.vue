@@ -381,5 +381,9 @@ export default {
     left: 10px;
     position: relative;
   }
+  .view_image_dialog .el-dialog{
+    width: 40%;
+    min-width: 600px;
+  }
 }
 </style>

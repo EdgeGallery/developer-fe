@@ -250,6 +250,8 @@ li{
 }
 .default_dialog .el-dialog{
   font-family: defaultFontLight;
+  background: #efefef;
+  border-radius: 12px;
 }
 .default_dialog .el-dialog__body{
   padding: 0 80px 45px !important;
@@ -267,6 +269,8 @@ li{
   width: 100%;
 }
 .default_dialog .el-dialog .el-form-item__label{
+  height: 32px !important;
+  line-height: 32px !important;
   color: #380879;
   font-size: 16px;
 }
