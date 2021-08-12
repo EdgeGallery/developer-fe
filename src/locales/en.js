@@ -33,7 +33,8 @@ const en = {
     status: 'Status',
     operation: 'Operation',
     all: 'All',
-    unknown: 'Unknown'
+    unknown: 'Unknown',
+    more: 'More'
   },
   home: {
     enterDev: 'Enter development',

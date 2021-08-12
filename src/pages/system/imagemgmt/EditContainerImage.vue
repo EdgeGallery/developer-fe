@@ -291,8 +291,6 @@ export default {
 .edit_image_dialog .el-dialog{
   width: 47%;
   min-width: 570px;
-  background: #efefef;
-  border-radius: 12px;
 }
 .edit_image_dialog_en .el-dialog{
   min-width: 715px;

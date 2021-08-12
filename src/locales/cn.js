@@ -33,7 +33,8 @@ const cn = {
     status: '状态',
     operation: '操作',
     all: '全部',
-    unknown: '未知'
+    unknown: '未知',
+    more: '更多'
   },
   home: {
     enterDev: '进入开发',

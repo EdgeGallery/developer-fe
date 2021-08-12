@@ -28,7 +28,7 @@
         <em class="new_icon" />
         {{ $t('system.imageMgmt.tip.newImg') }}
         <em
-          class="system_up"
+          class="system_up el-icon-caret-top"
           v-show="showImageType"
         />
         <el-collapse-transition>
@@ -180,14 +180,11 @@ export default {
       top: 2px;
     }
   }
-  .system_up{
-    display: inline-block;
-      width: 10px;
-      height: 6px;
-      background: url('../../../assets/images/system_up.png');
+  .system_up.el-icon-caret-top{
+      color: #5b2ecd;
       position: absolute;
       right: 25px;
-      top: 54px;
+      top: 47px;
       z-index: 99999;
     }
   .down_div{
@@ -334,6 +331,59 @@ export default {
     background: #d4d1ec;
     border-radius: 0 16px 16px 16px;
     transition: all 0.5s;
+  }
+  .btn_div{
+    position: absolute;
+    right: 0;
+    top: 18px;
+    border-radius: 5px 5px 0 0;
+    z-index: 2;
+    .dropdown_list li{
+      height: 25px;
+      line-height: 25px;
+      border-bottom: 1px solid #e7e7e7;
+      background: #efefef;
+      padding: 0 15px;
+      color: #7a6e8a;
+      position: relative;
+      em{
+        display: inline-block;
+        width: 1px;
+        position: absolute;
+        top: 10px;
+        left: 1px;
+        transition:all 0.6s;
+      }
+    }
+    .dropdown_list li:first-child{
+      border-radius: 5px 5px 0 0;
+    }
+    .dropdown_list li:last-child{
+      border-bottom: none;
+      border-radius: 0 0 5px 5px;
+    }
+    .dropdown_list li:hover{
+      color: #7a6e8a;
+      em{
+        background: #61cdd0;
+        height: 7px;
+        transform: scale(1,2);
+      }
+    }
+    .dropdown_list li.disabled,.dropdown_list li.disabled:hover{
+      color: #bcb9c1;
+      cursor: default;
+    }
+  }
+  .btn_div.el-icon-caret-top:before{
+    color: #efefef;
+    top: 5px;
+    left: 10px;
+    position: relative;
+  }
+  .view_image_dialog .el-dialog{
+    width: 40%;
+    min-width: 600px;
   }
 }
 </style>
