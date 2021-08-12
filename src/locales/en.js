@@ -17,6 +17,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 const en = {
   common: {
+    cancelText: 'OK',
     cancel: 'Cancel',
     confirm: 'Confirm',
     close: 'Close',
@@ -516,7 +517,7 @@ const en = {
     serviceDetails: 'Service Details',
     releaseTime: 'Release Time',
     sdkDownload: 'SDK Download',
-    apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service ',
+    apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service.',
     projectDetails: 'Basic Information',
     releaseDetails: 'Capability Release Details',
     releaseTest: 'Application Release Test',
@@ -669,7 +670,9 @@ const en = {
     testFail: 'Start Test failed!',
     testComplete: 'You have completed the test, please click to view the report',
     addProjectSuccess: 'New project added successfully!',
+    editProjectSuccess: 'Edit project successfully!',
     addProjectFail: 'Failed to add New project!',
+    editProjectFail: 'Failed to edit project!',
     checkNamePass: 'Authentication Failure, please recheck the User Name or Password.',
     checkCaptcha: 'Invalid captcha, please recheck the Captcha.',
     registerSuccess: 'User is registered successfully!',
@@ -704,7 +707,7 @@ const en = {
     isPublicFailed: 'Exposing API capabilities to EdgeGallery ecosystem failed!',
     canOnlyUpload: 'Can only upload .csar files',
     pluginNameRule: 'Please enter a plugin name of 1-30 characters, the beginning cannot be empty',
-    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, _, -, and cannot start and end with _,-',
+    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, Chinese character, _, -, and cannot start and end with _,-',
     versionRule: 'Please enter the version number of 1-10 characters, can only contain numbers, letters, _,-and spaces, and cannot be empty at the beginning',
     providerRule: 'Please enter a provider name of 1-30 characters, the beginning cannot be empty',
     introductionRule: 'Please enter a description of 1-1024 characters, the beginning cannot be empty or all numbers',

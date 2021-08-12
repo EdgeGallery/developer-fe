@@ -191,6 +191,7 @@ export default {
       })
     },
     jumpToProject () {
+      sessionStorage.setItem('toDetailType', 'addNewPro')
       document.getElementById('homeProjectPos').scrollIntoView()
     },
     jumpTo (name, index) {

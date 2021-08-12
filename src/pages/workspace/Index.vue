@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     jumpTo () {
+      sessionStorage.setItem('toDetailType', 'addNewPro')
       this.$router.push('/mecDeveloper/projectType')
     }
   }

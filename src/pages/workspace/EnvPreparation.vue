@@ -208,11 +208,12 @@ export default {
   .title-EnvPreparation{
     color: #5e40c8;
     font-size: 16px;
+    width: 64px;
+    vertical-align: top;
+    text-align: left;
   }
   .title-EnvPreparation.enTitle{
     width: 150px;
-    text-align: left;
-    vertical-align: top;
   }
   .table-content{
     td {
