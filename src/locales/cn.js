@@ -35,7 +35,8 @@ const cn = {
     operation: '操作',
     all: '全部',
     unknown: '未知',
-    more: '更多'
+    more: '更多',
+    check: '查看'
   },
   home: {
     enterDev: '进入开发',

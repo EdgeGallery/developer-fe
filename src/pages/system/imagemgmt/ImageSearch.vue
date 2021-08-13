@@ -20,6 +20,7 @@
       :model="formData"
       ref="formData"
       label-position="center"
+      class="clear"
     >
       <el-form-item
         prop="systemName"
@@ -31,8 +32,7 @@
           v-model="formData.systemName"
           :placeholder="$t('system.imageMgmt.imgName')"
           @keyup.enter.native="search"
-          clearable
-          class="image_name_input"
+          class="search_input"
           @clear="search"
           @change="search"
         >
@@ -110,25 +110,25 @@ export default {
 <style lang='less'>
 .search{
   margin-top: 10px;
-  .image_name_input{
-    width: 215px;
-    .el-input__inner{
-      border-radius: 8px;
-      border-color: #5e40c8;
-      height: 30px;
-      line-height: 30px;
-    }
-    .search_icon{
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      background: url('../../../assets/images/work_project_search_icon.png');
-      position: relative;
-      top: 3px;
-      cursor: pointer;
-      margin-right: 5px;
-    }
-  }
+  // .search_input{
+  //   width: 215px;
+  //   .el-input__inner{
+  //     border-radius: 8px;
+  //     border-color: #5e40c8;
+  //     height: 30px;
+  //     line-height: 30px;
+  //   }
+  //   .search_icon{
+  //     display: inline-block;
+  //     width: 15px;
+  //     height: 15px;
+  //     background: url('../../../assets/images/work_project_search_icon.png');
+  //     position: relative;
+  //     top: 3px;
+  //     cursor: pointer;
+  //     margin-right: 5px;
+  //   }
+  // }
   .create_time{
     width: 260px;
     border-radius: 8px;
