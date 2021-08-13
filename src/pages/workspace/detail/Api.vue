@@ -83,81 +83,83 @@
           </el-tree>
         </div>
         <div class="api_right">
-          <div class="service_div">
-            <p class="api_top defaultFont">
-              {{ $t('workspace.apiTopText') }}
-            </p>
-            <p class="title defaultFontBlod">
-              {{ $t('workspace.serviceDetails') }}
-            </p>
-            <el-row class="service_info">
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
-              </el-col>
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
-              </el-col>
-            </el-row>
-            <el-row class="service_info">
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ serviceDetail.uploadTime }}
-              </el-col>
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
-              </el-col>
-            </el-row>
-            <el-row class="service_info">
-              <el-col :span="24">
-                <span class="defaultFontBlod">SDK {{ $t('common.download') }} ：</span>
-                <el-select
-                  v-model="codeLanguage"
-                  name="codeLanguage"
-                  popper-class="setSelect"
-                  :popper-append-to-body="false"
-                  class="list-select defaultFont"
-                  size="mini"
-                >
-                  <el-option
-                    v-for="item in optionsLanguage"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.label"
-                    :id="item.label"
-                  />
-                </el-select>
-                <el-tooltip
-                  popper-class="atooltip"
-                  class="item"
-                  :content="$t('workspace.sdkDownload')"
-                  placement="right"
-                >
-                  <span>
-                    <el-link
-                      class="download_sdk"
-                      :underline="false"
-                      :href="downloadSDKApi()"
+          <div
+            class="swagger-wrapper"
+          >
+            <div class="service_div">
+              <p class="api_top defaultFont">
+                {{ $t('workspace.apiTopText') }}
+              </p>
+              <p class="title defaultFontBlod">
+                {{ $t('workspace.serviceDetails') }}
+              </p>
+              <el-row class="service_info">
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
+                </el-col>
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
+                </el-col>
+              </el-row>
+              <el-row class="service_info">
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ serviceDetail.uploadTime }}
+                </el-col>
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
+                </el-col>
+              </el-row>
+              <el-row class="service_info">
+                <el-col :span="24">
+                  <span class="defaultFontBlod">SDK {{ $t('common.download') }} ：</span>
+                  <el-select
+                    v-model="codeLanguage"
+                    name="codeLanguage"
+                    popper-class="setSelect"
+                    :popper-append-to-body="false"
+                    class="list-select defaultFont"
+                    size="mini"
+                  >
+                    <el-option
+                      v-for="item in optionsLanguage"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.label"
+                      :id="item.label"
                     />
-                  </span>
-                </el-tooltip>
-                <el-tooltip
-                  popper-class="atooltip"
-                  class="item"
-                  :content="$t('api.installGuide')"
-                  placement="right"
-                >
-                  <el-link
-                    :href="guideUrl"
-                    target="_blank"
-                    :underline="false"
-                    type="primary"
-                    class="guide_url"
-                  />
-                </el-tooltip>
-              </el-col>
-            </el-row>
-          </div>
+                  </el-select>
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="item"
+                    :content="$t('workspace.sdkDownload')"
+                    placement="right"
+                  >
+                    <span>
+                      <el-link
+                        class="download_sdk"
+                        :underline="false"
+                        :href="downloadSDKApi()"
+                      />
+                    </span>
+                  </el-tooltip>
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="item"
+                    :content="$t('api.installGuide')"
+                    placement="right"
+                  >
+                    <el-link
+                      :href="guideUrl"
+                      target="_blank"
+                      :underline="false"
+                      type="primary"
+                      class="guide_url"
+                    />
+                  </el-tooltip>
+                </el-col>
+              </el-row>
+            </div>
 
-          <div class="swagger-wrapper">
             <div id="swagger-ui" />
           </div>
         </div>
@@ -311,9 +313,9 @@ export default {
       }
     },
     // edit projectDetail
-    editProjectDetail () {
+    async editProjectDetail () {
       this.tree = []
-      this.getCapabilityGroups()
+      await this.getCapabilityGroups()
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         this.hasService = true
@@ -550,6 +552,8 @@ export default {
         this.editProjectDetail()
       } else {
         this.getProjectDetail()
+        this.showCheckbox = false
+        this.isClosable = false
       }
     },
     showCapability: {
@@ -572,7 +576,6 @@ export default {
   mounted () {
     let toDetailType = sessionStorage.getItem('toDetailType')
     this.tags = []
-    // if (!this.showCapability) {
     if (!this.showCapability && toDetailType === 'addNewPro') {
       this.getCapabilityGroups()
     } else if (!this.showCapability && toDetailType === 'editNewPro') {
@@ -684,7 +687,6 @@ export default {
   border: 1px solid #ddd;
   background: #f8f8f8;
   border-radius: 16px;
-  width: 1001px;
   height: 469px;
   box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
   .api_left{
@@ -695,7 +697,8 @@ export default {
     float: left;
     width: calc(100% - 320px);
     border-radius: 16px;
-    padding: 28px 0px 0 0;
+    padding: 25px 0px 0 0;
+    height: 467px;
   }
   .api_tree{
     max-height: 445px;
@@ -800,16 +803,23 @@ export default {
     }
   }
   .swagger-wrapper {
-    height: 250px;
-    padding: 20px 0 10px 0;
+    height: 100%;
+    overflow-y: auto;
+    width: 100%;
   }
-  #swagger-ui::-webkit-scrollbar {
+  .swagger-wrapper::-webkit-scrollbar {
     display: none; /* Chrome Safari */
   }
+
   #swagger-ui{
     width: 100%;
-    height: 100% !important;
-    overflow-y: auto;
+    height: auto !important;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-top: 20px;
+    .swagger-ui{
+      width: 575px;
+    }
     .swagger-ui .info{
       margin: -25px 0;
     }
