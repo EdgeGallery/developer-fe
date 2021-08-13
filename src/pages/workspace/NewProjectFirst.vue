@@ -443,7 +443,7 @@ export default {
       if (file) {
         if (file.raw.name.indexOf(' ') !== -1) {
           this.$eg_messagebox({
-            type: 'warnning',
+            type: 'warning',
             title: '',
             desc: this.$t('promptMessage.fileNameType'),
             cancelText: this.$t('common.cancelText')
@@ -457,7 +457,7 @@ export default {
         }
         if (file.size / 1024 / 1024 > 2) {
           this.$eg_messagebox({
-            type: 'warnning',
+            type: 'warning',
             title: '',
             desc: this.$t('promptMessage.moreThan2'),
             cancelText: this.$t('common.cancelText')
@@ -468,7 +468,7 @@ export default {
         this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
         if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
           this.$eg_messagebox({
-            type: 'warnning',
+            type: 'warning',
             title: '',
             desc: this.$t('promptMessage.checkFileType'),
             cancelText: this.$t('common.cancelText')
@@ -487,7 +487,7 @@ export default {
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
         this.$eg_messagebox({
-          type: 'warnning',
+          type: 'warning',
           title: '',
           desc: this.$t('promptMessage.onlyOneFile'),
           cancelText: this.$t('common.cancelText')

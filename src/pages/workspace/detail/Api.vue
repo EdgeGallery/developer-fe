@@ -58,6 +58,7 @@
             :render-after-expand="false"
             :show-checkbox="showCheckbox"
             :default-expand-all="isExpandAll"
+            :default-expanded-keys="defaultShowNodes"
             accordion
             node-key="groupId"
             ref="treeList"
@@ -205,6 +206,8 @@ export default {
       apiDataLoading: false,
       treeData: [],
       isExpandAll: false,
+      defaultShowNodes: [],
+      toDetailType: sessionStorage.getItem('toDetailType'),
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -291,7 +294,7 @@ export default {
         }
       }
       this.tree.reverse()
-      if (this.tree.length > 0) {
+      if (this.tree.length > 0 && this.toDetailType !== 'editNewPro') {
         this.$nextTick(function () {
           const firstFathreNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__content')
           firstFathreNode.click()
@@ -325,6 +328,7 @@ export default {
             this.$nextTick(() => {
               this.$refs.treeList.setCurrentKey(capa.groupId)
               this.$refs.treeList.setChecked(capa.groupId, true)
+              this.defaultShowNodes.push(capa.groupId)
             })
           })
         }
@@ -544,11 +548,10 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      let toDetailType = sessionStorage.getItem('toDetailType')
       this.tags = []
-      if (!this.showCapability && toDetailType === 'addNewPro') {
+      if (!this.showCapability && this.toDetailType === 'addNewPro') {
         this.getCapabilityGroups()
-      } else if (!this.showCapability && toDetailType === 'editNewPro') {
+      } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
         this.editProjectDetail()
       } else {
         this.getProjectDetail()
@@ -560,10 +563,9 @@ export default {
       deep: true,
       handler (newVal, oldVal) {
         this.tags = []
-        let toDetailType = sessionStorage.getItem('toDetailType')
-        if (!this.showCapability && toDetailType === 'addNewPro') {
+        if (!this.showCapability && this.toDetailType === 'addNewPro') {
           this.getCapabilityGroups()
-        } else if (!this.showCapability && toDetailType === 'editNewPro') {
+        } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
           this.editProjectDetail()
         } else {
           this.getProjectDetail()
@@ -574,11 +576,10 @@ export default {
     }
   },
   mounted () {
-    let toDetailType = sessionStorage.getItem('toDetailType')
     this.tags = []
-    if (!this.showCapability && toDetailType === 'addNewPro') {
+    if (!this.showCapability && this.toDetailType === 'addNewPro') {
       this.getCapabilityGroups()
-    } else if (!this.showCapability && toDetailType === 'editNewPro') {
+    } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
       this.editProjectDetail()
     } else {
       this.getProjectDetail()

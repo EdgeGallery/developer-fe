@@ -726,7 +726,7 @@ export default {
         }).catch(err => {
           if (err.response.data.message === 'the same project exists') {
             this.$eg_messagebox({
-              type: 'warnning',
+              type: 'warning',
               title: '',
               desc: this.$t('workspace.projectExist'),
               cancelText: this.$t('common.cancelText')
