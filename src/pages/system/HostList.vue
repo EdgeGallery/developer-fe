@@ -16,22 +16,29 @@
 
 <template>
   <div class="hostManagement padding_default">
-    <el-breadcrumb
-      separator="/"
-      class="bread-crumb"
-    >
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
-        {{ $t('breadCrumb.mecDeveloper') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.system') }}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.systemHost') }}</el-breadcrumb-item>
-    </el-breadcrumb>
+    <div class="title_top title_left defaultFontBlod">
+      {{ $t('breadCrumb.systemHost') }}
+      <span class="line_bot1" />
+      <el-button
+        class="createimage_btn linearGradient2 image_mgmt"
+        @click="handleShowForm(defaultForm)"
+      >
+        <em class="new_icon" />
+        {{ $t('system.addHost') }}
+      </el-button>
+    </div>
     <el-dialog
-      :title="showLog ? $t('system.useDetail') : form.hostId ? $t('api.modify') : $t('system.addHost')"
       :close-on-click-modal="false"
       :visible.sync="visible"
       @close="onClose"
+      class="dialog_host default_dialog"
     >
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />{{ showLog ? $t('system.useDetail') : form.hostId ? $t('api.modify') : $t('system.addHost') }}
+      </div>
       <div v-show="showLog && visible">
         <el-table
           row-key="logId"
@@ -63,6 +70,19 @@
             :label="$t('system.log.operation')"
           />
         </el-table>
+        <span
+          slot="footer"
+          class="dialog-footer mt20"
+          style="paddingRight:0 !important"
+        >
+          <el-button
+            id="btn_close"
+            @click="onClose"
+            class="bgBtn defaultFontLight"
+          >
+            {{ $t('common.close') }}
+          </el-button>
+        </span>
       </div>
       <el-form
         v-show="!showLog && visible"
@@ -75,6 +95,7 @@
         <el-form-item
           :label="$t('workspace.name')"
           prop="name"
+          class="w50"
         >
           <el-input
             size="small"
@@ -82,18 +103,14 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('breadCrumb.system')"
-          prop="os"
+          :label="$t('system.inPort')"
+          prop="port"
           class="w50"
         >
-          <el-radio-group v-model="form.os">
-            <el-radio label="K8S">
-              K8S
-            </el-radio>
-            <el-radio label="OpenStack">
-              OpenStack
-            </el-radio>
-          </el-radio-group>
+          <el-input
+            size="small"
+            v-model="form.port"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('system.lcmIp')"
@@ -113,16 +130,6 @@
           <el-input
             size="small"
             v-model="form.mecHost"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('system.inPort')"
-          prop="port"
-          class="w50"
-        >
-          <el-input
-            size="small"
-            v-model="form.port"
           />
         </el-form-item>
         <el-form-item
@@ -147,6 +154,24 @@
             size="small"
             v-model="form.password"
           />
+        </el-form-item>
+        <el-form-item
+          :label="$t('workspace.status')"
+          prop="status"
+          class="w50"
+        >
+          <el-select
+            size="small"
+            v-model="form.status"
+            :style="{width: '100%'}"
+          >
+            <el-option
+              v-for="item in statusOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           :label="$t('workspace.protocol')"
@@ -185,24 +210,6 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('workspace.status')"
-          prop="status"
-          class="w50"
-        >
-          <el-select
-            size="small"
-            v-model="form.status"
-            :style="{width: '100%'}"
-          >
-            <el-option
-              v-for="item in statusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
           :label="$t('system.portRange')"
           prop="portRangeMin"
           class="w50"
@@ -210,13 +217,30 @@
           <el-input
             size="small"
             v-model="form.portRangeMin"
-            :style="{width: '85px'}"
+            class="port_input"
           />
+          <span class="port_span">-</span>
           <el-input
             size="small"
             v-model="form.portRangeMax"
-            :style="{width: '85px',marginLeft:'16px'}"
+            class="port_input"
           />
+        </el-form-item>
+        <el-form-item
+          :label="$t('breadCrumb.system')"
+          prop="os"
+        >
+          <el-radio-group
+            v-model="form.os"
+            class="default_radio"
+          >
+            <el-radio label="K8S">
+              K8S
+            </el-radio>
+            <el-radio label="OpenStack">
+              OpenStack
+            </el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item
           :label="$t('system.address')"
@@ -233,15 +257,17 @@
             size="small"
             v-model="form.parameter"
           >
-            <em
+            <span
               slot="suffix"
-              class="el-icon-s-order"
               @click="addMore"
-            />
+              class="view_more_btn"
+            >
+              {{ $t('common.check') }}</span>
           </el-input>
         </el-form-item>
         <el-form-item
           prop="configId"
+          :label="$t('system.config_id')"
         >
           <el-upload
             action=""
@@ -256,26 +282,30 @@
               slot="trigger"
               size="medium"
               plain
-              type="primary"
+              class="featuresBtn"
             >
               {{ $t('system.upload') + $t('system.config_id') }}
             </el-button>
           </el-upload>
         </el-form-item>
         <el-dialog
-          :title="$t('system.other')"
           :visible.sync="innerVisible"
           :close-on-click-modal="false"
           append-to-body
-          class="other_setting"
+          class="other_setting default_dialog"
         >
+          <div
+            slot="title"
+            class="el-dialog__title"
+          >
+            <em class="title_icon" />{{ $t('system.other') }}
+            <em
+              v-if="isEdit"
+              class="el-icon-circle-plus-outline rt editBtn"
+              @click="addListData"
+            />
+          </div>
           <div class="innerVisible_div">
-            <p class="operation_btn">
-              <em
-                class="el-icon-plus"
-                @click="addListData"
-              />
-            </p>
             <p
               v-for="(item,index) in otherData"
               :key="index"
@@ -293,7 +323,8 @@
                 v-model="item.value"
               />
               <em
-                class="el-icon-delete"
+                v-if="isEdit"
+                class="el-icon-delete editBtn"
                 @click="deleteListData(index)"
               />
             </p>
@@ -302,10 +333,19 @@
             slot="footer"
             class="dialog-footer"
           >
-            <el-button @click="innerVisible = false">{{ $t('common.cancel') }}</el-button>
+            <el-button
+              @click="innerVisible=isEdit=false"
+              class="bgBtn defaultFontLight"
+            >{{ $t('common.cancel') }}</el-button>
+            <el-button
+              v-if="!isEdit"
+              @click="isEdit=true"
+              class="bgBtn defaultFontLight"
+            >{{ $t('common.edit') }}</el-button>
             <el-button
               type="primary"
               @click="confirmData"
+              class="bgBtn defaultFontLight"
             >{{ $t('common.confirm') }}</el-button>
           </span>
         </el-dialog>
@@ -316,107 +356,126 @@
         class="dialog-footer"
       >
         <el-button
+          @click="visible = false"
+          class="bgBtn defaultFontLight"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
           type="primary"
           size="medium"
           :loading="loading"
           @click="onSubmit"
-          class="confirm"
+          class="bgBtn defaultFontLight"
         >
-          {{ $t('workspace.confirm') }}
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </el-dialog>
     <div class="list clear">
       <div class="title">
-        <el-button
-          type="primary"
-          size="medium"
-          @click="handleShowForm(defaultForm)"
-        >
-          {{ $t('system.addHost') }}
-        </el-button>
         <span>
           <el-input
-            :style="{width: '200px'}"
             size="medium"
             v-model="enterQuery"
             :placeholder="$t('system.name')"
-          />
-          <el-button
-            :loading="loading"
-            :style="{marginLeft: '10px'}"
-            size="medium"
-            @click="searchListData"
+            class="search_input"
+            @keyup.enter.native="searchListData"
+            @clear="searchListData"
+            @change="searchListData"
           >
-            {{ $t('test.testTask.inquire') }}
-          </el-button>
+            <em
+              slot="suffix"
+              class="search_icon"
+              @click="searchListData"
+            />
+          </el-input>
         </span>
       </div>
       <el-table
         v-loading="loading"
         row-key="hostId"
         :data="allListData"
-        header-cell-class-name="headerStyle"
+        class="tableStyle"
       >
         <el-table-column
           prop="name"
           :label="$t('system.name')"
+          min-width="11%"
         />
         <el-table-column
           prop="os"
           :label="$t('breadCrumb.system')"
+          min-width="9%"
         />
         <el-table-column
           prop="lcmIp"
           :label="$t('system.lcmIp')"
+          min-width="10%"
         />
         <el-table-column
           prop="mecHost"
           :label="$t('system.mecHost')"
+          min-width="15%"
         />
         <el-table-column
           prop="port"
           :label="$t('system.inPort')"
+          min-width="11%"
         />
         <el-table-column
           prop="protocol"
           :label="$t('workspace.protocol')"
+          min-width="9%"
         />
         <el-table-column
           prop="status"
           :label="$t('workspace.status')"
+          min-width="11%"
         />
         <el-table-column
           prop="architecture"
           :label="$t('workspace.architecture')"
+          min-width="9%"
         />
         <el-table-column
           :label="$t('workspace.operation')"
-          width="170"
+          min-width="15%"
         >
           <template slot-scope="scope">
             <el-button
-              size="medium"
-              type="text"
-              @click="handleShowForm(scope.row)"
-            >
-              {{ $t('api.modify') }}
-            </el-button>
-            <el-button
               :loading="loading"
-              size="medium"
-              type="text"
+              class="operation_btn"
               @click="getLogData(scope.row)"
             >
-              {{ $t('system.useDetail') }}
+              {{ $t('devTools.detail') }}
             </el-button>
             <el-button
-              :loading="loading"
-              size="medium"
-              type="text"
-              @click="handleDelete(scope.row)"
+              @mouseenter.native="showMoreBtnFun(scope.$index)"
+              @mouseleave.native="showMoreBtnFun(-1)"
+              class="operation_btn"
             >
-              {{ $t('devTools.delete') }}
+              {{ $t('common.more') }}
+              <el-collapse-transition>
+                <div
+                  v-show="currentIndex===scope.$index"
+                  class="btn_div el-icon-caret-top"
+                  @mouseenter="showMoreBtnFun(scope.$index)"
+                  @mouseleave="showMoreBtnFun(-1)"
+                >
+                  <ul class="dropdown_list">
+                    <li @click="handleShowForm(scope.row)">
+                      <em />{{ $t('api.modify') }}
+                    </li>
+                    <li
+                      :loading="loading"
+                      @click="handleDelete(scope.row)"
+                    >
+                      <em />{{ $t('devTools.delete') }}
+                    </li>
+                  </ul>
+                </div>
+              </el-collapse-transition>
             </el-button>
           </template>
         </el-table-column>
@@ -576,7 +635,9 @@ mec_internet_ip=0.0.0.0`
       language: localStorage.getItem('language'),
       innerVisible: false,
       otherData: [],
-      screenHeight: document.body.clientHeight
+      screenHeight: document.body.clientHeight,
+      currentIndex: -1,
+      isEdit: false
     }
   },
   mounted () {
@@ -600,6 +661,9 @@ mec_internet_ip=0.0.0.0`
     }
   },
   methods: {
+    showMoreBtnFun (index) {
+      this.currentIndex = index
+    },
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)
     },
@@ -644,6 +708,7 @@ mec_internet_ip=0.0.0.0`
         })
         this.form.parameter = str.substr(0, str.length - 1)
         this.innerVisible = false
+        this.isEdit = false
       } else {
         this.$message.warning(this.$t('system.completeInfo'))
       }
@@ -769,10 +834,19 @@ mec_internet_ip=0.0.0.0`
 .other_setting{
   .el-dialog{
     width: 600px;
+    .editBtn:before{
+      font-size: 20px;
+      color: #a9a2c3;
+      cursor: pointer;
+    }
   }
   .el-dialog__body{
-    max-height: 625px;
+    max-height: 525px;
     overflow: auto;
+    padding-right: 30px !important;
+  }
+  .dialog-footer{
+    padding-right: 50px !important;
   }
 }
 .innerVisible_div{
@@ -812,16 +886,57 @@ mec_internet_ip=0.0.0.0`
 
 }
 .hostManagement {
+  .dialog_host .el-dialog{
+    min-width: 850px;
+  }
+  .view_more_btn{
+    color: #7a6e8a;
+    background: #efefef;
+    padding: 2px 8px;
+    border-radius: 5px;
+    position: relative;
+    top: 1px;
+    cursor: pointer;
+  }
+  .createimage_btn{
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 25px;
+    padding: 0 35px;
+    .new_icon{
+      display: inline-block;
+      width: 19px;
+      height: 19px;
+      background: url('../../assets/images/work_new_project.png');
+      margin-right: 3px;
+      position: relative;
+      top: 2px;
+    }
+  }
   .w50 {
     width: 50%;
     display: inline-block;
+  }
+  .port_span{
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+  }
+  .port_input{
+    width: calc(50% - 15px);
   }
   .el-form-item__label {
     padding: 0 20px 0 0
   }
   .list {
-    background-color: white;
-    padding: 20px;
+    border-radius: 16px;
+    background: #fff;
+    padding: 30px 60px;
+    box-shadow: 0 0 68px 5px rgba(94,24,200,0.06);
     .title{
       display: flex;
       align-items: center;
@@ -856,9 +971,6 @@ mec_internet_ip=0.0.0.0`
         }
       }
     }
-  }
-  .dialog-footer {
-    text-align: center;
   }
 }
 

@@ -35,7 +35,8 @@ const en = {
     operation: 'Operation',
     all: 'All',
     unknown: 'Unknown',
-    more: 'More'
+    more: 'More',
+    check: 'Check'
   },
   home: {
     enterDev: 'Enter development',
