@@ -445,70 +445,70 @@ export default {
           title: '',
           desc: this.$t('promptMessage.projectNameEmpty'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!nameRule) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.nameRule'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!version) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.versionEmpty'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!versionRule) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.versionRule'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!provider) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.providerEmpty'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!providerRule) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.providerRule'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!appIcon) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.logoEmpty'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!description) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.descriptionEmpty'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (!descriptionRule) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('promptMessage.introductionRule'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else if (this.projectExist) {
         this.$eg_messagebox({
           type: 'warning',
           title: '',
           desc: this.$t('workspace.projectExist'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       } else {
         this.getIconFileId()
         this.handleUserName()
@@ -629,7 +629,7 @@ export default {
               title: '',
               desc: this.$t('promptMessage.editProjectSuccess'),
               cancelText: this.$t('common.cancelText')
-            })
+            }).then(() => {}).catch(() => {})
             this.showCapability = true
             this.deployPlatform = this.allFormData.first.deployPlatform
             this.readonly = true
@@ -657,7 +657,7 @@ export default {
               title: '',
               desc: this.$t('promptMessage.editProjectFail'),
               cancelText: this.$t('common.cancelText')
-            })
+            }).then(() => {}).catch(() => {})
             setTimeout(() => {
               this.dialogNewProject = false
             }, 1500)
@@ -672,7 +672,7 @@ export default {
               title: '',
               desc: this.$t('workspace.projectExist'),
               cancelText: this.$t('common.cancelText')
-            })
+            }).then(() => {}).catch(() => {})
           }
           this.uploadBtnLoading = false
           sessionStorage.removeItem('apiFileIdArr')
@@ -688,7 +688,7 @@ export default {
               title: '',
               desc: this.$t('promptMessage.addProjectSuccess'),
               cancelText: this.$t('common.cancelText')
-            })
+            }).then(() => {}).catch(() => {})
             this.showCapability = true
             this.deployPlatform = this.allFormData.first.deployPlatform
             this.readonly = true
@@ -715,7 +715,7 @@ export default {
               title: '',
               desc: this.$t('promptMessage.addProjectFail'),
               cancelText: this.$t('common.cancelText')
-            })
+            }).then(() => {}).catch(() => {})
             setTimeout(() => {
               this.dialogNewProject = false
             }, 1500)
@@ -730,7 +730,7 @@ export default {
               title: '',
               desc: this.$t('workspace.projectExist'),
               cancelText: this.$t('common.cancelText')
-            })
+            }).then(() => {}).catch(() => {})
           }
           this.uploadBtnLoading = false
           sessionStorage.removeItem('apiFileIdArr')
