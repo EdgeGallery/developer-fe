@@ -447,7 +447,7 @@ export default {
             title: '',
             desc: this.$t('promptMessage.fileNameType'),
             cancelText: this.$t('common.cancelText')
-          })
+          }).then(() => {}).catch(() => {})
           this.logoFileList = []
         } else {
           this.logoFileList.push(file)
@@ -461,7 +461,7 @@ export default {
             title: '',
             desc: this.$t('promptMessage.moreThan2'),
             cancelText: this.$t('common.cancelText')
-          })
+          }).then(() => {}).catch(() => {})
           this.logoFileList = []
         }
         let fileTypeArr = ['jpg', 'png']
@@ -472,7 +472,7 @@ export default {
             title: '',
             desc: this.$t('promptMessage.checkFileType'),
             cancelText: this.$t('common.cancelText')
-          })
+          }).then(() => {}).catch(() => {})
           this.logoFileList = []
         }
       }
@@ -491,7 +491,7 @@ export default {
           title: '',
           desc: this.$t('promptMessage.onlyOneFile'),
           cancelText: this.$t('common.cancelText')
-        })
+        }).then(() => {}).catch(() => {})
       }
     },
     fileToBase64 (file) {
