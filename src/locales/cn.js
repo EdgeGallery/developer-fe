@@ -35,7 +35,8 @@ const cn = {
     operation: '操作',
     all: '全部',
     unknown: '未知',
-    more: '更多'
+    more: '更多',
+    check: '查看'
   },
   home: {
     enterDev: '进入开发',
@@ -744,7 +745,9 @@ const cn = {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G',
     imageInfoErr: '请确保镜像信息正确',
     twoLevelName: '请输入长度1-40的服务名称，开头不能为空',
-    serviceDesc: '请输入长度1-400的服务描述，开头不能为空'
+    serviceDesc: '请输入长度1-400的服务描述，开头不能为空',
+    typeError: '格式错误',
+    typeConfig: '请上传config文件'
   },
   breadCrumb: {
     mecDeveloper: '首页',

@@ -70,7 +70,7 @@
           >
             <span
               class="el-tree-node__label"
-              slot-scope="{ node }"
+              slot-scope="{ node, data }"
             >
               <el-tooltip
                 popper-class="atooltip"
@@ -78,7 +78,11 @@
                 :content="node.label"
                 placement="right"
               >
-                <span> {{ node.label }} </span>
+                <span>
+                  <img
+                    class="oneLevelIcon"
+                    :src="data.icon"
+                  > {{ node.label }} </span>
               </el-tooltip>
             </span>
           </el-tree>
@@ -256,7 +260,37 @@ export default {
       serviceList: [],
       serviceGroupIdList: [],
       showCheckbox: true,
-      isClosable: true
+      isClosable: true,
+      capabilityIcon: {
+        'Platform services': {
+          icon: require('../../../assets/images/capalist_icon2_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon2_select.png')
+        },
+        'Telecom network': {
+          icon: require('../../../assets/images/capalist_icon3_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon3_select.png')
+        },
+        'Ascend AI': {
+          icon: require('../../../assets/images/capalist_icon4_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon4_select.png')
+        },
+        'AI capabilities': {
+          icon: require('../../../assets/images/capalist_icon5_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon5_select.png')
+        },
+        'Video processing': {
+          icon: require('../../../assets/images/capalist_icon6_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon6_select.png')
+        },
+        'DateBase': {
+          icon: require('../../../assets/images/capalist_icon7_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon7_select.png')
+        },
+        'Public framework': {
+          icon: require('../../../assets/images/capalist_icon8_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon8_select.png')
+        }
+      }
     }
   },
   methods: {
@@ -305,13 +339,23 @@ export default {
     },
     handleOnelevelName (oneLevelSet) {
       for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
-          this.tree.push({
-            label: oneLevelName,
-            children: []
-          })
-          oneLevelSet.add(oneLevelName)
+        if (this.groups[i].oneLevelName !== 'ETSI' && this.groups[i].oneLevelName !== '3GPP') {
+          let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+          let iconPath = ''
+          let iconSelectPath = ''
+          if (this.capabilityIcon[this.groups[i].oneLevelNameEn] !== undefined) {
+            iconPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['icon']
+            iconSelectPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['iconSelect']
+          }
+          if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+            this.tree.push({
+              label: oneLevelName,
+              icon: iconPath,
+              iconSelect: iconSelectPath,
+              children: []
+            })
+            oneLevelSet.add(oneLevelName)
+          }
         }
       }
     },
@@ -324,10 +368,16 @@ export default {
         this.hasService = true
         if (res.data.capabilityList.length > 0) {
           let capaList = res.data.capabilityList
+          let firstSelected = true
           capaList.forEach(capa => {
             this.$nextTick(() => {
               this.$refs.treeList.setCurrentKey(capa.groupId)
               this.$refs.treeList.setChecked(capa.groupId, true)
+              if (firstSelected) {
+                let node = this.$refs.treeList.getNode(capa.groupId)
+                this.handleNodeClick(node.data)
+                firstSelected = false
+              }
               this.defaultShowNodes.push(capa.groupId)
             })
           })
@@ -602,9 +652,13 @@ export default {
 .tip{
   float: left;
   padding-top: 10px;
-  padding-right: 12px;
+  padding-right: 16px;
 }
-
+.oneLevelIcon {
+  display: inline-block;
+  padding-right: 5px;
+  vertical-align: middle;
+}
 .capabilityInfo{
   font-size: 12px;
   color: #5e40c8;
@@ -737,6 +791,12 @@ export default {
   }
   .el-tree-node__expand-icon.is-leaf {
     padding-left: 54px!important;
+  }
+  .el-tree-node__children {
+    .el-tree-node.is-expanded.is-focusable {
+      padding-right: 0px;
+      padding-bottom: 0px;
+    }
   }
   .el-tree-node__children>.el-tree-node {
     padding-top: 0px;

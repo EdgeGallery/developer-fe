@@ -17,8 +17,8 @@
 <template>
   <div>
     <el-dialog
+      :close-on-click-modal="false"
       :visible.sync="showDlg"
-      @closed="close"
       class="view_image_dialog default_dialog"
     >
       <div
@@ -123,7 +123,10 @@
           </el-col>
         </el-row>
       </el-form>
-      <div style="margin-top:20px;text-align:center">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button
           id="btn_close"
           @click="close()"
@@ -131,7 +134,7 @@
         >
           {{ $t('common.close') }}
         </el-button>
-      </div>
+      </span>
     </el-dialog>
   </div>
 </template>
