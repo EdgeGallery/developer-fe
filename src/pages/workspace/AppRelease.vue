@@ -102,7 +102,7 @@
             <el-col>
               <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
-                class="upload-demo clear"
+                class="app-release-upload-demo clear"
                 action=""
                 :limit="1"
                 :on-change="changeAppStoreMd"
@@ -1356,14 +1356,14 @@ export default {
       .span_right_en{
         width: calc(100% - 185px);
       }
-      .upload-demo{
+      .app-release-upload-demo {
         display: inline-block;
-      }
-      .el-upload{
-        float: left;
-        .el-button{
-          span{
-            line-height: 0;
+        .el-upload  {
+          float: left;
+          .el-button  {
+            span{
+              line-height: 0;
+            }
           }
         }
       }
