@@ -289,14 +289,6 @@ export default {
         'Public framework': {
           icon: require('../../../assets/images/capalist_icon8_default.png'),
           iconSelect: require('../../../assets/images/capalist_icon8_select.png')
-        },
-        'ETSI': {
-          icon: require('../../../assets/images/capalist_icon9_default.png'),
-          iconSelect: require('../../../assets/images/capalist_icon9_default.png')
-        },
-        '3GPP': {
-          icon: require('../../../assets/images/capalist_icon10_default.png'),
-          iconSelect: require('../../../assets/images/capalist_icon10_default.png')
         }
       }
     }
@@ -347,21 +339,23 @@ export default {
     },
     handleOnelevelName (oneLevelSet) {
       for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        let iconPath = ''
-        let iconSelectPath = ''
-        if (this.capabilityIcon[this.groups[i].oneLevelNameEn] !== undefined) {
-          iconPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['icon']
-          iconSelectPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['iconSelect']
-        }
-        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
-          this.tree.push({
-            label: oneLevelName,
-            icon: iconPath,
-            iconSelect: iconSelectPath,
-            children: []
-          })
-          oneLevelSet.add(oneLevelName)
+        if (this.groups[i].oneLevelName !== 'ETSI' && this.groups[i].oneLevelName !== '3GPP') {
+          let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+          let iconPath = ''
+          let iconSelectPath = ''
+          if (this.capabilityIcon[this.groups[i].oneLevelNameEn] !== undefined) {
+            iconPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['icon']
+            iconSelectPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['iconSelect']
+          }
+          if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+            this.tree.push({
+              label: oneLevelName,
+              icon: iconPath,
+              iconSelect: iconSelectPath,
+              children: []
+            })
+            oneLevelSet.add(oneLevelName)
+          }
         }
       }
     },
