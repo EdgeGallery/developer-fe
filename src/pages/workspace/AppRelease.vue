@@ -32,7 +32,7 @@
         <h3 class="tit_gray_bg">
           {{ $t('workspace.projectDetails') }}
         </h3>
-        <div class="project_detail">
+        <div class="pro_detail">
           <el-row>
             <el-col
               :sm="12"
@@ -1332,7 +1332,7 @@ export default {
   .el-button.margin_left{
     margin-left: 10px;
   }
-  .project_detail{
+  .pro_detail{
     margin: 25px 0 40px;
     padding: 0 30px;
     font-size: 14px;
@@ -1350,7 +1350,6 @@ export default {
         width: 165px;
       }
       .span_right{
-        float: left;
         width: calc(100% - 115px);
       }
       .span_right_en{
