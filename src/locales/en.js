@@ -745,7 +745,9 @@ const en = {
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
     imageInfoErr: 'Please make sure the image information is correct',
     twoLevelName: 'Please enter the service name with a length of 1-40, the beginning cannot be empty',
-    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty'
+    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty',
+    typeError: 'Format error',
+    typeConfig: 'Please upload config file'
   },
   breadCrumb: {
     mecDeveloper: 'Home',
