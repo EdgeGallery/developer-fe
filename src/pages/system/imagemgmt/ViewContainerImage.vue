@@ -36,7 +36,7 @@
             <el-form-item
               :label="$t('system.imageMgmt.imgName')"
             >
-              <span>{{ imageData.systemName }}</span>
+              <span>{{ imageData.imageName }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -52,46 +52,14 @@
             <el-form-item
               :label="$t('system.imageMgmt.imgType')"
             >
-              <span>{{ convertImgType(imageData.type) }}</span>
+              <span>{{ convertImgType(imageData.imageType) }}</span>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item
-              :label="$t('system.imageMgmt.osName')"
-            >
-              <span>{{ imageData.operateSystem }}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="5">
           <el-col :span="12">
             <el-form-item
               :label="$t('system.imageMgmt.osVersion')"
             >
-              <span>{{ imageData.version }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
-              :label="$t('system.imageMgmt.osBit')"
-            >
-              <span>{{ imageData.systemBit }}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="5">
-          <el-col :span="12">
-            <el-form-item
-              :label="$t('system.imageMgmt.sysDisk')"
-            >
-              <span>{{ imageData.systemDisk }}G</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
-              :label="$t('system.imageMgmt.imgFormat')"
-            >
-              <span>{{ imageData.systemFormat }}</span>
+              <span>{{ imageData.imageVersion }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -109,7 +77,7 @@
             <el-form-item
               :label="$t('common.status')"
             >
-              <span>{{ convertStatus(imageData.status) }}</span>
+              <span>{{ convertStatus(imageData.imageStatus) }}</span>
             </el-form-item>
           </el-col>
         </el-row>

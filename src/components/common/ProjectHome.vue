@@ -123,12 +123,9 @@
 </template>
 
 <script>
-import newProject from '../../pages/workspace/NewProject.vue'
+
 export default {
   name: '',
-  components: {
-    newProject
-  },
   props: {
     screenWidthProp: {
       type: Number,
@@ -170,10 +167,8 @@ export default {
         this.$message.error(this.$t('promptMessage.guestPrompt'))
       } else {
         if (type === 'Development') {
-          this.newprojectDialog = true
           this.addNewProject('CREATE_NEW')
         } else if (type === 'Integrate') {
-          this.newprojectDialog = true
           this.addNewProject('INTEGRATED')
         }
       }
@@ -222,7 +217,6 @@ export default {
       if (this.userName === 'guest') {
         this.$message.error(this.$t('promptMessage.guestPrompt'))
       } else {
-        this.newprojectDialog = true
         if (projectType === 'CREATE_NEW') {
           this.newProjectTitleprop = this.$t('workspace.createProject')
         } else {
@@ -230,6 +224,13 @@ export default {
         }
         this.getprojectTypeprop = projectType
         this.activeProjectprop = 3
+        this.$router.push({
+          name: 'appDetail',
+          params: {
+            isAddnewproject: true,
+            projectType: projectType
+          }
+        })
       }
     }
   },

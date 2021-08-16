@@ -17,6 +17,7 @@
 <template>
   <div class="firststep">
     <el-form
+      :disabled="formReadOnly"
       :model="form"
       ref="form"
       :rules="rules"
@@ -62,13 +63,17 @@
         <el-radio
           v-model="form.deployPlatform"
           label="KUBERNETES"
+          class="work-radio"
         >
-          <em class="dockerDeploy" />
+          <em
+            class="dockerDeploy"
+          />
           {{ $t('workspace.containerImage') }}
         </el-radio>
         <el-radio
           v-model="form.deployPlatform"
           label="VIRTUALMACHINE"
+          class="work-radio"
         >
           <em class="vmDeploy" />
           {{ $t('workspace.vmImage') }}
@@ -160,8 +165,10 @@
               class="el-icon-success"
               :class="{ active: form.defaultActive === index }"
             />
+            <span>{{ $t('workspace.defaultIcon') }}</span>
           </div>
         </div>
+
         <em
           class="upIcon el-icon-success"
           :class="{ active: uploadIcon }"
@@ -184,13 +191,14 @@
         >
           <em class="el-icon-plus" />
         </el-upload>
+        <span class="uploadIconSpan">{{ $t('workspace.customIcon') }}</span>
         <el-tooltip
           class="item"
           effect="dark"
           :content="this.$t('workspace.limitition')"
           placement="right"
         >
-          <em class="el-icon-question" />
+          <em class="el-icon-info" />
         </el-tooltip>
         <div
           class="el-form-error"
@@ -224,6 +232,10 @@ import { Workspace } from '../../tools/api.js'
 export default {
   name: '',
   props: {
+    fromreadonly: {
+      type: Boolean,
+      default: false
+    },
     projectTypeprop: {
       type: String,
       default: 'CREATE_NEW'
@@ -271,7 +283,7 @@ export default {
         projectType: this.projectTypeprop,
         name: '',
         version: 'v1.0',
-        provider: 'Huawei',
+        provider: 'EdgeGallery',
         industry: ['Smart Park'],
         type: 'Video Application',
         platform: ['X86'],
@@ -283,6 +295,7 @@ export default {
         defaultActive: '',
         deployPlatform: 'KUBERNETES'
       },
+      formReadOnly: this.fromreadonly,
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -310,7 +323,7 @@ export default {
       rules: {
         name: [
           { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[\u4E00-\u9FA5a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
         ],
         version: [
           { required: true, validator: validateVersion, trigger: 'blur' },
@@ -523,7 +536,7 @@ export default {
     },
     // Pass the parameters to parent component
     emitStepData () {
-      this.$emit('getStepData', { data: this.form, step: 'first' })
+      this.$emit('getFormData', { data: this.form, step: 'first' })
     },
     changeDataLanguage () {
       let language = localStorage.getItem('language')
@@ -562,6 +575,7 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.changeDataLanguage()
+      this.editWidth()
       this.$refs['form'].fields.forEach(item => {
         if (item.validateState === 'error') {
           this.$refs['form'].validateField(item.labelFor)
@@ -577,150 +591,5 @@ export default {
 </script>
 
 <style lang="less">
-  .firststep{
-    .el-input__inner{
-      height: 35px;
-      line-height: 35px;
-    }
-    .list-select input{
-      height: 35px;
-      line-height: 35px;
-    }
-    .el-form-item__label{
-      padding: 0 20px 0 0;
-      font-size: 16px;
-      color: #adb0bb;
-    }
-    .deployType em,.deployType .is-checked em{
-      width: 28px;
-      height: 28px;
-      display: inline-block;
-      background-size: cover;
-      position: relative;
-      top: 9px;
-    }
-    .dockerDeploy{
-      background: url('../../assets/images/deploy_docker_dis.png') center center no-repeat;
-    }
-    .vmDeploy{
-      background: url('../../assets/images/deploy_vm_dis.png') center center no-repeat;
-    }
-    .is-checked .dockerDeploy{
-      background: url('../../assets/images/deploy_docker.png') center center no-repeat;
-    }
-    .is-checked .vmDeploy{
-      background: url('../../assets/images/deploy_vm.png') center center no-repeat;
-    }
-    .el-radio__input.is-checked .el-radio__inner{
-      background-color: #688ef3;
-      border-color: #688ef3;
-    }
-    .el-radio__input.is-checked+.el-radio__label{
-      color: #688ef3;
-    }
-    .upload-demo{
-      float: left;
-      .el-button--primary{
-        background-color: #fff;
-        border-color: #688ef3;
-        color: #688ef3;
-        padding: 6px 20px;
-        margin-top: 8px;
-      }
-      .el-icon-warning{
-        color: #688ef3;
-        margin-right: 5px;
-        font-size: 14px;
-      }
-      .el-upload{
-        float: left;
-        width: 34px;
-        height: 34px;
-        line-height: 34px;
-        margin: 3px 15px 0 0;
-      }
-      .el-upload-list__item-preview{
-        opacity: 0;
-      }
-    }
-    .el-icon-question{
-      float: left;
-      margin-top: 12px;
-    }
-    .el-icon-question:before {
-      color: #688ef3;
-      font-size: 16px;
-    }
-    .default-icon{
-      float: left;
-      display: flex;
-      flex-wrap: wrap;
-      .box{
-        position: relative;
-        width: 44px;
-        height: 44px;
-        margin: 0 15px 0 0;
-        img{
-          width: 40px;
-          height: 40px;
-        }
-        em{
-          display: inline-block;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-        }
-        .active{
-          color: #409EFF;
-        }
-      }
-    }
-    .upIcon.el-icon-success{
-      position: absolute;
-      top: 30px;
-      left: 88px;
-      z-index: 99;
-    }
-    .upIcon.active{
-      color: #409EFF;
-    }
-    .el-form-item{
-      margin-bottom: 15px;
-    }
-    .el-form-item.icon{
-      content: '';
-      display: block;
-      clear: both;
-    }
-    .f50{
-      float: left;
-      width: 50%;
-      .el-form-item__content{
-        width: calc(100% - 110px);
-      }
-      .el-select{
-        width: 100%;
-      }
-    }
-    .el-upload-list{
-      width: auto;
-      /* width: 40px;
-      height: 40px;
-      margin-right: 15px; */
-    }
-    .el-upload-list__item:first-child{
-      width: 40px;
-      height: 40px;
-      min-width: 40px;
-      border: none;
-      margin: 0 15px 0 0;
-    }
-    .el-form-error{
-      float: left;
-      color: #F56C6C;
-      font-size: 12px;
-      line-height: 1;
-      margin: 14px 0 0 10px;
-    }
-  }
+
 </style>

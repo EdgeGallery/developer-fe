@@ -30,16 +30,15 @@
         @sort-change="doSort"
         :default-sort="{prop: 'createTime', order: 'descending'}"
         v-loading="dataLoading"
-        border
-        stripe
-        size="small"
-        style="width: 100%;"
-        header-cell-class-name="headerStyle"
+        style="width: 100%"
+        class="tableStyle default_dropdown"
+        @filter-change="filterChange"
       >
         <el-table-column
           prop="systemName"
           :label="$t('system.imageMgmt.imgName')"
           show-overflow-tooltip
+          min-width="10.5%"
         >
           <template slot-scope="scope">
             <el-button
@@ -51,103 +50,123 @@
           </template>
         </el-table-column>
         <el-table-column
-          width="120"
+          :column-key="'type'"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
           show-overflow-tooltip
+          :filters="typeData"
         />
         <el-table-column
           prop="userName"
-          width="120"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.userName')"
           show-overflow-tooltip
         />
         <el-table-column
+          :column-key="'operateSystem'"
           prop="operateSystem"
-          width="135"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.osName')"
           show-overflow-tooltip
-          :filter-method="filterOs"
           :filters="osData"
         />
         <el-table-column
           prop="version"
-          width="120"
+          min-width="8%"
           :label="$t('system.imageMgmt.osVersion')"
           show-overflow-tooltip
         />
         <el-table-column
           prop="createTime"
-          width="200"
+          min-width="12.5%"
           sortable="custom"
           :label="$t('system.imageMgmt.createTime')"
           show-overflow-tooltip
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.createTime?scope.row.createTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="uploadTime"
-          width="200"
+          min-width="12.5%"
           :label="$t('system.imageMgmt.uploadTime')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          width="150"
-          :label="$t('common.status')"
-          :formatter="convertStatus"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          :label="$t('common.operation')"
-          width="275"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
+            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          :column-key="'status'"
+          min-width="10.5%"
+          :label="$t('common.status')"
+          :formatter="convertStatus"
+          show-overflow-tooltip
+          :filters="statusData"
+        />
+        <el-table-column
+          :label="$t('common.operation')"
+          min-width="13%"
+        >
+          <template slot-scope="scope">
             <el-button
-              id="editBtn"
-              v-if="isAdmin || userId===scope.row.userId"
-              @click.native.prevent="handleEdit(scope.row)"
-              type="text"
-              size="small"
+              @click="handleView(scope.row)"
+              class="operation_btn"
             >
-              {{ $t('common.edit') }}
+              {{ $t('devTools.detail') }}
             </el-button>
             <el-button
-              v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-              id="deleteBtn"
-              @click.native.prevent="handleDelete(scope.row)"
-              type="text"
-              size="small"
+              @mouseenter.native="showMoreBtnFun(scope.$index)"
+              @mouseleave.native="showMoreBtnFun(-1)"
+              class="operation_btn"
             >
-              {{ $t('common.delete') }}
-            </el-button>
-            <el-button
-              v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-              id="uploadBtn"
-              @click.native.prevent="handleUpload(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('system.imageMgmt.operation.upload') }}
-            </el-button>
-            <el-button
-              :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
-              id="downloadBtn"
-              @click.native.prevent="handleDownload(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('common.download') }}
-            </el-button>
-            <el-button
-              v-if="isAdmin"
-              :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
-              id="publishBtn"
-              @click.native.prevent="handlePublish(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('system.imageMgmt.operation.publish') }}
+              {{ $t('common.more') }}
+              <el-collapse-transition>
+                <div
+                  v-show="currentIndex===scope.$index"
+                  class="btn_div el-icon-caret-top"
+                  @mouseenter="showMoreBtnFun(scope.$index)"
+                  @mouseleave="showMoreBtnFun(-1)"
+                >
+                  <ul class="dropdown_list">
+                    <li
+                      v-if="isAdmin || userId===scope.row.userId"
+                      @click="handleEdit(scope.row)"
+                    >
+                      <em />{{ $t('common.edit') }}
+                    </li>
+                    <li
+                      v-if="isAdmin || userId===scope.row.userId"
+                      :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
+                      @click="handleDelete(scope.row)"
+                    >
+                      <em />{{ $t('common.delete') }}
+                    </li>
+                    <li
+                      v-if="isAdmin || userId===scope.row.userId"
+                      :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
+                      @click="handleUpload(scope.row)"
+                    >
+                      <em />{{ $t('system.imageMgmt.operation.upload') }}
+                    </li>
+                    <li
+                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'}"
+                      @click="handleDownload(scope.row)"
+                    >
+                      <em />{{ $t('common.download') }}
+                    </li>
+                    <li
+                      v-if="isAdmin"
+                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED'}"
+                      @click="handlePublish(scope.row)"
+                    >
+                      <em />{{ $t('system.imageMgmt.operation.publish') }}
+                    </li>
+                  </ul>
+                </div>
+              </el-collapse-transition>
             </el-button>
           </template>
         </el-table-column>
@@ -221,18 +240,21 @@ export default {
         sortOrder: 'DESC'
       },
       imageListData: [],
-
       imageType: 'All',
-      imageTypeOptionList: [],
-      statusOptionList: [],
-
       showEditImageDlg: false,
       showUploadImageDlg: false,
       showViewImageDlg: false,
       currentImageData: {},
       screenHeight: document.body.clientHeight,
-      osData: [],
-      osDataMap: new Map()
+      osData: [
+        { text: 'ubuntu', value: 'ubuntu' },
+        { text: 'centos', value: 'centos' },
+        { text: 'window', value: 'window' },
+        { text: 'cirros', value: 'cirros' }
+      ],
+      statusData: [],
+      typeData: [],
+      currentIndex: -1
     }
   },
   watch: {
@@ -247,8 +269,27 @@ export default {
     this.getImageDataList()
   },
   methods: {
-    filterOs (value, row) {
-      return row.operateSystem === value
+    showMoreBtnFun (index) {
+      this.currentIndex = index
+    },
+    filterChange (filters) {
+      this.pageCtrl.currentPage = 1
+      if (filters.status && filters.status.length >= 1) {
+        this.searchCondition.status = filters.status.join(',')
+      } else if (filters.status && filters.status.length === 0) {
+        this.searchCondition.status = 'All'
+      }
+      if (filters.operateSystem && filters.operateSystem.length >= 1) {
+        this.searchCondition.operateSystem = filters.operateSystem.join(',')
+      } else if (filters.operateSystem && filters.operateSystem.length === 0) {
+        this.searchCondition.operateSystem = ''
+      }
+      if (filters.type && filters.type.length >= 1) {
+        this.imageType = filters.type.join(',')
+      } else if (filters.type && filters.type.length === 0) {
+        this.imageType = 'All'
+      }
+      this.getImageDataList()
     },
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'vmlist', 521)
@@ -261,18 +302,18 @@ export default {
       }
     },
     initOptionList () {
-      this.imageTypeOptionList = [
-        { value: 'public', label: this.$t('system.imageMgmt.typeValue.public') },
-        { value: 'private', label: this.$t('system.imageMgmt.typeValue.private') }
+      this.statusData = [
+        { text: this.$t('system.imageMgmt.statusValue.uploadWait'), value: 'UPLOAD_WAIT' },
+        { text: this.$t('system.imageMgmt.statusValue.uploading'), value: 'UPLOADING' },
+        { text: this.$t('system.imageMgmt.statusValue.merging'), value: 'UPLOADING_MERGING' },
+        { text: this.$t('system.imageMgmt.statusValue.uploadSucceeded'), value: 'UPLOAD_SUCCEED' },
+        { text: this.$t('system.imageMgmt.statusValue.uploadFailed'), value: 'UPLOAD_FAILED' },
+        { text: this.$t('system.imageMgmt.statusValue.uploadCancelled'), value: 'UPLOAD_CANCELLED' },
+        { text: this.$t('system.imageMgmt.statusValue.published'), value: 'PUBLISHED' }
       ]
-      this.statusOptionList = [
-        { value: 'UPLOAD_WAIT', label: this.$t('system.imageMgmt.statusValue.uploadWait') },
-        { value: 'UPLOADING', label: this.$t('system.imageMgmt.statusValue.uploading') },
-        { value: 'UPLOADING_MERGING', label: this.$t('system.imageMgmt.statusValue.merging') },
-        { value: 'UPLOAD_SUCCEED', label: this.$t('system.imageMgmt.statusValue.uploadSucceeded') },
-        { value: 'UPLOAD_FAILED', label: this.$t('system.imageMgmt.statusValue.uploadFailed') },
-        { value: 'UPLOAD_CANCELLED', label: this.$t('system.imageMgmt.statusValue.uploadCancelled') },
-        { value: 'PUBLISHED', label: this.$t('system.imageMgmt.statusValue.published') }
+      this.typeData = [
+        { text: this.$t('system.imageMgmt.typeValue.public'), value: 'public' },
+        { text: this.$t('system.imageMgmt.typeValue.private'), value: 'private' }
       ]
     },
     handlePageSizeChange (val) {
@@ -318,26 +359,11 @@ export default {
       imageMgmtService.getImageDataList(this.buildQueryReq(), this.userId).then(response => {
         this.imageListData = response.data.imageList
         this.pageCtrl.totalNum = response.data.totalCount
-        this.osData = []
-        this.osData = this.handleFilterData(this.imageListData, 'operateSystem')
-        console.log(this.osData)
         this.dataLoading = false
       }).catch(() => {
         this.dataLoading = false
         this.$message.error(this.$t('system.imageMgmt.tip.queryImgFailed'))
       })
-    },
-    handleFilterData (arr, type) {
-      if (type === 'operateSystem') {
-        let arrTemp = []
-        arr.forEach(item => {
-          this.osDataMap.set(item.operateSystem, item.operateSystem)
-        })
-        this.osDataMap.forEach(function (value, text) {
-          arrTemp.push({ text, value })
-        })
-        return arrTemp
-      }
     },
     buildQueryReq () {
       let _queryReq = this.searchCondition
@@ -355,9 +381,9 @@ export default {
     },
     convertType (row) {
       if (row.type) {
-        let imgTypeOption = this.imageTypeOptionList.find(item => item.value === row.type)
+        let imgTypeOption = this.typeData.find(item => item.value === row.type)
         if (imgTypeOption) {
-          return imgTypeOption.label
+          return imgTypeOption.text
         }
       }
 
@@ -365,9 +391,9 @@ export default {
     },
     convertStatus (row) {
       if (row.status) {
-        let statusOption = this.statusOptionList.find(item => item.value === row.status)
+        let statusOption = this.statusData.find(item => item.value === row.status)
         if (statusOption) {
-          return statusOption.label
+          return statusOption.text
         }
       }
 
@@ -459,6 +485,7 @@ export default {
 .vmlist{
   border-radius: 16px;
   background: #fff;
+  padding: 30px 60px;
   .createimage_btn{
     position: absolute;
     right: 0;
@@ -486,36 +513,10 @@ export default {
     padding: 0 20px 0 0
   }
   .cls_vmlist{
-    padding: 20px;
     .title{
       align-items: center;
       justify-content: space-between;
       margin-top: 10px;
-    }
-    .el-table {
-      font-size: 14px;
-      .icon_pic {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-      }
-      thead {
-        color: #282b33;
-        font-weight: 100;
-        font-size: 14px;
-        th,
-        tr {
-          background-color: #f5f5f5;
-        }
-      }
-      tbody {
-        td {
-          padding: 8px;
-          .cell{
-            padding-left: 0;
-          }
-        }
-      }
     }
   }
 }

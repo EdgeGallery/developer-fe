@@ -165,7 +165,6 @@ export default {
     },
     // Feth Api-swaggerUI path
     getApiUrl () {
-      console.log(this.apiFileId)
       let apiUrl = Api.getSwaggerUrlApi(this.apiFileId, this.userId)
       SwaggerUIBundle({
         url: apiUrl,

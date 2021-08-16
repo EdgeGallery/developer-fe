@@ -33,7 +33,8 @@ const cn = {
     status: '状态',
     operation: '操作',
     all: '全部',
-    unknown: '未知'
+    unknown: '未知',
+    more: '更多'
   },
   home: {
     enterDev: '进入开发',
@@ -288,7 +289,8 @@ const cn = {
       noService: '您的应用没有依赖平台的生态服务',
       blackWhiteList: '黑白名单',
       UEIdentity: 'UE标识',
-      enterAtp: '进入应用测试认证平台'
+      enterAtp: '进入应用测试认证平台',
+      selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {
       vmNameLbl: '名称',
@@ -382,6 +384,8 @@ const cn = {
     projectStatus: '项目状态',
     serial: '序号',
     icon: '图标',
+    defaultIcon: '默认图标',
+    customIcon: '自定义图标',
     projectName: '项目名称',
     projectType: '项目类型',
     version: '版本',
@@ -433,8 +437,8 @@ const cn = {
     programTools: '编程工具',
     programPlugin: '编程插件',
     sampleCode: '示例代码',
-    confirm: '确认',
-    capabilityDetails: '能力详情',
+    confirm: '确定',
+    capabilityDetails: '能力选择',
     deploymentTest: '部署调测',
     applicationRelease: '应用发布',
     environmentPreparation: '开发环境准备',
@@ -513,7 +517,7 @@ const cn = {
     releaseTime: '发布时间',
     sdkDownload: 'SDK 下载',
     apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url',
-    projectDetails: '项目详情',
+    projectDetails: '基本信息',
     releaseDetails: '能力发布详情',
     releaseTest: '应用发布测试',
     developer: '开发者',
@@ -567,8 +571,8 @@ const cn = {
     uploaded: '已上传',
     privateHost: '私有节点',
     publicHost: '公有节点',
-    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
-    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
+    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。',
+    capabilityInfo2: '如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
     availableService: '可选服务',
     selectedService: '已选服务',
     recycleTip: '注：测试完成请及时释放资源，避免资源占用，否则系统24小时后自动释放',

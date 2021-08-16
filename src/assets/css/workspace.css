@@ -1,0 +1,498 @@
+/*
+ *  Copyright 2021 Huawei Technologies Co., Ltd.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/* style for button */
+.work-button {
+  background-color: #5e40c8;
+  border-radius: 8px;
+  border:none;
+  font-family: defaultFontLight !important;
+  color: #FFFFFF;
+  min-width: 174px;
+  height: 46px;
+  line-height: 46px;
+  padding: 0 20px;
+  transition: .5s;
+}
+
+.work-button:hover {
+  background-color: #dedae9;
+  color: #5e40c8;
+}
+
+.work-button.el-button.is-disabled {
+  background-color: #8278b7;
+  border-radius: 8px;
+  border:none;
+  color: #FFFFFF;
+}
+
+.work-button.el-button.is-disabled:hover {
+  background-color: #8278b7;
+  border-radius: 8px;
+  border:none;
+  color: #FFFFFF;
+}
+
+/* style for input */
+.work-input .el-input {
+  height: 36px;
+  width: 400px;
+  line-height: 36px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.work-input .el-input .el-input__inner {
+  background-color: #fbfbfb !important;
+  border: transparent !important;
+  color: #380879;
+  border-radius: 8px;
+}
+
+.work-input .el-input.is-disabled  .el-input__inner{
+  background-color: #e2e4ee !important;
+  color: #b6adc7;
+}
+
+/* style for div background-style */
+.work-div {
+  width: 100%;
+  background-color: #f1f2f6;
+  border: solid 1px e5e5ee;
+  border-radius: 15px;
+  box-shadow: 0 0 10px 1px #e5e5ee inset;
+}
+
+/* style for basic radio */
+.work-radio .el-radio__inner::after {
+    display: none;
+}
+
+.work-radio .el-radio__input .el-radio__inner {
+  height: 19px;
+  width: 19px;
+  border-color: #5e40c8;
+  background: #fbfbfb !important;
+}
+
+.work-radio .el-radio__input .el-radio__inner::before {
+  content: '';
+  display: block;
+  position: relative;
+  width: 9px;
+  height: 9px;
+  background-color: #ceccdc;
+  border-radius: 50%;
+  left: 4px;
+  top: 4px;
+}
+
+.work-radio .el-radio__label {
+  color: #380879 !important;
+}
+
+.work-radio .el-radio__input.is-checked .el-radio__inner {
+  border-color: #5e40cb;
+  background: #fbfbfb;
+}
+
+.work-radio .el-radio__input.is-checked .el-radio__inner::before {
+  content: '';
+  display: block;
+  position: relative;
+  width: 9px;
+  height: 9px;
+  background-color: #55d8bf;
+  border-radius: 50%;
+  left: 4px;
+  top: 4px;
+  z-index: 10;
+}
+
+/* style for radio-button */
+.work-radio-button .el-radio-button__inner {
+  font-family: defaultFontLight;
+  background-color: #dedae9;
+  color: #f7f6fa;
+  border: none;
+  height: 39px;
+}
+
+.work-radio-button .el-radio-button__inner::before {
+  content: '';
+  display: none;
+}
+
+.work-radio-button .el-radio-button__inner:hover {
+  color: #380879;
+}
+
+.work-radio-button .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  background-color: #8278b7;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+}
+
+.work-radio-button .el-radio-button:first-child .el-radio-button__inner {
+  border-radius: 8px 0 0 8px;
+}
+
+.work-radio-button .el-radio-button:last-child .el-radio-button__inner {
+  border-radius: 0 8px 8px 0;
+}
+
+/* style for select */
+.work-select .el-input {
+  font-size: 14px;
+}
+
+.work-select .el-input .el-input__inner {
+  background-color: #fbfbfb;
+  border: transparent;
+  color: #380879;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 8px;
+}
+
+.work-select .el-input .el-input__inner::placeholder {
+  color: #aea4c3;
+}
+
+.work-select .el-input.is-disabled .el-input__inner{
+  background-color: #e2e4ee;
+  color: #b6adc7;
+}
+
+.work-select.el-select .el-input .el-select__caret {
+  color: #7a6e8a;
+}
+
+/* style for static text */
+.work-p {
+  font-size: 16px;
+  font-family: defaultFontLight;
+  color: #380879;
+  padding-top: 5px;
+}
+
+.work-p-must::before {
+  content: "*";
+  color: #f23662;
+}
+
+/* style for title */
+.work-title {
+  background-image: linear-gradient(to right, #fbfbfb, #f1f2f6);
+  height: 47px;
+  max-width: 727px;
+  position: relative;
+  border-radius: 12px;
+  line-height: 47px;
+  font-size: 20px;
+  color: #380879;
+  font-family: defaultFontLight;
+  padding-left: 52px;
+  box-shadow: 0 10px 10px 3px #f0f1f5;
+}
+
+.work-title::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  background-color: #5844be;
+  border-radius: 5px;
+  left: 12px;
+  top: 14px;
+}
+
+.work-title::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  background-image: linear-gradient(to top right, #3ddec0, #8df0dc);
+  border-radius: 4px;
+  opacity: 0.7;
+  left: 9px;
+  top: 19px;
+}
+
+/* style for title-clickable */
+.work-title-clickable {
+  background-image: linear-gradient(to right, #fbfbfb, #f1f2f6);
+  height: 47px;
+  max-width: 727px;
+  position: relative;
+  border-radius: 12px;
+  line-height: 47px;
+  color: #380879;
+  font-family: defaultFontLight;
+  padding-left: 10px;
+  box-shadow: 0 10px 10px 3px #f0f1f5;
+}
+
+.work-title-clickable .work-radio .el-radio__label {
+  padding-left: 18px;
+  font-size: 20px;
+}
+
+.work-title-clickable .work-radio .el-radio__input {
+  padding-bottom: 5px;
+}
+
+/* style for table */
+.work-table-title {
+  display: block;
+  height: 35px;
+  line-height: 35px;
+  font-family: defaultFontLight;
+  background-color: #8076b5;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding-left: 15px;
+  color: #f1f2f6;
+}
+
+.work-table .el-table {
+  font-family: defaultFontLight;
+  background-color: #f1f2f6;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 0 10px 1px #e5e5ee inset;
+}
+
+.work-table .el-table::before {
+  display: none;
+}
+
+.work-table .el-table__header {
+  background-color: #dedae9;
+  border-radius: 0;
+}
+
+.work-table .el-table__body {
+  background-color: transparent;
+}
+
+.work-table .el-table tr {
+  background-color: transparent;
+}
+
+.work-table .el-table tr td {
+  height: 36px !important;
+  line-height: 36px !important;
+  background-color: transparent;
+  color: #6f6084;
+}
+
+.work-table .el-table tr th {
+  border: none;
+}
+
+.work-table .el-table tr:last-child {
+  border: none !important;
+}
+
+.work-table .el-table__body-wrapper tr:last-child td:first-child{
+  border-bottom-left-radius: 16px;
+}
+
+.work-table .el-table__body-wrapper tr:last-child td:last-child {
+  border-bottom-right-radius: 16px;
+}
+
+.work-table .el-table__header .el-table-column--selection{
+  visibility: hidden;
+}
+
+.work-table .has-gutter tr th {
+  height: 36px;
+  padding: 0;
+  font-weight: normal;
+  background-color: #dedae9;
+  overflow: hidden;
+  color: #6f6084;
+  border-radius: 0;
+}
+
+.work-table .el-table__header-wrapper {
+  border-radius: 0;
+}
+
+.work-table .el-table__empty-block {
+  border-radius: 0 0 16px 16px;
+  background-color: transparent;
+  min-height: 36px;
+}
+
+.work-table .el-table__empty-text {
+  height: 36px;
+  line-height: 36px;
+}
+
+/* style for steps */
+.work-steps {
+  margin: 8px;
+}
+
+.work-steps .el-step__line {
+  border-top: 4px dotted #5844be !important;
+  background: #fbfbfb !important;
+  margin-left: 33px !important;
+  margin-right: 15px !important;
+}
+
+.work-steps .el-step__line .el-step__line-inner {
+  border-width: 0 !important;
+}
+
+.work-steps .el-step__icon {
+  position: relative;
+  display: block;
+  top: 6px;
+}
+
+.work-steps .el-step__icon.is-text {
+  width: 14px;
+  height: 14px;
+  font-size: 0;
+}
+
+.work-steps .el-step__head.is-wait {
+  color: #5844be;
+  border-color: #5844be;
+}
+
+.work-steps .el-step__head.is-wait .el-step__icon {
+  background-color: #fbfbfb;
+  border: solid 2px #5844be;
+}
+
+.work-steps .el-step__head.is-process .el-step__icon {
+  background-color: #5844be;
+}
+
+.work-steps .el-step__head.is-process {
+  border-color: #5844be;
+}
+
+.work-steps .el-step__head.is-process::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: -4px;
+  width: 22px;
+  height: 22px;
+  background-color: #bcb7d7;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.work-steps .el-step__head.is-process::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  left: -8px;
+  width: 30px;
+  height: 30px;
+  background-color: #e8e6f0;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.work-steps .el-step__head.is-success .el-step__icon {
+  background-color: #5844be;
+}
+
+.work-steps .el-step__head.is-success::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: -4px;
+  width: 22px;
+  height: 22px;
+  background-color: #bcb7d7;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.work-steps .el-step__head.is-success::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  left: -8px;
+  width: 30px;
+  height: 30px;
+  background-color: #e8e6f0;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* style for check-box */
+.work-checkbox .el-checkbox__inner::after {
+  display: none;
+}
+
+.work-checkbox .el-checkbox__input .el-checkbox__inner {
+  height: 19px;
+  width: 19px;
+  border-color: #5e40c8;
+  border-radius: 50%;
+  background: #fbfbfb !important;
+}
+
+.work-checkbox .el-checkbox__input .el-checkbox__inner::before {
+  content: '';
+  display: block;
+  position: relative;
+  width: 9px;
+  height: 9px;
+  background-color: #ceccdc;
+  border-radius: 50%;
+  left: 4px;
+  top: 4px;
+}
+
+.work-checkbox .el-checkbox__label {
+  color: #380879 !important;
+}
+
+.work-checkbox .el-checkbox__input.is-checked .el-checkbox__inner {
+  border-color: #5e40cb;
+  background: #fbfbfb;
+}
+
+.work-checkbox .el-checkbox__input.is-checked .el-checkbox__inner::before {
+  content: '';
+  display: block;
+  position: relative;
+  width: 9px;
+  height: 9px;
+  background-color: #55d8bf;
+  border-radius: 50%;
+  left: 4px;
+  top: 4px;
+  z-index: 10;
+}

@@ -61,7 +61,7 @@
               @close="handleDeleteTag(tag)"
               style="margin-left: 10px;"
             >
-              {{ language === "en" ? tag.serviceEn : tag.service }}
+              {{ tag.label }}
             </el-tag>
           </div>
           <div class="service_div">
@@ -146,6 +146,7 @@ export default {
           groups.forEach(group => {
             group.label = this.language === 'en' ? group.nameEn : group.name
             group.leaf = false
+            group.showCheckbox = false
           })
           resolve(groups)
         })
@@ -160,6 +161,7 @@ export default {
           capabilities.forEach(capa => {
             capa.label = this.language === 'en' ? this.capa.nameEn : capa.name
             capa.leaf = true
+            capa.showCheckbox = true
           })
           resolve(capabilities)
         })
@@ -218,8 +220,8 @@ export default {
       })
     },
     emitStepData () {
-      this.$emit('getStepData', { data: this.secondStepSelect, step: 'second' })
-      this.$emit('getStepData', { data: this.thirdStepSelection, step: 'third' })
+      this.$emit('getFormData', { data: this.secondStepSelect, step: 'second' })
+      this.$emit('getFormData', { data: this.thirdStepSelection, step: 'third' })
     },
     updateCapabilitySelected () {
       let cachedCapabilitySelected = []
