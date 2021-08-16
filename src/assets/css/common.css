@@ -722,3 +722,7 @@ body .el-table th.gutter{
   right: 5px;
   cursor: pointer;
 }
+.el-icon-warning:before {
+  color: #5844be;
+  font-size: 16px;
+}

@@ -233,6 +233,7 @@
           <el-radio-group
             v-model="form.os"
             class="default_radio"
+            @change="changeOs"
           >
             <el-radio label="K8S">
               K8S
@@ -252,7 +253,10 @@
             v-model="form.address"
           />
         </el-form-item>
-        <el-form-item :label="$t('system.other')">
+        <el-form-item
+          :label="$t('system.other')"
+          v-if="showOther"
+        >
           <el-input
             size="small"
             v-model="form.parameter"
@@ -286,6 +290,13 @@
             >
               {{ $t('system.upload') + $t('system.config_id') }}
             </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="this.$t('promptMessage.typeConfig')"
+              placement="right"
+            >
+              <em class="el-icon-warning" />
+            </el-tooltip>
           </el-upload>
         </el-form-item>
         <el-dialog
@@ -637,7 +648,8 @@ mec_internet_ip=0.0.0.0`
       otherData: [],
       screenHeight: document.body.clientHeight,
       currentIndex: -1,
-      isEdit: false
+      isEdit: false,
+      showOther: false
     }
   },
   mounted () {
@@ -661,6 +673,13 @@ mec_internet_ip=0.0.0.0`
     }
   },
   methods: {
+    changeOs (val) {
+      if (val === 'K8S') {
+        this.showOther = false
+      } else {
+        this.showOther = true
+      }
+    },
     showMoreBtnFun (index) {
       this.currentIndex = index
     },
@@ -710,7 +729,12 @@ mec_internet_ip=0.0.0.0`
         this.innerVisible = false
         this.isEdit = false
       } else {
-        this.$message.warning(this.$t('system.completeInfo'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('system.completeInfo'),
+          cancelText: this.$t('common.cancelText')
+        })
       }
     },
     handleDelete ({ hostId }) {
@@ -736,15 +760,28 @@ mec_internet_ip=0.0.0.0`
       this.$refs.form.validate((valid, params) => {
         if (valid) {
           this.loading = true
+          if (!this.showOther) {
+            this.form.parameter = ''
+          }
           System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
             if (res.data) {
-              this.$message.success((this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'))
+              this.$eg_messagebox({
+                type: 'success',
+                title: '',
+                desc: (this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'),
+                cancelText: this.$t('common.cancelText')
+              })
               this.onClose()
             } else {
               throw new Error()
             }
           }).catch(() => {
-            this.$message.error(this.$t('promptMessage.saveFail'))
+            this.$eg_messagebox({
+              type: 'error',
+              title: '',
+              desc: this.$t('promptMessage.saveFail'),
+              cancelText: this.$t('common.cancelText')
+            })
           }).finally(() => {
             this.loading = false
             this.getListData()
@@ -781,7 +818,17 @@ mec_internet_ip=0.0.0.0`
       this.form[key] = ''
     },
     handleUpload (key, file) {
-      this.submitFile(key, [file.raw])
+      if (file.name.indexOf('.') === -1) {
+        this.submitFile(key, [file.raw])
+      } else {
+        this.configId_file_list = []
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('promptMessage.typeError') + ' , ' + this.$t('promptMessage.typeConfig'),
+          cancelText: this.$t('common.cancelText')
+        })
+      }
     },
     submitFile (key, fileList) {
       const fd = new FormData()
@@ -791,9 +838,11 @@ mec_internet_ip=0.0.0.0`
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
-          this.$message({
+          this.$eg_messagebox({
             type: 'success',
-            message: this.$t('promptMessage.uploadSuccess')
+            title: '',
+            desc: this.$t('promptMessage.uploadSuccess'),
+            cancelText: this.$t('common.cancelText')
           })
         } else {
           this.handleRemove(key)
@@ -801,9 +850,19 @@ mec_internet_ip=0.0.0.0`
         }
       }).catch((error) => {
         if (error && error.response && error.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
+          this.$eg_messagebox({
+            type: 'warning',
+            title: '',
+            desc: this.$t('promptMessage.guestPrompt'),
+            cancelText: this.$t('common.cancelText')
+          })
         } else {
-          this.$message.error(this.$t('promptMessage.uploadFailure'))
+          this.$eg_messagebox({
+            type: 'error',
+            title: '',
+            desc: this.$t('promptMessage.uploadFailure'),
+            cancelText: this.$t('common.cancelText')
+          })
         }
         this.handleRemove(key)
       }).finally(() => {
@@ -811,7 +870,12 @@ mec_internet_ip=0.0.0.0`
       })
     },
     handleExceed () {
-      this.$message.warning(this.$t('system.fileExceed'))
+      this.$eg_messagebox({
+        type: 'warning',
+        title: '',
+        desc: this.$t('system.fileExceed'),
+        cancelText: this.$t('common.cancelText')
+      })
     },
     handleShowForm (v) {
       this.form = JSON.parse(JSON.stringify(v))
