@@ -295,7 +295,7 @@
               :content="this.$t('promptMessage.typeConfig')"
               placement="right"
             >
-              <em class="el-icon-warning" />
+              <em class="default_info el-icon-warning" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
