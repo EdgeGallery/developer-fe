@@ -800,7 +800,7 @@ export default {
         // edit
         data.capabilityList = []
         this.allFormData['first'] = data
-        this.iconFileIdProp = data.iconFileId
+        this.iconFileId = data.iconFileId
 
         this.checkProjectData()
         this.projectDependent(res)

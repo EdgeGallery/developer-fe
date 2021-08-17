@@ -32,7 +32,7 @@
         <h3 class="tit_gray_bg">
           {{ $t('workspace.projectDetails') }}
         </h3>
-        <div class="project_detail">
+        <div class="pro_detail">
           <el-row>
             <el-col
               :sm="12"
@@ -102,7 +102,7 @@
             <el-col>
               <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
-                class="upload-demo clear"
+                class="app-release-upload-demo clear"
                 action=""
                 :limit="1"
                 :on-change="changeAppStoreMd"
@@ -1332,7 +1332,7 @@ export default {
   .el-button.margin_left{
     margin-left: 10px;
   }
-  .project_detail{
+  .pro_detail{
     margin: 25px 0 40px;
     padding: 0 30px;
     font-size: 14px;
@@ -1350,20 +1350,19 @@ export default {
         width: 165px;
       }
       .span_right{
-        float: left;
         width: calc(100% - 115px);
       }
       .span_right_en{
         width: calc(100% - 185px);
       }
-      .upload-demo{
+      .app-release-upload-demo {
         display: inline-block;
-      }
-      .el-upload{
-        float: left;
-        .el-button{
-          span{
-            line-height: 0;
+        .el-upload  {
+          float: left;
+          .el-button  {
+            span{
+              line-height: 0;
+            }
           }
         }
       }

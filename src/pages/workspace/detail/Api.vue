@@ -289,14 +289,6 @@ export default {
         'Public framework': {
           icon: require('../../../assets/images/capalist_icon8_default.png'),
           iconSelect: require('../../../assets/images/capalist_icon8_select.png')
-        },
-        'ETSI': {
-          icon: require('../../../assets/images/capalist_icon9_default.png'),
-          iconSelect: require('../../../assets/images/capalist_icon9_default.png')
-        },
-        '3GPP': {
-          icon: require('../../../assets/images/capalist_icon10_default.png'),
-          iconSelect: require('../../../assets/images/capalist_icon10_default.png')
         }
       }
     }
@@ -347,21 +339,23 @@ export default {
     },
     handleOnelevelName (oneLevelSet) {
       for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        let iconPath = ''
-        let iconSelectPath = ''
-        if (this.capabilityIcon[this.groups[i].oneLevelNameEn] !== undefined) {
-          iconPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['icon']
-          iconSelectPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['iconSelect']
-        }
-        if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
-          this.tree.push({
-            label: oneLevelName,
-            icon: iconPath,
-            iconSelect: iconSelectPath,
-            children: []
-          })
-          oneLevelSet.add(oneLevelName)
+        if (this.groups[i].oneLevelName !== 'ETSI' && this.groups[i].oneLevelName !== '3GPP') {
+          let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
+          let iconPath = ''
+          let iconSelectPath = ''
+          if (this.capabilityIcon[this.groups[i].oneLevelNameEn] !== undefined) {
+            iconPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['icon']
+            iconSelectPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['iconSelect']
+          }
+          if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
+            this.tree.push({
+              label: oneLevelName,
+              icon: iconPath,
+              iconSelect: iconSelectPath,
+              children: []
+            })
+            oneLevelSet.add(oneLevelName)
+          }
         }
       }
     },
@@ -654,35 +648,34 @@ export default {
 <style lang="less">
 .main{
   padding-top: 19px;
-}
-.tip{
-  float: left;
-  padding-top: 10px;
-  padding-right: 16px;
-}
-.oneLevelIcon {
-  display: inline-block;
-  padding-right: 5px;
-  vertical-align: middle;
-}
-.capabilityInfo{
-  font-size: 12px;
-  color: #5e40c8;
-  letter-spacing: 1px;
-  line-height: 24.07px;
-}
-.upper-ability{
-  min-height:35px !important;
-  margin-left: 42px;
-  margin-top: 34px;
-  margin-bottom: 36px;
-  margin-right: 13px;
-}
-.selected-service{
-  color: #5e40c8;
-  font-size: 16px;
-}
-.el-tag .el-icon-close {
+  .tip{
+    float: left;
+    padding-top: 10px;
+    padding-right: 16px;
+  }
+  .oneLevelIcon {
+    display: inline-block;
+    padding-right: 5px;
+    vertical-align: middle;
+  }
+  .capabilityInfo{
+    font-size: 12px;
+    color: #5e40c8;
+    letter-spacing: 1px;
+    line-height: 24.07px;
+  }
+  .upper-ability{
+    min-height:35px !important;
+    margin-left: 42px;
+    margin-top: 34px;
+    margin-bottom: 36px;
+    margin-right: 13px;
+  }
+  .selected-service{
+    color: #5e40c8;
+    font-size: 16px;
+  }
+  .el-tag .el-icon-close {
     border-radius: 50%;
     text-align: center;
     position: relative;
@@ -696,33 +689,33 @@ export default {
     top: -15px;
     background-color: red;
     right: -4px;
-}
-.el-select-dropdown__item{
-  font-size: 12px;
-}
-.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  }
+  .el-select-dropdown__item{
+    font-size: 12px;
+  }
+  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
     background-color: #efeef5;
     color: #5844be;
     border: 0px;
-}
-.el-select-dropdown__item.selected {
+  }
+  .el-select-dropdown__item.selected {
     color: #5844be;;
     font-weight: normal;
-}
-.el-icon-close:before {
-  color: #fbf8f8 !important;
-}
-.el-tree-node .el-tree-node__content .el-tree-node__label{
-  font-size: 20px !important;
-}
-.el-tree-node .el-tree-node__children .el-tree-node__content .el-tree-node__label{
-  font-size: 16px !important;
-}
-.el-tree-node:focus>.el-tree-node__content{
-  background-color: #e6e8f3 !important;
-  color: #409eff !important;//节点的字体颜色
-}
-.el-tag--light{
+  }
+  .el-icon-close:before {
+    color: #fbf8f8 !important;
+  }
+  .el-tree-node .el-tree-node__content .el-tree-node__label{
+    font-size: 20px !important;
+  }
+  .el-tree-node .el-tree-node__children .el-tree-node__content .el-tree-node__label{
+    font-size: 16px !important;
+  }
+  .el-tree-node:focus>.el-tree-node__content{
+    background-color: #e6e8f3 !important;
+    color: #409eff !important;
+  }
+  .el-tag--light{
     background-color: #5e40c8 !important;
     height: 33px !important;
     padding: 0 16px !important;
@@ -730,259 +723,260 @@ export default {
     font-size: 14px !important;
     color: #ffffff !important;
     border-radius: 15.5px !important;
-}
-.el-select-dropdown{
-  border-radius: 8px;
-}
-.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
-  border-right-color: #5e40c8;
-}
-.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow:after {
-  border-right-color: #5e40c8;
-}
-.atooltip {
-  background: #5e40c8 !important;
-}
-
-.api{
-  border: 1px solid #ddd;
-  background: #f8f8f8;
-  border-radius: 16px;
-  height: 469px;
-  box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
-  .api_left{
-    float: left;
-    width: 320px;
   }
-  .api_right{
-    float: left;
-    width: calc(100% - 320px);
-    border-radius: 16px;
-    padding: 25px 0px 0 0;
-    height: 467px;
-  }
-  .api_tree{
-    max-height: 445px;
-    width: 269px;
-    overflow: scroll;
-    display: inline-block;
-    border-radius: 16px 0 0 0px;
-    .el-tree-node__label {
-      font-size:20px;
-      color: #7a6e8a;
-    }
-  }
-  .api_tree::-webkit-scrollbar {
-    display: none; /* Chrome Safari */
-  }
-  .el-tree-node__children>.el-tree-node .el-tooltip.item {
-    display:inline-block;
-    width: 115px !important;
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-top: 10px;
-  }
-  .el-tree{
-    background-color:transparent;
-    padding-top: 12px;
-  }
-  .el-tree-node__content {
-    padding-left: 23px !important;
-  }
-  .el-tree-node.is-expanded.is-focusable {
-    padding-right: 51px;
-    border-radius: 0 26px 26px 0;
-    padding-bottom: 15px;
-  }
-  .el-tree-node__expand-icon.is-leaf {
-    padding-left: 54px!important;
-  }
-  .el-tree-node__children {
-    .el-tree-node.is-expanded.is-focusable {
-      padding-right: 0px;
-      padding-bottom: 0px;
-    }
-  }
-  .el-tree-node__children>.el-tree-node {
-    padding-top: 0px;
-    height: 35px;
-    .el-tree-node__content {
-      height: 35px;
-    }
-  }
-  .el-tree-node {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    .el-tree-node__content {
-      height: 48px;
-    }
-  }
-  .el-tree-node.is-expanded.is-focusable {
-    border-radius: 0 26px 26px 0;
-    background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
-  }
-  .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
-    background-color: transparent !important;
-    border-radius: 0 26px 26px 0;
-  }
-  .el-tree-node__children .el-tree-node.is-current>.el-tree-node__content {
-    background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
-    border-radius: 0 8px 8px 0 !important;
-  }
-  .el-tree-node__children>.el-tree-node>.el-tree-node__content:hover {
-    background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
-    border-radius: 0 8px 8px 0 !important;
-  }
-  .el-tree-node__children>.el-tree-node.is-current>.el-tree-node__content:hover {
-    background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
-    border-radius: 0 8px 8px 0 !important;
-  }
-  .el-tree-node__content:hover {
-    border-radius: 0 26px 26px 0;
-    background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
-  }
-  .el-tree-node.is-current>.el-tree-node__content:hover {
-    border-radius: 0 26px 26px 0;
-    background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
-  }
-
-  .el-checkbox__input.is-checked .el-checkbox__inner{
-    border-color: #55d8bf;
-    background-color: #55d8bf;
-  }
-
-  .el-checkbox__input .el-checkbox__inner{
-    border-color: #a19aac;
-    background-color: #ffffff;
-  }
-  .el-checkbox__inner:hover {
-    border-color: #a19aac;
-    background-color: #ffffff;
-  }
-  .el-checkbox__input.is-checked .el-checkbox__inner::after {
-    display: none;
-  }
-  .setSelect {
-    .el-scrollbar__view .el-select-dropdown__item:nth-child(2){
-      border-top: 1px solid #efeef5;
-      border-bottom: 1px solid #efeef5;
-    }
-  }
-  .swagger-wrapper {
-    height: 100%;
-    overflow-y: auto;
-    width: 100%;
-  }
-  .swagger-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome Safari */
-  }
-
-  #swagger-ui{
-    width: 100%;
-    height: auto !important;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    margin-top: 20px;
-    .swagger-ui{
-      width: 575px;
-    }
-    .swagger-ui .info{
-      margin: -25px 0;
-    }
-  }
-  .service_div{
-    padding-left: 20px;
-    .api_top{
-      line-height: 25px;
-      font-size: 14px;
-      letter-spacing: 1.5px;
-      color: #536170;
-      padding-right: 16px;
-    }
-    .service_info{
-      span{
-        color: #536170;
-        font-size: 14px;
-      }
-    }
-    .title{
-      font-size: 18px;
-      margin-top: 10px;
-      margin-bottom: 0px;
-      letter-spacing: 1.5px;
-    }
-    .el-row{
-      font-size: 14px;
-      .el-col{
-        padding-top: 5px;
-        padding-left: 0px;
-      }
-      .el-select{
-        width: 65px;
-        .el-input__icon{
-          width: 15px;
-          line-height: 22px;
-        }
-        .el-input__inner{
-          padding: 0 6px;
-        }
-        .el-input--suffix .el-input__inner{
-          padding-right: 8px;
-          border-radius: 8px;
-          font-size: 12px;
-          width: 66px;
-          color: #5844be;
-          height: 22px !important;
-          line-height: 22px !important;
-        }
-      }
-    }
-    .download_sdk{
-      width: 16px;
-      height: 16px;
-      display: inline-block;
-      background: url('../../../assets/images/download_new.png') center center no-repeat;
-      background-color: #5e40c8;
-      border-radius: 50%;
-      margin-left: 14px;
-    }
-    .guide_url{
-      width: 16px;
-      height: 16px;
-      display: inline-block;
-      background: url('../../../assets/images/guide_new.png') center center no-repeat;
-      background-color: #5e40c8;
-      border-radius: 50%;
-      margin-left: 10px;
-      margin-top: 1px;
-    }
-  }
-  .no_service{
-    text-align: center;
-    line-height: 25px;
-    img{
-      width: 50%;
-      max-width: 445px;
-    }
-  }
-  .el-popper[x-placement^="bottom"] {
-    margin-top: 12px;
+  .el-select-dropdown{
     border-radius: 8px;
   }
-  .el-tree-node {
+  .atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
+    border-right-color: #5e40c8;
+  }
+  .atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow:after {
+    border-right-color: #5e40c8;
+  }
+  .atooltip {
+    background: #5e40c8 !important;
+  }
+
+  .api{
+    border: 1px solid #ddd;
+    background: #f8f8f8;
+    border-radius: 16px;
+    height: 469px;
+    box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
+    .api_left{
+      float: left;
+      width: 320px;
+    }
+    .api_right{
+      float: left;
+      width: calc(100% - 320px);
+      border-radius: 16px;
+      padding: 25px 0px 0 0;
+      height: 467px;
+    }
+    .api_tree{
+      max-height: 445px;
+      width: 269px;
+      overflow: scroll;
+      display: inline-block;
+      border-radius: 16px 0 0 0px;
+      .el-tree-node__label {
+        font-size:20px;
+        color: #7a6e8a;
+      }
+    }
+    .api_tree::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
+    .el-tree-node__children>.el-tree-node .el-tooltip.item {
+      display:inline-block;
+      width: 115px !important;
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-top: 10px;
+    }
+    .el-tree{
+      background-color:transparent;
+      padding-top: 12px;
+    }
+    .el-tree-node__content {
+      padding-left: 23px !important;
+    }
+    .el-tree-node.is-expanded.is-focusable {
+      padding-right: 51px;
+      border-radius: 0 26px 26px 0;
+      padding-bottom: 15px;
+    }
+    .el-tree-node__expand-icon.is-leaf {
+      padding-left: 54px!important;
+    }
+    .el-tree-node__children {
+      .el-tree-node.is-expanded.is-focusable {
+        padding-right: 0px;
+        padding-bottom: 0px;
+      }
+    }
+    .el-tree-node__children>.el-tree-node {
+      padding-top: 0px;
+      height: 35px;
+      .el-tree-node__content {
+        height: 35px;
+      }
+    }
+    .el-tree-node {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      .el-tree-node__content {
+        height: 48px;
+      }
+    }
+    .el-tree-node.is-expanded.is-focusable {
+      border-radius: 0 26px 26px 0;
+      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+    }
+    .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+      background-color: transparent !important;
+      border-radius: 0 26px 26px 0;
+    }
+    .el-tree-node__children .el-tree-node.is-current>.el-tree-node__content {
+      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+    .el-tree-node__children>.el-tree-node>.el-tree-node__content:hover {
+      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+    .el-tree-node__children>.el-tree-node.is-current>.el-tree-node__content:hover {
+      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+    .el-tree-node__content:hover {
+      border-radius: 0 26px 26px 0;
+      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+    }
+    .el-tree-node.is-current>.el-tree-node__content:hover {
+      border-radius: 0 26px 26px 0;
+      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+    }
+
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+      border-color: #55d8bf;
+      background-color: #55d8bf;
+    }
+
+    .el-checkbox__input .el-checkbox__inner{
+      border-color: #a19aac;
+      background-color: #ffffff;
+    }
+    .el-checkbox__inner:hover {
+      border-color: #a19aac;
+      background-color: #ffffff;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner::after {
+      display: none;
+    }
+    .setSelect {
+      .el-scrollbar__view .el-select-dropdown__item:nth-child(2){
+        border-top: 1px solid #efeef5;
+        border-bottom: 1px solid #efeef5;
+      }
+    }
+    .swagger-wrapper {
+      height: 100%;
+      overflow-y: auto;
+      width: 100%;
+    }
+    .swagger-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
+
+    #swagger-ui{
+      width: 100%;
+      height: auto !important;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      margin-top: 20px;
+      .swagger-ui{
+        width: 575px;
+      }
+      .swagger-ui .info{
+        margin: -25px 0;
+      }
+    }
+    .service_div{
+      padding-left: 20px;
+      .api_top{
+        line-height: 25px;
+        font-size: 14px;
+        letter-spacing: 1.5px;
+        color: #536170;
+        padding-right: 16px;
+      }
+      .service_info{
+        span{
+          color: #536170;
+          font-size: 14px;
+        }
+      }
+      .title{
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 0px;
+        letter-spacing: 1.5px;
+      }
+      .el-row{
+        font-size: 14px;
+        .el-col{
+          padding-top: 5px;
+          padding-left: 0px;
+        }
+        .el-select{
+          width: 65px;
+          .el-input__icon{
+            width: 15px;
+            line-height: 22px;
+          }
+          .el-input__inner{
+            padding: 0 6px;
+          }
+          .el-input--suffix .el-input__inner{
+            padding-right: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            width: 66px;
+            color: #5844be;
+            height: 22px !important;
+            line-height: 22px !important;
+          }
+        }
+      }
+      .download_sdk{
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url('../../../assets/images/download_new.png') center center no-repeat;
+        background-color: #5e40c8;
+        border-radius: 50%;
+        margin-left: 14px;
+      }
+      .guide_url{
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url('../../../assets/images/guide_new.png') center center no-repeat;
+        background-color: #5e40c8;
+        border-radius: 50%;
+        margin-left: 10px;
+        margin-top: 1px;
+      }
+    }
+    .no_service{
+      text-align: center;
+      line-height: 25px;
+      img{
+        width: 50%;
+        max-width: 445px;
+      }
+    }
+    .el-popper[x-placement^="bottom"] {
+      margin-top: 12px;
+      border-radius: 8px;
+    }
+    .el-tree-node {
       .is-leaf + .el-checkbox .el-checkbox__inner {
-          display:inline-block;
+        display:inline-block;
       }
       .el-checkbox__input> .el-checkbox__inner {
-          display:none;
+        display:none;
       }
-  }
-  @media screen and (max-width: 1380px){
-    .no_service{
-      img{
-        width: 80%;
-        max-width: 445px;
+    }
+    @media screen and (max-width: 1380px){
+      .no_service{
+        img{
+          width: 80%;
+          max-width: 445px;
+        }
       }
     }
   }

@@ -153,6 +153,7 @@
         <div class="default-icon">
           <div
             class="box"
+            :class="formReadOnly?'click-disable':''"
             v-for="(item, index) in defaultIcon"
             @click="chooseDefaultIcon(item, index)"
             :key="item"
@@ -188,6 +189,7 @@
           :on-remove="removeUploadLogo"
           accept=".jpg,.png"
           name="file"
+          :disabled="formReadOnly"
         >
           <em class="el-icon-plus" />
         </el-upload>
@@ -611,5 +613,8 @@ export default {
 </script>
 
 <style lang="less">
+.click-disable {
+  pointer-events: none;
+}
 
 </style>
