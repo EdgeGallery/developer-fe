@@ -135,15 +135,16 @@
                     >
                       <em />{{ $t('common.delete') }}
                     </li>
-                    <!-- <li
+                    <li
                       v-if="isAdmin || userId===scope.row.userId"
                       :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
+                      @click="handleUpload(scope.row)"
                     >
                       <em />{{ $t('system.imageMgmt.operation.upload') }}
                     </li>
                     <li :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'}">
                       <em />{{ $t('common.download') }}
-                    </li> -->
+                    </li>
                   </ul>
                 </div>
               </el-collapse-transition>
@@ -171,7 +172,7 @@
       :image-data="currentImageData"
       @processCloseViewImage="processCloseViewImage"
     />
-    <UploadImage
+    <UploadContainerImage
       v-if="showUploadImageDlg"
       :show-dlg="showUploadImageDlg"
       :image-data="currentImageData"
@@ -183,7 +184,7 @@
 import Search from './ImageSearch.vue'
 import EditContainerImage from './EditContainerImage.vue'
 import ViewContainerImage from './ViewContainerImage.vue'
-import UploadImage from './UploadImage.vue'
+import UploadContainerImage from './UploadContainerImage.vue'
 import Pagination from '../../../components/common/Pagination.vue'
 import { imageMgmtService } from '../../../tools/api.js'
 import { common } from '../../../tools/common.js'
@@ -191,7 +192,7 @@ import { common } from '../../../tools/common.js'
 export default {
   name: 'ImageMgmt',
   components: {
-    Search, EditContainerImage, UploadImage, ViewContainerImage, Pagination
+    Search, EditContainerImage, UploadContainerImage, ViewContainerImage, Pagination
   },
   data () {
     return {
