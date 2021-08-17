@@ -34,13 +34,13 @@
         <label class="selected-service defaultFont">{{ $t("workspace.selectedService") }}: </label>
         <el-tag
           v-for="tag in tags"
-          :key="tag.id"
+          :key="tag.groupId"
           :closable="isClosable"
           class="defaultFontLight"
           @close="handleDeleteTag(tag)"
           style="margin-left: 10px;"
         >
-          {{ tag.label }}
+          {{ language === "en" ? tag.labelEn : tag.labelCn }}
         </el-tag>
       </div>
     </div>
@@ -55,14 +55,14 @@
             :check-strictly="true"
             :props="defaultProps"
             :render-after-expand="false"
-            show-checkbox="showCheckbox"
-            lazy
-            :load="loadNode"
+            :show-checkbox="showCheckbox"
             :default-expand-all="isExpandAll"
-            :data="tree"
+            :default-expanded-keys="defaultShowNodes"
             accordion
             node-key="id"
             ref="treeList"
+            lazy
+            :load="loadNode"
             highlight-current
             @node-click="handleNodeClick"
             @check-change="handleCheckChange"
@@ -71,7 +71,7 @@
           >
             <span
               class="el-tree-node__label"
-              slot-scope="{ node }"
+              slot-scope="{ node, data }"
             >
               <el-tooltip
                 popper-class="atooltip"
@@ -79,85 +79,95 @@
                 :content="node.label"
                 placement="right"
               >
-                <span> {{ node.label }} </span>
+                <span>
+                  <img
+                    class="oneLevelIcon"
+                    :src="data.icon"
+                  > {{ node.label }} </span>
               </el-tooltip>
             </span>
           </el-tree>
         </div>
         <div class="api_right">
-          <div class="service_div">
-            <p class="api_top defaultFont">
-              {{ $t('workspace.apiTopText') }}
-            </p>
-            <p class="title defaultFontBlod">
-              {{ $t('workspace.serviceDetails') }}
-            </p>
-            <el-row class="service_info">
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
-              </el-col>
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
-              </el-col>
-            </el-row>
-            <el-row class="service_info">
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ formatDate(serviceDetail.uploadTime) }}
-              </el-col>
-              <el-col :span="12">
-                <span class="defaultFontBlod">{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
-              </el-col>
-            </el-row>
-            <el-row class="service_info">
-              <el-col :span="24">
-                <span class="defaultFontBlod">SDK {{ $t('common.download') }} ：</span>
-                <el-select
-                  v-model="codeLanguage"
-                  name="codeLanguage"
-                  class="list-select defaultFont"
-                  size="mini"
-                >
-                  <el-option
-                    v-for="item in optionsLanguage"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.label"
-                    :id="item.label"
-                  />
-                </el-select>
-                <el-tooltip
-                  popper-class="atooltip"
-                  class="item"
-                  :content="$t('workspace.sdkDownload')"
-                  placement="right"
-                >
-                  <span>
-                    <el-link
-                      class="download_sdk"
-                      :underline="false"
-                      :href="downloadSDKApi()"
+          <div
+            class="swagger-wrapper"
+          >
+            <div class="service_div">
+              <p class="api_top defaultFont">
+                {{ $t('workspace.apiTopText') }}
+              </p>
+              <p class="title defaultFontBlod">
+                {{ $t('workspace.serviceDetails') }}
+              </p>
+              <el-row class="service_info">
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
+                </el-col>
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
+                </el-col>
+              </el-row>
+              <el-row class="service_info">
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ formatDate(serviceDetail.uploadTime) }}
+                </el-col>
+                <el-col :span="12">
+                  <span class="defaultFontBlod">{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
+                </el-col>
+              </el-row>
+              <el-row class="service_info">
+                <el-col :span="24">
+                  <span class="defaultFontBlod">SDK {{ $t('common.download') }} ：</span>
+                  <el-select
+                    v-model="codeLanguage"
+                    name="codeLanguage"
+                    popper-class="setSelect"
+                    :popper-append-to-body="false"
+                    class="list-select defaultFont"
+                    size="mini"
+                  >
+                    <el-option
+                      v-for="item in optionsLanguage"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.label"
+                      :id="item.label"
                     />
-                  </span>
-                </el-tooltip>
-                <el-tooltip
-                  popper-class="atooltip"
-                  class="item"
-                  :content="$t('api.installGuide')"
-                  placement="right"
-                >
-                  <el-link
-                    :href="guideUrl"
-                    target="_blank"
-                    :underline="false"
-                    type="primary"
-                    class="guide_url"
-                  />
-                </el-tooltip>
-              </el-col>
-            </el-row>
-          </div>
+                  </el-select>
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="item"
+                    :content="$t('workspace.sdkDownload')"
+                    placement="right"
+                  >
+                    <span>
+                      <el-link
+                        class="download_sdk"
+                        :underline="false"
+                        :href="downloadSDKApi()"
+                      />
+                    </span>
+                  </el-tooltip>
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="item"
+                    :content="$t('api.installGuide')"
+                    placement="right"
+                  >
+                    <el-link
+                      :href="guideUrl"
+                      target="_blank"
+                      :underline="false"
+                      type="primary"
+                      class="guide_url"
+                    />
+                  </el-tooltip>
+                </el-col>
+              </el-row>
+            </div>
 
-          <div id="swagger-ui" />
+            <div id="swagger-ui" />
+          </div>
         </div>
       </div>
       <div
@@ -202,6 +212,8 @@ export default {
       apiDataLoading: false,
       treeData: [],
       isExpandAll: false,
+      defaultShowNodes: [],
+      toDetailType: sessionStorage.getItem('toDetailType'),
       defaultProps: {
         children: 'children',
         label: 'label',
@@ -248,14 +260,104 @@ export default {
       capa: {},
       tags: [],
       showCheckbox: true,
-      isClosable: true
+      isClosable: true,
+      capabilityIcon: {
+        'Platform services': {
+          icon: require('../../../assets/images/capalist_icon2_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon2_select.png')
+        },
+        'Telecom network': {
+          icon: require('../../../assets/images/capalist_icon3_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon3_select.png')
+        },
+        'Ascend AI': {
+          icon: require('../../../assets/images/capalist_icon4_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon4_select.png')
+        },
+        'AI capabilities': {
+          icon: require('../../../assets/images/capalist_icon5_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon5_select.png')
+        },
+        'Video processing': {
+          icon: require('../../../assets/images/capalist_icon6_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon6_select.png')
+        },
+        'DateBase': {
+          icon: require('../../../assets/images/capalist_icon7_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon7_select.png')
+        },
+        'Public framework': {
+          icon: require('../../../assets/images/capalist_icon8_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon8_select.png')
+        },
+        'ETSI': {
+          icon: require('../../../assets/images/capalist_icon9_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon9_default.png')
+        },
+        '3GPP': {
+          icon: require('../../../assets/images/capalist_icon10_default.png'),
+          iconSelect: require('../../../assets/images/capalist_icon10_default.png')
+        }
+      }
     }
   },
   methods: {
     formatDate (timestamp) {
       return common.formatDate(timestamp)
     },
+
     loadNode (node, resolve) {
+      if (!this.showCapability) {
+        this.loadNewCapabilityNode(node, resolve)
+      } else {
+        this.loadQueryCapabilityNode(node, resolve)
+      }
+    },
+    loadQueryCapabilityNode (node, resolve) {
+      if (node.level === 0) {
+        let projectId = sessionStorage.getItem('mecDetailID')
+        let groupMap = new Map()
+        Capability.getCapabilityByProjectId(projectId).then(result => {
+          let capabilities = result.data
+          this.hasService = capabilities.length > 0
+          capabilities.forEach(capability => {
+            capability.label = this.language === 'en' ? capability.nameEn : capability.name
+            capability.leaf = true
+            let groupId = capability.groupId
+            if (groupMap.has(groupId)) {
+              let group = groupMap.get(groupId)
+              capability.leaf = true
+              group.children.push(capability)
+            } else {
+              let group = capability.group
+              group.children = []
+              group.children.push(capability)
+              groupMap.set(capability.groupId, capability.group)
+            }
+          })
+          let capabilityGroups = []
+          groupMap.forEach((group, key) => {
+            group.leaf = false
+            group.label = this.language === 'en' ? group.nameEn : group.name
+            capabilityGroups.push(group)
+          })
+          resolve(capabilityGroups)
+          this.apiDataLoading = false
+        })
+      }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        return resolve(node.data.children)
+      }
+    },
+    buildTree () {
+      let rootNodes = this.$refs.treeList.root
+      for (let rootNode of rootNodes.childNodes) {
+        rootNode.expanded = true
+      }
+    },
+    loadNewCapabilityNode (node, resolve) {
       if (node.level === 0) {
         Capability.getAllCapabilityGroup().then(result => {
           let groups = result.data
@@ -276,7 +378,7 @@ export default {
           let capabilities = result.data
           this.capaList = capabilities
           capabilities.forEach(capa => {
-            capa.label = this.language === 'en' ? this.capa.nameEn : capa.name
+            capa.label = this.language === 'en' ? capa.nameEn : capa.name
             capa.leaf = true
             capa.showCheckbox = true
           })
@@ -284,22 +386,31 @@ export default {
         })
       }
     },
-    buildTree () {
-      Capability.getAllCapabilityGroup().then(result => {
-        let groups = result.data
-        this.groups = groups
-        groups.forEach(group => {
-          group.label = this.language === 'en' ? group.nameEn : group.name
-          group.leaf = false
-          group.showCheckbox = true
-          this.tree.push(group)
-        })
-      })
-      this.$nextTick(function () {
-        const firstFathreNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__content')
-        firstFathreNode.click()
-        const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node')
-        firstNode.click()
+    // edit projectDetail
+    async editProjectDetail () {
+      this.tree = []
+      await this.getCapabilityGroups()
+      let projectId = sessionStorage.getItem('mecDetailID')
+      Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
+        this.hasService = true
+        if (res.data.capabilityList.length > 0) {
+          let capaList = res.data.capabilityList
+          let firstSelected = true
+          capaList.forEach(capa => {
+            this.$nextTick(() => {
+              this.$refs.treeList.setCurrentKey(capa.groupId)
+              this.$refs.treeList.setChecked(capa.groupId, true)
+              if (firstSelected) {
+                let node = this.$refs.treeList.getNode(capa.groupId)
+                this.handleNodeClick(node.data)
+                firstSelected = false
+              }
+              this.defaultShowNodes.push(capa.groupId)
+            })
+          })
+        }
+        this.apiType = res.data.type
+        this.apiDataLoading = false
       })
     },
     // Fetch project detail
@@ -421,17 +532,27 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      if (!this.showCapability) {
+      this.tags = []
+      if (!this.showCapability && this.toDetailType === 'addNewPro') {
         this.getCapabilityGroups()
+      } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
+        this.editProjectDetail()
       } else {
         this.getProjectDetail()
+        this.showCheckbox = false
+        this.isClosable = false
       }
     },
     showCapability: {
       deep: true,
       handler (newVal, oldVal) {
         this.tags = []
-        if (this.showCapability) {
+        if (!this.showCapability && this.toDetailType === 'addNewPro') {
+          this.getCapabilityGroups()
+        } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
+          this.editProjectDetail()
+        } else {
+          this.getProjectDetail()
           this.showCheckbox = false
           this.isClosable = false
         }
@@ -441,9 +562,9 @@ export default {
   mounted () {
     this.tags = []
     if (!this.showCapability) {
-      // this.buildTree()
+      this.buildTree()
     } else {
-      this.getProjectDetail()
+      // this.getProjectDetail()
       this.showCheckbox = false
       this.isClosable = false
     }
@@ -456,16 +577,20 @@ export default {
 }
 
 </script>
-<style lang='less'>
+<style lang="less">
 .main{
   padding-top: 19px;
 }
 .tip{
   float: left;
   padding-top: 10px;
-  padding-right: 12px;
+  padding-right: 16px;
 }
-
+.oneLevelIcon {
+  display: inline-block;
+  padding-right: 5px;
+  vertical-align: middle;
+}
 .capabilityInfo{
   font-size: 12px;
   color: #5e40c8;
@@ -473,9 +598,10 @@ export default {
   line-height: 24.07px;
 }
 .upper-ability{
+  min-height:35px !important;
   margin-left: 42px;
-  margin-top: 49px;
-  margin-bottom: 49px;
+  margin-top: 34px;
+  margin-bottom: 36px;
   margin-right: 13px;
 }
 .selected-service{
@@ -511,7 +637,6 @@ export default {
 }
 .el-icon-close:before {
   color: #fbf8f8 !important;
-    /* font-size: 16px; */
 }
 .el-tree-node .el-tree-node__content .el-tree-node__label{
   font-size: 20px !important;
@@ -544,16 +669,12 @@ export default {
 .atooltip {
   background: #5e40c8 !important;
 }
-.el-scrollbar__view .el-select-dropdown__item:nth-child(2){
-  border-top: 1px solid #efeef5;
-  border-bottom: 1px solid #efeef5;
-}
+
 .api{
   border: 1px solid #ddd;
   background: #f8f8f8;
   border-radius: 16px;
-  width: 1001px;
-  height: 609px;
+  height: 469px;
   box-shadow: 6px -1px 40px 0 rgba(36, 20, 119, 0.11) inset;
   .api_left{
     float: left;
@@ -563,7 +684,8 @@ export default {
     float: left;
     width: calc(100% - 320px);
     border-radius: 16px;
-    padding: 34px 0px 0 0;
+    padding: 25px 0px 0 0;
+    height: 467px;
   }
   .api_tree{
     max-height: 445px;
@@ -602,6 +724,12 @@ export default {
   .el-tree-node__expand-icon.is-leaf {
     padding-left: 54px!important;
   }
+  .el-tree-node__children {
+    .el-tree-node.is-expanded.is-focusable {
+      padding-right: 0px;
+      padding-bottom: 0px;
+    }
+  }
   .el-tree-node__children>.el-tree-node {
     padding-top: 0px;
     height: 35px;
@@ -618,7 +746,6 @@ export default {
   }
   .el-tree-node.is-expanded.is-focusable {
     border-radius: 0 26px 26px 0;
-    //box-shadow: 20px 0px 29px 0 rgba(113, 113, 170, 0.11) inset;
     background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
   }
   .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
@@ -662,13 +789,32 @@ export default {
   .el-checkbox__input.is-checked .el-checkbox__inner::after {
     display: none;
   }
-  #swagger-ui{
-    width: 100%;
+  .setSelect {
+    .el-scrollbar__view .el-select-dropdown__item:nth-child(2){
+      border-top: 1px solid #efeef5;
+      border-bottom: 1px solid #efeef5;
+    }
+  }
+  .swagger-wrapper {
     height: 100%;
     overflow-y: auto;
-    min-height: 480px;
+    width: 100%;
+  }
+  .swagger-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+
+  #swagger-ui{
+    width: 100%;
+    height: auto !important;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-top: 20px;
+    .swagger-ui{
+      width: 575px;
+    }
     .swagger-ui .info{
-      margin: 10px 0;
+      margin: -25px 0;
     }
   }
   .service_div{
@@ -688,20 +834,21 @@ export default {
     }
     .title{
       font-size: 18px;
-      margin-top: 20px;
+      margin-top: 10px;
+      margin-bottom: 0px;
       letter-spacing: 1.5px;
     }
     .el-row{
-      font-size: 16px;
+      font-size: 14px;
       .el-col{
         padding-top: 5px;
         padding-left: 0px;
-        padding-bottom: 7px;
       }
       .el-select{
         width: 65px;
         .el-input__icon{
           width: 15px;
+          line-height: 22px;
         }
         .el-input__inner{
           padding: 0 6px;
@@ -712,6 +859,8 @@ export default {
           font-size: 12px;
           width: 66px;
           color: #5844be;
+          height: 22px !important;
+          line-height: 22px !important;
         }
       }
     }

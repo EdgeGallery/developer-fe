@@ -17,6 +17,7 @@
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 const cn = {
   common: {
+    cancelText: '知道了',
     cancel: '取消',
     confirm: '确认',
     close: '关闭',
@@ -34,7 +35,8 @@ const cn = {
     operation: '操作',
     all: '全部',
     unknown: '未知',
-    more: '更多'
+    more: '更多',
+    check: '查看'
   },
   home: {
     enterDev: '进入开发',
@@ -516,7 +518,7 @@ const cn = {
     serviceDetails: '服务详情',
     releaseTime: '发布时间',
     sdkDownload: 'SDK 下载',
-    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url',
+    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url。',
     projectDetails: '基本信息',
     releaseDetails: '能力发布详情',
     releaseTest: '应用发布测试',
@@ -669,7 +671,9 @@ const cn = {
     testFail: '启动测试失败！',
     testComplete: '测试完成，请单击查看报告',
     addProjectSuccess: '新增项目成功！',
+    editProjectSuccess: '编辑项目成功！',
     addProjectFail: '新增项目失败！',
+    editProjectFail: '编辑项目失败！',
     checkNamePass: '认证失败，请检查用户名或密码。',
     checkCaptcha: '验证码无效，请检查验证码。',
     registerSuccess: '用户注册成功！',
@@ -704,7 +708,7 @@ const cn = {
     isPublicFailed: '公开API能力到EdgeGallery生态系统失败！',
     canOnlyUpload: '只能上传.csar文件类型',
     pluginNameRule: '请输入1-30个字符的插件名称，开头不能为空',
-    nameRule: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、_、-，开头结尾不能为_、-',
+    nameRule: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、汉字、_、-，开头结尾不能为_、-',
     versionRule: '请输入1-10个字符的版本号，只能包含数字、字母、_、-和空格，开头不能为空',
     providerRule: '请输入1-30个字符的提供者名称，开头不能为空',
     introductionRule: '请输入1-1024个字符的描述，开头不能为空，不能全为数字',
@@ -741,7 +745,9 @@ const cn = {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G',
     imageInfoErr: '请确保镜像信息正确',
     twoLevelName: '请输入长度1-40的服务名称，开头不能为空',
-    serviceDesc: '请输入长度1-400的服务描述，开头不能为空'
+    serviceDesc: '请输入长度1-400的服务描述，开头不能为空',
+    typeError: '格式错误',
+    typeConfig: '请上传config文件'
   },
   breadCrumb: {
     mecDeveloper: '首页',

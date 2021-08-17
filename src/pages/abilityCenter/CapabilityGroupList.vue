@@ -18,7 +18,7 @@
   <ul class="group_list">
     <li
       v-for="(item,index) in capabilityGroupStats"
-      :key="index"
+      :key="item.id"
       @click="selectGroupList(item,index)"
       @mouseenter="groupListHover(index)"
       @mouseleave="groupListLeave(index)"
@@ -110,8 +110,8 @@ export default {
       this.$emit('getPageScroll', this.clickGroupListNum, this.listBottom)
       this.listBottom = false
       sessionStorage.setItem('capaSelectListIndex', index)
-      this.selectIndex = index
       this.groupListLeave(this.selectIndex)
+      this.selectIndex = index
       this.capabilityServiceList = []
       if (index === 0) {
         Api.getAllCapabilitiesApi().then(result => {

@@ -71,6 +71,15 @@
                 >
                   {{ $t('workspace.confirm') }}
                 </el-button>
+                <el-button
+                  v-show="editBtn"
+                  id="nextBtn"
+                  type="primary"
+                  v-loading="uploadBtnLoading"
+                  @click="onSubmitIntegration"
+                >
+                  {{ $t('common.save') }}
+                </el-button>
               </div>
               <div
                 class="elButton defaultFontLight"
@@ -128,12 +137,22 @@
               <el-button
                 id="confirmBtn"
                 type="primary"
-                v-if="active>=1"
+                v-if="active>=1 && !editBtn"
                 :loading="uploadBtnLoading"
                 @click="onSubmit"
                 class="confirm"
               >
                 {{ $t('workspace.confirm') }}
+              </el-button>
+              <el-button
+                id="confirmBtn"
+                type="primary"
+                v-if="active>=1 && editBtn"
+                :loading="uploadBtnLoading"
+                @click="onSubmit"
+                class="confirm"
+              >
+                {{ $t('common.save') }}
               </el-button>
             </div>
           </div>
@@ -321,9 +340,11 @@ export default {
   },
   data () {
     return {
+      isEdit: false,
+      editBtn: false,
       detailFlag: false,
       showCapability: false,
-      isShowForm: true,
+      isShowForm: false,
       nextBtn: true,
       nextBtnDevApp: true,
       readonly: false,
@@ -393,7 +414,6 @@ export default {
     onSubmit () {
       this.uploadBtnLoading = true
       this.$refs.secondStep.emitStepData()
-      this.showCapability = true
       this.getApplicationProject()
     },
     nextStep () {
@@ -411,52 +431,75 @@ export default {
       let description = this.allFormData.first.description
       let descriptionRule = description.match(/^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/)
       if (!appname) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.projectNameEmpty')
-        })
+          title: '',
+          desc: this.$t('promptMessage.projectNameEmpty'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!nameRule) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.nameRule')
-        })
+          title: '',
+          desc: this.$t('promptMessage.nameRule'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!version) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.versionEmpty')
-        })
+          title: '',
+          desc: this.$t('promptMessage.versionEmpty'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!versionRule) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.versionRule')
-        })
+          title: '',
+          desc: this.$t('promptMessage.versionRule'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!provider) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.providerEmpty')
-        })
+          title: '',
+          desc: this.$t('promptMessage.providerEmpty'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!providerRule) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.providerRule')
-        })
+          title: '',
+          desc: this.$t('promptMessage.providerRule'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!appIcon) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.logoEmpty')
-        })
+          title: '',
+          desc: this.$t('promptMessage.logoEmpty'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!description) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.descriptionEmpty')
-        })
+          title: '',
+          desc: this.$t('promptMessage.descriptionEmpty'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (!descriptionRule) {
-        this.$message({
+        this.$eg_messagebox({
           type: 'warning',
-          message: this.$t('promptMessage.introductionRule')
-        })
+          title: '',
+          desc: this.$t('promptMessage.introductionRule'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else if (this.projectExist) {
-        this.$message.warning(this.$t('workspace.projectExist'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('workspace.projectExist'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       } else {
         this.getIconFileId()
         this.handleUserName()
@@ -549,56 +592,124 @@ export default {
     },
 
     addNewProject (params) {
-      Workspace.newProjectApi(this.userId, params).then(res => {
-        if (res.status === 200) {
-          let mecDetailID = res.data.id
-          sessionStorage.setItem('mecDetailID', mecDetailID)
-          this.$message({
-            message: this.$t('promptMessage.addProjectSuccess'),
-            type: 'success',
-            duration: '2000'
-          })
-
-          this.deployPlatform = this.allFormData.first.deployPlatform
-          this.readonly = true
-          this.depPlatform = this.deployPlatform
-          if (this.isAppDevelopment) {
-            this.activeName = '3'
-            this.isClick = false
-            this.nextBtnDevApp = false
+      if (this.isEdit) {
+        Workspace.editProjectApi(this.projectId, this.userId, params).then(res => {
+          if (res.status === 200) {
+            let mecDetailID = res.data.id
+            sessionStorage.setItem('mecDetailID', mecDetailID)
+            sessionStorage.setItem('toDetailType', 'proDetail')
+            this.$eg_messagebox({
+              type: 'success',
+              title: '',
+              desc: this.$t('promptMessage.editProjectSuccess'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.showCapability = true
-          } else {
-            this.nextBtn = false
-            if (this.deployPlatform === 'KUBERNETES') {
-              this.activeName = '4'
+            this.deployPlatform = this.allFormData.first.deployPlatform
+            this.readonly = true
+            this.depPlatform = this.deployPlatform
+            this.editBtn = false
+            if (this.isAppDevelopment) {
+              this.activeName = '3'
               this.isClick = false
+              this.nextBtnDevApp = false
             } else {
-              this.activeName = '6'
-              this.isClick = false
+              this.nextBtn = false
+              if (this.deployPlatform === 'KUBERNETES') {
+                this.activeName = '4'
+                this.isClick = false
+              } else {
+                this.activeName = '6'
+                this.isClick = false
+              }
             }
+            this.uploadBtnLoading = false
+            sessionStorage.removeItem('apiFileIdArr')
+          } else {
+            this.$eg_messagebox({
+              type: 'error',
+              title: '',
+              desc: this.$t('promptMessage.editProjectFail'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
+            setTimeout(() => {
+              this.dialogNewProject = false
+            }, 1500)
+
+            this.$emit('closeFatherDialog', false)
+            this.uploadBtnLoading = false
+          }
+        }).catch(err => {
+          if (err.response.data.message === 'the same project exists') {
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.projectExist'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
           }
           this.uploadBtnLoading = false
           sessionStorage.removeItem('apiFileIdArr')
-        } else {
-          this.$message({
-            message: this.$t('promptMessage.addProjectFail'),
-            type: 'error',
-            duration: '2000'
-          })
-          setTimeout(() => {
-            this.dialogNewProject = false
-          }, 1500)
+        })
+      } else {
+        Workspace.newProjectApi(this.userId, params).then(res => {
+          if (res.status === 200) {
+            let mecDetailID = res.data.id
+            sessionStorage.setItem('mecDetailID', mecDetailID)
+            sessionStorage.setItem('toDetailType', 'proDetail')
+            this.$eg_messagebox({
+              type: 'success',
+              title: '',
+              desc: this.$t('promptMessage.addProjectSuccess'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
+            this.showCapability = true
+            this.deployPlatform = this.allFormData.first.deployPlatform
+            this.readonly = true
+            this.depPlatform = this.deployPlatform
+            if (this.isAppDevelopment) {
+              this.activeName = '3'
+              this.isClick = false
+              this.nextBtnDevApp = false
+            } else {
+              this.nextBtn = false
+              if (this.deployPlatform === 'KUBERNETES') {
+                this.activeName = '4'
+                this.isClick = false
+              } else {
+                this.activeName = '6'
+                this.isClick = false
+              }
+            }
+            this.uploadBtnLoading = false
+            sessionStorage.removeItem('apiFileIdArr')
+          } else {
+            this.$eg_messagebox({
+              type: 'error',
+              title: '',
+              desc: this.$t('promptMessage.addProjectFail'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
+            setTimeout(() => {
+              this.dialogNewProject = false
+            }, 1500)
 
-          this.$emit('closeFatherDialog', false)
+            this.$emit('closeFatherDialog', false)
+            this.uploadBtnLoading = false
+          }
+        }).catch(err => {
+          if (err.response.data.message === 'the same project exists') {
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.projectExist'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
+          }
           this.uploadBtnLoading = false
-        }
-      }).catch(err => {
-        if (err.response.data.message === 'the same project exists') {
-          this.$message.warning(this.$t('workspace.projectExist'))
-        }
-        this.uploadBtnLoading = false
-        sessionStorage.removeItem('apiFileIdArr')
-      })
+          sessionStorage.removeItem('apiFileIdArr')
+        })
+      }
     },
 
     groupListHover (index) {
@@ -630,14 +741,21 @@ export default {
     // Fetch poject infomation
     getProjectInfo () {
       Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
-        this.detailFlag = true
+        if (!this.isEdit) {
+          this.detailFlag = true
+        } else {
+          this.isShowForm = true
+        }
         let data = res.data
         this.listDataProp = data
         this.depPlatform = data.deployPlatform
         if (data.projectType === 'CREATE_NEW') {
           this.isAppDevelopment = true
+          this.editBtn = true
         } else if (data.projectType === 'INTEGRATED') {
           this.isAppDevelopment = false
+          this.editBtn = true
+          this.nextBtn = false
         }
         if (data.deployPlatform === 'VIRTUALMACHINE') {
           this.getProjectVmList()
@@ -653,6 +771,10 @@ export default {
         this.projectDetailData.iconFileId = data.iconFileId
         this.deployPlatform = data.deployPlatform
         this.projectDetailData.description = data.description
+        // edit
+        data.capabilityList = []
+        this.allFormData['first'] = data
+        this.iconFileIdProp = data.iconFileId
 
         this.checkProjectData()
         this.projectDependent(res)
@@ -790,18 +912,23 @@ export default {
     },
     // Determine the source of entry
     isAddNewProject () {
-      if (this.$route.params.isAddnewproject) {
+      let toDetailType = sessionStorage.getItem('toDetailType')
+      if (toDetailType === 'addNewPro') {
         this.isCreate()
+        this.isShowForm = true
+      } else if (toDetailType === 'editNewPro') {
+        this.isEdit = true
+        this.getProjectInfo()
+        this.getTestConfig()
       } else {
         this.getProjectInfo()
         this.getTestConfig()
-        this.isShowForm = false
         this.showCapability = true
         this.isClick = false
       }
     },
     isCreate () {
-      if (this.$route.params.projectType === 'CREATE_NEW') {
+      if (sessionStorage.getItem('appType') === 'CREATE_NEW') {
         this.isAppDevelopment = true
       } else {
         this.isAppDevelopment = false
@@ -983,7 +1110,6 @@ export default {
           color:#380879;
           position: relative;
           top: 5px;
-
         }
         em{
           display: inline-block;
@@ -1027,9 +1153,6 @@ export default {
     }
     .el-upload-list{
       width: auto;
-      /* width: 40px;
-      height: 40px;
-      margin-right: 15px; */
     }
     .el-upload-list__item:first-child{
       width: 40px;
@@ -1061,8 +1184,8 @@ export default {
       font-size:20px;
       float:right;
       color:#fff;
-}
   }
+}
 
   .el-tree-node__content{
     height: 35px;
@@ -1086,10 +1209,10 @@ export default {
     text-align: left;
   }
   .el-tabs--left .el-tabs__header.is-left{
-    margin-right: 102px;
+    margin-right: 111.5px;
   }
   .el-tabs--left.enLeft .el-tabs__header.is-left{
-    margin-right: 45px;
+    margin-right: 55px;
   }
   .el-tabs__nav-wrap.is-left::after{
     width: 0;
@@ -1256,12 +1379,11 @@ export default {
    margin-top:50px;
  }
 .newprojectcontent{
-   width:1414px;
    min-height:750px;
    background-color:#fbfbfb;
    margin-top:20px;
    border-radius:20px;
-   padding:50px 57px 60px 57px;
+   padding:43px 57px 60px 48.5px;
    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
-   }
+}
 </style>

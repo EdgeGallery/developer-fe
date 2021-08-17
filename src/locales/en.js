@@ -17,6 +17,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 const en = {
   common: {
+    cancelText: 'OK',
     cancel: 'Cancel',
     confirm: 'Confirm',
     close: 'Close',
@@ -34,7 +35,8 @@ const en = {
     operation: 'Operation',
     all: 'All',
     unknown: 'Unknown',
-    more: 'More'
+    more: 'More',
+    check: 'Check'
   },
   home: {
     enterDev: 'Enter development',
@@ -516,7 +518,7 @@ const en = {
     serviceDetails: 'Service Details',
     releaseTime: 'Release Time',
     sdkDownload: 'SDK Download',
-    apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service ',
+    apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service.',
     projectDetails: 'Basic Information',
     releaseDetails: 'Capability Release Details',
     releaseTest: 'Application Release Test',
@@ -669,7 +671,9 @@ const en = {
     testFail: 'Start Test failed!',
     testComplete: 'You have completed the test, please click to view the report',
     addProjectSuccess: 'New project added successfully!',
+    editProjectSuccess: 'Edit project successfully!',
     addProjectFail: 'Failed to add New project!',
+    editProjectFail: 'Failed to edit project!',
     checkNamePass: 'Authentication Failure, please recheck the User Name or Password.',
     checkCaptcha: 'Invalid captcha, please recheck the Captcha.',
     registerSuccess: 'User is registered successfully!',
@@ -704,7 +708,7 @@ const en = {
     isPublicFailed: 'Exposing API capabilities to EdgeGallery ecosystem failed!',
     canOnlyUpload: 'Can only upload .csar files',
     pluginNameRule: 'Please enter a plugin name of 1-30 characters, the beginning cannot be empty',
-    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, _, -, and cannot start and end with _,-',
+    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, Chinese character, _, -, and cannot start and end with _,-',
     versionRule: 'Please enter the version number of 1-10 characters, can only contain numbers, letters, _,-and spaces, and cannot be empty at the beginning',
     providerRule: 'Please enter a provider name of 1-30 characters, the beginning cannot be empty',
     introductionRule: 'Please enter a description of 1-1024 characters, the beginning cannot be empty or all numbers',
@@ -741,7 +745,9 @@ const en = {
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
     imageInfoErr: 'Please make sure the image information is correct',
     twoLevelName: 'Please enter the service name with a length of 1-40, the beginning cannot be empty',
-    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty'
+    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty',
+    typeError: 'Format error',
+    typeConfig: 'Please upload config file'
   },
   breadCrumb: {
     mecDeveloper: 'Home',

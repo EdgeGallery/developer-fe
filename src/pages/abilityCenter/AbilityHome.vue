@@ -221,7 +221,7 @@ export default {
       listBottom: false,
       hotFilter: 'hot',
       showNum: 12,
-      fromHomeIndex: 0,
+      fromHomeId: 'all',
       isRefrshPage: true,
       screenHeight: document.body.clientHeight,
       timer: false
@@ -367,15 +367,26 @@ export default {
           this.dialogVisible = false
         }
       }
-      if (this.fromHomeIndex) {
+      if (this.fromHomeId) {
         this.$nextTick(() => {
-          this.$refs.groupList.selectGroupList(this.capabilityGroupStats[this.fromHomeIndex], this.fromHomeIndex)
+          let capabilityGroupAndIndex = this.getCapabilityGroupAndIndexById(this.fromHomeId)
+          this.$refs.groupList.selectGroupList(capabilityGroupAndIndex.capabilityGroup, capabilityGroupAndIndex.index)
         })
       } else {
         this.$nextTick(() => {
           this.$refs.groupList.selectGroupList(this.capabilityGroupStats[0], 0)
         })
       }
+    },
+    getCapabilityGroupAndIndexById (capabilityGroupId) {
+      let index = 0
+      for (let capabilityGroup of this.capabilityGroupStats) {
+        if (capabilityGroup.id === capabilityGroupId) {
+          return { 'capabilityGroup': capabilityGroup, 'index': index }
+        }
+        index = index + 1
+      }
+      return { 'capabilityGroup': this.capabilityGroupStats[0], 'index': index }
     },
     handleClose () {
       this.dialogVisible = false
@@ -417,7 +428,8 @@ export default {
     }
   },
   mounted () {
-    this.fromHomeIndex = this.$route.params.index + 1
+    // this.fromHomeIndex = this.$route.params.index + 1
+    this.fromHomeId = this.$route.params.id
     this.listBottom = false
     this.setDivHeight(this.screenHeight)
     // Listen to the window size change

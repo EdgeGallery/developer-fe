@@ -81,7 +81,10 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <div style="margin-top:20px;text-align:right">
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
       <el-button
         id="btn_cancel_container"
         @click="cancel()"
@@ -97,7 +100,7 @@
       >
         {{ $t('common.confirm') }}
       </el-button>
-    </div>
+    </span>
   </el-dialog>
 </template>
 

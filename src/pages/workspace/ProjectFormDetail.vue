@@ -190,7 +190,7 @@ export default {
       architectureOptions: Architecture,
       value: 0,
       showErr: false,
-      formLabelWidth: '110px',
+      formLabelWidth: '95px',
       language: localStorage.getItem('language'),
       uploadIcon: false
 
@@ -251,14 +251,14 @@ export default {
     editWidth () {
       let selectWidth = document.getElementsByClassName('el-form-item__content')
       if (this.language === 'cn') {
-        this.formLabelWidth = '110px'
+        this.formLabelWidth = '95px'
         selectWidth.forEach(item => {
-          item.style.width = 'calc(100% - 110px)'
+          item.style.width = 'calc(100% - 95px)'
         })
       } else {
-        this.formLabelWidth = '160px'
+        this.formLabelWidth = '140px'
         selectWidth.forEach(item => {
-          item.style.width = 'calc(100% - 160px)'
+          item.style.width = 'calc(100% - 140px)'
         })
       }
     }

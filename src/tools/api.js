@@ -274,6 +274,10 @@ let Workspace = {
   newProjectApi: function (userId, params) {
     return Post('mec/developer/v1/projects/?userId=' + userId, params)
   },
+  // Edit/Migration project
+  editProjectApi: function (projectId, userId, params) {
+    return Put('mec/developer/v1/projects/' + projectId + '?userId=' + userId, params)
+  },
   // ObtainApiofswaggerUIpath
   getApiUrl: function (apiFileId, userId, type) {
     return urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=' + type
