@@ -122,6 +122,13 @@
             ref="secondStep"
             @getFormData="getFormData"
             :show-capability="showCapability"
+            v-if="!showCapability"
+          />
+          <api
+            ref="secondStep"
+            @getFormData="getFormData"
+            :show-capability="showCapability"
+            v-if="showCapability"
           />
           <div v-if="!showCapability">
             <div class="elButton defaultFontLight">

@@ -34,13 +34,13 @@
         <label class="selected-service defaultFont">{{ $t("workspace.selectedService") }}: </label>
         <el-tag
           v-for="tag in tags"
-          :key="tag.groupId"
+          :key="tag.id"
           :closable="isClosable"
           class="defaultFontLight"
           @close="handleDeleteTag(tag)"
           style="margin-left: 10px;"
         >
-          {{ language === "en" ? tag.labelEn : tag.labelCn }}
+          {{ tag.label }}
         </el-tag>
       </div>
     </div>
@@ -259,6 +259,10 @@ export default {
       groupId: '',
       capa: {},
       tags: [],
+      treeLoad: {
+        node: null,
+        resolve: null
+      },
       showCheckbox: true,
       isClosable: true,
       capabilityIcon: {
@@ -307,8 +311,14 @@ export default {
     },
 
     loadNode (node, resolve) {
-      if (!this.showCapability) {
+      if (node.level === 0) {
+        this.treeLoad.node = node
+        this.treeLoad.resolve = resolve
+      }
+      if (this.isCreate()) {
         this.loadNewCapabilityNode(node, resolve)
+      } else if (this.isEdit() && !this.isReadOnly()) {
+        this.loadEditCapabilityNode(node, resolve)
       } else {
         this.loadQueryCapabilityNode(node, resolve)
       }
@@ -343,6 +353,9 @@ export default {
           })
           resolve(capabilityGroups)
           this.apiDataLoading = false
+          this.$nextTick(() => {
+            this.expandRootNodeAndSelectFirstLeafNode()
+          })
         })
       }
       if (node.level > 1) return resolve([])
@@ -351,10 +364,21 @@ export default {
         return resolve(node.data.children)
       }
     },
-    buildTree () {
+    expandRootNodeAndSelectFirstLeafNode () {
       let rootNodes = this.$refs.treeList.root
+
       for (let rootNode of rootNodes.childNodes) {
-        rootNode.expanded = true
+        rootNode.expand()
+        for (let leafNode of rootNode.childNodes) {
+          leafNode.setChecked(true)
+          this.handleCheckChange(leafNode.data, true)
+        }
+      }
+      if (rootNodes.childNodes.length > 0) {
+        let firstRootNode = rootNodes.childNodes[0]
+        let firstLeafNode = firstRootNode.childNodes[0]
+        this.$refs.treeList.setCurrentKey(firstLeafNode.data.id)
+        this.handleNodeClick(firstLeafNode.data, firstLeafNode)
       }
     },
     loadNewCapabilityNode (node, resolve) {
@@ -365,9 +389,13 @@ export default {
           groups.forEach(group => {
             group.label = this.language === 'en' ? group.nameEn : group.name
             group.leaf = false
-            group.showCheckbox = true
           })
           resolve(groups)
+          let rootNodes = this.$refs.treeList.root
+          if (rootNodes.childNodes.length > 0) {
+            let firstRootNode = rootNodes.childNodes[0]
+            firstRootNode.expand()
+          }
         })
       }
       if (node.level > 1) return resolve([])
@@ -380,9 +408,94 @@ export default {
           capabilities.forEach(capa => {
             capa.label = this.language === 'en' ? capa.nameEn : capa.name
             capa.leaf = true
-            capa.showCheckbox = true
           })
           resolve(capabilities)
+          this.$nextTick(() => {
+            let currentKey = this.$refs.treeList.getCurrentKey()
+            if (!currentKey) {
+              let rootNodes = this.$refs.treeList.root
+              if (rootNodes.childNodes.length > 0) {
+                let firstRootNode = rootNodes.childNodes[0]
+                let firstLeafNode = firstRootNode.childNodes[0]
+                this.$refs.treeList.setCurrentKey(firstLeafNode.data.id)
+                this.handleNodeClick(firstLeafNode.data, firstLeafNode)
+              }
+            }
+          })
+        })
+      }
+    },
+    loadEditCapabilityNode (node, resolve) {
+      if (node.level === 0) {
+        let projectId = sessionStorage.getItem('mecDetailID')
+        let groupMap = new Map()
+        Capability.getCapabilityByProjectId(projectId).then(result => {
+          let capabilities = result.data
+          this.hasService = capabilities.length > 0
+          capabilities.forEach(capability => {
+            capability.label = this.language === 'en' ? capability.nameEn : capability.name
+            capability.leaf = true
+            let groupId = capability.groupId
+            if (groupMap.has(groupId)) {
+              let group = groupMap.get(groupId)
+              capability.leaf = true
+              group.children.push(capability)
+            } else {
+              let group = capability.group
+              group.children = []
+              group.children.push(capability)
+              groupMap.set(capability.groupId, capability.group)
+            }
+          })
+        }).then(() => {
+          Capability.getAllCapabilityGroup().then(result => {
+            let groups = result.data
+            this.groups = groups
+            groups.forEach(group => {
+              group.label = this.language === 'en' ? group.nameEn : group.name
+              group.leaf = false
+              let groupId = group.id
+              if (groupMap.has(groupId)) {
+                let selectedCapabilities = groupMap.get(groupId).children
+                group.selectedCapabilities = selectedCapabilities
+              }
+            })
+            resolve(groups)
+
+            // expand
+            groupMap.forEach((item, key) => {
+              let groupNode = this.$refs.treeList.getNode(item.id)
+              groupNode.expand()
+            })
+          })
+        })
+      }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        let groupId = node.data.id
+        Capability.getCapabilityByGroupId(groupId).then(result => {
+          let capabilities = result.data
+          this.capaList = capabilities
+          capabilities.forEach(capa => {
+            capa.label = this.language === 'en' ? capa.nameEn : capa.name
+            capa.leaf = true
+          })
+          resolve(capabilities)
+
+          // select leaf node
+          if (node.data.selectedCapabilities) {
+            node.data.selectedCapabilities.forEach(capability => {
+              let leafNode = this.$refs.treeList.getNode(capability.id)
+              leafNode.setChecked(true)
+              this.handleCheckChange(leafNode.data, true)
+              let currentKey = this.$refs.treeList.getCurrentKey()
+              if (!currentKey) {
+                this.$refs.treeList.setCurrentKey(leafNode.data.id)
+                this.handleNodeClick(leafNode.data, leafNode)
+              }
+            })
+          }
         })
       }
     },
@@ -527,6 +640,15 @@ export default {
     emitStepData () {
       this.$emit('getFormData', { data: this.secondStepSelect, step: 'second' })
       this.$emit('getFormData', { data: this.thirdStepSelection, step: 'third' })
+    },
+    isReadOnly () {
+      return this.showCapability
+    },
+    isCreate () {
+      return this.toDetailType === 'addNewPro'
+    },
+    isEdit () {
+      return this.toDetailType === 'editNewPro'
     }
   },
   watch: {
@@ -547,6 +669,19 @@ export default {
       deep: true,
       handler (newVal, oldVal) {
         this.tags = []
+        if (newVal) {
+          this.showCheckbox = false
+          this.isClosable = false
+          if (this.isEdit()) {
+            let rootNodes = this.$refs.treeList.root.childNodes
+            rootNodes.splice(0, rootNodes.length)
+            if (this.treeLoad.node) {
+              this.loadNode(this.treeLoad.node, this.treeLoad.resolve)
+            }
+          }
+        } else {
+        }
+        /*
         if (!this.showCapability && this.toDetailType === 'addNewPro') {
           this.getCapabilityGroups()
         } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
@@ -555,14 +690,16 @@ export default {
           this.getProjectDetail()
           this.showCheckbox = false
           this.isClosable = false
-        }
+        } */
       }
     }
   },
   mounted () {
     this.tags = []
-    if (!this.showCapability) {
-      this.buildTree()
+    if (!this.showCapability && this.toDetailType === 'addNewPro') {
+      // this.getCapabilityGroups()
+    } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
+      // this.editProjectDetail()
     } else {
       // this.getProjectDetail()
       this.showCheckbox = false
