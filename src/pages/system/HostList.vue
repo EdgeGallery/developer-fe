@@ -89,7 +89,7 @@
         :model="form"
         ref="form"
         :rules="rules"
-        :label-width="formLabelWidth"
+        :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
         label-position="right"
       >
         <el-form-item
@@ -254,7 +254,7 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('system.other')"
+          :label="$t('system.networkConfig')"
           v-if="showOther"
         >
           <el-input
@@ -309,7 +309,7 @@
             slot="title"
             class="el-dialog__title"
           >
-            <em class="title_icon" />{{ $t('system.other') }}
+            <em class="title_icon" />{{ $t('system.networkConfig') }}
             <em
               v-if="isEdit"
               class="el-icon-circle-plus-outline rt editBtn"
@@ -456,7 +456,7 @@
           <template slot-scope="scope">
             <el-button
               :loading="loading"
-              class="operation_btn"
+              class="operations_btn"
               @click="getLogData(scope.row)"
             >
               {{ $t('devTools.detail') }}
@@ -464,7 +464,7 @@
             <el-button
               @mouseenter.native="showMoreBtnFun(scope.$index)"
               @mouseleave.native="showMoreBtnFun(-1)"
-              class="operation_btn"
+              class="operations_btn"
             >
               {{ $t('common.more') }}
               <el-collapse-transition>
@@ -557,6 +557,7 @@ export default {
       ],
       architectureOptions: Architecture,
       formLabelWidth: '110px',
+      formLabelWidthEn: '150px',
       form: {
         port: 31252,
         portRangeMin: '30000',
@@ -574,18 +575,7 @@ export default {
         protocol: 'https',
         status: 'NORMAL',
         os: 'K8S',
-        parameter: `DC_ID=FS_M:Manger_VPC;
-az_dc=nova;
-mep_certificate=YHXGFTWU!@$%@&%#(DH(122479+_);
-app_mp1_ip=192.168.226.201;app_mp1_mask=255.255.255.0;app_mp1_gw=192.168.226.1;
-app_n6_ip=192.168.225.202;app_n6_mask=255.255.255.0;app_n6_gw=192.168.225.1;
-app_internet_ip=192.168.227.203;app_internet_mask=255.255.255.0;app_internet_gw=192.168.227.1;
-mep_ip=119.8.47.5;mep_port=8443;
-network_name_mep=mec_network_mep;network_mep_physnet=physnet2;network_mep_vlanid=2653;
-network_name_n6=mec_network_n6;network_n6_physnet=physnet2;network_n6_vlanid=2652;
-network_name_internet=mec_network_internet;network_internet_physnet=physnet2;network_internet_vlanid=2651;
-ue_ip_segment=0.0.0.0/0;
-mec_internet_ip=0.0.0.0`
+        parameter: `app_mp1_ip=192.168.226.0/24;app_n6_ip=192.168.225.0/24;app_internet_ip=192.168.227.0/24`
       },
       rules: {
         // configId: [{ required: true, validator: (r, v, callback) => { validate(['configId'], callback, this.$t('system.pleaseUpload')) } }],
@@ -907,20 +897,14 @@ mec_internet_ip=0.0.0.0`
   .el-dialog__body{
     max-height: 525px;
     overflow: auto;
-    padding-right: 30px !important;
+    padding-right: 40px !important;
   }
   .dialog-footer{
     padding-right: 50px !important;
   }
 }
 .innerVisible_div{
-  .operation_btn{
-    text-align: right;
-    .el-icon-plus{
-      font-size: 16px;
-      cursor: pointer;
-    }
-  }
+  margin-bottom: 20px;
   .container{
     padding-top: 10px;
     .el-input{

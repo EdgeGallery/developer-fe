@@ -809,7 +809,7 @@ const en = {
     en: 'please input english',
     portRange: 'Port Range',
     config_id: 'Config File',
-    other: 'Other',
+    networkConfig: 'Network Config',
     log: {
       userName: 'Username',
       projectName: 'Project Name',
