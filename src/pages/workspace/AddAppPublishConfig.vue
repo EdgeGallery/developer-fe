@@ -206,7 +206,7 @@
               v-for="item in optionsProtocol"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
+              :value="item.label"
             />
           </el-select>
         </el-form-item>
