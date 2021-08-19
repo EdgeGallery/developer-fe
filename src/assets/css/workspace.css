@@ -19,18 +19,18 @@
   background-color: #5e40c8;
   border-radius: 8px;
   border:none;
+  font-size: 20px;
   font-family: defaultFontLight !important;
   color: #FFFFFF;
   min-width: 174px;
   height: 46px;
   line-height: 46px;
   padding: 0 20px;
-  transition: .5s;
 }
 
 .work-button:hover {
-  background-color: #dedae9;
-  color: #5e40c8;
+  background-color: #5e40c8;
+  color: #FFFFFF;
 }
 
 .work-button.el-button.is-disabled {
@@ -52,7 +52,7 @@
   height: 36px;
   width: 400px;
   line-height: 36px;
-  font-size: 14px;
+  font-size: 16px;
   width: 100%;
 }
 
@@ -61,6 +61,7 @@
   border: transparent !important;
   color: #380879;
   border-radius: 8px;
+  font-family: defaultFontLight;
 }
 
 .work-input .el-input.is-disabled  .el-input__inner{
@@ -103,6 +104,8 @@
 
 .work-radio .el-radio__label {
   color: #380879 !important;
+  font-family: defaultFontLight;
+  font-size: 16px;
 }
 
 .work-radio .el-radio__input.is-checked .el-radio__inner {
@@ -158,7 +161,7 @@
 
 /* style for select */
 .work-select .el-input {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .work-select .el-input .el-input__inner {
@@ -168,6 +171,7 @@
   height: 36px;
   line-height: 36px;
   border-radius: 8px;
+  font-family: defaultFontLight;
 }
 
 .work-select .el-input .el-input__inner::placeholder {

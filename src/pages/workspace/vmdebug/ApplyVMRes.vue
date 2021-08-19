@@ -15,18 +15,19 @@
   -->
 
 <template>
-  <div class="vm_res">
+  <div class="vm-res">
     <el-steps
+      class="work-steps"
       :active="active"
       finish-status="success"
-      align-center
+      space="90px"
     >
-      <el-step :title="$t('workspace.basicInformation')" />
-      <el-step :title="$t('workspace.deployDebugVm.configSpec')" />
-      <el-step :title="$t('workspace.deployDebugVm.configNetwork')" />
-      <el-step :title="$t('workspace.deployDebugVm.otherSetting')" />
+      <el-step
+        v-for="(item, index) in stepNumber"
+        :key="index"
+      />
     </el-steps>
-    <div>
+    <div class="container">
       <component
         :is="currentComponent"
         :active="active"
@@ -37,35 +38,32 @@
         ref="currComponent"
       />
     </div>
-    <span
+    <div
       slot="footer"
-      class="dialog-footer"
+      class="vms-button-wrapper"
     >
       <el-button
-        id="prevBtn"
-        type="text"
-        @click="previous"
-        v-if="active>0"
+        class="work-button"
+        @click="handleClickPreviousBtn"
+        v-if="active > 0"
       >
-        <strong>{{ $t('workspace.previous') }}</strong>
+        {{ $t('workspace.previous') }}
       </el-button>
       <el-button
-        id="nextBtn"
-        type="primary"
-        @click="next"
-        v-if="active<3"
+        class="work-button"
+        @click="handleClickNextBtn"
+        v-if="active < 3"
       >
-        <strong>{{ $t('workspace.next') }}</strong>
+        {{ $t('workspace.next') }}
       </el-button>
       <el-button
-        id="confirmBtn"
-        type="primary"
-        @click="confirm"
-        v-if="active>=3"
+        class="work-button"
+        @click="handleClickConfirmBtn"
+        v-if="active >= 3"
       >
-        <strong>{{ $t('workspace.deployDebugVm.generatePackage') }}</strong>
+        {{ $t('workspace.deployDebugVm.generatePackage') }}
       </el-button>
-    </span>
+    </div>
   </div>
 </template>
 
@@ -75,11 +73,16 @@ import BasicInfoOnApplyVM from './ApplyBasicInfo.vue'
 import SpecSettingOnApplyVM from './ApplySpecSetting.vue'
 import NetworkSettingOnApplyVM from './ApplyNetworkSetting.vue'
 import OtherSetting from './OtherSetting.vue'
+import VmDetailPanel from './VmDetailPanel.vue'
 
 export default {
   name: 'ApplyVMRes',
   components: {
-    BasicInfoOnApplyVM, SpecSettingOnApplyVM, NetworkSettingOnApplyVM, OtherSetting
+    BasicInfoOnApplyVM,
+    SpecSettingOnApplyVM,
+    NetworkSettingOnApplyVM,
+    OtherSetting,
+    VmDetailPanel
   },
   props: {
     value: {
@@ -97,10 +100,9 @@ export default {
       dialogVisible: this.value,
       active: 0,
       currentComponent: 'BasicInfoOnApplyVM',
-
       vmConfigData: {},
-
-      allStepData: {}
+      allStepData: {},
+      stepNumber: 4
     }
   },
   methods: {
@@ -110,10 +112,6 @@ export default {
       }).catch(() => {
         this.$message.error(this.$t('workspace.deployDebugVm.loadVmConfigFailed'))
       })
-    },
-    handleClose () {
-      this.$emit('input', false)
-      this.$emit('closeLoading', false)
     },
     changeComponent () {
       switch (this.active) {
@@ -145,7 +143,7 @@ export default {
     getBtnStatus (status) {
       this.isDeploying = status.status
     },
-    next () {
+    handleClickNextBtn () {
       this.$refs.currComponent.emitStepData(true)
       if (this.allStepData.canNext) {
         if (this.active < 4) {
@@ -154,7 +152,7 @@ export default {
         }
       }
     },
-    previous () {
+    handleClickPreviousBtn () {
       this.$refs.currComponent.emitStepData(false)
       this.active--
       this.handleStep()
@@ -163,7 +161,7 @@ export default {
       this.changeComponent()
       this.allStepData.canNext = false
     },
-    confirm () {
+    handleClickConfirmBtn () {
       this.$refs.currComponent.emitStepData(true)
       if (!this.allStepData.canNext) {
         return
@@ -204,9 +202,16 @@ export default {
 
 </script>
 <style lang="less">
-.vm_res{
-  .dialog-footer{
-    margin:20px 5% 0
-  }
+.vms-button-wrapper{
+  position: relative;
+  margin-bottom: 50px;
+  bottom: -50px;
+  float: right;
+}
+
+.vm-res .work-div {
+  margin-top: 45px;
+  width: 100%;
+  min-height: 430px;
 }
 </style>
