@@ -212,6 +212,6 @@ export default {
 .vm-res .work-div {
   margin-top: 45px;
   width: 100%;
-  min-height: 430px;
+  min-height: 400px;
 }
 </style>

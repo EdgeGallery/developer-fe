@@ -114,10 +114,10 @@ export default {
       }
       let vmSpecName = this.isZh ? item.vmRegulation.nameZh : item.vmRegulation.nameEn
       return item.vmRegulation.architecture +
-        '|' + vmSpecName +
-        '|' + item.vmRegulation.cpu + 'vCPUs' +
-        '|' + item.vmRegulation.memory + 'GB RAM' +
-        '|' + item.vmRegulation.systemDisk + 'GB' +
+        ' | ' + vmSpecName +
+        ' | ' + item.vmRegulation.cpu + 'vCPUs' +
+        ' | ' + item.vmRegulation.memory + 'GB RAM' +
+        ' | ' + item.vmRegulation.systemDisk + 'GB' +
         '+' + item.vmRegulation.dataDisk + 'GB Disk'
     },
     buildSystemDesc (item) {
@@ -143,6 +143,7 @@ export default {
 .detail-wrapper {
   .detail-title {
     padding: 46px 39px;
+    margin-top: 45px;
   }
 
   .work-div {
@@ -163,16 +164,17 @@ export default {
     }
 
     .el-form-item__content {
-      font-size: 15px;
+      font-size: 16px;
       font-family: defaultFontLight;
       color: #380879;
+      padding-top: 4px;
     }
   }
 
   .delete-button {
     border: none;
     background-color: #8278b7;
-    color: #e4e2ee;
+    color: #f0f0f0;
     margin-top: 20px;
   }
 }
