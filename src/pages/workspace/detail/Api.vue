@@ -315,12 +315,17 @@ export default {
         this.treeLoad.node = node
         this.treeLoad.resolve = resolve
       }
+      if (this.isReadOnly()) {
+        this.loadQueryCapabilityNode(node, resolve)
+        return
+      }
       if (this.isCreate()) {
         this.loadNewCapabilityNode(node, resolve)
-      } else if (this.isEdit() && !this.isReadOnly()) {
+        return
+      }
+
+      if (this.isEdit()) {
         this.loadEditCapabilityNode(node, resolve)
-      } else {
-        this.loadQueryCapabilityNode(node, resolve)
       }
     },
     loadQueryCapabilityNode (node, resolve) {
@@ -672,7 +677,7 @@ export default {
         if (newVal) {
           this.showCheckbox = false
           this.isClosable = false
-          if (this.isEdit()) {
+          if (this.isEdit() || this.isCreate()) {
             let rootNodes = this.$refs.treeList.root.childNodes
             rootNodes.splice(0, rootNodes.length)
             if (this.treeLoad.node) {
