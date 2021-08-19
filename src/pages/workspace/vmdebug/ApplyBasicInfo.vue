@@ -112,6 +112,10 @@ export default {
       font-size: 16px;
       font-family: defaultFontLight;
     }
+
+    .el-form-item__error {
+      margin-right: -30px;
+    }
   }
 }
 </style>
