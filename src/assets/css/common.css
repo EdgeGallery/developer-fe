@@ -199,6 +199,7 @@ li{
   background: #a59fc9 !important;
   border: none;
   color: #ffffff !important;
+  box-shadow: 0 0 29px rgba(36,20,119,0.13) inset;
 }
 .el-button.featuresBtn.is-disabled{
   color: #ededed !important;
@@ -218,6 +219,7 @@ li{
   border: none;
   color: #fff;
   border-radius: 10px;
+  font-family: defaultFontLight;
 }
 .el-button.confirm{
   background: #688ef3;
@@ -722,7 +724,19 @@ body .el-table th.gutter{
   right: 5px;
   cursor: pointer;
 }
-.default_info.el-icon-warning:before {
-  color: #5844be;
-  font-size: 16px;
+.default_info_promt{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 14px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 12px;
+  background: #5844be;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+.empty_img{
+  background: url('../images/empty.png') center 10px no-repeat;
+  padding-top: 200px;
 }

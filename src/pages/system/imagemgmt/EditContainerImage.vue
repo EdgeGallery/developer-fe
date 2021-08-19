@@ -88,7 +88,7 @@
       <el-button
         id="btn_cancel_container"
         @click="cancel()"
-        class="bgBtn defaultFontLight"
+        class="bgBtn"
       >
         {{ $t('common.cancel') }}
       </el-button>
@@ -96,7 +96,7 @@
         id="btn_confirm_container"
         type="primary"
         @click="confirm()"
-        class="bgBtn defaultFontLight"
+        class="bgBtn"
       >
         {{ $t('common.confirm') }}
       </el-button>
