@@ -236,7 +236,7 @@ li{
 .el-button.el-button--text{
   padding: 0px;
 }
-.el-button.operation_btn{
+.el-button.operations_btn{
   background: #efefef;
   padding: 5px 15px;
   border: none;
@@ -722,7 +722,7 @@ body .el-table th.gutter{
   right: 5px;
   cursor: pointer;
 }
-.el-icon-warning:before {
+.default_info.el-icon-warning:before {
   color: #5844be;
   font-size: 16px;
 }

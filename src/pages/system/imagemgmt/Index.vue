@@ -288,7 +288,7 @@ export default {
     .last_li.vm_default{
       background: #d4d1ec;
       span{
-        background: #f5f6f8;
+        background: linear-gradient(to bottom, #f5f4f8, #f1edf6);
         border-radius: 0 0 0 16px;
         transition: all 0.5s;
       }
