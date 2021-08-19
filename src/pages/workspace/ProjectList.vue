@@ -170,12 +170,7 @@
         </template>
       </el-table-column>
       <template slot="empty">
-        <div>
-          <img
-            src="../../assets/images/empty.png"
-            alt=""
-            style="padding: 10px;"
-          >
+        <div class="empty_img">
           <p>{{ $t('api.noDataNotice') }}</p>
         </div>
       </template>

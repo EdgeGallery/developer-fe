@@ -16,21 +16,21 @@
 
 <template>
   <div class="capManagement padding_default">
-    <el-breadcrumb
-      separator="/"
-      class="bread-crumb"
-    >
-      <el-breadcrumb-item :to="{ path: '/mecDeveloper' }">
-        {{ $t('breadCrumb.mecDeveloper') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.system') }}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('breadCrumb.systemMep') }}</el-breadcrumb-item>
-    </el-breadcrumb>
+    <div class="title_top title_left defaultFontBlod">
+      {{ $t('breadCrumb.systemMep') }}
+      <span class="line_bot1" />
+      <el-button
+        class="createservice_btn linearGradient2 image_mgmt"
+        @click="handleShowForm"
+      >
+        <em class="new_icon" />
+        {{ $t('system.addMep') }}
+      </el-button>
+    </div>
     <el-dialog
-      :title="form.groupId ? $t('api.modify') : $t('system.addMep')"
       :close-on-click-modal="false"
       :visible.sync="visible"
-      @close="onClose"
+      class="dialog_service default_dialog"
     >
       <el-form
         :model="form"
@@ -41,47 +41,47 @@
         class="clear"
         size="small"
       >
-        <h3 :style="{margin: '10px 0px '}">
-          {{ $t('system.basicInfo') }}
+        <h3 class="service_title">
+          <em class="title_icon" />{{ $t('system.basicInfo') }}
         </h3>
         <el-form-item
           :label="$t('system.capType')"
-          prop="oneLevelName"
+          prop="group.name"
           class="w50 lt"
         >
           <el-input
             :placeholder="$t('system.zh_cn')"
-            v-model="form.oneLevelName"
+            v-model="form.group.name"
           />
         </el-form-item>
         <el-form-item
-          prop="oneLevelNameEn"
+          prop="group.nameEn"
           class="w50 lt right_item"
           label-width="0"
         >
           <el-input
             :placeholder="$t('system.en')"
-            v-model="form.oneLevelNameEn"
+            v-model="form.group.nameEn"
           />
         </el-form-item>
         <el-form-item
           :label="$t('system.serviceName')"
-          prop="twoLevelName"
+          prop="name"
           class="w50 lt"
         >
           <el-input
             :placeholder="$t('system.zh_cn')"
-            v-model="form.twoLevelName"
+            v-model="form.name"
           />
         </el-form-item>
         <el-form-item
-          prop="twoLevelNameEn"
+          prop="nameEn"
           class="w50 lt right_item"
           label-width="0"
         >
           <el-input
             :placeholder="$t('system.en')"
-            v-model="form.twoLevelNameEn"
+            v-model="form.nameEn"
           />
         </el-form-item>
         <el-form-item
@@ -102,8 +102,7 @@
             <el-button
               slot="trigger"
               size="medium"
-              plain
-              type="primary"
+              class="featuresBtn"
             >
               {{ $t('system.upload') + $t('system.apiFileId') }}
             </el-button>
@@ -112,7 +111,7 @@
               :content="this.$t('devTools.apiText')"
               placement="right"
             >
-              <em class="el-icon-question" />
+              <span class="default_info_promt">i</span>
             </el-tooltip>
           </el-upload>
         </el-form-item>
@@ -136,8 +135,7 @@
               <el-button
                 slot="trigger"
                 size="medium"
-                plain
-                type="primary"
+                class="featuresBtn"
               >
                 {{ $t('system.guideFileId_zh') }}
               </el-button>
@@ -146,7 +144,7 @@
                 :content="this.$t('workspace.apiFunctionMd')"
                 placement="right"
               >
-                <em class="el-icon-question" />
+                <span class="default_info_promt">i</span>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -168,8 +166,7 @@
               <el-button
                 slot="trigger"
                 size="medium"
-                plain
-                type="primary"
+                class="featuresBtn"
               >
                 {{ $t('system.guideFileId_en') }}
               </el-button>
@@ -178,7 +175,7 @@
                 :content="this.$t('workspace.apiFunctionMd')"
                 placement="right"
               >
-                <em class="el-icon-question" />
+                <span class="default_info_promt">i</span>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -210,8 +207,8 @@
             show-word-limit
           />
         </el-form-item>
-        <h3 :style="{margin: '10px 0px '}">
-          {{ $t('system.registerInfo') }}
+        <h3 class="service_title">
+          <em class="title_icon" />{{ $t('system.registerInfo') }}
         </h3>
         <el-form-item
           :label="$t('system.serviceName')"
@@ -277,11 +274,17 @@
         class="dialog-footer"
       >
         <el-button
+          @click="onClose"
+          class="bgBtn"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
           type="primary"
           size="medium"
           :loading="loading"
           @click="onSubmit"
-          class="confirm"
+          class="bgBtn"
         >
           {{ $t('workspace.confirm') }}
         </el-button>
@@ -289,76 +292,79 @@
     </el-dialog>
     <div class="list clear">
       <div class="title">
-        <el-button
-          type="primary"
-          size="medium"
-          @click="handleShowForm"
-        >
-          {{ $t('system.addMep') }}
-        </el-button>
         <span>
           <el-input
-            :style="{width: '200px'}"
             size="medium"
             v-model="enterQuery"
             :placeholder="$t('system.serviceName')"
-          />
-          <el-button
-            :loading="loading"
-            :style="{marginLeft: '10px'}"
-            size="medium"
-            @click="searchListData"
+            class="search_input"
+            @keyup.enter.native="searchListData"
+            @clear="searchListData"
+            @change="searchListData"
           >
-            {{ $t('test.testTask.inquire') }}
-          </el-button>
+            <em
+              slot="suffix"
+              class="search_icon"
+              @click="searchListData"
+            />
+          </el-input>
         </span>
       </div>
       <el-table
         v-loading="loading"
-        row-key="groupId"
+        row-key="id"
         :data="allListData"
-        header-cell-class-name="headerStyle"
+        class="tableStyle"
       >
         <el-table-column
-          prop="twoLevelName"
+          prop="name"
           :label="$t('system.serviceName')"
+          min-width="14%"
         >
           <template slot-scope="scope">
-            {{ language === 'cn' ? scope.row.twoLevelName : scope.row.twoLevelNameEn }}
+            {{ language === 'cn' ? scope.row.name : scope.row.nameEn }}
           </template>
         </el-table-column>
         <el-table-column
           prop="version"
           :label="$t('system.version')"
+          min-width="12"
         >
           <template slot-scope="scope">
-            {{ (scope.row.capabilityDetailList || [{ version: '-' }])[0].version }}
+            {{ scope.row.version }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="oneLevelName"
+          prop="group.name"
           :label="$t('system.capType')"
+          min-width="14%"
         >
           <template slot-scope="scope">
-            {{ language === 'cn' ? scope.row.oneLevelName : scope.row.oneLevelNameEn }}
+            {{ language === 'cn' ? scope.row.group.name : scope.row.group.nameEn }}
           </template>
         </el-table-column>
         <el-table-column
           prop="provider"
           :label="$t('system.provider')"
+          min-width="14%"
         >
           <template slot-scope="scope">
-            {{ (scope.row.capabilityDetailList || [{ provider: '-' }])[0].provider }}
+            {{ scope.row.provider }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="type"
+          prop="group.type"
           :label="$t('system.type')"
-        />
+          min-width="12%"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.group.type }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="description"
           :label="$t('workspace.description')"
-          width="300"
+          min-width="24%"
         >
           <template slot-scope="scope">
             {{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}
@@ -366,7 +372,7 @@
           <template slot-scope="scope">
             <el-popover
               placement="bottom"
-              width="300"
+              width="100%"
               trigger="hover"
               v-if="language === 'cn' ? scope.row.description : scope.row.descriptionEn >24"
             >
@@ -380,7 +386,10 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('workspace.operation')">
+        <el-table-column
+          :label="$t('workspace.operation')"
+          min-width="12%"
+        >
           <template slot-scope="scope">
             <el-button
               :loading="loading"
@@ -393,12 +402,7 @@
           </template>
         </el-table-column>
         <template slot="empty">
-          <div>
-            <img
-              src="../../assets/images/empty.png"
-              alt=""
-              style="padding: 10px;"
-            >
+          <div class="empty_img">
             <p>{{ $t('api.noDataNotice') }}</p>
           </div>
         </template>
@@ -417,7 +421,8 @@
 
 <script>
 import pagination from '../../components/common/Pagination.vue'
-import { System, Workspace } from '@/tools/api.js'
+import { Workspace, Capability } from '@/tools/api.js'
+import { common } from '../../tools/common.js'
 
 export default {
   name: 'HostList',
@@ -438,30 +443,45 @@ export default {
       ],
       formLabelWidth: '125px',
       form: {
+        name: '',
+        nameEn: '',
+        description: '',
+        descriptionEn: '',
+        host: '',
+        port: '',
+        version: '',
         protocol: 'https',
+        provider: '',
+        group: {
+          name: '',
+          nameEn: '',
+          author: sessionStorage.getItem('userName')
+        },
         iconFileId: '20aeed6a-f05f-4789-94b5-8a50db67d096',
         author: sessionStorage.getItem('userName'),
+        userId: sessionStorage.getItem('userId'),
         apiFileId: '',
         guideFileId: '',
-        guideFileIdEn: ''
+        guideFileIdEn: '',
+        uploadTime: 0
       },
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
         guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument'), trigger: 'change' }],
         guideFileIdEn: [{ required: true, message: this.$t('promptMessage.systemDocumentEn'), trigger: 'change' }],
-        twoLevelName: [
+        name: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
           { pattern: /^(?!\s)[\S.\s\n\r]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
         ],
-        twoLevelNameEn: [
+        nameEn: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
           { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
         ],
-        oneLevelName: [
+        'group.name': [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
           { pattern: /^(?!\s)[\S.\s\n\r]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
         ],
-        oneLevelNameEn: [
+        'group.nameEn': [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
           { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
         ],
@@ -499,10 +519,12 @@ export default {
       loading: false,
       userName: sessionStorage.getItem('userName'),
       userId: sessionStorage.getItem('userId'),
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      screenHeight: document.body.clientHeight
     }
   },
   mounted () {
+    this.setDivHeight()
     this.getListData()
   },
   watch: {
@@ -527,14 +549,17 @@ export default {
     }
   },
   methods: {
-    handleDelete ({ groupId }) {
+    setDivHeight () {
+      common.setDivHeightFun(this.screenHeight, 'capManagement', 261)
+    },
+    handleDelete (row) {
       this.$confirm(this.$t('system.deleteConfirm'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         this.loading = true
-        System.deleteService({ groupId }).finally(() => {
+        Capability.deleteCapabilityById(row.id).finally(() => {
           this.loading = false
           this.getListData()
         })
@@ -550,29 +575,11 @@ export default {
       this.$refs['form'].validate((valid, params) => {
         if (valid) {
           this.loading = true
-          const data = { ...this.form, ...params }
-          const { host, provider, apiFileId, guideFileId, guideFileIdEn, port, version, protocol, ...rest } = data
-          System.saveService({
-            type: 'OPENMEP',
-            capabilityDetailList: [
-              {
-                service: rest.twoLevelName,
-                serviceEn: rest.twoLevelNameEn,
-                host,
-                version,
-                port,
-                protocol,
-                userId: this.userName,
-                apiFileId,
-                guideFileId,
-                guideFileIdEn,
-                provider
-              }
-            ],
-            ...rest
-          }).then(res => {
-            if (res && res.data && res.data.groupId) {
-              this.$message.success((this.form.groupId ? this.$t('api.modify') : this.$t('system.addMep')) + this.$t('system.success'))
+          let data = { ...this.form, ...params }
+          data.group.type = 'OPENMEP'
+          Capability.createCapability(data).then(res => {
+            if (res && res.data && res.data.id) {
+              this.$message.success((this.form.name ? this.$t('api.modify') : this.$t('system.addMep')) + this.$t('system.success'))
               this.onClose()
               this.$refs['form'].resetFields()
             } else {
@@ -597,16 +604,22 @@ export default {
       this.loading = true
       const qs = { offset: this.offsetPage, limit: this.limitSize }
       if (this.language === 'cn') {
-        qs.twoLevelName = this.enterQuery
+        qs.name = this.enterQuery
+        Capability.getCapabilityByNameWithFuzzy(qs).then(result => {
+          this.allListData = result.data.results || []
+          this.listTotal = result.data.total
+        }).finally(() => {
+          this.loading = false
+        })
       } else {
-        qs.twoLevelNameEn = this.enterQuery
+        qs.nameEn = this.enterQuery
+        Capability.getCapabilityByNameWithFuzzy(qs).then(result => {
+          this.allListData = result.data.results || []
+          this.listTotal = result.data.total
+        }).finally(() => {
+          this.loading = false
+        })
       }
-      System.getSerives(qs).then(res => {
-        this.allListData = res.data.results || []
-        this.listTotal = res.data.total
-      }).finally(() => {
-        this.loading = false
-      })
     },
     handleRemove (key) {
       this[`${key}_file_list`] = []
@@ -692,12 +705,37 @@ export default {
 
 <style lang="less">
 .capManagement {
-  .el-dialog{
-    width: 45%;
+  .createservice_btn{
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 25px;
+    padding: 0 35px;
+    .new_icon{
+      display: inline-block;
+      width: 19px;
+      height: 19px;
+      background: url('../../assets/images/work_new_project.png');
+      margin-right: 3px;
+      position: relative;
+      top: 2px;
+    }
   }
-  @media screen and (max-width:1380px){
-    .el-dialog{
-      width: 65%;
+  .dialog_service .el-dialog{
+    min-width: 850px;
+    .el-dialog__header{
+      display: none;
+    }
+    .el-dialog__body{
+      padding-top: 30px !important;
+    }
+    .service_title{
+      color: #380879;
+      margin: 10px 0;
+      font-weight: normal;
     }
   }
   h3{
@@ -707,9 +745,6 @@ export default {
   .el-form-item{
     float: left;
     width: 100%;
-    .el-input{
-      max-width: 290px;
-    }
     .el-icon-question:before {
       color: #688ef3;
       font-size: 16px;
@@ -727,9 +762,10 @@ export default {
     padding: 0 20px 0 0
   }
   .list {
-    min-height: 638px;
-    background-color: white;
-    padding: 20px;
+    border-radius: 16px;
+    background: #fff;
+    padding: 30px 60px;
+    box-shadow: 0 0 68px 5px rgba(94,24,200,0.06);
     .title{
       display: flex;
       align-items: center;
