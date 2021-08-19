@@ -202,7 +202,7 @@
 
 /* style for title */
 .work-title {
-  background-image: linear-gradient(to right, #fbfbfb, #f1f2f6);
+  background-image: linear-gradient(to right, #fbfbfb, rgba(156, 148, 187, 0.05));
   height: 47px;
   max-width: 727px;
   position: relative;
@@ -212,7 +212,7 @@
   color: #380879;
   font-family: defaultFontLight;
   padding-left: 52px;
-  box-shadow: 0 10px 10px 3px #f0f1f5;
+  box-shadow: 0 5px 20px 3px rgba(53, 34, 114, 0.05);
 }
 
 .work-title::before {
@@ -242,7 +242,7 @@
 
 /* style for title-clickable */
 .work-title-clickable {
-  background-image: linear-gradient(to right, #fbfbfb, #f1f2f6);
+  background-image: linear-gradient(to right, #fbfbfb, rgba(156, 148, 187, 0.05));
   height: 47px;
   max-width: 727px;
   position: relative;
@@ -251,7 +251,7 @@
   color: #380879;
   font-family: defaultFontLight;
   padding-left: 10px;
-  box-shadow: 0 10px 10px 3px #f0f1f5;
+  box-shadow: 0 5px 20px 3px rgba(53, 34, 114, 0.05);
 }
 
 .work-title-clickable .work-radio .el-radio__label {
