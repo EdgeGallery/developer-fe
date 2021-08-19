@@ -94,6 +94,7 @@
 
 <script>
 import { Api } from '../../tools/api.js'
+import { common } from '../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -103,8 +104,8 @@ export default {
       type: String,
       default: ''
     },
-    serviceDetailprop: {
-      type: Object,
+    serviceIdprop: {
+      type: String,
       required: true
     },
     isDeleteApiprop: {
@@ -132,20 +133,36 @@ export default {
       ],
       language: localStorage.getItem('language'),
       downloadUrl: '',
-      guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md'
+      guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md',
+      service: {
+        name: '',
+        nameEn: '',
+        uploadTime: 0,
+        version: '',
+        group: {
+          name: '',
+          nameEn: ''
+        }
+      }
     }
   },
   computed: {
     serviceDetail () {
       return {
-        capabilityType: this.$i18n.locale === 'en' ? this.serviceDetailprop.capabilityTypeEn : this.serviceDetailprop.capabilityType,
-        serviceName: this.$i18n.locale === 'en' ? this.serviceDetailprop.serviceNameEn : this.serviceDetailprop.serviceName,
-        uploadTime: this.serviceDetailprop.uploadTime,
-        version: this.serviceDetailprop.version
+        capabilityType: this.$i18n.locale === 'en' ? this.service.group.nameEn : this.service.group.name,
+        serviceName: this.$i18n.locale === 'en' ? this.service.nameEn : this.service.name,
+        uploadTime: common.formatDate(this.service.uploadTime),
+        version: this.service.version
       }
     }
   },
   methods: {
+    init () {
+      Api.getCapabilityByIdApi(this.serviceIdprop).then(result => {
+        this.service = result.data
+        this.getApiUrl()
+      })
+    },
     // Feth Api-swaggerUI path
     getApiUrl () {
       let apiUrl = Api.getSwaggerUrlApi(this.apiFileId, this.userId)
@@ -203,7 +220,8 @@ export default {
     }
   },
   mounted () {
-    this.getApiUrl()
+    // this.getApiUrl()
+    this.init()
   }
 }
 </script>

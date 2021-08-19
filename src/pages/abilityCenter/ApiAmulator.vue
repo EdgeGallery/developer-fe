@@ -33,11 +33,11 @@
     <div class="service-content">
       <div
         class="doc-div"
-        v-if="serviceList.length > 0"
+        v-if="apiFileId"
       >
         <API
           :api-file-idprop="apiFileId"
-          :service-detailprop="serviceDetail"
+          :service-idprop="serviceId"
           :is-delete-apiprop="false"
           v-if="apiFileId"
         />
@@ -60,76 +60,28 @@
 
 <script>
 import API from '../api/API.vue'
-import { Api } from '../../tools/api.js'
+// import { Api } from '../../tools/api.js'
 
 export default {
   components: {
     API
   },
   props: {
-    groupId: {
-      type: String,
-      default: ''
-    }
   },
   data () {
     return {
-      serviceDetail: {
-        capabilityType: '',
-        serviceName: '',
-        capabilityTypeEn: '',
-        serviceNameEn: '',
-        uploadTime: '',
-        version: ''
-      },
-      apiFileId: 'default',
-      serviceList: [],
-      selectedService: ''
+      apiFileId: this.$route.query.apiFileId,
+      serviceId: this.$route.query.serviceId
     }
   },
   computed: {},
   watch: {
-    groupId () {
-      this.initServices()
-    }
+
   },
   methods: {
-    initServices () {
-      Api.getServiceListApi(this.$route.query.groupId)
-        .then(res => {
-          if (res.data && res.data.capabilityDetailList) {
-            let tmpServiceList = res.data.capabilityDetailList
-            tmpServiceList = tmpServiceList.filter((item) => {
-              return item.service
-            })
-            if (tmpServiceList.length > 0) {
-              this.serviceList = tmpServiceList
-              this.selectedService = tmpServiceList[0].service
-              this.apiFileId = tmpServiceList[0].apiFileId
-              this.serviceDetail = {
-                capabilityType: res.data.oneLevelName,
-                capabilityTypeEn: res.data.oneLevelNameEn,
-                serviceName: tmpServiceList[0].service,
-                serviceNameEn: tmpServiceList[0].serviceEn,
-                uploadTime: this.dateChange(tmpServiceList[0].uploadTime),
-                version: tmpServiceList[0].version
-              }
-            }
-          }
-        })
-    },
-    dateChange (dateStr) {
-      if (dateStr) {
-        let date = new Date(Date.parse(dateStr))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        return Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
-      }
-    }
+
   },
   beforeMount () {
-    this.initServices()
   }
 }
 </script>

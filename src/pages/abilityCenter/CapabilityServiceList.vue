@@ -34,14 +34,14 @@
         :class="{'service_hover':activeInfo===index}"
       >
         <p class="tit">
-          {{ language==='cn'?item.twoLevelName:item.twoLevelNameEn }}
+          {{ language==='cn'?item.name:item.nameEn }}
         </p>
         <p class="sort">
           <span class="hot">
             {{ item.selectCount }}
           </span>
           <span class="time">
-            {{ item.uploadTime.substring(0,11) }}
+            {{ formatDate(item.uploadTime) }}
           </span>
           <span
             class="detail"
@@ -70,7 +70,7 @@
       >
         <div class="service_detail">
           <p class="title">
-            {{ language==='cn'?item.twoLevelName:item.twoLevelNameEn }}
+            {{ language==='cn'?item.name:item.nameEn }}
           </p>
           <div class="user_div clear">
             <img
@@ -78,9 +78,9 @@
               alt=""
             >
             <p class="user_info">
-              {{ $t('devTools.author') }}: {{ item.author }}
+              {{ $t('devTools.author') }}: {{ item.group.author }}
             </p>
-            <p>{{ $t('workspace.releaseTime') }}: {{ item.uploadTime }}</p>
+            <p>{{ $t('workspace.releaseTime') }}: {{ formatDate(item.uploadTime) }}</p>
           </div>
           <div class="service_div clear">
             <img
@@ -100,7 +100,7 @@
               <div>
                 <p class="service_level clear">
                   <span class="lt">{{ $t('api.partition') }}</span>
-                  <span class="level_right rt">{{ language==='cn'?item.oneLevelName:item.oneLevelNameEn }}</span>
+                  <span class="level_right rt">{{ language==='cn'?item.group.name:item.group.nameEn }}</span>
                 </p>
                 <p class="service_level clear">
                   <img
@@ -109,7 +109,7 @@
                     class="icon lt"
                   >
                   <span class="lt">{{ $t('workspace.appRelease.tag') }}</span>
-                  <span class="tag rt">{{ item.type }}</span>
+                  <span class="tag rt">{{ item.group.type }}</span>
                 </p>
               </div>
             </div>
@@ -147,7 +147,9 @@
 </template>
 
 <script>
-import { Api, Workspace } from '../../tools/api.js'
+// import { Api, Workspace } from '../../tools/api.js'
+import { Workspace } from '../../tools/api.js'
+import { common } from '../../tools/common.js'
 export default {
   name: '',
   props: {
@@ -181,6 +183,9 @@ export default {
     }
   },
   methods: {
+    formatDate (timestamp) {
+      return common.formatDate(timestamp)
+    },
     hoverServiceList (index) {
       this.activeInfo = index
     },
@@ -192,28 +197,25 @@ export default {
       this.dialogVisible = true
       this.serviceDetail = []
       this.serviceDetail.push(item)
-      if (item.twoLevelNameEn === 'Location service' || item.twoLevelNameEn === 'AI Image Repair' || item.twoLevelNameEn === 'Edge Detection' || item.twoLevelNameEn === 'Image Cartoonization' || item.twoLevelNameEn === 'Image Coloring' || item.twoLevelNameEn === 'Object Classification' || item.twoLevelNameEn === 'Object Detection') {
+      if (item.nameEn === 'Location service' || item.nmeEn === 'AI Image Repair' || item.nameEn === 'Edge Detection' || item.nameEn === 'Image Cartoonization' || item.nameEn === 'Image Coloring' || item.nameEn === 'Object Classification' || item.nameEn === 'Object Detection') {
         this.toOnline = true
       } else {
         this.toOnline = false
       }
     },
     serviceDocClick (item) {
-      this.$router.push({ name: 'serviceDoc', query: { groupId: item.groupId, language: this.$i18n.locale } })
+      this.$router.push({ name: 'serviceDoc', query: { guideFileId: item.guideFileId, guideFileIdEn: item.guideFileIdEn, language: this.$i18n.locale } })
     },
     amulatorClick (item) {
-      this.$router.push({ name: 'apiAmulator', query: { groupId: item.groupId, language: this.$i18n.locale } })
+      this.$router.push({ name: 'apiAmulator', query: { serviceId: item.id, apiFileId: item.apiFileId, language: this.$i18n.locale } })
     },
     toOnlineExperience (item) {
-      Api.getServiceListApi(item.groupId).then(res => {
-        let capabilityDetail = res.data.capabilityDetailList[0]
-        if (capabilityDetail.host) {
-          let onLineUrl = capabilityDetail.protocol + '://' + capabilityDetail.host + ':' + capabilityDetail.port + '/#/' + item.twoLevelNameEn.replace(/\s*/g, '')
-          window.open(onLineUrl, '_blank')
-        } else {
-          this.$message.warning(this.$t('api.onlineService'))
-        }
-      })
+      if (item.host) {
+        let onLineUrl = item.protocol + '://' + item.host + ':' + item.port + '/#/' + item.nameEn.replace(/\s*/g, '')
+        window.open(onLineUrl, '_blank')
+      } else {
+        this.$message.warning(this.$t('api.onlineService'))
+      }
     },
     handleClose () {
       this.dialogVisible = false

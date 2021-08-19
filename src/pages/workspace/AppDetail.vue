@@ -327,7 +327,6 @@ import deployment from './Deployment.vue'
 import appRelease from './AppRelease.vue'
 import ResourceConfig from './vmdebug/DeployDebugStep.vue'
 import firstStep from './NewProjectFirst.vue'
-import secondStep from './NewProjectSecond2.vue'
 import ProjectFormDetail from './ProjectFormDetail.vue'
 export default {
   name: 'AppDetail',
@@ -343,7 +342,6 @@ export default {
     appRelease,
     ResourceConfig,
     firstStep,
-    secondStep,
     Capability,
     ProjectFormDetail
   },
@@ -592,31 +590,14 @@ export default {
       if (allFormData.second) {
         this.checkPostProjectData(allFormData.second.capabilitySelected)
         for (let capability of allFormData.second.capabilitySelected) {
-          let obj = {}
-          for (let capabilityKey in capability) {
-            obj[capabilityKey] = capability[capabilityKey]
-          }
-
-          obj.capabilityDetailList = []
-          this.handleCapabilityList(allFormData, capability, obj)
-          params.capabilityList.push(obj)
+          params.capabilityList.push(capability.id)
         }
       }
       let iconFileId = { iconFileId: this.iconFileId }
       params = Object.assign(params, iconFileId)
       this.addNewProject(params)
     },
-    handleCapabilityList (allFormData, capability, obj) {
-      for (let service of allFormData.third) {
-        if (service.groupId === capability.groupId) {
-          let serviceObj = {}
-          for (let serviceKey in service) {
-            serviceObj[serviceKey] = service[serviceKey]
-          }
-          obj.capabilityDetailList.push(serviceObj)
-        }
-      }
-    },
+
     addNewProject (params) {
       if (this.isEdit) {
         Workspace.editProjectApi(this.projectId, this.userId, params).then(res => {

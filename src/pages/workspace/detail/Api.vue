@@ -34,13 +34,13 @@
         <label class="selected-service defaultFont">{{ $t("workspace.selectedService") }}: </label>
         <el-tag
           v-for="tag in tags"
-          :key="tag.groupId"
+          :key="tag.id"
           :closable="isClosable"
           class="defaultFontLight"
           @close="handleDeleteTag(tag)"
           style="margin-left: 10px;"
         >
-          {{ language === "en" ? tag.labelEn : tag.labelCn }}
+          {{ tag.label }}
         </el-tag>
       </div>
     </div>
@@ -52,7 +52,6 @@
       >
         <div class="api_left">
           <el-tree
-            :data="tree"
             :check-strictly="true"
             :props="defaultProps"
             :render-after-expand="false"
@@ -60,8 +59,10 @@
             :default-expand-all="isExpandAll"
             :default-expanded-keys="defaultShowNodes"
             accordion
-            node-key="groupId"
+            node-key="id"
             ref="treeList"
+            lazy
+            :load="loadNode"
             highlight-current
             @node-click="handleNodeClick"
             @check-change="handleCheckChange"
@@ -108,7 +109,7 @@
               </el-row>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ serviceDetail.uploadTime }}
+                  <span class="defaultFontBlod">{{ $t('workspace.releaseTime') }} ：</span>{{ formatDate(serviceDetail.uploadTime) }}
                 </el-col>
                 <el-col :span="12">
                   <span class="defaultFontBlod">{{ $t('test.testApp.type') }} ：</span>{{ serviceDetail.capabilityType }}
@@ -194,7 +195,8 @@
 </template>
 
 <script>
-import { Workspace, Api } from '../../../tools/api.js'
+import { Workspace, Api, Capability } from '../../../tools/api.js'
+import { common } from '../../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 export default {
@@ -214,7 +216,8 @@ export default {
       toDetailType: sessionStorage.getItem('toDetailType'),
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'label',
+        isLeaf: 'leaf'
       },
       defaultExpandKeys: [],
       userId: sessionStorage.getItem('userId'),
@@ -235,7 +238,7 @@ export default {
       serviceDetail: {
         capabilityType: '',
         serviceName: '',
-        uploadTime: '',
+        uploadTime: 0,
         version: ''
       },
       language: localStorage.getItem('language'),
@@ -244,7 +247,6 @@ export default {
       env_div: false,
       apiFileIdArr: [],
       secondStepSelect: {
-        selectCapabilityId: [],
         capabilitySelected: []
       },
       thirdStepSelection: [],
@@ -257,8 +259,10 @@ export default {
       groupId: '',
       capa: {},
       tags: [],
-      serviceList: [],
-      serviceGroupIdList: [],
+      treeLoad: {
+        node: null,
+        resolve: null
+      },
       showCheckbox: true,
       isClosable: true,
       capabilityIcon: {
@@ -294,69 +298,202 @@ export default {
     }
   },
   methods: {
-    // create new project
-    async getCapabilityGroups () {
-      this.groups = []
-      this.tree = []
-      await Api.getCapabilityGroupsApi().then(res => {
-        this.groups = res.data
-      }).catch(err => {
-        console.log(err)
-      })
-      this.buildTree()
+    formatDate (timestamp) {
+      return common.formatDate(timestamp)
     },
-    buildTree () {
-      let oneLevelSet = new Set()
-      this.handleOnelevelName(oneLevelSet)
-      for (let i in this.groups) {
-        let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-        let twoLevelName = this.language === 'en' ? this.groups[i].twoLevelNameEn : this.groups[i].twoLevelName
-        let twoLevelNameEn = this.groups[i].twoLevelNameEn
-        let twoLevelNameCn = this.groups[i].twoLevelName
-        if (twoLevelName !== null) {
-          for (let k in this.tree) {
-            if (this.tree[k].label === oneLevelName) {
-              this.tree[k].children.push({
-                label: twoLevelName,
-                labelEn: twoLevelNameEn,
-                labelCn: twoLevelNameCn,
-                groupId: this.groups[i].groupId
-              })
-              break
+
+    loadNode (node, resolve) {
+      if (node.level === 0) {
+        this.treeLoad.node = node
+        this.treeLoad.resolve = resolve
+      }
+      if (this.isReadOnly()) {
+        this.loadQueryCapabilityNode(node, resolve)
+        return
+      }
+      if (this.isCreate()) {
+        this.loadNewCapabilityNode(node, resolve)
+        return
+      }
+
+      if (this.isEdit()) {
+        this.loadEditCapabilityNode(node, resolve)
+      }
+    },
+    loadQueryCapabilityNode (node, resolve) {
+      if (node.level === 0) {
+        let projectId = sessionStorage.getItem('mecDetailID')
+        let groupMap = new Map()
+        Capability.getCapabilityByProjectId(projectId).then(result => {
+          let capabilities = result.data
+          this.hasService = capabilities.length > 0
+          capabilities.forEach(capability => {
+            capability.label = this.language === 'en' ? capability.nameEn : capability.name
+            capability.leaf = true
+            let groupId = capability.groupId
+            if (groupMap.has(groupId)) {
+              let group = groupMap.get(groupId)
+              capability.leaf = true
+              group.children.push(capability)
+            } else {
+              let group = capability.group
+              group.children = []
+              group.children.push(capability)
+              groupMap.set(capability.groupId, capability.group)
             }
-          }
+          })
+          let capabilityGroups = []
+          groupMap.forEach((group, key) => {
+            group.leaf = false
+            group.label = this.language === 'en' ? group.nameEn : group.name
+            capabilityGroups.push(group)
+          })
+          resolve(capabilityGroups)
+          this.apiDataLoading = false
+          this.$nextTick(() => {
+            this.expandRootNodeAndSelectFirstLeafNode()
+          })
+        })
+      }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        return resolve(node.data.children)
+      }
+    },
+    expandRootNodeAndSelectFirstLeafNode () {
+      let rootNodes = this.$refs.treeList.root
+
+      for (let rootNode of rootNodes.childNodes) {
+        rootNode.expand()
+        for (let leafNode of rootNode.childNodes) {
+          leafNode.setChecked(true)
+          this.handleCheckChange(leafNode.data, true)
         }
       }
-      this.tree.reverse()
-      if (this.tree.length > 0 && this.toDetailType !== 'editNewPro') {
-        this.$nextTick(function () {
-          const firstFathreNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__content')
-          firstFathreNode.click()
-          const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node')
-          firstNode.click()
+      if (rootNodes.childNodes.length > 0) {
+        let firstRootNode = rootNodes.childNodes[0]
+        let firstLeafNode = firstRootNode.childNodes[0]
+        this.$refs.treeList.setCurrentKey(firstLeafNode.data.id)
+        this.handleNodeClick(firstLeafNode.data, firstLeafNode)
+      }
+    },
+    loadNewCapabilityNode (node, resolve) {
+      if (node.level === 0) {
+        Capability.getAllCapabilityGroup().then(result => {
+          let groups = result.data
+          this.groups = groups
+          groups.forEach(group => {
+            group.label = this.language === 'en' ? group.nameEn : group.name
+            group.leaf = false
+          })
+          resolve(groups)
+          let rootNodes = this.$refs.treeList.root
+          if (rootNodes.childNodes.length > 0) {
+            let firstRootNode = rootNodes.childNodes[0]
+            firstRootNode.expand()
+          }
+        })
+      }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        let groupId = node.data.id
+        Capability.getCapabilityByGroupId(groupId).then(result => {
+          let capabilities = result.data
+          this.capaList = capabilities
+          capabilities.forEach(capa => {
+            capa.label = this.language === 'en' ? capa.nameEn : capa.name
+            capa.leaf = true
+          })
+          resolve(capabilities)
+          this.$nextTick(() => {
+            let currentKey = this.$refs.treeList.getCurrentKey()
+            if (!currentKey) {
+              let rootNodes = this.$refs.treeList.root
+              if (rootNodes.childNodes.length > 0) {
+                let firstRootNode = rootNodes.childNodes[0]
+                let firstLeafNode = firstRootNode.childNodes[0]
+                this.$refs.treeList.setCurrentKey(firstLeafNode.data.id)
+                this.handleNodeClick(firstLeafNode.data, firstLeafNode)
+              }
+            }
+          })
         })
       }
     },
-    handleOnelevelName (oneLevelSet) {
-      for (let i in this.groups) {
-        if (this.groups[i].oneLevelName !== 'ETSI' && this.groups[i].oneLevelName !== '3GPP') {
-          let oneLevelName = this.language === 'en' ? this.groups[i].oneLevelNameEn : this.groups[i].oneLevelName
-          let iconPath = ''
-          let iconSelectPath = ''
-          if (this.capabilityIcon[this.groups[i].oneLevelNameEn] !== undefined) {
-            iconPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['icon']
-            iconSelectPath = this.capabilityIcon[this.groups[i].oneLevelNameEn]['iconSelect']
-          }
-          if (oneLevelName !== null && !oneLevelSet.has(oneLevelName)) {
-            this.tree.push({
-              label: oneLevelName,
-              icon: iconPath,
-              iconSelect: iconSelectPath,
-              children: []
+    loadEditCapabilityNode (node, resolve) {
+      if (node.level === 0) {
+        let projectId = sessionStorage.getItem('mecDetailID')
+        let groupMap = new Map()
+        Capability.getCapabilityByProjectId(projectId).then(result => {
+          let capabilities = result.data
+          this.hasService = capabilities.length > 0
+          capabilities.forEach(capability => {
+            capability.label = this.language === 'en' ? capability.nameEn : capability.name
+            capability.leaf = true
+            let groupId = capability.groupId
+            if (groupMap.has(groupId)) {
+              let group = groupMap.get(groupId)
+              capability.leaf = true
+              group.children.push(capability)
+            } else {
+              let group = capability.group
+              group.children = []
+              group.children.push(capability)
+              groupMap.set(capability.groupId, capability.group)
+            }
+          })
+        }).then(() => {
+          Capability.getAllCapabilityGroup().then(result => {
+            let groups = result.data
+            this.groups = groups
+            groups.forEach(group => {
+              group.label = this.language === 'en' ? group.nameEn : group.name
+              group.leaf = false
+              let groupId = group.id
+              if (groupMap.has(groupId)) {
+                let selectedCapabilities = groupMap.get(groupId).children
+                group.selectedCapabilities = selectedCapabilities
+              }
             })
-            oneLevelSet.add(oneLevelName)
+            resolve(groups)
+
+            // expand
+            groupMap.forEach((item, key) => {
+              let groupNode = this.$refs.treeList.getNode(item.id)
+              groupNode.expand()
+            })
+          })
+        })
+      }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        let groupId = node.data.id
+        Capability.getCapabilityByGroupId(groupId).then(result => {
+          let capabilities = result.data
+          this.capaList = capabilities
+          capabilities.forEach(capa => {
+            capa.label = this.language === 'en' ? capa.nameEn : capa.name
+            capa.leaf = true
+          })
+          resolve(capabilities)
+
+          // select leaf node
+          if (node.data.selectedCapabilities) {
+            node.data.selectedCapabilities.forEach(capability => {
+              let leafNode = this.$refs.treeList.getNode(capability.id)
+              leafNode.setChecked(true)
+              this.handleCheckChange(leafNode.data, true)
+              let currentKey = this.$refs.treeList.getCurrentKey()
+              if (!currentKey) {
+                this.$refs.treeList.setCurrentKey(leafNode.data.id)
+                this.handleNodeClick(leafNode.data, leafNode)
+              }
+            })
           }
-        }
+        })
       }
     },
     // edit projectDetail
@@ -390,85 +527,38 @@ export default {
     getProjectDetail () {
       this.tree = []
       let projectId = sessionStorage.getItem('mecDetailID')
-      Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
-        let treeDataTemp = res.data.capabilityList
-        let oneLevel = []
-        treeDataTemp.forEach(item => {
-          if (this.language === 'cn') {
-            oneLevel.push(item.oneLevelName)
+      let groupMap = new Map()
+      Capability.getCapabilityByProjectId(projectId).then(result => {
+        let capabilities = result.data
+        this.hasService = capabilities.length > 0
+        capabilities.forEach(capability => {
+          let groupId = capability.groupId
+          if (groupMap.has(groupId)) {
+            let group = groupMap.get(groupId)
+            group.children.push(capability)
           } else {
-            oneLevel.push(item.oneLevelNameEn)
+            let group = capability.group
+            group.children = []
+            groupMap.set(capability.groupId, capability.group)
           }
         })
-        oneLevel = Array.from(new Set(oneLevel))
-        // oneLevel
-        oneLevel.forEach(item => {
-          let obj = {
-            label: '',
-            children: []
-          }
-          obj.label = item
-          this.tree.push(obj)
+        groupMap.forEach((item, key) => {
+          this.tree.push(item)
         })
-        // twoLevel
-        this.handleTwoLevel(treeDataTemp)
-        if (res.data.capabilityList.length > 0) {
-          this.hasService = true
-          let capaList = res.data.capabilityList
-          capaList.forEach(capa => {
-            this.$nextTick(() => {
-              this.$refs.treeList.setChecked(capa.groupId, true)
-              this.$refs.treeList.setCurrentKey(capa.groupId)
-            })
-          })
-          this.$nextTick(function () {
-            const firstFathreNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__content')
-            firstFathreNode.click()
-            const firstNode = document.querySelector('.api_tree .el-tree-node .el-tree-node__children .el-tree-node')
-            firstNode.click()
-          })
-        } else {
-          this.hasService = false
-        }
-        this.apiType = res.data.type
         this.apiDataLoading = false
       })
     },
-    handleTwoLevel (treeDataTemp) {
-      treeDataTemp.forEach(item => {
-        let oneLevelName = this.language === 'en' ? item.oneLevelNameEn : item.oneLevelName
-        this.tree.forEach(itemTwo => {
-          if (itemTwo.label === oneLevelName) {
-            let twoLevelName = this.language === 'en' ? item.twoLevelNameEn : item.twoLevelName
-            if (twoLevelName) {
-              itemTwo.children.push({
-                label: twoLevelName,
-                labelEn: item.twoLevelNameEn,
-                labelCn: item.twoLevelName,
-                groupId: item.groupId
-              })
-            }
-          }
-        })
-      })
-    },
-    async handleNodeClick (data) {
+    async handleNodeClick (data, node, self) {
       this.hasNoSelect = false
-      if (!data.children) {
+      if (data.leaf) {
         let apiUrl = ''
         this.groupId = data.groupId
-        await this.getCapa()
-        let capaDetailData = this.capa.capabilityDetailList[0]
-        if (capaDetailData.capabilityType === '' || capaDetailData.capabilityType === undefined) {
-          this.serviceDetail.capabilityType = this.language === 'en' ? this.capa.twoLevelNameEn : this.capa.twoLevelName
-        } else {
-          this.serviceDetail.capabilityType = capaDetailData.capabilityType
-        }
-        this.serviceDetail.serviceName = capaDetailData.host
-        this.serviceDetail.uploadTime = this.dateChange(capaDetailData.uploadTime)
-        this.serviceDetail.version = capaDetailData.version
-        this.apiFileId = capaDetailData.apiFileId
-        apiUrl = Workspace.getApiUrl(this.apiFileId, this.userId, this.capa.type)
+        this.serviceDetail.capabilityType = data.group.type
+        this.serviceDetail.serviceName = data.label
+        this.serviceDetail.uploadTime = data.uploadTime
+        this.serviceDetail.version = data.version
+        this.apiFileId = data.apiFileId
+        apiUrl = Workspace.getApiUrl(this.apiFileId, this.userId, data.group.type)
         SwaggerUIBundle({
           url: apiUrl,
           dom_id: '#swagger-ui',
@@ -494,13 +584,6 @@ export default {
         }, 200)
       }
     },
-    async getCapa () {
-      await Workspace.getServiceListApi(this.groupId).then(res => {
-        this.capa = res.data
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     setApiHeight () {
       this.$nextTick(() => {
         const oApi = document.getElementById('swagger-ui')
@@ -509,15 +592,6 @@ export default {
         oApi.style.height = Number(deviceHeight) - 260 - oDiv.offsetHeight + 'px'
       })
     },
-    dateChange (dateStr) {
-      if (dateStr) {
-        let date = new Date(Date.parse(dateStr))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        return Y + '-' + (M > 9 ? M : ('0' + M)) + '-' + (D > 9 ? D : ('0' + D)) + ' '
-      }
-    },
     downloadSDKApi () {
       let lan = this.codeLanguage.toLowerCase()
       sessionStorage.setItem('lan', lan)
@@ -525,74 +599,53 @@ export default {
       return Api.downloadSDKApi(this.apiFileId, lan)
     },
     async handleCheckChange (data, is) {
-      let service = {}
-      await Workspace.getServiceListApi(data.groupId).then(res => {
-        service = res.data.capabilityDetailList[0]
-      }).catch(err => {
-        console.log(err)
-      })
       if (is) {
         this.tags.push(data)
-        this.serviceList.push(service)
-        this.serviceGroupIdList.push(service.groupId)
       } else {
         let index = this.tags.indexOf(data)
         if (index !== -1) {
           this.tags.splice(index, 1)
-        }
-        let serviceIndex = this.serviceGroupIdList.indexOf(service.groupId)
-        if (serviceIndex !== -1) {
-          this.serviceList.splice(serviceIndex, 1)
-          this.serviceGroupIdList.splice(serviceIndex, 1)
         }
       }
       this.updateCapabilitySelected()
       this.updateThirdStepSelection()
     },
     async handleDeleteTag (tag) {
-      let service = {}
-      await Workspace.getServiceListApi(tag.groupId).then(res => {
-        service = res.data.capabilityDetailList[0]
-      }).catch(err => {
-        console.log(err)
-      })
       let index = this.tags.indexOf(tag)
       if (index !== -1) {
         this.tags.splice(index, 1)
       }
-      let serviceIndex = this.serviceGroupIdList.indexOf(service.groupId)
-      if (serviceIndex !== -1) {
-        this.serviceList.splice(serviceIndex, 1)
-        this.serviceGroupIdList.splice(serviceIndex, 1)
-      }
-      this.$refs.treeList.setChecked(tag.groupId, false)
+
+      this.$refs.treeList.setChecked(tag.id, false)
       this.updateCapabilitySelected()
       this.updateThirdStepSelection()
     },
     updateCapabilitySelected () {
       let cachedCapabilitySelected = []
-      let cachedSelectCapabilityId = []
-      for (let tag of this.tags) {
-        for (let group of this.groups) {
-          if (tag.groupId === group.groupId) {
-            cachedCapabilitySelected.push(group)
-            cachedSelectCapabilityId.push(group.groupId)
-          }
-        }
+      for (let capability of this.tags) {
+        cachedCapabilitySelected.push(capability)
       }
       this.secondStepSelect.capabilitySelected = Array.from(new Set([...cachedCapabilitySelected]))
-      this.secondStepSelect.selectCapabilityId = Array.from(new Set([...cachedSelectCapabilityId]))
     },
     updateThirdStepSelection () {
       let cachedThirdStepSelection = []
-      for (let service of this.serviceList) {
-        cachedThirdStepSelection.push(service)
+      for (let capability of this.tags) {
+        cachedThirdStepSelection.push(capability)
       }
       this.thirdStepSelection = cachedThirdStepSelection
     },
     emitStepData () {
       this.$emit('getFormData', { data: this.secondStepSelect, step: 'second' })
       this.$emit('getFormData', { data: this.thirdStepSelection, step: 'third' })
+    },
+    isReadOnly () {
+      return this.showCapability
+    },
+    isCreate () {
+      return this.toDetailType === 'addNewPro'
+    },
+    isEdit () {
+      return this.toDetailType === 'editNewPro'
     }
   },
   watch: {
@@ -613,14 +666,16 @@ export default {
       deep: true,
       handler (newVal, oldVal) {
         this.tags = []
-        if (!this.showCapability && this.toDetailType === 'addNewPro') {
-          this.getCapabilityGroups()
-        } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
-          this.editProjectDetail()
-        } else {
-          this.getProjectDetail()
+        if (newVal) {
           this.showCheckbox = false
           this.isClosable = false
+          if (this.isEdit() || this.isCreate()) {
+            let rootNodes = this.$refs.treeList.root.childNodes
+            rootNodes.splice(0, rootNodes.length)
+            if (this.treeLoad.node) {
+              this.loadNode(this.treeLoad.node, this.treeLoad.resolve)
+            }
+          }
         }
       }
     }
@@ -628,11 +683,11 @@ export default {
   mounted () {
     this.tags = []
     if (!this.showCapability && this.toDetailType === 'addNewPro') {
-      this.getCapabilityGroups()
+      // this.getCapabilityGroups()
     } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
-      this.editProjectDetail()
+      // this.editProjectDetail()
     } else {
-      this.getProjectDetail()
+      // this.getProjectDetail()
       this.showCheckbox = false
       this.isClosable = false
     }

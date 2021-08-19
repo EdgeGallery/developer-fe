@@ -105,6 +105,7 @@ export default new Router({
           path: 'mecDeveloper/api/mep/serviceDoc',
           name: 'serviceDoc',
           component: () => import('../pages/abilityCenter/ServiceDoc.vue'),
+          props: true,
           meta: {
             id: '3.2.1'
           }
@@ -113,6 +114,7 @@ export default new Router({
           path: 'mecDeveloper/api/mep/apiAmulator',
           name: 'apiAmulator',
           component: () => import('../pages/abilityCenter/ApiAmulator.vue'),
+          props: true,
           meta: {
             id: '3.2.1'
           }

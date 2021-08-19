@@ -673,7 +673,7 @@
 </template>
 
 <script>
-import { Workspace, vmService } from '../../tools/api.js'
+import { Workspace, vmService, Capability } from '../../tools/api.js'
 import { Type } from '../../tools/project_data.js'
 import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
@@ -808,21 +808,21 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         this.projectDetailData.createDate = data.createDate
         this.projectDetailData.status = this.imageStatus = data.status
-        let dependent = res.data.capabilityList
-        let arr = []
-        this.checkProjectData()
-        dependent.forEach(item => {
-          item.capabilityDetailList.forEach(itemSub => {
+
+        Capability.getCapabilityByProjectId(this.projectId).then(result => {
+          let capabilities = result.data
+          this.dependentNum = capabilities.length
+          let capabilityDesc = []
+          for (let capability of capabilities) {
             if (this.language === 'cn') {
-              arr.push(itemSub.service)
+              capabilityDesc.push(capability.name)
             } else {
-              arr.push(itemSub.serviceEn)
+              capabilityDesc.push(capability.nameEn)
             }
-          })
+          }
+          this.projectDetailData.dependent = capabilityDesc.join('，')
         })
-        arr = Array.from(new Set(arr))
-        this.dependentNum = arr.length
-        this.projectDetailData.dependent = arr.join('，')
+
         if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
           this.isRelease = true
           this.$message.warning(this.$t('promptMessage.notDeploy'))
