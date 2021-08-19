@@ -311,6 +311,7 @@ const en = {
       otherSetting: 'Application Setting',
       configNetwork: 'Network Setting',
       vmName: 'Virtual Machine Name',
+      vmSpec: 'Virtual Machine Specification',
       selectVmSpecTip: 'Select Virtual Machine Specification',
       vmSpecMustSelectTip: 'Please select virtual machine specification!',
       scene: 'Scene',
@@ -347,14 +348,16 @@ const en = {
       deleteVmDeployList: 'Are you sure you want to delete the deployment test result?',
       resourceConfigPromt: 'Please configure resources first',
       releasePromt: 'The application has no resource configuration and cannot be published',
-      flavorExtraSpecs: 'Flavor Extra Specs:',
+      flavorExtraSpecs: 'Flavor Extra Specs',
       useScript: 'Whether to use injection script:',
+      script: 'Script',
       resourceConfig: 'Resource Allocation',
       deploySelect: 'Optional deployment and commissioning',
       deployTips: 'Through deployment and commissioning, you can apply for the virtual machine environment to import the app test package and test it, and you can directly publish the vm package without the deployment and commissioning.',
       setTips: 'Application settings are optional according to the application',
-      akTitle: 'Application key settings:',
-      generatePackage: 'Generate application package'
+      akTitle: 'Application key settings',
+      generatePackage: 'Generate application package',
+      type: 'Type'
     },
     visualConfig: {
       podBasicInfo: 'Pod Basic Information',

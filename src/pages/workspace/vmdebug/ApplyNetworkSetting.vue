@@ -15,46 +15,44 @@
   -->
 
 <template>
-  <div class="apply-networksetting">
-    <el-row :gutter="24">
-      <strong>{{ $t('workspace.deployDebugVm.selectNetworkTypeTip') }}</strong>
-    </el-row>
-    <el-row :gutter="24">
-      <el-table
-        :data="vmConfigData.vmNetworkList"
-        border
-        stripe
-        size="small"
-        style="width: 100%;"
-      >
-        <el-table-column width="35">
-          <template slot-scope="scope">
-            <el-checkbox
-              v-model="selectedNetwork"
-              :label="scope.row.networkType"
-            >
-              &nbsp;
-            </el-checkbox>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="networkType"
-          align="center"
-          width="150px"
-          :label="$t('workspace.deployDebugVm.networkType')"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          header-align="center"
-          :label="$t('workspace.description')"
-          show-overflow-tooltip
+  <div class="apply-networksetting work-div container-3">
+    <div class="work-title">
+      {{ $t('workspace.deployDebugVm.selectNetworkTypeTip') }}
+    </div>
+    <div class="select-network">
+      <div class="work-table">
+        <div class="work-table-title">
+          {{ $t('workspace.deployDebugVm.networkType') }}
+        </div>
+        <el-table
+          :data="vmConfigData.vmNetworkList"
         >
-          <template slot-scope="scope">
-            {{ language==='cn'?scope.row.descriptionZh:scope.row.descriptionEn }}
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-row>
+          <el-table-column width="35">
+            <template slot-scope="scope">
+              <el-checkbox
+                class="work-checkbox"
+                v-model="selectedNetwork"
+                :label="scope.row.networkType"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="networkType"
+            width="200px"
+            :label="$t('workspace.deployDebugVm.type')"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            :label="$t('workspace.description')"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              {{ language==='cn'?scope.row.descriptionZh:scope.row.descriptionEn }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -111,10 +109,16 @@ export default {
 </script>
 
 <style lang="less">
-.apply-networksetting{
-  padding: 0% 5% 0% 5%;
-  .el-row{
-    padding-bottom: 5px;
+.container-3 {
+  padding: 46px 39px;
+
+  .select-network {
+    margin-left: 53px;
+    margin-top: 30px;
+
+    .work-table {
+      margin-top: 20px;
+    }
   }
 }
 </style>

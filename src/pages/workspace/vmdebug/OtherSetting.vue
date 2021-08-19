@@ -15,48 +15,19 @@
   -->
 
 <template>
-  <div class="other_set">
-    <div class="top">
-      <p class="tips">
-        {{ $t('workspace.deployDebugVm.setTips') }}
-      </p>
-      <p>{{ $t('workspace.deployDebugVm.akTitle') }}</p>
-      <p class="lt clear ak">
-        <span>AK</span><el-input
-          size="mini"
-          v-model="ak"
-        />
-      </p>
-      <p class="lt clear">
-        <span>SK</span><el-input
-          size="mini"
-          v-model="sk"
-        />
-      </p>
-      <div class="host_master">
-        {{ $t('workspace.deployDebugVm.flavorExtraSpecs') }}
-        <el-link
-          class="edit"
-          :underline="false"
-          @click.stop="clickEdit('flavor')"
-        >
-          {{ $t('common.edit') }}
-        </el-link>
+  <div class="other-setting container-4 work-div">
+    <div class="select-script">
+      <div class="work-title">
+        {{ $t('workspace.deployDebugVm.script') }}
       </div>
-      <mavon-editor
-        v-model="sourceFlavor"
-        :toolbars-flag="false"
-        :subfield="false"
-        :default-open="viewOrEditFlavor"
-        :box-shadow="false"
-        preview-background="#ffffff"
-        class="mavon_editor"
-      />
-      <div class="select_div">
-        {{ $t('workspace.deployDebugVm.useScript') }}
+      <div class="select-script-content">
+        <div class="work-p">
+          {{ $t('workspace.deployDebugVm.useScript') }}
+        </div>
         <el-radio-group
-          v-model="selectScript"
-          @change="changeSelect"
+          class="work-radio"
+          v-model="isInjectScript"
+          @change="handleSelectInjectScript"
         >
           <el-radio label="select">
             true
@@ -65,59 +36,127 @@
             false
           </el-radio>
         </el-radio-group>
+        <div
+          class="script-div"
+          v-if="changeResult"
+        >
+          <div class="script-content">
+            <el-collapse
+              v-model="activeScriptEditPanel"
+              accordion
+            >
+              <el-collapse-item
+                name="1"
+                title="contents"
+              >
+                <template slot="title">
+                  contents
+                  <el-link
+                    class="edit"
+                    :underline="false"
+                    @click.stop="clickEdit('content')"
+                  >
+                    {{ $t('common.edit') }}
+                  </el-link>
+                </template>
+                <mavon-editor
+                  v-model="sourceContent"
+                  :toolbars-flag="false"
+                  :subfield="false"
+                  :default-open="viewOrEditContent"
+                  :box-shadow="false"
+                  preview-background="transparent"
+                />
+              </el-collapse-item>
+              <el-collapse-item
+                name="2"
+                title="params"
+              >
+                <template slot="title">
+                  params
+                  <el-link
+                    class="edit"
+                    :underline="false"
+                    @click.stop="clickEdit('params')"
+                  >
+                    {{ $t('common.edit') }}
+                  </el-link>
+                </template>
+                <mavon-editor
+                  v-model="sourceParams"
+                  :toolbars-flag="false"
+                  :subfield="false"
+                  :default-open="viewOrEditParams"
+                  :box-shadow="false"
+                  preview-background="transparent"
+                />
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+        </div>
       </div>
     </div>
-    <div
-      class="script_div"
-      v-if="changeResult"
-    >
-      <el-collapse
-        v-model="activeName"
-        accordion
-      >
-        <el-collapse-item name="1">
-          <template slot="title">
-            contents
-            <el-link
-              class="edit"
-              :underline="false"
-              @click.stop="clickEdit('content')"
-            >
+    <div class="select-key">
+      <div class="work-title">
+        {{ $t('workspace.deployDebugVm.akTitle') }}
+      </div>
+      <div class="select-key-content">
+        <el-row
+          :gutter="24"
+          class="work-input"
+        >
+          <el-col :span="1">
+            <div class="work-p input-label">
+              AK
+            </div>
+          </el-col>
+          <el-col :span="9">
+            <el-input v-model="ak" />
+          </el-col>
+          <el-col
+            :span="1"
+            :offset="4"
+          >
+            <div class="work-p input-label">
+              SK
+            </div>
+          </el-col>
+          <el-col :span="9">
+            <el-input v-model="sk" />
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <div class="select-host-config">
+      <div class="work-title">
+        {{ $t('workspace.deployDebugVm.flavorExtraSpecs') }}
+      </div>
+      <div class="select-host-config-content">
+        <div class="host-main-config">
+          <div
+            class="item-right"
+            @click="clickEdit('flavor')"
+          >
+            <p v-if="viewOrEditFlavor === 'preview'">
               {{ $t('common.edit') }}
-            </el-link>
-          </template>
+            </p>
+            <p v-else>
+              {{ $t('common.save') }}
+            </p>
+          </div>
+        </div>
+        <div class="editor-wrapper">
           <mavon-editor
-            v-model="sourceContent"
+            class="editor"
+            v-model="sourceFlavor"
             :toolbars-flag="false"
             :subfield="false"
-            :default-open="viewOrEditContent"
+            :default-open="viewOrEditFlavor"
             :box-shadow="false"
             preview-background="#ffffff"
-            class="mavon_editor"
           />
-        </el-collapse-item>
-        <el-collapse-item>
-          <template slot="title">
-            params
-            <el-link
-              class="edit"
-              :underline="false"
-              @click.stop="clickEdit('params')"
-            >
-              {{ $t('common.edit') }}
-            </el-link>
-          </template>
-          <mavon-editor
-            v-model="sourceParams"
-            :toolbars-flag="false"
-            :subfield="false"
-            :default-open="viewOrEditParams"
-            :box-shadow="false"
-            preview-background="#ffffff"
-            class="mavon_editor"
-          />
-        </el-collapse-item>
-      </el-collapse>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -139,9 +178,9 @@ export default {
     return {
       ak: '',
       sk: '',
-      selectScript: 'cancel',
+      isInjectScript: 'cancel',
       changeResult: false,
-      activeName: '1',
+      activeScriptEditPanel: '1',
       sourceContent: '',
       contentDefaultData: '',
       viewOrEditContent: 'preview',
@@ -211,7 +250,7 @@ export default {
       }
       this.$emit('getStepData', { step: 'otherSetting', data, canNext })
     },
-    changeSelect (val) {
+    handleSelectInjectScript (val) {
       if (val === 'select') {
         this.changeResult = true
       } else if (val === 'cancel') {
@@ -224,7 +263,11 @@ export default {
       } else if (name === 'params') {
         this.viewOrEditParams = 'edit'
       } else if (name === 'flavor') {
-        this.viewOrEditFlavor = 'edit'
+        if (this.viewOrEditFlavor === 'edit') {
+          this.viewOrEditFlavor = 'preview'
+        } else {
+          this.viewOrEditFlavor = 'edit'
+        }
       }
     }
   },
@@ -235,78 +278,143 @@ export default {
 </script>
 
 <style lang="less">
-.other_set{
-  padding: 10px 5% 0;
-  .v-note-wrapper{
-    width: 100%;
-  }
-  .v-note-panel{
-    border: 1px solid #ddd !important;
-  }
-  .top{
-    .tips{
-      color: #aaa;
+.container-4 {
+  padding: 46px 100px 46px 39px;
+
+  .select-script-content {
+    margin-left: 53px;
+    margin-top: 20px;
+
+    .work-radio {
+      margin-top: 15px;
     }
-    p{
-      width: 50%;
-      margin-bottom: 10px;
-      span{
-        float: left;
-        width: 30px;
-        height: 28px;
-        line-height: 28px;
+
+    .script-div {
+      margin-top: 20px;
+      font-family: defaultFontLight;
+
+      .el-collapse-item__header {
+        position: relative;
+        padding-left: 30px;
+        background-color: transparent;
+        color: #4a2983;
+        border-top: solid 1px #c3bde5;
+        border-bottom: solid 1px #c3bde5;
+
+        .edit{
+          position: absolute;
+          right: 0;
+          color: #4a2983;
+        }
+
+        .el-collapse-item__arrow {
+          position: absolute;
+          left: 0;
+        }
       }
-      .el-input{
-        width: calc(100% - 30px);
-        float: left;
+
+      .el-collapse-item__wrap {
+        background-color: transparent;
       }
-      .edit{
-        float: right;
+
+      .v-note-wrapper {
+        background-color: transparent;
       }
-    }
-    .ak .el-input{
-      width: calc(100% - 50px);
-      float: left;
-    }
-    .host_master{
-      margin-bottom: 10px;
-    }
-    .select_div{
-      padding: 20px 0;
-    }
-    .el-radio-group{
-      margin-left: 20px;
-      .el-radio{
-        margin-right: 20px;
+
+      .markdown-body {
+        background-color: transparent;
+      }
+
+      .markdown-body pre {
+        padding: 0px;
+        background-color: transparent;
+      }
+
+      .hljs {
+        background-color: transparent;
       }
     }
-    .mavon_editor{
-      min-height: 80px;
+    .v-note-wrapper {
+      min-height: 100px;
       max-height: 300px;
-      overflow: auto;
+      background-color: transparent;
     }
   }
-  .el-collapse {
-    .mavon_editor{
-     height: 300px;
-     overflow: auto;
+
+  .select-key {
+    margin-top: 50px;
+
+    .select-key-content {
+      margin-left: 53px;
+      margin-top: 30px;
+
+      .host-main-config {
+        position: relative;
+
+        .work-p {
+          float: left;
+        }
+
+        .work-p.input-label {
+          float: right;
+          margin-top: 3px;
+        }
+      }
     }
   }
-  .el-collapse-item__header{
-    font-size: 14px;
-    position: relative;
-    padding-left: 30px;
-    .edit{
-      position: absolute;
-      right: 0;
+
+  .select-host-config {
+    margin-top: 50px;
+
+    .select-host-config-content {
+      margin-left: 53px;
+      margin-top: 20px;
     }
-    .el-collapse-item__arrow{
-      position: absolute;
-      left: 0;
-    }
-  }
-  .text_div{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    .host-main-config::after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+
+      .editor-wrapper {
+        background-color: white;
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .v-note-wrapper {
+        min-height: 100px;
+      }
+
+      .item-right {
+        font-family: defaultFontLight;
+        color: #4a2983;
+        float: right;
+        padding-bottom: 10px;
+      }
+
+      .item-right:hover {
+        cursor: pointer;
+      }
+
+      .markdown-body .highlight pre, .markdown-body pre {
+        background-color: transparent;
+        padding: 0;
+      }
+
+      .hljs {
+        background-color: transparent;
+      }
+
+      .markdown-body pre code {
+        font-family: defaultFontLight;
+        font-size: 14px;
+      }
+
+      .content-input-wrapper {
+        padding: 8px;
+      }
   }
 }
 </style>

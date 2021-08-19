@@ -15,157 +15,202 @@
   -->
 
 <template>
-  <div class="apply-specsetting">
-    <el-row :gutter="24">
-      <strong>{{ $t('workspace.deployDebugVm.selectVmSpecTip') }}</strong>
-    </el-row>
-    <el-row :gutter="24">
-      <el-radio-group
-        v-model="archType"
-        size="mini"
-        @change="handleChangeArch"
-      >
-        <el-radio-button label="X86">
-          X86
-        </el-radio-button>
-        <el-radio-button label="ARM">
-          ARM
-        </el-radio-button>
-      </el-radio-group>
-      <el-table
-        :data="vmRegulationDataList"
-        border
-        stripe
-        max-height="320px"
-        size="small"
-      >
-        <el-table-column width="35">
-          <template slot-scope="scope">
-            <el-radio
-              :label="scope.row.regulationId"
-              v-model="selectedRegulationId"
+  <div>
+    <div class="work-div container-2">
+      <div class="select-vm">
+        <div class="work-title">
+          {{ $t('workspace.deployDebugVm.selectVmSpecTip') }}
+        </div>
+        <div class="select-vm-content">
+          <el-radio-group
+            class="work-radio-button"
+            v-model="archType"
+            @change="handleChangeArch"
+          >
+            <el-radio-button label="X86" />
+            <el-radio-button label="ARM" />
+          </el-radio-group>
+          <div class="work-table">
+            <div class="work-table-title">
+              {{ $t('workspace.deployDebugVm.vmSpec') }}
+            </div>
+            <el-table
+              :data="vmRegulationDataList"
             >
-              &nbsp;
-            </el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          :label="$t('workspace.name')"
-          width="150px"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            {{ language==='cn'?scope.row.nameZh:scope.row.nameEn }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          :label="$t('workspace.deployDebugVm.scene')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            {{ language==='cn'?scope.row.sceneZh:scope.row.sceneEn }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="cpu"
-          align="center"
-          label="CPU"
-          width="60px"
-          :formatter="appendCPUUnit"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="memory"
-          align="center"
-          :label="$t('workspace.deployDebugVm.memory')"
-          width="70px"
-          :formatter="appendSizeUnit"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="systemDisk"
-          align="center"
-          :label="$t('workspace.deployDebugVm.systemDisk')"
-          width="95px"
-          :formatter="appendSizeUnit"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="dataDisk"
-          align="center"
-          :label="$t('workspace.deployDebugVm.dataDisk')"
-          width="80px"
-          :formatter="appendSizeUnit"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="gpu"
-          align="center"
-          label="GPU"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="otherAbility"
-          align="center"
-          :label="$t('workspace.deployDebugVm.otherAbility')"
-          show-overflow-tooltip
-        />
-      </el-table>
-    </el-row>
-    <el-row :gutter="24">
-      <strong>{{ $t('workspace.deployDebugVm.selectVmImageTip') }}</strong>
-    </el-row>
-    <el-row :gutter="24">
-      <el-radio-group
-        v-model="imageType"
-        size="mini"
-        @change="handleChangeImgType"
-      >
-        <el-radio-button label="public">
-          {{ $t('workspace.deployDebugVm.publicImage') }}
-        </el-radio-button>
-        <el-radio-button label="private">
-          {{ $t('workspace.deployDebugVm.privateImage') }}
-        </el-radio-button>
-      </el-radio-group>
-    </el-row>
-    <el-row :gutter="24">
-      <el-col :span="6">
-        <el-select
-          id="elselect_osname"
-          v-model="selectedOSName"
-          :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
-          size="small"
-          style="width:95%"
-          @change="handleChangeOSName"
-        >
-          <el-option
-            v-for="item in osNameOptionList"
-            :label="item"
-            :value="item"
-            :key="item"
-          />
-        </el-select>
-      </el-col>
-      <el-col :span="10">
-        <el-select
-          id="elselect_ossystem"
-          v-model="selectedSystemId"
-          :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
-          size="small"
-          style="width:95%"
-        >
-          <el-option
-            v-for="item in operateSystemOptionList"
-            :label="item.label"
-            :value="item.systemId"
-            :key="item.systemId"
-          />
-        </el-select>
-      </el-col>
-    </el-row>
+              <el-table-column width="35px">
+                <template slot-scope="scope">
+                  <el-radio
+                    :label="scope.row.regulationId"
+                    v-model="selectedRegulationId"
+                    class="work-radio"
+                  />
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('workspace.name')"
+                width="150px"
+                show-overflow-tooltip
+              >
+                <template slot-scope="scope">
+                  {{ language==='cn'?scope.row.nameZh:scope.row.nameEn }}
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('workspace.deployDebugVm.scene')"
+                width="100px"
+                show-overflow-tooltip
+              >
+                <template slot-scope="scope">
+                  {{ language==='cn'?scope.row.sceneZh:scope.row.sceneEn }}
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="cpu"
+                label="CPU"
+                width="70px"
+                :formatter="appendCPUUnit"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                prop="memory"
+                :label="$t('workspace.deployDebugVm.memory')"
+                width="80px"
+                :formatter="appendSizeUnit"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                prop="systemDisk"
+                :label="$t('workspace.deployDebugVm.systemDisk')"
+                width="105px"
+                :formatter="appendSizeUnit"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                prop="dataDisk"
+                :label="$t('workspace.deployDebugVm.dataDisk')"
+                width="90px"
+                :formatter="appendSizeUnit"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                prop="gpu"
+                label="GPU"
+                width="90px"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                prop="otherAbility"
+                :label="$t('workspace.deployDebugVm.otherAbility')"
+                show-overflow-tooltip
+              />
+            </el-table>
+          </div>
+        </div>
+      </div>
+      <div class="select-mirror">
+        <div class="work-title">
+          {{ $t('workspace.deployDebugVm.selectVmImageTip') }}
+        </div>
+        <div class="select-mirror-content">
+          <el-row
+            :gutter="24"
+            class="content-line"
+          >
+            <el-col :span="3">
+              <el-radio
+                v-model="imageType"
+                label="public"
+                class="work-radio"
+                @change="handleChangeImgType"
+              >
+                <div class="work-p">
+                  {{ $t('workspace.deployDebugVm.publicImage') }}
+                </div>
+              </el-radio>
+            </el-col>
+            <el-col :span="5">
+              <el-select
+                class="work-select"
+                v-model="selectedOSName"
+                :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
+                @change="handleChangeOSName"
+                :disabled="imageType === 'private'"
+              >
+                <el-option
+                  v-for="item in osNameOptionList"
+                  :label="item"
+                  :value="item"
+                  :key="item"
+                />
+              </el-select>
+            </el-col>
+            <el-col :span="9">
+              <el-select
+                class="work-select"
+                v-model="selectedSystemId"
+                :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
+                :disabled="imageType === 'private'"
+              >
+                <el-option
+                  v-for="item in operateSystemOptionList"
+                  :label="item.label"
+                  :value="item.systemId"
+                  :key="item.systemId"
+                />
+              </el-select>
+            </el-col>
+          </el-row>
+          <el-row
+            :gutter="24"
+            class="content-line"
+          >
+            <el-col :span="3">
+              <el-radio
+                v-model="imageType"
+                label="private"
+                class="work-radio"
+                @change="handleChangeImgType"
+              >
+                <div class="work-p">
+                  {{ $t('workspace.deployDebugVm.privateImage') }}
+                </div>
+              </el-radio>
+            </el-col>
+            <el-col :span="5">
+              <el-select
+                class="work-select"
+                v-model="selectedOSName"
+                :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
+                @change="handleChangeOSName"
+                :disabled="imageType === 'public'"
+              >
+                <el-option
+                  v-for="item in osNameOptionList"
+                  :label="item"
+                  :value="item"
+                  :key="item"
+                />
+              </el-select>
+            </el-col>
+            <el-col :span="9">
+              <el-select
+                class="work-select"
+                v-model="selectedSystemId"
+                :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
+                :disabled="imageType === 'public'"
+              >
+                <el-option
+                  v-for="item in operateSystemOptionList"
+                  :label="item.label"
+                  :value="item.systemId"
+                  :key="item.systemId"
+                />
+              </el-select>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -281,18 +326,40 @@ export default {
 </script>
 
 <style lang="less">
-.apply-specsetting{
-  padding: 0% 5% 0% 5%;
-  .el-row{
-    padding-bottom: 5px;
+.container-2 {
+  padding: 46px 39px;
+
+  .select-vm-content {
+    margin-left: 53px;
+    margin-top: 30px;
+
+    .work-table {
+      margin-top: 20px;
+    }
   }
-  .el-table{
-    width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  .el-select{
-    margin-left: -10px;
+
+  .select-mirror {
+    margin-top: 46px;
+
+    .select-mirror-content {
+      margin-left: 65px;
+      margin-top: 30px;
+
+      .content-line {
+        margin-bottom: 10px;
+      }
+
+      .work-p {
+        position: relative;
+        left: 30px;
+        top: -25px;
+      }
+
+      .work-select {
+        position: relative;
+        top: -8px;
+      }
+    }
   }
 }
 </style>
