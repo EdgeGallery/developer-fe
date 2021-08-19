@@ -98,7 +98,7 @@
         <el-button
           id="btn_close"
           @click="close()"
-          class="bgBtn defaultFontLight"
+          class="bgBtn"
         >
           {{ $t('common.close') }}
         </el-button>
