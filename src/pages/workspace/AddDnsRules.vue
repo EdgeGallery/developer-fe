@@ -15,16 +15,19 @@
   -->
 
 <template>
-  <div class="addDnsRules">
+  <div class="addDnsRules defaultFontLight">
     <el-dialog
       :title="$t('workspace.add')+$t('workspace.dnsRules')"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
-      width="50%"
       :before-close="handleClose"
       center
     >
+      <p class="title">
+        {{ $t('workspace.add')+$t('workspace.dnsRules') }}
+      </p>
       <el-form
+        :class="{'addDns_en':language==='en'}"
         :model="form"
         size="middle"
         ref="form"
@@ -82,6 +85,7 @@
       </el-form>
 
       <span
+        :class="{'button_en':language==='en'}"
         slot="footer"
         class="dialog-footer"
       >
@@ -115,6 +119,7 @@ export default {
   },
   data () {
     return {
+      language: localStorage.getItem('language'),
       dialogVisible: this.value,
       form: JSON.parse(JSON.stringify(this.editRuleDataprop)),
       options: [
@@ -144,16 +149,34 @@ export default {
 </script>
 <style lang='less'>
 .addDnsRules{
-  .el-dialog--center{
-    .el-dialog__header{
-      text-align: left;
+  .addDns_en{
+    .el-form-item__label{
+      width:140px !important;
+    }
+    .el-form-item__content{
+      margin-left:140px !important;
     }
   }
   .el-form{
-    width: 85%;
+    padding-left:10px;
+    width: 95%;
     .ipAddressType{
       text-align: left;
     }
+    .el-input__inner{
+      height:36px;
+      line-height:36px;
+      border-radius:8px;
+      border-color:#fff;
+      font-family: defaultFontLight;
+      font-size:16px;
+      color:#a698b9;
+    }
+  }
+  .el-form-item__label{
+    font-size:16px;
+    padding-right:24px;
+    color:#380879;
   }
 }
 
