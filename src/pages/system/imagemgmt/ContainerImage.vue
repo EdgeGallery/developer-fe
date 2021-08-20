@@ -142,7 +142,10 @@
                     >
                       <em />{{ $t('system.imageMgmt.operation.upload') }}
                     </li>
-                    <li :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'}">
+                    <li
+                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED'}"
+                      @click="handleDownload(scope.row)"
+                    >
                       <em />{{ $t('common.download') }}
                     </li>
                   </ul>
@@ -277,8 +280,7 @@ export default {
         { text: this.$t('system.imageMgmt.statusValue.merging'), value: 'UPLOADING_MERGING' },
         { text: this.$t('system.imageMgmt.statusValue.uploadSucceeded'), value: 'UPLOAD_SUCCEED' },
         { text: this.$t('system.imageMgmt.statusValue.uploadFailed'), value: 'UPLOAD_FAILED' },
-        { text: this.$t('system.imageMgmt.statusValue.uploadCancelled'), value: 'UPLOAD_CANCELLED' },
-        { text: this.$t('system.imageMgmt.statusValue.published'), value: 'PUBLISHED' }
+        { text: this.$t('system.imageMgmt.statusValue.uploadCancelled'), value: 'UPLOAD_CANCELLED' }
       ]
       this.typeData = [
         { text: this.$t('system.imageMgmt.typeValue.public'), value: 'public' },
@@ -386,7 +388,7 @@ export default {
       })
     },
     handleUpload (row) {
-      if (row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED') {
+      if (row.status === 'UPLOAD_SUCCEED') {
         this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
           confirmButtonText: this.$t('common.confirm'),
           cancelButtonText: this.$t('common.cancel'),
@@ -406,7 +408,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        window.open(imageMgmtService.downloadSystemImageUrl(row.systemId, this.userId))
+        window.open(imageMgmtService.downloadContainerImageUrl(row.imageId))
       })
     },
     processCloseUploadImageDlg () {
