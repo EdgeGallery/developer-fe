@@ -350,6 +350,7 @@ export default {
             group.label = this.language === 'en' ? group.nameEn : group.name
             capabilityGroups.push(group)
           })
+
           resolve(capabilityGroups)
           this.apiDataLoading = false
           this.$nextTick(() => {
@@ -392,6 +393,7 @@ export default {
             group.label = this.language === 'en' ? group.nameEn : group.name
             group.leaf = false
           })
+          groups.reverse()
           resolve(groups)
           let rootNodes = this.$refs.treeList.root
           if (rootNodes.childNodes.length > 0) {
@@ -462,6 +464,7 @@ export default {
                 group.selectedCapabilities = selectedCapabilities
               }
             })
+            groups.reverse()
             resolve(groups)
 
             // expand
