@@ -362,7 +362,10 @@ export default {
       }
     },
     expandRootNodeAndSelectFirstLeafNode () {
-      let rootNodes = this.$refs.treeList.root
+      let rootNodes = {}
+      if (this.$refs.treeList) {
+        rootNodes = this.$refs.treeList.root
+      }
 
       for (let rootNode of rootNodes.childNodes) {
         rootNode.expand()
@@ -499,7 +502,7 @@ export default {
     // edit projectDetail
     async editProjectDetail () {
       this.tree = []
-      await this.getCapabilityGroups()
+      await this.loadNewCapabilityNode()
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         this.hasService = true
@@ -653,7 +656,8 @@ export default {
       this.language = localStorage.getItem('language')
       this.tags = []
       if (!this.showCapability && this.toDetailType === 'addNewPro') {
-        this.getCapabilityGroups()
+        // this.getCapabilityGroups()
+        this.loadNewCapabilityNode()
       } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
         this.editProjectDetail()
       } else {
