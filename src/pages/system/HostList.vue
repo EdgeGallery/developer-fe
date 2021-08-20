@@ -78,7 +78,7 @@
           <el-button
             id="btn_close"
             @click="onClose"
-            class="bgBtn defaultFontLight"
+            class="bgBtn"
           >
             {{ $t('common.close') }}
           </el-button>
@@ -295,7 +295,7 @@
               :content="this.$t('promptMessage.typeConfig')"
               placement="right"
             >
-              <em class="default_info el-icon-warning" />
+              <span class="default_info_promt">i</span>
             </el-tooltip>
           </el-upload>
         </el-form-item>
@@ -346,17 +346,17 @@
           >
             <el-button
               @click="innerVisible=isEdit=false"
-              class="bgBtn defaultFontLight"
+              class="bgBtn"
             >{{ $t('common.cancel') }}</el-button>
             <el-button
               v-if="!isEdit"
               @click="isEdit=true"
-              class="bgBtn defaultFontLight"
+              class="bgBtn"
             >{{ $t('common.edit') }}</el-button>
             <el-button
               type="primary"
               @click="confirmData"
-              class="bgBtn defaultFontLight"
+              class="bgBtn"
             >{{ $t('common.confirm') }}</el-button>
           </span>
         </el-dialog>
@@ -368,7 +368,7 @@
       >
         <el-button
           @click="visible = false"
-          class="bgBtn defaultFontLight"
+          class="bgBtn"
         >
           {{ $t('common.cancel') }}
         </el-button>
@@ -377,7 +377,7 @@
           size="medium"
           :loading="loading"
           @click="onSubmit"
-          class="bgBtn defaultFontLight"
+          class="bgBtn"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -491,12 +491,7 @@
           </template>
         </el-table-column>
         <template slot="empty">
-          <div>
-            <img
-              src="../../assets/images/empty.png"
-              alt=""
-              style="padding: 10px;"
-            >
+          <div class="empty_img">
             <p>{{ $t('api.noDataNotice') }}</p>
           </div>
         </template>

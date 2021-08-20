@@ -498,6 +498,9 @@ let imageMgmtService = {
   },
   mergeContainerImage: function (imageId, fileName, identifier) {
     return Get('mec/developer/v2/image/' + imageId + '/merge?fileName=' + fileName + '&guid=' + identifier)
+  },
+  downloadContainerImageUrl: function (imageId) {
+    return urlPrefix + 'mec/developer/v2/container/images/' + imageId + '/download'
   }
 
 }

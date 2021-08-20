@@ -105,7 +105,7 @@
         <el-button
           @click="handleClose"
           :disabled="isUploading"
-          class="bgBtn defaultFontLight"
+          class="bgBtn"
         >
           <strong>{{ $t('common.close') }}</strong>
         </el-button>

@@ -236,6 +236,7 @@ export default {
         }
       ],
       serviceDetail: {
+        id: '',
         capabilityType: '',
         serviceName: '',
         uploadTime: 0,
@@ -362,7 +363,10 @@ export default {
       }
     },
     expandRootNodeAndSelectFirstLeafNode () {
-      let rootNodes = this.$refs.treeList.root
+      let rootNodes = {}
+      if (this.$refs.treeList) {
+        rootNodes = this.$refs.treeList.root
+      }
 
       for (let rootNode of rootNodes.childNodes) {
         rootNode.expand()
@@ -499,28 +503,28 @@ export default {
     // edit projectDetail
     async editProjectDetail () {
       this.tree = []
-      await this.getCapabilityGroups()
+      // await this.loadNewCapabilityNode()
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         this.hasService = true
-        if (res.data.capabilityList.length > 0) {
-          let capaList = res.data.capabilityList
+        Capability.getCapabilityByProjectId(projectId).then(result => {
+          let capaList = result.data
           let firstSelected = true
           capaList.forEach(capa => {
             this.$nextTick(() => {
-              this.$refs.treeList.setCurrentKey(capa.groupId)
-              this.$refs.treeList.setChecked(capa.groupId, true)
+              this.$refs.treeList.setCurrentKey(capa.id)
+              this.$refs.treeList.setChecked(capa.id, true)
               if (firstSelected) {
-                let node = this.$refs.treeList.getNode(capa.groupId)
-                this.handleNodeClick(node.data)
+                let node = this.$refs.treeList.getNode(capa.id)
+                this.handleNodeClick(node.data, node)
                 firstSelected = false
               }
-              this.defaultShowNodes.push(capa.groupId)
+              this.defaultShowNodes.push(capa.id)
             })
           })
-        }
-        this.apiType = res.data.type
-        this.apiDataLoading = false
+          this.apiType = res.data.type
+          this.apiDataLoading = false
+        })
       })
     },
     // Fetch project detail
@@ -553,6 +557,7 @@ export default {
       if (data.leaf) {
         let apiUrl = ''
         this.groupId = data.groupId
+        this.serviceDetail.id = data.id
         this.serviceDetail.capabilityType = data.group.type
         this.serviceDetail.serviceName = data.label
         this.serviceDetail.uploadTime = data.uploadTime
@@ -651,16 +656,18 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      this.tags = []
-      if (!this.showCapability && this.toDetailType === 'addNewPro') {
-        this.getCapabilityGroups()
-      } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
-        this.editProjectDetail()
-      } else {
-        this.getProjectDetail()
-        this.showCheckbox = false
-        this.isClosable = false
-      }
+      let rootNodes = this.$refs.treeList.root.childNodes
+      rootNodes.forEach(rootNode => {
+        rootNode.data.label = this.language === 'en' ? rootNode.data.nameEn : rootNode.data.name
+        rootNode.loaded = false
+        let leafNodes = rootNode.childNodes
+        leafNodes.forEach(leafNode => {
+          leafNode.data.label = this.language === 'en' ? leafNode.data.nameEn : leafNode.data.name
+          if (this.serviceDetail.id === leafNode.data.id) {
+            this.serviceDetail.serviceName = leafNode.data.label
+          }
+        })
+      })
     },
     showCapability: {
       deep: true,
