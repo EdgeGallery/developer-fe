@@ -408,7 +408,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        window.open(imageMgmtService.downloadContainerImageUrl(row.imageId))
+        window.location.href = imageMgmtService.downloadContainerImageUrl(row.imageId)
       })
     },
     processCloseUploadImageDlg () {
