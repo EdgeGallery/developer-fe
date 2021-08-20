@@ -155,8 +155,8 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         let data = res.data.capabilityList
-        this.serviceNum = data.length
-        if (data.length > 0) {
+        if (data) {
+          this.serviceNum = data.length
           data.forEach(dataItem => {
             dataItem.capabilityDetailList.forEach(service => {
               this.apiFileIdArr.push(service.apiFileId)

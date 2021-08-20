@@ -732,15 +732,17 @@ export default {
     projectDependent (res) {
       let dependent = res.data.capabilityList
       let arr = []
-      dependent.forEach(item => {
-        item.capabilityDetailList.forEach(itemSub => {
-          if (this.language === 'cn') {
-            arr.push(itemSub.service)
-          } else {
-            arr.push(itemSub.serviceEn)
-          }
+      if (dependent) {
+        dependent.forEach(item => {
+          item.capabilityDetailList.forEach(itemSub => {
+            if (this.language === 'cn') {
+              arr.push(itemSub.service)
+            } else {
+              arr.push(itemSub.serviceEn)
+            }
+          })
         })
-      })
+      }
       arr = Array.from(new Set(arr))
       this.dependentNum = arr.length
       this.projectDetailData.dependent = arr.join('，')
@@ -967,9 +969,12 @@ export default {
     },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
-        this.projectDependent(res)
-      })
+      let toDetailType = sessionStorage.getItem('toDetailType')
+      if (toDetailType !== 'addNewPro') {
+        Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+          this.projectDependent(res)
+        })
+      }
       this.checkProjectData()
     }
   }
