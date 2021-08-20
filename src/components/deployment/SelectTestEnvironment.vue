@@ -57,17 +57,15 @@
     <div class="deployment-button__wrapper">
       <el-button
         class="deploy-btn"
-        :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
         :disabled="deployStatus === 'DEPLOYING' || testFinished"
-        @click="startDeploy"
+        @click="handleStartDeploy"
       >
         {{ $t("workspace.startDeployment") }}
       </el-button>
       <el-button
         class="deploy-btn"
-        :type="deployStatus !== 'DEPLOYING' ? 'primary' : 'info'"
         :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
-        @click="cleanTestEnv"
+        @click="handleCleanTestEnv"
       >
         {{ $t("workspace.recycle") }}
       </el-button>
@@ -77,7 +75,30 @@
 
 <script>
 export default {
-  name: 'SelectTestEnvironment'
+  name: 'SelectTestEnvironmentComp',
+  props: {
+    deployStatus: {
+      type: String,
+      default: ''
+    },
+    testFinished: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      testEnvsIndex: '0'
+    }
+  },
+  methods: {
+    handleStartDeploy () {
+      this.$emit('startDeploy', this.testEnvsIndex)
+    },
+    handleCleanTestEnv () {
+      this.$emit('cleanTestEnv')
+    }
+  }
 }
 </script>
 
