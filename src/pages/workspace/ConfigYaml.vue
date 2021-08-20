@@ -16,17 +16,22 @@
 
 <template>
   <div class="config-yaml">
-    <el-tabs
-      v-model="activeName"
-      @tab-click="handleClick"
-    >
-      <el-tab-pane
-        :label="$t('workspace.configYaml.importFile')"
-        name="first"
-      >
+    <div class="container1">
+      <div class="work-title-clickable">
+        <el-radio
+          class="work-radio"
+          v-model="selectConfigType"
+          label="1"
+        >
+          {{ $t('workspace.configYaml.importFile') }}
+        </el-radio>
+      </div>
+      <div class="content">
+        <div class="work-p">
+          {{ $t('workspace.configYaml.uploadYamlTip') }}
+        </div>
         <el-upload
-          id="uploadYaml"
-          class="upload-demo clear"
+          class="uploader"
           action=""
           :on-change="handleChangeYaml"
           :limit="1"
@@ -38,29 +43,17 @@
           name="yamlFile"
           v-loading="uploadYamlLoading"
         >
-          <el-button
-            slot="trigger"
-            size="medium"
-            type="primary"
-            class="featuresBtn"
-          >
+          <el-button slot="trigger">
             {{ $t('workspace.configYaml.uploadYaml') }}
           </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
-          >
-            <em class="el-icon-warning" />{{ $t('workspace.configYaml.uploadYamlTip') }}
-          </div>
-          <a
+          <el-button
+            class="down-demo"
             :href="demoYaml"
             download="demo.yaml"
-            class="down-demo"
           >
             {{ $t('workspace.configYaml.downloadDemo') }}
-          </a>
+          </el-button>
         </el-upload>
-
         <div v-show="hasValidate">
           <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
@@ -115,24 +108,21 @@
             </div>
           </div>
         </div>
-        <div
-          class="yaml_content"
-          v-if="fileUploadSuccess"
+      </div>
+    </div>
+    <div class="container2">
+      <div class="work-title-clickable">
+        <el-radio
+          class="work-radio"
+          v-model="selectConfigType"
+          label="2"
         >
-          <mavon-editor
-            v-model="markdownSource"
-            :toolbars-flag="false"
-            :editable="false"
-            :subfield="false"
-            default-open="preview"
-            :box-shadow="false"
-            preview-background="#ffffff"
-          />
-        </div>
-      </el-tab-pane>
-      <el-tab-pane
-        :label="$t('workspace.configYaml.config')"
-        name="second"
+          {{ $t('workspace.configYaml.config') }}
+        </el-radio>
+      </div>
+      <div
+        v-if="selectConfigType === '2'"
+        class="content"
       >
         <configVisual
           :all-step-data="allStepData"
@@ -140,8 +130,14 @@
           :deploy-file-id="appYamlFileId"
           ref="configVisual"
         />
-      </el-tab-pane>
-    </el-tabs>
+      </div>
+      <div
+        v-else
+        class="work-p content"
+      >
+        {{ $t('workspace.configYaml.visualConfigTip') }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -149,6 +145,7 @@
 import { Workspace } from '../../tools/api.js'
 import demoYaml from '@/assets/file/test_helm_template.yaml'
 import configVisual from './ConfigVisual.vue'
+
 export default {
   name: 'ConfigYaml',
   props: {
@@ -174,7 +171,8 @@ export default {
       projectId: sessionStorage.getItem('mecDetailID'),
       markdownSource: '',
       showResult: true,
-      fileUploadSuccess: false
+      fileUploadSuccess: false,
+      selectConfigType: '1'
     }
   },
   methods: {
@@ -351,88 +349,35 @@ export default {
 </script>
 
 <style lang="less">
-.config-yaml{
-  .el-tabs{
-    .el-tabs__item{
-      height: 15px;
-      line-height: 15px;
-      padding: 0 20px;
-      font-size: 18px;
-      margin:10px 0 18px 0;
-      border-right: 1px solid #ddd;
-      border-radius: 0;
+.config-yaml {
+  .content {
+    margin: 20px 53px;
+
+    .tip {
+      font-size: 14px;
     }
-    .el-tabs__item:last-child{
-      border-right: 0;
-    }
-    .el-tabs__item.is-active{
-      color: #688ef3;
-    }
-    .el-tabs__item.is-disabled{
-      cursor: not-allowed;
-    }
-    .el-tabs__active-bar{
-      height: 4px;
-    }
-    .el-tab-pane{
-      padding: 20px 0;
-    }
-    .upload-demo{
-      .el-upload{
-        float: left;
-      }
-      .el-upload__tip{
+
+    .uploader {
+      margin-top: 15px;
+      margin-left: -10px;
+
+      .el-button {
+        height: 32px;
+        line-height: 32px;
         font-size: 16px;
-        float: left;
-      }
-      .el-upload-list{
-        float: left;
-        width: 100%;
-      }
-    }
-    .down-demo {
-      display: inline-block;
-      margin: 5px 0 0 15px;
-      font-size: 16px;
-      cursor: pointer;
-      color: #688ef3;
-    }
-  }
-  .test {
-    font-size: 14px;
-    margin-top: 15px;
-    margin-right: 15px;
-    display: inline-block;
-  }
-  .test.tit{
-    display: block;
-  }
-  .green {
-    color: green
-  }
-  .red {
-    color: red
-  }
-  .yellow{
-    color:#dbb419;
-  }
-  .yaml_content{
-    line-height: 25px;
-    white-space: pre-wrap;
-    margin-top: 20px;
-    overflow: auto;
-    min-height: 600px;
-    .v-note-wrapper{
-      border: none;
-    }
-    .v-note-wrapper .v-note-panel .v-note-show{
-      overflow: hidden;
-      .hljs, pre{
-        background: #1e1e1e;
-        color: #fff;
+        font-family: defaultFontLight;
+        border: none;
+        border-radius: 8px;
+        color: #ffffff;
+        background-color:#8278b7;
+        padding: 0 20px;
+        margin-left: 10px;
       }
     }
+  }
+
+  .container2 {
+    padding-top: 30px;
   }
 }
-
 </style>
