@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="uploader_container">
+  <div class="uploader-container">
     <uploader
       :options="options"
       class="uploader-example"
@@ -24,14 +24,9 @@
     >
       <uploader-unsupport />
       <uploader-drop>
-        <uploader-btn>{{ btnNameProp }}</uploader-btn>
-        <el-tooltip
-          effect="dark"
-          :content="this.$t('promptMessage.imageFileType')"
-          placement="right"
-        >
-          <em class="el-icon-question" />
-        </el-tooltip>
+        <div class="upolader-button-wrapper">
+          <uploader-btn>{{ btnNameProp }}</uploader-btn>
+        </div>
       </uploader-drop>
       <uploader-list />
     </uploader>
@@ -109,27 +104,40 @@ export default {
 </script>
 
 <style lang="less">
-.uploader_container{
+.uploader-container {
   .uploader-example {
-    font-size: 12px;
-    .uploader-drop{
-      border: none;
-      background: none;
-      padding: 0;
-      margin-bottom: 10px;
-      .uploader-btn{
-        border: 1px solid #c3d2fa;
-        background:#f0f4fe;
-        color: #688ef3;
-        padding: 8px 24px;
-        border-radius: 3px;
-      }
-      .uploader-btn:hover{
-        background:#688ef3;
-        color: #fff;
-      }
-    }
+    margin-top: 15px;
+    font-size: 16px;
   }
+
+  .uploader-drop {
+    border: none;
+    background: none;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  .uploader-btn {
+    padding: 0 15px;
+    height: 39px;
+    line-height: 39px;
+    color: white;
+    background-color: #8278b7;
+    border: none;
+    border-radius: 8px;
+    font-family: defaultFontLight;
+  }
+
+  .uploader-btn:hover {
+    color: white;
+    background-color: #8278b7;
+  }
+
+  .uploader-file {
+    font-size: 14px;
+    font-family: defaultFontLight;
+  }
+
   .uploader-example .uploader-list {
     width: 100%;
     min-width: 270px;
@@ -148,11 +156,6 @@ export default {
         }
       }
     }
-  }
-  .el-icon-question:before{
-    color: #688ef3;
-    font-size: 16px;
-    margin-left: 5px;
   }
 }
 

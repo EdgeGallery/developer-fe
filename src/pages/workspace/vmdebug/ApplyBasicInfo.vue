@@ -78,7 +78,7 @@ export default {
           {
             pattern:
               /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/,
-            message: this.$t('promptMessage.nameRule')
+            message: this.$t('promptMessage.nameRuleResourceConfig')
           }
         ]
       },

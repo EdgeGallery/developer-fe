@@ -229,57 +229,18 @@
             <em :class="['tab_deploy',selectedName==='4' || activeName==='4'?'tab_active':'tab_default']" />{{ $t('workspace.deploymentTest') }}
           </span>
           <div v-if="activeName === '4'">
-            <div
-              id="div_deploydebug_k8s"
-              v-if="deployPlatform === 'KUBERNETES'"
-            >
-              <el-steps
-                :active="active"
-                finish-status="success"
-                align-center
-              >
-                <el-step :title="$t('workspace.selectImage')" />
-                <el-step :title="$t('workspace.configureYaml')" />
-                <el-step :title="$t('workspace.deploymentTest')" />
-              </el-steps>
-              <div class="elSteps">
-                <component
-                  :is="currentComponent"
-                  :active="active"
-                  @getStepData="getStepData"
-                  @getBtnStatus="getBtnStatus"
-                  :project-before-config="projectBeforeConfig"
-                  :all-step-data="allStepData"
-                  @getAppapiFileId="getAppapiFileId"
-                  ref="currentComponet"
-                  @checkCleanEnv="checkCleanEnv"
-                />
-              </div>
-              <div class="elButton">
-                <el-button
-                  id="prevBtn"
-                  type="text"
-                  @click="previous"
-                  v-if="active>0"
-                  :disabled="isDeploying"
-                >
-                  <strong>{{ $t('workspace.previous') }}</strong>
-                </el-button>
-                <el-button
-                  id="nextBtn"
-                  type="primary"
-                  v-loading="apiDataLoading"
-                  @click="next"
-                  v-if="active<2"
-                >
-                  <strong>{{ $t('workspace.next') }}</strong>
-                </el-button>
-              </div>
-            </div>
             <DeployDebugVMMain
-              :project-id="projectId"
               v-if="deployPlatform === 'VIRTUALMACHINE'"
+              :project-id="projectId"
               @getImageStatus="getImageStatus"
+            />
+            <DeployDebugK8sMain
+              v-else
+              :project-id="projectId"
+              :project-before-config="projectBeforeConfig"
+              :api-data-loading="apiDataLoading"
+              @getAppapiFileId="getAppapiFileId"
+              @checkCleanEnv="checkCleanEnv"
             />
           </div>
         </el-tab-pane>
@@ -315,15 +276,12 @@
 
 <script>
 import { Workspace, vmService } from '../../tools/api.js'
-import imageSelect from './ImageSelect.vue'
-import configYaml from './ConfigYaml.vue'
 import EnvPreparation from './EnvPreparation.vue'
-import choosePlatform from './ChoosePlatform.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
-import DeployDebugVMMain from './vmdebug/Main.vue'
+import DeployDebugVMMain from './vmdebug/DeployDebugVMMain.vue'
+import DeployDebugK8sMain from './vmdebug/DeployDebugK8sMain.vue'
 import { Industry, Type, Capability } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
-import deployment from './Deployment.vue'
 import appRelease from './AppRelease.vue'
 import ResourceConfig from './vmdebug/DeployDebugStep.vue'
 import firstStep from './NewProjectFirst.vue'
@@ -331,18 +289,14 @@ import ProjectFormDetail from './ProjectFormDetail.vue'
 export default {
   name: 'AppDetail',
   components: {
-    imageSelect,
-    configYaml,
     EnvPreparation,
-    choosePlatform,
     publishAppDialog,
     DeployDebugVMMain,
+    DeployDebugK8sMain,
     api,
-    deployment,
     appRelease,
     ResourceConfig,
     firstStep,
-    Capability,
     ProjectFormDetail
   },
   data () {
@@ -845,18 +799,8 @@ export default {
       this.changeComponent()
       this.allStepData.ifNext = false
     },
-    getStepData (data) {
-      this.allStepData[data.step] = data.data
-      this.allStepData.ifNext = data.ifNext
-    },
     getFormData ({ data, step }) {
       this.allFormData[step] = data
-    },
-    getBtnStatus (status) {
-      this.isDeploying = status.status
-      this.deployed = status.deploy
-      this.isCompleted = status.isCompleted
-      this.isfail = status.isFail
     },
     getAppapiFileId (data) {
       this.appApiFileIdTemp = data
