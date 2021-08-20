@@ -137,18 +137,13 @@ export default {
       }
     },
     next () {
-      // debug
-      this.currentStep++
-      this.handleStep()
-
-      // Fetch component internal value
       this.$refs.currentComponet.emitStepData()
-      // if (this.allStepData.ifNext) {
-      //   if (this.currentStep < 2) {
-      //     this.currentStep++
-      //     this.handleStep()
-      //   }
-      // }
+      if (this.allStepData.ifNext) {
+        if (this.currentStep < 2) {
+          this.currentStep++
+          this.handleStep()
+        }
+      }
     },
     previous () {
       this.currentStep--
