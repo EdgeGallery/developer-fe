@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="addAppPublish">
+  <div class="addAppPublish defaultFontLight">
     <el-dialog
       :title="$t('workspace.add')+$t('workspace.appPublishConfig')"
       :visible.sync="dialogVisible"
@@ -28,6 +28,7 @@
         ref="form"
         :rules="rules"
         class="config_form"
+        :class="{'addAppPublishConfig_en':language==='en'}"
         size="mini"
       >
         <el-form-item
@@ -67,6 +68,21 @@
           </el-select>
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.description')"
+          :label-width="formLabelWidth"
+          class="service_row"
+          prop="description"
+        >
+          <el-input
+            type="textarea"
+            v-model="form.description"
+            :placeholder="$t('workspace.description')"
+            :rows="2"
+            maxlength="400"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item
           :label="$t('devTools.uploadApiFile')"
           :label-width="formLabelWidth"
           class="service_row f50 fileP"
@@ -98,10 +114,11 @@
               :content="this.$t('devTools.apiText')"
               placement="right"
             >
-              <em class="el-icon-question" />
+              <em class="el-icon-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
+
         <el-form-item
           :label="$t('workspace.uploadFile')"
           :label-width="formLabelWidth"
@@ -134,25 +151,11 @@
               :content="this.$t('workspace.apiFunctionMd')"
               placement="right"
             >
-              <em class="el-icon-question" />
+              <em class="el-icon-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
-        <el-form-item
-          :label="$t('workspace.description')"
-          :label-width="formLabelWidth"
-          class="service_row"
-          prop="description"
-        >
-          <el-input
-            type="textarea"
-            v-model="form.description"
-            :placeholder="$t('workspace.description')"
-            :rows="2"
-            maxlength="400"
-            show-word-limit
-          />
-        </el-form-item>
+
         <el-form-item
           :label="$t('workspace.registInformation')"
           label-width="100%"
@@ -245,6 +248,7 @@
       </el-form>
 
       <span
+        :class="{'button_en':language==='en'}"
         slot="footer"
         class="dialog-footer"
       >
@@ -524,19 +528,54 @@ export default {
 </script>
 <style lang='less'>
 .addAppPublish{
-  .el-dialog{
-    width: 40%;
+  .addAppPublishConfig_en{
+     .service_row .el-form-item__label{
+       width:155px !important;
+     }
+     .service_row .el-form-item__content{
+       margin-left:155px !important;
+     }
   }
-  @media screen and (max-width:1450px){
-    .el-dialog{
-      width: 55%;
+  .el-dialog__footer{
+    padding-bottom:0px;
+  }
+  .el-button--default{
+     border: 1px solid #5844be;
+    color: #fff;
+    background-color: #5844be;
+    width: 8%;
+    padding: 8px 15px;
+     border-radius:10px;
+  }
+  .el-button--primary{
+      border: 1px solid #5844be;
+      color: #fff;
+      background-color: #5844be;
+      padding: 8px 15px;
+      border-radius:10px;
+
     }
-  }
-  .el-dialog--center{
-    .el-dialog__header{
-      text-align: left;
-    }
-  }
+.el-upload{
+  width:50%;
+}
+.el-button.featuresBtn{
+      background: #a59fc9 !important;
+    border: 1px solid #a59fc9 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-size:16px !important ;
+    width:100% !important;
+}
+.el-form{
+  width:95% !important;
+}
+.el-form .el-tooltip{
+  font-size:16px;
+}
+.el-icon-info:before{
+  color:#5844be;
+}
+
   .el-form{
     width: 100%;
     .service_row .el-form-item__content > span{
@@ -553,7 +592,9 @@ export default {
         width: 100%;
       }
       .el-form-item__label{
-        color: #adb0b8;
+        color: #380879;
+        padding-right:20px;
+        font-size: 16px;
       }
     }
     .service_row:before{
@@ -563,10 +604,23 @@ export default {
     }
     .service_title{
       .el-form-item__label{
+        font-weight:200 !important;
         text-align: left;
-        font-size: 18px;
-        color: #606266;
+        font-size: 20px;
+        color: #380879;
       }
+
+  .el-form-item__label::before{
+    content:'';
+    display:inline-block;
+    width:17px;
+    height:17px;
+    margin-right:13px;
+    background: linear-gradient(60deg,#70dcc7,#bdeae1);
+    position: relative;
+    top:2px;
+    border-radius:3px;
+  }
     }
     .el-tooltip{
       float: left;
@@ -583,12 +637,30 @@ export default {
     .fileP{
       .el-form-item__label{
         padding-top: 2px;
+        margin-bottom:30px;
       }
     }
     .el-checkbox-group{
       text-align: left;
       float: left;
       width: calc( 100% - 120px );
+    }
+
+    .el-input--mini .el-input__inner{
+      height:36px;
+      line-height:36px;
+      border-radius:8px;
+      font-size:16px;
+      font-family: defaultFontLight;
+      border-color:#fff;
+    }
+    .el-textarea__inner{
+      border-color:#fff;
+       font-family: defaultFontLight;
+       font-size:16px;
+    }
+    .el-input__count{
+      font-size:16px;
     }
   }
 }
