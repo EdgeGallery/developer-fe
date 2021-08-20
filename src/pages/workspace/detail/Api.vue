@@ -40,7 +40,7 @@
           @close="handleDeleteTag(tag)"
           style="margin-left: 10px;"
         >
-          {{ tag.label }}
+          {{ language === 'en' ? tag.nameEn : tag.name }}
         </el-tag>
       </div>
     </div>
@@ -101,7 +101,7 @@
               </p>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
+                  <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ language === 'en' ? serviceDetail.serviceNameEn : serviceDetail.serviceName }}
                 </el-col>
                 <el-col :span="12">
                   <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
@@ -239,6 +239,7 @@ export default {
         id: '',
         capabilityType: '',
         serviceName: '',
+        serviceNameEn: '',
         uploadTime: 0,
         version: ''
       },
@@ -559,7 +560,8 @@ export default {
         this.groupId = data.groupId
         this.serviceDetail.id = data.id
         this.serviceDetail.capabilityType = data.group.type
-        this.serviceDetail.serviceName = data.label
+        this.serviceDetail.serviceName = data.name
+        this.serviceDetail.serviceNameEn = data.nameEn
         this.serviceDetail.uploadTime = data.uploadTime
         this.serviceDetail.version = data.version
         this.apiFileId = data.apiFileId
@@ -656,18 +658,7 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      let rootNodes = this.$refs.treeList.root.childNodes
-      rootNodes.forEach(rootNode => {
-        rootNode.data.label = this.language === 'en' ? rootNode.data.nameEn : rootNode.data.name
-        rootNode.loaded = false
-        let leafNodes = rootNode.childNodes
-        leafNodes.forEach(leafNode => {
-          leafNode.data.label = this.language === 'en' ? leafNode.data.nameEn : leafNode.data.name
-          if (this.serviceDetail.id === leafNode.data.id) {
-            this.serviceDetail.serviceName = leafNode.data.label
-          }
-        })
-      })
+      this.defaultProps.label = this.language === 'en' ? 'nameEn' : 'name'
     },
     showCapability: {
       deep: true,
