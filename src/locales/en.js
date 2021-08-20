@@ -17,6 +17,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 const en = {
   common: {
+    cancelText: 'OK',
     cancel: 'Cancel',
     confirm: 'Confirm',
     close: 'Close',
@@ -33,7 +34,9 @@ const en = {
     status: 'Status',
     operation: 'Operation',
     all: 'All',
-    unknown: 'Unknown'
+    unknown: 'Unknown',
+    more: 'More',
+    check: 'Check'
   },
   home: {
     enterDev: 'Enter development',
@@ -200,7 +203,8 @@ const en = {
       format: 'format check',
       imageInfo: 'image information',
       serviceInfo: 'service information',
-      mepAgent: 'MEP Agent（If mepagent is not integrated, api cannot be released）'
+      mepAgent: 'MEP Agent (If mepagent is not integrated, api cannot be released)',
+      visualConfigTip: 'If the yaml file has been uploaded, the visual configuration is not required'
     },
     uploadImage: {
       successfulTest: 'Test successfully',
@@ -214,13 +218,13 @@ const en = {
       software: 'Software',
       version: 'Version',
       uploadAppImage: 'Upload APP Image',
-      mode1: 'Mode 1:',
-      mode1Desc: 'Upload app image to the public repository (supports dockerhub and SWR)',
-      mode1Tip: 'Note: Please refer to the image uploaded to the public repository directly in the deployment file',
-      mode2: 'Mode 2:',
+      mode1: 'Mode 1',
+      mode1Desc: 'Upload app image to the public repository',
+      mode1Tip: 'Note: Support dockerhub, SWR mirror warehouse, the mirror that has been uploaded to the public warehouse, please refer to it directly in the configuration file',
+      mode2: 'Mode 2',
       mode2Desc: 'Upload app image to the EdgeGallery repository',
-      mode2Tip: 'Note: EdgeGallery ensures that images uploaded by users are not visible to other users',
-      mode3: 'Mode 3:',
+      mode2Tip: 'Note: Please upload files in rar, tar, zip format, and the size does not exceed 5G',
+      mode3: 'Mode 3',
       mode3Desc: 'Upload app image to the private Edge Node',
       mode3Tip: 'How to build a private Edge Node, please refer to'
     },
@@ -289,7 +293,8 @@ const en = {
       noService: 'Your application does not rely on the ecosystem services of the platform',
       blackWhiteList: 'Black and White list',
       UEIdentity: 'UE Identity',
-      enterAtp: 'Enter Application Testing Platform'
+      enterAtp: 'Enter Application Testing Platform',
+      selectInitialization: 'Please select the service you need in the service list on the left'
     },
     deployDebugVm: {
       vmNameLbl: 'Name',
@@ -308,6 +313,7 @@ const en = {
       otherSetting: 'Application Setting',
       configNetwork: 'Network Setting',
       vmName: 'Virtual Machine Name',
+      vmSpec: 'Virtual Machine Specification',
       selectVmSpecTip: 'Select Virtual Machine Specification',
       vmSpecMustSelectTip: 'Please select virtual machine specification!',
       scene: 'Scene',
@@ -344,14 +350,16 @@ const en = {
       deleteVmDeployList: 'Are you sure you want to delete the deployment test result?',
       resourceConfigPromt: 'Please configure resources first',
       releasePromt: 'The application has no resource configuration and cannot be published',
-      flavorExtraSpecs: 'Flavor Extra Specs:',
+      flavorExtraSpecs: 'Flavor Extra Specs',
       useScript: 'Whether to use injection script:',
+      script: 'Script',
       resourceConfig: 'Resource Allocation',
       deploySelect: 'Optional deployment and commissioning',
       deployTips: 'Through deployment and commissioning, you can apply for the virtual machine environment to import the app test package and test it, and you can directly publish the vm package without the deployment and commissioning.',
       setTips: 'Application settings are optional according to the application',
-      akTitle: 'Application key settings:',
-      generatePackage: 'Generate application package'
+      akTitle: 'Application key settings',
+      generatePackage: 'Generate application package',
+      type: 'Type'
     },
     visualConfig: {
       podBasicInfo: 'Pod Basic Information',
@@ -515,7 +523,7 @@ const en = {
     serviceDetails: 'Service Details',
     releaseTime: 'Release Time',
     sdkDownload: 'SDK Download',
-    apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service ',
+    apiTopText: 'The API simulator provides a public environment for local interface debugging and online simulation testing. Developers can use the simulator host address and application external port number to access locally, In the actual deploy test, use the mep service discovery interface to find the URL of the service.',
     projectDetails: 'Basic Information',
     releaseDetails: 'Capability Release Details',
     releaseTest: 'Application Release Test',
@@ -562,6 +570,9 @@ const en = {
     containerResource: 'Resource',
     hostInfo: 'Host Info',
     selectEnv: 'Select Testing Environment',
+    sandboxEnvDesc: 'Real scences simulation, quick test',
+    fiveGEnv: '5G Environment',
+    fiveGEnvDesc: 'Because of the limit of 5G environment resources, application may fail',
     uploadConfigMessage: 'Please Upload Your Configure File',
     deployConfig: 'Deploy Field',
     clearEnv: 'Testing Environment Cleared',
@@ -570,8 +581,8 @@ const en = {
     uploaded: 'Uploaded',
     privateHost: 'Private Host',
     publicHost: 'Public Host',
-    capabilityInfo1: 'Please select the ecological services that your application needs to rely on. For details on ecological capabilities, please refer to',
-    capabilityInfo2: '. If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.',
+    capabilityInfo1: 'Please select the ecological services that your application needs to rely on. For details on ecological capabilities, please refer to Ability Center.',
+    capabilityInfo2: 'If it is an integrated project, or your service does not need to depend on other services, you can skip this step and continue creating.',
     availableService: 'Available Services',
     selectedService: 'Selected Services',
     recycleTip: 'Note: Please release the resources in time after the test is completed to avoid resource occupation, otherwise the system will automatically release after 24 hours',
@@ -668,7 +679,9 @@ const en = {
     testFail: 'Start Test failed!',
     testComplete: 'You have completed the test, please click to view the report',
     addProjectSuccess: 'New project added successfully!',
+    editProjectSuccess: 'Edit project successfully!',
     addProjectFail: 'Failed to add New project!',
+    editProjectFail: 'Failed to edit project!',
     checkNamePass: 'Authentication Failure, please recheck the User Name or Password.',
     checkCaptcha: 'Invalid captcha, please recheck the Captcha.',
     registerSuccess: 'User is registered successfully!',
@@ -703,7 +716,8 @@ const en = {
     isPublicFailed: 'Exposing API capabilities to EdgeGallery ecosystem failed!',
     canOnlyUpload: 'Can only upload .csar files',
     pluginNameRule: 'Please enter a plugin name of 1-30 characters, the beginning cannot be empty',
-    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, _, -, and cannot start and end with _,-',
+    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, Chinese character, _, -, and cannot start and end with _,-',
+    nameRuleResourceConfig: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, _, -, and cannot start and end with _,-',
     versionRule: 'Please enter the version number of 1-10 characters, can only contain numbers, letters, _,-and spaces, and cannot be empty at the beginning',
     providerRule: 'Please enter a provider name of 1-30 characters, the beginning cannot be empty',
     introductionRule: 'Please enter a description of 1-1024 characters, the beginning cannot be empty or all numbers',
@@ -740,7 +754,9 @@ const en = {
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
     imageInfoErr: 'Please make sure the image information is correct',
     twoLevelName: 'Please enter the service name with a length of 1-40, the beginning cannot be empty',
-    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty'
+    serviceDesc: 'Please enter service description with a length of 1-400, the beginning cannot be empty',
+    typeError: 'Format error',
+    typeConfig: 'Please upload config file'
   },
   breadCrumb: {
     mecDeveloper: 'Home',
@@ -802,7 +818,7 @@ const en = {
     en: 'please input english',
     portRange: 'Port Range',
     config_id: 'Config File',
-    other: 'Other',
+    networkConfig: 'Network Config',
     log: {
       userName: 'Username',
       projectName: 'Project Name',
@@ -865,8 +881,10 @@ const en = {
         systemDiskRule: 'Please enter a 2 to 4-digit integer!',
         uploadImg: 'Upload System Image',
         uploadImgPromt: 'Please put the image file in qcow2 or ISO format into a folder with the same name as the image file, and then zip the folder and upload it.',
+        uploadContainerImgPromt: 'Upload the image package in tar format, rename the format image by parsing the tar package, and push it to the Harbor warehouse',
         uploadImgPromtExample: 'Example:',
         sysImageFileType: 'Please upload files in .zip format, and the size does not exceed 100G!',
+        sysContainerImageFileType: 'Please upload files in .tar format, and the size does not exceed 5G!',
         onlyOneImageFile: 'You can only upload one file!',
         noFileSelected: 'No file selected',
         confirmDeleteImage: 'Are you sure to delete this system image?',

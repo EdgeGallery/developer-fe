@@ -88,7 +88,7 @@
       <el-table-column
         prop="platform"
         :label="$t('workspace.platform')"
-        min-width="9.8%"
+        min-width="7.8%"
       />
       <el-table-column
         :label="$t('workspace.createDate')"
@@ -142,7 +142,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('workspace.operation')"
-        min-width="12.0%"
+        min-width="14.0%"
       >
         <template slot-scope="scope">
           <el-button
@@ -159,15 +159,18 @@
           >
             {{ $t('workspace.detail') }}
           </el-button>
+          <el-button
+            id="editBtn"
+            class="operation_button"
+            :disabled="scope.row.status!=='ONLINE'"
+            @click="toEdit(scope.row)"
+          >
+            {{ $t('common.edit') }}
+          </el-button>
         </template>
       </el-table-column>
       <template slot="empty">
-        <div>
-          <img
-            src="../../assets/images/empty.png"
-            alt=""
-            style="padding: 10px;"
-          >
+        <div class="empty_img">
           <p>{{ $t('api.noDataNotice') }}</p>
         </div>
       </template>
@@ -300,6 +303,19 @@ export default {
     toDetail (item) {
       let mecDetailID = item.id
       sessionStorage.setItem('mecDetailID', mecDetailID)
+      sessionStorage.setItem('toDetailType', 'proDetail')
+      this.$router.push({
+        name: 'appDetail',
+        params: {
+          id: mecDetailID
+        }
+      })
+    },
+    toEdit (item) {
+      let mecDetailID = item.id
+      sessionStorage.setItem('mecDetailID', mecDetailID)
+      sessionStorage.setItem('toDetailType', 'editNewPro')
+
       this.$router.push({
         name: 'appDetail',
         params: {

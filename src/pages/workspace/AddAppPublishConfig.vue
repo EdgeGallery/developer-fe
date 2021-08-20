@@ -58,12 +58,13 @@
             size="mini"
             class="select_right"
             @change="selectOnelevelName"
+            ref="capabilityGroup"
           >
             <el-option
               v-for="item in optionsCapability"
-              :key="item.key"
-              :label="language==='cn'?item.key:item.value"
-              :value="language==='cn'?item.key:item.value"
+              :key="item.id"
+              :label="item.label"
+              :value="item.id"
             />
           </el-select>
         </el-form-item>
@@ -269,7 +270,7 @@
 </template>
 
 <script>
-import { Workspace, Api } from '../../tools/api.js'
+import { Workspace, Capability } from '../../tools/api.js'
 export default {
   props: {
     value: {
@@ -284,7 +285,9 @@ export default {
   data () {
     return {
       dialogVisible: this.value,
-      form: {},
+      form: {
+        oneLevelName: ''
+      },
       trafficRulesList: [],
       dnsRulesList: [],
       optionsProtocol: [{
@@ -294,6 +297,7 @@ export default {
         value: '1',
         label: 'https'
       }],
+      capabilityGroup: '',
       optionsCapability: [],
       optionsTrafficRules: [],
       optionsDnsRules: [],
@@ -337,21 +341,14 @@ export default {
   },
   methods: {
     selectOnelevelName (name) {
-      this.optionsCapability.forEach(item => {
-        if (name === item.key) {
-          this.form.oneLevelName = item.key
-          this.form.oneLevelNameEn = item.value
-        }
-        if (name === item.value) {
-          this.form.oneLevelName = item.value
-          this.form.oneLevelNameEn = item.key
-        }
-      })
+      this.form.oneLevelName = name
     },
     getEditConfigData () {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
       if (data) {
+        this.form.oneLevelName = data.oneLevelName
         this.form = data
+
         this.form.trafficRulesList = data.trafficRulesList.split(',')
         this.form.dnsRulesList = data.dnsRulesList.split(',')
         this.removeEmpty(this.form.trafficRulesList)
@@ -486,17 +483,15 @@ export default {
     },
     // Fetch first left capability list
     getOneLevelCapability () {
-      Api.getCapabilityGroupsApi().then(res => {
-        let oneLevel = []
-        res.data.forEach(item => {
-          this.oneLevelMap.set(item.oneLevelName, item.oneLevelNameEn)
+      Capability.getAllCapabilityGroup().then(result => {
+        let data = result.data
+        data.forEach(item => {
+          item.label = this.language === 'cn' ? item.name : item.nameEn
         })
-        this.oneLevelMap.forEach(function (value, key) {
-          oneLevel.push({ key, value })
-        })
-        this.form.oneLevelName = this.language === 'cn' ? oneLevel[0].key : oneLevel[0].value
-        this.form.oneLevelNameEn = oneLevel[0].value
-        this.optionsCapability = oneLevel
+        this.optionsCapability = data
+        if (data.length > 0) {
+          // this.form.oneLevelName = data[0].id
+        }
       })
     },
     addPublicConfig () {
@@ -519,9 +514,9 @@ export default {
     }
   },
   mounted () {
+    this.getOneLevelCapability()
     this.getEditConfigData()
     this.getRuleList()
-    this.getOneLevelCapability()
   }
 }
 

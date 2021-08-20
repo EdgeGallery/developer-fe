@@ -132,11 +132,14 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <div style="margin-top:20px;text-align:right">
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
       <el-button
         id="btn_cancel"
         @click="cancel()"
-        class="bgBtn defaultFontLight"
+        class="bgBtn"
       >
         {{ $t('common.cancel') }}
       </el-button>
@@ -144,11 +147,11 @@
         id="btn_confirm"
         type="primary"
         @click="confirm()"
-        class="bgBtn defaultFontLight"
+        class="bgBtn"
       >
         {{ $t('common.confirm') }}
       </el-button>
-    </div>
+    </span>
   </el-dialog>
 </template>
 

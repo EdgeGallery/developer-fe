@@ -28,7 +28,7 @@
         <em class="new_icon" />
         {{ $t('system.imageMgmt.tip.newImg') }}
         <em
-          class="system_up"
+          class="system_up el-icon-caret-top"
           v-show="showImageType"
         />
         <el-collapse-transition>
@@ -180,14 +180,11 @@ export default {
       top: 2px;
     }
   }
-  .system_up{
-    display: inline-block;
-      width: 10px;
-      height: 6px;
-      background: url('../../../assets/images/system_up.png');
+  .system_up.el-icon-caret-top{
+      color: #5b2ecd;
       position: absolute;
       right: 25px;
-      top: 54px;
+      top: 47px;
       z-index: 99999;
     }
   .down_div{
@@ -199,7 +196,8 @@ export default {
     font-size: 16px;
     color: #b793e9;
     background-image: linear-gradient(127deg, #4444d0, #6724cb);
-    // box-shadow: 0 0 10px 0 rgba(40, 12, 128, 0.4);
+    box-shadow:0px -20px 15px -15px rgba(94,64,200,0.6),
+               0px 30px 30px -15px rgba(94,64,200,0.6);
     .transition-box{
       height: 40px;
       line-height: 40px;
@@ -208,11 +206,11 @@ export default {
       em{
         display: inline-block;
         width: 3px;
-        height: 15px;
         border-radius: 1.5px;
         position: absolute;
-        top: 12px;
+        top: 16px;
         left: 4px;
+        transition:all 0.6s;
       }
     }
     .transition-box:last-child{
@@ -222,6 +220,8 @@ export default {
       color: #fff;
       em{
         background: #a1a7e6;
+        height: 8px;
+        transform: scale(1,2);
       }
     }
   }
@@ -288,7 +288,7 @@ export default {
     .last_li.vm_default{
       background: #d4d1ec;
       span{
-        background: #f5f6f8;
+        background: linear-gradient(to bottom, #f5f4f8, #f1edf6);
         border-radius: 0 0 0 16px;
         transition: all 0.5s;
       }
@@ -326,11 +326,16 @@ export default {
     background: #fff;
     border-radius: 0 16px 16px 16px;
     transition: all 0.5s;
+    box-shadow: 0 0 68px 5px rgba(94,24,200,0.06);
   }
   .vm_div{
     background: #d4d1ec;
     border-radius: 0 16px 16px 16px;
     transition: all 0.5s;
+  }
+  .view_image_dialog .el-dialog{
+    width: 40%;
+    min-width: 600px;
   }
 }
 </style>

@@ -67,9 +67,9 @@
                 </div>
                 <p
                   class="app_name"
-                  @click="jumpTo('mep',index)"
+                  @click="jumpTo('mep',item)"
                 >
-                  {{ language==='cn'?item.key:item.value }}
+                  {{ language==='cn'?item.name:item.nameEn }}
                 </p>
               </div>
             </swiper-slide>
@@ -123,7 +123,7 @@
 
 <script>
 import { aLinkList } from './home.js'
-import { Api } from '../../tools/api.js'
+import { Capability } from '../../tools/api.js'
 import ProjectHome from '../../components/common/ProjectHome.vue'
 export default {
   name: '',
@@ -191,31 +191,23 @@ export default {
       })
     },
     jumpToProject () {
+      sessionStorage.setItem('toDetailType', 'addNewPro')
       document.getElementById('homeProjectPos').scrollIntoView()
     },
-    jumpTo (name, index) {
+    jumpTo (name, capabilityGroup) {
       sessionStorage.setItem('fromHome', 'home')
-      this.$router.push({ name: name, params: { index: index } })
+      this.$router.push({ name: name, params: { id: capabilityGroup.id } })
     },
     // Get all ability groups
     getCapabilityGroups () {
-      Api.getCapabilityGroupsApi().then(res => {
-        let oneLevel = []
+      Capability.getAllCapabilityGroup().then(res => {
         let data = res.data.reverse()
-        data.forEach(item => {
-          if (item.oneLevelName !== 'ETSI' && item.oneLevelName !== '3GPP') {
-            this.oneLevelMap.set(item.oneLevelName, item.oneLevelNameEn)
-          }
-        })
-        this.oneLevelMap.forEach(function (value, key) {
-          oneLevel.push({ key, value })
-        })
-        this.capabilityGroupData = oneLevel
         this.dataLoading = false
 
-        this.capabilityGroupData.forEach(item => {
+        data.forEach(item => {
+          this.capabilityGroupData.push(item)
           this.capabilityGroupPic.forEach(itemPic => {
-            if (item.value === itemPic.name) {
+            if (item.nameEn === itemPic.name) {
               item.imgSrc = itemPic.src
             }
           })

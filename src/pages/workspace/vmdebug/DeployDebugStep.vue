@@ -16,112 +16,33 @@
 
 <template>
   <div>
-    <el-row :gutter="24">
-      <el-col
-        :span="24"
-        v-if="resourceListData.length!==0"
-      >
-        <el-card
-          class="box-card"
-          v-loading="vmDataLoading"
-        >
-          <div
-            slot="header"
-            class="clearfix"
-          >
-            <table style="width:100%">
-              <caption />
-              <tr>
-                <th scope="heads" />
-                <th scope="heads" />
-              </tr>
-              <tr>
-                <td>
-                  <span class="resCardTitle">{{ $t('workspace.deployDebugVm.vmList') }}</span>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <el-row
-            :gutter="24"
-            v-for="(item,index) in resourceListData"
-            :key="index"
-          >
-            <el-col :span="13">
-              <div>
-                <el-form
-                  label-width="120px"
-                  class="formDetail"
-                >
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmNameLbl')">
-                    {{ item.vmName }}
-                  </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmSpecLbl')">
-                    {{ buildSpecDesc(item) }}
-                  </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmApplyTimeLbl')">
-                    {{ item.createTime }}
-                  </el-form-item>
-                </el-form>
-              </div>
-            </el-col>
-            <el-col :span="11">
-              <div>
-                <el-form
-                  label-width="120px"
-                  class="formDetail"
-                >
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmImageLbl')">
-                    {{ buildSystemDesc(item) }}
-                  </el-form-item>
-                  <el-form-item :label="$t('workspace.deployDebugVm.vmNetworkLbl')">
-                    {{ item.vmNetwork.join(', ') }}
-                  </el-form-item>
-                </el-form>
-              </div>
-            </el-col>
-            <el-col :span="24">
-              <p class="operation_btn">
-                <el-button
-                  type="text"
-                  class="funcBtn"
-                  @click="handleDelResource(item)"
-                  :disabled="item.status==='CREATING'"
-                >
-                  {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
-                </el-button>
-              </p>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
-    </el-row>
     <ApplyVMRes
+      v-if="resourceListData.length === 0"
       v-model="showApplyVMResDlg"
       :project-id="projectId"
       @handleApplySuccess="handleApplySuccess"
       @closeLoading="closeLoading"
-      v-if="resourceListData.length===0"
     />
-    <div v-if="showApplyVMResDlg">
-      <ApplyVMRes
-        v-model="showApplyVMResDlg"
-        :project-id="projectId"
-        @handleApplySuccess="handleApplySuccess"
-        @closeLoading="closeLoading"
-      />
-    </div>
+    <VmDetailPanel
+      v-else
+      :vm-data-loading="vmDataLoading"
+      :resource-list-data="resourceListData"
+      :is-zh="isZh"
+      @handleDelResource="handleDelResource"
+    />
   </div>
 </template>
 
 <script>
 import { vmService } from '../../../tools/api.js'
 import ApplyVMRes from './ApplyVMRes.vue'
+import VmDetailPanel from './VmDetailPanel.vue'
 
 export default {
   name: 'DeployDebugVMStep',
   components: {
-    ApplyVMRes
+    ApplyVMRes,
+    VmDetailPanel
   },
   data () {
     return {
@@ -141,13 +62,6 @@ export default {
       this.vmDataLoading = data
       this.isDisabled = false
     },
-    emitStepData () {
-      let ifNext = true
-      if (ifNext) {
-        const data = {}
-        this.$emit('getStepData', { step: 'first', data, ifNext })
-      }
-    },
     loadVmResourceDataList () {
       vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
         this.resourceListData = []
@@ -162,7 +76,7 @@ export default {
         this.clearInterval()
       })
     },
-    handleDelResource (vmData) {
+    handleDelResource () {
       this.$confirm(this.$t('workspace.deployDebugVm.deleteVmResPrompt'), this.$t('promptMessage.prompt'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
@@ -182,21 +96,6 @@ export default {
       this.interval = setInterval(() => {
         this.loadVmResourceDataList()
       }, 5000)
-    },
-    buildSpecDesc (item) {
-      let vmSpecName = this.isZh ? item.vmRegulation.nameZh : item.vmRegulation.nameEn
-      return item.vmRegulation.architecture +
-        '|' + vmSpecName +
-        '|' + item.vmRegulation.cpu + 'vCPUs' +
-        '|' + item.vmRegulation.memory + 'GB RAM' +
-        '|' + item.vmRegulation.systemDisk + 'GB' +
-        '+' + item.vmRegulation.dataDisk + 'GB Disk'
-    },
-    buildSystemDesc (item) {
-      return item.vmSystem.operateSystem +
-        ' ' + item.vmSystem.version +
-        ' ' + item.vmSystem.systemBit +
-        '(' + item.vmSystem.systemDisk + 'GB Disk)'
     },
     dateChange (dateStr) {
       if (dateStr) {
@@ -237,67 +136,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.formDetail{
-  .el-form-item{
-    margin-bottom:0px!important ;
-    .el-form-item__label{
-      color: #adb0b8;
-      padding-right: 20px;
-    }
-    .el-form-item__content{
-      line-height: 40px;
-    }
-  }
-  .vm_log .el-form-item__content{
-    max-height: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-overflow: -o-ellipsis-lastline;
-    display: -webkit-box;
-    line-clamp:2;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-  }
-}
-.box-card{
-  margin-bottom:10px;
-  overflow: auto;
-  .el-card__header{
-    padding: 10px 20px;
-  }
-  .el-card__body{
-    min-width: 715px;
-  }
-}
-.addRes-box-card{
-  margin-bottom:30px;
-  height: 240px;
-  text-align:center;
-  line-height:240px;
-}
-.operation_btn{
-  width: 100%;
-  height: 25px;
-  line-height: 25px;
-  margin-top: 10px;
-}
-.btn-addRes{
-  height: 50px;
-  width: 150px;
-}
-.funcBtn{
-  padding: 8px 10px;
-  float:right;
-  margin-left:12px!important;
-  position: relative;
-}
-.resCardTitle{
-  display:block;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  position:relative;
-}
-</style>

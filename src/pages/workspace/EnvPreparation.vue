@@ -155,8 +155,8 @@ export default {
       let projectId = sessionStorage.getItem('mecDetailID')
       await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         let data = res.data.capabilityList
-        this.serviceNum = data.length
-        if (data.length > 0) {
+        if (data) {
+          this.serviceNum = data.length
           data.forEach(dataItem => {
             dataItem.capabilityDetailList.forEach(service => {
               this.apiFileIdArr.push(service.apiFileId)
@@ -208,11 +208,12 @@ export default {
   .title-EnvPreparation{
     color: #5e40c8;
     font-size: 16px;
+    width: 64px;
+    vertical-align: top;
+    text-align: left;
   }
   .title-EnvPreparation.enTitle{
     width: 150px;
-    text-align: left;
-    vertical-align: top;
   }
   .table-content{
     td {

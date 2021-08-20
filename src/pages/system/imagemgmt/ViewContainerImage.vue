@@ -17,85 +17,92 @@
 <template>
   <div>
     <el-dialog
-      :title="$t('system.imageMgmt.tip.viewImg')"
+      :close-on-click-modal="false"
       :visible.sync="showDlg"
-      @closed="close"
-      width="40%"
+      class="view_image_dialog default_dialog"
     >
-      <div style="margin-top:10px;margin-left:5%;margin-right:5%">
-        <el-form
-          label-width="150px"
-          label-position="left"
-        >
-          <el-row :gutter="5">
-            <el-col :span="12">
-              <el-form-item
-                :label="$t('system.imageMgmt.imgName')"
-              >
-                <span>{{ imageData.imageName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item
-                :label="$t('system.imageMgmt.userName')"
-              >
-                <span>{{ imageData.userName }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="5">
-            <el-col :span="12">
-              <el-form-item
-                :label="$t('system.imageMgmt.imgType')"
-              >
-                <span>{{ convertImgType(imageData.imageType) }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item
-                :label="$t('system.imageMgmt.osVersion')"
-              >
-                <span>{{ imageData.imageVersion }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="5">
-            <el-col :span="24">
-              <el-form-item
-                :label="$t('system.imageMgmt.createTime')"
-              >
-                <span>{{ imageData.createTime }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="5">
-            <el-col :span="24">
-              <el-form-item
-                :label="$t('common.status')"
-              >
-                <span>{{ convertStatus(imageData.imageStatus) }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="5">
-            <el-col :span="24">
-              <el-form-item
-                :label="$t('system.imageMgmt.uploadTime')"
-              >
-                <span>{{ imageData.uploadTime }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />{{ $t('system.imageMgmt.tip.viewImg') }}
       </div>
-      <div style="margin-top:20px;text-align:center">
+      <el-form
+        label-width="110px"
+        label-position="left"
+      >
+        <el-row :gutter="5">
+          <el-col :span="12">
+            <el-form-item
+              :label="$t('system.imageMgmt.imgName')"
+            >
+              <span>{{ imageData.imageName }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              :label="$t('system.imageMgmt.userName')"
+            >
+              <span>{{ imageData.userName }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="5">
+          <el-col :span="12">
+            <el-form-item
+              :label="$t('system.imageMgmt.imgType')"
+            >
+              <span>{{ convertImgType(imageData.imageType) }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              :label="$t('system.imageMgmt.osVersion')"
+            >
+              <span>{{ imageData.imageVersion }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="5">
+          <el-col :span="24">
+            <el-form-item
+              :label="$t('system.imageMgmt.createTime')"
+            >
+              <span>{{ imageData.createTime }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="5">
+          <el-col :span="24">
+            <el-form-item
+              :label="$t('common.status')"
+            >
+              <span>{{ convertStatus(imageData.imageStatus) }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="5">
+          <el-col :span="24">
+            <el-form-item
+              :label="$t('system.imageMgmt.uploadTime')"
+            >
+              <span>{{ imageData.uploadTime }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button
           id="btn_close"
           @click="close()"
+          class="bgBtn"
         >
           {{ $t('common.close') }}
         </el-button>
-      </div>
+      </span>
     </el-dialog>
   </div>
 </template>

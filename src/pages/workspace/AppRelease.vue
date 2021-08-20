@@ -32,7 +32,7 @@
         <h3 class="tit_gray_bg">
           {{ $t('workspace.projectDetails') }}
         </h3>
-        <div class="project_detail">
+        <div class="pro_detail">
           <el-row>
             <el-col
               :sm="12"
@@ -102,7 +102,7 @@
             <el-col>
               <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
-                class="upload-demo clear"
+                class="app-release-upload-demo clear"
                 action=""
                 :limit="1"
                 :on-change="changeAppStoreMd"
@@ -673,7 +673,7 @@
 </template>
 
 <script>
-import { Workspace, vmService } from '../../tools/api.js'
+import { Workspace, vmService, Capability } from '../../tools/api.js'
 import { Type } from '../../tools/project_data.js'
 import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
@@ -808,21 +808,21 @@ export default {
         this.projectDetailData.platform = data.platform[0]
         this.projectDetailData.createDate = data.createDate
         this.projectDetailData.status = this.imageStatus = data.status
-        let dependent = res.data.capabilityList
-        let arr = []
-        this.checkProjectData()
-        dependent.forEach(item => {
-          item.capabilityDetailList.forEach(itemSub => {
+
+        Capability.getCapabilityByProjectId(this.projectId).then(result => {
+          let capabilities = result.data
+          this.dependentNum = capabilities.length
+          let capabilityDesc = []
+          for (let capability of capabilities) {
             if (this.language === 'cn') {
-              arr.push(itemSub.service)
+              capabilityDesc.push(capability.name)
             } else {
-              arr.push(itemSub.serviceEn)
+              capabilityDesc.push(capability.nameEn)
             }
-          })
+          }
+          this.projectDetailData.dependent = capabilityDesc.join('，')
         })
-        arr = Array.from(new Set(arr))
-        this.dependentNum = arr.length
-        this.projectDetailData.dependent = arr.join('，')
+
         if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
           this.isRelease = true
           this.$message.warning(this.$t('promptMessage.notDeploy'))
@@ -1377,7 +1377,7 @@ export default {
   .el-button.margin_left{
     margin-left: 10px;
   }
-  .project_detail{
+  .pro_detail{
     margin: 25px 0 40px;
     padding: 0 30px;
     font-size: 14px;
@@ -1395,20 +1395,19 @@ export default {
         width: 165px;
       }
       .span_right{
-        float: left;
         width: calc(100% - 115px);
       }
       .span_right_en{
         width: calc(100% - 185px);
       }
-      .upload-demo{
+      .app-release-upload-demo {
         display: inline-block;
-      }
-      .el-upload{
-        float: left;
-        .el-button{
-          span{
-            line-height: 0;
+        .el-upload  {
+          float: left;
+          .el-button  {
+            span{
+              line-height: 0;
+            }
           }
         }
       }

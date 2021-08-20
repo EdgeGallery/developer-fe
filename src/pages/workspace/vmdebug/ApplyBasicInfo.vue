@@ -15,49 +15,43 @@
   -->
 
 <template>
-  <div class="apply-basicInfo">
-    <el-row :gutter="24">
-      <el-form
-        label-width="200px"
-        :model="form"
-        ref="form"
-        :rules="rules"
+  <div class="apply-basicInfo work-div container-1">
+    <el-form
+      class="work-input"
+      :label-width="labelWidth"
+      :model="form"
+      ref="form"
+      :rules="rules"
+    >
+      <el-form-item
+        :label="$t('workspace.deployDebugVm.vmName')"
+        prop="name"
       >
-        <el-form-item
-          :label="$t('workspace.deployDebugVm.vmName')"
-          prop="name"
-        >
-          <el-input
-            id="elinput_name"
-            maxlength="128"
-            v-model="form.name"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('system.username')"
-        >
-          <el-input
-            maxlength="128"
-            v-model="vmUserName"
-            disabled
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('system.password')"
-        >
-          <el-input
-            maxlength="128"
-            placeholder="root"
-            disabled
-          />
-        </el-form-item>
-      </el-form>
-    </el-row>
+        <el-input
+          id="elinput_name"
+          maxlength="128"
+          v-model="form.name"
+        />
+      </el-form-item>
+      <el-form-item :label="$t('system.username')">
+        <el-input
+          maxlength="128"
+          v-model="vmUserName"
+          disabled
+        />
+      </el-form-item>
+      <el-form-item :label="$t('system.password')">
+        <el-input
+          maxlength="128"
+          placeholder="root"
+          disabled
+        />
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'BasicInfoOnApplyVM',
   props: {
@@ -69,15 +63,26 @@ export default {
   data () {
     return {
       form: {
-        name: this.allStepData.basicSetting ? this.allStepData.basicSetting.vmName : ''
+        name: this.allStepData.basicSetting
+          ? this.allStepData.basicSetting.vmName
+          : ''
       },
       vmUserName: 'root',
       rules: {
         name: [
-          { required: true, message: this.$t('promptMessage.nameEmpty'), trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          {
+            required: true,
+            message: this.$t('promptMessage.nameEmpty'),
+            trigger: 'blur'
+          },
+          {
+            pattern:
+              /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/,
+            message: this.$t('promptMessage.nameRuleResourceConfig')
+          }
         ]
-      }
+      },
+      labelWidth: '180px'
     }
   },
   methods: {
@@ -93,7 +98,24 @@ export default {
 </script>
 
 <style lang="less">
-.apply-basicInfo{
-  padding:5% 20% 5% 5%;
+.container-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .work-input {
+    width: 740px;
+
+    .el-form-item__label {
+      color: #380879;
+      padding-right: 24px;
+      font-size: 16px;
+      font-family: defaultFontLight;
+    }
+
+    .el-form-item__error {
+      margin-right: -30px;
+    }
+  }
 }
 </style>

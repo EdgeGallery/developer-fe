@@ -31,7 +31,7 @@
         :default-sort="{prop: 'createTime', order: 'descending'}"
         v-loading="dataLoading"
         style="width: 100%"
-        class="tableStyle"
+        class="tableStyle default_dropdown"
         @filter-change="filterChange"
       >
         <el-table-column
@@ -104,40 +104,53 @@
         >
           <template slot-scope="scope">
             <el-button
-              id="editBtn"
-              v-if="isAdmin || userId===scope.row.userId"
-              @click.native.prevent="handleEdit(scope.row)"
-              type="text"
-              size="small"
+              @click="handleView(scope.row)"
+              class="operation_btn"
             >
-              {{ $t('common.edit') }}
+              {{ $t('devTools.detail') }}
             </el-button>
             <el-button
-              v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-              id="deleteBtn"
-              @click.native.prevent="handleDelete(scope.row)"
-              type="text"
-              size="small"
+              @mouseenter.native="showMoreBtnFun(scope.$index)"
+              @mouseleave.native="showMoreBtnFun(-1)"
+              class="operation_btn"
             >
-              {{ $t('common.delete') }}
-            </el-button>
-            <!-- <el-button
-              v-if="isAdmin || userId===scope.row.userId"
-              :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-              id="uploadBtn"
-              type="text"
-              size="small"
-            >
-              {{ $t('system.imageMgmt.operation.upload') }}
-            </el-button> -->
-            <el-button
-              :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
-              id="downloadBtn"
-              type="text"
-              size="small"
-            >
-              {{ $t('common.download') }}
+              {{ $t('common.more') }}
+              <el-collapse-transition>
+                <div
+                  v-show="currentIndex===scope.$index"
+                  class="btn_div el-icon-caret-top"
+                  @mouseenter="showMoreBtnFun(scope.$index)"
+                  @mouseleave="showMoreBtnFun(-1)"
+                >
+                  <ul class="dropdown_list">
+                    <li
+                      v-if="isAdmin || userId===scope.row.userId"
+                      @click="handleEdit(scope.row)"
+                    >
+                      <em />{{ $t('common.edit') }}
+                    </li>
+                    <li
+                      v-if="isAdmin || userId===scope.row.userId"
+                      @click="handleDelete(scope.row)"
+                    >
+                      <em />{{ $t('common.delete') }}
+                    </li>
+                    <li
+                      v-if="isAdmin || userId===scope.row.userId"
+                      :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
+                      @click="handleUpload(scope.row)"
+                    >
+                      <em />{{ $t('system.imageMgmt.operation.upload') }}
+                    </li>
+                    <li
+                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED'}"
+                      @click="handleDownload(scope.row)"
+                    >
+                      <em />{{ $t('common.download') }}
+                    </li>
+                  </ul>
+                </div>
+              </el-collapse-transition>
             </el-button>
           </template>
         </el-table-column>
@@ -162,7 +175,7 @@
       :image-data="currentImageData"
       @processCloseViewImage="processCloseViewImage"
     />
-    <UploadImage
+    <UploadContainerImage
       v-if="showUploadImageDlg"
       :show-dlg="showUploadImageDlg"
       :image-data="currentImageData"
@@ -174,7 +187,7 @@
 import Search from './ImageSearch.vue'
 import EditContainerImage from './EditContainerImage.vue'
 import ViewContainerImage from './ViewContainerImage.vue'
-import UploadImage from './UploadImage.vue'
+import UploadContainerImage from './UploadContainerImage.vue'
 import Pagination from '../../../components/common/Pagination.vue'
 import { imageMgmtService } from '../../../tools/api.js'
 import { common } from '../../../tools/common.js'
@@ -182,7 +195,7 @@ import { common } from '../../../tools/common.js'
 export default {
   name: 'ImageMgmt',
   components: {
-    Search, EditContainerImage, UploadImage, ViewContainerImage, Pagination
+    Search, EditContainerImage, UploadContainerImage, ViewContainerImage, Pagination
   },
   data () {
     return {
@@ -212,7 +225,8 @@ export default {
       currentImageData: {},
       screenHeight: document.body.clientHeight,
       statusData: [],
-      typeData: []
+      typeData: [],
+      currentIndex: -1
     }
   },
   watch: {
@@ -235,6 +249,9 @@ export default {
     this.getImageDataList()
   },
   methods: {
+    showMoreBtnFun (index) {
+      this.currentIndex = index
+    },
     filterChange (filters) {
       if (filters.imageStatus && filters.imageStatus.length >= 1) {
         this.searchCondition.imageStatus = filters.imageStatus.join(',')
@@ -263,8 +280,7 @@ export default {
         { text: this.$t('system.imageMgmt.statusValue.merging'), value: 'UPLOADING_MERGING' },
         { text: this.$t('system.imageMgmt.statusValue.uploadSucceeded'), value: 'UPLOAD_SUCCEED' },
         { text: this.$t('system.imageMgmt.statusValue.uploadFailed'), value: 'UPLOAD_FAILED' },
-        { text: this.$t('system.imageMgmt.statusValue.uploadCancelled'), value: 'UPLOAD_CANCELLED' },
-        { text: this.$t('system.imageMgmt.statusValue.published'), value: 'PUBLISHED' }
+        { text: this.$t('system.imageMgmt.statusValue.uploadCancelled'), value: 'UPLOAD_CANCELLED' }
       ]
       this.typeData = [
         { text: this.$t('system.imageMgmt.typeValue.public'), value: 'public' },
@@ -372,7 +388,7 @@ export default {
       })
     },
     handleUpload (row) {
-      if (row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED') {
+      if (row.status === 'UPLOAD_SUCCEED') {
         this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
           confirmButtonText: this.$t('common.confirm'),
           cancelButtonText: this.$t('common.cancel'),
@@ -392,7 +408,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        window.open(imageMgmtService.downloadSystemImageUrl(row.systemId, this.userId))
+        window.location.href = imageMgmtService.downloadContainerImageUrl(row.imageId)
       })
     },
     processCloseUploadImageDlg () {

@@ -81,11 +81,14 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <div style="margin-top:20px;text-align:right">
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
       <el-button
         id="btn_cancel_container"
         @click="cancel()"
-        class="bgBtn defaultFontLight"
+        class="bgBtn"
       >
         {{ $t('common.cancel') }}
       </el-button>
@@ -93,11 +96,11 @@
         id="btn_confirm_container"
         type="primary"
         @click="confirm()"
-        class="bgBtn defaultFontLight"
+        class="bgBtn"
       >
         {{ $t('common.confirm') }}
       </el-button>
-    </div>
+    </span>
   </el-dialog>
 </template>
 
@@ -291,8 +294,6 @@ export default {
 .edit_image_dialog .el-dialog{
   width: 47%;
   min-width: 570px;
-  background: #efefef;
-  border-radius: 12px;
 }
 .edit_image_dialog_en .el-dialog{
   min-width: 715px;

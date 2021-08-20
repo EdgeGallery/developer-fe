@@ -17,6 +17,7 @@
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 const cn = {
   common: {
+    cancelText: '知道了',
     cancel: '取消',
     confirm: '确认',
     close: '关闭',
@@ -33,7 +34,9 @@ const cn = {
     status: '状态',
     operation: '操作',
     all: '全部',
-    unknown: '未知'
+    unknown: '未知',
+    more: '更多',
+    check: '查看'
   },
   home: {
     enterDev: '进入开发',
@@ -200,7 +203,8 @@ const cn = {
       format: '格式校验',
       imageInfo: '镜像信息',
       serviceInfo: '服务信息',
-      mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）'
+      mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）',
+      visualConfigTip: '如若已上传yaml文件，则不需进行可视化配置'
     },
     uploadImage: {
       successfulTest: '测试成功',
@@ -214,13 +218,13 @@ const cn = {
       software: '软件',
       version: '版本',
       uploadAppImage: '上传APP镜像包',
-      mode1: '方式1:',
-      mode1Desc: '镜像包上传至公共镜像仓库（支持dockerhub、SWR镜像仓库）',
-      mode1Tip: '注：已上传到公共仓库的镜像，请在配置文件中直接引用',
-      mode2: '方式2:',
+      mode1: '方式一',
+      mode1Desc: '镜像包上传至公共镜像仓库',
+      mode1Tip: '(支持dockerhub、SWR镜像仓库，已上传到公共仓库的镜像，请在配置文件中直接引用）',
+      mode2: '方式二',
       mode2Desc: '镜像包上传至EdgeGallery镜像仓库',
-      mode2Tip: '注：EdgeGallery会确保用户上传的镜像不被其他用户可见',
-      mode3: '方式3:',
+      mode2Tip: '（请上传rar、tar、zip格式的文件，且大小不超过5G）',
+      mode3: '方式三',
       mode3Desc: '镜像包上传至私有边缘节点',
       mode3Tip: '如何搭建私有边缘节点，请参考'
     },
@@ -289,7 +293,8 @@ const cn = {
       noService: '您的应用没有依赖平台的生态服务',
       blackWhiteList: '黑白名单',
       UEIdentity: 'UE标识',
-      enterAtp: '进入应用测试认证平台'
+      enterAtp: '进入应用测试认证平台',
+      selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {
       vmNameLbl: '名称',
@@ -308,6 +313,7 @@ const cn = {
       configNetwork: '网络设置',
       otherSetting: '应用设置',
       vmName: '虚拟机名称',
+      vmSpec: '虚拟机规格',
       selectVmSpecTip: '选择虚拟机规格',
       vmSpecMustSelectTip: '请选择虚拟机规格！',
       scene: '适用场景',
@@ -344,14 +350,16 @@ const cn = {
       deleteVmDeployList: '确定要删除该部署调测结果吗？',
       resourceConfigPromt: '请先进行资源配置',
       releasePromt: '应用没有资源配置，不能进行发布操作',
-      flavorExtraSpecs: '主机主配置：',
+      flavorExtraSpecs: '主机主配置',
       useScript: '是否使用注入脚本：',
+      script: '脚本',
       resourceConfig: '资源配置',
       deploySelect: '部署调测可选',
       deployTips: '通过部署调测可申请虚拟机环境导入app测试包并测试，不通过部署调测也可直接发布vm包',
       setTips: '应用设置根据应用选填',
-      akTitle: '应用密钥设置：',
-      generatePackage: '生成应用包'
+      akTitle: '应用密钥设置',
+      generatePackage: '生成应用包',
+      type: '分类'
     },
     visualConfig: {
       podBasicInfo: 'Pod基本信息',
@@ -515,7 +523,7 @@ const cn = {
     serviceDetails: '服务详情',
     releaseTime: '发布时间',
     sdkDownload: 'SDK 下载',
-    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url',
+    apiTopText: 'API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url。',
     projectDetails: '基本信息',
     releaseDetails: '能力发布详情',
     releaseTest: '应用发布测试',
@@ -562,6 +570,9 @@ const cn = {
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
+    sandboxEnvDesc: '模拟真实场景，快速调测',
+    fiveGEnv: '5G环境',
+    fiveGEnvDesc: '由于5G环境资源有限，有可能申请失败',
     uploadConfigMessage: '请上传部署文件',
     deployConfig: '部署配置',
     clearEnv: '已清空环境',
@@ -570,8 +581,8 @@ const cn = {
     uploaded: '已上传',
     privateHost: '私有节点',
     publicHost: '公有节点',
-    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看',
-    capabilityInfo2: '。如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
+    capabilityInfo1: '请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。',
+    capabilityInfo2: '如果是集成项目，或者您的服务不需要依赖其他服务，可以跳过该步骤继续创建。',
     availableService: '可选服务',
     selectedService: '已选服务',
     recycleTip: '注：测试完成请及时释放资源，避免资源占用，否则系统24小时后自动释放',
@@ -668,7 +679,9 @@ const cn = {
     testFail: '启动测试失败！',
     testComplete: '测试完成，请单击查看报告',
     addProjectSuccess: '新增项目成功！',
+    editProjectSuccess: '编辑项目成功！',
     addProjectFail: '新增项目失败！',
+    editProjectFail: '编辑项目失败！',
     checkNamePass: '认证失败，请检查用户名或密码。',
     checkCaptcha: '验证码无效，请检查验证码。',
     registerSuccess: '用户注册成功！',
@@ -703,7 +716,8 @@ const cn = {
     isPublicFailed: '公开API能力到EdgeGallery生态系统失败！',
     canOnlyUpload: '只能上传.csar文件类型',
     pluginNameRule: '请输入1-30个字符的插件名称，开头不能为空',
-    nameRule: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、_、-，开头结尾不能为_、-',
+    nameRule: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、汉字、_、-，开头结尾不能为_、-',
+    nameRuleResourceConfig: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、_、-，开头结尾不能为_、-',
     versionRule: '请输入1-10个字符的版本号，只能包含数字、字母、_、-和空格，开头不能为空',
     providerRule: '请输入1-30个字符的提供者名称，开头不能为空',
     introductionRule: '请输入1-1024个字符的描述，开头不能为空，不能全为数字',
@@ -740,7 +754,9 @@ const cn = {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G',
     imageInfoErr: '请确保镜像信息正确',
     twoLevelName: '请输入长度1-40的服务名称，开头不能为空',
-    serviceDesc: '请输入长度1-400的服务描述，开头不能为空'
+    serviceDesc: '请输入长度1-400的服务描述，开头不能为空',
+    typeError: '格式错误',
+    typeConfig: '请上传config文件'
   },
   breadCrumb: {
     mecDeveloper: '首页',
@@ -802,7 +818,7 @@ const cn = {
     en: '英文',
     portRange: '端口范围',
     config_id: '配置文件',
-    other: '其他',
+    networkConfig: '网络配置',
     log: {
       userName: '使用者',
       projectName: '项目名',
@@ -865,8 +881,10 @@ const cn = {
         systemDiskRule: '请输入两到四位的整数！',
         uploadImg: '上传系统镜像',
         uploadImgPromt: '请把qcow2或iso格式的镜像文件放到与该镜像文件同名的文件夹下，然后把该文件夹压缩为zip后上传。',
+        uploadContainerImgPromt: '上传tar格式的镜像包，通过解析tar包，重新命名格式镜像，推送到Harbor仓库',
         uploadImgPromtExample: '示意：',
         sysImageFileType: '请上传.zip格式的文件，且大小不超过100G！',
+        sysContainerImageFileType: '请上传.tar格式的文件，且大小不超过5G！',
         onlyOneImageFile: '只能上传一个文件！',
         noFileSelected: '未选择上传的文件',
         confirmDeleteImage: '确认要删除该系统镜像吗？',
