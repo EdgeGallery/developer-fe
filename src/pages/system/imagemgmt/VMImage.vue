@@ -41,12 +41,7 @@
           min-width="10.5%"
         >
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              @click="handleView(scope.row)"
-            >
-              {{ scope.row.systemName }}
-            </el-button>
+            {{ scope.row.systemName }}
           </template>
         </el-table-column>
         <el-table-column
@@ -113,14 +108,14 @@
           <template slot-scope="scope">
             <el-button
               @click="handleView(scope.row)"
-              class="operation_btn"
+              class="operations_btn"
             >
               {{ $t('devTools.detail') }}
             </el-button>
             <el-button
               @mouseenter.native="showMoreBtnFun(scope.$index)"
               @mouseleave.native="showMoreBtnFun(-1)"
-              class="operation_btn"
+              class="operations_btn"
             >
               {{ $t('common.more') }}
               <el-collapse-transition>
@@ -131,38 +126,54 @@
                   @mouseleave="showMoreBtnFun(-1)"
                 >
                   <ul class="dropdown_list">
-                    <li
-                      v-if="isAdmin || userId===scope.row.userId"
-                      @click="handleEdit(scope.row)"
-                    >
-                      <em />{{ $t('common.edit') }}
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        @click="handleEdit(scope.row)"
+                      >
+                        {{ $t('common.edit') }}
+                      </el-button>
                     </li>
-                    <li
-                      v-if="isAdmin || userId===scope.row.userId"
-                      :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
-                      @click="handleDelete(scope.row)"
-                    >
-                      <em />{{ $t('common.delete') }}
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+                        @click="handleDelete(scope.row)"
+                      >
+                        {{ $t('common.delete') }}
+                      </el-button>
                     </li>
-                    <li
-                      v-if="isAdmin || userId===scope.row.userId"
-                      :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
-                      @click="handleUpload(scope.row)"
-                    >
-                      <em />{{ $t('system.imageMgmt.operation.upload') }}
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+                        @click="handleUpload(scope.row)"
+                      >
+                        {{ $t('system.imageMgmt.operation.upload') }}
+                      </el-button>
                     </li>
-                    <li
-                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'}"
-                      @click="handleDownload(scope.row)"
-                    >
-                      <em />{{ $t('common.download') }}
+                    <li>
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
+                        @click="handleDownload(scope.row)"
+                      >
+                        {{ $t('common.download') }}
+                      </el-button>
                     </li>
-                    <li
-                      v-if="isAdmin"
-                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED'}"
-                      @click="handlePublish(scope.row)"
-                    >
-                      <em />{{ $t('system.imageMgmt.operation.publish') }}
+                    <li v-if="isAdmin">
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
+                        @click="handlePublish(scope.row)"
+                      >
+                        {{ $t('system.imageMgmt.operation.publish') }}
+                      </el-button>
                     </li>
                   </ul>
                 </div>
