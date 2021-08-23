@@ -90,7 +90,6 @@ let Api = {
   },
   // Get a list of services
   getServiceApi: function (type) {
-    // return Get('mec/developer/v1/capability-groups/open-api/' + type)
     return Get('mec/developer/v1/query/capability-groups/type/' + type)
   },
   // ObtainApi-swaggerUIpath
@@ -501,8 +500,13 @@ let imageMgmtService = {
   },
   downloadContainerImageUrl: function (imageId) {
     return urlPrefix + 'mec/developer/v2/container/images/' + imageId + '/download'
+  },
+  synchronizeContainerImageApi: function () {
+    return GetFun('mec/developer/v2/container/images/synchronize')
+  },
+  cancelUploadContainerImage: function (imageId) {
+    return Delete('mec/developer/v2/container/images/' + imageId + '/upload')
   }
-
 }
 
 export {
