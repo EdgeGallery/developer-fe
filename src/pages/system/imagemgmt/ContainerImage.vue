@@ -28,8 +28,9 @@
           class="Synchronize bgBtn"
           @click="synchronizeContainerImage"
           :loading="synchronizeImageLoading"
+          v-if="isAdmin"
         >
-          {{ !synchronizeImageLoading?'同步镜像':'同步中...' }}
+          {{ !synchronizeImageLoading?$t('system.imageMgmt.containerImage.synchronize'):$t('system.imageMgmt.containerImage.syncing') }}
         </el-button>
       </div>
       <el-table
@@ -275,7 +276,7 @@ export default {
       this.$eg_messagebox({
         type: 'info',
         title: '',
-        desc: '同步镜像需要几分钟，请耐心等待···',
+        desc: this.$t('system.imageMgmt.containerImage.pleaseWait'),
         cancelText: this.$t('common.cancelText')
       })
       this.synchronizeImageLoading = true
@@ -287,21 +288,21 @@ export default {
           this.$eg_messagebox({
             type: 'success',
             title: '',
-            desc: '镜像已同步',
+            desc: this.$t('system.imageMgmt.containerImage.synchronized'),
             cancelText: this.$t('common.cancelText')
           })
         } else if (res.data === 'already the latest image list!') {
           this.$eg_messagebox({
             type: 'success',
             title: '',
-            desc: '已经是最新镜像',
+            desc: this.$t('system.imageMgmt.containerImage.latestImage'),
             cancelText: this.$t('common.cancelText')
           })
         } else if (res.data === 'harbor repo no images!') {
           this.$eg_messagebox({
             type: 'success',
             title: '',
-            desc: 'Haror仓库暂无镜像',
+            desc: this.$t('system.imageMgmt.containerImage.noImage'),
             cancelText: this.$t('common.cancelText')
           })
         }
@@ -312,7 +313,7 @@ export default {
         this.$eg_messagebox({
           type: 'error',
           title: '',
-          desc: '镜像同步失败',
+          desc: this.$t('system.imageMgmt.containerImage.imageFailed'),
           cancelText: this.$t('common.cancelText')
         })
       })
