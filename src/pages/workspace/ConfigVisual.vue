@@ -1038,6 +1038,7 @@ export default {
         itemTemp.spec.containers.forEach(itemCon => {
           delete itemCon.showName
           delete itemCon.showImage
+          delete itemCon.showResource
           delete itemCon.ports[0].showInPort
         })
         podArr.push(itemTemp)
