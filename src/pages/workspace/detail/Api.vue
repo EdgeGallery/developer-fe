@@ -348,6 +348,9 @@ export default {
           groupMap.forEach((group, key) => {
             group.leaf = false
             group.label = this.language === 'en' ? group.nameEn : group.name
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
+            }
             capabilityGroups.push(group)
           })
 
@@ -392,6 +395,9 @@ export default {
           groups.forEach(group => {
             group.label = this.language === 'en' ? group.nameEn : group.name
             group.leaf = false
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
+            }
           })
           groups.reverse()
           resolve(groups)
@@ -462,6 +468,9 @@ export default {
               if (groupMap.has(groupId)) {
                 let selectedCapabilities = groupMap.get(groupId).children
                 group.selectedCapabilities = selectedCapabilities
+              }
+              if (this.capabilityIcon[group.nameEn]) {
+                group.icon = this.capabilityIcon[group.nameEn].icon
               }
             })
             groups.reverse()
