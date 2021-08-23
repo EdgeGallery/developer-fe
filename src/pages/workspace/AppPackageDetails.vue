@@ -23,6 +23,16 @@
       width="70%"
       :before-close="handleClose"
     >
+      <p class="title">
+        {{ $t('workspace.appDetails') }}
+      </p>
+      <button
+        type="button"
+        aria-label="Close"
+        class="el-dialog__headerbtn"
+      >
+        <i class="el-dialog__close el-icon el-icon-close" />
+      </button>
       <el-row>
         <el-col
           :span="8"
@@ -160,11 +170,21 @@ export default {
 </script>
 <style lang='less'>
 .appPackageDetails{
+  .el-dialog__headerbtn{
+    top:40px;
+  }
   .markdown-body .highlight pre, .markdown-body pre{
     font-size:110%;
   }
   .el-dialog{
     margin: 0 auto;
+  }
+  .el-tree{
+    border-radius:8px;
+  }
+  .el-row{
+    background-color: #fff;
+    border-radius:8px;
   }
   .el-dialog__body {
     padding: 0 20px;

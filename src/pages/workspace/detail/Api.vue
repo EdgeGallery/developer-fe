@@ -40,7 +40,7 @@
           @close="handleDeleteTag(tag)"
           style="margin-left: 10px;"
         >
-          {{ tag.label }}
+          {{ language === 'en' ? tag.nameEn : tag.name }}
         </el-tag>
       </div>
     </div>
@@ -101,7 +101,7 @@
               </p>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ serviceDetail.serviceName }}
+                  <span class="defaultFontBlod">{{ $t('workspace.servicename') }} ：</span>{{ language === 'en' ? serviceDetail.serviceNameEn : serviceDetail.serviceName }}
                 </el-col>
                 <el-col :span="12">
                   <span class="defaultFontBlod">{{ $t('workspace.version') }} ：</span>{{ serviceDetail.version }}
@@ -236,8 +236,10 @@ export default {
         }
       ],
       serviceDetail: {
+        id: '',
         capabilityType: '',
         serviceName: '',
+        serviceNameEn: '',
         uploadTime: 0,
         version: ''
       },
@@ -346,8 +348,12 @@ export default {
           groupMap.forEach((group, key) => {
             group.leaf = false
             group.label = this.language === 'en' ? group.nameEn : group.name
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
+            }
             capabilityGroups.push(group)
           })
+
           resolve(capabilityGroups)
           this.apiDataLoading = false
           this.$nextTick(() => {
@@ -389,7 +395,11 @@ export default {
           groups.forEach(group => {
             group.label = this.language === 'en' ? group.nameEn : group.name
             group.leaf = false
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
+            }
           })
+          groups.reverse()
           resolve(groups)
           let rootNodes = this.$refs.treeList.root
           if (rootNodes.childNodes.length > 0) {
@@ -459,7 +469,11 @@ export default {
                 let selectedCapabilities = groupMap.get(groupId).children
                 group.selectedCapabilities = selectedCapabilities
               }
+              if (this.capabilityIcon[group.nameEn]) {
+                group.icon = this.capabilityIcon[group.nameEn].icon
+              }
             })
+            groups.reverse()
             resolve(groups)
 
             // expand
@@ -502,28 +516,28 @@ export default {
     // edit projectDetail
     async editProjectDetail () {
       this.tree = []
-      await this.loadNewCapabilityNode()
+      // await this.loadNewCapabilityNode()
       let projectId = sessionStorage.getItem('mecDetailID')
       Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
         this.hasService = true
-        if (res.data.capabilityList.length > 0) {
-          let capaList = res.data.capabilityList
+        Capability.getCapabilityByProjectId(projectId).then(result => {
+          let capaList = result.data
           let firstSelected = true
           capaList.forEach(capa => {
             this.$nextTick(() => {
-              this.$refs.treeList.setCurrentKey(capa.groupId)
-              this.$refs.treeList.setChecked(capa.groupId, true)
+              this.$refs.treeList.setCurrentKey(capa.id)
+              this.$refs.treeList.setChecked(capa.id, true)
               if (firstSelected) {
-                let node = this.$refs.treeList.getNode(capa.groupId)
-                this.handleNodeClick(node.data)
+                let node = this.$refs.treeList.getNode(capa.id)
+                this.handleNodeClick(node.data, node)
                 firstSelected = false
               }
-              this.defaultShowNodes.push(capa.groupId)
+              this.defaultShowNodes.push(capa.id)
             })
           })
-        }
-        this.apiType = res.data.type
-        this.apiDataLoading = false
+          this.apiType = res.data.type
+          this.apiDataLoading = false
+        })
       })
     },
     // Fetch project detail
@@ -556,8 +570,10 @@ export default {
       if (data.leaf) {
         let apiUrl = ''
         this.groupId = data.groupId
+        this.serviceDetail.id = data.id
         this.serviceDetail.capabilityType = data.group.type
-        this.serviceDetail.serviceName = data.label
+        this.serviceDetail.serviceName = data.name
+        this.serviceDetail.serviceNameEn = data.nameEn
         this.serviceDetail.uploadTime = data.uploadTime
         this.serviceDetail.version = data.version
         this.apiFileId = data.apiFileId
@@ -654,17 +670,7 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      this.tags = []
-      if (!this.showCapability && this.toDetailType === 'addNewPro') {
-        // this.getCapabilityGroups()
-        this.loadNewCapabilityNode()
-      } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
-        this.editProjectDetail()
-      } else {
-        this.getProjectDetail()
-        this.showCheckbox = false
-        this.isClosable = false
-      }
+      this.defaultProps.label = this.language === 'en' ? 'nameEn' : 'name'
     },
     showCapability: {
       deep: true,

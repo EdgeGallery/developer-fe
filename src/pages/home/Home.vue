@@ -205,9 +205,6 @@ export default {
         this.dataLoading = false
 
         data.forEach(item => {
-          if (item.nameEn === 'ETSI' || item.nameEn === '3GPP') {
-            return
-          }
           this.capabilityGroupData.push(item)
           this.capabilityGroupPic.forEach(itemPic => {
             if (item.nameEn === itemPic.name) {
