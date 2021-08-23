@@ -55,7 +55,7 @@
       >
         <el-input
           id="elinput_osversion_container"
-          maxlength="10"
+          maxlength="20"
           size="small"
           v-model="imageDataForm.imageVersion"
           :placeholder="$t('system.imageMgmt.osVersion')"
