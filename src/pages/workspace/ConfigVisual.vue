@@ -15,473 +15,546 @@
   -->
 
 <template>
-  <div class="configVisual clear">
-    <h3 class="tit_gray_bg">
-      {{ $t('workspace.visualConfig.podBasicInfo') }}
-    </h3>
+  <div class="configVisual">
     <!-- Add Pod -->
-    <p class="addBtn_div">
-      <el-button
-        type="primary"
-        @click="addPod"
-      >
-        {{ $t('workspace.add') }}Pod
-      </el-button>
-    </p>
-    <div
-      class="pod_div clear"
-      :class="{'full':podData.length===1}"
-      v-for="(itemPod,indexPod) in podData"
-      :key="'pod-'+ indexPod"
-    >
-      <p class="delete_div">
+    <div class="pod-wrapper">
+      <div class="add-btn-wrapper outer">
         <el-button
-          type="text"
-          @click="deletePod(indexPod)"
-          v-if="podData.length>1"
-          class="deleteText"
+          class="add-btn"
+          type="primary"
+          @click="addPod"
         >
-          {{ $t('devTools.delete') }}
+          <i class="el-icon-circle-plus-outline" /><span>Pod</span>
         </el-button>
-      </p>
-      <el-form
-        label-width="110px"
-        class="form_pod_top clear"
-        :class="{'full':podData.length===1}"
-        size="mini"
-        :model="itemPod.metadata"
+      </div>
+      <div
+        class="pod-content work-div"
+        v-for="(itemPod,indexPod) in podData"
+        :key="'pod-'+ indexPod"
       >
-        <el-form-item
-          label="apiVersion"
-        >
-          <el-input
-            v-model="itemPod.apiVersion"
-            placeholder="v1"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          label="kind"
-        >
-          <el-input
-            v-model="itemPod.kind"
-            placeholder="Pod"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          label="namespace"
-        >
-          <el-input
-            v-model="itemPod.metadata.namespace"
-            placeholder="default"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          label="pod Name"
-          class="required"
-        >
-          <el-input
-            v-model="itemPod.metadata.name"
-            placeholder=""
-            @blur="checkInputName(itemPod.metadata)"
-          />
-          <p
-            class="errInfo"
-            v-show="itemPod.metadata.showName"
-          >
-            {{ $t('workspace.visualConfig.podNameVerify') }}
-          </p>
-        </el-form-item>
-      </el-form>
-      <div class="addContainer clear">
-        <p>
-          <el-button
-            type="primary"
-            @click="addContainer(indexPod)"
-          >
-            {{ $t('workspace.add')+$t('workspace.visualConfig.workContainer') }}
-          </el-button>
-        </p>
-        <div
-          class="container_div"
-          :class="{'half':(podData.length===1 && itemPod.spec.containers.length>1)}"
-          v-for="(itemContainer,indexContainer) in itemPod.spec.containers"
-          :key="indexContainer"
-        >
-          <h3>
-            {{ $t('workspace.visualConfig.workContainer') }}
+        <div class="pod-content-basic">
+          <div class="pod-content-basic__header">
+            <div class="title">
+              {{ $t('workspace.visualConfig.podBasicInfo') }}
+            </div>
             <el-button
+              class="delete"
               type="text"
-              @click="deleteContainer(indexPod,indexContainer)"
-              v-if="itemPod.spec.containers.length>1"
-              class="deleteText"
+              @click="deletePod(indexPod)"
+              v-if="podData.length>1"
             >
               {{ $t('devTools.delete') }}
             </el-button>
-          </h3>
+          </div>
           <el-form
-            class="form_container clear"
-            :class="{'half':(podData.length===1 || itemPod.spec.containers.length===1),'full':podData.length>1}"
-            size="mini"
-            :model="itemContainer"
+            class="pod-content-basic__body work-input"
+            label-width="110px"
+            size="small"
+            :inline="true"
+            :model="itemPod.metadata"
           >
             <el-form-item
-              :label="$t('workspace.containerName')"
+              label="pod Name"
               class="required"
-              :class="{'span_left_en':language==='en'}"
             >
               <el-input
-                v-model="itemContainer.name"
-                :placeholder="$t('common.input')+$t('workspace.containerName')"
-                @blur="checkInputName(itemContainer)"
+                v-model="itemPod.metadata.name"
+                placeholder=""
+                @blur="checkInputName(itemPod.metadata)"
               />
               <p
                 class="errInfo"
-                v-show="itemContainer.showName"
+                v-show="itemPod.metadata.showName"
               >
-                {{ $t('workspace.visualConfig.containerNameVerify') }}
+                {{ $t('workspace.visualConfig.podNameVerify') }}
               </p>
             </el-form-item>
             <el-form-item
-              :label="$t('workspace.configYaml.imageInfo')"
-              class="required"
-              :class="{'span_left_en':language==='en'}"
+              label="apiVersion"
             >
               <el-input
-                v-model="itemContainer.image"
-                placeholder="imageName:version"
-                @blur="checkInputImage(itemContainer)"
+                v-model="itemPod.apiVersion"
+                placeholder="v1"
+                :disabled="true"
               />
-              <p
-                class="errInfo"
-                v-show="itemContainer.showImage"
-              >
-                {{ $t('workspace.visualConfig.imageInfoVerify') }}
-              </p>
             </el-form-item>
             <el-form-item
-              :label="$t('workspace.visualConfig.pullStrategy')"
-              class="required"
-              :class="{'span_left_en':language==='en'}"
-            >
-              <el-select
-                v-model="itemContainer.imagePullPolicy"
-              >
-                <el-option
-                  v-for="itemPullPolicy in optionsPullPolicy"
-                  :key="itemPullPolicy.value"
-                  :label="itemPullPolicy.label"
-                  :value="itemPullPolicy.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item
-              :label="$t('workspace.visualConfig.internalPort')"
-              class="required"
-              :class="{'span_left_en':language==='en'}"
-            >
-              <el-input-number
-                v-model="itemContainer.ports[0].containerPort"
-                :min="1"
-                :max="9999"
-                label="1-9999"
-                @change="checkInputInPort(itemContainer.ports[0])"
-              />
-              <p
-                class="errInfo"
-                v-show="itemContainer.ports[0].showPort"
-              >
-                {{ $t('workspace.visualConfig.internalPortVerify') }}
-              </p>
-            </el-form-item>
-            <el-form-item
-              :label="$t('workspace.visualConfig.envVariable')"
-              class="env_item"
-              :class="{'span_left_en':language==='en'}"
-            >
-              <div v-show="showEnv">
-                <div
-                  v-for="(itemEnv,indexEnv) in itemContainer.env"
-                  :key="indexEnv"
-                  class="pod_env_div clear"
-                >
-                  <div class="env_input">
-                    <el-input
-                      v-model="itemEnv.name"
-                      :placeholder="$t('workspace.visualConfig.variableName')"
-                    />
-                  </div>
-                  <span class="equal">=</span>
-                  <div class="env_input">
-                    <el-input
-                      v-model="itemEnv.value"
-                      :placeholder="$t('workspace.visualConfig.variableValue')"
-                    />
-                  </div>
-                  <p
-                    class="deleteLine"
-                  >
-                    <el-button
-                      type="text"
-                      class="deleteText"
-                      @click="deletePodEnv(indexPod,indexContainer,indexEnv)"
-                    >
-                      {{ $t('devTools.delete') }}
-                    </el-button>
-                  </p>
-                </div>
-              </div>
-              <el-button
-                type="primary"
-                @click="addPodEnv(indexPod,indexContainer)"
-              >
-                {{ $t('workspace.add') }}
-              </el-button>
-            </el-form-item>
-            <el-form-item
-              :label="$t('workspace.visualConfig.commandLine')"
-              :class="{'span_left_en':language==='en'}"
+              label="namespace"
             >
               <el-input
-                v-model="itemContainer.command"
-                placeholder="eg(normal linux cmd line)：tail -f xxxx/xxxx.log"
+                v-model="itemPod.metadata.namespace"
+                placeholder="default"
+                :disabled="true"
               />
             </el-form-item>
             <el-form-item
-              :label="$t('workspace.containerResource')"
-              class="resouces"
+              label="kind"
             >
-              <p class="resouces_tit">
-                limits
-              </p>
-              <div class="resouces_div">
-                <span>memory</span>
-                <el-input
-                  v-model="itemContainer.resources.limits.memory"
-                  placeholder="100Mi"
-                />
-                <span>cpu</span>
-                <el-input
-                  v-model="itemContainer.resources.limits.cpu"
-                  placeholder="1"
-                />
-              </div>
-              <p class="resouces_tit">
-                requests
-              </p>
-              <div class="resouces_div">
-                <span>memory</span>
-                <el-input
-                  v-model="itemContainer.resources.requests.memory"
-                  placeholder="100Mi"
-                />
-                <span>cpu</span>
-                <el-input
-                  v-model="itemContainer.resources.requests.cpu"
-                  placeholder="1"
-                />
-              </div>
+              <el-input
+                v-model="itemPod.kind"
+                placeholder="Pod"
+                :disabled="true"
+              />
             </el-form-item>
           </el-form>
         </div>
-      </div>
-    </div>
-    <h3 class="tit_gray_bg">
-      {{ $t('workspace.visualConfig.accessMethod') }}
-    </h3>
-    <!-- Add Service -->
-    <p class="addBtn_div">
-      <el-button
-        type="primary"
-        @click="addService"
-      >
-        {{ $t('workspace.add') }}Service
-      </el-button>
-    </p>
-    <div
-      class="pod_div service_div clear"
-      :class="{'full':serviceData.length===1}"
-      v-for="(itemService,indexService) in serviceData"
-      :key="'service-'+ indexService"
-    >
-      <p class="delete_div">
-        <el-button
-          type="text"
-          @click="deleteService(indexService)"
-          v-if="serviceData.length>1"
-          class="deleteText"
-        >
-          {{ $t('devTools.delete') }}
-        </el-button>
-      </p>
-      <el-form
-        label-width="110px"
-        class="form_pod_top clear"
-        :class="{'full':serviceData.length===1}"
-        size="mini"
-        :model="itemService"
-      >
-        <el-form-item
-          label="apiVersion"
-        >
-          <el-input
-            v-model="itemService.apiVersion"
-            placeholder="v1"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          label="kind"
-        >
-          <el-input
-            v-model="itemService.kind"
-            placeholder="Service"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          label="namespace"
-        >
-          <el-input
-            v-model="itemService.metadata.namespace"
-            placeholder="default"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          label="service Name"
-          class="required"
-        >
-          <el-input
-            v-model="itemService.metadata.name"
-            @blur="checkInputName(itemService.metadata)"
-          />
-          <p
-            class="errInfo"
-            v-show="itemService.metadata.showName"
-          >
-            {{ $t('workspace.visualConfig.serviceNameVerify') }}
-          </p>
-        </el-form-item>
-        <el-form-item
-          :label="$t('system.type')"
-        >
-          <el-input
-            v-model="itemService.spec.type"
-            placeholder="NodePort"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('workspace.port')"
-          class="service_item required"
-        >
-          <div
-            v-for="(itemPorts,indexPorts) in itemService.spec.ports"
-            :key="indexPorts"
-            class="service_port_div clear"
-            :class="{'half':serviceData.length>1}"
-          >
-            <div class="port_div">
-              <span class="title">{{ $t('workspace.visualConfig.internalPort') }}</span>
-              <el-input-number
-                v-model.number="itemPorts.port"
-                placeholder="port"
-                @change="checkInputPort(itemPorts)"
-              />
-              <p
-                class="errInfo"
-                v-show="itemPorts.showPort"
-              >
-                {{ $t('workspace.visualConfig.internalPortVerify') }}
-              </p>
-            </div>
-            <div class="port_div">
-              <span class="title">{{ $t('workspace.visualConfig.destinationPort') }}</span>
-              <el-input-number
-                v-model="itemPorts.targetPort"
-                placeholder="targetPort"
-                @change="checkInputTargetPort(itemPorts)"
-              />
-              <p
-                class="errInfo"
-                v-show="itemPorts.showTargetPort"
-              >
-                {{ $t('workspace.visualConfig.destinationPortVerify') }}
-              </p>
-            </div>
-            <div class="port_div">
-              <span class="title">{{ $t('workspace.visualConfig.nodePort') }}</span>
-              <el-input-number
-                v-model="itemPorts.nodePort"
-                placeholder="nodePort"
-                @change="checkInputNodePort(itemPorts)"
-              />
-              <p
-                class="errInfo"
-                v-show="itemPorts.showNodePort"
-              >
-                {{ $t('workspace.visualConfig.nodePortVerify') }}
-              </p>
-            </div>
-            <div class="port_div">
-              <span class="title">{{ $t('workspace.protocol') }}</span>
-              <el-select
-                v-model="itemPorts.protocol"
-              >
-                <el-option
-                  v-for="itemProtocol in optionsProtocol"
-                  :key="itemProtocol.value"
-                  :label="itemProtocol.label"
-                  :value="itemProtocol.value"
-                />
-              </el-select>
-            </div>
-            <p
-              class="deleteLine"
-              v-if="itemService.spec.ports.length>1"
+        <div class="pod-content-container">
+          <div class="add-btn-wrapper">
+            <el-button
+              class="add-btn"
+              type="primary"
+              @click="addContainer(indexPod)"
             >
+              <i class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.visualConfig.workContainer') }}</span>
+            </el-button>
+          </div>
+          <div
+            class="pod-content-container-item"
+            v-for="(itemContainer,indexContainer) in itemPod.spec.containers"
+            :key="indexContainer"
+          >
+            <div class="pod-content-container-item__header">
+              <div class="title">
+                {{ $t('workspace.visualConfig.workContainer') }}
+              </div>
               <el-button
+                class="delete"
                 type="text"
-                class="deleteText"
-                @click="deleteServicePort(indexService,indexPorts)"
+                @click="deleteContainer(indexPod,indexContainer)"
+                v-if="itemPod.spec.containers.length>1"
               >
                 {{ $t('devTools.delete') }}
               </el-button>
-            </p>
+            </div>
+            <div class="pod-content-container-item__body">
+              <el-form
+                class="work-input"
+                label-width="110px"
+                size="small"
+                :model="itemContainer"
+                :inline="true"
+              >
+                <el-form-item
+                  :label="$t('workspace.containerName')"
+                  class="required"
+                  :class="{'span_left_en':language==='en'}"
+                >
+                  <el-input
+                    v-model="itemContainer.name"
+                    :placeholder="$t('common.input')+$t('workspace.containerName')"
+                    @blur="checkInputName(itemContainer)"
+                  />
+                  <p
+                    class="errInfo"
+                    v-show="itemContainer.showName"
+                  >
+                    {{ $t('workspace.visualConfig.containerNameVerify') }}
+                  </p>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('workspace.configYaml.imageInfo')"
+                  class="required"
+                  :class="{'span_left_en':language==='en'}"
+                >
+                  <el-input
+                    v-model="itemContainer.image"
+                    placeholder="imageName:version"
+                    @blur="checkInputImage(itemContainer)"
+                  />
+                  <p
+                    class="errInfo"
+                    v-show="itemContainer.showImage"
+                  >
+                    {{ $t('workspace.visualConfig.imageInfoVerify') }}
+                  </p>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('workspace.visualConfig.pullStrategy')"
+                  class="required"
+                  :class="{'span_left_en':language==='en'}"
+                >
+                  <el-select
+                    v-model="itemContainer.imagePullPolicy"
+                  >
+                    <el-option
+                      v-for="itemPullPolicy in optionsPullPolicy"
+                      :key="itemPullPolicy.value"
+                      :label="itemPullPolicy.label"
+                      :value="itemPullPolicy.value"
+                    />
+                  </el-select>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('workspace.visualConfig.internalPort')"
+                  class="required"
+                  :class="{'span_left_en':language==='en'}"
+                >
+                  <el-input
+                    v-model.number="itemContainer.ports[0].containerPort"
+                    placeholder="1-65535"
+                    @blur="checkInputInPort(itemContainer.ports[0])"
+                  />
+                  <p
+                    class="errInfo"
+                    v-show="itemContainer.ports[0].showInPort"
+                  >
+                    {{ $t('workspace.visualConfig.internalPortVerify') }}
+                  </p>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('workspace.visualConfig.envVariable')"
+                  class="env_item"
+                  :class="{'span_left_en':language==='en'}"
+                >
+                  <div v-show="showEnv">
+                    <div
+                      v-for="(itemEnv,indexEnv) in itemContainer.env"
+                      :key="indexEnv"
+                      class="pod-content-container__item-envs"
+                    >
+                      <el-input
+                        class="variable-name"
+                        v-model="itemEnv.name"
+                        :placeholder="$t('workspace.visualConfig.variableName')"
+                      />
+                      <span class="equal">=</span>
+                      <el-input
+                        class="variable-value"
+                        v-model="itemEnv.value"
+                        :placeholder="$t('workspace.visualConfig.variableValue')"
+                      />
+                      <p
+                        class="deleteLine"
+                      >
+                        <el-button
+                          type="text"
+                          class="delete-variable-button"
+                          @click="deletePodEnv(indexPod,indexContainer,indexEnv)"
+                        >
+                          {{ $t('devTools.delete') }}
+                        </el-button>
+                      </p>
+                    </div>
+                  </div>
+                  <el-button
+                    class="add-envs-variable-button"
+                    type="primary"
+                    @click="addPodEnv(indexPod,indexContainer)"
+                  >
+                    {{ $t('workspace.add') }}
+                  </el-button>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('workspace.visualConfig.commandLine')"
+                  :class="{'span_left_en':language==='en'}"
+                >
+                  <el-input
+                    v-model="itemContainer.command"
+                    placeholder="eg(normal linux cmd line)：tail -f xxxx/xxxx.log"
+                  />
+                </el-form-item>
+                <div
+                  class="resources-wrapper"
+                >
+                  <div class="resources-wrapper__header">
+                    <div class="resources-wrapper__header-title">
+                      {{ $t('workspace.containerResource') }}
+                    </div>
+                    <div
+                      class="resources-wrapper__header-arrow"
+                      @click="changeResourceDisplayStatus(itemContainer)"
+                    >
+                      <i
+                        class="el-icon-arrow-down"
+                        :class="[itemContainer.showResource ? 'up': 'down']"
+                      />
+                    </div>
+                  </div>
+                  <transition name="slide-fade">
+                    <el-row
+                      v-show="itemContainer.showResource"
+                      class="resources-wrapper__body"
+                      :gutter="24"
+                    >
+                      <div class="resources-wrapper__item">
+                        <p class="resources-wrapper__item-title">
+                          limits
+                        </p>
+                        <div class="resources-wrapper__item-content">
+                          <el-col :span="12">
+                            <p class="resources-item__label">
+                              memory
+                            </p>
+                            <el-input
+                              size="small"
+                              class="resources-item__input"
+                              v-model="itemContainer.resources.limits.memory"
+                              placeholder="100Mi"
+                            />
+                          </el-col>
+                          <el-col :span="12">
+                            <p class="resources-item__label">
+                              cpu
+                            </p>
+                            <el-input
+                              size="small"
+                              class="resources-item__input"
+                              v-model="itemContainer.resources.limits.cpu"
+                              placeholder="1"
+                            />
+                          </el-col>
+                        </div>
+                      </div>
+                      <div class="resources-wrapper__item">
+                        <p class="resources-wrapper__item-title">
+                          requests
+                        </p>
+                        <div class="resources-wrapper__item-content">
+                          <el-col :span="12">
+                            <p class="resources-item__label">
+                              memory
+                            </p>
+                            <el-input
+                              size="small"
+                              class="resources-item__input"
+                              v-model="itemContainer.resources.requests.memory"
+                              placeholder="100Mi"
+                            />
+                          </el-col>
+                          <el-col :span="12">
+                            <p class="resources-item__label">
+                              cpu
+                            </p>
+                            <el-input
+                              size="small"
+                              class="resources-item__input"
+                              v-model="itemContainer.resources.requests.cpu"
+                              placeholder="1"
+                            />
+                          </el-col>
+                        </div>
+                      </div>
+                    </el-row>
+                  </transition>
+                </div>
+              </el-form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add Service -->
+    <div class="service-wrapper">
+      <div class="add-btn-wrapper outer">
+        <el-button
+          class="add-btn"
+          type="primary"
+          @click="addService"
+        >
+          <i class="el-icon-circle-plus-outline" /><span>Service</span>
+        </el-button>
+      </div>
+      <div
+        class="service-content work-div"
+        v-for="(itemService,indexService) in serviceData"
+        :key="'service-'+ indexService"
+      >
+        <div class="service-content-basic__header">
+          <div class="title">
+            {{ $t('workspace.visualConfig.accessMethod') }}
           </div>
           <el-button
-            type="primary"
-            @click="addServicePort(indexService)"
+            class="delete"
+            type="text"
+            @click="deleteService(indexService)"
+            v-if="serviceData.length>1"
           >
-            {{ $t('workspace.add') }}
+            {{ $t('devTools.delete') }}
           </el-button>
-        </el-form-item>
-      </el-form>
+        </div>
+        <div class="service-content-basic__body">
+          <el-form
+            class="work-input"
+            label-width="110px"
+            size="small"
+            :inline="true"
+            :model="itemService"
+          >
+            <el-form-item
+              label="service Name"
+              class="required"
+            >
+              <el-input
+                v-model="itemService.metadata.name"
+                @blur="checkInputName(itemService.metadata)"
+              />
+              <p
+                class="errInfo"
+                v-show="itemService.metadata.showName"
+              >
+                {{ $t('workspace.visualConfig.serviceNameVerify') }}
+              </p>
+            </el-form-item>
+            <el-form-item
+              label="apiVersion"
+            >
+              <el-input
+                v-model="itemService.apiVersion"
+                placeholder="v1"
+                :disabled="true"
+              />
+            </el-form-item>
+            <el-form-item
+              label="kind"
+            >
+              <el-input
+                v-model="itemService.kind"
+                placeholder="Service"
+                :disabled="true"
+              />
+            </el-form-item>
+            <el-form-item
+              label="namespace"
+            >
+              <el-input
+                v-model="itemService.metadata.namespace"
+                placeholder="default"
+                :disabled="true"
+              />
+            </el-form-item>
+            <el-form-item
+              :label="$t('system.type')"
+            >
+              <el-input
+                v-model="itemService.spec.type"
+                placeholder="NodePort"
+                :disabled="true"
+              />
+            </el-form-item>
+          </el-form>
+          <div class="add-btn-wrapper">
+            <el-button
+              class="add-btn"
+              type="primary"
+              @click="addServicePort(indexService)"
+            >
+              <i class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.port') }}</span>
+            </el-button>
+          </div>
+          <div
+            class="service-content-port__wrapper"
+            v-for="(itemPorts,indexPorts) in itemService.spec.ports"
+            :key="indexPorts"
+          >
+            <div class="service-content-port__header">
+              <div class="title">
+                {{ $t('workspace.port') }}
+              </div>
+              <el-button
+                class="delete"
+                type="text"
+                @click="deleteServicePort(indexService,indexPorts)"
+                v-if="itemService.spec.ports.length>1"
+              >
+                {{ $t('devTools.delete') }}
+              </el-button>
+            </div>
+            <el-form
+              class="service-content-port__item work-input"
+              label-width="110px"
+              size="small"
+              :inline="true"
+              :model="itemPorts"
+            >
+              <el-form-item
+                :label="$t('workspace.visualConfig.internalPort')"
+                class="required"
+              >
+                <el-input
+                  v-model.number="itemPorts.port"
+                  placeholder="9997"
+                  @blur="checkInputPort(itemPorts)"
+                />
+                <p
+                  class="errInfo"
+                  v-show="itemPorts.showPort"
+                >
+                  {{ $t('workspace.visualConfig.internalPortVerify') }}
+                </p>
+              </el-form-item>
+              <el-form-item
+                :label="$t('workspace.visualConfig.destinationPort')"
+                class="required"
+              >
+                <el-input
+                  v-model.number="itemPorts.targetPort"
+                  placeholder="9997"
+                  @blur="checkInputTargetPort(itemPorts)"
+                />
+                <p
+                  class="errInfo"
+                  v-show="itemPorts.showTargetPort"
+                >
+                  {{ $t('workspace.visualConfig.destinationPortVerify') }}
+                </p>
+              </el-form-item>
+              <el-form-item
+                :label="$t('workspace.visualConfig.nodePort')"
+                class="required"
+              >
+                <el-input
+                  v-model.number="itemPorts.nodePort"
+                  placeholder="9997"
+                  @blur="checkInputNodePort(itemPorts)"
+                />
+                <p
+                  class="errInfo"
+                  v-show="itemPorts.showNodePort"
+                >
+                  {{ $t('workspace.visualConfig.nodePortVerify') }}
+                </p>
+              </el-form-item>
+              <el-form-item
+                :label="$t('workspace.protocol')"
+              >
+                <el-select
+                  v-model="itemPorts.protocol"
+                >
+                  <el-option
+                    v-for="itemProtocol in optionsProtocol"
+                    :key="itemProtocol.value"
+                    :label="itemProtocol.label"
+                    :value="itemProtocol.value"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <p class="saveBtn addBtn_div">
+    <div class="submit-btn-wrapper">
       <el-button
+        class="button"
         v-if="viewConfigFileBtn"
         @click="viewConfigFile"
       >
         {{ $t('workspace.visualConfig.viewYamlFile') }}
       </el-button>
       <el-button
-        class="featuresBtn"
+        class="button"
         @click="saveConfig"
       >
         {{ $t('workspace.saveData') }}
       </el-button>
-    </p>
+    </div>
     <el-dialog
+      class="visual-config-dialog"
       :title="$t('workspace.visualConfig.visualConfigFile')"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
     >
-      <div class="file_content">
+      <div class="file-content">
         <mavon-editor
           v-model="markdownSource"
           :toolbars-flag="false"
@@ -493,17 +566,25 @@
       </div>
       <span
         slot="footer"
-        class="dialog-footer"
       >
-        <el-button @click="editConfigFile">{{ $t('common.edit') }}</el-button>
         <el-button
-          @click="saveConfigFile"
+          v-show="!isEditFile"
+          @click="editConfigFile"
+        >
+          {{ $t('common.edit') }}
+        </el-button>
+        <el-button
           v-show="isEditFile"
-        >{{ $t('common.save') }}</el-button>
+          @click="saveConfigFile"
+        >
+          {{ $t('common.save') }}
+        </el-button>
         <el-button
           type="primary"
           @click="configEditFile"
-        >{{ $t('common.confirm') }}</el-button>
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
       </span>
     </el-dialog>
   </div>
@@ -567,7 +648,8 @@ export default {
                     memory: '',
                     cpu: ''
                   }
-                }
+                },
+                showResource: true
               }
             ]
           }
@@ -688,7 +770,8 @@ export default {
                   memory: '',
                   cpu: ''
                 }
-              }
+              },
+              showResource: true
             }
           ]
         }
@@ -728,7 +811,8 @@ export default {
             memory: '',
             cpu: ''
           }
-        }
+        },
+        showResource: true
       }
       this.podData[indexPod].spec.containers.push(obj)
     },
@@ -818,28 +902,36 @@ export default {
       }
     },
     checkInputInPort (value) {
-      if (value.containerPort === undefined) {
+      if (value.containerPort === '') {
+        value.showInPort = true
+      } else if (value.containerPort < 1 || value.containerPort > 65535) {
         value.showInPort = true
       } else {
         value.showInPort = false
       }
     },
     checkInputPort (value) {
-      if (value.port === undefined) {
+      if (value.port === '') {
+        value.showPort = true
+      } else if (value.port < 1 || value.port > 65535) {
         value.showPort = true
       } else {
         value.showPort = false
       }
     },
     checkInputTargetPort (value) {
-      if (value.targetPort === undefined) {
+      if (value.targetPort === '') {
+        value.showTargetPort = true
+      } else if (value.targetPort < 1 || value.targetPort > 65535) {
         value.showTargetPort = true
       } else {
         value.showTargetPort = false
       }
     },
     checkInputNodePort (value) {
-      if (value.nodePort === undefined) {
+      if (value.nodePort === '') {
+        value.showNodePort = true
+      } else if (value.nodePort < 1 || value.nodePort > 65535) {
         value.showNodePort = true
       } else {
         value.showNodePort = false
@@ -1078,7 +1170,7 @@ export default {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
         oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
-        const oDiv2 = document.getElementsByClassName('file_content')[0]
+        const oDiv2 = document.getElementsByClassName('file-content')[0]
         if (oDiv2) {
           oDiv2.style.height = Number(deviceHeight) * 0.75 - 155 + 'px'
         }
@@ -1115,6 +1207,10 @@ export default {
     configEditFile () {
       this.dialogVisible = false
       this.isEditFile = false
+    },
+    // Change resource panel display status in each container.
+    changeResourceDisplayStatus (container) {
+      container.showResource = !container.showResource
     }
   },
   watch: {
@@ -1129,213 +1225,418 @@ export default {
 </script>
 
 <style lang="less">
+@keyframes rotation {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
 .configVisual{
-  .el-input-number--mini{
+  /* style for button that can add pod or service. */
+   .add-btn-wrapper{
     width: 100%;
+    padding-right: 15px;
   }
-  .el-form-item__label{
-    width: 100px;
-  }
-  .el-form-item__content{
-    position: relative;
-    margin-left: 100px;
-  }
-  .span_left_en .el-form-item__label{
-    width: 165px;
-  }
-  .span_left_en .el-form-item__content{
-    margin-left: 165px;
-  }
-  .required .el-form-item__label:before{
-    content:'*';
-    color: #F56C6C;
-    font-size: 12px;
-    margin-right: 4px;
-  }
-  .errInfo{
-    font-size: 12px;
-    color: #F56C6C;
-    position: absolute;
-    top: 25px;
-  }
-  .el-select{
-    width: 100%;
-  }
-  .tit_gray_bg{
-    float: left;
-    width: 100%;
-  }
-  .pod_div{
-    float: left;
-    width: 50%;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin: 20px 0;
-    height: 670px;
-    overflow-y: auto;
-    .service_port_div{
-      margin-bottom: 18px;
-      .errInfo{
-        top: 55px;
-      }
-    }
-    .service_port_div.half{
-      .port_div{
-        width: 48%;
-        margin: 20px 2% 0 0;
-      }
-      .port_div:nth-child(even){
-        margin: 20px 0 0 0;
-      }
-    }
-  }
-  .pod_div.full{
-    width: 100%;
-    height: 570px;
-  }
-  .pod_div.full.service_div{
-    height: 340px;
-  }
-  .pod_div.service_div{
-    height: 440px;
-    overflow-y: auto;
-  }
-  .port_div{
-    float: left;
-    width: 23%;
-    margin: 0 2% 0 0;
-    position: relative;
-    .title{
-      font-size: 12px;
-      color: #aaa;
-      font-weight: normal;
-    }
-  }
-  .port_div:last-child{
-    width: 25%;
-    margin: 0;
-  }
-  .el-form{
-    .el-form-item{
-      float: left;
-      width: 100%;
-    }
-  }
-  .el-form.half{
-    .el-form-item{
-      width: 50%;
-    }
-  }
-  .el-form.half.full{
-    .el-form-item{
-      width: 100%;
-    }
-  }
-  .addBtn_div{
-    float: left;
-    width: 100%;
-  }
-  .form_pod_top{
-    .el-form-item{
-      float: left;
-      width: 100%;
-    }
-  }
-  .form_pod_top.full{
-    .el-form-item{
-      float: left;
-      width: 50%;
-    }
-    .el-form-item.service_item{
-      width: 100%;
-    }
-  }
-  .delete_div{
-    height: 25px;
-  }
-  .deleteText{
+
+  .add-btn{
     float: right;
-    padding: 8px 0;
+    background-color: #b9b5d6;
+    border: none;
+    border-radius: 8px;
+    font-family: defaultFontLight;
+    margin-top: 10px;
   }
-  .container_div{
-    float: left;
+
+  .add-btn-wrapper::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .add-btn-wrapper.outer {
+    margin-bottom: -30px !important;
+  }
+
+  /* style for all the el-input elements. */
+  .el-input__inner {
+    font-family: defaultFontLight;
+  }
+
+  /* style for pod related elements. */
+  .pod-wrapper .pod-content {
+    border: none;
+    padding: 0;
+    margin-top: 40px;
+    font-family: defaultFontLight;
+  }
+
+  .pod-content-basic__header {
+    color: #e2e1ed;
+    background-color: #7e74b3;
+    border-radius: 12px 12px 0 0;
     width: 100%;
-    margin: 2% 0 0;
-    background: #e8f9ff;
-    border: 1px dashed #ddd;
-    padding: 15px;
-    .el-form{
-      margin-top: 15px;
-      .el-form-item.resouces{
-        width: 100%;
-      }
-      .pod_env_div{
-        margin-bottom: 10px;
-      }
-      .env_item{
-        .env_input{
-          float: left;
-          width: 48%;
-        }
-        .equal{
-          float: left;
-          width: 4%;
-          text-align: center;
-        }
-      }
-    }
-    .resouces_tit{
-      color: #aaa;
-    }
-    .resouces_div{
-      span{
-        float: left;
-        width: 70px;
-        text-align: right;
-        padding-right: 10px;
-      }
-      .el-input{
-        float: left;
-        width: calc(50% - 80px);
-      }
-    }
+    height: 35px;
+    line-height: 35px;
   }
-  .deleteLine{
-    float: left;
-    width: 100%;
-    border-bottom:1px solid #ddd;
-    height: 30px;
+
+  .pod-content-basic__header .title {
+    padding-left: 15px;
+    float:left;
+    font-size: 16px;
+    font-family: defaultFontLight;
+    font-weight: normal;
   }
-  .container_div.half{
+
+  .pod-content-basic__header .delete {
+    float: right;
+    line-height: 35px;
+    padding-right: 15px;
+    color: #e2e1ed;
+  }
+
+  .pod-content-basic__body {
+    margin: 30px 30px 0 30px;
+  }
+
+  .pod-content-basic__body .el-form-item {
     width: 48%;
-    margin: 2% 1% 0;
-    .el-form-item{
+  }
+
+  .pod-content-basic__body .el-form-item .el-form-item__label {
+    color: #4a2983;
+  }
+
+  .pod-content-basic__body .el-form-item .el-form-item__content {
+    width: 240px;
+  }
+
+  .pod-content-container-item__header {
+    color: #e2e1ed;
+    margin-top: 10px;
+    background-color: #9f97cb;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .pod-content-container-item__header .title {
+    padding-left: 15px;
+    float:left;
+    font-size: 16px;
+    font-family: defaultFontLight;
+    font-weight: normal;
+  }
+
+  .pod-content-container-item__header .delete {
+    float: right;
+    line-height: 35px;
+    padding-right: 15px;
+    color: #e2e1ed;
+  }
+
+  .pod-content-container-item__body {
+    margin: 30px 30px 0 30px;
+    padding-bottom: 30px;
+  }
+
+  .pod-content-container-item__body .el-form-item {
+    width: 48%;
+  }
+
+  .pod-content-container-item__body .el-form-item__label {
+    color: #4a2983;
+  }
+
+  .pod-content-container-item__body .el-form-item__content {
+    width: 240px;
+  }
+
+  .pod-content-container__item-envs .el-input {
+    width: 105px;
+  }
+
+  .pod-content-container__item-envs .variable-name {
+    margin-right: 10px;
+  }
+
+  .pod-content-container__item-envs .variable-value {
+    margin-left: 10px;
+  }
+
+  .pod-content-container__item-envs .delete-variable-button {
+    color: #7b71b1;
+    font-size: 12px;
+  }
+
+  .pod-content-container-item__body .add-envs-variable-button {
+    margin-top: 5px;
+    background-color: #7b71b1;
+    border-color: #7b71b1;
+    border-radius: 8px;
+    font-family: defaultFontLight;
+  }
+
+  .resources-wrapper {
       width: 100%;
-    }
+      margin: 0 20px;
+      padding: 10px 20px;
+      background-color: #e9ebf1;
+      border-radius: 8px;
+      width: calc(100% - 40px);
   }
-  .saveBtn{
-    margin-top: 20px;
+
+  .resources-wrapper__header::after {
+    content: '';
+    display: block;
+    clear: both;
   }
-  .el-dialog{
-    width: 45%;
+
+  .resources-wrapper__header-title {
+    float: left;
+    color: #380879;
+    font: defaultFont;
+    font-size: 18px;
   }
-  .file_content{
-    overflow: auto;
-    .v-note-wrapper{
-      border: none;
-    }
-    .v-note-wrapper .v-note-panel .v-note-show{
-      overflow: hidden;
-      .hljs, pre{
-        background: #1e1e1e;
-        color: #fff;
-      }
-    }
+
+  .resources-wrapper__header-arrow {
+    float: right;
+    position: relative;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: solid 1px #380879;
+    color: #380879;
   }
-  @media screen and (max-width:1290px){
-    .el-dialog{
-      width: 65%;
-    }
+
+  .resources-wrapper__header-arrow .el-icon-arrow-down.up {
+    position:relative;
+    top: -4px;
+    color: #380879;
+    font-size: 8px;
+    transform: rotate(0deg);
+    transition: 0.5s;
   }
+
+  .resources-wrapper__header-arrow .el-icon-arrow-down.down {
+    position:relative;
+    top: -5px;
+    font-size: 8px;
+    transform: rotate(180deg);
+    transition: 0.5s;
+  }
+
+  .resources-wrapper__header-arrow:hover {
+    cursor: pointer;
+  }
+
+  .resources-wrapper__body.el-row {
+    margin: 5px 0 !important;
+  }
+
+  .resources-wrapper__item {
+    margin-top: 10px;
+  }
+
+  .resources-wrapper__item::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .resources-wrapper__item-content .resources-item__label {
+    line-height: 32px;
+    float: left;
+    color: #380879;
+  }
+
+  .resources-wrapper__item-content .resources-item__input {
+    display: inline-block;
+    padding-left: 10px;
+    width: 250px;
+  }
+
+  /* style for service related elements. */
+  .service-wrapper {
+    margin-top: 30px;
+  }
+
+  .service-wrapper .service-content {
+    border: none;
+    padding: 0;
+    margin-top: 40px;
+    font-family: defaultFontLight;
+  }
+
+  .service-content-basic__header {
+    color: #e2e1ed;
+    background-color: #7e74b3;
+    border-radius: 12px 12px 0 0;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .service-content-basic__header .title {
+    padding-left: 15px;
+    float:left;
+    font-size: 16px;
+    font-family: defaultFontLight;
+    font-weight: normal;
+  }
+
+  .service-content-basic__header .delete {
+    float: right;
+    line-height: 35px;
+    padding-right: 15px;
+    color: #e2e1ed;
+  }
+
+  .service-content-basic__body .el-form {
+    margin: 30px 30px 0 30px;
+  }
+
+  .service-content-basic__body .el-form-item {
+    width: 48%;
+  }
+
+  .service-content-basic__body .el-form-item__label {
+    color: #4a2983;
+  }
+
+  .service-content-basic__body .el-form-item__content {
+    width: 240px;
+  }
+
+  .service-content-port__header {
+    color: #e2e1ed;
+    margin-top: 10px;
+    background-color: #9f97cb;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .service-content-port__header .title {
+    padding-left: 15px;
+    float:left;
+    font-size: 16px;
+    font-family: defaultFontLight;
+    font-weight: normal;
+  }
+
+  .service-content-port__header .delete {
+    float: right;
+    line-height: 35px;
+    padding-right: 15px;
+    color: #e2e1ed;
+  }
+
+  .service-content-port__wrapper:last-child{
+    padding-bottom: 20px;
+  }
+
+  .submit-btn-wrapper {
+    margin-top: 30px;
+    text-align: right;
+  }
+
+  .submit-btn-wrapper .button {
+    border-radius: 8px;
+    background-color: #8278b7;
+    border-color: #8278b7;
+    color: #fff;
+    font-family: defaultFontLight;
+    font-size: 16px;
+    height: 40px;
+    padding: 0 40px;
+  }
+}
+
+.visual-config-dialog {
+  .el-dialog {
+    padding: 20px;
+    border-radius: 12px;
+    width: 900px;
+    background-color: #efefef;
+  }
+
+  .el-dialog__header {
+    background-color: transparent !important;
+  }
+
+  .el-dialog__header::before {
+    content: '';
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    height: 17px;
+    width: 17px;
+    border-radius: 3px;
+    background-image: linear-gradient(to top right, rgba(85, 216, 191), rgba(85, 216, 191, 0.2));
+  }
+
+  .el-dialog__title {
+    margin-left: 20px;
+    color: #380879 !important;
+    font-size: 20px;
+    font-family: defaultFontLight;
+  }
+
+  .el-dialog__close {
+    display: none;
+  }
+
+  .file-content {
+    margin-left: 35px;
+    margin-right: 40px;
+    border-radius: 8px;
+  }
+
+  .v-note-wrapper .v-note-panel {
+    border-radius: 8px;
+  }
+
+  .el-dialog__footer .el-button {
+    border-radius: 10px;
+    background-color:#5844be;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-family: defaultFontLight;
+  }
+}
+
+/** style for error message */
+.required .el-form-item__label:before{
+  content:'*';
+  color: #F56C6C;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.errInfo{
+  font-size: 12px;
+  color: #F56C6C;
+  position: absolute;
+  top: 25px;
+}
+
+/* transition animation for resource-wrapper */
+.slide-fade-enter-active {
+  transition: all 0.4s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateY(-15px);
+  opacity: 0;
 }
 </style>

@@ -47,6 +47,14 @@
   color: #FFFFFF;
 }
 
+.work-button.el-button--primary {
+  background-color: #5e40c8;
+}
+
+.work-button.el-button--primary:hover, .work-button.el-button--primary:focus {
+  background-color: #5e40c8;
+}
+
 /* style for input */
 .work-input .el-input {
   height: 36px;
