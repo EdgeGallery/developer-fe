@@ -297,7 +297,7 @@
         class="dialog-footer"
       >
         <el-button
-          @click="dialogVisible = false"
+          @click="handleClose"
           size="medium"
           class="cancel"
         >{{ $t('common.cancel') }}</el-button>
