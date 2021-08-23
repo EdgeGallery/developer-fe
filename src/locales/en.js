@@ -887,7 +887,7 @@ const en = {
         viewImg: 'View System Image Detail',
         nameRule: 'Please enter a valid name of 4-32 characters!',
         versionEmpty: 'System version cannot be empty!',
-        versionRule: 'Please enter a valid version of 1-10 characters!',
+        versionRule: 'Please enter a valid version of 1-20 characters!',
         systemDiskEmpty: 'System disk size cannot be empty!',
         systemDiskRule: 'Please enter a 2 to 4-digit integer!',
         uploadImg: 'Upload System Image',
