@@ -195,7 +195,6 @@ export default {
       appYamlFileId: '',
       uploadYamlLoading: false,
       yamlFileList: [],
-      activeName: 'first',
       hasValidate: false,
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID'),
@@ -384,22 +383,17 @@ export default {
     getConfigVisual (val) {
       this.appYamlFileId = val
     },
-    handleClick (tab) {
-      if (tab.name === 'first') {
-        this.initFileList()
-      } else if (tab.name === 'second') {
-        this.$refs.configVisual.getConfigFile()
-      }
-    },
     getConfigType () {
       Workspace.getTestConfigApi(this.projectId).then(response => {
         this.appYamlFileId = response.data.deployFileId
         if (this.appYamlFileId) {
           Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
             if (res.data.configType === 'upload') {
-              this.activeName = 'first'
+              this.showFileImport = true
+              this.showVisualConfig = false
             } else if (res.data.configType === 'config') {
-              this.activeName = 'second'
+              this.showFileImport = false
+              this.showVisualConfig = true
               this.$refs.configVisual.getConfigFile()
             }
           })
@@ -445,8 +439,8 @@ export default {
       border: none;
     }
 
-    .v-show-content-html {
-      padding: 0;
+    .v-show-content {
+      padding: 0 !important;
     }
 
     .v-note-wrapper .v-note-panel .v-note-show{
@@ -469,7 +463,13 @@ export default {
     background-color: transparent;
 
     .el-upload-list {
-      margin: 0 10px;
+      margin: 0 10px 20px;
+    }
+
+    .el-upload-list::after {
+      content: '';
+      display: block;
+      clear: both;
     }
 
     .el-upload-list__item-status-label {
@@ -489,11 +489,15 @@ export default {
     }
 
     .el-upload-list__item-name {
-      font-size: 16px;
+      font-size: 14px;
       color: #7965e0;
     }
 
     .el-upload-list__item-name:hover {
+      color: #7965e0;
+    }
+
+    .el-icon-document {
       color: #7965e0;
     }
 

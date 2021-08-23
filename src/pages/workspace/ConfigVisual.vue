@@ -1616,7 +1616,7 @@ export default {
     padding: 20px;
     border-radius: 12px;
     width: 50%;
-    height: 520px;
+    height: 520px !important;
     background-color: #efefef;
   }
 
