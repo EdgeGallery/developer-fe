@@ -93,6 +93,9 @@
             <el-radio label="OpenStack">
               OpenStack
             </el-radio>
+            <el-radio label="FusionSphere">
+              FusionSphere
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item
