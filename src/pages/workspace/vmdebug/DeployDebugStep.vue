@@ -83,10 +83,20 @@ export default {
         type: 'warning'
       }).then(() => {
         vmService.deleteVmResource(this.projectId, this.userId).then(() => {
-          this.$message.success(this.$t('devTools.deleteSucc'))
+          this.$eg_messagebox({
+            type: 'success',
+            title: '',
+            desc: this.$t('devTools.deleteSucc'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
           this.loadVmResourceDataList()
         }).catch(() => {
-          this.$message.error(this.$t('devTools.deleteFail'))
+          this.$eg_messagebox({
+            type: 'error',
+            title: '',
+            desc: this.$t('devTools.deleteFail'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
         })
       })
     },

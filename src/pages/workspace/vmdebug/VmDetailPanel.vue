@@ -159,7 +159,7 @@ export default {
 
     .el-form-item__label {
       font-size: 16px;
-      font-family: defaultFontBlod;
+      font-family: defaultFont;
       color: #380879;
     }
 
