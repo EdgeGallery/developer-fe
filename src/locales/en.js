@@ -872,6 +872,15 @@ const en = {
         selectImgFile: 'Select File',
         publish: 'Publish'
       },
+      containerImage: {
+        synchronize: 'Synchronize Image',
+        syncing: 'Syncing...',
+        pleaseWait: 'It takes a few minutes to synchronize the image, please wait patiently···',
+        synchronized: 'Image synchronized',
+        latestImage: 'Already the latest image',
+        noImage: 'Harbor warehouse has no image',
+        imageFailed: 'Image synchronization failed'
+      },
       tip: {
         newImg: 'New System Image',
         editImg: 'Edit System Image',

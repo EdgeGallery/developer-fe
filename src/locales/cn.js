@@ -872,6 +872,15 @@ const cn = {
         selectImgFile: '选择文件',
         publish: '发布'
       },
+      containerImage: {
+        synchronize: '同步镜像',
+        syncing: '同步中...',
+        pleaseWait: '同步镜像需要几分钟，请耐心等待···',
+        synchronized: '镜像已同步',
+        latestImage: '已经是最新镜像',
+        noImage: 'Harbor仓库暂无镜像',
+        imageFailed: '镜像同步失败'
+      },
       tip: {
         newImg: '新建系统镜像',
         editImg: '修改系统镜像',
