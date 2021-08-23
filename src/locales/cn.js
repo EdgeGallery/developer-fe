@@ -886,7 +886,7 @@ const cn = {
         viewImg: '查看系统镜像详情',
         nameRule: '请输入有效的系统镜像名称，不能包含空格，4-32个字符！',
         versionEmpty: '系统版本号不能为空！',
-        versionRule: '请输入有效的系统版本号，包含1-10个字符！',
+        versionRule: '请输入有效的系统版本号，包含1-20个字符！',
         systemDiskEmpty: '系统磁盘大小不能为空！',
         systemDiskRule: '请输入两到四位的整数！',
         uploadImg: '上传系统镜像',
