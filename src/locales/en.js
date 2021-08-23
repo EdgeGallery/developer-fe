@@ -571,6 +571,7 @@ const en = {
     containerResource: 'Resource',
     hostInfo: 'Host Info',
     selectEnv: 'Select Testing Environment',
+    sandboxEnv: 'SandBox Environment',
     sandboxEnvDesc: 'Real scences simulation, quick test',
     fiveGEnv: '5G Environment',
     fiveGEnvDesc: 'Because of the limit of 5G environment resources, application may fail',

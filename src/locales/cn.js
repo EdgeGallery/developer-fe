@@ -571,6 +571,7 @@ const cn = {
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
+    sandboxEnv: '沙箱环境',
     sandboxEnvDesc: '模拟真实场景，快速调测',
     fiveGEnv: '5G环境',
     fiveGEnvDesc: '由于5G环境资源有限，有可能申请失败',
