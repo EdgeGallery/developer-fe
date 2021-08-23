@@ -16,7 +16,7 @@
 
 <template>
   <div class="config-yaml">
-    <div class="container1">
+    <div class="config-yaml-container1">
       <div class="work-title-clickable">
         <el-radio
           class="work-radio"
@@ -26,8 +26,8 @@
           {{ $t('workspace.configYaml.importFile') }}
         </el-radio>
       </div>
-      <div class="content">
-        <div class="work-p">
+      <div class="config-yaml-content">
+        <div class="config-yaml__text">
           {{ $t('workspace.configYaml.uploadYamlTip') }}
         </div>
         <el-upload
@@ -43,16 +43,16 @@
           name="yamlFile"
           v-loading="uploadYamlLoading"
         >
-          <el-button slot="trigger">
+          <a slot="trigger">
             {{ $t('workspace.configYaml.uploadYaml') }}
-          </el-button>
-          <el-button
+          </a>
+          <a
             class="down-demo"
             :href="demoYaml"
             download="demo.yaml"
           >
             {{ $t('workspace.configYaml.downloadDemo') }}
-          </el-button>
+          </a>
         </el-upload>
         <div v-show="hasValidate">
           <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
@@ -63,54 +63,74 @@
             v-show="showResult"
           >
             <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
+              {{ $t('workspace.configYaml.format') }}
               <em
                 v-show="checkFlag.formatSuccess"
-                class="el-icon-circle-check"
+                class="el-icon-success"
               />
               <em
                 v-show="!checkFlag.formatSuccess"
-                class="el-icon-circle-close"
+                class="el-icon-error"
               />
-              {{ $t('workspace.configYaml.format') }}
             </div>
             <div :class="checkFlag.imageSuccess ? 'green test' : 'red test'">
+              {{ $t('workspace.configYaml.imageInfo') }}
               <em
                 v-show="checkFlag.imageSuccess"
-                class="el-icon-circle-check"
+                class="el-icon-success"
               />
               <em
                 v-show="!checkFlag.imageSuccess"
-                class="el-icon-circle-close"
+                class="el-icon-error"
               />
-              {{ $t('workspace.configYaml.imageInfo') }}
             </div>
             <div :class="checkFlag.serviceSuccess ? 'green test' : 'red test'">
+              {{ $t('workspace.configYaml.serviceInfo') }}
               <em
                 v-show="checkFlag.serviceSuccess"
-                class="el-icon-circle-check"
+                class="el-icon-success"
               />
               <em
                 v-show="!checkFlag.serviceSuccess"
-                class="el-icon-circle-close"
+                class="el-icon-error"
               />
-              {{ $t('workspace.configYaml.serviceInfo') }}
             </div>
             <div :class="checkFlag.mepAgentSuccess ? 'green test' : 'yellow test'">
+              {{ $t('workspace.configYaml.mepAgent') }}
               <em
                 v-show="checkFlag.mepAgentSuccess"
-                class="el-icon-circle-check"
+                class="el-icon-success"
               />
               <em
                 v-show="!checkFlag.mepAgentSuccess"
-                class="el-icon-warning-outline"
+                class="el-icon-warning"
               />
-              {{ $t('workspace.configYaml.mepAgent') }}
+              <p
+                v-show="!checkFlag.mepAgentSuccess"
+                class="test-result__tip"
+              >
+                {{ $t('workspace.configYaml.mepAgentTip') }}
+              </p>
             </div>
           </div>
         </div>
+        <div
+          class="yaml_content"
+          v-if="fileUploadSuccess"
+        >
+          <mavon-editor
+            v-model="markdownSource"
+            :toolbars-flag="false"
+            :editable="false"
+            :subfield="false"
+            default-open="preview"
+            :box-shadow="false"
+            preview-background="#ffffff"
+          />
+        </div>
       </div>
     </div>
-    <div class="container2">
+    <div class="config-yaml-container2">
       <div class="work-title-clickable">
         <el-radio
           class="work-radio"
@@ -122,7 +142,7 @@
       </div>
       <div
         v-if="selectConfigType === '2'"
-        class="content"
+        class="config-yaml-content"
       >
         <configVisual
           :all-step-data="allStepData"
@@ -133,7 +153,7 @@
       </div>
       <div
         v-else
-        class="work-p content"
+        class="work-p config-yaml-content"
       >
         {{ $t('workspace.configYaml.visualConfigTip') }}
       </div>
@@ -181,7 +201,12 @@ export default {
       if (ifNext) {
         this.$emit('getStepData', { step: 'fourth', data: { appYamlFileId: this.appYamlFileId }, ifNext })
       } else {
-        this.$message.warning(this.$t('workspace.configYaml.uploadYamlFirst'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('workspace.configYaml.uploadYamlFirst'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       }
     },
     // Choose YAML file
@@ -192,7 +217,12 @@ export default {
       const fileType = file.raw.name.substring(file.raw.name.lastIndexOf('.') + 1)
       const fileTypeArr = ['yaml']
       if (!fileTypeArr.includes(fileType)) {
-        this.$message.warning(this.$t('workspace.configYaml.yamlFileType'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('workspace.configYaml.yamlFileType'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
         yamlFileList = []
       }
       if (yamlFileList.length > 0) {
@@ -201,7 +231,12 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('promptMessage.onlyOneFile'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       }
     },
     // Remove uploaded YAML file
@@ -229,10 +264,12 @@ export default {
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
           this.setApiHeight()
-          this.$message({
+          this.$eg_messagebox({
             type: 'success',
-            message: this.$t('promptMessage.uploadSuccess')
-          })
+            title: '',
+            desc: this.$t('promptMessage.uploadSuccess'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
         } else {
           this.fileUploadSuccess = false
           this.appYamlFileId = ''
@@ -245,11 +282,26 @@ export default {
         this.submitData(this.appYamlFileId)
       }, (error) => {
         if (error.response.data.message === 'Failed to read content of helm template yaml') {
-          this.$message.error(this.$t('promptMessage.uploadYamlFailure'))
+          this.$eg_messagebox({
+            type: 'error',
+            title: '',
+            desc: this.$t('promptMessage.uploadYamlFailure'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
         } else if (error.response.data.message === 'yaml file is empty!') {
-          this.$message.error(this.$t('promptMessage.fileIsEmpty'))
+          this.$eg_messagebox({
+            type: 'error',
+            title: '',
+            desc: this.$t('promptMessage.fileIsEmpty'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
         } else {
-          this.$message.error(this.$t('promptMessage.imageInfoErr'))
+          this.$eg_messagebox({
+            type: 'error',
+            title: '',
+            desc: this.$t('workspace.configYaml.yamlFileType'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
         }
         this.appYamlFileId = ''
         this.yamlFileList = []
@@ -349,35 +401,126 @@ export default {
 </script>
 
 <style lang="less">
-.config-yaml {
-  .content {
-    margin: 20px 53px;
+.config-yaml-content {
+  margin: 20px 0 20px 53px;
 
-    .tip {
-      font-size: 14px;
+  .config-yaml__text {
+    font-size: 16px;
+    font-family: defaultFontLight;
+    color: #380879;
+  }
+
+  .yaml_content{
+    white-space: pre-wrap;
+    margin-top: 20px;
+    overflow: auto;
+    max-height: 600px;
+    .v-note-wrapper{
+      border: none;
     }
-
-    .uploader {
-      margin-top: 15px;
-      margin-left: -10px;
-
-      .el-button {
-        height: 32px;
-        line-height: 32px;
-        font-size: 16px;
-        font-family: defaultFontLight;
-        border: none;
-        border-radius: 8px;
-        color: #ffffff;
-        background-color:#8278b7;
-        padding: 0 20px;
-        margin-left: 10px;
+    .v-note-wrapper .v-note-panel .v-note-show{
+      overflow: hidden;
+      .hljs, pre{
+        background: #1e1e1e;
+        color: #fff;
       }
     }
   }
 
-  .container2 {
-    padding-top: 30px;
+  .uploader {
+    margin-top: 15px;
+    margin-left: -10px;
+    background-color: transparent;
+
+    .el-upload-list__item-status-label {
+      display: none;
+    }
+
+    .el-upload-list__item-name {
+      padding-left: 20px;
+      padding-right: 20px;
+      box-shadow: 0 0 15px 2px #dedeea inset;
+      border-radius: 8px;
+      color: #7965e0;
+    }
+
+    .el-upload-list__item:hover {
+      background-color: transparent;
+    }
+
+    .el-upload-list__item-name [class^=el-icon] {
+      padding-top: 3px;
+      color: #7965e0;
+    }
+
+    .el-upload-list__item .el-icon-close {
+      top: 8px;
+    }
+
+    .el-loading-mask {
+      background-color: rgba(241,242,246,.5);
+    }
+
+    a {
+      display: inline-block;
+      height: 32px;
+      line-height: 32px;
+      font-size: 16px;
+      font-family: defaultFontLight;
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      background-color:#8278b7;
+      padding: 0 20px;
+      margin-left: 10px;
+    }
   }
+
+  .el-upload-list__item:first-child {
+    margin-top: 20px;
+  }
+
+  .test.tit:first-child {
+    display: none;
+  }
+
+  .test.tit {
+    margin-top: 20px;
+  }
+
+  .test.tit .test {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-family: defaultFontLight;
+    color: #380879;
+  }
+
+  .green.test em{
+    color: #3ac372;
+  }
+
+  .red.test em {
+    color: #f23d3d;
+  }
+
+  .yellow.test em {
+    position: relative;
+    top: 1px;
+    color: #f2bd3d;
+    font-size: 15px;
+    margin: 0 auto;
+  }
+
+  .test-result__tip {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+}
+
+.config-yaml-container2 {
+  padding-top: 30px;
 }
 </style>

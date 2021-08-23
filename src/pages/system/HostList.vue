@@ -241,6 +241,9 @@
             <el-radio label="OpenStack">
               OpenStack
             </el-radio>
+            <el-radio label="FusionSphere">
+              FusionSphere
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item
@@ -666,7 +669,9 @@ export default {
       }
     },
     showMoreBtnFun (index) {
+      console.log(index)
       this.currentIndex = index
+      console.log(this.currentIndex)
     },
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)

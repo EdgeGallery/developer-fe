@@ -203,7 +203,8 @@ const cn = {
       format: '格式校验',
       imageInfo: '镜像信息',
       serviceInfo: '服务信息',
-      mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）',
+      mepAgent: 'MEP Agent',
+      mepAgentTip: '（如果没有集成mepagent，将无法发布API）',
       visualConfigTip: '如若已上传yaml文件，则不需进行可视化配置'
     },
     uploadImage: {
@@ -293,7 +294,7 @@ const cn = {
       noService: '您的应用没有依赖平台的生态服务',
       blackWhiteList: '黑白名单',
       UEIdentity: 'UE标识',
-      enterAtp: '进入应用测试认证平台',
+      enterAtp: '了解应用测试',
       selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {

@@ -203,7 +203,8 @@ const en = {
       format: 'format check',
       imageInfo: 'image information',
       serviceInfo: 'service information',
-      mepAgent: 'MEP Agent (If mepagent is not integrated, api cannot be released)',
+      mepAgent: 'MEP Agent',
+      mepAgentTip: '(If mepagent is not integrated, api cannot be released)',
       visualConfigTip: 'If the yaml file has been uploaded, the visual configuration is not required'
     },
     uploadImage: {
@@ -293,7 +294,7 @@ const en = {
       noService: 'Your application does not rely on the ecosystem services of the platform',
       blackWhiteList: 'Black and White list',
       UEIdentity: 'UE Identity',
-      enterAtp: 'Enter Application Testing Platform',
+      enterAtp: 'To know Application Testing',
       selectInitialization: 'Please select the service you need in the service list on the left'
     },
     deployDebugVm: {

@@ -80,7 +80,12 @@ export default {
       let typeArr = ['rar', 'tar', 'zip']
       if (typeArr.indexOf(typeName) === -1 || fileSize > 5) {
         file.ignored = true
-        this.$message.warning(this.$t('promptMessage.imageFileType'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('promptMessage.imageFileType'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
       }
     },
     fileComplete () {
