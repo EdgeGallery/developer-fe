@@ -1580,6 +1580,10 @@ export default {
   .el-dialog__footer{
     padding-bottom:0px;
     padding-top:20px;
+    padding-right:0px;
+  }
+  .dialog-footer{
+    padding-right:0px !important;
   }
   .el-button--default{
     border: 1px solid #5844be;

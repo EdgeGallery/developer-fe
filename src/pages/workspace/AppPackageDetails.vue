@@ -17,22 +17,16 @@
 <template>
   <div class="appPackageDetails">
     <el-dialog
+      show-close="true"
       :title="$t('workspace.appDetails')"
       :close-on-click-modal="false"
       :visible.sync="dialogVisible"
-      width="70%"
+      width="50%"
       :before-close="handleClose"
     >
       <p class="title">
         {{ $t('workspace.appDetails') }}
       </p>
-      <button
-        type="button"
-        aria-label="Close"
-        class="el-dialog__headerbtn"
-      >
-        <i class="el-dialog__close el-icon el-icon-close" />
-      </button>
       <el-row>
         <el-col
           :span="8"
@@ -170,8 +164,17 @@ export default {
 </script>
 <style lang='less'>
 .appPackageDetails{
+  .el-dialog__header{
+    display:block !important;
+    float:right;
+    background-color: #efefef !important;
+    }
+    .el-dialog__title{
+      display:none;
+    }
   .el-dialog__headerbtn{
     top:40px;
+    right:40px;
   }
   .markdown-body .highlight pre, .markdown-body pre{
     font-size:110%;
