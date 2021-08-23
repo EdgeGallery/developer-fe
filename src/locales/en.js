@@ -537,7 +537,7 @@ const en = {
     apiFunctionMd: 'Please upload the .md file to describe the API function, usage, etc.',
     routeConfig: 'Route Configuration',
     protocol: 'Protocol',
-    appDetails: 'Application Package Details',
+    appDetails: 'App Package Details',
     appTest: 'Application Test',
     releaseText: 'The application needs to be tested before it is released',
     instantiateId: 'Instantiate ID',
