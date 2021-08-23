@@ -30,7 +30,7 @@
           :loading="synchronizeImageLoading"
           v-if="isAdmin"
         >
-          {{ !synchronizeImageLoading?$t('system.containerIMage.synchronize'):$t('system.containerIMage.syncing') }}
+          {{ !synchronizeImageLoading?$t('system.imageMgmt.containerImage.synchronize'):$t('system.imageMgmt.containerImage.syncing') }}
         </el-button>
       </div>
       <el-table
@@ -276,7 +276,7 @@ export default {
       this.$eg_messagebox({
         type: 'info',
         title: '',
-        desc: this.$t('system.containerImage.pleaseWait'),
+        desc: this.$t('system.imageMgmt.containerImage.pleaseWait'),
         cancelText: this.$t('common.cancelText')
       })
       this.synchronizeImageLoading = true
@@ -288,21 +288,21 @@ export default {
           this.$eg_messagebox({
             type: 'success',
             title: '',
-            desc: this.$t('system.containerImage.synchronized'),
+            desc: this.$t('system.imageMgmt.containerImage.synchronized'),
             cancelText: this.$t('common.cancelText')
           })
         } else if (res.data === 'already the latest image list!') {
           this.$eg_messagebox({
             type: 'success',
             title: '',
-            desc: this.$t('system.containerImage.latestImage'),
+            desc: this.$t('system.imageMgmt.containerImage.latestImage'),
             cancelText: this.$t('common.cancelText')
           })
         } else if (res.data === 'harbor repo no images!') {
           this.$eg_messagebox({
             type: 'success',
             title: '',
-            desc: this.$t('system.containerImage.noImage'),
+            desc: this.$t('system.imageMgmt.containerImage.noImage'),
             cancelText: this.$t('common.cancelText')
           })
         }
@@ -313,7 +313,7 @@ export default {
         this.$eg_messagebox({
           type: 'error',
           title: '',
-          desc: this.$t('system.containerImage.imageFailed'),
+          desc: this.$t('system.imageMgmt.containerImage.imageFailed'),
           cancelText: this.$t('common.cancelText')
         })
       })
