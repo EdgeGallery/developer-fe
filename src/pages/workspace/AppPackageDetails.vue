@@ -17,7 +17,6 @@
 <template>
   <div class="appPackageDetails">
     <el-dialog
-      show-close="true"
       :title="$t('workspace.appDetails')"
       :close-on-click-modal="false"
       :visible.sync="dialogVisible"
