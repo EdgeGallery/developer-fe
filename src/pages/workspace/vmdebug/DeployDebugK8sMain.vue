@@ -82,6 +82,10 @@ export default {
     apiDataLoading: {
       type: Boolean,
       default: false
+    },
+    currentStep: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -96,7 +100,6 @@ export default {
           port: ''
         }
       },
-      currentStep: 0,
       currentComponent: 'imageSelect',
       deployed: false,
       isCompleted: false,
