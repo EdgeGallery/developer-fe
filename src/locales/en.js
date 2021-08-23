@@ -203,7 +203,8 @@ const en = {
       format: 'format check',
       imageInfo: 'image information',
       serviceInfo: 'service information',
-      mepAgent: 'MEP Agent (If mepagent is not integrated, api cannot be released)',
+      mepAgent: 'MEP Agent',
+      mepAgentTip: '(If mepagent is not integrated, api cannot be released)',
       visualConfigTip: 'If the yaml file has been uploaded, the visual configuration is not required'
     },
     uploadImage: {

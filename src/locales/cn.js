@@ -203,7 +203,8 @@ const cn = {
       format: '格式校验',
       imageInfo: '镜像信息',
       serviceInfo: '服务信息',
-      mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）',
+      mepAgent: 'MEP Agent',
+      mepAgentTip: '（如果没有集成mepagent，将无法发布API）',
       visualConfigTip: '如若已上传yaml文件，则不需进行可视化配置'
     },
     uploadImage: {
