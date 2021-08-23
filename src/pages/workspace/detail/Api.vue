@@ -622,6 +622,7 @@ export default {
         if (newVal) {
           this.showCheckbox = false
           this.isClosable = false
+          this.clickIsSelected = false
           if (this.isEdit() || this.isCreate()) {
             let rootNodes = this.$refs.treeList.root.childNodes
             rootNodes.splice(0, rootNodes.length)
