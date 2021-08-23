@@ -294,7 +294,7 @@ const en = {
       noService: 'Your application does not rely on the ecosystem services of the platform',
       blackWhiteList: 'Black and White list',
       UEIdentity: 'UE Identity',
-      enterAtp: 'Enter Application Testing Platform',
+      enterAtp: 'To know Application Testing',
       selectInitialization: 'Please select the service you need in the service list on the left'
     },
     deployDebugVm: {

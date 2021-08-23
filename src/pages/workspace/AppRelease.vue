@@ -17,67 +17,86 @@
 <template>
   <div class="appRelease">
     <el-steps
+      class="work-steps"
       :active="active"
       finish-status="success"
-      align-center
+      space="90px"
     >
-      <el-step :title="$t('workspace.appRelease.appConfig')" />
-      <el-step :title="$t('workspace.appRelease.appCertify')" />
-      <el-step :title="$t('workspace.appRelease.appRelease')" />
+      <el-step
+        v-for="(item, index) in 3"
+        :key="index"
+      />
     </el-steps>
+
     <div class="release_steps">
       <!-- First step Application config -->
-      <div v-show="step==='step1'">
+      <div
+        class="firststep"
+        v-show="step==='step1'"
+      >
         <!-- Project detail -->
-        <h3 class="tit_gray_bg">
+        <div class="work-title defaultFontLight">
           {{ $t('workspace.projectDetails') }}
-        </h3>
-        <div class="pro_detail">
+        </div>
+
+        <div class="app_detail">
           <el-row>
             <el-col
-              :sm="12"
+              :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.projectName') }}</span>{{ projectDetailData.name }}
+              <span class="span_left">{{ $t('workspace.projectName') }}</span><p class="right_content defaultFontLight">
+                {{ projectDetailData.name }}
+              </p>
             </el-col>
             <el-col
-              :sm="12"
+              :sm="14"
               :xs="24"
             >
-              <span class="span_left">{{ $t('test.testApp.type') }}</span>{{ projectDetailData.type }}
+              <span class="span_left">{{ $t('test.testApp.type') }}</span><p class="right_content defaultFontLight">
+                {{ projectDetailData.type }}
+              </p>
             </el-col>
           </el-row>
           <el-row>
             <el-col
-              :sm="12"
+              :sm="10"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.version') }}</span>{{ projectDetailData.version }}
+              <span class="span_left">{{ $t('workspace.version') }}</span><p class="right_content defaultFontLight">
+                {{ projectDetailData.version }}
+              </p>
             </el-col>
             <el-col
-              :sm="12"
+              :sm="14"
               :xs="24"
             >
-              <span class="span_left">{{ $t('workspace.architecture') }}</span>{{ projectDetailData.platform }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('workspace.deployType') }}</span>{{ deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
-            </el-col>
-            <el-col
-              :sm="12"
-              :xs="24"
-            >
-              <span class="span_left">{{ $t('test.testTask.testStatus') }}</span>{{ projectDetailData.status }}
+              <span class="span_left">{{ $t('workspace.architecture') }}</span><p class="right_content defaultFontLight">
+                {{ projectDetailData.platform }}
+              </p>
             </el-col>
           </el-row>
           <el-row>
             <el-col
-              :sm="12"
+              :sm="10"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('workspace.deployType') }}</span><p class="right_content defaultFontLight">
+                {{ deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
+              </p>
+            </el-col>
+            <el-col
+              :sm="14"
+              :xs="24"
+            >
+              <span class="span_left">{{ $t('test.testTask.testStatus') }}</span><p class="right_content defaultFontLight">
+                {{ projectDetailData.status }}
+              </p>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col
+              :sm="10"
               :xs="24"
             >
               <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
@@ -85,24 +104,26 @@
                 class="span_right"
                 :class="{'span_right_en':language==='en'}"
               >
-                {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+                <p class="right_content defaultFontLight">{{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}</p>
               </span>
             </el-col>
             <el-col
-              :sm="12"
+              :sm="14"
               :xs="24"
             >
               <span
                 class="span_left"
                 :class="{'span_left_en':language==='en'}"
-              >{{ $t('workspace.createDate') }}</span>{{ projectDetailData.createDate }}
+              >{{ $t('workspace.createDate') }}</span><p class="right_content defaultFontLight">
+                {{ projectDetailData.createDate }}
+              </p>
             </el-col>
           </el-row>
           <el-row>
-            <el-col>
+            <el-col class="appdesc">
               <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
-                class="app-release-upload-demo clear"
+                class="upload-demo clear defaultFontLight"
                 action=""
                 :limit="1"
                 :on-change="changeAppStoreMd"
@@ -115,7 +136,6 @@
                 <el-button
                   slot="trigger"
                   size="small"
-                  class="featuresBtn"
                 >
                   {{ $t('workspace.configYaml.uploadFile') }}
                 </el-button>
@@ -123,310 +143,179 @@
                   slot="tip"
                   class="el-upload__tip"
                 >
-                  <em class="el-icon-warning" />{{ $t('workspace.appStoreMd') }}
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    :content="this.$t('workspace.appStoreMd')"
+                    placement="right"
+                  >
+                    <em class="el-icon-info" />
+                  </el-tooltip>
                 </div>
               </el-upload>
             </el-col>
           </el-row>
         </div>
         <!-- Application rule config -->
-        <h3 class="tit_gray_bg">
+        <div class="work-title defaultFontLight">
           {{ $t('workspace.ruleConfig') }}
-        </h3>
-        <div class="release_detail">
-          <el-tabs
-            class="ruleconfig_tab"
-          >
-            <el-tab-pane :label="$t('workspace.trafficRules')">
-              <el-button
-                size="small"
-                class="featuresBtn"
+        </div>
+        <div class="release_detail defaultFontLight">
+          <!-- Traffic rule config -->
+          <div class="work-table traffic-rule">
+            <div class="work-table-title">
+              {{ $t('workspace.trafficRules') }}
+              <span
+                class="addBtn"
                 @click="openDialog('trafficRule')"
+              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.trafficRules') }}</span>
+            </div>
+            <el-table
+              :data="trafficListData"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="trafficRuleId"
+                :label="$t('workspace.appRelease.trafficRuleId')"
+                width="120px"
+              />
+              <el-table-column
+                prop="action"
+                :label="$t('workspace.appRelease.filterType')"
+              />
+              <el-table-column
+                prop="priority"
+                :label="$t('workspace.appRelease.priority')"
+              />
+              <el-table-column
+                prop="filterType"
+                :label="$t('workspace.appRelease.action')"
+                width="120px"
+              />
+              <el-table-column
+                :label="$t('workspace.operation')"
+                width="220px"
               >
-                {{ $t('workspace.add')+$t('workspace.trafficRules') }}
-              </el-button>
-              <!-- Traffic rule config -->
-              <div class="trafficRulesList">
-                <el-table
-                  :data="trafficListData"
-                  style="width: 100%"
-                >
-                  <el-table-column
-                    prop="trafficRuleId"
-                    :label="$t('workspace.appRelease.trafficRuleId')"
-                    width="120px"
-                  />
-                  <el-table-column
-                    prop="action"
-                    :label="$t('workspace.appRelease.filterType')"
-                  />
-                  <el-table-column
-                    prop="priority"
-                    :label="$t('workspace.appRelease.priority')"
-                  />
-                  <el-table-column
-                    prop="filterType"
-                    :label="$t('workspace.appRelease.action')"
-                    width="120px"
-                  />
-                  <el-table-column
-                    :label="$t('workspace.operation')"
-                    width="220px"
-                    fixed="right"
-                    align="center"
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    size="medium"
+                    class="editBtn"
+                    @click="checkFilter(scope.row)"
                   >
-                    <template slot-scope="scope">
-                      <el-button
-                        type="text"
-                        size="medium"
-                        class="editBtn"
-                        @click="checkFilter(scope.row)"
-                      >
-                        {{ $t('workspace.appRelease.checkRules') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="editBtn"
-                        @click="editTrafficRule(scope.$index, scope.row)"
-                      >
-                        {{ $t('api.modify') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="deleteBtn"
-                        @click="deleteTrafficData(scope.$index)"
-                      >
-                        {{ $t('devTools.delete') }}
-                      </el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <!-- Traffic rule pop up -->
-              <div v-if="trafficDialog">
-                <addTrafficRules
-                  v-model="trafficDialog"
-                  @closeFatherDialog="closeDialog"
-                  @getAddTrafficData="getAddTrafficData"
-                  :edit-rule-dataprop="editRuleData"
-                />
-              </div>
-              <!-- Check traffic rule details -->
-              <el-dialog
-                :title="$t('devTools.detail')"
-                :visible.sync="filterShow"
-                width="70%"
-                :close-on-click-modal="false"
-              >
-                <div class="dialogContent">
-                  <!-- Traffic fileter detail -->
-                  <p class="title">
-                    {{ $t('workspace.appRelease.trafficFilter') }}
-                  </p>
-                  <el-table
-                    class="mt20"
-                    border
-                    size="small"
-                    style="width: 100%;"
-                    :data="filterData"
+                    {{ $t('workspace.appRelease.checkRules') }}
+                  </el-button>
+                  <el-button
+                    size="medium"
+                    type="text"
+                    class="editBtn"
+                    @click="editTrafficRule(scope.$index, scope.row)"
                   >
-                    <el-table-column
-                      prop="srcAddress"
-                      :label="$t('workspace.appRelease.srcAddress')"
-                    />
-                    <el-table-column
-                      prop="srcPort"
-                      :label="$t('workspace.appRelease.srcPort')"
-                    />
-                    <el-table-column
-                      prop="dstAddress"
-                      :label="$t('workspace.appRelease.dstAddress')"
-                    />
-                    <el-table-column
-                      prop="dstPort"
-                      :label="$t('workspace.appRelease.dstPort')"
-                    />
-                    <el-table-column
-                      prop="protocol"
-                      :label="$t('workspace.appRelease.protocol')"
-                    />
-                    <el-table-column
-                      prop="tgtTunnelAddress"
-                      :label="$t('workspace.appRelease.tgtTunnelAddress')"
-                    />
-                    <el-table-column
-                      prop="dstTunnelPort"
-                      :label="$t('workspace.appRelease.dstTunnelPort')"
-                    />
-                    <el-table-column
-                      prop="srcTunnelAddress"
-                      :label="$t('workspace.appRelease.srcTunnelAddress')"
-                    />
-                    <el-table-column
-                      prop="srcTunnelPort"
-                      :label="$t('workspace.appRelease.srcTunnelPort')"
-                    />
-                    <el-table-column
-                      prop="tag"
-                      :label="$t('workspace.appRelease.tag')"
-                    />
-                    <el-table-column
-                      prop="qci"
-                      label="QCI"
-                    />
-                    <el-table-column
-                      prop="dscp"
-                      label="DSCP"
-                    />
-                    <el-table-column
-                      prop="tc"
-                      label="TC"
-                    />
-                  </el-table>
-
-                  <!-- Interface information -->
-                  <p class="title">
-                    {{ $t('workspace.appRelease.interfaceInfo') }}
-                  </p>
-                  <el-table
-                    class="mt20"
-                    :data="interfaceData"
-                    border
-                    size="small"
-                    style="width: 100%;"
+                    {{ $t('api.modify') }}
+                  </el-button>
+                  <el-button
+                    size="medium"
+                    type="text"
+                    class="deleteBtn"
+                    @click="deleteTrafficData(scope.$index)"
                   >
-                    <el-table-column
-                      prop="interfaceType"
-                      :label="$t('workspace.appRelease.interfaceType')"
-                    />
-                    <el-table-column
-                      prop="tunnelInfo.tunnelType"
-                      :label="$t('workspace.appRelease.tunnelType')"
-                    />
-                    <el-table-column
-                      prop="tunnelInfo.tunnelDstAddress"
-                      :label="$t('workspace.appRelease.tgtTunnelAddress')"
-                      width="120px"
-                    />
-                    <el-table-column
-                      prop="tunnelInfo.tunnelSrcAddress"
-                      :label="$t('workspace.appRelease.srcTunnelAddress')"
-                    />
-                    <el-table-column
-                      prop="tunnelInfo.tunnelSpecificData"
-                      :label="$t('workspace.appRelease.tunnelParams')"
-                    />
-                    <el-table-column
-                      prop="dstMACAddress"
-                      :label="$t('workspace.appRelease.macAddress')"
-                    />
-                    <el-table-column
-                      prop="srcMACAddress"
-                      :label="$t('workspace.appRelease.sourceMacAddress')"
-                    />
-                    <el-table-column
-                      prop="dstIPAddress"
-                      :label="$t('workspace.appRelease.dstAddress')"
-                    />
-                  </el-table>
-                </div>
-              </el-dialog>
-            </el-tab-pane>
-            <el-tab-pane :label="$t('workspace.dnsRules')">
-              <el-button
-                size="small"
-                class="featuresBtn"
+                    {{ $t('devTools.delete') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <!-- Traffic rule pop up -->
+            <div v-if="trafficDialog">
+              <addTrafficRules
+                v-model="trafficDialog"
+                @closeFatherDialog="closeDialog"
+                @getAddTrafficData="getAddTrafficData"
+                :edit-rule-dataprop="editRuleData"
+              />
+            </div>
+          </div>
+          <!-- dns rule config -->
+          <div class="work-table dns-rule">
+            <div class="work-table-title">
+              {{ $t('workspace.dnsRules') }}
+              <span
+                class="addBtn"
                 @click="openDialog('dnsRule')"
+              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.dnsRules') }}</span>
+            </div>
+            <el-table
+              :data="dnsListData"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="dnsRuleId"
+                :label="$t('workspace.appRelease.dnsRuleId')"
+              />
+              <el-table-column
+                prop="domainName"
+                :label="$t('workspace.appRelease.domainName')"
+              />
+              <el-table-column
+                prop="ipAddressType"
+                :label="$t('workspace.appRelease.ipAddressType')"
+              />
+              <el-table-column
+                prop="ipAddress"
+                :label="$t('workspace.appRelease.ipAddress')"
+              />
+              <el-table-column
+                prop="ttl"
+                label="ttl"
+              />
+              <el-table-column
+                :label="$t('workspace.operation')"
+                width="220px"
               >
-                {{ $t('workspace.add')+$t('workspace.dnsRules') }}
-              </el-button>
-              <!-- DNS rules list -->
-              <div class="dnsRulesList">
-                <el-table
-                  :data="dnsListData"
-                  style="width: 100%"
-                >
-                  <el-table-column
-                    prop="dnsRuleId"
-                    :label="$t('workspace.appRelease.dnsRuleId')"
-                  />
-                  <el-table-column
-                    prop="domainName"
-                    :label="$t('workspace.appRelease.domainName')"
-                  />
-                  <el-table-column
-                    prop="ipAddressType"
-                    :label="$t('workspace.appRelease.ipAddressType')"
-                  />
-                  <el-table-column
-                    prop="ipAddress"
-                    :label="$t('workspace.appRelease.ipAddress')"
-                  />
-                  <el-table-column
-                    prop="ttl"
-                    label="ttl"
-                  />
-                  <el-table-column
-                    :label="$t('workspace.operation')"
-                    width="220px"
+                <template slot-scope="scope">
+                  <el-button
+                    size="medium"
+                    type="text"
+                    class="editBtn"
+                    @click="editDnsRule(scope.$index, scope.row)"
                   >
-                    <template slot-scope="scope">
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="editBtn"
-                        @click="editDnsRule(scope.$index, scope.row)"
-                      >
-                        {{ $t('api.modify') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="deleteBtn"
-                        @click="deleteRuleData(scope.$index)"
-                      >
-                        {{ $t('devTools.delete') }}
-                      </el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <!-- DNS rules pop up -->
-              <div v-if="dnsDialog">
-                <addDnsRules
-                  v-model="dnsDialog"
-                  @closeFatherDialog="closeDialog"
-                  @getAddDnsData="getAddDnsData"
-                  :edit-rule-dataprop="editRuleData"
-                />
-              </div>
-            </el-tab-pane>
-            <el-tab-pane
-              :label="$t('workspace.appRelease.blackWhiteList')"
-              disabled
-            />
-            <el-tab-pane
-              :label="$t('workspace.appRelease.UEIdentity')"
-              disabled
-            />
-          </el-tabs>
+                    {{ $t('api.modify') }}
+                  </el-button>
+                  <el-button
+                    size="medium"
+                    type="text"
+                    class="deleteBtn"
+                    @click="deleteRuleData(scope.$index)"
+                  >
+                    {{ $t('devTools.delete') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <!-- DNS rules pop up -->
+            <div v-if="dnsDialog">
+              <addDnsRules
+                v-model="dnsDialog"
+                @closeFatherDialog="closeDialog"
+                @getAddDnsData="getAddDnsData"
+                :edit-rule-dataprop="editRuleData"
+              />
+            </div>
+          </div>
         </div>
         <!-- Application publish config -->
-        <h3 class="tit_gray_bg">
+        <div class="work-title defaultFontLight">
           {{ $t('workspace.appPublishConfig') }}
-        </h3>
+        </div>
         <div class="release_detail">
-          <el-button
-            size="small"
-            class="featuresBtn mt20"
-            @click="openDialog('publicConfig')"
-          >
-            {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}
-          </el-button>
-          <!-- Application service pulish config -->
-          <div class="appPublicConfig">
+          <div class="work-table">
+            <div class="work-table-title">
+              {{ $t('workspace.appPublishConfig') }}
+              <span
+                class="addBtn"
+                @click="openDialog('publicConfig')"
+              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}</span>
+            </div>
+            <!-- Application service pulish config -->
             <el-table
               :data="appPublishListData"
               style="width: 100%"
@@ -479,39 +368,48 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
-          <!-- Application publish dialog -->
-          <div v-if="appPublishDialog">
-            <addAppPublishConfig
-              v-model="appPublishDialog"
-              @closeFatherDialog="closeDialog"
-              @getAddPublicConfigData="getAddPublicConfigData"
-              :edit-rule-dataprop="editRuleData"
-            />
+            <!-- Application publish dialog -->
+            <div v-if="appPublishDialog">
+              <addAppPublishConfig
+                v-model="appPublishDialog"
+                @closeFatherDialog="closeDialog"
+                @getAddPublicConfigData="getAddPublicConfigData"
+                :edit-rule-dataprop="editRuleData"
+              />
+            </div>
           </div>
         </div>
+        <div class="elButton step1 defaultFontLight">
+          <el-button
+            v-if="active===0"
+            type="primary"
+            @click="saveConfig"
+            :disabled="isRelease"
+          >
+            {{ $t('workspace.saveData') }}
+          </el-button>
+          <el-button
+            v-if="active===0"
+            type="primary"
+            @click="appDetaildialog=true"
+            :disabled="isRelease"
+          >
+            {{ $t('workspace.appDetails') }}
+          </el-button>
+        </div>
       </div>
-      <!-- Second steop “App test” -->
-      <div v-show="step==='step2'">
+      <!-- Second step “App test” -->
+      <div
+        class="second-step"
+        v-show="step==='step2'"
+      >
         <el-button
           type="primary"
-          class="p8"
-          @click="getAtpTest"
-        >
-          {{ $t('workspace.appRelease.startTest') }}
-        </el-button>
-        <span class="release_text">
-          {{ $t('workspace.releaseText') }}
-        </span>
-        <el-link
-          class="atp_link rt"
-          :href="atpUrl"
-          target="_blank"
-          :underline="false"
+          class="atp_button"
+          @click="intoAtpTest"
         >
           {{ $t('workspace.appRelease.enterAtp') }}
-          <em class="el-icon-d-arrow-right" />
-        </el-link>
+        </el-button>
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
@@ -527,56 +425,64 @@
         </div>
       </div>
       <!--Third step “App publish” -->
-      <div v-show="step==='step3'">
+      <div
+        class="third-step"
+        v-show="step==='step3'"
+      >
+        <div class="work-title defaultFontLight">
+          {{ $t('workspace.ruleConfig') }}
+        </div>
         <div class="release_test">
           <!-- App test list -->
-          <el-table
-            :data="appTestData"
-            style="width: 100%"
-          >
-            <el-table-column
-              prop="appName"
-              :label="$t('test.testTask.appName')"
-            />
-            <el-table-column
-              prop="createTime"
-              :label="$t('test.testTask.startTime')"
-            />
-            <el-table-column
-              :label="$t('test.testTask.testStatus')"
+          <div class="work-table">
+            <el-table
+              :data="appTestData"
+              style="width: 100%"
             >
-              <template slot-scope="scope">
-                <span
-                  class="el-icon-loading Running icon"
-                  v-if="scope.row.status==='running'"
-                />
-                <span
-                  class="el-icon-error failed icon"
-                  v-if="scope.row.status==='failed'"
-                />
-                <span
-                  v-if="scope.row.status==='success'"
-                  class="el-icon-success success icon"
-                />
-                <span :class="scope.row.status">{{ scope.row.status }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              :label="$t('test.testTask.operation')"
-            >
-              <template slot-scope="scope">
-                <el-button
-                  class="bgBtn"
-                  size="small"
-                  @click="releaseApp"
-                  :disabled="scope.row.status==='success'?false:true"
-                  :loading="publishLoading"
-                >
-                  {{ $t('workspace.publish') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+              <el-table-column
+                prop="appName"
+                :label="$t('test.testTask.appName')"
+              />
+              <el-table-column
+                prop="createTime"
+                :label="$t('test.testTask.startTime')"
+              />
+              <el-table-column
+                :label="$t('test.testTask.testStatus')"
+              >
+                <template slot-scope="scope">
+                  <span
+                    class="el-icon-loading Running icon"
+                    v-if="scope.row.status==='running'"
+                  />
+                  <span
+                    class="el-icon-error failed icon"
+                    v-if="scope.row.status==='failed'"
+                  />
+                  <span
+                    v-if="scope.row.status==='success'"
+                    class="el-icon-success success icon"
+                  />
+                  <span :class="scope.row.status">{{ scope.row.status }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('test.testTask.operation')"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    class="bgBtn"
+                    size="small"
+                    @click="releaseApp"
+                    :disabled="scope.row.status==='success'?false:true"
+                    :loading="publishLoading"
+                  >
+                    {{ $t('workspace.publish') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
           <!-- App publish success dialog-->
           <el-dialog
             :title="$t('workspace.applicationRelease')"
@@ -609,30 +515,14 @@
         </div>
       </div>
     </div>
-    <div class="release_btn">
-      <el-button
-        v-if="active===0"
-        class="featuresBtn"
-        @click="saveConfig"
-        :disabled="isRelease"
-      >
-        <strong>{{ $t('workspace.saveData') }}</strong>
-      </el-button>
-      <el-button
-        v-if="active===0"
-        class="featuresBtn"
-        @click="appDetaildialog=true"
-        :disabled="isRelease"
-      >
-        {{ $t('workspace.appDetails') }}
-      </el-button>
+    <div class="elButton defaultFontLight">
       <el-button
         id="prevBtn"
         type="primary"
         v-if="active>0"
         @click="previous"
       >
-        <strong>{{ $t('workspace.previous') }}</strong>
+        {{ $t('workspace.previous') }}
       </el-button>
       <el-button
         id="nextBtn"
@@ -641,7 +531,7 @@
         @click="next"
         :disabled="isRelease"
       >
-        <strong>{{ $t('workspace.nextStep') }}</strong>
+        {{ $t('workspace.nextStep') }}
       </el-button>
     </div>
     <!-- Application details pop up -->
@@ -671,7 +561,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import { Workspace, vmService, Capability } from '../../tools/api.js'
 import { Type } from '../../tools/project_data.js'
@@ -1145,6 +1034,10 @@ export default {
         }
       })
     },
+    // Into ATP Test
+    intoAtpTest () {
+      window.open(this.atpUrl, '_blank')
+    },
     // Reload the integrated ATP test page
     rebuildComponents () {
       this.isRouterAlive = false
@@ -1336,11 +1229,31 @@ export default {
    }
 }
 .appRelease{
-  .elTabs{
-    .release_steps{
-      width: 90%;
-      margin: 0 5%;
-      padding: 20px 0;
+  .release_steps{
+    width: 100%;
+    padding: 46px 0 40px 0;
+    border-radius: 16px;
+    box-shadow: 6px 4px 45px 0 rgba(36, 20, 119, 0.11) inset;
+    background-color: #f1f2f6;
+    margin-top: 60px;
+    .firststep, .third-step {
+      padding: 0 30px 0 39px;
+      .step1 {
+        margin: 40px 0 0 !important;
+      }
+    }
+    .second-step {
+      min-height: 464px;
+      .atp_button {
+        margin-top: -122px;
+        font-size: 16px;
+        float: right;
+        background-color: #5844be !important;
+        width: 140px;
+        height: 39px;
+        border-radius: 8px;
+        font-family: defaultFontLight !important;
+      }
     }
   }
   .release_btn{
@@ -1354,9 +1267,13 @@ export default {
       }
     }
   }
+  .addBtn {
+    float: right;
+    padding-right: 12px;
+    font-size: 14px !important;
+    cursor: pointer;
+  }
   .el-table td, .el-table th{
-    font-size: 15px;
-    padding: 2px 0;
     text-align: center;
     .icon{
       margin-right: 5px;
@@ -1370,62 +1287,135 @@ export default {
       border: 1px solid #aaa;
     }
   }
-  .el-table th{
-    background:#eef3fe;
-    padding: 5px 0;
-  }
   .el-button.margin_left{
     margin-left: 10px;
   }
-  .pro_detail{
-    margin: 25px 0 40px;
-    padding: 0 30px;
+  .app_detail{
+    margin: 13px 0 30px;
+    padding: 0 40px;
     font-size: 14px;
+    .appdesc {
+      padding: 10px 10px 10px 0 !important;
+      .span_left {
+        padding-top: 9px;
+      }
+    }
     .el-col{
+      padding: 6px 10px 6px 0px;
+      font-size: 16px;
       line-height: 25px;
-      padding: 5px;
+      span{
+        line-height: 25px;
+      }
       .span_left{
-        color: #adb0b8;
-        display: inline-block;
-        min-width: 95px;
+        float: left;
         text-align: right;
-        padding-right: 20px;
+        color: #380879 !important;
+        width: 97px;
+        min-width: 97px;
+        padding-right: 22px;
       }
       .span_left_en{
         width: 165px;
       }
-      .span_right{
+      .right_content {
+        color: #380879;
+      }
+      .span_right {
+        float: left;
         width: calc(100% - 115px);
       }
-      .span_right_en{
+      .span_right_en  {
         width: calc(100% - 185px);
       }
-      .app-release-upload-demo {
+      .upload-demo {
         display: inline-block;
-        .el-upload  {
-          float: left;
-          .el-button  {
-            span{
-              line-height: 0;
-            }
+      }
+      .el-upload  {
+        float: left;
+        .el-button  {
+          font-size: 16px !important;
+          background: #5844be !important;
+          border: 1px solid #5844be !important;
+          color: #ffffff !important;
+          border-radius: 8px;
+          padding: 10px 20px;
+          span{
+            line-height: 0;
           }
         }
       }
-      .el-upload__tip{
+      .el-upload__tip {
         font-size: 14px;
         float: left;
-        margin: 0 0 0 15px;
-        color: #adb0b8;
+        margin: 0 0 0 2px;
+        color: #380879;
         text-align: left;
+        padding-top: 8px;
       }
-      .el-button--primary{
+      .el-button--primary {
         margin-top: 0;
+      }
+      .el-upload-list__item:hover {
+        background-color: #f1f2f6;
+        border-radius: 8px;
+        box-shadow: 3px 3px 25px 0 rgba(36, 20, 119, 0.11) inset;
+      }
+      .el-upload-list__item.is-success .el-upload-list__item-name:focus,.el-icon-close:before, .el-upload-list__item-name, .el-upload-list__item-name .el-icon-document,.el-upload-list__item .el-icon-upload-success {
+        color: #7965e0 !important;
+      }
+      .el-upload-list__item {
+        margin-top: 0;
+        min-width: 145px !important;
+        font-size: 16px !important;
+        width: 100%;
+      }
+      .el-upload-list__item-name {
+        margin-right: 0px;
+        line-height: 23px;
+        padding: 0 30px 0 10px;
+      }
+      .el-upload-list__item-status-label {
+        top: -1px;
+      }
+      .el-upload-list__item:first-child {
+        margin-top: 0;
+      }
+      .el-upload-list {
+        float: right;
+        margin: 6px 0 0 10px;
+        width: auto;
+        border-radius: 8px;
+        background-color: #f1f2f6;
+        height: 26px;
+        box-shadow: 3px 3px 25px 0 rgba(36, 20, 119, 0.11) inset;
       }
     }
   }
-  .release_detail{
-    margin-bottom: 20px;
-    padding: 0 30px;
+  .release_detail, .release_test{
+    font-size: 14px !important;
+    margin-top: 25px;
+    padding: 0 0 0 52px;
+    .work-table-title {
+      font-size: 16px;
+    }
+    .traffic-rule {
+      .el-table {
+        border-radius: 0 0 0 0 !important;
+      }
+    }
+    .dns-rule {
+      .el-table {
+        margin-bottom: 45px;
+      }
+      .work-table-title {
+        border-radius: 0 0 0 0 !important;
+        background-color: #9f97cb !important;
+      }
+    }
+    .el-button--text {
+      color: #62517a !important;
+    }
     .el-tabs{
       .addBtn{
         margin-left: 15px;
@@ -1457,9 +1447,6 @@ export default {
       .el-tab-pane{
         padding: 24px 0 0;
       }
-    }
-    .el-table{
-      margin: 20px 0;
     }
     .ruleconfig_tab{
       margin: 15px 0;
@@ -1519,11 +1506,12 @@ export default {
     font-size: 12px;
     margin-left: 10px;
   }
-  .atp_link{
-    margin-top: 5px;
+  .atp_link {
+    margin-top: -75px;
     color: #688ef3;
     border-bottom: 1px solid #688ef3;
     font-size: 16px;
+    float: right;
   }
   .atp_iframe{
     border: 1px solid #ddd;
@@ -1534,24 +1522,8 @@ export default {
     }
   }
   .release_test{
-    padding: 0 30px;
-    .test{
-      display: block;
-    }
-    .test.appdetails{
-      background: #888;
-      border: 1px solid #888;
-    }
-    .test.apptest{
-      background: #0099cc;
-      border: 1px solid #0099cc;
-      margin: 15px 0;
-    }
     .el-table{
-      margin-top: 14px;
-    }
-    .el-table td{
-      padding: 12px;
+      border-radius: 12px 12px 12px 12px ;
     }
     .appPublishSuccess{
       .el-dialog__body {

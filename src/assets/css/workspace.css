@@ -277,17 +277,17 @@
   height: 35px;
   line-height: 35px;
   font-family: defaultFontLight;
-  background-color: #8076b5;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  background-color: #8379b8;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   padding-left: 15px;
-  color: #f1f2f6;
+  color: #fefefe;
 }
 
 .work-table .el-table {
   font-family: defaultFontLight;
   background-color: #f1f2f6;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 12px 12px;
   box-shadow: 0 0 10px 1px #e5e5ee inset;
 }
 
@@ -312,7 +312,7 @@
   height: 36px !important;
   line-height: 36px !important;
   background-color: transparent;
-  color: #6f6084;
+  color: #62517a;
 }
 
 .work-table .el-table tr th {
@@ -324,11 +324,11 @@
 }
 
 .work-table .el-table__body-wrapper tr:last-child td:first-child{
-  border-bottom-left-radius: 16px;
+  border-bottom-left-radius: 12px;
 }
 
 .work-table .el-table__body-wrapper tr:last-child td:last-child {
-  border-bottom-right-radius: 16px;
+  border-bottom-right-radius: 12px;
 }
 
 .work-table .el-table__header .el-table-column--selection{
@@ -341,7 +341,7 @@
   font-weight: normal;
   background-color: #dedae9;
   overflow: hidden;
-  color: #6f6084;
+  color: #62517a;
   border-radius: 0;
 }
 
@@ -350,7 +350,7 @@
 }
 
 .work-table .el-table__empty-block {
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 12px 12px;
   background-color: transparent;
   min-height: 36px;
 }

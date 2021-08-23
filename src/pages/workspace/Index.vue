@@ -15,21 +15,23 @@
   -->
 
 <template>
-  <div class="workspace padding_default">
-    <div class="title_top title_left defaultFontBlod clear">
-      {{ $t('nav.workSpace') }}
-      <span class="line_bot1" />
-      <el-button
-        class="newproject_btn linearGradient"
-        id="newproject_btn"
-        @click="jumpTo"
-      >
-        <em class="new_icon" />
-        {{ $t('workspace.addNewProject') }}
-      </el-button>
-    </div>
-    <div class="project_list">
-      <projectList ref="projectList" />
+  <div class="workspace-wrapper">
+    <div class="workspace padding_default">
+      <div class="title_top title_left defaultFontBlod clear">
+        {{ $t('nav.workSpace') }}
+        <span class="line_bot1" />
+        <el-button
+          class="newproject_btn linearGradient"
+          id="newproject_btn"
+          @click="jumpTo"
+        >
+          <em class="new_icon" />
+          {{ $t('workspace.addNewProject') }}
+        </el-button>
+      </div>
+      <div class="project_list">
+        <projectList ref="projectList" />
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +63,11 @@ export default {
 </script>
 
 <style lang="less">
+.workspace-wrapper {
+  background: url('../../assets/images/workspace_bg.png') right top no-repeat;
+  background-size: contain;
+  background-position-y: -15px;
+}
 .workspace{
   position: relative;
   .newproject_btn{
