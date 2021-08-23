@@ -365,7 +365,6 @@ export default {
       screenHeight: document.body.clientHeight,
       timer: null,
       allFormData: {}
-
     }
   },
   methods: {
@@ -1042,10 +1041,6 @@ export default {
     .el-icon-info{
       margin-top: 12px;
     }
-    .el-icon-info:before {
-      color: #5e40c8;
-      font-size: 16px;
-    }
     .default-icon{
       float: left;
       display: flex;
@@ -1143,6 +1138,10 @@ export default {
   }
 }
 
+  .el-icon-info:before {
+    color: #5e40c8;
+    font-size: 16px;
+  }
   .el-tree-node__content{
     height: 35px;
     line-height: 35px;
@@ -1165,10 +1164,11 @@ export default {
     text-align: left;
   }
   .el-tabs--left .el-tabs__header.is-left{
-    margin-right: 111.5px;
+    margin-right: 112.5px;
   }
   .el-tabs--left.enLeft .el-tabs__header.is-left{
-    margin-right: 55px;
+    margin-right: 41px;
+    width: 267px;
   }
   .el-tabs__nav-wrap.is-left::after{
     width: 0;
