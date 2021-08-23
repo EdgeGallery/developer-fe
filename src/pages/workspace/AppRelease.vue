@@ -874,7 +874,6 @@ export default {
     },
     // Open the add rule popup
     openDialog (name) {
-      console.log(name)
       this.isAddRuleData = true
       if (name === 'dnsRule') {
         this.dnsDialog = true
@@ -886,7 +885,6 @@ export default {
           ttl: '85000'
         }
       } else if (name === 'trafficRule') {
-        console.log('fdsfsre')
         this.trafficDialog = true
         this.editRuleData = {
           action: 'PASSTHROUGH',
@@ -1366,9 +1364,6 @@ export default {
       .el-upload-list__item.is-success .el-upload-list__item-name:focus,.el-icon-close:before, .el-upload-list__item-name, .el-upload-list__item-name .el-icon-document,.el-upload-list__item .el-icon-upload-success {
         color: #7965e0 !important;
       }
-      // .el-upload-list__item.is-success .el-upload-list__item-name:hover,.el-upload-list__item:hover {
-      //   color: #380879;
-      // }
       .el-upload-list__item {
         margin-top: 0;
         min-width: 145px !important;
