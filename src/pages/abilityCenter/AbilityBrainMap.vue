@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import ability from './ability'
+// import ability from './ability'
+import { Capability } from '../../tools/api.js'
 require('kity')
 require('kityminder-core')
 export default {
@@ -58,53 +59,47 @@ export default {
   },
   methods: {
     refreshMap () {
-      let subAbilities = []
-      let abilities = []
-      if (this.parentTabIndex === 1) {
-        abilities = ability.getAbilitiesByFirstLevelName('3GPP')
-      } else if (this.parentTabIndex === 0) {
-        abilities = ability.getAbilitiesByFirstLevelName('ETSI')
-      }
-      if (abilities.length > 0) {
-        subAbilities = abilities[0].children
-      }
-      let subAbilitiesShown = []
-      for (let i = 0; i < subAbilities.length; i++) {
-        let thirdGpp = (i < 5) ? '#e7dbf6' : ''
-        let etsiNodeBackground = (i < 6) ? '#e7dbf6' : ''
-        subAbilitiesShown.push({
-          data: {
-            id: subAbilities[i].groupId,
-            text: this.$i18n.locale === 'en' ? subAbilities[i].labelEn : subAbilities[i].label,
-            expandState: 'expand',
-            hyperlink: window.location.href + '/apiAmulator?groupId=' + subAbilities[i].groupId + '&language=' + this.$i18n.locale,
-            hyperlinkTitle: this.$i18n.t('api.swithToAPI'),
-            background: this.parentTabIndex === 1 ? thirdGpp : etsiNodeBackground
+      Capability.getStandardCapabilities().then(result => {
+        let groupName = this.parentTabIndex === 1 ? '3GPP' : 'ETSI'
+        let capabilities = result.data.filter(item => item.group.name === groupName)
+        let subAbilitiesShown = []
+        for (let i = 0; i < capabilities.length; i++) {
+          let thirdGpp = (i < 5) ? '#e7dbf6' : ''
+          let etsiNodeBackground = (i < 6) ? '#e7dbf6' : ''
+          subAbilitiesShown.push({
+            data: {
+              id: capabilities[i].id,
+              text: this.$i18n.locale === 'en' ? capabilities[i].nameEn : capabilities[i].name,
+              expandState: 'expand',
+              hyperlink: window.location.href + '/apiAmulator?serviceId=' + capabilities[i].id + '&apiFileId=' + capabilities[i].apiFileId + '&language=' + this.$i18n.locale,
+              hyperlinkTitle: this.$i18n.t('api.swithToAPI'),
+              background: this.parentTabIndex === 1 ? thirdGpp : etsiNodeBackground
+            },
+            children: []
+          })
+        }
+        let rootName = ''
+        if (this.parentTabIndex === 1) {
+          rootName = '3GPP CAPIF'
+        } else if (this.parentTabIndex === 0) {
+          rootName = 'ETSI MEC'
+        }
+        this.km.importJson({
+          root: {
+            data: {
+              id: '0',
+              text: rootName,
+              expandState: 'expand',
+              hyperlink: '',
+              hyperlinkTitle: '',
+              background: '#997ebd'
+            },
+            children: subAbilitiesShown
           },
-          children: []
+          template: 'default',
+          theme: 'fresh-purple-compat',
+          version: '1.0.0'
         })
-      }
-      let rootName = ''
-      if (this.parentTabIndex === 1) {
-        rootName = '3GPP CAPIF'
-      } else if (this.parentTabIndex === 0) {
-        rootName = 'ETSI MEC'
-      }
-      this.km.importJson({
-        root: {
-          data: {
-            id: '0',
-            text: rootName,
-            expandState: 'expand',
-            hyperlink: '',
-            hyperlinkTitle: '',
-            background: '#997ebd'
-          },
-          children: subAbilitiesShown
-        },
-        template: 'default',
-        theme: 'fresh-purple-compat',
-        version: '1.0.0'
       })
     }
   },
