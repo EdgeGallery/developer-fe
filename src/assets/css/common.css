@@ -548,7 +548,7 @@ body .el-table th.gutter{
   color:#606266;
 }
 .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover{
-  color: #c0c4cc;
+  color: #c0c4cc !important;
 }
 
 /* el-pagination */

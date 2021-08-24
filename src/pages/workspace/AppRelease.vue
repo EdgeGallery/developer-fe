@@ -379,10 +379,10 @@
             </div>
           </div>
         </div>
-        <div class="elButton step1 defaultFontLight">
+        <div class="step1 defaultFontLight">
           <el-button
             v-if="active===0"
-            type="primary"
+            class="work-button"
             @click="saveConfig"
             :disabled="isRelease"
           >
@@ -390,7 +390,7 @@
           </el-button>
           <el-button
             v-if="active===0"
-            type="primary"
+            class="work-button"
             @click="appDetaildialog=true"
             :disabled="isRelease"
           >
@@ -1209,6 +1209,13 @@ export default {
       padding: 0 30px 0 39px;
       .step1 {
         margin: 40px 0 0 !important;
+        text-align: right;
+        .work-button {
+          margin-left: 30px;
+        }
+        .work-button.el-button.is-disabled, .work-button.el-button.is-disabled:hover {
+          background-color: #5844be;
+        }
       }
     }
     .second-step {
@@ -1218,7 +1225,6 @@ export default {
         font-size: 16px;
         float: right;
         background-color: #5844be !important;
-        width: 140px;
         height: 39px;
         border-radius: 8px;
         font-family: defaultFontLight !important;

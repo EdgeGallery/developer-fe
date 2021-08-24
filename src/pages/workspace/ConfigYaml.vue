@@ -16,7 +16,10 @@
 
 <template>
   <div class="config-yaml">
-    <div class="config-yaml-container1">
+    <div
+      v-if="showFileImport"
+      class="config-yaml-container1"
+    >
       <div class="work-title-clickable">
         <el-radio
           class="work-radio"
@@ -43,11 +46,14 @@
           name="yamlFile"
           v-loading="uploadYamlLoading"
         >
-          <a slot="trigger">
+          <a
+            class="uploader-button"
+            slot="trigger"
+          >
             {{ $t('workspace.configYaml.uploadYaml') }}
           </a>
           <a
-            class="down-demo"
+            class="uploader-button"
             :href="demoYaml"
             download="demo.yaml"
           >
@@ -130,7 +136,11 @@
         </div>
       </div>
     </div>
-    <div class="config-yaml-container2">
+    <div
+      v-if="showVisualConfig"
+      class="config-yaml-container2"
+      :class="[showFileImport ? 'show-file-import' : 'hide-file-import']"
+    >
       <div class="work-title-clickable">
         <el-radio
           class="work-radio"
@@ -185,14 +195,15 @@ export default {
       appYamlFileId: '',
       uploadYamlLoading: false,
       yamlFileList: [],
-      activeName: 'first',
       hasValidate: false,
       userId: sessionStorage.getItem('userId'),
       projectId: sessionStorage.getItem('mecDetailID'),
       markdownSource: '',
       showResult: true,
       fileUploadSuccess: false,
-      selectConfigType: '1'
+      selectConfigType: '1',
+      showFileImport: true,
+      showVisualConfig: true
     }
   },
   methods: {
@@ -249,6 +260,7 @@ export default {
         this.appYamlFileId = ''
         this.checkFlag = {}
         this.markdownSource = ''
+        this.showVisualConfig = true
       })
     },
     // Submit YAML file
@@ -277,6 +289,7 @@ export default {
           this.markdownSource = ''
         }
         this.showResult = true
+        this.showVisualConfig = false
         const { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess } = res.data
         this.checkFlag = { formatSuccess, imageSuccess, mepAgentSuccess, serviceSuccess }
         this.submitData(this.appYamlFileId)
@@ -370,28 +383,32 @@ export default {
     getConfigVisual (val) {
       this.appYamlFileId = val
     },
-    handleClick (tab) {
-      if (tab.name === 'first') {
-        this.initFileList()
-      } else if (tab.name === 'second') {
-        this.$refs.configVisual.getConfigFile()
-      }
-    },
     getConfigType () {
       Workspace.getTestConfigApi(this.projectId).then(response => {
         this.appYamlFileId = response.data.deployFileId
         if (this.appYamlFileId) {
           Workspace.getConfigVisualApi(this.appYamlFileId).then(res => {
             if (res.data.configType === 'upload') {
-              this.activeName = 'first'
+              this.showFileImport = true
+              this.showVisualConfig = false
             } else if (res.data.configType === 'config') {
-              this.activeName = 'second'
+              this.showFileImport = false
+              this.showVisualConfig = true
               this.$refs.configVisual.getConfigFile()
             }
           })
         }
         this.initFileList()
       })
+    }
+  },
+  watch: {
+    selectConfigType (newVal, oldVal) {
+      if (newVal === '2') {
+        this.showFileImport = false
+      } else {
+        this.showFileImport = true
+      }
     }
   },
   mounted () {
@@ -402,7 +419,7 @@ export default {
 
 <style lang="less">
 .config-yaml-content {
-  margin: 20px 0 20px 53px;
+  margin: 20px 0 0 53px;
 
   .config-yaml__text {
     font-size: 16px;
@@ -412,12 +429,20 @@ export default {
 
   .yaml_content{
     white-space: pre-wrap;
-    margin-top: 20px;
+    margin: 30px -47px -66px -92px;
     overflow: auto;
-    max-height: 600px;
+    max-height: 300px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+
     .v-note-wrapper{
       border: none;
     }
+
+    .v-show-content {
+      padding: 0 !important;
+    }
+
     .v-note-wrapper .v-note-panel .v-note-show{
       overflow: hidden;
       .hljs, pre{
@@ -425,12 +450,27 @@ export default {
         color: #fff;
       }
     }
+
+    .markdown-body .highlight pre, .markdown-body pre {
+      border-radius: 0;
+      margin-bottom: -50px;
+    }
   }
 
   .uploader {
     margin-top: 15px;
     margin-left: -10px;
     background-color: transparent;
+
+    .el-upload-list {
+      margin: 0 10px 20px;
+    }
+
+    .el-upload-list::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
 
     .el-upload-list__item-status-label {
       display: none;
@@ -448,23 +488,36 @@ export default {
       background-color: transparent;
     }
 
-    .el-upload-list__item-name [class^=el-icon] {
-      padding-top: 3px;
+    .el-upload-list__item-name {
+      font-size: 14px;
+      color: #7965e0;
+    }
+
+    .el-upload-list__item-name:hover {
+      color: #7965e0;
+    }
+
+    .el-icon-document {
       color: #7965e0;
     }
 
     .el-upload-list__item .el-icon-close {
       top: 8px;
+      right: 10px;
     }
 
     .el-loading-mask {
       background-color: rgba(241,242,246,.5);
     }
 
-    a {
+    .el-icon-close-tip {
+      display: none;
+    }
+
+    .uploader-button {
       display: inline-block;
-      height: 32px;
-      line-height: 32px;
+      height: 39px;
+      line-height: 39px;
       font-size: 16px;
       font-family: defaultFontLight;
       border: none;
@@ -491,7 +544,7 @@ export default {
   .test.tit .test {
     display: inline-block;
     margin-right: 15px;
-    margin-bottom: 5px;
+    margin-top: 10px;
     font-size: 15px;
     font-family: defaultFontLight;
     color: #380879;
@@ -520,7 +573,11 @@ export default {
   }
 }
 
-.config-yaml-container2 {
-  padding-top: 30px;
+.config-yaml-container2.show-file-import {
+  padding-top: 50px;
+}
+
+.config-yaml-container2.hide-file-import {
+  padding-top: 0;
 }
 </style>

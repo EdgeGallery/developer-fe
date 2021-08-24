@@ -55,7 +55,7 @@
       >
         <el-input
           id="elinput_osversion_container"
-          maxlength="10"
+          maxlength="20"
           size="small"
           v-model="imageDataForm.imageVersion"
           :placeholder="$t('system.imageMgmt.osVersion')"
@@ -146,7 +146,7 @@ export default {
       }
     }
     var validateVersionRule = (rule, value, callback) => {
-      let pattern = /^[\w\\-][\w\\-\s.]{0,9}$/g
+      let pattern = /^[\w\\-][\w\\-\s.]{0,19}$/g
       if (value.match(pattern) === null) {
         callback(new Error(this.$t('system.imageMgmt.tip.versionRule')))
       } else {

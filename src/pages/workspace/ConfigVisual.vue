@@ -1038,6 +1038,7 @@ export default {
         itemTemp.spec.containers.forEach(itemCon => {
           delete itemCon.showName
           delete itemCon.showImage
+          delete itemCon.showResource
           delete itemCon.ports[0].showInPort
         })
         podArr.push(itemTemp)
@@ -1615,7 +1616,7 @@ export default {
     padding: 20px;
     border-radius: 12px;
     width: 50%;
-    height: 520px;
+    height: 520px !important;
     background-color: #efefef;
   }
 
