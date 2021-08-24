@@ -312,7 +312,7 @@ export default {
           this.$eg_messagebox({
             type: 'error',
             title: '',
-            desc: this.$t('workspace.configYaml.yamlFileType'),
+            desc: this.$t('promptMessage.imageInfoErr'),
             cancelText: this.$t('common.cancelText')
           }).then(() => {}).catch(() => {})
         }
