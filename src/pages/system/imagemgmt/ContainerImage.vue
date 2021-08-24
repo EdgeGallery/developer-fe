@@ -24,6 +24,14 @@
         <Search
           @getSearchData="getSearchData"
         />
+        <el-button
+          class="Synchronize bgBtn"
+          @click="synchronizeContainerImage"
+          :loading="synchronizeImageLoading"
+          v-if="isAdmin"
+        >
+          {{ !synchronizeImageLoading?$t('system.imageMgmt.containerImage.synchronize'):$t('system.imageMgmt.containerImage.syncing') }}
+        </el-button>
       </div>
       <el-table
         :data="imageListData"
@@ -41,12 +49,7 @@
           min-width="12%"
         >
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              @click="handleView(scope.row)"
-            >
-              {{ scope.row.imageName }}
-            </el-button>
+            {{ scope.row.imageName }}
           </template>
         </el-table-column>
         <el-table-column
@@ -105,14 +108,14 @@
           <template slot-scope="scope">
             <el-button
               @click="handleView(scope.row)"
-              class="operation_btn"
+              class="operations_btn"
             >
               {{ $t('devTools.detail') }}
             </el-button>
             <el-button
               @mouseenter.native="showMoreBtnFun(scope.$index)"
               @mouseleave.native="showMoreBtnFun(-1)"
-              class="operation_btn"
+              class="operations_btn"
             >
               {{ $t('common.more') }}
               <el-collapse-transition>
@@ -123,30 +126,44 @@
                   @mouseleave="showMoreBtnFun(-1)"
                 >
                   <ul class="dropdown_list">
-                    <li
-                      v-if="isAdmin || userId===scope.row.userId"
-                      @click="handleEdit(scope.row)"
-                    >
-                      <em />{{ $t('common.edit') }}
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        @click="handleEdit(scope.row)"
+                      >
+                        {{ $t('common.edit') }}
+                      </el-button>
                     </li>
-                    <li
-                      v-if="isAdmin || userId===scope.row.userId"
-                      @click="handleDelete(scope.row)"
-                    >
-                      <em />{{ $t('common.delete') }}
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+                        @click="handleDelete(scope.row)"
+                      >
+                        {{ $t('common.delete') }}
+                      </el-button>
                     </li>
-                    <li
-                      v-if="isAdmin || userId===scope.row.userId"
-                      :class="{'disabled':scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'}"
-                      @click="handleUpload(scope.row)"
-                    >
-                      <em />{{ $t('system.imageMgmt.operation.upload') }}
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+                        @click="handleUpload(scope.row)"
+                      >
+                        {{ $t('system.imageMgmt.operation.upload') }}
+                      </el-button>
                     </li>
-                    <li
-                      :class="{'disabled':scope.row.status!=='UPLOAD_SUCCEED'}"
-                      @click="handleDownload(scope.row)"
-                    >
-                      <em />{{ $t('common.download') }}
+                    <li>
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
+                        @click="handleDownload(scope.row)"
+                      >
+                        {{ $t('common.download') }}
+                      </el-button>
                     </li>
                   </ul>
                 </div>
@@ -226,7 +243,8 @@ export default {
       screenHeight: document.body.clientHeight,
       statusData: [],
       typeData: [],
-      currentIndex: -1
+      currentIndex: -1,
+      synchronizeImageLoading: false
     }
   },
   watch: {
@@ -244,11 +262,62 @@ export default {
     }
   },
   mounted () {
+    if (sessionStorage.getItem('synchronizeImage') === 'true') {
+      this.synchronizeImageLoading = true
+    } else {
+      this.synchronizeImageLoading = false
+    }
     this.initUser()
     this.initOptionList()
     this.getImageDataList()
   },
   methods: {
+    synchronizeContainerImage () {
+      this.$eg_messagebox({
+        type: 'info',
+        title: '',
+        desc: this.$t('system.imageMgmt.containerImage.pleaseWait'),
+        cancelText: this.$t('common.cancelText')
+      })
+      this.synchronizeImageLoading = true
+      sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
+      imageMgmtService.synchronizeContainerImageApi().then(res => {
+        this.synchronizeImageLoading = false
+        sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
+        if (res.data === 'synchronized successfully!') {
+          this.$eg_messagebox({
+            type: 'success',
+            title: '',
+            desc: this.$t('system.imageMgmt.containerImage.synchronized'),
+            cancelText: this.$t('common.cancelText')
+          })
+        } else if (res.data === 'already the latest image list!') {
+          this.$eg_messagebox({
+            type: 'success',
+            title: '',
+            desc: this.$t('system.imageMgmt.containerImage.latestImage'),
+            cancelText: this.$t('common.cancelText')
+          })
+        } else if (res.data === 'harbor repo no images!') {
+          this.$eg_messagebox({
+            type: 'success',
+            title: '',
+            desc: this.$t('system.imageMgmt.containerImage.noImage'),
+            cancelText: this.$t('common.cancelText')
+          })
+        }
+        this.getImageDataList()
+      }).catch(() => {
+        this.synchronizeImageLoading = false
+        sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
+        this.$eg_messagebox({
+          type: 'error',
+          title: '',
+          desc: this.$t('system.imageMgmt.containerImage.imageFailed'),
+          cancelText: this.$t('common.cancelText')
+        })
+      })
+    },
     showMoreBtnFun (index) {
       this.currentIndex = index
     },
@@ -427,5 +496,13 @@ export default {
   border-radius: 16px;
   background: #fff;
   padding: 30px 60px;
+  .cls_imagelist .title{
+    position: relative;
+    .Synchronize{
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
 }
 </style>

@@ -40,7 +40,7 @@
           @close="handleDeleteTag(tag)"
           style="margin-left: 10px;"
         >
-          {{ language === 'en' ? tag.nameEn : tag.name }}
+          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ language === 'en' ? tag.nameEn : tag.name }}
         </el-tag>
       </div>
     </div>
@@ -58,6 +58,7 @@
             :show-checkbox="showCheckbox"
             :default-expand-all="isExpandAll"
             :default-expanded-keys="defaultShowNodes"
+            :check-on-click-node="clickIsSelected"
             accordion
             node-key="id"
             ref="treeList"
@@ -77,6 +78,7 @@
                 popper-class="atooltip"
                 class="item"
                 :content="node.label"
+                :disabled="getTipDisabled(node, data)"
                 placement="right"
               >
                 <span>
@@ -91,6 +93,7 @@
         <div class="api_right">
           <div
             class="swagger-wrapper"
+            v-if="hasNoSelect"
           >
             <div class="service_div">
               <p class="api_top defaultFont">
@@ -168,6 +171,18 @@
 
             <div id="swagger-ui" />
           </div>
+          <div
+            class="select_initialization"
+            v-if="!hasNoSelect"
+          >
+            <img
+              src="../../../assets/images/select_initialization.png"
+              alt="a"
+            >
+            <p class="select_initialization_text defaultFontLight">
+              {{ $t('workspace.appRelease.selectInitialization') }}
+            </p>
+          </div>
         </div>
       </div>
       <div
@@ -179,16 +194,6 @@
           src="../../../assets/images/construct.png"
           alt="a"
         >
-      </div>
-      <div
-        class="select_initialization"
-        v-if="!hasNoSelect"
-      >
-        <img
-          src="../../../assets/images/select_initialization.png"
-          alt="a"
-        >
-        <p>{{ $t('workspace.appRelease.selectInitialization') }}</p>
       </div>
     </div>
   </div>
@@ -212,6 +217,7 @@ export default {
       apiDataLoading: false,
       treeData: [],
       isExpandAll: false,
+      clickIsSelected: false,
       defaultShowNodes: [],
       toDetailType: sessionStorage.getItem('toDetailType'),
       defaultProps: {
@@ -399,13 +405,7 @@ export default {
               group.icon = this.capabilityIcon[group.nameEn].icon
             }
           })
-          groups.reverse()
           resolve(groups)
-          let rootNodes = this.$refs.treeList.root
-          if (rootNodes.childNodes.length > 0) {
-            let firstRootNode = rootNodes.childNodes[0]
-            firstRootNode.expand()
-          }
         })
       }
       if (node.level > 1) return resolve([])
@@ -420,18 +420,6 @@ export default {
             capa.leaf = true
           })
           resolve(capabilities)
-          this.$nextTick(() => {
-            let currentKey = this.$refs.treeList.getCurrentKey()
-            if (!currentKey) {
-              let rootNodes = this.$refs.treeList.root
-              if (rootNodes.childNodes.length > 0) {
-                let firstRootNode = rootNodes.childNodes[0]
-                let firstLeafNode = firstRootNode.childNodes[0]
-                this.$refs.treeList.setCurrentKey(firstLeafNode.data.id)
-                this.handleNodeClick(firstLeafNode.data, firstLeafNode)
-              }
-            }
-          })
         })
       }
     },
@@ -473,9 +461,7 @@ export default {
                 group.icon = this.capabilityIcon[group.nameEn].icon
               }
             })
-            groups.reverse()
             resolve(groups)
-
             // expand
             groupMap.forEach((item, key) => {
               let groupNode = this.$refs.treeList.getNode(item.id)
@@ -513,61 +499,9 @@ export default {
         })
       }
     },
-    // edit projectDetail
-    async editProjectDetail () {
-      this.tree = []
-      // await this.loadNewCapabilityNode()
-      let projectId = sessionStorage.getItem('mecDetailID')
-      Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
-        this.hasService = true
-        Capability.getCapabilityByProjectId(projectId).then(result => {
-          let capaList = result.data
-          let firstSelected = true
-          capaList.forEach(capa => {
-            this.$nextTick(() => {
-              this.$refs.treeList.setCurrentKey(capa.id)
-              this.$refs.treeList.setChecked(capa.id, true)
-              if (firstSelected) {
-                let node = this.$refs.treeList.getNode(capa.id)
-                this.handleNodeClick(node.data, node)
-                firstSelected = false
-              }
-              this.defaultShowNodes.push(capa.id)
-            })
-          })
-          this.apiType = res.data.type
-          this.apiDataLoading = false
-        })
-      })
-    },
-    // Fetch project detail
-    getProjectDetail () {
-      this.tree = []
-      let projectId = sessionStorage.getItem('mecDetailID')
-      let groupMap = new Map()
-      Capability.getCapabilityByProjectId(projectId).then(result => {
-        let capabilities = result.data
-        this.hasService = capabilities.length > 0
-        capabilities.forEach(capability => {
-          let groupId = capability.groupId
-          if (groupMap.has(groupId)) {
-            let group = groupMap.get(groupId)
-            group.children.push(capability)
-          } else {
-            let group = capability.group
-            group.children = []
-            groupMap.set(capability.groupId, capability.group)
-          }
-        })
-        groupMap.forEach((item, key) => {
-          this.tree.push(item)
-        })
-        this.apiDataLoading = false
-      })
-    },
     async handleNodeClick (data, node, self) {
-      this.hasNoSelect = false
       if (data.leaf) {
+        this.hasNoSelect = true
         let apiUrl = ''
         this.groupId = data.groupId
         this.serviceDetail.id = data.id
@@ -618,16 +552,18 @@ export default {
       return Api.downloadSDKApi(this.apiFileId, lan)
     },
     async handleCheckChange (data, is) {
-      if (is) {
-        this.tags.push(data)
-      } else {
-        let index = this.tags.indexOf(data)
-        if (index !== -1) {
-          this.tags.splice(index, 1)
+      if (data.leaf) {
+        if (is) {
+          this.tags.push(data)
+        } else {
+          let index = this.tags.indexOf(data)
+          if (index !== -1) {
+            this.tags.splice(index, 1)
+          }
         }
+        this.updateCapabilitySelected()
+        this.updateThirdStepSelection()
       }
-      this.updateCapabilitySelected()
-      this.updateThirdStepSelection()
     },
     async handleDeleteTag (tag) {
       let index = this.tags.indexOf(tag)
@@ -665,6 +601,13 @@ export default {
     },
     isEdit () {
       return this.toDetailType === 'editNewPro'
+    },
+    getTipDisabled (node, data) {
+      if (this.language === 'en') {
+        return data.children || (!data.children && node.label.length < 10)
+      } else {
+        return data.children || (!data.children && node.label.length < 7)
+      }
     }
   },
   watch: {
@@ -679,6 +622,7 @@ export default {
         if (newVal) {
           this.showCheckbox = false
           this.isClosable = false
+          this.clickIsSelected = false
           if (this.isEdit() || this.isCreate()) {
             let rootNodes = this.$refs.treeList.root.childNodes
             rootNodes.splice(0, rootNodes.length)
@@ -693,11 +637,12 @@ export default {
   mounted () {
     this.tags = []
     if (!this.showCapability && this.toDetailType === 'addNewPro') {
-      // this.getCapabilityGroups()
+      this.clickIsSelected = true
+      this.hasNoSelect = false
     } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
-      // this.editProjectDetail()
+      this.clickIsSelected = true
     } else {
-      // this.getProjectDetail()
+      this.clickIsSelected = false
       this.showCheckbox = false
       this.isClosable = false
     }
@@ -783,6 +728,7 @@ export default {
   .el-tag--light{
     background-color: #5e40c8 !important;
     height: 33px !important;
+    white-space: pre;
     padding: 0 16px !important;
     line-height: 30px !important;
     font-size: 14px !important;
@@ -818,6 +764,15 @@ export default {
       border-radius: 16px;
       padding: 25px 0px 0 0;
       height: 467px;
+      .select_initialization{
+        padding-top: 100px;
+        text-align: center;
+        .select_initialization_text{
+          padding-top: 5px;
+          font-size: 12px;
+          color: #7a6e8a;
+        }
+      }
     }
     .api_tree{
       max-height: 445px;

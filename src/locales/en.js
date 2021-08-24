@@ -203,7 +203,8 @@ const en = {
       format: 'format check',
       imageInfo: 'image information',
       serviceInfo: 'service information',
-      mepAgent: 'MEP Agent (If mepagent is not integrated, api cannot be released)',
+      mepAgent: 'MEP Agent',
+      mepAgentTip: '(If mepagent is not integrated, api cannot be released)',
       visualConfigTip: 'If the yaml file has been uploaded, the visual configuration is not required'
     },
     uploadImage: {
@@ -293,7 +294,7 @@ const en = {
       noService: 'Your application does not rely on the ecosystem services of the platform',
       blackWhiteList: 'Black and White list',
       UEIdentity: 'UE Identity',
-      enterAtp: 'Enter Application Testing Platform',
+      enterAtp: 'To know Application Testing',
       selectInitialization: 'Please select the service you need in the service list on the left'
     },
     deployDebugVm: {
@@ -536,7 +537,7 @@ const en = {
     apiFunctionMd: 'Please upload the .md file to describe the API function, usage, etc.',
     routeConfig: 'Route Configuration',
     protocol: 'Protocol',
-    appDetails: 'Application Package Details',
+    appDetails: 'App Package Details',
     appTest: 'Application Test',
     releaseText: 'The application needs to be tested before it is released',
     instantiateId: 'Instantiate ID',
@@ -570,6 +571,7 @@ const en = {
     containerResource: 'Resource',
     hostInfo: 'Host Info',
     selectEnv: 'Select Testing Environment',
+    sandboxEnv: 'SandBox Environment',
     sandboxEnvDesc: 'Real scences simulation, quick test',
     fiveGEnv: '5G Environment',
     fiveGEnvDesc: 'Because of the limit of 5G environment resources, application may fail',
@@ -870,13 +872,22 @@ const en = {
         selectImgFile: 'Select File',
         publish: 'Publish'
       },
+      containerImage: {
+        synchronize: 'Synchronize Image',
+        syncing: 'Syncing...',
+        pleaseWait: 'It takes a few minutes to synchronize the image, please wait patiently···',
+        synchronized: 'Image synchronized',
+        latestImage: 'Already the latest image',
+        noImage: 'Harbor warehouse has no image',
+        imageFailed: 'Image synchronization failed'
+      },
       tip: {
         newImg: 'New System Image',
         editImg: 'Edit System Image',
         viewImg: 'View System Image Detail',
         nameRule: 'Please enter a valid name of 4-32 characters!',
         versionEmpty: 'System version cannot be empty!',
-        versionRule: 'Please enter a valid version of 1-10 characters!',
+        versionRule: 'Please enter a valid version of 1-20 characters!',
         systemDiskEmpty: 'System disk size cannot be empty!',
         systemDiskRule: 'Please enter a 2 to 4-digit integer!',
         uploadImg: 'Upload System Image',

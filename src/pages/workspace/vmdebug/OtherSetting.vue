@@ -56,7 +56,12 @@
                     :underline="false"
                     @click.stop="clickEdit('content')"
                   >
-                    {{ $t('common.edit') }}
+                    <p v-if="viewOrEditContent === 'preview'">
+                      {{ $t('common.edit') }}
+                    </p>
+                    <p v-else>
+                      {{ $t('common.save') }}
+                    </p>
                   </el-link>
                 </template>
                 <mavon-editor
@@ -79,7 +84,12 @@
                     :underline="false"
                     @click.stop="clickEdit('params')"
                   >
-                    {{ $t('common.edit') }}
+                    <p v-if="viewOrEditParams === 'preview'">
+                      {{ $t('common.edit') }}
+                    </p>
+                    <p v-else>
+                      {{ $t('common.save') }}
+                    </p>
                   </el-link>
                 </template>
                 <mavon-editor
@@ -259,9 +269,17 @@ export default {
     },
     clickEdit (name) {
       if (name === 'content') {
-        this.viewOrEditContent = 'edit'
+        if (this.viewOrEditContent === 'edit') {
+          this.viewOrEditContent = 'preview'
+        } else {
+          this.viewOrEditContent = 'edit'
+        }
       } else if (name === 'params') {
-        this.viewOrEditParams = 'edit'
+        if (this.viewOrEditParams === 'edit') {
+          this.viewOrEditParams = 'preview'
+        } else {
+          this.viewOrEditParams = 'edit'
+        }
       } else if (name === 'flavor') {
         if (this.viewOrEditFlavor === 'edit') {
           this.viewOrEditFlavor = 'preview'
@@ -297,7 +315,8 @@ export default {
         position: relative;
         padding-left: 30px;
         background-color: transparent;
-        color: #4a2983;
+        color: #380879;
+        font-size: 16px;
         border-top: solid 1px #c3bde5;
         border-bottom: solid 1px #c3bde5;
 
@@ -388,10 +407,14 @@ export default {
       }
 
       .item-right {
-        font-family: defaultFontLight;
-        color: #4a2983;
+        display: block;
         float: right;
-        padding-bottom: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 3px 10px;
+        font-family: defaultFontLight;
+        color: #FFF;
+        background-color: #8278b7;
       }
 
       .item-right:hover {

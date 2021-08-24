@@ -297,7 +297,7 @@
         class="dialog-footer"
       >
         <el-button
-          @click="dialogVisible = false"
+          @click="handleClose"
           size="medium"
           class="cancel"
         >{{ $t('common.cancel') }}</el-button>
@@ -982,7 +982,7 @@ export default {
     left:20px;
   }
   /deep/.el-button--text{
-    color:#fbfbfb;
+    color:#fbfbfb !important;
   }
   /deep/.el-icon-circle-plus-outline{
     color:#fbfbfb;

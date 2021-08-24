@@ -237,6 +237,7 @@
             <DeployDebugK8sMain
               v-else
               :project-id="projectId"
+              :active="active"
               :project-before-config="projectBeforeConfig"
               :api-data-loading="apiDataLoading"
               @getAppapiFileId="getAppapiFileId"
@@ -320,16 +321,6 @@ export default {
       language: localStorage.getItem('language'),
       active: 0,
       nextButtonName: this.$t('workspace.nextStep'),
-      currentComponent: 'choosePlatform',
-      allStepData: {
-        ifNext: false,
-        third: {
-          enable: false,
-          hostId: '',
-          ip: '',
-          port: ''
-        }
-      },
       projectBeforeConfig: {},
       viewReport: false,
       isDeploying: false,
@@ -365,7 +356,6 @@ export default {
       screenHeight: document.body.clientHeight,
       timer: null,
       allFormData: {}
-
     }
   },
   methods: {
@@ -551,7 +541,6 @@ export default {
       params = Object.assign(params, iconFileId)
       this.addNewProject(params)
     },
-
     addNewProject (params) {
       if (this.isEdit) {
         Workspace.editProjectApi(this.projectId, this.userId, params).then(res => {
@@ -744,42 +733,11 @@ export default {
         if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
             this.active = 2
-            this.changeComponent()
           } else {
             this.active = 0
-            this.changeComponent()
           }
         }
       })
-    },
-    changeComponent () {
-      switch (this.active) {
-        case 0:
-          this.currentComponent = 'imageSelect'
-          break
-        case 1:
-          this.currentComponent = 'configYaml'
-          break
-        case 2:
-          this.currentComponent = 'deployment'
-          break
-        default:
-          this.currentComponent = 'imageSelect'
-      }
-    },
-    next () {
-      // Fetch component internal value
-      this.$refs.currentComponet.emitStepData()
-      if (this.allStepData.ifNext) {
-        if (this.active < 2) {
-          this.active++
-          this.handleStep()
-        }
-      }
-    },
-    previous () {
-      this.active--
-      this.handleStep()
     },
     nextPane () {
       this.activeName = '4'
@@ -793,11 +751,6 @@ export default {
       } else {
         this.activeName = '1'
       }
-    },
-    handleStep () {
-      // Change dynamic component value
-      this.changeComponent()
-      this.allStepData.ifNext = false
     },
     getFormData ({ data, step }) {
       this.allFormData[step] = data
@@ -890,7 +843,6 @@ export default {
   },
   mounted () {
     this.isAddNewProject()
-    this.handleStep()
     this.setDivHeight(this.screenHeight)
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
@@ -1042,10 +994,6 @@ export default {
     .el-icon-info{
       margin-top: 12px;
     }
-    .el-icon-info:before {
-      color: #5e40c8;
-      font-size: 16px;
-    }
     .default-icon{
       float: left;
       display: flex;
@@ -1143,6 +1091,10 @@ export default {
   }
 }
 
+  .el-icon-info:before {
+    color: #5e40c8;
+    font-size: 16px;
+  }
   .el-tree-node__content{
     height: 35px;
     line-height: 35px;
@@ -1165,10 +1117,11 @@ export default {
     text-align: left;
   }
   .el-tabs--left .el-tabs__header.is-left{
-    margin-right: 111.5px;
+    margin-right: 112.5px;
   }
   .el-tabs--left.enLeft .el-tabs__header.is-left{
-    margin-right: 55px;
+    margin-right: 41px;
+    width: 267px;
   }
   .el-tabs__nav-wrap.is-left::after{
     width: 0;

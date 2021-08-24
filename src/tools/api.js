@@ -488,8 +488,13 @@ let imageMgmtService = {
   },
   downloadContainerImageUrl: function (imageId) {
     return urlPrefix + 'mec/developer/v2/container/images/' + imageId + '/download'
+  },
+  synchronizeContainerImageApi: function () {
+    return GetFun('mec/developer/v2/container/images/synchronize')
+  },
+  cancelUploadContainerImage: function (imageId) {
+    return Delete('mec/developer/v2/container/images/' + imageId + '/upload')
   }
-
 }
 
 export {

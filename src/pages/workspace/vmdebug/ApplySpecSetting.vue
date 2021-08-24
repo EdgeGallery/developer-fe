@@ -267,11 +267,21 @@ export default {
     },
     validateInput () {
       if (this.selectedRegulationId === -1) {
-        this.$message.warning(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
         return false
       }
       if (this.selectedSystemId === '') {
-        this.$message.warning(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'))
+        this.$eg_messagebox({
+          type: 'warning',
+          title: '',
+          desc: this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'),
+          cancelText: this.$t('common.cancelText')
+        }).then(() => {}).catch(() => {})
         return false
       }
       return true

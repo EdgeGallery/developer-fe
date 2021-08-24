@@ -183,7 +183,7 @@ export default {
 
       this.isUploading = true
       this.hasFileFlag = true
-      this.fileIdentifier = file.uniqueIdentifier
+      // this.fileIdentifier = file.uniqueIdentifier
     },
     onFileComplete () {
       this.isUploading = false
@@ -253,7 +253,7 @@ export default {
       }
     },
     cancelUpload (uploaderList) {
-      imageMgmtService.cancelUploadImage(this.imageData.systemId, this.fileIdentifier).then(response => {
+      imageMgmtService.cancelUploadContainerImage(this.imageData.imageId).then(response => {
         this.isUploading = false
         this.isMerging = false
         this.hasFileFlag = false

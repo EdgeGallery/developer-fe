@@ -203,7 +203,8 @@ const cn = {
       format: '格式校验',
       imageInfo: '镜像信息',
       serviceInfo: '服务信息',
-      mepAgent: 'MEP Agent（如果没有集成mepagent，将无法发布API）',
+      mepAgent: 'MEP Agent',
+      mepAgentTip: '（如果没有集成mepagent，将无法发布API）',
       visualConfigTip: '如若已上传yaml文件，则不需进行可视化配置'
     },
     uploadImage: {
@@ -293,7 +294,7 @@ const cn = {
       noService: '您的应用没有依赖平台的生态服务',
       blackWhiteList: '黑白名单',
       UEIdentity: 'UE标识',
-      enterAtp: '进入应用测试认证平台',
+      enterAtp: '了解应用测试',
       selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {
@@ -570,6 +571,7 @@ const cn = {
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
+    sandboxEnv: '沙箱环境',
     sandboxEnvDesc: '模拟真实场景，快速调测',
     fiveGEnv: '5G环境',
     fiveGEnvDesc: '由于5G环境资源有限，有可能申请失败',
@@ -870,13 +872,22 @@ const cn = {
         selectImgFile: '选择文件',
         publish: '发布'
       },
+      containerImage: {
+        synchronize: '同步镜像',
+        syncing: '同步中...',
+        pleaseWait: '同步镜像需要几分钟，请耐心等待···',
+        synchronized: '镜像已同步',
+        latestImage: '已经是最新镜像',
+        noImage: 'Harbor仓库暂无镜像',
+        imageFailed: '镜像同步失败'
+      },
       tip: {
         newImg: '新建系统镜像',
         editImg: '修改系统镜像',
         viewImg: '查看系统镜像详情',
         nameRule: '请输入有效的系统镜像名称，不能包含空格，4-32个字符！',
         versionEmpty: '系统版本号不能为空！',
-        versionRule: '请输入有效的系统版本号，包含1-10个字符！',
+        versionRule: '请输入有效的系统版本号，包含1-20个字符！',
         systemDiskEmpty: '系统磁盘大小不能为空！',
         systemDiskRule: '请输入两到四位的整数！',
         uploadImg: '上传系统镜像',

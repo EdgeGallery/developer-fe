@@ -945,20 +945,40 @@ export default {
         itemPo.spec.containers.forEach(itemSub => {
           let arrTemp = itemSub.image.split(':')
           if (itemSub.image === '' || arrTemp.length !== 2) {
-            this.$message.warning(this.$t('workspace.visualConfig.imageInfoVerify'))
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.visualConfig.imageInfoVerify'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.ifSaveConfig = false
           }
           if (itemSub.name === '') {
-            this.$message.warning(this.$t('workspace.visualConfig.containerNameVerify'))
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.visualConfig.containerNameVerify'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.ifSaveConfig = false
           }
           if (itemSub.ports[0].containerPort === undefined) {
-            this.$message.warning(this.$t('workspace.visualConfig.internalPortVerify'))
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.visualConfig.internalPortVerify'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.ifSaveConfig = false
           }
         })
         if (itemPo.metadata.name === '' || itemPo.metadata.name.toString().indexOf('_') !== -1) {
-          this.$message.warning(this.$t('workspace.visualConfig.podNameVerify'))
+          this.$eg_messagebox({
+            type: 'warning',
+            title: '',
+            desc: this.$t('workspace.visualConfig.podNameVerify'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
           this.ifSaveConfig = false
         }
       })
@@ -971,20 +991,40 @@ export default {
       serviceDatas.forEach(itemSer => {
         itemSer.spec.ports.forEach(itemSub => {
           if (itemSub.nodePort === undefined) {
-            this.$message.warning(this.$t('workspace.visualConfig.nodePortVerify'))
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.visualConfig.nodePortVerify'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.ifSaveConfig = false
           }
           if (itemSub.targetPort === undefined) {
-            this.$message.warning(this.$t('workspace.visualConfig.destinationPortVerify'))
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.visualConfig.destinationPortVerify'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.ifSaveConfig = false
           }
           if (itemSub.port === undefined) {
-            this.$message.warning(this.$t('workspace.visualConfig.internalPortVerify'))
+            this.$eg_messagebox({
+              type: 'warning',
+              title: '',
+              desc: this.$t('workspace.visualConfig.internalPortVerify'),
+              cancelText: this.$t('common.cancelText')
+            }).then(() => {}).catch(() => {})
             this.ifSaveConfig = false
           }
         })
         if (itemSer.metadata.name === '' || itemSer.metadata.name.toString().indexOf('_') !== -1) {
-          this.$message.warning(this.$t('workspace.visualConfig.serviceNameVerify'))
+          this.$eg_messagebox({
+            type: 'warning',
+            title: '',
+            desc: this.$t('workspace.visualConfig.serviceNameVerify'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
           this.ifSaveConfig = false
         }
       })
@@ -998,6 +1038,7 @@ export default {
         itemTemp.spec.containers.forEach(itemCon => {
           delete itemCon.showName
           delete itemCon.showImage
+          delete itemCon.showResource
           delete itemCon.ports[0].showInPort
         })
         podArr.push(itemTemp)
@@ -1048,7 +1089,12 @@ export default {
         })
         let params = JSON.stringify(this.configData.deployYamls)
         Workspace.postConfigVisualApi(this.projectId, this.userId, params, 'config').then(res => {
-          this.$message.success(this.$t('workspace.visualConfig.saveConfigSuccess'))
+          this.$eg_messagebox({
+            type: 'success',
+            title: '',
+            desc: this.$t('workspace.visualConfig.saveConfigSuccess'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
@@ -1057,7 +1103,12 @@ export default {
           this.submitData(this.appYamlFileId)
           this.setApiHeight()
         }).catch(() => {
-          this.$message.error(this.$t('workspace.visualConfig.saveConfigFail'))
+          this.$eg_messagebox({
+            type: 'error',
+            title: '',
+            desc: this.$t('workspace.visualConfig.saveConfigFail'),
+            cancelText: this.$t('common.cancelText')
+          }).then(() => {}).catch(() => {})
           this.appYamlFileId = ''
           this.markdownSource = ''
         })
@@ -1112,6 +1163,9 @@ export default {
         let podDataArr = []
         echoData.forEach(item => {
           if (item.kind === 'Pod') {
+            item.spec.containers.forEach(itemCon => {
+              itemCon.showResource = true
+            })
             podDataArr.push(item)
           } else if (item.kind === 'Service') {
             this.serviceData.push(item)
@@ -1220,6 +1274,9 @@ export default {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
     }
+  },
+  mounted () {
+    this.getConfigFile()
   }
 }
 </script>
@@ -1558,10 +1615,14 @@ export default {
 }
 
 .visual-config-dialog {
+  height: 100%;
+
   .el-dialog {
+    margin-top: 12% !important;
     padding: 20px;
     border-radius: 12px;
-    width: 900px;
+    width: 50%;
+    height: 520px !important;
     background-color: #efefef;
   }
 
@@ -1599,6 +1660,32 @@ export default {
 
   .v-note-wrapper .v-note-panel {
     border-radius: 8px;
+  }
+
+  .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+    height: 320px;
+  }
+
+  .v-note-wrapper .v-note-panel  .content-input-wrapper {
+    height: 320px;
+  }
+
+  .markdown-body {
+    height: 320px;
+  }
+
+  .markdown-body .highlight pre, .markdown-body pre {
+    background-color: transparent;
+  }
+
+  .hljs {
+    background-color: transparent;
+  }
+
+  .el-dialog__footer {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
   }
 
   .el-dialog__footer .el-button {

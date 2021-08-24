@@ -82,6 +82,10 @@ export default {
     apiDataLoading: {
       type: Boolean,
       default: false
+    },
+    active: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -96,12 +100,12 @@ export default {
           port: ''
         }
       },
-      currentStep: 0,
       currentComponent: 'imageSelect',
       deployed: false,
       isCompleted: false,
       isDeploying: false,
-      isFail: false
+      isFail: false,
+      currentStep: 0
     }
   },
   methods: {
@@ -117,9 +121,6 @@ export default {
     },
     getAppapiFileId (data) {
       this.appApiFileIdTemp = data
-    },
-    checkCleanEnv (data) {
-      this.isCleanEnv = data
     },
     changeComponent () {
       switch (this.currentStep) {
@@ -153,7 +154,14 @@ export default {
     handleStep () {
       this.changeComponent()
       this.allStepData.ifNext = false
+    },
+    checkCleanEnv (data) {
+      this.$emit('checkCleanEnv', data)
     }
+  },
+  mounted () {
+    this.currentStep = this.active
+    this.changeComponent()
   }
 }
 </script>

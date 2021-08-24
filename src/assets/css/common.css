@@ -238,12 +238,6 @@ li{
 .el-button.el-button--text{
   padding: 0px;
 }
-.el-button.operations_btn{
-  background: #efefef;
-  padding: 5px 15px;
-  border: none;
-  position: relative;
-}
 .el-dialog__header{
   background: #688ef3 !important;
 }
@@ -522,18 +516,17 @@ body .el-table th.gutter{
 }
 .tableStyle.el-table .cell {
   padding: 0 0 0 30px !important;
-  word-wrap : break-word ;
-  word-break:keep-all;
-  max-height: 50px;
-  display: -webkit-box;
   overflow: visible;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 }
 .tableStyle.el-table tbody td {
   border-bottom: 2px solid #f5eeff;
   padding: 10px 0 !important;
+}
+.tableStyle.el-table .cell.el-tooltip{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
 }
 .tableStyle.el-table .el-button{
   margin-bottom: 5px;
@@ -541,6 +534,21 @@ body .el-table th.gutter{
 }
 .tableStyle.el-table .el-button + .el-button{
   margin-left: 0;
+}
+.el-button.operations_btn{
+  background: #efefef;
+  padding: 5px 15px;
+  border: none;
+  position: relative;
+}
+.el-button.operations_btn .el-button{
+  margin-right: 0px!important;
+}
+.el-button.operations_btn .el-button--text,.el-button--text:focus, .el-button--text:hover{
+  color:#606266;
+}
+.el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover{
+  color: #c0c4cc !important;
 }
 
 /* el-pagination */
