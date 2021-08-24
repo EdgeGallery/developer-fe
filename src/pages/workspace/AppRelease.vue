@@ -1182,52 +1182,21 @@ export default {
 }
 </script>
 <style lang="less">
-@media screen and (max-width: 1800px){
-  .appRelease{
-    .el-dialog{
-       width:65% !important;
-     }
-  }
-}
-@media screen and (max-width: 1500px){
-  .appRelease{
-     .el-dialog{
-       width:75% !important;
-     }
-     .button_en{
-        .el-button--default{
-          width:100px !important;
-        }
-        .el-button--primary{
-          width:100px !important;
-        }
-      }
-  }
- }
-@media screen and (max-width: 1200px){
-  .appRelease{
-       .el-dialog{
-       width:80% !important;
-     }
-     .addAppPublish{
+ @media screen and (max-width: 1650px){
+  .addAppPublish{
        .el-button.featuresBtn{
-       width:106% !important;
-     }
-     }
-  }
-}
-@media screen and (max-width: 1000px){
-  .appRelease{
-    .el-dialog{
-       width:85% !important;
-     }
-     .addAppPublish{
-      .el-upload{
-        width:60% !important;
+       width:100% !important;
       }
-     }
-   }
-}
+      }
+ }
+  @media screen and (max-width: 1500px){
+  .addAppPublish{
+      .f55_en{
+        width:100% !important;
+        margin-bottom:0px !important;
+      }
+      }
+ }
 .appRelease{
   .release_steps{
     width: 100%;
@@ -1419,9 +1388,6 @@ export default {
         background-color: #9f97cb !important;
       }
     }
-    .el-button--text {
-      color: #62517a !important;
-    }
     .el-tabs{
       .addBtn{
         margin-left: 15px;
@@ -1549,6 +1515,7 @@ export default {
     border-radius:12px;
     padding:40px 39px;
     background-color: #efefef;
+    min-width:640px;
     .el-dialog__header{
     display:none;
     }
@@ -1577,7 +1544,7 @@ export default {
       background-color: #5844be;
       width: 80px;
       padding: 8px 8px;
-        border-radius:10px;
+      border-radius:10px;
 
   }
   .title{

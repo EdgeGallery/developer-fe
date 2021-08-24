@@ -87,6 +87,7 @@
           :label="$t('devTools.uploadApiFile')"
           :label-width="formLabelWidth"
           class="service_row f50 fileP"
+          :class="{'f55_en':language==='en'}"
           prop="apiJson"
           ref="apiFileItem"
         >
@@ -124,6 +125,7 @@
           :label="$t('workspace.uploadFile')"
           :label-width="formLabelWidth"
           class="service_row f50 fileP"
+          :class="{'f55_en':language==='en'}"
           prop="apiMd"
           ref="apiMdItem"
         >
@@ -551,7 +553,7 @@ export default {
 
     }
 .el-upload{
-  width:50%;
+  margin-right:5px !important;
 }
 .el-button.featuresBtn{
       background: #a59fc9 !important;
@@ -559,7 +561,7 @@ export default {
     color: #fff !important;
     border-radius: 8px !important;
     font-size:16px !important ;
-    width:100% !important;
+    width:170px !important;
 }
 .el-form{
   width:95% !important;

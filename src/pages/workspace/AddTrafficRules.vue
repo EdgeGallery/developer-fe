@@ -982,7 +982,7 @@ export default {
     left:20px;
   }
   /deep/.el-button--text{
-    color:#fbfbfb;
+    color:#fbfbfb !important;
   }
   /deep/.el-icon-circle-plus-outline{
     color:#fbfbfb;
