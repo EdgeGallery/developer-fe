@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { Api } from '../../tools/api.js'
+import { Api, Capability } from '../../tools/api.js'
 import { common } from '../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
@@ -158,7 +158,7 @@ export default {
   },
   methods: {
     init () {
-      Api.getCapabilityByIdApi(this.serviceIdprop).then(result => {
+      Capability.getCapabilityById(this.serviceIdprop).then(result => {
         this.service = result.data
         this.getApiUrl()
       })
@@ -191,7 +191,7 @@ export default {
       }, 200)
     },
     deletePublicApi () {
-      Api.deletePublicApi(this.serviceDetail.detailId, this.userId).then(() => {
+      Capability.deleteCapabilityById(this.serviceDetail.detailId).then(() => {
         this.$message({
           type: 'success',
           message: this.$t('devTools.deleteSucc')
