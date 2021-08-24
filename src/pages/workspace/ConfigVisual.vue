@@ -1163,6 +1163,9 @@ export default {
         let podDataArr = []
         echoData.forEach(item => {
           if (item.kind === 'Pod') {
+            item.spec.containers.forEach(itemCon => {
+              itemCon.showResource = true
+            })
             podDataArr.push(item)
           } else if (item.kind === 'Service') {
             this.serviceData.push(item)
@@ -1271,6 +1274,9 @@ export default {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
     }
+  },
+  mounted () {
+    this.getConfigFile()
   }
 }
 </script>
