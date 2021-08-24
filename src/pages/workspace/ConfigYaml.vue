@@ -391,10 +391,11 @@ export default {
             if (res.data.configType === 'upload') {
               this.showFileImport = true
               this.showVisualConfig = false
+              this.selectConfigType = '1'
             } else if (res.data.configType === 'config') {
               this.showFileImport = false
               this.showVisualConfig = true
-              this.$refs.configVisual.getConfigFile()
+              this.selectConfigType = '2'
             }
           })
         }
