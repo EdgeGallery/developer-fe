@@ -1225,7 +1225,9 @@ export default {
         color: #ffffff;
         border-radius: 8px;
         margin-left: 30px;
-        font-size: 20px;
+        font-size: 18px;
+        width:15%;
+        height:40px;
       }
     }
     .elSteps {
