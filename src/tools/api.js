@@ -461,6 +461,9 @@ let imageMgmtService = {
   publishImage: function (systemId, userId) {
     return Put('mec/developer/v1/system/images/' + systemId + '/publish?userId=' + userId)
   },
+  resetImageStatus: function (systemId, userId) {
+    return Put('mec/developer/v1/system/images/' + systemId + '/reset?userId=' + userId)
+  },
   mergeImage: function (systemId, fileName, identifier) {
     return Get('mec/developer/v1/system/images/' + systemId + '/merge?fileName=' + fileName + '&identifier=' + identifier)
   },
