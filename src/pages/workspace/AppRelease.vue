@@ -124,6 +124,7 @@
               <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
                 class="upload-demo clear defaultFontLight"
+                :class="{'upload-demo_en':language==='en'}"
                 action=""
                 :limit="1"
                 :on-change="changeAppStoreMd"
@@ -197,14 +198,6 @@
                 width="220px"
               >
                 <template slot-scope="scope">
-                  <el-button
-                    type="text"
-                    size="medium"
-                    class="editBtn"
-                    @click="checkFilter(scope.row)"
-                  >
-                    {{ $t('workspace.appRelease.checkRules') }}
-                  </el-button>
                   <el-button
                     size="medium"
                     type="text"
@@ -979,12 +972,7 @@ export default {
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$message.success(this.$t('devTools.deleteSucc'))
     },
-    // View traffic rules
-    checkFilter (row) {
-      this.filterShow = true
-      this.filterData = row.trafficFilter
-      this.interfaceData = row.dstInterface
-    },
+
     strToArray (str) {
       let arr = []
       arr = str.split(',')
@@ -1212,6 +1200,11 @@ export default {
         text-align: right;
         .work-button {
           margin-left: 30px;
+          height:40px;
+          line-height:40px;
+          font-size:16px;
+          padding:0px 12px;
+          min-width:auto;
         }
         .work-button.el-button.is-disabled, .work-button.el-button.is-disabled:hover {
           background-color: #5844be;
@@ -1292,6 +1285,9 @@ export default {
       }
       .span_left_en{
         width: 165px;
+      }
+      .upload-demo_en{
+        padding-top:14px;
       }
       .right_content {
         color: #380879;

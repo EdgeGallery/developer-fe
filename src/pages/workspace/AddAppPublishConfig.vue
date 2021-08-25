@@ -560,8 +560,8 @@ export default {
     border: 1px solid #a59fc9 !important;
     color: #fff !important;
     border-radius: 8px !important;
-    font-size:16px !important ;
-    width:170px !important;
+    font-size:16px !important;
+    width:100% !important;
 }
 .el-form{
   width:95% !important;
