@@ -159,7 +159,7 @@ export default {
       this.$emit('checkCleanEnv', data)
     }
   },
-  mounted () {
+  created () {
     this.currentStep = this.active
     this.changeComponent()
   }
