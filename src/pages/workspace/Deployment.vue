@@ -246,47 +246,46 @@ export default {
         console.log(err)
       })
     },
-    async getTestConfig () {
-      let cachedData = ''
-      await Workspace.getTestConfigApi(this.projectId).then(res => {
-        cachedData = res.data
-      })
-      if (cachedData === null || cachedData === '') {
-        return
-      }
-
-      this.showProgressBar = true
-      let status = cachedData.stageStatus
-      this.platform = cachedData.platform
-      this.deployField = cachedData.deployField
-      this.privateHost = cachedData.privateHost
-      if (status != null) {
-        this.handleDeployStatus(status)
-      }
-
-      this.deployStatus = cachedData.deployStatus
-      // deploy successfully
-      if (this.deployStatus === 'SUCCESS') {
-        clearInterval(this.timer)
-        this.handlePodsData(cachedData)
-        this.testFinished = true
-        this.isDeploySuccess = true
-        this.accessUrl = cachedData.accessUrl
-        this.errorLog = cachedData.errorLog
-        this.deployProgress = 100
-      }
-      // deploy failed
-      if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
-        clearInterval(this.timer)
-        if (cachedData.pods !== null && cachedData.pods.length > 4) {
-          this.pods = JSON.parse(cachedData.pods).pods
+    getTestConfig () {
+      Workspace.getTestConfigApi(this.projectId).then(res => {
+        let cachedData = res.data
+        if (cachedData === null || cachedData === '') {
+          return
         }
-        this.deployStatus = 'FAILED'
-        this.testFinished = true
-        this.isDeploySuccess = false
-        this.accessUrl = cachedData.accessUrl
-        this.errorLog = cachedData.errorLog
-      }
+
+        this.showProgressBar = true
+        let status = cachedData.stageStatus
+        this.platform = cachedData.platform
+        this.deployField = cachedData.deployField
+        this.privateHost = cachedData.privateHost
+        if (status != null) {
+          this.handleDeployStatus(status)
+        }
+
+        this.deployStatus = cachedData.deployStatus
+        // deploy successfully
+        if (this.deployStatus === 'SUCCESS') {
+          clearInterval(this.timer)
+          this.handlePodsData(cachedData)
+          this.testFinished = true
+          this.isDeploySuccess = true
+          this.accessUrl = cachedData.accessUrl
+          this.errorLog = cachedData.errorLog
+          this.deployProgress = 100
+        }
+        // deploy failed
+        if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
+          clearInterval(this.timer)
+          if (cachedData.pods !== null && cachedData.pods.length > 4) {
+            this.pods = JSON.parse(cachedData.pods).pods
+          }
+          this.deployStatus = 'FAILED'
+          this.testFinished = true
+          this.isDeploySuccess = false
+          this.accessUrl = cachedData.accessUrl
+          this.errorLog = cachedData.errorLog
+        }
+      })
     },
     handlePodsData (cachedData) {
       if (cachedData.pods !== null && cachedData.pods.length > 4) {
