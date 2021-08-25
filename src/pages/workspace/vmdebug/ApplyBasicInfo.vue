@@ -18,13 +18,13 @@
   <div class="apply-basicInfo work-div container-1">
     <el-form
       class="work-input"
-      :label-width="labelWidth"
       :model="form"
       ref="form"
       :rules="rules"
     >
       <el-form-item
         :label="$t('workspace.deployDebugVm.vmName')"
+        :label-width="labelWidth"
         prop="name"
       >
         <el-input
@@ -33,14 +33,20 @@
           v-model="form.name"
         />
       </el-form-item>
-      <el-form-item :label="$t('system.username')">
+      <el-form-item
+        :label="$t('system.username')"
+        :label-width="labelWidth"
+      >
         <el-input
           maxlength="128"
           v-model="vmUserName"
           disabled
         />
       </el-form-item>
-      <el-form-item :label="$t('system.password')">
+      <el-form-item
+        :label="$t('system.password')"
+        :label-width="labelWidth"
+      >
         <el-input
           maxlength="128"
           placeholder="root"
@@ -82,7 +88,8 @@ export default {
           }
         ]
       },
-      labelWidth: '180px'
+      labelWidth: '140px',
+      language: 'cn'
     }
   },
   methods: {
@@ -92,7 +99,19 @@ export default {
         const data = { vmName: this.form.name }
         this.$emit('getStepData', { step: 'basicSetting', data, canNext })
       })
+    },
+    setLabelWidth () {
+      this.labelWidth = this.language === 'cn' ? '140px' : '200px'
     }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.setLabelWidth()
+    }
+  },
+  mounted () {
+    this.setLabelWidth()
   }
 }
 </script>

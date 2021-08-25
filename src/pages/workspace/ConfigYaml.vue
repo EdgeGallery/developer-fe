@@ -412,7 +412,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.getConfigType()
   }
 }

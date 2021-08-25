@@ -255,6 +255,7 @@ export default {
         return
       }
 
+      this.showProgressBar = true
       let status = cachedData.stageStatus
       this.platform = cachedData.platform
       this.deployField = cachedData.deployField
@@ -277,7 +278,9 @@ export default {
       // deploy failed
       if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
         clearInterval(this.timer)
-        if (cachedData.pods !== null && cachedData.pods.length > 4) this.pods = JSON.parse(cachedData.pods).pods
+        if (cachedData.pods !== null && cachedData.pods.length > 4) {
+          this.pods = JSON.parse(cachedData.pods).pods
+        }
         this.deployStatus = 'FAILED'
         this.testFinished = true
         this.isDeploySuccess = false

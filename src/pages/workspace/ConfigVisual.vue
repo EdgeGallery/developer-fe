@@ -48,7 +48,7 @@
           </div>
           <el-form
             class="pod-content-basic__body work-input"
-            label-width="110px"
+            :label-width="labelWidth"
             size="small"
             :inline="true"
             :model="itemPod.metadata"
@@ -129,7 +129,7 @@
             <div class="pod-content-container-item__body">
               <el-form
                 class="work-input"
-                label-width="110px"
+                :label-width="labelWidth"
                 size="small"
                 :model="itemContainer"
                 :inline="true"
@@ -282,23 +282,23 @@
                         </p>
                         <div class="resources-wrapper__item-content">
                           <el-col :span="12">
-                            <p class="resources-item__label">
+                            <p class="resources-item__label resources__left">
                               memory
                             </p>
                             <el-input
                               size="small"
-                              class="resources-item__input"
+                              class="resources-item__input resources__left"
                               v-model="itemContainer.resources.limits.memory"
                               placeholder="100Mi"
                             />
                           </el-col>
                           <el-col :span="12">
-                            <p class="resources-item__label">
+                            <p class="resources-item__label resources__right">
                               cpu
                             </p>
                             <el-input
                               size="small"
-                              class="resources-item__input"
+                              class="resources-item__input resources__right"
                               v-model="itemContainer.resources.limits.cpu"
                               placeholder="1"
                             />
@@ -311,18 +311,18 @@
                         </p>
                         <div class="resources-wrapper__item-content">
                           <el-col :span="12">
-                            <p class="resources-item__label">
+                            <p class="resources-item__label resources__left">
                               memory
                             </p>
                             <el-input
                               size="small"
-                              class="resources-item__input"
+                              class="resources-item__input resources__left"
                               v-model="itemContainer.resources.requests.memory"
                               placeholder="100Mi"
                             />
                           </el-col>
                           <el-col :span="12">
-                            <p class="resources-item__label">
+                            <p class="resources-item__label resources__right">
                               cpu
                             </p>
                             <el-input
@@ -375,7 +375,7 @@
         <div class="service-content-basic__body">
           <el-form
             class="work-input"
-            label-width="110px"
+            :label-width="labelWidth"
             size="small"
             :inline="true"
             :model="itemService"
@@ -461,7 +461,7 @@
             </div>
             <el-form
               class="service-content-port__item work-input"
-              label-width="110px"
+              :label-width="labelWidth"
               size="small"
               :inline="true"
               :model="itemPorts"
@@ -723,7 +723,8 @@ export default {
       viewOrEdit: 'preview',
       viewConfigFileBtn: false,
       isEditFile: false,
-      ifSaveConfig: true
+      ifSaveConfig: true,
+      labelWidth: '130px'
     }
   },
   methods: {
@@ -741,39 +742,33 @@ export default {
           }
         },
         spec: {
-          containers: [
-            {
+          containers: [{
+            name: '',
+            showName: false,
+            image: '',
+            showImage: false,
+            imagePullPolicy: 'Always',
+            env: [{
               name: '',
-              showName: false,
-              image: '',
-              showImage: false,
-              imagePullPolicy: 'Always',
-              env: [
-                {
-                  name: '',
-                  value: ''
-                }
-              ],
-              ports: [
-                {
-                  containerPort: 9997,
-                  showInPort: false
-                }
-              ],
-              command: '',
-              resources: {
-                limits: {
-                  memory: '',
-                  cpu: ''
-                },
-                requests: {
-                  memory: '',
-                  cpu: ''
-                }
+              value: ''
+            }],
+            ports: [{
+              containerPort: 9997,
+              showInPort: false
+            }],
+            command: '',
+            resources: {
+              limits: {
+                memory: '',
+                cpu: ''
               },
-              showResource: true
-            }
-          ]
+              requests: {
+                memory: '',
+                cpu: ''
+              }
+            },
+            showResource: true
+          }]
         }
       }
       this.podData.push(podDataObj)
@@ -789,18 +784,14 @@ export default {
         image: '',
         showImage: false,
         imagePullPolicy: 'Always',
-        env: [
-          {
-            name: '',
-            value: ''
-          }
-        ],
-        ports: [
-          {
-            containerPort: 9997,
-            showInPort: false
-          }
-        ],
+        env: [{
+          name: '',
+          value: ''
+        }],
+        ports: [{
+          containerPort: 9997,
+          showInPort: false
+        }],
         command: '',
         resources: {
           limits: {
@@ -848,17 +839,15 @@ export default {
           }
         },
         spec: {
-          ports: [
-            {
-              port: 9997,
-              showPort: false,
-              targetPort: 9997,
-              showTargetPort: false,
-              protocol: 'TCP',
-              nodePort: 32115,
-              showNodePort: false
-            }
-          ],
+          ports: [{
+            port: 9997,
+            showPort: false,
+            targetPort: 9997,
+            showTargetPort: false,
+            protocol: 'TCP',
+            nodePort: 32115,
+            showNodePort: false
+          }],
           selector: {
             app: ''
           },
@@ -1265,6 +1254,13 @@ export default {
     // Change resource panel display status in each container.
     changeResourceDisplayStatus (container) {
       container.showResource = !container.showResource
+    },
+    setLabelWidth () {
+      if (this.language === 'en') {
+        this.labelWidth = '180px'
+      } else {
+        this.labelWidth = '130px'
+      }
     }
   },
   watch: {
@@ -1273,9 +1269,11 @@ export default {
     },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.setLabelWidth()
     }
   },
   mounted () {
+    this.setLabelWidth()
     this.getConfigFile()
   }
 }
@@ -1359,15 +1357,17 @@ export default {
   }
 
   .pod-content-basic__body .el-form-item {
-    width: 48%;
+    margin-right: 0;
+    width: 50%;
   }
 
   .pod-content-basic__body .el-form-item .el-form-item__label {
     color: #4a2983;
+    font-size: 16px;
   }
 
   .pod-content-basic__body .el-form-item .el-form-item__content {
-    width: 240px;
+    width: 200px;
   }
 
   .pod-content-container-item__header {
@@ -1400,15 +1400,17 @@ export default {
   }
 
   .pod-content-container-item__body .el-form-item {
-    width: 48%;
+    margin-right: 0;
+    width: 50%;
   }
 
   .pod-content-container-item__body .el-form-item__label {
     color: #4a2983;
+    font-size: 16px;
   }
 
   .pod-content-container-item__body .el-form-item__content {
-    width: 240px;
+    width: 200px;
   }
 
   .pod-content-container__item-envs .el-input {
@@ -1506,15 +1508,24 @@ export default {
   }
 
   .resources-wrapper__item-content .resources-item__label {
+    display: inline-block;
     line-height: 32px;
-    float: left;
+    font-size: 16px;
     color: #380879;
   }
 
   .resources-wrapper__item-content .resources-item__input {
     display: inline-block;
     padding-left: 10px;
-    width: 250px;
+    width: 200px;
+  }
+
+  .resources-item__left {
+    text-align: left;
+  }
+
+  .resources-item__right {
+    text-align: right;
   }
 
   /* style for service related elements. */
@@ -1558,15 +1569,17 @@ export default {
   }
 
   .service-content-basic__body .el-form-item {
-    width: 48%;
+    margin-right: 0;
+    width: 50%;
   }
 
   .service-content-basic__body .el-form-item__label {
     color: #4a2983;
+    font-size: 16px;
   }
 
   .service-content-basic__body .el-form-item__content {
-    width: 240px;
+    width: 200px;
   }
 
   .service-content-port__header {
@@ -1702,7 +1715,7 @@ export default {
 .required .el-form-item__label:before{
   content:'*';
   color: #F56C6C;
-  font-size: 12px;
+  font-size: 14px;
   margin-right: 4px;
 }
 
