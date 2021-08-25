@@ -881,6 +881,13 @@ const cn = {
         noImage: 'Harbor仓库暂无镜像',
         imageFailed: '镜像同步失败'
       },
+      errorType: {
+        formatMistake: '上传的文件格式错误。',
+        zipFileOpenFailed: '文件打开失败，可能文件不是一个有效的zip文件，请检查。',
+        fileSystemMergeFailed: '请求文件系统服务合并文件返回失败，可能是处理超时。',
+        failedOnUploadToFS: '上传至文件系统服务失败，请检查文件系统服务地址配置，并确认文件系统服务是否正常。',
+        unknown: '未知错误'
+      },
       tip: {
         newImg: '新建系统镜像',
         editImg: '修改系统镜像',
@@ -900,6 +907,7 @@ const cn = {
         noFileSelected: '未选择上传的文件',
         confirmDeleteImage: '确认要删除该系统镜像吗？',
         confirmPublishImage: '确认要发布该系统镜像吗？',
+        confirmResetImage: '请谨慎进行状态重置操作！确保该镜像是在上传过程发生了意外中断。您确认要重置该镜像的状态吗？',
         confirmReUploadImage: '已经上传了该系统镜像，再次上传将覆盖原有镜像。是否继续？',
         confirmDownloadImage: '系统镜像文件较大，下载耗时较长。是否继续下载该镜像？',
         systemNameExist: '已存在同名的系统镜像！',
@@ -907,10 +915,11 @@ const cn = {
         modifyImgFailed: '修改系统镜像失败！',
         deleteImgFailed: '删除系统镜像失败！',
         publishImgFailed: '发布系统镜像失败！',
+        resetImgStatusFailed: '重置镜像状态失败！',
         queryImgFailed: '查询系统镜像失败！',
         uploadingHint: '系统镜像正在上传，请等待！',
         uploadImgSucceed: '系统镜像上传处理成功！',
-        uploadImgFailed: '上传系统镜像失败！',
+        uploadImgFailed: '镜像文件合并请求返回失败，但是后台可能仍然在合并处理中，请耐心等待，可在镜像列表中观察镜像上传状态！',
         invalidUploadFile: '上传的文件不符合要求！',
         mergingHintForCancel: '系统镜像已经在进行合并处理，无法取消！',
         confirmCancelUpload: '确认要取消上传吗？',

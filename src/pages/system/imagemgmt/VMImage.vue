@@ -100,7 +100,18 @@
           :formatter="convertStatus"
           show-overflow-tooltip
           :filters="statusData"
-        />
+        >
+          <template slot-scope="scope">
+            {{ convertStatus(scope.row) }}
+            <el-tooltip
+              v-if="scope.row.status==='UPLOAD_FAILED'"
+              effect="light"
+              :content="scope.row.errorType ? $t('system.imageMgmt.errorType.' + scope.row.errorType) : $t('system.imageMgmt.errorType.unknown')"
+            >
+              <em class="el-icon-question" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('common.operation')"
           min-width="13%"
@@ -173,6 +184,16 @@
                         @click="handlePublish(scope.row)"
                       >
                         {{ $t('system.imageMgmt.operation.publish') }}
+                      </el-button>
+                    </li>
+                    <li v-if="isAdmin || userId===scope.row.userId">
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="scope.row.status!=='UPLOADING'"
+                        @click="handleReset(scope.row)"
+                      >
+                        {{ $t('common.reset') }}
                       </el-button>
                     </li>
                   </ul>
@@ -482,11 +503,27 @@ export default {
         this.doPublishImage(row.systemId)
       })
     },
+    handleReset (row) {
+      this.$confirm(this.$t('system.imageMgmt.tip.confirmResetImage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        this.doResetImage(row.systemId)
+      })
+    },
     doPublishImage (systemId) {
       imageMgmtService.publishImage(systemId, this.userId).then(() => {
         this.getImageDataList()
       }).catch(() => {
         this.$message.error(this.$t('system.imageMgmt.tip.publishImgFailed'))
+      })
+    },
+    doResetImage (systemId) {
+      imageMgmtService.resetImageStatus(systemId, this.userId).then(() => {
+        this.getImageDataList()
+      }).catch(() => {
+        this.$message.error(this.$t('system.imageMgmt.tip.resetImgStatusFailed'))
       })
     }
   }
