@@ -396,13 +396,35 @@
         class="second-step"
         v-show="step==='step2'"
       >
-        <el-button
-          type="primary"
-          class="atp_button"
-          @click="intoAtpTest"
-        >
-          {{ $t('workspace.appRelease.enterAtp') }}
-        </el-button>
+        <div class="btn-wrapper">
+          <el-button
+            type="primary"
+            class="atp_button"
+            @click="intoAtpTest"
+          >
+            {{ $t('workspace.appRelease.enterAtp') }}
+          </el-button>
+          <el-button
+            type="primary"
+            class="atp_button"
+            @click="getAtpTest"
+          >
+            {{ $t('workspace.appRelease.startTest') }}
+          </el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip"
+          >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="this.$t('workspace.releaseText')"
+              placement="right"
+            >
+              <em class="el-icon-info" />
+            </el-tooltip>
+          </div>
+        </div>
         <div
           v-show="showAtp"
           class="atp_iframe mt20"
@@ -1213,10 +1235,12 @@ export default {
     }
     .second-step {
       min-height: 464px;
-      .atp_button {
+      .btn-wrapper {
         margin-top: -122px;
-        font-size: 16px;
         float: right;
+      }
+      .atp_button {
+        font-size: 16px;
         background-color: #5844be !important;
         height: 39px;
         border-radius: 8px;
@@ -1384,6 +1408,9 @@ export default {
         background-color: #9f97cb !important;
       }
     }
+    .el-button--text {
+      color: #62517a !important;
+    }
     .el-tabs{
       .addBtn{
         margin-left: 15px;
@@ -1468,11 +1495,6 @@ export default {
     padding: 9px 15px;
     font-size: 12px;
     min-width: 100px;
-  }
-  .release_text{
-    color: #adb0b8;
-    font-size: 12px;
-    margin-left: 10px;
   }
   .atp_link {
     margin-top: -75px;
