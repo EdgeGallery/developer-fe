@@ -262,7 +262,7 @@
 </template>
 
 <script>
-import { Workspace, vmService } from '../../../tools/api.js'
+import { vmService } from '../../../tools/api.js'
 import ProgressBar from '../../../components/deployment/ProgressBar.vue'
 import DeploymentStatus from '../../../components/deployment/DeploymentStatus.vue'
 import SelectTestEnvironment from '../../../components/deployment/SelectTestEnvironment.vue'
@@ -473,32 +473,8 @@ export default {
       }
     },
     fetchDataOnMounted () {
-      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
-        this.projectName = res.data.name
-      })
-      this.getTestConfig()
+      this.getProjectVmList()
     },
-    // getProjectVmList () {
-    //   vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
-    //     this.deployListData = []
-    //     if (res.data.length === 0) {
-    //       clearInterval(this.timer)
-    //     } else {
-    //       let _data = res.data[0]
-    //       if (_data.status !== 'CREATING') {
-    //         clearInterval(this.timer)
-    //       }
-    //       this.deployListData.push(_data)
-    //       if (_data.createTime !== null) {
-    //         _data.createTime = this.dateChange(_data.createTime)
-    //       }
-    //     }
-    //     this.vmDataLoading = false
-    //   }).catch(() => {
-    //     clearInterval(this.timer)
-    //     this.vmDataLoading = false
-    //   })
-    // },
     handleVNC (vmData) {
       window.open('webssh.html', 'webssh')
     },
