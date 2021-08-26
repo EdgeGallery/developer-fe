@@ -20,6 +20,7 @@
       v-for="(item,index) in capabilityServiceList.slice(0,showNum)"
       :key="index"
       class="service_list"
+      :style="{height:divHeight+'px'}"
       @mouseenter="hoverServiceList(index)"
       @mouseleave="activeInfo=-1"
       @click="viewServiceDetail(item,index)"
@@ -179,10 +180,31 @@ export default {
       activeInfo: -1,
       serviceDetail: [],
       dialogVisible: false,
-      toOnline: false
+      toOnline: false,
+      divHeight: 0
+    }
+  },
+  mounted () {
+    this.setDivHeight()
+    window.onresize = () => {
+      return (() => {
+        this.setDivHeight()
+      })()
     }
   },
   methods: {
+    setDivHeight () {
+      this.$nextTick(() => {
+        let oDiv = document.getElementsByClassName('service_list')
+        let width = Number(oDiv[0].offsetWidth)
+        console.log(width)
+        if (width > 320 && width < 430) {
+          this.divHeight = width - 100
+        } else {
+          this.divHeight = width - 50
+        }
+      })
+    },
     formatDate (timestamp) {
       return common.formatDate(timestamp)
     },
@@ -349,6 +371,7 @@ export default {
     position: relative;
     cursor: pointer;
     box-shadow: 0 6px 24px -7px rgba(27, 7, 118, 0.14);
+    overflow: hidden;
     img{
       width: 100%;
       display: block;

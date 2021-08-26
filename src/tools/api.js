@@ -116,6 +116,9 @@ let Capability = {
   createCapability: function (capability) {
     return Post('mec/developer/v2/capabilities', capability)
   },
+  editCapability: function (capabilityId, capability) {
+    return Put('mec/developer/v2/capabilities/' + capabilityId, capability)
+  },
   deleteCapabilityById: function (id) {
     return Delete('mec/developer/v2/capabilities/' + id)
   },
