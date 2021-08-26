@@ -81,5 +81,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "chromium-args": "--allow-running-insecure-content"
 }
