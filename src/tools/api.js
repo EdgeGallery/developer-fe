@@ -422,6 +422,10 @@ let vmService = {
   uploadFile: function (projectId, vmId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
   },
+  // Empty the test environment
+  cleanTestVmEnvApi: function (projectId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/clean, '')
+  },
   // Deployment and commissioning
   vmDeployTestApi: function (projectId, userId) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm-create?userId=' + userId)

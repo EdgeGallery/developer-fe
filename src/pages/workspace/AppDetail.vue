@@ -232,7 +232,7 @@
             <DeployDebugVMMain
               v-if="deployPlatform === 'VIRTUALMACHINE'"
               :project-id="projectId"
-              @getImageStatus="getImageStatus"
+              @checkCleanEnv="checkCleanEnv"
             />
             <DeployDebugK8sMain
               v-else
@@ -279,7 +279,7 @@
 import { Workspace, vmService } from '../../tools/api.js'
 import EnvPreparation from './EnvPreparation.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
-import DeployDebugVMMain from './vmdebug/DeployDebugVMMain.vue'
+import DeployDebugVMMain from './vmdebug/DeploymentVm.vue'
 import DeployDebugK8sMain from './vmdebug/DeployDebugK8sMain.vue'
 import { Industry, Type, Capability } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
@@ -351,7 +351,6 @@ export default {
       dependentNum: 0,
       isAppDevelopment: true,
       isCleanEnv: false,
-      imageStatus: 'NOTDEPLOY',
       deployPlatform: 'KUBERNETES',
       screenHeight: document.body.clientHeight,
       timer: null,
@@ -794,13 +793,9 @@ export default {
         }
       })
     },
-    getImageStatus (data) {
-      this.isCleanEnv = true
-    },
     getProjectVmList () {
       vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
         if (res.data.length > 0) {
-          this.imageStatus = res.data[0].status
           if (res.data[0].status === 'SUCCESS') {
             this.isCleanEnv = true
           }

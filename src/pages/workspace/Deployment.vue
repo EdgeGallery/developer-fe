@@ -399,7 +399,7 @@ export default {
 
 <style lang="less">
 .deployment__body {
-  margin: 20px 53px;
+  margin: 25px 53px;
 }
 
 .deployment-result {

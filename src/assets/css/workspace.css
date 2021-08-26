@@ -82,8 +82,8 @@
   width: 100%;
   background-color: #f1f2f6;
   border: solid 1px e5e5ee;
-  border-radius: 15px;
-  box-shadow: 0 0 10px 1px #e5e5ee inset;
+  border-radius: 16px;
+  box-shadow: 6px 4px 45px 0 rgba(36, 20, 119, 0.11) inset;
 }
 
 /* style for basic radio */
