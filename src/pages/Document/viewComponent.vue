@@ -59,9 +59,9 @@ export default {
     getUrl () {
       let currhostname = window.location.hostname
       if (this.language === 'cn') {
-        this.srcUrl = '//' + currhostname + ':30089/#/zh-CN/component/OverviewInstru'
+        this.srcUrl = 'http://' + currhostname + ':30089/#/zh-CN/component/OverviewInstru'
       } else {
-        this.srcUrl = '//' + currhostname + ':30089/#/en-US/component/OverviewInstru'
+        this.srcUrl = 'http://' + currhostname + ':30089/#/en-US/component/OverviewInstru'
       }
     }
   },
