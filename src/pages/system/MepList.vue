@@ -31,12 +31,13 @@
       :close-on-click-modal="false"
       :visible.sync="visible"
       class="dialog_service default_dialog"
+      :class="{'dialog_service_en':language==='en'}"
     >
       <el-form
         :model="form"
         ref="form"
         :rules="rules"
-        :label-width="formLabelWidth"
+        :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
         label-position="right"
         class="clear"
         size="small"
@@ -45,17 +46,14 @@
           <em class="title_icon" />{{ $t('system.basicInfo') }}
         </h3>
         <el-form-item
-          :label="$t('system.capType')"
+          :label="$t('system.oneLevelCapability')"
           prop="group.name"
           class="w50 lt"
         >
           <el-select
             v-model="form.group.name"
-            filterable
-            :placeholder="$t('system.zh_cn')"
+            :placeholder="$t('common.select')"
             @change="changeOneLevelName"
-            allow-create
-            default-first-option
             :disabled="!isAddService"
           >
             <el-option
@@ -73,11 +71,8 @@
         >
           <el-select
             v-model="form.group.nameEn"
-            filterable
-            :placeholder="$t('system.en')"
+            :placeholder="$t('common.select')"
             @change="changeOneLevelNameEn"
-            allow-create
-            default-first-option
             :disabled="!isAddService"
           >
             <el-option
@@ -89,7 +84,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('system.serviceName')"
+          :label="$t('system.twoLevelCapability')"
           prop="name"
           class="w50 lt"
         >
@@ -231,7 +226,6 @@
           </el-form-item>
           <el-form-item
             :label="$t('workspace.icon')"
-            :label-width="formLabelWidth"
             class="icon"
             ref="iconFileItem"
           >
@@ -547,6 +541,7 @@ export default {
         { label: 'https', value: 'https' }
       ],
       formLabelWidth: '125px',
+      formLabelWidthEn: '175px',
       form: {
         name: '',
         nameEn: '',
@@ -745,12 +740,7 @@ export default {
       this.form.defaultActive = ''
       if (file) {
         if (file.raw.name.indexOf(' ') !== -1) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.fileNameType'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.showEgMessageBox('warning', this.$t('promptMessage.fileNameType'))
           this.logoFileList = []
         } else {
           this.logoFileList.push(file)
@@ -759,23 +749,13 @@ export default {
           this.uploadIcon = true
         }
         if (file.size / 1024 / 1024 > 2) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.moreThan2'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.showEgMessageBox('warning', this.$t('promptMessage.moreThan2'))
           this.logoFileList = []
         }
         let fileTypeArr = ['jpg', 'png']
         this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
         if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.checkFileType'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
           this.logoFileList = []
         }
       }
@@ -790,12 +770,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.onlyOneFile'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.showEgMessageBox('warning', this.$t('promptMessage.onlyOneFile'))
       }
     },
     getBase64Image (img) {
@@ -869,6 +844,9 @@ export default {
       })
     },
     handleEdit (row) {
+      this.apiFileId_file_list = []
+      this.guideFileId_file_list = []
+      this.guideFileIdEn_file_list = []
       this.isAddService = false
       this.form = JSON.parse(JSON.stringify(row))
       let iconUrl = this.getIcon(this.form.iconFileId)
@@ -912,32 +890,27 @@ export default {
           if (this.isAddService) {
             Capability.createCapability(data).then(res => {
               if (res && res.data && res.data.id) {
-                this.$message.success(this.$t('system.addMep') + this.$t('system.success'))
+                this.showEgMessageBox('success', this.$t('system.addMep') + this.$t('system.success'))
                 this.onClose()
                 this.$refs['form'].resetFields()
               } else {
                 throw new Error()
               }
             }).catch(() => {
-              this.$message.error(this.$t('system.addMep') + this.$t('system.error'))
-            }).finally(() => {
-              this.loading = false
-              sessionStorage.setItem('currentPage', 1)
-              this.getListData()
+              this.showEgMessageBox('error', this.$t('system.addMep') + this.$t('system.error'))
             })
           } else {
             Capability.editCapability(this.form.id, data).then(() => {
-              this.$message.success(this.$t('api.modify') + this.$t('system.success'))
+              this.showEgMessageBox('success', this.$t('api.modify') + this.$t('system.success'))
               this.onClose()
               this.$refs['form'].resetFields()
             }).catch(() => {
-              this.$message.error(this.$t('api.modify') + this.$t('system.error'))
-            }).finally(() => {
-              this.loading = false
-              sessionStorage.setItem('currentPage', 1)
-              this.getListData()
+              this.showEgMessageBox('error', this.$t('api.modify') + this.$t('system.error'))
             })
           }
+          this.loading = false
+          sessionStorage.setItem('currentPage', 1)
+          this.getListData()
         }
       })
     },
@@ -976,7 +949,7 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
         checkPassed = false
       }
       return checkPassed
@@ -1004,10 +977,7 @@ export default {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
-          this.$message({
-            type: 'success',
-            message: this.$t('promptMessage.uploadSuccess')
-          })
+          this.showEgMessageBox('success', this.$t('promptMessage.uploadSuccess'))
           if (this[`${key}_file_list`].length !== 0) {
             if (key === 'apiFileId') {
               this.$refs.apiFileItem.clearValidate()
@@ -1023,9 +993,9 @@ export default {
         }
       }).catch((error) => {
         if (error && error.response && error.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
+          this.showEgMessageBox('error', this.$t('promptMessage.guestPrompt'))
         } else {
-          this.$message.error(this.$t('promptMessage.uploadFailure'))
+          this.showEgMessageBox('error', this.$t('promptMessage.uploadFailure'))
         }
         this.handleRemove(key)
       }).finally(() => {
@@ -1048,6 +1018,14 @@ export default {
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
+    },
+    showEgMessageBox (infoType, infoContent) {
+      this.$eg_messagebox({
+        type: infoType,
+        title: '',
+        desc: infoContent,
+        cancelText: this.$t('common.cancelText')
+      }).then(() => {}).catch(() => {})
     }
   }
 }
@@ -1087,6 +1065,9 @@ export default {
       margin: 10px 0;
       font-weight: normal;
     }
+  }
+  .dialog_service_en .el-dialog{
+    width: 60%;
   }
   h3{
     float: left;

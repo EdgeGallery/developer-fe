@@ -809,6 +809,8 @@ const en = {
     basicInfo: 'Basic Info',
     registerInfo: 'Register Info',
     capType: 'Type',
+    oneLevelCapability: 'oneLevelCapability',
+    twoLevelCapability: 'twoLevelCapability',
     capTypeOPENMEP: 'OPENMEP',
     serviceName: 'Service Name',
     inPort: 'Port',

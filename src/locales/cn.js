@@ -809,6 +809,8 @@ const cn = {
     basicInfo: '基本信息',
     registerInfo: '注册信息',
     capType: '能力分类',
+    oneLevelCapability: '一级能力',
+    twoLevelCapability: '二级能力',
     capTypeOPENMEP: '生态能力',
     serviceName: '服务名称',
     inPort: '端口号',

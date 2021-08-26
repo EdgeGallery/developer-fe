@@ -45,65 +45,39 @@
         <el-table-column
           prop="imageName"
           :label="$t('system.imageMgmt.imgName')"
-          show-overflow-tooltip
-          min-width="12%"
+          min-width="15%"
         >
           <template slot-scope="scope">
             {{ scope.row.imageName }}
           </template>
         </el-table-column>
         <el-table-column
-          :column-key="'imageType'"
-          min-width="12%"
-          :label="$t('system.imageMgmt.imgType')"
-          :formatter="convertType"
-          show-overflow-tooltip
-          :filters="typeData"
+          prop="imagePath"
+          min-width="25%"
+          :label="$t('workspace.configYaml.imageInfo')"
         />
         <el-table-column
           prop="userName"
           min-width="12%"
           :label="$t('system.imageMgmt.userName')"
-          show-overflow-tooltip
         />
         <el-table-column
           prop="imageVersion"
           min-width="10%"
           :label="$t('system.imageMgmt.osVersion')"
-          show-overflow-tooltip
         />
-        <el-table-column
-          prop="createTime"
-          min-width="13%"
-          sortable="custom"
-          :label="$t('system.imageMgmt.createTime')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            {{ scope.row.createTime?scope.row.createTime.substring(0,10):'' }}
-          </template>
-        </el-table-column>
         <el-table-column
           prop="uploadTime"
           min-width="13%"
           :label="$t('system.imageMgmt.uploadTime')"
-          show-overflow-tooltip
         >
           <template slot-scope="scope">
             {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
           </template>
         </el-table-column>
         <el-table-column
-          :column-key="'imageStatus'"
-          min-width="13%"
-          :label="$t('common.status')"
-          :formatter="convertStatus"
-          show-overflow-tooltip
-          :filters="statusData"
-        />
-        <el-table-column
           :label="$t('common.operation')"
-          min-width="15%"
+          min-width="25%"
         >
           <template slot-scope="scope">
             <el-button
@@ -113,61 +87,18 @@
               {{ $t('devTools.detail') }}
             </el-button>
             <el-button
-              @mouseenter.native="showMoreBtnFun(scope.$index)"
-              @mouseleave.native="showMoreBtnFun(-1)"
+              :disabled="scope.row.imageStatus!=='UPLOAD_SUCCEED'"
+              @click="handleDownload(scope.row)"
               class="operations_btn"
             >
-              {{ $t('common.more') }}
-              <el-collapse-transition>
-                <div
-                  v-show="currentIndex===scope.$index"
-                  class="btn_div el-icon-caret-top"
-                  @mouseenter="showMoreBtnFun(scope.$index)"
-                  @mouseleave="showMoreBtnFun(-1)"
-                >
-                  <ul class="dropdown_list">
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        @click="handleEdit(scope.row)"
-                      >
-                        {{ $t('common.edit') }}
-                      </el-button>
-                    </li>
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-                        @click="handleDelete(scope.row)"
-                      >
-                        {{ $t('common.delete') }}
-                      </el-button>
-                    </li>
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-                        @click="handleUpload(scope.row)"
-                      >
-                        {{ $t('system.imageMgmt.operation.upload') }}
-                      </el-button>
-                    </li>
-                    <li>
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
-                        @click="handleDownload(scope.row)"
-                      >
-                        {{ $t('common.download') }}
-                      </el-button>
-                    </li>
-                  </ul>
-                </div>
-              </el-collapse-transition>
+              {{ $t('common.download') }}
+            </el-button>
+            <el-button
+              :disabled="scope.row.imageStatus==='UPLOADING' || scope.row.imageStatus==='UPLOADING_MERGING'"
+              @click="handleDelete(scope.row)"
+              class="operations_btn"
+            >
+              {{ $t('common.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -457,7 +388,7 @@ export default {
       })
     },
     handleUpload (row) {
-      if (row.status === 'UPLOAD_SUCCEED') {
+      if (row.imageStatus === 'UPLOAD_SUCCEED') {
         this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
           confirmButtonText: this.$t('common.confirm'),
           cancelButtonText: this.$t('common.cancel'),
