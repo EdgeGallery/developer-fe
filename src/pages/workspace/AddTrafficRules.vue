@@ -928,6 +928,7 @@ export default {
      }
     }
   }
+
   /deep/.el-form-item__label{
     font-size:16px;
     color:#380879;
@@ -980,6 +981,9 @@ export default {
     position:relative;
     top:20px;
     left:20px;
+    /deep/.el-button--text{
+      color:#fbfbfb !important;
+    }
   }
   /deep/.el-button--text{
     color:#fbfbfb !important;
@@ -996,9 +1000,11 @@ export default {
     margin-top:0px !important;
     margin-bottom: 40px !important;
     /deep/.el-button--text{
-      color:#62571a;
       font-size:14px;
     }
+  }
+  /deep/.el-table tr td{
+    background-color:#f1f2f6;
   }
   /deep/.el-dialog__footer{
      padding-bottom:0px;
