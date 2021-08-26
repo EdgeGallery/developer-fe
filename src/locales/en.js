@@ -177,7 +177,8 @@ const en = {
     help: 'Help',
     contact: 'Contact',
     serviceDoc: 'Service Document',
-    apiMulator: 'Online Simulator'
+    apiMulator: 'Online Simulator',
+    component: 'Interface Components'
   },
   capabilityCenter: {
     telecomStandards: 'Telecom standards support panorama'
