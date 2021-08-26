@@ -201,7 +201,7 @@ export default {
           return
         }
       }
-      this.$message.error(this.$t('system.imageMgmt.tip.uploadImgFailed'))
+      this.$message.warning(this.$t('system.imageMgmt.tip.uploadImgFailed'))
     },
     handleClose () {
       if (this.isUploading) {

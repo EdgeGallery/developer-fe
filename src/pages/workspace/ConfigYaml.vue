@@ -312,7 +312,7 @@ export default {
           this.$eg_messagebox({
             type: 'error',
             title: '',
-            desc: this.$t('workspace.configYaml.yamlFileType'),
+            desc: this.$t('promptMessage.imageInfoErr'),
             cancelText: this.$t('common.cancelText')
           }).then(() => {}).catch(() => {})
         }
@@ -391,10 +391,11 @@ export default {
             if (res.data.configType === 'upload') {
               this.showFileImport = true
               this.showVisualConfig = false
+              this.selectConfigType = '1'
             } else if (res.data.configType === 'config') {
               this.showFileImport = false
               this.showVisualConfig = true
-              this.$refs.configVisual.getConfigFile()
+              this.selectConfigType = '2'
             }
           })
         }
@@ -411,7 +412,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.getConfigType()
   }
 }

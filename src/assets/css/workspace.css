@@ -47,11 +47,11 @@
   color: #FFFFFF;
 }
 
-.work-button.el-button--primary {
+.work-button.el-button {
   background-color: #5e40c8;
 }
 
-.work-button.el-button--primary:hover, .work-button.el-button--primary:focus {
+.work-button.el-button:hover, .work-button.el-button:focus {
   background-color: #5e40c8;
 }
 
@@ -210,7 +210,7 @@
 
 /* style for title */
 .work-title {
-  background-image: linear-gradient(to right, #fbfbfb, rgba(156, 148, 187, 0.05));
+  background-image: linear-gradient(to right, #fbfbfb, rgba(241,242,246,1));
   height: 47px;
   max-width: 727px;
   position: relative;
@@ -220,7 +220,7 @@
   color: #380879;
   font-family: defaultFontLight;
   padding-left: 52px;
-  box-shadow: 0 5px 20px 3px rgba(53, 34, 114, 0.05);
+  /* box-shadow: 0 5px 20px 3px rgba(53, 34, 114, 0.05); */
 }
 
 .work-title::before {
@@ -250,7 +250,7 @@
 
 /* style for title-clickable */
 .work-title-clickable {
-  background-image: linear-gradient(to right, #fbfbfb, rgba(156, 148, 187, 0.05));
+  background-image: linear-gradient(to right, #fbfbfb, rgba(241,242,246,1));
   height: 47px;
   max-width: 727px;
   position: relative;
@@ -259,7 +259,19 @@
   color: #380879;
   font-family: defaultFontLight;
   padding-left: 10px;
-  box-shadow: 0 5px 20px 3px rgba(53, 34, 114, 0.05);
+  transform-style: preserve-3d;
+}
+
+.work-title-clickable::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  height: 40px;
+  background-image: linear-gradient(90deg, rgba(40,12,128,.05), rgba(241,242,246,1));
+  transform: translateZ(-10px);
+  filter: blur(10px);
 }
 
 .work-title-clickable .work-radio .el-radio__label {

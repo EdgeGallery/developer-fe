@@ -881,6 +881,13 @@ const en = {
         noImage: 'Harbor warehouse has no image',
         imageFailed: 'Image synchronization failed'
       },
+      errorType: {
+        formatMistake: 'The uploaded file format is incorrect.',
+        zipFileOpenFailed: 'Failed to open the file. The file may not be a valid zip file. Please check.',
+        fileSystemMergeFailed: 'The request for the file system to merge files returned a failure, possibly due to a processing timeout.',
+        failedOnUploadToFS: 'Failed to upload to the file system service. Please check the file system service address configuration and confirm whether the file system service is normal.',
+        unknown: 'Unknown error.'
+      },
       tip: {
         newImg: 'New System Image',
         editImg: 'Edit System Image',
@@ -900,6 +907,7 @@ const en = {
         noFileSelected: 'No file selected',
         confirmDeleteImage: 'Are you sure to delete this system image?',
         confirmPublishImage: 'Are you sure to publish this system image?',
+        confirmResetImage: 'Please reset the status carefully! Ensure that the image is accidentally interrupted during upload. Are you sure you want to reset the status of the image?',
         confirmReUploadImage: 'The system image has been uploaded, and the original image will be overwritten if it is uploaded again. Continue?',
         confirmDownloadImage: 'The system image is large, it will takes a long time to download. Do you want to continue downloading the image?',
         systemNameExist: 'A system image with the same name is already exists!',
@@ -907,6 +915,7 @@ const en = {
         modifyImgFailed: 'Modify system image failed!',
         deleteImgFailed: 'Delete system image failed!',
         publishImgFailed: 'Publish system image failed!',
+        resetImgStatusFailed: 'Reset system image status failed!',
         queryImgFailed: 'Query system image failed!',
         uploadingHint: 'The system image is uploading, please wait!',
         uploadImgSucceed: 'The system image upload succeed!',

@@ -103,30 +103,6 @@ let Api = {
   // Delete publicAPI
   deletePublicApi: function (capabilityId, userId) {
     return Delete('mec/developer/v1/capabilities/' + capabilityId + '?userId=' + userId)
-  },
-  // Get all ability groups
-  getCapabilityGroupsApi: function () {
-    return Get('mec/developer/v2/capability-groups')
-  },
-  // Get all capability group stat
-  getCapabilityGroupStatsApi: function () {
-    return Get('mec/developer/v2/capability-group-stats')
-  },
-  // Get all ability groups
-  getAllCapabilitiesApi: function () {
-    return Get('mec/developer/v2/capabilities')
-  },
-  // Get all ability groups
-  getCapabilityByIdApi: function (id) {
-    return Get('mec/developer/v2/capabilities/' + id)
-  },
-  // Get all ability groups
-  getCapabilitiesByGroupIdApi: function (groupId) {
-    return Get('mec/developer/v2/query/capabilities/group-id/' + groupId)
-  },
-  // Get agroupList of services under
-  getServiceListApi: function (groupId) {
-    return Get('mec/developer/v2/capability-groups/' + groupId)
   }
 }
 
@@ -144,19 +120,31 @@ let Capability = {
     return Delete('mec/developer/v2/capabilities/' + id)
   },
   getAllCapability: function () {
-    return Get('mec/developer/v2/capabilities')
+    return Get('mec/developer/v2/query/capabilities/type/OPENMEP')
   },
   getCapabilityByGroupId: function (groupId) {
     return Get('mec/developer/v2/query/capabilities/group-id/' + groupId)
+  },
+  getCapabilityById: function (id) {
+    return Get('mec/developer/v2/capabilities/' + id)
   },
   getCapabilityByProjectId: function (projectId) {
     return Get('mec/developer/v2/query/capabilities/project-id/' + projectId)
   },
   getAllCapabilityGroup: function () {
-    return Get('mec/developer/v2/capability-groups')
+    return Get('mec/developer/v2/query/capability-groups/type/OPENMEP')
   },
   getCapabilityGroupByType: function (type) {
     return Get('mec/developer/v2/query/capability-groups/type/' + type)
+  },
+  getCapabilityGroupStats: function () {
+    return Get('mec/developer/v2/query/capability-group-stats/type/OPENMEP')
+  },
+  getCapabilityGroupById: function (groupId) {
+    return Get('mec/developer/v2/capability-groups/' + groupId)
+  },
+  getStandardCapabilities: function () {
+    return Get('mec/developer/v2/query/capabilities/type/STANDARD')
   }
 }
 
@@ -472,6 +460,9 @@ let imageMgmtService = {
   },
   publishImage: function (systemId, userId) {
     return Put('mec/developer/v1/system/images/' + systemId + '/publish?userId=' + userId)
+  },
+  resetImageStatus: function (systemId, userId) {
+    return Put('mec/developer/v1/system/images/' + systemId + '/reset?userId=' + userId)
   },
   mergeImage: function (systemId, fileName, identifier) {
     return Get('mec/developer/v1/system/images/' + systemId + '/merge?fileName=' + fileName + '&identifier=' + identifier)

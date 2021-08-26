@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import { Workspace } from '../../tools/api.js'
+import { Workspace, Capability } from '../../tools/api.js'
 export default {
   name: 'EnvPreparation',
   data () {
@@ -153,14 +153,12 @@ export default {
     async getApiFileId () {
       this.apiFileIdArr = []
       let projectId = sessionStorage.getItem('mecDetailID')
-      await Workspace.getProjectInfoApi(projectId, this.userId).then(res => {
-        let data = res.data.capabilityList
-        if (data) {
-          this.serviceNum = data.length
-          data.forEach(dataItem => {
-            dataItem.capabilityDetailList.forEach(service => {
-              this.apiFileIdArr.push(service.apiFileId)
-            })
+      Capability.getCapabilityByProjectId(projectId).then(result => {
+        let capabilities = result.data
+        if (capabilities) {
+          this.serviceNum = capabilities.length
+          capabilities.forEach(dataItem => {
+            this.apiFileIdArr.push(dataItem.apiFileId)
           })
           this.getSampleCodeList(this.apiFileIdArr)
         }

@@ -450,7 +450,8 @@ const getImageDataList = function () {
         'createTime': '2021-5-4 09:38:12',
         'systemFormat': 'qcow2',
         'uploadTime:': '',
-        'status': 'UPLOAD_FAILED'
+        'status': 'UPLOAD_FAILED',
+        'errorType': 'zipFileOpenFailed'
       },
       {
         'systemId': 5,

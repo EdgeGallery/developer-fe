@@ -144,5 +144,34 @@ export default {
   margin-top: 5px;
   color: #380879;
   font-family: defaultFontLight;
+  font-size: 14px;
+}
+
+.deployment-button__wrapper {
+  margin-left: 30px;
+}
+
+.deployment-button__wrapper .deploy-btn {
+  height: 39px;
+  background-color: #8278b7;
+  border-radius: 8px;
+  border-color: #8278b7;
+  color: #fff;
+  font-size: 16px;
+  font-family: defaultFontLight;
+}
+
+.deployment-button__wrapper .deploy-btn.is-disabled {
+  height: 39px;
+  background-color: #b0a6e4;
+  border-radius: 8px;
+  border-color: #b0a6e4;
+  color: #fff !important;
+  font-family: defaultFontLight;
+}
+
+.deployment-button__wrapper .deploy-btn.is-disabled:hover {
+  background-color: #b0a6e4;
+  color: #fff;
 }
 </style>

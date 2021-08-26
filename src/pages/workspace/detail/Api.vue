@@ -555,6 +555,7 @@ export default {
       if (data.leaf) {
         if (is) {
           this.tags.push(data)
+          this.handleNodeClick(data)
         } else {
           let index = this.tags.indexOf(data)
           if (index !== -1) {

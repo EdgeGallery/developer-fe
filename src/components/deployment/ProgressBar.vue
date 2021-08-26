@@ -39,7 +39,7 @@ export default {
   props: {
     progressBarProcess: {
       type: Number,
-      default: 25
+      default: 0
     },
     labelList: {
       type: Array,
@@ -49,6 +49,22 @@ export default {
         '实例化应用',
         '获取部署状态'
       ]
+    },
+    progressBarLength: {
+      type: Number,
+      default: 600
+    }
+  },
+  watch: {
+    progressBarLength (newVal, oldVal) {
+      const progressBarOuter = document.getElementsByClassName('el-progress-bar__outer')[0]
+      const labelWrapper = document.getElementsByClassName('label-wrapper')[0]
+      const labelItems = document.getElementsByClassName('label__item')
+      progressBarOuter.style.width = `${newVal}px`
+      labelWrapper.style.width = `${newVal + 40}px`
+      labelItems.forEach(item => {
+        item.style.width = `${(newVal + 40) / this.labelList.length}px`
+      })
     }
   }
 }
@@ -56,12 +72,16 @@ export default {
 
 <style>
 /* style for progress-bar */
+.work-progress {
+  margin-top: 40px;
+}
+
 .work-progress .el-progress-bar__inner {
   background-color: #5844be;
 }
 
 .work-progress .el-progress-bar__outer {
-  width: 500px;
+  width: 600px;
   background-color: #e2e0ea;
 }
 
@@ -71,16 +91,16 @@ export default {
 
 .work-progress .label-wrapper {
   text-align: left;
-  width: 540px;
+  width: 640px;
 }
 
 .work-progress .label__item {
   display: inline-block;
   list-style: disc;
   margin-top: 10px;
-  width: calc(540px / 4);
+  width: calc(640px / 4);
   color: #380879;
-  font-size: 12px;
+  font-size: 13px;
   font-family: defaultFontLight;
 }
 

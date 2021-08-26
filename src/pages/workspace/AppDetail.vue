@@ -237,7 +237,7 @@
             <DeployDebugK8sMain
               v-else
               :project-id="projectId"
-              :current-step="active"
+              :active="active"
               :project-before-config="projectBeforeConfig"
               :api-data-loading="apiDataLoading"
               @getAppapiFileId="getAppapiFileId"

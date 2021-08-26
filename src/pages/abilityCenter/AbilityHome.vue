@@ -155,7 +155,7 @@
 
 <script>
 // import abilityAPI from './ability.js'
-import { Api } from '../../tools/api.js'
+import { Capability } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
 import CapabilityGroupList from './CapabilityGroupList.vue'
 import CapabilityServiceList from './CapabilityServiceList.vue'
@@ -170,8 +170,8 @@ export default {
     return {
       userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
-      etsiIndex: -1,
-      threeGppIndex: -1,
+      etsiIndex: 0,
+      threeGppIndex: 1,
       showFilter: false,
       dropDown: false,
       selectIndex: 0,
@@ -276,7 +276,7 @@ export default {
     },
     initCapabilityGroupStats () {
       let totalCapabilityCount = 0
-      Api.getCapabilityGroupStatsApi().then(result => {
+      Capability.getCapabilityGroupStats().then(result => {
         result.data.forEach(capabilityGroupStat => {
           let obj = {
             id: capabilityGroupStat.id,
@@ -286,10 +286,8 @@ export default {
             iconSelect: this.getIconSelect(capabilityGroupStat.nameEn),
             counts: capabilityGroupStat.capabilityCount
           }
-          if (obj.nameEn !== 'ETSI' && obj.nameEn !== '3GPP') {
-            totalCapabilityCount += obj.counts
-            this.capabilityGroupStats.push(obj)
-          }
+          totalCapabilityCount += obj.counts
+          this.capabilityGroupStats.push(obj)
         })
       }).then(() => {
         let objfirst = {

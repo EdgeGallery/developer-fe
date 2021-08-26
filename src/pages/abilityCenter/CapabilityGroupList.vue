@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { Api } from '../../tools/api.js'
+import { Capability } from '../../tools/api.js'
 export default {
   name: '',
   props: {
@@ -114,13 +114,13 @@ export default {
       this.selectIndex = index
       this.capabilityServiceList = []
       if (index === 0) {
-        Api.getAllCapabilitiesApi().then(result => {
+        Capability.getAllCapability().then(result => {
           this.capabilityServiceList = result.data
           this.$emit('getCapaServiceList', this.capabilityServiceList)
           this.$parent.filterSefvice('hot')
         })
       } else {
-        Api.getCapabilitiesByGroupIdApi(item.id).then(result => {
+        Capability.getCapabilityByGroupId(item.id).then(result => {
           this.capabilityServiceList = result.data
           this.$emit('getCapaServiceList', this.capabilityServiceList)
           this.$parent.filterSefvice('hot')

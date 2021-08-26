@@ -16,11 +16,19 @@
 
 import en from '../../locales/en.js'
 import cn from '../../locales/cn.js'
+import { Capability } from '../../tools/api.js'
 
 let allAbilities = []
 
 let getAbilitiesByFirstLevelName = function (firstLevelName) {
-  return allAbilities.filter(item => item.labelEn === firstLevelName)
+  let capabilities = []
+  Capability.getStandardCapabilities().then(result => {
+    capabilities = result.data
+  })
+  let result = []
+  result = capabilities.filter(item => item.group.name === firstLevelName)
+
+  return result
 }
 
 let getSecondLevelAbilitys = function (parentIndex) {
