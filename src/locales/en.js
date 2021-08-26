@@ -299,7 +299,7 @@ const en = {
       selectInitialization: 'Please select the service you need in the service list on the left'
     },
     deployDebugVm: {
-      vmNameLbl: 'Name',
+      vmNameLbl: 'Project Name',
       vmSpecLbl: 'Specification',
       vmImageLbl: 'System Image',
       vmNetworkLbl: 'Network',
@@ -558,6 +558,7 @@ const en = {
     createDeploymentFile: 'Create Deployment File',
     assignTestNodes: 'Assign Test Nodes',
     applicationRelease2: 'Application Release',
+    distributeInfo: 'Upload App Package',
     instantiateApplication: 'Instantiate Application',
     getDeploymentStatus: 'Get Deployment Status',
     deploymentComplete: 'Deployment Complete',
@@ -572,6 +573,7 @@ const en = {
     containerResource: 'Resource',
     hostInfo: 'Host Info',
     selectEnv: 'Select Testing Environment',
+    deployDetail: 'Deploy Detail',
     sandboxEnv: 'SandBox Environment',
     sandboxEnvDesc: 'Real scences simulation, quick test',
     fiveGEnv: '5G Environment',

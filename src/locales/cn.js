@@ -299,7 +299,7 @@ const cn = {
       selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {
-      vmNameLbl: '名称',
+      vmNameLbl: '项目名称',
       vmSpecLbl: '规格',
       vmImageLbl: '镜像',
       vmNetworkLbl: '网络',
@@ -557,6 +557,7 @@ const cn = {
     deploymentSuccess: '部署成功',
     createDeploymentFile: '生成部署文件',
     assignTestNodes: '分配测试节点',
+    distributeInfo: '上传应用包',
     applicationRelease2: '应用下发',
     instantiateApplication: '实例化应用',
     getDeploymentStatus: '获取部署状态',
@@ -572,6 +573,7 @@ const cn = {
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
+    deployDetail: '部署详情',
     sandboxEnv: '沙箱环境',
     sandboxEnvDesc: '模拟真实场景，快速调测',
     fiveGEnv: '5G环境',
