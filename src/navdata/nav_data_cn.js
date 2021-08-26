@@ -99,7 +99,21 @@ const mecDeveloper = [
     id: '3.6',
     name: '文档',
     path: '/mecDeveloper/docs',
-    display: true
+    display: true,
+    children: [
+      {
+        id: '3.23',
+        name: '平台指南',
+        path: '/mecDeveloper/docs',
+        display: true
+      },
+      {
+        id: '3.24',
+        name: '界面组件',
+        path: '/mecDeveloper/docs/component',
+        display: true
+      }
+    ]
   }
 ]
 

@@ -177,7 +177,8 @@ const cn = {
     help: '帮助',
     contact: '联系我们',
     serviceDoc: '服务文档',
-    apiMulator: '在线模拟器'
+    apiMulator: '在线模拟器',
+    component: '界面组件'
   },
   capabilityCenter: {
     telecomStandards: '电信标准支持全景图'

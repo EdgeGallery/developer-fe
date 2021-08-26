@@ -99,7 +99,21 @@ const mecDeveloper = [
     id: '3.6',
     name: 'Document',
     path: '/mecDeveloper/docs',
-    display: true
+    display: true,
+    children: [
+      {
+        id: '3.23',
+        name: 'Platform Guide',
+        path: '/mecDeveloper/docs',
+        display: true
+      },
+      {
+        id: '3.24',
+        name: 'Interface Components',
+        path: '/mecDeveloper/docs/component',
+        display: true
+      }
+    ]
   }
 ]
 
