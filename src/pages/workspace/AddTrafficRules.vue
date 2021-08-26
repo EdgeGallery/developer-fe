@@ -996,9 +996,12 @@ export default {
     margin-top:0px !important;
     margin-bottom: 40px !important;
     /deep/.el-button--text{
-      color:#62571a;
+      color:#62571a !important;
       font-size:14px;
     }
+  }
+  /deep/.el-table tr td{
+    background-color:#f1f2f6;
   }
   /deep/.el-dialog__footer{
      padding-bottom:0px;
