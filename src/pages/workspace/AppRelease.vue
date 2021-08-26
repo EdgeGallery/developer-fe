@@ -28,7 +28,10 @@
       />
     </el-steps>
 
-    <div class="release_steps">
+    <div
+      class="release_steps"
+      :class="{'release_steps2':step==='step2'}"
+    >
       <!-- First step Application config -->
       <div
         class="firststep"
@@ -729,7 +732,7 @@ export default {
 
         if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
           this.isRelease = true
-          this.$message.warning(this.$t('promptMessage.notDeploy'))
+          this.showEgMessageBox('warning', this.$t('promptMessage.notDeploy'))
         } else if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'VIRTUALMACHINE') {
           this.isRelease = true
         } else {
@@ -771,15 +774,15 @@ export default {
         let releaseId = res.data.releaseId
         Workspace.saveRuleConfig(this.projectId, params, releaseId).then(() => {
           if (releaseId) {
-            this.$message.success(this.$t('promptMessage.editRuleSuccess'))
+            this.showEgMessageBox('success', this.$t('promptMessage.editRuleSuccess'))
           } else {
-            this.$message.success(this.$t('promptMessage.saveRuleSuccess'))
+            this.showEgMessageBox('success', this.$t('promptMessage.saveRuleSuccess'))
           }
         }).catch(() => {
           if (releaseId) {
-            this.$message.error(this.$t('promptMessage.editRuleFail'))
+            this.showEgMessageBox('error', this.$t('promptMessage.editRuleFail'))
           } else {
-            this.$message.error(this.$t('promptMessage.saveRuleFail'))
+            this.showEgMessageBox('error', this.$t('promptMessage.saveRuleFail'))
           }
         })
       })
@@ -827,20 +830,20 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
         checkPassed = false
       }
       return checkPassed
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.onlyOneFile'))
       }
     },
     // Upload application description file
     changeAppStoreMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.fileNameType'))
         this.appMdList = []
       } else {
         this.appMdList.push(file.raw)
@@ -860,10 +863,10 @@ export default {
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
         this.trafficAllData.guideFileId = res.data.fileId
         this.getReleaseConfigFirst()
-        this.$message.success(this.$t('promptMessage.uploadSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.uploadSuccess'))
       }).catch(() => {
         fileList = []
-        this.$message.error(this.$t('promptMessage.uploadFailure'))
+        this.showEgMessageBox('error', this.$t('promptMessage.uploadFailure'))
       })
     },
     removeAppStoreMd (file, fileList) {
@@ -931,30 +934,30 @@ export default {
     getAddDnsData (data) {
       if (this.isAddRuleData) {
         this.dnsListData.push(data)
-        this.$message.success(this.$t('promptMessage.addSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.addSuccess'))
       } else {
         this.dnsListData.splice(this.editIndex, 1, data)
-        this.$message.success(this.$t('promptMessage.editSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.editSuccess'))
       }
       sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
     },
     getAddTrafficData (data) {
       if (this.isAddRuleData) {
         this.trafficListData.push(data)
-        this.$message.success(this.$t('promptMessage.addSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.addSuccess'))
       } else {
         this.trafficListData.splice(this.editIndex, 1, data)
-        this.$message.success(this.$t('promptMessage.editSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.editSuccess'))
       }
       sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
     },
     getAddPublicConfigData (data) {
       if (this.isAddRuleData) {
         this.appPublishListData.push(data)
-        this.$message.success(this.$t('promptMessage.addSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.addSuccess'))
       } else {
         this.appPublishListData.splice(this.editIndex, 1, data)
-        this.$message.success(this.$t('promptMessage.editSuccess'))
+        this.showEgMessageBox('success', this.$t('promptMessage.editSuccess'))
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
@@ -982,19 +985,26 @@ export default {
     deleteRuleData (index) {
       this.dnsListData.splice(index, 1)
       sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
-      this.$message.success(this.$t('devTools.deleteSucc'))
+      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
     },
     deleteTrafficData (index) {
       this.trafficListData.splice(index, 1)
       sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
-      this.$message.success(this.$t('devTools.deleteSucc'))
+      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
     },
     deleteConfigData (index) {
       this.appPublishListData.splice(index, 1)
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
-      this.$message.success(this.$t('devTools.deleteSucc'))
+      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
     },
-
+    showEgMessageBox (infoType, infoContent) {
+      this.$eg_messagebox({
+        type: infoType,
+        title: '',
+        desc: infoContent,
+        cancelText: this.$t('common.cancelText')
+      }).then(() => {}).catch(() => {})
+    },
     strToArray (str) {
       let arr = []
       arr = str.split(',')
@@ -1030,7 +1040,7 @@ export default {
         this.getReleaseConfig(this.trafficAllData)
         this.isRelease = false
       } else {
-        this.$message.warning(this.$t('promptMessage.notDeploy'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.notDeploy'))
         this.isRelease = true
       }
     },
@@ -1070,7 +1080,7 @@ export default {
           this.iframeLoading = false
         }
       }).catch(() => {
-        this.$message.error(this.$t('promptMessage.getDataFail'))
+        this.showEgMessageBox('error', this.$t('promptMessage.getDataFail'))
         setTimeout(() => {
           this.iframeLoading = false
         }, 2000)
@@ -1118,7 +1128,7 @@ export default {
         this.publishLoading = false
       }).catch(err => {
         console.log(err.response)
-        this.$message.warning(this.$t('promptMessage.appReleaseFail'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.appReleaseFail'))
         this.publishLoading = false
       })
     },
@@ -1148,7 +1158,7 @@ export default {
     getVmResourceList () {
       vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
         if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) === '""')) {
-          this.$message.warning(this.$t('workspace.deployDebugVm.releasePromt'))
+          this.showEgMessageBox('warning', this.$t('workspace.deployDebugVm.releasePromt'))
           this.isRelease = true
         } else if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) !== '""')) {
           sessionStorage.setItem('csarId', res.data.appInstanceId)
@@ -1208,6 +1218,10 @@ export default {
       }
  }
 .appRelease{
+  .release_steps2{
+    background-color: #fbfbfb !important;
+    box-shadow:none !important;
+  }
   .release_steps{
     width: 100%;
     padding: 46px 0 40px 0;
@@ -1504,11 +1518,13 @@ export default {
     float: right;
   }
   .atp_iframe{
-    border: 1px solid #ddd;
-    height: 900px;
+    height: 770px;
     iframe{
       border: none;
       height: 100%;
+      #app{
+        background-color: none;
+      }
     }
   }
   .release_test{
