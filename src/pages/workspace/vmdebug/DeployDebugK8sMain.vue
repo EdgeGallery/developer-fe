@@ -54,7 +54,7 @@
         type="primary"
         v-loading="apiDataLoading"
         @click="next"
-        v-if="currentStep < 2"
+        v-if="currentStep < 1"
       >
         {{ $t('workspace.next') }}
       </el-button>
@@ -65,14 +65,12 @@
 <script>
 import configYaml from '../ConfigYaml.vue'
 import deployment from '../Deployment.vue'
-import imageSelect from '../ImageSelect.vue'
 
 export default {
   name: 'MainK8s',
   components: {
     configYaml,
-    deployment,
-    imageSelect
+    deployment
   },
   props: {
     projectBeforeConfig: {
@@ -90,7 +88,7 @@ export default {
   },
   data () {
     return {
-      steps: 3,
+      steps: 2,
       allStepData: {
         ifNext: false,
         third: {
@@ -100,7 +98,7 @@ export default {
           port: ''
         }
       },
-      currentComponent: 'imageSelect',
+      currentComponent: 'configYaml',
       deployed: false,
       isCompleted: false,
       isDeploying: false,
@@ -125,22 +123,19 @@ export default {
     changeComponent () {
       switch (this.currentStep) {
         case 0:
-          this.currentComponent = 'imageSelect'
-          break
-        case 1:
           this.currentComponent = 'configYaml'
           break
-        case 2:
+        case 1:
           this.currentComponent = 'deployment'
           break
         default:
-          this.currentComponent = 'imageSelect'
+          this.currentComponent = 'configYaml'
       }
     },
     next () {
       this.$refs.currentComponet.emitStepData()
       if (this.allStepData.ifNext) {
-        if (this.currentStep < 2) {
+        if (this.currentStep < 1) {
           this.currentStep++
           this.handleStep()
         }
