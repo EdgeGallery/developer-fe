@@ -63,7 +63,7 @@
         <el-col :span="13">
           <div>
             <el-form
-              label-width="120px"
+              :label-width="language==='en' ? '150px' : '120px'"
               class="formDetail"
             >
               <el-form-item :label="$t('workspace.deployDebugVm.vmNameLbl')">
