@@ -1017,7 +1017,7 @@ export default {
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
-    },
+    }
   }
 }
 </script>
