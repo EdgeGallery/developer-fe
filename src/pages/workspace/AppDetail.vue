@@ -651,7 +651,7 @@ export default {
         this.projectDependent(res)
         if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
-            this.active = 2
+            this.active = 1
           } else {
             this.active = 0
           }
