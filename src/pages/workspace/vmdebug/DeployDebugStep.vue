@@ -29,6 +29,8 @@
       :resource-list-data="resourceListData"
       :is-zh="isZh"
       @handleDelResource="handleDelResource"
+      @handleClickNextBtn="handleClickNextBtn"
+      @handleClickPrevBtn="handleClickPrevBtn"
     />
   </div>
 </template>
@@ -123,6 +125,12 @@ export default {
     clearInterval () {
       clearTimeout(this.interval)
       this.interval = null
+    },
+    handleClickPrevBtn () {
+      this.$emit('handleClickPrevBtn')
+    },
+    handleClickNextBtn () {
+      this.$emit('handleClickNextBtn')
     }
   },
   mounted () {
