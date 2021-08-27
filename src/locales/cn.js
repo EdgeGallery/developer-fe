@@ -757,7 +757,7 @@ const cn = {
     systemDocument: '请上传中文说明文档',
     systemDocumentEn: '请上传英文说明文档',
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G',
-    imageInfoErr: '请确保镜像信息正确',
+    imageInfoErr: '镜像不存在，请前往“系统-系统镜像管理”上传镜像',
     twoLevelName: '请输入长度1-40的服务名称，开头不能为空',
     serviceDesc: '请输入长度1-400的服务描述，开头不能为空',
     typeError: '格式错误',

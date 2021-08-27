@@ -204,7 +204,6 @@ export default {
   },
   methods: {
     synchronizeContainerImage () {
-      this.$eg_messagebox(this.$t('system.imageMgmt.containerImage.pleaseWait'), 'info')
       this.synchronizeImageLoading = true
       sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
       imageMgmtService.synchronizeContainerImageApi().then(res => {
@@ -298,7 +297,7 @@ export default {
         this.dataLoading = false
       }).catch(() => {
         this.dataLoading = false
-        this.$message.error(this.$t('system.imageMgmt.tip.queryImgFailed'))
+        this.$eg_messagebox(this.$t('system.imageMgmt.tip.queryImgFailed'), 'error')
       })
     },
     buildQueryReq () {
@@ -356,10 +355,10 @@ export default {
     },
     doDeleteImage (imageId) {
       imageMgmtService.deleteContainerImage(imageId).then(() => {
-        this.$message.success(this.$t('devTools.deleteSucc'))
+        this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
         this.getImageDataList()
       }).catch(() => {
-        this.$message.error(this.$t('system.imageMgmt.tip.deleteImgFailed'))
+        this.$eg_messagebox(this.$t('system.imageMgmt.tip.deleteImgFailed'), 'error')
       })
     },
     handleUpload (row) {
