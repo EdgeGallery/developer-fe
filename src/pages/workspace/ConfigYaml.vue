@@ -279,7 +279,14 @@ export default {
         } else if (error.response.data.message === 'yaml file is empty!') {
           this.$eg_messagebox(this.$t('promptMessage.fileIsEmpty'), 'error')
         } else {
-          this.$eg_messagebox(this.$t('promptMessage.imageInfoErr'), 'error')
+          this.$eg_messagebox(
+            this.$t('promptMessage.imageInfoErr'),
+            'error',
+            this.$t('common.cancel'),
+            this.$t('common.confirm')
+          ).then(() => {
+            this.jumpToImageList()
+          }).catch(() => {})
         }
         this.appYamlFileId = ''
         this.yamlFileList = []
@@ -290,6 +297,10 @@ export default {
       }).finally(() => {
         this.uploadYamlLoading = false
       })
+    },
+    jumpToImageList () {
+      let imageListHref = this.$router.resolve({ path: '/mecDeveloper/system/imagemgmt' })
+      window.open(imageListHref.href, '_blank')
     },
     submitData (appYamlFileId) {
       // Get test configuration
