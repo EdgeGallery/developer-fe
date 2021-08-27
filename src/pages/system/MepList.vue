@@ -419,7 +419,7 @@
         <el-table-column
           prop="version"
           :label="$t('system.version')"
-          min-width="12"
+          min-width="11"
         >
           <template slot-scope="scope">
             {{ scope.row.version }}
@@ -455,7 +455,7 @@
         <el-table-column
           prop="description"
           :label="$t('workspace.description')"
-          min-width="24%"
+          min-width="22%"
         >
           <template slot-scope="scope">
             {{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}
@@ -479,21 +479,19 @@
         </el-table-column>
         <el-table-column
           :label="$t('workspace.operation')"
-          min-width="12%"
+          min-width="15%"
         >
           <template slot-scope="scope">
             <el-button
               :loading="loading"
-              size="medium"
-              type="text"
+              class="operations_btn"
               @click="handleEdit(scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
               :loading="loading"
-              size="medium"
-              type="text"
+              class="operations_btn"
               @click="handleDelete(scope.row)"
             >
               {{ $t('devTools.delete') }}
@@ -896,6 +894,7 @@ export default {
               } else {
                 throw new Error()
               }
+              this.getListData()
             }).catch(() => {
               this.showEgMessageBox('error', this.$t('system.addMep') + this.$t('system.error'))
             })
@@ -904,13 +903,13 @@ export default {
               this.showEgMessageBox('success', this.$t('api.modify') + this.$t('system.success'))
               this.onClose()
               this.$refs['form'].resetFields()
+              this.getListData()
             }).catch(() => {
               this.showEgMessageBox('error', this.$t('api.modify') + this.$t('system.error'))
             })
           }
           this.loading = false
           sessionStorage.setItem('currentPage', 1)
-          this.getListData()
         }
       })
     },

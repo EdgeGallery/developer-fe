@@ -53,8 +53,8 @@
         </el-table-column>
         <el-table-column
           prop="imagePath"
-          min-width="25%"
-          :label="$t('workspace.configYaml.imageInfo')"
+          min-width="28%"
+          :label="$t('system.imageMgmt.imgPath')"
         />
         <el-table-column
           prop="userName"
@@ -77,7 +77,7 @@
         </el-table-column>
         <el-table-column
           :label="$t('common.operation')"
-          min-width="25%"
+          min-width="22%"
         >
           <template slot-scope="scope">
             <el-button
