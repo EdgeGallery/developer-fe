@@ -806,12 +806,12 @@ export default {
     },
     deleteFilterLines (index, rows) {
       this.filterTableData.splice(index, 1)
-      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
+      this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
       sessionStorage.setItem('filterData', JSON.stringify(this.filterTableData))
     },
     deleteInterfaceLines (index, rows) {
       this.interfaceTableData.splice(index, 1)
-      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
+      this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
       sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     cancelEditFilter () {

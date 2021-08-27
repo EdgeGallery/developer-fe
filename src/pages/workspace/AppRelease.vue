@@ -407,26 +407,23 @@
           >
             {{ $t('workspace.appRelease.enterAtp') }}
           </el-button>
-          <!-- <el-button
+          <el-button
             type="primary"
             class="atp_button"
             @click="getAtpTest"
           >
-            {{ $t('workspace.appRelease.startTest') }}
+            {{ $t('workspace.appRelease.appCertify') }}
           </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
+        </div>
+        <div
+          class="no_test"
+          v-if="!showAtp"
+        >
+          <p>{{ $t('workspace.releaseText') }}</p>
+          <img
+            src="../../assets/images/construct.png"
+            alt="a"
           >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              :content="this.$t('workspace.releaseText')"
-              placement="right"
-            >
-              <em class="el-icon-info" />
-            </el-tooltip>
-          </div> -->
         </div>
         <div
           v-show="showAtp"
@@ -683,9 +680,7 @@ export default {
     // Release resources
     cleanTestEnvRelease () {
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
-        this.$message({
-          message: this.$t('workspace.clearEnv')
-        })
+        this.$eg_messagebox(this.$t('workspace.clearEnv'), 'info')
         this.isCleanEnv = true
         this.isCleanEnvDialog = false
         sessionStorage.setItem('isCleanTestEnv', 'Releaseed')
@@ -811,8 +806,7 @@ export default {
         this.clearInterval()
       } else if (active === 1) {
         this.step = 'step2'
-        // this.getAtpData()
-        this.getAtpTest()
+        this.getAtpData()
         this.clearInterval()
       } else if (active === 2) {
         this.step = 'step3'
@@ -1214,7 +1208,6 @@ export default {
   .release_steps2{
     background-color: #fbfbfb !important;
     box-shadow:none !important;
-    margin-top:0px !important;
   }
   .release_steps{
     width: 100%;
@@ -1244,7 +1237,7 @@ export default {
     .second-step {
       min-height: 464px;
       .btn-wrapper {
-        margin-top: -80px;
+        margin-top: -117px;
         float: right;
       }
       .atp_button {
@@ -1254,6 +1247,19 @@ export default {
         border-radius: 8px;
         font-family: defaultFontLight !important;
       }
+      .no_test{
+        font-size:16px;
+        text-align: center;
+        line-height: 25px;
+        padding:40px;
+        border-radius: 16px;
+        box-shadow: 6px 4px 45px 0 rgba(36, 20, 119, 0.11) inset;
+        background-color: #f1f2f6;
+      img{
+        width: 50%;
+        max-width: 445px;
+      }
+    }
     }
   }
   .release_btn{
