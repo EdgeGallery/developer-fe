@@ -123,7 +123,8 @@ export default {
   justify-content: center;
 
   .work-input {
-    width: 740px;
+    min-width: 700px;
+    width: 70%;
 
     .el-form-item__label {
       color: #380879;

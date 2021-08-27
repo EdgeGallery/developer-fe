@@ -70,7 +70,6 @@
               <el-table-column
                 prop="containername"
                 width="140px"
-                fixed
                 :label="$t('workspace.containerName')"
               />
               <el-table-column
@@ -188,6 +187,7 @@ export default {
       this.deployTest()
       this.showProgressBar = true
       this.deployProgress = 0
+      this.stageStatus = null
       this.timer = setInterval(this.getTestConfig, 2000)
     },
     /**
