@@ -91,11 +91,16 @@
         ref="VMImage"
       />
     </div>
-    <EditContainerImage
+    <!-- <EditContainerImage
       v-model="showEditContainerImageDlg"
       :image-data="currentImageData"
       @cancelEditImageDlg="cancelEditImageDlg"
       @processEditImageSuccess="processEditImageSuccess"
+    /> -->
+    <UploadContainerImage
+      v-if="showUploadImageDlg"
+      :show-dlg-prop="showUploadImageDlg"
+      @processCloseUploadImageDlg="processCloseUploadImageDlg"
     />
     <EditImage
       v-model="showEditImageDlg"
@@ -108,18 +113,18 @@
 <script>
 import ContainerImage from './ContainerImage.vue'
 import VMImage from './VMImage.vue'
-import EditContainerImage from './EditContainerImage.vue'
+import UploadContainerImage from './UploadContainerImage.vue'
 import EditImage from './EditImage.vue'
 import { common } from '../../../tools/common.js'
 
 export default {
   name: 'ImageMgmt',
   components: {
-    ContainerImage, VMImage, EditContainerImage, EditImage
+    ContainerImage, VMImage, UploadContainerImage, EditImage
   },
   data () {
     return {
-      showEditContainerImageDlg: false,
+      showUploadImageDlg: false,
       showEditImageDlg: false,
       currentImageData: {},
       screenHeight: document.body.clientHeight,
@@ -136,7 +141,7 @@ export default {
     },
     selectAddType (type) {
       if (type === 'container') {
-        this.showEditContainerImageDlg = true
+        this.showUploadImageDlg = true
       } else {
         this.showEditImageDlg = true
       }
@@ -146,15 +151,23 @@ export default {
       this.showEditImageDlg = false
     },
     processEditImageSuccess (type) {
-      if (type === 'container') {
-        this.activeName = 'container'
-        this.$refs.ContainerImage.getImageDataList()
-        this.showEditContainerImageDlg = false
-      } else {
-        this.activeName = 'vm'
-        this.$refs.VMImage.getImageDataList()
-        this.showEditImageDlg = false
-      }
+      // if (type === 'container') {
+      //   this.activeName = 'container'
+      //   this.$refs.ContainerImage.getImageDataList()
+      //   this.showEditContainerImageDlg = false
+      // } else {
+      //   this.activeName = 'vm'
+      //   this.$refs.VMImage.getImageDataList()
+      //   this.showEditImageDlg = false
+      // }
+      this.activeName = 'vm'
+      this.$refs.VMImage.getImageDataList()
+      this.showEditImageDlg = false
+    },
+    processCloseUploadImageDlg () {
+      this.activeName = 'container'
+      this.showUploadImageDlg = false
+      this.$refs.ContainerImage.getImageDataList()
     }
   }
 }

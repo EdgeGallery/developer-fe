@@ -116,6 +116,9 @@ let Capability = {
   createCapability: function (capability) {
     return Post('mec/developer/v2/capabilities', capability)
   },
+  editCapability: function (capabilityId, capability) {
+    return Put('mec/developer/v2/capabilities/' + capabilityId, capability)
+  },
   deleteCapabilityById: function (id) {
     return Delete('mec/developer/v2/capabilities/' + id)
   },
@@ -418,6 +421,10 @@ let vmService = {
   },
   uploadFile: function (projectId, vmId, userId, params) {
     return Post('mec/developer/v1/projects/' + projectId + '/vm/' + vmId + '/files?userId=' + userId, params)
+  },
+  // Empty the test environment
+  cleanTestVmEnvApi: function (projectId) {
+    return Post('mec/developer/v1/projects/' + projectId + '/vm/clean')
   },
   // Deployment and commissioning
   vmDeployTestApi: function (projectId, userId) {

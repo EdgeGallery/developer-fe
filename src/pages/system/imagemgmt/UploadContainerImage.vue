@@ -121,21 +121,22 @@ import { imageMgmtService } from '../../../tools/api.js'
 export default {
   name: 'UploadImage',
   props: {
-    showDlg: {
+    showDlgProp: {
       type: Boolean,
       default: function () {
         return false
       }
-    },
-    imageData: {
-      type: Object,
-      default: function () {
-        return {}
-      }
     }
+    // imageData: {
+    //   type: Object,
+    //   default: function () {
+    //     return {}
+    //   }
+    // }
   },
   data () {
     return {
+      showDlg: false,
       showCancelLoadingFlag: false,
       showUploader: true,
       isUploading: false,
@@ -157,15 +158,27 @@ export default {
         waiting: this.$t('system.imageMgmt.uploadStatusText.waiting')
       },
       uploadSystemImageTipImg: require('@/assets/images/UploadContainerImageTip.png'),
-      fileIdentifier: ''
+      fileIdentifier: '',
+      imageId: ''
     }
   },
   created () {
+    console.log(this.showDlgProp)
+    this.showDlg = this.showDlgProp
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
-    this.options.target = url + urlPrefix + 'mec/developer/v2/image/' + this.imageData.imageId + '/upload'
+    this.imageId = this.createUUID()
+    console.log(this.createUUID())
+    this.options.target = url + urlPrefix + 'mec/developer/v2/image/' + this.imageId + '/upload'
   },
   methods: {
+    createUUID () {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0
+        var v = c === 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+      })
+    },
     onFileAdded (file) {
       if (this.hasFileFlag) {
         file.ignored = true
@@ -189,7 +202,7 @@ export default {
       this.isUploading = false
       this.isMerging = true
       const file = arguments[0].file
-      imageMgmtService.mergeContainerImage(this.imageData.imageId, file.name, arguments[0].uniqueIdentifier).then(response => {
+      imageMgmtService.mergeContainerImage(this.imageId, file.name, arguments[0].uniqueIdentifier).then(response => {
         this.$message.success(this.$t('system.imageMgmt.tip.uploadImgSucceed'))
         let _timer = setTimeout(() => {
           clearTimeout(_timer)
@@ -253,7 +266,7 @@ export default {
       }
     },
     cancelUpload (uploaderList) {
-      imageMgmtService.cancelUploadContainerImage(this.imageData.imageId).then(response => {
+      imageMgmtService.cancelUploadContainerImage(this.imageId).then(response => {
         this.isUploading = false
         this.isMerging = false
         this.hasFileFlag = false
@@ -319,6 +332,12 @@ export default {
   }
   .cancel_upload_btn{
     height: 48px;
+  }
+  .uploader-file-name{
+    width: 40%;
+  }
+  .uploader-file-status{
+    width: 20%;
   }
 }
 </style>
