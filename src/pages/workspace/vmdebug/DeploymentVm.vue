@@ -41,7 +41,8 @@
           class="deployment-progress-bar"
           :progress-bar-process="deployProgress"
           :label-list="deploymentSteps"
-          :progress-bar-length="progressBarLength"
+          :language="language"
+          :stage-status="stageStatus"
         />
       </div>
     </div>
@@ -300,7 +301,6 @@ export default {
       deployProgress: 0,
       // Display status of progress-bar, default to be false
       showProgressBar: false,
-      progressBarLength: 500,
       // Store deployment steps
       deploymentSteps: [],
       stageStatus: null
@@ -558,11 +558,6 @@ export default {
       this.fetchDataOnMounted()
       this.initDeploymentSteps()
       this.language = localStorage.getItem('language')
-      if (this.language === 'en') {
-        this.progressBarLength = 600
-      } else {
-        this.progressBarLength = 600
-      }
     }
   }
 }
