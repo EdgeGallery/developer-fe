@@ -127,12 +127,6 @@ export default {
         return false
       }
     }
-    // imageData: {
-    //   type: Object,
-    //   default: function () {
-    //     return {}
-    //   }
-    // }
   },
   data () {
     return {
@@ -163,12 +157,10 @@ export default {
     }
   },
   created () {
-    console.log(this.showDlgProp)
     this.showDlg = this.showDlgProp
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
     this.imageId = this.createUUID()
-    console.log(this.createUUID())
     this.options.target = url + urlPrefix + 'mec/developer/v2/image/' + this.imageId + '/upload'
   },
   methods: {
@@ -209,21 +201,12 @@ export default {
           this.doClose()
         }, 1000)
       }).catch((error) => {
-        this.processMergeError(error)
-        // let _timer = setTimeout(() => {
-        //   clearTimeout(_timer)
-        //   this.doClose()
-        // }, 1000)
-      })
-    },
-    processMergeError (error) {
-      if (error && error.response && error.response.status) {
-        if (error.response.status === 400) {
-          this.$message.error(this.$t('system.imageMgmt.tip.invalidUploadFile'))
-          return
+        if (error.response.data.message === 'exist the same imageName') {
+          this.$message.error(this.$t('system.imageMgmt.tip.systemNameExist'))
+        } else {
+          this.$message.error(this.$t('promptMessage.uploadFailure'))
         }
-      }
-      this.$message.error(this.$t('system.imageMgmt.tip.uploadImgFailed'))
+      })
     },
     handleClose () {
       if (this.isUploading) {

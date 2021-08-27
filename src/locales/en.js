@@ -840,6 +840,7 @@ const en = {
 
     imageMgmt: {
       imgName: 'Image Name',
+      imgPath: 'Image Path',
       imgType: 'Image Type',
       osName: 'Operate System',
       osVersion: 'Version',

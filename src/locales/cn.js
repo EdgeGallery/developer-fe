@@ -840,6 +840,7 @@ const cn = {
 
     imageMgmt: {
       imgName: '镜像名称',
+      imgPath: '镜像路径',
       imgType: '镜像类型',
       osName: '操作系统',
       osVersion: '版本',
