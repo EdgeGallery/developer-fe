@@ -57,14 +57,14 @@
     <div class="deployment-button__wrapper">
       <el-button
         class="deploy-btn"
-        :disabled="deployStatus === 'DEPLOYING' || testFinished"
+        :disabled="deployStatus === 'DEPLOYING' || testFinished || deployStatus === 'CREATING'"
         @click="handleStartDeploy"
       >
         {{ $t("workspace.startDeployment") }}
       </el-button>
       <el-button
         class="deploy-btn"
-        :disabled="(deployStatus === 'DEPLOYING' || !testFinished) "
+        :disabled="(deployStatus === 'DEPLOYING' || !testFinished || deployStatus === 'CREATING') "
         @click="handleCleanTestEnv"
       >
         {{ $t("workspace.recycle") }}
