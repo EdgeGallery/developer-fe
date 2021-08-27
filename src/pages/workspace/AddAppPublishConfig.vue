@@ -412,20 +412,20 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
         checkPassed = false
       }
       return checkPassed
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.$eg_messagebox(this.$t('promptMessage.onlyOneFile'), 'warning')
       }
     },
     // Upload API
     handleChangeApi (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
         this.apiFileList = []
       } else {
         this.apiFileList.push(file.raw)
@@ -446,7 +446,7 @@ export default {
     // Upload Api description file
     changeApiMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
         this.apiMdList = []
       } else {
         this.apiMdList.push(file.raw)
@@ -473,14 +473,14 @@ export default {
         } else if (name === 'md') {
           this.form.apiMd = res.data.fileId
         }
-        this.$message.success(this.$t('promptMessage.uploadSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
       }).catch(() => {
         if (name === 'api') {
           this.apiFileList = []
         } else if (name === 'md') {
           this.apiMdList = []
         }
-        this.$message.error(this.$t('promptMessage.uploadFailure'))
+        this.$eg_messagebox(this.$t('promptMessage.uploadFailure'), 'error')
       })
     },
     // Fetch first left capability list
