@@ -69,17 +69,14 @@
             >
               <el-table-column
                 prop="containername"
-                width="140px"
                 :label="$t('workspace.containerName')"
               />
               <el-table-column
                 prop="containerStatus"
-                width="140px"
                 :label="$t('workspace.operatingStatus')"
               />
               <el-table-column
                 prop="podName"
-                width="180px"
                 :label="$t('workspace.podBelongsTo')"
               />
               <el-table-column

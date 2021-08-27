@@ -213,7 +213,11 @@
           >
             <em :class="['tab_config',selectedName==='6' || activeName==='6'?'tab_active':'tab_default']" />{{ $t('workspace.deployDebugVm.resourceConfig') }}
           </span>
-          <ResourceConfig v-if="activeName === '6'" />
+          <ResourceConfig
+            v-if="activeName === '6'"
+            @handleClickPrevBtn="handleClickPrevBtn"
+            @handleClickNextBtn="handleClickNextBtn"
+          />
         </el-tab-pane>
         <el-tab-pane
           class="elTabPane"
@@ -580,7 +584,6 @@ export default {
         })
       }
     },
-
     groupListHover (index) {
       this.selectedName = index
     },
@@ -722,7 +725,6 @@ export default {
         }
       })
     },
-
     // Click nav to set thie active
     setActive () {
       if (this.activeName === '1') {
@@ -754,6 +756,12 @@ export default {
       } else {
         this.isAppDevelopment = false
       }
+    },
+    handleClickNextBtn () {
+      this.activeName = '4'
+    },
+    handleClickPrevBtn () {
+      this.activeName = '3'
     }
   },
   mounted () {

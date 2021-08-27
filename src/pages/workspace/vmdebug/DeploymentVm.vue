@@ -318,6 +318,8 @@ export default {
       } else {
         this.isPhysical = false
       }
+
+      this.stageStatus = null
       this.deployTest()
     },
     /**

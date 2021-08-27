@@ -97,6 +97,7 @@ export default {
       for (let key in this.stageStatus) {
         if (_failedFlag) {
           this.$set(this.statusList, _index, 2)
+          _index += 1
           continue
         }
 

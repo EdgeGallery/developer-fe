@@ -73,15 +73,28 @@
           </el-col>
           <el-col :span="24">
             <el-button
-              class="delete-button"
+              class="next-step-button"
               @click="handleDelResource"
-              :disabled="item.status==='CREATING'"
             >
               {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
             </el-button>
           </el-col>
         </el-row>
       </div>
+    </div>
+    <div class="vm-button-wrapper">
+      <el-button
+        class="work-button"
+        @click="handleClickPrevBtn"
+      >
+        {{ $t('workspace.previous') }}
+      </el-button>
+      <el-button
+        class="work-button"
+        @click="handleClickNextBtn"
+      >
+        {{ $t('workspace.next') }}
+      </el-button>
     </div>
   </div>
 </template>
@@ -134,6 +147,12 @@ export default {
     },
     handleDelResource () {
       this.$emit('handleDelResource')
+    },
+    handleClickPrevBtn () {
+      this.$emit('handleClickPrevBtn')
+    },
+    handleClickNextBtn () {
+      this.$emit('handleClickNextBtn')
     }
   }
 }
@@ -176,6 +195,13 @@ export default {
     background-color: #8278b7;
     color: #f0f0f0;
     margin-top: 20px;
+  }
+
+  .vm-button-wrapper {
+    position: relative;
+    margin-bottom: 50px;
+    bottom: -50px;
+    float: right;
   }
 }
 </style>
