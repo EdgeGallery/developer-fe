@@ -110,7 +110,6 @@ export default {
         }
         _index += 1
       }
-      console.log(this.statusList)
     }
   },
   watch: {
