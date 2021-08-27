@@ -105,13 +105,13 @@ export default {
 <style lang="less">
 .deployment-test-envs__body {
   text-align: left;
-  margin-bottom: 20px;
 }
 
 .deployment-test-envs__item {
   display: inline-block;
   position: relative;
   padding-right: 40px;
+  margin-bottom: 20px;
   text-align: left;
 }
 

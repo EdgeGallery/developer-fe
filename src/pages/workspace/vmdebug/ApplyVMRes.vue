@@ -110,12 +110,7 @@ export default {
       vmService.getVmConfigData().then(res => {
         this.vmConfigData = res.data
       }).catch(() => {
-        this.$eg_messagebox({
-          type: 'error',
-          title: '',
-          desc: this.$t('workspace.deployDebugVm.loadVmConfigFailed'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.loadVmConfigFailed'), 'error')
       })
     },
     changeComponent () {
@@ -173,20 +168,10 @@ export default {
       }
 
       vmService.applyVmResource(this.projectId, this.userId, this.getApplyData()).then(res => {
-        this.$eg_messagebox({
-          type: 'info',
-          title: '',
-          desc: this.$t('workspace.deployDebugVm.applyVmResStart'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.applyVmResStart'), 'info')
         this.$emit('handleApplySuccess')
       }).catch(() => {
-        this.$eg_messagebox({
-          type: 'error',
-          title: '',
-          desc: this.$t('workspace.deployDebugVm.applyVmResFailed'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.applyVmResFailed'), 'error')
       })
     },
     getApplyData () {

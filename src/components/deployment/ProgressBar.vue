@@ -17,25 +17,47 @@
 <template>
   <div class="work-progress">
     <el-progress
-      class="work-progress"
+      :class="[language === 'cn' ? 'cn' : 'en']"
       :stroke-width="10"
       :percentage="progressBarProcess"
     />
-    <ul class="label-wrapper">
-      <li
-        v-for="item in labelList"
+    <div
+      class="label-wrapper"
+      :class="[language === 'cn' ? 'cn' : 'en']"
+    >
+      <p
+        v-for="(item, index) in labelList"
         :key="item"
         class="label__item"
       >
-        {{ item }}
-      </li>
-    </ul>
+        <i
+          v-if="statusList[index] === 0"
+          class="label__icon el-icon-loading"
+        />
+        <i
+          v-if="statusList[index] === 1"
+          class="label__icon el-icon-success"
+          style="color:#3ac372"
+        />
+        <i
+          v-if="statusList[index] === 2"
+          class="label__icon el-icon-error"
+          style="color:#f23d3d"
+        />
+        <span class="label__text">{{ item }}</span>
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ProgressBar',
+  data () {
+    return {
+      statusList: []
+    }
+  },
   props: {
     progressBarProcess: {
       type: Number,
@@ -50,22 +72,58 @@ export default {
         '获取部署状态'
       ]
     },
-    progressBarLength: {
-      type: Number,
-      default: 600
+    language: {
+      type: String,
+      default: 'cn'
+    },
+    stageStatus: {
+      type: Object,
+      default: () => ({
+        'first': null,
+        'second': null,
+        'third': null,
+        'forth': null
+      })
+    }
+  },
+  methods: {
+    /**
+     * Update statusList by this.stageStatus, 0 for processing item, 1 for success item,
+     * and 2 for failed item.
+     */
+    updateStageStatus () {
+      let _index = 0
+      let _failedFlag = false
+      for (let key in this.stageStatus) {
+        if (_failedFlag) {
+          this.statusList[_index] = 2
+          continue
+        }
+
+        if (this.stageStatus[key] === null) {
+          this.statusList[_index] = 0
+        } else if (this.stageStatus[key] === 'Success') {
+          this.statusList[_index] = 1
+        } else if (this.stageStatus[key] === 'Failed') {
+          this.statusList[_index] = 2
+          _failedFlag = true
+        }
+        _index += 1
+      }
     }
   },
   watch: {
-    progressBarLength (newVal, oldVal) {
-      const progressBarOuter = document.getElementsByClassName('el-progress-bar__outer')[0]
-      const labelWrapper = document.getElementsByClassName('label-wrapper')[0]
-      const labelItems = document.getElementsByClassName('label__item')
-      progressBarOuter.style.width = `${newVal}px`
-      labelWrapper.style.width = `${newVal + 40}px`
-      labelItems.forEach(item => {
-        item.style.width = `${(newVal + 40) / this.labelList.length}px`
-      })
+    stageStatus: {
+      handler: function (newVal) {
+        this.stageStatus = newVal
+        this.updateStageStatus()
+      },
+      deep: true,
+      immediate: true
     }
+  },
+  mounted () {
+    this.updateStageStatus()
   }
 }
 </script>
@@ -80,8 +138,13 @@ export default {
   background-color: #5844be;
 }
 
-.work-progress .el-progress-bar__outer {
-  width: 600px;
+.work-progress .cn .el-progress-bar__outer {
+  width: 510px;
+  background-color: #e2e0ea;
+}
+
+.work-progress .en .el-progress-bar__outer {
+  width: 710px;
   background-color: #e2e0ea;
 }
 
@@ -89,30 +152,37 @@ export default {
   display: none;
 }
 
-.work-progress .label-wrapper {
+.work-progress .cn.label-wrapper {
   text-align: left;
-  width: 640px;
+  width: 540px;
 }
 
-.work-progress .label__item {
+.work-progress .en.label-wrapper {
+  text-align: left;
+  width: 740px;
+}
+
+.work-progress .cn .label__item {
   display: inline-block;
   list-style: disc;
   margin-top: 10px;
-  width: calc(640px / 4);
+  width: calc(540px / 4);
   color: #380879;
-  font-size: 13px;
+  font-size: 14px;
   font-family: defaultFontLight;
 }
 
-.work-progress .label__item::before {
-  content: '';
+.work-progress .en .label__item {
   display: inline-block;
-  position: relative;
-  margin-right: 10px;
-  top: -1px;
-  width: 6px;
-  height: 6px;
-  background-color: #a698b9;
-  border-radius: 50%;
+  list-style: disc;
+  margin-top: 10px;
+  width: calc(740px / 4);
+  color: #380879;
+  font-size: 14px;
+  font-family: defaultFontLight;
+}
+
+.label__text {
+  margin-left: 5px;
 }
 </style>

@@ -232,7 +232,7 @@
             <DeployDebugVMMain
               v-if="deployPlatform === 'VIRTUALMACHINE'"
               :project-id="projectId"
-              @getImageStatus="getImageStatus"
+              @checkCleanEnv="checkCleanEnv"
             />
             <DeployDebugK8sMain
               v-else
@@ -279,7 +279,7 @@
 import { Workspace, vmService } from '../../tools/api.js'
 import EnvPreparation from './EnvPreparation.vue'
 import publishAppDialog from './detail/PublishAppDialog.vue'
-import DeployDebugVMMain from './vmdebug/DeployDebugVMMain.vue'
+import DeployDebugVMMain from './vmdebug/DeploymentVm.vue'
 import DeployDebugK8sMain from './vmdebug/DeployDebugK8sMain.vue'
 import { Industry, Type, Capability } from '../../tools/project_data.js'
 import api from './detail/Api.vue'
@@ -351,7 +351,6 @@ export default {
       dependentNum: 0,
       isAppDevelopment: true,
       isCleanEnv: false,
-      imageStatus: 'NOTDEPLOY',
       deployPlatform: 'KUBERNETES',
       screenHeight: document.body.clientHeight,
       timer: null,
@@ -382,75 +381,25 @@ export default {
       let description = this.allFormData.first.description
       let descriptionRule = description.match(/^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/)
       if (!appname) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.projectNameEmpty'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.projectNameEmpty'), 'warning')
       } else if (!nameRule) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.nameRule'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.nameRule'), 'warning')
       } else if (!version) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.versionEmpty'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.versionEmpty'), 'warning')
       } else if (!versionRule) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.versionRule'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.versionRule'), 'warning')
       } else if (!provider) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.providerEmpty'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.providerEmpty'), 'warning')
       } else if (!providerRule) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.providerRule'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.providerRule'), 'warning')
       } else if (!appIcon) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.logoEmpty'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.logoEmpty'), 'warning')
       } else if (!description) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.descriptionEmpty'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.descriptionEmpty'), 'warning')
       } else if (!descriptionRule) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.introductionRule'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.introductionRule'), 'warning')
       } else if (this.projectExist) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('workspace.projectExist'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
       } else {
         this.getIconFileId()
         this.handleUserName()
@@ -548,12 +497,7 @@ export default {
             let mecDetailID = res.data.id
             sessionStorage.setItem('mecDetailID', mecDetailID)
             sessionStorage.setItem('toDetailType', 'proDetail')
-            this.$eg_messagebox({
-              type: 'success',
-              title: '',
-              desc: this.$t('promptMessage.editProjectSuccess'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('promptMessage.editProjectSuccess'), 'success')
             this.showCapability = true
             this.deployPlatform = this.allFormData.first.deployPlatform
             this.readonly = true
@@ -576,12 +520,7 @@ export default {
             this.uploadBtnLoading = false
             sessionStorage.removeItem('apiFileIdArr')
           } else {
-            this.$eg_messagebox({
-              type: 'error',
-              title: '',
-              desc: this.$t('promptMessage.editProjectFail'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('promptMessage.editProjectFail'), 'error')
             setTimeout(() => {
               this.dialogNewProject = false
             }, 1500)
@@ -591,12 +530,7 @@ export default {
           }
         }).catch(err => {
           if (err.response.data.message === 'the same project exists') {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.projectExist'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
           }
           this.uploadBtnLoading = false
           sessionStorage.removeItem('apiFileIdArr')
@@ -607,12 +541,7 @@ export default {
             let mecDetailID = res.data.id
             sessionStorage.setItem('mecDetailID', mecDetailID)
             sessionStorage.setItem('toDetailType', 'proDetail')
-            this.$eg_messagebox({
-              type: 'success',
-              title: '',
-              desc: this.$t('promptMessage.addProjectSuccess'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('promptMessage.addProjectSuccess'), 'success')
             this.showCapability = true
             this.deployPlatform = this.allFormData.first.deployPlatform
             this.readonly = true
@@ -634,12 +563,7 @@ export default {
             this.uploadBtnLoading = false
             sessionStorage.removeItem('apiFileIdArr')
           } else {
-            this.$eg_messagebox({
-              type: 'error',
-              title: '',
-              desc: this.$t('promptMessage.addProjectFail'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('promptMessage.addProjectFail'), 'error')
             setTimeout(() => {
               this.dialogNewProject = false
             }, 1500)
@@ -649,12 +573,7 @@ export default {
           }
         }).catch(err => {
           if (err.response.data.message === 'the same project exists') {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.projectExist'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
           }
           this.uploadBtnLoading = false
           sessionStorage.removeItem('apiFileIdArr')
@@ -794,13 +713,9 @@ export default {
         }
       })
     },
-    getImageStatus (data) {
-      this.isCleanEnv = true
-    },
     getProjectVmList () {
       vmService.getProjectVmResList(this.projectId, this.userId).then(res => {
         if (res.data.length > 0) {
-          this.imageStatus = res.data[0].status
           if (res.data[0].status === 'SUCCESS') {
             this.isCleanEnv = true
           }

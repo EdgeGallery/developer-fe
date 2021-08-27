@@ -33,7 +33,8 @@
           class="deployment-progress-bar"
           :progress-bar-process="deployProgress"
           :label-list="deploymentSteps"
-          :progress-bar-length="progressBarLength"
+          :language="language"
+          :stage-status="stageStatus"
         />
       </div>
     </div>
@@ -68,14 +69,18 @@
             >
               <el-table-column
                 prop="containername"
+                width="140px"
+                fixed
                 :label="$t('workspace.containerName')"
               />
               <el-table-column
                 prop="containerStatus"
+                width="140px"
                 :label="$t('workspace.operatingStatus')"
               />
               <el-table-column
                 prop="podName"
+                width="180px"
                 :label="$t('workspace.podBelongsTo')"
               />
               <el-table-column
@@ -90,24 +95,30 @@
                     {{ $t('workspace.podEventsInfo') }}
                   </el-button>
                 </template>
-              </el-table-column> -->
+              </el-table-column>
               <el-table-column
                 prop="metricsusage.cpuusage"
                 :label="$t('workspace.cpuUsage')"
               >
-                {{ scope.row.metricsusage.cpuusage }}
+                <template slot-scope="scope">
+                  {{ scope.row.metricsusage.cpuusage }}%
+                </template>
               </el-table-column>
               <el-table-column
                 prop="metricsusage.memusage"
                 :label="$t('workspace.memUsage')"
               >
-                {{ scope2.row.metricsusage.memusage }}
+                <template slot-scope="scope2">
+                  {{ scope2.row.metricsusage.memusage }}%
+                </template>
               </el-table-column>
               <el-table-column
                 prop="metricsusage.diskusage"
                 :label="$t('workspace.diskUsage')"
               >
-                {{ scope3.row.metricsusage.diskusage }}
+                <template slot-scope="scope3">
+                  {{ scope3.row.metricsusage.diskusage }}%
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -138,13 +149,7 @@ export default {
       timer: '',
       pods: {},
       projectName: '',
-      platform: '',
-      privateHost: '',
       deployField: '',
-      CSAR: '',
-      hostInfo: '',
-      instantiateInfo: '',
-      workStatus: '',
       projectId: '',
       userId: '',
       accessUrl: '',
@@ -157,9 +162,9 @@ export default {
       deployProgress: 0,
       // Display status of progress-bar, default to be false
       showProgressBar: false,
-      progressBarLength: 500,
       // Store deployment steps
-      deploymentSteps: []
+      deploymentSteps: [],
+      stageStatus: null
     }
   },
   methods: {
@@ -176,12 +181,7 @@ export default {
       }
 
       if (this.deployField === '' || this.deployField === null) {
-        this.$eg_messagebox({
-          type: 'error',
-          title: '',
-          desc: this.$t('workspace.uploadConfigMessage'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.uploadConfigMessage'), 'error')
         return
       }
       this.deployStatus = 'DEPLOYING'
@@ -196,12 +196,7 @@ export default {
     deployTest () {
       Workspace.deployTestApi(this.projectId, this.userId).then(response => {
         if (response.data.status === 'DEPLOYING') {
-          this.$eg_messagebox({
-            type: 'info',
-            title: '',
-            desc: this.$t('workspace.startDeploySucc'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('workspace.startDeploySucc'), 'info')
         }
       }).catch(err => {
         console.log(err)
@@ -209,10 +204,6 @@ export default {
     },
     testEnvReleased () {
       this.$emit('checkCleanEnv', true)
-      this.CSAR = ''
-      this.hostInfo = ''
-      this.instantiateInfo = ''
-      this.workStatus = ''
       this.deployProgress = 0
       this.testFinished = false
       this.deployStatus = 'NOTDEPLOY'
@@ -221,71 +212,52 @@ export default {
       // Clear stage status
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$emit('checkCleanEnv', true)
-        this.CSAR = ''
-        this.hostInfo = ''
-        this.instantiateInfo = ''
-        this.workStatus = ''
         this.deployStatus = 'NOTDEPLOY'
         this.testFinished = false
         this.deployProgress = 0
-        this.$eg_messagebox({
-          type: 'success',
-          title: '',
-          desc: this.$t('workspace.clearEnv'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.showProgressBar = false
+        this.$eg_messagebox(this.$t('workspace.clearEnv'), 'success')
         clearInterval(this.timer)
       }).catch(err => {
         this.testFinished = true
-        this.$eg_messagebox({
-          type: 'error',
-          title: '',
-          desc: this.$t('workspace.clearEnvFail'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.clearEnvFail'), 'error')
         console.log(err)
       })
     },
-    getTestConfig () {
-      Workspace.getTestConfigApi(this.projectId).then(res => {
-        let cachedData = res.data
-        if (cachedData === null || cachedData === '') {
-          return
-        }
-
-        this.showProgressBar = true
-        let status = cachedData.stageStatus
-        this.platform = cachedData.platform
-        this.deployField = cachedData.deployField
-        this.privateHost = cachedData.privateHost
-        if (status != null) {
-          this.handleDeployStatus(status)
-        }
-
-        this.deployStatus = cachedData.deployStatus
-        // deploy successfully
-        if (this.deployStatus === 'SUCCESS') {
-          clearInterval(this.timer)
-          this.handlePodsData(cachedData)
-          this.testFinished = true
-          this.isDeploySuccess = true
-          this.accessUrl = cachedData.accessUrl
-          this.errorLog = cachedData.errorLog
-          this.deployProgress = 100
-        }
-        // deploy failed
-        if (this.CSAR === 'Failed' || this.hostInfo === 'Failed' || this.instantiateInfo === 'Failed' || this.workStatus === 'Failed' || this.deployStatus === 'FAILED') {
-          clearInterval(this.timer)
-          if (cachedData.pods !== null && cachedData.pods.length > 4) {
-            this.pods = JSON.parse(cachedData.pods).pods
-          }
-          this.deployStatus = 'FAILED'
-          this.testFinished = true
-          this.isDeploySuccess = false
-          this.accessUrl = cachedData.accessUrl
-          this.errorLog = cachedData.errorLog
-        }
+    async getTestConfig () {
+      let cachedData = ''
+      await Workspace.getTestConfigApi(this.projectId).then(res => {
+        cachedData = res.data
       })
+
+      if (cachedData === null || cachedData === '') {
+        return
+      }
+
+      this.stageStatus = cachedData.stageStatus
+      this.deployStatus = cachedData.deployStatus
+      this.deployField = cachedData.deployField
+      this.updateDeployProgress()
+
+      if (this.deployStatus === 'SUCCESS') {
+        clearInterval(this.timer)
+        this.handlePodsData(cachedData)
+        this.testFinished = true
+        this.isDeploySuccess = true
+        this.showProgressBar = true
+        this.accessUrl = cachedData.accessUrl
+        this.errorLog = cachedData.errorLog
+      } else if (this.deployStatus === 'FAILED') {
+        clearInterval(this.timer)
+        if (cachedData.pods !== null && cachedData.pods.length > 4) {
+          this.pods = JSON.parse(cachedData.pods).pods
+        }
+        this.testFinished = true
+        this.isDeploySuccess = false
+        this.showProgressBar = true
+        this.accessUrl = cachedData.accessUrl
+        this.errorLog = cachedData.errorLog
+      }
     },
     handlePodsData (cachedData) {
       if (cachedData.pods !== null && cachedData.pods.length > 4) {
@@ -295,22 +267,20 @@ export default {
         }
       }
     },
-    handleDeployStatus (status) {
-      if (status.csar !== null && status.csar !== this.CSAR) {
-        this.CSAR = status.csar
-        this.deployProgress = 25
+    updateDeployProgress () {
+      if (this.stageStatus === null) {
+        return
       }
-      if (status.hostInfo !== null && status.hostInfo !== this.hostInfo) {
-        this.hostInfo = status.hostInfo
-        this.deployProgress = 50
-      }
-      if (status.instantiateInfo !== null && status.instantiateInfo !== this.instantiateInfo) {
-        this.instantiateInfo = status.instantiateInfo
-        this.deployProgress = 75
-      }
-      if (status.workStatus !== null && status.workStatus !== this.workStatus) {
-        this.workStatus = status.workStatus
+      if (this.stageStatus.workStatus === 'Success') {
         this.deployProgress = 100
+      } else if (this.stageStatus.instantiateInfo === 'Success') {
+        this.deployProgress = 75
+      } else if (this.stageStatus.hostInfo === 'Success') {
+        this.deployProgress = 50
+      } else if (this.stageStatus.csar === 'Success') {
+        this.deployProgress = 25
+      } else {
+        this.deployProgress = 0
       }
     },
     refreshDeployStatus () {
@@ -402,11 +372,6 @@ export default {
       this.fetchDataOnMounted()
       this.initDeploymentSteps()
       this.language = localStorage.getItem('language')
-      if (this.language === 'en') {
-        this.progressBarLength = 600
-      } else {
-        this.progressBarLength = 600
-      }
     }
   }
 }
@@ -414,7 +379,7 @@ export default {
 
 <style lang="less">
 .deployment__body {
-  margin: 20px 53px;
+  margin: 25px 53px;
 }
 
 .deployment-result {
@@ -484,6 +449,17 @@ export default {
   .el-table .has-gutter tr:first-child {
     background-color: #dedae9;
     box-shadow: 0 3px 10px 2px #d6d1dfd3 inset;
+  }
+
+  .el-table__empty-block {
+    border-radius: 0 0 12px 12px;
+    background-color: transparent;
+    min-height: 36px;
+  }
+
+  .el-table__empty-text {
+    height: 36px;
+    line-height: 36px;
   }
 }
 </style>

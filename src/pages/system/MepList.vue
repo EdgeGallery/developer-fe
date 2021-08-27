@@ -31,12 +31,13 @@
       :close-on-click-modal="false"
       :visible.sync="visible"
       class="dialog_service default_dialog"
+      :class="{'dialog_service_en':language==='en'}"
     >
       <el-form
         :model="form"
         ref="form"
         :rules="rules"
-        :label-width="formLabelWidth"
+        :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
         label-position="right"
         class="clear"
         size="small"
@@ -45,27 +46,45 @@
           <em class="title_icon" />{{ $t('system.basicInfo') }}
         </h3>
         <el-form-item
-          :label="$t('system.capType')"
+          :label="$t('system.oneLevelCapability')"
           prop="group.name"
           class="w50 lt"
         >
-          <el-input
-            :placeholder="$t('system.zh_cn')"
+          <el-select
             v-model="form.group.name"
-          />
+            :placeholder="$t('common.select')"
+            @change="changeOneLevelName"
+            :disabled="!isAddService"
+          >
+            <el-option
+              v-for="item in optionsCapability"
+              :key="item.nameEn"
+              :label="item.name"
+              :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           prop="group.nameEn"
           class="w50 lt right_item"
           label-width="0"
         >
-          <el-input
-            :placeholder="$t('system.en')"
+          <el-select
             v-model="form.group.nameEn"
-          />
+            :placeholder="$t('common.select')"
+            @change="changeOneLevelNameEn"
+            :disabled="!isAddService"
+          >
+            <el-option
+              v-for="item in optionsCapability"
+              :key="item.nameEn"
+              :label="item.nameEn"
+              :value="item.nameEn"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('system.serviceName')"
+          :label="$t('system.twoLevelCapability')"
           prop="name"
           class="w50 lt"
         >
@@ -82,6 +101,32 @@
           <el-input
             :placeholder="$t('system.en')"
             v-model="form.nameEn"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('workspace.description')"
+          prop="description"
+          class="w50 lt"
+        >
+          <el-input
+            :placeholder="$t('system.zh_cn')"
+            type="textarea"
+            v-model="form.description"
+            maxlength="200"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item
+          prop="descriptionEn"
+          class="w50 lt right_item"
+          label-width="0"
+        >
+          <el-input
+            :placeholder="$t('system.en')"
+            type="textarea"
+            v-model="form.descriptionEn"
+            maxlength="400"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item
@@ -179,34 +224,71 @@
               </el-tooltip>
             </el-upload>
           </el-form-item>
+          <el-form-item
+            :label="$t('workspace.icon')"
+            class="icon"
+            ref="iconFileItem"
+          >
+            <div class="default-icon">
+              <div
+                class="box"
+                v-for="(item, index) in defaultIcon"
+                @click="chooseDefaultIcon(item, index)"
+                :key="item"
+              >
+                <img
+                  :src="item"
+                  alt=""
+                >
+                <em
+                  class="el-icon-success"
+                  :class="{ active: form.defaultActive === index }"
+                />
+                <span>{{ $t('workspace.defaultIcon') }}</span>
+              </div>
+            </div>
+            <el-upload
+              id="projectLogo"
+              class="upload-demo clear"
+              ref="upload"
+              action=""
+              list-type="picture-card"
+              :limit="1"
+              :file-list="logoFileList"
+              :on-change="handleChangeLogo"
+              :on-exceed="handleExceed"
+              :auto-upload="false"
+              :on-remove="removeUploadLogo"
+              accept=".jpg,.png"
+              name="file"
+            >
+              <em
+                class="upIcon el-icon-success"
+                :class="{ active: uploadIcon }"
+                v-if="uploadIcon"
+              />
+              <em class="el-icon-plus" />
+            </el-upload>
+            <span class="uploadIconSpan">{{ $t('workspace.customIcon') }}</span>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="this.$t('workspace.limitition')"
+              placement="right"
+            >
+              <span
+                class="default_info_promt"
+                style="marginTop:15px"
+              >i</span>
+            </el-tooltip>
+            <div
+              class="el-form-error"
+              v-if="showErr"
+            >
+              {{ $t('workspace.iconRequired') }}
+            </div>
+          </el-form-item>
         </div>
-
-        <el-form-item
-          :label="$t('workspace.description')"
-          prop="description"
-          class="w50 lt"
-        >
-          <el-input
-            :placeholder="$t('system.zh_cn')"
-            type="textarea"
-            v-model="form.description"
-            maxlength="200"
-            show-word-limit
-          />
-        </el-form-item>
-        <el-form-item
-          prop="descriptionEn"
-          class="w50 lt right_item"
-          label-width="0"
-        >
-          <el-input
-            :placeholder="$t('system.en')"
-            type="textarea"
-            v-model="form.descriptionEn"
-            maxlength="400"
-            show-word-limit
-          />
-        </el-form-item>
         <h3 class="service_title">
           <em class="title_icon" />{{ $t('system.registerInfo') }}
         </h3>
@@ -266,6 +348,15 @@
           <el-input
             size="small"
             v-model="form.provider"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('api.onlineExperience')+' url'"
+          class="w50"
+        >
+          <el-input
+            size="small"
+            v-model="form.experienceUrl"
           />
         </el-form-item>
       </el-form>
@@ -328,7 +419,7 @@
         <el-table-column
           prop="version"
           :label="$t('system.version')"
-          min-width="12"
+          min-width="11"
         >
           <template slot-scope="scope">
             {{ scope.row.version }}
@@ -364,7 +455,7 @@
         <el-table-column
           prop="description"
           :label="$t('workspace.description')"
-          min-width="24%"
+          min-width="22%"
         >
           <template slot-scope="scope">
             {{ language === 'cn' ? scope.row.description : scope.row.descriptionEn }}
@@ -388,13 +479,19 @@
         </el-table-column>
         <el-table-column
           :label="$t('workspace.operation')"
-          min-width="12%"
+          min-width="15%"
         >
           <template slot-scope="scope">
             <el-button
               :loading="loading"
-              size="medium"
-              type="text"
+              class="operations_btn"
+              @click="handleEdit(scope.row)"
+            >
+              {{ $t('common.edit') }}
+            </el-button>
+            <el-button
+              :loading="loading"
+              class="operations_btn"
               @click="handleDelete(scope.row)"
             >
               {{ $t('devTools.delete') }}
@@ -442,6 +539,7 @@ export default {
         { label: 'https', value: 'https' }
       ],
       formLabelWidth: '125px',
+      formLabelWidthEn: '175px',
       form: {
         name: '',
         nameEn: '',
@@ -457,13 +555,44 @@ export default {
           nameEn: '',
           author: sessionStorage.getItem('userName')
         },
-        iconFileId: '20aeed6a-f05f-4789-94b5-8a50db67d096',
+        iconFileId: '',
         author: sessionStorage.getItem('userName'),
         userId: sessionStorage.getItem('userId'),
         apiFileId: '',
         guideFileId: '',
         guideFileIdEn: '',
-        uploadTime: 0
+        uploadTime: 0,
+        appIcon: [],
+        base64Session: false,
+        defaultActive: '',
+        experienceUrl: ''
+      },
+      defaultForm: {
+        name: '',
+        nameEn: '',
+        description: '',
+        descriptionEn: '',
+        host: '',
+        port: '',
+        version: '',
+        protocol: 'https',
+        provider: '',
+        group: {
+          name: '',
+          nameEn: '',
+          author: sessionStorage.getItem('userName')
+        },
+        iconFileId: '',
+        author: sessionStorage.getItem('userName'),
+        userId: sessionStorage.getItem('userId'),
+        apiFileId: '',
+        guideFileId: '',
+        guideFileIdEn: '',
+        uploadTime: 0,
+        appIcon: [],
+        base64Session: false,
+        defaultActive: '',
+        experienceUrl: ''
       },
       rules: {
         apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
@@ -511,6 +640,9 @@ export default {
         provider: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.provider')}` },
           { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemProviderName') }
+        ],
+        logoFileList: [
+          { required: true, message: 'Icon is required', trigger: 'change' }
         ]
       },
       visible: false,
@@ -520,12 +652,25 @@ export default {
       userName: sessionStorage.getItem('userName'),
       userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
-      screenHeight: document.body.clientHeight
+      screenHeight: document.body.clientHeight,
+      optionsCapability: [],
+      oneLevelNameArr: [],
+      oneLevelNameEnArr: [],
+      logoFileList: [],
+      defaultIcon: [
+        require('../../assets/images/service_default_pic.jpg')
+      ],
+      uploadIcon: false,
+      showErr: false,
+      defaultIconFile: [],
+      isAddService: true
     }
   },
   mounted () {
     this.setDivHeight()
     this.getListData()
+    this.getOneLevelCapability()
+    this.chooseDefaultIcon(this.defaultIcon[0], 0)
   },
   watch: {
     '$i18n.locale': function () {
@@ -549,6 +694,137 @@ export default {
     }
   },
   methods: {
+    getOneLevelCapability () {
+      Capability.getAllCapabilityGroup().then(result => {
+        this.optionsCapability = result.data
+      })
+    },
+    changeOneLevelName () {
+      this.optionsCapability.forEach(item => {
+        this.oneLevelNameArr.push(item.name)
+        if (item.name === this.form.group.name) {
+          this.form.group.nameEn = item.nameEn
+        }
+      })
+    },
+    changeOneLevelNameEn () {
+      this.optionsCapability.forEach(item => {
+        this.oneLevelNameEnArr.push(item.nameEn)
+        if (item.nameEn === this.form.group.nameEn) {
+          this.form.group.name = item.name
+        }
+      })
+    },
+    getIconFileId () {
+      let iconData
+      if (this.form.appIcon[0].raw) {
+        iconData = this.form.appIcon[0].raw
+      } else {
+        iconData = this.form.appIcon[0]
+      }
+      let formdata = new FormData()
+      formdata.append('file', iconData)
+      Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
+        this.form.iconFileId = res.data.fileId
+      })
+    },
+    // Upload logo
+    handleChangeLogo (file) {
+      let listTemp = []
+      this.form.base64Session = true
+      this.form.appIcon = []
+      this.defaultIconFile = []
+      this.logoFileList = []
+      this.form.defaultActive = ''
+      if (file) {
+        if (file.raw.name.indexOf(' ') !== -1) {
+          this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
+          this.logoFileList = []
+        } else {
+          this.logoFileList.push(file)
+          listTemp.push(file)
+          this.form.appIcon = listTemp
+          this.uploadIcon = true
+        }
+        if (file.size / 1024 / 1024 > 2) {
+          this.$eg_messagebox(this.$t('promptMessage.moreThan2'), 'warning')
+          this.logoFileList = []
+        }
+        let fileTypeArr = ['jpg', 'png']
+        this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
+          this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
+          this.logoFileList = []
+        }
+      }
+      this.showErr = !this.logoFileList
+      this.getIconFileId()
+    },
+    removeUploadLogo (file) {
+      this.uploadIcon = false
+      this.logoFileList = []
+      this.showErr = this.logoFileList
+      this.chooseDefaultIcon(this.defaultIcon[0], 0)
+    },
+    handleExceed (file, fileList) {
+      if (fileList.length === 1) {
+        this.$eg_messagebox(this.$t('promptMessage.onlyOneFile'), 'warning')
+      }
+    },
+    getBase64Image (img) {
+      let canvas = document.createElement('canvas')
+      canvas.width = img.width
+      canvas.height = img.height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, img.width, img.height)
+      let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
+      let dataURL = canvas.toDataURL('image/' + ext)
+      sessionStorage.setItem('base64', dataURL)
+      return dataURL
+    },
+    base64toFile (dataurl) {
+      let arr = dataurl.split(',')
+      let filename = new Date().getTime()
+      let mime = arr[0].match(/:(.*?);/)[1]
+      let suffix = mime.split('/')[1]
+      let bstr = atob(arr[1])
+      let n = bstr.length
+      let u8arr = new Uint8Array(n)
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      return new File([u8arr], filename + '.' + suffix, {
+        type: mime
+      })
+    },
+    // Select default icon
+    chooseDefaultIcon (file, index) {
+      this.logoFileList = []
+      this.uploadIcon = false
+      this.form.base64Session = true
+      this.defaultIconFile = []
+      if (this.form.defaultActive === index) {
+        this.form.defaultActive = ''
+        this.form.appIcon = []
+        this.showErr = !this.defaultIconFile.length
+      } else {
+        this.form.defaultActive = index
+        this.conversionIcon(file)
+      }
+    },
+    conversionIcon (file) {
+      let image = new Image()
+      image.src = file
+      image.onload = () => {
+        // Transfer static pic to base64 format
+        let base64 = this.getBase64Image(image)
+        // Transfer base64 format to file steam
+        this.defaultIconFile.push(this.base64toFile(base64))
+        this.form.appIcon = this.defaultIconFile
+        this.showErr = !this.defaultIconFile
+        this.getIconFileId()
+      }
+    },
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'capManagement', 261)
     },
@@ -565,33 +841,75 @@ export default {
         })
       })
     },
+    handleEdit (row) {
+      this.apiFileId_file_list = []
+      this.guideFileId_file_list = []
+      this.guideFileIdEn_file_list = []
+      this.isAddService = false
+      this.form = JSON.parse(JSON.stringify(row))
+      let iconUrl = this.getIcon(this.form.iconFileId)
+      let currUrl = window.location.origin
+      this.defaultIcon[0] = iconUrl + currUrl
+      this.chooseDefaultIcon(this.defaultIcon[0], 0)
+      this.getFileList('apiFileId', this.form.apiFileId)
+      this.getFileList('guideFileId', this.form.guideFileId)
+      this.getFileList('guideFileIdEn', this.form.guideFileIdEn)
+      this.visible = true
+    },
+    getIcon (fileId) {
+      return Workspace.getIconApi(fileId, this.userId)
+    },
+    getFileList (fileType, fileId) {
+      Workspace.getApiFileApi(fileId, this.userId).then(res => {
+        let obj = { name: '' }
+        obj.name = res.data.fileName
+        console.log(obj)
+        if (fileType === 'apiFileId') {
+          this.apiFileId_file_list.push(obj)
+        } else if (fileType === 'guideFileId') {
+          this.guideFileId_file_list.push(obj)
+        } else if (fileType === 'guideFileIdEn') {
+          this.guideFileIdEn_file_list.push(obj)
+        }
+      })
+    },
     onClose () {
       this.visible = false
     },
-    handleExceed () {
-      this.$message.warning(this.$t('system.fileExceed'))
-    },
     onSubmit () {
+      if (this.form.appIcon.length !== 0 || this.logoFileList.length !== 0) {
+        this.$refs.iconFileItem.clearValidate()
+      }
       this.$refs['form'].validate((valid, params) => {
         if (valid) {
           this.loading = true
           let data = { ...this.form, ...params }
           data.group.type = 'OPENMEP'
-          Capability.createCapability(data).then(res => {
-            if (res && res.data && res.data.id) {
-              this.$message.success((this.form.name ? this.$t('api.modify') : this.$t('system.addMep')) + this.$t('system.success'))
+          if (this.isAddService) {
+            Capability.createCapability(data).then(res => {
+              if (res && res.data && res.data.id) {
+                this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.success'), 'success')
+                this.onClose()
+                this.$refs['form'].resetFields()
+              } else {
+                throw new Error()
+              }
+              this.getListData()
+            }).catch(() => {
+              this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.error'), 'error')
+            })
+          } else {
+            Capability.editCapability(this.form.id, data).then(() => {
+              this.$eg_messagebox(this.$t('api.modify') + this.$t('system.success'), 'success')
               this.onClose()
               this.$refs['form'].resetFields()
-            } else {
-              throw new Error()
-            }
-          }).catch(() => {
-            this.$message.error(this.$t('system.addMep') + this.$t('system.error'))
-          }).finally(() => {
-            this.loading = false
-            sessionStorage.setItem('currentPage', 1)
-            this.getListData()
-          })
+              this.getListData()
+            }).catch(() => {
+              this.$eg_messagebox(this.$t('api.modify') + this.$t('system.error'), 'error')
+            })
+          }
+          this.loading = false
+          sessionStorage.setItem('currentPage', 1)
         }
       })
     },
@@ -630,7 +948,7 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
         checkPassed = false
       }
       return checkPassed
@@ -658,10 +976,7 @@ export default {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
-          this.$message({
-            type: 'success',
-            message: this.$t('promptMessage.uploadSuccess')
-          })
+          this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
           if (this[`${key}_file_list`].length !== 0) {
             if (key === 'apiFileId') {
               this.$refs.apiFileItem.clearValidate()
@@ -677,9 +992,9 @@ export default {
         }
       }).catch((error) => {
         if (error && error.response && error.response.data.code === 403) {
-          this.$message.error(this.$t('promptMessage.guestPrompt'))
+          this.$eg_messagebox(this.$t('promptMessage.guestPrompt'), 'error')
         } else {
-          this.$message.error(this.$t('promptMessage.uploadFailure'))
+          this.$eg_messagebox(this.$t('promptMessage.uploadFailure'), 'error')
         }
         this.handleRemove(key)
       }).finally(() => {
@@ -690,10 +1005,14 @@ export default {
       this.apiFileId_file_list = []
       this.guideFileId_file_list = []
       this.guideFileIdEn_file_list = []
-      this.visible = true
+      this.form = JSON.parse(JSON.stringify(this.defaultForm))
+      this.defaultIcon[0] = require('../../assets/images/service_default_pic.jpg')
+      this.chooseDefaultIcon(this.defaultIcon[0], 0)
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
+      this.visible = true
+      this.isAddService = true
     },
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
@@ -737,6 +1056,9 @@ export default {
       margin: 10px 0;
       font-weight: normal;
     }
+  }
+  .dialog_service_en .el-dialog{
+    width: 60%;
   }
   h3{
     float: left;
@@ -803,6 +1125,86 @@ export default {
   }
   .dialog-footer {
     text-align: center;
+  }
+  .default-icon{
+    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    .box{
+      position: ab;
+      width: 160px;
+      height: 44px;
+      margin: 0 15px 0 0;
+      img{
+        height: 40px;
+      }
+      span{
+        vertical-align: top;
+        margin-left:10px;
+        font-size:16px;
+        color:#380879;
+        position: relative;
+        top: 5px;
+      }
+      em{
+        display: inline-block;
+        position: relative;
+        bottom: 0;
+        right: 0;
+      }
+      .active{
+        color: #5e40c8;
+      }
+    }
+  }
+  .upIcon.el-icon-success{
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    z-index: 99;
+  }
+  .upIcon.active{
+    color: #5e40c8;
+  }
+  .upload-demo{
+    float: left;
+    .el-upload{
+      float: left;
+      width: 34px;
+      height: 34px;
+      line-height: 34px;
+      margin: 3px 15px 0 0;
+      position: relative;
+    }
+    .el-upload-list{
+      width: auto;
+    }
+    .el-upload-list__item{
+      border-radius: 0;
+    }
+    .el-upload-list__item:first-child{
+      width: auto;
+      height: 40px;
+      min-width: 40px;
+      border: none;
+      margin: 0 15px 0 0;
+      background-color:transparent;
+    }
+    .el-form-error{
+      float: left;
+      color: #F56C6C;
+      font-size: 12px;
+      line-height: 1;
+      margin: 14px 10px 0px 0px;
+    }
+    .el-upload-list__item-preview{
+      opacity: 0;
+    }
+  }
+  .uploadIconSpan{
+    font-size:16px;
+    color:#380879;
+    margin-right:10px;
   }
 }
 

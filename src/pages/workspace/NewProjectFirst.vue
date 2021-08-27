@@ -444,12 +444,7 @@ export default {
       this.form.defaultActive = ''
       if (file) {
         if (file.raw.name.indexOf(' ') !== -1) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.fileNameType'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
           this.logoFileList = []
         } else {
           this.logoFileList.push(file)
@@ -458,23 +453,13 @@ export default {
           this.uploadIcon = true
         }
         if (file.size / 1024 / 1024 > 2) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.moreThan2'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.moreThan2'), 'warning')
           this.logoFileList = []
         }
         let fileTypeArr = ['jpg', 'png']
         this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
         if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.checkFileType'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
           this.logoFileList = []
         }
       }
@@ -488,12 +473,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.onlyOneFile'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.onlyOneFile'), 'warning')
       }
     },
     fileToBase64 (file) {

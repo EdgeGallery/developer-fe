@@ -177,7 +177,8 @@ const cn = {
     help: '帮助',
     contact: '联系我们',
     serviceDoc: '服务文档',
-    apiMulator: '在线模拟器'
+    apiMulator: '在线模拟器',
+    component: '界面组件'
   },
   capabilityCenter: {
     telecomStandards: '电信标准支持全景图'
@@ -298,7 +299,7 @@ const cn = {
       selectInitialization: '请在左侧服务列表选择需要用到的服务'
     },
     deployDebugVm: {
-      vmNameLbl: '名称',
+      vmNameLbl: '项目名称',
       vmSpecLbl: '规格',
       vmImageLbl: '镜像',
       vmNetworkLbl: '网络',
@@ -556,6 +557,7 @@ const cn = {
     deploymentSuccess: '部署成功',
     createDeploymentFile: '生成部署文件',
     assignTestNodes: '分配测试节点',
+    distributeInfo: '上传应用包',
     applicationRelease2: '应用下发',
     instantiateApplication: '实例化应用',
     getDeploymentStatus: '获取部署状态',
@@ -571,6 +573,7 @@ const cn = {
     containerResource: '资源',
     hostInfo: '节点信息',
     selectEnv: '选择测试环境',
+    deployDetail: '部署详情',
     sandboxEnv: '沙箱环境',
     sandboxEnvDesc: '模拟真实场景，快速调测',
     fiveGEnv: '5G环境',
@@ -806,6 +809,8 @@ const cn = {
     basicInfo: '基本信息',
     registerInfo: '注册信息',
     capType: '能力分类',
+    oneLevelCapability: '一级能力',
+    twoLevelCapability: '二级能力',
     capTypeOPENMEP: '生态能力',
     serviceName: '服务名称',
     inPort: '端口号',
@@ -835,6 +840,7 @@ const cn = {
 
     imageMgmt: {
       imgName: '镜像名称',
+      imgPath: '镜像路径',
       imgType: '镜像类型',
       osName: '操作系统',
       osVersion: '版本',
