@@ -89,7 +89,7 @@ export default {
         }).catch(() => {
           this.$eg_messagebox(this.$t('devTools.deleteFail'), 'error')
         })
-      })
+      }).catch(() => {})
     },
     handleApplySuccess () {
       this.showApplyVMResDlg = false

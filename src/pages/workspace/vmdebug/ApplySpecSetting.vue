@@ -112,102 +112,84 @@
           {{ $t('workspace.deployDebugVm.selectVmImageTip') }}
         </div>
         <div class="select-mirror-content">
-          <el-row
-            :gutter="24"
-            class="content-line"
-          >
-            <el-col :span="3">
-              <el-radio
-                v-model="imageType"
-                label="public"
-                class="work-radio"
-                @change="handleChangeImgType"
-              >
-                <div class="work-p">
-                  {{ $t('workspace.deployDebugVm.publicImage') }}
-                </div>
-              </el-radio>
-            </el-col>
-            <el-col :span="5">
-              <el-select
-                class="work-select"
-                v-model="selectedOSName"
-                :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
-                @change="handleChangeOSName"
-                :disabled="imageType === 'private'"
-              >
-                <el-option
-                  v-for="item in osNameOptionList"
-                  :label="item"
-                  :value="item"
-                  :key="item"
-                />
-              </el-select>
-            </el-col>
-            <el-col :span="9">
-              <el-select
-                class="work-select"
-                v-model="selectedSystemId"
-                :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
-                :disabled="imageType === 'private'"
-              >
-                <el-option
-                  v-for="item in operateSystemOptionList"
-                  :label="item.label"
-                  :value="item.systemId"
-                  :key="item.systemId"
-                />
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row
-            :gutter="24"
-            class="content-line"
-          >
-            <el-col :span="3">
-              <el-radio
-                v-model="imageType"
-                label="private"
-                class="work-radio"
-                @change="handleChangeImgType"
-              >
-                <div class="work-p">
-                  {{ $t('workspace.deployDebugVm.privateImage') }}
-                </div>
-              </el-radio>
-            </el-col>
-            <el-col :span="5">
-              <el-select
-                class="work-select"
-                v-model="selectedOSName"
-                :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
-                @change="handleChangeOSName"
-                :disabled="imageType === 'public'"
-              >
-                <el-option
-                  v-for="item in osNameOptionList"
-                  :label="item"
-                  :value="item"
-                  :key="item"
-                />
-              </el-select>
-            </el-col>
-            <el-col :span="9">
-              <el-select
-                class="work-select"
-                v-model="selectedSystemId"
-                :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
-                :disabled="imageType === 'public'"
-              >
-                <el-option
-                  v-for="item in operateSystemOptionList"
-                  :label="item.label"
-                  :value="item.systemId"
-                  :key="item.systemId"
-                />
-              </el-select>
-            </el-col>
-          </el-row>
+          <div class="content-line">
+            <el-radio
+              v-model="imageType"
+              label="public"
+              class="work-radio image-type"
+              @change="handleChangeImgType"
+            >
+              <div class="work-p">
+                {{ $t('workspace.deployDebugVm.publicImage') }}
+              </div>
+            </el-radio>
+            <el-select
+              class="work-select system-type"
+              v-model="selectedOSName"
+              :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
+              @change="handleChangeOSName"
+              :disabled="imageType === 'private'"
+            >
+              <el-option
+                v-for="item in osNameOptionList"
+                :label="item"
+                :value="item"
+                :key="item"
+              />
+            </el-select>
+            <el-select
+              class="work-select system-image"
+              v-model="selectedSystemId"
+              :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
+              :disabled="imageType === 'private'"
+            >
+              <el-option
+                v-for="item in operateSystemOptionList"
+                :label="item.label"
+                :value="item.systemId"
+                :key="item.systemId"
+              />
+            </el-select>
+          </div>
+          <div class="content-line">
+            <el-radio
+              v-model="imageType"
+              label="private"
+              class="work-radio image-type"
+              @change="handleChangeImgType"
+            >
+              <div class="work-p">
+                {{ $t('workspace.deployDebugVm.privateImage') }}
+              </div>
+            </el-radio>
+            <el-select
+              class="work-select system-type"
+              v-model="selectedOSName"
+              :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
+              @change="handleChangeOSName"
+              :disabled="imageType === 'public'"
+            >
+              <el-option
+                v-for="item in osNameOptionList"
+                :label="item"
+                :value="item"
+                :key="item"
+              />
+            </el-select>
+            <el-select
+              class="work-select system-image"
+              v-model="selectedSystemId"
+              :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
+              :disabled="imageType === 'public'"
+            >
+              <el-option
+                v-for="item in operateSystemOptionList"
+                :label="item.label"
+                :value="item.systemId"
+                :key="item.systemId"
+              />
+            </el-select>
+          </div>
         </div>
       </div>
     </div>
@@ -332,34 +314,53 @@ export default {
   .select-vm-content {
     margin-left: 53px;
     margin-top: 30px;
+  }
 
-    .work-table {
-      margin-top: 20px;
-    }
+  .select-vm-content .work-table {
+    margin-top: 20px;
   }
 
   .select-mirror {
     margin-top: 46px;
+  }
 
-    .select-mirror-content {
-      margin-left: 65px;
-      margin-top: 30px;
+  .select-mirror .select-mirror-content {
+    margin-left: 65px;
+    margin-top: 30px;
+  }
 
-      .content-line {
-        margin-bottom: 10px;
-      }
+  .select-mirror .content-line {
+    margin-bottom: 10px;
+  }
 
-      .work-p {
-        position: relative;
-        left: 30px;
-        top: -25px;
-      }
+  .select-mirror .work-p {
+    position: relative;
+    left: 30px;
+    top: -25px;
+  }
 
-      .work-select {
-        position: relative;
-        top: -8px;
-      }
-    }
+  .select-mirror .work-select {
+    position: relative;
+    top: -25px;
+  }
+
+  .image-type {
+    display: inline-block;
+    width: 60px;
+  }
+
+  .system-type {
+    display: inline-block;
+    margin-left: 20px;
+    width: 25%;
+    min-width: 50px;
+  }
+
+  .system-image {
+    display: inline-block;
+    margin-left: 20px;
+    width: 40%;
+    min-width: 100px;
   }
 }
 </style>
