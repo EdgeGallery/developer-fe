@@ -212,12 +212,7 @@ export default {
       if (ifNext) {
         this.$emit('getStepData', { step: 'fourth', data: { appYamlFileId: this.appYamlFileId }, ifNext })
       } else {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('workspace.configYaml.uploadYamlFirst'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.configYaml.uploadYamlFirst'), 'warning')
       }
     },
     // Choose YAML file
@@ -228,12 +223,7 @@ export default {
       const fileType = file.raw.name.substring(file.raw.name.lastIndexOf('.') + 1)
       const fileTypeArr = ['yaml']
       if (!fileTypeArr.includes(fileType)) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('workspace.configYaml.yamlFileType'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.configYaml.yamlFileType'), 'warning')
         yamlFileList = []
       }
       if (yamlFileList.length > 0) {
@@ -242,12 +232,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.onlyOneFile'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('promptMessage.onlyOneFile'), 'warning')
       }
     },
     // Remove uploaded YAML file
@@ -276,12 +261,7 @@ export default {
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
           this.setApiHeight()
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('promptMessage.uploadSuccess'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
         } else {
           this.fileUploadSuccess = false
           this.appYamlFileId = ''
@@ -295,26 +275,11 @@ export default {
         this.submitData(this.appYamlFileId)
       }, (error) => {
         if (error.response.data.message === 'Failed to read content of helm template yaml') {
-          this.$eg_messagebox({
-            type: 'error',
-            title: '',
-            desc: this.$t('promptMessage.uploadYamlFailure'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.uploadYamlFailure'), 'error')
         } else if (error.response.data.message === 'yaml file is empty!') {
-          this.$eg_messagebox({
-            type: 'error',
-            title: '',
-            desc: this.$t('promptMessage.fileIsEmpty'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.fileIsEmpty'), 'error')
         } else {
-          this.$eg_messagebox({
-            type: 'error',
-            title: '',
-            desc: this.$t('promptMessage.imageInfoErr'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('promptMessage.imageInfoErr'), 'error')
         }
         this.appYamlFileId = ''
         this.yamlFileList = []

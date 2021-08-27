@@ -204,49 +204,24 @@ export default {
   },
   methods: {
     synchronizeContainerImage () {
-      this.$eg_messagebox({
-        type: 'info',
-        title: '',
-        desc: this.$t('system.imageMgmt.containerImage.pleaseWait'),
-        cancelText: this.$t('common.cancelText')
-      })
+      this.$eg_messagebox(this.$t('system.imageMgmt.containerImage.pleaseWait'), 'info')
       this.synchronizeImageLoading = true
       sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
       imageMgmtService.synchronizeContainerImageApi().then(res => {
         this.synchronizeImageLoading = false
         sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
         if (res.data === 'synchronized successfully!') {
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('system.imageMgmt.containerImage.synchronized'),
-            cancelText: this.$t('common.cancelText')
-          })
+          this.$eg_messagebox(this.$t('system.imageMgmt.containerImage.synchronized'), 'success')
         } else if (res.data === 'already the latest image list!') {
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('system.imageMgmt.containerImage.latestImage'),
-            cancelText: this.$t('common.cancelText')
-          })
+          this.$eg_messagebox(this.$t('system.imageMgmt.containerImage.latestImage'), 'success')
         } else if (res.data === 'harbor repo no images!') {
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('system.imageMgmt.containerImage.noImage'),
-            cancelText: this.$t('common.cancelText')
-          })
+          this.$eg_messagebox(this.$t('system.imageMgmt.containerImage.noImage'), 'success')
         }
         this.getImageDataList()
       }).catch(() => {
         this.synchronizeImageLoading = false
         sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
-        this.$eg_messagebox({
-          type: 'error',
-          title: '',
-          desc: this.$t('system.imageMgmt.containerImage.imageFailed'),
-          cancelText: this.$t('common.cancelText')
-        })
+        this.$eg_messagebox(this.$t('system.imageMgmt.containerImage.imageFailed'), 'error')
       })
     },
     showMoreBtnFun (index) {

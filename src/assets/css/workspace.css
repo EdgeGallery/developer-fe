@@ -49,10 +49,12 @@
 
 .work-button.el-button {
   background-color: #5e40c8;
+  color: #FFFFFF;
 }
 
 .work-button.el-button:hover, .work-button.el-button:focus {
   background-color: #5e40c8;
+  color: #FFFFFF;
 }
 
 /* style for input */

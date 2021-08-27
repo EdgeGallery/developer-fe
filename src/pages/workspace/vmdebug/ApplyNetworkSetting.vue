@@ -93,12 +93,7 @@ export default {
     },
     validateInput () {
       if (!this.selectedNetwork || !this.selectedNetwork.length) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('workspace.deployDebugVm.vmNetworkTypeMustSelectTip'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmNetworkTypeMustSelectTip'), 'warning')
         return false
       }
       return true

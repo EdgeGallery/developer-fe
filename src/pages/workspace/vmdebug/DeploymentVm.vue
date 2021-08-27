@@ -326,12 +326,7 @@ export default {
     deployTest () {
       vmService.vmDeployTestApi(this.projectId, this.userId).then(response => {
         if (response.data.status === 'DEPLOYING') {
-          this.$eg_messagebox({
-            type: 'info',
-            title: '',
-            desc: this.$t('workspace.startDeploySucc'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('workspace.startDeploySucc'), 'info')
         }
         this.deployStatus = 'DEPLOYING'
         this.showProgressBar = true
@@ -358,21 +353,11 @@ export default {
         this.testFinished = false
         this.deployProgress = 0
         this.showProgressBar = false
-        this.$eg_messagebox({
-          type: 'success',
-          title: '',
-          desc: this.$t('workspace.clearEnv'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.clearEnv'), 'success')
         clearInterval(this.timer)
       }).catch(err => {
         this.testFinished = true
-        this.$eg_messagebox({
-          type: 'error',
-          title: '',
-          desc: this.$t('workspace.clearEnvFail'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.clearEnvFail'), 'error')
         console.log(err)
       })
     },

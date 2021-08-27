@@ -732,7 +732,7 @@ export default {
 
         if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'KUBERNETES') {
           this.isRelease = true
-          this.showEgMessageBox('warning', this.$t('promptMessage.notDeploy'))
+          this.$eg_messagebox(this.$t('promptMessage.notDeploy'), 'warning')
         } else if (this.imageStatus === 'ONLINE' && this.deployPlatform === 'VIRTUALMACHINE') {
           this.isRelease = true
         } else {
@@ -774,15 +774,15 @@ export default {
         let releaseId = res.data.releaseId
         Workspace.saveRuleConfig(this.projectId, params, releaseId).then(() => {
           if (releaseId) {
-            this.showEgMessageBox('success', this.$t('promptMessage.editRuleSuccess'))
+            this.$eg_messagebox(this.$t('promptMessage.editRuleSuccess'), 'success')
           } else {
-            this.showEgMessageBox('success', this.$t('promptMessage.saveRuleSuccess'))
+            this.$eg_messagebox(this.$t('promptMessage.saveRuleSuccess'), 'success')
           }
         }).catch(() => {
           if (releaseId) {
-            this.showEgMessageBox('error', this.$t('promptMessage.editRuleFail'))
+            this.$eg_messagebox(this.$t('promptMessage.editRuleFail'), 'error')
           } else {
-            this.showEgMessageBox('error', this.$t('promptMessage.saveRuleFail'))
+            this.$eg_messagebox(this.$t('promptMessage.saveRuleFail'), 'error')
           }
         })
       })
@@ -830,20 +830,20 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
+        this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
         checkPassed = false
       }
       return checkPassed
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.showEgMessageBox('warning', this.$t('promptMessage.onlyOneFile'))
+        this.$eg_messagebox(this.$t('promptMessage.onlyOneFile'), 'warning')
       }
     },
     // Upload application description file
     changeAppStoreMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
-        this.showEgMessageBox('warning', this.$t('promptMessage.fileNameType'))
+        this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
         this.appMdList = []
       } else {
         this.appMdList.push(file.raw)
@@ -863,10 +863,10 @@ export default {
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
         this.trafficAllData.guideFileId = res.data.fileId
         this.getReleaseConfigFirst()
-        this.showEgMessageBox('success', this.$t('promptMessage.uploadSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
       }).catch(() => {
         fileList = []
-        this.showEgMessageBox('error', this.$t('promptMessage.uploadFailure'))
+        this.$eg_messagebox(this.$t('promptMessage.uploadFailure'), 'error')
       })
     },
     removeAppStoreMd (file, fileList) {
@@ -934,30 +934,30 @@ export default {
     getAddDnsData (data) {
       if (this.isAddRuleData) {
         this.dnsListData.push(data)
-        this.showEgMessageBox('success', this.$t('promptMessage.addSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.dnsListData.splice(this.editIndex, 1, data)
-        this.showEgMessageBox('success', this.$t('promptMessage.editSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
       sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
     },
     getAddTrafficData (data) {
       if (this.isAddRuleData) {
         this.trafficListData.push(data)
-        this.showEgMessageBox('success', this.$t('promptMessage.addSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.trafficListData.splice(this.editIndex, 1, data)
-        this.showEgMessageBox('success', this.$t('promptMessage.editSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
       sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
     },
     getAddPublicConfigData (data) {
       if (this.isAddRuleData) {
         this.appPublishListData.push(data)
-        this.showEgMessageBox('success', this.$t('promptMessage.addSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.appPublishListData.splice(this.editIndex, 1, data)
-        this.showEgMessageBox('success', this.$t('promptMessage.editSuccess'))
+        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
@@ -985,25 +985,17 @@ export default {
     deleteRuleData (index) {
       this.dnsListData.splice(index, 1)
       sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
-      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
+      this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     deleteTrafficData (index) {
       this.trafficListData.splice(index, 1)
       sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
-      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
+      this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     deleteConfigData (index) {
       this.appPublishListData.splice(index, 1)
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
-      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
-    },
-    showEgMessageBox (infoType, infoContent) {
-      this.$eg_messagebox({
-        type: infoType,
-        title: '',
-        desc: infoContent,
-        cancelText: this.$t('common.cancelText')
-      }).then(() => {}).catch(() => {})
+      this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     strToArray (str) {
       let arr = []
@@ -1040,7 +1032,7 @@ export default {
         this.getReleaseConfig(this.trafficAllData)
         this.isRelease = false
       } else {
-        this.showEgMessageBox('warning', this.$t('promptMessage.notDeploy'))
+        this.$eg_messagebox(this.$t('promptMessage.notDeploy'), 'warning')
         this.isRelease = true
       }
     },
@@ -1080,7 +1072,7 @@ export default {
           this.iframeLoading = false
         }
       }).catch(() => {
-        this.showEgMessageBox('error', this.$t('promptMessage.getDataFail'))
+        this.$eg_messagebox(this.$t('promptMessage.getDataFail'), 'error')
         setTimeout(() => {
           this.iframeLoading = false
         }, 2000)
@@ -1128,7 +1120,7 @@ export default {
         this.publishLoading = false
       }).catch(err => {
         console.log(err.response)
-        this.showEgMessageBox('warning', this.$t('promptMessage.appReleaseFail'))
+        this.$eg_messagebox(this.$t('promptMessage.appReleaseFail'), 'warning')
         this.publishLoading = false
       })
     },
@@ -1158,7 +1150,7 @@ export default {
     getVmResourceList () {
       vmService.getApplyVmResourceList(this.projectId, this.userId).then(res => {
         if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) === '""')) {
-          this.showEgMessageBox('warning', this.$t('workspace.deployDebugVm.releasePromt'))
+          this.$eg_messagebox(this.$t('workspace.deployDebugVm.releasePromt'), 'warning')
           this.isRelease = true
         } else if ((this.deployPlatform === 'VIRTUALMACHINE') && (JSON.stringify(res.data) !== '""')) {
           sessionStorage.setItem('csarId', res.data.appInstanceId)

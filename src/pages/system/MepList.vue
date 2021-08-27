@@ -738,7 +738,7 @@ export default {
       this.form.defaultActive = ''
       if (file) {
         if (file.raw.name.indexOf(' ') !== -1) {
-          this.showEgMessageBox('warning', this.$t('promptMessage.fileNameType'))
+          this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
           this.logoFileList = []
         } else {
           this.logoFileList.push(file)
@@ -747,13 +747,13 @@ export default {
           this.uploadIcon = true
         }
         if (file.size / 1024 / 1024 > 2) {
-          this.showEgMessageBox('warning', this.$t('promptMessage.moreThan2'))
+          this.$eg_messagebox(this.$t('promptMessage.moreThan2'), 'warning')
           this.logoFileList = []
         }
         let fileTypeArr = ['jpg', 'png']
         this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
         if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-          this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
+          this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
           this.logoFileList = []
         }
       }
@@ -768,7 +768,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.showEgMessageBox('warning', this.$t('promptMessage.onlyOneFile'))
+        this.$eg_messagebox(this.$t('promptMessage.onlyOneFile'), 'warning')
       }
     },
     getBase64Image (img) {
@@ -888,7 +888,7 @@ export default {
           if (this.isAddService) {
             Capability.createCapability(data).then(res => {
               if (res && res.data && res.data.id) {
-                this.showEgMessageBox('success', this.$t('system.addMep') + this.$t('system.success'))
+                this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.success'), 'success')
                 this.onClose()
                 this.$refs['form'].resetFields()
               } else {
@@ -896,16 +896,16 @@ export default {
               }
               this.getListData()
             }).catch(() => {
-              this.showEgMessageBox('error', this.$t('system.addMep') + this.$t('system.error'))
+              this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.error'), 'error')
             })
           } else {
             Capability.editCapability(this.form.id, data).then(() => {
-              this.showEgMessageBox('success', this.$t('api.modify') + this.$t('system.success'))
+              this.$eg_messagebox(this.$t('api.modify') + this.$t('system.success'), 'success')
               this.onClose()
               this.$refs['form'].resetFields()
               this.getListData()
             }).catch(() => {
-              this.showEgMessageBox('error', this.$t('api.modify') + this.$t('system.error'))
+              this.$eg_messagebox(this.$t('api.modify') + this.$t('system.error'), 'error')
             })
           }
           this.loading = false
@@ -948,7 +948,7 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
+        this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
         checkPassed = false
       }
       return checkPassed
@@ -976,7 +976,7 @@ export default {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
-          this.showEgMessageBox('success', this.$t('promptMessage.uploadSuccess'))
+          this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
           if (this[`${key}_file_list`].length !== 0) {
             if (key === 'apiFileId') {
               this.$refs.apiFileItem.clearValidate()
@@ -992,9 +992,9 @@ export default {
         }
       }).catch((error) => {
         if (error && error.response && error.response.data.code === 403) {
-          this.showEgMessageBox('error', this.$t('promptMessage.guestPrompt'))
+          this.$eg_messagebox(this.$t('promptMessage.guestPrompt'), 'error')
         } else {
-          this.showEgMessageBox('error', this.$t('promptMessage.uploadFailure'))
+          this.$eg_messagebox(this.$t('promptMessage.uploadFailure'), 'error')
         }
         this.handleRemove(key)
       }).finally(() => {
@@ -1017,14 +1017,6 @@ export default {
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
-    },
-    showEgMessageBox (infoType, infoContent) {
-      this.$eg_messagebox({
-        type: infoType,
-        title: '',
-        desc: infoContent,
-        cancelText: this.$t('common.cancelText')
-      }).then(() => {}).catch(() => {})
     }
   }
 }

@@ -19,15 +19,15 @@ import MessageBox from '../MessageBox/MessageBox.vue'
 
 const EGMessageBox = Vue.extend(MessageBox)
 
-const messageBoxComp = function (options) {
-  if (options === undefined || options === null) {
-    options = {
-      title: ''
-    }
-  } else if (typeof options === 'string' || typeof options === 'number') {
-    options = {
-      title: options
-    }
+const messageBoxComp = function (desc, type, cancelText, confirmText) {
+  let options = {}
+  if (typeof desc === 'object') {
+    options = desc
+  } else {
+    options.type = type || 'info'
+    options.desc = desc || ''
+    options.cancelText = cancelText || this.$t('common.cancelText')
+    options.confirmText = confirmText || ''
   }
 
   let instance = new EGMessageBox({
