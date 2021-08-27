@@ -399,12 +399,10 @@ export default {
           let groups = result.data
           this.groups = groups
           groups.forEach(group => {
-            if (group.name !== 'ETSI' && this.group.name !== '3GPP') {
-              group.label = this.language === 'en' ? group.nameEn : group.name
-              group.leaf = false
-              if (this.capabilityIcon[group.nameEn]) {
-                group.icon = this.capabilityIcon[group.nameEn].icon
-              }
+            group.label = this.language === 'en' ? group.nameEn : group.name
+            group.leaf = false
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
             }
           })
           resolve(groups)
