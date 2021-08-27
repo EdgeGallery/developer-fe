@@ -33,7 +33,8 @@
           class="deployment-progress-bar"
           :progress-bar-process="deployProgress"
           :label-list="deploymentSteps"
-          :progress-bar-length="progressBarLength"
+          :language="language"
+          :stage-status="stageStatus"
         />
       </div>
     </div>
@@ -68,14 +69,18 @@
             >
               <el-table-column
                 prop="containername"
+                width="140px"
+                fixed
                 :label="$t('workspace.containerName')"
               />
               <el-table-column
                 prop="containerStatus"
+                width="140px"
                 :label="$t('workspace.operatingStatus')"
               />
               <el-table-column
                 prop="podName"
+                width="180px"
                 :label="$t('workspace.podBelongsTo')"
               />
               <el-table-column
@@ -96,7 +101,7 @@
                 :label="$t('workspace.cpuUsage')"
               >
                 <template slot-scope="scope">
-                  {{ scope.row.metricsusage.cpuusage }}
+                  {{ scope.row.metricsusage.cpuusage }}%
                 </template>
               </el-table-column>
               <el-table-column
@@ -104,7 +109,7 @@
                 :label="$t('workspace.memUsage')"
               >
                 <template slot-scope="scope2">
-                  {{ scope2.row.metricsusage.memusage }}
+                  {{ scope2.row.metricsusage.memusage }}%
                 </template>
               </el-table-column>
               <el-table-column
@@ -112,7 +117,7 @@
                 :label="$t('workspace.diskUsage')"
               >
                 <template slot-scope="scope3">
-                  {{ scope3.row.metricsusage.diskusage }}
+                  {{ scope3.row.metricsusage.diskusage }}%
                 </template>
               </el-table-column>
             </el-table>
@@ -157,7 +162,6 @@ export default {
       deployProgress: 0,
       // Display status of progress-bar, default to be false
       showProgressBar: false,
-      progressBarLength: 500,
       // Store deployment steps
       deploymentSteps: [],
       stageStatus: null
@@ -250,7 +254,6 @@ export default {
         return
       }
 
-      this.showProgressBar = true
       this.stageStatus = cachedData.stageStatus
       this.deployStatus = cachedData.deployStatus
       this.deployField = cachedData.deployField
@@ -261,6 +264,7 @@ export default {
         this.handlePodsData(cachedData)
         this.testFinished = true
         this.isDeploySuccess = true
+        this.showProgressBar = true
         this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       } else if (this.deployStatus === 'FAILED') {
@@ -270,6 +274,7 @@ export default {
         }
         this.testFinished = true
         this.isDeploySuccess = false
+        this.showProgressBar = true
         this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       }
@@ -387,11 +392,6 @@ export default {
       this.fetchDataOnMounted()
       this.initDeploymentSteps()
       this.language = localStorage.getItem('language')
-      if (this.language === 'en') {
-        this.progressBarLength = 600
-      } else {
-        this.progressBarLength = 600
-      }
     }
   }
 }
