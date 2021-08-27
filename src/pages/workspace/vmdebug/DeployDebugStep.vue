@@ -77,26 +77,17 @@ export default {
       })
     },
     handleDelResource () {
-      this.$confirm(this.$t('workspace.deployDebugVm.deleteVmResPrompt'), this.$t('promptMessage.prompt'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
+      this.$eg_messagebox(
+        this.$t('workspace.deployDebugVm.deleteVmResPrompt'),
+        'warning',
+        this.$t('common.cancel'),
+        this.$t('common.confirm')
+      ).then(() => {
         vmService.deleteVmResource(this.projectId, this.userId).then(() => {
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('devTools.deleteSucc'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
           this.loadVmResourceDataList()
         }).catch(() => {
-          this.$eg_messagebox({
-            type: 'error',
-            title: '',
-            desc: this.$t('devTools.deleteFail'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('devTools.deleteFail'), 'error')
         })
       })
     },

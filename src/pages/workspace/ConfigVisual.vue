@@ -934,40 +934,20 @@ export default {
         itemPo.spec.containers.forEach(itemSub => {
           let arrTemp = itemSub.image.split(':')
           if (itemSub.image === '' || arrTemp.length !== 2) {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.visualConfig.imageInfoVerify'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.visualConfig.imageInfoVerify'), 'warning')
             this.ifSaveConfig = false
           }
           if (itemSub.name === '') {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.visualConfig.containerNameVerify'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.visualConfig.containerNameVerify'), 'warning')
             this.ifSaveConfig = false
           }
           if (itemSub.ports[0].containerPort === undefined) {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.visualConfig.internalPortVerify'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.visualConfig.internalPortVerify'), 'warning')
             this.ifSaveConfig = false
           }
         })
         if (itemPo.metadata.name === '' || itemPo.metadata.name.toString().indexOf('_') !== -1) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('workspace.visualConfig.podNameVerify'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('workspace.visualConfig.podNameVerify'), 'warning')
           this.ifSaveConfig = false
         }
       })
@@ -980,40 +960,20 @@ export default {
       serviceDatas.forEach(itemSer => {
         itemSer.spec.ports.forEach(itemSub => {
           if (itemSub.nodePort === undefined) {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.visualConfig.nodePortVerify'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.visualConfig.nodePortVerify'), 'warning')
             this.ifSaveConfig = false
           }
           if (itemSub.targetPort === undefined) {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.visualConfig.destinationPortVerify'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.visualConfig.destinationPortVerify'), 'warning')
             this.ifSaveConfig = false
           }
           if (itemSub.port === undefined) {
-            this.$eg_messagebox({
-              type: 'warning',
-              title: '',
-              desc: this.$t('workspace.visualConfig.internalPortVerify'),
-              cancelText: this.$t('common.cancelText')
-            }).then(() => {}).catch(() => {})
+            this.$eg_messagebox(this.$t('workspace.visualConfig.internalPortVerify'), 'warning')
             this.ifSaveConfig = false
           }
         })
         if (itemSer.metadata.name === '' || itemSer.metadata.name.toString().indexOf('_') !== -1) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('workspace.visualConfig.serviceNameVerify'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('workspace.visualConfig.serviceNameVerify'), 'warning')
           this.ifSaveConfig = false
         }
       })
@@ -1078,12 +1038,7 @@ export default {
         })
         let params = JSON.stringify(this.configData.deployYamls)
         Workspace.postConfigVisualApi(this.projectId, this.userId, params, 'config').then(res => {
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('workspace.visualConfig.saveConfigSuccess'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('workspace.visualConfig.saveConfigSuccess'), 'success')
           this.dialogVisible = true
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
@@ -1092,12 +1047,7 @@ export default {
           this.submitData(this.appYamlFileId)
           this.setApiHeight()
         }).catch(() => {
-          this.$eg_messagebox({
-            type: 'error',
-            title: '',
-            desc: this.$t('workspace.visualConfig.saveConfigFail'),
-            cancelText: this.$t('common.cancelText')
-          }).then(() => {}).catch(() => {})
+          this.$eg_messagebox(this.$t('workspace.visualConfig.saveConfigFail'), 'error')
           this.appYamlFileId = ''
           this.markdownSource = ''
         })
@@ -1367,7 +1317,8 @@ export default {
   }
 
   .pod-content-basic__body .el-form-item .el-form-item__content {
-    width: 200px;
+    width: 50%;
+    min-width: 50px;
   }
 
   .pod-content-container-item__header {
@@ -1410,7 +1361,8 @@ export default {
   }
 
   .pod-content-container-item__body .el-form-item__content {
-    width: 200px;
+    width: 50%;
+    min-width: 50px;
   }
 
   .pod-content-container__item-envs .el-input {
@@ -1517,7 +1469,8 @@ export default {
   .resources-wrapper__item-content .resources-item__input {
     display: inline-block;
     padding-left: 10px;
-    width: 200px;
+    width: 70%;
+    min-width: 50px;
   }
 
   .resources-item__left {
@@ -1579,7 +1532,8 @@ export default {
   }
 
   .service-content-basic__body .el-form-item__content {
-    width: 200px;
+    width: 50%;
+    min-width: 50px;
   }
 
   .service-content-port__header {

@@ -267,21 +267,11 @@ export default {
     },
     validateInput () {
       if (this.selectedRegulationId === -1) {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'), 'warning')
         return false
       }
       if (this.selectedSystemId === '') {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'),
-          cancelText: this.$t('common.cancelText')
-        }).then(() => {}).catch(() => {})
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'), 'warning')
         return false
       }
       return true

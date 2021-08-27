@@ -71,9 +71,11 @@ export default {
   methods: {
     init () {
       this.visible = true
-      return new Promise((resolve, reject) => {
-        this.promise = { resolve, reject }
-      })
+      if (this.confirmText !== '') {
+        return new Promise((resolve, reject) => {
+          this.promise = { resolve, reject }
+        })
+      }
     },
     destroy () {
       this.visible = false
@@ -85,11 +87,15 @@ export default {
       })
     },
     handleCancel () {
-      this.promise.reject()
+      if (this.confirmText !== '') {
+        this.promise.reject()
+      }
       this.destroy()
     },
     handleConfirm () {
-      this.promise.resolve()
+      if (this.confirmText !== '') {
+        this.promise.resolve()
+      }
       this.destroy()
     }
   }

@@ -78,7 +78,12 @@ export default {
     },
     stageStatus: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+        'first': null,
+        'second': null,
+        'third': null,
+        'forth': null
+      })
     }
   },
   methods: {
@@ -88,13 +93,20 @@ export default {
      */
     updateStageStatus () {
       let _index = 0
+      let _failedFlag = false
       for (let key in this.stageStatus) {
+        if (_failedFlag) {
+          this.statusList[_index] = 2
+          continue
+        }
+
         if (this.stageStatus[key] === null) {
           this.statusList[_index] = 0
         } else if (this.stageStatus[key] === 'Success') {
           this.statusList[_index] = 1
         } else if (this.stageStatus[key] === 'Failed') {
           this.statusList[_index] = 2
+          _failedFlag = true
         }
         _index += 1
       }
@@ -107,7 +119,8 @@ export default {
         this.stageStatus = newVal
         this.updateStageStatus()
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   mounted () {
