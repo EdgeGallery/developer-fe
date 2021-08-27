@@ -279,7 +279,7 @@ export default {
         } else if (error.response.data.message === 'yaml file is empty!') {
           this.$eg_messagebox(this.$t('promptMessage.fileIsEmpty'), 'error')
         } else {
-          this.$$eg_messagebox(this.$t('promptMessage.imageInfoErr'), 'error')
+          this.$eg_messagebox(this.$t('promptMessage.imageInfoErr'), 'error')
         }
         this.appYamlFileId = ''
         this.yamlFileList = []
