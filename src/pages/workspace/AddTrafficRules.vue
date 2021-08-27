@@ -806,12 +806,12 @@ export default {
     },
     deleteFilterLines (index, rows) {
       this.filterTableData.splice(index, 1)
-      this.$message.success(this.$t('devTools.deleteSucc'))
+      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
       sessionStorage.setItem('filterData', JSON.stringify(this.filterTableData))
     },
     deleteInterfaceLines (index, rows) {
       this.interfaceTableData.splice(index, 1)
-      this.$message.success(this.$t('devTools.deleteSucc'))
+      this.showEgMessageBox('success', this.$t('devTools.deleteSucc'))
       sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     cancelEditFilter () {
@@ -837,29 +837,29 @@ export default {
   }
 }
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .addTrafficRules{
  .filter_add_en{
-    /deep/.el-form-item__label{
+    .el-form-item__label{
       padding-right:21px !important;
      }
-    /deep/.el-col-12{
-       /deep/.el-form-item__label{
+    .el-col-12{
+       .el-form-item__label{
           line-height:20px;
           vertical-align: middle;
        }
       }
     }
  .interface_dialog_en{
-   /deep/.el-form-item__label{
+   .el-form-item__label{
       width:226px !important;
      }
-   /deep/.el-form-item__content{
+   .el-form-item__content{
      margin-left:226px !important;
    }
  }
   #filterSubDialog{
-    /deep/.el-icon-info{
+    .el-icon-info{
           position: relative;
           top: -26px;
           right: 1%;
@@ -868,34 +868,34 @@ export default {
           color: #5344be;
     }
 
-    /deep/.el-form-item__label{
+    .el-form-item__label{
           padding-right:25px;
     }
-     /deep/.el-form-item__label_en{
+     .el-form-item__label_en{
           padding-right:21px;
     }
 
-    // /deep/.el-input__suffix{
+    // .el-input__suffix{
     //   right:85px;
     // }
     .title{
       margin-bottom:25px !important;
     }
-     /deep/.el-col-24{
-        /deep/.el-form-item{
+     .el-col-24{
+        .el-form-item{
         margin-bottom:0px !important;
-        /deep/.el-input__inner{
+        .el-input__inner{
         width:96%;
       }
       }
     }
-    /deep/.el-col-10{
+    .el-col-10{
         .el-form-item{
         margin-bottom:20px;
       }
 
     }
-    /deep/.el-col-14{
+    .el-col-14{
         .el-form-item{
         margin-bottom:20px;
       }
@@ -906,7 +906,7 @@ export default {
         margin-left:214px !important;
       }
     }
-    /deep/.el-input{
+    .el-input{
         width:100%;
       }
   }
@@ -915,11 +915,11 @@ export default {
       margin-bottom:40px;
     }
 
-    /deep/.el-input__suffix{
+    .el-input__suffix{
       right:11%;
     }
 
-    /deep/.el-form-item__label{
+    .el-form-item__label{
       padding-right:25px;
     }
     .interfaceSubFormitem{
@@ -929,12 +929,12 @@ export default {
     }
   }
 
-  /deep/.el-form-item__label{
+  .el-form-item__label{
     font-size:16px;
     color:#380879;
     padding-right:8px;
   }
-  /deep/.el-input__inner{
+  .el-input__inner{
     font-family: defaultFontLight;
     font-size:16px;
     color:#5743bc;
@@ -946,92 +946,96 @@ export default {
     text-align:left;
     padding-right:25px;
   }
-  /deep/.el-input__icon{
+  .el-input__icon{
     width:20px;
     line-height:36px;
   }
-  /deep/.el-select .el-input .el-select__caret{
+  .el-select .el-input .el-select__caret{
     color:#000;
   }
-  /deep/.el-input__suffix{
+  .el-input__suffix{
   right:7%;
   }
-  /deep/.el-icon-arrow-up:before{
+  .el-icon-arrow-up:before{
     font-size:14px;
   }
-  /deep/ .el-select-dropdown {
+   .el-select-dropdown {
     text-align:left;
     min-width: 278px !important;
     left: 5% !important;
     position:absolute !important;
   }
-  /deep/.el-input-number{
+  .el-input-number{
     width:100%;
   }
-  /deep/.el-input-number__decrease {
+  .el-input-number__decrease {
     display:none;
   }
-  /deep/.el-input-number__increase{
+  .el-input-number__increase{
     display:none;
   }
-  /deep/.el-form{
+  .el-form{
     margin-bottom:15px;
   }
-  /deep/.el-button-group{
+  .el-button-group{
     position:relative;
     top:20px;
     left:20px;
-    /deep/.el-button--text{
+    .el-button--text{
       color:#fbfbfb !important;
     }
+    span{
+       font-size:14px;
+    }
   }
-  /deep/.el-button--text{
+  .el-button--text{
     color:#fbfbfb !important;
   }
-  /deep/.el-icon-circle-plus-outline{
+  .el-icon-circle-plus-outline{
     color:#fbfbfb;
     position:relative;
     right:100%;
     top:-19px;
     font-size:15px;
   }
-  /deep/.el-table{
+  .el-table{
     background-color: #efefef;
     margin-top:0px !important;
     margin-bottom: 40px !important;
-    /deep/.el-button--text{
+    .el-button--text{
       font-size:14px;
     }
+    tr{
+    background-color:#f1f2f6 !important;
   }
-  /deep/.el-table tr td{
-    background-color:#f1f2f6;
   }
-  /deep/.el-dialog__footer{
+
+  .el-dialog__footer{
      padding-bottom:0px;
   }
-  /deep/.mt20{
+  .mt20{
     margin:0px;
   }
-  /deep/.el-table th{
+  .el-table th{
     background-color: #dedae9;
     padding:6px 4px;
     font-size:14px;
     font-weight:500;
     color:#62517a;
   }
-  /deep/.el-table__header-wrapper{
+  .el-table__header-wrapper{
     border-radius:0px;
   }
-  /deep/.el-table th>.cell{
+  .el-table th>.cell{
     padding-left:0px;
     padding-right:0px;
   }
-  /deep/.el-table--scrollable-x .el-table__body-wrapper{    -index:9;
+  .el-table--scrollable-x .el-table__body-wrapper{    -index:9;
     background-color: #f1f2f6;
     border-radius: 0 0 12px 12px;
     box-shadow: inset 0px 0px 0px 0px #000, inset 0px -20px 27px -19px #d9d9dc;
   }
- /deep/.el-table__fixed::before, .el-table__fixed-right::before{
+ .el-table__fixed::before, .el-table__fixed-right::before{
   height:0px !important;
 }
   .forwardInterfaceIcon{
@@ -1054,16 +1058,15 @@ export default {
   color:#fefefe;
   font-size:16px;
 }
-
-  .btn{
+.btn{
     position: relative;
     top: -10px;
     padding-right: 7px;
-  }
-  .el-form-item__content{
+ }
+.el-form-item__content{
     line-height: none;
   }
-  .input_promt{
+.input_promt{
     position:relative;
     top:-38px;
     left:90px;
@@ -1072,5 +1075,4 @@ export default {
     height: 15px;
     margin-top: 5px;
   }
-
 </style>

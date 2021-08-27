@@ -539,7 +539,7 @@ const en = {
     protocol: 'Protocol',
     appDetails: 'App Package Details',
     appTest: 'Application Test',
-    releaseText: 'The application needs to be tested before it is released',
+    releaseText: 'Please click "application certification" to test before application release',
     instantiateId: 'Instantiate ID',
     applicationDesc: 'Application Description',
     ruleConfig: 'Application Rule Configuration',

@@ -407,7 +407,7 @@
           >
             {{ $t('workspace.appRelease.enterAtp') }}
           </el-button>
-          <el-button
+          <!-- <el-button
             type="primary"
             class="atp_button"
             @click="getAtpTest"
@@ -426,7 +426,7 @@
             >
               <em class="el-icon-info" />
             </el-tooltip>
-          </div>
+          </div> -->
         </div>
         <div
           v-show="showAtp"
@@ -811,7 +811,8 @@ export default {
         this.clearInterval()
       } else if (active === 1) {
         this.step = 'step2'
-        this.getAtpData()
+        // this.getAtpData()
+        this.getAtpTest()
         this.clearInterval()
       } else if (active === 2) {
         this.step = 'step3'
@@ -1221,6 +1222,7 @@ export default {
   .release_steps2{
     background-color: #fbfbfb !important;
     box-shadow:none !important;
+    margin-top:0px !important;
   }
   .release_steps{
     width: 100%;
@@ -1250,7 +1252,7 @@ export default {
     .second-step {
       min-height: 464px;
       .btn-wrapper {
-        margin-top: -122px;
+        margin-top: -80px;
         float: right;
       }
       .atp_button {
@@ -1289,8 +1291,8 @@ export default {
       margin-right: 15px;
     }
     .is-disabled{
-      background: #aaa;
-      border: 1px solid #aaa;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
     }
   }
   .el-button.margin_left{

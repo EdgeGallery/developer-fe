@@ -539,7 +539,7 @@ const cn = {
     protocol: '协议',
     appDetails: '应用包详情',
     appTest: '应用测试',
-    releaseText: '应用发布之前需要进行测试',
+    releaseText: '应用发布之前请点击“应用认证”进行测试 ',
     instantiateId: '实例化ID',
     applicationDesc: '应用描述',
     ruleConfig: '应用规则配置',

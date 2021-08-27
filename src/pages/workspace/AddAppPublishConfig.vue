@@ -412,20 +412,20 @@ export default {
       let checkPassed = true
       this.fileType = fileList[0].name.substring(fileList[0].name.lastIndexOf('.') + 1)
       if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-        this.$message.warning(this.$t('promptMessage.checkFileType'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.checkFileType'))
         checkPassed = false
       }
       return checkPassed
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.onlyOneFile'))
       }
     },
     // Upload API
     handleChangeApi (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.fileNameType'))
         this.apiFileList = []
       } else {
         this.apiFileList.push(file.raw)
@@ -446,7 +446,7 @@ export default {
     // Upload Api description file
     changeApiMd (file, fileList) {
       if (file.raw.name.indexOf(' ') !== -1) {
-        this.$message.warning(this.$t('promptMessage.fileNameType'))
+        this.showEgMessageBox('warning', this.$t('promptMessage.fileNameType'))
         this.apiMdList = []
       } else {
         this.apiMdList.push(file.raw)
