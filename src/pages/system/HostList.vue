@@ -719,12 +719,7 @@ export default {
         this.innerVisible = false
         this.isEdit = false
       } else {
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('system.completeInfo'),
-          cancelText: this.$t('common.cancelText')
-        })
+        this.$eg_messagebox(this.$t('system.completeInfo'), 'warning')
       }
     },
     handleDelete ({ hostId }) {
@@ -755,23 +750,13 @@ export default {
           }
           System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
             if (res.data) {
-              this.$eg_messagebox({
-                type: 'success',
-                title: '',
-                desc: (this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'),
-                cancelText: this.$t('common.cancelText')
-              })
+              this.$eg_messagebox((this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'), 'success')
               this.onClose()
             } else {
               throw new Error()
             }
           }).catch(() => {
-            this.$eg_messagebox({
-              type: 'error',
-              title: '',
-              desc: this.$t('promptMessage.saveFail'),
-              cancelText: this.$t('common.cancelText')
-            })
+            this.$eg_messagebox(this.$t('promptMessage.saveFail'), 'error')
           }).finally(() => {
             this.loading = false
             this.getListData()
@@ -812,12 +797,7 @@ export default {
         this.submitFile(key, [file.raw])
       } else {
         this.configId_file_list = []
-        this.$eg_messagebox({
-          type: 'warning',
-          title: '',
-          desc: this.$t('promptMessage.typeError') + ' , ' + this.$t('promptMessage.typeConfig'),
-          cancelText: this.$t('common.cancelText')
-        })
+        this.$eg_messagebox(this.$t('promptMessage.typeError') + ' , ' + this.$t('promptMessage.typeConfig'), 'warning')
       }
     },
     submitFile (key, fileList) {
@@ -828,31 +808,16 @@ export default {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
-          this.$eg_messagebox({
-            type: 'success',
-            title: '',
-            desc: this.$t('promptMessage.uploadSuccess'),
-            cancelText: this.$t('common.cancelText')
-          })
+          this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
         } else {
           this.handleRemove(key)
           throw new Error()
         }
       }).catch((error) => {
         if (error && error.response && error.response.data.code === 403) {
-          this.$eg_messagebox({
-            type: 'warning',
-            title: '',
-            desc: this.$t('promptMessage.guestPrompt'),
-            cancelText: this.$t('common.cancelText')
-          })
+          this.$eg_messagebox(this.$t('promptMessage.guestPrompt'), 'warning')
         } else {
-          this.$eg_messagebox({
-            type: 'error',
-            title: '',
-            desc: this.$t('promptMessage.uploadFailure'),
-            cancelText: this.$t('common.cancelText')
-          })
+          this.$eg_messagebox(this.$t('promptMessage.uploadFailure'), 'error')
         }
         this.handleRemove(key)
       }).finally(() => {
@@ -860,12 +825,7 @@ export default {
       })
     },
     handleExceed () {
-      this.$eg_messagebox({
-        type: 'warning',
-        title: '',
-        desc: this.$t('system.fileExceed'),
-        cancelText: this.$t('common.cancelText')
-      })
+      this.$eg_messagebox(this.$t('system.fileExceed'), 'warning')
     },
     handleShowForm (v) {
       this.form = JSON.parse(JSON.stringify(v))
