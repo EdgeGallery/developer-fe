@@ -1260,6 +1260,7 @@ export default {
         max-width: 445px;
       }
     }
+
     }
   }
   .release_btn{
@@ -1525,6 +1526,9 @@ export default {
       #app{
         background-color: none;
       }
+       #app::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
     }
   }
   .release_test{

@@ -1035,6 +1035,9 @@ export default {
     border-radius: 0 0 12px 12px;
     box-shadow: inset 0px 0px 0px 0px #000, inset 0px -20px 27px -19px #d9d9dc;
   }
+  .el-table__body-wrapper::-webkit-scrollbar {
+      height:5px; /* Chrome Safari */
+    }
  .el-table__fixed::before, .el-table__fixed-right::before{
   height:0px !important;
 }
@@ -1043,7 +1046,6 @@ export default {
   }
 
 }
-
 .tableSubTitle{
   width:100%;
   height:35px;
