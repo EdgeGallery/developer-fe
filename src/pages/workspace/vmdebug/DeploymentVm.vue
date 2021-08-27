@@ -325,10 +325,10 @@ export default {
      */
     deployTest () {
       vmService.vmDeployTestApi(this.projectId, this.userId).then(response => {
-        if (response.data.status === 'DEPLOYING') {
+        if (response.data.status === 'CREATING') {
           this.$eg_messagebox(this.$t('workspace.startDeploySucc'), 'info')
         }
-        this.deployStatus = 'DEPLOYING'
+        this.deployStatus = 'CREATING'
         this.showProgressBar = true
         this.deployProgress = 0
         this.timer = setInterval(this.getProjectVmList, 2000)
