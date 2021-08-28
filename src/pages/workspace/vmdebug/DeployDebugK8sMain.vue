@@ -136,6 +136,7 @@ export default {
         } else {
           this.currentStep = 0
         }
+        this.changeComponent()
       })
     },
     changeComponent () {
@@ -179,7 +180,6 @@ export default {
     this.projectId = sessionStorage.getItem('mecDetailID')
     this.userId = sessionStorage.getItem('userId')
     this.getProjectInfo()
-    this.changeComponent()
   }
 }
 </script>
