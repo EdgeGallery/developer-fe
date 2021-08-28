@@ -407,7 +407,7 @@ export default {
           this.stageStatus = cachedData.stageStatus
           this.deployStatus = cachedData.status
           this.updateDeployProgress()
-          if (this.deployStatus !== 'NOTDEPLOY') {
+          if (this.deployStatus === 'SUCCESS' || this.deployStatus === 'FAILED' || this.deployStatus === 'CREATING') {
             this.showProgressBar = true
           }
 

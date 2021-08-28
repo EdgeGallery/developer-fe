@@ -236,7 +236,7 @@ export default {
       this.deployField = cachedData.deployField
       this.updateDeployProgress()
 
-      if (this.deployStatus !== 'NOTDEPLOY') {
+      if (this.deployStatus === 'SUCCESS' || this.deployStatus === 'FAILED' || this.deployStatus === 'DEPLOYING') {
         this.showProgressBar = true
       }
 
