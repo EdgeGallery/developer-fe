@@ -246,6 +246,7 @@
               :api-data-loading="apiDataLoading"
               @getAppapiFileId="getAppapiFileId"
               @checkCleanEnv="checkCleanEnv"
+              @handleClickNextBtn="handleClickNextBtn"
             />
           </div>
         </el-tab-pane>
@@ -757,10 +758,19 @@ export default {
         this.isAppDevelopment = false
       }
     },
-    handleClickNextBtn () {
-      this.activeName = '4'
+    handleClickNextBtn (panelDesc) {
+      switch (panelDesc) {
+        case 'DEPLOY_DEBUG_K8S':
+          this.activeName = '5'
+          break
+        case 'RESCOURCE_CONFIG':
+          this.activeName = '4'
+          break
+        default:
+          break
+      }
     },
-    handleClickPrevBtn () {
+    handleClickPrevBtn (panelDesc) {
       if (this.isAppDevelopment) {
         this.activeName = '3'
       } else {
@@ -1114,6 +1124,9 @@ export default {
   }
   .el-tabs__item.is-disabled span:hover {
     color: #5e40c8;
+  }
+  .el-tabs__item.is-active.is-disabled span {
+    color: #5e40c8 !important;
   }
   .el-tabs__item.is-disabled {
     .tab_capability.tab_default {

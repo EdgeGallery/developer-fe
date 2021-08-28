@@ -211,6 +211,7 @@
                       v-for="(itemEnv,indexEnv) in itemContainer.env"
                       :key="indexEnv"
                       class="pod-content-container__item-envs"
+                      :class="{'span_left_en':language==='en'}"
                     >
                       <el-input
                         class="variable-name"
@@ -1279,6 +1280,10 @@ export default {
   }
 
   /* style for pod related elements. */
+  .pod-wrapper {
+    min-width: 665px;
+  }
+
   .pod-wrapper .pod-content {
     border: none;
     padding: 0;
@@ -1364,7 +1369,7 @@ export default {
   }
 
   .pod-content-container__item-envs .el-input {
-    width: 105px;
+    width: calc(50% - 15px);
   }
 
   .pod-content-container__item-envs .variable-name {

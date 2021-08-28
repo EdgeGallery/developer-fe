@@ -19,12 +19,12 @@
   background-color: #5e40c8;
   border-radius: 8px;
   border:none;
-  font-size: 20px;
+  font-size: 18px;
   font-family: defaultFontLight !important;
   color: #FFFFFF;
-  min-width: 174px;
-  height: 46px;
-  line-height: 46px;
+  min-width: 150px;
+  height: 40px;
+  line-height: 40px;
   padding: 0 20px;
 }
 
