@@ -761,7 +761,11 @@ export default {
       this.activeName = '4'
     },
     handleClickPrevBtn () {
-      this.activeName = '3'
+      if (this.isAppDevelopment) {
+        this.activeName = '3'
+      } else {
+        this.activeName = '1'
+      }
     }
   },
   mounted () {
@@ -1105,7 +1109,26 @@ export default {
       }
     }
   }
-
+  .el-tabs__item.is-disabled span {
+    color: #c9c5d0;
+  }
+  .el-tabs__item.is-disabled span:hover {
+    color: #5e40c8;
+  }
+  .el-tabs__item.is-disabled {
+    .tab_capability.tab_default {
+      background: url('../../assets/images/menu_iocn_capability_disabled.png') no-repeat;
+    }
+    .tab_appDev.tab_default {
+      background: url('../../assets/images/menu_iocn_code_disabled.png') no-repeat;
+    }
+    .tab_deploy.tab_default {
+      background: url('../../assets/images/menu_iocn_deploy_disabled.png') no-repeat;
+    }
+    .tab_release.tab_default {
+      background: url('../../assets/images/menu_iocn_release_disabled.png') no-repeat;
+    }
+  }
   .el-tabs--left .el-tabs__item.is-left.is-active{
     background:#fff;
     color: #5e40c8;

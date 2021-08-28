@@ -73,7 +73,7 @@
           </el-col>
           <el-col :span="24">
             <el-button
-              class="next-step-button"
+              class="delete-button"
               @click="handleDelResource"
             >
               {{ $t('workspace.deployDebugVm.deleteBtnLbl') }}
