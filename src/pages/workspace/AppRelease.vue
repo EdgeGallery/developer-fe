@@ -1235,7 +1235,7 @@ export default {
       }
     }
     .third-step {
-      .el-table td, .el-table th{
+      .el-table td, .el-table th {
         text-align: center;
         .icon{
           margin-right: 5px;
@@ -1246,7 +1246,7 @@ export default {
         }
       }
       .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover {
-        color: #62517a;
+        color: #62517a !important;
       }
     }
     .second-step {

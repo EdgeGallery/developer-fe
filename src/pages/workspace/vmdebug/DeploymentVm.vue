@@ -606,10 +606,9 @@ export default {
       border-radius: 12px 12px 12px 12px;
     }
   }
-}
-
-.deployment-result {
-  margin-top: 0px;
+  .deployment-result {
+    margin-top: 0px;
+  }
 }
 
 .deployment-result__comp {
