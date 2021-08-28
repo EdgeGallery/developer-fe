@@ -110,9 +110,10 @@ export default {
 .deployment-test-envs__item {
   display: inline-block;
   position: relative;
+  text-align: left;
   padding-right: 40px;
   margin-bottom: 20px;
-  text-align: left;
+  min-width: 275px;
 }
 
 .deployment-test-envs__item .work-radio {
@@ -152,6 +153,7 @@ export default {
 }
 
 .deployment-button__wrapper .deploy-btn {
+  margin-right: 25px;
   height: 39px;
   background-color: #8278b7;
   border-radius: 8px;

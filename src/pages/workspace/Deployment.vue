@@ -236,12 +236,15 @@ export default {
       this.deployField = cachedData.deployField
       this.updateDeployProgress()
 
+      if (this.deployStatus !== 'NOTDEPLOY') {
+        this.showProgressBar = true
+      }
+
       if (this.deployStatus === 'SUCCESS') {
         clearInterval(this.timer)
         this.handlePodsData(cachedData)
         this.testFinished = true
         this.isDeploySuccess = true
-        this.showProgressBar = true
         this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       } else if (this.deployStatus === 'FAILED') {
@@ -251,7 +254,6 @@ export default {
         }
         this.testFinished = true
         this.isDeploySuccess = false
-        this.showProgressBar = true
         this.accessUrl = cachedData.accessUrl
         this.errorLog = cachedData.errorLog
       }
