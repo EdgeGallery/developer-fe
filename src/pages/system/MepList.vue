@@ -228,6 +228,7 @@
             :label="$t('workspace.icon')"
             class="icon"
             ref="iconFileItem"
+            prop="appIcon"
           >
             <div class="default-icon">
               <div
@@ -641,7 +642,7 @@ export default {
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.provider')}` },
           { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemProviderName') }
         ],
-        logoFileList: [
+        appIcon: [
           { required: true, message: 'Icon is required', trigger: 'change' }
         ]
       },
@@ -813,6 +814,7 @@ export default {
       }
     },
     conversionIcon (file) {
+      this.form.appIcon = []
       let image = new Image()
       image.src = file
       image.onload = () => {
@@ -845,12 +847,15 @@ export default {
       this.apiFileId_file_list = []
       this.guideFileId_file_list = []
       this.guideFileIdEn_file_list = []
+      this.logoFileList = []
       this.isAddService = false
       this.form = JSON.parse(JSON.stringify(row))
       let iconUrl = this.getIcon(this.form.iconFileId)
       let currUrl = window.location.origin
-      this.defaultIcon[0] = iconUrl + currUrl
-      this.chooseDefaultIcon(this.defaultIcon[0], 0)
+      let obj = {}
+      obj.url = iconUrl + currUrl
+      this.uploadIcon = true
+      this.logoFileList.push(obj)
       this.getFileList('apiFileId', this.form.apiFileId)
       this.getFileList('guideFileId', this.form.guideFileId)
       this.getFileList('guideFileIdEn', this.form.guideFileIdEn)
@@ -863,7 +868,6 @@ export default {
       Workspace.getApiFileApi(fileId, this.userId).then(res => {
         let obj = { name: '' }
         obj.name = res.data.fileName
-        console.log(obj)
         if (fileType === 'apiFileId') {
           this.apiFileId_file_list.push(obj)
         } else if (fileType === 'guideFileId') {
@@ -876,8 +880,36 @@ export default {
     onClose () {
       this.visible = false
     },
+    createCapabilityFun (data) {
+      Capability.createCapability(data).then(res => {
+        if (res && res.data && res.data.id) {
+          this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.success'), 'success')
+          this.onClose()
+          this.$refs['form'].resetFields()
+        } else {
+          throw new Error()
+        }
+        this.getListData()
+      }).catch(err => {
+        if (err.response.data.message === 'The capability is exist') {
+          this.$eg_messagebox(this.$t('system.isExistCapability'), 'error')
+        } else {
+          this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.error'), 'error')
+        }
+      })
+    },
+    editCapabilityFun (data) {
+      Capability.editCapability(this.form.id, data).then(() => {
+        this.$eg_messagebox(this.$t('api.modify') + this.$t('system.success'), 'success')
+        this.onClose()
+        this.$refs['form'].resetFields()
+        this.getListData()
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('api.modify') + this.$t('system.error'), 'error')
+      })
+    },
     onSubmit () {
-      if (this.form.appIcon.length !== 0 || this.logoFileList.length !== 0) {
+      if (this.form.appIcon || this.logoFileList.length !== 0) {
         this.$refs.iconFileItem.clearValidate()
       }
       this.$refs['form'].validate((valid, params) => {
@@ -886,27 +918,9 @@ export default {
           let data = { ...this.form, ...params }
           data.group.type = 'OPENMEP'
           if (this.isAddService) {
-            Capability.createCapability(data).then(res => {
-              if (res && res.data && res.data.id) {
-                this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.success'), 'success')
-                this.onClose()
-                this.$refs['form'].resetFields()
-              } else {
-                throw new Error()
-              }
-              this.getListData()
-            }).catch(() => {
-              this.$eg_messagebox(this.$t('system.addMep') + this.$t('system.error'), 'error')
-            })
+            this.createCapabilityFun(data)
           } else {
-            Capability.editCapability(this.form.id, data).then(() => {
-              this.$eg_messagebox(this.$t('api.modify') + this.$t('system.success'), 'success')
-              this.onClose()
-              this.$refs['form'].resetFields()
-              this.getListData()
-            }).catch(() => {
-              this.$eg_messagebox(this.$t('api.modify') + this.$t('system.error'), 'error')
-            })
+            this.editCapabilityFun(data)
           }
           this.loading = false
           sessionStorage.setItem('currentPage', 1)
@@ -976,7 +990,6 @@ export default {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
-          this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
           if (this[`${key}_file_list`].length !== 0) {
             if (key === 'apiFileId') {
               this.$refs.apiFileItem.clearValidate()
@@ -1024,6 +1037,9 @@ export default {
 
 <style lang="less">
 .capManagement {
+  .el-upload-list__item {
+    transition: none !important;
+  }
   .createservice_btn{
     position: absolute;
     right: 0;
@@ -1149,8 +1165,8 @@ export default {
       em{
         display: inline-block;
         position: relative;
-        bottom: 0;
-        right: 0;
+        bottom: -7px;
+        right: 5px;
       }
       .active{
         color: #5e40c8;
@@ -1168,6 +1184,9 @@ export default {
   }
   .upload-demo{
     float: left;
+    .el-upload-list__item-status-label{
+      display: none !important;
+    }
     .el-upload{
       float: left;
       width: 34px;
@@ -1182,7 +1201,7 @@ export default {
     .el-upload-list__item{
       border-radius: 0;
     }
-    .el-upload-list__item:first-child{
+    .el-upload-list__item{
       width: auto;
       height: 40px;
       min-width: 40px;
@@ -1190,16 +1209,16 @@ export default {
       margin: 0 15px 0 0;
       background-color:transparent;
     }
-    .el-form-error{
-      float: left;
-      color: #F56C6C;
-      font-size: 12px;
-      line-height: 1;
-      margin: 14px 10px 0px 0px;
-    }
     .el-upload-list__item-preview{
       opacity: 0;
     }
+  }
+  .el-form-error{
+    display: inline-block;
+    color: #F56C6C;
+    font-size: 12px;
+    line-height: 1;
+    margin: 14px 10px 0px 20px;
   }
   .uploadIconSpan{
     font-size:16px;
