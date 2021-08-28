@@ -42,7 +42,7 @@
           id="closeBtn"
           @click="handleClose"
         >
-          <strong>{{ $t('common.close') }}</strong>
+          {{ $t('common.close') }}
         </el-button>
       </div>
     </el-dialog>
@@ -95,6 +95,13 @@ export default {
 </script>
 <style lang='less'>
 .uploadApp {
+  .elButton {
+    .el-button {
+      width: auto !important;
+      padding: 0 30px !important;
+      font-size: 20px;
+    }
+  }
   .el-dialog {
     border-radius:12px;
     padding:40px 39px;

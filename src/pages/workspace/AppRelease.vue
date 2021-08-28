@@ -1234,6 +1234,21 @@ export default {
         }
       }
     }
+    .third-step {
+      .el-table td, .el-table th{
+        text-align: center;
+        .icon{
+          margin-right: 5px;
+        }
+        .is-disabled{
+          background: transparent;
+          border: 1px solid transparent;
+        }
+      }
+      .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover {
+        color: #62517a;
+      }
+    }
     .second-step {
       min-height: 464px;
       .btn-wrapper {
@@ -1258,9 +1273,8 @@ export default {
       img{
         width: 50%;
         max-width: 445px;
+        }
       }
-    }
-
     }
   }
   .release_btn{

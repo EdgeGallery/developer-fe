@@ -99,7 +99,7 @@ export default {
           this.handleClose()
           this.confimLoading = false
         }).catch(() => {
-          this.$message.error(this.$t('promptMessage.isPublishFailed'))
+          this.$eg_messagebox(this.$t('promptMessage.isPublishFailed'), 'error')
           this.confimLoading = false
         })
       }
@@ -110,7 +110,7 @@ export default {
           this.handleClose()
           this.confimLoading = false
         }).catch(() => {
-          this.$message.error(this.$t('promptMessage.isPublicFailed'))
+          this.$eg_messagebox(this.$t('promptMessage.isPublicFailed'), 'error')
           this.confimLoading = false
         })
       }
