@@ -670,7 +670,8 @@ export default {
       imageStatus: 'NOTDEPLOY',
       deployPlatform: this.deployPlatformProp,
       isRelease: true,
-      vmRelease: false
+      vmRelease: false,
+      appRuleData: {}
     }
   },
   methods: {
@@ -758,6 +759,8 @@ export default {
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
+        this.appRuleData = res.data.capabilitiesDetail
+        this.getAllListData()
         if (this.mdFileId) {
           this.getFileList()
         }
@@ -789,7 +792,9 @@ export default {
         if (res.data.atpTest) {
           this.trafficAllData.atpTest = res.data.atpTest
         }
-        Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
+        if (!res.data.capabilitiesDetail) {
+          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
+        }
       })
     },
     next () {
@@ -869,19 +874,13 @@ export default {
     },
     // Get the list of rules
     getAllListData () {
-      if (sessionStorage.getItem('dnsData')) {
-        this.dnsListData = JSON.parse(sessionStorage.getItem('dnsData'))
+      if (JSON.stringify(this.appRuleData) !== '{}') {
+        this.dnsListData = this.appRuleData.appDNSRule
+        this.appPublishListData = this.appRuleData.serviceDetails
+        this.trafficListData = this.appRuleData.appTrafficRule
       } else {
         this.dnsListData = []
-      }
-      if (sessionStorage.getItem('configData')) {
-        this.appPublishListData = JSON.parse(sessionStorage.getItem('configData'))
-      } else {
         this.appPublishListData = []
-      }
-      if (sessionStorage.getItem('trafficData')) {
-        this.trafficListData = JSON.parse(sessionStorage.getItem('trafficData'))
-      } else {
         this.trafficListData = []
       }
     },
@@ -934,7 +933,6 @@ export default {
         this.dnsListData.splice(this.editIndex, 1, data)
         this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
-      sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
     },
     getAddTrafficData (data) {
       if (this.isAddRuleData) {
@@ -944,7 +942,6 @@ export default {
         this.trafficListData.splice(this.editIndex, 1, data)
         this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
-      sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
     },
     getAddPublicConfigData (data) {
       if (this.isAddRuleData) {
@@ -955,7 +952,6 @@ export default {
         this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
-      sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
     },
     // Edit rule list
     editTrafficRule (index, row) {
@@ -1160,7 +1156,6 @@ export default {
     this.getTestConfig()
     this.getVmResourceList()
     this.getAppstoreUrl()
-    this.getAllListData()
     this.getReleaseConfigList()
   },
   watch: {

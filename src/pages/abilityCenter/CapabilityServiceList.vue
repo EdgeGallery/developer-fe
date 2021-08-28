@@ -197,7 +197,6 @@ export default {
       this.$nextTick(() => {
         let oDiv = document.getElementsByClassName('service_list')
         let width = Number(oDiv[0].offsetWidth)
-        console.log(width)
         if (width > 320 && width < 430) {
           this.divHeight = width - 100
         } else {
