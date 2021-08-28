@@ -43,7 +43,7 @@
       <el-button
         class="work-button"
         type="primary"
-        @click="previous"
+        @click="handleClickPrevStep"
         v-if="currentStep > 0"
         :disabled="isDeploying"
       >
@@ -53,8 +53,17 @@
         class="work-button"
         type="primary"
         v-loading="apiDataLoading"
-        @click="next"
+        @click="handleClickNextStep"
         v-if="currentStep < 1"
+      >
+        {{ $t('workspace.next') }}
+      </el-button>
+      <el-button
+        class="work-button"
+        type="primary"
+        v-loading="apiDataLoading"
+        @click="handleClickNextPanel"
+        v-if="currentStep == 1"
       >
         {{ $t('workspace.next') }}
       </el-button>
@@ -132,7 +141,7 @@ export default {
           this.currentComponent = 'configYaml'
       }
     },
-    next () {
+    handleClickNextStep () {
       this.$refs.currentComponet.emitStepData()
       if (this.allStepData.ifNext) {
         if (this.currentStep < 1) {
@@ -141,9 +150,12 @@ export default {
         }
       }
     },
-    previous () {
+    handleClickPrevStep () {
       this.currentStep--
       this.handleStep()
+    },
+    handleClickNextPanel () {
+      this.$emit('handleClickNextBtn', 'DEPLOY_DEBUG_K8S')
     },
     // Change dynamic component value
     handleStep () {

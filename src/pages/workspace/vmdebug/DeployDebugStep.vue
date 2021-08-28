@@ -127,10 +127,10 @@ export default {
       this.interval = null
     },
     handleClickPrevBtn () {
-      this.$emit('handleClickPrevBtn')
+      this.$emit('handleClickPrevBtn', 'RESCOURCE_CONFIG')
     },
     handleClickNextBtn () {
-      this.$emit('handleClickNextBtn')
+      this.$emit('handleClickNextBtn', 'RESCOURCE_CONFIG')
     }
   },
   mounted () {
