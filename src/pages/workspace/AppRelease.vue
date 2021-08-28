@@ -604,7 +604,7 @@ export default {
   data () {
     return {
       active: 0,
-      step: 'step2',
+      step: 'step1',
       projectDetailData: {
         name: '',
         type: '',
