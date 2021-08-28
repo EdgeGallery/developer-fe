@@ -247,6 +247,27 @@
               @getAppapiFileId="getAppapiFileId"
               @checkCleanEnv="checkCleanEnv"
             />
+            <div
+              v-if="deployPlatform === 'VIRTUALMACHINE'"
+              class="elButton defaultFontLight"
+            >
+              <el-button
+                id="prevBtn"
+                type="primary"
+                @click="previousVmPane"
+                :disabled="isDeploying"
+              >
+                {{ $t('workspace.previous') }}
+              </el-button>
+              <el-button
+                id="nextBtn"
+                type="primary"
+                v-loading="apiDataLoading"
+                @click="nextVmPane"
+              >
+                {{ $t('workspace.next') }}
+              </el-button>
+            </div>
           </div>
         </el-tab-pane>
         <el-tab-pane
@@ -673,6 +694,12 @@ export default {
       } else {
         this.activeName = '1'
       }
+    },
+    nextVmPane () {
+      this.activeName = '5'
+    },
+    previousVmPane () {
+      this.activeName = '6'
     },
     getFormData ({ data, step }) {
       this.allFormData[step] = data
@@ -1145,6 +1172,7 @@ export default {
       }
       .el-button--primary {
         background-color: #5e40c8;
+        border-color: #5e40c8;
         color: #ffffff;
         border-radius: 8px;
         margin-left: 30px;

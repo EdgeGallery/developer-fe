@@ -337,7 +337,7 @@ export default {
       }).catch(err => {
         this.vmDataLoading = false
         if (err.response.data.message === 'Can not get vm package config') {
-          this.$message.warning(this.$t('workspace.deployDebugVm.resourceConfigPromt'))
+          this.$eg_messagebox(this.$t('workspace.deployDebugVm.resourceConfigPromt'), 'warning')
         }
       })
     },
@@ -506,15 +506,10 @@ export default {
         type: 'warning'
       }).then(() => {
         vmService.deleteVmImageApi(this.projectId, this.userId).then(() => {
-          this.$message({
-            type: 'success',
-            message: this.$t('devTools.deleteSucc')
-          })
+          this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
           this.getCreateImageList()
         }).catch(() => {
-          this.$message.error({
-            message: this.$t('devTools.deleteFail')
-          })
+          this.$eg_messagebox(this.$t('devTools.deleteFail'), 'error')
         })
       })
     },
@@ -614,7 +609,7 @@ export default {
 }
 
 .deployment-result {
-  margin-top: 50px;
+  margin-top: 0px;
 }
 
 .deployment-result__comp {

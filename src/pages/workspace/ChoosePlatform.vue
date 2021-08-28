@@ -43,7 +43,7 @@ export default {
       if (ifNext) {
         this.$emit('getStepData', { step: 'second', data: '', ifNext })
       } else {
-        this.$message.warning(this.$t('workspace.supportPlatform.title'))
+        this.$eg_messagebox(this.$t('workspace.supportPlatform.title'), 'warning')
       }
     }
   }
