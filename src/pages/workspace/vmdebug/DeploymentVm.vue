@@ -407,13 +407,15 @@ export default {
           this.stageStatus = cachedData.stageStatus
           this.deployStatus = cachedData.status
           this.updateDeployProgress()
+          if (this.deployStatus !== 'NOTDEPLOY') {
+            this.showProgressBar = true
+          }
 
           // deploy successfully
           if (this.deployStatus === 'SUCCESS') {
             clearInterval(this.timer)
             this.testFinished = true
             this.isDeploySuccess = true
-            this.showProgressBar = true
             this.accessUrl = this.getVmDeployIp(cachedData)
             this.errorLog = cachedData.log
           }
@@ -423,7 +425,6 @@ export default {
             this.deployStatus = 'FAILED'
             this.testFinished = true
             this.isDeploySuccess = false
-            this.showProgressBar = true
             this.accessUrl = this.getVmDeployIp(cachedData)
             this.errorLog = cachedData.log
           }
