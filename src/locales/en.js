@@ -811,6 +811,7 @@ const en = {
     capType: 'Type',
     oneLevelCapability: 'oneLevelCapability',
     twoLevelCapability: 'twoLevelCapability',
+    isExistCapability: 'A service with the same name already exists',
     capTypeOPENMEP: 'OPENMEP',
     serviceName: 'Service Name',
     inPort: 'Port',

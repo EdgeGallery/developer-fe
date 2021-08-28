@@ -811,6 +811,7 @@ const cn = {
     capType: '能力分类',
     oneLevelCapability: '一级能力',
     twoLevelCapability: '二级能力',
+    isExistCapability: '已存在同名服务',
     capTypeOPENMEP: '生态能力',
     serviceName: '服务名称',
     inPort: '端口号',
