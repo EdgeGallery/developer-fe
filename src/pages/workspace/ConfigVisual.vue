@@ -48,7 +48,7 @@
           </div>
           <el-form
             class="pod-content-basic__body work-input"
-            :label-width="labelWidth"
+            :class="[language === 'cn' ? 'cn' : 'en']"
             size="small"
             :inline="true"
             :model="itemPod.metadata"
@@ -129,7 +129,7 @@
             <div class="pod-content-container-item__body">
               <el-form
                 class="work-input"
-                :label-width="labelWidth"
+                :class="[language === 'cn' ? 'cn' : 'en']"
                 size="small"
                 :model="itemContainer"
                 :inline="true"
@@ -375,7 +375,7 @@
         <div class="service-content-basic__body">
           <el-form
             class="work-input"
-            :label-width="labelWidth"
+            :class="[language === 'cn' ? 'cn' : 'en']"
             size="small"
             :inline="true"
             :model="itemService"
@@ -461,7 +461,7 @@
             </div>
             <el-form
               class="service-content-port__item work-input"
-              :label-width="labelWidth"
+              :class="[language === 'cn' ? 'cn' : 'en']"
               size="small"
               :inline="true"
               :model="itemPorts"
@@ -723,8 +723,7 @@ export default {
       viewOrEdit: 'preview',
       viewConfigFileBtn: false,
       isEditFile: false,
-      ifSaveConfig: true,
-      labelWidth: '130px'
+      ifSaveConfig: true
     }
   },
   methods: {
@@ -1204,13 +1203,6 @@ export default {
     // Change resource panel display status in each container.
     changeResourceDisplayStatus (container) {
       container.showResource = !container.showResource
-    },
-    setLabelWidth () {
-      if (this.language === 'en') {
-        this.labelWidth = '180px'
-      } else {
-        this.labelWidth = '130px'
-      }
     }
   },
   watch: {
@@ -1219,11 +1211,9 @@ export default {
     },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      this.setLabelWidth()
     }
   },
   mounted () {
-    this.setLabelWidth()
     this.getConfigFile()
   }
 }
@@ -1253,6 +1243,24 @@ export default {
     border-radius: 8px;
     font-family: defaultFontLight;
     margin-top: 10px;
+  }
+
+  .cn .el-form-item__label {
+    width: 130px;
+  }
+
+  .cn .el-form-item__content {
+    width: calc(100% - 150px);
+    min-width: 50px;
+  }
+
+  .en .el-form-item__label {
+    width: 180px;
+  }
+
+  .en .el-form-item__content {
+    width: calc(100% - 200px);
+    min-width: 50px;
   }
 
   .add-btn-wrapper::after {
@@ -1316,11 +1324,6 @@ export default {
     font-size: 16px;
   }
 
-  .pod-content-basic__body .el-form-item .el-form-item__content {
-    width: 50%;
-    min-width: 50px;
-  }
-
   .pod-content-container-item__header {
     color: #e2e1ed;
     margin-top: 10px;
@@ -1358,11 +1361,6 @@ export default {
   .pod-content-container-item__body .el-form-item__label {
     color: #4a2983;
     font-size: 16px;
-  }
-
-  .pod-content-container-item__body .el-form-item__content {
-    width: 50%;
-    min-width: 50px;
   }
 
   .pod-content-container__item-envs .el-input {
@@ -1462,6 +1460,7 @@ export default {
   .resources-wrapper__item-content .resources-item__label {
     display: inline-block;
     line-height: 32px;
+    width: 60px;
     font-size: 16px;
     color: #380879;
   }
@@ -1469,15 +1468,15 @@ export default {
   .resources-wrapper__item-content .resources-item__input {
     display: inline-block;
     padding-left: 10px;
-    width: 70%;
+    width: calc(100% - 64px);
     min-width: 50px;
   }
 
-  .resources-item__left {
+  .resources__left {
     text-align: left;
   }
 
-  .resources-item__right {
+  .resources__right {
     text-align: right;
   }
 
@@ -1529,11 +1528,6 @@ export default {
   .service-content-basic__body .el-form-item__label {
     color: #4a2983;
     font-size: 16px;
-  }
-
-  .service-content-basic__body .el-form-item__content {
-    width: 50%;
-    min-width: 50px;
   }
 
   .service-content-port__header {
