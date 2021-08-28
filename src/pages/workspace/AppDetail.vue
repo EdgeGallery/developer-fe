@@ -346,7 +346,7 @@ export default {
       selectedName: '0',
       language: localStorage.getItem('language'),
       active: 0,
-      isDeployed:0,
+      isDeployed: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       projectBeforeConfig: {},
       viewReport: false,

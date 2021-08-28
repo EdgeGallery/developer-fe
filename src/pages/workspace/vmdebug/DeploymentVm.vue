@@ -297,7 +297,7 @@ export default {
       isPhysical: false,
       language: 'cn',
       isCleanTestEnv: sessionStorage.getItem('isCleanTestEnv') || '',
-      // Process percentage of progress-bar, default to be 0.
+      // Process percentage of progress-bar, default to be 0
       deployProgress: 0,
       // Display status of progress-bar, default to be false
       showProgressBar: false,
