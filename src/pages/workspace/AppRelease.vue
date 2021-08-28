@@ -604,7 +604,7 @@ export default {
   data () {
     return {
       active: 0,
-      step: 'step1',
+      step: 'step2',
       projectDetailData: {
         name: '',
         type: '',
@@ -1208,6 +1208,7 @@ export default {
   .release_steps2{
     background-color: #fbfbfb !important;
     box-shadow:none !important;
+    margin-top:0px !important;
   }
   .release_steps{
     width: 100%;
@@ -1252,7 +1253,7 @@ export default {
     .second-step {
       min-height: 464px;
       .btn-wrapper {
-        margin-top: -117px;
+        margin-top: -80px;
         float: right;
       }
       .atp_button {
@@ -1540,10 +1541,11 @@ export default {
       #app{
         background-color: none;
       }
-       #app::-webkit-scrollbar {
+      iframe::-webkit-scrollbar {
       display: none; /* Chrome Safari */
     }
     }
+
   }
   .release_test{
     .el-table{

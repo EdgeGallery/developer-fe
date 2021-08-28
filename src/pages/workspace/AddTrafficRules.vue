@@ -1006,10 +1006,9 @@ export default {
       font-size:14px;
     }
     tr{
-    background-color:#f1f2f6 !important;
+      background-color:#f1f2f6 !important;
+    }
   }
-  }
-
   .el-dialog__footer{
      padding-bottom:0px;
   }
@@ -1036,7 +1035,7 @@ export default {
     box-shadow: inset 0px 0px 0px 0px #000, inset 0px -20px 27px -19px #d9d9dc;
   }
   .el-table__body-wrapper::-webkit-scrollbar {
-      height:5px; /* Chrome Safari */
+    height:5px; /* Chrome Safari */
     }
  .el-table__fixed::before, .el-table__fixed-right::before{
   height:0px !important;
