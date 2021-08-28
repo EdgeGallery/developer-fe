@@ -297,7 +297,7 @@ export default {
       isPhysical: false,
       language: 'cn',
       isCleanTestEnv: sessionStorage.getItem('isCleanTestEnv') || '',
-      // Process percentage of progress-bar, default to be 0.
+      // Process percentage of progress-bar, default to be 0
       deployProgress: 0,
       // Display status of progress-bar, default to be false
       showProgressBar: false,
@@ -407,7 +407,7 @@ export default {
           this.stageStatus = cachedData.stageStatus
           this.deployStatus = cachedData.status
           this.updateDeployProgress()
-          if (this.deployStatus !== 'NOTDEPLOY') {
+          if (this.deployStatus === 'SUCCESS' || this.deployStatus === 'FAILED' || this.deployStatus === 'CREATING') {
             this.showProgressBar = true
           }
 

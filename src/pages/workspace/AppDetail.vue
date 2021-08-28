@@ -241,7 +241,7 @@
             <DeployDebugK8sMain
               v-else
               :project-id="projectId"
-              :active="active"
+              :active="isDeployed"
               :project-before-config="projectBeforeConfig"
               :api-data-loading="apiDataLoading"
               @getAppapiFileId="getAppapiFileId"
@@ -346,6 +346,7 @@ export default {
       selectedName: '0',
       language: localStorage.getItem('language'),
       active: 0,
+      isDeployed: 0,
       nextButtonName: this.$t('workspace.nextStep'),
       projectBeforeConfig: {},
       viewReport: false,
@@ -676,9 +677,9 @@ export default {
         this.projectDependent(res)
         if (this.deployPlatform === 'KUBERNETES') {
           if (data.status !== 'ONLINE') {
-            this.active = 1
+            this.isDeployed = 1
           } else {
-            this.active = 0
+            this.isDeployed = 0
           }
         }
       })
