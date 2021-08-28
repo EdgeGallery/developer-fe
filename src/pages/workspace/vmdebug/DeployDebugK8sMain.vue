@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { Workspace } from '../../../tools/api.js'
 import configYaml from '../ConfigYaml.vue'
 import deployment from '../Deployment.vue'
 
@@ -89,10 +90,6 @@ export default {
     apiDataLoading: {
       type: Boolean,
       default: false
-    },
-    active: {
-      type: Number,
-      default: 0
     }
   },
   data () {
@@ -112,6 +109,8 @@ export default {
       isCompleted: false,
       isDeploying: false,
       isFail: false,
+      projectId: '',
+      userId: '',
       currentStep: 0
     }
   },
@@ -128,6 +127,16 @@ export default {
     },
     getAppapiFileId (data) {
       this.appApiFileIdTemp = data
+    },
+    getProjectInfo () {
+      Workspace.getProjectInfoApi(this.projectId, this.userId).then(res => {
+        let data = res.data
+        if (data.status !== 'ONLINE') {
+          this.currentStep = 1
+        } else {
+          this.currentStep = 0
+        }
+      })
     },
     changeComponent () {
       switch (this.currentStep) {
@@ -167,7 +176,9 @@ export default {
     }
   },
   created () {
-    this.currentStep = this.active
+    this.projectId = sessionStorage.getItem('mecDetailID')
+    this.userId = sessionStorage.getItem('userId')
+    this.getProjectInfo()
     this.changeComponent()
   }
 }
