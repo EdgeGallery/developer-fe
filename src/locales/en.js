@@ -385,6 +385,7 @@ const en = {
       viewYamlFile: 'View Yaml',
       saveConfigSuccess: 'Save the configuration successfully',
       saveConfigFail: 'Failed to save configuration',
+      back: 'Back',
       visualConfigFile: 'Visual configuration file'
     },
     workSpace: 'WorkSpace',
