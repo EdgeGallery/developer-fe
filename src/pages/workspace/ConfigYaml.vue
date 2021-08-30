@@ -157,6 +157,7 @@
         <configVisual
           :all-step-data="allStepData"
           @getConfigVisual="getConfigVisual"
+          @backConfigYaml="backConfigYaml"
           :deploy-file-id="appYamlFileId"
           ref="configVisual"
         />
@@ -247,6 +248,18 @@ export default {
         this.markdownSource = ''
         this.showVisualConfig = true
       })
+    },
+    // back to first page
+    backConfigYaml () {
+      this.submitData(null)
+      this.hasValidate = false
+      this.fileUploadSuccess = false
+      this.yamlFileList = []
+      this.appYamlFileId = ''
+      this.checkFlag = {}
+      this.markdownSource = ''
+      this.showVisualConfig = true
+      this.selectConfigType = '1'
     },
     // Submit YAML file
     submitYamlFile (yamlFileList) {

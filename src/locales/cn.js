@@ -391,6 +391,7 @@ const cn = {
       viewYamlFile: '查看Yaml文件',
       saveConfigSuccess: '保存配置成功',
       saveConfigFail: '保存配置失败',
+      back: '返回',
       visualConfigFile: '可视化配置文件'
     },
     workSpace: '工作空间',

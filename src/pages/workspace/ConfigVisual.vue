@@ -537,6 +537,12 @@
     <div class="submit-btn-wrapper">
       <el-button
         class="button"
+        @click="backConfigYaml"
+      >
+        {{ $t('workspace.visualConfig.back') }}
+      </el-button>
+      <el-button
+        class="button"
         v-if="viewConfigFileBtn"
         @click="viewConfigFile"
       >
@@ -1005,6 +1011,10 @@ export default {
         serviceArr.push(itemTemp)
       })
       this.serviceData = serviceArr
+    },
+    // Back to ConfigYaml first page
+    backConfigYaml () {
+      this.$emit('backConfigYaml')
     },
     // Save config
     saveConfig () {
