@@ -776,6 +776,7 @@ export default {
           } else {
             this.$eg_messagebox(this.$t('promptMessage.saveRuleSuccess'), 'success')
           }
+          this.getReleaseConfigList()
         }).catch(() => {
           if (releaseId) {
             this.$eg_messagebox(this.$t('promptMessage.editRuleFail'), 'error')
