@@ -133,7 +133,10 @@ export default {
       searchCon: '',
       select: '',
       scrollTop: this.scrollTopProp,
-      isScroll: false
+      isScroll: false,
+      wsSocketConn: null,
+      wsMsgSendInterval: null,
+      manualLoggout: false
     }
   },
   watch: {
@@ -182,6 +185,10 @@ export default {
       })()
     }
   },
+  beforeDestroy () {
+    clearTimeout(this.wsMsgSendInterval)
+    this.wsMsgSendInterval = null
+  },
   methods: {
     getPageScroll (scrollTop) {
       if (scrollTop < 0) {
@@ -215,7 +222,45 @@ export default {
           return newArray
         }
         this.jsonData = validateAuthority(navJsonData)
+        this.startHttpSessionInvalidListener(res.data.sessId)
       })
+    },
+    startHttpSessionInvalidListener (sessId) {
+      if (typeof (WebSocket) === 'undefined') {
+        return
+      }
+      let _wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
+      this.wsSocketConn = new WebSocket(_wsProtocol + window.location.host + '/wsserver/' + sessId)
+      let _thisObj = this
+      this.wsSocketConn.onmessage = function (msg) {
+        if (_thisObj.manualLoggout) {
+          return
+        }
+        let _hintInfo = _thisObj.$t('nav.hsInvalidHint')
+        if (msg && msg.data) {
+          if (msg.data === '1') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
+          } else if (msg.data === '2') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForLogout') + _hintInfo
+          } else if (msg.data === '3') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForServerStopped') + _hintInfo
+          } else {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
+          }
+        }
+        _thisObj.$confirm(_hintInfo, _thisObj.$t('promptMessage.prompt'), {
+          confirmButtonText: _thisObj.$t('nav.reLogin'),
+          cancelButtonText: _thisObj.$t('nav.refresh'),
+          type: 'warning'
+        }).then(() => {
+          _thisObj.logout()
+        }).catch(() => {
+          window.location.reload()
+        })
+      }
+      this.wsMsgSendInterval = setInterval(() => {
+        this.wsSocketConn.send('')
+      }, 10000)
     },
     handleNavData (item, authorities, newArray, s, validateAuthority) {
       if (!item.authority || item.authority.some(a => authorities.includes(a))) {
@@ -253,13 +298,17 @@ export default {
       this.menu_small = data
     },
     logout () {
+      this.manualLoggout = true
       logoutApi().then(res => {
-        window.location.href = window.location.href.indexOf('https') > -1
-          ? this.loginPage + '&return_to=' + 'https://' + window.location.host
-          : this.loginPage + '&return_to=' + 'http://' + window.location.host
+        this.enterLoginPage()
       }).catch(err => {
         console.log(err)
+        this.enterLoginPage()
       })
+    },
+    enterLoginPage () {
+      let _protocol = window.location.href.indexOf('https') > -1 ? 'https://' : 'http://'
+      window.location.href = this.loginPage + '&return_to=' + _protocol + window.location.host
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
