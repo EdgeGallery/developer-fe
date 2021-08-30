@@ -26,7 +26,7 @@
           {{ "" }}
         </el-radio>
         <div class="deployment-test-envs-item__inner">
-          <div class="img-holder" />
+          <div class="img-holder icon-sandboxEnv" />
           <div class="envs-title">
             {{ $t("workspace.sandboxEnv") }}
           </div>
@@ -44,7 +44,7 @@
           {{ "" }}
         </el-radio>
         <div class="deployment-test-envs-item__inner">
-          <div class="img-holder" />
+          <div class="img-holder icon-fiveGEnv" />
           <div class="envs-title">
             {{ $t("workspace.fiveGEnv") }}
           </div>
@@ -132,6 +132,14 @@ export default {
   background-color: transparent;
   box-shadow: 0 0 10px 10px #dedeea inset;
   border-radius: 8px;
+}
+
+.deployment-test-envs-item__inner .icon-sandboxEnv {
+  background: url('../../assets/images/sandboxicon.png') center no-repeat;
+}
+
+.deployment-test-envs-item__inner .icon-fiveGEnv {
+  background: url('../../assets/images/5gicon.png') center no-repeat;
 }
 
 .deployment-test-envs-item__inner .envs-title {
