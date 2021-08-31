@@ -445,7 +445,7 @@
         v-show="step==='step3'"
       >
         <div class="work-title defaultFontLight">
-          {{ $t('workspace.ruleConfig') }}
+          {{ $t('workspace.appRelease.appRelease') }}
         </div>
         <div class="release_test">
           <!-- App test list -->
