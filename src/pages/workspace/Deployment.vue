@@ -59,6 +59,12 @@
         >
           <el-button
             class="deployment-result__button"
+            @click="refToVNC"
+          >
+            VNC
+          </el-button>
+          <el-button
+            class="deployment-result__button"
             @click="refreshDeployStatus"
           >
             {{ $t("workspace.refresh") }}
