@@ -487,7 +487,6 @@
                 <template slot-scope="scope">
                   <el-button
                     class="bgBtn"
-                    size="small"
                     @click="releaseApp"
                     :disabled="scope.row.status==='success'?false:true"
                     :loading="publishLoading"

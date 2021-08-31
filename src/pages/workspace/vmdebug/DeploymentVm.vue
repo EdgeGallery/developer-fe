@@ -246,8 +246,6 @@
                   {{ $t('common.download') }}
                 </el-link>
                 <el-button
-                  type="text"
-                  size="mini"
                   @click="deleteVmImage"
                   :disabled="scope.row.status==='CREATING'"
                 >
@@ -440,7 +438,7 @@ export default {
     getVmDeployIp (data) {
       let accessUrl = ''
       data.vmInfo.forEach(element => {
-        element.netWorks.forEach(item => {
+        element.networks.forEach(item => {
           accessUrl += item.ip + ', '
         })
       })
@@ -607,6 +605,11 @@ export default {
     }
     .el-table {
       border-radius: 12px 12px 12px 12px;
+    }
+    .work-table {
+      .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover, .el-link.el-link--default:after, .el-link.el-link--default.is-disabled, .el-link.el-link--default, .el-link.el-link--default:hover {
+        color: #62517a !important;
+      }
     }
   }
   .deployment-result {
