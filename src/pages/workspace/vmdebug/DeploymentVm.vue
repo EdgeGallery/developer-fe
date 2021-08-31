@@ -240,7 +240,7 @@
                 <el-link
                   :href="downloadVmImage(scope.row.vmId)"
                   :underline="false"
-                  :disabled="item.status==='CREATING'"
+                  :disabled="scope.row.status==='CREATING'"
                   class="download_btn"
                 >
                   {{ $t('common.download') }}
