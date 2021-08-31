@@ -609,6 +609,12 @@ export default {
     .work-table {
       .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover, .el-link.el-link--default:after, .el-link.el-link--default.is-disabled, .el-link.el-link--default, .el-link.el-link--default:hover {
         color: #62517a !important;
+        background-color: transparent;
+        border-color: transparent;
+        font-family: defaultFontLight;
+      }
+      .el-link.el-link--default:after, .el-link.el-link--default.is-disabled, .el-link.el-link--default, .el-link.el-link--default:hover {
+        margin-bottom: 4px;
       }
     }
   }
