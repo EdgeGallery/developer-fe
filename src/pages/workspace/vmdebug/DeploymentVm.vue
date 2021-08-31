@@ -144,7 +144,7 @@
     </div>
     <!-- Image -->
     <div
-      v-if="deployStatus === 'SUCCESS'"
+      v-if="isDeploySuccess"
       class="image"
     >
       <div class="deployment__header work-title">
@@ -303,6 +303,7 @@ export default {
       showProgressBar: false,
       // Store deployment steps
       deploymentSteps: [],
+      imageList: [],
       stageStatus: null
     }
   },
@@ -414,6 +415,7 @@ export default {
           // deploy successfully
           if (this.deployStatus === 'SUCCESS') {
             clearInterval(this.timer)
+            this.getCreateImageList()
             this.testFinished = true
             this.isDeploySuccess = true
             this.accessUrl = this.getVmDeployIp(cachedData)
