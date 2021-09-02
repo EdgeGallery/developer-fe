@@ -160,7 +160,7 @@
                       <em />
                       <el-button
                         type="text"
-                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
+                        :disabled="scope.row.status==='UPLOADING_MERGING'"
                         @click="handleUpload(scope.row)"
                       >
                         {{ $t('system.imageMgmt.operation.upload') }}
@@ -467,8 +467,15 @@ export default {
       })
     },
     handleUpload (row) {
-      if (row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED') {
-        this.$confirm(this.$t('system.imageMgmt.tip.confirmReUploadImage'), this.$t('promptMessage.prompt'), {
+      let _needPrompt = row.status === 'UPLOAD_SUCCEED' || row.status === 'PUBLISHED' || row.status === 'UPLOADING' || row.status === 'UPLOAD_FAILED'
+      if (_needPrompt) {
+        let _promptRes = 'system.imageMgmt.tip.confirmReUploadImage'
+        if (row.status === 'UPLOADING') {
+          _promptRes = 'system.imageMgmt.tip.confirmUploadImageOnUploading'
+        } else if (row.status === 'UPLOAD_FAILED') {
+          _promptRes = 'system.imageMgmt.tip.confirmUploadImageOnUploadFailed'
+        }
+        this.$confirm(this.$t(_promptRes), this.$t('promptMessage.prompt'), {
           confirmButtonText: this.$t('common.confirm'),
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'

@@ -923,6 +923,8 @@ const cn = {
         confirmPublishImage: '确认要发布该系统镜像吗？',
         confirmResetImage: '请谨慎进行状态重置操作！确保该镜像是在上传过程发生了意外中断。您确认要重置该镜像的状态吗？',
         confirmReUploadImage: '已经上传了该系统镜像，再次上传将覆盖原有镜像。是否继续？',
+        confirmUploadImageOnUploading: '该镜像处于正在上传状态，请谨慎操作！确保该镜像是在上传过程发生了意外中断而需要重新或继续上传。如果您选择了上一次上传中断的文件，将会从中断点开始继续上传。是否继续？',
+        confirmUploadImageOnUploadFailed: '该镜像处于上传失败状态。如果是上传过程发生了意外中断，并且您再次选择上一次上传中断的文件，将会从中断点开始继续上传。是否继续？',
         confirmDownloadImage: '系统镜像文件较大，下载耗时较长。是否继续下载该镜像？',
         systemNameExist: '已存在同名的系统镜像！',
         newImgFailed: '新建系统镜像失败！',

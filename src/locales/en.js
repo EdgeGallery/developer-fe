@@ -923,6 +923,8 @@ const en = {
         confirmPublishImage: 'Are you sure to publish this system image?',
         confirmResetImage: 'Please reset the status carefully! Ensure that the image is accidentally interrupted during upload. Are you sure you want to reset the status of the image?',
         confirmReUploadImage: 'The system image has been uploaded, and the original image will be overwritten if it is uploaded again. Continue?',
+        confirmUploadImageOnUploading: 'The system image is uploading. Please be careful! Ensure that the image needs to be uploaded again or continue because of an unexpected interruption in the upload process. If you select the file that was interrupted in the last upload, the upload will continue from the interruption point. Continue?',
+        confirmUploadImageOnUploadFailed: 'The system image is in upload failed status. If the upload process is interrupted unexpectedly, and you select the file interrupted last time again, the upload will continue from the interruption point. Continue?',
         confirmDownloadImage: 'The system image is large, it will takes a long time to download. Do you want to continue downloading the image?',
         systemNameExist: 'A system image with the same name is already exists!',
         newImgFailed: 'New system image failed!',
