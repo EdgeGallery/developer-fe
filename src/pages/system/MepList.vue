@@ -528,6 +528,100 @@ export default {
     pagination
   },
   data () {
+    const validate = (v, callback, errorMsg, rules) => {
+      if (rules) {
+        rules.forEach(item => {
+          if (!item.rule(v)) {
+            return callback(new Error(item.message))
+          }
+        })
+      } else {
+        if (v.some(s => [undefined, null, ''].includes(this.form[s]))) {
+          return callback(new Error(errorMsg))
+        }
+      }
+      return callback()
+    }
+    const validateName = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,20}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.systemCapaNameCn')))
+      } else {
+        callback()
+      }
+    }
+    const validateNameEn = (rule, value, callback) => {
+      let reg = /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.systemCapaNameEn')))
+      } else {
+        callback()
+      }
+    }
+    const validatePort = (rule, value, callback) => {
+      let reg = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.inPort')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.correct')}${this.$t('system.inPort')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,200}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('workspace.description')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.systemCapaDescCn')))
+      } else {
+        callback()
+      }
+    }
+    const validateDescriptionEn = (rule, value, callback) => {
+      let reg = /^(?!\s)[^\u4E00-\u9FA5]{1,400}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('workspace.description')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.systemCapaDescEn')))
+      } else {
+        callback()
+      }
+    }
+    const validateHost = (rule, value, callback) => {
+      let reg = /^[\S\s]{1,20}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.systemServiceName')))
+      } else {
+        callback()
+      }
+    }
+    const validateVersion = (rule, value, callback) => {
+      let reg = /^[\s\S]{1,20}$/
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.version')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(`${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateProvider = (rule, value, callback) => {
+      let reg = /^[\S\s]{1,20}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.provider')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.systemProviderName')))
+      } else {
+        callback()
+      }
+    }
     return {
       apiFileId_file_list: [],
       guideFileId_file_list: [],
@@ -596,54 +690,50 @@ export default {
         experienceUrl: ''
       },
       rules: {
-        apiFileId: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
-        guideFileId: [{ required: true, message: this.$t('promptMessage.systemDocument'), trigger: 'change' }],
-        guideFileIdEn: [{ required: true, message: this.$t('promptMessage.systemDocumentEn'), trigger: 'change' }],
+        apiFileId: [
+          { required: true, validator: (r, v, callback) => { validate(['apiFileId'], callback, this.$t('promptMessage.uploadApiFile')) }, trigger: 'change' }
+        ],
+        guideFileId: [
+          { required: true, validator: (r, v, callback) => { validate(['guideFileId'], callback, this.$t('promptMessage.systemDocument')) }, trigger: 'change' }
+        ],
+        guideFileIdEn: [
+          { required: true, validator: (r, v, callback) => { validate(['guideFileIdEn'], callback, this.$t('promptMessage.systemDocumentEn')) }, trigger: 'change' }
+        ],
         name: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+          { required: true, validator: validateName }
         ],
         nameEn: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+          { required: true, validator: validateNameEn }
         ],
         'group.name': [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,20}$/g, message: this.$t('promptMessage.systemCapaNameCn') }
+          { required: true }
         ],
         'group.nameEn': [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.capType')}` },
-          { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,40}$/g, message: this.$t('promptMessage.systemCapaNameEn') }
+          { required: true }
         ],
         port: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.inPort')}` },
-          { message: `${this.$t('system.pleaseInput')}${this.$t('system.correct')}${this.$t('system.inPort')}`, pattern: /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/ }
+          { required: true, validator: validatePort }
         ],
         description: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,200}$/g, message: this.$t('promptMessage.systemCapaDescCn') }
+          { required: true, validator: validateDescription }
         ],
         descriptionEn: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
-          { pattern: /^(?!\s)[^\u4E00-\u9FA5]{1,400}$/g, message: this.$t('promptMessage.systemCapaDescEn') }
+          { required: true, validator: validateDescriptionEn }
         ],
         protocol: [
           { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.protocol')}` }
         ],
         host: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemServiceName') }
+          { required: true, validator: validateHost }
         ],
         version: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.version')}` },
-          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
+          { required: true, validator: validateVersion }
         ],
         provider: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.provider')}` },
-          { pattern: /^[\S\s]{1,20}$/g, message: this.$t('promptMessage.systemProviderName') }
+          { required: true, validator: validateProvider }
         ],
         appIcon: [
-          { required: true, message: 'Icon is required', trigger: 'change' }
+          { required: true, trigger: 'change' }
         ]
       },
       visible: false,
@@ -697,7 +787,11 @@ export default {
   methods: {
     getOneLevelCapability () {
       Capability.getAllCapabilityGroup().then(result => {
-        this.optionsCapability = result.data
+        if (result.data.length > 0) {
+          this.optionsCapability = result.data
+          this.defaultForm.group.name = this.optionsCapability[0].name
+          this.defaultForm.group.nameEn = this.optionsCapability[0].nameEn
+        }
       })
     },
     changeOneLevelName () {

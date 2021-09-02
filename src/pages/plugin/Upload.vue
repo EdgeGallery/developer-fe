@@ -39,6 +39,7 @@
             :model="form"
             :rules="rules"
             label-width="135px"
+            size="small"
           >
             <el-form-item
               :label="$t('devTools.pluginName')"
@@ -242,22 +243,31 @@ export default {
   name: 'Upload',
   data () {
     let validateName = (rule, value, callback) => {
+      let reg = /^\S.{0,29}$/g
       if (!value) {
         return callback(new Error(this.$t('promptMessage.pluginNameEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.pluginNameRule')))
       } else {
         return callback()
       }
     }
     let validateVersion = (rule, value, callback) => {
+      let reg = /^[\w\\-][\w\\-\s.]{0,9}$/g
       if (!value) {
         return callback(new Error(this.$t('promptMessage.versionEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.versionRule')))
       } else {
         return callback()
       }
     }
     let validateDes = (rule, value, callback) => {
+      let reg = /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g
       if (!value) {
         return callback(new Error(this.$t('promptMessage.descriptionEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.introductionRule')))
       } else {
         return callback()
       }
@@ -279,8 +289,7 @@ export default {
       apiFileList: [],
       rules: {
         pluginName: [
-          { required: true, validator: validateName, trigger: 'blur' },
-          { pattern: /^\S.{0,29}$/g, message: this.$t('promptMessage.pluginNameRule') }
+          { required: true, validator: validateName }
         ],
         codeLanguage: [
           { required: true }
@@ -295,12 +304,10 @@ export default {
           { required: true }
         ],
         version: [
-          { required: true, validator: validateVersion, trigger: 'blur' },
-          { pattern: /^[\w\\-][\w\\-\s.]{0,9}$/g, message: this.$t('promptMessage.versionRule') }
+          { required: true, validator: validateVersion }
         ],
         introduction: [
-          { required: true, validator: validateDes, trigger: 'blur' },
-          { pattern: /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
+          { required: true, validator: validateDes }
         ]
       },
       options: [

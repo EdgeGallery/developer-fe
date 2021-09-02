@@ -67,6 +67,16 @@ export default {
     }
   },
   data () {
+    const validateName = (rule, value, callback) => {
+      let reg = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/
+      if (!value) {
+        callback(new Error(this.$t('promptMessage.nameEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.nameRuleResourceConfig')))
+      } else {
+        callback()
+      }
+    }
     return {
       form: {
         name: this.allStepData.basicSetting
@@ -75,18 +85,7 @@ export default {
       },
       vmUserName: 'root',
       rules: {
-        name: [
-          {
-            required: true,
-            message: this.$t('promptMessage.nameEmpty'),
-            trigger: 'blur'
-          },
-          {
-            pattern:
-              /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/,
-            message: this.$t('promptMessage.nameRuleResourceConfig')
-          }
-        ]
+        name: [{ required: true, validator: validateName, trigger: 'blur' }]
       },
       labelWidth: '140px',
       language: 'cn'

@@ -218,7 +218,8 @@ export default {
       this.dialogVisible = true
       this.serviceDetail = []
       this.serviceDetail.push(item)
-      if (item.nameEn === 'Location service' || item.nmeEn === 'AI Image Repair' || item.nameEn === 'Edge Detection' || item.nameEn === 'Image Cartoonization' || item.nameEn === 'Image Coloring' || item.nameEn === 'Object Classification' || item.nameEn === 'Object Detection') {
+      console.log(item.experienceUrl)
+      if (item.nameEn === 'Location service' || item.nmeEn === 'AI Image Repair' || item.nameEn === 'Edge Detection' || item.nameEn === 'Image Cartoonization' || item.nameEn === 'Image Coloring' || item.nameEn === 'Object Classification' || item.nameEn === 'Object Detection' || !item.experienceUrl) {
         this.toOnline = true
       } else {
         this.toOnline = false
