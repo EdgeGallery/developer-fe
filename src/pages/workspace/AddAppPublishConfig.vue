@@ -360,6 +360,70 @@ export default {
     }
   },
   data () {
+    const validateTwoLevelName = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,40}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.twoLevelName')))
+      } else {
+        callback()
+      }
+    }
+    const validateApiJson = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(this.$t('promptMessage.uploadApiFile')))
+      } else {
+        callback()
+      }
+    }
+    const validateApiMd = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseUpload')}${this.$t('system.guideFileId')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,400}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('workspace.description')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.serviceDesc')))
+      } else {
+        callback()
+      }
+    }
+    const validateServiceName = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,40}$/g
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.twoLevelName')))
+      } else {
+        callback()
+      }
+    }
+    const validateInternalPort = (rule, value, callback) => {
+      let reg = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.inPort')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.correct')}${this.$t('system.inPort')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateVersion = (rule, value, callback) => {
+      let reg = /^[\s\S]{1,20}$/
+      if (!value) {
+        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.version')}`))
+      } else if (!reg.test(value)) {
+        callback(new Error(`${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}`))
+      } else {
+        callback()
+      }
+    }
     return {
       dialogVisible: this.value,
       form: {
@@ -389,35 +453,30 @@ export default {
       language: localStorage.getItem('language'),
       rules: {
         twoLevelName: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,40}$/g, message: this.$t('promptMessage.twoLevelName') }
+          { required: true, validator: validateTwoLevelName }
         ],
         oneLevelName: [
-          { required: true, message: this.$t('test.testApp.choosetype'), trigger: 'change' }
+          { required: true }
         ],
-        apiJson: [{ required: true, message: this.$t('promptMessage.uploadApiFile'), trigger: 'change' }],
-        apiMd: [{ required: true, message: `${this.$t('system.pleaseUpload')}${this.$t('system.guideFileId')}`, trigger: 'change' }],
+        apiJson: [{ required: true, validator: validateApiJson, trigger: 'change' }],
+        apiMd: [{ required: true, validator: validateApiMd, trigger: 'change' }],
         description: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('workspace.description')}` },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,400}$/g, message: this.$t('promptMessage.serviceDesc') }
+          { required: true, validator: validateDescription }
         ],
         serviceName: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}` },
-          { pattern: /^(?!\s)[\S.\s\n\r]{1,40}$/g, message: this.$t('promptMessage.twoLevelName') }
+          { required: true, validator: validateServiceName }
         ],
         internalPort: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.inPort')}` },
-          { message: `${this.$t('system.pleaseInput')}${this.$t('system.correct')}${this.$t('system.inPort')}`, pattern: /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/ }
+          { required: true, validator: validateInternalPort }
         ],
         version: [
-          { required: true, message: `${this.$t('system.pleaseInput')}${this.$t('system.version')}` },
-          { min: 1, max: 20, message: `${this.$t('system.pleaseInput')}1~20 ${this.$t('system.char')}` }
+          { required: true, validator: validateVersion }
         ],
         protocol: [
           { required: true, trigger: 'change' }
         ],
         appIcon: [
-          { required: true, message: 'Icon is required', trigger: 'change' }
+          { required: true, trigger: 'change' }
         ]
       },
       oneLevelMap: new Map(),

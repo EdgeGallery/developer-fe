@@ -15,7 +15,7 @@
     "core-js": "^3.3.2",
     "dot-prop": "^4.2.1",
     "echarts": "^4.4.0",
-    "eg-view": "0.0.17",
+    "eg-view": "^0.0.20",
     "el-table-pagination": "^0.4.38",
     "element-china-area-data": "^4.1.2",
     "element-ui": "^2.12.0",

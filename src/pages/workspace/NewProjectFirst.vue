@@ -253,29 +253,41 @@ export default {
   },
   data () {
     let validateProjectName = (rule, value, callback) => {
+      let reg = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[\u4E00-\u9FA5a-zA-Z0-9_-]{4,32}$/
       if (!value) {
         return callback(new Error(this.$t('promptMessage.projectNameEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.nameRule')))
       } else {
         return callback()
       }
     }
     let validateVersion = (rule, value, callback) => {
+      let reg = /^[\w\\-][\w\\-\s.]{0,9}$/g
       if (!value) {
         return callback(new Error(this.$t('promptMessage.versionEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.versionRule')))
       } else {
         return callback()
       }
     }
     let validateProvider = (rule, value, callback) => {
+      let reg = /^\S.{0,29}$/g
       if (!value) {
         return callback(new Error(this.$t('promptMessage.providerEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.providerRule')))
       } else {
         return callback()
       }
     }
     let validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g
       if (!value) {
         return callback(new Error(this.$t('promptMessage.descriptionEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('promptMessage.introductionRule')))
       } else {
         return callback()
       }
@@ -324,35 +336,31 @@ export default {
       showErr: false,
       rules: {
         name: [
-          { required: true, validator: validateProjectName, trigger: 'blur' },
-          { pattern: /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[\u4E00-\u9FA5a-zA-Z0-9_-]{4,32}$/, message: this.$t('promptMessage.nameRule') }
+          { required: true, validator: validateProjectName, trigger: 'blur' }
         ],
         version: [
-          { required: true, validator: validateVersion, trigger: 'blur' },
-          { pattern: /^[\w\\-][\w\\-\s.]{0,9}$/g, message: this.$t('promptMessage.versionRule') }
+          { required: true, validator: validateVersion, trigger: 'blur' }
         ],
         provider: [
-          { required: true, validator: validateProvider, trigger: 'blur' },
-          { pattern: /^\S.{0,29}$/g, message: this.$t('promptMessage.providerRule') }
+          { required: true, validator: validateProvider, trigger: 'blur' }
         ],
         deployPlatform: [
-          { required: true, message: this.$t('promptMessage.deployTypeEmpty') }
+          { required: true }
         ],
         industry: [
-          { required: true, message: this.$t('promptMessage.industryEmpty') }
+          { required: true }
         ],
         type: [
           { required: true }
         ],
         platform: [
-          { required: true, message: this.$t('promptMessage.architectureEmpty'), trigger: 'change' }
+          { required: true, trigger: 'change' }
         ],
         logoFileList: [
-          { required: true, message: 'Icon is required', trigger: 'change' }
+          { required: true, trigger: 'change' }
         ],
         description: [
-          { required: true, validator: validateDescription, trigger: 'blur' },
-          { pattern: /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g, message: this.$t('promptMessage.introductionRule') }
+          { required: true, validator: validateDescription, trigger: 'blur' }
         ]
       },
       formLabelWidth: '95px',
