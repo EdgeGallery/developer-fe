@@ -47,6 +47,7 @@
           :file-status-text="fileStatusText"
           @file-complete="onFileComplete"
           @file-added="onFileAdded"
+          @file-error="onFileError"
         >
           <uploader-unsupport />
           <uploader-btn
@@ -134,7 +135,10 @@ export default {
       hasFileFlag: false,
       sysImgFileTypeArr: ['zip'],
       options: {
-        testChunks: false,
+        testChunks: true,
+        checkChunkUploadedByResponse: function (chunk, unloadedChunkArr) {
+          return (unloadedChunkArr || []).indexOf(chunk.offset + 1) >= 0
+        },
         headers: {},
         forceChunkSize: true,
         simultaneousUploads: 5, // concurrent number supported
@@ -157,6 +161,9 @@ export default {
     this.options.target = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/upload'
   },
   methods: {
+    onFileError () {
+      this.isUploading = false
+    },
     onFileAdded (file) {
       if (this.hasFileFlag) {
         file.ignored = true
