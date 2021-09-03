@@ -41,12 +41,22 @@
       >
         <el-input
           id="elinput_systemName"
-          maxlength="32"
           size="small"
           v-model="imageDataForm.systemName"
           :placeholder="$t('system.imageMgmt.imgName')"
           clearable
         />
+        <el-tooltip
+          class="name_tip"
+          effect="light"
+          :content="this.$t('system.imageMgmt.tip.nameRule')"
+          placement="bottom"
+        >
+          <span
+            class="default_info_promt"
+            style="marginTop:15px"
+          >i</span>
+        </el-tooltip>
       </el-form-item>
       <el-form-item
         :label="$t('system.imageMgmt.osName')"
@@ -92,7 +102,8 @@
           v-model="imageDataForm.systemDisk"
           :placeholder="$t('system.imageMgmt.sysDisk')"
           clearable
-        />G
+        />
+        <span class="span_right">G</span>
       </el-form-item>
       <el-form-item
         v-show="isAdmin"
@@ -184,7 +195,7 @@ export default {
     var validateImgNameRule = (rule, value, callback) => {
       let pattern = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)[a-zA-Z0-9_-]{4,32}$/
       if (value.match(pattern) === null) {
-        callback(new Error(this.$t('system.imageMgmt.tip.nameRule')))
+        callback(new Error(this.$t('system.imageMgmt.tip.nameRules')))
       } else {
         callback()
       }
@@ -221,8 +232,8 @@ export default {
       }
     }
     return {
-      formLabelWidth: '100px',
-      formLabelWidthEn: '130px',
+      formLabelWidth: '115px',
+      formLabelWidthEn: '160px',
       language: localStorage.getItem('language'),
       userId: '',
       isAdmin: false,
@@ -246,15 +257,15 @@ export default {
       },
       rules: {
         systemName: [
-          { validator: validateImgNameEmpty, trigger: 'blur' },
+          { required: true, validator: validateImgNameEmpty, trigger: 'blur' },
           { validator: validateImgNameRule }
         ],
         version: [
-          { validator: validateVersionEmpty, trigger: 'blur' },
+          { required: true, validator: validateVersionEmpty, trigger: 'blur' },
           { validator: validateVersionRule }
         ],
         systemDisk: [
-          { validator: validateSystemDiskEmpty, trigger: 'blur' },
+          { required: true, validator: validateSystemDiskEmpty, trigger: 'blur' },
           { validator: validateSystemDiskRule }
         ]
       },
@@ -374,13 +385,26 @@ export default {
   border-radius: 12px;
 }
 .edit_image_dialog_en .el-dialog{
-  min-width: 715px;
+  min-width: 780px;
 }
 .el-form-item{
   margin:20 !important;
+  position: relative;
+  .name_tip{
+    position: absolute;
+    right: -20px;
+    bottom: 7px;
+    z-index: 99;
+  }
 }
-.elinput_sysdisk .el-input{
-  width: 90%;
-  margin-right: 5px;
+.elinput_sysdisk{
+  .span_right{
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+  }
+}
+.el-tooltip__popper.is-light {
+  border: 1px solid #ddd;
 }
 </style>
