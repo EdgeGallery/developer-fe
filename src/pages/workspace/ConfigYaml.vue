@@ -366,7 +366,9 @@ export default {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('yaml_content')[0]
         const deviceHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(deviceHeight) * 0.6 + 'px'
+        if (oDiv) {
+          oDiv.style.height = Number(deviceHeight) * 0.6 + 'px'
+        }
       })
     },
     getConfigVisual (val) {

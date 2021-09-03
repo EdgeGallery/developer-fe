@@ -585,10 +585,6 @@ import appPackageDetail from './AppPackageDetails.vue'
 export default {
   name: 'AppRelease',
   props: {
-    isCleanEnvProp: {
-      type: Boolean,
-      default: false
-    },
     deployPlatformProp: {
       type: String,
       default: 'KUBERNETES'
@@ -663,7 +659,6 @@ export default {
       mdFileId: '',
       iframeLoading: true,
       dependentNum: 0,
-      isCleanEnv: this.isCleanEnvProp,
       isCleanEnvDialog: false,
       publishLoading: false,
       imageStatus: 'NOTDEPLOY',
@@ -681,7 +676,6 @@ export default {
     cleanTestEnvRelease () {
       Workspace.cleanTestEnvApi(this.projectId, this.userId).then(response => {
         this.$eg_messagebox(this.$t('workspace.clearEnv'), 'info')
-        this.isCleanEnv = true
         this.isCleanEnvDialog = false
         sessionStorage.setItem('isCleanTestEnv', 'Releaseed')
       }).catch(err => {
@@ -749,7 +743,7 @@ export default {
           }
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
-        if (deployStatus && !this.isCleanEnv) {
+        if (deployStatus) {
           this.isCleanEnvDialog = true
         }
       })
