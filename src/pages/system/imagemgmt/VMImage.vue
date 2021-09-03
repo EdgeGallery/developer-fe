@@ -160,7 +160,7 @@
                       <em />
                       <el-button
                         type="text"
-                        :disabled="scope.row.status==='UPLOADING_MERGING'"
+                        :disabled="scope.row.status==='UPLOADING_MERGING' || scope.row.status==='PUBLISHED'"
                         @click="handleUpload(scope.row)"
                       >
                         {{ $t('system.imageMgmt.operation.upload') }}
