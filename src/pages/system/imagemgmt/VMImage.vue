@@ -533,6 +533,10 @@ export default {
         this.$message.error(this.$t('system.imageMgmt.tip.resetImgStatusFailed'))
       })
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    sessionStorage.removeItem('currentPage')
+    next()
   }
 }
 </script>

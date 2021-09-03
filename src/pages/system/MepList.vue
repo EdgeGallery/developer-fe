@@ -1125,6 +1125,10 @@ export default {
       this.limitSize = pageSize
       this.offsetPage = start
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    sessionStorage.removeItem('currentPage')
+    next()
   }
 }
 </script>

@@ -415,12 +415,12 @@
         <el-table-column
           prop="name"
           :label="$t('system.name')"
-          min-width="11%"
+          min-width="10%"
         />
         <el-table-column
           prop="os"
           :label="$t('breadCrumb.system')"
-          min-width="9%"
+          min-width="10%"
         />
         <el-table-column
           prop="lcmIp"
@@ -430,12 +430,12 @@
         <el-table-column
           prop="mecHost"
           :label="$t('system.mecHost')"
-          min-width="15%"
+          min-width="13%"
         />
         <el-table-column
           prop="port"
           :label="$t('system.inPort')"
-          min-width="11%"
+          min-width="9%"
         />
         <el-table-column
           prop="protocol"
@@ -445,7 +445,7 @@
         <el-table-column
           prop="status"
           :label="$t('workspace.status')"
-          min-width="11%"
+          min-width="9%"
         />
         <el-table-column
           prop="architecture"
@@ -454,7 +454,7 @@
         />
         <el-table-column
           :label="$t('workspace.operation')"
-          min-width="15%"
+          min-width="21%"
         >
           <template slot-scope="scope">
             <el-button
@@ -465,31 +465,18 @@
               {{ $t('devTools.detail') }}
             </el-button>
             <el-button
-              @mouseenter.native="showMoreBtnFun(scope.$index)"
-              @mouseleave.native="showMoreBtnFun(-1)"
+              :loading="loading"
               class="operations_btn"
+              @click="handleShowForm(scope.row)"
             >
-              {{ $t('common.more') }}
-              <el-collapse-transition>
-                <div
-                  v-show="currentIndex===scope.$index"
-                  class="btn_div el-icon-caret-top"
-                  @mouseenter="showMoreBtnFun(scope.$index)"
-                  @mouseleave="showMoreBtnFun(-1)"
-                >
-                  <ul class="dropdown_list">
-                    <li @click="handleShowForm(scope.row)">
-                      <em />{{ $t('api.modify') }}
-                    </li>
-                    <li
-                      :loading="loading"
-                      @click="handleDelete(scope.row)"
-                    >
-                      <em />{{ $t('devTools.delete') }}
-                    </li>
-                  </ul>
-                </div>
-              </el-collapse-transition>
+              {{ $t('api.modify') }}
+            </el-button>
+            <el-button
+              :loading="loading"
+              class="operations_btn"
+              @click="handleDelete(scope.row)"
+            >
+              {{ $t('devTools.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -905,6 +892,10 @@ export default {
       this.limitSize = pageSize
       this.offsetPage = start
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    sessionStorage.removeItem('currentPage')
+    next()
   }
 }
 </script>
