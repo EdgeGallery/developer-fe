@@ -210,6 +210,7 @@ export default {
         this.$message.error(this.$t('promptMessage.guestPrompt'))
       } else {
         sessionStorage.setItem('appType', projectType)
+        sessionStorage.setItem('toDetailType', 'addNewPro')
         this.$router.push({
           name: 'appDetail',
           params: {

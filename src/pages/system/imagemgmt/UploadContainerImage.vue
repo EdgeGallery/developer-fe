@@ -100,7 +100,7 @@
       </div>
       <span
         slot="footer"
-        class="dialog-footer"
+        class="dialog-footer center"
       >
         <el-button
           @click="handleClose"
@@ -285,24 +285,12 @@ export default {
     font-size: 14px;
     color: #3e4863;
   }
-  .prompt_nofile{
-    margin-top: 10px;
-    font-size: 14px;
-    color: #688ef3;
-  }
   .uploader {
     padding-top: 20px;
     text-align: center;
   }
   .uploader-list {
     padding-top: 10px;
-  }
-  .uploader-btn{
-    font-size: 14px !important;
-    font-family: defaultFontLight;
-    background: #a59fc9 !important;
-    border: none;
-    color: #ffffff !important;
   }
   .cancel_upload{
     z-index: 100;
