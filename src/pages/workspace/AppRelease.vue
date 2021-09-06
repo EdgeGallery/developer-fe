@@ -45,74 +45,92 @@
         <div class="app_detail">
           <el-row>
             <el-col
-              :sm="10"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('workspace.projectName') }}</span><p class="right_content defaultFontLight">
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.projectName') }}</span><p class="right_content defaultFontLight">
                 {{ projectDetailData.name }}
               </p>
             </el-col>
             <el-col
-              :sm="14"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('test.testApp.type') }}</span><p class="right_content defaultFontLight">
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('test.testApp.type') }}</span><p class="right_content defaultFontLight">
                 {{ projectDetailData.type }}
               </p>
             </el-col>
           </el-row>
           <el-row>
             <el-col
-              :sm="10"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('workspace.version') }}</span><p class="right_content defaultFontLight">
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.version') }}</span><p class="right_content defaultFontLight">
                 {{ projectDetailData.version }}
               </p>
             </el-col>
             <el-col
-              :sm="14"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('workspace.architecture') }}</span><p class="right_content defaultFontLight">
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.architecture') }}</span><p class="right_content defaultFontLight">
                 {{ projectDetailData.platform }}
               </p>
             </el-col>
           </el-row>
           <el-row>
             <el-col
-              :sm="10"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('workspace.deployType') }}</span><p class="right_content defaultFontLight">
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.deployType') }}</span><p class="right_content defaultFontLight">
                 {{ deployPlatform==='KUBERNETES'?$t('workspace.containerImage'):$t('workspace.vmImage') }}
               </p>
             </el-col>
             <el-col
-              :sm="14"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('test.testTask.testStatus') }}</span><p class="right_content defaultFontLight">
+              <span
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('test.testTask.testStatus') }}</span><p class="right_content defaultFontLight">
                 {{ projectDetailData.status }}
               </p>
             </el-col>
           </el-row>
           <el-row>
             <el-col
-              :sm="10"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
-              <span class="span_left">{{ $t('workspace.dependentApp') }}</span>
               <span
-                class="span_right"
-                :class="{'span_right_en':language==='en'}"
-              >
-                <p class="right_content defaultFontLight">{{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}</p>
-              </span>
+                class="span_left"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.dependentApp') }}</span>
+              <p class="right_content defaultFontLight">
+                {{ dependentNum===0 ? $t('workspace.noDependent') : projectDetailData.dependent }}
+              </p>
             </el-col>
             <el-col
-              :sm="14"
-              :xs="24"
+              :span="12"
+              :class="{'el_col_en':language==='en'}"
             >
               <span
                 class="span_left"
@@ -124,7 +142,10 @@
           </el-row>
           <el-row>
             <el-col class="appdesc">
-              <span class="span_left lt">{{ $t('workspace.applicationDesc') }}</span>
+              <span
+                class="span_left lt"
+                :class="{'span_left_en':language==='en'}"
+              >{{ $t('workspace.applicationDesc') }}</span>
               <el-upload
                 class="upload-demo clear defaultFontLight"
                 :class="{'upload-demo_en':language==='en'}"
@@ -665,7 +686,8 @@ export default {
       deployPlatform: this.deployPlatformProp,
       isRelease: true,
       vmRelease: false,
-      appRuleData: {}
+      appRuleData: {},
+      releaseId: ''
     }
   },
   methods: {
@@ -782,12 +804,13 @@ export default {
     // Save/modify configuration rules by default
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        let releaseId = res.data.releaseId
+        this.releaseId = res.data.releaseId
         if (res.data.atpTest) {
           this.trafficAllData.atpTest = res.data.atpTest
         }
-        if (!res.data.capabilitiesDetail) {
-          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, releaseId)
+        let detailData = res.data.capabilitiesDetail
+        if (detailData.appDNSRule.length === 0 && detailData.appTrafficRule.length === 0 && detailData.serviceDetails.length === 0) {
+          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
         }
       })
     },
@@ -855,9 +878,15 @@ export default {
       let fd = new FormData()
       fd.append('file', fileList[0])
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
-        this.trafficAllData.guideFileId = res.data.fileId
-        this.getReleaseConfigFirst()
-        this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
+        let guideFileId = res.data.fileId
+        Workspace.getReleaseConfigApi(this.projectId).then(res => {
+          this.releaseId = res.data.releaseId
+          this.trafficAllData = res.data
+          this.trafficAllData.guideFileId = guideFileId
+          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId).then(() => {
+            this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
+          })
+        })
       }).catch(() => {
         fileList = []
         this.$eg_messagebox(this.$t('promptMessage.uploadFailure'), 'error')
@@ -1155,21 +1184,11 @@ export default {
   watch: {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
-      let spanLeft = document.getElementsByClassName('span_left')
       this.language = language
       this.rebuildComponents()
       this.getAppstoreUrl()
       this.checkProjectData()
       this.getProjectInfo()
-      if (language === 'en') {
-        spanLeft.forEach(item => {
-          item.style.width = 165 + 'px'
-        })
-      } else {
-        spanLeft.forEach(item => {
-          item.style.width = 95 + 'px'
-        })
-      }
     }
   },
   beforeDestroy () {
@@ -1327,7 +1346,7 @@ export default {
         padding-right: 22px;
       }
       .span_left_en{
-        width: 165px;
+        width: 140px;
       }
       .upload-demo_en{
         padding-top:14px;
@@ -1577,7 +1596,6 @@ export default {
     border: 1px solid #5844be;
     color: #fff;
     background-color: #5844be;
-    width: 80px;
     padding: 8px 8px;
      border-radius:10px;
   }
@@ -1585,7 +1603,6 @@ export default {
       border: 1px solid #5844be;
       color: #fff;
       background-color: #5844be;
-      width: 80px;
       padding: 8px 8px;
       border-radius:10px;
 
@@ -1608,6 +1625,14 @@ export default {
     top:2px;
     border-radius:3px;
    }
+  }
+  @media screen and (max-width: 1340px){
+    .el_col_en{
+      width: 100% !important;
+    }
+    .span_left_en{
+      width: 200px !important;
+    }
   }
 }
 </style>
