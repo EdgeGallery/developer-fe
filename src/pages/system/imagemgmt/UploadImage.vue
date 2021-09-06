@@ -17,7 +17,6 @@
 <template>
   <div id="div_upload_image">
     <el-dialog
-      :title="$t('system.imageMgmt.tip.uploadImg')"
       :close-on-click-modal="false"
       :visible.sync="showDlg"
       width="1000px"
@@ -26,7 +25,14 @@
       :element-loading-text="$t('system.imageMgmt.tip.cancelingHint')"
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0)"
+      class="default_dialog"
     >
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />{{ $t('system.imageMgmt.tip.uploadImg') }}
+      </div>
       <div class="uploadImageBody">
         <p class="prompt">
           {{ $t('system.imageMgmt.tip.uploadImgPromt') }}
@@ -93,15 +99,19 @@
           </uploader-list>
         </uploader>
       </div>
-      <div style="text-align:center;margin-top:20px">
+      <span
+        slot="footer"
+        class="dialog-footer center"
+      >
         <el-button
           id="closeBtn"
           @click="handleClose"
           :disabled="isUploading"
+          class="bgBtn"
         >
           <strong>{{ $t('common.close') }}</strong>
         </el-button>
-      </div>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -287,27 +297,12 @@ export default {
     font-size: 14px;
     color: #3e4863;
   }
-  .prompt_nofile{
-    margin-top: 10px;
-    font-size: 14px;
-    color: #688ef3;
-  }
   .uploader {
     padding-top: 20px;
+    text-align: center;
   }
   .uploader-list {
     padding-top: 10px;
-  }
-  .uploader-btn{
-    border: 1px solid #c3d2fa;
-    background:#f0f4fe;
-    color: #688ef3;
-    padding: 8px 24px;
-    border-radius: 3px;
-  }
-  .uploader-btn:hover{
-    background:#688ef3;
-    color: #fff;
   }
   .cancel_upload{
     z-index: 100;
