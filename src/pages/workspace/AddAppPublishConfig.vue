@@ -661,7 +661,7 @@ export default {
         })
         this.optionsCapability = data
         if (data.length > 0) {
-          // this.form.oneLevelName = data[0].id
+          this.form.oneLevelName = this.optionsCapability[0].label
         }
       })
     },

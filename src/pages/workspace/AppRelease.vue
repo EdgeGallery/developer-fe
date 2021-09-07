@@ -774,8 +774,10 @@ export default {
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
-        this.appRuleData = res.data.capabilitiesDetail
-        this.getAllListData()
+        if (res.data.capabilitiesDetail) {
+          this.appRuleData = res.data.capabilitiesDetail
+          this.getAllListData()
+        }
         if (this.mdFileId) {
           this.getFileList()
         }
@@ -809,7 +811,7 @@ export default {
           this.trafficAllData.atpTest = res.data.atpTest
         }
         let detailData = res.data.capabilitiesDetail
-        if (detailData.appDNSRule.length === 0 && detailData.appTrafficRule.length === 0 && detailData.serviceDetails.length === 0) {
+        if (detailData && detailData.appDNSRule.length === 0 && detailData.appTrafficRule.length === 0 && detailData.serviceDetails.length === 0) {
           Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
         }
       })
