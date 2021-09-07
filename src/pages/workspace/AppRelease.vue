@@ -806,12 +806,16 @@ export default {
     // Save/modify configuration rules by default
     getReleaseConfigFirst () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        this.releaseId = res.data.releaseId
-        if (res.data.atpTest) {
-          this.trafficAllData.atpTest = res.data.atpTest
+        let data = res.data
+        if (!data) {
+          this.releaseId = res.data.releaseId
+          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
         }
-        let detailData = res.data.capabilitiesDetail
-        if (detailData && detailData.appDNSRule.length === 0 && detailData.appTrafficRule.length === 0 && detailData.serviceDetails.length === 0) {
+        if (data.capabilitiesDetail) {
+          this.releaseId = res.data.releaseId
+          this.trafficAllData.atpTest = res.data.atpTest
+          this.trafficAllData.guideFileId = res.data.guideFileId
+          this.trafficAllData.capabilitiesDetail = res.data.capabilitiesDetail
           Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
         }
       })
