@@ -38,7 +38,7 @@
           prop="systemName"
           :label="$t('system.imageMgmt.imgName')"
           show-overflow-tooltip
-          min-width="10.5%"
+          min-width="13%"
         >
           <template slot-scope="scope">
             {{ scope.row.systemName }}
@@ -46,7 +46,7 @@
         </el-table-column>
         <el-table-column
           :column-key="'type'"
-          min-width="10.5%"
+          min-width="13%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
           show-overflow-tooltip
@@ -54,14 +54,14 @@
         />
         <el-table-column
           prop="userName"
-          min-width="10.5%"
+          min-width="12%"
           :label="$t('system.imageMgmt.userName')"
           show-overflow-tooltip
         />
         <el-table-column
           :column-key="'operateSystem'"
           prop="operateSystem"
-          min-width="10.5%"
+          min-width="14.5%"
           :label="$t('system.imageMgmt.osName')"
           show-overflow-tooltip
           :filters="osData"
@@ -72,17 +72,6 @@
           :label="$t('system.imageMgmt.osVersion')"
           show-overflow-tooltip
         />
-        <el-table-column
-          prop="createTime"
-          min-width="12.5%"
-          sortable="custom"
-          :label="$t('system.imageMgmt.createTime')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            {{ scope.row.createTime?scope.row.createTime.substring(0,10):'' }}
-          </template>
-        </el-table-column>
         <el-table-column
           prop="uploadTime"
           min-width="12.5%"
@@ -114,7 +103,7 @@
         </el-table-column>
         <el-table-column
           :label="$t('common.operation')"
-          min-width="13%"
+          min-width="15%"
         >
           <template slot-scope="scope">
             <el-button
