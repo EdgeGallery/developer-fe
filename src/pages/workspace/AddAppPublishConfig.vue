@@ -51,7 +51,7 @@
           :label="$t('system.oneLevelCapability')"
           :label-width="formLabelWidth"
           class="service_row"
-          prop="oneLevelName"
+          prop="oneLevelData"
         >
           <el-select
             v-model="form.oneLevelData"
@@ -361,6 +361,10 @@ export default {
     editIndexprop: {
       type: Number,
       default: 0
+    },
+    isAddRuleDataprop: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -462,7 +466,7 @@ export default {
         twoLevelName: [
           { required: true, validator: validateTwoLevelName }
         ],
-        oneLevelName: [
+        oneLevelData: [
           { required: true }
         ],
         apiJson: [{ required: true, validator: validateApiJson, trigger: 'change' }],
@@ -513,18 +517,45 @@ export default {
     getReleaseConfig (editIndex) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let data = res.data
-        this.form.oneLevelData = this.language === 'cn' ? data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName : data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
-        this.form.oneLevelName = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName
-        this.form.oneLevelNameEn = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+        if (data.capabilitiesDetail.serviceDetails.length > 0) {
+          this.form.oneLevelData = this.language === 'cn' ? data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName : data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+          this.form.oneLevelName = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName
+          this.form.oneLevelNameEn = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+        }
       })
     },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
     getEditConfigData () {
+      this.resetForm('form')
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
       let editIndex = this.editIndexprop
+      let isAddRuleData = this.isAddRuleDataprop
       if (data) {
-        this.form = data
-        this.form.oneLevelData = ''
-        this.getReleaseConfig(editIndex)
+        if (isAddRuleData) {
+          this.form = {
+            twoLevelName: '',
+            description: '',
+            serviceName: '',
+            internalPort: '',
+            version: '',
+            protocol: 'https',
+            apiJson: '',
+            apiMd: '',
+            trafficRulesList: '',
+            dnsRulesList: '',
+            oneLevelData: '',
+            oneLevelName: '',
+            oneLevelNameEn: ''
+          }
+          this.form.oneLevelData = this.language === 'cn' ? this.optionsCapability[0].name : this.optionsCapability[0].nameEn
+        } else {
+          this.form = data
+          this.form.oneLevelData = ''
+          this.getReleaseConfig(editIndex)
+        }
+
         if (data.trafficRulesList && data.trafficRulesList[0] !== '') {
           this.form.trafficRulesList = data.trafficRulesList.split(',')
         }
