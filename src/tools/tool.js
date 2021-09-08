@@ -93,7 +93,8 @@ function Delete (url, params, type = 'developer') {
     axios.delete(prefixUrl + url, {
       params: params,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'access_token': accessToken
       }
     })
       .then(res => {
