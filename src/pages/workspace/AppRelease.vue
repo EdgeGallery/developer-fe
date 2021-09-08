@@ -393,6 +393,7 @@
                 @getAddPublicConfigData="getAddPublicConfigData"
                 :edit-rule-dataprop="editRuleData"
                 :edit-indexprop="editIndex"
+                :is-add-rule-dataprop="isAddRuleData"
               />
             </div>
           </div>
@@ -938,6 +939,7 @@ export default {
         }
       } else if (name === 'publicConfig') {
         this.appPublishDialog = true
+        this.ifAddConfig = true
         this.editRuleData = {
           twoLevelName: '',
           description: '',
@@ -949,6 +951,7 @@ export default {
           apiMd: '',
           trafficRulesList: '',
           dnsRulesList: '',
+          oneLevelData: '',
           oneLevelName: '',
           oneLevelNameEn: ''
         }
