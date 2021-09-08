@@ -54,7 +54,7 @@
           prop="oneLevelName"
         >
           <el-select
-            v-model="form.oneLevelName"
+            v-model="form.oneLevelData"
             size="mini"
             class="select_right"
             @change="selectOnelevelName"
@@ -63,8 +63,8 @@
             <el-option
               v-for="item in optionsCapability"
               :key="item.id"
-              :label="item.label"
-              :value="item.id"
+              :label="language==='cn'?item.name:item.nameEn"
+              :value="language==='cn'?item.name:item.nameEn"
             />
           </el-select>
         </el-form-item>
@@ -357,6 +357,10 @@ export default {
     editRuleDataprop: {
       type: Object,
       required: true
+    },
+    editIndexprop: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -427,8 +431,11 @@ export default {
     return {
       dialogVisible: this.value,
       form: {
+        oneLevelData: '',
         oneLevelName: '',
+        oneLevelNameEn: '',
         appIcon: [],
+        internalPort: '',
         base64Session: false,
         defaultActive: '',
         experienceUrl: ''
@@ -486,22 +493,42 @@ export default {
       ],
       uploadIcon: false,
       showErr: false,
-      defaultIconFile: []
+      defaultIconFile: [],
+      projectId: sessionStorage.getItem('mecDetailID')
     }
   },
   methods: {
     selectOnelevelName (name) {
-      this.form.oneLevelName = name
+      this.optionsCapability.forEach(item => {
+        if (name === item.name) {
+          this.form.oneLevelName = item.name
+          this.form.oneLevelNameEn = item.nameEn
+        }
+        if (name === item.nameEn) {
+          this.form.oneLevelName = item.name
+          this.form.oneLevelNameEn = item.nameEn
+        }
+      })
+    },
+    getReleaseConfig (editIndex) {
+      Workspace.getReleaseConfigApi(this.projectId).then(res => {
+        let data = res.data
+        this.form.oneLevelData = this.language === 'cn' ? data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName : data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+        this.form.oneLevelName = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName
+        this.form.oneLevelNameEn = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+      })
     },
     getEditConfigData () {
       let data = JSON.parse(JSON.stringify(this.editRuleDataprop))
+      let editIndex = this.editIndexprop
       if (data) {
-        this.form.oneLevelName = data.oneLevelName
         this.form = data
-        if (data.trafficRulesList[0] !== '') {
+        this.form.oneLevelData = ''
+        this.getReleaseConfig(editIndex)
+        if (data.trafficRulesList && data.trafficRulesList[0] !== '') {
           this.form.trafficRulesList = data.trafficRulesList.split(',')
         }
-        if (data.dnsRulesList[0] !== '') {
+        if (data.dnsRulesList && data.dnsRulesList[0] !== '') {
           this.form.dnsRulesList = data.dnsRulesList.split(',')
         }
         this.removeEmpty(this.form.trafficRulesList)
@@ -565,12 +592,14 @@ export default {
       this.optionsDnsRules = dnsArr
     },
     removeEmpty (arr) {
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i] === '' || typeof (arr[i]) === 'undefined') {
-          arr.splice(i, 1)
+      if (arr) {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i] === '' || typeof (arr[i]) === 'undefined') {
+            arr.splice(i, 1)
+          }
         }
+        return arr
       }
-      return arr
     },
     handleClose () {
       this.$emit('closeFatherDialog', false)
@@ -661,8 +690,11 @@ export default {
         })
         this.optionsCapability = data
         if (data.length > 0) {
-          this.form.oneLevelName = this.optionsCapability[0].label
+          this.form.oneLevelData = this.language === 'cn' ? this.optionsCapability[0].name : this.optionsCapability[0].nameEn
+          this.form.oneLevelName = this.optionsCapability[0].name
+          this.form.oneLevelNameEn = this.optionsCapability[0].nameEn
         }
+        this.getEditConfigData()
       })
     },
     addPublicConfig () {
@@ -794,7 +826,6 @@ export default {
   },
   mounted () {
     this.getOneLevelCapability()
-    this.getEditConfigData()
     this.getRuleList()
   }
 }
@@ -814,12 +845,11 @@ export default {
     padding-bottom:0px;
   }
   .el-button--default{
-     border: 1px solid #5844be;
+    border: 1px solid #5844be;
     color: #fff;
     background-color: #5844be;
-    width: 8%;
     padding: 8px 15px;
-     border-radius:10px;
+    border-radius:10px;
   }
   .el-button--primary{
       border: 1px solid #5844be;

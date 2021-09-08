@@ -392,6 +392,7 @@
                 @closeFatherDialog="closeDialog"
                 @getAddPublicConfigData="getAddPublicConfigData"
                 :edit-rule-dataprop="editRuleData"
+                :edit-indexprop="editIndex"
               />
             </div>
           </div>
@@ -941,7 +942,7 @@ export default {
           twoLevelName: '',
           description: '',
           serviceName: '',
-          internalPort: 0,
+          internalPort: '',
           version: '',
           protocol: 'https',
           apiJson: '',
@@ -1017,10 +1018,12 @@ export default {
       sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
-    strToArray (str) {
-      let arr = []
-      arr = str.split(',')
-      return arr
+    strToArray (data) {
+      if (data && data[0] !== '') {
+        let arr = []
+        arr = data.split(',')
+        return arr
+      }
     },
     // Save configured rule data
     saveConfig () {
@@ -1162,6 +1165,7 @@ export default {
     },
     getFileList () {
       Workspace.getApiFileApi(this.mdFileId, this.userId).then(res => {
+        this.appMdList = []
         let obj = { name: '' }
         obj.name = res.data.fileName
         this.appMdList.push(obj)
