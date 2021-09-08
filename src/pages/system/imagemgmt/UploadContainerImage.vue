@@ -191,7 +191,7 @@ export default {
       // this.fileIdentifier = file.uniqueIdentifier
     },
     onFileComplete () {
-      this.isUploading = false
+      this.isUploading = true
       this.isMerging = true
       const file = arguments[0].file
       imageMgmtService.mergeContainerImage(this.imageId, file.name, arguments[0].uniqueIdentifier).then(response => {
@@ -200,12 +200,15 @@ export default {
           clearTimeout(_timer)
           this.doClose()
         }, 1000)
+        this.isUploading = false
       }).catch((error) => {
         if (error.response.data.message === 'exist the same imageName') {
           this.$message.error(this.$t('system.imageMgmt.tip.systemNameExist'))
         } else {
           this.$message.error(this.$t('promptMessage.uploadFailure'))
         }
+        this.doClose()
+        this.isUploading = false
       })
     },
     handleClose () {

@@ -543,8 +543,8 @@ export default {
             protocol: 'https',
             apiJson: '',
             apiMd: '',
-            trafficRulesList: '',
-            dnsRulesList: '',
+            trafficRulesList: [],
+            dnsRulesList: [],
             oneLevelData: '',
             oneLevelName: '',
             oneLevelNameEn: ''
