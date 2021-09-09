@@ -862,7 +862,8 @@ const en = {
       endTime: 'Create Time(End)',
       typeValue: {
         public: 'Public',
-        private: 'Private'
+        private: 'Private',
+        isPublic: 'Is it Public'
       },
       statusValue: {
         uploadWait: 'To be uploaded',

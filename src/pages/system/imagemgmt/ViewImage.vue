@@ -125,7 +125,7 @@
       </el-form>
       <span
         slot="footer"
-        class="dialog-footer"
+        class="dialog-footer center"
       >
         <el-button
           id="btn_close"
