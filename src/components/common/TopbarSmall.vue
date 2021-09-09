@@ -158,6 +158,15 @@ export default {
       } else {
         this.indexName = to.path
       }
+      // 向统一平台发送信息
+      window.parent.postMessage({
+        cmd: 'routeTo',
+        params: {
+          module: 'developer',
+          path: to.path,
+          activeMenuPath: this.indexName
+        }
+      }, '*')
     }
   },
   mounted () {
