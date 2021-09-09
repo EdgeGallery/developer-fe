@@ -45,7 +45,7 @@
         <el-table-column
           prop="imageName"
           :label="$t('system.imageMgmt.imgName')"
-          min-width="15%"
+          min-width="14%"
         >
           <template slot-scope="scope">
             {{ scope.row.imageName }}
@@ -53,26 +53,42 @@
         </el-table-column>
         <el-table-column
           prop="imagePath"
-          min-width="28%"
+          min-width="24%"
           :label="$t('system.imageMgmt.imgPath')"
         />
         <el-table-column
           prop="userName"
-          min-width="12%"
+          min-width="9%"
           :label="$t('system.imageMgmt.userName')"
         />
         <el-table-column
           prop="imageVersion"
-          min-width="10%"
+          min-width="9%"
           :label="$t('system.imageMgmt.osVersion')"
         />
         <el-table-column
           prop="uploadTime"
-          min-width="13%"
+          min-width="12%"
           :label="$t('system.imageMgmt.uploadTime')"
         >
           <template slot-scope="scope">
             {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="10%"
+          :label="$t('system.imageMgmt.typeValue.isPublic')"
+        >
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.imageType"
+              active-color="#13ce66"
+              inactive-color="#c0ccda"
+              :disabled="scope.row.userId!==userId"
+              active-value="public"
+              inactive-value="private"
+              @change="changeImageType(scope.row.imageId,scope.row)"
+            />
           </template>
         </el-table-column>
         <el-table-column
@@ -87,14 +103,13 @@
               {{ $t('devTools.detail') }}
             </el-button>
             <el-button
-              :disabled="scope.row.imageStatus!=='UPLOAD_SUCCEED'"
               @click="handleDownload(scope.row)"
               class="operations_btn"
             >
               {{ $t('common.download') }}
             </el-button>
             <el-button
-              :disabled="scope.row.imageStatus==='UPLOADING' || scope.row.imageStatus==='UPLOADING_MERGING'"
+              :disabled="scope.row.userId!==userId"
               @click="handleDelete(scope.row)"
               class="operations_btn"
             >
@@ -138,7 +153,6 @@ import ViewContainerImage from './ViewContainerImage.vue'
 import UploadContainerImage from './UploadContainerImage.vue'
 import Pagination from '../../../components/common/Pagination.vue'
 import { imageMgmtService } from '../../../tools/api.js'
-import { common } from '../../../tools/common.js'
 
 export default {
   name: 'ImageMgmt',
@@ -203,6 +217,13 @@ export default {
     this.getImageDataList()
   },
   methods: {
+    changeImageType (imageId, imageData) {
+      imageMgmtService.modifyContainerImage(imageData, imageId).then(() => {
+        this.$message.success(this.$t('promptMessage.editSuccess'))
+      }).catch(() => {
+        this.$message.error(this.$t('system.imageMgmt.tip.modifyImgFailed'))
+      })
+    },
     synchronizeContainerImage () {
       this.synchronizeImageLoading = true
       sessionStorage.setItem('synchronizeImage', this.synchronizeImageLoading)
@@ -289,10 +310,6 @@ export default {
       this.dataLoading = true
       imageMgmtService.getContainerImageDataList(this.buildQueryReq()).then(response => {
         this.imageListData = response.data.results
-        this.imageListData.forEach(item => {
-          item.createTime = common.dateChange(item.createTime)
-          item.uploadTime = common.dateChange(item.uploadTime)
-        })
         this.listTotal = response.data.total
         this.dataLoading = false
       }).catch(() => {

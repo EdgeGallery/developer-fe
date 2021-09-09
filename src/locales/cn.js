@@ -862,7 +862,8 @@ const cn = {
       endTime: '创建时间（结束）',
       typeValue: {
         public: '公共',
-        private: '私有'
+        private: '私有',
+        isPublic: '是否公开'
       },
       statusValue: {
         uploadWait: '待上传',
