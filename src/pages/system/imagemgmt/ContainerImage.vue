@@ -174,7 +174,7 @@ export default {
         createTimeEnd: '',
         limit: 12,
         offset: 0,
-        sortBy: 'create_time',
+        sortBy: 'upload_time',
         sortOrder: 'desc'
       },
       limitSize: 12,
@@ -294,7 +294,7 @@ export default {
     },
     doSort (column) {
       if (column.prop == null || column.order == null) {
-        this.searchCondition.sortBy = 'create_time'
+        this.searchCondition.sortBy = 'upload_time'
         this.searchCondition.sortOrder = 'desc'
       } else {
         this.prop = column.prop
