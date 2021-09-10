@@ -908,6 +908,14 @@ export default {
       if (JSON.stringify(this.appRuleData) !== '{}') {
         this.dnsListData = this.appRuleData.appDNSRule
         this.appPublishListData = this.appRuleData.serviceDetails
+        this.appPublishListData.forEach(item => {
+          if (item.trafficRulesList) {
+            item.trafficRulesList = item.trafficRulesList.join(',')
+          }
+          if (item.dnsRulesList) {
+            item.dnsRulesList = item.dnsRulesList.join(',')
+          }
+        })
         this.trafficListData = this.appRuleData.appTrafficRule
       } else {
         this.dnsListData = []
