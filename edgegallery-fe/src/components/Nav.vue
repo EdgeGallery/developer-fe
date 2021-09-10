@@ -105,12 +105,12 @@
 </template>
 
 <script>
-import { logoutApi, loginApi } from '../tools/tool.js'
+import { logoutApi, loginApi, healthCheck } from '../tools/tool.js'
 import navData from '../navdata/navData.js'
 import navDataCn from '../navdata/navDataCn.js'
 import Topbar from './Topbar.vue'
 import TopbarSmall from './TopbarSmall.vue'
-import { NAV_PRE } from '../navdata/constants.js'
+import { NAV_PRE, FIRST_LEVEL_MENU_PATH, MODULES, HEALTH_URL } from '../constants.js'
 export default {
   name: 'Navgation',
   components: {
@@ -144,7 +144,7 @@ export default {
       wsSocketConn: null,
       wsMsgSendInterval: null,
       manualLoggout: false,
-      indexName: '/home'
+      indexName: FIRST_LEVEL_MENU_PATH.HOME
     }
   },
   watch: {
@@ -163,6 +163,7 @@ export default {
     '$i18n.locale': function () {
       this.showToolchain(this.jsonData)
       this.loginFun()
+      // this.filterMenu()
     }
   },
   beforeMount () {
@@ -174,6 +175,7 @@ export default {
     } else {
       this.jsonData = navDataCn
     }
+    // this.filterMenu()
   },
   mounted () {
     this.loginFun()
@@ -200,17 +202,80 @@ export default {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
-    getActiveMenuPath (params) {
-      if (params.module === 'developer') {
-        return NAV_PRE.DEVELOPER + params.activeMenuPath
-      } else if (params.module === 'appStore') {
-        return NAV_PRE.APPSTORE + params.activeMenuPath
-      } else if (params.module === 'mecm') {
-        return NAV_PRE.MECM + params.activeMenuPath
-      } else if (params.module === 'atp') {
-        return NAV_PRE.ATP + params.activeMenuPath
+    filterDeveloperMenu () {
+      console.log('developer menu filterd.')
+      this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.DEVELOPER)
+    },
+    filterAppstoreMenu () {
+      console.log('appStore menu filterd.')
+      this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.APPSTORE)
+    },
+    filterAtpMenu () {
+      console.log('atp menu filterd.')
+      this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.ATP)
+    },
+    filterMecmMenu () {
+      console.log('mecm menu filterd.')
+      this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.MECM)
+    },
+    filterMenu () {
+      let originArray = window.location.origin.split(':')
+      let urlPre = originArray[0] + ':' + originArray[1] + ':'
+      let mecmHealthCheckUrl = urlPre + MODULES.MECM.port + HEALTH_URL
+      healthCheck(mecmHealthCheckUrl).then(res1 => {
+        if (res1.status !== 200) {
+          this.filterMecmMenu()
+        }
+      }).catch(() => {
+        this.filterMecmMenu()
+      })
+      let appstoreHealthCheckUrl = urlPre + MODULES.APPSTORE.port + HEALTH_URL
+      healthCheck(appstoreHealthCheckUrl).then(res2 => {
+        if (res2.status !== 200) {
+          this.filterAppstoreMenu()
+        }
+      }).catch(() => {
+        this.filterAppstoreMenu()
+      })
+      let atpHealthCheckUrl = urlPre + MODULES.ATP.port + HEALTH_URL
+      healthCheck(atpHealthCheckUrl).then(res3 => {
+        if (res3.status !== 200) {
+          this.filterAtpMenu()
+        }
+      }).catch(() => {
+        this.filterAtpMenu()
+      })
+      let developerHealthCheckUrl = urlPre + MODULES.DEVELOPER.port + HEALTH_URL
+      healthCheck(developerHealthCheckUrl).then(res4 => {
+        if (res4.status !== 200) {
+          this.filterDeveloperMenu()
+        }
+      }).catch(() => {
+        this.filterDeveloperMenu()
+      })
+    },
+    transPath (params) {
+      let activeMenuPath
+      let path
+      if (params.module === MODULES.DEVELOPER.name) {
+        activeMenuPath = NAV_PRE.DEVELOPER + params.activeMenuPath
+        path = NAV_PRE.DEVELOPER + params.path
+      } else if (params.module === MODULES.APPSTORE.name) {
+        activeMenuPath = NAV_PRE.APPSTORE + params.activeMenuPath
+        path = NAV_PRE.APPSTORE + params.path
+      } else if (params.module === MODULES.MECM.name) {
+        activeMenuPath = NAV_PRE.MECM + params.activeMenuPath
+        path = NAV_PRE.MECM + params.path
+      } else if (params.module === MODULES.ATP.name) {
+        activeMenuPath = NAV_PRE.ATP + params.activeMenuPath
+        path = NAV_PRE.ATP + params.path
       } else {
-        return '/home'
+        activeMenuPath = FIRST_LEVEL_MENU_PATH.HOME
+        path = FIRST_LEVEL_MENU_PATH.HOME
+      }
+      return {
+        activeMenuPath: activeMenuPath,
+        path: path
       }
     },
     handleMessage (event) {
@@ -218,8 +283,11 @@ export default {
       console.log('handleMessage, message info: ' + JSON.stringify(data))
       switch (data.cmd) {
         case 'routeTo':
-          let menuPath = this.getActiveMenuPath(data.params)
-          this.indexName = menuPath
+          let params = this.transPath(data.params)
+          // if (this.$route.path !== params.path) {
+          //   this.$router.replace(params.path)
+          // }
+          this.indexName = params.activeMenuPath
           break
       }
     },

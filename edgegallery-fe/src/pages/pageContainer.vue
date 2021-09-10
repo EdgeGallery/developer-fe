@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { NAV_PRE, MODULES } from '../constants'
 
 export default {
   components: {},
@@ -26,14 +27,14 @@ export default {
       let originArray = window.location.origin.split(':')
       let url = ''
       let urlPre = originArray[0] + ':' + originArray[1] + ':'
-      if (this.$route.path.startsWith('/appStore')) {
-        url = urlPre + '30091/#' + this.$route.path.slice('/appStore'.length)
-      } else if (this.$route.path.startsWith('/mecDeveloper')) {
-        url = urlPre + '30092/#' + this.$route.path
-      } else if (this.$route.path.startsWith('/mecm')) {
-        url = urlPre + '30093/#' + this.$route.path.slice('/mecm'.length)
-      } else if (this.$route.path.startsWith('/atp')) {
-        url = urlPre + '30094/#' + this.$route.path.slice('/atp'.length)
+      if (this.$route.path.startsWith(NAV_PRE.APPSTORE)) {
+        url = urlPre + MODULES.APPSTORE.port + '/#' + this.$route.path.slice(NAV_PRE.APPSTORE.length)
+      } else if (this.$route.path.startsWith(NAV_PRE.DEVELOPER)) {
+        url = urlPre + MODULES.DEVELOPER.port + '/#' + this.$route.path.slice(NAV_PRE.DEVELOPER.length)
+      } else if (this.$route.path.startsWith(NAV_PRE.MECM)) {
+        url = urlPre + MODULES.MECM.port + '/#' + this.$route.path.slice(NAV_PRE.MECM.length)
+      } else if (this.$route.path.startsWith(NAV_PRE.ATP)) {
+        url = urlPre + MODULES.ATP.port + '/#' + this.$route.path.slice(NAV_PRE.ATP.length)
       }
       url = url + '?language=' + localStorage.getItem('language')
       return url

@@ -18,39 +18,40 @@ import devNavData from './devNav.js'
 import appStoreNavData from './appStoreNav.js'
 import atpNavData from './atpNav.js'
 import mecmNavData from './mecmNav.js'
+import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
   {
     id: '0',
     name: 'Home',
-    path: '/home',
+    path: FIRST_LEVEL_MENU_PATH.HOME,
     display: true
   },
   {
     id: '1',
-    name: 'APP Integrate Platform',
-    path: '/mecDeveloper',
+    name: 'APP Integrate and Develop Platform',
+    path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData
   },
   {
     id: '2',
     name: 'Testing and Certification Center',
-    path: '/atp',
+    path: FIRST_LEVEL_MENU_PATH.ATP,
     display: true,
     children: atpNavData
   },
   {
     id: '3',
     name: 'APP Store',
-    path: '/appStore',
+    path: FIRST_LEVEL_MENU_PATH.APPSTORE,
     display: true,
     children: appStoreNavData
   },
   {
     id: '4',
     name: 'MECM Management Platform',
-    path: '/mec',
+    path: FIRST_LEVEL_MENU_PATH.MECM,
     display: true,
     children: mecmNavData
   }
