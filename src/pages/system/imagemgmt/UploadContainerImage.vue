@@ -161,7 +161,7 @@ export default {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
     this.imageId = this.createUUID()
-    this.options.target = url + urlPrefix + 'mec/developer/v2/image/' + this.imageId + '/upload'
+    this.options.target = url + urlPrefix + 'mec/developer/v2/containerimages/' + this.imageId + '/upload'
   },
   methods: {
     createUUID () {
