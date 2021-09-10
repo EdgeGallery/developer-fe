@@ -59,6 +59,7 @@
             class="select_right"
             @change="selectOnelevelName"
             ref="capabilityGroup"
+            :disabled="!isAddRuleDataprop"
           >
             <el-option
               v-for="item in optionsCapability"
