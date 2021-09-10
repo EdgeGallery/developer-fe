@@ -96,7 +96,7 @@
           <div class="tableSubTitle fontUltraLight">
             <span>{{ $t('workspace.appRelease.trafficFilter') }}</span>
             <el-button-group class="rt">
-              <i class="el-icon-circle-plus-outline" />
+              <em class="el-icon-circle-plus-outline" />
               <el-button
                 type="text"
                 class="btn"
@@ -202,7 +202,7 @@
           <div class="tableSubTitle fontUltraLight">
             <span>{{ $t('workspace.appRelease.forwardInterfaceTabTitle') }}</span>
             <el-button-group class="rt">
-              <i class="el-icon-circle-plus-outline forwardInterfaceIcon" />
+              <em class="el-icon-circle-plus-outline forwardInterfaceIcon" />
               <el-button
                 type="text"
                 class="btn"
@@ -345,9 +345,6 @@
                 >
                   <em class="el-icon-info" />
                 </el-tooltip>
-                <!-- <p class="input_promt">
-                  {{ $t('workspace.appRelease.multipleIP') }}
-                </p> -->
               </el-form-item>
               <el-form-item :label="$t('workspace.appRelease.srcPort')">
                 <el-input
@@ -363,9 +360,6 @@
                 >
                   <em class="el-icon-info" />
                 </el-tooltip>
-                <!-- <p class="input_promt">
-                  {{ $t('workspace.appRelease.multiplePort') }}
-                </p> -->
               </el-form-item>
               <el-form-item :label="$t('workspace.appRelease.dstAddress')">
                 <el-input
@@ -381,9 +375,6 @@
                 >
                   <em class="el-icon-info" />
                 </el-tooltip>
-                <!-- <p class="input_promt">
-                  {{ $t('workspace.appRelease.multipleIP') }}
-                </p> -->
               </el-form-item>
               <el-form-item :label="$t('workspace.appRelease.dstPort')">
                 <el-input
@@ -399,9 +390,6 @@
                 >
                   <em class="el-icon-info" />
                 </el-tooltip>
-                <!-- <p class="input_promt">
-                  {{ $t('workspace.appRelease.multiplePort') }}
-                </p> -->
               </el-form-item>
             </el-col>
             <el-col :span="10">
@@ -832,7 +820,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.language)
     this.getAllListData()
   }
 }
