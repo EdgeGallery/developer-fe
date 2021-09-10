@@ -482,28 +482,28 @@ let imageMgmtService = {
   },
   // ContainerImage
   newContainerImage: function (imgData) {
-    return Post('mec/developer/v2/container/images', imgData)
+    return Post('mec/developer/v2/containerimages/', imgData)
   },
   deleteContainerImage: function (imageId) {
-    return Delete('mec/developer/v2/container/images/' + imageId)
+    return Delete('mec/developer/v2/containerimages/' + imageId)
   },
   modifyContainerImage: function (imgData, imageId) {
-    return Put('mec/developer/v2/container/images/' + imageId, imgData)
+    return Put('mec/developer/v2/containerimages/' + imageId, imgData)
   },
   getContainerImageDataList: function (queryData) {
-    return Post('mec/developer/v2/container/images/list', queryData)
+    return Post('mec/developer/v2/containerimages/list', queryData)
   },
   mergeContainerImage: function (imageId, fileName, identifier) {
-    return Get('mec/developer/v2/image/' + imageId + '/merge?fileName=' + fileName + '&guid=' + identifier)
+    return Get('mec/developer/v2/containerimages/' + imageId + '/merge?fileName=' + fileName + '&guid=' + identifier)
   },
   downloadContainerImageUrl: function (imageId) {
-    return urlPrefix + 'mec/developer/v2/container/images/' + imageId + '/download'
+    return urlPrefix + 'mec/developer/v2/containerimages/' + imageId + '/download'
   },
   synchronizeContainerImageApi: function () {
-    return GetFun('mec/developer/v2/container/images/synchronize')
+    return GetFun('mec/developer/v2/containerimages/synchronize')
   },
   cancelUploadContainerImage: function (imageId) {
-    return Delete('mec/developer/v2/container/images/' + imageId + '/upload')
+    return Delete('mec/developer/v2/containerimages/' + imageId + '/upload')
   }
 }
 
