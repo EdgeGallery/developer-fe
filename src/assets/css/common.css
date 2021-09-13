@@ -476,6 +476,33 @@ body::-webkit-scrollbar-thumb{
   border: 0px !important;
   color: #fff!important;
 }
+.uploader-file-remove{
+  display: none !important;
+}
+.uploader {
+  padding-top: 20px;
+  text-align: center;
+}
+.uploader-list {
+  padding-top: 10px;
+}
+.cancel_upload{
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  height: 48px;
+  width: 100px;
+}
+.cancel_upload_btn{
+  height: 48px;
+}
+.uploader-file-name{
+  width: 30% !important;
+}
+.uploader-file-status{
+  width: 20%;
+}
 .prompt_nofile{
   margin-top: 10px;
   font-size: 14px;
