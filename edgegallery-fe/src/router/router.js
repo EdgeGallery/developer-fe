@@ -17,13 +17,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import navData from '../navdata/navDataCn.js'
+import { NAV_PRE, FIRST_LEVEL_MENU_PATH } from '../constants'
 
 Vue.use(Router)
 
 function getRouterComponent (routerPath) {
-  if (routerPath.startsWith('/home')) {
+  if (routerPath.startsWith(FIRST_LEVEL_MENU_PATH.HOME)) {
     return () => import('../pages/Home.vue')
-  } else if (routerPath.startsWith('/appStore') || routerPath.startsWith('/mecDeveloper') || routerPath.startsWith('/mecm') || routerPath.startsWith('/atp')) {
+  } else if (routerPath.startsWith(NAV_PRE.APPSTORE) || routerPath.startsWith(NAV_PRE.DEVELOPER) || routerPath.startsWith(NAV_PRE.MECM) || routerPath.startsWith(NAV_PRE.ATP)) {
     return () => import('../pages/pageContainer.vue')
   } else {
     return () => import('../pages/Home.vue')

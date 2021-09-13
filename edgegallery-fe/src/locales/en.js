@@ -22,7 +22,18 @@ const en = {
     developing: 'The page is under development.'
   },
   nav: {
-    logIn: 'Login'
+    logIn: 'Login',
+    userAccountCenter: 'My Account',
+    logOut: 'Logout',
+    refresh: 'Refresh',
+    reLogin: 'ReLogin',
+    hsInvalidHintForTimeout: 'You have not operated for a long time, ',
+    hsInvalidHintForLogout: 'You have logged in or logged out through other pages, ',
+    hsInvalidHintForServerStopped: 'The server has been upgraded, ',
+    hsInvalidHint: 'the current session has expired. Please choose to refresh the page or log in again.'
+  },
+  promptMessage: {
+    prompt: 'Prompt'
   },
   ...enLocale
 }

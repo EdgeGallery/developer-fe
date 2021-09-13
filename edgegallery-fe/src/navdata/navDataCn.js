@@ -18,39 +18,40 @@ import devNavData from './devNavCn.js'
 import appStoreNavData from './appStoreNavCn.js'
 import atpNavData from './atpNavCn.js'
 import mecmNavData from './mecmNavCn.js'
+import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
   {
     id: '0',
     name: '首页',
-    path: '/home',
+    path: FIRST_LEVEL_MENU_PATH.HOME,
     display: true
   },
   {
     id: '1',
-    name: '应用集成平台',
-    path: '/mecDeveloper',
+    name: '应用集成开发平台',
+    path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData
   },
   {
     id: '2',
     name: '测试认证中心',
-    path: '/atp',
+    path: FIRST_LEVEL_MENU_PATH.ATP,
     display: true,
     children: atpNavData
   },
   {
     id: '3',
     name: 'APP商店',
-    path: '/appStore',
+    path: FIRST_LEVEL_MENU_PATH.APPSTORE,
     display: true,
     children: appStoreNavData
   },
   {
     id: '4',
     name: 'MECM管理平台',
-    path: '/mec',
+    path: FIRST_LEVEL_MENU_PATH.MECM,
     display: true,
     children: mecmNavData
   }

@@ -52,7 +52,21 @@ function loginApi () {
   })
 }
 
+function healthCheck (url) {
+  return axios({
+    method: 'GET',
+    url: url,
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+    },
+    timeout: 3000
+  })
+}
+
 export {
   logoutApi,
-  loginApi
+  loginApi,
+  healthCheck
 }

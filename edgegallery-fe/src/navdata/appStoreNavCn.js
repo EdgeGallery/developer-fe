@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-import { NAV_PRE } from './constants'
+import { NAV_PRE } from '../constants'
 
 const pathPre = NAV_PRE.APPSTORE
 

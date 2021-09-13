@@ -22,7 +22,18 @@ const cn = {
     developing: '页面正在开发中。'
   },
   nav: {
-    logIn: '登录'
+    logIn: '登录',
+    userAccountCenter: '我的帐号',
+    logOut: '注销',
+    refresh: '刷新',
+    reLogin: '重新登录',
+    hsInvalidHintForTimeout: '您长时间未操作，',
+    hsInvalidHintForLogout: '您通过其它页面执行了登录或注销操作，',
+    hsInvalidHintForServerStopped: '后台服务升级，',
+    hsInvalidHint: '当前会话已失效。请选择刷新页面或重新登录。'
+  },
+  promptMessage: {
+    prompt: '提示'
   },
   ...zhLocale
 }
