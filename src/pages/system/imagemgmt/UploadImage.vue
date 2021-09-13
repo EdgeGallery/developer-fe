@@ -297,24 +297,5 @@ export default {
     font-size: 14px;
     color: #3e4863;
   }
-  .uploader {
-    padding-top: 20px;
-    text-align: center;
-  }
-  .uploader-list {
-    padding-top: 10px;
-  }
-  .cancel_upload{
-    z-index: 100;
-    background:#ffffff;
-    position: absolute;
-    top: 10px;
-    left: 800px;
-    height: 48px;
-    width: 100px;
-  }
-  .cancel_upload_btn{
-    height: 48px;
-  }
 }
 </style>
