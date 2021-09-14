@@ -40,7 +40,6 @@
         v-loading="dataLoading"
         style="width: 100%"
         class="tableStyle default_dropdown"
-        @filter-change="filterChange"
       >
         <el-table-column
           prop="imageName"
@@ -167,9 +166,7 @@ export default {
       dataLoading: false,
       searchCondition: {
         imageName: '',
-        imageType: '',
         userId: '',
-        imageStatus: '',
         createTimeBegin: '',
         createTimeEnd: '',
         limit: 12,
@@ -246,19 +243,6 @@ export default {
     },
     showMoreBtnFun (index) {
       this.currentIndex = index
-    },
-    filterChange (filters) {
-      if (filters.imageStatus && filters.imageStatus.length >= 1) {
-        this.searchCondition.imageStatus = filters.imageStatus.join(',')
-      } else if (filters.imageStatus && filters.imageStatus.length === 0) {
-        this.searchCondition.imageStatus = ''
-      }
-      if (filters.imageType && filters.imageType.length >= 1) {
-        this.searchCondition.imageType = filters.imageType.join(',')
-      } else if (filters.imageType && filters.imageType.length === 0) {
-        this.searchCondition.imageType = ''
-      }
-      this.getImageDataList()
     },
     initUser () {
       this.userId = sessionStorage.getItem('userId')
