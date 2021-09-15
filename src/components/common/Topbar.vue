@@ -153,6 +153,15 @@ export default {
       } else {
         this.indexName = to.path
       }
+      // post message to unified platform
+      window.parent.postMessage({
+        cmd: 'routeTo',
+        params: {
+          module: 'developer',
+          path: to.path,
+          activeMenuPath: this.indexName
+        }
+      }, '*')
     }
   },
   mounted () {

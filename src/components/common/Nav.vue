@@ -177,6 +177,16 @@ export default {
         this.changeLange()
       }
     }
+    // message listener, message from unified platform
+    window.addEventListener('message', (event) => {
+      var data = event.data
+      switch (data.cmd) {
+        case 'iframeLanguageChange':
+          let lang = data.params.lang
+          this.changeLange(lang)
+          break
+      }
+    })
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
       return (() => {
@@ -319,9 +329,19 @@ export default {
         isMac: /mac/.test(UserAgent)
       }
     },
-    changeLange () {
+    changeLange (lang) {
       let language
-      if (this.language === 'En') {
+      if (lang === 'cn') {
+        this.language = 'En'
+        this.languageIcon = require('../../assets/images/nav_en.png')
+        language = 'cn'
+        this.jsonData = navDataCn.mecDeveloper
+      } else if (lang === 'en') {
+        this.language = 'Cn'
+        this.languageIcon = require('../../assets/images/nav_cn.png')
+        language = 'en'
+        this.jsonData = navData.mecDeveloper
+      } else if (this.language === 'En') {
         this.language = 'Cn'
         this.languageIcon = require('../../assets/images/nav_cn.png')
         language = 'en'

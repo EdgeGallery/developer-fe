@@ -592,6 +592,13 @@ export default {
         callback()
       }
     }
+    const validateAppIcon = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(this.$t('workspace.iconRequired')))
+      } else {
+        callback()
+      }
+    }
     const validateHost = (rule, value, callback) => {
       let reg = /^[\S\s]{1,20}$/g
       if (!value) {
@@ -733,7 +740,7 @@ export default {
           { required: true, validator: validateProvider }
         ],
         appIcon: [
-          { required: true, trigger: 'change' }
+          { required: true, validator: validateAppIcon, trigger: 'change' }
         ]
       },
       visible: false,
@@ -949,6 +956,9 @@ export default {
       let obj = {}
       obj.url = iconUrl + currUrl
       this.uploadIcon = true
+      this.form.appIcon = []
+      this.defaultIconFile = []
+      this.form.defaultActive = ''
       this.logoFileList.push(obj)
       this.getFileList('apiFileId', this.form.apiFileId)
       this.getFileList('guideFileId', this.form.guideFileId)
@@ -1003,8 +1013,8 @@ export default {
       })
     },
     onSubmit () {
-      if (this.form.appIcon || this.logoFileList.length !== 0) {
-        this.$refs.iconFileItem.clearValidate()
+      if (!this.isAddService && this.logoFileList.length > 0) {
+        this.form.appIcon = this.logoFileList
       }
       this.$refs['form'].validate((valid, params) => {
         if (valid) {

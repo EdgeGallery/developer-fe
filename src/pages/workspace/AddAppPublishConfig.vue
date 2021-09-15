@@ -27,7 +27,7 @@
         :model="form"
         ref="form"
         :rules="rules"
-        class="config_form"
+        class="config_form clear"
         :class="{'addAppPublishConfig_en':language==='en'}"
         size="small"
       >
@@ -59,6 +59,7 @@
             class="select_right"
             @change="selectOnelevelName"
             ref="capabilityGroup"
+            :disabled="!isAddRuleDataprop"
           >
             <el-option
               v-for="item in optionsCapability"
@@ -227,8 +228,8 @@
 
         <el-form-item
           :label="$t('workspace.registInformation')"
-          label-width="100%"
-          class="service_title"
+          class="service_title lt"
+          :style="{width:'100%'}"
         />
         <el-form-item
           :label="$t('workspace.servicename')"
@@ -285,7 +286,8 @@
         <el-form-item
           :label="$t('api.onlineExperience')+' url'"
           :label-width="formLabelWidth"
-          class="service_row"
+          class="service_row lt"
+          :style="{width:'100%'}"
         >
           <el-input
             v-model="form.experienceUrl"
@@ -294,10 +296,11 @@
         <el-form-item
           :label="$t('workspace.trafficRules')"
           :label-width="formLabelWidth"
-          class="service_row"
+          class="service_row lt"
+          :style="{width:'100%'}"
         >
           <el-checkbox-group
-            v-model="form.trafficRulesList"
+            v-model="trafficRulesListGroup"
           >
             <el-checkbox
               v-for="(item,index) in optionsTrafficRules"
@@ -310,10 +313,11 @@
         <el-form-item
           :label="$t('workspace.dnsRules')"
           :label-width="formLabelWidth"
-          class="service_row"
+          class="service_row lt"
+          :style="{width:'100%'}"
         >
           <el-checkbox-group
-            v-model="form.dnsRulesList"
+            v-model="dnsRulesListGroup"
           >
             <el-checkbox
               v-for="(item,index) in optionsDnsRules"
@@ -385,6 +389,13 @@ export default {
         callback()
       }
     }
+    const validateAppIcon = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error(this.$t('workspace.iconRequired')))
+      } else {
+        callback()
+      }
+    }
     const validateApiMd = (rule, value, callback) => {
       if (!value) {
         callback(new Error(`${this.$t('system.pleaseUpload')}${this.$t('system.guideFileId')}`))
@@ -442,10 +453,12 @@ export default {
         internalPort: '',
         base64Session: false,
         defaultActive: '',
-        experienceUrl: ''
+        experienceUrl: '',
+        trafficRulesList: '',
+        dnsRulesList: ''
       },
-      trafficRulesList: [],
-      dnsRulesList: [],
+      trafficRulesListGroup: [],
+      dnsRulesListGroup: [],
       optionsProtocol: [{
         value: '0',
         label: 'http'
@@ -487,7 +500,7 @@ export default {
           { required: true, trigger: 'change' }
         ],
         appIcon: [
-          { required: true, trigger: 'change' }
+          { required: true, validator: validateAppIcon, trigger: 'change' }
         ]
       },
       oneLevelMap: new Map(),
@@ -514,13 +527,36 @@ export default {
         }
       })
     },
-    getReleaseConfig (editIndex) {
+    getReleaseConfig (editIndex, type) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let data = res.data
-        if (data.capabilitiesDetail.serviceDetails.length > 0) {
-          this.form.oneLevelData = this.language === 'cn' ? data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName : data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
-          this.form.oneLevelName = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName
-          this.form.oneLevelNameEn = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+        let trafficData = data.capabilitiesDetail.appTrafficRule
+        let dnsData = data.capabilitiesDetail.appDNSRule
+        let trafficArr = []
+        let dnsArr = []
+        trafficData.forEach(item => {
+          trafficArr.push(item.trafficRuleId)
+        })
+        dnsData.forEach(item => {
+          dnsArr.push(item.dnsRuleId)
+        })
+        this.optionsTrafficRules = trafficArr
+        this.optionsDnsRules = dnsArr
+        if (type === 'add') {
+          this.optionsTrafficRules = trafficArr
+          this.optionsDnsRules = dnsArr
+        } else {
+          if (data.capabilitiesDetail.serviceDetails.length > 0) {
+            this.form.oneLevelData = this.language === 'cn' ? data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName : data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+            this.form.oneLevelName = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelName
+            this.form.oneLevelNameEn = data.capabilitiesDetail.serviceDetails[editIndex].oneLevelNameEn
+            if (data.capabilitiesDetail.serviceDetails[editIndex].trafficRulesList) {
+              this.trafficRulesListGroup = data.capabilitiesDetail.serviceDetails[editIndex].trafficRulesList
+            }
+            if (data.capabilitiesDetail.serviceDetails[editIndex].dnsRulesList) {
+              this.dnsRulesListGroup = data.capabilitiesDetail.serviceDetails[editIndex].dnsRulesList
+            }
+          }
         }
       })
     },
@@ -543,27 +579,23 @@ export default {
             protocol: 'https',
             apiJson: '',
             apiMd: '',
-            trafficRulesList: [],
-            dnsRulesList: [],
+            trafficRulesList: '',
+            dnsRulesList: '',
             oneLevelData: '',
             oneLevelName: '',
             oneLevelNameEn: ''
           }
           this.form.oneLevelData = this.language === 'cn' ? this.optionsCapability[0].name : this.optionsCapability[0].nameEn
+          this.form.oneLevelName = this.optionsCapability[0].name
+          this.form.oneLevelNameEn = this.optionsCapability[0].nameEn
+          this.optionsTrafficRules = data.trafficRulesList
+          this.optionsDnsRules = data.dnsRulesList
+          this.getReleaseConfig(editIndex, 'add')
         } else {
           this.form = data
           this.form.oneLevelData = ''
-          this.getReleaseConfig(editIndex)
+          this.getReleaseConfig(editIndex, 'edit')
         }
-
-        if (data.trafficRulesList && data.trafficRulesList[0] !== '') {
-          this.form.trafficRulesList = data.trafficRulesList.split(',')
-        }
-        if (data.dnsRulesList && data.dnsRulesList[0] !== '') {
-          this.form.dnsRulesList = data.dnsRulesList.split(',')
-        }
-        this.removeEmpty(this.form.trafficRulesList)
-        this.removeEmpty(this.form.dnsRulesList)
         if (this.form.apiJson) {
           this.getFileList(this.form.apiJson, 'apiJson')
         }
@@ -601,26 +633,6 @@ export default {
     },
     getIcon (fileId) {
       return Workspace.getIconApi(fileId, this.userId)
-    },
-    getRuleList () {
-      let trafficData = []
-      if (sessionStorage.getItem('trafficData')) {
-        trafficData = JSON.parse(sessionStorage.getItem('trafficData'))
-      }
-      let dnsData = []
-      if (sessionStorage.getItem('dnsData')) {
-        dnsData = JSON.parse(sessionStorage.getItem('dnsData'))
-      }
-      let trafficArr = []
-      trafficData.forEach(item => {
-        trafficArr.push(item.trafficRuleId)
-      })
-      this.optionsTrafficRules = trafficArr
-      let dnsArr = []
-      dnsData.forEach(item => {
-        dnsArr.push(item.dnsRuleId)
-      })
-      this.optionsDnsRules = dnsArr
     },
     removeEmpty (arr) {
       if (arr) {
@@ -729,13 +741,18 @@ export default {
       })
     },
     addPublicConfig () {
-      if (this.form.appIcon || this.logoFileList.length !== 0) {
-        this.$refs.iconFileItem.clearValidate()
+      let isAddRuleData = this.isAddRuleDataprop
+      if (!isAddRuleData && this.logoFileList.length > 0) {
+        this.form.appIcon = this.logoFileList
       }
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.form.trafficRulesList = this.form.trafficRulesList.join(',')
-          this.form.dnsRulesList = this.form.dnsRulesList.join(',')
+          if (this.trafficRulesListGroup) {
+            this.form.trafficRulesList = this.trafficRulesListGroup.join(',')
+          }
+          if (this.dnsRulesListGroup) {
+            this.form.dnsRulesList = this.dnsRulesListGroup.join(',')
+          }
           this.form.author = sessionStorage.getItem('userName')
           this.$emit('getAddPublicConfigData', this.form)
           this.handleClose()
@@ -857,7 +874,6 @@ export default {
   },
   mounted () {
     this.getOneLevelCapability()
-    this.getRuleList()
   }
 }
 

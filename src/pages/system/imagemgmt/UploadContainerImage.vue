@@ -161,7 +161,7 @@ export default {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
     this.imageId = this.createUUID()
-    this.options.target = url + urlPrefix + 'mec/developer/v2/image/' + this.imageId + '/upload'
+    this.options.target = url + urlPrefix + 'mec/developer/v2/containerimages/' + this.imageId + '/upload'
   },
   methods: {
     createUUID () {
@@ -287,31 +287,6 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     color: #3e4863;
-  }
-  .uploader {
-    padding-top: 20px;
-    text-align: center;
-  }
-  .uploader-list {
-    padding-top: 10px;
-  }
-  .cancel_upload{
-    z-index: 100;
-    // background:#ffffff;
-    position: absolute;
-    top: 10px;
-    right: 0px;
-    height: 48px;
-    width: 100px;
-  }
-  .cancel_upload_btn{
-    height: 48px;
-  }
-  .uploader-file-name{
-    width: 40%;
-  }
-  .uploader-file-status{
-    width: 20%;
   }
 }
 </style>
