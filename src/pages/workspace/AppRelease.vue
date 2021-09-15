@@ -510,7 +510,7 @@
                 <template slot-scope="scope">
                   <el-button
                     class="bgBtn"
-                    @click="releaseApp"
+                    @click="setPriceDialog = true"
                     :disabled="scope.row.status==='success'?false:true"
                     :loading="publishLoading"
                   >
@@ -595,6 +595,61 @@
       <p class="mt20">
         {{ $t('workspace.recycleTip') }}
       </p>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="setPriceDialog"
+      :close-on-click-modal="false"
+      width="30%"
+      append-to-body
+      class="other_setting default_dialog"
+    >
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />
+        {{ $t('workspace.appRelease.priceTitle') }}
+      </div>
+      <div>
+        <el-form>
+          <el-form-item>
+            <div>
+              <el-radio
+                v-model="price"
+                label="1"
+                style="margin-bottom:10px;"
+              >
+                {{ $t('workspace.appRelease.free') }}
+              </el-radio>
+            </div>
+            <div>
+              <el-radio
+                v-model="price"
+                label="2"
+              >
+                <el-input
+                  v-model="priceSet"
+                  style="width:100px;"
+                />  {{ $t('workspace.appRelease.price') }}
+              </el-radio>
+            </div>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer dialogPadding"
+      >
+        <el-button
+          @click="setPriceDialog = false"
+          class="bgBtn"
+        >{{ $t('common.cancel') }}</el-button>
+        <el-button
+          type="primary"
+          @click="releaseApp"
+          class="bgBtn"
+        >{{ $t('common.confirm') }}</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -689,7 +744,10 @@ export default {
       isRelease: true,
       vmRelease: false,
       appRuleData: {},
-      releaseId: ''
+      releaseId: '',
+      setPriceDialog: true,
+      price: '1',
+      priceSet: 0
     }
   },
   methods: {
@@ -1140,10 +1198,15 @@ export default {
       }
     },
     releaseApp () {
+      let parameter = {
+        isFree: this.price === '1',
+        price: this.priceSet
+      }
       this.publishLoading = true
-      Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
+      Workspace.isPublishApi(this.projectId, this.userId, this.userName, parameter).then(() => {
         this.dialogAppPublicSuccess = true
         this.publishLoading = false
+        this.setPriceDialog = false
       }).catch(err => {
         console.log(err.response)
         this.$eg_messagebox(this.$t('promptMessage.appReleaseFail'), 'warning')
@@ -1647,5 +1710,12 @@ export default {
       width: 200px !important;
     }
   }
+}
+.el-radio__input.is-checked .el-radio__inner{
+  border-color: #380879;
+  background: #380879;
+}
+.el-radio__input.is-checked + .el-radio__label{
+  color:#380879;
 }
 </style>
