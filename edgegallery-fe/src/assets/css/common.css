@@ -588,6 +588,29 @@
  .el-textarea .el-textarea__inner{
    min-height: 80px !important;
  }
+ .el-table th.el-table__cell > .cell {
+  text-align: center;
+  font-size: 18px;
+  font-family: HarmonyHeiTi;
+  font-weight: 400;
+  color: #62517A;
+  height: 60px;
+  background: #EDEEF8;
+  padding: 0;
+  line-height: 60px;
+}
+.el-table td.el-table__cell > .cell {
+  text-align: center;
+  font-size: 14px;
+  font-family: HarmonyHeiTi;
+  font-weight: 200;
+  color: #7A6E8A;
+  line-height: 75px;
+  height: 75px;
+}
+.el-table .el-table__cell {
+  padding: 0;
+}
  .el-table .sort-caret.descending{
    border-top-color: #b5e8e9;
    bottom: 4px;

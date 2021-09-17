@@ -18,6 +18,7 @@ import devNavData from './devNav.js'
 import appStoreNavData from './appStoreNav.js'
 import atpNavData from './atpNav.js'
 import mecmNavData from './mecmNav.js'
+import system from './thirdSystem.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
@@ -29,14 +30,14 @@ const navData = [
   },
   {
     id: '1',
-    name: 'APP Integrate and Develop Platform',
+    name: 'Develop',
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData
   },
   {
     id: '2',
-    name: 'Testing and Certification Center',
+    name: 'Testing Center',
     path: FIRST_LEVEL_MENU_PATH.ATP,
     display: true,
     children: atpNavData
@@ -50,10 +51,17 @@ const navData = [
   },
   {
     id: '4',
-    name: 'MECM Management Platform',
+    name: 'MECM',
     path: FIRST_LEVEL_MENU_PATH.MECM,
     display: true,
     children: mecmNavData
+  },
+  {
+    id: '5',
+    name: 'System',
+    path: '/system',
+    display: true,
+    children: system
   }
 ]
 

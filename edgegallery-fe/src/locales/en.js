@@ -35,6 +35,34 @@ const en = {
   promptMessage: {
     prompt: 'Prompt'
   },
+  system: {
+    threeSystem: 'Third party system management',
+    search: 'Please enter name to search',
+    bigSystem: 'Big data system',
+    publicCloud: 'Public Cloud',
+    marginalSystem: '3dr Limbic system',
+    app: 'Application',
+    NetworkElement: '5G Network element',
+    laas: 'laaS',
+    allNum: 'allNum',
+    active: 'active',
+    invalid: 'invalid',
+    systemName: 'name',
+    url: 'URL',
+    region: 'region',
+    product: 'product',
+    manufacturer: 'factory',
+    vison: 'vison',
+    state: 'state',
+    operation: 'operation',
+    delete: 'delete',
+    edit: 'edit',
+    systemDetail: 'System details',
+    add: 'add',
+    sure: 'sure',
+    cancel: 'cancle',
+    icon: 'icon'
+  },
   ...enLocale
 }
 export default en

@@ -26,6 +26,8 @@ function getRouterComponent (routerPath) {
     return () => import('../pages/Home.vue')
   } else if (routerPath.startsWith(NAV_PRE.APPSTORE) || routerPath.startsWith(NAV_PRE.DEVELOPER) || routerPath.startsWith(NAV_PRE.MECM) || routerPath.startsWith(NAV_PRE.ATP)) {
     return () => import('../pages/pageContainer.vue')
+  } else if (routerPath.startsWith(FIRST_LEVEL_MENU_PATH.SYSTEM)) {
+    return () => import('../pages/system.vue')
   } else {
     return () => import('../pages/Home.vue')
   }
@@ -61,6 +63,11 @@ function getRouterConfig () {
       path: '/index',
       redirect: 'home',
       component: () => import('../pages/Home.vue')
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: () => import('../pages/detail.vue')
     }
   ])
 }

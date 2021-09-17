@@ -10,7 +10,8 @@ const FIRST_LEVEL_MENU_PATH = {
   DEVELOPER: '/mecDeveloper',
   APPSTORE: '/appStore',
   MECM: '/mecm',
-  ATP: '/atp'
+  ATP: '/atp',
+  SYSTEM: '/system'
 }
 
 const MODULES = {
