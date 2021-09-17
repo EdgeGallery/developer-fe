@@ -18,6 +18,7 @@ import devNavData from './devNavCn.js'
 import appStoreNavData from './appStoreNavCn.js'
 import atpNavData from './atpNavCn.js'
 import mecmNavData from './mecmNavCn.js'
+import system from './thirdSystemCn.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
@@ -54,6 +55,13 @@ const navData = [
     path: FIRST_LEVEL_MENU_PATH.MECM,
     display: true,
     children: mecmNavData
+  },
+  {
+    id: '5',
+    name: '系统',
+    path: '../pages/system.vue',
+    display: true,
+    children: system
   }
 ]
 
