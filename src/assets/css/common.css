@@ -577,6 +577,9 @@ body .el-table th.gutter{
 .tableStyle.el-table .el-button + .el-button{
   margin-left: 0;
 }
+.tableStyle_en.el-table th > .cell{
+  font-size: 16px !important;
+}
 .el-button.operations_btn{
   background: #efefef;
   padding: 5px 15px;
