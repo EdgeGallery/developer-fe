@@ -23,29 +23,210 @@
     <Navcomp
       :scroll-top-prop="scrollTop"
       class="clearfix"
-    />
+      @clickLogo="clickLogo"
+      @changeLange="changeLange"
+      @logout="logout"
+      :if-guest-prop="ifGuest"
+      :user-name-prop="userName"
+      :user-center-page-prop="userCenterPage"
+      @beforeLogout="beforeLogout"
+    >
+      <Topbar
+        slot="Topbar"
+        :json-data="jsonData"
+      />
+      <TopbarSmall
+        slot="TopbarSmall"
+        :json-data="jsonData"
+        @closeMenu="closeMenu"
+      />
+    </Navcomp>
     <router-view />
   </div>
 </template>
 
 <script>
-import Navcomp from './components/common/Nav.vue'
+import Navcomp from 'eg-view/src/components/EgNav.vue'
+import navData from '../src/navdata/nav_data.js'
+import navDataCn from '../src/navdata/nav_data_cn.js'
+import Topbar from './components/common/Topbar.vue'
+import TopbarSmall from './components/common/TopbarSmall.vue'
+import { logoutApi, loginApi } from '../src/tools/tool.js'
 export default {
   name: 'App',
   components: {
-    Navcomp
+    Navcomp,
+    Topbar,
+    TopbarSmall
   },
   data () {
     return {
-      scrollTop: 0
+      scrollTop: 0,
+      jsonData: [],
+      language: 'En',
+      languageIcon: require('../src/assets/images/nav_en.png'),
+      loginPage: '',
+      userCenterPage: '',
+      menu_small: false,
+      screenHeight: document.body.clientHeight,
+      timer: false,
+      ifGuest: true,
+      userName: '',
+      showUserInfo: false,
+      searchCon: '',
+      select: '',
+      isScroll: false,
+      wsSocketConn: null,
+      wsMsgSendInterval: null,
+      manualLoggout: false
     }
   },
   methods: {
     getScrollTop () {
       this.scrollTop = this.$refs.app.getBoundingClientRect().top
+    },
+    clickLogo () {
+      this.$router.push('/mecDeveloper')
+    },
+    changeLange (lang) {
+      let language
+      if (lang === 'Cn') {
+        this.jsonData = navDataCn.mecDeveloper
+        language = 'cn'
+      } else {
+        this.jsonData = navData.mecDeveloper
+        language = 'en'
+      }
+      this.$i18n.locale = language
+      localStorage.setItem('language', language)
+      this.$store.commit('changelanguage', language)
+      this.$root.$emit('languageChange')
+    },
+    loginFun () {
+      loginApi().then(res => {
+        sessionStorage.setItem('userId', res.data.userId)
+        sessionStorage.setItem('userName', res.data.userName)
+        sessionStorage.setItem('accessToken', res.data.accessToken)
+        this.loginPage = res.data.loginPage
+        this.userCenterPage = res.data.userCenterPage
+        this.ifGuest = res.data.userName === 'guest'
+        if (!this.ifGuest && res.data.forceModifyPwPage) {
+          window.location.href = res.data.forceModifyPwPage
+          return
+        }
+        this.showToolchain(this.jsonData)
+        const authorities = res.data.authorities || []
+        sessionStorage.setItem('userAuthorities', authorities)
+        const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
+        const validateAuthority = (array) => {
+          const newArray = []
+          array.forEach(item => {
+            const s = { ...item }
+            this.handleNavData(item, authorities, newArray, s, validateAuthority)
+          })
+          return newArray
+        }
+        this.jsonData = validateAuthority(navJsonData)
+        this.startHttpSessionInvalidListener(res.data.sessId)
+      })
+    },
+    startHttpSessionInvalidListener (sessId) {
+      if (typeof (WebSocket) === 'undefined') {
+        return
+      }
+      let _wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
+      this.wsSocketConn = new WebSocket(_wsProtocol + window.location.host + '/wsserver/' + sessId)
+      let _thisObj = this
+      this.wsSocketConn.onmessage = function (msg) {
+        clearTimeout(_thisObj.wsMsgSendInterval)
+        _thisObj.wsMsgSendInterval = null
+        if (_thisObj.manualLoggout) {
+          return
+        }
+        let _hintInfo = _thisObj.$t('nav.hsInvalidHint')
+        if (msg && msg.data) {
+          if (msg.data === '1') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
+          } else if (msg.data === '2') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForLogout') + _hintInfo
+          } else if (msg.data === '3') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForServerStopped') + _hintInfo
+          } else {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
+          }
+        }
+        _thisObj.$confirm(_hintInfo, _thisObj.$t('promptMessage.prompt'), {
+          confirmButtonText: _thisObj.$t('nav.reLogin'),
+          cancelButtonText: _thisObj.$t('nav.refresh'),
+          type: 'warning'
+        }).then(() => {
+          _thisObj.logout()
+        }).catch(() => {
+          window.location.reload()
+        })
+      }
+      this.wsMsgSendInterval = setInterval(() => {
+        this.wsSocketConn.send('')
+      }, 10000)
+    },
+    handleNavData (item, authorities, newArray, s, validateAuthority) {
+      if (!item.authority || item.authority.some(a => authorities.includes(a))) {
+        newArray.push(s)
+        if (item.children) {
+          s.children = validateAuthority(item.children)
+        }
+      }
+    },
+    showToolchain (jsonData) {
+      this.userName = sessionStorage.getItem('userName')
+      if (this.userName === 'guest') {
+        jsonData.forEach(item => {
+          if (item.children) {
+            item.children.forEach((subItem, subIndex) => {
+              if (subItem.name === '工具链' || subItem.name === 'ToolChain') {
+                item.children.splice(subIndex, 1)
+              }
+            })
+          }
+        })
+      }
+    },
+    closeMenu (data) {
+      this.menu_small = data
+    },
+    logout () {
+      this.manualLoggout = true
+      logoutApi().then(res => {
+        this.enterLoginPage()
+      }).catch(err => {
+        console.log(err)
+        this.enterLoginPage()
+      })
+    },
+    beforeLogout () {
+      this.$confirm(this.$t('promptMessage.logoutPage'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        this.logout()
+      })
+    },
+    enterLoginPage () {
+      let _protocol = window.location.href.indexOf('https') > -1 ? 'https://' : 'http://'
+      window.location.href = this.loginPage + '&return_to=' + _protocol + window.location.host
     }
   },
   mounted () {
+    this.navLogIn = this.$t('nav.logIn')
+    this.loginFun()
+    let lanIndex = window.location.href.search('language')
+    if (lanIndex > 0) {
+      let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
+      if (lan === 'en') {
+        this.changeLange()
+      }
+    }
     window.addEventListener('scroll', this.getScrollTop, true)
     window.onresize = () => {
       return (() => {
@@ -53,8 +234,26 @@ export default {
       })()
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.showToolchain(this.jsonData)
+      this.loginFun()
+    }
+  },
+  beforeMount () {
+    localStorage.setItem('language', 'cn')
+    let language = localStorage.getItem('language')
+    this.language = language === 'en' ? 'Cn' : 'En'
+    if (language === 'en') {
+      this.jsonData = navData.mecDeveloper
+    } else {
+      this.jsonData = navDataCn.mecDeveloper
+    }
+  },
   beforeDestroy () {
     window.removeEventListener('scroll', this.getScrollTop, true)
+    clearTimeout(this.wsMsgSendInterval)
+    this.wsMsgSendInterval = null
   }
 }
 </script>
