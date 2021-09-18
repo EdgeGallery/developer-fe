@@ -860,6 +860,7 @@ const en = {
       imgFormat: 'Image Format',
       beginTime: 'Create Time(Begin)',
       endTime: 'Create Time(End)',
+      slimming: 'Slimming',
       typeValue: {
         public: 'Public',
         private: 'Private',
@@ -928,7 +929,7 @@ const en = {
         confirmUploadImageOnUploading: 'The system image is uploading. Please be careful! Ensure that the image needs to be uploaded again or continue because of an unexpected interruption in the upload process. If you select the file that was interrupted in the last upload, the upload will continue from the interruption point. Continue?',
         confirmUploadImageOnUploadFailed: 'The system image is in upload failed status. If the upload process is interrupted unexpectedly, and you select the file interrupted last time again, the upload will continue from the interruption point. Continue?',
         confirmDownloadImage: 'The system image is large, it will takes a long time to download. Do you want to continue downloading the image?',
-        systemNameExist: 'A system image with the same name is already exists!',
+        systemNameExist: 'A system image with the same name and version already exists under this user name!',
         newImgFailed: 'New system image failed!',
         modifyImgFailed: 'Modify system image failed!',
         deleteImgFailed: 'Delete system image failed!',

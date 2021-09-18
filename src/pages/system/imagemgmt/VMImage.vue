@@ -32,13 +32,14 @@
         v-loading="dataLoading"
         style="width: 100%"
         class="tableStyle default_dropdown"
+        :class="{'tableStyle_en':language==='en'}"
         @filter-change="filterChange"
       >
         <el-table-column
           prop="systemName"
           :label="$t('system.imageMgmt.imgName')"
           show-overflow-tooltip
-          min-width="13%"
+          min-width="10%"
         >
           <template slot-scope="scope">
             {{ scope.row.systemName }}
@@ -46,7 +47,7 @@
         </el-table-column>
         <el-table-column
           :column-key="'type'"
-          min-width="13%"
+          min-width="11%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
           show-overflow-tooltip
@@ -54,7 +55,7 @@
         />
         <el-table-column
           prop="userName"
-          min-width="12%"
+          min-width="10%"
           :label="$t('system.imageMgmt.userName')"
           show-overflow-tooltip
         />
@@ -67,14 +68,23 @@
           :filters="osData"
         />
         <el-table-column
+          prop="systemSize"
+          min-width="12%"
+          :label="$t('system.imageMgmt.sysDisk')+'(M)'"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.systemSize?(scope.row.systemSize/1024/1024).toFixed(2):'' }}
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="version"
-          min-width="8%"
+          min-width="7%"
           :label="$t('system.imageMgmt.osVersion')"
           show-overflow-tooltip
         />
         <el-table-column
           prop="uploadTime"
-          min-width="12.5%"
+          min-width="11.5%"
           :label="$t('system.imageMgmt.uploadTime')"
           show-overflow-tooltip
         >
@@ -84,7 +94,7 @@
         </el-table-column>
         <el-table-column
           :column-key="'status'"
-          min-width="10.5%"
+          min-width="9.5%"
           :label="$t('common.status')"
           :formatter="convertStatus"
           show-overflow-tooltip
@@ -185,6 +195,15 @@
                         {{ $t('common.reset') }}
                       </el-button>
                     </li>
+                    <li>
+                      <em />
+                      <el-button
+                        type="text"
+                        :disabled="true"
+                      >
+                        {{ $t('system.imageMgmt.slimming') }}
+                      </el-button>
+                    </li>
                   </ul>
                 </div>
               </el-collapse-transition>
@@ -241,6 +260,7 @@ export default {
   },
   data () {
     return {
+      language: localStorage.getItem('language'),
       userId: '',
       isAdmin: false,
       dataLoading: false,
@@ -280,6 +300,7 @@ export default {
   },
   watch: {
     '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
       this.initOptionList()
     }
   },
