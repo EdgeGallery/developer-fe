@@ -23,41 +23,20 @@
     <Navcomp
       :scroll-top-prop="scrollTop"
       class="clearfix"
-      @clickLogo="clickLogo"
-      @changeLange="changeLange"
-      @logout="logout"
-      :if-guest-prop="ifGuest"
-      :user-name-prop="userName"
-      :user-center-page-prop="userCenterPage"
-      @beforeLogout="beforeLogout"
-    >
-      <Topbar
-        slot="Topbar"
-        :json-data="jsonData"
-      />
-      <TopbarSmall
-        slot="TopbarSmall"
-        :json-data="jsonData"
-        @closeMenu="closeMenu"
-      />
-    </Navcomp>
+    />
     <router-view />
   </div>
 </template>
 
 <script>
-import Navcomp from 'eg-view/src/components/EgNav.vue'
+import Navcomp from './components/common/Nav.vue'
 import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
-import Topbar from './components/common/Topbar.vue'
-import TopbarSmall from './components/common/TopbarSmall.vue'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
 export default {
   name: 'App',
   components: {
-    Navcomp,
-    Topbar,
-    TopbarSmall
+    Navcomp
   },
   data () {
     return {
