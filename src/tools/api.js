@@ -394,7 +394,7 @@ let Workspace = {
   },
   // releaseAPPToAppstore
   isPublishApi: function (projectId, userId, userName) {
-    return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName)
+    return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName, '')
   },
   // publicAPPofAPIability
   isPublicApi: function (projectId, userId) {
