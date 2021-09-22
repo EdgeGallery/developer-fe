@@ -17,7 +17,7 @@
 <template>
   <div
     class="navgation padding_default"
-    :class="{'isScroll':isScroll}"
+    :class="{'isScroll':isScroll,'isHome':isHome}"
   >
     <div
       class="logo lt"
@@ -144,7 +144,9 @@ export default {
       wsSocketConn: null,
       wsMsgSendInterval: null,
       manualLoggout: false,
-      indexName: FIRST_LEVEL_MENU_PATH.HOME
+      indexName: FIRST_LEVEL_MENU_PATH.HOME,
+      isHome: true,
+      toPath: '/home'
     }
   },
   watch: {
@@ -164,6 +166,14 @@ export default {
       this.showToolchain(this.jsonData)
       this.loginFun()
       // this.filterMenu()
+    },
+    $route (to, from) {
+      this.toPath = to.path
+      if (to.path === '/home') {
+        this.isHome = true
+      } else {
+        this.isHome = false
+      }
     }
   },
   beforeMount () {
@@ -299,6 +309,11 @@ export default {
         this.isScroll = true
       } else {
         this.isScroll = false
+      }
+      if (this.toPath === '/home' && scrollTop >= 0) {
+        this.isHome = true
+      } else {
+        this.isHome = false
       }
     },
     loginFun () {
@@ -663,5 +678,11 @@ export default {
 }
 .navgation.isScroll{
   box-shadow: 0 6px 10px 0 rgba(27, 7, 118, 0.2)
+}
+.navgation.isHome{
+  background: transparent !important;
+  .el-menu--horizontal,.el-menu-item,.el-submenu__title{
+    background-color: transparent !important;
+  }
 }
 </style>

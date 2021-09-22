@@ -110,7 +110,8 @@ export default {
     return {
       inputVal: '',
       fromPath: '',
-      routerPath: sessionStorage.getItem('routerPath')
+      routerPath: sessionStorage.getItem('routerPath'),
+      toPath: ''
     }
   },
   methods: {
@@ -122,6 +123,12 @@ export default {
   },
   mounted () {
     this.$emit('updateIndexName', this.$route.fullPath)
+  },
+  watch: {
+    $route (to, from) {
+      this.toPath = to.path
+      this.handleSelect(this.toPath)
+    }
   }
 }
 
@@ -141,7 +148,7 @@ export default {
     }
     .el-menu-item:not(.is-disabled):hover{
       background: #5e40c8 !important;
-      border-bottom: 2px solid #fff !important;
+      // border-bottom: 2px solid #fff !important;
     }
     .el-submenu{
       margin-right: 30px;
