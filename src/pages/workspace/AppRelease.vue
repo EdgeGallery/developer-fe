@@ -745,7 +745,7 @@ export default {
       vmRelease: false,
       appRuleData: {},
       releaseId: '',
-      setPriceDialog: true,
+      setPriceDialog: false,
       price: '1',
       priceSet: 0
     }
@@ -1208,12 +1208,12 @@ export default {
       }
     },
     releaseApp () {
-      let parameter = {
-        isFree: this.price === '1',
-        price: this.priceSet
-      }
+      // let parameter = {
+      //   isFree: this.price === '1',
+      //   price: this.priceSet
+      // }
       this.publishLoading = true
-      Workspace.isPublishApi(this.projectId, this.userId, this.userName, parameter).then(() => {
+      Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
         this.dialogAppPublicSuccess = true
         this.publishLoading = false
         this.setPriceDialog = false
