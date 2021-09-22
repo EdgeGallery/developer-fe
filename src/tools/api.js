@@ -393,8 +393,8 @@ let Workspace = {
     return Put('mec/developer/v1/releaseconfig/' + projectId + '/action/release-config', params)
   },
   // releaseAPPToAppstore
-  isPublishApi: function (projectId, userId, userName) {
-    return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName, '')
+  isPublishApi: function (projectId, userId, userName, param) {
+    return Post('mec/developer/v1/projects/' + projectId + '/action/upload?userId=' + userId + '&userName=' + userName, param)
   },
   // publicAPPofAPIability
   isPublicApi: function (projectId, userId) {

@@ -302,7 +302,10 @@ const en = {
       blackWhiteList: 'Black and White list',
       UEIdentity: 'UE Identity',
       enterAtp: 'To know Application Testing',
-      selectInitialization: 'Please select the service you need in the service list on the left'
+      selectInitialization: 'Please select the service you need in the service list on the left',
+      free: 'Free',
+      price: 'Yuan（RMB）/Hour',
+      priceTitle: 'Apply pricing settings'
     },
     deployDebugVm: {
       vmNameLbl: 'Project Name',
