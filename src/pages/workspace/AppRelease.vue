@@ -1094,16 +1094,18 @@ export default {
     },
     getAtpData () {
       Workspace.getReleaseApi(this.projectId).then(response => {
-        this.taskId = response.data.atpTest.id
-        let testStatus = response.data.atpTest.status
-        if (this.taskId) {
-          if (testStatus === 'success' || testStatus === 'failed' || testStatus === 'running') {
-            this.iframeUrl = this.atpUrl + '/#/atpprocess?taskId=' + this.taskId + '&language=' + this.language
-          } else {
-            this.iframeUrl = this.atpUrl + '/#/selectscene?taskId=' + this.taskId + '&language=' + this.language
+        if (response.data.atpTest) {
+          this.taskId = response.data.atpTest.id
+          let testStatus = response.data.atpTest.status
+          if (this.taskId) {
+            if (testStatus === 'success' || testStatus === 'failed' || testStatus === 'running') {
+              this.iframeUrl = this.atpUrl + '/#/atpprocess?taskId=' + this.taskId + '&language=' + this.language
+            } else {
+              this.iframeUrl = this.atpUrl + '/#/selectscene?taskId=' + this.taskId + '&language=' + this.language
+            }
+            this.showAtp = true
+            this.iframeLoading = false
           }
-          this.showAtp = true
-          this.iframeLoading = false
         }
       }).catch(() => {
         this.$eg_messagebox(this.$t('promptMessage.getDataFail'), 'error')

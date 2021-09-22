@@ -197,10 +197,7 @@ export default {
      * This function will be and only will be called by function startDeploy.
      */
     deployTest () {
-      Workspace.deployTestApi(this.projectId, this.userId).then(response => {
-        if (response.data.status === 'DEPLOYING') {
-          this.$eg_messagebox(this.$t('workspace.startDeploySucc'), 'info')
-        }
+      Workspace.deployTestApi(this.projectId, this.userId).then(() => {
       }).catch(err => {
         console.log(err)
       })
