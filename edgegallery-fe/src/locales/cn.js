@@ -35,6 +35,35 @@ const cn = {
   promptMessage: {
     prompt: '提示'
   },
+  system: {
+    threeSystem: '三方系统管理',
+    search: '请输入名称进行搜索',
+    bigSystem: '大数据系统',
+    publicCloud: '公有云',
+    marginalSystem: '3dr 边缘系统',
+    app: '应用',
+    NetworkElement: '5G 网元',
+    laas: 'laaS',
+    allNum: '总数',
+    active: '激活',
+    invalid: '失效',
+    systemName: '系统名称',
+    url: 'URL',
+    region: '部署区域',
+    product: '产品',
+    manufacturer: '厂商',
+    vison: '版本',
+    state: '状态',
+    operation: '操作',
+    delete: '删除',
+    edit: '编辑',
+    systemDetail: '系统详情',
+    add: '新建',
+    sure: '确认',
+    cancel: '取消',
+    icon: '图标'
+
+  },
   ...zhLocale
 }
 export default cn

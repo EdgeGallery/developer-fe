@@ -863,6 +863,7 @@ const cn = {
       imgFormat: '镜像格式',
       beginTime: '创建时间（起始）',
       endTime: '创建时间（结束）',
+      slimming: '瘦身',
       typeValue: {
         public: '公共',
         private: '私有',
@@ -931,7 +932,7 @@ const cn = {
         confirmUploadImageOnUploading: '该镜像处于正在上传状态，请谨慎操作！确保该镜像是在上传过程发生了意外中断而需要重新或继续上传。如果您选择了上一次上传中断的文件，将会从中断点开始继续上传。是否继续？',
         confirmUploadImageOnUploadFailed: '该镜像处于上传失败状态。如果是上传过程发生了意外中断，并且您再次选择上一次上传中断的文件，将会从中断点开始继续上传。是否继续？',
         confirmDownloadImage: '系统镜像文件较大，下载耗时较长。是否继续下载该镜像？',
-        systemNameExist: '已存在同名的系统镜像！',
+        systemNameExist: '此用户名下已存在同名同版本的系统镜像！',
         newImgFailed: '新建系统镜像失败！',
         modifyImgFailed: '修改系统镜像失败！',
         deleteImgFailed: '删除系统镜像失败！',
