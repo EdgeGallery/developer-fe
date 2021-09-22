@@ -72,7 +72,8 @@
               能力中心
             </p>
             <p class="detail lt">
-              各种简易服务都在其中
+              丰富的边缘能力随心选择，极致的5G体验触手可及
+              <!-- 各种简易服务都在其中 -->
             </p>
             <p
               class="btn rt"
@@ -92,7 +93,7 @@
               工作空间
             </p>
             <p class="detail lt">
-              开始您的开发之旅
+              真实的5G沙箱环境可供选择，开始您的应用集成开发之旅
             </p>
             <p
               class="btn rt"
@@ -112,7 +113,7 @@
               镜像管理
             </p>
             <p class="detail lt">
-              上传镜像开始部署调测
+              统一管理镜像仓库，方便应用部署调测
             </p>
             <p
               class="btn rt"
@@ -499,8 +500,9 @@ export default {
       display: flex;
       justify-content: space-between;
       margin-top: 70px;
+      flex-grow: 1;
       .list_div{
-        max-width: 33%;
+        max-width: 376px;
         background: #fff;
         border-radius: 17px;
         box-shadow: 0 20px 20px -1px rgba(95,89,155,0.3);
