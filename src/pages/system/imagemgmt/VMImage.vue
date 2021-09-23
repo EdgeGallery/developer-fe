@@ -28,7 +28,7 @@
       <el-table
         :data="imageListData"
         @sort-change="doSort"
-        :default-sort="{prop: 'createTime', order: 'descending'}"
+        :default-sort="{prop: 'uploadTime', order: 'descending'}"
         v-loading="dataLoading"
         style="width: 100%"
         class="tableStyle default_dropdown"
@@ -86,7 +86,7 @@
           prop="uploadTime"
           min-width="11.5%"
           :label="$t('system.imageMgmt.uploadTime')"
-          show-overflow-tooltip
+          sortable
         >
           <template slot-scope="scope">
             {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
@@ -267,9 +267,9 @@ export default {
       searchCondition: {
         systemName: '',
         operateSystem: '',
-        status: 'All',
-        createTimeBegin: '',
-        createTimeEnd: ''
+        status: '',
+        uploadTimeBegin: '',
+        uploadTimeEnd: ''
       },
       pageCtrl: {
         totalNum: 0,
@@ -277,11 +277,11 @@ export default {
         currentPage: 1
       },
       sortCtrl: {
-        sortBy: 'createTime',
+        sortBy: 'uploadTime',
         sortOrder: 'DESC'
       },
       imageListData: [],
-      imageType: 'All',
+      imageType: '',
       showEditImageDlg: false,
       showUploadImageDlg: false,
       showViewImageDlg: false,
@@ -319,7 +319,7 @@ export default {
       if (filters.status && filters.status.length >= 1) {
         this.searchCondition.status = filters.status.join(',')
       } else if (filters.status && filters.status.length === 0) {
-        this.searchCondition.status = 'All'
+        this.searchCondition.status = ''
       }
       if (filters.operateSystem && filters.operateSystem.length >= 1) {
         this.searchCondition.operateSystem = filters.operateSystem.join(',')
@@ -329,7 +329,7 @@ export default {
       if (filters.type && filters.type.length >= 1) {
         this.imageType = filters.type.join(',')
       } else if (filters.type && filters.type.length === 0) {
-        this.imageType = 'All'
+        this.imageType = ''
       }
       this.getImageDataList()
     },
@@ -372,11 +372,11 @@ export default {
       this.searchCondition.systemName = searchFormData.systemName
       this.searchCondition.operateSystem = searchFormData.operateSystem
       this.searchCondition.status = searchFormData.status
-      this.searchCondition.createTimeBegin = ''
-      this.searchCondition.createTimeEnd = ''
-      if (searchFormData.createTimeRange && searchFormData.createTimeRange.length === 2) {
-        this.searchCondition.createTimeBegin = searchFormData.createTimeRange[0]
-        this.searchCondition.createTimeEnd = searchFormData.createTimeRange[1]
+      this.searchCondition.uploadTimeBegin = ''
+      this.searchCondition.uploadTimeEnd = ''
+      if (searchFormData.searchTimeRange && searchFormData.searchTimeRange.length === 2) {
+        this.searchCondition.uploadTimeBegin = searchFormData.searchTimeRange[0]
+        this.searchCondition.uploadTimeEnd = searchFormData.searchTimeRange[1]
       }
       this.getImageDataList()
     },
@@ -390,7 +390,7 @@ export default {
         this.sortCtrl.sortBy = sortRule.prop
         this.sortCtrl.sortOrder = _ascendingFlag ? 'ASC' : 'DESC'
       } else {
-        this.sortCtrl.sortBy = 'createTime'
+        this.sortCtrl.sortBy = 'uploadTime'
         this.sortCtrl.sortOrder = 'DESC'
       }
       this.pageCtrl.currentPage = 1
