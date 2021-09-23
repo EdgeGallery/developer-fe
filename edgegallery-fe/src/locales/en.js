@@ -44,6 +44,7 @@ const en = {
     app: 'Application',
     NetworkElement: '5G Network element',
     laas: 'laaS',
+    meao: 'Meao',
     allNum: 'allNum',
     active: 'active',
     invalid: 'invalid',
@@ -51,9 +52,9 @@ const en = {
     url: 'URL',
     region: 'region',
     product: 'product',
-    manufacturer: 'factory',
-    vison: 'vison',
-    state: 'state',
+    vendor: 'factory',
+    version: 'vison',
+    status: 'state',
     operation: 'operation',
     delete: 'delete',
     edit: 'edit',
@@ -61,7 +62,16 @@ const en = {
     add: 'add',
     sure: 'sure',
     cancel: 'cancle',
-    icon: 'icon'
+    icon: 'icon',
+    deleteSucess: 'delete sucess',
+    tootipSystemName: 'Please enter the system name',
+    tootipProduct: 'Please enter the product name',
+    tootipUrl: 'Please enter URL',
+    tootipVersion: 'Please enter version information',
+    tooltipRegion: 'Please enter deployment area',
+    tooltipVendor: 'Please enter the vendor ',
+    addStstemSucess: 'New message succeeded!',
+    updateStstemSucess: 'Update succeeded!'
   },
   ...enLocale
 }

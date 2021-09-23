@@ -25,8 +25,13 @@
       <el-button
         type="primary"
         class="topRight"
-        @click="dialogVisible = true"
+        @click="addSystems"
       >
+        <img
+          class="addIcon"
+          src="../assets/images/add.png"
+          alt=""
+        >
         {{ $t('system.add') }}
       </el-button>
     </div>
@@ -37,13 +42,19 @@
       <div class="contentTop">
         <el-input
           class="searchSystem"
-          v-model="input"
+          v-model="searchName"
           :placeholder="$t('system.search') "
+          @input="searchSystems"
         />
         <img
           src="../assets/images/changeStyle.png"
           @click="changeTable"
           alt=""
+        >
+        <img
+          src="../assets/images/backThird.png"
+          alt=""
+          @click="backThird"
         >
       </div>
       <div
@@ -51,114 +62,126 @@
         v-if="active"
       >
         <div class="contents">
-          <div class="oneDetail">
-            <div class="oneDetailTop">
+          <div
+            class="oneDetail"
+            v-for="(item,index) in systemDetails"
+            :key="index"
+          >
+            <div
+              class="oneDetailTop"
+            >
               <div class="imgs">
                 <div class="imgBox">
                   <img
-                    src="../assets/images/changeStyle.png"
+                    src="../assets/images/bigData.png"
                     alt=""
                   >
                 </div>
-                <p>大数据系统</p>
+                <p>{{ item.systemName }}</p>
               </div>
               <div class="infos">
                 <div class="oneInfo">
                   <img
-                    src="../assets/images/changeStyle.png"
+                    src="../assets/images/name.png"
                     alt=""
                   >
-                  <p>edgegallerysssssssssssss</p>
+                  <p>{{ item.systemName }}</p>
                 </div>
                 <div class="oneInfo">
                   <img
-                    src="../assets/images/changeStyle.png"
+                    src="../assets/images/region.png"
                     alt=""
                   >
-                  <p>edgegallery</p>
+                  <p>{{ item.region }}</p>
                 </div>
                 <div class="oneInfo">
                   <img
-                    src="../assets/images/changeStyle.png"
+                    src="../assets/images/factory.png"
                     alt=""
                   >
-                  <p>edgegallery</p>
+                  <p>{{ item.vendor }}</p>
                 </div>
                 <div class="oneInfo">
                   <img
-                    src="../assets/images/changeStyle.png"
+                    src="../assets/images/state.png"
                     alt=""
                   >
-                  <p>edgegallery</p>
+                  <p>{{ item.status===''?'inactive':item.status }}</p>
                 </div>
               </div>
             </div>
             <div class="oneDetailBottom">
-              <el-button class="btnDelete">
-                {{ $t('system.delete') }}
-              </el-button>
-              <el-button type="btnEdit">
+              <el-button
+                class="btnEdit"
+                @click="editSystem(item)"
+              >
                 {{ $t('system.edit') }}
+              </el-button>
+              <el-button
+                class="btnDelete"
+                @click="btnDelete(item.id)"
+              >
+                {{ $t('system.delete') }}
               </el-button>
             </div>
           </div>
         </div>
-        <el-pagination
-          style="pagination"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[8,16,24,32]"
-          :page-size="8"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
-        />
       </div>
       <div
         class="systemTable"
         v-if="!active"
       >
         <el-table
-          :data="tableData"
+          :data="this.systemDetails"
           style="width: 100%"
         >
           <el-table-column
-            prop="name"
+            prop="systemName"
             :label="$t('system.systemName')"
             sortable
             width="160"
           />
           <el-table-column
-            prop="address"
+            prop="url"
             :label="$t('system.url')"
             width="160"
           />
           <el-table-column
-            prop="address"
+            prop="region"
             :label="$t('system.region')"
             width="160"
           />
           <el-table-column
-            prop="address"
+            prop="product"
             :label="$t('system.product')"
             width="160"
           />
           <el-table-column
-            prop="address"
-            :label="$t('system.manufacturer')"
+            prop="vendor"
+            :label="$t('system.vendor')"
             width="160"
           />
           <el-table-column
-            prop="address"
-            :label="$t('system.vison')"
+            prop="version"
+            :label="$t('system.version')"
             width="160"
           />
           <el-table-column
-            prop="address"
-            :label="$t('system.state')"
+            prop="status"
+            :label="$t('system.status')"
             sortable
             width="160"
-          />
+          >
+            <template slot-scope="scope">
+              <img
+                class="stateIcon"
+                :src="scope.row.status === 'active'?require('@/assets/images/sucess.png'): require('@/assets/images/failed.png')"
+                alt=""
+              >
+              <span v-if="scope.row.status==='active'">active</span>
+              <span v-if="scope.row.status!=='active'">inactive</span>
+            </template>
+          </el-table-column>>
           <el-table-column
             :label="$t('system.operation')"
             width="170"
@@ -168,30 +191,20 @@
                 class="tableDelete"
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
+                @click="handleDelete(scope.row)"
               >
                 {{ $t('system.delete') }}
               </el-button>
               <el-button
                 class="tableDelete"
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)"
+                @click="handleEdit(scope.row)"
               >
                 {{ $t('system.edit') }}
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          style="margin-right:-20px;"
-          @size-change="handleSizeChange2"
-          @current-change="handleCurrentChange2"
-          :current-page="currentPage2"
-          :page-sizes="[5,10,15,20]"
-          :page-size="5"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="100"
-        />
       </div>
     </div>
     <el-dialog
@@ -202,7 +215,7 @@
         <p>{{ $t('system.add') }}</p>
       </div>
       <el-form
-        :model="ruleForm"
+        :model="form"
         :rules="rules"
         ref="ruleForm"
         label-width="100px"
@@ -210,79 +223,43 @@
       >
         <el-form-item
           :label="$t('system.systemName')"
-          prop="name"
+          prop="systemName"
         >
-          <el-input v-model="ruleForm.name" />
+          <el-input v-model="form.systemName" />
         </el-form-item>
         <el-form-item
           :label="$t('system.product')"
-          prop="region"
+          prop="product"
         >
-          <el-select
-            v-model="ruleForm.region"
-            placeholder="请选择活动区域"
-          >
-            <el-option
-              label="区域一"
-              value="shanghai"
-            />
-            <el-option
-              label="区域二"
-              value="beijing"
-            />
-          </el-select>
+          <el-input v-model="form.product" />
         </el-form-item>
         <el-form-item
           :label="$t('system.url')"
-          prop="name"
+          prop="url"
         >
-          <el-input v-model="ruleForm.name" />
+          <el-input v-model="form.url" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.vison')"
-          prop="region"
+          :label="$t('system.version')"
+          prop="version"
         >
-          <el-select
-            v-model="ruleForm.region"
-            placeholder="请选择活动区域"
-          >
-            <el-option
-              label="区域一"
-              value="shanghai"
-            />
-            <el-option
-              label="区域二"
-              value="beijing"
-            />
-          </el-select>
+          <el-input v-model="form.version" />
         </el-form-item>
         <el-form-item
           :label="$t('system.region')"
           prop="region"
         >
-          <el-select
-            v-model="ruleForm.region"
-            placeholder="请选择活动区域"
-          >
-            <el-option
-              label="区域一"
-              value="shanghai"
-            />
-            <el-option
-              label="区域二"
-              value="beijing"
-            />
-          </el-select>
+          <el-input v-model="form.region" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.manufacturer')"
-          prop="name"
+          :label="$t('system.vendor')"
+          prop="vendor"
         >
-          <el-input v-model="ruleForm.name" />
+          <el-input v-model="form.vendor" />
         </el-form-item>
         <el-form-item
           :label="$t('system.icon')"
-          label-width="110px"
+          label-width="100px"
           prop="type"
         >
           <div
@@ -290,8 +267,8 @@
           >
             <div
               class="box"
-              v-for="(item, index) in defaultIcon"
-              @click="chooseDefaultIcon(item, index)"
+              v-for="(item) in defaultIcon"
+              @click="chooseDefaultIcon(item)"
               :key="item"
             >
               <img
@@ -300,6 +277,7 @@
               >
               <em
                 class="el-icon-success"
+                style="color:green;"
               />
             </div>
           </div>
@@ -307,7 +285,7 @@
             class="upIcon el-icon-success"
             v-if="uploadIcon"
           />
-          <el-upload
+          <!-- <el-upload
             id="projectLogo"
             class="upload-demo"
             ref="upload"
@@ -323,7 +301,7 @@
             name="file"
           >
             <em class="el-icon-plus" />
-          </el-upload>
+          </el-upload> -->
           <div
             class="el-form-error"
             v-if="showErr"
@@ -344,49 +322,205 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-dialog
+      :visible.sync="dialogVisibleEdit"
+    >
+      <div class="elTop">
+        <span />
+        <p>{{ $t('system.edit') }}</p>
+      </div>
+      <el-form
+        :model="form2"
+        :rules="rules2"
+        ref="ruleForm2"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-form-item
+          :label="$t('system.systemName')"
+          prop="systemName"
+        >
+          <el-input v-model="form2.systemName" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.product')"
+          prop="product"
+        >
+          <el-input v-model="form2.product" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.url')"
+          prop="url"
+        >
+          <el-input v-model="form2.url" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.version')"
+          prop="version"
+        >
+          <el-input v-model="form2.version" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.region')"
+          prop="region"
+        >
+          <el-input v-model="form2.region" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.vendor')"
+          prop="vendor"
+        >
+          <el-input v-model="form2.vendor" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.icon')"
+          label-width="100px"
+          prop="type"
+        >
+          <div
+            class="default-icon"
+          >
+            <div
+              class="box"
+              v-for="(item) in defaultIcon"
+              @click="chooseDefaultIcon(item)"
+              :key="item"
+            >
+              <img
+                :src="item"
+                alt=""
+              >
+              <em
+                class="el-icon-success"
+                style="color:green;"
+              />
+            </div>
+          </div>
+          <em
+            class="upIcon el-icon-success"
+            v-if="uploadIcon"
+          />
+          <!-- <el-upload
+            id="projectLogo"
+            class="upload-demo"
+            ref="upload"
+            action=""
+            list-type="picture-card"
+            :limit="1"
+            :file-list="logoFileList"
+            :on-change="handleChangeLogo"
+            :on-exceed="handleExceed"
+            :auto-upload="false"
+            :on-remove="removeUploadLogo"
+            accept=".jpg,.png"
+            name="file"
+          >
+            <em class="el-icon-plus" />
+          </el-upload> -->
+          <div
+            class="el-form-error"
+            v-if="showErr"
+          >
+            {{ $t('store.iconRequired') }}
+          </div>
+        </el-form-item>
+        <el-form-item class="btns">
+          <el-button
+            type="primary"
+            @click="submitForm2('ruleForm2')"
+          >
+            {{ $t('system.sure') }}
+          </el-button>
+          <el-button @click="dialogVisibleEdit = false">
+            {{ $t('system.cancel') }}
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
+import { system } from '@/tools/api.js'
 export default {
   components: {
+  },
+  props: {
+    systemDetails: {
+      type: Object,
+      required: true
+    },
+    systemType: {
+      type: String,
+      required: true
+    }
   },
   data () {
     return {
       language: localStorage.getItem('language'),
-      currentPage: 1,
-      currentPage2: 1,
       active: false,
+      ifDetail: false,
+      ifEdit: true,
+      searchName: '',
       dialogVisible: false,
+      dialogVisibleEdit: false,
       imageUrl: '',
       defaultIcon: [
-        require('../assets/images/logo.png')
+        require('../assets/images/bigData.png')
       ],
-      tableData: [{
-        name: 'a',
-        address: '普陀区'
-      }, {
-        name: '王',
-        address: '海市普陀区'
-      }, {
-        name: 'sun',
-        address: '上海市普陀'
-      }
-      ],
-      ruleForm: {
-        name: '',
+      form: {
+        systemName: '',
+        product: '',
+        url: '',
+        version: '',
         region: '',
-        resource: ''
+        vendor: '',
+        systemType: this.systemType,
+        ip: '',
+        port: '',
+        username: '',
+        password: '',
+        tokenType: '',
+        status: ''
       },
+      form2: {},
       rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        systemName: [
+          { required: true, message: `${this.$t('system.tootipSystemName')}`, trigger: 'blur' }
+        ],
+        product: [
+          { required: true, message: `${this.$t('system.tootipProduct')}`, trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: `${this.$t('system.tootipUrl')}`, trigger: 'blur' }
+        ],
+        version: [
+          { required: true, message: `${this.$t('system.tootipVersion')}`, trigger: 'blur' }
         ],
         region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+          { required: true, message: `${this.$t('system.tooltipRegion')}`, trigger: 'blur' }
         ],
-        resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
+        vendor: [
+          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+        ]
+      },
+      rules2: {
+        systemName: [
+          { required: true, message: `${this.$t('system.tootipSystemName')}`, trigger: 'blur' }
+        ],
+        product: [
+          { required: true, message: `${this.$t('system.tootipProduct')}`, trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: `${this.$t('system.tootipUrl')}`, trigger: 'blur' }
+        ],
+        version: [
+          { required: true, message: `${this.$t('system.tootipVersion')}`, trigger: 'blur' }
+        ],
+        region: [
+          { required: true, message: `${this.$t('system.tooltipRegion')}`, trigger: 'blur' }
+        ],
+        vendor: [
+          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
         ]
       }
     }
@@ -397,52 +531,101 @@ export default {
     }
   },
   mounted () {
+
   },
   methods: {
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+    backThird () {
+      this.ifDetail = true
+      this.$emit('back', this.ifDetail)
     },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    searchSystems () {
+      let name = this.searchName
+      if (this.searchName === '') {
+        system.getOneSystem(this.systemType).then(res => {
+          this.systemDetails = res.data
+        })
+      } else {
+        system.searchSystem(name + '/systemType/' + this.systemType).then(res => {
+          this.systemDetails = res.data
+        })
+      }
     },
-    handleSizeChange2 (val) {
-      console.log(`每页 ${val} 条`)
+    handleEdit (row) {
+      this.dialogVisibleEdit = true
+      let copy = Object.assign({}, row)
+      this.form2 = copy
     },
-    handleCurrentChange2 (val) {
-      console.log(`当前页: ${val}`)
+    handleDelete (row) {
+      let id = row.id
+      system.deleteSystems(id).then(res => {
+        this.searchSystems()
+      })
+    },
+    btnDelete (Id) {
+      let id = Id
+      system.deleteSystems(id).then(res => {
+        this.searchSystems()
+      })
+    },
+    addSystems () {
+      this.dialogVisible = true
+    },
+    editSystem (item) {
+      this.dialogVisibleEdit = true
+      let copy = Object.assign({}, item)
+      this.form2 = copy
     },
     changeTable () {
       this.active = !this.active
     },
     submitForm (formName) {
-      this.dialogVisible = false
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          system.addSystems(this.form).then(res => {
+            this.$message({
+              duration: 2000,
+              message: this.$t('system.addStstemSucess'),
+              type: 'success'
+            })
+            this.searchSystems()
+            this.dialogVisible = false
+            this.form = {
+              systemName: '',
+              product: '',
+              url: '',
+              version: '',
+              region: '',
+              vendor: '',
+              systemType: this.systemType,
+              ip: '',
+              port: '',
+              username: '',
+              password: '',
+              tokenType: '',
+              status: ''
+            }
+          })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
-    handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
-    },
-    beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    submitForm2 (formName2) {
+      this.$refs[formName2].validate((valid) => {
+        if (valid) {
+          system.updateSystems(this.form2).then(res => {
+            this.$message({
+              duration: 2000,
+              message: this.$t('system.updateStstemSucess'),
+              type: 'success'
+            })
+            this.searchSystems()
+            this.dialogVisibleEdit = false
+          })
+        }
+      })
     }
+
   }
 }
 </script>
@@ -489,6 +672,11 @@ export default {
       color: #FFFFFF;
       margin-top: 50px;
       box-shadow: 0px 16px 8px rgba(94 ,44 ,204 ,0.3);
+      .addIcon{
+        position: relative;
+        top: 2px;
+        right: 6px;
+      }
     }
     }
   .activeTable{
@@ -572,10 +760,14 @@ export default {
             font-size: 14px;
             font-family: HarmonyHeiTi;
             font-weight: 400;
+            max-width: 100%;
             color: #5D3DA0;
             line-height: 15px;
             text-align: center;
             margin:12px 0  20px 0 ;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
       }
@@ -595,7 +787,9 @@ export default {
           p{
             font-size: 16px;
             max-width: 76.06%;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
             margin-bottom: 10px;
             font-family: HarmonyHeiTi;
             font-weight: 400;
@@ -610,6 +804,7 @@ export default {
         width: 100%;
         height:53px;
         background-color: #fff;
+        padding-right:20px ;
         .el-button{
           box-shadow: 0px 5px 24px 0px rgba(178, 193, 249, 0.26);
           border-radius: 0px 0px 12px 12px;
@@ -624,19 +819,15 @@ export default {
           color: #FFFFFF;
         }
         .btnDelete{
-          margin-left: 49.67%;
+          float: right;
           margin-top: 15px;
+        }
+        .btnEdit{
+          float: right;
+          margin:15px 10px 0 10px;
         }
       }
     }
-    }
-    .el-pagination{
-        width: 500px !important;
-        position: absolute;
-        bottom: 20px;
-        right:30px;
-        margin-top: 30px;
-        padding-bottom: 20px;
     }
     .systemTable{
       margin: 0 auto;
@@ -644,6 +835,11 @@ export default {
       min-height: 580px;
       position: relative;
       padding-bottom:100px;
+      .stateIcon{
+        position: relative;
+        top: 4px;
+        right: 4px;
+      }
       .tableDelete{
         border: none;
         padding: 0;
