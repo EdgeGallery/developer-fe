@@ -15,7 +15,10 @@
   -->
 <template>
   <div class="system">
-    <div class="thirdSystem">
+    <div
+      class="thirdSystem"
+      v-if="ifDEtail=== true"
+    >
       <div class="thirdSystemTop">
         <p class="topName">
           {{ $t('system.threeSystem') }}
@@ -23,20 +26,15 @@
         <p class="topLines" />
       </div>
       <div class="systemContent">
-        <el-input
-          class="systemSearch"
-          v-model="systemSearch"
-          :placeholder="$t('system.search') "
-        />
         <div class="systems">
           <div class="systemsContent">
             <div
-              class="oneSystem"
+              class="oneSystem bigBox"
             >
               <img
-                src="../assets/images/construct.png"
+                src="../assets/images/bigData.png"
                 alt=""
-                @click="goDetail"
+                @click="goDetail('BIG_DATA')"
               >
               <p class="oneName">
                 {{ $t('system.bigSystem') }}
@@ -45,47 +43,258 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>20</p>
+                  <p>3</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>10</p>
+                  <p>1</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>20</p>
+                  <p>2</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="oneSystem cloudBox"
+            >
+              <img
+                src="../assets/images/publicCloud.png"
+                alt=""
+                @click="goDetail('PUBLIC_CLOUD')"
+              >
+              <p class="oneName">
+                {{ $t('system.publicCloud') }}
+              </p>
+              <div class="oneNum">
+                <div class="oneNum1">
+                  <p class="allnum" />
+                  <p>{{ $t('system.allNum') }}:</p>
+                  <p>2</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="active" />
+                  <p>{{ $t('system.active') }}:</p>
+                  <p>2</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="invalid" />
+                  <p>{{ $t('system.invalid') }}:</p>
+                  <p>0</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="oneSystem drBox"
+            >
+              <img
+                src="../assets/images/3dr.png"
+                alt=""
+                @click="goDetail('MEC')"
+              >
+              <p class="oneName">
+                {{ $t('system.marginalSystem') }}
+              </p>
+              <div class="oneNum">
+                <div class="oneNum1">
+                  <p class="allnum" />
+                  <p>{{ $t('system.allNum') }}:</p>
+                  <p>5</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="active" />
+                  <p>{{ $t('system.active') }}:</p>
+                  <p>3</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="invalid" />
+                  <p>{{ $t('system.invalid') }}:</p>
+                  <p>2</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="oneSystem appBox"
+            >
+              <img
+                src="../assets/images/app.png"
+                alt=""
+                @click="goDetail('Application')"
+              >
+              <p class="oneName">
+                {{ $t('system.app') }}
+              </p>
+              <div class="oneNum">
+                <div class="oneNum1">
+                  <p class="allnum" />
+                  <p>{{ $t('system.allNum') }}:</p>
+                  <p>4</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="active" />
+                  <p>{{ $t('system.active') }}:</p>
+                  <p>4</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="invalid" />
+                  <p>{{ $t('system.invalid') }}:</p>
+                  <p>0</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="oneSystem gBox"
+            >
+              <img
+                src="../assets/images/5G.png"
+                alt=""
+                @click="goDetail('5G')"
+              >
+              <p class="oneName">
+                {{ $t('system.NetworkElement') }}
+              </p>
+              <div class="oneNum">
+                <div class="oneNum1">
+                  <p class="allnum" />
+                  <p>{{ $t('system.allNum') }}:</p>
+                  <p>7</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="active" />
+                  <p>{{ $t('system.active') }}:</p>
+                  <p>6</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="invalid" />
+                  <p>{{ $t('system.invalid') }}:</p>
+                  <p>1</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="oneSystem laasBox"
+            >
+              <img
+                src="../assets/images/iaas.png"
+                alt=""
+                @click="goDetail('laaS')"
+              >
+              <p class="oneName">
+                {{ $t('system.laas') }}
+              </p>
+              <div class="oneNum">
+                <div class="oneNum1">
+                  <p class="allnum" />
+                  <p>{{ $t('system.allNum') }}:</p>
+                  <p>6</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="active" />
+                  <p>{{ $t('system.active') }}:</p>
+                  <p>6</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="invalid" />
+                  <p>{{ $t('system.invalid') }}:</p>
+                  <p>0</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="oneSystem meaoBox"
+            >
+              <img
+                src="../assets/images/meao.png"
+                alt=""
+                @click="goDetail('MEAO')"
+              >
+              <p class="oneName">
+                {{ $t('system.meao') }}
+              </p>
+              <div class="oneNum">
+                <div class="oneNum1">
+                  <p class="allnum" />
+                  <p>{{ $t('system.allNum') }}:</p>
+                  <p>5</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="active" />
+                  <p>{{ $t('system.active') }}:</p>
+                  <p>5</p>
+                </div>
+                <div class="oneNum1">
+                  <p class="invalid" />
+                  <p>{{ $t('system.invalid') }}:</p>
+                  <p>0</p>
                 </div>
               </div>
             </div>
           </div>
-          <el-pagination
-            style="pagination"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[8,16,24,32]"
-            :page-size="8"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
-          />
         </div>
       </div>
     </div>
+    <Detail
+      v-if="ifDEtail === false"
+      :system-details="systemDetails"
+      :system-type="systemType"
+      @back="backThird"
+    />
   </div>
 </template>
 
 <script>
-
+import Detail from './detail.vue'
+import { system } from '@/tools/api.js'
 export default {
   components: {
+    Detail
   },
   data () {
     return {
       language: localStorage.getItem('language'),
-      systemSearch: '',
-      currentPage: 1
+      ifDEtail: true,
+      systems: [
+        {
+          namecn: '大数据系统',
+          nameen: 'Big data system',
+          systemType: '',
+          imgUrl: '../assets/images/bigData.png'
+        },
+        {
+          namecn: '公有云',
+          nameen: 'Public Cloud',
+          systemType: '',
+          imgUrl: '../assets/images/publicCloud.png'
+        },
+        {
+          namecn: '3dr 边缘系统',
+          nameen: '3dr Limbic system',
+          systemType: '',
+          imgUrl: '../assets/images/3dr.png'
+        },
+        {
+          namecn: '应用',
+          nameen: 'Application',
+          systemType: '',
+          imgUrl: '../assets/images/add.png'
+        },
+        {
+          namecn: '5G 网元',
+          nameen: '5G Network element',
+          systemType: '',
+          imgUrl: '../assets/images/5G.png'
+        },
+        {
+          namecn: 'laas',
+          nameen: 'laas',
+          systemType: '',
+          imgUrl: '../assets/images/iaas.png'
+        }
+      ],
+      systemDetails: [],
+      systemType: ''
     }
   },
   watch: {
@@ -94,14 +303,17 @@ export default {
     }
   },
   methods: {
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+    backThird (data) {
+      this.ifDEtail = data
     },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
-    },
-    goDetail () {
-      this.$router.push({ name: 'detail', params: { name: '123' } })
+    goDetail (data) {
+      this.systemType = data
+      this.ifDEtail = false
+      system.getOneSystem(data).then(res => {
+        if (res.data.length !== 0) {
+          this.systemDetails = res.data
+        }
+      })
     }
   }
 }
@@ -135,43 +347,58 @@ export default {
       box-shadow: 5px 9px 63px 5px rgba(94, 64, 200, 0.06);
       border-radius: 12px;
       width: 73.64%;
-      min-height: 650px;
+      height: 650px;
       margin: 0 auto;
       min-width: 1200px;
       background-color: #fff;
       padding-bottom: 70px;
-      .systemSearch{
-        width: 217px;
-        margin: 39px 0 0 4.2%;
-      }
       .systems{
        margin:29px 1% 0px 3.6% ;
        width: 95.4%;
-       min-height: 552px;
-       position: relative;
+       height: 552px;
        .systemsContent{
+         padding-top: 60px;
          width: 100%;
          display: flex;
          justify-content: flex-start;
          align-items: center;
          flex-wrap: wrap;
+         .bigBox{
+            box-shadow: inset 0px 5px 36px 7px rgba(30, 30, 202, 0.19);
+         }
+         .cloudBox{
+           box-shadow: inset  0px 3px 51px 0px rgba(213, 169, 147, 0.35);
+         }
+         .drBox{
+           box-shadow: inset 0px 3px 51px 0px rgba(135, 200, 204, 0.35);
+         }
+         .appBox{
+           box-shadow: inset 0px 3px 51px 0px rgba(224, 163, 182, 0.35);
+         }
+         .gBox{
+           box-shadow: inset 0px 3px 51px 0px rgba(124, 177, 202, 0.35);
+         }
+         .laasBox{
+           box-shadow: inset 0px 3px 51px 0px rgba(168, 154, 216, 0.35);
+         }
+         .meaoBox{
+           box-shadow: inset 0px 5px 36px 7px rgba(94, 61, 212, 0.35);
+         }
          .oneSystem{
             background: #FFFFFF;
             width: 22.9%;
             margin-right: 2.07%;
             height: 231px;
-            box-shadow: inset 0px 5px 36px 7px rgba(30, 30, 202, 0.19);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 60px;
             img{
               width: 37.01%;
               border-radius: 12px;
                margin: 27px 0 16px 0;
               height: 97px;
-              border: 1px solid red;
             }
             img:hover{
               cursor: pointer;
