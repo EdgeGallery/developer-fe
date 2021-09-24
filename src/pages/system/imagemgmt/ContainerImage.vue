@@ -153,6 +153,7 @@ import ViewContainerImage from './ViewContainerImage.vue'
 import UploadContainerImage from './UploadContainerImage.vue'
 import Pagination from '../../../components/common/Pagination.vue'
 import { imageMgmtService } from '../../../tools/api.js'
+import { common } from '../../../tools/common.js'
 
 export default {
   name: 'ImageMgmt',
@@ -295,12 +296,19 @@ export default {
       this.dataLoading = true
       imageMgmtService.getContainerImageDataList(this.buildQueryReq()).then(response => {
         this.imageListData = response.data.results
+        this.imageListData.forEach(item => {
+          item.createTime = this.dateChange(item.createTime)
+          item.uploadTime = this.dateChange(item.uploadTime)
+        })
         this.listTotal = response.data.total
         this.dataLoading = false
       }).catch(() => {
         this.dataLoading = false
         this.$eg_messagebox(this.$t('system.imageMgmt.tip.queryImgFailed'), 'error')
       })
+    },
+    dateChange (timestr) {
+      return common.dateChange(timestr)
     },
     buildQueryReq () {
       let _queryReq = this.searchCondition
