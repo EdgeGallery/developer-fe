@@ -861,8 +861,8 @@ const en = {
       createTime: 'Create Time',
       uploadTime: 'Upload Time',
       imgFormat: 'Image Format',
-      beginTime: 'Create Time(Begin)',
-      endTime: 'Create Time(End)',
+      beginTime: 'Upload Time(Begin)',
+      endTime: 'Upload Time(End)',
       slimming: 'Slimming',
       typeValue: {
         public: 'Public',

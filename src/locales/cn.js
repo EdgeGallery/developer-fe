@@ -861,8 +861,8 @@ const cn = {
       createTime: '创建时间',
       uploadTime: '上传时间',
       imgFormat: '镜像格式',
-      beginTime: '创建时间（起始）',
-      endTime: '创建时间（结束）',
+      beginTime: '上传时间（起始）',
+      endTime: '上传时间（结束）',
       slimming: '瘦身',
       typeValue: {
         public: '公共',
