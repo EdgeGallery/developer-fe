@@ -36,7 +36,7 @@
       <el-table
         :data="imageListData"
         @sort-change="doSort"
-        :default-sort="{prop: 'createTime', order: 'descending'}"
+        :default-sort="{prop: 'uploadTime', order: 'descending'}"
         v-loading="dataLoading"
         style="width: 100%"
         class="tableStyle default_dropdown"
@@ -69,6 +69,7 @@
           prop="uploadTime"
           min-width="12%"
           :label="$t('system.imageMgmt.uploadTime')"
+          sortable
         >
           <template slot-scope="scope">
             {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
@@ -167,8 +168,8 @@ export default {
       searchCondition: {
         imageName: '',
         userId: '',
-        createTimeBegin: '',
-        createTimeEnd: '',
+        uploadTimeBegin: '',
+        uploadTimeEnd: '',
         limit: 12,
         offset: 0,
         sortBy: 'upload_time',
@@ -268,11 +269,11 @@ export default {
     },
     getSearchData (searchFormData) {
       this.searchCondition.imageName = searchFormData.systemName
-      this.searchCondition.createTimeBegin = ''
-      this.searchCondition.createTimeEnd = ''
-      if (searchFormData.createTimeRange && searchFormData.createTimeRange.length === 2) {
-        this.searchCondition.createTimeBegin = searchFormData.createTimeRange[0]
-        this.searchCondition.createTimeEnd = searchFormData.createTimeRange[1]
+      this.searchCondition.uploadTimeBegin = ''
+      this.searchCondition.uploadTimeEnd = ''
+      if (searchFormData.searchTimeRange && searchFormData.searchTimeRange.length === 2) {
+        this.searchCondition.uploadTimeBegin = searchFormData.searchTimeRange[0]
+        this.searchCondition.uploadTimeEnd = searchFormData.searchTimeRange[1]
       }
       this.getImageDataList()
     },

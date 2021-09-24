@@ -91,12 +91,6 @@
         ref="VMImage"
       />
     </div>
-    <!-- <EditContainerImage
-      v-model="showEditContainerImageDlg"
-      :image-data="currentImageData"
-      @cancelEditImageDlg="cancelEditImageDlg"
-      @processEditImageSuccess="processEditImageSuccess"
-    /> -->
     <UploadContainerImage
       v-if="showUploadImageDlg"
       :show-dlg-prop="showUploadImageDlg"
@@ -151,15 +145,6 @@ export default {
       this.showEditImageDlg = false
     },
     processEditImageSuccess (type) {
-      // if (type === 'container') {
-      //   this.activeName = 'container'
-      //   this.$refs.ContainerImage.getImageDataList()
-      //   this.showEditContainerImageDlg = false
-      // } else {
-      //   this.activeName = 'vm'
-      //   this.$refs.VMImage.getImageDataList()
-      //   this.showEditImageDlg = false
-      // }
       this.activeName = 'vm'
       this.$refs.VMImage.getImageDataList()
       this.showEditImageDlg = false
@@ -330,7 +315,7 @@ export default {
     .last_li.vm_active{
       background: #fff;
       span{
-        background: #f5f6f8;
+        background: linear-gradient(to bottom, #f5f4f8, #f1edf6);
         border-radius: 0 0 0 16px;
       }
     }
