@@ -946,7 +946,9 @@ const en = {
         mergingHintForCancel: 'The system image is merging, the upload operation cannot be cancelled!',
         confirmCancelUpload: 'Are you sure to cancel the upload operation?',
         cancelUploadFailed: 'Cancel upload operation failed!',
-        cancelingHint: 'Canceling, please wait...'
+        cancelingHint: 'Canceling, please wait...',
+        mecHostExist: 'The same mecHost already exists',
+        textWrap: ' Cannot contain line breaks'
       }
     }
   },

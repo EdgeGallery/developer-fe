@@ -946,7 +946,9 @@ const cn = {
         mergingHintForCancel: '系统镜像已经在进行合并处理，无法取消！',
         confirmCancelUpload: '确认要取消上传吗？',
         cancelUploadFailed: '取消上传失败！',
-        cancelingHint: '正在取消，请稍候...'
+        cancelingHint: '正在取消，请稍候...',
+        mecHostExist: '已经存在相同的mecHost',
+        textWrap: '不能包含换行'
       }
     }
   },
