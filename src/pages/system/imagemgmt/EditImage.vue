@@ -242,7 +242,7 @@ export default {
       operateSystemOptList: [
         'ubuntu',
         'centos',
-        'window',
+        'windows',
         'cirros'
       ],
       systemBitOptionList: ['64', '32'],

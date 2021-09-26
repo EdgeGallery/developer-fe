@@ -27,7 +27,7 @@
 
 5.示例消费者应用程序可以利用 mep-agent 和 consumerclient 通过 kong 与 mep-service 通信
 
-6. ClientFactory 代码实现向 mep-agent 发送请求以获取服务端点，并根据端点信息创建一个客户端对象
+6.ClientFactory 代码实现向 mep-agent 发送请求以获取服务端点，并根据端点信息创建一个客户端对象
 ```
 def get_service_endpoint(service):
     url = restclient.mep_agent_url + "/mep-agent/v1/endpoint/{0}".format(service)

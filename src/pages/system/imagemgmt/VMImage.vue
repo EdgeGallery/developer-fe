@@ -290,7 +290,7 @@ export default {
       osData: [
         { text: 'ubuntu', value: 'ubuntu' },
         { text: 'centos', value: 'centos' },
-        { text: 'window', value: 'window' },
+        { text: 'windows', value: 'windows' },
         { text: 'cirros', value: 'cirros' }
       ],
       statusData: [],
