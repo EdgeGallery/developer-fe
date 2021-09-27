@@ -948,7 +948,7 @@ const cn = {
         cancelUploadFailed: '取消上传失败！',
         cancelingHint: '正在取消，请稍候...',
         mecHostExist: '已经存在相同的mecHost',
-        textWrap: '不能包含换行'
+        textWrap: '可以包含中英文、空格、/，首尾不能有空格'
       }
     }
   },

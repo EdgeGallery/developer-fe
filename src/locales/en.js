@@ -948,7 +948,7 @@ const en = {
         cancelUploadFailed: 'Cancel upload operation failed!',
         cancelingHint: 'Canceling, please wait...',
         mecHostExist: 'The same mecHost already exists',
-        textWrap: ' Cannot contain line breaks'
+        textWrap: ' Can contain Chinese and English, spaces, /, no spaces at the beginning and end'
       }
     }
   },
