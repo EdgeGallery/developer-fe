@@ -533,6 +533,7 @@
               :href="appStoreUrl"
               type="primary"
               target="_blank"
+              rel="noopener noreferrer"
               class="mt20"
             >
               {{ appStoreUrl }}

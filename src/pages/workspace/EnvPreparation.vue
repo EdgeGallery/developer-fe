@@ -43,6 +43,7 @@
             <a
               @click="jumpToProject"
               target="_blank"
+              rel="noopener noreferrer"
               class="link defaultFont"
             >{{ $t('workspace.prepare.pluginTip2') }}
             </a>
@@ -62,6 +63,7 @@
             <a
               @click="downloadSampleCode"
               target="_blank"
+              rel="noopener noreferrer"
               class="link defaultFont"
               :disabled="serviceNum===0"
             >{{ $t('workspace.prepare.codeTip2') }}
