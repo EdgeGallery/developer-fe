@@ -565,11 +565,11 @@ export default {
       }
     }
     const validateAddress = (rule, value, callback) => {
-      let reg = /^.{1,100}$/
+      let reg = /^(?!\s)[\u4E00-\u9FA5a-zA-Z0-9\s/]{0,128}(\S$)$/
       if (!value) {
         callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.address')}`))
       } else if (!reg.test(value)) {
-        callback(new Error(`${this.$t('system.pleaseInput')}1~100 ${this.$t('system.char')},${this.$t('system.imageMgmt.tip.textWrap')}`))
+        callback(new Error(`${this.$t('system.pleaseInput')}1~128 ${this.$t('system.char')},${this.$t('system.imageMgmt.tip.textWrap')}`))
       } else {
         callback()
       }
