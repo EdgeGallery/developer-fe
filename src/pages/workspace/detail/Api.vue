@@ -160,6 +160,7 @@
                     <el-link
                       :href="guideUrl"
                       target="_blank"
+                      rel="noopener noreferrer"
                       :underline="false"
                       type="primary"
                       class="guide_url"

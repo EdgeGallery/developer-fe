@@ -105,6 +105,7 @@
         </div>
         <el-link
           target="_blank"
+          rel="noopener noreferrer"
           v-for="item in aLinkList"
           :key="item.id"
           :href="item.url"

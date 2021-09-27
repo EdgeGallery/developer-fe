@@ -247,6 +247,7 @@
             <el-link
               href=""
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
               @mouseenter.native="showWechat=true"
               @mouseleave.native="showWechat=false"
@@ -272,6 +273,7 @@
             <el-link
               href="https://weibo.com/u/7575392977?is_all=1"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               <img
@@ -282,6 +284,7 @@
             <el-link
               href="https://gitee.com/edgegallery"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               <img
@@ -292,6 +295,7 @@
             <el-link
               href="https://edgegallery.groups.io/g/main"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               <img
@@ -304,6 +308,7 @@
             <el-link
               href="https://www.edgegallery.org/"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               EdgeGallery官网
@@ -311,6 +316,7 @@
             <el-link
               href="https://www.edgegallery.org/videa-tutorial/"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               视频教程
@@ -318,6 +324,7 @@
             <el-link
               href="https://www.edgegallery.org/introduction/"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               Edgegallery简介
@@ -325,6 +332,7 @@
             <el-link
               href="https://www.edgegallery.org/software-download-3/"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               软件下载
@@ -332,6 +340,7 @@
             <el-link
               href="https://www.edgegallery.org/how-to-members/"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               社区会员
@@ -339,6 +348,7 @@
             <el-link
               href="https://www.edgegallery.org/contact-us-3/"
               target="_blank"
+              rel="noopener noreferrer"
               :underline="false"
             >
               联系我们
