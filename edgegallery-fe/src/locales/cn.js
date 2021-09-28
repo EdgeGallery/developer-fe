@@ -44,6 +44,7 @@ const cn = {
     app: '应用',
     NetworkElement: '5G 网元',
     laas: 'laaS',
+    meao: 'Meao',
     allNum: '总数',
     active: '激活',
     invalid: '失效',
@@ -51,9 +52,9 @@ const cn = {
     url: 'URL',
     region: '部署区域',
     product: '产品',
-    manufacturer: '厂商',
-    vison: '版本',
-    state: '状态',
+    vendor: '厂商',
+    version: '版本',
+    status: '状态',
     operation: '操作',
     delete: '删除',
     edit: '编辑',
@@ -61,7 +62,16 @@ const cn = {
     add: '新建',
     sure: '确认',
     cancel: '取消',
-    icon: '图标'
+    icon: '图标',
+    deleteSucess: '删除成功',
+    tootipSystemName: '请输入系统名称',
+    tootipProduct: '请输入产品名称',
+    tootipUrl: '请输入URL',
+    tootipVersion: '请输入版本信息',
+    tooltipRegion: '请输入部署区域',
+    tooltipVendor: '请输入厂商名称',
+    addStstemSucess: '新建系统成功!',
+    updateStstemSucess: '更新成功'
 
   },
   ...zhLocale

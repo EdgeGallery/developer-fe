@@ -94,9 +94,9 @@
                 <p class="service_desc">
                   {{ $t('nav.introduction') }}:
                 </p>
-                <p class="service_desc">
+                <div class="service_desc">
                   {{ language==='cn'?item.description:item.descriptionEn }}
-                </p>
+                </div>
               </div>
               <div>
                 <p class="service_level clear">
@@ -218,8 +218,7 @@ export default {
       this.dialogVisible = true
       this.serviceDetail = []
       this.serviceDetail.push(item)
-      console.log(item.experienceUrl)
-      if (item.nameEn === 'Location service' || item.nmeEn === 'AI Image Repair' || item.nameEn === 'Edge Detection' || item.nameEn === 'Image Cartoonization' || item.nameEn === 'Image Coloring' || item.nameEn === 'Object Classification' || item.nameEn === 'Object Detection' || !item.experienceUrl) {
+      if (item.nameEn === 'Location service' || item.nmeEn === 'AI Image Repair' || item.nameEn === 'Edge Detection' || item.nameEn === 'Image Cartoonization' || item.nameEn === 'Image Coloring' || item.nameEn === 'Object Classification' || item.nameEn === 'Object Detection' || item.experienceUrl) {
         this.toOnline = true
       } else {
         this.toOnline = false
@@ -232,7 +231,9 @@ export default {
       this.$router.push({ name: 'apiAmulator', query: { serviceId: item.id, apiFileId: item.apiFileId, language: this.$i18n.locale } })
     },
     toOnlineExperience (item) {
-      if (item.host) {
+      if (item.experienceUrl) {
+        window.open(item.experienceUrl, '_blank')
+      } else if (item.host) {
         let onLineUrl = item.protocol + '://' + item.host + ':' + item.port + '/#/' + item.nameEn.replace(/\s*/g, '')
         window.open(onLineUrl, '_blank')
       } else {
@@ -339,6 +340,8 @@ export default {
         justify-content: space-between;
         .service_desc{
           line-height: 22px;
+          max-height: 144px;
+          overflow: auto;
         }
         .service_level{
           border-top: 1px solid #bdbec0;

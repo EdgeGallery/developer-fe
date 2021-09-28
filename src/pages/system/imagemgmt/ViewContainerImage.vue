@@ -68,7 +68,7 @@
             <el-form-item
               :label="$t('system.imageMgmt.createTime')"
             >
-              <span>{{ imageData.createTime }}</span>
+              <span>{{ dateChange(imageData.createTime) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -86,7 +86,7 @@
             <el-form-item
               :label="$t('system.imageMgmt.uploadTime')"
             >
-              <span>{{ imageData.uploadTime }}</span>
+              <span>{{ dateChange(imageData.uploadTime) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import { common } from '../../../tools/common.js'
 export default {
   name: 'ViewImage',
   props: {
@@ -139,6 +140,9 @@ export default {
     this.initOptionList()
   },
   methods: {
+    dateChange (timestr) {
+      return common.dateChange(timestr)
+    },
     initOptionList () {
       this.imageTypeOptionList = [
         { value: 'public', label: this.$t('system.imageMgmt.typeValue.public') },

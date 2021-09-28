@@ -44,11 +44,11 @@
         </el-input>
       </el-form-item>
       <el-form-item
-        prop="createTimeRange"
+        prop="searchTimeRange"
         class="lt"
       >
         <el-date-picker
-          v-model="formData.createTimeRange"
+          v-model="formData.searchTimeRange"
           type="daterange"
           size="small"
           value-format="yyyy-MM-dd"
@@ -71,7 +71,7 @@ export default {
       statusOptionList: [],
       formData: {
         systemName: '',
-        createTimeRange: []
+        searchTimeRange: []
       }
     }
   },

@@ -22,6 +22,7 @@
         type="primary"
         :href="capabilityUrl"
         target="_blank"
+        rel="noopener noreferrer"
       >
         {{ $t('nav.mepApi') }}
       </el-link>

@@ -197,8 +197,7 @@ export default {
     }
   },
   mounted () {
-    this.navLogIn = this.$t('nav.logIn')
-    this.loginFun()
+    // this.loginFun()
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
@@ -213,12 +212,12 @@ export default {
       })()
     }
   },
-  watch: {
-    '$i18n.locale': function () {
-      this.showToolchain(this.jsonData)
-      this.loginFun()
-    }
-  },
+  // watch: {
+  //   '$i18n.locale': function () {
+  //     this.showToolchain(this.jsonData)
+  //     this.loginFun()
+  //   }
+  // },
   beforeMount () {
     localStorage.setItem('language', 'cn')
     let language = localStorage.getItem('language')

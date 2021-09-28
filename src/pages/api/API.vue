@@ -64,6 +64,7 @@
           <el-link
             :href="guideUrl"
             target="_blank"
+            rel="noopener noreferrer"
             type="primary"
             class="ml10"
           >

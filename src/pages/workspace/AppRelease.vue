@@ -533,6 +533,7 @@
               :href="appStoreUrl"
               type="primary"
               target="_blank"
+              rel="noopener noreferrer"
               class="mt20"
             >
               {{ appStoreUrl }}
@@ -809,9 +810,6 @@ export default {
         } else {
           this.isRelease = false
         }
-        if ((data.deployPlatform === 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
-          this.getReleaseConfigFirst()
-        }
       })
     },
     getTestConfig () {
@@ -820,9 +818,6 @@ export default {
         if (res.data.testId && res.data.appInstanceId) {
           sessionStorage.setItem('csarId', res.data.appInstanceId)
           this.projectDetailData.appInstanceId = res.data.appInstanceId
-          if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
-            this.getReleaseConfigFirst()
-          }
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
         if (deployStatus) {
@@ -834,6 +829,7 @@ export default {
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
+        this.trafficAllData.guideFileId = res.data.guideFileId
         if (res.data.capabilitiesDetail) {
           this.appRuleData = res.data.capabilitiesDetail
           this.getAllListData()
@@ -847,6 +843,7 @@ export default {
     getReleaseConfig (params) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
+        this.trafficAllData.atpTest = res.data.atpTest
         Workspace.saveRuleConfig(this.projectId, params, releaseId).then(() => {
           if (releaseId) {
             this.$eg_messagebox(this.$t('promptMessage.editRuleSuccess'), 'success')
@@ -861,23 +858,6 @@ export default {
             this.$eg_messagebox(this.$t('promptMessage.saveRuleFail'), 'error')
           }
         })
-      })
-    },
-    // Save/modify configuration rules by default
-    getReleaseConfigFirst () {
-      Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        let data = res.data
-        if (!data) {
-          this.releaseId = res.data.releaseId
-          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
-        }
-        if (data.capabilitiesDetail) {
-          this.releaseId = res.data.releaseId
-          this.trafficAllData.atpTest = res.data.atpTest
-          this.trafficAllData.guideFileId = res.data.guideFileId
-          this.trafficAllData.capabilitiesDetail = res.data.capabilitiesDetail
-          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
-        }
       })
     },
     next () {

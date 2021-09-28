@@ -861,8 +861,8 @@ const en = {
       createTime: 'Create Time',
       uploadTime: 'Upload Time',
       imgFormat: 'Image Format',
-      beginTime: 'Create Time(Begin)',
-      endTime: 'Create Time(End)',
+      beginTime: 'Upload Time(Begin)',
+      endTime: 'Upload Time(End)',
       slimming: 'Slimming',
       typeValue: {
         public: 'Public',
@@ -946,7 +946,9 @@ const en = {
         mergingHintForCancel: 'The system image is merging, the upload operation cannot be cancelled!',
         confirmCancelUpload: 'Are you sure to cancel the upload operation?',
         cancelUploadFailed: 'Cancel upload operation failed!',
-        cancelingHint: 'Canceling, please wait...'
+        cancelingHint: 'Canceling, please wait...',
+        mecHostExist: 'The same mecHost already exists',
+        textWrap: ' Can contain Chinese and English, spaces, /, no spaces at the beginning and end'
       }
     }
   },

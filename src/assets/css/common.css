@@ -594,6 +594,7 @@ body .el-table th.gutter{
 }
 .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover{
   color: #c0c4cc !important;
+  background: #efefef;
 }
 
 /* el-pagination */
@@ -792,4 +793,8 @@ body .el-table th.gutter{
 .empty_img{
   background: url('../images/empty.png') center 10px no-repeat;
   padding-top: 200px;
+}
+.el-popover{
+  max-width: 40%;
+  left: 30%;
 }

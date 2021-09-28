@@ -565,11 +565,11 @@ export default {
       }
     }
     const validateAddress = (rule, value, callback) => {
-      let reg = /^[\s\S]{1,100}$/
+      let reg = /^(?!\s)[\u4E00-\u9FA5a-zA-Z0-9\s/]{0,127}(\S$)$/
       if (!value) {
         callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.address')}`))
       } else if (!reg.test(value)) {
-        callback(new Error(`${this.$t('system.pleaseInput')}1~100 ${this.$t('system.char')}`))
+        callback(new Error(`${this.$t('system.pleaseInput')}1~128 ${this.$t('system.char')},${this.$t('system.imageMgmt.tip.textWrap')}`))
       } else {
         callback()
       }
@@ -802,8 +802,12 @@ export default {
             } else {
               throw new Error()
             }
-          }).catch(() => {
-            this.$eg_messagebox(this.$t('promptMessage.saveFail'), 'error')
+          }).catch(error => {
+            if (error.response.data.message === 'mecHost have exit') {
+              this.$eg_messagebox(this.$t('system.imageMgmt.tip.mecHostExist'), 'error')
+            } else {
+              this.$eg_messagebox(this.$t('promptMessage.saveFail'), 'error')
+            }
           }).finally(() => {
             this.loading = false
             this.getListData()

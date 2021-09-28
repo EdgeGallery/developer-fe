@@ -160,6 +160,7 @@
                     <el-link
                       :href="guideUrl"
                       target="_blank"
+                      rel="noopener noreferrer"
                       :underline="false"
                       type="primary"
                       class="guide_url"
@@ -429,7 +430,6 @@ export default {
         let groupMap = new Map()
         Capability.getCapabilityByProjectId(projectId).then(result => {
           let capabilities = result.data
-          this.hasService = capabilities.length > 0
           capabilities.forEach(capability => {
             capability.label = this.language === 'en' ? capability.nameEn : capability.name
             capability.leaf = true
@@ -642,6 +642,7 @@ export default {
       this.hasNoSelect = false
     } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
       this.clickIsSelected = true
+      this.hasNoSelect = false
     } else {
       this.clickIsSelected = false
       this.showCheckbox = false
