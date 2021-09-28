@@ -34,7 +34,7 @@
           {{ $t('workspace.configYaml.uploadYamlTip') }}
         </div>
         <el-upload
-          class="uploader"
+          class="config-yaml-uploader"
           action=""
           :on-change="handleChangeYaml"
           :limit="1"
@@ -449,7 +449,7 @@ export default {
     }
   }
 
-  .uploader {
+  .config-yaml-uploader {
     margin-top: 15px;
     margin-left: -10px;
     background-color: transparent;
