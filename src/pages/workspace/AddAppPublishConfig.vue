@@ -714,7 +714,6 @@ export default {
         } else if (name === 'md') {
           this.form.apiMd = res.data.fileId
         }
-        this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
       }).catch(() => {
         if (name === 'api') {
           this.apiFileList = []
