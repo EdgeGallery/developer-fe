@@ -1208,12 +1208,12 @@ export default {
       }
     },
     releaseApp () {
-      // let parameter = {
-      //   isFree: this.price === '1',
-      //   price: this.priceSet
-      // }
+      let parameter = {
+        isFree: this.price === '1',
+        price: this.priceSet
+      }
       this.publishLoading = true
-      Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
+      Workspace.isPublishApi(this.projectId, this.userId, this.userName, parameter).then(() => {
         this.dialogAppPublicSuccess = true
         this.publishLoading = false
         this.setPriceDialog = false
