@@ -79,15 +79,6 @@
               />
             </el-form-item>
             <el-form-item
-              label="namespace"
-            >
-              <el-input
-                v-model="itemPod.metadata.namespace"
-                placeholder="default"
-                :disabled="true"
-              />
-            </el-form-item>
-            <el-form-item
               label="kind"
             >
               <el-input
@@ -415,15 +406,6 @@
               />
             </el-form-item>
             <el-form-item
-              label="namespace"
-            >
-              <el-input
-                v-model="itemService.metadata.namespace"
-                placeholder="default"
-                :disabled="true"
-              />
-            </el-form-item>
-            <el-form-item
               :label="$t('system.type')"
             >
               <el-input
@@ -588,9 +570,9 @@
         </el-button>
         <el-button
           type="primary"
-          @click="configEditFile"
+          @click="cancelEditFile"
         >
-          {{ $t('common.confirm') }}
+          {{ $t('common.cancel') }}
         </el-button>
       </span>
     </el-dialog>
@@ -620,7 +602,6 @@ export default {
           metadata: {
             name: '',
             showName: false,
-            namespace: 'default',
             labels: {
               app: ''
             }
@@ -669,7 +650,6 @@ export default {
           metadata: {
             name: '',
             showName: false,
-            namespace: 'default',
             labels: {
               svc: ''
             }
@@ -742,7 +722,6 @@ export default {
         metadata: {
           name: '',
           showName: false,
-          namespace: 'default',
           labels: {
             app: ''
           }
@@ -839,7 +818,6 @@ export default {
         metadata: {
           name: '',
           showName: false,
-          namespace: 'default',
           labels: {
             svc: ''
           }
@@ -1173,10 +1151,6 @@ export default {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
         oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
-        const oDiv2 = document.getElementsByClassName('file-content')[0]
-        if (oDiv2) {
-          oDiv2.style.height = Number(deviceHeight) * 0.75 - 155 + 'px'
-        }
       })
     },
     viewConfigFile () {
@@ -1207,7 +1181,7 @@ export default {
         }
       })
     },
-    configEditFile () {
+    cancelEditFile () {
       this.dialogVisible = false
       this.isEditFile = false
     },
@@ -1594,11 +1568,12 @@ export default {
   height: 100%;
 
   .el-dialog {
-    margin-top: 12% !important;
+    margin-top: 200px;
     padding: 20px;
     border-radius: 12px;
     width: 50%;
-    height: 520px !important;
+    min-width: 800px;
+    height: 520px;
     background-color: #efefef;
   }
 
@@ -1614,7 +1589,7 @@ export default {
     height: 17px;
     width: 17px;
     border-radius: 3px;
-    background-image: linear-gradient(to top right, rgba(85, 216, 191), rgba(85, 216, 191, 0.2));
+    background-image: linear-gradient(to top right, rgb(85, 216, 191), rgba(85, 216, 191, 0.2));
   }
 
   .el-dialog__title {
@@ -1624,6 +1599,10 @@ export default {
     font-family: defaultFontLight;
   }
 
+  .el-dialog__body {
+    height: 380px;
+  }
+
   .el-dialog__close {
     display: none;
   }
@@ -1631,31 +1610,34 @@ export default {
   .file-content {
     margin-left: 35px;
     margin-right: 40px;
+  }
+
+  .v-note-wrapper {
+    height: 320px;
     border-radius: 8px;
   }
 
   .v-note-wrapper .v-note-panel {
+    display: block;
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
   }
 
-  .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
-    height: 320px;
+  .v-note-wrapper .v-note-panel .v-note-edit {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .v-note-wrapper .v-note-panel  .content-input-wrapper {
-    height: 320px;
+  .v-note-wrapper .v-note-panel .v-note-show {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .markdown-body {
-    height: 320px;
-  }
-
-  .markdown-body .highlight pre, .markdown-body pre {
-    background-color: transparent;
-  }
-
-  .hljs {
-    background-color: transparent;
+  .v-show-content {
+    font-size: 14px;
   }
 
   .el-dialog__footer {
