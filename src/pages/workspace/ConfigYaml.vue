@@ -423,7 +423,7 @@ export default {
     margin: 30px -40px -66px -92px;
     height: 300px !important;
   }
-  
+
   .yaml_content .v-note-wrapper {
     height: 100%;
     min-height: 300px;
@@ -437,7 +437,7 @@ export default {
   .yaml_content .v-show-content {
     font-size: 14px;
   }
-    
+
   .yaml_content .v-show-content pre {
     padding: 16px 30px;
     margin-bottom: 20px;
