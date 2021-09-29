@@ -23,13 +23,21 @@
     <Navcomp
       :scroll-top-prop="scrollTop"
       class="clearfix"
+      @clickLogo="clickLogo"
+      @changeLange="changeLange"
+      @logout="logout"
+      :if-guest-prop="ifGuest"
+      :user-name-prop="userName"
+      :user-center-page-prop="userCenterPage"
+      @beforeLogout="beforeLogout"
+      :json-data-prop="jsonData"
     />
     <router-view />
   </div>
 </template>
 
 <script>
-import Navcomp from './components/common/Nav.vue'
+import Navcomp from 'eg-view/src/components/EgNav.vue'
 import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
@@ -197,7 +205,7 @@ export default {
     }
   },
   mounted () {
-    // this.loginFun()
+    this.loginFun()
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
@@ -212,12 +220,12 @@ export default {
       })()
     }
   },
-  // watch: {
-  //   '$i18n.locale': function () {
-  //     this.showToolchain(this.jsonData)
-  //     this.loginFun()
-  //   }
-  // },
+  watch: {
+    '$i18n.locale': function () {
+      this.showToolchain(this.jsonData)
+      this.loginFun()
+    }
+  },
   beforeMount () {
     localStorage.setItem('language', 'cn')
     let language = localStorage.getItem('language')

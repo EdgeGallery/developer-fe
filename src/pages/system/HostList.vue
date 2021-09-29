@@ -565,7 +565,7 @@ export default {
       }
     }
     const validateAddress = (rule, value, callback) => {
-      let reg = /^(?!\s)[\u4E00-\u9FA5a-zA-Z0-9\s/]{0,128}(\S$)$/
+      let reg = /^(?!\s)(?!.*?\s$)[\u4E00-\u9FA5a-zA-Z0-9\s/]{1,128}$/
       if (!value) {
         callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.address')}`))
       } else if (!reg.test(value)) {

@@ -810,9 +810,6 @@ export default {
         } else {
           this.isRelease = false
         }
-        if ((data.deployPlatform === 'VIRTUALMACHINE') && (data.status !== 'ONLINE')) {
-          this.getReleaseConfigFirst()
-        }
       })
     },
     getTestConfig () {
@@ -821,9 +818,6 @@ export default {
         if (res.data.testId && res.data.appInstanceId) {
           sessionStorage.setItem('csarId', res.data.appInstanceId)
           this.projectDetailData.appInstanceId = res.data.appInstanceId
-          if (this.deployPlatform === 'KUBERNETES' && res.data.deployStatus) {
-            this.getReleaseConfigFirst()
-          }
         }
         let deployStatus = res.data.deployStatus === 'SUCCESS' || res.data.deployStatus === 'FAILED'
         if (deployStatus) {
@@ -835,6 +829,7 @@ export default {
     getReleaseConfigList () {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         this.mdFileId = res.data.guideFileId
+        this.trafficAllData.guideFileId = res.data.guideFileId
         if (res.data.capabilitiesDetail) {
           this.appRuleData = res.data.capabilitiesDetail
           this.getAllListData()
@@ -848,37 +843,13 @@ export default {
     getReleaseConfig (params) {
       Workspace.getReleaseConfigApi(this.projectId).then(res => {
         let releaseId = res.data.releaseId
+        this.trafficAllData.atpTest = res.data.atpTest
         Workspace.saveRuleConfig(this.projectId, params, releaseId).then(() => {
-          if (releaseId) {
-            this.$eg_messagebox(this.$t('promptMessage.editRuleSuccess'), 'success')
-          } else {
-            this.$eg_messagebox(this.$t('promptMessage.saveRuleSuccess'), 'success')
-          }
+          this.$eg_messagebox(this.$t('promptMessage.saveRuleSuccess'), 'success')
           this.getReleaseConfigList()
         }).catch(() => {
-          if (releaseId) {
-            this.$eg_messagebox(this.$t('promptMessage.editRuleFail'), 'error')
-          } else {
-            this.$eg_messagebox(this.$t('promptMessage.saveRuleFail'), 'error')
-          }
+          this.$eg_messagebox(this.$t('promptMessage.saveRuleFail'), 'error')
         })
-      })
-    },
-    // Save/modify configuration rules by default
-    getReleaseConfigFirst () {
-      Workspace.getReleaseConfigApi(this.projectId).then(res => {
-        let data = res.data
-        if (!data) {
-          this.releaseId = res.data.releaseId
-          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
-        }
-        if (data.capabilitiesDetail) {
-          this.releaseId = res.data.releaseId
-          this.trafficAllData.atpTest = res.data.atpTest
-          this.trafficAllData.guideFileId = res.data.guideFileId
-          this.trafficAllData.capabilitiesDetail = res.data.capabilitiesDetail
-          Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId)
-        }
       })
     },
     next () {
@@ -1028,28 +999,22 @@ export default {
     getAddDnsData (data) {
       if (this.isAddRuleData) {
         this.dnsListData.push(data)
-        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.dnsListData.splice(this.editIndex, 1, data)
-        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
     },
     getAddTrafficData (data) {
       if (this.isAddRuleData) {
         this.trafficListData.push(data)
-        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.trafficListData.splice(this.editIndex, 1, data)
-        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
     },
     getAddPublicConfigData (data) {
       if (this.isAddRuleData) {
         this.appPublishListData.push(data)
-        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.appPublishListData.splice(this.editIndex, 1, data)
-        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
     },
@@ -1075,17 +1040,14 @@ export default {
     // Delete rule list
     deleteRuleData (index) {
       this.dnsListData.splice(index, 1)
-      sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     deleteTrafficData (index) {
       this.trafficListData.splice(index, 1)
-      sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     deleteConfigData (index) {
       this.appPublishListData.splice(index, 1)
-      sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     strToArray (data) {

@@ -600,7 +600,7 @@ export default {
       }
     }
     const validateHost = (rule, value, callback) => {
-      let reg = /^[\S\s]{1,20}$/g
+      let reg = /^[\S\s]{1,40}$/g
       if (!value) {
         callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
       } else if (!reg.test(value)) {
