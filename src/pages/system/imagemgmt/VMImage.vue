@@ -70,7 +70,7 @@
         <el-table-column
           prop="systemSize"
           min-width="12%"
-          :label="$t('system.imageMgmt.sysDisk')+'(M)'"
+          :label="$t('system.imageMgmt.imageSize')+'(M)'"
         >
           <template slot-scope="scope">
             {{ scope.row.systemSize?(scope.row.systemSize/1024/1024).toFixed(2):'' }}
