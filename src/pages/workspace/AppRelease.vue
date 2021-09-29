@@ -832,6 +832,22 @@ export default {
         this.trafficAllData.guideFileId = res.data.guideFileId
         if (res.data.capabilitiesDetail) {
           this.appRuleData = res.data.capabilitiesDetail
+          let trafficFilterTemp = JSON.parse(JSON.stringify(this.appRuleData))
+          trafficFilterTemp.appTrafficRule.forEach(item => {
+            item.trafficFilter.forEach(subItem => {
+              subItem.dstAddress = this.ArrayToStr(subItem.dstAddress)
+              subItem.dstPort = this.ArrayToStr(subItem.dstPort)
+              subItem.dstTunnelPort = this.ArrayToStr(subItem.dstTunnelPort)
+              subItem.protocol = this.ArrayToStr(subItem.protocol)
+              subItem.srcAddress = this.ArrayToStr(subItem.srcAddress)
+              subItem.srcPort = this.ArrayToStr(subItem.srcPort)
+              subItem.srcTunnelAddress = this.ArrayToStr(subItem.srcTunnelAddress)
+              subItem.srcTunnelPort = this.ArrayToStr(subItem.srcTunnelPort)
+              subItem.tag = this.ArrayToStr(subItem.tag)
+              subItem.tgtTunnelAddress = this.ArrayToStr(subItem.tgtTunnelAddress)
+            })
+          })
+          this.appRuleData = trafficFilterTemp
           this.getAllListData()
         }
         if (this.mdFileId) {
@@ -1051,10 +1067,17 @@ export default {
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     strToArray (data) {
-      if (data && data[0] !== '') {
+      if (data) {
         let arr = []
         arr = data.split(',')
         return arr
+      }
+    },
+    ArrayToStr (data) {
+      if (data && data[0] !== '') {
+        let str = ''
+        str = data.join(',')
+        return str
       }
     },
     // Save configured rule data
