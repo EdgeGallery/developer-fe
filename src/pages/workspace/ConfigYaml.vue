@@ -424,27 +424,34 @@ export default {
     margin: 30px -47px -66px -92px;
     overflow: auto;
     max-height: 300px;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
 
     .v-note-wrapper{
-      border: none;
+      height: 100%;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
+
+    .v-note-wrapper .v-note-panel {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
     }
 
     .v-show-content {
-      padding: 0 !important;
+      font-size: 14px;
     }
 
-    .v-note-wrapper .v-note-panel .v-note-show{
-      overflow: hidden;
-      .hljs, pre{
-        background: #1e1e1e;
-        color: #fff;
-      }
+    .hljs {
+      background-color: transparent;
     }
 
-    .markdown-body .highlight pre, .markdown-body pre {
-      border-radius: 0;
+    .v-show-content pre {
+      background-color: #1e1e1e;
+      color: #fff;
+      padding: 0;
+      margin: 0;
       margin-bottom: -50px;
     }
   }
