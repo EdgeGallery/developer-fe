@@ -131,7 +131,7 @@
             :subfield="false"
             default-open="preview"
             :box-shadow="false"
-            preview-background="#ffffff"
+            preview-background="#1e1e1e"
           />
         </div>
       </div>
@@ -420,39 +420,21 @@ export default {
   }
 
   .yaml_content{
-    white-space: pre-wrap;
-    margin: 30px -47px -66px -92px;
-    overflow: auto;
-    max-height: 300px;
+    margin: 30px -40px -66px -92px;
+    height: 300px !important;
 
-    .v-note-wrapper{
+    .v-note-wrapper {
       height: 100%;
-      border-bottom-left-radius: 16px;
-      border-bottom-right-radius: 16px;
+      min-height: 300px;
     }
 
     .v-note-wrapper .v-note-panel {
-      display: block;
-      width: 100%;
-      height: 100%;
       border-bottom-left-radius: 16px;
       border-bottom-right-radius: 16px;
     }
 
     .v-show-content {
       font-size: 14px;
-    }
-
-    .hljs {
-      background-color: transparent;
-    }
-
-    .v-show-content pre {
-      background-color: #1e1e1e;
-      color: #fff;
-      padding: 0;
-      margin: 0;
-      margin-bottom: -50px;
     }
   }
 
