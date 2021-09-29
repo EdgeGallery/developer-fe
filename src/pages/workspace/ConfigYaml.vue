@@ -448,11 +448,11 @@ export default {
     }
 
     .v-show-content pre {
-      background-color: transparent;
+      background-color: #1e1e1e;
+      color: #fff;
       padding: 0;
       margin: 0;
-      margin-top: -50px;
-      line-height: 1.7;
+      margin-bottom: -50px;
     }
   }
 
