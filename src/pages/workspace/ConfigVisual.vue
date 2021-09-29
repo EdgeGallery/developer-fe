@@ -1146,11 +1146,19 @@ export default {
         podItem.spec.containers.splice(containerIndex, 1)
       }
     },
+    /* Set the height of visual configuration detail panel according to the current window height. */
     setApiHeight () {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
+        if (oDiv) {
+          oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
+        }
+
+        const fileContentDiv = document.getElementsByClassName('file-content')[0]
+        if (fileContentDiv) {
+          fileContentDiv.style.height = Number(deviceHeight) * 0.75 - 200 + 'px'
+        }
       })
     },
     viewConfigFile () {
@@ -1610,10 +1618,11 @@ export default {
   .file-content {
     margin-left: 35px;
     margin-right: 40px;
+    height: 320px;
   }
 
   .v-note-wrapper {
-    height: 320px;
+    height: 100%;
     border-radius: 8px;
   }
 
@@ -1638,6 +1647,17 @@ export default {
 
   .v-show-content {
     font-size: 14px;
+  }
+
+  .hljs {
+    background-color: transparent;
+  }
+
+  .v-show-content pre {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    line-height: 1.7;
   }
 
   .el-dialog__footer {

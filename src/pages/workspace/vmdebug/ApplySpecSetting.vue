@@ -220,7 +220,7 @@ export default {
       selectedRegulationId: this.allStepData.specSetting ? this.allStepData.specSetting.selectedRegulationId : -1,
 
       imageType: this.allStepData.specSetting ? this.allStepData.specSetting.imageType : 'public',
-      osNameOptionList: ['daedaedea', 'daedaede'],
+      osNameOptionList: ['', ''],
       operateSystemOptionList: [],
       selectedData: {
         private: {
@@ -278,7 +278,7 @@ export default {
         this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'), 'warning')
         return false
       }
-      if (this.selectedSystemId === '') {
+      if (this.selectedData[this.imageType].selectedSystemId === '') {
         this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'), 'warning')
         return false
       }
@@ -289,9 +289,7 @@ export default {
       this.selectedRegulationId = -1
     },
     filterVmRegulation () {
-      if (this.vmConfigData.vmRegulationDataList) {
-        this.vmRegulationDataList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.archType)
-      }
+      this.vmRegulationDataList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.archType)
     },
     handleChangeImgType () {
       this.resetData(this.imageType)
@@ -299,17 +297,15 @@ export default {
       this.operateSystemOptionList = []
     },
     filterOSName () {
-      if (this.vmConfigData.vmSystemList) {
-        this.osNameOptionList = uniqueArray(this.vmConfigData.vmSystemList.filter(item => item.type === this.imageType)
-          .map(item => item.operateSystem))
-      }
+      this.osNameOptionList = uniqueArray(this.vmConfigData.vmSystemList.filter(item => item.type === this.imageType)
+        .map(item => item.operateSystem))
     },
     handleChangeOSName () {
       this.filterOperateSystemOption()
       this.resetData(this.imageType, this.selectedData[this.imageType].selectedOSName)
     },
     filterOperateSystemOption () {
-      if (this.selectedData[this.imageType].selectedOSName === '' || !this.vmConfigData.vmSystemList) {
+      if (this.selectedData[this.imageType].selectedOSName === '') {
         return
       }
 
