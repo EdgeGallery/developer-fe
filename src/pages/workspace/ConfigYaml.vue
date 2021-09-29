@@ -441,9 +441,11 @@ export default {
   .yaml_content .v-show-content pre {
     padding: 16px 30px;
     margin-bottom: 20px;
+    background-color: #1e1e1e;
   }
 
   .yaml_content .hljs {
+    background-color: #1e1e1e;
     color: #eee;
     line-height: 1.8;
     padding: 0;
