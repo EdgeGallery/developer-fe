@@ -106,7 +106,7 @@
                     src="../assets/images/state.png"
                     alt=""
                   >
-                  <p>{{ item.status===''?'inactive':item.status }}</p>
+                  <p>{{ item.status===''?'active':item.status }}</p>
                 </div>
               </div>
             </div>
@@ -175,11 +175,11 @@
             <template slot-scope="scope">
               <img
                 class="stateIcon"
-                :src="scope.row.status === 'active'?require('@/assets/images/sucess.png'): require('@/assets/images/failed.png')"
+                :src="scope.row.status !== 'inactive'?require('@/assets/images/sucess.png'): require('@/assets/images/failed.png')"
                 alt=""
               >
-              <span v-if="scope.row.status==='active'">active</span>
-              <span v-if="scope.row.status!=='active'">inactive</span>
+              <span v-if="scope.row.status==='inactive'">inactive</span>
+              <span v-if="scope.row.status!=='inactive'">active</span>
             </template>
           </el-table-column>>
           <el-table-column
@@ -256,6 +256,18 @@
           prop="vendor"
         >
           <el-input v-model="form.vendor" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.username')"
+          prop="username"
+        >
+          <el-input v-model="form.username" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.password')"
+          prop="password"
+        >
+          <el-input v-model="form.password" />
         </el-form-item>
         <el-form-item
           :label="$t('system.icon')"
@@ -371,6 +383,18 @@
           prop="vendor"
         >
           <el-input v-model="form2.vendor" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.username')"
+          prop="username"
+        >
+          <el-input v-model="form2.username" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('system.password')"
+          prop="password"
+        >
+          <el-input v-model="form2.password" />
         </el-form-item>
         <el-form-item
           :label="$t('system.icon')"
@@ -501,6 +525,12 @@ export default {
         ],
         vendor: [
           { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
         ]
       },
       rules2: {
@@ -520,6 +550,12 @@ export default {
           { required: true, message: `${this.$t('system.tooltipRegion')}`, trigger: 'blur' }
         ],
         vendor: [
+          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+        ],
+        password: [
           { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
         ]
       }
@@ -856,7 +892,7 @@ export default {
   }
   .el-dialog{
         width: 912px;
-        height: 462px;
+        height: 502px;
         background: #EFEFEF;
         border-radius: 12px;
     .el-dialog__header {
