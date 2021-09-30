@@ -518,7 +518,7 @@ export default {
   .test.tit:first-child {
     display: block;
     color: #380879;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .test.tit {
