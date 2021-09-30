@@ -61,12 +61,15 @@
           </a>
         </el-upload>
         <div v-show="hasValidate">
-          <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
+          <div
+            v-if="!showResult"
+            :class="appYamlFileId ? 'green test tit' : 'red test tit'"
+          >
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
           </div>
           <div
+            v-if="showResult"
             class="test tit"
-            v-show="showResult"
           >
             <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
               {{ $t('workspace.configYaml.format') }}
@@ -273,7 +276,6 @@ export default {
           this.yamlFileList = yamlFileList
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
-          this.setApiHeight()
           this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
         } else {
           this.fileUploadSuccess = false
@@ -346,7 +348,6 @@ export default {
             this.appYamlFileId = data.fileId
             this.showResult = false
             this.markdownSource = '```yaml\r\n' + data.content + '\r\n```'
-            this.setApiHeight()
           } else {
             this.yamlFileList = []
             this.hasValidate = false
@@ -361,15 +362,6 @@ export default {
           this.markdownSource = ''
         })
       }
-    },
-    setApiHeight () {
-      this.$nextTick(() => {
-        const oDiv = document.getElementsByClassName('yaml_content')[0]
-        const deviceHeight = document.documentElement.clientHeight
-        if (oDiv) {
-          oDiv.style.height = Number(deviceHeight) * 0.6 + 'px'
-        }
-      })
     },
     getConfigVisual (val) {
       this.appYamlFileId = val
@@ -420,7 +412,7 @@ export default {
   }
 
   .yaml_content{
-    margin: 30px -40px -66px -92px;
+    margin: 30px -40px -46px -92px;
     height: 300px !important;
   }
 
@@ -457,7 +449,7 @@ export default {
     background-color: transparent;
 
     .el-upload-list {
-      margin: 0 10px 20px;
+      margin: 0 10px 10px;
     }
 
     .el-upload-list::after {
@@ -528,11 +520,13 @@ export default {
   }
 
   .test.tit:first-child {
-    display: none;
+    display: block;
+    color: #380879;
+    font-family: defaultFontLight;
   }
 
   .test.tit {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .test.tit .test {
