@@ -528,30 +528,12 @@ export default {
             this.readonly = true
             this.depPlatform = this.deployPlatform
             this.editBtn = false
-            if (this.isAppDevelopment) {
-              this.activeName = '3'
-              this.isClick = false
-              this.nextBtnDevApp = false
-            } else {
-              this.nextBtn = false
-              if (this.deployPlatform === 'KUBERNETES') {
-                this.activeName = '4'
-                this.isClick = false
-              } else {
-                this.activeName = '6'
-                this.isClick = false
-              }
-            }
+            this.handleDevelopment()
             this.uploadBtnLoading = false
             sessionStorage.removeItem('apiFileIdArr')
           } else {
             this.$eg_messagebox(this.$t('promptMessage.editProjectFail'), 'error')
-            setTimeout(() => {
-              this.dialogNewProject = false
-            }, 1500)
-
-            this.$emit('closeFatherDialog', false)
-            this.uploadBtnLoading = false
+            this.handleError()
           }
         }).catch(err => {
           if (err.response.data.message === 'the same project exists') {
@@ -571,30 +553,12 @@ export default {
             this.deployPlatform = this.allFormData.first.deployPlatform
             this.readonly = true
             this.depPlatform = this.deployPlatform
-            if (this.isAppDevelopment) {
-              this.activeName = '3'
-              this.isClick = false
-              this.nextBtnDevApp = false
-            } else {
-              this.nextBtn = false
-              if (this.deployPlatform === 'KUBERNETES') {
-                this.activeName = '4'
-                this.isClick = false
-              } else {
-                this.activeName = '6'
-                this.isClick = false
-              }
-            }
+            this.handleDevelopment()
             this.uploadBtnLoading = false
             sessionStorage.removeItem('apiFileIdArr')
           } else {
             this.$eg_messagebox(this.$t('promptMessage.addProjectFail'), 'error')
-            setTimeout(() => {
-              this.dialogNewProject = false
-            }, 1500)
-
-            this.$emit('closeFatherDialog', false)
-            this.uploadBtnLoading = false
+            this.handleError()
           }
         }).catch(err => {
           if (err.response.data.message === 'the same project exists') {
@@ -604,6 +568,29 @@ export default {
           sessionStorage.removeItem('apiFileIdArr')
         })
       }
+    },
+    handleDevelopment () {
+      if (this.isAppDevelopment) {
+        this.activeName = '3'
+        this.isClick = false
+        this.nextBtnDevApp = false
+      } else {
+        this.nextBtn = false
+        if (this.deployPlatform === 'KUBERNETES') {
+          this.activeName = '4'
+          this.isClick = false
+        } else {
+          this.activeName = '6'
+          this.isClick = false
+        }
+      }
+    },
+    handleError () {
+      setTimeout(() => {
+        this.dialogNewProject = false
+      }, 1500)
+      this.$emit('closeFatherDialog', false)
+      this.uploadBtnLoading = false
     },
     groupListHover (index) {
       this.selectedName = index
@@ -1062,9 +1049,6 @@ export default {
     font-size:20px;
     color: #7a6e8a;
   }
-  .el-tabs__item span{
-    letter-spacing: 4px;
-  }
   .el-tabs--left.enLeft {
     .el-tabs__item span{
       letter-spacing: 0px;
@@ -1131,6 +1115,7 @@ export default {
     span{
       display: inline-block;
       height: 50px;
+      letter-spacing: 4px;
       em{
         float: left;
         width: 28px;

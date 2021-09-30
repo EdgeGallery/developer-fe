@@ -154,7 +154,6 @@
 </template>
 
 <script>
-// import abilityAPI from './ability.js'
 import { Capability } from '../../tools/api.js'
 import AbilityBrainMap from './AbilityBrainMap.vue'
 import CapabilityGroupList from './CapabilityGroupList.vue'

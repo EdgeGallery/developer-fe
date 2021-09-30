@@ -54,7 +54,7 @@
         >
           <span
             class="default_info_promt"
-            style="marginTop:15px"
+            :style="{marginTop:'15px'}"
           >i</span>
         </el-tooltip>
       </el-form-item>

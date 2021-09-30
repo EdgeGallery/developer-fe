@@ -400,37 +400,40 @@ export default {
             return
           }
 
-          this.stageStatus = cachedData.stageStatus
-          this.deployStatus = cachedData.status
-          this.updateDeployProgress()
-          if (this.deployStatus === 'SUCCESS' || this.deployStatus === 'FAILED' || this.deployStatus === 'CREATING') {
-            this.showProgressBar = true
-          }
-
-          // deploy successfully
-          if (this.deployStatus === 'SUCCESS') {
-            clearInterval(this.timer)
-            this.getCreateImageList()
-            this.testFinished = true
-            this.isDeploySuccess = true
-            this.accessUrl = this.getVmDeployIp(cachedData)
-            this.errorLog = cachedData.log
-          }
-          // deploy failed
-          if (this.deployStatus === 'FAILED') {
-            clearInterval(this.timer)
-            this.deployStatus = 'FAILED'
-            this.testFinished = true
-            this.isDeploySuccess = false
-            this.accessUrl = this.getVmDeployIp(cachedData)
-            this.errorLog = cachedData.log
-          }
+          this.handleDeployStatus(cachedData)
         }
         this.vmDataLoading = false
       }).catch(() => {
         clearInterval(this.timer)
         this.vmDataLoading = false
       })
+    },
+    handleDeployStatus (cachedData) {
+      this.stageStatus = cachedData.stageStatus
+      this.deployStatus = cachedData.status
+      this.updateDeployProgress()
+      if (this.deployStatus === 'SUCCESS' || this.deployStatus === 'FAILED' || this.deployStatus === 'CREATING') {
+        this.showProgressBar = true
+      }
+
+      // deploy successfully
+      if (this.deployStatus === 'SUCCESS') {
+        clearInterval(this.timer)
+        this.getCreateImageList()
+        this.testFinished = true
+        this.isDeploySuccess = true
+        this.accessUrl = this.getVmDeployIp(cachedData)
+        this.errorLog = cachedData.log
+      }
+      // deploy failed
+      if (this.deployStatus === 'FAILED') {
+        clearInterval(this.timer)
+        this.deployStatus = 'FAILED'
+        this.testFinished = true
+        this.isDeploySuccess = false
+        this.accessUrl = this.getVmDeployIp(cachedData)
+        this.errorLog = cachedData.log
+      }
     },
     getVmDeployIp (data) {
       let accessUrl = ''
@@ -554,7 +557,7 @@ export default {
       margin-bottom: 13px;
     }
     .p-vm-tips {
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       margin-bottom: 22px;
     }
   }
@@ -576,7 +579,7 @@ export default {
         .el-form-item__content{
           line-height: 40px;
           font-size: 16px;
-          font-family: defaultFontLight;
+          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         }
       }
       .vm_log .el-form-item__content{
@@ -593,7 +596,7 @@ export default {
   }
   .image {
     .image-tips {
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       color: #380879;
       font-size: 16px;
     }
@@ -608,7 +611,7 @@ export default {
         color: #62517a !important;
         background-color: transparent;
         border-color: transparent;
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       }
       .el-link.el-link--default:after, .el-link.el-link--default.is-disabled, .el-link.el-link--default, .el-link.el-link--default:hover {
         margin-bottom: 4px;
@@ -632,7 +635,7 @@ export default {
   border: none;
   color: #fff;
   font-size: 16px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .deployment-result__button:hover {
@@ -658,7 +661,7 @@ export default {
 
   .el-table {
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     background-color: #f1f2f6;
     border-radius: 12px;
     box-shadow: 0 0 10px 1px #e5e5ee inset;

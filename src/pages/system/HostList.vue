@@ -73,7 +73,7 @@
         <span
           slot="footer"
           class="dialog-footer mt20"
-          style="paddingRight:0 !important"
+          :style="{paddingRight:'0 !important'}"
         >
           <el-button
             id="btn_close"

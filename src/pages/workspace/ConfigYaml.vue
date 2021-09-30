@@ -301,7 +301,7 @@ export default {
             this.$t('common.confirm')
           ).then(() => {
             this.jumpToImageList()
-          }).catch(() => {})
+          })
         }
         this.appYamlFileId = ''
         this.yamlFileList = []
@@ -407,7 +407,7 @@ export default {
 
   .config-yaml__text {
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #380879;
   }
 
@@ -462,21 +462,17 @@ export default {
       display: none;
     }
 
+    .el-upload-list__item:hover {
+      background-color: transparent;
+    }
+
     .el-upload-list__item-name {
       padding-left: 20px;
       padding-right: 20px;
       box-shadow: 0 0 15px 2px #dedeea inset;
       border-radius: 8px;
       color: #7965e0;
-    }
-
-    .el-upload-list__item:hover {
-      background-color: transparent;
-    }
-
-    .el-upload-list__item-name {
       font-size: 14px;
-      color: #7965e0;
     }
 
     .el-upload-list__item-name:hover {
@@ -505,7 +501,7 @@ export default {
       height: 39px;
       line-height: 39px;
       font-size: 16px;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       border: none;
       border-radius: 8px;
       color: #ffffff;
@@ -534,7 +530,7 @@ export default {
     margin-right: 15px;
     margin-top: 10px;
     font-size: 15px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #380879;
   }
 

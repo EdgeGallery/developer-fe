@@ -193,7 +193,7 @@
               <span
                 class="addBtn"
                 @click="openDialog('trafficRule')"
-              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.trafficRules') }}</span>
+              ><em class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.trafficRules') }}</span>
             </div>
             <el-table
               :data="trafficListData"
@@ -258,7 +258,7 @@
               <span
                 class="addBtn"
                 @click="openDialog('dnsRule')"
-              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.dnsRules') }}</span>
+              ><em class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.dnsRules') }}</span>
             </div>
             <el-table
               :data="dnsListData"
@@ -330,7 +330,7 @@
               <span
                 class="addBtn"
                 @click="openDialog('publicConfig')"
-              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}</span>
+              ><em class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}</span>
             </div>
             <!-- Application service pulish config -->
             <el-table
@@ -933,9 +933,9 @@ export default {
       fd.append('file', fileList[0])
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
         let guideFileId = res.data.fileId
-        Workspace.getReleaseConfigApi(this.projectId).then(res => {
-          this.releaseId = res.data.releaseId
-          this.trafficAllData = res.data
+        Workspace.getReleaseConfigApi(this.projectId).then(response => {
+          this.releaseId = response.data.releaseId
+          this.trafficAllData = response.data
           this.trafficAllData.guideFileId = guideFileId
           Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId).then(() => {
             this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
@@ -1194,10 +1194,6 @@ export default {
       }
     },
     releaseApp () {
-      // let parameter = {
-      //   isFree: this.price === '1',
-      //   price: this.priceSet
-      // }
       this.publishLoading = true
       Workspace.isPublishApi(this.projectId, this.userId, this.userName).then(() => {
         this.dialogAppPublicSuccess = true
@@ -1341,7 +1337,7 @@ export default {
         background-color: #5844be !important;
         height: 39px;
         border-radius: 8px;
-        font-family: defaultFontLight !important;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
       }
       .no_test{
         font-size:16px;

@@ -26,7 +26,6 @@
 </template>
 
 <script>
-// import ability from './ability'
 import { Capability } from '../../tools/api.js'
 require('kity')
 require('kityminder-core')

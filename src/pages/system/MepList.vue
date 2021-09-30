@@ -279,7 +279,7 @@
             >
               <span
                 class="default_info_promt"
-                style="marginTop:15px"
+                :style="{marginTop:'15px'}"
               >i</span>
             </el-tooltip>
             <div
@@ -1145,9 +1145,6 @@ export default {
 
 <style lang="less">
 .capManagement {
-  .el-upload-list__item {
-    transition: none !important;
-  }
   .createservice_btn{
     position: absolute;
     right: 0;
@@ -1308,14 +1305,13 @@ export default {
     }
     .el-upload-list__item{
       border-radius: 0;
-    }
-    .el-upload-list__item{
       width: auto;
       height: 40px;
       min-width: 40px;
       border: none;
       margin: 0 15px 0 0;
       background-color:transparent;
+      transition: none !important;
     }
     .el-upload-list__item-preview{
       opacity: 0;

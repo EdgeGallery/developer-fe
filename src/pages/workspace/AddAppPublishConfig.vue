@@ -215,7 +215,7 @@
           >
             <span
               class="default_info_promt"
-              style="marginTop:10px"
+              :style="{marginTop:'10px'}"
             >i</span>
           </el-tooltip>
           <div
@@ -413,16 +413,6 @@ export default {
         callback()
       }
     }
-    const validateServiceName = (rule, value, callback) => {
-      let reg = /^(?!\s)[\S.\s\n\r]{1,40}$/g
-      if (!value) {
-        callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.serviceName')}`))
-      } else if (!reg.test(value)) {
-        callback(new Error(this.$t('promptMessage.twoLevelName')))
-      } else {
-        callback()
-      }
-    }
     const validateInternalPort = (rule, value, callback) => {
       let reg = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
       if (!value) {
@@ -488,7 +478,7 @@ export default {
           { required: true, validator: validateDescription }
         ],
         serviceName: [
-          { required: true, validator: validateServiceName }
+          { required: true, validator: validateTwoLevelName }
         ],
         internalPort: [
           { required: true, validator: validateInternalPort }
@@ -916,18 +906,12 @@ export default {
     font-size:16px !important;
     width:100% !important;
 }
-.el-form{
-  width:95% !important;
-}
-.el-form .el-tooltip{
-  font-size:16px;
-}
 .el-icon-info:before{
   color:#5844be;
 }
 
   .el-form{
-    width: 100%;
+    width:95% !important;
     .service_row .el-form-item__content > span{
       float: left;
     }
@@ -975,6 +959,7 @@ export default {
     .el-tooltip{
       float: left;
       margin-top: 10px;
+      font-size:16px;
     }
     .el-icon-question:before {
       color: #688ef3;
@@ -995,12 +980,12 @@ export default {
       line-height:36px;
       border-radius:8px;
       font-size:16px;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       border-color:#fff;
     }
     .el-textarea__inner{
       border-color:#fff;
-       font-family: defaultFontLight;
+       font-family: defaultFontLight, Arial, Helvetica, sans-serif;
        font-size:16px;
     }
     .el-input__count{
@@ -1064,15 +1049,13 @@ export default {
       width: auto;
     }
     .el-upload-list__item{
-      border-radius: 0;
-    }
-    .el-upload-list__item{
       width: auto;
       height: 40px;
       min-width: 40px;
       border: none;
       margin: 0 15px 0 0;
       background-color:transparent;
+      border-radius: 0;
     }
     .el-upload-list__item-preview{
       opacity: 0;
