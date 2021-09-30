@@ -536,30 +536,11 @@ export default {
             this.handleError()
           }
         }).catch(err => {
-          if (err.response.data.message === 'the same project exists') {
-            this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
-          }
-          this.uploadBtnLoading = false
-          sessionStorage.removeItem('apiFileIdArr')
+          this.handleErrorFun(err)
         })
       } else {
         Workspace.newProjectApi(this.userId, params).then(res => {
-          if (res.status === 200) {
-            let mecDetailID = res.data.id
-            sessionStorage.setItem('mecDetailID', mecDetailID)
-            sessionStorage.setItem('toDetailType', 'proDetail')
-            this.$eg_messagebox(this.$t('promptMessage.addProjectSuccess'), 'success')
-            this.showCapability = true
-            this.deployPlatform = this.allFormData.first.deployPlatform
-            this.readonly = true
-            this.depPlatform = this.deployPlatform
-            this.handleDevelopment()
-            this.uploadBtnLoading = false
-            sessionStorage.removeItem('apiFileIdArr')
-          } else {
-            this.$eg_messagebox(this.$t('promptMessage.addProjectFail'), 'error')
-            this.handleError()
-          }
+          this.handleNewProject(res)
         }).catch(err => {
           if (err.response.data.message === 'the same project exists') {
             this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
@@ -567,6 +548,31 @@ export default {
           this.uploadBtnLoading = false
           sessionStorage.removeItem('apiFileIdArr')
         })
+      }
+    },
+    handleErrorFun (err) {
+      if (err.response.data.message === 'the same project exists') {
+        this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
+      }
+      this.uploadBtnLoading = false
+      sessionStorage.removeItem('apiFileIdArr')
+    },
+    handleNewProject (res) {
+      if (res.status === 200) {
+        let mecDetailID = res.data.id
+        sessionStorage.setItem('mecDetailID', mecDetailID)
+        sessionStorage.setItem('toDetailType', 'proDetail')
+        this.$eg_messagebox(this.$t('promptMessage.addProjectSuccess'), 'success')
+        this.showCapability = true
+        this.deployPlatform = this.allFormData.first.deployPlatform
+        this.readonly = true
+        this.depPlatform = this.deployPlatform
+        this.handleDevelopment()
+        this.uploadBtnLoading = false
+        sessionStorage.removeItem('apiFileIdArr')
+      } else {
+        this.$eg_messagebox(this.$t('promptMessage.addProjectFail'), 'error')
+        this.handleError()
       }
     },
     handleDevelopment () {

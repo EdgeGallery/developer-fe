@@ -361,24 +361,6 @@ export default {
         return resolve(node.data.children)
       }
     },
-    handleCapabilityByProjectId (result, groupMap) {
-      let capabilities = result.data
-      capabilities.forEach(capability => {
-        capability.label = this.language === 'en' ? capability.nameEn : capability.name
-        capability.leaf = true
-        let groupId = capability.groupId
-        if (groupMap.has(groupId)) {
-          let group = groupMap.get(groupId)
-          capability.leaf = true
-          group.children.push(capability)
-        } else {
-          let group = capability.group
-          group.children = []
-          group.children.push(capability)
-          groupMap.set(capability.groupId, capability.group)
-        }
-      })
-    },
     handleCapabilityData (capabilities, groupMap) {
       capabilities.forEach(capability => {
         capability.label = this.language === 'en' ? capability.nameEn : capability.name
@@ -451,23 +433,13 @@ export default {
         let projectId = sessionStorage.getItem('mecDetailID')
         let groupMap = new Map()
         Capability.getCapabilityByProjectId(projectId).then(result => {
-          this.handleCapabilityByProjectId(result, groupMap)
+          let capabilities = result.data
+          this.handleCapabilityData(capabilities, groupMap)
         }).then(() => {
           Capability.getAllCapabilityGroup().then(result => {
             let groups = result.data
             this.groups = groups
-            groups.forEach(group => {
-              group.label = this.language === 'en' ? group.nameEn : group.name
-              group.leaf = false
-              let groupId = group.id
-              if (groupMap.has(groupId)) {
-                let selectedCapabilities = groupMap.get(groupId).children
-                group.selectedCapabilities = selectedCapabilities
-              }
-              if (this.capabilityIcon[group.nameEn]) {
-                group.icon = this.capabilityIcon[group.nameEn].icon
-              }
-            })
+            this.handleGroups(groups, groupMap)
             resolve(groups)
             // expand
             groupMap.forEach((item, key) => {
@@ -480,6 +452,20 @@ export default {
       if (node.level > 1) return resolve([])
 
       this.handleCapabilityByGroupId(node, resolve)
+    },
+    handleGroups (groups, groupMap) {
+      groups.forEach(group => {
+        group.label = this.language === 'en' ? group.nameEn : group.name
+        group.leaf = false
+        let groupId = group.id
+        if (groupMap.has(groupId)) {
+          let selectedCapabilities = groupMap.get(groupId).children
+          group.selectedCapabilities = selectedCapabilities
+        }
+        if (this.capabilityIcon[group.nameEn]) {
+          group.icon = this.capabilityIcon[group.nameEn].icon
+        }
+      })
     },
     handleCapabilityByGroupId (node, resolve) {
       if (node.level === 1) {
@@ -834,7 +820,6 @@ export default {
     }
     .el-tree-node.is-expanded.is-focusable {
       padding-right: 51px;
-      border-radius: 0 26px 26px 0;
       padding-bottom: 15px;
       border-radius: 0 26px 26px 0;
       background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
