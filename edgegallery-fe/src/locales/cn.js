@@ -55,6 +55,8 @@ const cn = {
     vendor: '厂商',
     version: '版本',
     status: '状态',
+    username: '用户名',
+    password: '密码',
     operation: '操作',
     delete: '删除',
     edit: '编辑',
@@ -70,6 +72,8 @@ const cn = {
     tootipVersion: '请输入版本信息',
     tooltipRegion: '请输入部署区域',
     tooltipVendor: '请输入厂商名称',
+    tooltipUsername: '请输入用户名',
+    tooltipPassword: '请输入密码',
     addStstemSucess: '新建系统成功!',
     updateStstemSucess: '更新成功'
 

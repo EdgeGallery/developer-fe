@@ -309,6 +309,7 @@ export default {
     goDetail (data) {
       this.systemType = data
       this.ifDEtail = false
+      this.systemDetails = []
       system.getOneSystem(data).then(res => {
         if (res.data.length !== 0) {
           this.systemDetails = res.data
