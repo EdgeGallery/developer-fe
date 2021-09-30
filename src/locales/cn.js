@@ -564,7 +564,7 @@ const cn = {
     completeTest: '完成测试',
     recycle: '释放资源',
     completeMsg: '点击完成测试后，会释放环境资源，否则平台会在24小时后自动释放环境资源',
-    deploymentSuccess: '部署成功',
+    deploymentSuccess: '部署完成',
     createDeploymentFile: '生成部署文件',
     assignTestNodes: '分配测试节点',
     distributeInfo: '上传应用包',

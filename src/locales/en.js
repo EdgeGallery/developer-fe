@@ -564,7 +564,7 @@ const en = {
     completeTest: 'Complete Test',
     recycle: 'Release Resouces',
     completeMsg: 'After clicking to complete test button, the environmental resources will be released, otherwise the platform will automatically release the environmental resources after 24 hours',
-    deploymentSuccess: 'Deployment Success',
+    deploymentSuccess: 'Deployment Complete',
     createDeploymentFile: 'Create Deployment File',
     assignTestNodes: 'Assign Test Nodes',
     applicationRelease2: 'Application Release',
