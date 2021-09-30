@@ -24,7 +24,7 @@
           type="primary"
           @click="addPod"
         >
-          <i class="el-icon-circle-plus-outline" /><span>Pod</span>
+          <em class="el-icon-circle-plus-outline" /><span>Pod</span>
         </el-button>
       </div>
       <div
@@ -96,7 +96,7 @@
               type="primary"
               @click="addContainer(indexPod)"
             >
-              <i class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.visualConfig.workContainer') }}</span>
+              <em class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.visualConfig.workContainer') }}</span>
             </el-button>
           </div>
           <div
@@ -256,7 +256,7 @@
                       class="resources-wrapper__header-arrow"
                       @click="changeResourceDisplayStatus(itemContainer)"
                     >
-                      <i
+                      <em
                         class="el-icon-arrow-down"
                         :class="[itemContainer.showResource ? 'up': 'down']"
                       />
@@ -343,7 +343,7 @@
           type="primary"
           @click="addService"
         >
-          <i class="el-icon-circle-plus-outline" /><span>Service</span>
+          <em class="el-icon-circle-plus-outline" /><span>Service</span>
         </el-button>
       </div>
       <div
@@ -421,7 +421,7 @@
               type="primary"
               @click="addServicePort(indexService)"
             >
-              <i class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.port') }}</span>
+              <em class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.port') }}</span>
             </el-button>
           </div>
           <div
@@ -1234,7 +1234,7 @@ export default {
     background-color: #b9b5d6;
     border: none;
     border-radius: 8px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     margin-top: 10px;
   }
 
@@ -1268,7 +1268,7 @@ export default {
 
   /* style for all the el-input elements. */
   .el-input__inner {
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   /* style for pod related elements. */
@@ -1280,7 +1280,7 @@ export default {
     border: none;
     padding: 0;
     margin-top: 40px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .pod-content-basic__header {
@@ -1296,7 +1296,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1334,7 +1334,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1382,11 +1382,11 @@ export default {
     background-color: #7b71b1;
     border-color: #7b71b1;
     border-radius: 8px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .resources-wrapper {
-      width: 100%;
+      // width: 100%;
       margin: 0 20px;
       padding: 10px 20px;
       background-color: #e9ebf1;
@@ -1403,7 +1403,7 @@ export default {
   .resources-wrapper__header-title {
     float: left;
     color: #380879;
-    font: defaultFont;
+    font: defaultFont, Arial, Helvetica, sans-serif;
     font-size: 18px;
   }
 
@@ -1486,7 +1486,7 @@ export default {
     border: none;
     padding: 0;
     margin-top: 40px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .service-content-basic__header {
@@ -1502,7 +1502,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1540,7 +1540,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1565,7 +1565,7 @@ export default {
     background-color: #8278b7;
     border-color: #8278b7;
     color: #fff;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-size: 16px;
     height: 40px;
     padding: 0 40px;
@@ -1604,7 +1604,7 @@ export default {
     margin-left: 20px;
     color: #380879 !important;
     font-size: 20px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .el-dialog__body {
@@ -1672,7 +1672,7 @@ export default {
     border: none;
     color: #fff;
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 }
 

@@ -22,8 +22,8 @@ let allAbilities = []
 
 let getAbilitiesByFirstLevelName = function (firstLevelName) {
   let capabilities = []
-  Capability.getStandardCapabilities().then(result => {
-    capabilities = result.data
+  Capability.getStandardCapabilities().then(results => {
+    capabilities = results.data
   })
   let result = []
   result = capabilities.filter(item => item.group.name === firstLevelName)

@@ -902,7 +902,7 @@ export default {
     padding-right:8px;
   }
   .el-input__inner{
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-size:16px;
     color:#5743bc;
     width:90%;

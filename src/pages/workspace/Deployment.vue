@@ -197,10 +197,7 @@ export default {
      * This function will be and only will be called by function startDeploy.
      */
     deployTest () {
-      Workspace.deployTestApi(this.projectId, this.userId).then(() => {
-      }).catch(err => {
-        console.log(err)
-      })
+      Workspace.deployTestApi(this.projectId, this.userId)
     },
     testEnvReleased () {
       this.$emit('checkCleanEnv', true)
@@ -400,7 +397,7 @@ export default {
   border: none;
   color: #fff;
   font-size: 16px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .deployment-result__button:hover {
@@ -426,7 +423,7 @@ export default {
 
   .el-table {
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     background-color: #f1f2f6;
     border-radius: 12px;
     box-shadow: 0 0 10px 1px #e5e5ee inset;

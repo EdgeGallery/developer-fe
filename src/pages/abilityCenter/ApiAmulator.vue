@@ -60,7 +60,6 @@
 
 <script>
 import API from '../api/API.vue'
-// import { Api } from '../../tools/api.js'
 
 export default {
   components: {
@@ -73,15 +72,6 @@ export default {
       apiFileId: this.$route.query.apiFileId,
       serviceId: this.$route.query.serviceId
     }
-  },
-  computed: {},
-  watch: {
-
-  },
-  methods: {
-
-  },
-  beforeMount () {
   }
 }
 </script>

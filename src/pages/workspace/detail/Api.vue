@@ -85,6 +85,7 @@
                   <img
                     class="oneLevelIcon"
                     :src="data.icon"
+                    alt=""
                   > {{ node.label }} </span>
               </el-tooltip>
             </span>
@@ -336,21 +337,7 @@ export default {
         Capability.getCapabilityByProjectId(projectId).then(result => {
           let capabilities = result.data
           this.hasService = capabilities.length > 0
-          capabilities.forEach(capability => {
-            capability.label = this.language === 'en' ? capability.nameEn : capability.name
-            capability.leaf = true
-            let groupId = capability.groupId
-            if (groupMap.has(groupId)) {
-              let group = groupMap.get(groupId)
-              capability.leaf = true
-              group.children.push(capability)
-            } else {
-              let group = capability.group
-              group.children = []
-              group.children.push(capability)
-              groupMap.set(capability.groupId, capability.group)
-            }
-          })
+          this.handleCapabilityData(capabilities, groupMap)
           let capabilityGroups = []
           groupMap.forEach((group, key) => {
             group.leaf = false
@@ -373,6 +360,41 @@ export default {
       if (node.level === 1) {
         return resolve(node.data.children)
       }
+    },
+    handleCapabilityByProjectId (result, groupMap) {
+      let capabilities = result.data
+      capabilities.forEach(capability => {
+        capability.label = this.language === 'en' ? capability.nameEn : capability.name
+        capability.leaf = true
+        let groupId = capability.groupId
+        if (groupMap.has(groupId)) {
+          let group = groupMap.get(groupId)
+          capability.leaf = true
+          group.children.push(capability)
+        } else {
+          let group = capability.group
+          group.children = []
+          group.children.push(capability)
+          groupMap.set(capability.groupId, capability.group)
+        }
+      })
+    },
+    handleCapabilityData (capabilities, groupMap) {
+      capabilities.forEach(capability => {
+        capability.label = this.language === 'en' ? capability.nameEn : capability.name
+        capability.leaf = true
+        let groupId = capability.groupId
+        if (groupMap.has(groupId)) {
+          let group = groupMap.get(groupId)
+          capability.leaf = true
+          group.children.push(capability)
+        } else {
+          let group = capability.group
+          group.children = []
+          group.children.push(capability)
+          groupMap.set(capability.groupId, capability.group)
+        }
+      })
     },
     expandRootNodeAndSelectFirstLeafNode () {
       let rootNodes = {}
@@ -429,22 +451,7 @@ export default {
         let projectId = sessionStorage.getItem('mecDetailID')
         let groupMap = new Map()
         Capability.getCapabilityByProjectId(projectId).then(result => {
-          let capabilities = result.data
-          capabilities.forEach(capability => {
-            capability.label = this.language === 'en' ? capability.nameEn : capability.name
-            capability.leaf = true
-            let groupId = capability.groupId
-            if (groupMap.has(groupId)) {
-              let group = groupMap.get(groupId)
-              capability.leaf = true
-              group.children.push(capability)
-            } else {
-              let group = capability.group
-              group.children = []
-              group.children.push(capability)
-              groupMap.set(capability.groupId, capability.group)
-            }
-          })
+          this.handleCapabilityByProjectId(result, groupMap)
         }).then(() => {
           Capability.getAllCapabilityGroup().then(result => {
             let groups = result.data
@@ -472,6 +479,9 @@ export default {
       }
       if (node.level > 1) return resolve([])
 
+      this.handleCapabilityByGroupId(node, resolve)
+    },
+    handleCapabilityByGroupId (node, resolve) {
       if (node.level === 1) {
         let groupId = node.data.id
         Capability.getCapabilityByGroupId(groupId).then(result => {
@@ -637,10 +647,7 @@ export default {
   },
   mounted () {
     this.tags = []
-    if (!this.showCapability && this.toDetailType === 'addNewPro') {
-      this.clickIsSelected = true
-      this.hasNoSelect = false
-    } else if (!this.showCapability && this.toDetailType === 'editNewPro') {
+    if ((!this.showCapability && this.toDetailType === 'addNewPro') || (!this.showCapability && this.toDetailType === 'editNewPro')) {
       this.clickIsSelected = true
       this.hasNoSelect = false
     } else {
@@ -711,7 +718,7 @@ export default {
     border: 0px;
   }
   .el-select-dropdown__item.selected {
-    color: #5844be;;
+    color: #5844be;
     font-weight: normal;
   }
   .el-icon-close:before {
@@ -805,11 +812,6 @@ export default {
     .el-tree-node__content {
       padding-left: 23px !important;
     }
-    .el-tree-node.is-expanded.is-focusable {
-      padding-right: 51px;
-      border-radius: 0 26px 26px 0;
-      padding-bottom: 15px;
-    }
     .el-tree-node__expand-icon.is-leaf {
       padding-left: 54px!important;
     }
@@ -826,14 +828,14 @@ export default {
         height: 35px;
       }
     }
-    .el-tree-node {
-      padding-top: 0px;
-      padding-bottom: 0px;
-      .el-tree-node__content {
-        height: 48px;
-      }
+
+    .el-tree-node .el-tree-node__content {
+      height: 48px;
     }
     .el-tree-node.is-expanded.is-focusable {
+      padding-right: 51px;
+      border-radius: 0 26px 26px 0;
+      padding-bottom: 15px;
       border-radius: 0 26px 26px 0;
       background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
     }
@@ -986,6 +988,8 @@ export default {
       border-radius: 8px;
     }
     .el-tree-node {
+      padding-top: 0px;
+      padding-bottom: 0px;
       .is-leaf + .el-checkbox .el-checkbox__inner {
         display:inline-block;
       }

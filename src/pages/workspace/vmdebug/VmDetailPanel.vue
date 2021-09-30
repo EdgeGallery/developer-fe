@@ -178,13 +178,13 @@ export default {
 
     .el-form-item__label {
       font-size: 16px;
-      font-family: defaultFont;
+      font-family: defaultFont, Arial, Helvetica, sans-serif;
       color: #380879;
     }
 
     .el-form-item__content {
       font-size: 16px;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       color: #380879;
       padding-top: 4px;
     }

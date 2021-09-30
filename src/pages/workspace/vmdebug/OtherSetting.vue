@@ -309,7 +309,7 @@ export default {
 
     .script-div {
       margin-top: 20px;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 
       .el-collapse-item__header {
         position: relative;
@@ -412,7 +412,7 @@ export default {
         border-radius: 5px;
         margin-bottom: 10px;
         padding: 3px 10px;
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         color: #FFF;
         background-color: #8278b7;
       }
@@ -431,7 +431,7 @@ export default {
       }
 
       .markdown-body pre code {
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         font-size: 14px;
       }
 

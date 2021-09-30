@@ -129,7 +129,7 @@ export default {
       color: #380879;
       padding-right: 24px;
       font-size: 16px;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
 
     .el-form-item__error {

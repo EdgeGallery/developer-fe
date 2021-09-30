@@ -145,14 +145,14 @@ export default {
 .deployment-test-envs-item__inner .envs-title {
   margin-top: 20px;
   color: #380879;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
 
 .deployment-test-envs-item__inner .envs-desc {
   margin-top: 5px;
   color: #380879;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 14px;
 }
 
@@ -168,7 +168,7 @@ export default {
   border-color: #8278b7;
   color: #fff;
   font-size: 16px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .deployment-button__wrapper .deploy-btn.is-disabled {
@@ -177,7 +177,7 @@ export default {
   border-radius: 8px;
   border-color: #b0a6e4;
   color: #fff !important;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .deployment-button__wrapper .deploy-btn.is-disabled:hover {

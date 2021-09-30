@@ -115,17 +115,18 @@ export default {
       this.capabilityServiceList = []
       if (index === 0) {
         Capability.getAllCapability().then(result => {
-          this.capabilityServiceList = result.data
-          this.$emit('getCapaServiceList', this.capabilityServiceList)
-          this.$parent.filterSefvice('hot')
+          this.handleCapabilityData(result)
         })
       } else {
         Capability.getCapabilityByGroupId(item.id).then(result => {
-          this.capabilityServiceList = result.data
-          this.$emit('getCapaServiceList', this.capabilityServiceList)
-          this.$parent.filterSefvice('hot')
+          this.handleCapabilityData(result)
         })
       }
+    },
+    handleCapabilityData (result) {
+      this.capabilityServiceList = result.data
+      this.$emit('getCapaServiceList', this.capabilityServiceList)
+      this.$parent.filterSefvice('hot')
     }
   }
 }

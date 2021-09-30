@@ -20,7 +20,7 @@
   border-radius: 8px;
   border:none;
   font-size: 18px;
-  font-family: defaultFontLight !important;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
   color: #FFFFFF;
   min-width: 150px;
   height: 40px;
@@ -60,7 +60,6 @@
 /* style for input */
 .work-input .el-input {
   height: 36px;
-  width: 400px;
   line-height: 36px;
   font-size: 16px;
   width: 100%;
@@ -71,7 +70,7 @@
   border: transparent !important;
   color: #380879;
   border-radius: 8px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .work-input .el-input.is-disabled  .el-input__inner{
@@ -114,7 +113,7 @@
 
 .work-radio .el-radio__label {
   color: #380879 !important;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
 
@@ -138,7 +137,7 @@
 
 /* style for radio-button */
 .work-radio-button .el-radio-button__inner {
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   background-color: #dedae9;
   color: #f7f6fa;
   border: none;
@@ -181,7 +180,7 @@
   height: 36px;
   line-height: 36px;
   border-radius: 8px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .work-select .el-input .el-input__inner::placeholder {
@@ -200,7 +199,7 @@
 /* style for static text */
 .work-p {
   font-size: 16px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   color: #380879;
   padding-top: 5px;
 }
@@ -220,7 +219,7 @@
   line-height: 47px;
   font-size: 20px;
   color: #380879;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   padding-left: 52px;
   /* box-shadow: 0 5px 20px 3px rgba(53, 34, 114, 0.05); */
 }
@@ -259,7 +258,7 @@
   border-radius: 12px;
   line-height: 47px;
   color: #380879;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   padding-left: 10px;
   transform-style: preserve-3d;
 }
@@ -290,7 +289,7 @@
   display: block;
   height: 35px;
   line-height: 35px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   background-color: #8379b8;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -299,7 +298,7 @@
 }
 
 .work-table .el-table {
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   background-color: #f1f2f6;
   border-radius: 0 0 12px 12px;
   box-shadow: 0 0 10px 1px #e5e5ee inset;

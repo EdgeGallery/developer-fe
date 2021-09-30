@@ -20,7 +20,10 @@
       v-if="status"
       class="result-item"
     >
-      <img :src="deploySuccessImg">
+      <img
+        :src="deploySuccessImg"
+        alt=""
+      >
       <div class="result-item__text">
         {{ $t('workspace.statusSuccess') }}
       </div>
@@ -29,7 +32,10 @@
       v-else
       class="result-item"
     >
-      <img :src="deployFailedImg">
+      <img
+        :src="deployFailedImg"
+        alt=""
+      >
       <div class="result-item__text">
         {{ $t('workspace.statusFail') }}
       </div>
@@ -88,13 +94,13 @@ export default {
   margin-bottom: 30px;
   color: #380879;
   font-size: 20px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .result-desc__item {
   margin-top: 10px;
   color: #380879;
   font-size: 14px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 </style>

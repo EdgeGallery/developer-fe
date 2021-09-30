@@ -58,7 +58,6 @@
 
 <script>
 import Document from '../api/Document.vue'
-// import { Api } from '../../tools/api.js'
 
 export default {
   components: {
@@ -74,19 +73,10 @@ export default {
       default: ''
     }
   },
-  data () {
-    return {
-
-    }
-  },
   computed: {
     refGuideFileId: function () {
       return this.$i18n.locale === 'en' ? this.$route.query.guideFileIdEn : this.$route.query.guideFileId
     }
-  },
-  methods: {
-  },
-  beforeMount () {
   }
 }
 </script>

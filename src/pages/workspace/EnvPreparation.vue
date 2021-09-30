@@ -17,28 +17,22 @@
 <template>
   <div class="envPreparation">
     <div>
-      <table class="table-content">
-        <!-- programTools -->
-        <tr>
-          <td
-            class="title-EnvPreparation"
+      <ul class="content_list">
+        <li class="clear">
+          <span
+            class="title-EnvPreparation lt"
             :class="{'enTitle':language==='en'}"
-          >
-            {{ $t('workspace.programTools') }}
-          </td>
-          <td class="pad fontUltraLight">
+          >{{ $t('workspace.programTools') }}</span>
+          <p class="pad fontUltraLight lt">
             {{ $t('workspace.prepare.toolTip') }}
-          </td>
-        </tr>
-        <!-- programPlugin -->
-        <tr>
-          <td
-            class="title-EnvPreparation"
+          </p>
+        </li>
+        <li class="clear">
+          <span
+            class="title-EnvPreparation lt"
             :class="{'enTitle':language==='en'}"
-          >
-            {{ $t('workspace.programPlugin') }}
-          </td>
-          <td class="pad fontUltraLight">
+          >{{ $t('workspace.programPlugin') }}</span>
+          <p class="pad fontUltraLight lt">
             {{ $t('workspace.prepare.pluginTip1') }}
             <a
               @click="jumpToProject"
@@ -48,17 +42,14 @@
             >{{ $t('workspace.prepare.pluginTip2') }}
             </a>
             {{ $t('workspace.prepare.pluginTip3') }}
-          </td>
-        </tr>
-        <!-- sampleCode -->
-        <tr>
-          <td
-            class="title-EnvPreparation"
+          </p>
+        </li>
+        <li class="clear">
+          <span
+            class="title-EnvPreparation lt"
             :class="{'enTitle':language==='en'}"
-          >
-            {{ $t('workspace.sampleCode') }}
-          </td>
-          <td class="pad fontUltraLight">
+          >{{ $t('workspace.sampleCode') }}</span>
+          <p class="pad fontUltraLight lt">
             {{ $t('workspace.prepare.codeTip1') }}
             <a
               @click="downloadSampleCode"
@@ -69,9 +60,9 @@
             >{{ $t('workspace.prepare.codeTip2') }}
             </a>
             {{ $t('workspace.prepare.codeTip3') }}
-          </td>
-        </tr>
-      </table>
+          </p>
+        </li>
+      </ul>
       <el-row
         class="code_div"
         v-show="serviceNum!==0"
@@ -205,6 +196,12 @@ export default {
 
 <style lang="less">
 .envPreparation{
+  .content_list{
+    width: 100%;
+    li{
+      margin-top: 10px;
+    }
+  }
   .title-EnvPreparation{
     color: #5e40c8;
     font-size: 16px;
@@ -221,10 +218,11 @@ export default {
     }
   }
   .pad {
-    padding-left: 13px;
+    padding-left: 15px;
     font-size: 16px;
     color: #5e40c8;
     padding-bottom: 1px;
+    width: calc(100% - 64px);
     .link{
       cursor: pointer;
       color: #5e40c8;
