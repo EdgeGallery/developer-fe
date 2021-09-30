@@ -864,6 +864,7 @@ const en = {
       beginTime: 'Upload Time(Begin)',
       endTime: 'Upload Time(End)',
       slimming: 'Slimming',
+      imageSize: 'Image Size',
       typeValue: {
         public: 'Public',
         private: 'Private',

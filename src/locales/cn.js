@@ -864,6 +864,7 @@ const cn = {
       beginTime: '上传时间（起始）',
       endTime: '上传时间（结束）',
       slimming: '瘦身',
+      imageSize: '镜像大小',
       typeValue: {
         public: '公共',
         private: '私有',

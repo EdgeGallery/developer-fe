@@ -663,7 +663,7 @@ export default {
         }
       ],
       trafficRule: JSON.parse(JSON.stringify(this.editRuleDataprop)),
-      filterTableData: [],
+      filterTableData: JSON.parse(JSON.stringify(this.editRuleDataprop)).trafficFilter || [],
       trafficFilter: {
         srcAddress: '',
         srcPort: '',
@@ -710,19 +710,6 @@ export default {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
     },
-    // Fetch rule list
-    getAllListData () {
-      if (sessionStorage.getItem('filterData')) {
-        this.filterTableData = JSON.parse(sessionStorage.getItem('filterData'))
-      } else {
-        this.filterTableData = []
-      }
-      if (sessionStorage.getItem('interfaceData')) {
-        this.interfaceTableData = JSON.parse(sessionStorage.getItem('interfaceData'))
-      } else {
-        this.interfaceTableData = []
-      }
-    },
     addNewFilter () {
       this.trafficFilter = {
         srcAddress: '0.0.0.0/0',
@@ -766,7 +753,6 @@ export default {
         this.filterTableData.splice(this.editIndex, 1, data)
       }
       this.innerFilterVisible = false
-      sessionStorage.setItem('filterData', JSON.stringify(this.filterTableData))
     },
     confirmToAddInterface () {
       let data = JSON.parse(JSON.stringify(this.dstInterface))
@@ -776,7 +762,6 @@ export default {
         this.interfaceTableData.splice(this.editIndex, 1, data)
       }
       this.innerInterfaceVisible = false
-      sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     modifyFilterLines (index, rows) {
       this.addType = 2
@@ -795,12 +780,10 @@ export default {
     deleteFilterLines (index, rows) {
       this.filterTableData.splice(index, 1)
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
-      sessionStorage.setItem('filterData', JSON.stringify(this.filterTableData))
     },
     deleteInterfaceLines (index, rows) {
       this.interfaceTableData.splice(index, 1)
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
-      sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     cancelEditFilter () {
       this.innerFilterVisible = false
@@ -818,9 +801,6 @@ export default {
       this.$emit('getAddTrafficData', this.trafficRule)
       this.handleClose()
     }
-  },
-  mounted () {
-    this.getAllListData()
   }
 }
 </script>
