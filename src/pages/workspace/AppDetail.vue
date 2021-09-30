@@ -542,11 +542,7 @@ export default {
         Workspace.newProjectApi(this.userId, params).then(res => {
           this.handleNewProject(res)
         }).catch(err => {
-          if (err.response.data.message === 'the same project exists') {
-            this.$eg_messagebox(this.$t('workspace.projectExist'), 'warning')
-          }
-          this.uploadBtnLoading = false
-          sessionStorage.removeItem('apiFileIdArr')
+          this.handleErrorFun(err)
         })
       }
     },
