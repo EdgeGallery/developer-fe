@@ -669,6 +669,7 @@ export default {
         // edit
         data.capabilityList = []
         this.allFormData['first'] = data
+        this.allFormData['first'].defaultActive = ''
         this.iconFileId = data.iconFileId
 
         this.checkProjectData()

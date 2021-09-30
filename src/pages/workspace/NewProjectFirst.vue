@@ -379,11 +379,21 @@ export default {
           this.logoFileList = []
           this.changeIcon(this.allStepData.first.type)
         } else {
-          this.logoFileList = this.form.appIcon
-          let iconUrl = this.getIcon(this.iconFileIdProp)
-          let currUrl = window.location.origin
-          this.logoFileList[0].url = currUrl + iconUrl
-          this.handleChangeLogo(this.logoFileList[0])
+          if (this.form.appIcon) {
+            this.logoFileList = this.form.appIcon
+            let iconUrl = this.getIcon(this.iconFileIdProp)
+            let currUrl = window.location.origin
+            this.logoFileList[0].url = currUrl + iconUrl
+            this.handleChangeLogo(this.logoFileList[0])
+          } else {
+            let obj = {}
+            let iconUrl = this.getIcon(this.iconFileIdProp)
+            let currUrl = window.location.origin
+            obj.url = currUrl + iconUrl
+            this.logoFileList.push(obj)
+            this.uploadIcon = true
+            this.form.appIcon = this.logoFileList
+          }
         }
       } else {
         this.chooseDefaultIcon(this.defaultIcon[0], 0)
@@ -451,7 +461,7 @@ export default {
       this.logoFileList = []
       this.form.defaultActive = ''
       if (file) {
-        if (file.raw.name.indexOf(' ') !== -1) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.$eg_messagebox(this.$t('promptMessage.fileNameType'), 'warning')
           this.logoFileList = []
         } else {
@@ -603,6 +613,11 @@ export default {
 <style lang="less">
 .click-disable {
   pointer-events: none;
+}
+.firststep {
+  .el-upload-list__item.is-success .el-upload-list__item-status-label {
+    display: none;
+  }
 }
 
 </style>
