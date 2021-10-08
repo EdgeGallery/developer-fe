@@ -418,7 +418,7 @@ const en = {
     detail: 'Detail',
     statusNew: 'New Project',
     statusDeploying: 'Deploying',
-    statusSuccess: 'Deploy Success',
+    statusSuccess: 'Deploy Finished',
     statusFail: 'Deploy Failed',
     statusTesting: 'Testing',
     statusTested: 'Tested',
