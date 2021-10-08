@@ -55,6 +55,8 @@ const en = {
     vendor: 'factory',
     version: 'vison',
     status: 'state',
+    username: 'user Name',
+    password: 'password',
     operation: 'operation',
     delete: 'delete',
     edit: 'edit',
@@ -70,6 +72,8 @@ const en = {
     tootipVersion: 'Please enter version information',
     tooltipRegion: 'Please enter deployment area',
     tooltipVendor: 'Please enter the vendor ',
+    tooltipUsername: 'Please enter the username',
+    tooltipPassword: 'Please enter the password',
     addStstemSucess: 'New message succeeded!',
     updateStstemSucess: 'Update succeeded!'
   },

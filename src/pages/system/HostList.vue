@@ -73,7 +73,7 @@
         <span
           slot="footer"
           class="dialog-footer mt20"
-          style="paddingRight:0 !important"
+          :style="{paddingRight:'0 !important'}"
         >
           <el-button
             id="btn_close"
@@ -460,13 +460,6 @@
             <el-button
               :loading="loading"
               class="operations_btn"
-              @click="getLogData(scope.row)"
-            >
-              {{ $t('devTools.detail') }}
-            </el-button>
-            <el-button
-              :loading="loading"
-              class="operations_btn"
               @click="handleShowForm(scope.row)"
             >
               {{ $t('api.modify') }}
@@ -565,7 +558,7 @@ export default {
       }
     }
     const validateAddress = (rule, value, callback) => {
-      let reg = /^(?!\s)[\u4E00-\u9FA5a-zA-Z0-9\s/]{0,127}(\S$)$/
+      let reg = /^(?!\s)(?!.*?\s$)[\u4E00-\u9FA5a-zA-Z0-9\s/]{1,128}$/
       if (!value) {
         callback(new Error(`${this.$t('system.pleaseInput')}${this.$t('system.address')}`))
       } else if (!reg.test(value)) {
@@ -825,16 +818,6 @@ export default {
       System.getHosts({ name: this.enterQuery, offset: this.offsetPage, limit: this.limitSize }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
-      }).finally(() => {
-        this.loading = false
-      })
-    },
-    getLogData ({ hostId }) {
-      this.loading = true
-      System.getLogData(hostId).then(res => {
-        this.logData = res.data || []
-        this.showLog = true
-        this.visible = true
       }).finally(() => {
         this.loading = false
       })

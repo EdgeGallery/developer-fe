@@ -663,7 +663,7 @@ export default {
         }
       ],
       trafficRule: JSON.parse(JSON.stringify(this.editRuleDataprop)),
-      filterTableData: [],
+      filterTableData: JSON.parse(JSON.stringify(this.editRuleDataprop)).trafficFilter || [],
       trafficFilter: {
         srcAddress: '',
         srcPort: '',
@@ -710,19 +710,6 @@ export default {
       this.$emit('closeFatherDialog', false)
       this.$emit('input', false)
     },
-    // Fetch rule list
-    getAllListData () {
-      if (sessionStorage.getItem('filterData')) {
-        this.filterTableData = JSON.parse(sessionStorage.getItem('filterData'))
-      } else {
-        this.filterTableData = []
-      }
-      if (sessionStorage.getItem('interfaceData')) {
-        this.interfaceTableData = JSON.parse(sessionStorage.getItem('interfaceData'))
-      } else {
-        this.interfaceTableData = []
-      }
-    },
     addNewFilter () {
       this.trafficFilter = {
         srcAddress: '0.0.0.0/0',
@@ -766,7 +753,6 @@ export default {
         this.filterTableData.splice(this.editIndex, 1, data)
       }
       this.innerFilterVisible = false
-      sessionStorage.setItem('filterData', JSON.stringify(this.filterTableData))
     },
     confirmToAddInterface () {
       let data = JSON.parse(JSON.stringify(this.dstInterface))
@@ -776,7 +762,6 @@ export default {
         this.interfaceTableData.splice(this.editIndex, 1, data)
       }
       this.innerInterfaceVisible = false
-      sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     modifyFilterLines (index, rows) {
       this.addType = 2
@@ -795,12 +780,10 @@ export default {
     deleteFilterLines (index, rows) {
       this.filterTableData.splice(index, 1)
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
-      sessionStorage.setItem('filterData', JSON.stringify(this.filterTableData))
     },
     deleteInterfaceLines (index, rows) {
       this.interfaceTableData.splice(index, 1)
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
-      sessionStorage.setItem('interfaceData', JSON.stringify(this.interfaceTableData))
     },
     cancelEditFilter () {
       this.innerFilterVisible = false
@@ -818,9 +801,6 @@ export default {
       this.$emit('getAddTrafficData', this.trafficRule)
       this.handleClose()
     }
-  },
-  mounted () {
-    this.getAllListData()
   }
 }
 </script>
@@ -922,7 +902,7 @@ export default {
     padding-right:8px;
   }
   .el-input__inner{
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-size:16px;
     color:#5743bc;
     width:90%;
@@ -1009,25 +989,26 @@ export default {
     font-weight:500;
     color:#62517a;
   }
-  .el-table__header-wrapper{
+  .el-table__header-wrapper {
     border-radius:0px;
   }
-  .el-table th>.cell{
+  .el-table th>.cell {
     padding-left:0px;
     padding-right:0px;
   }
-  .el-table--scrollable-x .el-table__body-wrapper{    -index:9;
+  .el-table--scrollable-x .el-table__body-wrapper {
+    z-index:9;
     background-color: #f1f2f6;
     border-radius: 0 0 12px 12px;
     box-shadow: inset 0px 0px 0px 0px #000, inset 0px -20px 27px -19px #d9d9dc;
   }
   .el-table__body-wrapper::-webkit-scrollbar {
     height:5px; /* Chrome Safari */
-    }
- .el-table__fixed::before, .el-table__fixed-right::before{
-  height:0px !important;
-}
-  .forwardInterfaceIcon{
+  }
+  .el-table__fixed::before, .el-table__fixed-right::before {
+    height:0px !important;
+  }
+  .forwardInterfaceIcon {
     right:100%;
   }
 

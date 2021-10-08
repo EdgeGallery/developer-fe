@@ -40,7 +40,7 @@ const messageBoxComp = function (desc, type, cancelText, confirmText) {
 }
 
 export default {
-  install: (Vue) => {
-    Vue.prototype.$eg_messagebox = messageBoxComp
+  install: (Vues) => {
+    Vues.prototype.$eg_messagebox = messageBoxComp
   }
 }

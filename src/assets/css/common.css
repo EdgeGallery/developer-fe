@@ -195,7 +195,7 @@ li{
 }
 .el-button.featuresBtn{
   font-size: 14px !important;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   background: #8a75d5 !important;
   border: none;
   color: #ffffff !important;
@@ -219,7 +219,7 @@ li{
   border: none;
   color: #fff;
   border-radius: 10px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 .el-button.confirm{
   background: #688ef3;
@@ -246,7 +246,7 @@ li{
   width: 50% !important;
 }
 .default_dialog .el-dialog{
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   background: #efefef;
   border-radius: 12px;
 }
@@ -471,7 +471,7 @@ body::-webkit-scrollbar-thumb{
 }
 .uploader-btn{
   font-size: 14px!important;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   background: #a59fc9!important;
   border: 0px !important;
   color: #fff!important;

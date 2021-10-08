@@ -34,7 +34,7 @@
           {{ $t('workspace.configYaml.uploadYamlTip') }}
         </div>
         <el-upload
-          class="uploader"
+          class="config-yaml-uploader"
           action=""
           :on-change="handleChangeYaml"
           :limit="1"
@@ -61,12 +61,15 @@
           </a>
         </el-upload>
         <div v-show="hasValidate">
-          <div :class="appYamlFileId ? 'green test tit' : 'red test tit'">
+          <div
+            v-if="!showResult"
+            :class="appYamlFileId ? 'green test tit' : 'red test tit'"
+          >
             {{ appYamlFileId ? $t('workspace.configYaml.pass') : $t('workspace.configYaml.fail') }}
           </div>
           <div
+            v-if="showResult"
             class="test tit"
-            v-show="showResult"
           >
             <div :class="checkFlag.formatSuccess ? 'green test' : 'red test'">
               {{ $t('workspace.configYaml.format') }}
@@ -131,7 +134,7 @@
             :subfield="false"
             default-open="preview"
             :box-shadow="false"
-            preview-background="#ffffff"
+            preview-background="#1e1e1e"
           />
         </div>
       </div>
@@ -273,7 +276,6 @@ export default {
           this.yamlFileList = yamlFileList
           this.appYamlFileId = res.data.fileId
           this.markdownSource = '```yaml\r\n' + res.data.fileContent + '\r\n```'
-          this.setApiHeight()
           this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
         } else {
           this.fileUploadSuccess = false
@@ -299,7 +301,7 @@ export default {
             this.$t('common.confirm')
           ).then(() => {
             this.jumpToImageList()
-          }).catch(() => {})
+          })
         }
         this.appYamlFileId = ''
         this.yamlFileList = []
@@ -346,7 +348,6 @@ export default {
             this.appYamlFileId = data.fileId
             this.showResult = false
             this.markdownSource = '```yaml\r\n' + data.content + '\r\n```'
-            this.setApiHeight()
           } else {
             this.yamlFileList = []
             this.hasValidate = false
@@ -361,15 +362,6 @@ export default {
           this.markdownSource = ''
         })
       }
-    },
-    setApiHeight () {
-      this.$nextTick(() => {
-        const oDiv = document.getElementsByClassName('yaml_content')[0]
-        const deviceHeight = document.documentElement.clientHeight
-        if (oDiv) {
-          oDiv.style.height = Number(deviceHeight) * 0.6 + 'px'
-        }
-      })
     },
     getConfigVisual (val) {
       this.appYamlFileId = val
@@ -415,47 +407,49 @@ export default {
 
   .config-yaml__text {
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #380879;
   }
 
   .yaml_content{
-    white-space: pre-wrap;
-    margin: 30px -47px -66px -92px;
-    overflow: auto;
-    max-height: 300px;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
-
-    .v-note-wrapper{
-      border: none;
-    }
-
-    .v-show-content {
-      padding: 0 !important;
-    }
-
-    .v-note-wrapper .v-note-panel .v-note-show{
-      overflow: hidden;
-      .hljs, pre{
-        background: #1e1e1e;
-        color: #fff;
-      }
-    }
-
-    .markdown-body .highlight pre, .markdown-body pre {
-      border-radius: 0;
-      margin-bottom: -50px;
-    }
+    margin: 30px -40px -46px -92px;
+    height: 300px !important;
   }
 
-  .uploader {
+  .yaml_content .v-note-wrapper {
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .yaml_content .v-note-wrapper .v-note-panel {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  .yaml_content .v-show-content {
+    font-size: 14px;
+  }
+
+  .yaml_content .v-show-content pre {
+    padding: 16px 30px;
+    margin-bottom: 20px;
+    background-color: #1e1e1e;
+  }
+
+  .yaml_content .hljs {
+    background-color: #1e1e1e;
+    color: #eee;
+    line-height: 1.8;
+    padding: 0;
+  }
+
+  .config-yaml-uploader {
     margin-top: 15px;
     margin-left: -10px;
     background-color: transparent;
 
     .el-upload-list {
-      margin: 0 10px 20px;
+      margin: 0 10px 10px;
     }
 
     .el-upload-list::after {
@@ -468,21 +462,17 @@ export default {
       display: none;
     }
 
+    .el-upload-list__item:hover {
+      background-color: transparent;
+    }
+
     .el-upload-list__item-name {
       padding-left: 20px;
       padding-right: 20px;
       box-shadow: 0 0 15px 2px #dedeea inset;
       border-radius: 8px;
       color: #7965e0;
-    }
-
-    .el-upload-list__item:hover {
-      background-color: transparent;
-    }
-
-    .el-upload-list__item-name {
       font-size: 14px;
-      color: #7965e0;
     }
 
     .el-upload-list__item-name:hover {
@@ -511,7 +501,7 @@ export default {
       height: 39px;
       line-height: 39px;
       font-size: 16px;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       border: none;
       border-radius: 8px;
       color: #ffffff;
@@ -526,11 +516,13 @@ export default {
   }
 
   .test.tit:first-child {
-    display: none;
+    display: block;
+    color: #380879;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .test.tit {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .test.tit .test {
@@ -538,7 +530,7 @@ export default {
     margin-right: 15px;
     margin-top: 10px;
     font-size: 15px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #380879;
   }
 

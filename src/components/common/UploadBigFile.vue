@@ -125,7 +125,7 @@ export default {
     background-color: #8278b7;
     border: none;
     border-radius: 8px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .uploader-btn:hover {
@@ -135,7 +135,7 @@ export default {
 
   .uploader-file {
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .uploader-example .uploader-list {

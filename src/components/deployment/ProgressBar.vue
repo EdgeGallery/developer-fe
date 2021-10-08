@@ -30,16 +30,16 @@
         :key="item"
         class="label__item"
       >
-        <i
+        <em
           v-if="statusList[index] === 0"
           class="label__icon el-icon-loading"
         />
-        <i
+        <em
           v-if="statusList[index] === 1"
           class="label__icon el-icon-success"
           style="color:#3ac372"
         />
-        <i
+        <em
           v-if="statusList[index] === 2"
           class="label__icon el-icon-error"
           style="color:#f23d3d"
@@ -170,7 +170,7 @@ export default {
   width: calc(540px / 4);
   color: #380879;
   font-size: 14px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .work-progress .en .label__item {
@@ -180,7 +180,7 @@ export default {
   width: calc(740px / 4);
   color: #380879;
   font-size: 14px;
-  font-family: defaultFontLight;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
 }
 
 .label__text {

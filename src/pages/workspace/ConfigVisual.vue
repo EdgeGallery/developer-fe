@@ -24,7 +24,7 @@
           type="primary"
           @click="addPod"
         >
-          <i class="el-icon-circle-plus-outline" /><span>Pod</span>
+          <em class="el-icon-circle-plus-outline" /><span>Pod</span>
         </el-button>
       </div>
       <div
@@ -79,15 +79,6 @@
               />
             </el-form-item>
             <el-form-item
-              label="namespace"
-            >
-              <el-input
-                v-model="itemPod.metadata.namespace"
-                placeholder="default"
-                :disabled="true"
-              />
-            </el-form-item>
-            <el-form-item
               label="kind"
             >
               <el-input
@@ -105,7 +96,7 @@
               type="primary"
               @click="addContainer(indexPod)"
             >
-              <i class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.visualConfig.workContainer') }}</span>
+              <em class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.visualConfig.workContainer') }}</span>
             </el-button>
           </div>
           <div
@@ -265,7 +256,7 @@
                       class="resources-wrapper__header-arrow"
                       @click="changeResourceDisplayStatus(itemContainer)"
                     >
-                      <i
+                      <em
                         class="el-icon-arrow-down"
                         :class="[itemContainer.showResource ? 'up': 'down']"
                       />
@@ -352,7 +343,7 @@
           type="primary"
           @click="addService"
         >
-          <i class="el-icon-circle-plus-outline" /><span>Service</span>
+          <em class="el-icon-circle-plus-outline" /><span>Service</span>
         </el-button>
       </div>
       <div
@@ -415,15 +406,6 @@
               />
             </el-form-item>
             <el-form-item
-              label="namespace"
-            >
-              <el-input
-                v-model="itemService.metadata.namespace"
-                placeholder="default"
-                :disabled="true"
-              />
-            </el-form-item>
-            <el-form-item
               :label="$t('system.type')"
             >
               <el-input
@@ -439,7 +421,7 @@
               type="primary"
               @click="addServicePort(indexService)"
             >
-              <i class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.port') }}</span>
+              <em class="el-icon-circle-plus-outline" /><span>{{ $t('workspace.port') }}</span>
             </el-button>
           </div>
           <div
@@ -588,9 +570,9 @@
         </el-button>
         <el-button
           type="primary"
-          @click="configEditFile"
+          @click="cancelEditFile"
         >
-          {{ $t('common.confirm') }}
+          {{ $t('common.cancel') }}
         </el-button>
       </span>
     </el-dialog>
@@ -620,7 +602,6 @@ export default {
           metadata: {
             name: '',
             showName: false,
-            namespace: 'default',
             labels: {
               app: ''
             }
@@ -669,7 +650,6 @@ export default {
           metadata: {
             name: '',
             showName: false,
-            namespace: 'default',
             labels: {
               svc: ''
             }
@@ -742,7 +722,6 @@ export default {
         metadata: {
           name: '',
           showName: false,
-          namespace: 'default',
           labels: {
             app: ''
           }
@@ -839,7 +818,6 @@ export default {
         metadata: {
           name: '',
           showName: false,
-          namespace: 'default',
           labels: {
             svc: ''
           }
@@ -1168,14 +1146,18 @@ export default {
         podItem.spec.containers.splice(containerIndex, 1)
       }
     },
+    /* Set the height of visual configuration detail panel according to the current window height. */
     setApiHeight () {
       this.$nextTick(() => {
         const oDiv = document.getElementsByClassName('el-dialog')[0]
         const deviceHeight = document.documentElement.clientHeight
-        oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
-        const oDiv2 = document.getElementsByClassName('file-content')[0]
-        if (oDiv2) {
-          oDiv2.style.height = Number(deviceHeight) * 0.75 - 155 + 'px'
+        if (oDiv) {
+          oDiv.style.height = Number(deviceHeight) * 0.75 + 'px'
+        }
+
+        const fileContentDiv = document.getElementsByClassName('file-content')[0]
+        if (fileContentDiv) {
+          fileContentDiv.style.height = Number(deviceHeight) * 0.75 - 200 + 'px'
         }
       })
     },
@@ -1207,7 +1189,7 @@ export default {
         }
       })
     },
-    configEditFile () {
+    cancelEditFile () {
       this.dialogVisible = false
       this.isEditFile = false
     },
@@ -1252,7 +1234,7 @@ export default {
     background-color: #b9b5d6;
     border: none;
     border-radius: 8px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     margin-top: 10px;
   }
 
@@ -1286,7 +1268,7 @@ export default {
 
   /* style for all the el-input elements. */
   .el-input__inner {
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   /* style for pod related elements. */
@@ -1298,7 +1280,7 @@ export default {
     border: none;
     padding: 0;
     margin-top: 40px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .pod-content-basic__header {
@@ -1314,7 +1296,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1352,7 +1334,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1400,11 +1382,11 @@ export default {
     background-color: #7b71b1;
     border-color: #7b71b1;
     border-radius: 8px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .resources-wrapper {
-      width: 100%;
+      // width: 100%;
       margin: 0 20px;
       padding: 10px 20px;
       background-color: #e9ebf1;
@@ -1421,7 +1403,7 @@ export default {
   .resources-wrapper__header-title {
     float: left;
     color: #380879;
-    font: defaultFont;
+    font: defaultFont, Arial, Helvetica, sans-serif;
     font-size: 18px;
   }
 
@@ -1504,7 +1486,7 @@ export default {
     border: none;
     padding: 0;
     margin-top: 40px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 
   .service-content-basic__header {
@@ -1520,7 +1502,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1558,7 +1540,7 @@ export default {
     padding-left: 15px;
     float:left;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-weight: normal;
   }
 
@@ -1583,7 +1565,7 @@ export default {
     background-color: #8278b7;
     border-color: #8278b7;
     color: #fff;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-size: 16px;
     height: 40px;
     padding: 0 40px;
@@ -1594,11 +1576,12 @@ export default {
   height: 100%;
 
   .el-dialog {
-    margin-top: 12% !important;
+    margin-top: 200px;
     padding: 20px;
     border-radius: 12px;
     width: 50%;
-    height: 520px !important;
+    min-width: 800px;
+    height: 520px;
     background-color: #efefef;
   }
 
@@ -1614,14 +1597,18 @@ export default {
     height: 17px;
     width: 17px;
     border-radius: 3px;
-    background-image: linear-gradient(to top right, rgba(85, 216, 191), rgba(85, 216, 191, 0.2));
+    background-image: linear-gradient(to top right, rgb(85, 216, 191), rgba(85, 216, 191, 0.2));
   }
 
   .el-dialog__title {
     margin-left: 20px;
     color: #380879 !important;
     font-size: 20px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+  }
+
+  .el-dialog__body {
+    height: 380px;
   }
 
   .el-dialog__close {
@@ -1631,31 +1618,46 @@ export default {
   .file-content {
     margin-left: 35px;
     margin-right: 40px;
+    height: 320px;
+  }
+
+  .v-note-wrapper {
+    height: 100%;
     border-radius: 8px;
   }
 
   .v-note-wrapper .v-note-panel {
+    display: block;
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
   }
 
-  .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
-    height: 320px;
+  .v-note-wrapper .v-note-panel .v-note-edit {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .v-note-wrapper .v-note-panel  .content-input-wrapper {
-    height: 320px;
+  .v-note-wrapper .v-note-panel .v-note-show {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .markdown-body {
-    height: 320px;
-  }
-
-  .markdown-body .highlight pre, .markdown-body pre {
-    background-color: transparent;
+  .v-show-content {
+    font-size: 14px;
   }
 
   .hljs {
     background-color: transparent;
+  }
+
+  .v-show-content pre {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    line-height: 1.7;
   }
 
   .el-dialog__footer {
@@ -1670,7 +1672,7 @@ export default {
     border: none;
     color: #fff;
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   }
 }
 

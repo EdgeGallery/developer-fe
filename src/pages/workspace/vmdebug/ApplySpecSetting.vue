@@ -117,7 +117,7 @@
               v-model="imageType"
               label="public"
               class="work-radio image-type"
-              @change="handleChangeImgType"
+              @change="handleChangeImgType()"
             >
               <div class="work-p">
                 {{ $t('workspace.deployDebugVm.publicImage') }}
@@ -125,7 +125,7 @@
             </el-radio>
             <el-select
               class="work-select system-type"
-              v-model="selectedOSName"
+              v-model="selectedData.public.selectedOSName"
               :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
               @change="handleChangeOSName"
               :disabled="imageType === 'private'"
@@ -139,7 +139,7 @@
             </el-select>
             <el-select
               class="work-select system-image"
-              v-model="selectedSystemId"
+              v-model="selectedData.public.selectedSystemId"
               :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
               :disabled="imageType === 'private'"
             >
@@ -156,7 +156,7 @@
               v-model="imageType"
               label="private"
               class="work-radio image-type"
-              @change="handleChangeImgType"
+              @change="handleChangeImgType()"
             >
               <div class="work-p">
                 {{ $t('workspace.deployDebugVm.privateImage') }}
@@ -164,7 +164,7 @@
             </el-radio>
             <el-select
               class="work-select system-type"
-              v-model="selectedOSName"
+              v-model="selectedData.private.selectedOSName"
               :placeholder="$t('workspace.deployDebugVm.selectVmSystemTypeTip')"
               @change="handleChangeOSName"
               :disabled="imageType === 'public'"
@@ -178,7 +178,7 @@
             </el-select>
             <el-select
               class="work-select system-image"
-              v-model="selectedSystemId"
+              v-model="selectedData.private.selectedSystemId"
               :placeholder="$t('workspace.deployDebugVm.selectVmSystemImageTip')"
               :disabled="imageType === 'public'"
             >
@@ -221,9 +221,17 @@ export default {
 
       imageType: this.allStepData.specSetting ? this.allStepData.specSetting.imageType : 'public',
       osNameOptionList: ['', ''],
-      selectedOSName: this.allStepData.specSetting ? this.allStepData.specSetting.selectedOSName : '',
       operateSystemOptionList: [],
-      selectedSystemId: this.allStepData.specSetting ? this.allStepData.specSetting.selectedSystemId : ''
+      selectedData: {
+        private: {
+          selectedOSName: '',
+          selectedSystemId: ''
+        },
+        public: {
+          selectedOSName: '',
+          selectedSystemId: ''
+        }
+      }
     }
   },
   watch: {
@@ -232,6 +240,24 @@ export default {
     }
   },
   methods: {
+    initData () {
+      this.selectedData[this.imageType].selectedOSName = this.allStepData.specSetting ? this.allStepData.specSetting.selectedOSName : ''
+      this.selectedData[this.imageType].selectedSystemId = this.allStepData.specSetting ? this.allStepData.specSetting.selectedSystemId : ''
+    },
+    resetData (imageType = 'public', selectedOSName = '', selectedSystemId = '') {
+      this.selectedData = {
+        private: {
+          selectedOSName: '',
+          selectedSystemId: ''
+        },
+        public: {
+          selectedOSName: '',
+          selectedSystemId: ''
+        }
+      }
+      this.selectedData[imageType].selectedOSName = selectedOSName
+      this.selectedData[imageType].selectedSystemId = selectedSystemId
+    },
     emitStepData (isNext) {
       let canNext = false
       if (isNext) {
@@ -242,8 +268,8 @@ export default {
         'archType': this.archType,
         'selectedRegulationId': this.selectedRegulationId,
         'imageType': this.imageType,
-        'selectedOSName': this.selectedOSName,
-        'selectedSystemId': this.selectedSystemId
+        'selectedOSName': this.selectedData[this.imageType].selectedOSName,
+        'selectedSystemId': this.selectedData[this.imageType].selectedSystemId
       }
       this.$emit('getStepData', { step: 'specSetting', data, canNext })
     },
@@ -252,7 +278,7 @@ export default {
         this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'), 'warning')
         return false
       }
-      if (this.selectedSystemId === '') {
+      if (this.selectedData[this.imageType].selectedSystemId === '') {
         this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'), 'warning')
         return false
       }
@@ -266,10 +292,9 @@ export default {
       this.vmRegulationDataList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.archType)
     },
     handleChangeImgType () {
+      this.resetData(this.imageType)
       this.filterOSName()
       this.operateSystemOptionList = []
-      this.selectedOSName = ''
-      this.selectedSystemId = ''
     },
     filterOSName () {
       this.osNameOptionList = uniqueArray(this.vmConfigData.vmSystemList.filter(item => item.type === this.imageType)
@@ -277,20 +302,21 @@ export default {
     },
     handleChangeOSName () {
       this.filterOperateSystemOption()
-      this.selectedSystemId = ''
+      this.resetData(this.imageType, this.selectedData[this.imageType].selectedOSName)
     },
     filterOperateSystemOption () {
-      if (this.selectedOSName === '') {
+      if (this.selectedData[this.imageType].selectedOSName === '') {
         return
       }
-      this.operateSystemOptionList = this.vmConfigData.vmSystemList.filter(item => item.type === this.imageType && item.operateSystem === this.selectedOSName)
-        .map(item => {
-          return {
-            'systemId': item.systemId,
-            'label': item.systemName + '[' + item.operateSystem + ' ' + item.version + ' ' + item.systemBit + '(' + item.systemDisk + 'GB)]'
-          }
+
+      this.operateSystemOptionList = this.vmConfigData.vmSystemList.filter(
+        item => item.type === this.imageType && item.operateSystem === this.selectedData[this.imageType].selectedOSName
+      ).map(item => {
+        return {
+          'systemId': item.systemId,
+          'label': item.systemName + '[' + item.operateSystem + ' ' + item.version + ' ' + item.systemBit + '(' + item.systemDisk + 'GB)]'
         }
-        )
+      })
     },
     appendCPUUnit (row) {
       return row.cpu + 'vCPU'
@@ -300,6 +326,7 @@ export default {
     }
   },
   mounted () {
+    this.initData()
     this.filterVmRegulation()
     this.filterOSName()
     this.filterOperateSystemOption()

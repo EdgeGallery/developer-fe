@@ -180,11 +180,9 @@ export default {
     // message listener, message from unified platform
     window.addEventListener('message', (event) => {
       var data = event.data
-      switch (data.cmd) {
-        case 'iframeLanguageChange':
-          let lang = data.params.lang
-          this.changeLange(lang)
-          break
+      if (data.cmd === 'iframeLanguageChange') {
+        let lang = data.params.lang
+        this.changeLange(lang)
       }
     })
     // When window size changes, adjust the value of screenHeight
@@ -259,6 +257,10 @@ export default {
           } else {
             _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
           }
+        }
+        if (_thisObj.ifGuest) {
+          window.location.reload()
+          return
         }
         _thisObj.$confirm(_hintInfo, _thisObj.$t('promptMessage.prompt'), {
           confirmButtonText: _thisObj.$t('nav.reLogin'),
@@ -336,21 +338,11 @@ export default {
         this.languageIcon = require('../../assets/images/nav_en.png')
         language = 'cn'
         this.jsonData = navDataCn.mecDeveloper
-      } else if (lang === 'en') {
+      } else if (lang === 'en' || this.language === 'En') {
         this.language = 'Cn'
         this.languageIcon = require('../../assets/images/nav_cn.png')
         language = 'en'
         this.jsonData = navData.mecDeveloper
-      } else if (this.language === 'En') {
-        this.language = 'Cn'
-        this.languageIcon = require('../../assets/images/nav_cn.png')
-        language = 'en'
-        this.jsonData = navData.mecDeveloper
-      } else {
-        this.language = 'En'
-        this.languageIcon = require('../../assets/images/nav_en.png')
-        language = 'cn'
-        this.jsonData = navDataCn.mecDeveloper
       }
       this.$i18n.locale = language
       localStorage.setItem('language', language)

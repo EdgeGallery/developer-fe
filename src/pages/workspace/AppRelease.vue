@@ -193,7 +193,7 @@
               <span
                 class="addBtn"
                 @click="openDialog('trafficRule')"
-              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.trafficRules') }}</span>
+              ><em class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.trafficRules') }}</span>
             </div>
             <el-table
               :data="trafficListData"
@@ -258,7 +258,7 @@
               <span
                 class="addBtn"
                 @click="openDialog('dnsRule')"
-              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.dnsRules') }}</span>
+              ><em class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.dnsRules') }}</span>
             </div>
             <el-table
               :data="dnsListData"
@@ -330,7 +330,7 @@
               <span
                 class="addBtn"
                 @click="openDialog('publicConfig')"
-              ><i class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}</span>
+              ><em class="el-icon-circle-plus-outline" /> {{ $t('workspace.add')+$t('workspace.appPublishConfig') }}</span>
             </div>
             <!-- Application service pulish config -->
             <el-table
@@ -832,6 +832,22 @@ export default {
         this.trafficAllData.guideFileId = res.data.guideFileId
         if (res.data.capabilitiesDetail) {
           this.appRuleData = res.data.capabilitiesDetail
+          let trafficFilterTemp = JSON.parse(JSON.stringify(this.appRuleData))
+          trafficFilterTemp.appTrafficRule.forEach(item => {
+            item.trafficFilter.forEach(subItem => {
+              subItem.dstAddress = this.ArrayToStr(subItem.dstAddress)
+              subItem.dstPort = this.ArrayToStr(subItem.dstPort)
+              subItem.dstTunnelPort = this.ArrayToStr(subItem.dstTunnelPort)
+              subItem.protocol = this.ArrayToStr(subItem.protocol)
+              subItem.srcAddress = this.ArrayToStr(subItem.srcAddress)
+              subItem.srcPort = this.ArrayToStr(subItem.srcPort)
+              subItem.srcTunnelAddress = this.ArrayToStr(subItem.srcTunnelAddress)
+              subItem.srcTunnelPort = this.ArrayToStr(subItem.srcTunnelPort)
+              subItem.tag = this.ArrayToStr(subItem.tag)
+              subItem.tgtTunnelAddress = this.ArrayToStr(subItem.tgtTunnelAddress)
+            })
+          })
+          this.appRuleData = trafficFilterTemp
           this.getAllListData()
         }
         if (this.mdFileId) {
@@ -845,18 +861,10 @@ export default {
         let releaseId = res.data.releaseId
         this.trafficAllData.atpTest = res.data.atpTest
         Workspace.saveRuleConfig(this.projectId, params, releaseId).then(() => {
-          if (releaseId) {
-            this.$eg_messagebox(this.$t('promptMessage.editRuleSuccess'), 'success')
-          } else {
-            this.$eg_messagebox(this.$t('promptMessage.saveRuleSuccess'), 'success')
-          }
+          this.$eg_messagebox(this.$t('promptMessage.saveRuleSuccess'), 'success')
           this.getReleaseConfigList()
         }).catch(() => {
-          if (releaseId) {
-            this.$eg_messagebox(this.$t('promptMessage.editRuleFail'), 'error')
-          } else {
-            this.$eg_messagebox(this.$t('promptMessage.saveRuleFail'), 'error')
-          }
+          this.$eg_messagebox(this.$t('promptMessage.saveRuleFail'), 'error')
         })
       })
     },
@@ -925,9 +933,9 @@ export default {
       fd.append('file', fileList[0])
       Workspace.submitApiFileApi(this.userId, fd).then(res => {
         let guideFileId = res.data.fileId
-        Workspace.getReleaseConfigApi(this.projectId).then(res => {
-          this.releaseId = res.data.releaseId
-          this.trafficAllData = res.data
+        Workspace.getReleaseConfigApi(this.projectId).then(response => {
+          this.releaseId = response.data.releaseId
+          this.trafficAllData = response.data
           this.trafficAllData.guideFileId = guideFileId
           Workspace.saveRuleConfig(this.projectId, this.trafficAllData, this.releaseId).then(() => {
             this.$eg_messagebox(this.$t('promptMessage.uploadSuccess'), 'success')
@@ -1007,28 +1015,22 @@ export default {
     getAddDnsData (data) {
       if (this.isAddRuleData) {
         this.dnsListData.push(data)
-        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.dnsListData.splice(this.editIndex, 1, data)
-        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
     },
     getAddTrafficData (data) {
       if (this.isAddRuleData) {
         this.trafficListData.push(data)
-        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.trafficListData.splice(this.editIndex, 1, data)
-        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
     },
     getAddPublicConfigData (data) {
       if (this.isAddRuleData) {
         this.appPublishListData.push(data)
-        this.$eg_messagebox(this.$t('promptMessage.addSuccess'), 'success')
       } else {
         this.appPublishListData.splice(this.editIndex, 1, data)
-        this.$eg_messagebox(this.$t('promptMessage.editSuccess'), 'success')
       }
       this.trafficAllData.capabilitiesDetail.serviceDetails.push(data)
     },
@@ -1054,24 +1056,28 @@ export default {
     // Delete rule list
     deleteRuleData (index) {
       this.dnsListData.splice(index, 1)
-      sessionStorage.setItem('dnsData', JSON.stringify(this.dnsListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     deleteTrafficData (index) {
       this.trafficListData.splice(index, 1)
-      sessionStorage.setItem('trafficData', JSON.stringify(this.trafficListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     deleteConfigData (index) {
       this.appPublishListData.splice(index, 1)
-      sessionStorage.setItem('configData', JSON.stringify(this.appPublishListData))
       this.$eg_messagebox(this.$t('devTools.deleteSucc'), 'success')
     },
     strToArray (data) {
-      if (data && data[0] !== '') {
+      if (data) {
         let arr = []
         arr = data.split(',')
         return arr
+      }
+    },
+    ArrayToStr (data) {
+      if (data && data[0] !== '') {
+        let str = ''
+        str = data.join(',')
+        return str
       }
     },
     // Save configured rule data
@@ -1335,7 +1341,7 @@ export default {
         background-color: #5844be !important;
         height: 39px;
         border-radius: 8px;
-        font-family: defaultFontLight !important;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
       }
       .no_test{
         font-size:16px;

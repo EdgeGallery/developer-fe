@@ -168,7 +168,7 @@ export default {
       line-height:36px;
       border-radius:8px;
       border-color:#fff;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       font-size:16px;
       color:#a698b9;
     }
