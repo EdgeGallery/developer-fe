@@ -25,6 +25,10 @@ import {
 const URL_SYSTEM = '/mec-appstore' + '/mec/appstore/v1/thirdsystem'
 
 let system = {
+  systemNum: function (params) {
+    let url = URL_SYSTEM + '/count'
+    return POST(url, params)
+  },
   getOneSystem: function (params) {
     let url = URL_SYSTEM + '/systemType/' + params
     return GET(url)

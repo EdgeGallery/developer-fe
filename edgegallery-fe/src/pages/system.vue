@@ -17,7 +17,6 @@
   <div class="system">
     <div
       class="thirdSystem"
-      v-if="ifDEtail=== true"
     >
       <div class="thirdSystemTop">
         <p class="topName">
@@ -43,17 +42,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>3</p>
+                  <p>{{ this.bigdataTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>1</p>
+                  <p>{{ this.bigdatActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>2</p>
+                  <p>{{ this.bigdataInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -72,17 +71,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>2</p>
+                  <p>{{ this.cloudTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>2</p>
+                  <p>{{ this.cloudActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>0</p>
+                  <p>{{ this.cloudInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -101,17 +100,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>5</p>
+                  <p>{{ this.mecTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>3</p>
+                  <p>{{ this.mecActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>2</p>
+                  <p>{{ this.mecInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -130,17 +129,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>4</p>
+                  <p>{{ this.applicationTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>4</p>
+                  <p>{{ this.applicationActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>0</p>
+                  <p>{{ this.applicationInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -150,7 +149,7 @@
               <img
                 src="../assets/images/5G.png"
                 alt=""
-                @click="goDetail('5G')"
+                @click="goDetail('network')"
               >
               <p class="oneName">
                 {{ $t('system.NetworkElement') }}
@@ -159,17 +158,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>7</p>
+                  <p>{{ this.networkTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>6</p>
+                  <p>{{ this.networkActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>1</p>
+                  <p>{{ this.networkInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -188,17 +187,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>6</p>
+                  <p>{{ this.laasTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>6</p>
+                  <p>{{ this.laasActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>0</p>
+                  <p>{{ this.laasInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -217,17 +216,17 @@
                 <div class="oneNum1">
                   <p class="allnum" />
                   <p>{{ $t('system.allNum') }}:</p>
-                  <p>5</p>
+                  <p>{{ this.meaoTotalNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="active" />
                   <p>{{ $t('system.active') }}:</p>
-                  <p>5</p>
+                  <p>{{ this.meaoActiveNum }}</p>
                 </div>
                 <div class="oneNum1">
                   <p class="invalid" />
                   <p>{{ $t('system.invalid') }}:</p>
-                  <p>0</p>
+                  <p>{{ this.meaoInactiveNum }}</p>
                 </div>
               </div>
             </div>
@@ -235,26 +234,17 @@
         </div>
       </div>
     </div>
-    <Detail
-      v-if="ifDEtail === false"
-      :system-details="systemDetails"
-      :system-type="systemType"
-      @back="backThird"
-    />
   </div>
 </template>
 
 <script>
-import Detail from './detail.vue'
 import { system } from '@/tools/api.js'
 export default {
   components: {
-    Detail
   },
   data () {
     return {
       language: localStorage.getItem('language'),
-      ifDEtail: true,
       systems: [
         {
           namecn: '大数据系统',
@@ -293,8 +283,28 @@ export default {
           imgUrl: '../assets/images/iaas.png'
         }
       ],
-      systemDetails: [],
-      systemType: ''
+      systemType: '',
+      bigdataTotalNum: 0,
+      bigdataActiveNum: 0,
+      bigdataInactiveNum: 0,
+      cloudTotalNum: 0,
+      cloudActiveNum: 0,
+      cloudInactiveNum: 0,
+      mecTotalNum: 0,
+      mecActiveNum: 0,
+      mecInactiveNum: 0,
+      applicationTotalNum: 0,
+      applicationActiveNum: 0,
+      applicationInactiveNum: 0,
+      networkTotalNum: 0,
+      networkActiveNum: 0,
+      networkInactiveNum: 0,
+      laasTotalNum: 0,
+      laasActiveNum: 0,
+      laasInactiveNum: 0,
+      meaoTotalNum: 0,
+      meaoActiveNum: 0,
+      meaoInactiveNum: 0
     }
   },
   watch: {
@@ -303,19 +313,41 @@ export default {
     }
   },
   methods: {
-    backThird (data) {
-      this.ifDEtail = data
+    getNum () {
+      let typeList = ['BIG_DATA', 'PUBLIC_CLOUD', 'MEC', 'Application', 'network', 'laaS', 'MEAO']
+      system.systemNum(typeList).then(res => {
+        if (res.data.length !== 0) {
+          this.bigdataTotalNum = res.data[0].BIG_DATA.totalNum
+          this.bigdataActiveNum = res.data[0].BIG_DATA.activeNum
+          this.bigdataInactiveNum = res.data[0].BIG_DATA.inactiveNum
+          this.cloudTotalNum = res.data[1].PUBLIC_CLOUD.totalNum
+          this.cloudActiveNum = res.data[1].PUBLIC_CLOUD.activeNum
+          this.cloudInactiveNum = res.data[1].PUBLIC_CLOUD.inactiveNum
+          this.mecTotalNum = res.data[2].MEC.totalNum
+          this.mecActiveNum = res.data[2].MEC.activeNum
+          this.mecInactiveNum = res.data[2].MEC.inactiveNum
+          this.applicationTotalNum = res.data[3].Application.totalNum
+          this.applicationActiveNum = res.data[3].Application.activeNum
+          this.applicationInactiveNum = res.data[3].Application.inactiveNum
+          this.networkTotalNum = res.data[4].network.totalNum
+          this.networkActiveNum = res.data[4].network.activeNum
+          this.networkInactiveNum = res.data[4].network.inactiveNum
+          this.laasTotalNum = res.data[5].laaS.totalNum
+          this.laasActiveNum = res.data[5].laaS.activeNum
+          this.laasInactiveNum = res.data[5].laaS.inactiveNum
+          this.meaoTotalNum = res.data[6].MEAO.totalNum
+          this.meaoActiveNum = res.data[6].MEAO.activeNum
+          this.meaoInactiveNum = res.data[6].MEAO.inactiveNum
+        }
+      })
     },
     goDetail (data) {
       this.systemType = data
-      this.ifDEtail = false
-      this.systemDetails = []
-      system.getOneSystem(data).then(res => {
-        if (res.data.length !== 0) {
-          this.systemDetails = res.data
-        }
-      })
+      this.$router.push({ path: '/detail', query: { systemType: this.systemType } })
     }
+  },
+  mounted () {
+    this.getNum()
   }
 }
 </script>
