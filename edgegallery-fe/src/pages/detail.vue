@@ -563,7 +563,6 @@ export default {
       system.getOneSystem(this.systemType).then(res => {
         if (res.data.length !== 0) {
           this.systemDetails = res.data
-          console.log(this.systemDetails)
         }
       })
     },
