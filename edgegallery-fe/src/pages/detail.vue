@@ -51,11 +51,6 @@
           @click="changeTable"
           alt=""
         >
-        <img
-          src="../assets/images/backThird.png"
-          alt=""
-          @click="backThird"
-        >
       </div>
       <div
         class="systemPicture"
@@ -468,19 +463,11 @@ import { system } from '@/tools/api.js'
 export default {
   components: {
   },
-  props: {
-    systemDetails: {
-      type: Object,
-      required: true
-    },
-    systemType: {
-      type: String,
-      required: true
-    }
-  },
   data () {
     return {
       language: localStorage.getItem('language'),
+      systemDetails: [],
+      systemType: this.$route.query.systemType,
       active: false,
       ifDetail: false,
       ifEdit: true,
@@ -498,13 +485,13 @@ export default {
         version: '',
         region: '',
         vendor: '',
-        systemType: this.systemType,
+        systemType: this.$route.query.systemType,
         ip: '',
         port: '',
         username: '',
         password: '',
         tokenType: '',
-        status: ''
+        status: 'active'
       },
       form2: {},
       rules: {
@@ -567,12 +554,16 @@ export default {
     }
   },
   mounted () {
-
+    this.goDetail()
   },
   methods: {
-    backThird () {
-      this.ifDetail = true
-      this.$emit('back', this.ifDetail)
+    goDetail () {
+      this.systemDetails = []
+      system.getOneSystem(this.systemType).then(res => {
+        if (res.data.length !== 0) {
+          this.systemDetails = res.data
+        }
+      })
     },
     searchSystems () {
       let name = this.searchName
@@ -623,6 +614,7 @@ export default {
               message: this.$t('system.addStstemSucess'),
               type: 'success'
             })
+            this.goDetail()
             this.searchSystems()
             this.dialogVisible = false
             this.form = {
@@ -638,7 +630,7 @@ export default {
               username: '',
               password: '',
               tokenType: '',
-              status: ''
+              status: 'active'
             }
           })
         } else {
