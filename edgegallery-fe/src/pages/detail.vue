@@ -559,7 +559,6 @@ export default {
   methods: {
     goDetail () {
       this.systemDetails = []
-      console.log(this.systemDetails)
       system.getOneSystem(this.systemType).then(res => {
         if (res.data.length !== 0) {
           this.systemDetails = res.data
