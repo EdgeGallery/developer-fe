@@ -418,7 +418,7 @@ const cn = {
     detail: '详情',
     statusNew: '新建',
     statusDeploying: '部署中',
-    statusSuccess: '部署完成',
+    statusSuccess: '部署成功',
     statusFail: '部署失败',
     statusTesting: '测试中',
     statusTested: '测试完成',
