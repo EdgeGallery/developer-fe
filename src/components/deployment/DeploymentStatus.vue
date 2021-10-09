@@ -25,7 +25,7 @@
         alt=""
       >
       <div class="result-item__text">
-        {{ $t('workspace.deploymentSuccess') }}
+        {{ $t('workspace.statusSuccess') }}
       </div>
     </div>
     <div
