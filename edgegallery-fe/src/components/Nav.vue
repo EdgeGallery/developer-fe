@@ -291,14 +291,9 @@ export default {
     handleMessage (event) {
       const data = event.data
       console.log('handleMessage, message info: ' + JSON.stringify(data))
-      switch (data.cmd) {
-        case 'routeTo':
-          let params = this.transPath(data.params)
-          // if (this.$route.path !== params.path) {
-          //   this.$router.replace(params.path)
-          // }
-          this.indexName = params.activeMenuPath
-          break
+      if (data.cmd === 'routeTo') {
+        let params = this.transPath(data.params)
+        this.indexName = params.activeMenuPath
       }
     },
     handleUpdateIndexName (indexName) {
