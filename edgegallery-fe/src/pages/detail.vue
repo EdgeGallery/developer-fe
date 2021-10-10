@@ -683,7 +683,7 @@ export default {
       margin-left: 10.1%;
       .leftName{
         font-size: 36px;
-        font-family: HarmonyHeiTi;
+        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: bold;
         color: #5D3DA0;
       }
@@ -703,7 +703,7 @@ export default {
       background: linear-gradient(122deg, #4444D0, #6724CB);
       border-radius: 25px;
       font-size: 20px;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       font-weight: 300;
       color: #FFFFFF;
       margin-top: 50px;
@@ -794,7 +794,7 @@ export default {
         }
         p{
             font-size: 14px;
-            font-family: HarmonyHeiTi;
+            font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
             font-weight: 400;
             max-width: 100%;
             color: #5D3DA0;
@@ -827,7 +827,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             margin-bottom: 10px;
-            font-family: HarmonyHeiTi;
+            font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
             font-weight: 400;
             line-height: 20px;
             color: #5D3DA0;
@@ -850,7 +850,7 @@ export default {
           border-radius: 5px;
           padding: 0;
           font-size: 14px;
-          font-family: HarmonyHeiTi;
+          font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
           font-weight: 200;
           color: #FFFFFF;
         }
@@ -884,7 +884,7 @@ export default {
         background: #EFEFEF;
         border-radius: 5px;
         font-size: 14px;
-        font-family: HarmonyHeiTi;
+        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: 200;
         color: #7A6E8A;
       }
@@ -919,7 +919,7 @@ export default {
       }
       p{
         font-size: 20px;
-        font-family: HarmonyHeiTi;
+        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: 300;
         color: #380879;
       }
@@ -935,7 +935,7 @@ export default {
           }
           .el-form-item__label {
               font-size: 16px;
-              font-family: HarmonyHeiTi;
+              font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
               font-weight: 300;
               color: #380879;
               line-height: 36px;
@@ -971,7 +971,7 @@ export default {
             background: #fff;
             border-radius: 10px;
             font-size: 14px;
-            font-family: HarmonyHeiTi;
+            font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
             font-weight: 300;
             color: #5844BE;
             border: 1px solid #5844BE ;

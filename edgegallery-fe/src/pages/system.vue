@@ -331,7 +331,7 @@ export default {
       margin: 64px 0 0 20.6%;
       .topName{
         font-size: 36px;
-        font-family: HarmonyHeiTi;
+        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: bold;
         color: #5D3DA0;
       }
@@ -406,7 +406,7 @@ export default {
             }
             .oneName{
               font-size: 20px;
-              font-family: HarmonyHeiTi;
+              font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
               font-weight: 400;
               color: #62517A;
               text-align: center;
@@ -439,7 +439,7 @@ export default {
               }
               .oneNum1 p:nth-child(2){
                 font-size: 14px;
-                font-family: HarmonyHeiTi;
+                font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
                 font-weight: 300;
                 color: #62517A;
                 margin-right: 2px;
@@ -447,7 +447,7 @@ export default {
               .oneNum1 p:nth-child(3){
                 margin-top: 1px;
                 font-size: 14px;
-                font-family: HarmonyHeiTi;
+                font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
                 font-weight: 300;
                 color: #62517A;
               }

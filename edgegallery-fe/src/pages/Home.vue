@@ -550,7 +550,7 @@ export default {
             padding: 3px 15px;
             border-radius: 10px;
             transform: scale(0.83);
-            font-family: defaultFontLight;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             cursor: pointer;
             margin-top: -10px;
           }
@@ -676,7 +676,7 @@ export default {
         color: #fff;
         font-size: 30px;
         margin-top: 15px;
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         img{
           vertical-align: middle;
           margin-right: 15px;
@@ -718,7 +718,7 @@ export default {
       .bottom_link.rt{
         text-align: right;
         color: #fff;
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       }
     }
   }
