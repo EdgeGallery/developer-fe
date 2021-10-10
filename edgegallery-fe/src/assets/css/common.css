@@ -195,7 +195,7 @@
  }
  .el-button.featuresBtn{
    font-size: 14px !important;
-   font-family: defaultFontLight;
+   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
    background: #8a75d5 !important;
    border: none;
    color: #ffffff !important;
@@ -219,7 +219,7 @@
    border: none;
    color: #fff;
    border-radius: 10px;
-   font-family: defaultFontLight;
+   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
  }
  .el-button.confirm{
    background: #688ef3;
@@ -246,7 +246,7 @@
    width: 50% !important;
  }
  .default_dialog .el-dialog{
-   font-family: defaultFontLight;
+   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
    background: #efefef;
    border-radius: 12px;
  }
@@ -376,7 +376,7 @@
  }
  .title_center{
    font-size: 36px;
-   font-family: defaultFontBlod;
+   font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
    display: flex;
    flex-direction: column;
   align-items: center;
@@ -613,7 +613,7 @@
  .el-table th.el-table__cell > .cell {
   text-align: center;
   font-size: 18px;
-  font-family: HarmonyHeiTi;
+  font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
   font-weight: 400;
   color: #62517A;
   height: 60px;
@@ -624,7 +624,7 @@
 .el-table td.el-table__cell > .cell {
   text-align: center;
   font-size: 14px;
-  font-family: HarmonyHeiTi;
+  font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
   font-weight: 200;
   color: #7A6E8A;
   line-height: 75px;
