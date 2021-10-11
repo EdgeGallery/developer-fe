@@ -21,7 +21,6 @@ import {
   PUT,
   DELETE
 } from './requset.js'
-// import axios from 'axios'
 const URL_SYSTEM = '/mec-appstore' + '/mec/appstore/v1/thirdsystem'
 
 let system = {

@@ -17,7 +17,7 @@
 import { NAV_PRE } from '../constants'
 
 const pathPre = NAV_PRE.DEVELOPER
-const navData = [
+const devNavData = [
   {
     id: '1.1',
     name: '概览',
@@ -108,4 +108,6 @@ const navData = [
   }
 ]
 
-export default navData
+export {
+  devNavData
+}
