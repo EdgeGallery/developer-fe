@@ -1,5 +1,5 @@
 
-const navData = [
+const systemNavData = [
   {
     id: '5.1',
     name: 'Third party system management',
@@ -8,4 +8,6 @@ const navData = [
   }
 ]
 
-export default navData
+export {
+  systemNavData
+}
