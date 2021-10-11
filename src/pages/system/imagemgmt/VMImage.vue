@@ -47,7 +47,7 @@
         </el-table-column>
         <el-table-column
           :column-key="'type'"
-          min-width="11%"
+          min-width="10%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
           show-overflow-tooltip
@@ -55,21 +55,21 @@
         />
         <el-table-column
           prop="userName"
-          min-width="10%"
+          min-width="9%"
           :label="$t('system.imageMgmt.userName')"
           show-overflow-tooltip
         />
         <el-table-column
           :column-key="'operateSystem'"
           prop="operateSystem"
-          min-width="14.5%"
+          min-width="11.5%"
           :label="$t('system.imageMgmt.osName')"
           show-overflow-tooltip
           :filters="osData"
         />
         <el-table-column
           prop="systemSize"
-          min-width="12%"
+          min-width="10%"
           :label="$t('system.imageMgmt.imageSize')+'(M)'"
         >
           <template slot-scope="scope">
@@ -78,7 +78,7 @@
         </el-table-column>
         <el-table-column
           prop="version"
-          min-width="7%"
+          min-width="6%"
           :label="$t('system.imageMgmt.osVersion')"
           show-overflow-tooltip
         />
@@ -112,8 +112,20 @@
           </template>
         </el-table-column>
         <el-table-column
+          :column-key="'systemSlim'"
+          min-width="9%"
+          :label="$t('system.imageMgmt.slimming')"
+          :formatter="convertSlim"
+          show-overflow-tooltip
+          :filters="slimData"
+        >
+          <template slot-scope="scope">
+            {{ convertSlim(scope.row) }}
+          </template>
+        </el-table-column>
+        <el-table-column
           :label="$t('common.operation')"
-          min-width="15%"
+          min-width="12%"
         >
           <template slot-scope="scope">
             <el-button
@@ -199,7 +211,8 @@
                       <em />
                       <el-button
                         type="text"
-                        :disabled="true"
+                        :disabled="scope.row.systemSlim!=='SLIM_WAIT'"
+                        @click="handleSlim(scope.row)"
                       >
                         {{ $t('system.imageMgmt.slimming') }}
                       </el-button>
@@ -294,6 +307,7 @@ export default {
         { text: 'cirros', value: 'cirros' }
       ],
       statusData: [],
+      slimData: [],
       typeData: [],
       currentIndex: -1
     }
@@ -356,6 +370,12 @@ export default {
       this.typeData = [
         { text: this.$t('system.imageMgmt.typeValue.public'), value: 'public' },
         { text: this.$t('system.imageMgmt.typeValue.private'), value: 'private' }
+      ]
+      this.slimData = [
+        { text: this.$t('system.imageMgmt.slimStatusText.slimWait'), value: 'SLIM_WAIT' },
+        { text: this.$t('system.imageMgmt.slimStatusText.slimming'), value: 'SLIMMING' },
+        { text: this.$t('system.imageMgmt.slimStatusText.slimSucceed'), value: 'SLIM_SUCCEED' },
+        { text: this.$t('system.imageMgmt.slimStatusText.slimFailed'), value: 'SLIM_FAILED' }
       ]
     },
     handlePageSizeChange (val) {
@@ -440,6 +460,15 @@ export default {
       }
 
       return this.$t('common.unknown')
+    },
+    convertSlim (row) {
+      if (row.systemSlim) {
+        let slimOption = this.slimData.find(item => item.value === row.systemSlim)
+        if (slimOption) {
+          return slimOption.text
+        }
+      }
+      return this.$t('system.imageMgmt.slimStatusText.slimWait')
     },
     handleEdit (row) {
       this.currentImageData = row
@@ -527,6 +556,14 @@ export default {
         type: 'warning'
       }).then(() => {
         this.doResetImage(row.systemId)
+      })
+    },
+    handleSlim (row) {
+      imageMgmtService.slimImage(row.systemId).then(() => {
+        this.getImageDataList()
+      }).catch(() => {
+        this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
+        this.getImageDataList()
       })
     },
     doPublishImage (systemId) {
