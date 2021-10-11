@@ -14,10 +14,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-import devNavData from './devNavCn.js'
-import appStoreNavData from './appStoreNavCn.js'
-import atpNavData from './atpNavCn.js'
-import mecmNavData from './mecmNavCn.js'
+import { devNavData } from './devNavCn.js'
+import { appStoreNavData } from './appStoreNavCn.js'
+import { atpNavData } from './atpNavCn.js'
+import { mecmNavData } from './mecmNavCn.js'
 import system from './thirdSystemCn.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 

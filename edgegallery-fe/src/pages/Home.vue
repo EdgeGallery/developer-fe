@@ -364,9 +364,9 @@
 </template>
 
 <script>
-import devNavData from '../navdata/devNavCn.js'
-import appstoreNavData from '../navdata/appStoreNavCn.js'
-import mecmNavData from '../navdata/mecmNavCn.js'
+import { devNavData } from '../navdata/devNavCn.js'
+import { appStoreNavData } from '../navdata/appStoreNavCn.js'
+import { mecmNavData } from '../navdata/mecmNavCn.js'
 export default {
   components: {
 
@@ -410,7 +410,7 @@ export default {
         }
       ],
       devNavData: devNavData,
-      appstoreNavData: appstoreNavData,
+      appStoreNavData: appStoreNavData,
       mecmNavData: mecmNavData
     }
   },
@@ -446,7 +446,7 @@ export default {
       } else if (path === 'systemImage') {
         this.$router.push(this.devNavData[4].children[2].path)
       } else if (path === 'appstore') {
-        this.$router.push(this.appstoreNavData[1].path)
+        this.$router.push(this.appStoreNavData[1].path)
       } else if (path === 'package') {
         this.$router.push(this.mecmNavData[1].children[0].path)
       }

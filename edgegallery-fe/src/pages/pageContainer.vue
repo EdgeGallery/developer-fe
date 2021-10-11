@@ -2,7 +2,6 @@
   <div class="">
     <iframe
       id="pageContainer"
-      scrolling="yes"
       :src="iframeUrl"
       title="首页"
       class="pageIframe"
@@ -54,8 +53,6 @@ export default {
     oIframe.style.height = (Number(deviceHeight) - 2) + 'px'
     this.iframeUrl = this.getIFrameUrl()
     this.iframeWin = this.$refs.iframe.contentWindow
-  },
-  beforeDestroy () {
   },
   watch: {
     $route (to, from) {
