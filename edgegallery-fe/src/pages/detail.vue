@@ -801,7 +801,6 @@ export default {
         padding-right:20px ;
         .el-button{
           box-shadow: 0px 5px 24px 0px rgba(178, 193, 249, 0.26);
-          border-radius: 0px 0px 12px 12px;
           width: 60px;
           height: 24px;
           background: #8A7DF9;
