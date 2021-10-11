@@ -886,6 +886,12 @@ const cn = {
         paused: '暂停',
         waiting: '等待'
       },
+      slimStatusText: {
+        slimWait: '等待瘦身',
+        slimming: '瘦身中',
+        slimSucceed: '瘦身成功',
+        slimFailed: '瘦身失败'
+      },
       operation: {
         newImg: '新建系统镜像',
         upload: '上传',

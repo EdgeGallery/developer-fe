@@ -504,6 +504,9 @@ let imageMgmtService = {
   },
   cancelUploadContainerImage: function (imageId) {
     return Delete('mec/developer/v2/containerimages/' + imageId + '/upload')
+  },
+  slimImage: function (imageId) {
+    return Post('mec/developer/v1/system/images/' + imageId + '/slim', '')
   }
 }
 
