@@ -40,9 +40,9 @@ function getRouterConfigItem (navItem) {
   }
 }
 
-function getRouterConfigRecursively (navData) {
+function getRouterConfigRecursively (navParam) {
   let routerConfig = []
-  navData.forEach(item => {
+  navParam.forEach(item => {
     if (item.children && item.children.length > 0) {
       routerConfig = routerConfig.concat(getRouterConfigRecursively(item.children))
     } else {

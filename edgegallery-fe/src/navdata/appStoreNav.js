@@ -19,7 +19,7 @@ import { NAV_PRE } from '../constants'
 
 const pathPre = NAV_PRE.APPSTORE
 
-const navData = [
+const appStoreNavData = [
   {
     id: '2.1',
     name: 'Overview',
@@ -102,4 +102,6 @@ const navData = [
   }
 ]
 
-export default navData
+export {
+  appStoreNavData
+}
