@@ -18,7 +18,7 @@ import { NAV_PRE } from '../constants'
 
 const pathPre = NAV_PRE.ATP
 
-const navData = [
+const atpNavData = [
   {
     name: '概览',
     path: pathPre + '/index',
@@ -69,4 +69,6 @@ const navData = [
   }
 ]
 
-export default navData
+export {
+  atpNavData
+}

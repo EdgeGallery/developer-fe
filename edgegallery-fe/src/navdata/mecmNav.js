@@ -17,7 +17,7 @@ import { NAV_PRE } from '../constants'
 
 const pathPre = NAV_PRE.MECM
 
-const NavData = [
+const mecmNavData = [
   {
     'id': '3.1',
     'icon': '',
@@ -81,4 +81,6 @@ const NavData = [
   }
 ]
 
-export default NavData
+export {
+  mecmNavData
+}

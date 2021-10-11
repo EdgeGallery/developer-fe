@@ -297,23 +297,6 @@
             class="upIcon el-icon-success"
             v-if="uploadIcon"
           />
-          <!-- <el-upload
-            id="projectLogo"
-            class="upload-demo"
-            ref="upload"
-            action=""
-            list-type="picture-card"
-            :limit="1"
-            :file-list="logoFileList"
-            :on-change="handleChangeLogo"
-            :on-exceed="handleExceed"
-            :auto-upload="false"
-            :on-remove="removeUploadLogo"
-            accept=".jpg,.png"
-            name="file"
-          >
-            <em class="el-icon-plus" />
-          </el-upload> -->
           <div
             class="el-form-error"
             v-if="showErr"
@@ -424,23 +407,6 @@
             class="upIcon el-icon-success"
             v-if="uploadIcon"
           />
-          <!-- <el-upload
-            id="projectLogo"
-            class="upload-demo"
-            ref="upload"
-            action=""
-            list-type="picture-card"
-            :limit="1"
-            :file-list="logoFileList"
-            :on-change="handleChangeLogo"
-            :on-exceed="handleExceed"
-            :auto-upload="false"
-            :on-remove="removeUploadLogo"
-            accept=".jpg,.png"
-            name="file"
-          >
-            <em class="el-icon-plus" />
-          </el-upload> -->
           <div
             class="el-form-error"
             v-if="showErr"
@@ -565,9 +531,6 @@ export default {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
     }
-  },
-  mounted () {
-
   },
   methods: {
     backThird () {
