@@ -14,14 +14,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-import devNavData from './devNavCn.js'
-import appStoreNavData from './appStoreNavCn.js'
-import atpNavData from './atpNavCn.js'
-import mecmNavData from './mecmNavCn.js'
-import system from './thirdSystemCn.js'
+import { devNavData } from './devNavCn.js'
+import { appStoreNavData } from './appStoreNavCn.js'
+import { atpNavData } from './atpNavCn.js'
+import { mecmNavData } from './mecmNavCn.js'
+import { systemNavData } from './thirdSystemCn.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
-const navData = [
+const navDataCn = [
   {
     id: '0',
     name: '首页',
@@ -61,8 +61,8 @@ const navData = [
     name: '系统',
     path: '../pages/system.vue',
     display: true,
-    children: system
+    children: systemNavData
   }
 ]
 
-export default navData
+export default navDataCn

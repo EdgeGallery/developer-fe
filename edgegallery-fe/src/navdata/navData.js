@@ -14,11 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-import devNavData from './devNav.js'
-import appStoreNavData from './appStoreNav.js'
-import atpNavData from './atpNav.js'
-import mecmNavData from './mecmNav.js'
-import system from './thirdSystem.js'
+import { devNavData } from './devNav.js'
+import { appStoreNavData } from './appStoreNav.js'
+import { atpNavData } from './atpNav.js'
+import { mecmNavData } from './mecmNav.js'
+import { systemNavData } from './thirdSystem.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
@@ -61,7 +61,7 @@ const navData = [
     name: 'System',
     path: '/system',
     display: true,
-    children: system
+    children: systemNavData
   }
 ]
 

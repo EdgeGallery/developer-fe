@@ -16,7 +16,7 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import navData from '../navdata/navDataCn.js'
+import navDataCn from '../navdata/navDataCn.js'
 import { NAV_PRE, FIRST_LEVEL_MENU_PATH } from '../constants'
 
 Vue.use(Router)
@@ -40,9 +40,9 @@ function getRouterConfigItem (navItem) {
   }
 }
 
-function getRouterConfigRecursively (navData) {
+function getRouterConfigRecursively (navParam) {
   let routerConfig = []
-  navData.forEach(item => {
+  navParam.forEach(item => {
     if (item.children && item.children.length > 0) {
       routerConfig = routerConfig.concat(getRouterConfigRecursively(item.children))
     } else {
@@ -53,7 +53,7 @@ function getRouterConfigRecursively (navData) {
 }
 
 function getRouterConfig () {
-  return getRouterConfigRecursively(navData).concat([
+  return getRouterConfigRecursively(navDataCn).concat([
     {
       path: '/',
       redirect: 'home',
