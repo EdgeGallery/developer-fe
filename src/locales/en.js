@@ -886,6 +886,12 @@ const en = {
         paused: 'Paused',
         waiting: 'Waiting'
       },
+      slimStatusText: {
+        slimWait: 'To be slim',
+        slimming: 'Slimming',
+        slimSucceed: 'Slim Succeed',
+        slimFailed: 'Slim Failed'
+      },
       operation: {
         newImg: 'New System Image',
         upload: 'Upload',
