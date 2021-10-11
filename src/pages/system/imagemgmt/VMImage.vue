@@ -112,12 +112,9 @@
           </template>
         </el-table-column>
         <el-table-column
-          :column-key="'systemSlim'"
           min-width="9%"
           :label="$t('system.imageMgmt.slimming')"
-          :formatter="convertSlim"
           show-overflow-tooltip
-          :filters="slimData"
         >
           <template slot-scope="scope">
             {{ convertSlim(scope.row) }}
