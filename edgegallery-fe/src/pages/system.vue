@@ -29,204 +29,38 @@
           <div class="systemsContent">
             <div
               class="oneSystem bigBox"
+              v-for="(val,i) in numList"
+              :key="i"
             >
-              <img
-                src="../assets/images/bigData.png"
-                alt=""
-                @click="goDetail('BIG_DATA')"
+              <div
+                v-for="(item,key,index) in numList[i]"
+                :key="index"
+                class="oneSystemStyle"
               >
-              <p class="oneName">
-                {{ $t('system.bigSystem') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ bigdataNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ bigdataNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ bigdataNum.inactiveNum }}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="oneSystem cloudBox"
-            >
-              <img
-                src="../assets/images/publicCloud.png"
-                alt=""
-                @click="goDetail('PUBLIC_CLOUD')"
-              >
-              <p class="oneName">
-                {{ $t('system.publicCloud') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ cloudNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ cloudNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ cloudNum.inactiveNum }}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="oneSystem drBox"
-            >
-              <img
-                src="../assets/images/3dr.png"
-                alt=""
-                @click="goDetail('MEC')"
-              >
-              <p class="oneName">
-                {{ $t('system.marginalSystem') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ mecNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ mecNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ mecNum.inactiveNum }}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="oneSystem appBox"
-            >
-              <img
-                src="../assets/images/app.png"
-                alt=""
-                @click="goDetail('Application')"
-              >
-              <p class="oneName">
-                {{ $t('system.app') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ applicationNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ applicationNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ applicationNum.inactiveNum }}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="oneSystem gBox"
-            >
-              <img
-                src="../assets/images/5G.png"
-                alt=""
-                @click="goDetail('network')"
-              >
-              <p class="oneName">
-                {{ $t('system.NetworkElement') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ networkNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ networkNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ networkNum.inactiveNum }}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="oneSystem laasBox"
-            >
-              <img
-                src="../assets/images/iaas.png"
-                alt=""
-                @click="goDetail('laaS')"
-              >
-              <p class="oneName">
-                {{ $t('system.laas') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ laasNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ laasNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ laasNum.inactiveNum }}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="oneSystem meaoBox"
-            >
-              <img
-                src="../assets/images/meao.png"
-                alt=""
-                @click="goDetail('MEAO')"
-              >
-              <p class="oneName">
-                {{ $t('system.meao') }}
-              </p>
-              <div class="oneNum">
-                <div class="oneNum1">
-                  <p class="allnum" />
-                  <p>{{ $t('system.allNum') }}:</p>
-                  <p>{{ meaoNum.totalNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="active" />
-                  <p>{{ $t('system.active') }}:</p>
-                  <p>{{ meaoNum.activeNum }}</p>
-                </div>
-                <div class="oneNum1">
-                  <p class="invalid" />
-                  <p>{{ $t('system.invalid') }}:</p>
-                  <p>{{ meaoNum.inactiveNum }}</p>
+                <div
+                  class="bg"
+                  @click="goDetail(key)"
+                />
+
+                <p class="oneName">
+                  {{ language==='cn'?systemName[i].labelcn:systemName[i].labelen }}
+                </p>
+                <div class="oneNum">
+                  <div class="oneNum1">
+                    <p class="allnum" />
+                    <p>{{ $t('system.allNum') }}:</p>
+                    <p>{{ item.totalNum }}</p>
+                  </div>
+                  <div class="oneNum1">
+                    <p class="active" />
+                    <p>{{ $t('system.active') }}:</p>
+                    <p>{{ item.activeNum }}</p>
+                  </div>
+                  <div class="oneNum1">
+                    <p class="invalid" />
+                    <p>{{ $t('system.invalid') }}:</p>
+                    <p>{{ item.inactiveNum }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -239,58 +73,16 @@
 
 <script>
 import { system } from '@/tools/api.js'
+import { systemName } from '../constants.js'
 export default {
   components: {
   },
   data () {
     return {
       language: localStorage.getItem('language'),
-      systems: [
-        {
-          namecn: '大数据系统',
-          nameen: 'Big data system',
-          systemType: '',
-          imgUrl: '../assets/images/bigData.png'
-        },
-        {
-          namecn: '公有云',
-          nameen: 'Public Cloud',
-          systemType: '',
-          imgUrl: '../assets/images/publicCloud.png'
-        },
-        {
-          namecn: '3dr 边缘系统',
-          nameen: '3dr Limbic system',
-          systemType: '',
-          imgUrl: '../assets/images/3dr.png'
-        },
-        {
-          namecn: '应用',
-          nameen: 'Application',
-          systemType: '',
-          imgUrl: '../assets/images/add.png'
-        },
-        {
-          namecn: '5G 网元',
-          nameen: '5G Network element',
-          systemType: '',
-          imgUrl: '../assets/images/5G.png'
-        },
-        {
-          namecn: 'laas',
-          nameen: 'laas',
-          systemType: '',
-          imgUrl: '../assets/images/iaas.png'
-        }
-      ],
+      systemName: systemName,
       systemType: '',
-      bigdataNum: 0,
-      cloudNum: 0,
-      mecTotalNum: 0,
-      applicationNum: 0,
-      networkNum: 0,
-      laasNum: 0,
-      meaoNum: 0
+      numList: []
     }
   },
   watch: {
@@ -300,16 +92,10 @@ export default {
   },
   methods: {
     getNum () {
-      let typeList = ['BIG_DATA', 'PUBLIC_CLOUD', 'MEC', 'Application', 'network', 'laaS', 'MEAO']
+      let typeList = ['BIG_DATA', 'PUBLIC_CLOUD', 'MEC', 'Application', '5G', 'laaS', 'MEAO']
       system.systemNum(typeList).then(res => {
         if (res.data.length !== 0) {
-          this.bigdataNum = res.data[0].BIG_DATA
-          this.cloudNum = res.data[1].PUBLIC_CLOUD
-          this.mecNum = res.data[2].MEC
-          this.applicationNum = res.data[3].Application
-          this.networkNum = res.data[4].network
-          this.laasNum = res.data[5].laaS
-          this.meaoNum = res.data[6].MEAO
+          this.numList = res.data
         }
       })
     },
@@ -368,26 +154,61 @@ export default {
          justify-content: flex-start;
          align-items: center;
          flex-wrap: wrap;
-         .bigBox{
+         .oneSystem:first-child{
             box-shadow: inset 0px 5px 36px 7px rgba(30, 30, 202, 0.19);
+            .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/bigData.png)  no-repeat 100% 100%;
+              }
+            }
          }
-         .cloudBox{
-           box-shadow: inset  0px 3px 51px 0px rgba(213, 169, 147, 0.35);
+         .oneSystem:nth-child(2){
+             box-shadow: inset  0px 3px 51px 0px rgba(213, 169, 147, 0.35);
+              .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/publicCloud.png)  no-repeat 100% 100%;
+              }
+            }
          }
-         .drBox{
-           box-shadow: inset 0px 3px 51px 0px rgba(135, 200, 204, 0.35);
+          .oneSystem:nth-child(3){
+            box-shadow: inset 0px 3px 51px 0px rgba(135, 200, 204, 0.35);
+             .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/3dr.png)  no-repeat 100% 100%;
+              }
+            }
          }
-         .appBox{
-           box-shadow: inset 0px 3px 51px 0px rgba(224, 163, 182, 0.35);
+          .oneSystem:nth-child(4){
+             box-shadow: inset 0px 3px 51px 0px rgba(224, 163, 182, 0.35);
+              .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/app.png)  no-repeat 100% 100%;
+              }
+            }
          }
-         .gBox{
-           box-shadow: inset 0px 3px 51px 0px rgba(124, 177, 202, 0.35);
+          .oneSystem:nth-child(5){
+            box-shadow: inset 0px 3px 51px 0px rgba(124, 177, 202, 0.35);
+             .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/5G.png)  no-repeat 100% 100%;
+              }
+            }
          }
-         .laasBox{
+          .oneSystem:nth-child(6){
            box-shadow: inset 0px 3px 51px 0px rgba(168, 154, 216, 0.35);
+            .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/iaas.png)  no-repeat 100% 100%;
+              }
+            }
          }
-         .meaoBox{
+          .oneSystem:nth-child(7){
            box-shadow: inset 0px 5px 36px 7px rgba(94, 61, 212, 0.35);
+            .oneSystemStyle{
+              .bg{
+                background: url(../assets/images/meao.png)  no-repeat 100% 100%;
+              }
+            }
          }
          .oneSystem{
             background: #FFFFFF;
@@ -399,13 +220,21 @@ export default {
             flex-direction: column;
             align-items: center;
             margin-bottom: 60px;
-            img{
+            .oneSystemStyle{
+              width: 100%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            }
+            .bg{
               width: 37.01%;
               border-radius: 12px;
                margin: 27px 0 16px 0;
               height: 97px;
             }
-            img:hover{
+            .bg:hover{
               cursor: pointer;
             }
             .oneName{
