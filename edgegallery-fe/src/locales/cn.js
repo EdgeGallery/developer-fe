@@ -38,13 +38,6 @@ const cn = {
   system: {
     threeSystem: '三方系统管理',
     search: '请输入名称进行搜索',
-    bigSystem: '大数据系统',
-    publicCloud: '公有云',
-    marginalSystem: '3dr 边缘系统',
-    app: '应用',
-    NetworkElement: '5G 网元',
-    laas: 'laaS',
-    meao: 'Meao',
     allNum: '总数',
     active: '激活',
     invalid: '失效',

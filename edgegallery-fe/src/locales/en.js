@@ -38,13 +38,6 @@ const en = {
   system: {
     threeSystem: 'Third party system management',
     search: 'Please enter name to search',
-    bigSystem: 'Big data system',
-    publicCloud: 'Public Cloud',
-    marginalSystem: '3dr Limbic system',
-    app: 'Application',
-    NetworkElement: '5G Network element',
-    laas: 'laaS',
-    meao: 'Meao',
     allNum: 'allNum',
     active: 'active',
     invalid: 'invalid',
