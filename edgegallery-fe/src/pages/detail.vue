@@ -302,11 +302,11 @@
         <el-form-item class="btns">
           <el-button
             type="primary"
-            @click="submitForm('ruleForm')"
+            @click="submitForm('form')"
           >
             {{ $t('system.sure') }}
           </el-button>
-          <el-button @click="dialogVisible = false">
+          <el-button @click="addCancle">
             {{ $t('system.cancel') }}
           </el-button>
         </el-form-item>
@@ -430,6 +430,62 @@ export default {
   components: {
   },
   data () {
+    const validateSystemName = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tootipSystemName')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateProduct = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tootipProduct')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateUrl = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tootipUrl')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateVersion = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tootipVersion')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateRegion = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tooltipRegion')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateVendor = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tooltipVendor')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateUsername = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tooltipPassword')}`))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('system.tooltipPassword')}`))
+      } else {
+        callback()
+      }
+    }
     return {
       language: localStorage.getItem('language'),
       systemDetails: [],
@@ -457,37 +513,34 @@ export default {
         tokenType: '',
         status: 'active'
       },
-      form2: {}
-    }
-  },
-  computed: {
-    rules () {
-      return {
+      form2: {},
+      rules: {
         systemName: [
-          { required: true, message: this.$t('system.tootipSystemName'), trigger: 'blur' }
+          { required: true, validator: validateSystemName }
         ],
         product: [
-          { required: true, message: this.$t('system.tootipProduct'), trigger: 'blur' }
+          { required: true, validator: validateProduct }
         ],
         url: [
-          { required: true, message: this.$t('system.tootipUrl'), trigger: 'blur' }
+          { required: true, validator: validateUrl }
         ],
         version: [
-          { required: true, message: this.$t('system.tootipVersion'), trigger: 'blur' }
+          { required: true, validator: validateVersion }
         ],
         region: [
-          { required: true, message: this.$t('system.tooltipRegion'), trigger: 'blur' }
+          { required: true, validator: validateRegion }
         ],
         vendor: [
-          { required: true, message: this.$t('system.tooltipVendor'), trigger: 'blur' }
+          { required: true, validator: validateVendor }
         ],
         username: [
-          { required: true, message: this.$t('system.tooltipVendor'), trigger: 'blur' }
+          { required: true, validator: validateUsername }
         ],
         password: [
-          { required: true, message: this.$t('system.tooltipVendor'), trigger: 'blur' }
+          { required: true, validator: validatePassword }
         ]
       }
+
     }
   },
   watch: {
@@ -539,6 +592,27 @@ export default {
     addSystems () {
       this.dialogVisible = true
     },
+    addCancle () {
+      this.dialogVisible = false
+      this.$nextTick(() => {
+        this.$refs['ruleForm'].clearValidate()
+      })
+      this.form = {
+        systemName: '',
+        product: '',
+        url: '',
+        version: '',
+        region: '',
+        vendor: '',
+        systemType: this.systemType,
+        ip: '',
+        port: '',
+        username: '',
+        password: '',
+        tokenType: '',
+        status: 'active'
+      }
+    },
     editSystem (item) {
       this.dialogVisibleEdit = true
       let copy = Object.assign({}, item)
@@ -578,6 +652,9 @@ export default {
         } else {
           return false
         }
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
       })
     },
     submitForm2 (formName2) {
@@ -593,6 +670,9 @@ export default {
             this.dialogVisibleEdit = false
           })
         }
+        this.$nextTick(() => {
+          this.$refs.form2.clearValidate()
+        })
       })
     }
 
