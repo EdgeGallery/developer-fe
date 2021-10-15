@@ -321,7 +321,7 @@
       </div>
       <el-form
         :model="form2"
-        :rules="rules2"
+        :rules="rules"
         ref="ruleForm2"
         label-width="100px"
         class="demo-ruleForm"
@@ -459,57 +459,35 @@ export default {
         tokenType: '',
         status: 'active'
       },
-      form2: {},
-      rules: {
+      form2: {}
+    }
+  },
+  computed: {
+    rules () {
+      return {
         systemName: [
-          { required: true, message: `${this.$t('system.tootipSystemName')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tootipSystemName'), trigger: 'blur' }
         ],
         product: [
-          { required: true, message: `${this.$t('system.tootipProduct')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tootipProduct'), trigger: 'blur' }
         ],
         url: [
-          { required: true, message: `${this.$t('system.tootipUrl')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tootipUrl'), trigger: 'blur' }
         ],
         version: [
-          { required: true, message: `${this.$t('system.tootipVersion')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tootipVersion'), trigger: 'blur' }
         ],
         region: [
-          { required: true, message: `${this.$t('system.tooltipRegion')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tooltipRegion'), trigger: 'blur' }
         ],
         vendor: [
-          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tooltipVendor'), trigger: 'blur' }
         ],
         username: [
-          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tooltipVendor'), trigger: 'blur' }
         ],
         password: [
-          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
-        ]
-      },
-      rules2: {
-        systemName: [
-          { required: true, message: `${this.$t('system.tootipSystemName')}`, trigger: 'blur' }
-        ],
-        product: [
-          { required: true, message: `${this.$t('system.tootipProduct')}`, trigger: 'blur' }
-        ],
-        url: [
-          { required: true, message: `${this.$t('system.tootipUrl')}`, trigger: 'blur' }
-        ],
-        version: [
-          { required: true, message: `${this.$t('system.tootipVersion')}`, trigger: 'blur' }
-        ],
-        region: [
-          { required: true, message: `${this.$t('system.tooltipRegion')}`, trigger: 'blur' }
-        ],
-        vendor: [
-          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
-        ],
-        username: [
-          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: `${this.$t('system.tooltipVendor')}`, trigger: 'blur' }
+          { required: true, message: this.$t('system.tooltipVendor'), trigger: 'blur' }
         ]
       }
     }
@@ -896,13 +874,13 @@ export default {
               font-weight: 300;
               color: #380879;
               line-height: 36px;
-              padding-right: 20px;
+              padding-right: 15px;
           }
           .el-input__inner {
               width: 240px;
           }
           .btns{
-            margin-top: 110px;
+            margin-top: 88px;
           }
           .upload-demo{
             display: flex;
@@ -975,7 +953,7 @@ export default {
     color: #409EFF;
   }
   .el-form-item{
-    margin-bottom: 15px;
+    margin-bottom: 21px;
   }
   .el-form-item.icon{
     content: '';
