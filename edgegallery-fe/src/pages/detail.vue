@@ -435,8 +435,6 @@ export default {
       systemDetails: [],
       systemType: this.$route.query.systemType,
       active: false,
-      ifDetail: false,
-      ifEdit: true,
       searchName: '',
       dialogVisible: false,
       dialogVisibleEdit: false,
