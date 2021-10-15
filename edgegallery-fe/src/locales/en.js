@@ -48,7 +48,7 @@ const en = {
     vendor: 'factory',
     version: 'vison',
     status: 'state',
-    username: 'user Name',
+    username: 'user',
     password: 'password',
     operation: 'operation',
     delete: 'delete',
