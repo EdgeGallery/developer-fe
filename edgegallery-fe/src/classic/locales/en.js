@@ -16,12 +16,6 @@
 
 import enLocale from 'element-ui/lib/locale/lang/en'
 const en = {
-  newVersion: {
-    common: {
-      newVersion: 'New Version',
-      classic: 'Classic'
-    }
-  },
   home: {
   },
   common: {

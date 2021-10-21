@@ -16,18 +16,31 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import routesnew from '../classic/router/router.js'
 Vue.use(Router)
 
-let routes = [
-  {
-    path: '/new/home',
-    name: 'newhome',
-    component: () => import('../pages/Home.vue')
-  },
-  {
-    path: '/new/incubation',
-    name: 'incubation',
-    component: () => import('../pages/Incubation/Index.vue')
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      redirect: 'new/home'
+    },
+    {
+      path: '/new/home',
+      name: 'newhome',
+      component: () => import('../pages/Home.vue')
+    },
+    {
+      path: '/new/incubation',
+      name: 'incubation',
+      component: () => import('../pages/Incubation/Index.vue')
+    },
+    ...routesnew
+  ],
+  scrollBehavior () {
+    return {
+      x: 0,
+      y: 0
+    }
   }
-]
-export default routes
+})

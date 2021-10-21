@@ -16,12 +16,6 @@
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 const cn = {
-  newVersion: {
-    common: {
-      newVersion: '新版',
-      classic: '经典版'
-    }
-  },
   home: {
   },
   common: {

@@ -20,7 +20,7 @@
     >
       <div class="thirdSystemTop">
         <p class="topName">
-          {{ $t('system.threeSystem') }} classic
+          {{ $t('system.threeSystem') }}
         </p>
         <p class="topLines" />
       </div>

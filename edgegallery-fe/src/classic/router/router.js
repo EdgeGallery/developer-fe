@@ -18,7 +18,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import navDataCn from '../navdata/navDataCn.js'
 import { NAV_PRE, FIRST_LEVEL_MENU_PATH } from '../constants'
-import routes from '../../new/router/router.js'
 
 Vue.use(Router)
 
@@ -56,11 +55,6 @@ function getRouterConfigRecursively (navParam) {
 function getRouterConfig () {
   return getRouterConfigRecursively(navDataCn).concat([
     {
-      path: '/',
-      redirect: 'new/home'
-      // component: () => import('../pages/Home.vue')
-    },
-    {
       path: '/home',
       redirect: 'home',
       component: () => import('../pages/Home.vue')
@@ -69,20 +63,12 @@ function getRouterConfig () {
       path: '/detail',
       name: 'detail',
       component: () => import('../pages/detail.vue')
-    },
-    ...routes
+    }
   ])
 }
 
-export default new Router({
-  routes: getRouterConfig(),
-  scrollBehavior () {
-    return {
-      x: 0,
-      y: 0
-    }
-  }
-})
+let routes = getRouterConfig()
+export default routes
 
 const originalPush = Router.prototype.push
 const originalReplace = Router.prototype.replace
