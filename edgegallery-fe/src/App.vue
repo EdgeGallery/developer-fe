@@ -41,7 +41,7 @@
 
 <script>
 import Navcomp from '../src/classic/components/Nav.vue'
-import NavcompNew from '../src/new/components/Nav.vue'
+import NavcompNew from '../src/components/Nav.vue'
 export default {
   name: 'App',
   components: {

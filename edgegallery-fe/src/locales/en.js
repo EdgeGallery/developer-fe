@@ -15,7 +15,13 @@
  */
 
 import enLocale from 'element-ui/lib/locale/lang/en'
+import enClassic from '../classic/locales/en.js'
 const en = {
-  ...enLocale
+  common: {
+    newVersion: 'New Version',
+    classic: 'Classic'
+  },
+  ...enLocale,
+  ...enClassic
 }
 export default en

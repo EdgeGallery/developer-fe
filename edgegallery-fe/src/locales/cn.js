@@ -15,7 +15,13 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+import cnClassic from '../classic/locales/cn.js'
 const cn = {
-  ...zhLocale
+  commons: {
+    newVersion: '新版',
+    classic: '经典版'
+  },
+  ...zhLocale,
+  ...cnClassic
 }
 export default cn
