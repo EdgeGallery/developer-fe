@@ -17,7 +17,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 import enClassic from '../classic/locales/en.js'
 const en = {
-  common: {
+  commons: {
     newVersion: 'New Version',
     classic: 'Classic'
   },
