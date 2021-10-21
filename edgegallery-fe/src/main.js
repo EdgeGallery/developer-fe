@@ -16,15 +16,15 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/router.js'
-import store from './store/store.js'
+import router from './classic/router/router.js'
+import store from './classic/store/store.js'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
-import i18n from './locales/i18n.js'
+import i18n from './classic/locales/i18n.js'
 import VueCookies from 'vue-cookies'
 import 'eg-view/src/assets/style/element-variables.scss'
 import 'eg-view/src/assets/style/normal.css'
-import '../src/assets/css/common.css'
+import '../src/classic/assets/css/common.css'
 
 Vue.use(ElementUI, { locale })
 Vue.use(VueCookies)

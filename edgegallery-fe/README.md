@@ -26,8 +26,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## menu config
 1. the menu need consistent with the menu in developer-fe repository, appStore repository, atp repository, mecm repository. 
-the difference is that, the menu is  rearranged and add a prefix to each menu path. the prefix is defined in file "./src/navdata/constants.js"
-2. add permission control to menus through add 'authority' property. details see the menu config, such as the file "./src/navdata/devNav.js"
+the difference is that, the menu is  rearranged and add a prefix to each menu path. the prefix is defined in file "./src/classic/navdata/constants.js"
+2. add permission control to menus through add 'authority' property. details see the menu config, such as the file "./src/classic/navdata/devNav.js"
 
 ## messages defination
 developer interfaces, addStore interfaces, mecm interfaces and atp interfaces are nested to this platform by iframe. the nested interface need get language change event, and this platform need get the route change in the nested interfaces. Here we use postMessage implement it.

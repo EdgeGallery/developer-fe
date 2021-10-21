@@ -22,27 +22,66 @@
   >
     <Navcomp
       :scroll-top-prop="scrollTop"
+      :is-home-prop="isHome"
+      :to-path-prop="toPath"
       class="clearfix"
+      @changeModel="changeModel"
+      v-if="pageModel!=='newVersion'"
+    />
+    <NavcompNew
+      :scroll-top-prop="scrollTop"
+      :to-path-prop="toPath"
+      class="clearfix"
+      @changeModel="changeModel"
+      v-if="pageModel==='newVersion'"
     />
     <router-view />
   </div>
 </template>
 
 <script>
-import Navcomp from './components/Nav.vue'
+import Navcomp from '../src/classic/components/Nav.vue'
+import NavcompNew from '../src/new/components/Nav.vue'
 export default {
   name: 'App',
   components: {
-    Navcomp
+    Navcomp,
+    NavcompNew
   },
   data () {
     return {
-      scrollTop: 0
+      scrollTop: 0,
+      pageModel: 'newVersion',
+      isHome: true,
+      toPath: ''
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.toPath = to.path
+      let isToNewVersion = to.path.indexOf('/new') !== -1
+      let isHome = to.path === '/home'
+      if (isToNewVersion || isHome) {
+        this.isHome = true
+      } else {
+        this.isHome = false
+      }
+      if (isToNewVersion) {
+        this.pageModel = 'newVersion'
+      } else {
+        this.pageModel = 'Classic'
+      }
+    },
+    scrollTop (val) {
+      this.scrollTop = val
     }
   },
   methods: {
     getScrollTop () {
       this.scrollTop = this.$refs.app.getBoundingClientRect().top
+    },
+    changeModel (data) {
+      this.pageModel = data
     }
   },
   mounted () {
