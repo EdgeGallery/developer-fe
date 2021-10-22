@@ -168,7 +168,6 @@ export default {
     },
     '$i18n.locale': function () {
       this.loginFun()
-      this.filterMenu()
     },
     $route (to, from) {
       this.toPath = to.path
@@ -215,7 +214,7 @@ export default {
   methods: {
     changeModel () {
       this.$router.push('/home')
-      this.$emit('changeModel', 'Classic')
+      sessionStorage.setItem('pageModel', 'Classic')
     },
     filterDeveloperMenu () {
       this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.DEVELOPER)
@@ -334,6 +333,7 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
+      this.filterMenu()
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {

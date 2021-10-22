@@ -174,7 +174,6 @@ export default {
     },
     '$i18n.locale': function () {
       this.loginFun()
-      this.filterMenu()
     },
     $route (to, from) {
       this.toPath = to.path
@@ -195,6 +194,9 @@ export default {
     }
   },
   mounted () {
+    if (this.toPath === '/home') {
+      this.isHome = true
+    }
     this.loginFun()
     // Switch language
     let lanIndex = window.location.href.search('language')
@@ -220,8 +222,8 @@ export default {
   },
   methods: {
     changeModel () {
-      this.$router.push('/new/home')
-      this.$emit('changeModel', 'newVersion')
+      this.$router.push('/index')
+      sessionStorage.setItem('pageModel', 'newVersion')
     },
     filterDeveloperMenu () {
       this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.DEVELOPER)
@@ -342,6 +344,7 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
+      this.filterMenu()
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {
