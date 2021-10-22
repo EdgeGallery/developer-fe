@@ -23,8 +23,8 @@ const NAV_PRE = {
 }
 
 const FIRST_LEVEL_MENU_PATH = {
-  HOME: '/new/home',
-  DEVELOPER: '/new/incubation',
+  HOME: '/index',
+  DEVELOPER: '/incubation',
   APPSTORE: '/appStore/home',
   MECM: '/mecm/',
   ATP: '/atp',

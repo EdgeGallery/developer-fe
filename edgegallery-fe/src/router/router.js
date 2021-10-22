@@ -23,15 +23,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: 'new/home'
+      redirect: 'index'
     },
     {
-      path: '/new/home',
+      path: '/index',
       name: 'newhome',
       component: () => import('../pages/Home.vue')
     },
     {
-      path: '/new/incubation',
+      path: '/incubation',
       name: 'incubation',
       component: () => import('../pages/Incubation/Index.vue')
     },
