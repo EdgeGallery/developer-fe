@@ -628,11 +628,11 @@
                 v-model="price"
                 label="2"
               >
-                <el-input
+                <el-input-number
                   v-model="priceSet"
                   style="width:100px;"
                   :disabled="price==='1'"
-                />  {{ $t('workspace.appRelease.price') }}
+                /> {{ $t('workspace.appRelease.price') }}
               </el-radio>
             </div>
           </el-form-item>
