@@ -475,10 +475,12 @@ export default {
           this.logoFileList = []
         }
         let fileTypeArr = ['jpg', 'png']
-        this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-        if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
-          this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
-          this.logoFileList = []
+        if (file.name) {
+          this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+          if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
+            this.$eg_messagebox(this.$t('promptMessage.checkFileType'), 'warning')
+            this.logoFileList = []
+          }
         }
       }
       this.showErr = !this.logoFileList
