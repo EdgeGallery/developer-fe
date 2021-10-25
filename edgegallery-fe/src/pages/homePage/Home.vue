@@ -19,7 +19,7 @@
     <div class="main-content">
       <div class="main-content-left">
         <img
-          src="../assets/images/index/index_EG_icon.png"
+          src="../../assets/images/index/index_EG_icon.png"
           alt="icon"
         >
         <div class="main-title">
@@ -58,15 +58,15 @@ export default {
       rightBtnList: [
         {
           name: '应用孵化',
-          src: require('../assets/images/index/index_app_create.png')
+          src: require('../../assets/images/index/index_app_create.png')
         },
         {
           name: '应用商店',
-          src: require('../assets/images/index/index_app_store.png')
+          src: require('../../assets/images/index/index_app_store.png')
         },
         {
           name: '应用部署',
-          src: require('../assets/images/index/index_app_deploy.png')
+          src: require('../../assets/images/index/index_app_deploy.png')
         }
       ]
     }
@@ -98,7 +98,7 @@ export default {
   .main-content{
     width: 100%;
     height: 100%;
-    background: url('../assets/images/index/index_bg.png') no-repeat center;
+    background: url('../../assets/images/index/index_bg.png') no-repeat center;
     background-size: cover;
     .main-content-left{
       height: 160px;
@@ -115,7 +115,7 @@ export default {
       .mian-sub-title{
         font-size: 20px;
         margin-top: 40px;
-        letter-spacing: 6px;
+        letter-spacing: 40px;
       }
     }
     .main-content-right{
@@ -133,7 +133,7 @@ export default {
         height: 100%;
         margin-right: 3%;
         overflow: hidden;
-        background: url('../assets/images/index/index_mask.png') no-repeat center;
+        background: url('../../assets/images/index/index_mask.png') no-repeat center;
         background-size: cover;
         border: 2px solid #B6A4EC;
         border-radius: 8px;
