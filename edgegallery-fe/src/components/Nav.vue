@@ -312,6 +312,7 @@ export default {
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
+        this.userName = res.data.userName
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
         this.ifGuest = res.data.userName === 'guest'
