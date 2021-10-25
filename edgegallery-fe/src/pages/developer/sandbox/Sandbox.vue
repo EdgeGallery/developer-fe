@@ -114,7 +114,7 @@ export default {
     position: absolute;
     left: 32%;
     top: 30%;
-    background-image: url('../../../assets/images/sandbox/all_sandbox_bg.png');
+    background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
     background-size: 100% 100%;
 
     .sandbox-top{
