@@ -14,33 +14,6 @@
  *  limitations under the License.
  */
 
-import Vue from 'vue'
-import Router from 'vue-router'
-import routesnew from '../classic/router/router.js'
-Vue.use(Router)
-
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      redirect: 'index'
-    },
-    {
-      path: '/index',
-      name: 'newhome',
-      component: () => import('../pages/homePage/Home.vue')
-    },
-    {
-      path: '/incubation',
-      name: 'incubation',
-      component: () => import('../pages/developer/sandbox/Index.vue')
-    },
-    ...routesnew
-  ],
-  scrollBehavior () {
-    return {
-      x: 0,
-      y: 0
-    }
-  }
-})
+const en = {
+}
+export default en

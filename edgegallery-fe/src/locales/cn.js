@@ -16,12 +16,24 @@
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 import cnClassic from '../classic/locales/cn.js'
+import cnHome from './home_cn.js'
+import cnApplication from './application_cn.js'
+import cnCapability from './capability_cn.js'
+import cnSandbox from './sandbox_cn.js'
+import cnImages from './images_cn.js'
+import cnAtp from './atp_cn.js'
 const cn = {
-  commons: {
+  normal: {
     newVersion: '新版',
     classic: '经典版'
   },
   ...zhLocale,
-  ...cnClassic
+  ...cnClassic,
+  ...cnHome,
+  ...cnApplication,
+  ...cnCapability,
+  ...cnSandbox,
+  ...cnImages,
+  ...cnAtp
 }
 export default cn

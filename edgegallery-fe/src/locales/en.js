@@ -16,12 +16,24 @@
 
 import enLocale from 'element-ui/lib/locale/lang/en'
 import enClassic from '../classic/locales/en.js'
+import enHome from './home_en.js'
+import enApplication from './application_en.js'
+import enCapability from './capability_en.js'
+import enSandbox from './sandbox_en.js'
+import enImages from './images_en.js'
+import enAtp from './atp_en.js'
 const en = {
-  commons: {
+  normal: {
     newVersion: 'New Version',
     classic: 'Classic'
   },
   ...enLocale,
-  ...enClassic
+  ...enClassic,
+  ...enHome,
+  ...enApplication,
+  ...enCapability,
+  ...enSandbox,
+  ...enImages,
+  ...enAtp
 }
 export default en

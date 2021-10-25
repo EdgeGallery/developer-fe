@@ -16,7 +16,7 @@
   -->
 <template>
   <div class="new_home">
-    集成平台新特性首页
+    集成平台新特性{{ $t('banner.text') }}
   </div>
 </template>
 
