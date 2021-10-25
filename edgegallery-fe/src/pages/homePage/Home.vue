@@ -26,16 +26,7 @@
           开 发 者 大 集 结
         </div>
         <p class="mian-sub-title">
-          每&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          一&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          个&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          开&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          者&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          都&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          了&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          不&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          起
+          每一个开发者都了不起
         </p>
       </div>
       <div class="main-content-right">
@@ -124,6 +115,7 @@ export default {
       .mian-sub-title{
         font-size: 20px;
         margin-top: 40px;
+        letter-spacing: 6px;
       }
     }
     .main-content-right{

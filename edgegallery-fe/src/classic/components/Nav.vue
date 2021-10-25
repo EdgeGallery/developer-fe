@@ -39,7 +39,7 @@
         class="user_icon rt"
         @click="changeModel"
       >
-        <span>{{ $t('commons.newVersion') }}</span>
+        <span>{{ $t('normal.newVersion') }}</span>
       </div>
       <div class="language rt">
         <span>
@@ -174,7 +174,6 @@ export default {
     },
     '$i18n.locale': function () {
       this.loginFun()
-      this.filterMenu()
     },
     $route (to, from) {
       this.toPath = to.path
@@ -195,6 +194,9 @@ export default {
     }
   },
   mounted () {
+    if (this.toPath === '/home') {
+      this.isHome = true
+    }
     this.loginFun()
     // Switch language
     let lanIndex = window.location.href.search('language')
@@ -220,8 +222,8 @@ export default {
   },
   methods: {
     changeModel () {
-      this.$router.push('/new/home')
-      this.$emit('changeModel', 'newVersion')
+      this.$router.push('/index')
+      sessionStorage.setItem('pageModel', 'newVersion')
     },
     filterDeveloperMenu () {
       this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.DEVELOPER)
@@ -321,6 +323,7 @@ export default {
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
+        this.userName = res.data.userName
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
         this.ifGuest = res.data.userName === 'guest'
@@ -342,6 +345,7 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
+      this.filterMenu()
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {

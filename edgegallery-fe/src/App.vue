@@ -25,14 +25,12 @@
       :is-home-prop="isHome"
       :to-path-prop="toPath"
       class="clearfix"
-      @changeModel="changeModel"
       v-if="pageModel!=='newVersion'"
     />
     <NavcompNew
       :scroll-top-prop="scrollTop"
       :to-path-prop="toPath"
       class="clearfix"
-      @changeModel="changeModel"
       v-if="pageModel==='newVersion'"
     />
     <router-view />
@@ -42,6 +40,7 @@
 <script>
 import Navcomp from '../src/classic/components/Nav.vue'
 import NavcompNew from '../src/components/Nav.vue'
+import navDataClassic from '../src/classic/navdata/navDataCn.js'
 export default {
   name: 'App',
   components: {
@@ -51,26 +50,27 @@ export default {
   data () {
     return {
       scrollTop: 0,
-      pageModel: 'newVersion',
+      pageModel: sessionStorage.getItem('pageModel') || 'newVersion',
       isHome: true,
-      toPath: ''
+      toPath: '/index',
+      navDataClassic: navDataClassic
     }
   },
   watch: {
+    pageModel (val) {
+      this.pageModel = val
+    },
     $route (to, from) {
       this.toPath = to.path
-      let isToNewVersion = to.path.indexOf('/new') !== -1
+      this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
+      let toJumpClassic = this.pageModel === 'Classic'
       let isHome = to.path === '/home'
-      if (isToNewVersion || isHome) {
+      if (!toJumpClassic && isHome) {
         this.isHome = true
       } else {
         this.isHome = false
       }
-      if (isToNewVersion) {
-        this.pageModel = 'newVersion'
-      } else {
-        this.pageModel = 'Classic'
-      }
+      this.ifToJumpClassic(this.toPath)
     },
     scrollTop (val) {
       this.scrollTop = val
@@ -80,11 +80,30 @@ export default {
     getScrollTop () {
       this.scrollTop = this.$refs.app.getBoundingClientRect().top
     },
-    changeModel (data) {
-      this.pageModel = data
+    ifToJumpClassic (toPath) {
+      let numTemp = 0
+      this.navDataClassic.forEach(item => {
+        if (item.path === toPath) {
+          numTemp++
+        }
+        if (!item.children) {
+          return
+        }
+        item.children.forEach(itemChild => {
+          if (itemChild.path === toPath) {
+            numTemp++
+          }
+        })
+        if (numTemp > 0) {
+          this.pageModel = 'Classic'
+        } else {
+          this.pageModel = 'newVersion'
+        }
+      })
     }
   },
   mounted () {
+    this.ifToJumpClassic(this.toPath)
     window.addEventListener('scroll', this.getScrollTop, true)
     window.onresize = () => {
       return (() => {

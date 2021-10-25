@@ -38,7 +38,7 @@
         class="user_icon rt"
         @click="changeModel"
       >
-        <span>{{ $t('commons.classic') }}</span>
+        <span>{{ $t('normal.classic') }}</span>
       </div>
       <div class="language rt">
         <span>
@@ -168,7 +168,6 @@ export default {
     },
     '$i18n.locale': function () {
       this.loginFun()
-      this.filterMenu()
     },
     $route (to, from) {
       this.toPath = to.path
@@ -215,7 +214,7 @@ export default {
   methods: {
     changeModel () {
       this.$router.push('/home')
-      this.$emit('changeModel', 'Classic')
+      sessionStorage.setItem('pageModel', 'Classic')
     },
     filterDeveloperMenu () {
       this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.DEVELOPER)
@@ -313,6 +312,7 @@ export default {
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
+        this.userName = res.data.userName
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
         this.ifGuest = res.data.userName === 'guest'
@@ -334,6 +334,7 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
+      this.filterMenu()
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {
