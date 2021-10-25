@@ -23,7 +23,7 @@
           alt="icon"
         >
         <div class="main-title">
-          开 发 者 大 集 结
+          开发者大集结
         </div>
         <p class="mian-sub-title">
           每一个开发者都了不起
@@ -115,7 +115,7 @@ export default {
       .mian-sub-title{
         font-size: 20px;
         margin-top: 40px;
-        letter-spacing: 40px;
+        letter-spacing: 20px;
       }
     }
     .main-content-right{
