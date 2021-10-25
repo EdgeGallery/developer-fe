@@ -23,7 +23,7 @@ import cnSandbox from './sandbox_cn.js'
 import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
 const cn = {
-  nomal: {
+  normal: {
     newVersion: '新版',
     classic: '经典版'
   },

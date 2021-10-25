@@ -39,7 +39,7 @@
         class="user_icon rt"
         @click="changeModel"
       >
-        <span>{{ $t('nomal.newVersion') }}</span>
+        <span>{{ $t('normal.newVersion') }}</span>
       </div>
       <div class="language rt">
         <span>
