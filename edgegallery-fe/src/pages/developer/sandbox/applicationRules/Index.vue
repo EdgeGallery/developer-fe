@@ -52,7 +52,7 @@
           min-width="20%"
         />
         <el-table-column
-          label="操作"
+          :label="$t('normal.operation')"
           min-width="20%"
         >
           <template>
@@ -60,13 +60,13 @@
               type="text"
               class="operation-btn-text"
             >
-              编辑
+              {{ $t('normal.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
             >
-              删除
+              {{ $t('normal.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -105,7 +105,7 @@
           min-width="20%"
         />
         <el-table-column
-          label="操作"
+          :label="$t('normal.operation')"
           min-width="20%"
         >
           <template>
@@ -113,13 +113,13 @@
               type="text"
               class="operation-btn-text"
             >
-              编辑
+              {{ $t('normal.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
             >
-              删除
+              {{ $t('normal.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -127,10 +127,10 @@
 
       <div class="btn-container">
         <el-button class="common-btn">
-          取消
+          {{ $t('normal.cancel') }}
         </el-button>
         <el-button class="common-btn">
-          确认
+          {{ $t('normal.confirm') }}
         </el-button>
       </div>
     </div>
@@ -139,7 +139,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'ApplicationRules',
   data () {
     return {
       trafficListData: [

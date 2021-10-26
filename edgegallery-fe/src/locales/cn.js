@@ -25,7 +25,12 @@ import cnAtp from './atp_cn.js'
 const cn = {
   normal: {
     newVersion: '新版',
-    classic: '经典版'
+    classic: '经典版',
+    operation: '操作',
+    edit: '编辑',
+    delete: '删除',
+    cancel: '取消',
+    confirm: '确认'
   },
   ...zhLocale,
   ...cnClassic,
