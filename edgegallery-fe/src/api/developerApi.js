@@ -20,7 +20,7 @@
 //   POST,
 //   PUT,
 //   DELETE
-// } from '../tools/requset.js'
+// } from '../tools/request.js'
 
 export {
 }
