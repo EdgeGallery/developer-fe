@@ -24,8 +24,10 @@
       class="sandbox hoverHands"
       @click="toSelectSandbox"
     >
-      <p class="sandbox-namecn">
-        选择沙箱
+      <p
+        class="sandbox-namecn"
+      >
+        {{ selectSandbox }}
       </p>
       <p class="sandbox-nameen">
         SANDBOX
@@ -39,12 +41,16 @@ export default {
   name: '',
   data () {
     return {
-
+      selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || '选择沙箱'
     }
   },
   methods: {
     toSelectSandbox () {
-      this.$router.push({ path: '/sandbox' })
+      if (this.selectSandbox === '选择沙箱') {
+        this.$router.push({ path: '/sandbox' })
+      } else {
+        this.$router.push({ path: '/sandboxDetail' })
+      }
     }
   },
   mounted () {
@@ -57,21 +63,16 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
-  position: relative;
   .question{
     width: 67px;
     height: 67px;
-    position: absolute;
-    right: 5%;
-    top: 10%;
+    margin: 2% 0 0 90%;
   }
   .sandbox{
-    width: 33.83%;
+    width: 344px;
     height: 420px;
-    position: absolute;
-    top: 32%;
-    left: 34%;
-    padding: 9%  0;
+    margin: 6% auto;
+    padding:170px   0;
     background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
     animation: scaleBox 4s  ease-in 0s infinite ;
     @keyframes scaleBox {
