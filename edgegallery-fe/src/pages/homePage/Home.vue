@@ -127,7 +127,7 @@ export default {
         background: url('../../assets/images/index/index_mask.png') no-repeat center;
         background-size: cover;
         border: 2px solid #B6A4EC;
-        border-radius: 8px;
+        border-radius: 17px;
         transition: transform 0.3s ease-in;
         cursor: pointer;
         img{
