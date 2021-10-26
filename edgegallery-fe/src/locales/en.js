@@ -25,7 +25,12 @@ import enAtp from './atp_en.js'
 const en = {
   normal: {
     newVersion: 'New Version',
-    classic: 'Classic'
+    classic: 'Classic',
+    operation: 'Operation',
+    edit: 'Edit',
+    delete: 'Delete',
+    cancel: 'Cancel',
+    confirm: 'Confirm'
   },
   ...enLocale,
   ...enClassic,

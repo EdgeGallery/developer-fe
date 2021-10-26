@@ -36,6 +36,11 @@ export default new Router({
       component: () => import('../pages/developer/Index.vue')
     },
     {
+      path: '/application-rules',
+      name: 'incubationRules',
+      component: () => import('../pages/developer/sandbox/applicationRules/Index.vue')
+    },
+    {
       path: '/sandbox',
       name: 'sandbox',
       component: () => import('../pages/developer/sandbox/Sandbox.vue')
