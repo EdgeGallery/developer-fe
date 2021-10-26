@@ -33,7 +33,7 @@ export default new Router({
     {
       path: '/incubation',
       name: 'incubation',
-      component: () => import('../pages/developer/sandbox/Index.vue')
+      component: () => import('../pages/developer/Index.vue')
     },
     {
       path: '/sandbox',
