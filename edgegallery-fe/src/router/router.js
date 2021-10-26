@@ -16,7 +16,7 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import routesnew from '../classic/router/router.js'
+import routesclassic from '../classic/router/router.js'
 Vue.use(Router)
 
 export default new Router({
@@ -44,9 +44,13 @@ export default new Router({
       path: '/sandbox',
       name: 'sandbox',
       component: () => import('../pages/developer/sandbox/Sandbox.vue')
+    }, {
+      path: '/selectScenarios',
+      name: 'selectScenarios',
+      component: () => import('../pages/developer/atp/selectScenarios.vue')
     },
 
-    ...routesnew
+    ...routesclassic
   ],
   scrollBehavior () {
     return {
