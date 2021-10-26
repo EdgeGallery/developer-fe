@@ -23,7 +23,7 @@ import enSandbox from './sandbox_en.js'
 import enImages from './images_en.js'
 import enAtp from './atp_en.js'
 const en = {
-  normal: {
+  common: {
     newVersion: 'New Version',
     classic: 'Classic',
     operation: 'Operation',
