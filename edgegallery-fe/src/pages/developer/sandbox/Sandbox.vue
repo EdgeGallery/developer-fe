@@ -36,15 +36,16 @@
           <div class="sandbox-content">
             <img
               class="select-img"
-              src="../../../assets/images/sandbox/selected.png"
+              :src="ifSelected === true?selectedImg:unselectedImg"
               alt=""
             >
             <img
-              class="sandbox-img"
+              class="sandbox-img hoverHands"
               :src="item.imgUrl"
               alt=""
+              @click="selectSandbox"
             >
-            <p class="sandbox-detail">
+            <p class="sandbox-detail hoverHands">
               详情
             </p>
           </div>
@@ -61,6 +62,8 @@
 </template>
 
 <script>
+import selectedImg from '@/assets/images/sandbox/selected.png'
+import unselectedImg from '@/assets/images/sandbox/unselected.png'
 export default {
   name: '',
   data () {
@@ -82,10 +85,16 @@ export default {
           name: '西安沙箱',
           imgUrl: require('../../../assets/images/sandbox/sandbox4.png')
         }
-      ]
+      ],
+      selectedImg: selectedImg,
+      unselectedImg: unselectedImg,
+      ifSelected: false
     }
   },
   methods: {
+    selectSandbox () {
+      this.ifSelected = !this.ifSelected
+    }
   },
   mounted () {
   }
@@ -97,8 +106,6 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
-  background: url('../../../assets/images/sandbox/bg.png') no-repeat center;
-  background-size: cover;
   position: relative;
     .question{
     width: 67px;
@@ -110,13 +117,12 @@ export default {
   .all-sandbox{
     width: 36.35%;
     padding: 20px 2% ;
-    min-height: 465px;
+    min-height: 405px;
     position: absolute;
     left: 32%;
     top: 30%;
     background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
     background-size: 100% 100%;
-
     .sandbox-top{
       display: flex;
       .sandbox-top-circle{
@@ -132,18 +138,18 @@ export default {
       }
     }
     .sandboxs{
-      margin-top: 14px;
+      margin-top: 40px;
       width: 100%;
       position: relative;
       justify-content: flex-start;
       flex-wrap: wrap;
       display: flex;
       .one-sandbox{
-        width: 14%;
-        height: 160px;
-        margin: 0 7% 40px 3%;
+        width: 16%;
+        height: 168px;
+        margin: 0 5% 40px 4%;
        .sandbox-content{
-          height: 160px;
+          height: 168px;
           width: 100%;
           display: flex;
           flex-direction: column;
@@ -164,9 +170,10 @@ export default {
           font-size: 8px;
           color: #fff;
           background-color: #76E1E9;
-          height: 16px;
-          width: 30px;
           border-radius: 6px;
+          margin-top: 10px;
+          padding: 2px 4px;
+          transform: scale(0.8);
         }
       }
       .sandbox-name{
@@ -183,7 +190,7 @@ export default {
       border-radius: 12px;
       position: relative;
       left: 78%;
-      margin-top: 20px;
+      margin-top: 40px;
     }
   }
 }

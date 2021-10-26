@@ -57,8 +57,6 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
-  background: url('../../../assets/images/sandbox/bg.png') no-repeat center;
-  background-size: cover;
   position: relative;
   .question{
     width: 67px;
@@ -74,7 +72,7 @@ export default {
     top: 32%;
     left: 34%;
     padding: 9%  0;
-    background: url('../../../assets/images/sandbox/sandboxNameBg.png') no-repeat center;
+    background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
     animation: scaleBox 4s  ease-in 0s infinite ;
     @keyframes scaleBox {
       0%{
