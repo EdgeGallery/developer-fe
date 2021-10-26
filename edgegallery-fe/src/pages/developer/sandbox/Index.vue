@@ -15,7 +15,22 @@
   -->
 <template>
   <div class="incubation">
-    沙箱
+    <img
+      src="../../../assets/images/sandbox/question.png"
+      alt=""
+      class="question hoverHands"
+    >
+    <div
+      class="sandbox hoverHands"
+      @click="toSelectSandbox"
+    >
+      <p class="sandbox-namecn">
+        选择沙箱
+      </p>
+      <p class="sandbox-nameen">
+        SANDBOX
+      </p>
+    </div>
   </div>
 </template>
 
@@ -28,6 +43,9 @@ export default {
     }
   },
   methods: {
+    toSelectSandbox () {
+      this.$router.push({ path: '/sandbox' })
+    }
   },
   mounted () {
   }
@@ -37,9 +55,58 @@ export default {
 <style lang="less">
 .incubation{
   width: 100%;
-  height: 100px;
-  line-height: 100px;
+  height: 100%;
   font-size: 20px;
-  text-align: center;
+  position: relative;
+  .question{
+    width: 67px;
+    height: 67px;
+    position: absolute;
+    right: 5%;
+    top: 10%;
+  }
+  .sandbox{
+    width: 33.83%;
+    height: 420px;
+    position: absolute;
+    top: 32%;
+    left: 34%;
+    padding: 9%  0;
+    background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
+    animation: scaleBox 4s  ease-in 0s infinite ;
+    @keyframes scaleBox {
+      0%{
+         transform: scale(1);
+      }
+      20%{
+        transform: scale(1.05);
+      }
+      40%{
+        transform: scale(1);
+      }
+      60%{
+        transform: scale(0.93);
+      }
+      80%{
+        transform: scale(0.95);
+      }
+      100%{
+        transform: scale(1);
+      }
+    }
+    .sandbox-namecn{
+      font-size: 25px;
+      letter-spacing: 10px;
+      text-align: center;
+      color: #fff;
+      font-weight: lighter;
+    }
+    .sandbox-nameen{
+      font-weight: bold;
+      font-size: 50px;
+      text-align: center;
+      color:#D6CFFB;
+    }
+  }
 }
 </style>
