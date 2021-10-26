@@ -19,8 +19,6 @@ export default {
   .application{
     width: 100%;
     height: 100%;
-    background: url('../../assets/images/home_bg.png') no-repeat center;
-    background-size: cover;
     .left-menu{
       width: 10%;
       height: 80%;

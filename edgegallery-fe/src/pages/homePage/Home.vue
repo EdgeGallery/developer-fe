@@ -89,6 +89,8 @@ export default {
     height: 100%;
     background: url('../../assets/images/index/index_bg.png') no-repeat center;
     background-size: cover;
+    position: relative;
+    z-index: 10;
     .main-content-left{
       height: 160px;
       width: 35%;
