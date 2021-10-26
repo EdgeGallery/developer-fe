@@ -122,13 +122,13 @@
     </div>
     <!-- case detail -->
     <el-dialog
-      :visible.sync="CaseVisible"
+      :visible.sync="isCaseVisible"
       :title="$t('userpage.caseDetail')"
       width="45%"
     >
       <el-collapse
         :value="opened"
-        v-if="!testSuitesNocase"
+        v-if="!isTestCase"
       >
         <el-collapse-item
           v-for="(item,index) in testSuiteData"
@@ -182,7 +182,7 @@
       </div>
     </el-dialog>
     <el-dialog
-      :visible.sync="addCaseVisible"
+      :visible.sync="isAddCaseVisible"
       :title="$t('userpage.contribution')"
       :close-on-click-modal="false"
       width="45%"
@@ -317,7 +317,7 @@ import { Userpage, URL_PREFIX } from '../../../api/atpApi.js'
 
 export default {
   data () {
-    const NameEmpty = (rule, value, callback) => {
+    const nameEmpty = (rule, value, callback) => {
       if (value === '') {
         callback(new Error(this.$t('promptMessage.nameEmpty')))
       } else {
@@ -331,7 +331,7 @@ export default {
         callback()
       }
     }
-    const ResultEmpty = (rule, value, callback) => {
+    const resultEmpty = (rule, value, callback) => {
       if (value === '') {
         callback(new Error(this.$t('promptMessage.expectResultEmpty')))
       } else {
@@ -345,7 +345,7 @@ export default {
         callback()
       }
     }
-    const StepEmpty = (rule, value, callback) => {
+    const stepEmpty = (rule, value, callback) => {
       if (value === '') {
         callback(new Error(this.$t('promptMessage.testStepEmpty')))
       } else {
@@ -366,11 +366,11 @@ export default {
       datacn: [],
       dataen: [],
       scenarioIdList: [],
-      CaseVisible: false,
+      isCaseVisible: false,
       taskId: '',
       testSuiteData: [],
       language: 'cn',
-      addCaseVisible: false,
+      isAddCaseVisible: false,
       addcaseForm: {
         name: '',
         objective: '',
@@ -379,19 +379,19 @@ export default {
         type: '',
         file: []
       },
-      testSuitesNocase: false,
+      isTestCase: false,
       rules: {
         name: [
-          { required: true, validator: NameEmpty, trigger: 'blur' }
+          { required: true, validator: nameEmpty, trigger: 'blur' }
         ],
         objective: [
           { required: true, validator: objectiveEmpty, trigger: 'blur' }
         ],
         step: [
-          { required: true, validator: StepEmpty, trigger: 'blur' }
+          { required: true, validator: stepEmpty, trigger: 'blur' }
         ],
         expectResult: [
-          { required: true, validator: ResultEmpty, trigger: 'blur' }
+          { required: true, validator: resultEmpty, trigger: 'blur' }
         ],
         type: [
           { required: true, validator: typeEmpty, trigger: 'change' }
@@ -405,8 +405,8 @@ export default {
   },
   computed: {
     opened () {
-      return this.testSuiteData.map((i) => {
-        return i.nameEn
+      return this.testSuiteData.map((testSuite) => {
+        return testSuite.nameEn
       })
     }
   },
@@ -421,7 +421,7 @@ export default {
       if (this.$refs['addcaseForm']) {
         this.$refs['addcaseForm'].resetFields()
       }
-      this.addCaseVisible = true
+      this.isAddCaseVisible = true
     },
     getAllScene () {
       // Userpage.getAllSceneApi().then(res => {
@@ -502,17 +502,17 @@ export default {
       return URL_PREFIX + 'files/' + item.id
     },
     handleClose () {
-      this.CaseVisible = false
+      this.isCaseVisible = false
     },
     getDetail (item) {
-      this.CaseVisible = true
+      this.isCaseVisible = true
       let scenarioIds = []
       scenarioIds.push(item.id)
       let fd = new FormData()
       fd.append('scenarioIds', scenarioIds)
       Userpage.getSceneCaseApi(fd).then(res => {
         this.testSuiteData = res.data[0].testSuites
-        this.testSuitesNocase = this.testSuiteData.every(function (element) {
+        this.isTestCase = this.testSuiteData.every(function (element) {
           return (element.testCases.length === 0)
         })
       }).catch(() => {
@@ -547,50 +547,49 @@ export default {
     },
     confirmAddCase () {
       this.$refs['addcaseForm'].validate((valid) => {
-        if (valid) {
-          let fd = new FormData()
-          let addcaseForm = this.addcaseForm
-          fd.append('name', addcaseForm.name)
-          fd.append('objective', addcaseForm.objective)
-          fd.append('step', addcaseForm.step)
-          fd.append('expectResult', addcaseForm.expectResult)
-          fd.append('type', addcaseForm.type)
-          if (addcaseForm.file.length > 0) {
-            fd.append('file', addcaseForm.file[0])
-          } else {
-            let objFile = new File([], 'kong.java')
-            addcaseForm.file.push(objFile)
-            fd.append('file', addcaseForm.file[0])
-          }
-          Userpage.contributionApi(fd).then(res => {
-            this.$message({
-              showClose: true,
-              duration: 2000,
-              message: this.$t('promptMessage.submitSuccess'),
-              type: 'success'
-            })
-            this.addCaseVisible = false
-            this.addcaseForm = {
-              name: '',
-              objective: '',
-              step: '',
-              expectResult: '',
-              type: '',
-              file: []
-            }
-          }).catch(() => {
-            this.cancelClose()
-          })
-        } else {
+        if (!valid) {
           return false
         }
+        let fd = new FormData()
+        let addcaseForm = this.addcaseForm
+        fd.append('name', addcaseForm.name)
+        fd.append('objective', addcaseForm.objective)
+        fd.append('step', addcaseForm.step)
+        fd.append('expectResult', addcaseForm.expectResult)
+        fd.append('type', addcaseForm.type)
+        if (addcaseForm.file.length > 0) {
+          fd.append('file', addcaseForm.file[0])
+        } else {
+          let objFile = new File([], 'kong.java')
+          addcaseForm.file.push(objFile)
+          fd.append('file', addcaseForm.file[0])
+        }
+        Userpage.contributionApi(fd).then(res => {
+          this.$message({
+            showClose: true,
+            duration: 2000,
+            message: this.$t('promptMessage.submitSuccess'),
+            type: 'success'
+          })
+          this.isAddCaseVisible = false
+          this.addcaseForm = {
+            name: '',
+            objective: '',
+            step: '',
+            expectResult: '',
+            type: '',
+            file: []
+          }
+        }).catch(() => {
+          this.cancelClose()
+        })
+        if (this.addcaseForm.file.length !== 0) {
+          this.$refs.import.clearValidate()
+        }
       })
-      if (this.addcaseForm.file.length !== 0) {
-        this.$refs.import.clearValidate()
-      }
     },
     cancelClose () {
-      this.addCaseVisible = false
+      this.isAddCaseVisible = false
       this.addcaseForm = {
         name: '',
         objective: '',
@@ -782,7 +781,6 @@ export default {
         width:17px;
         height:17px;
         margin-right:20px;
-        // background-image: url('../../assets/images/casedetail.png');
         position: relative;
         top: 2px;
       }
