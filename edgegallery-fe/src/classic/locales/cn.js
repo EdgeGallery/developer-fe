@@ -18,8 +18,9 @@ import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 const cn = {
   home: {
   },
-  common: {
-    developing: '页面正在开发中。'
+  normal: {
+    cancel: '取消',
+    confirm: '确认'
   },
   nav: {
     logIn: '登录',
