@@ -53,7 +53,9 @@ export default {
       pageModel: sessionStorage.getItem('pageModel') || 'newVersion',
       isHome: true,
       toPath: '/index',
-      navDataClassic: navDataClassic
+      navDataClassic: navDataClassic,
+      screenHeight: document.body.clientHeight,
+      timer: false
     }
   },
   watch: {
@@ -74,9 +76,27 @@ export default {
     },
     scrollTop (val) {
       this.scrollTop = val
+    },
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
     }
   },
   methods: {
+    setDivHeight (screenHeight) {
+      this.$nextTick(() => {
+        let oDiv = document.getElementById('app')
+        if (oDiv) {
+          oDiv.style.minHeight = Number(screenHeight) + 'px'
+        }
+      })
+    },
     getScrollTop () {
       this.scrollTop = this.$refs.app.getBoundingClientRect().top
     },
@@ -104,10 +124,13 @@ export default {
   },
   mounted () {
     this.ifToJumpClassic(this.toPath)
+    this.setDivHeight(this.screenHeight)
     window.addEventListener('scroll', this.getScrollTop, true)
     window.onresize = () => {
       return (() => {
         this.getScrollTop()
+        this.screenHeight = document.body.clientHeight
+        this.setDivHeight(this.screenHeight)
       })()
     }
   },
@@ -121,10 +144,10 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #fff;
   width: 100%;
-  height: 100%;
-  background:#f6f5f8;
+  background:url('../src/assets/images/common-bg.png');
   padding-top: 80px;
+  background-size:cover;
 }
 </style>
