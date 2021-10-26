@@ -169,10 +169,10 @@ export default {
 
 <style lang="less">
 .application-rules{
+  padding: 0 20%;
   .rules-config{
-    width: 90%;
     background: url('../../../../assets/images/div-bg.png');
-    margin: 110px 10%;
+    margin-top: 110px;
     padding: 55px 120px;
     border: 1px solid #8f80d9;
     border-radius: 16px;
@@ -202,6 +202,11 @@ export default {
       width: calc(100% - 35px);
       margin-left: 35px;
     }
+  }
+}
+@media screen and (max-width:1600px){
+  .application-rules{
+    padding: 0 10%;
   }
 }
 </style>
