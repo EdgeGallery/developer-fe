@@ -34,12 +34,6 @@
         title="更多"
         @click.stop="changeZoom(2)"
       />
-      <el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-search"
-        v-model="searchValue"
-        class="porject-search-input"
-      />
     </div>
     <div
       class="project-main"
@@ -186,9 +180,5 @@ export default {
     width: 180px;
     z-index: 988;
   }
-}
-.el-input__inner{
-  height: 30px !important;
-  line-height: 30px !important;
 }
 </style>
