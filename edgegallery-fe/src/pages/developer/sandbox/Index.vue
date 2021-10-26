@@ -25,11 +25,11 @@
       @click="toSelectSandbox"
     >
       <p
-        class="sandbox-namecn"
+        class="sandbox-name-cn"
       >
         {{ selectSandbox }}
       </p>
-      <p class="sandbox-nameen">
+      <p class="sandbox-name-en">
         SANDBOX
       </p>
     </div>
@@ -41,12 +41,12 @@ export default {
   name: '',
   data () {
     return {
-      selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || '选择沙箱'
+      selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || 'selectSandbox'
     }
   },
   methods: {
     toSelectSandbox () {
-      if (this.selectSandbox === '选择沙箱') {
+      if (this.selectSandbox === 'selectSandbox') {
         this.$router.push({ path: '/sandbox' })
       } else {
         this.$router.push({ path: '/sandboxDetail' })
@@ -95,14 +95,14 @@ export default {
         transform: scale(1);
       }
     }
-    .sandbox-namecn{
+    .sandbox-name-cn{
       font-size: 25px;
       letter-spacing: 10px;
       text-align: center;
       color: #fff;
       font-weight: lighter;
     }
-    .sandbox-nameen{
+    .sandbox-name-en{
       font-weight: bold;
       font-size: 50px;
       text-align: center;
