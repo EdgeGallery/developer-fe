@@ -793,3 +793,6 @@
    background: url('../images/empty.png') center 10px no-repeat;
    padding-top: 200px;
  }
+ .hoverHands:hover{
+  cursor: pointer;
+ }

@@ -35,6 +35,12 @@ export default new Router({
       name: 'incubation',
       component: () => import('../pages/developer/sandbox/Index.vue')
     },
+    {
+      path: '/sandbox',
+      name: 'sandbox',
+      component: () => import('../pages/developer/sandbox/Sandbox.vue')
+    },
+
     ...routesnew
   ],
   scrollBehavior () {
