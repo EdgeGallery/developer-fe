@@ -35,6 +35,11 @@ export default new Router({
       name: 'incubation',
       component: () => import('../pages/developer/sandbox/Index.vue')
     },
+    {
+      path: '/application-rules',
+      name: 'incubationRules',
+      component: () => import('../pages/developer/sandbox/applicationRules/Index.vue')
+    },
     ...routesnew
   ],
   scrollBehavior () {
