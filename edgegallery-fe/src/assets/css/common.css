@@ -825,3 +825,6 @@ th{
 .btn-container .el-button{
   font-size: 14px;
 }
+ .hoverHands:hover{
+  cursor: pointer;
+ }

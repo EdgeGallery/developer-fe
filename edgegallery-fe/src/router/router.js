@@ -40,6 +40,12 @@ export default new Router({
       name: 'incubationRules',
       component: () => import('../pages/developer/sandbox/applicationRules/Index.vue')
     },
+    {
+      path: '/sandbox',
+      name: 'sandbox',
+      component: () => import('../pages/developer/sandbox/Sandbox.vue')
+    },
+
     ...routesnew
   ],
   scrollBehavior () {

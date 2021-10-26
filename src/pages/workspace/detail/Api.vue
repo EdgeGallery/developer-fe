@@ -337,22 +337,24 @@ export default {
         Capability.getCapabilityByProjectId(projectId).then(result => {
           let capabilities = result.data
           this.hasService = capabilities.length > 0
-          this.handleCapabilityData(capabilities, groupMap)
-          let capabilityGroups = []
-          groupMap.forEach((group, key) => {
-            group.leaf = false
-            group.label = this.language === 'en' ? group.nameEn : group.name
-            if (this.capabilityIcon[group.nameEn]) {
-              group.icon = this.capabilityIcon[group.nameEn].icon
-            }
-            capabilityGroups.push(group)
-          })
+          if (this.hasService) {
+            this.handleCapabilityData(capabilities, groupMap)
+            let capabilityGroups = []
+            groupMap.forEach((group, key) => {
+              group.leaf = false
+              group.label = this.language === 'en' ? group.nameEn : group.name
+              if (this.capabilityIcon[group.nameEn]) {
+                group.icon = this.capabilityIcon[group.nameEn].icon
+              }
+              capabilityGroups.push(group)
+            })
 
-          resolve(capabilityGroups)
-          this.apiDataLoading = false
-          this.$nextTick(() => {
-            this.expandRootNodeAndSelectFirstLeafNode()
-          })
+            resolve(capabilityGroups)
+            this.apiDataLoading = false
+            this.$nextTick(() => {
+              this.expandRootNodeAndSelectFirstLeafNode()
+            })
+          }
         })
       }
       if (node.level > 1) return resolve([])
