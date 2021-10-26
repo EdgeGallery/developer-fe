@@ -16,36 +16,67 @@
   -->
 <template>
   <div class="project-list">
-    <div class="project-list-top">
+    <div
+      class="project-list-top"
+      :class="zoom===2?'top-center':'top-right'"
+    >
       <div
-        class="zoom"
-        title="Zoom out"
+        class="zoom project-btn"
+        title="缩小"
+        @click.stop="changeZoom(1)"
       />
       <div
-        class="search"
-        title="Search"
+        class="search project-btn"
+        title="搜索"
       />
       <div
-        class="switch"
-        title="Switch view"
+        class="switch project-btn"
+        title="更多"
+        @click.stop="changeZoom(2)"
+      />
+      <el-input
+        placeholder="请输入内容"
+        suffix-icon="el-icon-search"
+        v-model="searchValue"
+        class="porject-search-input"
       />
     </div>
-    <div class="project-list-main">
+    <div
+      class="project-main"
+      :class="zoom===2?'':'project-flex-main'"
+    >
       <div
-        v-for="(item,index) in projectList"
-        :key="index"
-        class="project-item"
+        class="project-list-title"
+        v-if="zoom!==2"
       >
-        <img
-          :src="item.icon"
-          :alt="item.name"
+        新建项目/最近创建
+      </div>
+      <div
+        class="project-list-main"
+        :class="zoom===2?'':'project-flex-items'"
+      >
+        <div
+          v-for="(item,index) in projectList"
+          :key="index"
+          class="project-item"
         >
-        <div>
-          {{ item.name }}
+          <img
+            :src="item.icon"
+            :alt="item.name"
+          >
+          <div>
+            {{ item.name }}
+          </div>
+          <div>
+            {{ item.status }}
+          </div>
         </div>
-        <div>
-          {{ item.status }}
-        </div>
+      </div>
+      <div
+        class="project-list-title"
+        v-if="zoom!==2"
+      >
+        部署完成
       </div>
     </div>
   </div>
@@ -55,6 +86,12 @@
 export default {
   components: {
 
+  },
+  props: {
+    zoom: {
+      type: Number,
+      default: 0
+    }
   },
   data () {
     return {
@@ -81,11 +118,14 @@ export default {
           icon: require('../../../assets/images/projects/pro_history_pro.png'),
           name: 'app3'
         }
-      ]
+      ],
+      searchValue: ''
     }
   },
   methods: {
-
+    changeZoom (val) {
+      this.$emit('zoomChanged', val)
+    }
   },
   mounted () {}
 }
@@ -95,11 +135,10 @@ export default {
 .project-list {
   .project-list-top{
     display: flex;
-    justify-content: center;
-    div{
+    .project-btn{
       width: 20px;
       height: 20px;
-      margin: 10px 8%;
+      margin: 10px 15px;
       cursor: pointer;
     }
     .zoom{
@@ -115,14 +154,41 @@ export default {
       background-size: cover;
     }
   }
+  .top-center{
+    justify-content: space-between;
+  }
+  .top-right{
+    justify-content: right;
+  }
   .project-list-main{
-    padding-top: 35px;
     margin: 0 auto;
     .project-item{
-      height: 120px;
       text-align: center;
       cursor: pointer;
+      padding: 10px 15px;
     }
   }
+  .project-flex-items{
+    display: flex;
+    justify-content: left;
+  }
+  .project-flex-main{
+    margin-left: 50px;
+  }
+  .project-list-title{
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 35px;
+  }
+  .porject-search-input{
+    position: absolute;
+    top: 46px;
+    width: 180px;
+    z-index: 988;
+  }
+}
+.el-input__inner{
+  height: 30px !important;
+  line-height: 30px !important;
 }
 </style>
