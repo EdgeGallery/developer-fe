@@ -84,17 +84,6 @@ export default {
   height: 100%;
   font-size: 20px;
   text-align: center;
-  .left-menu{
-    width: 15%;
-    height: 80%;
-    border: 1px solid #ddd;
-    position: relative;
-    position: absolute;
-    top: 15%;
-    z-index: 15;
-    background: #fff;
-    display: none;
-  }
   .main-content{
     width: 100%;
     height: 100%;

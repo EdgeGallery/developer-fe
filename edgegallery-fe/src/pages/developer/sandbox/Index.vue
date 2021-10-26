@@ -15,7 +15,7 @@
   -->
 <template>
   <div class="incubation">
-    应用孵化
+    沙箱
   </div>
 </template>
 
