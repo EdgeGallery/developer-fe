@@ -45,9 +45,13 @@ export default new Router({
       name: 'sandbox',
       component: () => import('../pages/developer/sandbox/Sandbox.vue')
     }, {
-      path: '/selectScenarios',
-      name: 'selectScenarios',
+      path: '/select-scenarios',
+      name: 'select-scenarios',
       component: () => import('../pages/developer/atp/selectScenarios.vue')
+    }, {
+      path: '/testprocess',
+      name: 'testprocess',
+      component: () => import('../pages/developer/atp/testProcess.vue')
     },
 
     ...routesclassic

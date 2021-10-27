@@ -23,7 +23,7 @@
         <div class="left flex">
           <div class="left-text">
             <img
-              src="../../../assets/images/selectsceneIcon.png"
+              src="../../../assets/images/atp/selectsceneIcon.png"
               alt=""
               style="margin-right:10px;"
             >
@@ -58,7 +58,7 @@
               alt=""
             > -->
             <img
-              src="../../../assets/images/kp2@2x.png"
+              src="../../../assets/images/atp/kp2@2x.png"
               alt=""
               class="sceneimage"
             >
@@ -67,13 +67,13 @@
               type="text"
             >
               <img
-                src="../../../assets/images/selected.png"
+                src="../../../assets/images/atp/selected.png"
                 alt=""
                 v-if="item.selected"
               >
               <img
                 v-else
-                src="../../../assets/images/notselected.png"
+                src="../../../assets/images/atp/notselected.png"
                 alt=""
               >
             </el-button>
@@ -144,7 +144,7 @@
               :label="$t('userpage.name')"
               width="210"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{ language==='cn'?scope.row.nameCh:scope.row.nameEn }}
               </template>
             </el-table-column>
@@ -152,14 +152,14 @@
               :label="$t('userpage.type')"
               width="120"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{ language==='en'?scope.row.type:scope.row.type==='automatic'?'自动化类型':'手动类型' }}
               </template>
             </el-table-column>
             <el-table-column
               :label="$t('userpage.description')"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{ language==='cn'?scope.row.descriptionCh:scope.row.descriptionEn }}
               </template>
             </el-table-column>
@@ -360,7 +360,6 @@ export default {
       }
     }
     return {
-      currUrl: window.location.href,
       userName: '',
       sceneData: [],
       datacn: [],
@@ -625,7 +624,7 @@ export default {
     display: block;
     border: solid 1px #b768eb;
     border-radius: 5px;
-    background-image: url('../../../assets/images/atp_scenarious_bg.png');
+    background-image: url('../../../assets/images/atp/atp_scenarious_bg.png');
     box-shadow: 20px 30px 40px 0 #9896f3;
 
     .toptitle{
@@ -771,7 +770,7 @@ export default {
         }
       }
       .el-dialog__title{
-          font-family: 'Harmony-Light', Arial, Helvetica, sans-serif;
+          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           font-size: 20px !important;
           color: #380879 !important;
       }
@@ -794,7 +793,7 @@ export default {
             padding: 0;
           }
           .el-collapse-item__header{
-            font-family: 'Harmony-Light', Arial, Helvetica, sans-serif;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             border-radius: 10px 10px 0 0;
             height: 35px;
             padding-left: 15px;
