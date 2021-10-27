@@ -24,7 +24,7 @@
         >
           <ProjectSideComp
             @zoomChanged="zoomChanged"
-            ref="proList"
+            @createNewProject="createNewProject"
             :zoom="zoom"
             v-if="zoom>1"
           />
@@ -37,7 +37,7 @@
       </el-col>
       <el-col
         :span="4"
-        v-if="zoom===20"
+        v-if="zoom===20&&!showProjectDlg&&!showCapabilityDlg"
       >
         <div>
           预留问号
@@ -45,7 +45,7 @@
       </el-col>
       <el-col
         :span="24-zoom"
-        v-if="zoom<20"
+        v-if="zoom<20&&!showProjectDlg&&!showCapabilityDlg"
       >
         <div class="main-content">
           <div class="main-title">
@@ -63,6 +63,9 @@
                       应用孵化
                     </p>
                   </div>
+                  <div>
+                    <IncubationComp />
+                  </div>
                 </div>
               </el-col>
               <el-col :span="4">
@@ -75,6 +78,9 @@
                       应用商店
                     </p>
                   </div>
+                  <div>
+                    <AppstoreComp />
+                  </div>
                 </div>
               </el-col>
               <el-col :span="8">
@@ -86,6 +92,9 @@
                     <p class="label-cn">
                       应用部署
                     </p>
+                  </div>
+                  <div>
+                    <DeploymentComp />
                   </div>
                 </div>
               </el-col>
@@ -103,19 +112,43 @@
         </div>
       </el-col>
     </el-row>
+    <div
+      class="common-div-bg pro-creation"
+      v-if="showProjectDlg"
+    >
+      <CreateProjectComp @createNewProject="createNewProject" />
+    </div>
+    <div
+      class="common-div-bg cap-creation"
+      v-if="showCapabilityDlg"
+    >
+      <CapabilityCenterComp />
+    </div>
   </div>
 </template>
 
 <script>
-import ProjectSideComp from './application/ProjectComp.vue'
+import ProjectSideComp from './application/ProjectList.vue'
+import IncubationComp from './application/workflow/Incubation.vue'
+import AppstoreComp from './application/workflow/Appstore.vue'
+import DeploymentComp from './application/workflow/Deployment.vue'
+import CreateProjectComp from './application/CreateProjectDlg.vue'
+import CapabilityCenterComp from './capabilityCenter/CapabilityCenterInfo.vue'
 export default {
   name: 'Application',
   components: {
-    ProjectSideComp
+    ProjectSideComp,
+    IncubationComp,
+    AppstoreComp,
+    DeploymentComp,
+    CreateProjectComp,
+    CapabilityCenterComp
   },
   data () {
     return {
-      zoom: 2
+      zoom: 2,
+      showProjectDlg: false,
+      showCapabilityDlg: true
     }
   },
   methods: {
@@ -131,6 +164,13 @@ export default {
     enlarge () {
       this.zoom = 2
       this.$refs.leftProComp.style.width = '100%'
+    },
+    createNewProject (val) {
+      this.showProjectDlg = val
+      if (val) {
+        this.zoomChanged(1)
+        this.showCapabilityDlg = false
+      }
     }
   }
 }
@@ -199,6 +239,20 @@ export default {
           line-height: 30px;
         }
       }
+    }
+    .pro-creation{
+      position:absolute;
+      top:30%;
+      left:35%;
+      width: 30%;
+      padding: 35px!important;
+    }
+    .cap-creation{
+      position:absolute;
+      top:25%;
+      left:35%;
+      width: 30%;
+      padding: 35px!important;
     }
     .el-row, .el-col{
       height: 100%;

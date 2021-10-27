@@ -53,6 +53,7 @@
           v-for="(item,index) in projectList"
           :key="index"
           class="project-item"
+          @click.stop="index===0?createNewProject():checkProjectDetail(item)"
         >
           <img
             :src="item.icon"
@@ -119,6 +120,12 @@ export default {
   methods: {
     changeZoom (val) {
       this.$emit('zoomChanged', val)
+    },
+    createNewProject () {
+      this.$emit('createNewProject', true)
+    },
+    checkProjectDetail (item) {
+      console.log(item)
     }
   },
   mounted () {}
