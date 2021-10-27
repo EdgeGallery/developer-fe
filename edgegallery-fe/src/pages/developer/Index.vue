@@ -24,6 +24,7 @@
         >
           <ProjectSideComp
             @zoomChanged="zoomChanged"
+            @createNewPro="createNewPro"
             ref="proList"
             :zoom="zoom"
             v-if="zoom>1"
@@ -37,7 +38,7 @@
       </el-col>
       <el-col
         :span="4"
-        v-if="zoom===20"
+        v-if="zoom===20&&!showProDialog"
       >
         <div>
           预留问号
@@ -45,7 +46,7 @@
       </el-col>
       <el-col
         :span="24-zoom"
-        v-if="zoom<20"
+        v-if="zoom<20&&!showProDialog"
       >
         <div class="main-content">
           <div class="main-title">
@@ -63,6 +64,9 @@
                       应用孵化
                     </p>
                   </div>
+                  <div>
+                    <IncubationComp />
+                  </div>
                 </div>
               </el-col>
               <el-col :span="4">
@@ -75,6 +79,9 @@
                       应用商店
                     </p>
                   </div>
+                  <div>
+                    <AppstoreComp />
+                  </div>
                 </div>
               </el-col>
               <el-col :span="8">
@@ -86,6 +93,9 @@
                     <p class="label-cn">
                       应用部署
                     </p>
+                  </div>
+                  <div>
+                    <DeploymentComp />
                   </div>
                 </div>
               </el-col>
@@ -103,19 +113,43 @@
         </div>
       </el-col>
     </el-row>
+    <div
+      class="common-div-bg pro-creation"
+      v-if="showProDialog"
+    >
+      <CreateProComp @createNewPro="createNewPro" />
+    </div>
+    <div
+      class="common-div-bg pro-creation"
+      v-if="showCapDialog"
+    >
+      <CapCenterComp />
+    </div>
   </div>
 </template>
 
 <script>
 import ProjectSideComp from './application/ProjectComp.vue'
+import IncubationComp from './application/workflow/Incubation.vue'
+import AppstoreComp from './application/workflow/Appstore.vue'
+import DeploymentComp from './application/workflow/Deployment.vue'
+import CreateProComp from './application/CreateProComp.vue'
+import CapCenterComp from './capabilityCenter/Index.vue'
 export default {
   name: 'Application',
   components: {
-    ProjectSideComp
+    ProjectSideComp,
+    IncubationComp,
+    AppstoreComp,
+    DeploymentComp,
+    CreateProComp,
+    CapCenterComp
   },
   data () {
     return {
-      zoom: 2
+      zoom: 2,
+      showProDialog: false,
+      showCapDialog: false
     }
   },
   methods: {
@@ -131,6 +165,13 @@ export default {
     enlarge () {
       this.zoom = 2
       this.$refs.leftProComp.style.width = '100%'
+    },
+    createNewPro (val) {
+      if (val) {
+        this.showProDialog = true
+      } else {
+        this.showProDialog = false
+      }
     }
   }
 }
@@ -199,6 +240,13 @@ export default {
           line-height: 30px;
         }
       }
+    }
+    .pro-creation{
+      position:absolute;
+      top:30%;
+      left:35%;
+      width: 30%;
+      padding: 35px!important;
     }
     .el-row, .el-col{
       height: 100%;

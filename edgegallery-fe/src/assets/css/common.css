@@ -781,6 +781,7 @@
   color: #0F0D87;
   font-family: defaultFontLight !important;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .common-table{
@@ -883,4 +884,10 @@ th{
 }
 .el-select-dropdown__item.hover, .el-select-dropdown__item:hover,.el-select-dropdown__item.selected{
   background-color: rgba(255,255,255,.4);
+}
+.el-form-item__label{
+  color: #fff!important;
+}
+.cb{
+  clear: both;
 }
