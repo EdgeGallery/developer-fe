@@ -20,7 +20,7 @@ import {
   POST,
   PUT
   // DELETE
-} from '../tools/requset.js'
+} from '../tools/request.js'
 
 const URL_PREFIX = '/mec-atp/edgegallery/atp/v2/'
 

@@ -15,13 +15,16 @@
   -->
 <template>
   <div class="application-rules padding_default">
-    <div class="rules-config">
+    <div class="rules-config common-div-bg">
       <h3 class="rules-title">
         应用规则配置
       </h3>
       <h4 class="rules-title-sub clear">
         流量规则
-        <el-button class="common-btn rt">
+        <el-button
+          class="common-btn rt"
+          @click="addTrafficRules"
+        >
           添加流量规则
         </el-button>
       </h4>
@@ -52,7 +55,7 @@
           min-width="20%"
         />
         <el-table-column
-          :label="$t('normal.operation')"
+          :label="$t('common.operation')"
           min-width="20%"
         >
           <template>
@@ -60,13 +63,13 @@
               type="text"
               class="operation-btn-text"
             >
-              {{ $t('normal.edit') }}
+              {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
             >
-              {{ $t('normal.delete') }}
+              {{ $t('common.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -105,7 +108,7 @@
           min-width="20%"
         />
         <el-table-column
-          :label="$t('normal.operation')"
+          :label="$t('common.operation')"
           min-width="20%"
         >
           <template>
@@ -113,13 +116,13 @@
               type="text"
               class="operation-btn-text"
             >
-              {{ $t('normal.edit') }}
+              {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
             >
-              {{ $t('normal.delete') }}
+              {{ $t('common.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -127,19 +130,28 @@
 
       <div class="btn-container">
         <el-button class="common-btn">
-          {{ $t('normal.cancel') }}
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button class="common-btn">
-          {{ $t('normal.confirm') }}
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>
+
+    <trafficRules
+      class="traffic-rules"
+      @setRulesListTop="setRulesListTop"
+    />
   </div>
 </template>
 
 <script>
+import trafficRules from './trafficRules.vue'
 export default {
   name: 'ApplicationRules',
+  components: {
+    trafficRules
+  },
   data () {
     return {
       trafficListData: [
@@ -157,51 +169,90 @@ export default {
           ipAddressType: 'IP_V4',
           ttl: '85000'
         }
-      ]
+      ],
+      screenHeight: document.body.clientHeight,
+      timer: false
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
     }
   },
   methods: {
+    setDivHeight (screenHeight) {
+      this.$nextTick(() => {
+        let oDiv = document.getElementsByClassName('application-rules')[0]
+        if (oDiv) {
+          oDiv.style.height = (Number(screenHeight) - 80) + 'px'
+        }
+      })
+    },
+    setRulesListTop () {
+      let oDiv = document.getElementsByClassName('rules-config')[0]
+      if (oDiv) {
+        oDiv.style.marginTop = 110 + 'px'
+        oDiv.style.opacity = 1
+      }
+    },
+    getRulesListHeight () {
+      let oDiv = document.getElementsByClassName('rules-config')[0]
+      let listHeight = 0
+      if (oDiv) {
+        listHeight = oDiv.offsetHeight
+      }
+      return listHeight
+    },
+    addTrafficRules () {
+      let rulesListTop = this.getRulesListHeight() + 110
+      let oDiv = document.getElementsByClassName('rules-config')[0]
+      if (oDiv) {
+        oDiv.style.marginTop = -rulesListTop + 'px'
+        oDiv.style.opacity = 0
+      }
+      let oDivTraffic = document.getElementsByClassName('traffic-rules')[0]
+      if (oDivTraffic) {
+        oDivTraffic.style.marginTop = 170 + 'px'
+        oDivTraffic.style.opacity = 1
+      }
+    }
   },
   mounted () {
+    this.setDivHeight(this.screenHeight)
+    window.onresize = () => {
+      return (() => {
+        this.screenHeight = document.body.clientHeight
+        this.setDivHeight(this.screenHeight)
+      })()
+    }
   }
 }
 </script>
 
 <style lang="less">
 .application-rules{
-  padding: 0 20%;
+  padding: 0 15%;
+  overflow: hidden;
   .rules-config{
-    background: url('../../../../assets/images/div-bg.png');
+    transition: all .4s;
     margin-top: 110px;
-    padding: 55px 120px;
-    border: 1px solid #8f80d9;
-    border-radius: 16px;
-    box-shadow: 60px 70px 75px rgba(36,20,119,.25);
-    .rules-title{
-      font-weight: normal;
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-    .rules-title:before{
-      display: inline-block;
-      content: '';
-      width: 9px;
-      height: 9px;
-      background: #5944C0;
-      border-radius: 50%;
-      position: relative;
-      top: -2px;
-    }
-    .rules-title-sub{
-      font-weight: normal;
-      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-      padding-left: 15px;
-      margin: 10px 0 25px;
-    }
     .el-table{
       width: calc(100% - 35px);
       margin-left: 35px;
     }
+  }
+  .traffic-rules{
+    max-height: 95%;
+    overflow: auto;
+    opacity: 0;
+    transition: all .4s linear;
   }
 }
 @media screen and (max-width:1600px){

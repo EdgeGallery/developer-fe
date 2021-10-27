@@ -785,7 +785,6 @@
 
 .common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-  font-size: 16px;
 }
 .common-table, .el-table__expanded-cell, .common-table th.el-table__cell, 
 .common-table th,.common-table th.el-table__cell > .cell, .common-table tr, .common-table td.el-table__cell > .cell { 
@@ -828,3 +827,60 @@ th{
  .hoverHands:hover{
   cursor: pointer;
  }
+.common-div-bg{
+  max-height: 80%;
+  overflow: auto;
+  padding: 55px 120px;
+  border: 1px solid #8f80d9;
+  border-radius: 16px;
+  background: url('../images/div-bg.png');
+  box-shadow: 60px 70px 75px rgba(36,20,119,.25);
+}
+.rules-title{
+  font-weight: normal;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.rules-title:before{
+  display: inline-block;
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: #5944C0;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
+}
+.rules-title-sub{
+  font-weight: normal;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+  padding-left: 15px;
+  margin: 5px 0 25px;
+}
+.common-form .el-form-item__label{
+  color: #fff;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
+}
+.common-form .el-input__inner{
+  color: #fff;
+  background-color: rgba(255,255,255,.3);
+  border: none;
+}
+.common-form .el-input__inner:focus{
+  border: 1px solid #ddd;
+}
+.common-form .el-input-number--mini{
+  width: 100%;
+}
+.el-input-number .el-input__inner{
+  text-align: left;
+}
+.el-select .el-input .el-select__caret, .el-table__empty-text{
+  color: #fff;
+}
+.el-select-dropdown{
+  background-color: rgba(255,255,255,.7);
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover,.el-select-dropdown__item.selected{
+  background-color: rgba(255,255,255,.4);
+}
