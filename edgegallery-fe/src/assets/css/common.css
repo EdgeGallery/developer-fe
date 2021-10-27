@@ -862,11 +862,12 @@ th{
   color: #fff;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
 }
-.common-form .el-input__inner{
+.common-form .el-input__inner,.common-form .el-textarea__inner{
   color: #fff;
   background-color: rgba(255,255,255,.3);
   border: none;
 }
+
 .common-form .el-input__inner:focus{
   border: 1px solid #ddd;
 }
@@ -890,4 +891,31 @@ th{
 }
 .cb{
   clear: both;
+}
+
+.label-item-half{
+  float: left;
+  width: 50%;
+}
+.label-item-half .el-form-item__content{
+  width: calc(100% - 100px);
+}
+.label-item-half .el-select{
+  width: 100%;
+}
+
+.common-dlg-title{
+  font-weight: normal;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.common-dlg-title:before{
+  display: inline-block;
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: #76E1E9;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
 }

@@ -24,8 +24,7 @@
         >
           <ProjectSideComp
             @zoomChanged="zoomChanged"
-            @createNewPro="createNewPro"
-            ref="proList"
+            @createNewProject="createNewProject"
             :zoom="zoom"
             v-if="zoom>1"
           />
@@ -38,7 +37,7 @@
       </el-col>
       <el-col
         :span="4"
-        v-if="zoom===20&&!showProDialog"
+        v-if="zoom===20&&!showProjectDlg&&!showCapabilityDlg"
       >
         <div>
           预留问号
@@ -46,7 +45,7 @@
       </el-col>
       <el-col
         :span="24-zoom"
-        v-if="zoom<20&&!showProDialog"
+        v-if="zoom<20&&!showProjectDlg&&!showCapabilityDlg"
       >
         <div class="main-content">
           <div class="main-title">
@@ -115,26 +114,26 @@
     </el-row>
     <div
       class="common-div-bg pro-creation"
-      v-if="showProDialog"
+      v-if="showProjectDlg"
     >
-      <CreateProComp @createNewPro="createNewPro" />
+      <CreateProjectComp @createNewProject="createNewProject" />
     </div>
     <div
-      class="common-div-bg pro-creation"
-      v-if="showCapDialog"
+      class="common-div-bg cap-creation"
+      v-if="showCapabilityDlg"
     >
-      <CapCenterComp />
+      <CapabilityCenterComp />
     </div>
   </div>
 </template>
 
 <script>
-import ProjectSideComp from './application/ProjectComp.vue'
+import ProjectSideComp from './application/ProjectList.vue'
 import IncubationComp from './application/workflow/Incubation.vue'
 import AppstoreComp from './application/workflow/Appstore.vue'
 import DeploymentComp from './application/workflow/Deployment.vue'
-import CreateProComp from './application/CreateProComp.vue'
-import CapCenterComp from './capabilityCenter/Index.vue'
+import CreateProjectComp from './application/CreateProjectDlg.vue'
+import CapabilityCenterComp from './capabilityCenter/CapabilityCenterInfo.vue'
 export default {
   name: 'Application',
   components: {
@@ -142,14 +141,14 @@ export default {
     IncubationComp,
     AppstoreComp,
     DeploymentComp,
-    CreateProComp,
-    CapCenterComp
+    CreateProjectComp,
+    CapabilityCenterComp
   },
   data () {
     return {
       zoom: 2,
-      showProDialog: false,
-      showCapDialog: false
+      showProjectDlg: false,
+      showCapabilityDlg: true
     }
   },
   methods: {
@@ -166,11 +165,11 @@ export default {
       this.zoom = 2
       this.$refs.leftProComp.style.width = '100%'
     },
-    createNewPro (val) {
+    createNewProject (val) {
+      this.showProjectDlg = val
       if (val) {
-        this.showProDialog = true
-      } else {
-        this.showProDialog = false
+        this.zoomChanged(1)
+        this.showCapabilityDlg = false
       }
     }
   }
@@ -244,6 +243,13 @@ export default {
     .pro-creation{
       position:absolute;
       top:30%;
+      left:35%;
+      width: 30%;
+      padding: 35px!important;
+    }
+    .cap-creation{
+      position:absolute;
+      top:25%;
       left:35%;
       width: 30%;
       padding: 35px!important;

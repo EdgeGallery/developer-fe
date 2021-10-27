@@ -53,7 +53,7 @@
           v-for="(item,index) in projectList"
           :key="index"
           class="project-item"
-          @click.stop="index===0?createNewPro():checkProDetail(item)"
+          @click.stop="index===0?createNewProject():checkProjectDetail(item)"
         >
           <img
             :src="item.icon"
@@ -121,10 +121,10 @@ export default {
     changeZoom (val) {
       this.$emit('zoomChanged', val)
     },
-    createNewPro () {
-      this.$emit('createNewPro', true)
+    createNewProject () {
+      this.$emit('createNewProject', true)
     },
-    checkProDetail (item) {
+    checkProjectDetail (item) {
       console.log(item)
     }
   },
