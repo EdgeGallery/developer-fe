@@ -135,6 +135,11 @@
  .flex{
    display: flex
  }
+ .flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
  .h100{
    height: 100%;
  }
