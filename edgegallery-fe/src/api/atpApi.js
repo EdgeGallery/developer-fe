@@ -15,12 +15,50 @@
  *  limitations under the License.
  */
 
-// import {
-//   GET,
-//   POST,
-//   PUT,
-//   DELETE
-// } from '../tools/request.js'
+import {
+  GET,
+  POST,
+  PUT
+  // DELETE
+} from '../tools/request.js'
+
+const URL_PREFIX = '/mec-atp/edgegallery/atp/v2/'
+
+let Userpage = {
+  getAllSceneApi: function (params) {
+    let url = 'testscenarios'
+    return GET(url, params)
+  },
+  getSceneIconApi: function (appId) {
+    let url = 'apps/' + appId
+    return GET(url)
+  },
+  getSceneCaseApi: function (params) {
+    let url = 'testscenarios/testcases'
+    return POST(url, params)
+  },
+  runTaskApi: function (taskId, params) {
+    let url = 'tasks/' + taskId + '/action/run'
+    return POST(url, params)
+  },
+  getTaskApi: function (taskId) {
+    let url = 'tasks/' + taskId
+    return GET(url)
+  },
+  modifyStatusApi: function (taskId, params) {
+    let url = 'tasks/' + taskId + '/testcase'
+    return PUT(url, params)
+  },
+  contributionApi: function (params) {
+    let url = 'contributions'
+    return POST(url, params)
+  },
+  uploadReportApi: function (taskId, params) {
+    let url = 'tasks/' + taskId + '/action/upload-report'
+    return POST(url, params, 'v2')
+  }
+}
 
 export {
+  URL_PREFIX, Userpage
 }
