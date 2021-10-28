@@ -15,5 +15,24 @@
  */
 
 const cn = {
+  appPackage: {
+    exportImage: '导出镜像',
+    trafficRule: '流量规则',
+    addTrafficRule: '添加流量规则',
+    trafficRuleId: '流量规则标识',
+    filterType: '过滤类型',
+    priority: '优先级',
+    action: '规则动作',
+    dnsRule: 'DNS规则',
+    addDnsRule: '添加DNS规则',
+    serviceName: '服务名称',
+    description: '描述',
+    port: '内部端口号',
+    version: '版本',
+    protocol: '协议',
+    dnaRule: 'DNA规则',
+    appdPreview: 'APPD预览',
+    build: '打包'
+  }
 }
 export default cn
