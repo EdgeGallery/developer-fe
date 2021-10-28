@@ -15,68 +15,68 @@
   -->
 
 <template>
-  <div class="common-div-bg traffic-list">
+  <div class="common-div-bg">
     <h3 class="rules-title">
       分流规则
     </h3>
     <el-form
       label-width="120px"
       size="mini"
-      class="common-form"
+      class="common-form clear"
     >
-      <el-row :gutter="24">
-        <el-col :span="12">
-          <el-form-item
-            label="流规则标识"
-          >
-            <el-input
-              maxlength="30"
-              v-model="trafficRule.trafficRuleId"
-            />
-          </el-form-item>
-          <el-form-item label="优先级">
-            <el-input-number
-              placeholder="1~255"
-              :min="1"
-              :max="255"
-              :controls="false"
-              v-model="trafficRule.priority"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item
-            label="规则动作"
-          >
-            <el-select
-              v-model="trafficRule.action"
-              :popper-append-to-body="false"
-            >
-              <el-option
-                v-for="item in action"
-                :key="item.value"
-                :label="item.value"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item
-            label="过滤类型"
-          >
-            <el-select
-              v-model="trafficRule.filterType"
-              :popper-append-to-body="false"
-            >
-              <el-option
-                v-for="item in filterType"
-                :key="item.value"
-                :label="item.value"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item
+        label="流规则标识"
+        class="input-half lt"
+      >
+        <el-input
+          maxlength="30"
+          v-model="trafficRule.trafficRuleId"
+        />
+      </el-form-item>
+      <el-form-item
+        label="优先级"
+        class="input-half lt"
+      >
+        <el-input-number
+          placeholder="1~255"
+          :min="1"
+          :max="255"
+          :controls="false"
+          v-model="trafficRule.priority"
+        />
+      </el-form-item>
+      <el-form-item
+        label="规则动作"
+        class="input-half lt"
+      >
+        <el-select
+          v-model="trafficRule.action"
+          :popper-append-to-body="false"
+        >
+          <el-option
+            v-for="item in action"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        label="过滤类型"
+        class="input-half lt"
+      >
+        <el-select
+          v-model="trafficRule.filterType"
+          :popper-append-to-body="false"
+        >
+          <el-option
+            v-for="item in filterType"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
     </el-form>
 
     <h3 class="rules-title list-top">
@@ -86,6 +86,7 @@
       流过滤规则
       <el-button
         class="common-btn rt"
+        @click="addTrafficFilter"
       >
         添加流量过滤器
       </el-button>
@@ -141,75 +142,78 @@
       </el-table-column>
     </el-table>
 
-    <h3 class="rules-title list-top">
-      接口信息
-    </h3>
-    <h4 class="rules-title-sub clear">
-      转发接口信息
-      <el-button
-        class="common-btn rt"
+    <div v-if="trafficRule.action==='FORWARD_DECAPSULATED'||trafficRule.action==='FORWARD_AS_IS'">
+      <h3 class="rules-title list-top">
+        接口信息
+      </h3>
+      <h4 class="rules-title-sub clear">
+        转发接口信息
+        <el-button
+          class="common-btn rt"
+          @click="addInterfaceInformation"
+        >
+          添加接口信息
+        </el-button>
+      </h4>
+      <el-table
+        class="common-table"
+        :data="interfaceTableData"
+        :cell-style="{ textAlign: 'center' }"
+        :header-cell-style="{textAlign: 'center'}"
       >
-        添加接口信息
-      </el-button>
-    </h4>
-    <el-table
-      class="common-table"
-      :data="interfaceTableData"
-      :cell-style="{ textAlign: 'center' }"
-      :header-cell-style="{textAlign: 'center'}"
-    >
-      <el-table-column
-        prop="interfaceType"
-        label="接口类型"
-      />
-      <el-table-column
-        prop="tunnelInfo.tunnelType"
-        label="隧道类型"
-      />
-      <el-table-column
-        prop="tunnelInfo.tunnelDstAddress"
-        label="隧道目的地址"
-      />
-      <el-table-column
-        prop="tunnelInfo.tunnelSrcAddress"
-        label="隧道源地址"
-      />
-      <el-table-column
-        prop="tunnelInfo.tunnelSpecificData"
-        label="隧道指定参数"
-      />
-      <el-table-column
-        prop="dstMACAddress"
-        label="目的MAC地址"
-      />
-      <el-table-column
-        prop="srcMACAddress"
-        label="源MAC地址"
-      />
-      <el-table-column
-        prop="dstIPAddress"
-        label="目的地址"
-      />
-      <el-table-column
-        :label="$t('common.operation')"
-        width="120px"
-      >
-        <template>
-          <el-button
-            type="text"
-            class="operation-btn-text"
-          >
-            {{ $t('common.edit') }}
-          </el-button>
-          <el-button
-            type="text"
-            class="operation-btn-text"
-          >
-            {{ $t('common.delete') }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column
+          prop="interfaceType"
+          label="接口类型"
+        />
+        <el-table-column
+          prop="tunnelInfo.tunnelType"
+          label="隧道类型"
+        />
+        <el-table-column
+          prop="tunnelInfo.tunnelDstAddress"
+          label="隧道目的地址"
+        />
+        <el-table-column
+          prop="tunnelInfo.tunnelSrcAddress"
+          label="隧道源地址"
+        />
+        <el-table-column
+          prop="tunnelInfo.tunnelSpecificData"
+          label="隧道指定参数"
+        />
+        <el-table-column
+          prop="dstMACAddress"
+          label="目的MAC地址"
+        />
+        <el-table-column
+          prop="srcMACAddress"
+          label="源MAC地址"
+        />
+        <el-table-column
+          prop="dstIPAddress"
+          label="目的地址"
+        />
+        <el-table-column
+          :label="$t('common.operation')"
+          width="120px"
+        >
+          <template>
+            <el-button
+              type="text"
+              class="operation-btn-text"
+            >
+              {{ $t('common.edit') }}
+            </el-button>
+            <el-button
+              type="text"
+              class="operation-btn-text"
+            >
+              {{ $t('common.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
 
     <div class="btn-container">
       <el-button
@@ -236,7 +240,7 @@ export default {
       trafficRule: {
         trafficRuleId: '',
         priority: '',
-        action: 'DROP',
+        action: 'FORWARD_DECAPSULATED',
         filterType: 'FLOW'
       },
       filterType: [
@@ -285,27 +289,20 @@ export default {
   },
   methods: {
     cancelTrafficRules () {
-      let oDivTraffic = document.getElementsByClassName('traffic-rules')[0]
-      if (oDivTraffic) {
-        oDivTraffic.style.marginTop = 0 + 'px'
-        oDivTraffic.style.opacity = 0
-        // oDivTraffic.style.display = 'none'
-        this.$emit('setRulesListTop')
-      }
+      this.$emit('setRulesListTop', 'cancelTrafficRules')
+    },
+    addTrafficFilter () {
+      this.$emit('setRulesListTop', 'addTrafficFilter')
+    },
+    addInterfaceInformation () {
+      this.$emit('setRulesListTop', 'addInterfaceInfo')
     }
-  },
-  mounted () {
-
   }
 }
 </script>
 
 <style lang="less">
-.traffic-list{
-  margin-top: 50px;
-  padding: 35px 120px;
-  .list-top{
-    margin-top: 35px;
-  }
+.list-top{
+  margin-top: 35px;
 }
 </style>

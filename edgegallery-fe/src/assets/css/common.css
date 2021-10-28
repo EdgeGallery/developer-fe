@@ -774,6 +774,11 @@
    border-radius: 50%;
    margin-left: 10px;
  }
+ .icon-pos-right{
+   position: absolute;
+   right: -25px;
+   top: 7px;
+ }
  .empty_img{
    background: url('../images/empty.png') center 10px no-repeat;
    padding-top: 200px;
@@ -825,7 +830,7 @@ th{
 }
 .btn-container{
   text-align: right;
-  margin: 70px -50px 0 0;
+  margin: 70px 0 0 0;
 }
 .btn-container .el-button{
   font-size: 14px;
@@ -837,7 +842,7 @@ th{
   max-height: 80%;
   overflow: auto;
   padding: 55px 120px;
-  border: 1px solid #8f80d9;
+  border: 2px solid #b6a4ec;
   border-radius: 16px;
   background: url('../images/div-bg.png');
   box-shadow: 60px 70px 75px rgba(36,20,119,.25);
@@ -886,10 +891,16 @@ th{
   color: #fff;
 }
 .el-select-dropdown{
-  background-color: rgba(255,255,255,.7);
+  background-color: rgba(255,255,255,.8);
 }
 .el-select-dropdown__item.hover, .el-select-dropdown__item:hover,.el-select-dropdown__item.selected{
-  background-color: rgba(255,255,255,.4);
+  background-color: rgba(255,255,255,.8);
+}
+.input-half{
+  width: 50%;
+}
+.el-tooltip__popper.is-dark{
+  background: rgba(0,0,0,.4);
 }
 .el-form-item__label{
   color: #fff!important;
