@@ -19,6 +19,7 @@ const cn = {
   home: {
   },
   normal: {
+    newVersion: '新版',
     cancel: '取消',
     confirm: '确认'
   },

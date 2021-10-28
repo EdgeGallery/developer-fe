@@ -78,9 +78,12 @@
         </el-table-column>
       </el-table>
 
-      <h4 class="rules-title-sub clear">
+      <h4 class="rules-title-sub title-top clear">
         DNS规则
-        <el-button class="common-btn rt">
+        <el-button
+          class="common-btn rt"
+          @click="addDnsRules"
+        >
           添加DNS规则
         </el-button>
       </h4>
@@ -156,19 +159,26 @@
       :class="{'interface-info-hidden':!isInterfaceInfoShow}"
       @setRulesListTop="setRulesListTop"
     />
+    <dnsRules
+      class="dns-rules"
+      :class="{'dns-rules-hidden':!isDnsRulesShow}"
+      @setRulesListTop="setRulesListTop"
+    />
   </div>
 </template>
 
 <script>
-import trafficRules from './TrafficRules'
-import interfaceInformation from './InterfaceInformation.vue'
-import trafficFilter from './TrafficFilter.vue'
+import trafficRules from './AddTrafficRules.vue'
+import interfaceInformation from './AddInterfaceInformation.vue'
+import trafficFilter from './AddTrafficFilter.vue'
+import dnsRules from './AddDnsRules.vue'
 export default {
   name: 'ApplicationRules',
   components: {
     trafficRules,
     interfaceInformation,
-    trafficFilter
+    trafficFilter,
+    dnsRules
   },
   data () {
     return {
@@ -193,19 +203,8 @@ export default {
       isRulesConfigShow: true,
       isTrafficRulesShow: false,
       isTrafficFilterShow: false,
-      isInterfaceInfoShow: false
-    }
-  },
-  watch: {
-    screenHeight (val) {
-      if (!this.timer) {
-        this.screenHeight = val
-        this.timer = true
-        setTimeout(function () {
-          this.timer = false
-        }, 400)
-        this.setDivHeight(this.screenHeight)
-      }
+      isInterfaceInfoShow: false,
+      isDnsRulesShow: false
     }
   },
   methods: {
@@ -244,17 +243,39 @@ export default {
           this.isTrafficRulesShow = true
           break
         }
+        case 'cancelDnsRules': {
+          this.isDnsRulesShow = false
+          this.isRulesConfigShow = true
+          break
+        }
         default: {
           this.isRulesConfigShow = true
           this.isTrafficRulesShow = false
           this.isTrafficFilterShow = false
           this.isInterfaceInfoShow = false
+          this.isDnsRulesShow = false
         }
       }
     },
     addTrafficRules () {
       this.isRulesConfigShow = false
       this.isTrafficRulesShow = true
+    },
+    addDnsRules () {
+      this.isRulesConfigShow = false
+      this.isDnsRulesShow = true
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        setTimeout(function () {
+          this.timer = false
+        }, 400)
+        this.setDivHeight(this.screenHeight)
+      }
     }
   },
   mounted () {
@@ -280,10 +301,10 @@ export default {
     top: 110px;
     left: 20%;
     width: 60%;
-    height: 500px;
+    height: 520px;
     padding: 40px;
     opacity: 1;
-    transition: all .15s;
+    transition: all .2s;
     .el-table{
       width: calc(100% - 35px);
       margin-left: 35px;
@@ -291,9 +312,9 @@ export default {
   }
   .rules-config-hidden{
     z-index: -1;
-    top: -200px;
+    top: -400px;
     opacity: 0;
-    transition: all .15s;
+    transition: all .2s;
   }
   .traffic-rules{
     position: absolute;
@@ -305,50 +326,49 @@ export default {
     max-height: 90%;
     overflow: auto;
     opacity: 1;
-    transition: all .15s linear;
-  }
-  .traffic-rules-hidden-bottom{
-    z-index: -1;
-    top: 300px;
-    opacity: 0;
-    transition: all .15s;
-  }
-  .traffic-rules-hidden-top{
-    top: -200px;
+    transition: all .2s linear;
   }
   .traffic-filter{
     position: absolute;
     z-index: 1;
-    top: 110px;
-    left: calc(50% - 377px);
-    width: 754px;
-    padding: 40px;
+    top: 80px;
+    left: calc(50% - 400px);
+    width: 800px;
+    padding: 40px 80px 40px 40px;
     overflow: auto;
     opacity: 1;
-    transition: all .15s linear;
-  }
-  .traffic-filter-hidden{
-    z-index: -1;
-    top: 400px;
-    opacity: 0;
-    transition: all .15s;
+    transition: all .2s linear;
   }
   .interface-info{
     position: absolute;
     z-index: 1;
     top: 110px;
-    left: calc(50% - 227px);
-    width: 454px;
+    left: calc(50% - 300px);
+    width: 600px;
     padding: 40px;
     overflow: auto;
     opacity: 1;
-    transition: all .15s linear;
+    transition: all .2s linear;
   }
-  .interface-info-hidden{
+  .dns-rules{
+    position: absolute;
+    z-index: 1;
+    top: 110px;
+    left: calc(50% - 300px);
+    width: 600px;
+    padding: 40px;
+    overflow: auto;
+    opacity: 1;
+    transition: all .2s linear;
+  }
+  .traffic-rules-hidden-bottom,.traffic-filter-hidden,.interface-info-hidden,.dns-rules-hidden{
     z-index: -1;
     top: 400px;
     opacity: 0;
-    transition: all .15s;
+    transition: all .2s;
+  }
+  .traffic-rules-hidden-top{
+    top: -400px;
   }
 }
 @media screen and (max-width:1600px){

@@ -70,7 +70,7 @@
  html,body{
    min-width: 1200px;
    height:100%;
-   font-size: 14px;
+   font-size: 16px;
  }
  a{
    color: #688ef3;
@@ -796,6 +796,7 @@
 
 .common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+  font-size: 16px;
 }
 .common-table, .el-table__expanded-cell, .common-table th.el-table__cell, 
 .common-table th,.common-table th.el-table__cell > .cell, .common-table tr, .common-table td.el-table__cell > .cell { 
@@ -839,12 +840,12 @@ th{
   cursor: pointer;
  }
 .common-div-bg{
-  max-height: 80%;
+  max-height: 85%;
   overflow: auto;
   padding: 55px 120px;
   border: 2px solid #b6a4ec;
   border-radius: 16px;
-  background: url('../images/div-bg.png');
+  background: url('../images/div_bg.png');
   box-shadow: 60px 70px 75px rgba(36,20,119,.25);
 }
 .rules-title{
@@ -866,7 +867,10 @@ th{
   font-weight: normal;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   padding-left: 15px;
-  margin: 5px 0 25px;
+  margin: 5px 0 20px;
+}
+.title-top{
+  margin-top: 30px;
 }
 .common-form .el-form-item__label{
   color: #fff;
@@ -903,6 +907,7 @@ th{
   background: rgba(0,0,0,.4);
 }
 .el-form-item__label{
+  font-size: 16px;
   color: #fff!important;
 }
 .cb{

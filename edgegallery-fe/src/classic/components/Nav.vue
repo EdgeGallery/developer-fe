@@ -345,7 +345,7 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
-      this.filterMenu()
+      // this.filterMenu()
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {
