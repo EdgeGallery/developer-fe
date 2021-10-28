@@ -15,7 +15,10 @@
   -->
 <template>
   <div class="application-rules">
-    <div class="rules-config common-div-bg">
+    <div
+      class="rules-config common-div-bg"
+      :class="{'rules-config-hidden':!isRulesConfigShow}"
+    >
       <h3 class="rules-title">
         应用规则配置
       </h3>
@@ -140,14 +143,17 @@
 
     <trafficRules
       class="traffic-rules"
-      @setRulesListTop="setRulesListTop"
-    />
-    <interfaceInformation
-      class="interface-info"
+      :class="{'traffic-rules-hidden-bottom':!isTrafficRulesShow,'traffic-rules-hidden-top':(isInterfaceInfoShow || isTrafficFilterShow)}"
       @setRulesListTop="setRulesListTop"
     />
     <trafficFilter
       class="traffic-filter"
+      :class="{'traffic-filter-hidden':!isTrafficFilterShow}"
+      @setRulesListTop="setRulesListTop"
+    />
+    <interfaceInformation
+      class="interface-info"
+      :class="{'interface-info-hidden':!isInterfaceInfoShow}"
       @setRulesListTop="setRulesListTop"
     />
   </div>
@@ -183,7 +189,11 @@ export default {
         }
       ],
       screenHeight: document.body.clientHeight,
-      timer: false
+      timer: false,
+      isRulesConfigShow: true,
+      isTrafficRulesShow: false,
+      isTrafficFilterShow: false,
+      isInterfaceInfoShow: false
     }
   },
   watch: {
@@ -208,77 +218,32 @@ export default {
       })
     },
     setRulesListTop (data) {
-      let oDivConfig = document.getElementsByClassName('rules-config')[0]
-      let oDivTraffic = document.getElementsByClassName('traffic-rules')[0]
-      let oDivInterface = document.getElementsByClassName('interface-info')[0]
-      let oDivFilter = document.getElementsByClassName('traffic-filter')[0]
-      if (data === 'cancelTrafficRules') {
-        if (oDivConfig) {
-          oDivConfig.style.marginTop = 110 + 'px'
-          oDivConfig.style.opacity = 1
-        }
-        if (oDivTraffic) {
-          oDivTraffic.style.marginTop = 0 + 'px'
-          oDivTraffic.style.opacity = 0
-        }
+      switch (data) {
+        case 'cancelTrafficRules':
+          this.isTrafficRulesShow = false
+          this.isRulesConfigShow = true
+          break
+        case 'addTrafficFilter':
+          this.isTrafficFilterShow = true
+          this.isTrafficRulesShow = false
+          break
+        case 'cancelTrafficFilter':
+          this.isTrafficFilterShow = false
+          this.isTrafficRulesShow = true
+          break
+        case 'addInterfaceInfo':
+          this.isInterfaceInfoShow = true
+          this.isTrafficRulesShow = false
+          break
+        case 'cancelInterfaceInfo':
+          this.isInterfaceInfoShow = false
+          this.isTrafficRulesShow = true
+          break
       }
-      if (data === 'addInterfaceInfo') {
-        if (oDivInterface) {
-          oDivInterface.style.marginTop = 270 + 'px'
-          oDivInterface.style.opacity = 1
-          oDivInterface.style.maxHeight = 90 + '%'
-        }
-      }
-      if (data === 'cancelInterfaceInfo') {
-        if (oDivInterface) {
-          oDivInterface.style.marginTop = 0 + 'px'
-          oDivInterface.style.opacity = 0
-          oDivInterface.style.maxHeight = 0 + 'px'
-        }
-        if (oDivTraffic) {
-          oDivTraffic.style.marginTop = 170 + 'px'
-          oDivTraffic.style.opacity = 1
-        }
-      }
-      if (data === 'addTrafficFilter') {
-        if (oDivFilter) {
-          oDivFilter.style.marginTop = 150 + 'px'
-          oDivFilter.style.opacity = 1
-          oDivFilter.style.maxHeight = 90 + '%'
-        }
-      }
-      if (data === 'cancelTrafficFilter') {
-        if (oDivFilter) {
-          oDivFilter.style.marginTop = 0 + 'px'
-          oDivFilter.style.opacity = 0
-          oDivFilter.style.maxHeight = 0 + 'px'
-        }
-        if (oDivTraffic) {
-          oDivTraffic.style.marginTop = 170 + 'px'
-          oDivTraffic.style.opacity = 1
-        }
-      }
-    },
-    getRulesListHeight () {
-      let oDiv = document.getElementsByClassName('rules-config')[0]
-      let listHeight = 0
-      if (oDiv) {
-        listHeight = oDiv.offsetHeight
-      }
-      return listHeight
     },
     addTrafficRules () {
-      let rulesListTop = this.getRulesListHeight() + 110
-      let oDiv = document.getElementsByClassName('rules-config')[0]
-      if (oDiv) {
-        oDiv.style.marginTop = -rulesListTop + 'px'
-        oDiv.style.opacity = 0
-      }
-      let oDivTraffic = document.getElementsByClassName('traffic-rules')[0]
-      if (oDivTraffic) {
-        oDivTraffic.style.marginTop = 170 + 'px'
-        oDivTraffic.style.opacity = 1
-      }
+      this.isRulesConfigShow = false
+      this.isTrafficRulesShow = true
     }
   },
   mounted () {
@@ -296,40 +261,81 @@ export default {
 <style lang="less">
 .application-rules{
   padding: 0 15%;
+  position: relative;
   overflow: hidden;
   .rules-config{
+    position: absolute;
+    z-index: 1;
+    top: 110px;
+    width: 80%;
     padding: 40px;
+    height: 500px;
+    opacity: 1;
     transition: all .15s;
-    margin-top: 110px;
     .el-table{
       width: calc(100% - 35px);
       margin-left: 35px;
     }
   }
-  .traffic-rules{
-    padding: 35px 120px;
-    max-height: 95%;
-    overflow: auto;
+  .rules-config-hidden{
+    z-index: -1;
+    top: -200px;
     opacity: 0;
+    transition: all .15s;
+  }
+  .traffic-rules{
+    position: absolute;
+    top: 5%;
+    z-index: 1;
+    width: 80%;
+    padding: 35px 120px;
+    max-height: 90%;
+    overflow: auto;
+    opacity: 1;
     transition: all .15s linear;
   }
-  .interface-info{
-    width: 454px;
-    padding: 40px;
-    max-height: 0;
-    overflow: auto;
+  .traffic-rules-hidden-bottom{
+    z-index: -1;
+    top: 300px;
     opacity: 0;
-    margin: 0 auto;
-    transition: all .15s linear;
+    transition: all .15s;
+  }
+  .traffic-rules-hidden-top{
+    top: -200px;
   }
   .traffic-filter{
+    position: absolute;
+    z-index: 1;
+    top: 110px;
     width: 754px;
+    left: calc(50% - 377px);
     padding: 40px;
-    max-height: 0;
     overflow: auto;
-    opacity: 0;
-    margin: 0 auto;
+    opacity: 1;
     transition: all .15s linear;
+  }
+  .traffic-filter-hidden{
+    z-index: -1;
+    top: 400px;
+    opacity: 0;
+    transition: all .15s;
+  }
+  .interface-info{
+    position: absolute;
+    z-index: 1;
+    top: 110px;
+    left: calc(50% - 227px);
+    width: 454px;
+    padding: 40px;
+    overflow: auto;
+    opacity: 1;
+    transition: all .15s linear;
+  }
+  .interface-info-hidden{
+    z-index: -1;
+    top: 400px;
+    opacity: 0;
+    transition: all .15s;
   }
 }
 @media screen and (max-width:1600px){

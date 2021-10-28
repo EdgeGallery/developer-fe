@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="common-div-bg traffic-list">
+  <div class="common-div-bg">
     <h3 class="rules-title">
       分流规则
     </h3>
@@ -291,31 +291,18 @@ export default {
     cancelTrafficRules () {
       this.$emit('setRulesListTop', 'cancelTrafficRules')
     },
-    setRulesListTop () {
-      let oDiv = document.getElementsByClassName('traffic-list')[0]
-      let listHeight = 0
-      if (oDiv) {
-        listHeight = oDiv.offsetHeight
-        oDiv.style.marginTop = -listHeight + 'px'
-        oDiv.style.opacity = 0
-      }
+    addTrafficFilter () {
+      this.$emit('setRulesListTop', 'addTrafficFilter')
     },
     addInterfaceInformation () {
-      this.setRulesListTop()
       this.$emit('setRulesListTop', 'addInterfaceInfo')
-    },
-    addTrafficFilter () {
-      this.setRulesListTop()
-      this.$emit('setRulesListTop', 'addTrafficFilter')
     }
   }
 }
 </script>
 
 <style lang="less">
-.traffic-list{
-  .list-top{
-    margin-top: 35px;
-  }
+.list-top{
+  margin-top: 35px;
 }
 </style>
