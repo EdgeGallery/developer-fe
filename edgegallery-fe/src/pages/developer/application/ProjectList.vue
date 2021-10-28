@@ -143,15 +143,15 @@ export default {
       cursor: pointer;
     }
     .zoom{
-      background: url("../../../assets/images/projects/pro_zoom_out.png") no-repeat center;
+      background: url("../../../assets/images/projects/pro_zoom_default.svg") no-repeat center;
       background-size: cover;
     }
     .search{
-      background: url("../../../assets/images/projects/pro_search.png") no-repeat center;
+      background: url("../../../assets/images/projects/pro_search_default.svg") no-repeat center;
       background-size: cover;
     }
     .switch{
-      background: url("../../../assets/images/projects/pro_switch_view.png") no-repeat center;
+      background: url("../../../assets/images/projects/pro_view_default.svg") no-repeat center;
       background-size: cover;
     }
   }
