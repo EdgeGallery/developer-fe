@@ -219,26 +219,37 @@ export default {
     },
     setRulesListTop (data) {
       switch (data) {
-        case 'cancelTrafficRules':
+        case 'cancelTrafficRules': {
           this.isTrafficRulesShow = false
           this.isRulesConfigShow = true
           break
-        case 'addTrafficFilter':
+        }
+        case 'addTrafficFilter': {
           this.isTrafficFilterShow = true
           this.isTrafficRulesShow = false
           break
-        case 'cancelTrafficFilter':
+        }
+        case 'cancelTrafficFilter': {
           this.isTrafficFilterShow = false
           this.isTrafficRulesShow = true
           break
-        case 'addInterfaceInfo':
+        }
+        case 'addInterfaceInfo': {
           this.isInterfaceInfoShow = true
           this.isTrafficRulesShow = false
           break
-        case 'cancelInterfaceInfo':
+        }
+        case 'cancelInterfaceInfo': {
           this.isInterfaceInfoShow = false
           this.isTrafficRulesShow = true
           break
+        }
+        default: {
+          this.isRulesConfigShow = true
+          this.isTrafficRulesShow = false
+          this.isTrafficFilterShow = false
+          this.isInterfaceInfoShow = false
+        }
       }
     },
     addTrafficRules () {
