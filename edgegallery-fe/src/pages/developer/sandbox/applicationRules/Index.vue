@@ -267,9 +267,10 @@ export default {
     position: absolute;
     z-index: 1;
     top: 110px;
-    width: 80%;
-    padding: 40px;
+    left: 20%;
+    width: 60%;
     height: 500px;
+    padding: 40px;
     opacity: 1;
     transition: all .15s;
     .el-table{
@@ -285,10 +286,11 @@ export default {
   }
   .traffic-rules{
     position: absolute;
-    top: 5%;
     z-index: 1;
-    width: 80%;
-    padding: 35px 120px;
+    top: 5%;
+    left: 20%;
+    width: 60%;
+    padding: 40px;
     max-height: 90%;
     overflow: auto;
     opacity: 1;
@@ -307,8 +309,8 @@ export default {
     position: absolute;
     z-index: 1;
     top: 110px;
-    width: 754px;
     left: calc(50% - 377px);
+    width: 754px;
     padding: 40px;
     overflow: auto;
     opacity: 1;

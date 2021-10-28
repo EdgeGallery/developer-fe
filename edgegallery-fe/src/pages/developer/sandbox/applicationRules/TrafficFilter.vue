@@ -37,7 +37,7 @@
           content="多个IP请用','分隔"
           placement="right"
         >
-          <span class="default_info_promt pos-right">i</span>
+          <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
@@ -52,7 +52,7 @@
           content="多个端口请用','分隔"
           placement="right"
         >
-          <span class="default_info_promt pos-right">i</span>
+          <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
@@ -67,7 +67,7 @@
           content="多个IP请用','分隔"
           placement="right"
         >
-          <span class="default_info_promt pos-right">i</span>
+          <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
@@ -82,7 +82,7 @@
           content="多个端口请用','分隔"
           placement="right"
         >
-          <span class="default_info_promt pos-right">i</span>
+          <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item

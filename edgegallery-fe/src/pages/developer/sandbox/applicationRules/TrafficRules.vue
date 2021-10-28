@@ -22,61 +22,61 @@
     <el-form
       label-width="120px"
       size="mini"
-      class="common-form"
+      class="common-form clear"
     >
-      <el-row :gutter="24">
-        <el-col :span="12">
-          <el-form-item
-            label="流规则标识"
-          >
-            <el-input
-              maxlength="30"
-              v-model="trafficRule.trafficRuleId"
-            />
-          </el-form-item>
-          <el-form-item label="优先级">
-            <el-input-number
-              placeholder="1~255"
-              :min="1"
-              :max="255"
-              :controls="false"
-              v-model="trafficRule.priority"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item
-            label="规则动作"
-          >
-            <el-select
-              v-model="trafficRule.action"
-              :popper-append-to-body="false"
-            >
-              <el-option
-                v-for="item in action"
-                :key="item.value"
-                :label="item.value"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item
-            label="过滤类型"
-          >
-            <el-select
-              v-model="trafficRule.filterType"
-              :popper-append-to-body="false"
-            >
-              <el-option
-                v-for="item in filterType"
-                :key="item.value"
-                :label="item.value"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item
+        label="流规则标识"
+        class="input-half lt"
+      >
+        <el-input
+          maxlength="30"
+          v-model="trafficRule.trafficRuleId"
+        />
+      </el-form-item>
+      <el-form-item
+        label="优先级"
+        class="input-half lt"
+      >
+        <el-input-number
+          placeholder="1~255"
+          :min="1"
+          :max="255"
+          :controls="false"
+          v-model="trafficRule.priority"
+        />
+      </el-form-item>
+      <el-form-item
+        label="规则动作"
+        class="input-half lt"
+      >
+        <el-select
+          v-model="trafficRule.action"
+          :popper-append-to-body="false"
+        >
+          <el-option
+            v-for="item in action"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        label="过滤类型"
+        class="input-half lt"
+      >
+        <el-select
+          v-model="trafficRule.filterType"
+          :popper-append-to-body="false"
+        >
+          <el-option
+            v-for="item in filterType"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
     </el-form>
 
     <h3 class="rules-title list-top">
