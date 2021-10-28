@@ -68,17 +68,16 @@
             >
               {{ language==='cn'?testingScene[0]:testingScene[1] }}
               <span
-                v-show="!manualTitle"
+                v-show="!isManualTitle"
                 style="margin-left:8px;"
               >: {{ language==='cn'?testingCase[0]:testingCase[1] }}</span>
             </span>
             <span
-              v-if=" isTest === 'running'"
-              v-show="manualTitle"
+              v-show="isManualTitle"
               class="waitManual"
             >{{ $t('userpage.waitManual') }}</span>
             <span
-              v-else
+              v-if=" isTest !== 'running'"
               class="test-result"
               :class="{'testFailed': statusTitle[0]==='测试失败','testSuccessful': statusTitle[0]==='测试成功',}"
             >
@@ -168,7 +167,7 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      v-if="(authorities.indexOf('ROLE_ATP_ADMIN')!==-1 && isinternal)"
+                      v-if="(authorities.indexOf('ROLE_ATP_ADMIN')!==-1)"
                       :label="$t('myApp.operation')"
                       width="100"
                     >
@@ -303,12 +302,6 @@
 <script>
 import { Userpage } from '../../../api/atpApi.js'
 export default {
-  props: {
-    isinternal: {
-      type: Boolean,
-      default: false
-    }
-  },
   data () {
     return {
       language: 'cn',
@@ -323,7 +316,7 @@ export default {
       activeName: [],
       finishActiveName: [],
       activeNameTabs: '',
-      interval: '',
+      interval: null,
       allfailNum: 0,
       hasFailActiveName: [],
       firstScene: '',
@@ -340,7 +333,7 @@ export default {
       uploadPdfVisible: false,
       pdfFile: [],
       customColor: '#8097f7',
-      manualTitle: false,
+      isManualTitle: false,
       uploadUser: ''
     }
   },
@@ -506,11 +499,8 @@ export default {
       let allfailNum = 0
       let allNum = 0
       data.forEach(element => {
-        // 场景前的数字
         element.testSuites.forEach(ele => {
-          // 完成后打开的页签
           this.finishActiveName.push(element.nameEn + ele.nameEn)
-          // 测试过程
           ele.testCases.forEach(item => {
             this.alltestCase.push(item)
             allNum++
@@ -529,14 +519,11 @@ export default {
           })
         })
       })
-      // 分数和进度百分比
       this.percentage = Number(((allsuccessNum + allfailNum) / allNum * 100).toFixed(0))
       this.allfailNum = allfailNum
-      // 页面标题显示和class
-      this.IsFinish(reportPath)
+      this.isFinish(reportPath)
       this.setTitle(taskStatus, data)
-      // 判断是否只剩下手动类型
-      this.IsManualPrompt()
+      this.isManualPrompt()
       this.setDivHeight()
       // }).catch(() => {
       //   this.$message({
@@ -548,7 +535,7 @@ export default {
       //   this.clearInterval()
       // })
     },
-    IsFinish (reportPath) {
+    isFinish (reportPath) {
       if (this.percentage === 100) {
         this.report = false
         this.isTest = 'finished'
@@ -572,18 +559,8 @@ export default {
         this.statusTitle = ['测试失败', 'Test Failed']
       }
     },
-    setactiveName (ele, element) {
-      let testSuiteFinishBoolan = ele.testCases.every(caseFinish => {
-        return (caseFinish.result === 'success' || caseFinish.result === 'failed')
-      })
-      if (testSuiteFinishBoolan && this.activeName.indexOf(element.nameEn + ele.nameEn) !== -1) {
-        let index = this.activeName.indexOf(element.nameEn + ele.nameEn)
-        this.activeName.splice(index, 1)
-      }
-    },
-    // 提示手动类型
     promptWait () {
-      this.manualTitle = true
+      this.isManualTitle = true
       this.activeName = this.finishActiveName
       this.$message({
         offset: 200,
@@ -593,7 +570,7 @@ export default {
         message: this.$t('promptMessage.manualTip')
       })
     },
-    IsManualPrompt () {
+    isManualPrompt () {
       let everyBoolan = this.alltestCase.some(function (item) {
         return (item.result === 'running' && item.type === 'manual')
       })
@@ -605,7 +582,6 @@ export default {
         this.promptWait = function () { }
       }
     },
-    // 设置所有面板打开
     setCollaspe () {
       this.testScenarios.forEach(element => {
         element.testSuites.forEach(ele => {
@@ -613,7 +589,6 @@ export default {
         })
       })
     },
-    // 设置用例高度
     setDivHeight () {
       this.$nextTick(() => {
         const processcDiv = document.getElementById('process')
@@ -628,11 +603,7 @@ export default {
       this.form.testCaseId = row.id
       this.form.testSuiteId = testSuiteId
       this.form.testScenarioId = testScenarioId
-      if (this.language === 'cn') {
-        this.form.name = row.nameCh
-      } else {
-        this.form.name = row.nameEn
-      }
+      this.form.name = this.language === 'cn' ? row.nameCh : row.nameEn
     },
     confirmModify () {
       this.dialogVisible = false
@@ -684,7 +655,6 @@ export default {
 .testing-main{
   .process{
       min-width: 660px;
-      // padding: 50px 35px 15px;
       display: block;
     .toptitle{
       background-image: url('../../../assets/images/atp/atp_scenarious_bg.png');
