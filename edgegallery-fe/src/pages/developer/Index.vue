@@ -37,7 +37,7 @@
       </el-col>
       <el-col
         :span="4"
-        v-if="zoom===20&&!showProjectDlg&&!showCapabilityDlg"
+        v-if="zoom===20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg"
       >
         <div>
           预留问号
@@ -45,7 +45,7 @@
       </el-col>
       <el-col
         :span="24-zoom"
-        v-if="zoom<20&&!showProjectDlg&&!showCapabilityDlg"
+        v-if="zoom<20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg"
       >
         <div class="main-content">
           <div class="main-title">
@@ -63,12 +63,12 @@
                       应用孵化
                     </p>
                   </div>
-                  <div>
+                  <div class="main-part-item-container">
                     <IncubationComp />
                   </div>
                 </div>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="main-app-store main-part-item">
                   <div class="rt">
                     <p class="label-en">
@@ -78,12 +78,12 @@
                       应用商店
                     </p>
                   </div>
-                  <div>
+                  <div class="main-part-item-container">
                     <AppstoreComp />
                   </div>
                 </div>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="9">
                 <div class="main-deploy main-part-item">
                   <div class="rt">
                     <p class="label-en">
@@ -93,7 +93,7 @@
                       应用部署
                     </p>
                   </div>
-                  <div>
+                  <div class="main-part-item-container">
                     <DeploymentComp />
                   </div>
                 </div>
@@ -114,13 +114,19 @@
     </el-row>
     <div
       class="common-div-bg pro-creation"
-      v-if="showProjectDlg"
+      v-if="isShowProjectDlg"
     >
       <CreateProjectComp @createNewProject="createNewProject" />
     </div>
     <div
-      class="common-div-bg cap-creation"
-      v-if="showCapabilityDlg"
+      class="common-div-bg capability-index"
+      v-if="isShowCapabilityIndexDlg"
+    >
+      <CapabilityCenterIndexComp />
+    </div>
+    <div
+      class="common-div-bg capability-creation"
+      v-if="isShowCapabilityDlg"
     >
       <CapabilityCenterComp />
     </div>
@@ -133,7 +139,8 @@ import IncubationComp from './application/workflow/Incubation.vue'
 import AppstoreComp from './application/workflow/Appstore.vue'
 import DeploymentComp from './application/workflow/Deployment.vue'
 import CreateProjectComp from './application/CreateProjectDlg.vue'
-import CapabilityCenterComp from './capabilityCenter/CapabilityCenterInfo.vue'
+import CapabilityCenterIndexComp from './capabilityCenter/Index.vue'
+import CapabilityCenterComp from './capabilityCenter/CapabilityCenter.vue'
 export default {
   name: 'Application',
   components: {
@@ -142,13 +149,15 @@ export default {
     AppstoreComp,
     DeploymentComp,
     CreateProjectComp,
+    CapabilityCenterIndexComp,
     CapabilityCenterComp
   },
   data () {
     return {
       zoom: 2,
-      showProjectDlg: false,
-      showCapabilityDlg: true
+      isShowProjectDlg: false,
+      isShowCapabilityIndexDlg: false,
+      isShowCapabilityDlg: false
     }
   },
   methods: {
@@ -166,10 +175,11 @@ export default {
       this.$refs.leftProComp.style.width = '100%'
     },
     createNewProject (val) {
-      this.showProjectDlg = val
+      this.isShowProjectDlg = val
       if (val) {
         this.zoomChanged(1)
-        this.showCapabilityDlg = false
+        this.isShowCapabilityDlg = false
+        this.isShowCapabilityIndexDlg = false
       }
     }
   }
@@ -222,6 +232,10 @@ export default {
           background-size: cover;
           text-align: right;
           padding: 25px 20px;
+          .main-part-item-container{
+            height: 100%;
+            clear: both;
+          }
           .label-cn{
             font-size: 20px;
           }
@@ -245,14 +259,21 @@ export default {
       top:30%;
       left:35%;
       width: 30%;
-      padding: 35px!important;
+      padding: 35px;
     }
-    .cap-creation{
+    .capability-creation{
       position:absolute;
       top:25%;
       left:35%;
       width: 30%;
-      padding: 35px!important;
+      padding:35px;
+    }
+    .capability-index{
+      position:absolute;
+      top: 13%;
+      left: 12%;
+      width: 76%;
+      padding:35px 35px 35px 4%;
     }
     .el-row, .el-col{
       height: 100%;
