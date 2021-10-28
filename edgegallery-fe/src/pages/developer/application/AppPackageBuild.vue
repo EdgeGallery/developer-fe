@@ -561,10 +561,6 @@ export default {
         .progress-bar {
           margin-top: 13px;
           width: 100%;
-          // height: 14px;
-          // background: rgba(255, 255, 255, 0.3);
-          // border-radius: 2px;
-          // margin-top: 10px;
           .el-progress-bar {
             padding-right: 0px;
             margin: 0;
