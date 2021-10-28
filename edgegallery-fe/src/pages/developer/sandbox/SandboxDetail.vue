@@ -15,7 +15,7 @@
   -->
 <template>
   <div class="detail">
-    <div v-if="deployNet==='showDetail'">
+    <div v-if="showContent==='showDetail'">
       <div class="detail-top">
         <div class="detail-top-title lt">
           {{ detailTitle }}
@@ -273,25 +273,25 @@
         </div>
       </div>
     </div>
-    <DeployNet v-if="deployNet==='showDeploy'" />
-    <AddVm v-if="deployNet==='showAddVm'" />
+    <ConfigNetwork v-if="showContent==='showConfigNetwork'" />
+    <AddVm v-if="showContent==='showAddVm'" />
   </div>
 </template>
 
 <script>
-import DeployNet from './DeployNet.vue'
+import ConfigNetwork from './ConfigNetwork.vue'
 import AddVm from './AddVm.vue'
 export default {
   name: '',
   components: {
-    DeployNet,
+    ConfigNetwork,
     AddVm
   },
   data () {
     return {
       detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
       changeStyle: true,
-      deployNet: 'showDetail',
+      showContent: 'showDetail',
       addvm: true,
       btnDetail: false,
       btnUpload: false,
@@ -304,10 +304,10 @@ export default {
       this.changeStyle = false
     },
     selectNet () {
-      this.deployNet = 'showDeploy'
+      this.showContent = 'showConfigNetwork'
     },
     addVm () {
-      this.deployNet = 'showAddVm'
+      this.showContent = 'showAddVm'
     }
   },
   mounted () {

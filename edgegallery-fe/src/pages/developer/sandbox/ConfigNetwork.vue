@@ -14,7 +14,7 @@
   -  limitations under the License.
   -->
 <template>
-  <div class="deployNet">
+  <div class="config-network">
     <img
       src="../../../assets/images/sandbox/question.png"
       alt=""
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="less">
-.deployNet{
+.config-network{
   width: 100%;
   height: 100%;
   .question{
