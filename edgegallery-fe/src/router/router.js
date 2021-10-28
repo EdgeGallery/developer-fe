@@ -53,6 +53,11 @@ export default new Router({
       name: 'testProcess',
       component: () => import('../pages/developer/atp/TestProcess.vue')
     },
+    {
+      path: '/sandboxDetail',
+      name: 'sandboxDetail',
+      component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
+    },
 
     ...routesclassic
   ],
