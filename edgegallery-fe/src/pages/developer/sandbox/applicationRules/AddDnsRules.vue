@@ -50,9 +50,9 @@
           <el-option
             v-for="item in ipAddressTypeOptions"
             :key="item.value"
-            :label="item.label"
-            :value="item.label"
-            :id="item.label"
+            :label="item.value"
+            :value="item.value"
+            :id="item.value"
           />
         </el-select>
       </el-form-item>
@@ -102,13 +102,8 @@ export default {
         ttl: '85000'
       },
       ipAddressTypeOptions: [
-        {
-          value: 0,
-          label: 'IP_V4'
-        }, {
-          value: 1,
-          label: 'IP_V6'
-        }
+        { value: 'IP_V4' },
+        { value: 'IP_V6' }
       ]
     }
   },
