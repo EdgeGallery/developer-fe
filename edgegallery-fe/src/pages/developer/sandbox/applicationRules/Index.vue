@@ -14,7 +14,7 @@
   -  limitations under the License.
   -->
 <template>
-  <div class="application-rules padding_default">
+  <div class="application-rules">
     <div class="rules-config common-div-bg">
       <h3 class="rules-title">
         应用规则配置
@@ -142,15 +142,27 @@
       class="traffic-rules"
       @setRulesListTop="setRulesListTop"
     />
+    <interfaceInformation
+      class="interface-info"
+      @setRulesListTop="setRulesListTop"
+    />
+    <trafficFilter
+      class="traffic-filter"
+      @setRulesListTop="setRulesListTop"
+    />
   </div>
 </template>
 
 <script>
-import trafficRules from './trafficRules.vue'
+import trafficRules from './TrafficRules'
+import interfaceInformation from './InterfaceInformation.vue'
+import trafficFilter from './TrafficFilter.vue'
 export default {
   name: 'ApplicationRules',
   components: {
-    trafficRules
+    trafficRules,
+    interfaceInformation,
+    trafficFilter
   },
   data () {
     return {
@@ -195,11 +207,56 @@ export default {
         }
       })
     },
-    setRulesListTop () {
-      let oDiv = document.getElementsByClassName('rules-config')[0]
-      if (oDiv) {
-        oDiv.style.marginTop = 110 + 'px'
-        oDiv.style.opacity = 1
+    setRulesListTop (data) {
+      let oDivConfig = document.getElementsByClassName('rules-config')[0]
+      let oDivTraffic = document.getElementsByClassName('traffic-rules')[0]
+      let oDivInterface = document.getElementsByClassName('interface-info')[0]
+      let oDivFilter = document.getElementsByClassName('traffic-filter')[0]
+      if (data === 'cancelTrafficRules') {
+        if (oDivConfig) {
+          oDivConfig.style.marginTop = 110 + 'px'
+          oDivConfig.style.opacity = 1
+        }
+        if (oDivTraffic) {
+          oDivTraffic.style.marginTop = 0 + 'px'
+          oDivTraffic.style.opacity = 0
+        }
+      }
+      if (data === 'addInterfaceInfo') {
+        if (oDivInterface) {
+          oDivInterface.style.marginTop = 270 + 'px'
+          oDivInterface.style.opacity = 1
+          oDivInterface.style.maxHeight = 90 + '%'
+        }
+      }
+      if (data === 'cancelInterfaceInfo') {
+        if (oDivInterface) {
+          oDivInterface.style.marginTop = 0 + 'px'
+          oDivInterface.style.opacity = 0
+          oDivInterface.style.maxHeight = 0 + 'px'
+        }
+        if (oDivTraffic) {
+          oDivTraffic.style.marginTop = 170 + 'px'
+          oDivTraffic.style.opacity = 1
+        }
+      }
+      if (data === 'addTrafficFilter') {
+        if (oDivFilter) {
+          oDivFilter.style.marginTop = 150 + 'px'
+          oDivFilter.style.opacity = 1
+          oDivFilter.style.maxHeight = 90 + '%'
+        }
+      }
+      if (data === 'cancelTrafficFilter') {
+        if (oDivFilter) {
+          oDivFilter.style.marginTop = 0 + 'px'
+          oDivFilter.style.opacity = 0
+          oDivFilter.style.maxHeight = 0 + 'px'
+        }
+        if (oDivTraffic) {
+          oDivTraffic.style.marginTop = 170 + 'px'
+          oDivTraffic.style.opacity = 1
+        }
       }
     },
     getRulesListHeight () {
@@ -241,7 +298,8 @@ export default {
   padding: 0 15%;
   overflow: hidden;
   .rules-config{
-    transition: all .4s;
+    padding: 40px;
+    transition: all .15s;
     margin-top: 110px;
     .el-table{
       width: calc(100% - 35px);
@@ -249,10 +307,29 @@ export default {
     }
   }
   .traffic-rules{
+    padding: 35px 120px;
     max-height: 95%;
     overflow: auto;
     opacity: 0;
-    transition: all .4s linear;
+    transition: all .15s linear;
+  }
+  .interface-info{
+    width: 454px;
+    padding: 40px;
+    max-height: 0;
+    overflow: auto;
+    opacity: 0;
+    margin: 0 auto;
+    transition: all .15s linear;
+  }
+  .traffic-filter{
+    width: 754px;
+    padding: 40px;
+    max-height: 0;
+    overflow: auto;
+    opacity: 0;
+    margin: 0 auto;
+    transition: all .15s linear;
   }
 }
 @media screen and (max-width:1600px){

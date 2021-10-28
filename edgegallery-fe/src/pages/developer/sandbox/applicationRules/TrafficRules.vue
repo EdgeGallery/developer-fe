@@ -86,6 +86,7 @@
       流过滤规则
       <el-button
         class="common-btn rt"
+        @click="addTrafficFilter"
       >
         添加流量过滤器
       </el-button>
@@ -149,6 +150,7 @@
         转发接口信息
         <el-button
           class="common-btn rt"
+          @click="addInterfaceInformation"
         >
           添加接口信息
         </el-button>
@@ -287,24 +289,31 @@ export default {
   },
   methods: {
     cancelTrafficRules () {
-      let oDivTraffic = document.getElementsByClassName('traffic-rules')[0]
-      if (oDivTraffic) {
-        oDivTraffic.style.marginTop = 0 + 'px'
-        oDivTraffic.style.opacity = 0
-        this.$emit('setRulesListTop')
+      this.$emit('setRulesListTop', 'cancelTrafficRules')
+    },
+    setRulesListTop () {
+      let oDiv = document.getElementsByClassName('traffic-list')[0]
+      let listHeight = 0
+      if (oDiv) {
+        listHeight = oDiv.offsetHeight
+        oDiv.style.marginTop = -listHeight + 'px'
+        oDiv.style.opacity = 0
       }
+    },
+    addInterfaceInformation () {
+      this.setRulesListTop()
+      this.$emit('setRulesListTop', 'addInterfaceInfo')
+    },
+    addTrafficFilter () {
+      this.setRulesListTop()
+      this.$emit('setRulesListTop', 'addTrafficFilter')
     }
-  },
-  mounted () {
-
   }
 }
 </script>
 
 <style lang="less">
 .traffic-list{
-  margin-top: 50px;
-  padding: 35px 120px;
   .list-top{
     margin-top: 35px;
   }
