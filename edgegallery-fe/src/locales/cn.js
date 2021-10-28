@@ -24,7 +24,6 @@ import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
 const cn = {
   common: {
-    newVersion: '新版',
     classic: '经典版',
     operation: '操作',
     edit: '编辑',

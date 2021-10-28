@@ -24,7 +24,6 @@ import enImages from './images_en.js'
 import enAtp from './atp_en.js'
 const en = {
   common: {
-    newVersion: 'New Version',
     classic: 'Classic',
     operation: 'Operation',
     edit: 'Edit',

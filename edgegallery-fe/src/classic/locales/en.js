@@ -19,6 +19,7 @@ const en = {
   home: {
   },
   normal: {
+    newVersion: 'New Version',
     cancel: 'Cancel',
     confirm: 'Confirm'
   },

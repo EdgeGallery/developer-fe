@@ -23,6 +23,7 @@
       label-width="120px"
       size="mini"
       class="common-form clear"
+      :model="trafficRuleForm"
     >
       <el-form-item
         label="流规则标识"
@@ -30,7 +31,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficRule.trafficRuleId"
+          v-model="trafficRuleForm.trafficRuleId"
         />
       </el-form-item>
       <el-form-item
@@ -42,7 +43,7 @@
           :min="1"
           :max="255"
           :controls="false"
-          v-model="trafficRule.priority"
+          v-model="trafficRuleForm.priority"
         />
       </el-form-item>
       <el-form-item
@@ -50,7 +51,7 @@
         class="input-half lt"
       >
         <el-select
-          v-model="trafficRule.action"
+          v-model="trafficRuleForm.action"
           :popper-append-to-body="false"
         >
           <el-option
@@ -66,7 +67,7 @@
         class="input-half lt"
       >
         <el-select
-          v-model="trafficRule.filterType"
+          v-model="trafficRuleForm.filterType"
           :popper-append-to-body="false"
         >
           <el-option
@@ -142,7 +143,7 @@
       </el-table-column>
     </el-table>
 
-    <div v-if="trafficRule.action==='FORWARD_DECAPSULATED'||trafficRule.action==='FORWARD_AS_IS'">
+    <div v-if="trafficRuleForm.action==='FORWARD_DECAPSULATED'||trafficRuleForm.action==='FORWARD_AS_IS'">
       <h3 class="rules-title list-top">
         接口信息
       </h3>
@@ -237,7 +238,7 @@ export default {
   name: 'TrafficRules',
   data () {
     return {
-      trafficRule: {
+      trafficRuleForm: {
         trafficRuleId: '',
         priority: '',
         action: 'FORWARD_DECAPSULATED',

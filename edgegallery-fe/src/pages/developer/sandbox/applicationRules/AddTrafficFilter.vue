@@ -24,13 +24,14 @@
       label-width="125px"
       size="mini"
       class="common-form clear"
+      :model="trafficFilterForm"
     >
       <el-form-item
         label="源IP地址"
       >
         <el-input
           maxlength="20"
-          v-model="trafficFilter.srcAddress"
+          v-model="trafficFilterForm.srcAddress"
         />
         <el-tooltip
           effect="dark"
@@ -45,7 +46,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.srcPort"
+          v-model="trafficFilterForm.srcPort"
         />
         <el-tooltip
           effect="dark"
@@ -60,7 +61,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.dstAddress"
+          v-model="trafficFilterForm.dstAddress"
         />
         <el-tooltip
           effect="dark"
@@ -75,7 +76,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.dstPort"
+          v-model="trafficFilterForm.dstPort"
         />
         <el-tooltip
           effect="dark"
@@ -90,7 +91,7 @@
         class="input-half lt"
       >
         <el-input
-          v-model="trafficFilter.tag"
+          v-model="trafficFilterForm.tag"
         />
       </el-form-item>
       <el-form-item
@@ -99,7 +100,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.protocol"
+          v-model="trafficFilterForm.protocol"
         />
       </el-form-item>
       <el-form-item
@@ -108,7 +109,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.qci"
+          v-model="trafficFilterForm.qci"
         />
       </el-form-item>
       <el-form-item
@@ -117,7 +118,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.dscp"
+          v-model="trafficFilterForm.dscp"
         />
       </el-form-item>
       <el-form-item
@@ -126,7 +127,7 @@
       >
         <el-input
           maxlength="30"
-          v-model="trafficFilter.tc"
+          v-model="trafficFilterForm.tc"
         />
       </el-form-item>
       <el-form-item
@@ -134,7 +135,7 @@
         class="input-half lt"
       >
         <el-input
-          v-model="trafficFilter.tgtTunnelAddress"
+          v-model="trafficFilterForm.tgtTunnelAddress"
         />
       </el-form-item>
       <el-form-item
@@ -142,7 +143,7 @@
         class="input-half lt"
       >
         <el-input
-          v-model="trafficFilter.dstTunnelPort"
+          v-model="trafficFilterForm.dstTunnelPort"
         />
       </el-form-item>
       <el-form-item
@@ -150,7 +151,7 @@
         class="input-half lt"
       >
         <el-input
-          v-model="trafficFilter.srcTunnelAddress"
+          v-model="trafficFilterForm.srcTunnelAddress"
         />
       </el-form-item>
       <el-form-item
@@ -158,7 +159,7 @@
         class="input-half lt"
       >
         <el-input
-          v-model="trafficFilter.srcTunnelPort"
+          v-model="trafficFilterForm.srcTunnelPort"
         />
       </el-form-item>
     </el-form>
@@ -185,7 +186,7 @@ export default {
   name: 'Traffic',
   data () {
     return {
-      trafficFilter: {
+      trafficFilterForm: {
         srcAddress: '0.0.0.0/0',
         srcPort: '8080',
         dstAddress: '0.0.0.0/0',

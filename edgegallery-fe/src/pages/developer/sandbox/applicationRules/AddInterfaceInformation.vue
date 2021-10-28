@@ -24,76 +24,77 @@
       label-width="125px"
       size="mini"
       class="common-form form-one-column"
+      :model="interfaceInformationForm"
     >
       <el-form-item
         label="interfaceType"
       >
         <el-select
-          v-model="dstInterface.interfaceType"
+          v-model="interfaceInformationForm.interfaceType"
         >
           <el-option
             v-for="item in interfaceType"
             :key="item.value"
-            :label="item.label"
+            :label="item.value"
             :value="item.value"
           />
         </el-select>
       </el-form-item>
       <div class="interfaceSubFormitem">
-        <div v-if="dstInterface.interfaceType==='TUNNEL'">
+        <div v-if="interfaceInformationForm.interfaceType==='TUNNEL'">
           <h3 class="rules-title">
             隧道信息
           </h3>
           <el-form-item label="隧道类型">
             <el-select
-              v-model="dstInterface.tunnelInfo.tunnelType"
+              v-model="interfaceInformationForm.tunnelInfo.tunnelType"
             >
               <el-option
                 v-for="item in tunnelType"
                 :key="item.value"
-                :label="item.label"
+                :label="item.value"
                 :value="item.value"
               />
             </el-select>
           </el-form-item>
           <el-form-item label="隧道源地址">
             <el-input
-              v-model="dstInterface.tunnelInfo.tunnelSrcAddress"
+              v-model="interfaceInformationForm.tunnelInfo.tunnelSrcAddress"
             />
           </el-form-item>
           <el-form-item label="隧道目的地址">
             <el-input
-              v-model="dstInterface.tunnelInfo.tunnelDstAddress"
+              v-model="interfaceInformationForm.tunnelInfo.tunnelDstAddress"
             />
           </el-form-item>
           <el-form-item label="隧道指定参数">
             <el-input
-              v-model="dstInterface.tunnelInfo.tunnelSpecificData"
+              v-model="interfaceInformationForm.tunnelInfo.tunnelSpecificData"
             />
           </el-form-item>
         </div>
-        <div v-if="dstInterface.interfaceType==='MAC'">
+        <div v-if="interfaceInformationForm.interfaceType==='MAC'">
           <h3 class="rules-title">
             MAC信息
           </h3>
           <el-form-item label="源MAC地址">
             <el-input
-              v-model="dstInterface.srcMACAddress"
+              v-model="interfaceInformationForm.srcMACAddress"
             />
           </el-form-item>
           <el-form-item label="目的MAC地址">
             <el-input
-              v-model="dstInterface.dstMACAddress"
+              v-model="interfaceInformationForm.dstMACAddress"
             />
           </el-form-item>
         </div>
-        <div v-if="dstInterface.interfaceType==='IP'">
+        <div v-if="interfaceInformationForm.interfaceType==='IP'">
           <h3 class="rules-title">
             IP信息
           </h3>
           <el-form-item label="目的IP地址">
             <el-input
-              v-model="dstInterface.dstIPAddress"
+              v-model="interfaceInformationForm.dstIPAddress"
             />
           </el-form-item>
         </div>
@@ -122,7 +123,7 @@ export default {
   name: 'InterfaceInformation',
   data () {
     return {
-      dstInterface: {
+      interfaceInformationForm: {
         interfaceType: 'TUNNEL',
         srcMACAddress: '',
         dstMACAddress: '',
@@ -135,28 +136,13 @@ export default {
         }
       },
       interfaceType: [
-        {
-          value: 'TUNNEL',
-          label: 'TUNNEL'
-        },
-        {
-          value: 'MAC',
-          label: 'MAC'
-        },
-        {
-          value: 'IP',
-          label: 'IP'
-        }
+        { value: 'TUNNEL' },
+        { value: 'MAC' },
+        { value: 'IP' }
       ],
       tunnelType: [
-        {
-          value: 'GTP-U',
-          label: 'GTP-U'
-        },
-        {
-          value: 'GRE',
-          label: 'GRE'
-        }
+        { value: 'GTP-U' },
+        { value: 'GRE' }
       ]
     }
   },
@@ -164,14 +150,6 @@ export default {
     cancelInterfaceInfo () {
       this.$emit('setRulesListTop', 'cancelInterfaceInfo')
     }
-  },
-  created () {
-  },
-  mounted () {
   }
 }
 </script>
-
-<style lang="less">
-
-</style>
