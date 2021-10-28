@@ -47,7 +47,7 @@ export default {
   methods: {
     toSelectSandbox () {
       if (this.selectSandbox === 'selectSandbox') {
-        this.$router.push({ path: '/sandbox' })
+        this.$router.push({ path: '/sandboxFrame' })
       } else {
         this.$router.push({ path: '/sandboxDetail' })
       }
