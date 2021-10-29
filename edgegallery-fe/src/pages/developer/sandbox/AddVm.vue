@@ -182,12 +182,12 @@
           </div>
         </div>
       </div>
-      <div class="addVm_btn rt">
+      <div class="addVm-btn rt">
         <el-button>
-          取消
+          {{ $t('normal.cancel') }}
         </el-button>
         <el-button>
-          确认
+          {{ $t('normal.confirm') }}
         </el-button>
       </div>
     </div>
@@ -270,6 +270,11 @@ export default {
       ownTypeValue: '',
       ownImageValue: '',
       multipleSelection: []
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
@@ -412,7 +417,7 @@ export default {
         }
       }
     }
-    .addVm_btn{
+    .addVm-btn{
         margin-right: 30px;
       .el-button{
         width: 88px;
