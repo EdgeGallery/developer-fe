@@ -1,12 +1,52 @@
+
+<!--
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
 <template>
   <div class="application">
     <el-row>
-      <el-col :span="2">
-        <div class="left-menu">
-          <ProjectList />
+      <el-col :span="zoom">
+        <div
+          class="left-pro-comp"
+          ref="leftProComp"
+        >
+          <ProjectSideComp
+            @zoomChanged="zoomChanged"
+            @createNewProject="createNewProject"
+            :zoom="zoom"
+            v-if="zoom>1"
+          />
+        </div>
+        <em
+          class="el-icon-arrow-right"
+          v-if="zoom ===1"
+          @click.stop="enlarge()"
+        />
+      </el-col>
+      <el-col
+        :span="4"
+        v-if="zoom===20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg"
+      >
+        <div>
+          预留问号
         </div>
       </el-col>
-      <el-col :span="22">
+      <el-col
+        :span="24-zoom"
+        v-if="zoom<20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg"
+      >
         <div class="main-content">
           <div class="main-title">
             5G边缘应用孵化流水线
@@ -23,9 +63,12 @@
                       应用孵化
                     </p>
                   </div>
+                  <div class="main-part-item-container">
+                    <IncubationComp />
+                  </div>
                 </div>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="main-app-store main-part-item">
                   <div class="rt">
                     <p class="label-en">
@@ -35,9 +78,12 @@
                       应用商店
                     </p>
                   </div>
+                  <div class="main-part-item-container">
+                    <AppstoreComp />
+                  </div>
                 </div>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="9">
                 <div class="main-deploy main-part-item">
                   <div class="rt">
                     <p class="label-en">
@@ -46,6 +92,9 @@
                     <p class="label-cn">
                       应用部署
                     </p>
+                  </div>
+                  <div class="main-part-item-container">
+                    <DeploymentComp />
                   </div>
                 </div>
               </el-col>
@@ -63,14 +112,76 @@
         </div>
       </el-col>
     </el-row>
+    <div
+      class="common-div-bg pro-creation"
+      v-if="isShowProjectDlg"
+    >
+      <CreateProjectComp @createNewProject="createNewProject" />
+    </div>
+    <div
+      class="common-div-bg capability-index"
+      v-if="isShowCapabilityIndexDlg"
+    >
+      <CapabilityCenterIndexComp />
+    </div>
+    <div
+      class="common-div-bg capability-creation"
+      v-if="isShowCapabilityDlg"
+    >
+      <CapabilityCenterComp />
+    </div>
   </div>
 </template>
 
 <script>
-import ProjectList from './application/ProjectList.vue'
+import ProjectSideComp from './application/ProjectList.vue'
+import IncubationComp from './application/workflow/Incubation.vue'
+import AppstoreComp from './application/workflow/Appstore.vue'
+import DeploymentComp from './application/workflow/Deployment.vue'
+import CreateProjectComp from './application/CreateProjectDlg.vue'
+import CapabilityCenterIndexComp from './capabilityCenter/Index.vue'
+import CapabilityCenterComp from './capabilityCenter/CapabilityCenter.vue'
 export default {
+  name: 'Application',
   components: {
-    ProjectList
+    ProjectSideComp,
+    IncubationComp,
+    AppstoreComp,
+    DeploymentComp,
+    CreateProjectComp,
+    CapabilityCenterIndexComp,
+    CapabilityCenterComp
+  },
+  data () {
+    return {
+      zoom: 2,
+      isShowProjectDlg: false,
+      isShowCapabilityIndexDlg: false,
+      isShowCapabilityDlg: false
+    }
+  },
+  methods: {
+    zoomChanged (val) {
+      if (val === 1) {
+        this.zoom = 1
+        this.$refs.leftProComp.style.width = '15%'
+      } else {
+        this.zoom = 20
+        this.$refs.leftProComp.style.width = '100%'
+      }
+    },
+    enlarge () {
+      this.zoom = 2
+      this.$refs.leftProComp.style.width = '100%'
+    },
+    createNewProject (val) {
+      this.isShowProjectDlg = val
+      if (val) {
+        this.zoomChanged(1)
+        this.isShowCapabilityDlg = false
+        this.isShowCapabilityIndexDlg = false
+      }
+    }
   }
 }
 </script>
@@ -79,7 +190,7 @@ export default {
   .application{
     width: 100%;
     height: 100%;
-    .left-menu{
+    .left-pro-comp{
       width: 100%;
       height: 95%;
       position: relative;
@@ -87,8 +198,9 @@ export default {
       border-left: none;
       border-radius: 0 17px 17px 0;
       z-index: 15;
+      overflow: hidden;
     }
-    .left-menu::after {
+    .left-pro-comp::after {
       content: "";
       background: url("../../assets/images/index/index_mask.png") no-repeat center;
       background-size: cover;
@@ -103,7 +215,7 @@ export default {
     .main-content{
       height: 100%;
       margin: 0 auto;
-      padding: 6% 10%;
+      padding: 6% 10% 6% 5%;
       .main-title{
         font-size: 25px;
         font-weight: bold;
@@ -120,6 +232,10 @@ export default {
           background-size: cover;
           text-align: right;
           padding: 25px 20px;
+          .main-part-item-container{
+            height: 100%;
+            clear: both;
+          }
           .label-cn{
             font-size: 20px;
           }
@@ -138,8 +254,35 @@ export default {
         }
       }
     }
+    .pro-creation{
+      position:absolute;
+      top:30%;
+      left:35%;
+      width: 30%;
+      padding: 35px;
+    }
+    .capability-creation{
+      position:absolute;
+      top:25%;
+      left:35%;
+      width: 30%;
+      padding:35px;
+    }
+    .capability-index{
+      position:absolute;
+      top: 13%;
+      left: 12%;
+      width: 76%;
+      padding:35px 35px 35px 4%;
+    }
     .el-row, .el-col{
       height: 100%;
+    }
+    .el-icon-arrow-right{
+      position: absolute;
+      top: 50%;
+      left: 0.5%;
+      cursor: pointer;
     }
   }
 </style>

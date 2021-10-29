@@ -22,7 +22,7 @@
     >
     <div
       class="all-sandbox"
-      v-if="ifSandbox"
+      v-if="isSandbox"
     >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
@@ -62,7 +62,7 @@
       </div>
       <el-button
         class="makesure"
-        @click="selectFinash"
+        @click="selectFinish"
       >
         完成
       </el-button>
@@ -186,8 +186,8 @@ export default {
       activeItem: '',
       selectedImg: selectedImg,
       unselectedImg: unselectedImg,
-      ifSelected: false,
-      ifSandbox: true,
+      isSelected: false,
+      isSandbox: true,
       sandboxDetails: {},
       form: [],
       detailIndex: '',
@@ -196,14 +196,10 @@ export default {
   },
   methods: {
     selectSandbox (value) {
-      if (value === this.activeItem) {
-        this.activeItem = ''
-      } else {
-        this.activeItem = value
-      }
+      this.activeItem = value === this.activeItem ? '' : value
     },
     goDetail (item) {
-      this.ifSandbox = false
+      this.isSandbox = false
       this.sandboxDetails = item
       this.form = item
     },
@@ -211,18 +207,18 @@ export default {
       this.detailIndex = index
     },
     backSandbox () {
-      this.ifSandbox = true
+      this.isSandbox = true
     },
     checkSandbox () {
       this.activeItem = this.detailIndex
       this.sandboxName = this.sandbox[this.activeItem].name
-      this.ifSandbox = true
-      this.$router.push({ path: '/incubation' })
+      this.isSandbox = true
+      this.$router.push({ path: '/sandbox' })
       sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     },
-    selectFinash () {
+    selectFinish () {
       this.sandboxName = this.sandbox[this.activeItem].name
-      this.$router.push({ path: '/incubation' })
+      this.$router.push({ path: '/sandbox' })
       sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     }
   },
