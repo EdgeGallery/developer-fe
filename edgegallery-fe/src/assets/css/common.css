@@ -71,6 +71,7 @@
    min-width: 1200px;
    height:100%;
    font-size: 16px;
+   background: #f6f5f8 !important;
  }
  a{
    color: #688ef3;
@@ -435,6 +436,8 @@
  .el-menu--horizontal > .el-submenu.is-active .el-submenu__title,
  .main-sidebar .el-menu--horizontal > .el-submenu .el-submenu__title:hover{
    border-bottom: none !important;
+   background-color: transparent !important;
+   color: #fff !important;
  }
  
  .el-menu--horizontal > .el-menu-item,.el-menu--horizontal > .el-menu-item:hover{
@@ -446,7 +449,7 @@
  .el-menu--horizontal > .el-menu-item:after,.el-menu--horizontal > .el-submenu:after{
    content:'';
    position:absolute;
-   border-bottom:2px solid #61cdd0;
+   border-bottom:2px solid #6A52CA;
    left: 50%;
    bottom: 0;
    width: 0%;
@@ -455,7 +458,7 @@
  .el-menu--horizontal > .el-menu-item:hover:after,.el-menu--horizontal > .el-submenu:hover:after{
    content:'';
    position:absolute;
-   border-bottom:2px solid #61cdd0;
+   border-bottom:2px solid #6A52CA;
    left: 40%;
    width: 25%;
    transform: scale(4,1);
@@ -463,13 +466,19 @@
  .el-menu--horizontal > .el-menu-item.is-active:after,.el-menu--horizontal > .el-submenu.is-active:after{
    left: 0;
    width: 100%;
-   border-bottom:2px solid #61cdd0;
+   border-bottom:2px solid #6A52CA;
  }
  .el-menu--horizontal > .el-menu-item.is-active:hover:after,.el-menu--horizontal > .el-submenu.is-active:hover:after{
    left: 0;
    width: 100%;
-   border-bottom:2px solid #61cdd0;
+   border-bottom:2px solid #6A52CA;
    transform: scale(1);
+ }
+ .classic .el-menu--horizontal > .el-menu-item:after,.classic .el-menu--horizontal > .el-submenu:after,
+ .classic .el-menu--horizontal > .el-menu-item:hover:after,.classic .el-menu--horizontal > .el-submenu:hover:after,
+ .classic .el-menu--horizontal > .el-menu-item.is-active:after,.classic .el-menu--horizontal > .el-submenu.is-active:after,
+ .classic .el-menu--horizontal > .el-menu-item.is-active:hover:after,.classic .el-menu--horizontal > .el-submenu.is-active:hover:after{
+  border-bottom:2px solid #61cdd0;
  }
  @media screen and (max-width:1600px){
    .padding_default{
