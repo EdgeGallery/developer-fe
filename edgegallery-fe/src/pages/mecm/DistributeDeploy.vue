@@ -43,7 +43,6 @@
           >
             <template slot-scope="scope">
               <span :class="changeIcon(scope.row.status)" />
-              <!-- <i :class="changeElIcon(scope.row.status)" /> -->
               <span>{{ scope.row.status }}</span>
             </template>
           </el-table-column>

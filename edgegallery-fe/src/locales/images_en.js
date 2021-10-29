@@ -15,19 +15,5 @@
  */
 
 const en = {
-  deployList: {
-    deployListTitle: 'AppDeploy',
-    tip: 'Please enter the search content',
-    name: 'Name',
-    version: 'Version',
-    provider: 'Provider',
-    type: 'Type',
-    industry: 'Industry',
-    affinity: 'Architecture',
-    appstoreName: 'App Store Name',
-    syncTime: 'Sync Time',
-    operation: 'Operation',
-    operationBtn: 'Distribution&Instantiate'
-  }
 }
 export default en
