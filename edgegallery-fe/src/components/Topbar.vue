@@ -21,8 +21,7 @@
       :unique-opened="true"
       router
       @select="handleSelect"
-      text-color="#bdb1e4"
-      background-color="#5e40c8"
+      text-color="rgba(255,255,255,.8)"
       active-text-color="#fff"
       mode="horizontal"
     >
@@ -134,6 +133,9 @@ export default {
   position: relative;
   z-index: 99;
   float: left;
+  .el-menu{
+    background-color: transparent;
+  }
   .el-menu.el-menu--horizontal{
     height: 80px;
     border-bottom: none;
@@ -143,8 +145,7 @@ export default {
       margin-right: 30px;
     }
     .el-menu-item:not(.is-disabled):hover{
-      background: #5e40c8 !important;
-      // border-bottom: 2px solid #fff !important;
+      background: transparent!important;
     }
     .el-submenu{
       margin-right: 30px;
@@ -155,13 +156,13 @@ export default {
     line-height: 80px !important;
   }
   .el-menu--horizontal>.el-submenu .el-submenu__title:hover{
-    background: #5e40c8 !important;
+    background: transparent !important;
     border-bottom: 2px solid #fff !important;
   }
   .el-menu{
     display: flex;
     .first-menu{
-      font-size: 16px;
+      font-size: 14px;
     }
     .second-menu{
       font-size: 15px;

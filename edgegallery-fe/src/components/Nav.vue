@@ -16,7 +16,7 @@
 
 <template>
   <div
-    class="navgation padding_default"
+    class="navgation-new padding_default"
   >
     <div
       class="logo lt"
@@ -115,7 +115,7 @@ import Topbar from './Topbar.vue'
 import TopbarSmall from './TopbarSmall.vue'
 import { NAV_PRE, FIRST_LEVEL_MENU_PATH, MODULES, HEALTH_URL } from '../constants.js'
 export default {
-  name: 'Navgation',
+  name: 'NavgationNew',
   components: {
     Topbar,
     TopbarSmall
@@ -458,8 +458,8 @@ export default {
 </script>
 
 <style lang='less'>
-.navgation {
-  background: #5e40c8;
+.navgation-new {
+  background: transparent;
   height: 80px;
   top: 0px;
   width: 100%;
@@ -613,7 +613,7 @@ export default {
 
   @media screen and (max-width: 1090px) {
     .main-sidebar .el-menu .first-menu{
-      font-size: 16px;
+      font-size: 14px;
     }
     .logo{
       span{
@@ -658,10 +658,10 @@ export default {
     }
   }
 }
-.navgation.isScroll{
+.navgation-new.isScroll{
   box-shadow: 0 6px 10px 0 rgba(27, 7, 118, 0.2)
 }
-.navgation.isHome{
+.navgation-new.isHome{
   background: transparent !important;
   .el-menu--horizontal,.el-menu-item,.el-submenu__title{
     background-color: transparent !important;

@@ -18,6 +18,7 @@
   <div
     id="app"
     class="defaultFont"
+    :class="{'app-new':pageModel==='newVersion'}"
     ref="app"
   >
     <Navcomp
@@ -91,9 +92,9 @@ export default {
   methods: {
     setDivHeight (screenHeight) {
       this.$nextTick(() => {
-        let oDiv = document.getElementById('app')
-        if (oDiv) {
-          oDiv.style.minHeight = Number(screenHeight) + 'px'
+        let _oDiv = document.getElementsByClassName('app-new')[0]
+        if (_oDiv) {
+          _oDiv.style.minHeight = Number(screenHeight) + 'px'
         }
       })
     },
@@ -147,9 +148,11 @@ export default {
   color: #fff;
   width: 100%;
   height: 100%;
-  background:url('../src/assets/images/common_bg.png');
   padding-top: 80px;
-  background-size:cover;
   position: relative;
+}
+.app-new{
+  background:url('../src/assets/images/common_bg.png');
+  background-size:cover;
 }
 </style>

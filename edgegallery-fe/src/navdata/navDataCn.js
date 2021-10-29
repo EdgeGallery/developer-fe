@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-import { systemNavData } from './thirdSystemCn.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navDataCn = [
@@ -45,10 +44,9 @@ const navDataCn = [
   },
   {
     id: '5',
-    name: '系统',
+    name: '三方系统管理',
     path: FIRST_LEVEL_MENU_PATH.SYSTEM,
-    display: true,
-    children: systemNavData
+    display: true
   }
 ]
 
