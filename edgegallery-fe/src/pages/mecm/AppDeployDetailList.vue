@@ -143,7 +143,7 @@ export default {
     line-height: 50px;
     text-align: center;
     letter-spacing: 4px;
-    background: url('../../assets/images/mecm/appDeploy/deploy_title.png') no-repeat center;
+    background: url('../../assets/images/mecm/app_deploy/deploy_title.png') no-repeat center;
   }
   .cardShadow{
     padding: 0px 0 1px 2px;
@@ -173,7 +173,7 @@ export default {
       border:1px solid rgba(171,151,229,1);
       border-radius: 17px;
       padding:35px 16px 7px 24px;
-      background: url('../../assets/images/mecm/appDeploy/deploy_bg.png') center;
+      background: url('../../assets/images/mecm/app_deploy/deploy_bg.png') center;
       box-shadow:1px 1px 3px #ab97e5 inset;
       .el-table{
         margin-top:30px;
