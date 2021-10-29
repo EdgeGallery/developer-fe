@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     confirmToCreate () {
-      this.$emit('createNewPro', false)
+      this.$emit('closeCapabilityDlg')
     }
   },
   mounted () {

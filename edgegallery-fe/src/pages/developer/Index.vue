@@ -20,6 +20,7 @@
       <el-col :span="zoom">
         <div
           class="left-pro-comp"
+          :class="zoom>1?'left-pro-comp-show':''"
           ref="leftProComp"
         >
           <ProjectSideComp
@@ -52,7 +53,7 @@
             5G边缘应用孵化流水线
           </div>
           <div class="main-part">
-            <el-row>
+            <el-row class="main-part-container">
               <el-col :span="12">
                 <div class="main-creation main-part-item">
                   <div class="rt">
@@ -64,7 +65,7 @@
                     </p>
                   </div>
                   <div class="main-part-item-container">
-                    <IncubationComp />
+                    <IncubationComp @showCapabilityCenterDlg="isShowCapabilityIndexDlg=true" />
                   </div>
                 </div>
               </el-col>
@@ -122,13 +123,18 @@
       class="common-div-bg capability-index"
       v-if="isShowCapabilityIndexDlg"
     >
-      <CapabilityCenterIndexComp />
+      <CapabilityCenterIndexComp
+        @closeCapabilityIndexDlg="isShowCapabilityIndexDlg=false"
+        @showCapabilityDlg="isShowCapabilityIndexDlg=false,isShowCapabilityDlg=true"
+      />
     </div>
     <div
       class="common-div-bg capability-creation"
       v-if="isShowCapabilityDlg"
     >
-      <CapabilityCenterComp />
+      <CapabilityCenterComp
+        @closeCapabilityDlg="isShowCapabilityDlg=false"
+      />
     </div>
   </div>
 </template>
@@ -200,6 +206,9 @@ export default {
       z-index: 15;
       overflow: hidden;
     }
+    .left-pro-comp-show{
+      min-width: 150px!important;
+    }
     .left-pro-comp::after {
       content: "";
       background: url("../../assets/images/index/index_mask.png") no-repeat center;
@@ -224,6 +233,10 @@ export default {
       .main-part{
         height: 80%;
         margin-top: 30px;
+        .main-part-container{
+          // background: url("../../assets/images/application/app_workflow_bg1.png") no-repeat 30% 0;
+          background-size: cover;
+        }
         .main-part-item{
           height: 100%;
           border-radius: 17px;

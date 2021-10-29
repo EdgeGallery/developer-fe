@@ -5,10 +5,6 @@
         :span="24"
         class="common-center"
       >
-        <img
-          src="../../../../assets/images/application/app_application.png"
-          alt="capability-center"
-        >
         <div class="flow-line" />
       </el-col>
     </el-row>
@@ -29,10 +25,6 @@
         :span="24"
         class="common-center"
       >
-        <img
-          src="../../../../assets/images/application/app_application.png"
-          alt="capability-center"
-        >
         <div class="flow-line" />
       </el-col>
     </el-row>

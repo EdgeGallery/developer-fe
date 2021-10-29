@@ -9,6 +9,7 @@
         <img
           src="../../../../assets/images/application/app_capability_center.png"
           alt="capability-center"
+          @click="checkCapabilityCenter"
         >
       </el-col>
     </el-row>
@@ -66,6 +67,11 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    checkCapabilityCenter () {
+      this.$emit('showCapabilityCenterDlg')
     }
   }
 }

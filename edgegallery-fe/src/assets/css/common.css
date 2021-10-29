@@ -955,7 +955,9 @@ th{
 }
 .common-center{
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 .common-workflow{
   height: 33%;

@@ -212,6 +212,7 @@
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="editCapability"
             >
               {{ $t('common.edit') }}
             </el-button>
@@ -228,11 +229,13 @@
     <div class="rt">
       <el-button
         class="common-btn"
+        @click="doNext(1)"
       >
         取消
       </el-button>
       <el-button
         class="common-btn"
+        @click="doNext(2)"
       >
         确认
       </el-button>
@@ -342,6 +345,12 @@ export default {
   methods: {
     downloadSDKApi () {
       return ''
+    },
+    doNext (type) {
+      this.$emit('closeCapabilityIndexDlg')
+    },
+    editCapability () {
+      this.$emit('showCapabilityDlg')
     }
   },
   watch: {

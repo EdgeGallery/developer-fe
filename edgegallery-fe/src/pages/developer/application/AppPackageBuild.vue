@@ -40,35 +40,57 @@
               </p>
             </el-col>
             <el-col :span="6">
-              <p class="left">版本</p><p>{{ basicInfoData.version }}</p>
+              <p class="left">
+                版本
+              </p><p>{{ basicInfoData.version }}</p>
             </el-col>
             <el-col :span="6">
-              <p class="left">提供者</p><p>{{ basicInfoData.provider }}</p>
+              <p class="left">
+                提供者
+              </p><p>{{ basicInfoData.provider }}</p>
             </el-col>
             <el-col :span="6">
-              <p class="left">行业</p><p>{{ basicInfoData.industry }}</p>
+              <p class="left">
+                行业
+              </p><p>{{ basicInfoData.industry }}</p>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="6">
-              <p class="left">类型</p><p>{{ basicInfoData.type }}</p>
+              <p class="left">
+                类型
+              </p><p>{{ basicInfoData.type }}</p>
             </el-col>
             <el-col :span="6">
-              <p class="left">架构</p><p>{{ basicInfoData.platform }}</p>
+              <p class="left">
+                架构
+              </p><p>{{ basicInfoData.platform }}</p>
             </el-col>
             <el-col :span="6">
-              <p class="left">依赖应用</p><p>{{ basicInfoData.dependent }}</p>
+              <p class="left">
+                依赖应用
+              </p><p>{{ basicInfoData.dependent }}</p>
             </el-col>
             <el-col :span="6">
-              <p class="left">创建时间</p><p>{{ basicInfoData.createDate }}</p>
+              <p class="left">
+                创建时间
+              </p><p>{{ basicInfoData.createDate }}</p>
             </el-col>
           </el-row>
           <el-row class="thirdline">
             <el-col :span="6">
-              <p class="left">描述</p><p>{{ basicInfoData.description }}</p>
+              <p class="left">
+                描述
+              </p><p>{{ basicInfoData.description }}</p>
             </el-col>
             <el-col :span="18">
-              <p class="left">应用详情介绍</p><el-button class="app-build-upload">上传文件</el-button> <p class="tip">（请上传md文件按格式的文件）</p>
+              <p class="left">
+                应用详情介绍
+              </p><el-button class="app-build-upload">
+                上传文件
+              </el-button> <p class="tip">
+                （请上传md文件按格式的文件）
+              </p>
             </el-col>
           </el-row>
         </div>

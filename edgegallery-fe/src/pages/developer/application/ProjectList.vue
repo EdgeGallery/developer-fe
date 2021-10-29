@@ -26,8 +26,10 @@
         @click.stop="changeZoom(1)"
       />
       <div
-        class="search project-btn"
+        class="project-btn"
+        :class="isSearchActive?'search-active':'search-default'"
         title="搜索"
+        @click.stop="searchProject()"
       />
       <div
         class="switch project-btn"
@@ -114,7 +116,8 @@ export default {
           name: 'app3'
         }
       ],
-      searchValue: ''
+      searchValue: '',
+      isSearchActive: false
     }
   },
   methods: {
@@ -123,6 +126,9 @@ export default {
     },
     createNewProject () {
       this.$emit('createNewProject', true)
+    },
+    searchProject () {
+      this.isSearchActive = true
     },
     checkProjectDetail (item) {
       console.log(item)
@@ -141,18 +147,19 @@ export default {
       height: 20px;
       margin: 10px 15px;
       cursor: pointer;
+      background-size: cover;
     }
     .zoom{
       background: url("../../../assets/images/projects/pro_zoom_default.svg") no-repeat center;
-      background-size: cover;
     }
-    .search{
+    .search-default{
       background: url("../../../assets/images/projects/pro_search_default.svg") no-repeat center;
-      background-size: cover;
+    }
+    .search-active{
+      background: url("../../../assets/images/projects/pro_search_after.svg") no-repeat center;
     }
     .switch{
       background: url("../../../assets/images/projects/pro_view_default.svg") no-repeat center;
-      background-size: cover;
     }
   }
   .top-center{
