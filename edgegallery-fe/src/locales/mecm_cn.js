@@ -14,33 +14,20 @@
  *  limitations under the License.
  */
 
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-import cnClassic from '../classic/locales/cn.js'
-import cnHome from './home_cn.js'
-import cnApplication from './application_cn.js'
-import cnCapability from './capability_cn.js'
-import cnSandbox from './sandbox_cn.js'
-import cnImages from './images_cn.js'
-import cnAtp from './atp_cn.js'
-import cnMecm from './mecm_cn.js'
 const cn = {
-  common: {
-    newVersion: '新版',
-    classic: '经典版',
+  deployList: {
+    deployListTitle: '应用部署',
+    tip: '输入内容进行搜索',
+    name: '名称',
+    version: '版本',
+    provider: '厂商',
+    type: '类型',
+    industry: '行业',
+    affinity: '架构',
+    appstoreName: '应用市场',
+    syncTime: '同步时间',
     operation: '操作',
-    edit: '编辑',
-    delete: '删除',
-    cancel: '取消',
-    confirm: '确认'
-  },
-  ...zhLocale,
-  ...cnClassic,
-  ...cnHome,
-  ...cnApplication,
-  ...cnCapability,
-  ...cnSandbox,
-  ...cnImages,
-  ...cnAtp,
-  ...cnMecm
+    operationBtn: '分发&部署'
+  }
 }
 export default cn

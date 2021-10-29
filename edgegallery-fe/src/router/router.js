@@ -61,7 +61,7 @@ export default new Router({
     {
       path: '/appDeploy',
       name: 'appDeploy',
-      component: () => import('../pages/mecm/appDeployList.vue')
+      component: () => import('../pages/mecm/AppDeployList.vue')
     },
 
     ...routesclassic

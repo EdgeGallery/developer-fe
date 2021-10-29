@@ -14,33 +14,20 @@
  *  limitations under the License.
  */
 
-import enLocale from 'element-ui/lib/locale/lang/en'
-import enClassic from '../classic/locales/en.js'
-import enHome from './home_en.js'
-import enApplication from './application_en.js'
-import enCapability from './capability_en.js'
-import enSandbox from './sandbox_en.js'
-import enImages from './images_en.js'
-import enAtp from './atp_en.js'
-import enMecm from './mecm_en.js'
 const en = {
-  common: {
-    newVersion: 'New Version',
-    classic: 'Classic',
+  deployList: {
+    deployListTitle: 'AppDeploy',
+    tip: 'Please enter the search content',
+    name: 'Name',
+    version: 'Version',
+    provider: 'Provider',
+    type: 'Type',
+    industry: 'Industry',
+    affinity: 'Architecture',
+    appstoreName: 'App Store Name',
+    syncTime: 'Sync Time',
     operation: 'Operation',
-    edit: 'Edit',
-    delete: 'Delete',
-    cancel: 'Cancel',
-    confirm: 'Confirm'
-  },
-  ...enLocale,
-  ...enClassic,
-  ...enHome,
-  ...enApplication,
-  ...enCapability,
-  ...enSandbox,
-  ...enImages,
-  ...enAtp,
-  ...enMecm
+    operationBtn: 'Distribution&Instantiate'
+  }
 }
 export default en
