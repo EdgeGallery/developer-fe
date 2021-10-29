@@ -20,7 +20,10 @@
       alt=""
       class="question hoverHands"
     >
-    <div class="all-sandbox">
+    <div
+      class="all-sandbox"
+      v-if="ifSandbox"
+    >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
         <p class="sandbox-top-title">
@@ -36,16 +39,19 @@
           <div class="sandbox-content">
             <img
               class="select-img"
-              :src="ifSelected === true?selectedImg:unselectedImg"
+              :src="activeItem === index?selectedImg:unselectedImg"
               alt=""
             >
             <img
               class="sandbox-img hoverHands"
               :src="item.imgUrl"
               alt=""
-              @click="selectSandbox"
+              @click="selectSandbox(index)"
             >
-            <p class="sandbox-detail hoverHands">
+            <p
+              class="sandbox-detail hoverHands"
+              @click="goDetail(item);getIndex(index)"
+            >
               详情
             </p>
           </div>
@@ -54,9 +60,76 @@
           </p>
         </div>
       </div>
-      <el-button class="makesure">
+      <el-button
+        class="makesure"
+        @click="selectFinash"
+      >
         完成
       </el-button>
+    </div>
+    <div
+      v-else
+      class="all-sandbox"
+    >
+      <div class="sandbox-top">
+        <p class="sandbox-top-circle" />
+        <p class="sandbox-top-title">
+          沙箱详情
+        </p>
+      </div>
+      <div
+        class="details"
+      >
+        <div class="detail-left">
+          <div class="detail-left-img flex-center">
+            <img
+              :src="sandboxDetails.imgUrl"
+              alt=""
+            >
+          </div>
+          <p>{{ sandboxDetails.name }}</p>
+        </div>
+        <div class="detail-right">
+          <el-form
+            ref="form"
+            :model="form"
+            label-width="120px"
+          >
+            <el-form-item label="网络:">
+              <p>{{ form.net }}</p>
+            </el-form-item>
+            <el-form-item label="X86计算资源:">
+              <p>{{ form.xIntentnet }}</p>
+            </el-form-item>
+            <el-form-item label="ARM计算资源:">
+              <p>{{ form.armIntentnet }}</p>
+            </el-form-item>
+            <el-form-item label="GPU算力:">
+              <p>{{ form.gpu }}</p>
+            </el-form-item>
+            <el-form-item label="AI加速:">
+              <p>{{ form.ai }}</p>
+            </el-form-item>
+            <el-form-item label="终端:">
+              <p>{{ form.final }}</p>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+      <div class="btns">
+        <el-button
+          class="makesure"
+          @click="backSandbox"
+        >
+          返回
+        </el-button>
+        <el-button
+          class="makesure"
+          @click="checkSandbox"
+        >
+          选择
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -71,29 +144,86 @@ export default {
       sandbox: [
         {
           name: '北京沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox1.png')
+          imgUrl: require('../../../assets/images/sandbox/sandbox1.png'),
+          net: '6G',
+          xIntentnet: '50c、256G',
+          armIntentnet: '1T、158G',
+          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
+          ai: 'ATLAS 200*2',
+          final: '5G sim卡 5GSPE*6'
         },
         {
           name: '广东沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox2.png')
+          imgUrl: require('../../../assets/images/sandbox/sandbox2.png'),
+          net: '5G',
+          xIntentnet: '50c、256G',
+          armIntentnet: '1T、158G',
+          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
+          ai: 'ATLAS 200*2',
+          final: '5G sim卡 5GSPE*6'
         },
         {
           name: '武汉沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox3.png')
+          imgUrl: require('../../../assets/images/sandbox/sandbox3.png'),
+          net: '4G',
+          xIntentnet: '50c、256G',
+          armIntentnet: '1T、158G',
+          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
+          ai: 'ATLAS 200*2',
+          final: '5G sim卡 5GSPE*6'
         },
         {
           name: '西安沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox4.png')
+          imgUrl: require('../../../assets/images/sandbox/sandbox4.png'),
+          net: '3G',
+          xIntentnet: '50c、256G',
+          armIntentnet: '1T、158G',
+          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
+          ai: 'ATLAS 200*2',
+          final: '5G sim卡 5GSPE*6'
         }
       ],
+      activeItem: '',
       selectedImg: selectedImg,
       unselectedImg: unselectedImg,
-      ifSelected: false
+      ifSelected: false,
+      ifSandbox: true,
+      sandboxDetails: {},
+      form: [],
+      detailIndex: '',
+      sandboxName: ''
     }
   },
   methods: {
-    selectSandbox () {
-      this.ifSelected = !this.ifSelected
+    selectSandbox (value) {
+      if (value === this.activeItem) {
+        this.activeItem = ''
+      } else {
+        this.activeItem = value
+      }
+    },
+    goDetail (item) {
+      this.ifSandbox = false
+      this.sandboxDetails = item
+      this.form = item
+    },
+    getIndex (index) {
+      this.detailIndex = index
+    },
+    backSandbox () {
+      this.ifSandbox = true
+    },
+    checkSandbox () {
+      this.activeItem = this.detailIndex
+      this.sandboxName = this.sandbox[this.activeItem].name
+      this.ifSandbox = true
+      this.$router.push({ path: '/incubation' })
+      sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+    },
+    selectFinash () {
+      this.sandboxName = this.sandbox[this.activeItem].name
+      this.$router.push({ path: '/incubation' })
+      sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     }
   },
   mounted () {
@@ -106,21 +236,16 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
-  position: relative;
     .question{
-    width: 67px;
-    height: 67px;
-    position: absolute;
-    right: 5%;
-    top: 10%;
+      width: 67px;
+      height: 67px;
+      margin: 2% 0 0 90%;
   }
   .all-sandbox{
-    width: 36.35%;
-    padding: 20px 2% ;
+    width: 695px;
+    padding: 20px 2%;
     min-height: 405px;
-    position: absolute;
-    left: 32%;
-    top: 30%;
+    margin: 6% auto;
     background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
     background-size: 100% 100%;
     .sandbox-top{
@@ -145,7 +270,7 @@ export default {
       flex-wrap: wrap;
       display: flex;
       .one-sandbox{
-        width: 16%;
+        width: 98px;
         height: 168px;
         margin: 0 5% 40px 4%;
        .sandbox-content{
@@ -153,17 +278,16 @@ export default {
           width: 100%;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
           background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
           background-size: cover;
         .select-img{
           width: 12px;
           height: 12px;
-          margin-bottom: 6%;
+          margin: 14% 0 6% 0;
         }
         .sandbox-img{
-          width: 50%;
+          width: 50px;
           height: 100px;
         }
         .sandbox-detail{
@@ -174,6 +298,7 @@ export default {
           margin-top: 10px;
           padding: 2px 4px;
           transform: scale(0.8);
+          display: none;
         }
       }
       .sandbox-name{
@@ -183,6 +308,11 @@ export default {
         text-align: center;
       }
     }
+      .one-sandbox:hover{
+        .sandbox-detail{
+          display: block;
+        }
+      }
     }
     .makesure{
       width: 88px;
@@ -191,6 +321,41 @@ export default {
       position: relative;
       left: 78%;
       margin-top: 40px;
+    }
+    .details{
+      display: flex;
+      font-size: 14px;
+      justify-content: center;
+      color: #fff;
+      padding-top: 60px;
+      .detail-left{
+        margin-right: 60px;
+        .detail-left-img{
+            width: 100px;
+            height: 168px;
+            background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
+          img{
+            width: 57px;
+            height: 94px;
+          }
+        }
+        p{
+          text-align: center;
+          margin-top: 40px;
+        }
+      }
+      .detail-right{
+        .el-form-item__label {
+            line-height:30px;
+            color: #fff;
+        }
+        .el-form-item {
+            margin-bottom: 0;
+        }
+      }
+    }
+    .btns{
+      margin:-30px  50px 0 0;
     }
   }
 }

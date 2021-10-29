@@ -40,6 +40,11 @@ export default new Router({
       name: 'sandbox',
       component: () => import('../pages/developer/sandbox/Sandbox.vue')
     },
+    {
+      path: '/sandboxDetail',
+      name: 'sandboxDetail',
+      component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
+    },
 
     ...routesnew
   ],
