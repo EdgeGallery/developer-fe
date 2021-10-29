@@ -630,7 +630,7 @@
               >
                 <el-input-number
                   v-model="priceSet"
-                  style="width:100px;"
+                  class="price-input"
                   :disabled="price==='1'"
                 /> {{ $t('workspace.appRelease.price') }}
               </el-radio>
@@ -1714,5 +1714,8 @@ export default {
 }
 .el-radio__input.is-checked + .el-radio__label{
   color:#380879;
+}
+.price-input{
+  width:150px;
 }
 </style>

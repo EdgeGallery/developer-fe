@@ -84,22 +84,13 @@ export default {
   height: 100%;
   font-size: 20px;
   text-align: center;
-  .left-menu{
-    width: 15%;
-    height: 80%;
-    border: 1px solid #ddd;
-    position: relative;
-    position: absolute;
-    top: 15%;
-    z-index: 15;
-    background: #fff;
-    display: none;
-  }
   .main-content{
     width: 100%;
     height: 100%;
     background: url('../../assets/images/index/index_bg.png') no-repeat center;
     background-size: cover;
+    position: relative;
+    z-index: 10;
     .main-content-left{
       height: 160px;
       width: 35%;
@@ -136,7 +127,7 @@ export default {
         background: url('../../assets/images/index/index_mask.png') no-repeat center;
         background-size: cover;
         border: 2px solid #B6A4EC;
-        border-radius: 8px;
+        border-radius: 17px;
         transition: transform 0.3s ease-in;
         cursor: pointer;
         img{
