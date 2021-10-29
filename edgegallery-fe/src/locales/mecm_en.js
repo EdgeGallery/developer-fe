@@ -15,19 +15,30 @@
  */
 
 const en = {
-  deployList: {
-    deployListTitle: 'AppDeploy',
-    tip: 'Please enter the search content',
+  deployCommon: {
     name: 'Name',
     version: 'Version',
     provider: 'Provider',
+    affinity: 'Architecture',
+    operation: 'Operation'
+  },
+  deployList: {
+    deployListTitle: 'AppDeploy',
+    tip: 'Please enter the search content',
     type: 'Type',
     industry: 'Industry',
-    affinity: 'Architecture',
     appstoreName: 'App Store Name',
     syncTime: 'Sync Time',
-    operation: 'Operation',
     operationBtn: 'Distribution&Instantiate'
+  },
+  distributeDeploy: {
+    title: 'Distribution&Instantiate',
+    tip: 'Please enter the search name',
+    hostIp: 'Host IP',
+    status: 'Status',
+    delete: 'Delete',
+    distribute: 'Distribute',
+    deploy: 'Deploy'
   }
 }
 export default en

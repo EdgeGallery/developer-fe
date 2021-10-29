@@ -1,26 +1,24 @@
 <template>
-  <div class="appdeploy">
-    <div class="deploylist-top-title">
-      {{ $t('deployList.deployListTitle') }}
-    </div>
+  <div class="distribute-deploy">
     <div class="card-shadow">
       <el-card>
+        <div class="common-dlg-title distribute-deploy-top-title">
+          {{ $t('distributeDeploy.title') }}
+        </div>
         <el-row>
           <el-col :span="4">
             <el-input
-              :placeholder="$t('deployList.tip')"
+              :placeholder="$t('distributeDeploy.tip')"
               suffix-icon="el-icon-search"
             />
           </el-col>
         </el-row>
         <el-table
           class="common-table"
-          :data="deployListData"
-          :default-sort="{prop:'name',order:'descending'}"
+          :data="distributeDeployData"
         >
           <el-table-column
             prop="name"
-            sortable
             :label="$t('deployCommon.name')"
           />
           <el-table-column
@@ -32,27 +30,25 @@
             :label="$t('deployCommon.provider')"
           />
           <el-table-column
-            prop="type"
-            :label="$t('deployList.type')"
-          />
-          <el-table-column
-            prop="industry"
-            :label="$t('deployList.industry')"
-          />
-          <el-table-column
             prop="affinity"
             :label="$t('deployCommon.affinity')"
           />
           <el-table-column
-            prop="appstoreName"
-            :label="$t('deployList.appstoreName')"
+            prop="hostIp"
+            :label="$t('distributeDeploy.hostIp')"
           />
           <el-table-column
-            prop="syncTime"
-            :label="$t('deployList.syncTime')"
-          />
+            prop="status"
+            :label="$t('distributeDeploy.status')"
+          >
+            <template slot-scope="scope">
+              <span :class="changeIcon(scope.row.status)" />
+              <!-- <i :class="changeElIcon(scope.row.status)" /> -->
+              <span>{{ scope.row.status }}</span>
+            </template>
+          </el-table-column>
           <el-table-column
-            width="220"
+            width="250"
             :label="$t('deployCommon.operation')"
             align="center"
           >
@@ -62,7 +58,21 @@
                 type="text"
                 size="small"
               >
-                {{ $t('deployList.operationBtn') }}
+                {{ $t('distributeDeploy.delete') }}
+              </el-button>
+              <el-button
+                @click="checkDetail(scope.row)"
+                type="text"
+                size="small"
+              >
+                {{ $t('distributeDeploy.distribute') }}
+              </el-button>
+              <el-button
+                @click="checkDetail(scope.row)"
+                type="text"
+                size="small"
+              >
+                {{ $t('distributeDeploy.deploy') }}
               </el-button>
             </template>
             />
@@ -86,36 +96,30 @@
 export default {
   data () {
     return {
-      deployListData: [
+      distributeDeployData: [
         {
           name: 'zhangsan',
           version: 'v1.0',
           provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
+          hostIp: '121.121.121.111',
+          status: 'Processing',
+          affinity: 'X86'
         },
         {
-          name: 'lisi',
-          version: 'v2.0',
+          name: 'zhangsan',
+          version: 'v1.0',
           provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
+          hostIp: '121.121.121.111',
+          status: 'Failed',
+          affinity: 'X86'
         },
         {
-          name: 'wangwu',
-          version: 'v3.0',
+          name: 'zhangsan',
+          version: 'v1.0',
           provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
+          hostIp: '121.121.121.111',
+          status: 'Distributed',
+          affinity: 'X86'
         }
       ],
       currentPage: 1
@@ -127,32 +131,36 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页：${val}`)
+    },
+    changeIcon (val) {
+      console.log(val)
+      if (val === 'Processing') {
+        return 'processing'
+      } else if (val === 'Failed') {
+        return 'failed'
+      } else {
+        return 'success'
+      }
     }
   }
 }
 </script>
 
 <style lang="less">
-.appdeploy{
+.distribute-deploy{
   width: 100%;
   height: 100%;
-  padding:32px 13% 0 13%;
-  .deploylist-top-title{
-    width: 186px;
-    height: 66px;
-    margin: 2% 0 2% 3%;
-    font-size: 30px;
-    line-height: 50px;
-    text-align: center;
-    letter-spacing: 4px;
-    background: url('../../assets/images/mecm/appDeployDetailList/deploy_title.png') no-repeat center;
-  }
+  padding:80px 13% 0 13%;
   .card-shadow{
     padding: 0px 0 1px 2px;
     border-radius: 17px;
     border: 1px solid;
     border-color: rgba(182, 164, 236, 0.6);
     box-shadow: -1px -1px 3px rgba(255, 255, 255,0.3);
+    .distribute-deploy-top-title{
+      color:#fff;
+      margin-left:-15px;
+    }
     .el-row{
       input{
         color:red;
@@ -167,26 +175,30 @@ export default {
         box-shadow:-1px -1px 3px rgba(175, 163, 212, 0.6)
       }
       .el-input__suffix{
-        right:25px;
         top:-3px;
       }
     }
     .el-card{
       border:1px solid rgba(171,151,229,1);
       border-radius: 17px;
-      padding:35px 16px 7px 24px;
       background: url('../../assets/images/mecm/deployCommon/deploy_bg.png') center;
       box-shadow:1px 1px 3px #ab97e5 inset;
+      .common-dlg-title:before{
+        right:5px;
+      }
+      .el-card__body{
+        padding: 52px 109px 65px 112px;
+      }
       .el-table{
         margin-top:30px;
         margin-bottom:50px;
         thead{
-          height:60px;
+          height:30px;
           border:none;
           font-size:16px;
         }
         tr{
-          height:64px;
+          height:30px;
         }
         td{
           border-bottom:1px solid rgba(255,255,255,0.3);
@@ -196,7 +208,7 @@ export default {
           padding-left:30px;
         }
         .el-button{
-          padding:0px 11px;
+          padding:0px 5px;
         }
         .el-button--small{
           font-size:14px;
@@ -204,6 +216,18 @@ export default {
           height:24px;
           background: rgba(255,255,255,0.4);
           border-radius:6px;
+        }
+        .processing{
+          padding:10px 14px;
+          background: url('../../assets/images/mecm/distributeDeploy/processing.png') no-repeat center;
+        }
+        .failed{
+          padding:10px 14px;
+          background: url('../../assets/images/mecm/distributeDeploy/failed.png') no-repeat center;
+        }
+        .success{
+          padding:10px 14px;
+          background: url('../../assets/images/mecm/distributeDeploy/success.png')  no-repeat center;
         }
         }
       .el-pagination{

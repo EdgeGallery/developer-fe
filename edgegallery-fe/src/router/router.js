@@ -59,9 +59,14 @@ export default new Router({
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },
     {
-      path: '/AppDeployDetail',
-      name: 'AppDeployDetail',
+      path: '/appDeployDetail',
+      name: 'appDeployDetail',
       component: () => import('../pages/mecm/AppDeployDetailList.vue')
+    },
+    {
+      path: '/distributeDeploy',
+      name: 'distributeDeploy',
+      component: () => import('../pages/mecm/DistributeDeploy.vue')
     },
 
     ...routesclassic
