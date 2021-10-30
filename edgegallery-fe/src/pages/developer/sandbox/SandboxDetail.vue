@@ -273,7 +273,10 @@
         </div>
       </div>
     </div>
-    <ConfigNetwork v-if="showContent==='showConfigNetwork'" />
+    <ConfigNetwork
+      v-if="showContent==='showConfigNetwork'"
+      @editNetwork="editNetwork"
+    />
     <AddVm v-if="showContent==='showAddVm'" />
   </div>
 </template>
@@ -308,6 +311,9 @@ export default {
     },
     addVm () {
       this.showContent = 'showAddVm'
+    },
+    editNetwork (data) {
+      this.showContent = 'showDetail'
     }
   },
   mounted () {

@@ -20,22 +20,154 @@
       alt=""
       class="question hoverHands"
     >
-    deploynet
+    <div class="common-div-bg network-list">
+      <h3 class="rules-title-green">
+        选择网络类型
+      </h3>
+
+      <span class="add-btn">
+        <img
+          src="../../../assets/images/sandbox/add_network_btn.png"
+          alt=""
+          @click="addNewNetwork"
+        >
+      </span>
+      <el-table
+        class="common-table more-rows-table network-table"
+        :data="vmNetworkList"
+      >
+        <el-table-column width="35">
+          <template slot-scope="scope">
+            <el-checkbox
+              v-model="selectedNetwork"
+              :label="scope.row.name"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          width="200px"
+          label="名称"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="描述"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            {{ scope.row.description }}
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-table
+        class="common-table more-rows-table new-network-table"
+        :data="newNetworkList"
+      >
+        <el-table-column width="35">
+          <template slot-scope="scope">
+            <el-checkbox
+              v-model="selectedNetwork"
+              :label="scope.row.name"
+              :disabled="scope.row.name===''"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
+          width="200px"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <el-input
+              class="network-input"
+              size="mini"
+              placeholder="添加自定义网络"
+              v-model="scope.row.name"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <el-input
+              class="network-input"
+              size="mini"
+              placeholder="添加描述"
+              v-model="scope.row.description"
+            />
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="btn-container network-btn">
+        <el-button
+          class="common-btn"
+          @click="finishEditNetwork('cancel')"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="finishEditNetwork('confim')"
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: 'ConfigNetwork',
   data () {
     return {
-
+      vmNetworkList: [
+        {
+          description: 'N6 network, when end-side devices access edge applications, they need to access through this network',
+          name: 'mec_network_n6'
+        },
+        {
+          description: 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed',
+          name: 'mec_network_mep'
+        },
+        {
+          description: 'Internet Network',
+          name: 'mec_network_internet'
+        }
+      ],
+      newNetworkList: [
+        {
+          description: '',
+          name: ''
+        }
+      ],
+      selectedNetwork: []
     }
   },
   methods: {
-
+    addNewNetwork () {
+      let _obj = {
+        description: '',
+        name: ''
+      }
+      this.newNetworkList.push(_obj)
+    },
+    finishEditNetwork (type) {
+      let _data = []
+      if (type === 'confim') {
+        _data = this.selectedNetwork
+      }
+      this.$emit('editNetwork', _data)
+    }
   },
   mounted () {
+    this.vmNetworkList.forEach((item) => {
+      if (item.name !== '') {
+        this.selectedNetwork.push(item.name)
+      }
+    })
   }
 }
 </script>
@@ -44,10 +176,50 @@ export default {
 .config-network{
   width: 100%;
   height: 100%;
+  position: relative;
   .question{
     width: 67px;
     height: 67px;
     margin: 2% 0 0 90%;
+  }
+  .network-list{
+    position: absolute;
+    width: 940px;
+    padding: 40px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    .add-btn{
+      position: absolute;
+      right: 60px;
+      top: 95px;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .network-table thead{
+      height: 50px;
+    }
+    .network-table{
+      font-size: 14px;
+      td{
+        line-height: 50px !important;
+      }
+    }
+    .network-input .el-input__inner{
+      width: 180px;
+      color: #fff;
+      background-color: rgba(255,255,255,.45);
+      border: none;
+    }
+    input::-webkit-input-placeholder {
+      color: rgba(255,255,255,.5);
+    }
+    .new-network-table thead{
+      display: none;
+    }
+  }
+  .network-btn{
+    margin-top: 30px;
   }
 }
 </style>
