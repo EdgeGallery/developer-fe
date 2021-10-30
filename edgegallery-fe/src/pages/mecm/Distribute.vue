@@ -1,9 +1,9 @@
 <template>
-  <div class="distribute-deploy">
+  <div class="distribute">
     <div class="card-shadow">
       <el-card>
-        <div class="common-dlg-title distribute-deploy-top-title">
-          {{ $t('distributeDeploy.title') }}
+        <div class="common-dlg-title distribute-top-title">
+          {{ $t('distribute.title') }}
         </div>
         <el-row>
           <el-col :span="4">
@@ -15,67 +15,37 @@
         </el-row>
         <el-table
           class="common-table"
-          :data="distributeDeployData"
+          :data="distributeData"
         >
+          <el-table-column
+            type="selection"
+            width="45"
+          />
           <el-table-column
             prop="name"
             :label="$t('deployCommon.name')"
           />
           <el-table-column
-            prop="version"
-            :label="$t('deployCommon.version')"
+            prop="ip"
+            :label="$t('distribute.ip')"
           />
           <el-table-column
-            prop="provider"
-            :label="$t('deployCommon.provider')"
+            width="300"
+            prop="city"
+            :label="$t('distribute.city')"
           />
           <el-table-column
             prop="affinity"
             :label="$t('deployCommon.affinity')"
           />
           <el-table-column
-            prop="hostIp"
-            :label="$t('distributeDeploy.hostIp')"
+            prop="MEPM"
+            :label="$t('distribute.MEPM')"
           />
           <el-table-column
-            prop="status"
-            :label="$t('distributeDeploy.status')"
-          >
-            <template slot-scope="scope">
-              <span :class="changeIcon(scope.row.status)" />
-              <span>{{ scope.row.status }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="250"
-            :label="$t('deployCommon.operation')"
-            align="center"
-          >
-            <template slot-scope="scope">
-              <el-button
-                @click="checkDetail(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('distributeDeploy.delete') }}
-              </el-button>
-              <el-button
-                @click="checkDetail(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('distributeDeploy.distribute') }}
-              </el-button>
-              <el-button
-                @click="checkDetail(scope.row)"
-                type="text"
-                size="small"
-              >
-                {{ $t('distributeDeploy.deploy') }}
-              </el-button>
-            </template>
-            />
-          </el-table-column>
+            prop="hwCapability"
+            :label="$t('distribute.hwCapability')"
+          />
         </el-table>
         <el-pagination
           @size-change="handleSizeChange"
@@ -87,6 +57,10 @@
           layout="total,sizes,prev,pager,next,jumper"
           :total="3"
         />
+        <div class="distribute-btn">
+          <el-button>取消</el-button>
+          <el-button>确认</el-button>
+        </div>
       </el-card>
     </div>
   </div>
@@ -95,30 +69,31 @@
 export default {
   data () {
     return {
-      distributeDeployData: [
+      distributeData: [
         {
           name: 'zhangsan',
-          version: 'v1.0',
-          provider: 'EdgeGallery',
-          hostIp: '121.121.121.111',
-          status: 'Processing',
-          affinity: 'X86'
+          ip: '121.121.121.111',
+          city: '陕西省/西安市/高新区',
+          affinity: 'X86',
+          MEPM: '121.121.121.111',
+          hwCapability: 'GPU'
+
         },
         {
           name: 'zhangsan',
-          version: 'v1.0',
-          provider: 'EdgeGallery',
-          hostIp: '121.121.121.111',
-          status: 'Failed',
-          affinity: 'X86'
+          ip: '121.121.121.111',
+          city: '陕西省/西安市/高新区高新区高新区',
+          affinity: 'X86',
+          MEPM: '121.121.121.111',
+          hwCapability: 'GPU/GPU'
         },
         {
           name: 'zhangsan',
-          version: 'v1.0',
-          provider: 'EdgeGallery',
-          hostIp: '121.121.121.111',
-          status: 'Distributed',
-          affinity: 'X86'
+          ip: '121.121.121.111',
+          city: '陕西省/西安市/高新区',
+          affinity: 'X86',
+          MEPM: '121.121.121.111',
+          hwCapability: 'GPU'
         }
       ],
       currentPage: 1
@@ -146,7 +121,7 @@ export default {
 </script>
 
 <style lang="less">
-.distribute-deploy{
+.distribute{
   width: 100%;
   height: 100%;
   padding:80px 13% 0 13%;
@@ -156,7 +131,7 @@ export default {
     border: 1px solid;
     border-color: rgba(182, 164, 236, 0.6);
     box-shadow: -1px -1px 3px rgba(255, 255, 255,0.3);
-    .distribute-deploy-top-title{
+    .distribute-top-title{
       color:#fff;
       margin-left:-15px;
     }
@@ -294,6 +269,22 @@ export default {
         .active{
           background-color: rgba(66,35,165,0.5) !important;
         }
+      }
+      .distribute-btn{
+        margin-top:80px;
+        margin-bottom:40px;
+        float:right;
+        .el-button--default{
+          height:30px;
+          border-radius:12px;
+          color:#5944c0;
+          height: 24px;
+          line-height: 6px;
+        }
+        .el-button{
+          padding:8px 29px;
+        }
+
       }
     }
   }

@@ -68,6 +68,11 @@ export default new Router({
       name: 'distributeDeploy',
       component: () => import('../pages/mecm/DistributeDeploy.vue')
     },
+    {
+      path: '/distribute',
+      name: 'distribute',
+      component: () => import('../pages/mecm/Distribute.vue')
+    },
 
     ...routesclassic
   ],

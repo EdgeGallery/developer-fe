@@ -20,7 +20,10 @@ const en = {
     version: 'Version',
     provider: 'Provider',
     affinity: 'Architecture',
-    operation: 'Operation'
+    operation: 'Operation',
+    tip: 'Please enter the search name',
+    cancel: 'cancel',
+    confirm: 'confirm'
   },
   deployList: {
     deployListTitle: 'AppDeploy',
@@ -33,12 +36,18 @@ const en = {
   },
   distributeDeploy: {
     title: 'Distribution&Instantiate',
-    tip: 'Please enter the search name',
     hostIp: 'Host IP',
     status: 'Status',
     delete: 'Delete',
     distribute: 'Distribute',
     deploy: 'Deploy'
+  },
+  distribute: {
+    title: 'distribute',
+    ip: 'IP',
+    city: 'City',
+    MEPM: 'App LCM IP',
+    hwCapability: 'Capabilities'
   }
 }
 export default en
