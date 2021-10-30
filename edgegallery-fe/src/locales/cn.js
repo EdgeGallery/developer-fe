@@ -30,7 +30,8 @@ const cn = {
     edit: '编辑',
     delete: '删除',
     cancel: '取消',
-    confirm: '确认'
+    confirm: '确认',
+    finish: '完成'
   },
   ...zhLocale,
   ...cnClassic,

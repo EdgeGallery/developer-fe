@@ -30,7 +30,8 @@ const en = {
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+    finish: 'Finish'
   },
   ...enLocale,
   ...enClassic,
