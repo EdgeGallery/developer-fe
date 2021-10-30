@@ -19,6 +19,7 @@ import App from './App.vue'
 import router from './router/router.js'
 import store from './store/store.js'
 import ElementUI from 'element-ui'
+import * as echarts from 'echarts'
 import locale from 'element-ui/lib/locale/lang/en'
 import i18n from './locales/i18n.js'
 import VueCookies from 'vue-cookies'
@@ -27,6 +28,7 @@ import 'eg-view/src/assets/style/normal.css'
 import '../src/assets/css/common.css'
 
 Vue.use(ElementUI, { locale })
+Vue.prototype.$echarts = echarts
 Vue.use(VueCookies)
 
 Vue.config.productionTip = false

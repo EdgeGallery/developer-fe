@@ -14,32 +14,40 @@
  *  limitations under the License.
  */
 
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-import cnClassic from '../classic/locales/cn.js'
-import cnHome from './home_cn.js'
-import cnApplication from './application_cn.js'
-import cnCapability from './capability_cn.js'
-import cnSandbox from './sandbox_cn.js'
-import cnImages from './images_cn.js'
-import cnAtp from './atp_cn.js'
-import cnMecm from './mecm_cn.js'
 const cn = {
-  common: {
-    classic: '经典版',
+  deployCommon: {
+    name: '名称',
+    version: '版本',
+    provider: '厂商',
+    affinity: '架构',
     operation: '操作',
-    edit: '编辑',
-    delete: '删除',
+    tip: '输入名称搜索',
     cancel: '取消',
     confirm: '确认'
   },
-  ...zhLocale,
-  ...cnClassic,
-  ...cnHome,
-  ...cnApplication,
-  ...cnCapability,
-  ...cnSandbox,
-  ...cnImages,
-  ...cnAtp,
-  ...cnMecm
+  deployList: {
+    deployListTitle: '应用部署',
+    tip: '输入内容进行搜索',
+    type: '类型',
+    industry: '行业',
+    appstoreName: '应用市场',
+    syncTime: '同步时间',
+    operationBtn: '分发&部署'
+  },
+  distributeDeploy: {
+    title: '分发&部署',
+    hostIp: '主机IP地址',
+    status: '状态',
+    delete: '删除',
+    distribute: '分发',
+    deploy: '部署'
+  },
+  distribute: {
+    title: '分发',
+    ip: 'IP地址',
+    city: '城市',
+    MEPM: 'MEPM地址',
+    hwCapability: '硬件能力'
+  }
 }
 export default cn
