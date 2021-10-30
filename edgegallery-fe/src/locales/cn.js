@@ -22,6 +22,7 @@ import cnCapability from './capability_cn.js'
 import cnSandbox from './sandbox_cn.js'
 import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
+import cnMecm from './mecm_cn.js'
 const cn = {
   common: {
     classic: '经典版',
@@ -39,6 +40,7 @@ const cn = {
   ...cnCapability,
   ...cnSandbox,
   ...cnImages,
-  ...cnAtp
+  ...cnAtp,
+  ...cnMecm
 }
 export default cn

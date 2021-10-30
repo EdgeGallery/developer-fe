@@ -987,3 +987,15 @@ th{
   height: 67px;
   margin: 2% 10% 0 0;
 }
+.test-btn.el-button{
+  border: 1px solid #0F0D87;
+  background-color: transparent;
+  padding: 12px 30px;
+  color: #0F0D87;
+}
+.test-light-btn.el-button{
+  border: 1px solid #0F0D87;
+  background-image: linear-gradient(127deg,#FFFFFF,#D7E2FF);
+  padding: 12px 30px;
+  color: #0F0D87;
+}
