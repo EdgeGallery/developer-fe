@@ -22,5 +22,30 @@
 //   DELETE
 // } from './request.js'
 
+function formatDateTime (dateStr) {
+  if (dateStr) {
+    let date = new Date(Date.parse(dateStr))
+    let Y = date.getFullYear()
+    let M = date.getMonth() + 1
+    let D = date.getDate()
+    let H = date.getHours()
+    let m = date.getMinutes()
+    let s = date.getSeconds()
+    return Y +
+      '-' +
+      (M > 9 ? M : '0' + M) +
+      '-' +
+      (D > 9 ? D : '0' + D) +
+      ' ' +
+      (H > 9 ? H : '0' + H) +
+      ':' +
+      (m > 9 ? m : '0' + m) +
+      ':' +
+      (s > 9 ? s : '0' + s)
+  } else {
+    return ''
+  }
+}
 export {
+  formatDateTime
 }
