@@ -39,7 +39,7 @@
         <el-table-column width="35">
           <template slot-scope="scope">
             <el-checkbox
-              v-model="selectedNetwork"
+              v-model="selectedNetworks"
               :label="scope.row.name"
             />
           </template>
@@ -67,7 +67,7 @@
         <el-table-column width="35">
           <template slot-scope="scope">
             <el-checkbox
-              v-model="selectedNetwork"
+              v-model="selectedNetworks"
               :label="scope.row.name"
               :disabled="scope.row.name===''"
             />
@@ -143,7 +143,7 @@ export default {
           name: ''
         }
       ],
-      selectedNetwork: []
+      selectedNetworks: []
     }
   },
   methods: {
@@ -157,7 +157,7 @@ export default {
     finishEditNetwork (type) {
       let _data = []
       if (type === 'confim') {
-        _data = this.selectedNetwork
+        _data = this.selectedNetworks
       }
       this.$emit('editNetwork', _data)
     }
@@ -165,7 +165,7 @@ export default {
   mounted () {
     this.vmNetworkList.forEach((item) => {
       if (item.name !== '') {
-        this.selectedNetwork.push(item.name)
+        this.selectedNetworks.push(item.name)
       }
     })
   }
