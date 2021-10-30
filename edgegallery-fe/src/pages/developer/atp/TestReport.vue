@@ -147,7 +147,7 @@
             <span class="scene">{{ language==='cn'?item.nameCh:item.nameEn }}</span>
           </div>
           <el-collapse
-            v-model="activeName"
+            v-model="activeNameList"
           >
             <el-collapse-item
               v-for="(suiteItem,dex) in item.testSuites"
@@ -254,6 +254,7 @@
 <script>
 // import { Userpage } from '../../../api/atpApi.js'
 import pdf from 'vue-pdf'
+import { formatDateTime } from '../../../tools/common.js'
 
 export default {
   name: 'Atpreport',
@@ -264,7 +265,7 @@ export default {
     return {
       testScenarios: [],
       language: 'cn',
-      activeName: [],
+      activeNameList: [],
       resultIcon: '',
       htmlTitle: '',
       currUrl: window.location.href,
@@ -272,7 +273,7 @@ export default {
       scenarioId: '',
       tableData: [],
       chartData: [],
-      finishActiveName: [],
+      finishActiveNameList: [],
       downloadBtn: true,
       pdfUrl: '',
       pdfShow: true,
@@ -482,22 +483,20 @@ export default {
       this.tableData.push(data)
       this.resultIcon = this.tableData[0].status === 'success' ? require('../../../assets/images/atp/success.png') : require('../../../assets/images/atp/fail.png')
       this.tableData.forEach(item => {
-        let newDateBegin = this.dateChange(item.createTime)
-        item.createTime = newDateBegin
-        let newDateEnd = this.dateChange(item.endTime)
-        item.endTime = newDateEnd
+        item.createTime = formatDateTime(item.createTime)
+        item.endTime = formatDateTime(item.endTime)
       })
       this.testScenarios = data.testScenarios
-      this.activeName = []
-      this.finishActiveName = []
-      let chartobj = {
+      this.activeNameList = []
+      this.finishActiveNameList = []
+      let _chartObj = {
         dataRight: [],
         nameRightCh: [],
         nameRightEn: [],
         dataCh: [],
         dataEn: []
       }
-      this.getResultData(chartobj)
+      this.getResultData(_chartObj)
       this.$nextTick(() => {
         this.drawLeftLine()
         this.drawRightLine()
@@ -511,25 +510,25 @@ export default {
       //   })
       // })
     },
-    getResultData (chartobj) {
-      this.testScenarios.forEach(testScenarios => {
-        this.activeName.push(testScenarios.nameEn + testScenarios.testSuites[0].nameEn)
-        this.activeName.push(testScenarios.nameEn)
-        chartobj.nameRightCh.push(testScenarios.nameCh)
-        chartobj.nameRightEn.push(testScenarios.nameEn)
-        testScenarios.totalNum = 0
-        testScenarios.successNum = 0
-        testScenarios.failNum = 0
-        testScenarios.testSuites.forEach(ele => {
-          this.finishActiveName.push(testScenarios.nameEn + ele.nameEn)
-          this.finishActiveName.push(testScenarios.nameEn)
+    getResultData (chartObj) {
+      this.testScenarios.forEach(scenarios => {
+        this.activeNameList.push(scenarios.nameEn + scenarios.testSuites[0].nameEn)
+        this.activeNameList.push(scenarios.nameEn)
+        chartObj.nameRightCh.push(scenarios.nameCh)
+        chartObj.nameRightEn.push(scenarios.nameEn)
+        scenarios.totalNum = 0
+        scenarios.successNum = 0
+        scenarios.failNum = 0
+        scenarios.testSuites.forEach(ele => {
+          this.finishActiveNameList.push(scenarios.nameEn + ele.nameEn)
+          this.finishActiveNameList.push(scenarios.nameEn)
           ele.testCases.forEach(item => {
-            testScenarios.totalNum++
+            scenarios.totalNum++
             if (item.result === 'success') {
               item.reason = '---'
-              testScenarios.successNum++
+              scenarios.successNum++
             } else if (item.result === 'failed') {
-              testScenarios.failNum++
+              scenarios.failNum++
             }
           })
         })
@@ -539,19 +538,19 @@ export default {
         let objDataEn = {
           name: '', value: 0
         }
-        objDataCh.name = testScenarios.nameCh
-        objDataEn.name = testScenarios.nameEn
-        objDataCh.value = testScenarios.totalNum
-        objDataEn.value = testScenarios.totalNum
-        chartobj.dataCh.push(objDataCh)
-        chartobj.dataEn.push(objDataEn)
-        let passRate = Number((testScenarios.successNum / testScenarios.totalNum * 100).toFixed(0))
-        chartobj.dataRight.push(passRate)
-        this.chartData.push(chartobj)
+        objDataCh.name = scenarios.nameCh
+        objDataEn.name = scenarios.nameEn
+        objDataCh.value = scenarios.totalNum
+        objDataEn.value = scenarios.totalNum
+        chartObj.dataCh.push(objDataCh)
+        chartObj.dataEn.push(objDataEn)
+        let passRate = Number((scenarios.successNum / scenarios.totalNum * 100).toFixed(0))
+        chartObj.dataRight.push(passRate)
+        this.chartData.push(chartObj)
       })
     },
     drawLeftLine () {
-      let Chart = this.$echarts.init(document.getElementById('leftchart'))
+      let _chart = this.$echarts.init(document.getElementById('leftchart'))
       let colors = ['#3AC372', '#ffd65e', '#616cf7', '#ff509f', '#9ed0c9']
       let option = {
         color: colors,
@@ -594,15 +593,15 @@ export default {
         option.series[0].name = '测试场景'
         option.series[0].data = this.chartData[0].dataCh
       }
-      Chart.setOption(option)
+      _chart.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart) {
-          Chart.resize()
+        if (_chart) {
+          _chart.resize()
         }
       })
     },
     drawRightLine () {
-      let Chart = this.$echarts.init(document.getElementById('rightchart'))
+      let _chart = this.$echarts.init(document.getElementById('rightchart'))
       let option = {
         grid: {
           x: 80,
@@ -692,44 +691,23 @@ export default {
         option.xAxis.data = this.chartData[0].nameRightCh
         option.series[0].data = this.chartData[0].dataRight
       }
-      Chart.setOption(option)
+      _chart.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart) {
-          Chart.resize()
+        if (_chart) {
+          _chart.resize()
         }
       })
     },
-
-    dateChange (dateStr) {
-      if (dateStr) {
-        let date = new Date(Date.parse(dateStr))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        let H = date.getHours()
-        let m = date.getMinutes()
-        let s = date.getSeconds()
-        return Y +
-          '-' +
-          (M > 9 ? M : '0' + M) +
-          '-' +
-          (D > 9 ? D : '0' + D) +
-          ' ' +
-          (H > 9 ? H : '0' + H) +
-          ':' +
-          (m > 9 ? m : '0' + m) +
-          ':' +
-          (s > 9 ? s : '0' + s)
-      }
-    },
     downLoadReport () {
-      this.activeName = this.finishActiveName
+      this.activeNameList = this.finishActiveNameList
       this.downloadBtn = false
       this.printShow = false
-      setTimeout(() => {
+      let _timer = setTimeout(() => {
+        clearTimeout(_timer)
         this.getPdf('#pdfDom')
         this.downloadBtn = true
         this.printShow = true
+        console.log(3333)
       }, 3000)
     },
     // pdf
