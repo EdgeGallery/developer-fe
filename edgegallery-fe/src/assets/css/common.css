@@ -985,5 +985,7 @@ th{
 .question{
   width: 67px;
   height: 67px;
-  margin: 2% 10% 0 0;
+  position: absolute;
+  top: 2%;
+  right: 10%;
 }
