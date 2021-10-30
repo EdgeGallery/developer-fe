@@ -176,12 +176,6 @@ export default {
 .config-network{
   width: 100%;
   height: 100%;
-  position: relative;
-  .question{
-    width: 67px;
-    height: 67px;
-    margin: 2% 0 0 90%;
-  }
   .network-list{
     position: absolute;
     width: 940px;

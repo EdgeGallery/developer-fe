@@ -20,7 +20,7 @@
       alt=""
       class="question hoverHands"
     >
-    <div class="addVm-bg">
+    <div class="common-div-bg addVm-bg">
       <div class="vm-info">
         <div class="addVm-top-title">
           <p><span>*</span>虚拟机名称</p>
@@ -299,22 +299,13 @@ export default {
 <style lang="less">
 .addVm{
   width: 100%;
-  height: 100%;
   position:relative;
   padding-top:40px ;
   font-size: 16px;
-  .question{
-    width: 67px;
-    height: 67px;
-    position:absolute;
-    top: 2%;
-    left: 90%;
-  }
   .addVm-bg{
     width:1184px;
     min-height: 750px;
     margin: 0px auto;
-    background-image: url('../../../assets/images/sandbox/addVm_bg.png');
     padding: 20px 0px 0px 100px;
     .vm-info{
       margin: 0 0 30px 20px;
