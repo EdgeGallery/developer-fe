@@ -59,111 +59,144 @@
           <div class="details-center">
             <div class="details-center-deploy">
               <div class="details-center-deploy-img">
-                <div class="lt deploy-img ">
-                  <div class="edit-bg">
+                <div
+                  class="lt deploy-img flex-center"
+                >
+                  <img
+                    class="deploy-img-center"
+                    :class="{'deploy-img-center-finish':deployFinish===true}"
+                    src="../../../assets/images/sandbox/deploy_img.png"
+                    alt=""
+                  >
+                  <el-tooltip
+                    class="item edit-tooltip"
+                    effect="light"
+                    content="编辑"
+                    placement="bottom-start"
+                  >
+                    <img
+                      src="../../../assets/images/sandbox/edit.png"
+                      alt=""
+                      class="hoverHands deploy-edit"
+                      @click="selectNet"
+                    >
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="deploy-title">
+                配置网络
+              </div>
+            </div>
+            <ul
+              class="netLine"
+              v-if="deployFinish===true"
+            >
+              <li
+                class="oneNet"
+                v-for="(item,index) in netNum"
+                :key="index"
+              />
+            </ul>
+            <NetScroll
+              v-else
+              class="netLine-list"
+            />
+            <div class="details-center-vm">
+              <div
+                class="flex-center details-center-vm-img"
+              >
+                <img
+                  class="vm-center-img"
+                  :class="{'vm-center-img-finish':vmFinish === true}"
+                  src="../../../assets/images/sandbox/vm_img.png"
+                  alt=""
+                >
+                <div class="vm-bg">
+                  <div class="vm-btn flex-center vm-btn-add">
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
-                      content="编辑"
+                      content="添加"
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/edit.png"
+                        src="../../../assets/images/sandbox/vm-add.png"
                         alt=""
                         class=" hoverHands"
-                        @click="selectNet"
+                        @click="addVm"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div
+                    class="vm-btn flex-center vm-btn-detail"
+                  >
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="详情"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-detail.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="btnDetail === false ? 'img-onlyRead':''"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div class="vm-btn flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="登录"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-login.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="btnLogin === false ? 'img-onlyRead':''"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div class="vm-btn flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="上传"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-upload.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="btnUpload === false ? 'img-onlyRead':''"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div class="vm-btn-start vm-btn flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="启动"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-start.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="btnStart === false ? 'img-onlyRead':''"
                       >
                     </el-tooltip>
                   </div>
                 </div>
-                <img
-                  src="../../../assets/images/sandbox/internet_num3.png"
-                  alt=""
-                  class="lt internet-num"
-                >
-              </div>
-              <div class="deploy-title title-margin">
-                配置网络
-              </div>
-            </div>
-            <div class="details-center-vm">
-              <div class="vm-bg">
-                <div class="vm-btn flex-center vm-btn-add">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="添加"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-add.png"
-                      alt=""
-                      class=" hoverHands"
-                      @click="addVm"
-                    >
-                  </el-tooltip>
-                </div>
                 <div
-                  class="vm-btn flex-center vm-btn-detail"
+                  :class="{'vmStatus':vmFinish === false}"
                 >
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="详情"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-detail.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnDetail === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
-                </div>
-                <div class="vm-btn flex-center">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="登录"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-login.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnLogin === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
-                </div>
-                <div class="vm-btn flex-center">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="上传"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-upload.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnUpload === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
-                </div>
-                <div class="vm-btn-start vm-btn flex-center">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="启动"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-start.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnStart === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
+                  <div class="bounce1" />
+                  <div class="bounce2" />
+                  <div class="bounce3" />
+                  <div class="bounce4" />
                 </div>
               </div>
               <p class="deploy-title">
@@ -274,18 +307,23 @@
       </div>
     </div>
     <ConfigNetwork v-if="showContent==='showConfigNetwork'" />
-    <AddVm v-if="showContent==='showAddVm'" />
+    <AddVm
+      v-if="showContent==='showAddVm'"
+      @addVmFinish="addVmFinish"
+    />
   </div>
 </template>
 
 <script>
 import ConfigNetwork from './ConfigNetwork.vue'
 import AddVm from './AddVm.vue'
+import NetScroll from './NetScroll.vue'
 export default {
-  name: '',
+  name: 'SandboxDetail',
   components: {
     ConfigNetwork,
-    AddVm
+    AddVm,
+    NetScroll
   },
   data () {
     return {
@@ -296,7 +334,10 @@ export default {
       btnDetail: false,
       btnUpload: false,
       btnLogin: false,
-      btnStart: false
+      btnStart: false,
+      deployFinish: false,
+      vmFinish: false,
+      netNum: 5
     }
   },
   methods: {
@@ -308,9 +349,17 @@ export default {
     },
     addVm () {
       this.showContent = 'showAddVm'
+    },
+    addVmFinish (data) {
+      this.vmFinish = data
+      this.showContent = 'showDetail'
+      this.btnStart = true
     }
   },
+  computed: {
+  },
   mounted () {
+
   }
 }
 </script>
@@ -415,48 +464,79 @@ export default {
       }
       .details-center{
         display: flex;
-        justify-content: space-around;
         padding-top: 60px;
+        margin: 0 60px;
         .details-center-deploy{
           display: flex;
           flex-direction: column;
-          margin-right: 100px;
           .details-center-deploy-img{
             .deploy-img{
               width: 150px;
               height: 150px;
-              border-radius:50% ;
               background-image: url('../../../assets/images/sandbox/deploy_internet.png');
-             .edit-bg{
-               width: 150px;
-               height: 150px;
-               display: none;
-               background-image: url('../../../assets/images/sandbox/edit_bg.png');
+             .deploy-img-center{
+               width: 96px;
+               height: 96px;
+               opacity: 0.1;
+               position:absolute;
+              }
+              .deploy-img-center-finish{
+                opacity: 1;
+              }
+              .deploy-edit{
+                position: relative;
+                display: none;
               }
             }
             .deploy-img:hover{
-              .edit-bg{
+              border-radius:20px ;
+              background-color: rgba(10, 9, 54, 0.5);
+              .deploy-img-center{
+               opacity: 0.02;
+              }
+              .deploy-edit{
                 display: block;
-                display: flex;
-                justify-content: center;
-                align-items: center;
               }
             }
             .internet-num{
               margin: 30px 0 0 10px;
             }
           }
-          .title-margin{
-            margin-left: -26px;
-          }
+        }
+        .netLine{
+          width: 154px;
+          height: 100px;
+          margin: 32px 16px 0 16px;
+          overflow: hidden;
+            li{
+              width: 8px;
+              height:8px;
+              border-radius:50%;
+              background-color: #fff;
+              margin-bottom: 18px;
+            }
+        }
+        .netLine-list{
+          margin: 30px 16px 0 16px;
         }
         .details-center-vm{
+          position: relative;
+          .vm-center-img{
+            position:absolute;
+            width: 96px;
+            height: 96px;
+            opacity: 0.1;
+          }
+          .vm-center-img-finish{
+                opacity: 1;
+          }
           .vm-bg{
             width: 150px;
             height: 150px;
-            background-image: url('../../../assets/images/sandbox/vm-bg.png');
+            background-image: url('../../../assets/images/sandbox/deploy_internet.png');
             display: flex;
             flex-wrap: wrap;
+            position: relative;
             .vm-btn{
               display: none;
               width: 75px;
@@ -495,6 +575,46 @@ export default {
                 opacity: 1;
               }
             }
+          }
+          .vmStatus{
+              position: absolute;
+              top: 124px;
+            .bounce1 {
+                animation-delay: -0.48s;
+              }
+            .bounce2 {
+                animation-delay: -0.32s;
+              }
+            .bounce3 {
+                animation-delay: -0.16s;
+              }
+          }
+           .vmStatus > div {
+              width: 6px;
+              height: 6px;
+              margin-right: 4px;
+              background-color: #42F6AC;
+              border-radius: 100%;
+              display: inline-block;
+              animation: bouncedelay 1.4s infinite ease-in-out;
+              animation-fill-mode: both;
+            }
+            @keyframes bouncedelay {
+              0%, 80%, 100% {
+                transform: scale(0.0);
+              } 40% {
+                transform: scale(1.0);
+              }
+            }
+        }
+        .details-center-vm-img:hover{
+          .vmStatus{
+            display: none;
+          }
+        }
+        .details-center-vm:hover{
+          .vm-center-img{
+            opacity: 0.1;
           }
         }
         .deploy-title{

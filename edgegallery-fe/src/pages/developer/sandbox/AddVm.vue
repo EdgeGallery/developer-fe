@@ -25,21 +25,21 @@
         <div class="addVm-top-title">
           <p><span>*</span>虚拟机名称</p>
           <el-input
-            v-model="vmName"
+            v-model="vmInfo.vmName"
             placeholder="请输入内容"
           />
         </div>
         <div class="addVm-top-title">
           <p>用户名</p>
           <el-input
-            v-model="vmUsername"
+            v-model="vmInfo.vmUsername"
             placeholder="请输入内容"
           />
         </div>
         <div class="addVm-top-title">
           <p>密码</p>
           <el-input
-            v-model="vmPassword"
+            v-model="vmInfo.vmPassword"
             placeholder="请输入内容"
           />
         </div>
@@ -53,7 +53,10 @@
         </div>
         <div class="simulator-info-content">
           <div>
-            <el-radio-group v-model="simulator">
+            <el-radio-group
+              v-model="vmInfo.archType"
+              @change="handleChangeArch"
+            >
               <el-radio-button label="X86" />
               <el-radio-button label="ARM" />
             </el-radio-group>
@@ -61,14 +64,14 @@
               虚拟机规格
             </p>
             <el-table
-              :data="tableData"
+              :data="vmInfo.vmRegulationList"
               class="common-table vm-table"
             >
               <el-table-column width="35px">
                 <template slot-scope="scope">
                   <el-radio
-                    :label="scope.row.vmId"
-                    v-model="vmId"
+                    :label="scope.row.regulationId"
+                    v-model="selectedRegulationId"
                     class="work-radio"
                   />
                 </template>
@@ -77,36 +80,55 @@
                 prop="name"
                 label="名称"
                 width="140"
-              />
+                show-overflow-tooltip
+              >
+                <template slot-scope="scope">
+                  {{ language==='cn'?scope.row.nameZh:scope.row.nameEn }}
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="sence"
                 label="使用场景"
                 width="110"
-              />
+                show-overflow-tooltip
+              >
+                <template slot-scope="scope">
+                  {{ language==='cn'?scope.row.sceneZh:scope.row.sceneEn }}
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="cpu"
                 label="CPU"
                 width="110"
+                show-overflow-tooltip
+                :formatter="appendCPUUnit"
               />
               <el-table-column
                 prop="memory"
                 label="内存"
                 width="110"
+                show-overflow-tooltip
+                :formatter="appendSizeUnit"
               />
               <el-table-column
                 prop="systemDisk"
                 label="系统盘"
                 width="110"
+                show-overflow-tooltip
+                :formatter="appendSizeUnit"
               />
               <el-table-column
                 prop="dataDisk"
                 label="数据盘"
                 width="100"
+                show-overflow-tooltip
+                :formatter="appendSizeUnit"
               />
               <el-table-column
-                prop="other"
+                prop="otherAbility"
                 label="其他能力"
                 width="100"
+                show-overflow-tooltip
               />
             </el-table>
           </div>
@@ -122,61 +144,69 @@
         <div class="selectImage-content">
           <div class="selectImage-public">
             <el-radio
-              v-model="publicImage"
-              label="1"
+              v-model="vmInfo.imageType"
+              label="public"
+              @change="handleChangeImgType()"
             >
               公有镜像
             </el-radio>
             <el-select
-              v-model="publicTypeValue"
+              v-model="vmInfo.selectedData.public.selectedOSName"
               placeholder="请选择"
+              @change="handleChangeOSName"
+              :disabled="vmInfo.imageType === 'private'"
             >
               <el-option
-                v-for="item in publicTypeOptions"
-                :key="item.publicTypeValue"
-                :label="item.label"
-                :value="item.publicTypeValue"
+                v-for="item in vmInfo.osNameOptionList"
+                :key="item"
+                :label="item"
+                :value="item"
               />
             </el-select>
             <el-select
-              v-model="publicImageValue"
+              v-model="vmInfo.selectedData.public.selectedSystemId"
               placeholder="请选择"
+              :disabled="vmInfo.imageType === 'private'"
             >
               <el-option
-                v-for="item in publicImageOptions"
-                :key="item.publicImageValue"
-                :label="item.label"
-                :value="item.publicImageValue"
+                v-for="item in vmInfo.operateSystemOptionList"
+                :key="item.label"
+                :label="item.systemId"
+                :value="item.systemId"
               />
             </el-select>
           </div>
           <div class="selectImage-public">
             <el-radio
-              v-model="publicImage"
-              label="2"
+              v-model="vmInfo.imageType"
+              label="private"
+              @change="handleChangeImgType()"
             >
-              公有镜像
+              私有镜像
             </el-radio>
             <el-select
-              v-model="ownTypeValue"
+              v-model="vmInfo.selectedData.private.selectedOSName"
+              @change="handleChangeOSName"
               placeholder="请选择"
+              :disabled="vmInfo.imageType === 'public'"
             >
               <el-option
-                v-for="item in ownTypeOptions"
-                :key="item.ownTypeValue"
-                :label="item.label"
-                :value="item.ownTypeValue"
+                v-for="item in vmInfo.osNameOptionList"
+                :key="item"
+                :label="item"
+                :value="item"
               />
             </el-select>
             <el-select
-              v-model="ownImageValue"
+              v-model="vmInfo.selectedData.private.selectedSystemId"
               placeholder="请选择"
+              :disabled="vmInfo.imageType === 'public'"
             >
               <el-option
-                v-for="item in ownImageOptions"
-                :key="item.ownImageValue"
-                :label="item.label"
-                :value="item.ownImageValue"
+                v-for="item in vmInfo.operateSystemOptionList"
+                :key="item.label"
+                :label="item.systemId"
+                :value="item.systemId"
               />
             </el-select>
           </div>
@@ -186,7 +216,7 @@
         <el-button>
           {{ $t('normal.cancel') }}
         </el-button>
-        <el-button>
+        <el-button @click="addVmFinish">
           {{ $t('normal.confirm') }}
         </el-button>
       </div>
@@ -195,81 +225,73 @@
 </template>
 
 <script>
+import { uniqueArray } from '../../../tools/tool.js'
 export default {
-  name: '',
+  name: 'AddVm',
   data () {
     return {
-      vmName: '',
-      vmUsername: '',
-      vmPassword: '',
-      simulator: 'X86',
-      vmId: '',
-      tableData: [{
-        name: '通用计算机1',
-        sence: '普通app',
-        cpu: '1级cpu',
-        memory: '1GB',
-        systemDisk: '50GB',
-        dataDisk: '40GB',
-        gpu: '1级gpu',
-        other: '速度快',
-        vmId: 1
-      }, {
-        name: '通用计算机2',
-        sence: '普通app',
-        cpu: '2级cpu',
-        memory: '2GB',
-        systemDisk: '40GB',
-        dataDisk: '30GB',
-        gpu: '2级gpu',
-        other: '寿命长',
-        vmId: 2
-      }, {
-        name: '通用计算机3',
-        sence: '普通app',
-        cpu: '3级cpu',
-        memory: '3GB',
-        systemDisk: '30GB',
-        dataDisk: '20GB',
-        gpu: '3级gpu',
-        other: '省电',
-        vmId: 3
-      }],
-      publicTypeOptions: [{
-        publicTypeValue: '选项1',
-        label: '公有类型1'
-      }, {
-        publicTypeValue: '选项2',
-        label: '公有类型2'
-      }],
-      publicImageOptions: [{
-        publicImageValue: '选项1',
-        label: '公有镜像1'
-      }, {
-        publicImageValue: '选项2',
-        label: '公有镜像2'
-      }],
-      publicImage: '',
-      publicTypeValue: '',
-      publicImageValue: '',
-      ownTypeOptions: [{
-        ownTypeValue: '选项1',
-        label: '私有类型1'
-      }, {
-        ownTypeValue: '选项2',
-        label: '私有类型2'
-      }],
-      ownImageOptions: [{
-        ownImageValue: '选项1',
-        label: '私有镜像1'
-      }, {
-        ownImageValue: '选项2',
-        label: '私有镜像2'
-      }],
-      ownImage: '',
-      ownTypeValue: '',
-      ownImageValue: '',
-      multipleSelection: []
+      language: localStorage.getItem('language'),
+      vmInfo: {
+        vmName: '',
+        vmUsername: '',
+        vmPassword: '',
+        archType: 'X86',
+        selectedRegulationId: '',
+        vmRegulationList: [{
+          architecture: 'X86',
+          cpu: 4,
+          dataDisk: 100,
+          gpu: '',
+          memory: 8,
+          nameEn: 'General Computing-2',
+          nameZh: '通用计算型-2',
+          otherAbility: '',
+          regulationId: 2,
+          sceneEn: 'Ordinary APP',
+          sceneZh: '普通APP',
+          systemDisk: 50
+        }, {
+          architecture: 'X86',
+          cpu: 4,
+          dataDisk: 100,
+          gpu: '',
+          memory: 8,
+          nameEn: 'General Computing-2',
+          nameZh: '通用计算型-2',
+          otherAbility: '',
+          regulationId: 1,
+          sceneEn: 'Ordinary APP',
+          sceneZh: '普通APP',
+          systemDisk: 50
+        }, {
+          architecture: 'X86',
+          cpu: 4,
+          dataDisk: 100,
+          gpu: '',
+          memory: 16,
+          nameEn: 'General Computing-4',
+          nameZh: '通用计算型-4',
+          otherAbility: '',
+          regulationId: 3,
+          sceneEn: 'Ordinary APP',
+          sceneZh: '普通APP',
+          systemDisk: 50
+        }],
+        osNameOptionList: ['', ''],
+        operateSystemOptionList: [],
+        selectedData: {
+          private: {
+            selectedOSName: '',
+            selectedSystemId: ''
+          },
+          public: {
+            selectedOSName: '',
+            selectedSystemId: ''
+          }
+        },
+        imageType: 'public'
+      }
+
     }
   },
   watch: {
@@ -278,20 +300,83 @@ export default {
     }
   },
   methods: {
-    toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
+    resetData (imageType = 'public', selectedOSName = '', selectedSystemId = '') {
+      this.vmInfo.selectedData = {
+        private: {
+          selectedOSName: '',
+          selectedSystemId: ''
+        },
+        public: {
+          selectedOSName: '',
+          selectedSystemId: ''
+        }
       }
+      this.vmInfo.selectedData[imageType].selectedOSName = selectedOSName
+      this.vmInfo.selectedData[imageType].selectedSystemId = selectedSystemId
     },
-    handleSelectionChange (val) {
-      this.multipleSelection = val
+    addVmInfo () {
+      this.validateInput()
+      this.$emit('getStepData', { step: 'specSetting' })
+    },
+    validateInput () {
+      if (this.vmInfo.selectedRegulationId === -1) {
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'), 'warning')
+        return false
+      }
+      if (this.vmInfo.selectedData[this.vmInfo.imageType].selectedSystemId === '') {
+        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'), 'warning')
+        return false
+      }
+      return true
+    },
+    handleChangeArch () {
+      this.filterVmRegulation()
+      this.vmInfo.selectedRegulationId = -1
+    },
+    filterVmRegulation () {
+      this.vmInfo.vmRegulationDataList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.vmInfo.archType)
+    },
+    handleChangeImgType () {
+      this.resetData(this.vmInfo.imageType)
+      this.filterOSName()
+      this.vmInfo.operateSystemOptionList = []
+    },
+    filterOSName () {
+      this.vmInfo.osNameOptionList = uniqueArray(this.vmConfigData.vmSystemList.filter(item => item.type === this.vmInfo.imageType)
+        .map(item => item.operateSystem))
+    },
+    handleChangeOSName () {
+      this.filterOperateSystemOption()
+      this.resetData(this.vmInfo.imageType, this.vmInfo.selectedData[this.imageType].selectedOSName)
+    },
+    filterOperateSystemOption () {
+      if (this.vmInfo.selectedData[this.imageType].selectedOSName === '') {
+        return
+      }
+
+      this.vmInfo.operateSystemOptionList = this.vmConfigData.vmSystemList.filter(
+        item => item.type === this.vmInfo.imageType && item.operateSystem === this.vmInfo.selectedData[this.imageType].selectedOSName
+      ).map(item => {
+        return {
+          'systemId': item.systemId,
+          'label': item.systemName + '[' + item.operateSystem + ' ' + item.version + ' ' + item.systemBit + '(' + item.systemDisk + 'GB)]'
+        }
+      })
+    },
+    appendCPUUnit (row) {
+      return row.cpu + 'vCPU'
+    },
+    appendSizeUnit (row, column, cellValue) {
+      return cellValue + 'GB'
+    },
+    addVmFinish () {
+      this.$emit('addVmFinish', true)
     }
   },
   mounted () {
+    this.filterVmRegulation()
+    this.filterOSName()
+    this.filterOperateSystemOption()
   }
 }
 </script>
@@ -368,7 +453,6 @@ export default {
           .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: none;
             border-bottom:4px solid #5944C0 ;
-            border-left:none ;
           }
         }
         .vm-size{

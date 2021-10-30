@@ -65,8 +65,19 @@ function healthCheck (url) {
   })
 }
 
+function uniqueArray (arrData) {
+  let _resultData = []
+  for (let item of arrData) {
+    if (_resultData.indexOf(item) === -1) {
+      _resultData.push(item)
+    }
+  }
+  return _resultData
+}
+
 export {
   logoutApi,
   loginApi,
-  healthCheck
+  healthCheck,
+  uniqueArray
 }

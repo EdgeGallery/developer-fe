@@ -65,7 +65,6 @@ export default new Router({
       name: 'sandboxDetail',
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },
-
     ...routesclassic
   ],
   scrollBehavior () {
