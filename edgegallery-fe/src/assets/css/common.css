@@ -682,16 +682,16 @@
  .el-table-filter .el-table-filter__content .is-checked .el-checkbox__label,.el-table-filter .el-table-filter__content .el-checkbox__label:hover{
    color: #62517a;
  }
- .el-checkbox__input.is-checked .el-checkbox__inner::after{
-   width: 7px;
-   height: 7px;
-   left: 2.5px;
-   top: 2.5px;
-   border: none;
-   background: #61cdd0;
-   border-radius: 50%;
-   transform: rotate(0deg);
- }
+ .el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: #3AC372;
+  border-color: rgba(255,255,255,.3);
+}
+.el-checkbox__inner{
+  background-color: transparent;
+}
+.el-checkbox__input.is-focus .el-checkbox__inner, .el-checkbox__inner:hover{
+  border-color: #fff;
+}
  .el-table-filter .el-table-filter__bottom{
    background-color: #edeef8;
    border-radius: 0 0 6px 6px;
@@ -831,12 +831,15 @@
 .el-table tbody tr:hover>td {
 background-color:transparent !important
 }
-.el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell{
+.el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell, .el-table.more-rows-table thead th.is-leaf{
   border-bottom: none;
 }
 .common-table thead tr{
   height: 30px;
   background-color: rgba(255,255,255,.3);
+}
+.el-table.more-rows-table td, .el-table.more-rows-table th.is-leaf{
+  border-bottom: 2px solid rgba(255,255,255,.3);
 }
 .el-table td{
   height: 50px !important;
@@ -889,6 +892,20 @@ th{
   position: relative;
   top: -2px;
 }
+.rules-title-green{
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.rules-title-green:before{
+  display: inline-block;
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: #76E1E9;
+  border-radius: 50%;
+  position: relative;
+}
 .rules-title-sub{
   font-weight: normal;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
@@ -930,7 +947,7 @@ th{
   width: 50%;
 }
 .el-tooltip__popper.is-dark{
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.7);
 }
 .el-form-item__label{
   font-size: 16px;
@@ -999,4 +1016,23 @@ th{
   border-radius: 12px;
   width: 100px;
   color: #5944C0;
+}
+.question{
+  width: 67px;
+  height: 67px;
+  position: absolute;
+  top: 10%;
+  right: 5%;
+}
+.test-btn.el-button{
+  border: 1px solid #0F0D87;
+  background-color: transparent;
+  padding: 12px 30px;
+  color: #0F0D87;
+}
+.test-light-btn.el-button{
+  border: 1px solid #0F0D87;
+  background-image: linear-gradient(127deg,#FFFFFF,#D7E2FF);
+  padding: 12px 30px;
+  color: #0F0D87;
 }
