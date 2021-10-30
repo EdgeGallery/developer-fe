@@ -301,7 +301,7 @@ export default {
     top: 110px;
     left: 20%;
     width: 60%;
-    height: 520px;
+    height: 560px;
     padding: 40px;
     opacity: 1;
     transition: all .2s;
