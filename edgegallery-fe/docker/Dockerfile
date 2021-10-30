@@ -18,8 +18,6 @@ ENV APP_HOME /usr/app
 ENV USER_NAME=eguser
 ENV GROUP_NAME=eggroup
 
-RUN apk add docker
-
 # Set the working directory.
 WORKDIR /usr/app
 
