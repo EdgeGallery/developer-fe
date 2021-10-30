@@ -15,19 +15,39 @@
  */
 
 const cn = {
-  deployList: {
-    deployListTitle: '应用部署',
-    tip: '输入内容进行搜索',
+  deployCommon: {
     name: '名称',
     version: '版本',
     provider: '厂商',
+    affinity: '架构',
+    operation: '操作',
+    tip: '输入名称搜索',
+    cancel: '取消',
+    confirm: '确认'
+  },
+  deployList: {
+    deployListTitle: '应用部署',
+    tip: '输入内容进行搜索',
     type: '类型',
     industry: '行业',
-    affinity: '架构',
     appstoreName: '应用市场',
     syncTime: '同步时间',
-    operation: '操作',
     operationBtn: '分发&部署'
+  },
+  distributeDeploy: {
+    title: '分发&部署',
+    hostIp: '主机IP地址',
+    status: '状态',
+    delete: '删除',
+    distribute: '分发',
+    deploy: '部署'
+  },
+  distribute: {
+    title: '分发',
+    ip: 'IP地址',
+    city: '城市',
+    MEPM: 'MEPM地址',
+    hwCapability: '硬件能力'
   }
 }
 export default cn
