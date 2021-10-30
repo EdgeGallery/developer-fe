@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'SandBox',
   data () {
     return {
       selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || 'selectSandbox'
