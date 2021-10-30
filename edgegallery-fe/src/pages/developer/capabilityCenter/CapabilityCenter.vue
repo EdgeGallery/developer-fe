@@ -56,33 +56,30 @@
           label="说明文档"
           class="label-item-half"
         >
-          <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            :file-list="fileList"
+          <span
+            class="cap-upload-btn cp"
+            @click="getDoc()"
           >
-            <span class="cap-upload-btn">
-              说明文档
-            </span>
-          </el-upload>
+            说明文档
+          </span>
         </el-form-item>
         <el-form-item
           label="图片"
           class="label-item-half"
         >
-          <el-input v-model="capFormData.indusry" />
+          <img
+            src="../../../assets/images/capability/capability_default_img.png"
+            alt="default_capability"
+          >
         </el-form-item>
         <el-form-item
           label="自定义图片"
           class="label-item-half"
         >
-          <el-input v-model="capFormData.type" />
+          <img
+            src="../../../assets/images/capability/capability_default_img.png"
+            alt="default_capability"
+          >
         </el-form-item>
         <h3 class="common-dlg-title">
           注册信息
@@ -117,12 +114,24 @@
         >
           <el-input v-model="capFormData.desc" />
         </el-form-item>
+        <el-form-item
+          label="流量规则"
+        />
+        <el-form-item
+          label="DNS规则"
+        />
       </el-form>
       <el-button
         class="common-btn rt"
         @click="confirmToCreate()"
       >
         完成
+      </el-button>
+      <el-button
+        class="common-cancel-btn rt"
+        @click="confirmToCreate()"
+      >
+        取消
       </el-button>
     </div>
   </div>

@@ -800,10 +800,23 @@
   box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8);
   border-radius: 12px;
   padding: 5px 24px;
-  color: #0F0D87;
+  color: #5944C0;
   font-family: defaultFontLight !important;
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 10px;
+  font-weight: 400;
+}
+.common-cancel-btn{
+  padding: 6px 24px;
+  color: #fff;
+  font-family: defaultFontLight !important;
+  font-size: 14px;
+  background: #60569A;
+  border-radius: 12px;
+  font-weight: 400;
+  border: none;
+  margin-top: 10px;
+  margin-right: 15px!important;
 }
 
 .common-table{
@@ -964,6 +977,26 @@ th{
   padding-top: 30px;
   
 }
-.common-workflow img{
-  margin: 0 auto;
+.common-workflow .common-workflow-item{
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  position: relative;
+  cursor: pointer;
+}
+.common-center>.common-workflow-item::after{
+  content:'';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  position: relative;
+  top: 45px;
+  left: -20px;
+ }
+
+ .tip-btn-group .tip-btn{
+  border-radius: 12px;
+  width: 100px;
+  color: #5944C0;
 }

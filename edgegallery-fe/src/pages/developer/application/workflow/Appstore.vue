@@ -1,33 +1,14 @@
 <template>
   <div class="appstore common-workflow">
-    <el-row>
-      <el-col
-        :span="24"
+    <div>
+      <div
         class="common-center"
       >
-        <div class="flow-line" />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col
-        :span="24"
-        class="common-center"
-      >
-        <img
-          src="../../../../assets/images/application/app_store.png"
-          alt="capability-center"
-        >
-        <div class="flow-line" />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col
-        :span="24"
-        class="common-center"
-      >
-        <div class="flow-line" />
-      </el-col>
-    </el-row>
+        <span
+          class="common-workflow-item app-store"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -48,8 +29,11 @@ export default {
 <style lang="less" scoped>
   .appstore{
     color: #fff;
-    img{
-      width: 70%;
+    .app-store{
+      top: 155px;
+      left: -80px;
+      background: url("../../../../assets/images/application/app_store.png") no-repeat center;
+      background-size: contain;
     }
   }
 </style>

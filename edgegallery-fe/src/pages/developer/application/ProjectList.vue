@@ -23,7 +23,7 @@
       <div
         class="zoom project-btn"
         title="缩小"
-        @click.stop="changeZoom(1)"
+        @click.stop="changeView(1)"
       />
       <div
         class="project-btn"
@@ -32,9 +32,10 @@
         @click.stop="searchProject()"
       />
       <div
-        class="switch project-btn"
+        class="project-btn"
+        :class="isViewActive?'view-active':'view-default'"
         title="更多"
-        @click.stop="changeZoom(2)"
+        @click.stop="changeView(2)"
       />
     </div>
     <div
@@ -64,8 +65,12 @@
           <div>
             {{ item.name }}
           </div>
-          <div>
-            {{ item.status }}
+          <div
+            class="project-common-status"
+            v-if="item.id!==1"
+            :class="item.status==='creating'?'project-creating':(item.status==='success'?'project-success':(item.status==='failed'?'project-failed':'project-published'))"
+          >
+            {{ switchStatus(item.status) }}
           </div>
         </div>
       </div>
@@ -103,25 +108,29 @@ export default {
           id: 2,
           type: 'pro',
           icon: require('../../../assets/images/projects/pro_current_pro.png'),
-          name: 'app1'
+          name: '云讯智能',
+          status: 'creating'
         }, {
           id: 3,
           type: 'pro',
           icon: require('../../../assets/images/projects/pro_history_pro.png'),
-          name: 'app2'
+          name: 'PBC检测',
+          status: 'failed'
         }, {
           id: 4,
           type: 'pro',
           icon: require('../../../assets/images/projects/pro_history_pro.png'),
-          name: 'app3'
+          name: '安恒WAF',
+          status: 'published'
         }
       ],
       searchValue: '',
-      isSearchActive: false
+      isSearchActive: false,
+      isViewActive: false
     }
   },
   methods: {
-    changeZoom (val) {
+    changeView (val) {
       this.$emit('zoomChanged', val)
     },
     createNewProject () {
@@ -132,6 +141,9 @@ export default {
     },
     checkProjectDetail (item) {
       console.log(item)
+    },
+    switchStatus (status) {
+      return status === 'creating' ? '创建中' : (status === 'success' ? '创建成功' : (status === 'failed' ? '创建失败' : '已发布'))
     }
   },
   mounted () {}
@@ -150,16 +162,19 @@ export default {
       background-size: cover;
     }
     .zoom{
-      background: url("../../../assets/images/projects/pro_zoom_default.svg") no-repeat center;
+      background: url("../../../assets/images/projects/pro_zoom_default.png") no-repeat center;
     }
     .search-default{
-      background: url("../../../assets/images/projects/pro_search_default.svg") no-repeat center;
+      background: url("../../../assets/images/projects/pro_search_default.png") no-repeat center;
     }
     .search-active{
-      background: url("../../../assets/images/projects/pro_search_after.svg") no-repeat center;
+      background: url("../../../assets/images/projects/pro_search_after.png") no-repeat center;
     }
-    .switch{
-      background: url("../../../assets/images/projects/pro_view_default.svg") no-repeat center;
+    .view-detault{
+      background: url("../../../assets/images/projects/pro_view_default.png") no-repeat center;
+    }
+    .view-active{
+      background: url("../../../assets/images/projects/pro_view_click.png") no-repeat center;
     }
   }
   .top-center{
@@ -193,6 +208,30 @@ export default {
     top: 46px;
     width: 180px;
     z-index: 988;
+  }
+  .project-common-status{
+    font-size: 10px;
+  }
+  .project-common-status::before{
+    content:"";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    top: 5px;
+    left: 3px;
+  }
+  .project-creating::before{
+    background: url('../../../assets/images/projects/pro_creating.png') no-repeat center;
+  }
+  .project-success::before{
+    background: url('../../../assets/images/projects/pro_success.png') no-repeat center;
+  }
+  .project-failed::before{
+    background: url('../../../assets/images/projects/pro_failed.png') no-repeat center;
+  }
+  .project-published::before{
+    background: url('../../../assets/images/projects/pro_published.png') no-repeat center;
   }
 }
 </style>

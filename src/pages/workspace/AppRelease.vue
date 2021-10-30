@@ -630,7 +630,7 @@
               >
                 <el-input-number
                   v-model="priceSet"
-                  style="width:100px;"
+                  style="width:150px;"
                   :disabled="price==='1'"
                 /> {{ $t('workspace.appRelease.price') }}
               </el-radio>

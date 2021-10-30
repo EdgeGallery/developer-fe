@@ -38,7 +38,7 @@
       </el-col>
       <el-col
         :span="4"
-        v-if="zoom===20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg"
+        v-if="zoom===20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg&&!isShowAppWarningDlg"
       >
         <div>
           预留问号
@@ -46,7 +46,7 @@
       </el-col>
       <el-col
         :span="24-zoom"
-        v-if="zoom<20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg"
+        v-if="zoom<20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg&&!isShowAppWarningDlg"
       >
         <div class="main-content">
           <div class="main-title">
@@ -56,29 +56,16 @@
             <el-row class="main-part-container">
               <el-col :span="12">
                 <div class="main-creation main-part-item">
-                  <div class="rt">
-                    <p class="label-en">
-                      APPLICATION INBUCATION
-                    </p>
-                    <p class="label-cn">
-                      应用孵化
-                    </p>
-                  </div>
                   <div class="main-part-item-container">
-                    <IncubationComp @showCapabilityCenterDlg="isShowCapabilityIndexDlg=true" />
+                    <IncubationComp
+                      @showCapabilityCenterDlg="isShowCapabilityIndexDlg=true"
+                      @showAppWarningDlg="isShowAppWarningDlg=true"
+                    />
                   </div>
                 </div>
               </el-col>
               <el-col :span="3">
                 <div class="main-app-store main-part-item">
-                  <div class="rt">
-                    <p class="label-en">
-                      APP STORE
-                    </p>
-                    <p class="label-cn">
-                      应用商店
-                    </p>
-                  </div>
                   <div class="main-part-item-container">
                     <AppstoreComp />
                   </div>
@@ -86,14 +73,6 @@
               </el-col>
               <el-col :span="9">
                 <div class="main-deploy main-part-item">
-                  <div class="rt">
-                    <p class="label-en">
-                      APPLICATION DEPLOYMENT
-                    </p>
-                    <p class="label-cn">
-                      应用部署
-                    </p>
-                  </div>
                   <div class="main-part-item-container">
                     <DeploymentComp />
                   </div>
@@ -102,13 +81,23 @@
             </el-row>
           </div>
           <div class="main-flow-direction">
-            <p>
-              行动方向
-            </p>
-            <img
-              src="../../assets/images/projects/pro_direction.png"
-              alt=""
-            >
+            <div class="lt">
+              <p>
+                行动方向
+              </p>
+              <img
+                src="../../assets/images/projects/pro_direction.png"
+                alt=""
+              >
+            </div>
+            <div class="rt label-content">
+              <div class="current-app-label">
+                当前应用位置
+              </div>
+              <div class="must-node-label">
+                必经节点
+              </div>
+            </div>
           </div>
         </div>
       </el-col>
@@ -135,6 +124,34 @@
       <CapabilityCenterComp
         @closeCapabilityDlg="isShowCapabilityDlg=false"
       />
+    </div>
+    <div
+      class="common-div-bg app-warning-Dlg"
+      v-if="isShowAppWarningDlg"
+    >
+      <div class="app-warning-content">
+        <img
+          src="../../assets/images/application/app_warning_icon.png"
+          alt="warning_icon"
+        >
+        <p>
+          此类内容需在项目中查看
+        </p>
+        <div class="tip-btn-group">
+          <el-button
+            class="tip-btn"
+            @click="isShowAppWarningDlg=false"
+          >
+            返回
+          </el-button>
+          <el-button
+            class="tip-btn"
+            @click="isShowProjectDlg=true,isShowAppWarningDlg=false"
+          >
+            新建项目
+          </el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -163,7 +180,8 @@ export default {
       zoom: 2,
       isShowProjectDlg: false,
       isShowCapabilityIndexDlg: false,
-      isShowCapabilityDlg: false
+      isShowCapabilityDlg: false,
+      isShowAppWarningDlg: false
     }
   },
   methods: {
@@ -222,9 +240,10 @@ export default {
       z-index: -1;
     }
     .main-content{
-      height: 100%;
+      height: 835px;
+      width: 1680px;
       margin: 0 auto;
-      padding: 6% 10% 6% 5%;
+      padding: 90px 50px 50px 50px;
       .main-title{
         font-size: 25px;
         font-weight: bold;
@@ -234,14 +253,13 @@ export default {
         height: 80%;
         margin-top: 30px;
         .main-part-container{
-          // background: url("../../assets/images/application/app_workflow_bg1.png") no-repeat 30% 0;
-          background-size: cover;
+          background: url("../../assets/images/application/app_workflow_bg1.png") no-repeat;
+          background-size: inherit;
         }
         .main-part-item{
           height: 100%;
           border-radius: 17px;
           margin-right: 30px;
-          background: url("../../assets/images/default_mask.png") no-repeat center;
           background-size: cover;
           text-align: right;
           padding: 25px 20px;
@@ -260,33 +278,71 @@ export default {
         }
       }
       .main-flow-direction{
+        position: relative;
+        top: -70px;
         p{
           font-size: 14px;
           padding-top: 20px;
           line-height: 30px;
         }
+        .label-content{
+          margin-right: 200px;
+          .current-app-label{
+            margin-top: 15px;
+          }
+          .current-app-label::before{
+            content:"";
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: url("../../assets/images/application/app_mark_box.png") no-repeat center;
+            background-size: contain;
+          }
+          .must-node-label{
+            margin-top: 5px;
+          }
+          .must-node-label::before{
+            content:"";
+            display: inline-block;
+            width: 25px;
+            height: 15px;
+            background: url("../../assets/images/application/app_corner_icon.png") no-repeat center;
+            background-size: contain;
+          }
+        }
       }
     }
     .pro-creation{
-      position:absolute;
-      top:30%;
-      left:35%;
-      width: 30%;
+      position: absolute;
+      top: 30%;
+      left: 35%;
+      width: 35%;
       padding: 35px;
     }
     .capability-creation{
-      position:absolute;
-      top:25%;
-      left:35%;
-      width: 30%;
-      padding:35px;
+      position: absolute;
+      top: 13%;
+      left: 35%;
+      width: 35%;
+      padding: 35px;
+    }
+    .app-warning-Dlg{
+      position: absolute;
+      top: 25%;
+      left: 40%;
+      width: 20%;
+      padding: 35px;
+      text-align: center;
+      p{
+        line-height: 85px;
+      }
     }
     .capability-index{
-      position:absolute;
+      position: absolute;
       top: 13%;
       left: 12%;
       width: 76%;
-      padding:35px 35px 35px 4%;
+      padding: 35px 35px 35px 4%;
     }
     .el-row, .el-col{
       height: 100%;

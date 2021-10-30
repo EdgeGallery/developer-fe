@@ -1,42 +1,28 @@
 <template>
   <div class="deployment common-workflow">
-    <el-row>
-      <el-col
-        :span="24"
+    <div>
+      <div
         class="common-center"
       >
-        <div class="flow-line" />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col
-        :span="8"
+        <span
+          class="common-workflow-item deploy-meao"
+        />
+      </div>
+      <div
         class="common-center"
       >
-        <img
-          src="../../../../assets/images/application/app_meao.png"
-          alt="capability-center"
-        >
-      </el-col>
-      <el-col
-        :span="8"
+        <span
+          class="common-workflow-item deploy-mepm"
+        />
+      </div>
+      <div
         class="common-center"
       >
-        <img
-          src="../../../../assets/images/application/app_mepm.png"
-          alt="capability-center"
-        >
-      </el-col>
-      <el-col
-        :span="8"
-        class="common-center"
-      >
-        <img
-          src="../../../../assets/images/application/app_edge_node.png"
-          alt="capability-center"
-        >
-      </el-col>
-    </el-row>
+        <span
+          class="common-workflow-item deploy-node"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -57,8 +43,23 @@ export default {
 <style lang="less" scoped>
   .deployment{
     color: #fff;
-    img{
-      width: 50%;
+    .deploy-meao{
+      top: 155px;
+      left: -60px;
+      background: url("../../../../assets/images/application/app_meao.png") no-repeat center;
+      background-size: contain;
+    }
+    .deploy-mepm{
+      top: 65px;
+      left: 100px;
+      background: url("../../../../assets/images/application/app_mepm.png") no-repeat center;
+      background-size: contain;
+    }
+    .deploy-node{
+      top: -25px;
+      left: 260px;
+      background: url("../../../../assets/images/application/app_edge_node.png") no-repeat center;
+      background-size: contain;
     }
   }
 </style>
