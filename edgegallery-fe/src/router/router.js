@@ -84,6 +84,21 @@ export default new Router({
       name: 'distribute',
       component: () => import('../pages/mecm/Distribute.vue')
     },
+    {
+      path: '/appPackageBuild',
+      name: 'appPackageBuild',
+      component: () => import('../pages/developer/application/AppPackageBuild.vue')
+    },
+    {
+      path: '/appdPreview',
+      name: 'appdPreview',
+      component: () => import('../pages/developer/application/AppdPreview.vue')
+    },
+    {
+      path: '/deployConfig',
+      name: 'deployConfig',
+      component: () => import('../pages/mecm/DeployConfig.vue')
+    },
 
     ...routesclassic
   ],
