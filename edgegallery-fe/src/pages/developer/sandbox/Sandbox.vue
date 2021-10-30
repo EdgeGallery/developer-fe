@@ -227,18 +227,12 @@ export default {
 <style lang="less">
 .select-sandbox{
   width: 100%;
-  height: 100%;
   font-size: 20px;
-    .question{
-      width: 67px;
-      height: 67px;
-      margin: 2% 0 0 90%;
-  }
   .all-sandbox{
     width: 695px;
     padding: 20px 2%;
     min-height: 405px;
-    margin: 6% auto;
+    margin: 10% auto;
     background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
     background-size: 100% 100%;
     .sandbox-top{

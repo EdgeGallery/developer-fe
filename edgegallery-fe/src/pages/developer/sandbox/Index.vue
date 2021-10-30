@@ -61,17 +61,11 @@ export default {
 <style lang="less">
 .incubation{
   width: 100%;
-  height: 100%;
   font-size: 20px;
-  .question{
-    width: 67px;
-    height: 67px;
-    margin: 2% 0 0 90%;
-  }
   .sandbox{
     width: 344px;
     height: 420px;
-    margin: 6% auto;
+    margin: 10% auto;
     padding:170px   0;
     background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
     animation: scaleBox 4s  ease-in 0s infinite ;

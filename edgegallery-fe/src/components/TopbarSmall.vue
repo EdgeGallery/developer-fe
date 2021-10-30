@@ -135,19 +135,18 @@ export default {
   position: relative;
   overflow-y: auto;
   z-index: 9999;
-  width: calc(100% + 112px);
-  margin-left: -56px;
+  width: calc(100% + 142px);
+  margin-left: -71px;
   .el-menu{
-    background: rgba(0, 0, 0, 0.6);
     border-right: none;
-    .el-submenu.is-active, .el-menu-item.is-active{
-      background: rgba(0, 0, 0, 0.3);
+    .el-submenu.is-active, .el-menu-item.is-active, .el-menu-item:hover{
+      background: rgba(0, 0, 0, .6) !important;
       .first-menu{
-        color: #6c92fa;
+        color: #fff;
       }
     }
     .el-submenu__title{
-      background-color: rgba(0, 0, 0, 0.4) !important;
+      background-color: rgba(0, 0, 0, .4) !important;
     }
     .el-icon-arrow-down:before{
       color: #fff;

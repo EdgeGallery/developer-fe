@@ -22,15 +22,16 @@ import cnCapability from './capability_cn.js'
 import cnSandbox from './sandbox_cn.js'
 import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
+import cnMecm from './mecm_cn.js'
 const cn = {
   common: {
-    newVersion: '新版',
     classic: '经典版',
     operation: '操作',
     edit: '编辑',
     delete: '删除',
     cancel: '取消',
-    confirm: '确认'
+    confirm: '确认',
+    finish: '完成'
   },
   ...zhLocale,
   ...cnClassic,
@@ -39,6 +40,7 @@ const cn = {
   ...cnCapability,
   ...cnSandbox,
   ...cnImages,
-  ...cnAtp
+  ...cnAtp,
+  ...cnMecm
 }
 export default cn

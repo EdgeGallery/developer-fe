@@ -13,26 +13,693 @@
   -  See the License for the specific language governing permissions and
   -  limitations under the License.
   -->
+
 <template>
-  <div class="capability-center">
-    能力中心
+  <div class="capability">
+    <div class="prompt_content">
+      <div>
+        <img
+          src="../../../assets/images/capability/capability_tip.png"
+          class="tip"
+          alt=""
+        >
+        <p class="capabilityInfo fontUltraLight">
+          请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。如果是集成项目，或者您的项目不需要依赖其他服务，可以跳过该步骤继续创建。
+        </p>
+      </div>
+      <div class="upper-ability">
+        <label class="selected-service defaultFont">已选服务: </label>
+        <el-tag
+          v-for="tag in selectedService"
+          :key="tag.id"
+          :closable="isClosable"
+          style="margin-left: 10px;"
+        >
+          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name }}
+        </el-tag>
+      </div>
+    </div>
+    <h3 class="common-dlg-title">
+      能力选择
+    </h3>
+    <div class="api">
+      <div
+        v-loading="apiDataLoading"
+        v-if="hasService"
+        class="clear"
+      >
+        <div class="capability-left">
+          <el-tree
+            :check-strictly="true"
+            :render-after-expand="false"
+            accordion
+            lazy
+            highlight-current
+            icon-class="none"
+            class="capability-tree defaultFontLight"
+          >
+            <span
+              class="el-tree-node__label"
+            >
+              <el-tooltip
+                popper-class="atooltip"
+                class="item"
+                placement="right"
+              >
+                <span>
+                  <img
+                    class="oneLevelIcon"
+                    src=""
+                    alt=""
+                  > 规则 </span>
+              </el-tooltip>
+            </span>
+          </el-tree>
+        </div>
+        <div class="capability-right">
+          <div
+            class="swagger-wrapper"
+          >
+            <div class="service_div">
+              <p class="capability-top defaultFont">
+                API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url。
+              </p>
+              <p class="title ">
+                服务详情
+              </p>
+              <el-row class="service_info">
+                <el-col :span="12">
+                  <span class=""> 服务名称：</span>123
+                </el-col>
+                <el-col :span="12">
+                  <span class="">版本 ：</span>1.2
+                </el-col>
+              </el-row>
+              <el-row class="service_info">
+                <el-col :span="12">
+                  <span class="">发布时间 ：</span>2021-10-25
+                </el-col>
+                <el-col :span="12">
+                  <span class="">类型 ：</span>1235654
+                </el-col>
+              </el-row>
+              <el-row class="service_info">
+                <el-col :span="24">
+                  <span class="">SDK下载 ：</span>
+                  <el-select
+                    v-model="codeLanguage"
+                    name="codeLanguage"
+                    popper-class="setSelect"
+                    :popper-append-to-body="false"
+                    class="list-select defaultFont"
+                    size="mini"
+                  >
+                    <el-option
+                      v-for="item in optionsLanguage"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.label"
+                      :id="item.label"
+                    />
+                  </el-select>
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="item"
+                    content="SDK下载"
+                    placement="right"
+                  >
+                    <span>
+                      <el-link
+                        class="download_sdk"
+                        :underline="false"
+                        :href="downloadSDKApi()"
+                      />
+                    </span>
+                  </el-tooltip>
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="item"
+                    content="安装指导"
+                    placement="right"
+                  >
+                    <el-link
+                      :href="guideUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :underline="false"
+                      type="primary"
+                      class="guide_url"
+                    />
+                  </el-tooltip>
+                </el-col>
+              </el-row>
+            </div>
+            <div id="swagger-ui" />
+          </div>
+          <div
+            class="select_initialization"
+          >
+            <!-- <img
+              src="../../../assets/images/select_initialization.png"
+              alt="a"
+            > -->
+            <p class="select_initialization_text">
+              initialization
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="capability-publish">
+      <h3 class="common-dlg-title">
+        能力发布
+      </h3>
+      <el-table
+        class="common-table"
+        :data="filterTableData"
+        :cell-style="{ textAlign: 'center' }"
+        :header-cell-style="{textAlign: 'center'}"
+      >
+        <el-table-column
+          prop="ruleTag"
+          label="规则标识"
+        />
+        <el-table-column
+          prop="innerPort"
+          label="内部端口号"
+        />
+        <el-table-column
+          prop="version"
+          label="版本"
+        />
+        <el-table-column
+          prop="dnsRule"
+          label="DNS规则"
+        />
+        <el-table-column
+          prop="protocol"
+          label="协议"
+        />
+        <el-table-column
+          prop="trafficRule"
+          label="流量规则"
+        />
+        <el-table-column
+          :label="$t('common.operation')"
+          width="120px"
+        >
+          <template>
+            <el-button
+              type="text"
+              class="operation-btn-text"
+            >
+              {{ $t('common.edit') }}
+            </el-button>
+            <el-button
+              type="text"
+              class="operation-btn-text"
+            >
+              {{ $t('common.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="rt">
+      <el-button
+        class="common-btn"
+      >
+        取消
+      </el-button>
+      <el-button
+        class="common-btn"
+      >
+        确认
+      </el-button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: 'CapabilityCenter',
   data () {
     return {
-
+      codeLanguage: '',
+      optionsLanguage: [
+        {
+          value: 0,
+          label: 'JAVA'
+        },
+        {
+          value: 1,
+          label: 'Python'
+        },
+        {
+          value: 2,
+          label: 'Go'
+        }
+      ],
+      serviceDetail: {
+        id: '',
+        capabilityType: '',
+        serviceName: '',
+        serviceNameEn: '',
+        uploadTime: 0,
+        version: ''
+      },
+      isClosable: true,
+      selectedService: [
+        {
+          id: 1,
+          name: '位置服务'
+        },
+        {
+          id: 1,
+          name: '流量规则'
+        }
+      ],
+      defaultProps: {
+        children: 'children',
+        label: 'label',
+        isLeaf: 'leaf'
+      },
+      apiDataLoading: false,
+      treeData: [],
+      isExpandAll: false,
+      clickIsSelected: false,
+      defaultShowNodes: [],
+      defaultExpandKeys: [],
+      hasService: true,
+      showCheckbox: true,
+      guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md',
+      capabilityIcon: {
+        'Platform services': {
+          icon: require('../../../assets/images/capability/capability_icon2_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon2_select.png')
+        },
+        'Telecom network': {
+          icon: require('../../../assets/images/capability/capability_icon3_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon3_select.png')
+        },
+        'Ascend AI': {
+          icon: require('../../../assets/images/capability/capability_icon4_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon4_select.png')
+        },
+        'AI capabilities': {
+          icon: require('../../../assets/images/capability/capability_icon5_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon5_select.png')
+        },
+        'Video processing': {
+          icon: require('../../../assets/images/capability/capability_icon6_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon6_select.png')
+        },
+        'DateBase': {
+          icon: require('../../../assets/images/capability/capability_icon7_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon7_select.png')
+        },
+        'Public framework': {
+          icon: require('../../../assets/images/capability/capability_icon8_default.png'),
+          iconSelect: require('../../../assets/images/capability/capability_icon8_select.png')
+        }
+      },
+      treeLoad: {
+        node: null,
+        resolve: null
+      },
+      filterTableData: [
+        {
+          ruleTag: '1234567',
+          innerPort: '3022',
+          version: 'v1.205',
+          protocol: 'https',
+          dnsRule: 'asdf',
+          trafficRule: 'q23r'
+        }
+      ]
     }
   },
   methods: {
+    downloadSDKApi () {
+      return ''
+    }
+  },
+  watch: {
+
   },
   mounted () {
+
   }
 }
-</script>
 
+</script>
 <style lang="less">
+.capability{
+  .tip{
+    float: left;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    top: -6px;
+    margin-right: 10px;
+  }
+  .oneLevelIcon {
+    display: inline-block;
+    padding-right: 5px;
+    vertical-align: middle;
+  }
+  .capabilityInfo{
+    font-size: 16px;
+    letter-spacing: 1px;
+    line-height: 24.07px;
+  }
+  .upper-ability{
+    min-height:35px !important;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    margin-right: 13px;
+    clear: both;
+  }
+  .selected-service{
+    font-size: 16px;
+  }
+  .el-tag .el-icon-close {
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    margin-right: -12px;
+    line-height: 20px;
+    vertical-align: middle;
+    top: -15px;
+    background-color: red;
+    right: -4px;
+  }
+  .el-select-dropdown__item{
+    font-size: 12px;
+  }
+  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+    background-color: #efeef5;
+    color: #5844be;
+    border: 0px;
+  }
+  .el-select-dropdown__item.selected {
+    color: #5844be;
+    font-weight: normal;
+  }
+  .el-icon-close:before {
+    color: #fbf8f8 !important;
+  }
+  .el-tree-node .el-tree-node__content .el-tree-node__label{
+    font-size: 20px !important;
+  }
+  .el-tree-node .el-tree-node__children .el-tree-node__content .el-tree-node__label{
+    font-size: 16px !important;
+  }
+  .el-tree-node:focus>.el-tree-node__content{
+    background-color: #e6e8f3 !important;
+    color: #409eff !important;
+  }
+  .el-tag--light{
+    background-color: rgba(255,225,255,0.3) !important;
+    height: 33px !important;
+    white-space: pre;
+    padding: 0 16px !important;
+    line-height: 30px !important;
+    font-size: 14px !important;
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    border: none!important;
+  }
+  .el-select-dropdown{
+    border-radius: 8px;
+  }
+  .atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
+    border-right-color: #5e40c8;
+  }
+  .atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow:after {
+    border-right-color: #5e40c8;
+  }
+  .atooltip {
+    background: #5e40c8 !important;
+  }
+
+  .api{
+    border: 1px solid #ddd;
+    background: url('../../../assets/images/capability/capability_bg.png');
+    background-size: cover;
+    border-radius: 16px;
+    height: 320px;
+    margin-right: 2%;
+    color: #fff;
+    .capability-left{
+      float: left;
+      width: 20%;
+    }
+    .capability-right{
+      float: left;
+      width: 80%;
+      border-radius: 16px;
+      padding: 25px 0px 0 0;
+      height: 320px;
+      .select_initialization{
+        padding-top: 100px;
+        text-align: center;
+        .select_initialization_text{
+          padding-top: 5px;
+          font-size: 12px;
+          color: #7a6e8a;
+        }
+      }
+    }
+    .capability-tree{
+      max-height: 445px;
+      width: 269px;
+      overflow: scroll;
+      display: inline-block;
+      border-radius: 16px 0 0 0px;
+      .el-tree-node__label {
+        font-size:20px;
+        color: #7a6e8a;
+      }
+    }
+    .capability-tree::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
+    .el-tree-node__children>.el-tree-node .el-tooltip.item {
+      display:inline-block;
+      width: 115px !important;
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-top: 10px;
+    }
+    .el-tree{
+      background-color:transparent;
+      padding-top: 12px;
+    }
+    .el-tree-node__content {
+      padding-left: 23px !important;
+    }
+    .el-tree-node__expand-icon.is-leaf {
+      padding-left: 54px!important;
+    }
+    .el-tree-node__children {
+      .el-tree-node.is-expanded.is-focusable {
+        padding-right: 0px;
+        padding-bottom: 0px;
+      }
+    }
+    .el-tree-node__children>.el-tree-node {
+      padding-top: 0px;
+      height: 35px;
+      .el-tree-node__content {
+        height: 35px;
+      }
+    }
+
+    .el-tree-node .el-tree-node__content {
+      height: 48px;
+    }
+    .el-tree-node.is-expanded.is-focusable {
+      padding-right: 51px;
+      padding-bottom: 15px;
+      border-radius: 0 26px 26px 0;
+      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+    }
+    .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+      background-color: transparent !important;
+      border-radius: 0 26px 26px 0;
+    }
+    .el-tree-node__children .el-tree-node.is-current>.el-tree-node__content {
+      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+    .el-tree-node__children>.el-tree-node>.el-tree-node__content:hover {
+      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+    .el-tree-node__children>.el-tree-node.is-current>.el-tree-node__content:hover {
+      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+    .el-tree-node__content:hover {
+      border-radius: 0 26px 26px 0;
+      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+    }
+    .el-tree-node.is-current>.el-tree-node__content:hover {
+      border-radius: 0 26px 26px 0;
+      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+    }
+
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+      border-color: #55d8bf;
+      background-color: #55d8bf;
+    }
+
+    .el-checkbox__input .el-checkbox__inner{
+      border-color: #a19aac;
+      background-color: #ffffff;
+    }
+    .el-checkbox__inner:hover {
+      border-color: #a19aac;
+      background-color: #ffffff;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner::after {
+      display: none;
+    }
+    .setSelect {
+      .el-scrollbar__view .el-select-dropdown__item:nth-child(2){
+        border-top: 1px solid #efeef5;
+        border-bottom: 1px solid #efeef5;
+      }
+    }
+    .swagger-wrapper {
+      height: 100%;
+      overflow-y: auto;
+      width: 100%;
+    }
+    .swagger-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
+
+    #swagger-ui{
+      width: 100%;
+      height: auto !important;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      margin-top: 20px;
+      .swagger-ui{
+        width: 575px;
+      }
+      .swagger-ui .info{
+        margin: -25px 0;
+      }
+    }
+    .service_div{
+      padding-left: 20px;
+      .capability-top{
+        line-height: 25px;
+        font-size: 14px;
+        letter-spacing: 1.5px;
+        padding-right: 16px;
+      }
+      .service_info{
+        span{
+          font-size: 14px;
+        }
+      }
+      .title{
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 0px;
+        letter-spacing: 1.5px;
+      }
+      .el-row{
+        font-size: 14px;
+        .el-col{
+          padding-top: 5px;
+          padding-left: 0px;
+        }
+        .el-select{
+          width: 80px;
+          .el-input__icon{
+            width: 15px;
+            line-height: 22px;
+          }
+          .el-input__inner{
+            padding: 0 6px;
+          }
+          .el-input--suffix .el-input__inner{
+            padding-right: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            width: 80px;
+            color: #5844be;
+            height: 22px !important;
+            line-height: 22px !important;
+          }
+        }
+      }
+      .download_sdk{
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url('../../../assets/images/capability/capability_download.png') center center no-repeat;
+        background-color: #5e40c8;
+        border-radius: 50%;
+        margin-left: 14px;
+      }
+      .guide_url{
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url('../../../assets/images/capability/capability_guide.png') center center no-repeat;
+        background-color: #5e40c8;
+        border-radius: 50%;
+        margin-left: 5px;
+        margin-top: 1px;
+      }
+    }
+    .no_service{
+      text-align: center;
+      line-height: 25px;
+      img{
+        width: 50%;
+        max-width: 445px;
+      }
+    }
+    .el-popper[x-placement^="bottom"] {
+      margin-top: 12px;
+      border-radius: 8px;
+    }
+    .el-tree-node {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      .is-leaf + .el-checkbox .el-checkbox__inner {
+        display:inline-block;
+      }
+      .el-checkbox__input> .el-checkbox__inner {
+        display:none;
+      }
+    }
+    @media screen and (max-width: 1380px){
+      .no_service{
+        img{
+          width: 80%;
+          max-width: 445px;
+        }
+      }
+    }
+  }
+}
+.el-icon-arrow-up:before{
+  color: #5e40c8;
+}
+.capability-publish{
+  clear: both;
+}
 </style>
