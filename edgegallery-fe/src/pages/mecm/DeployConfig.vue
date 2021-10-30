@@ -17,7 +17,7 @@
 <template>
   <div class="deploy-config">
     <div class="common-div-bg deploy-config-warraper">
-      <h3 class="rules-title title">
+      <h3 class="rules-title">
         部署配置
       </h3>
       <div class="deploy-config-content">
