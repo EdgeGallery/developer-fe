@@ -22,7 +22,6 @@ import enCapability from './capability_en.js'
 import enSandbox from './sandbox_en.js'
 import enImages from './images_en.js'
 import enAtp from './atp_en.js'
-import enMecm from './mecm_en.js'
 const en = {
   common: {
     classic: 'Classic',
@@ -30,7 +29,8 @@ const en = {
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+    finish: 'Finish'
   },
   ...enLocale,
   ...enClassic,
@@ -39,7 +39,6 @@ const en = {
   ...enCapability,
   ...enSandbox,
   ...enImages,
-  ...enAtp,
-  ...enMecm
+  ...enAtp
 }
 export default en

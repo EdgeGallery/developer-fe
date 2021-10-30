@@ -59,30 +59,11 @@ export default new Router({
       path: '/test-process',
       name: 'testProcess',
       component: () => import('../pages/developer/atp/TestProcess.vue')
-    }, {
-      path: '/test-report',
-      name: 'testReport',
-      component: () => import('../pages/developer/atp/TestReport.vue')
     },
     {
       path: '/sandboxDetail',
       name: 'sandboxDetail',
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
-    },
-    {
-      path: '/appDeployDetail',
-      name: 'appDeployDetail',
-      component: () => import('../pages/mecm/AppDeployDetailList.vue')
-    },
-    {
-      path: '/distributeDeploy',
-      name: 'distributeDeploy',
-      component: () => import('../pages/mecm/DistributeDeploy.vue')
-    },
-    {
-      path: '/distribute',
-      name: 'distribute',
-      component: () => import('../pages/mecm/Distribute.vue')
     },
 
     ...routesclassic

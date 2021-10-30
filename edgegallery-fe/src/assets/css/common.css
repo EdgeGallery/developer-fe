@@ -982,6 +982,14 @@ th{
 .common-workflow img{
   margin: 0 auto;
 }
+.question{
+  width: 67px;
+  height: 67px;
+  position: absolute;
+  top: 2%;
+  right: 10%;
+  margin: 2% 10% 0 0;
+}
 .test-btn.el-button{
   border: 1px solid #0F0D87;
   background-color: transparent;

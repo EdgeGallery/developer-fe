@@ -47,7 +47,7 @@
           <div class="left">
             <div class="left-text">
               <img
-                src="../../../assets/images/atp/select_scene_icon.png"
+                src="../../../assets/images/atp/selectsceneIcon.png"
                 alt=""
                 style="margin-right:10px;"
               >
@@ -129,23 +129,23 @@
                       <template slot-scope="scope">
                         <img
                           v-if="scope.row.result=='success'"
-                          src="../../../assets/images/atp/success_icon.png"
+                          src="../../../assets/images/atp/successicon.png"
                           alt=""
                         >
                         <img
                           v-else-if="scope.row.result=='failed'"
-                          src="../../../assets/images/atp/fail_icon.png"
+                          src="../../../assets/images/atp/failicon.png"
                           alt=""
                         >
                         <img
                           v-else-if="scope.row.result=='running'"
-                          src="../../../assets/images/atp/testing_icon.png"
+                          src="../../../assets/images/atp/testingicon.png"
                           alt=""
                           class="icon-loading"
                         >
                         <img
                           v-else
-                          src="../../../assets/images/atp/wait_icon.png"
+                          src="../../../assets/images/atp/waiticon.png"
                           alt=""
                         >
                         {{ language==='cn'?scope.row.nameCh:scope.row.nameEn }}
@@ -736,7 +736,7 @@ export default {
             width:20px;
             height:20px;
             margin-right: 10px;
-            background-image: url('../../../assets/images/atp/test_failed.png');
+            background-image: url('../../../assets/images/atp/testFailed.png');
             background-position: center;
             background-size: 100% 100%;
             position: absolute;
@@ -749,7 +749,7 @@ export default {
             width:20px;
             height:20px;
             margin-right: 10px;
-            background-image: url('../../../assets/images/atp/test_successful.png');
+            background-image: url('../../../assets/images/atp/testSuccessful.png');
             background-position: center;
             background-size: 100% 100%;
             position: absolute;
