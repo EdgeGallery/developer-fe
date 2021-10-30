@@ -117,6 +117,7 @@
                       alt=""
                       class=" hoverHands"
                       :class="btnDetail === false ? 'img-onlyRead':''"
+                      @click="checkVmDetail"
                     >
                   </el-tooltip>
                 </div>
@@ -278,17 +279,23 @@
       @editNetwork="editNetwork"
     />
     <AddVm v-if="showContent==='showAddVm'" />
+    <VmDetail
+      v-if="showContent==='showVmDetail'"
+      @closeVmDetail="closeVmDetail"
+    />
   </div>
 </template>
 
 <script>
 import ConfigNetwork from './ConfigNetwork.vue'
 import AddVm from './AddVm.vue'
+import VmDetail from './VmDetail.vue'
 export default {
   name: '',
   components: {
     ConfigNetwork,
-    AddVm
+    AddVm,
+    VmDetail
   },
   data () {
     return {
@@ -314,6 +321,12 @@ export default {
     },
     editNetwork (data) {
       this.showContent = 'showDetail'
+    },
+    checkVmDetail () {
+      this.showContent = 'showVmDetail'
+    },
+    closeVmDetail () {
+      this.showContent = 'showDetail'
     }
   },
   mounted () {
@@ -337,11 +350,6 @@ export default {
       text-align: center;
       letter-spacing: 4px;
       background: url('../../../assets/images/sandbox/detail-title.png') no-repeat center;
-    }
-    .question{
-      width: 67px;
-      height: 67px;
-      margin: 2% 10% 0 0;
     }
   }
   .detail-center{

@@ -982,3 +982,8 @@ th{
 .common-workflow img{
   margin: 0 auto;
 }
+.question{
+  width: 67px;
+  height: 67px;
+  margin: 2% 10% 0 0;
+}
