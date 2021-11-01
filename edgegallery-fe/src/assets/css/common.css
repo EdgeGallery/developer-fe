@@ -1001,3 +1001,12 @@ th{
   padding: 12px 30px;
   color: #0F0D87;
 }
+.common-input .el-input__inner{
+  width: 180px;
+  color: #fff;
+  background-color: rgba(255,255,255,.45);
+  border: none;
+}
+input::-webkit-input-placeholder {
+  color: rgba(255,255,255,.7) !important;
+}

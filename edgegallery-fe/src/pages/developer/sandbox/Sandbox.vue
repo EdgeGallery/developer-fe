@@ -215,7 +215,7 @@ export default {
     },
     selectFinish () {
       this.sandboxName = this.sandbox[this.activeItem].name
-      this.$router.push({ path: '/sandbox' })
+      this.$emit('returnSelectSandbox', this.sandboxName)
       sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     }
   },
