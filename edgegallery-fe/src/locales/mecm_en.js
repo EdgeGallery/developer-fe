@@ -40,7 +40,8 @@ const en = {
     status: 'Status',
     delete: 'Delete',
     distribute: 'Distribute',
-    deploy: 'Deploy'
+    deploy: 'Deploy',
+    distributeDeploySuccess: 'Distribute & Deploy Success'
   },
   distribute: {
     title: 'distribute',
