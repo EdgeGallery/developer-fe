@@ -65,7 +65,7 @@ export default new Router({
       component: () => import('../pages/developer/atp/TestReport.vue')
     },
     {
-      path: '/sandboxDetail',
+      path: '/sandbox-detail',
       name: 'sandboxDetail',
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },
@@ -83,6 +83,21 @@ export default new Router({
       path: '/distribute',
       name: 'distribute',
       component: () => import('../pages/mecm/Distribute.vue')
+    },
+    {
+      path: '/appPackageBuild',
+      name: 'appPackageBuild',
+      component: () => import('../pages/developer/application/AppPackageBuild.vue')
+    },
+    {
+      path: '/appdPreview',
+      name: 'appdPreview',
+      component: () => import('../pages/developer/application/AppdPreview.vue')
+    },
+    {
+      path: '/deployConfig',
+      name: 'deployConfig',
+      component: () => import('../pages/mecm/DeployConfig.vue')
     },
 
     ...routesclassic

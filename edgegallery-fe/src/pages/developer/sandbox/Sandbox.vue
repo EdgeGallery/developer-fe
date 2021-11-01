@@ -39,7 +39,7 @@
           <div class="sandbox-content">
             <img
               class="select-img"
-              :src="activeItem === index?selectedImg:unselectedImg"
+              :src="activeItem === index ? require('@/assets/images/sandbox/selected.png'): require('@/assets/images/sandbox/unselected.png')"
               alt=""
             >
             <img
@@ -135,10 +135,9 @@
 </template>
 
 <script>
-import selectedImg from '@/assets/images/sandbox/selected.png'
-import unselectedImg from '@/assets/images/sandbox/unselected.png'
+
 export default {
-  name: '',
+  name: 'SandboxFrame',
   data () {
     return {
       sandbox: [
@@ -184,8 +183,6 @@ export default {
         }
       ],
       activeItem: '',
-      selectedImg: selectedImg,
-      unselectedImg: unselectedImg,
       isSelected: false,
       isSandbox: true,
       sandboxDetails: {},
@@ -218,7 +215,7 @@ export default {
     },
     selectFinish () {
       this.sandboxName = this.sandbox[this.activeItem].name
-      this.$router.push({ path: '/sandbox' })
+      this.$emit('returnSelectSandbox', this.sandboxName)
       sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     }
   },
@@ -262,7 +259,7 @@ export default {
       .one-sandbox{
         width: 98px;
         height: 168px;
-        margin: 0 5% 40px 4%;
+        margin: 0 24px 40px 32px;
        .sandbox-content{
           height: 168px;
           width: 100%;

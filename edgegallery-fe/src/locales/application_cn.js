@@ -32,7 +32,11 @@ const cn = {
     protocol: '协议',
     dnaRule: 'DNA规则',
     appdPreview: 'APPD预览',
-    build: '打包'
+    build: '打包',
+    packFinished: '打包完成',
+    packFinishedTip: '认证前系统会默认释放虚拟机资源，释放后将不可再返回修改',
+    packBack: '返回',
+    packAuthentication: '认证'
   }
 }
 export default cn

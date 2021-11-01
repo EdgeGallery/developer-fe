@@ -16,23 +16,23 @@
 <template>
   <div class="detail">
     <div v-if="showContent==='showDetail'">
-      <div class="detail-top">
+      <div class="detail-top clear">
         <div class="detail-top-title lt">
           {{ detailTitle }}
         </div>
         <img
           src="../../../assets/images/sandbox/question.png"
           alt=""
-          class="question hoverHands rt"
+          class="question hoverHands"
         >
       </div>
       <div
         class="detail-center"
-        :class="{'deploy-detail-center':changeStyle===false}"
+        :class="{'deploy-detail-center':isChangeStyle===false}"
       >
         <div
           class="detail-center-bg flex-center"
-          v-if="changeStyle"
+          v-if="isChangeStyle"
         >
           <img
             src="../../../assets/images/sandbox/mec_img.png"
@@ -59,112 +59,148 @@
           <div class="details-center">
             <div class="details-center-deploy">
               <div class="details-center-deploy-img">
-                <div class="lt deploy-img ">
-                  <div class="edit-bg">
+                <div
+                  class="lt deploy-img flex-center"
+                >
+                  <img
+                    class="deploy-img-center"
+                    :class="{'deploy-img-center-finish':configNetworkFinish===true}"
+                    src="../../../assets/images/sandbox/deploy_img.png"
+                    alt=""
+                  >
+                  <el-tooltip
+                    class="item edit-tooltip"
+                    effect="light"
+                    content="编辑"
+                    placement="bottom-start"
+                  >
+                    <img
+                      src="../../../assets/images/sandbox/edit.png"
+                      alt=""
+                      class="hoverHands deploy-edit"
+                      @click="selectNet"
+                    >
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="deploy-title">
+                配置网络
+              </div>
+            </div>
+            <ul
+              class="netLine"
+              v-if="!isAddVmFinish"
+            >
+              <li
+                class="oneNet"
+                v-for="(item,index) in netNum"
+                :key="index"
+              />
+            </ul>
+            <NetScroll
+              v-else
+              class="netLine-list"
+            />
+            <div class="details-center-vm">
+              <div
+                class="flex-center details-center-vm-img"
+              >
+                <img
+                  class="vm-center-img"
+                  :class="{'vm-center-img-finish':isAddVmFinish === true}"
+                  src="../../../assets/images/sandbox/vm_img.png"
+                  alt=""
+                >
+                <div class="vm-bg">
+                  <div class="vm-btn flex-center vm-btn-add">
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
-                      content="编辑"
+                      content="添加"
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/edit.png"
+                        src="../../../assets/images/sandbox/vm-add.png"
                         alt=""
                         class=" hoverHands"
-                        @click="selectNet"
+                        @click="addVm"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div
+                    class="vm-btn flex-center vm-btn-detail"
+                  >
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="详情"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-detail.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="isAddVmFinish === false ? 'img-onlyRead':''"
+                        @click="checkVmDetail"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div class="vm-btn flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="登录"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-login.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="isStartupVmFinish === false ? 'img-onlyRead':''"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div class="vm-btn flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="上传"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-upload.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="isStartupVmFinish === false ? 'img-onlyRead':''"
+                      >
+                    </el-tooltip>
+                  </div>
+                  <div class="vm-btn-start vm-btn flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="启动"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/vm-start.png"
+                        alt=""
+                        class=" hoverHands"
+                        :class="isBtnStart === false ? 'img-onlyRead':''"
+                        @click="startUpVm"
                       >
                     </el-tooltip>
                   </div>
                 </div>
-                <img
-                  src="../../../assets/images/sandbox/internet_num3.png"
-                  alt=""
-                  class="lt internet-num"
-                >
-              </div>
-              <div class="deploy-title title-margin">
-                配置网络
-              </div>
-            </div>
-            <div class="details-center-vm">
-              <div class="vm-bg">
-                <div class="vm-btn flex-center vm-btn-add">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="添加"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-add.png"
-                      alt=""
-                      class=" hoverHands"
-                      @click="addVm"
-                    >
-                  </el-tooltip>
-                </div>
                 <div
-                  class="vm-btn flex-center vm-btn-detail"
+                  class="vmStatus"
+                  v-if="isStartupVm"
+                  :class="{'vmStatus':isAddVmFinish === false}"
                 >
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="详情"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-detail.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnDetail === false ? 'img-onlyRead':''"
-                      @click="checkVmDetail"
-                    >
-                  </el-tooltip>
-                </div>
-                <div class="vm-btn flex-center">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="登录"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-login.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnLogin === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
-                </div>
-                <div class="vm-btn flex-center">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="上传"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-upload.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnUpload === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
-                </div>
-                <div class="vm-btn-start vm-btn flex-center">
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="启动"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/vm-start.png"
-                      alt=""
-                      class=" hoverHands"
-                      :class="btnStart === false ? 'img-onlyRead':''"
-                    >
-                  </el-tooltip>
+                  <div class="bounce1" />
+                  <div class="bounce2" />
+                  <div class="bounce3" />
+                  <div class="bounce4" />
                 </div>
               </div>
               <p class="deploy-title">
@@ -176,14 +212,17 @@
             <p class="details-bottom-title lt">
               5G MEC
             </p>
-            <el-button class="details-bottom-btn rt">
-              完成
+            <el-button
+              class="common-btn rt"
+              :disabled="!this.isStartupVmFinish"
+            >
+              {{ $t('common.finish') }}
             </el-button>
           </div>
         </div>
         <div
           class="detail-center-name"
-          :class="{'hide-div':changeStyle===false}"
+          :class="{'hide-div':isChangeStyle===false}"
         >
           5G MEC
         </div>
@@ -191,12 +230,12 @@
           src="../../../assets/images/sandbox/failed_line.png"
           alt=""
           class="detail-center-line"
-          :class="{'scale-small-line':changeStyle===false}"
+          :class="{'scale-small-line':isChangeStyle===false}"
         >
       </div>
       <div
         class="detail-bottom"
-        :class="{'scale-small':changeStyle===false}"
+        :class="{'scale-small':isChangeStyle===false}"
       >
         <div class="detail-bottom-one">
           <img
@@ -228,7 +267,7 @@
         >
         <div
           class="detail-bottom-one"
-          v-if="changeStyle"
+          v-if="isChangeStyle"
         >
           <img
             src="../../../assets/images/sandbox/edge.png"
@@ -241,6 +280,7 @@
         <div
           v-else
           class="edgePuf"
+          @click="addApplicationRules"
         >
           <p>边缘UPF</p>
         </div>
@@ -274,11 +314,14 @@
         </div>
       </div>
     </div>
+    <AddVm
+      v-if="showContent==='showAddVm'"
+      @addVmFinish="addVmFinish"
+    />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
       @editNetwork="editNetwork"
     />
-    <AddVm v-if="showContent==='showAddVm'" />
     <VmDetail
       v-if="showContent==='showVmDetail'"
       @closeVmDetail="closeVmDetail"
@@ -289,29 +332,33 @@
 <script>
 import ConfigNetwork from './ConfigNetwork.vue'
 import AddVm from './AddVm.vue'
+import NetScroll from './NetScroll.vue'
 import VmDetail from './VmDetail.vue'
 export default {
-  name: '',
+  name: 'SandboxDetail',
   components: {
     ConfigNetwork,
     AddVm,
+    NetScroll,
     VmDetail
   },
   data () {
     return {
       detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
-      changeStyle: true,
+      isChangeStyle: true,
       showContent: 'showDetail',
-      addvm: true,
-      btnDetail: false,
-      btnUpload: false,
-      btnLogin: false,
-      btnStart: false
+      isBtnDetail: false,
+      isBtnStart: false,
+      isAddVmFinish: false,
+      configNetworkFinish: false,
+      isStartupVm: false,
+      isStartupVmFinish: false,
+      netNum: 3
     }
   },
   methods: {
     deployInternet () {
-      this.changeStyle = false
+      this.isChangeStyle = false
     },
     selectNet () {
       this.showContent = 'showConfigNetwork'
@@ -319,17 +366,43 @@ export default {
     addVm () {
       this.showContent = 'showAddVm'
     },
+    addVmFinish (data) {
+      if (data === 'confirm') {
+        this.isBtnStart = true
+        this.isAddVmFinish = true
+        this.configNetworkFinish = true
+      }
+      this.showContent = 'showDetail'
+    },
     editNetwork (data) {
       this.showContent = 'showDetail'
+      if (data && data.length > 0) {
+        this.configNetworkFinish = true
+        this.netNum = data.length
+      }
     },
     checkVmDetail () {
       this.showContent = 'showVmDetail'
     },
     closeVmDetail () {
       this.showContent = 'showDetail'
+    },
+    startUpVm () {
+      this.isStartupVm = true
+      let _timer = setTimeout(() => {
+        this.isStartupVmFinish = true
+        this.isStartupVm = false
+        clearTimeout(_timer)
+      }, 3000)
+    },
+    addApplicationRules () {
+      this.$router.push('/application-rules')
     }
   },
+  computed: {
+  },
   mounted () {
+
   }
 }
 </script>
@@ -351,17 +424,11 @@ export default {
       letter-spacing: 4px;
       background: url('../../../assets/images/sandbox/detail-title.png') no-repeat center;
     }
-    .question{
-      width: 67px;
-      height: 67px;
-      margin: 2% 10% 0 0;
-    }
   }
   .detail-center{
-    padding-top:140px ;
-    margin: 0px auto;
+    margin: 30px auto 0;
     width: 259px;
-    height: 234px;
+    height: 350px;
     .detail-center-bg{
       position: relative;
         width: 259px;
@@ -395,7 +462,7 @@ export default {
   .detail-bottom{
       display: flex;
       align-items: center;
-      margin: 260px auto;
+      margin: 10px auto 0;
       width: 1140px;
     .detail-bottom-one{
       p{
@@ -410,12 +477,13 @@ export default {
     }
   }
   .deploy-detail-center{
-    width: 688px;
-    height: 460px;
-    transition: all  1s;
+    width: 694px;
+    height: 464px;
+    transition: all  0.4s;
     .deploy-detail-bg{
-      width: 688px;
-      height: 460px;
+      width: 694px;
+      height: 464px;
+      max-height: 100%;
       padding: 40px 40px;
       background: url('../../../assets/images/sandbox/detail_center_bg.png') no-repeat;
       .details-top{
@@ -434,48 +502,79 @@ export default {
       }
       .details-center{
         display: flex;
-        justify-content: space-around;
         padding-top: 60px;
+        margin: 0 60px;
         .details-center-deploy{
           display: flex;
           flex-direction: column;
-          margin-right: 100px;
           .details-center-deploy-img{
             .deploy-img{
               width: 150px;
               height: 150px;
-              border-radius:50% ;
               background-image: url('../../../assets/images/sandbox/deploy_internet.png');
-             .edit-bg{
-               width: 150px;
-               height: 150px;
-               display: none;
-               background-image: url('../../../assets/images/sandbox/edit_bg.png');
+             .deploy-img-center{
+               width: 96px;
+               height: 96px;
+               opacity: 0.1;
+               position:absolute;
+              }
+              .deploy-img-center-finish{
+                opacity: 1;
+              }
+              .deploy-edit{
+                position: relative;
+                display: none;
               }
             }
             .deploy-img:hover{
-              .edit-bg{
+              border-radius:20px ;
+              background-color: rgba(10, 9, 54, 0.5);
+              .deploy-img-center{
+               opacity: 0.02;
+              }
+              .deploy-edit{
                 display: block;
-                display: flex;
-                justify-content: center;
-                align-items: center;
               }
             }
             .internet-num{
               margin: 30px 0 0 10px;
             }
           }
-          .title-margin{
-            margin-left: -26px;
-          }
+        }
+        .netLine{
+          width: 154px;
+          height: 100px;
+          margin: 32px 16px 0 16px;
+          overflow: hidden;
+            li{
+              width: 8px;
+              height:8px;
+              border-radius:50%;
+              background-color: #fff;
+              margin-bottom: 18px;
+            }
+        }
+        .netLine-list{
+          margin: 30px 16px 0 16px;
         }
         .details-center-vm{
+          position: relative;
+          .vm-center-img{
+            position:absolute;
+            width: 96px;
+            height: 96px;
+            opacity: 0.1;
+          }
+          .vm-center-img-finish{
+                opacity: 1;
+          }
           .vm-bg{
             width: 150px;
             height: 150px;
-            background-image: url('../../../assets/images/sandbox/vm-bg.png');
+            background-image: url('../../../assets/images/sandbox/deploy_internet.png');
             display: flex;
             flex-wrap: wrap;
+            position: relative;
             .vm-btn{
               display: none;
               width: 75px;
@@ -515,6 +614,46 @@ export default {
               }
             }
           }
+          .vmStatus{
+            position: absolute;
+            top: 124px;
+            .bounce1 {
+              animation-delay: -0.48s;
+            }
+            .bounce2 {
+              animation-delay: -0.32s;
+            }
+            .bounce3 {
+              animation-delay: -0.16s;
+            }
+          }
+           .vmStatus > div {
+              width: 6px;
+              height: 6px;
+              margin-right: 4px;
+              background-color: #42F6AC;
+              border-radius: 100%;
+              display: inline-block;
+              animation: bouncedelay 1.4s infinite ease-in-out;
+              animation-fill-mode: both;
+            }
+            @keyframes bouncedelay {
+              0%, 80%, 100% {
+                transform: scale(0.0);
+              } 40% {
+                transform: scale(1.0);
+              }
+            }
+        }
+        .details-center-vm-img:hover{
+          .vmStatus{
+            display: none;
+          }
+        }
+        .details-center-vm:hover{
+          .vm-center-img{
+            opacity: 0.1;
+          }
         }
         .deploy-title{
           text-align: center;
@@ -529,13 +668,6 @@ export default {
           font-weight:bold;
           opacity: 0.5;
         }
-        .details-bottom-btn{
-          width: 88px;
-          height: 30px;
-          margin-top: 20px;
-          border-radius:12px ;
-          background-color: #BCB6D7;
-        }
       }
     }
   }
@@ -543,8 +675,8 @@ export default {
     display: none;
   }
   .scale-small{
-    transform: translate(-64px,-65px);
-    transition: all 1s ;
+    transform: translate(-64px,50px);
+    transition: all 0.4s ;
     height: 130px;
     .detail-bottom-one{
       width: 120px;
@@ -564,6 +696,7 @@ export default {
       width: 109px;
       height: 109px;
       margin: 40px 10px 0 40px;
+      cursor: pointer;
       background-image: url('../../../assets/images/sandbox/edgePuf.png');
       p{
         text-align: center;
@@ -573,7 +706,7 @@ export default {
   }
   .scale-small-line{
     transform: translate(-250px,-10px) scale(0.7);
-    transition: all  1s;
+    transition: all  0.4s;
   }
 }
 </style>

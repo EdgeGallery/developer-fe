@@ -806,6 +806,10 @@
   margin-top: 10px;
   font-weight: 400;
 }
+.common-dark-btn{
+  color: #fff;
+  background-color: #60569A;
+}
 .common-cancel-btn{
   padding: 6px 24px;
   color: #fff;
@@ -1031,8 +1035,31 @@ th{
   color: #0F0D87;
 }
 .test-light-btn.el-button{
-  border: 1px solid #0F0D87;
   background-image: linear-gradient(127deg,#FFFFFF,#D7E2FF);
   padding: 12px 30px;
   color: #0F0D87;
+}
+.common-input .el-input__inner{
+  width: 180px;
+  color: #fff;
+  background-color: rgba(255,255,255,.45);
+  border: none;
+}
+input::-webkit-input-placeholder {
+  color: rgba(255,255,255,.7) !important;
+}
+.title-icon{
+  font-size: 16px;
+}
+.title-icon::before{
+  content: '';
+  display:inline-block;
+  width:9px;
+  height:9px;
+  border-radius: 50%;
+  margin-right: 11px;
+  background-color: #76E1E9;
+  position: absolute;
+  top: 8px;
+  left: -18px;
 }

@@ -15,42 +15,58 @@
   -->
 <template>
   <div class="incubation">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
-    <div
-      class="sandbox hoverHands"
-      @click="toSelectSandbox"
-    >
-      <p
-        class="sandbox-name-cn"
+    <div v-if="!isCheckSandboxList">
+      <img
+        src="../../../assets/images/sandbox/question.png"
+        alt=""
+        class="question hoverHands"
       >
-        {{ selectSandbox }}
-      </p>
-      <p class="sandbox-name-en">
-        SANDBOX
-      </p>
+      <div
+        class="sandbox hoverHands"
+        @click="toSelectSandbox"
+      >
+        <p
+          class="sandbox-name-cn"
+        >
+          {{ selectSandbox }}
+        </p>
+        <p class="sandbox-name-en">
+          SANDBOX
+        </p>
+      </div>
     </div>
+    <SandBoxList
+      v-else
+      @returnSelectSandbox="returnSelectSandbox"
+    />
   </div>
 </template>
 
 <script>
+import SandBoxList from './Sandbox.vue'
 export default {
-  name: '',
+  name: 'SandBox',
+  components: {
+    SandBoxList
+  },
   data () {
     return {
-      selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || 'selectSandbox'
+      selectSandbox: '选择沙箱',
+      isCheckSandboxList: false
     }
   },
   methods: {
     toSelectSandbox () {
-      if (this.selectSandbox === 'selectSandbox') {
-        this.$router.push({ path: '/sandboxFrame' })
+      if (this.selectSandbox === '选择沙箱') {
+        this.isCheckSandboxList = true
       } else {
-        this.$router.push({ path: '/sandboxDetail' })
+        this.isCheckSandboxList = false
+        this.$router.push({ path: '/sandbox-detail' })
       }
+    },
+    returnSelectSandbox (data) {
+      this.selectSandbox = data
+      this.isCheckSandboxList = false
     }
   },
   mounted () {
