@@ -40,7 +40,8 @@ const cn = {
     status: '状态',
     delete: '删除',
     distribute: '分发',
-    deploy: '部署'
+    deploy: '部署',
+    distributeDeploySuccess: '分发部署成功'
   },
   distribute: {
     title: '分发',

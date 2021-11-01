@@ -87,8 +87,7 @@ export default {
   .main-content{
     width: 100%;
     height: 100%;
-    background: url('../../assets/images/index/index_bg.png') no-repeat center;
-    background-size: cover;
+    background: url('../../assets/images/index/index_circle_bg.png') no-repeat 4% 28%;
     position: relative;
     z-index: 10;
     .main-content-left{
@@ -106,7 +105,7 @@ export default {
       .mian-sub-title{
         font-size: 20px;
         margin-top: 40px;
-        letter-spacing: 20px;
+        letter-spacing: 25px;
       }
     }
     .main-content-right{
