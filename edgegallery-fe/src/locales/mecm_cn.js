@@ -23,7 +23,7 @@ const cn = {
     operation: '操作',
     tip: '输入名称搜索',
     cancel: '取消',
-    confirm: '确认'
+    confirm: '确认',
   },
   deployList: {
     deployListTitle: '应用部署',
@@ -40,7 +40,8 @@ const cn = {
     status: '状态',
     delete: '删除',
     distribute: '分发',
-    deploy: '部署'
+    deploy: '部署',
+    distributeDeploySuccess: '分发部署成功'
   },
   distribute: {
     title: '分发',
