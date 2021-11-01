@@ -353,8 +353,7 @@ export default {
       configNetworkFinish: false,
       isStartupVm: false,
       isStartupVmFinish: false,
-      netNum: 3,
-      timer: null
+      netNum: 3
     }
   },
   methods: {
@@ -390,14 +389,11 @@ export default {
     },
     startUpVm () {
       this.isStartupVm = true
-      this.timer = setTimeout(() => {
+      let _timer = setTimeout(() => {
         this.isStartupVmFinish = true
         this.isStartupVm = false
+        clearTimeout(_timer)
       }, 3000)
-    },
-    clearInterval () {
-      clearTimeout(this.timer)
-      this.timer = null
     },
     addApplicationRules () {
       this.$router.push('/application-rules')
@@ -407,9 +403,6 @@ export default {
   },
   mounted () {
 
-  },
-  beforeDestroy () {
-    this.clearInterval()
   }
 }
 </script>
