@@ -23,7 +23,7 @@
         <div class="left flex">
           <div class="left-text">
             <img
-              src="../../../assets/images/atp/selectsceneIcon.png"
+              src="../../../assets/images/atp/select_scene_icon.png"
               alt=""
               style="margin-right:10px;"
             >

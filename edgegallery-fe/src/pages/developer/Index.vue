@@ -240,7 +240,7 @@ export default {
       z-index: -1;
     }
     .main-content{
-      height: 835px;
+      height: 840px;
       width: 1680px;
       margin: 0 auto;
       padding: 90px 50px 50px 50px;
@@ -250,10 +250,10 @@ export default {
         opacity: 0.8;
       }
       .main-part{
-        height: 80%;
+        height: 85%;
         margin-top: 30px;
         .main-part-container{
-          background: url("../../assets/images/application/app_workflow_bg1.png") no-repeat;
+          background: url("../../assets/images/application/app_workflow_bg.png") no-repeat;
           background-size: inherit;
         }
         .main-part-item{
@@ -279,7 +279,7 @@ export default {
       }
       .main-flow-direction{
         position: relative;
-        top: -70px;
+        top: -110px;
         p{
           font-size: 14px;
           padding-top: 20px;

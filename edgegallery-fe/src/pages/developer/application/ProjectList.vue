@@ -61,6 +61,7 @@
           <img
             :src="item.icon"
             :alt="item.name"
+            :class="item.status==='creating'?'current':''"
           >
           <div>
             {{ item.name }}
@@ -189,6 +190,15 @@ export default {
       text-align: center;
       cursor: pointer;
       padding: 10px 15px;
+      margin-bottom: 15px;
+      img{
+        width: 66px;
+        height: 66px;
+      }
+      img.current{
+        border: 3px solid #42F6AC;
+        border-radius: 66px;
+      }
     }
   }
   .project-flex-items{
