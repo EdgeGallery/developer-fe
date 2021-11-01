@@ -778,6 +778,18 @@ export default {
         position: relative;
         z-index: 100;
       }
+      .title-text::before{
+        content: '';
+        display:inline-block;
+        width:9px;
+        height:9px;
+        border-radius: 50%;
+        margin-right: 11px;
+        background-color: #76E1E9;
+        position: absolute;
+        top: 9px;
+        left: -18px;
+      }
     }
       .report-chart{
         display: flex;
