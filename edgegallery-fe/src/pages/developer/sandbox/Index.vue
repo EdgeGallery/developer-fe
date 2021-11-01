@@ -51,7 +51,7 @@ export default {
   },
   data () {
     return {
-      selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || '选择沙箱',
+      selectSandbox: '选择沙箱',
       isCheckSandboxList: false
     }
   },
