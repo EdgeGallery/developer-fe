@@ -431,9 +431,9 @@ export default {
     height: 350px;
     .detail-center-bg{
       position: relative;
-        width: 259px;
-        height: 200px;
-        background: url('../../../assets/images/sandbox/mec_bg.png') no-repeat center;
+      width: 259px;
+      height: 200px;
+      background: url('../../../assets/images/sandbox/mec_bg.png') no-repeat center;
       .detail-center-img{
         width: 126px;
         height: 126px;
@@ -460,10 +460,10 @@ export default {
     }
   }
   .detail-bottom{
-      display: flex;
-      align-items: center;
-      margin: 10px auto 0;
-      width: 1140px;
+    display: flex;
+    align-items: center;
+    margin: 10px auto 0;
+    width: 1140px;
     .detail-bottom-one{
       p{
         text-align: center;
@@ -489,15 +489,15 @@ export default {
       .details-top{
         display: flex;
         .deploy-detail-circle{
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background-color: #76E1E9;
-            margin: 6px 10px 0 0;
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background-color: #76E1E9;
+          margin: 6px 10px 0 0;
         }
         .deploy-detail-title{
-            font-size: 16px;
-            color: #fff;
+          font-size: 16px;
+          color: #fff;
         }
       }
       .details-center{
@@ -512,11 +512,11 @@ export default {
               width: 150px;
               height: 150px;
               background-image: url('../../../assets/images/sandbox/deploy_internet.png');
-             .deploy-img-center{
-               width: 96px;
-               height: 96px;
-               opacity: 0.1;
-               position:absolute;
+              .deploy-img-center{
+                width: 96px;
+                height: 96px;
+                opacity: 0.1;
+                position:absolute;
               }
               .deploy-img-center-finish{
                 opacity: 1;
@@ -530,7 +530,7 @@ export default {
               border-radius:20px ;
               background-color: rgba(10, 9, 54, 0.5);
               .deploy-img-center{
-               opacity: 0.02;
+                opacity: 0.02;
               }
               .deploy-edit{
                 display: block;
@@ -546,13 +546,13 @@ export default {
           height: 100px;
           margin: 32px 16px 0 16px;
           overflow: hidden;
-            li{
-              width: 8px;
-              height:8px;
-              border-radius:50%;
-              background-color: #fff;
-              margin-bottom: 18px;
-            }
+          li{
+            width: 8px;
+            height:8px;
+            border-radius:50%;
+            background-color: #fff;
+            margin-bottom: 18px;
+          }
         }
         .netLine-list{
           margin: 30px 16px 0 16px;
@@ -566,12 +566,11 @@ export default {
             opacity: 0.1;
           }
           .vm-center-img-finish{
-                opacity: 1;
+            opacity: 1;
           }
           .vm-bg{
             width: 150px;
             height: 150px;
-            background-image: url('../../../assets/images/sandbox/deploy_internet.png');
             display: flex;
             flex-wrap: wrap;
             position: relative;
@@ -627,23 +626,27 @@ export default {
               animation-delay: -0.16s;
             }
           }
-           .vmStatus > div {
-              width: 6px;
-              height: 6px;
-              margin-right: 4px;
-              background-color: #42F6AC;
-              border-radius: 100%;
-              display: inline-block;
-              animation: bouncedelay 1.4s infinite ease-in-out;
-              animation-fill-mode: both;
+          .vmStatus > div {
+            width: 6px;
+            height: 6px;
+            margin-right: 4px;
+            background-color: #42F6AC;
+            border-radius: 100%;
+            display: inline-block;
+            animation: bouncedelay 1.4s infinite ease-in-out;
+            animation-fill-mode: both;
+          }
+          @keyframes bouncedelay {
+            0%, 80%, 100% {
+              transform: scale(0.0);
             }
-            @keyframes bouncedelay {
-              0%, 80%, 100% {
-                transform: scale(0.0);
-              } 40% {
-                transform: scale(1.0);
-              }
+            40% {
+              transform: scale(1.0);
             }
+          }
+        }
+        .details-center-vm-img{
+          background-image: url('../../../assets/images/sandbox/deploy_internet.png');
         }
         .details-center-vm-img:hover{
           .vmStatus{
