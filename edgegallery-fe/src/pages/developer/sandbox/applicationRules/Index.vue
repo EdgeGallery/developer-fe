@@ -135,10 +135,16 @@
       </el-table>
 
       <div class="btn-container">
-        <el-button class="common-btn">
+        <el-button
+          class="common-btn"
+          @click="configApplicationRules"
+        >
           {{ $t('common.cancel') }}
         </el-button>
-        <el-button class="common-btn">
+        <el-button
+          class="common-btn"
+          @click="configApplicationRules"
+        >
           {{ $t('common.confirm') }}
         </el-button>
       </div>
@@ -264,6 +270,9 @@ export default {
     addDnsRules () {
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true
+    },
+    configApplicationRules () {
+      this.$router.push('sandbox-detail')
     }
   },
   watch: {

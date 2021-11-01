@@ -42,25 +42,11 @@ export default {
     return {
       listData: [
         {
-          title: '网络1'
+          title: 'mec_network_n6'
         }, {
-          title: '网络2'
+          title: 'mec_network_mep'
         }, {
-          title: '网络3'
-        }, {
-          title: '网络4'
-        },
-        {
-          title: '网络5'
-        },
-        {
-          title: '网络6'
-        },
-        {
-          title: '网络7'
-        },
-        {
-          title: '网络8'
+          title: 'mec_network_internet'
         }
       ]
     }
@@ -69,7 +55,7 @@ export default {
     defaultOption () {
       return {
         step: 0.2, // 数值越大速度滚动越快
-        limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
+        limitMoveNum: 4, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
         direction: 1, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom

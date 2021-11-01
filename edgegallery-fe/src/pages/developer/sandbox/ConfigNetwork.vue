@@ -52,7 +52,6 @@
         />
         <el-table-column
           label="描述"
-          show-overflow-tooltip
         >
           <template slot-scope="scope">
             {{ scope.row.description }}
@@ -79,7 +78,7 @@
         >
           <template slot-scope="scope">
             <el-input
-              class="network-input"
+              class="common-input"
               size="mini"
               placeholder="添加自定义网络"
               v-model="scope.row.name"
@@ -91,7 +90,7 @@
         >
           <template slot-scope="scope">
             <el-input
-              class="network-input"
+              class="common-input"
               size="mini"
               placeholder="添加描述"
               v-model="scope.row.description"
@@ -196,17 +195,12 @@ export default {
     .network-table{
       font-size: 14px;
       td{
-        line-height: 50px !important;
+        height: auto !important;
+        line-height: 25px !important;
       }
-    }
-    .network-input .el-input__inner{
-      width: 180px;
-      color: #fff;
-      background-color: rgba(255,255,255,.45);
-      border: none;
-    }
-    input::-webkit-input-placeholder {
-      color: rgba(255,255,255,.5);
+      .cell{
+        padding: 10px;
+      }
     }
     .new-network-table thead{
       display: none;

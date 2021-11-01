@@ -65,7 +65,7 @@ export default new Router({
       component: () => import('../pages/developer/atp/TestReport.vue')
     },
     {
-      path: '/sandboxDetail',
+      path: '/sandbox-detail',
       name: 'sandboxDetail',
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },

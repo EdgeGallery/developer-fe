@@ -25,6 +25,7 @@
         <div class="addVm-top-title">
           <p><span>*</span>虚拟机名称</p>
           <el-input
+            class="common-input"
             v-model="vmInfo.vmName"
             placeholder="请输入内容"
           />
@@ -32,6 +33,7 @@
         <div class="addVm-top-title">
           <p>用户名</p>
           <el-input
+            class="common-input"
             v-model="vmInfo.vmUsername"
             placeholder="请输入内容"
           />
@@ -39,6 +41,7 @@
         <div class="addVm-top-title">
           <p>密码</p>
           <el-input
+            class="common-input"
             v-model="vmInfo.vmPassword"
             placeholder="请输入内容"
           />
@@ -71,7 +74,7 @@
                 <template slot-scope="scope">
                   <el-radio
                     :label="scope.row.regulationId"
-                    v-model="selectedRegulationId"
+                    v-model="vmInfo.selectedRegulationId"
                     class="work-radio"
                   />
                 </template>
@@ -157,8 +160,8 @@
               :disabled="vmInfo.imageType === 'private'"
             >
               <el-option
-                v-for="item in vmInfo.osNameOptionList"
-                :key="item"
+                v-for="(item,index) in vmInfo.osNameOptionList"
+                :key="index"
                 :label="item"
                 :value="item"
               />
@@ -169,8 +172,8 @@
               :disabled="vmInfo.imageType === 'private'"
             >
               <el-option
-                v-for="item in vmInfo.operateSystemOptionList"
-                :key="item.label"
+                v-for="(item,index) in vmInfo.operateSystemOptionList"
+                :key="index"
                 :label="item.systemId"
                 :value="item.systemId"
               />
@@ -191,8 +194,8 @@
               :disabled="vmInfo.imageType === 'public'"
             >
               <el-option
-                v-for="item in vmInfo.osNameOptionList"
-                :key="item"
+                v-for="(item,index) in vmInfo.osNameOptionList"
+                :key="index"
                 :label="item"
                 :value="item"
               />
@@ -203,8 +206,8 @@
               :disabled="vmInfo.imageType === 'public'"
             >
               <el-option
-                v-for="item in vmInfo.operateSystemOptionList"
-                :key="item.label"
+                v-for="(item,index) in vmInfo.operateSystemOptionList"
+                :key="index"
                 :label="item.systemId"
                 :value="item.systemId"
               />
@@ -213,10 +216,16 @@
         </div>
       </div>
       <div class="addVm-btn rt">
-        <el-button>
+        <el-button
+          class="common-btn"
+          @click="addVmFinish('cancel')"
+        >
           {{ $t('normal.cancel') }}
         </el-button>
-        <el-button @click="addVmFinish">
+        <el-button
+          class="common-btn"
+          @click="addVmFinish('confirm')"
+        >
           {{ $t('normal.confirm') }}
         </el-button>
       </div>
@@ -334,7 +343,7 @@ export default {
       this.vmInfo.selectedRegulationId = -1
     },
     filterVmRegulation () {
-      this.vmInfo.vmRegulationDataList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.vmInfo.archType)
+      this.vmInfo.vmRegulationList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.vmInfo.archType)
     },
     handleChangeImgType () {
       this.resetData(this.vmInfo.imageType)
@@ -369,14 +378,14 @@ export default {
     appendSizeUnit (row, column, cellValue) {
       return cellValue + 'GB'
     },
-    addVmFinish () {
-      this.$emit('addVmFinish', true)
+    addVmFinish (type) {
+      this.$emit('addVmFinish', type)
     }
   },
   mounted () {
-    this.filterVmRegulation()
-    this.filterOSName()
-    this.filterOperateSystemOption()
+    // this.filterVmRegulation()
+    // this.filterOSName()
+    // this.filterOperateSystemOption()
   }
 }
 </script>
@@ -493,12 +502,7 @@ export default {
       }
     }
     .addVm-btn{
-        margin-right: 30px;
-      .el-button{
-        width: 88px;
-        height: 30px;
-        border-radius: 12px;
-      }
+      margin-right: 30px;
     }
   }
 }

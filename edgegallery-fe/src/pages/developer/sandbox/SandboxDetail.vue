@@ -16,7 +16,7 @@
 <template>
   <div class="detail">
     <div v-if="showContent==='showDetail'">
-      <div class="detail-top">
+      <div class="detail-top clear">
         <div class="detail-top-title lt">
           {{ detailTitle }}
         </div>
@@ -28,11 +28,11 @@
       </div>
       <div
         class="detail-center"
-        :class="{'deploy-detail-center':changeStyle===false}"
+        :class="{'deploy-detail-center':isChangeStyle===false}"
       >
         <div
           class="detail-center-bg flex-center"
-          v-if="changeStyle"
+          v-if="isChangeStyle"
         >
           <img
             src="../../../assets/images/sandbox/mec_img.png"
@@ -64,7 +64,7 @@
                 >
                   <img
                     class="deploy-img-center"
-                    :class="{'deploy-img-center-finish':deployFinish===true}"
+                    :class="{'deploy-img-center-finish':configNetworkFinish===true}"
                     src="../../../assets/images/sandbox/deploy_img.png"
                     alt=""
                   >
@@ -89,7 +89,7 @@
             </div>
             <ul
               class="netLine"
-              v-if="deployFinish===true"
+              v-if="!isAddVmFinish"
             >
               <li
                 class="oneNet"
@@ -107,7 +107,7 @@
               >
                 <img
                   class="vm-center-img"
-                  :class="{'vm-center-img-finish':vmFinish === true}"
+                  :class="{'vm-center-img-finish':isAddVmFinish === true}"
                   src="../../../assets/images/sandbox/vm_img.png"
                   alt=""
                 >
@@ -140,7 +140,7 @@
                         src="../../../assets/images/sandbox/vm-detail.png"
                         alt=""
                         class=" hoverHands"
-                        :class="btnDetail === false ? 'img-onlyRead':''"
+                        :class="isAddVmFinish === false ? 'img-onlyRead':''"
                         @click="checkVmDetail"
                       >
                     </el-tooltip>
@@ -156,7 +156,7 @@
                         src="../../../assets/images/sandbox/vm-login.png"
                         alt=""
                         class=" hoverHands"
-                        :class="btnLogin === false ? 'img-onlyRead':''"
+                        :class="isStartupVmFinish === false ? 'img-onlyRead':''"
                       >
                     </el-tooltip>
                   </div>
@@ -171,7 +171,7 @@
                         src="../../../assets/images/sandbox/vm-upload.png"
                         alt=""
                         class=" hoverHands"
-                        :class="btnUpload === false ? 'img-onlyRead':''"
+                        :class="isStartupVmFinish === false ? 'img-onlyRead':''"
                       >
                     </el-tooltip>
                   </div>
@@ -186,13 +186,16 @@
                         src="../../../assets/images/sandbox/vm-start.png"
                         alt=""
                         class=" hoverHands"
-                        :class="btnStart === false ? 'img-onlyRead':''"
+                        :class="isBtnStart === false ? 'img-onlyRead':''"
+                        @click="startUpVm"
                       >
                     </el-tooltip>
                   </div>
                 </div>
                 <div
-                  :class="{'vmStatus':vmFinish === false}"
+                  class="vmStatus"
+                  v-if="isStartupVm"
+                  :class="{'vmStatus':isAddVmFinish === false}"
                 >
                   <div class="bounce1" />
                   <div class="bounce2" />
@@ -209,14 +212,17 @@
             <p class="details-bottom-title lt">
               5G MEC
             </p>
-            <el-button class="details-bottom-btn rt">
-              完成
+            <el-button
+              class="common-btn rt"
+              :disabled="!this.isStartupVmFinish"
+            >
+              {{ $t('common.finish') }}
             </el-button>
           </div>
         </div>
         <div
           class="detail-center-name"
-          :class="{'hide-div':changeStyle===false}"
+          :class="{'hide-div':isChangeStyle===false}"
         >
           5G MEC
         </div>
@@ -224,12 +230,12 @@
           src="../../../assets/images/sandbox/failed_line.png"
           alt=""
           class="detail-center-line"
-          :class="{'scale-small-line':changeStyle===false}"
+          :class="{'scale-small-line':isChangeStyle===false}"
         >
       </div>
       <div
         class="detail-bottom"
-        :class="{'scale-small':changeStyle===false}"
+        :class="{'scale-small':isChangeStyle===false}"
       >
         <div class="detail-bottom-one">
           <img
@@ -261,7 +267,7 @@
         >
         <div
           class="detail-bottom-one"
-          v-if="changeStyle"
+          v-if="isChangeStyle"
         >
           <img
             src="../../../assets/images/sandbox/edge.png"
@@ -274,6 +280,7 @@
         <div
           v-else
           class="edgePuf"
+          @click="addApplicationRules"
         >
           <p>边缘UPF</p>
         </div>
@@ -315,7 +322,6 @@
       v-if="showContent==='showConfigNetwork'"
       @editNetwork="editNetwork"
     />
-    <AddVm v-if="showContent==='showAddVm'" />
     <VmDetail
       v-if="showContent==='showVmDetail'"
       @closeVmDetail="closeVmDetail"
@@ -339,21 +345,20 @@ export default {
   data () {
     return {
       detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
-      changeStyle: true,
+      isChangeStyle: true,
       showContent: 'showDetail',
-      addvm: true,
-      btnDetail: false,
-      btnUpload: false,
-      btnLogin: false,
-      btnStart: false,
-      deployFinish: false,
-      vmFinish: false,
-      netNum: 5
+      isBtnDetail: false,
+      isBtnStart: false,
+      isAddVmFinish: false,
+      configNetworkFinish: false,
+      isStartupVm: false,
+      isStartupVmFinish: false,
+      netNum: 3
     }
   },
   methods: {
     deployInternet () {
-      this.changeStyle = false
+      this.isChangeStyle = false
     },
     selectNet () {
       this.showContent = 'showConfigNetwork'
@@ -362,18 +367,36 @@ export default {
       this.showContent = 'showAddVm'
     },
     addVmFinish (data) {
-      this.vmFinish = data
+      if (data === 'confirm') {
+        this.isBtnStart = true
+        this.isAddVmFinish = true
+        this.configNetworkFinish = true
+      }
       this.showContent = 'showDetail'
-      this.btnStart = true
     },
     editNetwork (data) {
       this.showContent = 'showDetail'
+      if (data && data.length > 0) {
+        this.configNetworkFinish = true
+        this.netNum = data.length
+      }
     },
     checkVmDetail () {
       this.showContent = 'showVmDetail'
     },
     closeVmDetail () {
       this.showContent = 'showDetail'
+    },
+    startUpVm () {
+      this.isStartupVm = true
+      let _timer = setTimeout(() => {
+        this.isStartupVmFinish = true
+        this.isStartupVm = false
+        clearTimeout(_timer)
+      }, 3000)
+    },
+    addApplicationRules () {
+      this.$router.push('/application-rules')
     }
   },
   computed: {
@@ -387,6 +410,7 @@ export default {
 <style lang="less">
 .detail{
   width: 100%;
+  height: 100%;
   font-size: 14px;
   color: #fff;
   .detail-top{
@@ -402,10 +426,9 @@ export default {
     }
   }
   .detail-center{
-    padding-top:140px ;
-    margin: 0px auto;
+    margin: 30px auto 0;
     width: 259px;
-    height: 234px;
+    height: 350px;
     .detail-center-bg{
       position: relative;
         width: 259px;
@@ -439,7 +462,7 @@ export default {
   .detail-bottom{
       display: flex;
       align-items: center;
-      margin: 260px auto;
+      margin: 10px auto 0;
       width: 1140px;
     .detail-bottom-one{
       p{
@@ -454,12 +477,13 @@ export default {
     }
   }
   .deploy-detail-center{
-    width: 688px;
-    height: 460px;
-    transition: all  1s;
+    width: 694px;
+    height: 464px;
+    transition: all  0.4s;
     .deploy-detail-bg{
-      width: 688px;
-      height: 460px;
+      width: 694px;
+      height: 464px;
+      max-height: 100%;
       padding: 40px 40px;
       background: url('../../../assets/images/sandbox/detail_center_bg.png') no-repeat;
       .details-top{
@@ -591,17 +615,17 @@ export default {
             }
           }
           .vmStatus{
-              position: absolute;
-              top: 124px;
+            position: absolute;
+            top: 124px;
             .bounce1 {
-                animation-delay: -0.48s;
-              }
+              animation-delay: -0.48s;
+            }
             .bounce2 {
-                animation-delay: -0.32s;
-              }
+              animation-delay: -0.32s;
+            }
             .bounce3 {
-                animation-delay: -0.16s;
-              }
+              animation-delay: -0.16s;
+            }
           }
            .vmStatus > div {
               width: 6px;
@@ -644,13 +668,6 @@ export default {
           font-weight:bold;
           opacity: 0.5;
         }
-        .details-bottom-btn{
-          width: 88px;
-          height: 30px;
-          margin-top: 20px;
-          border-radius:12px ;
-          background-color: #BCB6D7;
-        }
       }
     }
   }
@@ -658,8 +675,8 @@ export default {
     display: none;
   }
   .scale-small{
-    transform: translate(-64px,-65px);
-    transition: all 1s ;
+    transform: translate(-64px,50px);
+    transition: all 0.4s ;
     height: 130px;
     .detail-bottom-one{
       width: 120px;
@@ -679,6 +696,7 @@ export default {
       width: 109px;
       height: 109px;
       margin: 40px 10px 0 40px;
+      cursor: pointer;
       background-image: url('../../../assets/images/sandbox/edgePuf.png');
       p{
         text-align: center;
@@ -688,7 +706,7 @@ export default {
   }
   .scale-small-line{
     transform: translate(-250px,-10px) scale(0.7);
-    transition: all  1s;
+    transition: all  0.4s;
   }
 }
 </style>
