@@ -310,6 +310,7 @@
     <AddVm
       v-if="showContent==='showAddVm'"
       @addVmFinish="addVmFinish"
+    />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
       @editNetwork="editNetwork"
@@ -332,7 +333,7 @@ export default {
   components: {
     ConfigNetwork,
     AddVm,
-    NetScroll
+    NetScroll,
     VmDetail
   },
   data () {
@@ -364,6 +365,7 @@ export default {
       this.vmFinish = data
       this.showContent = 'showDetail'
       this.btnStart = true
+    },
     editNetwork (data) {
       this.showContent = 'showDetail'
     },
