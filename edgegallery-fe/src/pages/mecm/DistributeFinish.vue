@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import successImg from '@/assets/images/application/app_pack_success.svg'
+import successImg from '@/assets/images/mecm/distributeDeploy/distribute_deploy_success.svg'
 
 export default {
   name: 'DistributeSuccess',
@@ -60,7 +60,7 @@ export default {
   left: 50%;
   width: 465px;
   height: 286px;
-  background-image: url("../../../assets/images/application/app_pack_success_bg.png");
+  background-image: url("../../../assets/images/mecm/distributeDeploy/distribute_deploy_success_bg.png");
   border-radius: 17px;
   border: solid 1px #b6a4ec;
   text-align: center;
