@@ -99,6 +99,11 @@ export default new Router({
       name: 'deployConfig',
       component: () => import('../pages/mecm/DeployConfig.vue')
     },
+    {
+      path: '/application',
+      name: 'application',
+      component: () => import('../pages/appstore/index.vue')
+    },
 
     ...routesclassic
   ],
