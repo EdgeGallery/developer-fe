@@ -83,6 +83,12 @@
       >
         完成
       </el-button>
+      <el-button
+        class="common-cancel-btn rt"
+        @click="confirmToCreate()"
+      >
+        返回
+      </el-button>
     </div>
   </div>
 </template>
@@ -97,7 +103,7 @@ export default {
   },
   methods: {
     confirmToCreate () {
-      this.$emit('createNewPro', false)
+      this.$emit('createNewProject', false)
     }
   },
   mounted () {
