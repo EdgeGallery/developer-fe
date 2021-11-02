@@ -119,6 +119,11 @@ export default new Router({
       name: 'applications',
       component: () => import('../pages/appstore/Index.vue')
     },
+    {
+      path: '/appDetail',
+      name: 'appDetail',
+      component: () => import('../pages/appstore/detail/AppDetail.vue')
+    },
 
     ...routesclassic
   ],
