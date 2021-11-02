@@ -38,6 +38,7 @@
       <el-col
         :span="zoom"
         v-if="isIndex"
+        class="app-list-comp"
       >
         <div
           class="left-pro-comp"
@@ -218,6 +219,12 @@ export default {
   z-index: 15;
   overflow: hidden;
 }
+.app-list-comp .el-icon-arrow-right{
+  position: absolute;
+  top: 50%;
+  left: 0.5%;
+  cursor: pointer;
+}
 .left-pro-comp-show{
   min-width: 150px!important;
 }
@@ -235,11 +242,5 @@ export default {
 }
 .el-row, .el-col{
   height: 100%;
-}
-.el-icon-arrow-right{
-  position: absolute;
-  top: 50%;
-  left: 0.5%;
-  cursor: pointer;
 }
 </style>

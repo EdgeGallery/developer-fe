@@ -32,7 +32,7 @@
         >
           <span
             class="common-workflow-item app-image"
-            @click="jumpTo('')"
+            @click="jumpTo('/appPackageBuild')"
           />
           <span
             class="capability-active"
@@ -86,8 +86,8 @@ export default {
     }
   },
   methods: {
-    jumpTo (val) {
-      this.$router.push(val)
+    jumpTo (path) {
+      this.$router.push(path)
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="new-application">
-    <h3 class="common-dlg-title">
+    <h3 class="common-dlg-title lt">
       项目信息
     </h3>
     <div>

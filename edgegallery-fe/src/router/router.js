@@ -102,12 +102,12 @@ export default new Router({
     {
       path: '/appPackageBuild',
       name: 'appPackageBuild',
-      component: () => import('../pages/developer/application/AppPackageBuild.vue')
+      component: () => import('../pages/developer/image/AppPackageBuild.vue')
     },
     {
       path: '/appdPreview',
       name: 'appdPreview',
-      component: () => import('../pages/developer/application/AppdPreview.vue')
+      component: () => import('../pages/developer/image/AppdPreview.vue')
     },
     {
       path: '/deployConfig',

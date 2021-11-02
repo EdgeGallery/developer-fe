@@ -25,8 +25,8 @@ export default {
     }
   },
   methods: {
-    jumpTo (val) {
-      this.$router.push(val)
+    jumpTo (path) {
+      this.$router.push(path)
     }
   }
 }

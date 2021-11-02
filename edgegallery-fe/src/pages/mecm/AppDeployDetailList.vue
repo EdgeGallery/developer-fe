@@ -136,7 +136,7 @@ export default {
 .appdeploy{
   width: 100%;
   height: 100%;
-  padding:32px 13% 0 13%;
+  padding:32px 15% 0 10%;
   .deploylist-top-title{
     width: 186px;
     height: 66px;

@@ -6,6 +6,7 @@
       >
         <span
           class="common-workflow-item deploy-meao"
+          @click="jumpTo('/appDeployDetail')"
         />
       </div>
       <div
@@ -35,6 +36,11 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    jumpTo (path) {
+      this.$router.push(path)
     }
   }
 }

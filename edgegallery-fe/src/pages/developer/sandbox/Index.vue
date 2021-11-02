@@ -82,7 +82,7 @@ export default {
     width: 344px;
     height: 420px;
     margin: 10% auto;
-    padding:170px   0;
+    padding: 170px 0;
     background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
     animation: scaleBox 4s  ease-in 0s infinite ;
     @keyframes scaleBox {

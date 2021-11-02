@@ -417,7 +417,7 @@ export default {
     .detail-top-title{
       width: 160px;
       height: 63px;
-      margin: 2% 0 0 13%;
+      margin: 2% 0 0 10%;
       font-size: 30px;
       line-height: 50px;
       text-align: center;
