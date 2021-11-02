@@ -6,7 +6,7 @@
       >
         <span
           class="common-workflow-item app-store"
-          @click="jumpTo('')"
+          @click="jumpTo('/application')"
         />
       </div>
     </div>
@@ -22,6 +22,11 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    jumpTo (val) {
+      this.$router.push(val)
     }
   }
 }
