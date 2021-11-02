@@ -141,7 +141,6 @@ export default {
       }
       .main-content-right-item:hover{
         transform: translate3d(0,-20px,0);
-        border: none;
       }
     }
 

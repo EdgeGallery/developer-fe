@@ -7,7 +7,7 @@
         <span
           class="common-workflow-item capability-center"
           :class="isCapabilityActive?'capability-center-active':''"
-          @click="checkCapabilityCenter"
+          @click="jumpTo('/incubation/capabilityCenter')"
         />
         <span
           class="capability-active"
@@ -20,7 +20,7 @@
         >
           <span
             class="common-workflow-item app-application"
-            @click="checkApplication"
+            @click="jumpTo('/incubation/createApplication')"
           />
           <span
             class="capability-active"
@@ -32,6 +32,7 @@
         >
           <span
             class="common-workflow-item app-image"
+            @click="jumpTo('')"
           />
           <span
             class="capability-active"
@@ -43,6 +44,7 @@
         >
           <span
             class="common-workflow-item app-test"
+            @click="jumpTo('/select-scenarios')"
           />
           <span
             class="capability-active"
@@ -56,6 +58,7 @@
         >
           <span
             class="common-workflow-item app-sandbox"
+            @click="jumpTo('/sandbox')"
           />
           <span
             class="capability-active"
@@ -83,11 +86,8 @@ export default {
     }
   },
   methods: {
-    checkCapabilityCenter () {
-      this.$emit('showCapabilityCenterDlg')
-    },
-    checkApplication () {
-      this.$emit('showAppWarningDlg')
+    jumpTo (val) {
+      this.$router.push(val)
     }
   }
 }

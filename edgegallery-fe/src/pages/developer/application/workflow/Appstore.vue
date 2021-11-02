@@ -6,6 +6,7 @@
       >
         <span
           class="common-workflow-item app-store"
+          @click="jumpTo('')"
         />
       </div>
     </div>

@@ -1,5 +1,7 @@
 <template>
-  <div class="new-cap">
+  <div
+    class="common-div-bg capability-publish"
+  >
     <h3 class="common-dlg-title">
       基本信息
     </h3>
@@ -114,12 +116,12 @@
         >
           <el-input v-model="capFormData.desc" />
         </el-form-item>
-        <el-form-item
+        <!-- <el-form-item
           label="流量规则"
         />
         <el-form-item
           label="DNS规则"
-        />
+        /> -->
       </el-form>
       <el-button
         class="common-btn rt"
@@ -147,7 +149,7 @@ export default {
   },
   methods: {
     confirmToCreate () {
-      this.$emit('closeCapabilityDlg')
+      this.$router.push('/incubation/capabilityCenter')
     }
   },
   mounted () {
@@ -157,6 +159,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .capability-publish{
+    position: absolute;
+    top: 9%;
+    left: 35%;
+    width: 35%;
+    padding: 35px;
+  }
   .cap-upload-btn{
     display: inline-block;
     height: 30px;

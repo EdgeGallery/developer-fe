@@ -15,7 +15,9 @@
   -->
 
 <template>
-  <div class="capability">
+  <div
+    class="common-div-bg capability-index"
+  >
     <div class="prompt_content">
       <div>
         <img
@@ -155,17 +157,6 @@
               </el-row>
             </div>
             <div id="swagger-ui" />
-          </div>
-          <div
-            class="select_initialization"
-          >
-            <!-- <img
-              src="../../../assets/images/select_initialization.png"
-              alt="a"
-            > -->
-            <p class="select_initialization_text">
-              initialization
-            </p>
           </div>
         </div>
       </div>
@@ -347,10 +338,10 @@ export default {
       return ''
     },
     doNext (type) {
-      this.$emit('closeCapabilityIndexDlg')
+      this.$router.push('/incubation')
     },
     editCapability () {
-      this.$emit('showCapabilityDlg')
+      this.$router.push('/incubation/capabilityPublish')
     }
   },
   watch: {
@@ -363,7 +354,12 @@ export default {
 
 </script>
 <style lang="less">
-.capability{
+.capability-index{
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  width: 76%;
+  padding: 35px 35px 35px 4%;
   .tip{
     float: left;
     width: 40px;

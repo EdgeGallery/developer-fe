@@ -171,7 +171,7 @@ export default {
     .search-active{
       background: url("../../../assets/images/projects/pro_search_after.png") no-repeat center;
     }
-    .view-detault{
+    .view-default{
       background: url("../../../assets/images/projects/pro_view_default.png") no-repeat center;
     }
     .view-active{
@@ -189,8 +189,7 @@ export default {
     .project-item{
       text-align: center;
       cursor: pointer;
-      padding: 10px 15px;
-      margin-bottom: 15px;
+      padding: 20px 15px;
       img{
         width: 66px;
         height: 66px;

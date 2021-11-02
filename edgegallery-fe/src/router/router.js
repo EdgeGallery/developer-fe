@@ -36,6 +36,21 @@ export default new Router({
       component: () => import('../pages/developer/Index.vue')
     },
     {
+      path: '/incubation/createApplication',
+      name: 'createApplication',
+      component: () => import('../pages/developer/application/CreateApplication.vue')
+    },
+    {
+      path: '/incubation/capabilityCenter',
+      name: 'capabilityCenter',
+      component: () => import('../pages/developer/capabilityCenter/Index.vue')
+    },
+    {
+      path: '/incubation/capabilityPublish',
+      name: 'capabilityCenter',
+      component: () => import('../pages/developer/capabilityCenter/CapabilityPublish.vue')
+    },
+    {
       path: '/application-rules',
       name: 'incubationRules',
       component: () => import('../pages/developer/sandbox/applicationRules/Index.vue')
