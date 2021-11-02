@@ -17,36 +17,8 @@
 <template>
   <div class="application">
     <el-row>
-      <el-col :span="zoom">
-        <div
-          class="left-pro-comp"
-          :class="zoom>1?'left-pro-comp-show':''"
-          ref="leftProComp"
-        >
-          <ProjectSideComp
-            @zoomChanged="zoomChanged"
-            @createNewProject="createNewProject"
-            :zoom="zoom"
-            v-if="zoom>1"
-          />
-        </div>
-        <em
-          class="el-icon-arrow-right"
-          v-if="zoom ===1"
-          @click.stop="enlarge()"
-        />
-      </el-col>
       <el-col
-        :span="4"
-        v-if="zoom===20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg&&!isShowAppWarningDlg"
-      >
-        <div>
-          预留问号
-        </div>
-      </el-col>
-      <el-col
-        :span="24-zoom"
-        v-if="zoom<20&&!isShowProjectDlg&&!isShowCapabilityDlg&&!isShowCapabilityIndexDlg&&!isShowAppWarningDlg"
+        :span="24"
       >
         <div class="main-content">
           <div class="main-title">
@@ -102,78 +74,19 @@
         </div>
       </el-col>
     </el-row>
-    <div
-      class="common-div-bg pro-creation"
-      v-if="isShowProjectDlg"
-    >
-      <CreateProjectComp @createNewProject="createNewProject" />
-    </div>
-    <div
-      class="common-div-bg capability-index"
-      v-if="isShowCapabilityIndexDlg"
-    >
-      <CapabilityCenterIndexComp
-        @closeCapabilityIndexDlg="isShowCapabilityIndexDlg=false"
-        @showCapabilityDlg="isShowCapabilityIndexDlg=false,isShowCapabilityDlg=true"
-      />
-    </div>
-    <div
-      class="common-div-bg capability-creation"
-      v-if="isShowCapabilityDlg"
-    >
-      <CapabilityCenterComp
-        @closeCapabilityDlg="isShowCapabilityDlg=false"
-      />
-    </div>
-    <div
-      class="common-div-bg app-warning-Dlg"
-      v-if="isShowAppWarningDlg"
-    >
-      <div class="app-warning-content">
-        <img
-          src="../../assets/images/application/app_warning_icon.png"
-          alt="warning_icon"
-        >
-        <p>
-          此类内容需在项目中查看
-        </p>
-        <div class="tip-btn-group">
-          <el-button
-            class="tip-btn"
-            @click="isShowAppWarningDlg=false"
-          >
-            返回
-          </el-button>
-          <el-button
-            class="tip-btn"
-            @click="isShowProjectDlg=true,isShowAppWarningDlg=false"
-          >
-            新建项目
-          </el-button>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import ProjectSideComp from './application/ProjectList.vue'
-import IncubationComp from './application/workflow/Incubation.vue'
-import AppstoreComp from './application/workflow/Appstore.vue'
-import DeploymentComp from './application/workflow/Deployment.vue'
-import CreateProjectComp from './application/CreateProjectDlg.vue'
-import CapabilityCenterIndexComp from './capabilityCenter/Index.vue'
-import CapabilityCenterComp from './capabilityCenter/CapabilityCenter.vue'
+import IncubationComp from './workflow/Incubation.vue'
+import AppstoreComp from './workflow/Appstore.vue'
+import DeploymentComp from './workflow/Deployment.vue'
 export default {
   name: 'Application',
   components: {
-    ProjectSideComp,
     IncubationComp,
     AppstoreComp,
-    DeploymentComp,
-    CreateProjectComp,
-    CapabilityCenterIndexComp,
-    CapabilityCenterComp
+    DeploymentComp
   },
   data () {
     return {
@@ -185,27 +98,7 @@ export default {
     }
   },
   methods: {
-    zoomChanged (val) {
-      if (val === 1) {
-        this.zoom = 1
-        this.$refs.leftProComp.style.width = '15%'
-      } else {
-        this.zoom = 20
-        this.$refs.leftProComp.style.width = '100%'
-      }
-    },
-    enlarge () {
-      this.zoom = 2
-      this.$refs.leftProComp.style.width = '100%'
-    },
-    createNewProject (val) {
-      this.isShowProjectDlg = val
-      if (val) {
-        this.zoomChanged(1)
-        this.isShowCapabilityDlg = false
-        this.isShowCapabilityIndexDlg = false
-      }
-    }
+
   }
 }
 </script>
@@ -240,7 +133,7 @@ export default {
       z-index: -1;
     }
     .main-content{
-      height: 835px;
+      height: 840px;
       width: 1680px;
       margin: 0 auto;
       padding: 90px 50px 50px 50px;
@@ -250,10 +143,10 @@ export default {
         opacity: 0.8;
       }
       .main-part{
-        height: 80%;
+        height: 85%;
         margin-top: 30px;
         .main-part-container{
-          background: url("../../assets/images/application/app_workflow_bg1.png") no-repeat;
+          background: url("../../assets/images/application/app_workflow_bg.png") no-repeat;
           background-size: inherit;
         }
         .main-part-item{
@@ -279,7 +172,7 @@ export default {
       }
       .main-flow-direction{
         position: relative;
-        top: -70px;
+        top: -110px;
         p{
           font-size: 14px;
           padding-top: 20px;
@@ -287,16 +180,19 @@ export default {
         }
         .label-content{
           margin-right: 200px;
+          font-size: 14px;
           .current-app-label{
             margin-top: 15px;
           }
           .current-app-label::before{
             content:"";
             display: inline-block;
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
             background: url("../../assets/images/application/app_mark_box.png") no-repeat center;
             background-size: contain;
+            position: relative;
+            top: 5px;
           }
           .must-node-label{
             margin-top: 5px;
@@ -304,54 +200,15 @@ export default {
           .must-node-label::before{
             content:"";
             display: inline-block;
-            width: 25px;
+            width: 20px;
             height: 15px;
             background: url("../../assets/images/application/app_corner_icon.png") no-repeat center;
             background-size: contain;
+            position: relative;
+            top: 3px;
           }
         }
       }
-    }
-    .pro-creation{
-      position: absolute;
-      top: 30%;
-      left: 35%;
-      width: 35%;
-      padding: 35px;
-    }
-    .capability-creation{
-      position: absolute;
-      top: 13%;
-      left: 35%;
-      width: 35%;
-      padding: 35px;
-    }
-    .app-warning-Dlg{
-      position: absolute;
-      top: 25%;
-      left: 40%;
-      width: 20%;
-      padding: 35px;
-      text-align: center;
-      p{
-        line-height: 85px;
-      }
-    }
-    .capability-index{
-      position: absolute;
-      top: 13%;
-      left: 12%;
-      width: 76%;
-      padding: 35px 35px 35px 4%;
-    }
-    .el-row, .el-col{
-      height: 100%;
-    }
-    .el-icon-arrow-right{
-      position: absolute;
-      top: 50%;
-      left: 0.5%;
-      cursor: pointer;
     }
   }
 </style>

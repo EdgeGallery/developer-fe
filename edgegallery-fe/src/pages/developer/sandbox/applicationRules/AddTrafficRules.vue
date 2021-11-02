@@ -86,7 +86,7 @@
     <h4 class="rules-title-sub clear">
       流过滤规则
       <el-button
-        class="common-btn rt"
+        class="common-btn inner-btn rt"
         @click="addTrafficFilter"
       >
         添加流量过滤器
@@ -150,7 +150,7 @@
       <h4 class="rules-title-sub clear">
         转发接口信息
         <el-button
-          class="common-btn rt"
+          class="common-btn inner-btn rt"
           @click="addInterfaceInformation"
         >
           添加接口信息

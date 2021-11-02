@@ -371,7 +371,7 @@ export default {
 </script>
 <style lang="less">
 .wrapper{
-  padding: 0 13%;
+  padding: 0 15% 0 10%;
   position: relative;
   overflow: hidden;
 }
@@ -443,7 +443,7 @@ export default {
           width: 24px;
           height: 24px;
           img{
-             width: 24px;
+            width: 24px;
             height: 24px;
           }
         }

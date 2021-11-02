@@ -25,7 +25,7 @@
       <h4 class="rules-title-sub clear">
         流量规则
         <el-button
-          class="common-btn rt"
+          class="common-btn inner-btn rt"
           @click="addTrafficRules"
         >
           添加流量规则
@@ -81,7 +81,7 @@
       <h4 class="rules-title-sub title-top clear">
         DNS规则
         <el-button
-          class="common-btn rt"
+          class="common-btn inner-btn rt"
           @click="addDnsRules"
         >
           添加DNS规则
@@ -307,10 +307,10 @@ export default {
   .rules-config{
     position: absolute;
     z-index: 1;
-    top: 110px;
-    left: 20%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     width: 60%;
-    height: 560px;
     padding: 40px;
     opacity: 1;
     transition: all .2s;
@@ -328,11 +328,12 @@ export default {
   .traffic-rules{
     position: absolute;
     z-index: 1;
-    top: 5%;
-    left: 20%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     width: 60%;
     padding: 40px;
-    max-height: 90%;
+    max-height: 95%;
     overflow: auto;
     opacity: 1;
     transition: all .2s linear;
@@ -340,8 +341,9 @@ export default {
   .traffic-filter{
     position: absolute;
     z-index: 1;
-    top: 80px;
-    left: calc(50% - 400px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     width: 800px;
     padding: 40px 80px 40px 40px;
     overflow: auto;
@@ -351,8 +353,9 @@ export default {
   .interface-info{
     position: absolute;
     z-index: 1;
-    top: 110px;
-    left: calc(50% - 300px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     width: 600px;
     padding: 40px;
     overflow: auto;
@@ -362,8 +365,9 @@ export default {
   .dns-rules{
     position: absolute;
     z-index: 1;
-    top: 110px;
-    left: calc(50% - 300px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     width: 600px;
     padding: 40px;
     overflow: auto;
@@ -372,12 +376,12 @@ export default {
   }
   .traffic-rules-hidden-bottom,.traffic-filter-hidden,.interface-info-hidden,.dns-rules-hidden{
     z-index: -1;
-    top: 400px;
+    top: 100%;
     opacity: 0;
     transition: all .2s;
   }
   .traffic-rules-hidden-top{
-    top: -400px;
+    top: -100%;
   }
 }
 @media screen and (max-width:1600px){

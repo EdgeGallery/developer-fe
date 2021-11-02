@@ -212,7 +212,7 @@ export default {
       this.activeItem = this.detailIndex
       this.sandboxName = this.sandbox[this.activeItem].name
       this.isSandbox = true
-      this.$router.push({ path: '/sandbox' })
+      this.$router.push({ path: '/EG/developer/sandbox' })
       sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     },
     selectFinish () {

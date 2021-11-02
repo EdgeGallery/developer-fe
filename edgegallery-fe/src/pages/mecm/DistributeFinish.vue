@@ -13,12 +13,16 @@
   -  See the License for the specific language governing permissions and
   -  limitations under the License.
   -->
-  
+
 <template>
   <div class="distribute-finish">
     <div class="distribute-finish__body">
       <div class="distribute-finish__icon">
-        <embed :src="successImg" width="30" height="30" />
+        <embed
+          :src="successImg"
+          width="30"
+          height="30"
+        >
       </div>
       <div class="distribute-finish__title">
         {{ $t("distributeDeploy.distributeDeploySuccess") }}

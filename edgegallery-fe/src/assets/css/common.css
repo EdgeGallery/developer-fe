@@ -799,12 +799,21 @@
 .common-btn{
   box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8);
   border-radius: 12px;
-  padding: 5px 24px;
+  padding: 6px 32px;
+  border: none;
   color: #5944C0;
   font-family: defaultFontLight !important;
   font-size: 14px;
   margin-top: 10px;
   font-weight: 400;
+}
+.common-btn:hover{
+  color: #fff;
+  background-color: #60569A;
+}
+.inner-btn{
+  color: #fff;
+  background-color: rgba(190,194,225,.7);
 }
 .common-dark-btn{
   color: #fff;
@@ -863,7 +872,7 @@ th{
 }
 .btn-container{
   text-align: right;
-  margin: 70px 0 0 0;
+  margin: 32px 0 0 0;
 }
 .btn-container .el-button{
   font-size: 14px;
@@ -877,8 +886,8 @@ th{
   padding: 55px 120px;
   border: 2px solid #b6a4ec;
   border-radius: 16px;
-  background: url('../images/div_bg.png');
-  box-shadow: 60px 70px 75px rgba(36,20,119,.25);
+  background: url('../images/div_bg.png') rgba(36,20,119,.2) left top;
+  box-shadow: 60px 70px 75px rgba(36,20,119,.3);
   clear: both;
 }
 .rules-title{
@@ -925,7 +934,7 @@ th{
 }
 .common-form .el-input__inner,.common-form .el-textarea__inner{
   color: #fff;
-  background-color: rgba(255,255,255,.3);
+  background-color: rgba(255,255,255,.5);
   border: none;
 }
 
@@ -1033,11 +1042,13 @@ th{
   background-color: transparent;
   padding: 12px 30px;
   color: #0F0D87;
+  border-radius: 16px;
 }
 .test-light-btn.el-button{
   background-image: linear-gradient(127deg,#FFFFFF,#D7E2FF);
   padding: 12px 30px;
   color: #0F0D87;
+  border-radius: 16px;
 }
 .common-input .el-input__inner{
   width: 180px;

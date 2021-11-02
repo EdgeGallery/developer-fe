@@ -59,7 +59,7 @@ export default {
         this.isCheckSandboxList = true
       } else {
         this.isCheckSandboxList = false
-        this.$router.push({ path: '/sandbox-detail' })
+        this.$router.push({ path: '/EG/developer/sandboxDetails' })
       }
     },
     returnSelectSandbox (data) {
