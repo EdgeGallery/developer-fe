@@ -166,7 +166,7 @@ export default {
     display: none;
   }
   .appd-preview-warraper {
-    width: 75%;
+    width: 76%;
     background: url("../../../assets/images/app_pacakage_build_bg.png") center;
     background-size: cover;
     border-radius: 16px;
@@ -186,6 +186,12 @@ export default {
         .el-tree-node__content {
           height: 35px;
           line-height: 35px;
+          .el-tree-node__expand-icon {
+            color: #ffffff;
+          }
+          .el-tree-node__expand-icon.is-leaf {
+            color: transparent;
+          }
         }
         .el-tree-node__content:hover {
           background-color: transparent;
