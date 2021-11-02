@@ -260,7 +260,7 @@ export default {
         width: 98px;
         height: 168px;
         margin: 0 24px 40px 32px;
-       .sandbox-content{
+        .sandbox-content{
           height: 168px;
           width: 100%;
           display: flex;
@@ -268,33 +268,33 @@ export default {
           align-items: center;
           background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
           background-size: cover;
-        .select-img{
-          width: 12px;
-          height: 12px;
-          margin: 14% 0 6% 0;
+          .select-img{
+            width: 12px;
+            height: 12px;
+            margin: 14% 0 6% 0;
+          }
+          .sandbox-img{
+            width: 50px;
+            height: 100px;
+          }
+          .sandbox-detail{
+            font-size: 8px;
+            color: #fff;
+            background-color: #76E1E9;
+            border-radius: 6px;
+            margin-top: 10px;
+            padding: 2px 4px;
+            transform: scale(0.8);
+            display: none;
+          }
         }
-        .sandbox-img{
-          width: 50px;
-          height: 100px;
-        }
-        .sandbox-detail{
-          font-size: 8px;
+        .sandbox-name{
+          margin-top: 12%;
+          font-size: 14px;
           color: #fff;
-          background-color: #76E1E9;
-          border-radius: 6px;
-          margin-top: 10px;
-          padding: 2px 4px;
-          transform: scale(0.8);
-          display: none;
+          text-align: center;
         }
       }
-      .sandbox-name{
-        margin-top: 12%;
-        font-size: 14px;
-        color: #fff;
-        text-align: center;
-      }
-    }
       .one-sandbox:hover{
         .sandbox-detail{
           display: block;
@@ -318,9 +318,9 @@ export default {
       .detail-left{
         margin-right: 60px;
         .detail-left-img{
-            width: 100px;
-            height: 168px;
-            background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
+          width: 100px;
+          height: 168px;
+          background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
           img{
             width: 57px;
             height: 94px;
@@ -333,8 +333,8 @@ export default {
       }
       .detail-right{
         .el-form-item__label {
-            line-height:30px;
-            color: #fff;
+          line-height:30px;
+          color: #fff;
         }
         .el-form-item {
             margin-bottom: 0;

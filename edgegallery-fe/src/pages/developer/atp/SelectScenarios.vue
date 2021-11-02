@@ -443,7 +443,7 @@ export default {
           width: 24px;
           height: 24px;
           img{
-             width: 24px;
+            width: 24px;
             height: 24px;
           }
         }

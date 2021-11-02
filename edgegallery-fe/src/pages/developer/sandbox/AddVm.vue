@@ -407,10 +407,10 @@ export default {
         display: flex;
         margin: 20px 0px;
         p{
-            width: 100px;
-            line-height: 25px;
-            text-align: right;
-            margin-right: 10px;
+          width: 100px;
+          line-height: 25px;
+          text-align: right;
+          margin-right: 10px;
           span{
             color: red;
             line-height: 25px;
@@ -429,8 +429,8 @@ export default {
       margin-bottom: 30px;
       .simulator-info-title{
         p{
-            font-size: 20px;
-            display: flex;
+          font-size: 20px;
+          display: flex;
           span{
             display: block;
             background-color: #5944C0;
@@ -464,7 +464,7 @@ export default {
           .el-table__row{
             border: 2px solid red !important;
             height: 59px;
-            }
+          }
         }
         .el-table td,.el-table tr.is-leaf {
           border-bottom: 1px solid rgba(255, 255, 255, 0.3);
@@ -493,9 +493,9 @@ export default {
               background-color: rgba(255, 255, 255, 0.3);
             }
             .el-icon-arrow-up {
-                font-size: 16px;
-                position: relative;
-                line-height: 25px;
+              font-size: 16px;
+              position: relative;
+              line-height: 25px;
             }
           }
         }

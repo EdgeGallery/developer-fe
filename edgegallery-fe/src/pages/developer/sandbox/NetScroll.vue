@@ -72,22 +72,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .netScroll{
-        width: 154px;
-        height: 94px;
-        overflow: hidden;
-        .ul-scoll{
-          li{
-            text-align: center;
-            overflow: hidden;
-            height: 24px;
-            font-size: 10px;
-            background: url('../../../assets/images/sandbox/oneNet-bg.png') no-repeat center;
-            .title{
-              display: block;
-              transform: scale(0.8);
-            }
-          }
-        }
+.netScroll{
+  width: 154px;
+  height: 94px;
+  overflow: hidden;
+  .ul-scoll{
+    li{
+      text-align: center;
+      overflow: hidden;
+      height: 24px;
+      font-size: 10px;
+      background: url('../../../assets/images/sandbox/oneNet-bg.png') no-repeat center;
+      .title{
+        display: block;
+        transform: scale(0.8);
+      }
     }
+  }
+}
 </style>
