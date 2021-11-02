@@ -23,14 +23,16 @@
     <div class="common-div-bg addVm-bg">
       <div class="vm-info">
         <div class="addVm-top-title">
-          <p><span>*</span>虚拟机名称</p>
+          <p class="defaultFontLight">
+            <span>*</span>虚拟机名称
+          </p>
           <el-input
             class="common-input"
             v-model="vmInfo.vmName"
             placeholder="请输入内容"
           />
         </div>
-        <div class="addVm-top-title">
+        <div class="addVm-top-title defaultFontLight">
           <p>用户名</p>
           <el-input
             class="common-input"
@@ -38,7 +40,7 @@
             placeholder="请输入内容"
           />
         </div>
-        <div class="addVm-top-title">
+        <div class="addVm-top-title defaultFontLight">
           <p>密码</p>
           <el-input
             class="common-input"
@@ -55,7 +57,7 @@
           </p>
         </div>
         <div class="simulator-info-content">
-          <div>
+          <div class="defaultFontLight">
             <el-radio-group
               v-model="vmInfo.archType"
               @change="handleChangeArch"
@@ -63,7 +65,7 @@
               <el-radio-button label="X86" />
               <el-radio-button label="ARM" />
             </el-radio-group>
-            <p class="vm-size">
+            <p class="vm-size defaultFontLight">
               虚拟机规格
             </p>
             <el-table
@@ -145,7 +147,7 @@
           </p>
         </div>
         <div class="selectImage-content">
-          <div class="selectImage-public">
+          <div class="selectImage-public defaultFontLight">
             <el-radio
               v-model="vmInfo.imageType"
               label="public"
@@ -179,7 +181,7 @@
               />
             </el-select>
           </div>
-          <div class="selectImage-public">
+          <div class="selectImage-public defaultFontLight">
             <el-radio
               v-model="vmInfo.imageType"
               label="private"
@@ -394,7 +396,7 @@ export default {
 .addVm{
   width: 100%;
   position:relative;
-  padding-top:40px ;
+  padding-top:10px ;
   font-size: 16px;
   .addVm-bg{
     width:1184px;

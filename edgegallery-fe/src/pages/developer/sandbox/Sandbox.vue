@@ -26,7 +26,7 @@
     >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
-        <p class="sandbox-top-title">
+        <p class="sandbox-top-title defaultFontLight">
           选择沙箱
         </p>
       </div>
@@ -49,19 +49,19 @@
               @click="selectSandbox(index)"
             >
             <p
-              class="sandbox-detail hoverHands"
+              class="sandbox-detail hoverHands defaultFontLight"
               @click="goDetail(item);getIndex(index)"
             >
               详情
             </p>
           </div>
-          <p class="sandbox-name">
+          <p class="sandbox-name defaultFontLight">
             {{ item.name }}
           </p>
         </div>
       </div>
       <el-button
-        class="makesure"
+        class="makesure common-btn"
         @click="selectFinish"
       >
         完成
@@ -73,7 +73,7 @@
     >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
-        <p class="sandbox-top-title">
+        <p class="sandbox-top-title defaultFontLight">
           沙箱详情
         </p>
       </div>
@@ -87,7 +87,9 @@
               alt=""
             >
           </div>
-          <p>{{ sandboxDetails.name }}</p>
+          <p class="defaultFontLight">
+            {{ sandboxDetails.name }}
+          </p>
         </div>
         <div class="detail-right">
           <el-form
@@ -118,13 +120,13 @@
       </div>
       <div class="btns">
         <el-button
-          class="makesure"
+          class="common-btn btn_margin_right"
           @click="backSandbox"
         >
           返回
         </el-button>
         <el-button
-          class="makesure"
+          class="common-btn"
           @click="checkSandbox"
         >
           选择
@@ -232,7 +234,7 @@ export default {
     width: 695px;
     padding: 20px 2%;
     min-height: 405px;
-    margin: 10% auto;
+    margin: 245px auto;
     background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
     background-size: 100% 100%;
     .sandbox-top{
@@ -302,11 +304,8 @@ export default {
       }
     }
     .makesure{
-      width: 88px;
-      height: 30px;
-      border-radius: 12px;
       position: relative;
-      left: 78%;
+      left: 527px;
       margin-top: 40px;
     }
     .details{
@@ -335,14 +334,26 @@ export default {
         .el-form-item__label {
           line-height:30px;
           color: #fff;
+          font-family: defaultFontLight,
+            Arial,
+            Helvetica,
+            sans-serif !important;
         }
         .el-form-item {
             margin-bottom: 0;
+            font-family: defaultFontLight,
+              Arial,
+              Helvetica,
+              sans-serif !important;
         }
       }
     }
     .btns{
-      margin:-30px  50px 0 0;
+        position: relative;
+        left:420px;
+        .btn_margin_right{
+          margin-right: 14px !important;
+        }
     }
   }
 }

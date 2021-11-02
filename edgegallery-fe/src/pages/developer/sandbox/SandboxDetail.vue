@@ -417,7 +417,7 @@ export default {
     .detail-top-title{
       width: 160px;
       height: 63px;
-      margin: 2% 0 0 13%;
+      margin: 1% 0 0 13%;
       font-size: 30px;
       line-height: 50px;
       text-align: center;
@@ -426,7 +426,7 @@ export default {
     }
   }
   .detail-center{
-    margin: 30px auto 0;
+    margin: 10px auto 0;
     width: 259px;
     height: 350px;
     .detail-center-bg{
@@ -582,10 +582,11 @@ export default {
               background-color: #3D3B94;
               opacity: 0.6;
               img{
-                opacity: 0.2;
+                opacity: 0.7;
               }
               .img-onlyRead{
                 pointer-events: none;
+                opacity: 0.2;
               }
             }
             .vm-btn-add{
@@ -605,12 +606,10 @@ export default {
               display: flex;
               justify-content: center;
               align-items: center;
+              opacity: 0.7;
             }
             .vm-btn:hover{
-              opacity: 0.9;
-              img{
-                opacity: 1;
-              }
+              opacity: 1;
             }
           }
           .vmStatus{
