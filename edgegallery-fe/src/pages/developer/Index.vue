@@ -78,9 +78,9 @@
 </template>
 
 <script>
-import IncubationComp from './application/workflow/Incubation.vue'
-import AppstoreComp from './application/workflow/Appstore.vue'
-import DeploymentComp from './application/workflow/Deployment.vue'
+import IncubationComp from './workflow/Incubation.vue'
+import AppstoreComp from './workflow/Appstore.vue'
+import DeploymentComp from './workflow/Deployment.vue'
 export default {
   name: 'Application',
   components: {

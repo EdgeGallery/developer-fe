@@ -103,7 +103,7 @@ export default {
   },
   methods: {
     confirmToCreate () {
-      this.$router.push('/incubation')
+      this.$router.push('/EG/developer/home')
     }
   },
   mounted () {

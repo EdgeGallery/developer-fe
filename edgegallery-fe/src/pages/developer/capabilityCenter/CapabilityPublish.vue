@@ -149,7 +149,7 @@ export default {
   },
   methods: {
     confirmToCreate () {
-      this.$router.push('/incubation/capabilityCenter')
+      this.$router.push('/EG/developer/capabilityCenter')
     }
   },
   mounted () {

@@ -396,7 +396,7 @@ export default {
       }, 3000)
     },
     addApplicationRules () {
-      this.$router.push('/application-rules')
+      this.$router.push('/EG/developer/applicationRules')
     }
   },
   computed: {

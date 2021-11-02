@@ -31,92 +31,92 @@ export default new Router({
       component: () => import('../pages/homePage/Home.vue')
     },
     {
-      path: '/incubation',
+      path: '/EG/developer/home',
       name: 'incubation',
       component: () => import('../pages/developer/Index.vue')
     },
     {
-      path: '/incubation/createApplication',
+      path: '/EG/developer/createApplication',
       name: 'createApplication',
       component: () => import('../pages/developer/application/CreateApplication.vue')
     },
     {
-      path: '/incubation/capabilityCenter',
+      path: '/EG/developer/capabilityCenter',
       name: 'capabilityCenter',
       component: () => import('../pages/developer/capabilityCenter/Index.vue')
     },
     {
-      path: '/incubation/capabilityPublish',
+      path: '/EG/developer/capabilityPublish',
       name: 'capabilityCenter',
       component: () => import('../pages/developer/capabilityCenter/CapabilityPublish.vue')
     },
     {
-      path: '/application-rules',
+      path: '/EG/developer/applicationRules',
       name: 'incubationRules',
       component: () => import('../pages/developer/sandbox/applicationRules/Index.vue')
     },
     {
-      path: '/sandbox',
+      path: '/EG/developer/sandbox',
       name: 'sandbox',
       component: () => import('../pages/developer/sandbox/Index.vue')
     },
     {
-      path: '/sandboxFrame',
+      path: '/EG/developer/sandboxFrame',
       name: 'sandboxFrame',
       component: () => import('../pages/developer/sandbox/Sandbox.vue')
     },
     {
-      path: '/select-scenarios',
+      path: '/EG/developer/selectScenarios',
       name: 'selectScenarios',
       component: () => import('../pages/developer/atp/SelectScenarios.vue')
     },
     {
-      path: '/test-process',
+      path: '/EG/developer/testProcess',
       name: 'testProcess',
       component: () => import('../pages/developer/atp/TestProcess.vue')
     }, {
-      path: '/test-report',
+      path: '/EG/developer/testReport',
       name: 'testReport',
       component: () => import('../pages/developer/atp/TestReport.vue')
     },
     {
-      path: '/sandbox-detail',
+      path: '/EG/developer/sandboxDetails',
       name: 'sandboxDetail',
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },
     {
-      path: '/appDeployDetail',
-      name: 'appDeployDetail',
-      component: () => import('../pages/mecm/AppDeployDetailList.vue')
-    },
-    {
-      path: '/distributeDeploy',
-      name: 'distributeDeploy',
-      component: () => import('../pages/mecm/DistributeDeploy.vue')
-    },
-    {
-      path: '/distribute',
-      name: 'distribute',
-      component: () => import('../pages/mecm/Distribute.vue')
-    },
-    {
-      path: '/appPackageBuild',
+      path: '/EG/images/appPackageBuild',
       name: 'appPackageBuild',
       component: () => import('../pages/developer/image/AppPackageBuild.vue')
     },
     {
-      path: '/appdPreview',
+      path: '/EG/images/appdPreview',
       name: 'appdPreview',
       component: () => import('../pages/developer/image/AppdPreview.vue')
     },
     {
-      path: '/deployConfig',
+      path: '/EG/mecm/appDeployDetail',
+      name: 'appDeployDetail',
+      component: () => import('../pages/mecm/AppDeployDetailList.vue')
+    },
+    {
+      path: '/EG/mecm/distributeDeploy',
+      name: 'distributeDeploy',
+      component: () => import('../pages/mecm/DistributeDeploy.vue')
+    },
+    {
+      path: '/EG/mecm/distribute',
+      name: 'distribute',
+      component: () => import('../pages/mecm/Distribute.vue')
+    },
+    {
+      path: '/EG/mecm/deployConfig',
       name: 'deployConfig',
       component: () => import('../pages/mecm/DeployConfig.vue')
     },
     {
-      path: '/application',
-      name: 'application',
+      path: '/EG/appstore/applications',
+      name: 'applications',
       component: () => import('../pages/appstore/Index.vue')
     },
 

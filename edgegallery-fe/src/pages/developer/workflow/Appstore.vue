@@ -6,7 +6,7 @@
       >
         <span
           class="common-workflow-item app-store"
-          @click="jumpTo('/application')"
+          @click="jumpTo('/EG/appstore/applications')"
         />
       </div>
     </div>
@@ -38,7 +38,7 @@ export default {
     .app-store{
       top: 155px;
       left: -80px;
-      background: url("../../../../assets/images/application/app_store.png") no-repeat center;
+      background: url("../../../assets/images/application/app_store.png") no-repeat center;
       background-size: contain;
     }
   }

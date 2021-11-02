@@ -338,10 +338,10 @@ export default {
       return ''
     },
     doNext (type) {
-      this.$router.push('/incubation')
+      this.$router.push('/EG/developer/home')
     },
     editCapability () {
-      this.$router.push('/incubation/capabilityPublish')
+      this.$router.push('/EG/developer/capabilityPublish')
     }
   },
   watch: {

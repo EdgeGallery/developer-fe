@@ -15,47 +15,47 @@
   -  limitations under the License.
   -->
 <template>
-  <div class="project-list">
+  <div class="app-list">
     <div
-      class="project-list-top"
+      class="app-list-top"
       :class="zoom===2?'top-center':'top-right'"
     >
       <div
-        class="zoom project-btn"
+        class="zoom app-btn"
         title="缩小"
         @click.stop="changeView(1)"
       />
       <div
-        class="project-btn"
+        class="app-btn"
         :class="isSearchActive?'search-active':'search-default'"
         title="搜索"
         @click.stop="searchProject()"
       />
       <div
-        class="project-btn"
+        class="app-btn"
         :class="isViewActive?'view-active':'view-default'"
         title="更多"
         @click.stop="changeView(2)"
       />
     </div>
     <div
-      class="project-main"
-      :class="zoom===2?'':'project-flex-main'"
+      class="app-main"
+      :class="zoom===2?'':'app-flex-main'"
     >
       <div
-        class="project-list-title"
+        class="app-list-title"
         v-if="zoom!==2"
       >
         新建项目/最近创建
       </div>
       <div
-        class="project-list-main"
-        :class="zoom===2?'':'project-flex-items'"
+        class="app-list-main"
+        :class="zoom===2?'':'app-flex-items'"
       >
         <div
           v-for="(item,index) in projectList"
           :key="index"
-          class="project-item"
+          class="app-item"
           @click.stop="index===0?createNewProject():checkProjectDetail(item)"
         >
           <img
@@ -67,16 +67,16 @@
             {{ item.name }}
           </div>
           <div
-            class="project-common-status"
+            class="app-common-status"
             v-if="item.id!==1"
-            :class="item.status==='creating'?'project-creating':(item.status==='success'?'project-success':(item.status==='failed'?'project-failed':'project-published'))"
+            :class="item.status==='creating'?'app-creating':(item.status==='success'?'app-success':(item.status==='failed'?'app-failed':'app-published'))"
           >
             {{ switchStatus(item.status) }}
           </div>
         </div>
       </div>
       <div
-        class="project-list-title"
+        class="app-list-title"
         v-if="zoom!==2"
       >
         部署完成
@@ -152,10 +152,10 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.project-list {
-  .project-list-top{
+.app-list {
+  .app-list-top{
     display: flex;
-    .project-btn{
+    .app-btn{
       width: 20px;
       height: 20px;
       margin: 10px 15px;
@@ -184,9 +184,9 @@ export default {
   .top-right{
     justify-content: right;
   }
-  .project-list-main{
+  .app-list-main{
     margin: 0 auto;
-    .project-item{
+    .app-item{
       text-align: center;
       cursor: pointer;
       padding: 20px 15px;
@@ -200,14 +200,14 @@ export default {
       }
     }
   }
-  .project-flex-items{
+  .app-flex-items{
     display: flex;
     justify-content: left;
   }
-  .project-flex-main{
+  .app-flex-main{
     margin-left: 50px;
   }
-  .project-list-title{
+  .app-list-title{
     font-size: 20px;
     font-weight: 400;
     margin-bottom: 35px;
@@ -218,10 +218,10 @@ export default {
     width: 180px;
     z-index: 988;
   }
-  .project-common-status{
+  .app-common-status{
     font-size: 10px;
   }
-  .project-common-status::before{
+  .app-common-status::before{
     content:"";
     display: inline-block;
     width: 18px;
@@ -230,16 +230,16 @@ export default {
     top: 5px;
     left: 3px;
   }
-  .project-creating::before{
+  .app-creating::before{
     background: url('../../../assets/images/projects/pro_creating.png') no-repeat center;
   }
-  .project-success::before{
+  .app-success::before{
     background: url('../../../assets/images/projects/pro_success.png') no-repeat center;
   }
-  .project-failed::before{
+  .app-failed::before{
     background: url('../../../assets/images/projects/pro_failed.png') no-repeat center;
   }
-  .project-published::before{
+  .app-published::before{
     background: url('../../../assets/images/projects/pro_published.png') no-repeat center;
   }
 }

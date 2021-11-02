@@ -98,7 +98,7 @@ export default {
       this.pageModel = val
     },
     $route (to, from) {
-      this.isIndex = window.location.hash.indexOf('/index') < 0
+      this.isIndex = window.location.hash.indexOf('/EG') > 0
       this.toPath = to.path
       this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
       let toJumpClassic = this.pageModel === 'Classic'
@@ -141,7 +141,7 @@ export default {
     createNewProject (val) {
       if (val) {
         this.zoomChanged(1)
-        this.$router.push('/incubation/createApplication')
+        this.$router.push('/EG/developer/createApplication')
       }
     },
     setDivHeight (screenHeight) {
