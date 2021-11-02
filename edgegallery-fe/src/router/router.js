@@ -102,7 +102,7 @@ export default new Router({
     {
       path: '/application',
       name: 'application',
-      component: () => import('../pages/appstore/index.vue')
+      component: () => import('../pages/appstore/Index.vue')
     },
 
     ...routesclassic
