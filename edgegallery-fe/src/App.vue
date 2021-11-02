@@ -34,7 +34,37 @@
       class="clearfix"
       v-if="pageModel==='newVersion'"
     />
-    <router-view />
+    <el-row>
+      <el-col
+        :span="zoom"
+        v-if="isIndex"
+        class="app-list-comp"
+      >
+        <div
+          class="left-pro-comp"
+          :class="zoom>1?'left-pro-comp-show':''"
+          ref="leftProComp"
+        >
+          <ProjectSideComp
+            @zoomChanged="zoomChanged"
+            @createNewProject="createNewProject"
+            :zoom="zoom"
+            v-if="zoom>1"
+          />
+        </div>
+        <em
+          class="el-icon-arrow-right"
+          v-if="zoom ===1"
+          @click.stop="enlarge()"
+        />
+      </el-col>
+      <el-col
+        :span="24-zoom"
+        v-if="zoom<20"
+      >
+        <router-view />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -42,11 +72,13 @@
 import Navcomp from '../src/classic/components/Nav.vue'
 import NavcompNew from '../src/components/Nav.vue'
 import navDataClassic from '../src/classic/navdata/navDataCn.js'
+import ProjectSideComp from './pages/developer/application/ApplicationtList.vue'
 export default {
   name: 'App',
   components: {
     Navcomp,
-    NavcompNew
+    NavcompNew,
+    ProjectSideComp
   },
   data () {
     return {
@@ -56,7 +88,9 @@ export default {
       toPath: '/index',
       navDataClassic: navDataClassic,
       screenHeight: document.body.clientHeight,
-      timer: false
+      timer: false,
+      zoom: 2,
+      isIndex: true
     }
   },
   watch: {
@@ -64,6 +98,7 @@ export default {
       this.pageModel = val
     },
     $route (to, from) {
+      this.isIndex = window.location.hash.indexOf('/EG') > 0
       this.toPath = to.path
       this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
       let toJumpClassic = this.pageModel === 'Classic'
@@ -90,6 +125,25 @@ export default {
     }
   },
   methods: {
+    zoomChanged (val) {
+      if (val === 1) {
+        this.zoom = 1
+        this.$refs.leftProComp.style.width = '15%'
+      } else {
+        this.zoom = 20
+        this.$refs.leftProComp.style.width = '100%'
+      }
+    },
+    enlarge () {
+      this.zoom = 2
+      this.$refs.leftProComp.style.width = '100%'
+    },
+    createNewProject (val) {
+      if (val) {
+        this.zoomChanged(1)
+        this.$router.push('/EG/developer/createApplication')
+      }
+    },
     setDivHeight (screenHeight) {
       this.$nextTick(() => {
         let _oDiv = document.getElementsByClassName('app-new')[0]
@@ -152,7 +206,41 @@ export default {
   position: relative;
 }
 .app-new{
-  background:url('../src/assets/images/common_bg.png');
+  background:url('./assets/images/common_bg.png');
   background-size:cover;
+}
+.left-pro-comp{
+  width: 100%;
+  height: 95%;
+  position: relative;
+  border: 2px solid #838ACB;
+  border-left: none;
+  border-radius: 0 17px 17px 0;
+  z-index: 15;
+  overflow: hidden;
+}
+.app-list-comp .el-icon-arrow-right{
+  position: absolute;
+  top: 50%;
+  left: 0.5%;
+  cursor: pointer;
+}
+.left-pro-comp-show{
+  min-width: 150px!important;
+}
+.left-pro-comp::after {
+  content: "";
+  background: url("./assets/images/index/index_mask.png") no-repeat center;
+  background-size: cover;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+.el-row, .el-col{
+  height: 100%;
 }
 </style>

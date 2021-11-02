@@ -34,6 +34,7 @@
           v-for="(item,index) in rightBtnList"
           :key="index"
           class="main-content-right-item"
+          @click="jumpTo(item.path)"
         >
           <img
             :src="item.src"
@@ -58,21 +59,26 @@ export default {
       rightBtnList: [
         {
           name: '应用孵化',
-          src: require('../../assets/images/index/index_app_create.png')
+          src: require('../../assets/images/index/index_app_create.png'),
+          path: '/EG/developer/home'
         },
         {
           name: '应用商店',
-          src: require('../../assets/images/index/index_app_store.png')
+          src: require('../../assets/images/index/index_app_store.png'),
+          path: '/EG/appstore/applications'
         },
         {
           name: '应用部署',
-          src: require('../../assets/images/index/index_app_deploy.png')
+          src: require('../../assets/images/index/index_app_deploy.png'),
+          path: '/EG/mecm/appDeployDetail'
         }
       ]
     }
   },
   methods: {
-
+    jumpTo (path) {
+      this.$router.push(path)
+    }
   },
   mounted () {}
 }
@@ -141,7 +147,6 @@ export default {
       }
       .main-content-right-item:hover{
         transform: translate3d(0,-20px,0);
-        border: none;
       }
     }
 

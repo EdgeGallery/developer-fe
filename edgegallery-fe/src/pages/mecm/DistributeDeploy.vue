@@ -149,7 +149,7 @@ export default {
 .distribute-deploy{
   width: 100%;
   height: 100%;
-  padding:80px 13% 0 13%;
+  padding:80px 15% 0 10%;
   .card-shadow{
     padding: 0px 0 1px 2px;
     border-radius: 17px;
