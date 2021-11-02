@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="my-pagination">
+  <div class="custom_pagination">
     <el-pagination
       background
       class="rt"
@@ -103,7 +103,7 @@ export default {
 
 </script>
 <style lang="less">
-  .my-pagination{
+  .custom_pagination{
     .el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
       min-width: 24px;
     }

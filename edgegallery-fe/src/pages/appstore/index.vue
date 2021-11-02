@@ -93,7 +93,7 @@
       <div
         style="margin-top: 20px"
       >
-        <pagination
+        <Pagination
           :table-data="pageData"
           @getCurrentPageData="getCurrentPageData"
           :list-total="listTotal"
@@ -105,10 +105,11 @@
 
 <script>
 import { URL_PREFIX, appstoreApi } from '../../api/appstoreApi'
-import pagination from '../../components/Pagination.vue'
+import Pagination from '../../components/Pagination.vue'
 
 export default {
-  components: { pagination },
+  name: 'Application',
+  components: { Pagination },
   data () {
     return {
       pageData: [
