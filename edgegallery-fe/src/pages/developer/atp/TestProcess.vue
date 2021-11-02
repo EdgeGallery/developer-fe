@@ -302,6 +302,7 @@
 <script>
 import { Userpage } from '../../../api/atpApi.js'
 export default {
+  name: 'TestProcess',
   data () {
     return {
       language: 'cn',

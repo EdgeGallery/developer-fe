@@ -66,6 +66,7 @@
 </template>
 <script>
 export default {
+  name: 'TestCase',
   props: {
     testSuiteData: {
       type: Array,

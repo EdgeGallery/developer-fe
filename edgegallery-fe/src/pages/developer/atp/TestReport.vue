@@ -257,7 +257,7 @@ import pdf from 'vue-pdf'
 import { formatDateTime } from '../../../tools/common.js'
 
 export default {
-  name: 'Atpreport',
+  name: 'TestReport',
   components: {
     pdf
   },

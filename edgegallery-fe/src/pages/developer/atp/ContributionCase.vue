@@ -138,6 +138,7 @@
 import { Userpage } from '../../../api/atpApi.js'
 
 export default {
+  name: 'ContributionCase',
   data () {
     const nameEmpty = (rule, value, callback) => {
       if (value === '') {
