@@ -1,5 +1,8 @@
 <template>
-  <div class="appstore common-workflow">
+  <div
+    class="appstore common-workflow"
+    :class="currentFlow>6||currentFlow===6?'common-center-active':''"
+  >
     <div>
       <div
         class="common-center"
@@ -49,7 +52,7 @@ export default {
       background: url("../../../assets/images/application/app_store.png") no-repeat center;
       background-size: contain;
     }
-    .app-store-active{
+    .common-center>.app-store-active{
       background: url("../../../assets/images/application/app_store_active.png") no-repeat center;
       background-size: contain;
     }

@@ -272,7 +272,7 @@ export default {
       this.isDnsRulesShow = true
     },
     configApplicationRules () {
-      this.$router.push('sandbox-detail')
+      this.$router.push('/EG/developer/sandboxDetails')
     }
   },
   watch: {
