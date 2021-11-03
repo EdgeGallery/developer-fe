@@ -24,12 +24,13 @@
     >
       <el-button
         class="test-btn"
-        @click="$router.go(-1)"
+        @click="jumpToIncubation"
       >
         返回
       </el-button>
       <el-button
         class="test-light-btn"
+        @click="jumpToPromote"
       >
         应用推送
       </el-button>
@@ -59,7 +60,7 @@
                 alt=""
               > -->
               <img
-                src="../../assets/images/atp/success.png"
+                :src="item.images"
                 alt=""
               >
             </div>
@@ -91,9 +92,7 @@
           </div>
         </div>
       </div>
-      <div
-        style="margin-top: 20px"
-      >
+      <div>
         <Pagination
           :table-data="pageData"
           @getCurrentPageData="getCurrentPageData"
@@ -115,53 +114,59 @@ export default {
     return {
       pageData: [
         {
-          name: 'W3dfdffddffd分得分得分反对发射点',
+          name: 'AI_Paint',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
-          experienceAble: false
+          experienceAble: false,
+          images: require('../../assets/images/appstore/app_icon.png')
         }, {
-          name: 'W3',
+          name: 'Game_2048',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
-          experienceAble: false
+          experienceAble: false,
+          images: require('../../assets/images/appstore/game2048.png')
         }, {
-          name: 'W3',
+          name: 'Mediawiki',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
-          experienceAble: true
+          experienceAble: true,
+          images: require('../../assets/images/appstore/mediawiki 1.png')
         }, {
-          name: 'W3',
+          name: 'Pacman',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
-          experienceAble: true
+          experienceAble: true,
+          images: require('../../assets/images/appstore/pacman 1.png')
         }, {
-          name: 'W3',
+          name: '飞船大战',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
-          experienceAble: false
+          experienceAble: false,
+          images: require('../../assets/images/appstore/spaceships 1.png')
         }, {
-          name: 'W3',
+          name: '飞船大战',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
-          experienceAble: false
+          experienceAble: false,
+          images: require('../../assets/images/appstore/spaceships 1.png')
         }
       ],
       language: 'cn',
@@ -173,6 +178,12 @@ export default {
     }
   },
   methods: {
+    jumpToIncubation () {
+      this.$router.push('/EG/developer/home')
+    },
+    jumpToPromote () {
+      this.$router.push('/EG/appstore/apppromotion')
+    },
     hoverAppList (index) {
       this.activeIndex = index
     },
@@ -197,7 +208,7 @@ export default {
 <style lang='less'>
 .app-grid {
   min-height: 320px;
-  margin: 30px 0;
+  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   .content {
