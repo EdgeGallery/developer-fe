@@ -15,15 +15,22 @@
   -->
 <template>
   <div class="padding_default">
-    <div style="padding: 40px 0;">
-      <el-button>返回</el-button>
-      <el-button>发布</el-button>
+    <div style="padding: 40px 0;text-align:right;">
+      <el-button
+        class="common-btn"
+        @click="jumpToIncubation"
+      >
+        返回
+      </el-button>
+      <el-button class="common-btn">
+        发布
+      </el-button>
       <el-button
         :disabled="report || userName==='guest'"
-        class="light-button"
+        class="common-btn"
         icon="el-icon-upload"
         size="small"
-        @click="uploadPdfVisible=true"
+        @click="isUploadPdf=true"
       >
         上传自测报告
       </el-button>
@@ -31,14 +38,17 @@
         size="small"
         :disabled="report"
         id="back_button"
-        class="dark-button"
+        class="common-btn"
         icon="el-icon-document"
         @click="jumpToReport()"
       >
         查看报告
       </el-button>
     </div>
-    <div class="testing-main">
+    <div
+      class="testing-main"
+      :class="isUploadPdf?'blur-bg':''"
+    >
       <div
         class="process"
         id="process"
@@ -250,59 +260,21 @@
               </el-button>
             </div>
           </el-dialog>
-          <el-dialog
-            :visible.sync="uploadPdfVisible"
-            width="30%"
-            class="uploadPdfDialog"
-          >
-            <div class="uploadReport">
-              <!-- <img
-              src="../../assets/images/uploadReport.png"
-              alt=""
-            > -->
-              <div class="uploadpdf">
-                {{ $t('userpage.selftestUpload') }}
-              </div>
-              <p>{{ $t('userpage.haveReport') }}</p>
-              <span>{{ $t('userpage.pdfFormat') }}</span>
-            </div>
-            <div
-              slot="footer"
-              class="dialog-footer"
-            >
-              <el-button
-                style="margin-right:40px;"
-                @click="uploadPdfVisible=false"
-                class="light-button"
-              >
-                {{ $t('userpage.later') }}
-              </el-button>
-              <el-upload
-                :show-file-list="false"
-                action=""
-                :limit="1"
-                :auto-upload="false"
-                :file-list="pdfFile"
-                accept=".pdf"
-                :on-change="handleChangePdf"
-              >
-                <el-button
-                  class="dark-button"
-                >
-                  {{ $t('userpage.uploadNow') }}
-                </el-button>
-              </el-upload>
-            </div>
-          </el-dialog>
         </div>
       </div>
     </div>
+    <UploadSelfReportDig
+      :is-upload-pdf="isUploadPdf"
+      @closeDig="closeDig"
+    />
   </div>
 </template>
 <script>
 import { Userpage } from '../../../api/atpApi.js'
+import UploadSelfReportDig from './UploadSelfReportDig.vue'
 export default {
   name: 'TestProcess',
+  components: { UploadSelfReportDig },
   data () {
     return {
       language: 'cn',
@@ -331,8 +303,7 @@ export default {
       authorities: [],
       alltestCase: [],
       scoreColor: '',
-      uploadPdfVisible: false,
-      pdfFile: [],
+      isUploadPdf: false,
       customColor: '#8097f7',
       isManualTitle: false,
       uploadUser: ''
@@ -345,6 +316,12 @@ export default {
     }, 1000)
   },
   methods: {
+    closeDig () {
+      this.isUploadPdf = false
+    },
+    jumpToIncubation () {
+      this.$router.push('/EG/developer/home')
+    },
     jumpToReport () {
       let taskId = this.taskId
       let routeData = this.$router.resolve({ name: 'atpreport', query: { taskId: taskId } })
@@ -544,7 +521,7 @@ export default {
         this.activeName = this.finishActiveName
         this.clearInterval()
         // if (!reportPath && this.uploadUser === this.userName && this.userName !== 'guest') {
-        //   this.uploadPdfVisible = true
+        //   this.isUploadPdf = true
         // }
       } else {
         this.statusTitle = ['正在测试...', 'Testing...']
@@ -628,23 +605,6 @@ export default {
     clearInterval () {
       clearTimeout(this.interval)
       this.interval = null
-    },
-    // pdf
-    handleChangePdf (file, fileList) {
-      this.pdfFile.push(file.raw)
-      let fd = new FormData()
-      fd.append('file', this.pdfFile[0])
-      if (this.pdfFile.length > 0) {
-        this.uploadPdfVisible = false
-        Userpage.uploadReportApi(this.taskId, fd).then(res => {
-          this.$message({
-            showClose: true,
-            duration: 2000,
-            message: this.$t('promptMessage.uploadSuc'),
-            type: 'success'
-          })
-        })
-      }
     }
   },
   beforeDestroy () {
@@ -893,30 +853,9 @@ export default {
     .el-tooltip__popper.is-light{
       border: 1px solid #688ef3!important;
     }
-    .uploadPdfDialog{
-      .el-dialog__header {
-        border: none;
-      }
-      .uploadReport{
-        text-align: center;
-        .uploadpdf{
-          font-size: 24px;
-          color: #333333;
-        }
-        p{
-          font-size: 18px;
-          color: #666666;
-          padding: 5px 0;
-        }
-        span{
-          font-size: 14px;
-          color: #666666;
-        }
-      }
-      .dialog-footer{
-        display: flex;
-        justify-content: center;
-      }
-    }
+
+}
+.blur-bg{
+  filter: blur(4px);
 }
 </style>

@@ -760,15 +760,15 @@ export default {
       border-radius: 16px;
       padding: 40px;
       border: solid 1px #8f80d9;
-      background: url(/img/div-bg.6943df11.png);
-      box-shadow: 60px 70px 75px rgb(36 20 119 / 25%);
+      background-image: url('../../../assets/images/div_bg.png');
+      box-shadow: 50px 50px 75px rgba(36 ,20, 119 ,0.25);
       .report-app-info{
         position: relative;
         padding-top: 15px;
         .resulticon{
           position: absolute;
           right: 20px;
-          top: -60px;
+          top: -50px;
         }
       }
     }
@@ -801,8 +801,7 @@ export default {
               padding: 40px;
               width: 100%;
               border: solid 1px #8f80d9;
-              background: url(/img/div-bg.6943df11.png);
-              box-shadow: 60px 70px 75px rgb(36 20 119 / 25%);
+              background-image: url('../../../assets/images/div_bg.png');
               border-radius: 16px;
             }
             .sumchart{
@@ -817,8 +816,8 @@ export default {
     .report-detail{
       padding: 40px;
       border: solid 1px #8f80d9;
-      background: url(/img/div-bg.6943df11.png);
-      box-shadow: 60px 70px 75px rgb(36 20 119 / 25%);
+      background-image: url('../../../assets/images/div_bg.png');
+      box-shadow: 50px 50px 75px rgba(36 ,20, 119 ,0.25);
       border-radius: 16px;
       .detail-content{
         .scene{
