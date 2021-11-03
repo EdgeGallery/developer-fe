@@ -26,10 +26,12 @@ import VueCookies from 'vue-cookies'
 import 'eg-view/src/assets/style/element-variables.scss'
 import 'eg-view/src/assets/style/normal.css'
 import '../src/assets/css/common.css'
+import EgMessageBox from '../src/components/MessageBox/index.js'
 
 Vue.use(ElementUI, { locale })
 Vue.prototype.$echarts = echarts
 Vue.use(VueCookies)
+Vue.use(EgMessageBox)
 
 Vue.config.productionTip = false
 
