@@ -78,13 +78,6 @@
 </template>
 
 <script>
-import ProjectSideComp from './application/ProjectList.vue'
-import IncubationComp from './application/workflow/Incubation.vue'
-import AppstoreComp from './application/workflow/Appstore.vue'
-import DeploymentComp from './application/workflow/Deployment.vue'
-import CreateProjectComp from './application/CreateProjectDlg.vue'
-import CapabilityCenterIndexComp from './capabilityCenter/Index.vue'
-import CapabilityCenterComp from './capabilityCenter/CapabilityCenter.vue'
 import { promptJumpToClassic } from '../../tools/common.js'
 import IncubationComp from './workflow/Incubation.vue'
 import AppstoreComp from './workflow/Appstore.vue'
@@ -130,7 +123,6 @@ export default {
   },
   beforeRouteLeave (to, from, next) {
     promptJumpToClassic(to.path, next, this)
-
   }
 }
 </script>
