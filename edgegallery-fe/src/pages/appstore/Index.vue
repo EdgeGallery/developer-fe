@@ -24,6 +24,7 @@
     >
       <el-button
         class="test-btn"
+        @click="$router.go(-1)"
       >
         返回
       </el-button>

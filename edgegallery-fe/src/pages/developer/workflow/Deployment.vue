@@ -6,6 +6,7 @@
       >
         <span
           class="common-workflow-item deploy-meao"
+          @click="jumpTo('/appDeployDetail')"
         />
       </div>
       <div
@@ -36,6 +37,11 @@ export default {
     return {
 
     }
+  },
+  methods: {
+    jumpTo (path) {
+      this.$router.push(path)
+    }
   }
 }
 </script>
@@ -46,19 +52,19 @@ export default {
     .deploy-meao{
       top: 155px;
       left: -60px;
-      background: url("../../../../assets/images/application/app_meao.png") no-repeat center;
+      background: url("../../../assets/images/application/app_meao.png") no-repeat center;
       background-size: contain;
     }
     .deploy-mepm{
       top: 65px;
       left: 100px;
-      background: url("../../../../assets/images/application/app_mepm.png") no-repeat center;
+      background: url("../../../assets/images/application/app_mepm.png") no-repeat center;
       background-size: contain;
     }
     .deploy-node{
       top: -25px;
       left: 260px;
-      background: url("../../../../assets/images/application/app_edge_node.png") no-repeat center;
+      background: url("../../../assets/images/application/app_edge_node.png") no-repeat center;
       background-size: contain;
     }
   }
