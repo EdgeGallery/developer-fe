@@ -1015,7 +1015,7 @@ th{
   position: relative;
   cursor: pointer;
 }
-.common-center>.common-workflow-item::after{
+.common-center-active .common-workflow-item::after{
   content:'';
   display: inline-block;
   width: 8px;

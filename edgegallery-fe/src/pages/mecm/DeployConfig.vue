@@ -91,7 +91,10 @@
         <el-button class="common-btn">
           {{ $t('common.cancel') }}
         </el-button>
-        <el-button class="common-btn">
+        <el-button
+          class="common-btn"
+          @click="returnHome"
+        >
           {{ $t('common.confirm') }}
         </el-button>
       </div>
@@ -124,6 +127,16 @@ export default {
     }
   },
   methods: {
+    returnHome () {
+      this.$message({
+        showClose: true,
+        duration: 2000,
+        message: '部署成功',
+        type: 'success'
+      })
+      sessionStorage.setItem('currentFlow', 7)
+      this.$router.push('/EG/developer/home')
+    }
   },
   mounted () {}
 }

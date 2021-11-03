@@ -215,6 +215,7 @@
             <el-button
               class="common-btn rt"
               :disabled="!this.isStartupVmFinish"
+              @click="returnHome"
             >
               {{ $t('common.finish') }}
             </el-button>
@@ -357,6 +358,10 @@ export default {
     }
   },
   methods: {
+    returnHome () {
+      sessionStorage.setItem('currentFlow', 3)
+      this.$router.push('/EG/developer/home')
+    },
     deployInternet () {
       this.isChangeStyle = false
     },

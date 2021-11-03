@@ -32,7 +32,7 @@
       class="common-div-bg create-application-form"
       v-if="isShowProjectDlg"
     >
-      <createApplicationComp @createNewApplication="createNewApplication" />
+      <createApplicationComp />
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     returnIndexPage () {
-      this.$router.push('/developer/home')
+      this.$router.push('/EG/developer/home')
     }
   }
 }

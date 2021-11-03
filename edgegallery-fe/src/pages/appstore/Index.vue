@@ -179,6 +179,7 @@ export default {
   },
   methods: {
     jumpToIncubation () {
+      sessionStorage.setItem('currentFlow', 6)
       this.$router.push('/EG/developer/home')
     },
     jumpToPromote () {
