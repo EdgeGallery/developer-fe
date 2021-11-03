@@ -188,7 +188,7 @@
 
 <script>
 import { appstoreApi } from '../../api/appstoreApi.js'
-import PromTaskDig from './PromTaskDig.vue'
+import PromTaskDig from './PromTaskDlg.vue'
 import Pagination from '../../components/Pagination.vue'
 
 export default {

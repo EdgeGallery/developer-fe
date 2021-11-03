@@ -271,7 +271,7 @@
 </template>
 <script>
 import { Userpage } from '../../../api/atpApi.js'
-import UploadSelfReportDig from './UploadSelfReportDig.vue'
+import UploadSelfReportDig from './UploadSelfReportDlg.vue'
 export default {
   name: 'TestProcess',
   components: { UploadSelfReportDig },
