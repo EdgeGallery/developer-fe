@@ -26,13 +26,11 @@
         @click="toSelectSandbox"
       >
         <p
-          class="sandbox-name-cn"
+          class="sandbox-name-cn fontUltraLight"
         >
           {{ selectSandbox }}
         </p>
-        <p class="sandbox-name-en">
-          SANDBOX
-        </p>
+        <p class="sandbox-name-en" />
       </div>
     </div>
     <SandBoxList
@@ -82,7 +80,7 @@ export default {
     width: 344px;
     height: 420px;
     margin: 10% auto;
-    padding: 170px 0;
+    padding:170px 0;
     background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
     animation: scaleBox 4s  ease-in 0s infinite ;
     @keyframes scaleBox {
@@ -110,13 +108,12 @@ export default {
       letter-spacing: 10px;
       text-align: center;
       color: #fff;
-      font-weight: lighter;
     }
     .sandbox-name-en{
-      font-weight: bold;
-      font-size: 50px;
-      text-align: center;
-      color:#D6CFFB;
+      background: url('../../../assets/images/sandbox/sandbox_en.png') no-repeat center;
+      width: 248px;
+      height: 67px;
+      margin: 0 auto;
     }
   }
 }
