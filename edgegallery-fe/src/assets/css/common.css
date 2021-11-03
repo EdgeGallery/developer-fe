@@ -248,7 +248,7 @@
    padding: 0px;
  }
  .el-dialog__header{
-   background: #688ef3 !important;
+   background: #688ef3;
  }
  .half{
    float: left;
@@ -689,6 +689,7 @@
 }
 .el-checkbox__inner{
   background-color: transparent;
+  border: 1px solid #fff;
 }
 .el-checkbox__input.is-focus .el-checkbox__inner, .el-checkbox__inner:hover{
   border-color: #fff;
@@ -1046,6 +1047,7 @@ th{
   border-radius: 16px;
 }
 .test-light-btn.el-button{
+  box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8);
   background-image: linear-gradient(127deg,#FFFFFF,#D7E2FF);
   padding: 12px 30px;
   color: #0F0D87;

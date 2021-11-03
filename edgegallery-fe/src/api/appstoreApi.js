@@ -30,62 +30,18 @@ let appstoreApi = {
     let url = URL_PREFIXV2 + 'query/apps'
     return POST(url, params)
   },
-  getCommentsApi: function (appId, limit, offset) {
-    let url = URL_PREFIXV2 + 'apps/' + appId + '/comments?limit=' + limit + '&offset=' + offset
-    return GET(url)
-  },
-  submitAppCommentApi: function (appId, params, userId, userName) {
-    let url = URL_PREFIX + 'apps/' + appId + '/comments?userId=' + userId + '&userName=' + userName
-    return POST(url, params)
-  },
-  getNodePort: function (appId, packageId, userId, name, ip) {
-    let url = URL_PREFIX + 'experience/deploy?appId=' + appId + '&packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
-    return GET(url)
-  },
-  getThirdSystemByType: function (type) {
-    let url = URL_PREFIX + 'thirdsystem/systemType/' + type
+  getAppPromTable: function (limit, offset, appName, sortType, sortItem) {
+    let url = URL_PREFIXV2 + 'packages/pushable?limit=' + limit + '&offset=' + offset + '&appName=' + appName + '&sortType=' + sortType + '&sortItem=' + sortItem
     return GET(url, '')
   },
-  getProgressByPackageId: function (packageId) {
-    let url = URL_PREFIX + 'upload_progress/package/' + packageId
+  promProviderInfo: function (curPageSize, offset, appStoreName) {
+    let url = URL_PREFIXV2 + 'appstores?limit=' + curPageSize + '&offset=' + offset + '&appStoreName=' + appStoreName
     return GET(url, '')
   },
-  synchronizedPakageApi: function (currentData, meaoId) {
-    let url = URL_PREFIX + 'apps/' + currentData.appId + '/packages/' + currentData.packageId + '/meao/' + meaoId + '/action/sync'
-    return GET(url)
-  },
-  cleanTestEnv: function (packageId, userId, name, ip) {
-    let url = URL_PREFIX + 'experience/clean?packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
-    return POST(url)
-  },
-  getNodeStatus: function (packageId, userId, name, ip) {
-    let url = URL_PREFIX + 'experience/container/workStatus?packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
-    return GET(url)
-  },
-  getAppDetailTableApi: function (appId, userId, limit, offset) {
-    let url = ''
-    if (userId == null) {
-      url = URL_PREFIXV2 + 'apps/' + appId + '/packages?limit=' + limit + '&offset=' + offset
-    } else {
-      url = URL_PREFIXV2 + 'apps/' + appId + '/packages?userId=' + userId + '&limit=' + limit + '&offset=' + offset
-    }
-    return GET(url)
-  },
-  getAppListApi: function (appId) {
-    let url = URL_PREFIX + 'apps/' + appId
-    return GET(url)
-  },
-  getPackageDetailApi: function (appId, packageId) {
-    let url = URL_PREFIX + 'apps/' + appId + '/packages/' + packageId
-    return GET(url)
-  },
-  getMechosts: function () {
-    return GET(URL_PREFIX + 'mechosts')
-  },
-  createOrder: function (param) {
-    return POST(URL_PREFIX + 'orders', param)
+  promTask: function (packageId, param) {
+    let url = 'packages/' + packageId + '/action/push'
+    return POST(url, param)
   }
-
 }
 export {
   URL_PREFIX, URL_PREFIXV2, appstoreApi
