@@ -45,6 +45,18 @@ function formatDateTime (dateStr) {
       ':' +
       (s > 9 ? s : '0' + s)
 }
+function promptJumpToClassic (path, next, _this) {
+  if (path === '/appStore/home' || path === '/mecm/' || path === '/system') {
+    _this.$eg_messagebox('点击确认跳转至经典版查看').then(() => {
+      next()
+    }).catch(() => {
+      next(false)
+    })
+  } else {
+    next()
+  }
+}
 export {
-  formatDateTime
+  formatDateTime,
+  promptJumpToClassic
 }

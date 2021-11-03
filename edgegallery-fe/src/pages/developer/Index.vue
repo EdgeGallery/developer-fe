@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { promptJumpToClassic } from '../../tools/common.js'
 import IncubationComp from './workflow/Incubation.vue'
 import AppstoreComp from './workflow/Appstore.vue'
 import DeploymentComp from './workflow/Deployment.vue'
@@ -98,7 +99,30 @@ export default {
     }
   },
   methods: {
-
+    zoomChanged (val) {
+      if (val === 1) {
+        this.zoom = 1
+        this.$refs.leftProComp.style.width = '15%'
+      } else {
+        this.zoom = 20
+        this.$refs.leftProComp.style.width = '100%'
+      }
+    },
+    enlarge () {
+      this.zoom = 2
+      this.$refs.leftProComp.style.width = '100%'
+    },
+    createNewProject (val) {
+      this.isShowProjectDlg = val
+      if (val) {
+        this.zoomChanged(1)
+        this.isShowCapabilityDlg = false
+        this.isShowCapabilityIndexDlg = false
+      }
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    promptJumpToClassic(to.path, next, this)
   }
 }
 </script>

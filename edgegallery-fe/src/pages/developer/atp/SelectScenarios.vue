@@ -346,6 +346,7 @@ export default {
       // })
     },
     startTest () {
+      this.$router.push('/EG/developer/testProcess')
       this.scenarioIdList = []
       this.sceneData.forEach(item => {
         if (item.selected) {

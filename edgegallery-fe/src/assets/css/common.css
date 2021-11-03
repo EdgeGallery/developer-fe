@@ -434,7 +434,8 @@
  .el-menu--horizontal > .el-menu-item.is-active,
  .main-sidebar .el-menu.el-menu--horizontal .el-menu-item:not(.is-disabled):hover,
  .el-menu--horizontal > .el-submenu.is-active .el-submenu__title,
- .main-sidebar .el-menu--horizontal > .el-submenu .el-submenu__title:hover{
+ .main-sidebar .el-menu--horizontal > .el-submenu .el-submenu__title:hover,
+ .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus{
    border-bottom: none !important;
    background-color: transparent !important;
    color: #fff !important;
@@ -809,7 +810,7 @@
 }
 .common-btn:hover{
   color: #fff;
-  background-color: #60569A;
+  background-color: #5347a0;
 }
 .inner-btn{
   color: #fff;
