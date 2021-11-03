@@ -130,7 +130,7 @@
             资源配置
           </div>
         </div>
-        <div class="content-wrapper content">
+        <div class="content-wrapper appPackageBuild-content">
           <el-table
             class="common-table"
             :data="resourceConfigInfoList"
@@ -200,7 +200,7 @@
             分流规则
           </div>
         </div>
-        <div class="content-wrapper content">
+        <div class="content-wrapper appPackageBuild-content">
           <el-tabs>
             <el-tab-pane label="流量规则">
               <el-button
@@ -352,7 +352,7 @@
             能力配置
           </div>
         </div>
-        <div class="content-wrapper content">
+        <div class="content-wrapper appPackageBuild-content">
           <div class="depend">
             <h3 class="rules-title title">
               能力依赖
@@ -525,7 +525,7 @@ export default {
     display: none;
   }
   .app-package-build-warraper {
-    width: 75%;
+    width: 85%;
     background: url('../../../assets/images/app_pacakage_build_bg.png') no-repeat center;
     background-size: cover;
     border-radius: 16px;
@@ -600,7 +600,7 @@ export default {
       }
     }
     .app-package-build-resourceconfig {
-      .content {
+      .appPackageBuild-content {
         margin-top: 20px;
         .operation-btn {
           border-radius: 12px;
@@ -641,7 +641,7 @@ export default {
       }
     }
     .app-package-build-rule {
-      .content {
+      .appPackageBuild-content {
         margin-top: 10px;
         .el-tabs__item {
           color: #FFFFFF;
@@ -666,7 +666,7 @@ export default {
       }
     }
     .app-package-build-capabalityconfig {
-      .content {
+      .appPackageBuild-content {
         margin-top: 15px;
         .dependTable, .releaseTable {
           margin-top: 18px;
@@ -687,6 +687,9 @@ export default {
           width: 62%;
           display: inline-block;
           margin-left: 5%;
+        }
+        .rules-title:before {
+          background-color: #76E1E9;
         }
       }
     }
