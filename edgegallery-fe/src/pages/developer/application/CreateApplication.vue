@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     returnIndexPage () {
-      this.$router.push('/developer/home')
+      this.$router.push('/EG/developer/home')
     }
   }
 }
