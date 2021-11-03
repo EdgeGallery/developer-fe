@@ -119,7 +119,7 @@ export default {
     display: inline-block;
     height: 30px;
     width: 30px;
-    background: url("../../../assets/images/application/app_mark_box1.png") no-repeat center;
+    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
     background-size: contain;
     position: absolute;
     top: 105px;
@@ -151,7 +151,7 @@ export default {
     display: inline-block;
     height: 30px;
     width: 30px;
-    background: url("../../../assets/images/application/app_mark_box1.png") no-repeat center;
+    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
     background-size: contain;
     position: absolute;
     top: 235px;
@@ -167,7 +167,7 @@ export default {
     display: inline-block;
     height: 30px;
     width: 30px;
-    background: url("../../../assets/images/application/app_mark_box1.png") no-repeat center;
+    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
     background-size: contain;
     position: absolute;
     top: 235px;
@@ -183,7 +183,7 @@ export default {
     display: inline-block;
     height: 30px;
     width: 30px;
-    background: url("../../../assets/images/application/app_mark_box1.png") no-repeat center;
+    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
     background-size: contain;
     position: absolute;
     top: 355px;
