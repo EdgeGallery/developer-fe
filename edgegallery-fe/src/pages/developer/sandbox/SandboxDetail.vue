@@ -33,6 +33,9 @@
         <div
           class="detail-center-bg flex-center"
           v-if="isChangeStyle"
+          @mouseenter="egBreathStyle=true"
+          @mouseleave="egBreathStyle=false"
+          :class="{'breath':egBreathStyle===false}"
         >
           <img
             src="../../../assets/images/sandbox/mec_img.png"
@@ -64,8 +67,10 @@
                 >
                   <img
                     class="deploy-img-center"
-                    :class="{'deploy-img-center-finish':configNetworkFinish===true}"
+                    :class="{'deploy-img-center-finish':configNetworkFinish===true,'breath':deployBreathStyle===false}"
                     src="../../../assets/images/sandbox/deploy_img.png"
+                    @mouseenter="deployBreathStyle=true"
+                    @mouseleave="configNetworkFinish===false"
                     alt=""
                   >
                   <el-tooltip
@@ -107,11 +112,15 @@
               >
                 <img
                   class="vm-center-img"
-                  :class="{'vm-center-img-finish':isAddVmFinish === true}"
+                  :class="{'vm-center-img-finish':isAddVmFinish === true,'breath':vmBreathStyle===false}"
                   src="../../../assets/images/sandbox/vm_img.png"
                   alt=""
                 >
-                <div class="vm-bg">
+                <div
+                  class="vm-bg"
+                  @mouseenter="vmBreathStyle=true"
+                  @mouseleave="isAddVmFinish===true?vmBreathStyle=true:vmBreathStyle=false"
+                >
                   <div class="vm-btn flex-center vm-btn-add">
                     <el-tooltip
                       class="item edit-tooltip"
@@ -122,7 +131,7 @@
                       <img
                         src="../../../assets/images/sandbox/vm-add.png"
                         alt=""
-                        class=" hoverHands"
+                        class="hoverHands img-click"
                         @click="addVm"
                       >
                     </el-tooltip>
@@ -140,7 +149,7 @@
                         src="../../../assets/images/sandbox/vm-detail.png"
                         alt=""
                         class=" hoverHands"
-                        :class="isAddVmFinish === false ? 'img-onlyRead':''"
+                        :class="isAddVmFinish === false ? 'img-onlyRead':'img-click'"
                         @click="checkVmDetail"
                       >
                     </el-tooltip>
@@ -156,7 +165,7 @@
                         src="../../../assets/images/sandbox/vm-login.png"
                         alt=""
                         class=" hoverHands"
-                        :class="isStartupVmFinish === false ? 'img-onlyRead':''"
+                        :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
@@ -171,7 +180,7 @@
                         src="../../../assets/images/sandbox/vm-upload.png"
                         alt=""
                         class=" hoverHands"
-                        :class="isStartupVmFinish === false ? 'img-onlyRead':''"
+                        :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
@@ -186,7 +195,7 @@
                         src="../../../assets/images/sandbox/vm-start.png"
                         alt=""
                         class=" hoverHands"
-                        :class="isBtnStart === false ? 'img-onlyRead':''"
+                        :class="isBtnStart === false ? 'img-onlyRead':'img-click'"
                         @click="startUpVm"
                       >
                     </el-tooltip>
@@ -281,6 +290,9 @@
           v-else
           class="edgePuf"
           @click="addApplicationRules"
+          @mouseenter="upfBreathStyle=true"
+          @mouseleave="upfBreathStyle=false"
+          :class="{'breath':upfBreathStyle===false}"
         >
           <p>边缘UPF</p>
         </div>
@@ -353,7 +365,11 @@ export default {
       configNetworkFinish: false,
       isStartupVm: false,
       isStartupVmFinish: false,
-      netNum: 3
+      netNum: 3,
+      egBreathStyle: false,
+      upfBreathStyle: false,
+      deployBreathStyle: false,
+      vmBreathStyle: false
     }
   },
   methods: {
@@ -371,6 +387,8 @@ export default {
         this.isBtnStart = true
         this.isAddVmFinish = true
         this.configNetworkFinish = true
+        this.vmBreathStyle = this.isAddVmFinish
+        this.deployBreathStyle = this.configNetworkFinish
       }
       this.showContent = 'showDetail'
     },
@@ -378,6 +396,7 @@ export default {
       this.showContent = 'showDetail'
       if (data && data.length > 0) {
         this.configNetworkFinish = true
+        this.deployBreathStyle = this.configNetworkFinish
         this.netNum = data.length
       }
     },
@@ -580,13 +599,13 @@ export default {
               height: 50px;
               background-size: 100% 100%;
               background-color: #3D3B94;
-              opacity: 0.6;
-              img{
-                opacity: 0.7;
-              }
+              opacity: 0.8;
               .img-onlyRead{
                 pointer-events: none;
                 opacity: 0.2;
+              }
+              .img-click{
+                opacity: 1;
               }
             }
             .vm-btn-add{
@@ -606,7 +625,7 @@ export default {
               display: flex;
               justify-content: center;
               align-items: center;
-              opacity: 0.7;
+              opacity: 0.6;
             }
             .vm-btn:hover{
               opacity: 1;
@@ -704,11 +723,25 @@ export default {
         text-align: center;
         margin-top: 80px;
       }
-   }
+    }
   }
   .scale-small-line{
     transform: translate(-250px,-10px) scale(0.7);
     transition: all  0.4s;
+  }
+  .breath{
+    animation:breathe 4s ease-in 0s infinite;
+    @keyframes breathe  {
+      0%{
+        opacity: 0.3;
+      }
+      50%{
+        opacity: 1;
+      }
+      100%{
+        opacity: 0.3;
+      }
+    }
   }
 }
 </style>
