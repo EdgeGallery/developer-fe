@@ -164,6 +164,7 @@ import DeploymentComp from './application/workflow/Deployment.vue'
 import CreateProjectComp from './application/CreateProjectDlg.vue'
 import CapabilityCenterIndexComp from './capabilityCenter/Index.vue'
 import CapabilityCenterComp from './capabilityCenter/CapabilityCenter.vue'
+import { promptJumpToClassic } from '../../tools/common.js'
 export default {
   name: 'Application',
   components: {
@@ -206,6 +207,9 @@ export default {
         this.isShowCapabilityIndexDlg = false
       }
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    promptJumpToClassic(to.path, next, this)
   }
 }
 </script>

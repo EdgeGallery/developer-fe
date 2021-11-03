@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { promptJumpToClassic } from '../../tools/common.js'
 export default {
   components: {
 
@@ -74,7 +75,10 @@ export default {
   methods: {
 
   },
-  mounted () {}
+  mounted () {},
+  beforeRouteLeave (to, from, next) {
+    promptJumpToClassic(to.path, next, this)
+  }
 }
 </script>
 
