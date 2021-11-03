@@ -139,7 +139,7 @@ export default {
           score: '5',
           type: 'CSAR',
           experienceAble: true,
-          images: require('../../assets/images/appstore/mediawiki 1.png')
+          images: require('../../assets/images/appstore/mediawiki.png')
         }, {
           name: 'Pacman',
           version: '1.0',
@@ -148,7 +148,7 @@ export default {
           score: '5',
           type: 'CSAR',
           experienceAble: true,
-          images: require('../../assets/images/appstore/pacman 1.png')
+          images: require('../../assets/images/appstore/pacman.png')
         }, {
           name: '飞船大战',
           version: '1.0',
@@ -157,7 +157,7 @@ export default {
           score: '5',
           type: 'CSAR',
           experienceAble: false,
-          images: require('../../assets/images/appstore/spaceships 1.png')
+          images: require('../../assets/images/appstore/spaceships.png')
         }, {
           name: '飞船大战',
           version: '1.0',
@@ -166,7 +166,7 @@ export default {
           score: '5',
           type: 'CSAR',
           experienceAble: false,
-          images: require('../../assets/images/appstore/spaceships 1.png')
+          images: require('../../assets/images/appstore/spaceships.png')
         }
       ],
       language: 'cn',
