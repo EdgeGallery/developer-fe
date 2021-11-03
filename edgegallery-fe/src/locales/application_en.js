@@ -258,7 +258,7 @@ const en = {
       }
     }
   },
-  common: {
+  appstoreCommon: {
     cancelText: 'OK',
     more: 'More',
     check: 'Check',

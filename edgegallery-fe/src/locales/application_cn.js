@@ -262,7 +262,7 @@ const cn = {
       }
     }
   },
-  common: {
+  appstoreCommon: {
     cancelText: '知道了',
     more: '更多',
     check: '查看',
