@@ -140,6 +140,9 @@ export default {
       } else {
         return 'success'
       }
+    },
+    checkDetail (item) {
+      this.$router.push('/EG/mecm/deployConfig')
     }
   }
 }

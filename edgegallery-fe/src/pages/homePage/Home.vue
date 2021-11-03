@@ -15,7 +15,7 @@
   -  limitations under the License.
   -->
 <template>
-  <div class="new-home">
+  <div class="developer-home">
     <div class="main-content">
       <div class="main-content-left">
         <img
@@ -85,7 +85,7 @@ export default {
 </script>
 
 <style lang='less'>
-.new-home {
+.developer-home {
   width: 100%;
   height: 100%;
   font-size: 20px;

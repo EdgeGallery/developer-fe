@@ -24,7 +24,7 @@
     >
       <el-button
         class="test-btn"
-        @click="$router.go(-1)"
+        @click="returnHome()"
       >
         返回
       </el-button>
@@ -173,6 +173,10 @@ export default {
     }
   },
   methods: {
+    returnHome () {
+      sessionStorage.setItem('currentFlow', 6)
+      this.$router.go(-1)
+    },
     hoverAppList (index) {
       this.activeIndex = index
     },

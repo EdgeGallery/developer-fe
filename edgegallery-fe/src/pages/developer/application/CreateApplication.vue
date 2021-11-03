@@ -32,7 +32,7 @@
       class="common-div-bg create-application-form"
       v-if="isShowProjectDlg"
     >
-      <createApplicationComp @createNewApplication="createNewApplication" />
+      <createApplicationComp />
     </div>
   </div>
 </template>

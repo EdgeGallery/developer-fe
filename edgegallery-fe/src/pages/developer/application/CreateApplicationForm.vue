@@ -103,6 +103,7 @@ export default {
   },
   methods: {
     confirmToCreate () {
+      sessionStorage.setItem('currentFlow', 1)
       this.$router.push('/EG/developer/home')
     }
   },

@@ -127,6 +127,9 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页：${val}`)
+    },
+    checkDetail (item) {
+      this.$router.push('/EG/mecm/distributeDeploy')
     }
   }
 }

@@ -427,7 +427,10 @@
         <el-button class="common-btn">
           {{ $t('appPackage.appdPreview') }}
         </el-button>
-        <el-button class="common-btn">
+        <el-button
+          class="common-btn"
+          @click="returnHome"
+        >
           {{ $t('appPackage.build') }}
         </el-button>
       </div>
@@ -505,6 +508,10 @@ export default {
     }
   },
   methods: {
+    returnHome () {
+      sessionStorage.setItem('currentFlow', 4)
+      this.$router.push('/EG/developer/home')
+    }
   },
   mounted () {}
 }

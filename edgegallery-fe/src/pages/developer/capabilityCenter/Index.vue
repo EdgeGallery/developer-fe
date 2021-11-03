@@ -338,6 +338,9 @@ export default {
       return ''
     },
     doNext (type) {
+      if (type === 2) {
+        sessionStorage.setItem('currentFlow', 2)
+      }
       this.$router.push('/EG/developer/home')
     },
     editCapability () {
