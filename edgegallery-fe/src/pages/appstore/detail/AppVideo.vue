@@ -41,6 +41,7 @@
 
 <script>
 export default {
+  name: 'AppVideo',
   props: {
     playerOptions: {
       required: true,

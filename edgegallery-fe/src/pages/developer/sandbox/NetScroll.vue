@@ -82,7 +82,7 @@ export default {
       overflow: hidden;
       height: 24px;
       font-size: 10px;
-      background: url('../../../assets/images/sandbox/oneNet-bg.png') no-repeat center;
+      background: url('../../../assets/images/sandbox/oneNet_bg.png') no-repeat center;
       .title{
         display: block;
         transform: scale(0.8);

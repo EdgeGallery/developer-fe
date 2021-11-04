@@ -21,6 +21,28 @@
     :class="{'app-new':pageModel==='newVersion'}"
     ref="app"
   >
+    <div v-if="pageModel==='newVersion'">
+      <div class="common-bg-center-div">
+        <div
+          :class="{'common-bg-center-home':isIndex,'common-bg-center':!isIndex}"
+        >
+          <img
+            src="./assets/images/common_bg_center_home.png"
+            alt=""
+            v-show="isIndex"
+          >
+          <img
+            src="./assets/images/common_bg_center.png"
+            alt=""
+            v-show="!isIndex"
+          >
+        </div>
+      </div>
+      <div class="common-bg-left" />
+      <div class="common-bg-green-left" />
+      <div class="common-bg-green-right" />
+    </div>
+
     <Navcomp
       :scroll-top-prop="scrollTop"
       :is-home-prop="isHome"
@@ -37,7 +59,7 @@
     <el-row>
       <el-col
         :span="zoom"
-        v-if="isIndex"
+        v-if="!isIndex"
         class="app-list-comp"
       >
         <div
@@ -96,9 +118,12 @@ export default {
   watch: {
     pageModel (val) {
       this.pageModel = val
+      if (this.pageModel === 'newVersion') {
+        this.zoom = 0
+      }
     },
     $route (to, from) {
-      this.isIndex = window.location.hash.indexOf('/EG') > 0
+      this.isIndex = window.location.hash.indexOf('/EG') < 0
       this.toPath = to.path
       this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
       let toJumpClassic = this.pageModel === 'Classic'
@@ -209,6 +234,53 @@ export default {
 .app-new{
   background:url('./assets/images/common_bg.png');
   background-size:cover;
+  .common-bg-center-div{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .common-bg-center-home{
+    position: absolute;
+    top: 0;
+    left: 150px;
+    animation: animationCenterHome 10s linear infinite;
+  }
+  .common-bg-center{
+    position: absolute;
+    top: 0;
+    left: -170px;
+    animation: animationCenter 10s linear infinite;
+  }
+  .common-bg-left{
+    position: absolute;
+    top: 100px;
+    left: 70px;
+    width: 170px;
+    height: 296px;
+    background: url('./assets/images/common_bg_left.png') no-repeat;
+    animation: animationLeft 5s linear infinite;
+  }
+  .common-bg-green-left{
+    position: absolute;
+    bottom: 140px;
+    left: 110px;
+    width: 297px;
+    height: 363px;
+    background: url('./assets/images/common_bg_green_left.png') no-repeat;
+    animation: animationGreenLeft 6s linear infinite;
+  }
+  .common-bg-green-right{
+    position: absolute;
+    bottom: 300px;
+    left: 50%;
+    width: 244px;
+    height: 300px;
+    background: url('./assets/images/common_bg_green_right.png') no-repeat;
+    animation: animationGreenRight 5s linear infinite;
+  }
 }
 .left-pro-comp{
   width: 100%;
@@ -243,5 +315,60 @@ export default {
 }
 .el-row, .el-col{
   height: 100%;
+}
+@keyframes animationCenterHome {
+  0% {
+    bottom: 0px;
+  }
+  50% {
+    top: 80px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+@keyframes animationCenter {
+  0% {
+    bottom: 0px;
+  }
+  50% {
+    top: 60px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+@keyframes animationLeft {
+  0% {
+    top: 100px;
+  }
+  50% {
+    top: 130px;
+  }
+  100% {
+    top: 100px;
+  }
+}
+@keyframes animationGreenLeft {
+  0% {
+    bottom: 110px;
+  }
+  50% {
+    bottom: 140px;
+  }
+  100% {
+    bottom: 110px;
+  }
+}
+@keyframes animationGreenRight {
+  0% {
+    bottom: 300px;
+  }
+  50% {
+    bottom: 260px;
+  }
+  100% {
+    bottom: 300px;
+  }
 }
 </style>

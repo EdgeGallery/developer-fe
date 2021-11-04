@@ -303,13 +303,13 @@ export default {
 .application-rules{
   padding: 0 15%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   .rules-config{
     position: absolute;
     z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     width: 60%;
     padding: 40px;
     opacity: 1;
@@ -321,16 +321,12 @@ export default {
   }
   .rules-config-hidden{
     z-index: -1;
-    top: -400px;
     opacity: 0;
     transition: all .2s;
   }
   .traffic-rules{
     position: absolute;
     z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     width: 60%;
     padding: 40px;
     max-height: 95%;
@@ -341,9 +337,6 @@ export default {
   .traffic-filter{
     position: absolute;
     z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     width: 800px;
     padding: 40px 80px 40px 40px;
     overflow: auto;
@@ -353,9 +346,6 @@ export default {
   .interface-info{
     position: absolute;
     z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     width: 600px;
     padding: 40px;
     overflow: auto;
@@ -365,9 +355,6 @@ export default {
   .dns-rules{
     position: absolute;
     z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     width: 600px;
     padding: 40px;
     overflow: auto;
@@ -376,12 +363,8 @@ export default {
   }
   .traffic-rules-hidden-bottom,.traffic-filter-hidden,.interface-info-hidden,.dns-rules-hidden{
     z-index: -1;
-    top: 100%;
     opacity: 0;
     transition: all .2s;
-  }
-  .traffic-rules-hidden-top{
-    top: -100%;
   }
 }
 @media screen and (max-width:1600px){

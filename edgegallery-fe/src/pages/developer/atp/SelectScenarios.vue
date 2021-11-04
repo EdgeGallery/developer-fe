@@ -51,7 +51,7 @@
           @mouseleave="activeInfo=-1"
         >
           <div
-            class="content"
+            class="scenar-content"
           >
             <!-- <img
               :src="getAppIcon(item)"
@@ -70,11 +70,13 @@
                 src="../../../assets/images/atp/selected.png"
                 alt=""
                 v-if="item.selected"
+                @click="chooseScene(item)"
               >
               <img
                 v-else
                 src="../../../assets/images/atp/notselected.png"
                 alt=""
+                @click="chooseScene(item)"
               >
             </el-button>
             <div class="content-info">
@@ -433,7 +435,7 @@ export default {
       width: 25%;
       padding: 0 2%;
       margin-bottom: 30px;
-      .content{
+      .scenar-content{
         box-shadow: 0 0 20px rgba(27, 7, 118, 0.1);
         border-radius: 8px;
         position: relative;
@@ -508,7 +510,7 @@ export default {
           }
         }
       }
-      .content:hover .name{
+      .scenar-content:hover .name{
         white-space: normal;
       }
     }

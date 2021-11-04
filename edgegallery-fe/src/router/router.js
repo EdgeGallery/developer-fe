@@ -120,7 +120,12 @@ export default new Router({
       component: () => import('../pages/appstore/Index.vue')
     },
     {
-      path: '/appDetail',
+      path: '/EG/appstore/apppromotion',
+      name: 'appPromotion',
+      component: () => import('../pages/appstore/AppPromotion.vue')
+    },
+    {
+      path: '/EG/appstore/appDetail',
       name: 'appDetail',
       component: () => import('../pages/appstore/detail/AppDetail.vue')
     },

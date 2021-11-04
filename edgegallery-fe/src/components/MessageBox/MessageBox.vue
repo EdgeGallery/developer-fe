@@ -124,52 +124,52 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(74,34,218,.2);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   text-align: center;
-}
-.eg-messagebox-container {
-  width: 460px;
-  padding: 40px;
-  min-height: 275px;
-  border-radius: 16px;
-  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-  color: #fff;
-  .el-button + .el-button{
-    margin-left: 70px;
+  .eg-messagebox-container {
+    width: 460px;
+    padding: 40px;
+    min-height: 275px;
+    border-radius: 16px;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+    color: #fff;
+    .el-button + .el-button{
+      margin-left: 70px;
+    }
   }
-}
-.content {
-  text-align: center;
-}
-.desc {
-  margin: 29px 0 24px;
-  line-height: 25px;
-}
-.icon {
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  animation-name: innerIconAnimation;
-  animation-duration: .1s;
-  animation-timing-function: linear;
-}
-.icon-wrapper {
-  margin: 0 auto;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  box-shadow: 5px 10px 15px -8px rgba(22, 21, 31, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation-name: outerIconAnimation;
-  animation-duration: .1s;
-}
-.icon-info{
-  background: url('../../assets/images/prompt_icon_info.png');
-}
-.icon-success{
-  background: url('../../assets/images/prompt_icon_success.png');
+  .content {
+    text-align: center;
+  }
+  .desc {
+    margin: 29px 0 24px;
+    line-height: 25px;
+  }
+  .icon {
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    animation-name: innerIconAnimation;
+    animation-duration: .1s;
+    animation-timing-function: linear;
+  }
+  .icon-wrapper {
+    margin: 0 auto;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    box-shadow: 5px 10px 15px -8px rgba(22, 21, 31, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: outerIconAnimation;
+    animation-duration: .1s;
+  }
+  .icon-info{
+    background: url('../../assets/images/prompt_icon_info.png');
+  }
+  .icon-success{
+    background: url('../../assets/images/prompt_icon_success.png');
+  }
 }
 
 </style>

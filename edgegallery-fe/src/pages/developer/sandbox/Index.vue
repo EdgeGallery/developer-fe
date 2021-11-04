@@ -24,13 +24,19 @@
       <div
         class="sandbox hoverHands"
         @click="toSelectSandbox"
+        @mouseenter="breathStyle=true"
+        @mouseleave="breathStyle=false"
       >
         <p
           class="sandbox-name-cn fontUltraLight"
+          :class="{'breath':breathStyle===false}"
         >
           {{ selectSandbox }}
         </p>
-        <p class="sandbox-name-en" />
+        <p
+          class="sandbox-name-en"
+          :class="{'breath':breathStyle===false}"
+        />
       </div>
     </div>
     <SandBoxList
@@ -50,7 +56,8 @@ export default {
   data () {
     return {
       selectSandbox: '选择沙箱',
-      isCheckSandboxList: false
+      isCheckSandboxList: false,
+      breathStyle: false
     }
   },
   methods: {
@@ -81,28 +88,7 @@ export default {
     height: 420px;
     margin: 10% auto;
     padding:170px 0;
-    background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
-    animation: scaleBox 4s  ease-in 0s infinite ;
-    @keyframes scaleBox {
-      0%{
-         transform: scale(1);
-      }
-      20%{
-        transform: scale(1.05);
-      }
-      40%{
-        transform: scale(1);
-      }
-      60%{
-        transform: scale(0.93);
-      }
-      80%{
-        transform: scale(0.95);
-      }
-      100%{
-        transform: scale(1);
-      }
-    }
+    background: url('../../../assets/images/sandbox/index_sandbox_bg.png') no-repeat center;
     .sandbox-name-cn{
       font-size: 25px;
       letter-spacing: 10px;
@@ -114,6 +100,20 @@ export default {
       width: 248px;
       height: 67px;
       margin: 0 auto;
+    }
+  }
+  .breath{
+    animation:breathe 4s ease-in 0s infinite;
+    @keyframes breathe  {
+      0%{
+        opacity: 0.3;
+      }
+      50%{
+        opacity: 1;
+      }
+      100%{
+        opacity: 0.3;
+      }
     }
   }
 }

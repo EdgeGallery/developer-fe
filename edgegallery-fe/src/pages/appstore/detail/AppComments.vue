@@ -106,6 +106,7 @@
 import { appstoreApi } from '../../../api/appstoreApi'
 import commonUtil from '../tools/commonUtil.js'
 export default {
+  name: 'AppComments',
   props: {
     appId: {
       required: true,
@@ -138,7 +139,7 @@ export default {
         params = JSON.stringify(params)
         let userId = sessionStorage.getItem('userId')
         let userName = sessionStorage.getItem('userName')
-        appstoreApi.submitAppCommentApi(this.appId, params, userId, userName).then(res => {
+        appstoreApi.submitAppComment(this.appId, params, userId, userName).then(res => {
           this.getComments()
           this.comments.score = 0
           this.comments.message = ''
@@ -154,9 +155,8 @@ export default {
         })
       }
     },
-
     getComments () {
-      appstoreApi.getCommentsApi(this.appId, this.limit, this.offset).then(res => {
+      appstoreApi.getComments(this.appId, this.limit, this.offset).then(res => {
         this.historyComentsList = res.data.results
         this.handleDate()
       }, () => {

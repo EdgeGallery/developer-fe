@@ -26,15 +26,27 @@ const URL_PREFIX = '/mec-appstore/mec/appstore/v1/'
 const URL_PREFIXV2 = '/mec-appstore/mec/appstore/v2/'
 
 let appstoreApi = {
-  getAppDataApi: function (params) {
+  getAppData: function (params) {
     let url = URL_PREFIXV2 + 'query/apps'
     return POST(url, params)
   },
-  getCommentsApi: function (appId, limit, offset) {
+  getAppPromTable: function (limit, offset, appName, sortType, sortItem) {
+    let url = URL_PREFIXV2 + 'packages/pushable?limit=' + limit + '&offset=' + offset + '&appName=' + appName + '&sortType=' + sortType + '&sortItem=' + sortItem
+    return GET(url, '')
+  },
+  promProviderInfo: function (curPageSize, offset, appStoreName) {
+    let url = URL_PREFIXV2 + 'appstores?limit=' + curPageSize + '&offset=' + offset + '&appStoreName=' + appStoreName
+    return GET(url, '')
+  },
+  promTask: function (packageId, param) {
+    let url = 'packages/' + packageId + '/action/push'
+    return POST(url, param)
+  },
+  getComments: function (appId, limit, offset) {
     let url = URL_PREFIXV2 + 'apps/' + appId + '/comments?limit=' + limit + '&offset=' + offset
     return GET(url)
   },
-  submitAppCommentApi: function (appId, params, userId, userName) {
+  submitAppComment: function (appId, params, userId, userName) {
     let url = URL_PREFIX + 'apps/' + appId + '/comments?userId=' + userId + '&userName=' + userName
     return POST(url, params)
   },
@@ -50,7 +62,7 @@ let appstoreApi = {
     let url = URL_PREFIX + 'upload_progress/package/' + packageId
     return GET(url, '')
   },
-  synchronizedPakageApi: function (currentData, meaoId) {
+  synchronizedPakage: function (currentData, meaoId) {
     let url = URL_PREFIX + 'apps/' + currentData.appId + '/packages/' + currentData.packageId + '/meao/' + meaoId + '/action/sync'
     return GET(url)
   },
@@ -62,7 +74,7 @@ let appstoreApi = {
     let url = URL_PREFIX + 'experience/container/workStatus?packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
     return GET(url)
   },
-  getAppDetailTableApi: function (appId, userId, limit, offset) {
+  getAppDetailTable: function (appId, userId, limit, offset) {
     let url = ''
     if (userId == null) {
       url = URL_PREFIXV2 + 'apps/' + appId + '/packages?limit=' + limit + '&offset=' + offset
@@ -71,11 +83,11 @@ let appstoreApi = {
     }
     return GET(url)
   },
-  getAppListApi: function (appId) {
+  getAppList: function (appId) {
     let url = URL_PREFIX + 'apps/' + appId
     return GET(url)
   },
-  getPackageDetailApi: function (appId, packageId) {
+  getPackageDetail: function (appId, packageId) {
     let url = URL_PREFIX + 'apps/' + appId + '/packages/' + packageId
     return GET(url)
   },
@@ -85,7 +97,6 @@ let appstoreApi = {
   createOrder: function (param) {
     return POST(URL_PREFIX + 'orders', param)
   }
-
 }
 export {
   URL_PREFIX, URL_PREFIXV2, appstoreApi

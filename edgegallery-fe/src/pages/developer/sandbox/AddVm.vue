@@ -236,7 +236,7 @@
 </template>
 
 <script>
-import { uniqueArray } from '../../../tools/tool.js'
+import { uniqueArray } from '../../../tools/common.js'
 export default {
   name: 'AddVm',
   data () {
@@ -398,6 +398,16 @@ export default {
   position:relative;
   padding-top:10px ;
   font-size: 16px;
+  animation: delay 0.5s  ease-in-out;
+  animation-fill-mode: both;
+  @keyframes delay {
+    0%{
+      transform:scale(0.25);
+    }
+    100%{
+      transform:scale(1)
+    }
+  }
   .addVm-bg{
     width:1184px;
     min-height: 750px;

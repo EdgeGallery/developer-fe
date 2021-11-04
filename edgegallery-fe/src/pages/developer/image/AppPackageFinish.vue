@@ -18,7 +18,11 @@
   <div class="app-pack-finish">
     <div class="app-pack-finish__body">
       <div class="app-pack-finish__icon">
-        <embed :src="successImg" width="30" height="30" />
+        <embed
+          :src="successImg"
+          width="30"
+          height="30"
+        >
       </div>
       <div class="app-pack-finish__title">
         {{ $t("appPackage.packFinished") }}

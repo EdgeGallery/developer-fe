@@ -69,7 +69,7 @@
                 <el-button
                   :plain="true"
                   :type="btnType"
-                  @click="step1"
+                  @click="changeStep"
                   :autofocus="true"
                   disabled="true"
                   style="width:170px;margin-bottom:15px;"
@@ -78,24 +78,24 @@
                   {{ $t('store.assignTestNodes') }}
                 </el-button>
 
-                <p v-show="tip11">
-                  {{ $t('store.step11') }}
+                <p v-show="TestNodeFirstStepFlag">
+                  {{ $t('store.TestNodeFirstStep') }}
                 </p>
-                <p v-show="tip12">
-                  {{ $t('store.step12') }}
+                <p v-show="TestNodeSecondStepFlag">
+                  {{ $t('store.TestNodeSecondStep') }}
                 </p>
-                <p v-show="tip13">
-                  {{ $t('store.step13') }}
+                <p v-show="TestNodeThirdStepFlag">
+                  {{ $t('store.TestNodeThirdStep') }}
                 </p>
               </el-timeline-item>
               <el-timeline-item
                 placement="top"
-                :class="{'line_list':btnType1==='primary'}"
+                :class="{'line_list':instanceBtnType==='primary'}"
               >
                 <el-button
                   :plain="true"
-                  :type="btnType1"
-                  @click="step2"
+                  :type="instanceBtnType"
+                  @click="changeDeploySecondStep"
                   :autofocus="true"
                   disabled="true"
                   style="width:170px;margin-bottom:15px;"
@@ -103,36 +103,36 @@
                   {{ $t('store.instantiateApplication') }}
                 </el-button>
 
-                <p v-show="tip21">
+                <p v-show="isShowInstanceFirstStep">
                   {{ $t('store.pleaseInstantiateApp') }}
                 </p>
-                <p v-show="tip22">
+                <p v-show="isShowInstanceSecondStep">
                   {{ $t('store.waitInstantiatedApp') }}
                 </p>
-                <p v-show="tip23">
+                <p v-show="isShowInstanceThirdStep">
                   {{ $t('store.StartDeployApp') }}
                 </p>
               </el-timeline-item>
               <el-timeline-item
                 placement="top"
-                :class="{'line_list':btnType2==='primary'}"
+                :class="{'line_list':deploymentBtnType==='primary'}"
               >
                 <el-button
                   :plain="true"
-                  :type="btnType2"
-                  @click="step3"
+                  :type="deploymentBtnType"
+                  @click="changeDeployThirdStep"
                   disabled="true"
                   style="width:170px;margin-bottom:15px;"
                 >
                   {{ $t('store.getDeploymentStatus') }}
                 </el-button>
-                <p v-show="tip31">
+                <p v-show="isShowDeployFirstStep">
                   {{ $t('store.queryDeployStatus') }}
                 </p>
-                <p v-show="tip32">
+                <p v-show="isShowDeploySecondStep">
                   {{ $t('store.waitQueryStatus') }}
                 </p>
-                <p v-show="tip33">
+                <p v-show="isShowDeployThirdStep">
                   {{ $t('store.deployFinished') }}
                 </p>
               </el-timeline-item>
@@ -195,6 +195,7 @@ import { appstoreApi } from '../../../api/appstoreApi'
 import appTry from '@/assets/images/appstore/apptry.png'
 import startTry from '@/assets/images/appstore/startTry.png'
 export default {
+  name: 'AppShowOnline',
   props: {
     packageId: {
       required: true,
@@ -218,35 +219,35 @@ export default {
       btnInstantiate: false,
       btnClean: true,
       btnType: 'info',
-      btnType1: 'info',
-      btnType2: 'info',
-      tip11: true,
-      tip12: false,
-      tip13: false,
+      instanceBtnType: 'info',
+      deploymentBtnType: 'info',
+      TestNodeFirstStepFlag: true,
+      TestNodeSecondStepFlag: false,
+      TestNodeThirdStepFlag: false,
 
-      tip21: true,
-      tip22: false,
-      tip23: false,
+      isShowInstanceFirstStep: true,
+      isShowInstanceSecondStep: false,
+      isShowInstanceThirdStep: false,
 
-      tip31: true,
-      tip32: false,
-      tip33: false,
+      isShowDeployFirstStep: true,
+      isShowDeploySecondStep: false,
+      isShowDeployThirdStep: false,
       displayDom: false
     }
   },
   methods: {
-    step () {
+    goStep () {
       this.btnType = 'primary'
-      this.tip11 = false
-      this.tip12 = true
-      setTimeout(() => this.step1(), 3000)
-      this.tip12 = false
-      this.tip13 = true
+      this.TestNodeFirstStepFlag = false
+      this.TestNodeSecondStepFlag = true
+      setTimeout(() => this.changeStep(), 3000)
+      this.TestNodeSecondStepFlag = false
+      this.TestNodeThirdStepFlag = true
     },
-    step1 () {
-      this.btnType1 = 'primary'
-      this.tip21 = false
-      this.tip22 = true
+    changeStep () {
+      this.instanceBtnType = 'primary'
+      this.isShowInstanceFirstStep = false
+      this.isShowInstanceSecondStep = true
       appstoreApi.getNodePort(this.appId, this.packageId, this.userId, this.name, this.ip).then(
         (res) => {
           let experienceInfo = res.data
@@ -272,7 +273,7 @@ export default {
               message: this.$t('promptMessage.getNodePortFailed')
             })
           } else if (experienceInfo.message.indexOf('get app url success.') !== -1) {
-            setTimeout(() => this.step2(experienceInfo), 3000)
+            setTimeout(() => this.changeDeploySecondStep(experienceInfo), 3000)
           } else {
             this.stepClean()
             this.$message({
@@ -283,17 +284,17 @@ export default {
           }
         })
     },
-    step2 (experienceInfo) {
-      this.tip22 = false
-      this.tip23 = true
-      this.tip31 = false
-      this.tip32 = true
-      this.btnType2 = 'primary'
-      setTimeout(() => this.step3(experienceInfo), 1000)
+    changeDeploySecondStep (experienceInfo) {
+      this.isShowInstanceSecondStep = false
+      this.isShowInstanceThirdStep = true
+      this.isShowDeployFirstStep = false
+      this.isShowDeploySecondStep = true
+      this.deploymentBtnType = 'primary'
+      setTimeout(() => this.changeDeployThirdStep(experienceInfo), 1000)
     },
-    step3 (experienceInfo) {
-      this.tip32 = false
-      this.tip33 = true
+    changeDeployThirdStep (experienceInfo) {
+      this.isShowDeploySecondStep = false
+      this.isShowDeployThirdStep = true
       if (experienceInfo.data) {
         let tmpExperienceData = experienceInfo.data
         this.filterExperienceInfo(tmpExperienceData)
@@ -304,22 +305,22 @@ export default {
     stepClean () {
       this.btnClean = true
       this.btnInstantiate = false
-      this.tip33 = false
-      this.tip31 = true
+      this.isShowDeployThirdStep = false
+      this.isShowDeployFirstStep = true
       this.btnType = 'info'
-      this.tip23 = false
-      this.tip22 = false
-      this.tip21 = true
-      this.btnType1 = 'info'
-      this.tip13 = false
-      this.tip11 = true
-      this.btnType2 = 'info'
+      this.isShowInstanceThirdStep = false
+      this.isShowInstanceSecondStep = false
+      this.isShowInstanceFirstStep = true
+      this.instanceBtnType = 'info'
+      this.TestNodeThirdStepFlag = false
+      this.TestNodeFirstStepFlag = true
+      this.deploymentBtnType = 'info'
     },
     getNodePort () {
       if (this.userName === 'guest') {
         this.$message.error(this.$t('system.guestPrompt'))
       } else {
-        this.step()
+        this.goStep()
         this.btnInstantiate = true
         this.btnClean = false
       }
@@ -390,17 +391,17 @@ export default {
       this.btnInstantiate = true
       this.btnClean = false
       this.btnType = 'primary'
-      this.btnType1 = 'primary'
-      this.btnType2 = 'primary'
-      this.tip11 = false
-      this.tip21 = false
-      this.tip31 = false
-      this.tip12 = false
-      this.tip22 = false
-      this.tip32 = false
-      this.tip13 = true
-      this.tip23 = true
-      this.tip33 = true
+      this.instanceBtnType = 'primary'
+      this.deploymentBtnType = 'primary'
+      this.TestNodeFirstStepFlag = false
+      this.isShowInstanceFirstStep = false
+      this.isShowDeployFirstStep = false
+      this.TestNodeSecondStepFlag = false
+      this.isShowInstanceSecondStep = false
+      this.isShowDeploySecondStep = false
+      this.TestNodeThirdStepFlag = true
+      this.isShowInstanceThirdStep = true
+      this.isShowDeployThirdStep = true
     },
     handleUploadSuccess () {
       this.$message({

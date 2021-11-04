@@ -132,6 +132,7 @@ export default {
   components: {
     Pagination
   },
+  name: 'AppMeao',
   props: {
     currentData: {
       required: true,
@@ -235,7 +236,7 @@ export default {
           clearInterval(this.timer)
         }, 600000)
       }
-      appstoreApi.synchronizedPakageApi(this.currentData, item.id).then(res => {
+      appstoreApi.synchronizedPakage(this.currentData, item.id).then(res => {
         this.$message({
           duration: 2000,
           message: this.$t('store.synchronizedwaiting'),
@@ -302,7 +303,6 @@ export default {
 </script>
 <style lang='less'>
 .app-list{
-  background: #fff;
   .el-pagination {
     margin-bottom: 30px;
     margin-right: 30px;

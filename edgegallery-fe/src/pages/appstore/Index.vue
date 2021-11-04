@@ -30,7 +30,7 @@
       </el-button>
       <el-button
         class="test-light-btn"
-        @click="jumpToPromote"
+        @click="jumpTo('/EG/appstore/apppromotion')"
       >
         应用推送
       </el-button>
@@ -50,6 +50,7 @@
             class="application"
             @mouseover="hoverAppList(index)"
             @mouseout="activeIndex=-1"
+            @click="removeClass()"
           >
             <div
               class="img-box"
@@ -60,6 +61,7 @@
                 alt=""
               > -->
               <img
+                class="newapp-breath"
                 :src="item.images"
                 alt=""
               >
@@ -178,12 +180,16 @@ export default {
     }
   },
   methods: {
+    jumpTo (path) {
+      this.$router.push(path)
+    },
     jumpToIncubation () {
       sessionStorage.setItem('currentFlow', 6)
       this.$router.push('/EG/developer/home')
     },
-    jumpToPromote () {
-      this.$router.push('/EG/appstore/apppromotion')
+    removeClass () {
+      let _classBreaths = document.getElementsByClassName('newapp-breath')
+      _classBreaths[0].classList.remove('newapp-breath')
     },
     hoverAppList (index) {
       this.activeIndex = index
@@ -196,7 +202,7 @@ export default {
       this.offsetPage = start
     },
     getAppData (searchCondition) {
-      appstoreApi.getAppTableApi(searchCondition).then((res) => {
+      appstoreApi.getAppData(searchCondition).then((res) => {
         this.pageData = res.data.results
         this.listTotal = res.data.total
       }).catch(error => {
@@ -293,6 +299,27 @@ export default {
       box-shadow: 0px 3px 3px #c8c8c8 !important;
       -webkit-box-shadow: 0px 3px 3px #c8c8c8 !important;
       transform:translatey(-7px)
+    }
+  }
+  .content:first-child{
+    .application{
+      .img-box{
+         background-image: url(../../assets/images/appstore/new_app_flag.png) ;
+      }
+    }
+    .newapp-breath{
+      animation: breathe 2s ease-in 0s infinite;
+      @keyframes breathe {
+        0%{
+          opacity: 0.3;
+        }
+        50%{
+          opacity: 1;
+        }
+        100%{
+          opacity: 0.3;
+        }
+      }
     }
   }
   @media screen and (max-width: 1224px){

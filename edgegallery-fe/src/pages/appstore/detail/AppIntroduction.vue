@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  name: 'AppIntroduction',
   props: {
     source: {
       required: true,
@@ -40,8 +41,8 @@ export default {
 </script>
 <style lang="less">
 .appIntroduction {
+  background: url('../../../assets/images/div_bg.png');
   margin: auto;
-  background: #fff;
   border-radius: 16px;
 }
 </style>
