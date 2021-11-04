@@ -12,7 +12,7 @@
       >
         <div
           class="item"
-          :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0?'item-must':'',item.class]"
+          :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0&&item.id!==2?'item-must':'',item.class]"
           @click="jumpTo(item.toPath)"
         >
           <img
