@@ -1,76 +1,25 @@
 <template>
   <div
-    class="incubation common-workflow"
-    :class="currentFlow===0?'':'common-center-active'"
+    class="incubation workflow"
+    :class="currentFlow===0?'':'center-active'"
   >
-    <div>
+    <div
+      v-for="(item,index) in workflowDataArray"
+      :key="index"
+    >
       <div
-        class="common-center"
+        class="center"
       >
-        <span
-          class="common-workflow-item capability-center"
-          :class="currentFlow>2||currentFlow===2?'capability-center-active':''"
-          @click="jumpTo('/EG/developer/capabilityCenter')"
-        />
-        <span
-          class="capability-active"
-          v-if="currentFlow===2"
-        />
-      </div>
-      <div>
         <div
-          class="common-center"
+          class="item"
+          :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0?'item-must':'',item.class]"
+          @click="jumpTo(item.toPath)"
         >
-          <span
-            class="common-workflow-item app-application"
-            :class="currentFlow>1||currentFlow===1?'app-application-active':''"
-            @click="jumpTo('/EG/developer/createApplication')"
-          />
-          <span
-            class="application-active"
-            v-if="currentFlow===1"
-          />
-        </div>
-        <div
-          class="common-center"
-        >
-          <span
-            class="common-workflow-item app-image"
-            :class="currentFlow>4||currentFlow===4?'app-image-active':''"
-            @click="jumpTo('/EG/images/appPackageBuild')"
-          />
-          <span
-            class="image-active"
-            v-if="currentFlow===4"
-          />
-        </div>
-        <div
-          class="common-center"
-        >
-          <span
-            class="common-workflow-item app-test"
-            :class="currentFlow>5||currentFlow===5?'app-test-active':''"
-            @click="jumpTo('/EG/developer/selectScenarios')"
-          />
-          <span
-            class="test-active"
-            v-if="currentFlow===5"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          class="common-center"
-        >
-          <span
-            class="common-workflow-item app-sandbox"
-            :class="currentFlow>3||currentFlow===3?'app-sandbox-active':''"
-            @click="jumpTo('/EG/developer/sandbox')"
-          />
-          <span
-            class="sandbox-active"
-            v-if="currentFlow===3"
-          />
+          <img
+            :src="item.src"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
+            alt="EdgeGallery"
+          >
         </div>
       </div>
     </div>
@@ -85,12 +34,45 @@ export default {
   },
   data () {
     return {
-      isOnProgress: false,
-      isApplicationActive: false,
-      isSandboxActive: false,
-      isTestActive: false,
-      currentFlow: 0
-
+      currentFlow: 0,
+      isCapabilityActive: false,
+      workflowDataArray: [
+        {
+          id: 1,
+          name: '',
+          class: 'app-application',
+          src: require('../../../assets/images/application/app_application.png'),
+          toPath: '/EG/developer/createApplication'
+        },
+        {
+          id: 2,
+          name: '',
+          class: 'capability-center',
+          src: require('../../../assets/images/application/app_capability.png'),
+          toPath: '/EG/developer/capabilityCenter'
+        },
+        {
+          id: 3,
+          name: '',
+          class: 'app-sandbox',
+          src: require('../../../assets/images/application/app_sandbox.png'),
+          toPath: '/EG/developer/sandbox'
+        },
+        {
+          id: 4,
+          name: '',
+          class: 'app-image',
+          src: require('../../../assets/images/application/app_image.png'),
+          toPath: '/EG/images/appPackageBuild'
+        },
+        {
+          id: 5,
+          name: '',
+          class: 'app-test',
+          src: require('../../../assets/images/application/app_test.png'),
+          toPath: '/EG/developer/selectScenarios'
+        }
+      ]
     }
   },
   methods: {
@@ -100,6 +82,7 @@ export default {
   },
   mounted () {
     this.currentFlow = sessionStorage.getItem('currentFlow') ? Number(sessionStorage.getItem('currentFlow')) : 0
+    this.isCapabilityActive = sessionStorage.getItem('isCapabilityActive')
   }
 }
 </script>
@@ -108,108 +91,23 @@ export default {
 .incubation{
   .capability-center{
     left: 155px;
-    top: 30px;
-    background: url("../../../assets/images/application/app_capability_center.png") no-repeat center;
-    background-size: contain;
-  }
-  .common-center>.capability-center::after{
-    width: 0;
-  }
-  .common-center>.capability-active{
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    top: 105px;
-    left: 205px;
+    top: -70px;
   }
   .app-application{
-    left: 30px;
-    top: 70px;
-    background: url("../../../assets/images/application/app_application.png") no-repeat center;
-    background-size: contain;
-  }
-  .common-center>.application-active{
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    background: url("../../../assets/images/application/app_mark_box1.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    top: 235px;
-    left: 80px;
+    left: 25px;
+    top: 150px;
   }
   .app-image{
     left: 335px;
-    top: -20px;
-    background: url("../../../assets/images/application/app_image.png") no-repeat center;
-    background-size: contain;
-  }
-  .common-center>.image-active{
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    top: 235px;
-    left: 385px;
+    top: -120px;
   }
   .app-test{
     left: 495px;
-    top: -110px;
-    background: url("../../../assets/images/application/app_test.png") no-repeat center;
-    background-size: contain;
-  }
-  .common-center>.test-active{
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    top: 235px;
-    left: 545px;
+    top: -210px;
   }
   .app-sandbox{
     left: 195px;
-    top: -80px;
-    background: url("../../../assets/images/application/app_sandbox.png") no-repeat center;
-    background-size: contain;
-  }
-  .common-center>.sandbox-active{
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    top: 355px;
-    left: 245px;
-  }
-  .capability-center-active{
-    background: url("../../../assets/images/application/app_capability_active.png") no-repeat center;
-    background-size: contain;
-  }
-  .common-center{
-    .app-application-active{
-      background: url("../../../assets/images/application/app_application_active.png") no-repeat center;
-      background-size: contain;
-    }
-    .app-image-active{
-      background: url("../../../assets/images/application/app_image_active.png") no-repeat center;
-      background-size: contain;
-    }
-    .app-test-active{
-      background: url("../../../assets/images/application/app_test_active.png") no-repeat center;
-      background-size: contain;
-    }
-    .app-sandbox-active{
-      background: url("../../../assets/images/application/app_sandbox_active.png") no-repeat center;
-      background-size: contain;
-    }
+    top: 95px;
   }
 }
 </style>

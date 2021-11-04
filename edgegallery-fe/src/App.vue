@@ -166,6 +166,7 @@ export default {
     createNewProject (val) {
       if (val) {
         this.zoomChanged(1)
+        sessionStorage.setItem('isCreate', true)
         this.$router.push('/EG/developer/createApplication')
       }
     },
@@ -302,9 +303,7 @@ export default {
 }
 .left-pro-comp::after {
   content: "";
-  background: url("./assets/images/index/index_mask.png") no-repeat center;
-  background-size: cover;
-  opacity: 0.5;
+  background: url("./assets/images/div_bg.png") no-repeat center;
   top: 0;
   left: 0;
   bottom: 0;

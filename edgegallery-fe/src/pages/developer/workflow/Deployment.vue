@@ -1,32 +1,26 @@
 <template>
-  <div class="deployment common-workflow">
-    <div>
+  <div
+    class="deployment workflow"
+    :class="currentFlow>9||currentFlow===9?'center-active':''"
+  >
+    <div
+      v-for="(item,index) in deployWorkflowDataArray"
+      :key="index"
+    >
       <div
-        class="common-center"
+        class="center"
       >
-        <span
-          class="common-workflow-item deploy-meao"
-          :class="currentFlow>7||currentFlow===7?'deploy-meao-active':''"
-          @click="jumpTo('/EG/mecm/appDeployDetail')"
-        />
-        <span
-          class="meao-active"
-          v-if="currentFlow===7"
-        />
-      </div>
-      <div
-        class="common-center"
-      >
-        <span
-          class="common-workflow-item deploy-mepm"
-        />
-      </div>
-      <div
-        class="common-center"
-      >
-        <span
-          class="common-workflow-item deploy-node"
-        />
+        <div
+          class="item"
+          :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0?'item-must':'',item.class]"
+          @click="jumpTo(item.toPath)"
+        >
+          <img
+            :src="item.src"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
+            alt="EdgeGallery"
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -40,7 +34,31 @@ export default {
   },
   data () {
     return {
-      currentFlow: 0
+      currentFlow: 0,
+      isCapabilityActive: false,
+      deployWorkflowDataArray: [
+        {
+          id: 7,
+          name: '',
+          class: 'deploy-meao',
+          src: require('../../../assets/images/application/app_meao.png'),
+          toPath: '/EG/mecm/appDeployDetail'
+        },
+        {
+          id: 8,
+          name: '',
+          class: 'deploy-mepm',
+          src: require('../../../assets/images/application/app_mepm.png'),
+          toPath: ''
+        },
+        {
+          id: 9,
+          name: '',
+          class: 'deploy-node',
+          src: require('../../../assets/images/application/app_node.png'),
+          toPath: ''
+        }
+      ]
     }
   },
   methods: {
@@ -50,46 +68,24 @@ export default {
   },
   mounted () {
     this.currentFlow = sessionStorage.getItem('currentFlow') ? Number(sessionStorage.getItem('currentFlow')) : 0
+    this.isCapabilityActive = sessionStorage.getItem('isCapabilityActive')
   }
 }
 </script>
 
 <style lang="less" scoped>
   .deployment{
-    color: #fff;
     .deploy-meao{
-      top: 155px;
-      left: -60px;
-      background: url("../../../assets/images/application/app_meao.png") no-repeat center;
-      background-size: contain;
-    }
-    .common-center{
-    .meao-active{
-      display: inline-block;
-      height: 30px;
-      width: 30px;
-      background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
-      background-size: contain;
-      position: absolute;
-      top: 230px;
-      left: 980px;
-    }
-    .deploy-meao-active{
-      background: url("../../../assets/images/application/app_meao_active.png") no-repeat center;
-      background-size: contain;
-    }
+      top: 152px;
+      left: -58px;
     }
     .deploy-mepm{
-      top: 65px;
-      left: 100px;
-      background: url("../../../assets/images/application/app_mepm.png") no-repeat center;
-      background-size: contain;
+      top: 58px;
+      left: 104px;
     }
     .deploy-node{
-      top: -25px;
-      left: 260px;
-      background: url("../../../assets/images/application/app_edge_node.png") no-repeat center;
-      background-size: contain;
+      top: -33px;
+      left: 265px;
     }
   }
 </style>

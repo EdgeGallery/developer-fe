@@ -1,18 +1,26 @@
 <template>
-  <div class="appstore common-workflow">
-    <div>
+  <div
+    class="appstore workflow"
+    :class="currentFlow>6||currentFlow===6?'center-active':''"
+  >
+    <div
+      v-for="(item,index) in appStoreWorkflowDataArray"
+      :key="index"
+    >
       <div
-        class="common-center"
+        class="center"
       >
-        <span
-          class="common-workflow-item app-store"
-          :class="currentFlow>6||currentFlow===6?'app-store-active':''"
-          @click="jumpTo('/EG/appstore/applications')"
-        />
-        <span
-          class="appstore-active"
-          v-if="currentFlow===6"
-        />
+        <div
+          class="item"
+          :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0?'item-must':'',item.class]"
+          @click="jumpTo(item.toPath)"
+        >
+          <img
+            :src="item.src"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
+            alt="EdgeGallery"
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -26,7 +34,17 @@ export default {
   },
   data () {
     return {
-      currentFlow: 0
+      currentFlow: 0,
+      isCapabilityActive: false,
+      appStoreWorkflowDataArray: [
+        {
+          id: 6,
+          name: '',
+          class: 'app-store',
+          src: require('../../../assets/images/application/app_store.png'),
+          toPath: '/EG/appstore/applications'
+        }
+      ]
     }
   },
   methods: {
@@ -36,6 +54,7 @@ export default {
   },
   mounted () {
     this.currentFlow = sessionStorage.getItem('currentFlow') ? Number(sessionStorage.getItem('currentFlow')) : 0
+    this.isCapabilityActive = sessionStorage.getItem('isCapabilityActive')
   }
 }
 </script>
@@ -43,25 +62,9 @@ export default {
 <style lang="less" scoped>
   .appstore{
     color: #fff;
-    .app-store{
-      top: 155px;
+     .item{
+      top: 150px;
       left: -80px;
-      background: url("../../../assets/images/application/app_store.png") no-repeat center;
-      background-size: contain;
-    }
-    .app-store-active{
-      background: url("../../../assets/images/application/app_store_active.png") no-repeat center;
-      background-size: contain;
-    }
-    .common-center>.appstore-active{
-      display: inline-block;
-      height: 30px;
-      width: 30px;
-      background: url("../../../assets/images/application/app_mark_box2.png") no-repeat center;
-      background-size: contain;
-      position: absolute;
-      top: 235px;
-      left: 760px;
     }
   }
 </style>
