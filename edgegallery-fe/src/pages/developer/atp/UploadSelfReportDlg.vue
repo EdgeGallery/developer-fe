@@ -62,6 +62,7 @@
 <script>
 import { Userpage } from '../../../api/atpApi.js'
 export default {
+  name: 'UploadReportDlg',
   props: {
     isUploadPdf: {
       type: Boolean,

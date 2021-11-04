@@ -82,6 +82,7 @@
 <script>
 import { appstoreApi } from '../../api/appstoreApi.js'
 export default {
+  name: 'PromoteTaskDlg',
   props: {
     promStoreList: {
       required: true,
@@ -165,7 +166,7 @@ export default {
       }
       this.changeToProcess()
       let tempData = this.appData
-      setTimeout(() => {
+      let _timer = setTimeout(() => {
         let flagNumber = 0
         for (let i = 0; i < tempData.length; i++) {
           appstoreApi.promTask(tempData[i].packageId, param).then((res) => {
@@ -179,6 +180,7 @@ export default {
           }).catch(() => {
           })
         }
+        clearTimeout(_timer)
       }, 2000)
     }
   },

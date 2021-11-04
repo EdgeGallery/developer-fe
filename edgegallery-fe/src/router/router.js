@@ -121,7 +121,7 @@ export default new Router({
     },
     {
       path: '/EG/appstore/apppromotion',
-      name: 'apppromotion',
+      name: 'appPromotion',
       component: () => import('../pages/appstore/AppPromotion.vue')
     },
     {
