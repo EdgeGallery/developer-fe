@@ -236,7 +236,7 @@
 </template>
 
 <script>
-import { uniqueArray } from '../../../tools/tool.js'
+import { uniqueArray } from '../../../tools/common.js'
 export default {
   name: 'AddVm',
   data () {

@@ -33,17 +33,16 @@
         <div
           class="detail-center-bg flex-center"
           v-if="isChangeStyle"
-          @mouseenter="egBreathStyle=true"
           @mouseleave="egBreathStyle=false"
-          :class="{'breath':egBreathStyle===false}"
         >
           <img
             src="../../../assets/images/sandbox/mec_img.png"
             alt=""
             class="detail-center-img"
+            :class="{'breath':egBreathStyle===false}"
           >
           <p
-            class="detail-center-title  hoverHands"
+            class="detail-center-title  hoverHands defaultFontLight"
             @click="deployInternet"
           >
             边缘应用
@@ -55,7 +54,7 @@
         >
           <div class="details-top">
             <p class="deploy-detail-circle" />
-            <p class="deploy-detail-title">
+            <p class="deploy-detail-title defaultFontLight">
               大亚湾项目
             </p>
           </div>
@@ -69,7 +68,6 @@
                     class="deploy-img-center"
                     :class="{'deploy-img-center-finish':configNetworkFinish===true,'breath':deployBreathStyle===false}"
                     src="../../../assets/images/sandbox/deploy_img.png"
-                    @mouseenter="deployBreathStyle=true"
                     @mouseleave="configNetworkFinish===false"
                     alt=""
                   >
@@ -88,7 +86,7 @@
                   </el-tooltip>
                 </div>
               </div>
-              <div class="deploy-title">
+              <div class="deploy-title defaultFontLight">
                 配置网络
               </div>
             </div>
@@ -118,7 +116,6 @@
                 >
                 <div
                   class="vm-bg"
-                  @mouseenter="vmBreathStyle=true"
                   @mouseleave="isAddVmFinish===true?vmBreathStyle=true:vmBreathStyle=false"
                 >
                   <div class="vm-btn flex-center vm-btn-add">
@@ -129,7 +126,7 @@
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/vm-add.png"
+                        src="../../../assets/images/sandbox/vm_add.png"
                         alt=""
                         class="hoverHands img-click"
                         @click="addVm"
@@ -146,7 +143,7 @@
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/vm-detail.png"
+                        src="../../../assets/images/sandbox/vm_detail.png"
                         alt=""
                         class=" hoverHands"
                         :class="isAddVmFinish === false ? 'img-onlyRead':'img-click'"
@@ -162,7 +159,7 @@
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/vm-login.png"
+                        src="../../../assets/images/sandbox/vm_login.png"
                         alt=""
                         class=" hoverHands"
                         :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
@@ -177,7 +174,7 @@
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/vm-upload.png"
+                        src="../../../assets/images/sandbox/vm_upload.png"
                         alt=""
                         class=" hoverHands"
                         :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
@@ -192,7 +189,7 @@
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/vm-start.png"
+                        src="../../../assets/images/sandbox/vm_start.png"
                         alt=""
                         class=" hoverHands"
                         :class="isBtnStart === false ? 'img-onlyRead':'img-click'"
@@ -206,19 +203,19 @@
                   v-if="isStartupVm"
                   :class="{'vmStatus':isAddVmFinish === false}"
                 >
-                  <div class="bounce1" />
-                  <div class="bounce2" />
-                  <div class="bounce3" />
-                  <div class="bounce4" />
+                  <div
+                    v-for="(item,index) in 4"
+                    :key="index"
+                  />
                 </div>
               </div>
-              <p class="deploy-title">
+              <p class="deploy-title defaultFontLight">
                 虚拟机
               </p>
             </div>
           </div>
           <div class="details-bottom">
-            <p class="details-bottom-title lt">
+            <p class="details-bottom-title lt defaultFontLight">
               5G MEC
             </p>
             <el-button
@@ -230,7 +227,7 @@
           </div>
         </div>
         <div
-          class="detail-center-name"
+          class="detail-center-name defaultFontLight"
           :class="{'hide-div':isChangeStyle===false}"
         >
           5G MEC
@@ -251,7 +248,7 @@
             src="../../../assets/images/sandbox/terminal.png"
             alt=""
           >
-          <p>
+          <p class="defaultFontLight">
             5G终端
           </p>
         </div>
@@ -262,10 +259,10 @@
         >
         <div class="detail-bottom-one">
           <img
-            src="../../../assets/images/sandbox/base-station.png"
+            src="../../../assets/images/sandbox/base_station.png"
             alt=""
           >
-          <p>
+          <p class="defaultFontLight">
             5G基站
           </p>
         </div>
@@ -282,7 +279,7 @@
             src="../../../assets/images/sandbox/edge.png"
             alt=""
           >
-          <p>
+          <p class="defaultFontLight">
             边缘UPF
           </p>
         </div>
@@ -290,11 +287,18 @@
           v-else
           class="edgePuf"
           @click="addApplicationRules"
-          @mouseenter="upfBreathStyle=true"
           @mouseleave="upfBreathStyle=false"
-          :class="{'breath':upfBreathStyle===false}"
         >
-          <p>边缘UPF</p>
+          <img
+            :class="{'breath':upfBreathStyle===false}"
+            src="../../../assets/images/sandbox/upf_btn.png"
+            alt=""
+          >
+          <p
+            class="defaultFontLight"
+          >
+            边缘UPF
+          </p>
         </div>
         <img
           src="../../../assets/images/sandbox/sucess_line.png"
@@ -306,7 +310,7 @@
             src="../../../assets/images/sandbox/core.png"
             alt=""
           >
-          <p>
+          <p class="defaultFontLight">
             5G核心网
           </p>
         </div>
@@ -320,7 +324,7 @@
             src="../../../assets/images/sandbox/internet.png"
             alt=""
           >
-          <p>
+          <p class="defaultFontLight">
             INTERNET
           </p>
         </div>
@@ -441,7 +445,7 @@ export default {
       line-height: 50px;
       text-align: center;
       letter-spacing: 4px;
-      background: url('../../../assets/images/sandbox/detail-title.png') no-repeat center;
+      background: url('../../../assets/images/sandbox/detail_title.png') no-repeat center;
     }
   }
   .detail-center{
@@ -454,17 +458,18 @@ export default {
       height: 200px;
       background: url('../../../assets/images/sandbox/mec_bg.png') no-repeat center;
       .detail-center-img{
-        width: 126px;
-        height: 126px;
+        width: 154px;
+        height: 127px;
       }
       .detail-center-title{
-        width: 166px;
+        width: 259px;
         height: 38px;
         margin-top: -10px;
         line-height: 38px;
         position: absolute;
         text-align: center;
-        background-image: url('../../../assets/images/sandbox/mec_name.png');
+        background-color:rgba(10, 9, 54, 0.8) ;
+        filter: blur(0.6px);
       }
     }
     .detail-center-name{
@@ -491,7 +496,7 @@ export default {
     }
     .detail-bottom-line{
       width: 76px;
-      height: 16px;
+      height: 22px;
       margin: 0 10px;
     }
   }
@@ -536,6 +541,7 @@ export default {
                 height: 96px;
                 opacity: 0.1;
                 position:absolute;
+                border-radius:50%;
               }
               .deploy-img-center-finish{
                 opacity: 1;
@@ -580,8 +586,8 @@ export default {
           position: relative;
           .vm-center-img{
             position:absolute;
-            width: 96px;
-            height: 96px;
+            width: 77px;
+            height: 81px;
             opacity: 0.1;
           }
           .vm-center-img-finish{
@@ -634,15 +640,15 @@ export default {
           .vmStatus{
             position: absolute;
             top: 124px;
-            .bounce1 {
-              animation-delay: -0.48s;
-            }
-            .bounce2 {
-              animation-delay: -0.32s;
-            }
-            .bounce3 {
-              animation-delay: -0.16s;
-            }
+          }
+          .vmStatus div:first-child{
+            animation-delay: -0.48s;
+          }
+          .vmStatus div:nth-child(2){
+            animation-delay: -0.32s;
+          }
+          .vmStatus div:nth-child(3){
+            animation-delay: -0.16s;
           }
           .vmStatus > div {
             width: 6px;
@@ -712,16 +718,22 @@ export default {
     .detail-bottom-line{
       margin: 10px -36px 0 0 ;
       width: 60px;
+      height: 18px;
     }
     .edgePuf{
-      width: 109px;
+      width: 100px;
       height: 109px;
       margin: 40px 10px 0 40px;
       cursor: pointer;
-      background-image: url('../../../assets/images/sandbox/edgePuf.png');
-      p{
-        text-align: center;
-        margin-top: 80px;
+      background-image: url('../../../assets/images/sandbox/upf_bg.png');
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      img{
+        width: 38px;
+        height: 38px;
+        margin: 22px 0 18px 0;
+        border-radius:50%;
       }
     }
   }
@@ -730,16 +742,19 @@ export default {
     transition: all  0.4s;
   }
   .breath{
-    animation:breathe 4s ease-in 0s infinite;
+    animation-timing-function:ease-in-out;
+    animation-name:breathe;
+    animation-duration:2700ms;
+    animation-iteration-count:infinite;
+    animation-direction:alternate;
     @keyframes breathe  {
       0%{
-        opacity: 0.3;
-      }
-      50%{
-        opacity: 1;
+         opacity:.2;
+         filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
       }
       100%{
-        opacity: 0.3;
+        opacity:1;
+         filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,.8));
       }
     }
   }

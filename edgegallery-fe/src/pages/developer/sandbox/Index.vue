@@ -88,7 +88,7 @@ export default {
     height: 420px;
     margin: 10% auto;
     padding:170px 0;
-    background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
+    background: url('../../../assets/images/sandbox/index_sandbox_bg.png') no-repeat center;
     .sandbox-name-cn{
       font-size: 25px;
       letter-spacing: 10px;
