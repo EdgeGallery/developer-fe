@@ -887,21 +887,11 @@ th{
   padding: 55px 120px;
   border: 2px solid #b6a4ec;
   border-radius: 16px;
-  background: rgba(36,20,119,.1);
+  background: url('../images/div_bg.png') rgba(36,20,119,.1) no-repeat;
   box-shadow: 60px 70px 75px rgba(36,20,119,.3);
+  backdrop-filter: blur(2px);
   clear: both;
   position: relative;
-}
-.common-div-bg::after{
-  z-index: -1;
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('../images/div_bg.png') no-repeat;
-  backdrop-filter: blur(2px);
 }
 .rules-title{
   font-weight: normal;
