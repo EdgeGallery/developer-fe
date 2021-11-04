@@ -9,7 +9,7 @@
       >
         <span
           class="common-workflow-item deploy-meao"
-          :class="currentFlow>7||currentFlow===7?'deploy-meao-active':''"
+          :class="currentFlow>7||currentFlow===7?'deploy-meao-active':(currentFlow===6?'animation':'')"
           @click="jumpTo('/EG/mecm/appDeployDetail')"
         />
       </div>
@@ -77,7 +77,7 @@ export default {
         background-size: contain;
         position: absolute;
         top: 230px;
-        left: 1130px;
+        left: 1140px;
       }
       .deploy-meao-active{
         background: url("../../../assets/images/application/app_meao_active.png") no-repeat center;

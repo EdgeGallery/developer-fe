@@ -9,7 +9,7 @@
       >
         <span
           class="common-workflow-item app-store"
-          :class="currentFlow>6||currentFlow===6?'app-store-active':''"
+          :class="currentFlow>6||currentFlow===6?'app-store-active':(currentFlow===5?'animation':'')"
           @click="jumpTo('/EG/appstore/applications')"
         />
         <span

@@ -9,7 +9,7 @@
       >
         <span
           class="common-workflow-item capability-center"
-          :class="currentFlow>2||currentFlow===2?'capability-center-active':''"
+          :class="currentFlow>2||currentFlow===2?'capability-center-active':(currentFlow===1?'animation':'')"
           @click="jumpTo('/EG/developer/capabilityCenter')"
         />
         <span
@@ -23,7 +23,7 @@
         >
           <span
             class="common-workflow-item app-application"
-            :class="currentFlow>1||currentFlow===1?'app-application-active':''"
+            :class="currentFlow>1||currentFlow===1?'app-application-active':(currentFlow===0?'animation':'')"
             @click="jumpTo('/EG/developer/createApplication')"
           />
           <span
@@ -36,7 +36,7 @@
         >
           <span
             class="common-workflow-item app-image"
-            :class="currentFlow>4||currentFlow===4?'app-image-active':''"
+            :class="currentFlow>4||currentFlow===4?'app-image-active':(currentFlow===3?'animation':'')"
             @click="jumpTo('/EG/images/appPackageBuild')"
           />
           <span
@@ -49,7 +49,7 @@
         >
           <span
             class="common-workflow-item app-test"
-            :class="currentFlow>5||currentFlow===5?'app-test-active':''"
+            :class="currentFlow>5||currentFlow===5?'app-test-active':(currentFlow===4?'animation':'')"
             @click="jumpTo('/EG/developer/selectScenarios')"
           />
           <span
@@ -64,7 +64,7 @@
         >
           <span
             class="common-workflow-item app-sandbox"
-            :class="currentFlow>3||currentFlow===3?'app-sandbox-active':''"
+            :class="currentFlow>3||currentFlow===3?'app-sandbox-active':(currentFlow===1||currentFlow===2?'animation':'')"
             @click="jumpTo('/EG/developer/sandbox')"
           />
           <span
