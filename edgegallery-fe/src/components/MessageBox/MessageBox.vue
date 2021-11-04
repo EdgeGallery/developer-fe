@@ -124,7 +124,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(74,34,218,.2);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   text-align: center;
 }
 .eg-messagebox-container {
