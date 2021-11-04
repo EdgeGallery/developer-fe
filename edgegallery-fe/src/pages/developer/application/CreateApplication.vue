@@ -21,7 +21,7 @@
           </el-button>
           <el-button
             class="tip-btn"
-            @click="isShowProjectDlg=true,isShowAppDlg=false"
+            @click="isShowCreationDlg=true,isShowAppDlg=false"
           >
             新建项目
           </el-button>
@@ -30,7 +30,7 @@
     </div>
     <div
       class="common-div-bg create-application-form"
-      v-if="isShowProjectDlg"
+      v-if="isShowCreationDlg"
     >
       <createApplicationComp />
     </div>
@@ -47,12 +47,18 @@ export default {
   data () {
     return {
       isShowAppDlg: true,
-      isShowProjectDlg: false
+      isShowCreationDlg: false
     }
   },
   methods: {
     returnIndexPage () {
       this.$router.push('/EG/developer/home')
+    }
+  },
+  mounted () {
+    if (sessionStorage.getItem('isCreate')) {
+      this.isShowCreationDlg = true
+      this.isShowAppDlg = false
     }
   }
 }

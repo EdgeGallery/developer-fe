@@ -141,6 +141,7 @@ export default {
     createNewProject (val) {
       if (val) {
         this.zoomChanged(1)
+        sessionStorage.setItem('isCreate', true)
         this.$router.push('/EG/developer/createApplication')
       }
     },

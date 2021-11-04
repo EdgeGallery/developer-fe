@@ -997,34 +997,101 @@ th{
   position: relative;
   top: -2px;
 }
-.common-center{
+.center{
   display: flex;
   justify-content: left;
   flex-direction: column;
   flex-wrap: wrap;
 }
-.common-workflow{
+.workflow{
   height: 33%;
   padding-top: 30px;
   
 }
-.common-workflow .common-workflow-item{
+.workflow .item{
   display: inline-block;
   width: 90px;
   height: 90px;
   position: relative;
   cursor: pointer;
+  border: 1px solid transparent;
+  border-radius : 45px;
 }
-.common-center-active .common-workflow-item::after{
+.center-active .item-active::before{
+ content:'';
+ display: inline-block;
+ width: 25px;
+ height: 36px;
+ background: url('../images/application/app_mark_box1.png') no-repeat center;
+ background-size: cover;
+ position: relative;
+ top: 20px;
+ left: -25px;
+ z-index: 10;
+}
+.center-active .item-capa-active::before{
+  content:'';
+  display: inline-block;
+  width: 25px;
+  height: 36px;
+  background: url('../images/application/app_mark_box2.png') no-repeat center;
+  background-size: cover;
+  position: relative;
+  top: 20px;
+  left: -25px;
+  z-index: 10;
+ }
+.center-active .item-must::after{
   content:'';
   display: inline-block;
   width: 8px;
   height: 8px;
   background: url('../images/projects/pro_mark_icon.png') no-repeat center;
   position: relative;
-  top: 43px;
+  top: 55px;
+  left: -20px;
+ }
+ .center-active .item-active::after{
+  content:'';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  position: relative;
+  top: 25px;
   left: -22px;
  }
+ .item{
+  background: url('../../assets/images/application/app_icon_bg.png') no-repeat;
+  background-size: cover;
+}
+.item img{
+  width: 40px;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  opacity: 1;
+}
+img.active{
+  opacity: 0.1;
+}
+img.next{
+  animation: app-twinkle 1.5s infinite alternate;
+}
+@keyframes app-twinkle{
+  0% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
  .tip-btn-group .tip-btn{
   border-radius: 12px;
@@ -1074,21 +1141,4 @@ input::-webkit-input-placeholder {
   position: absolute;
   top: 8px;
   left: -18px;
-}
-.animation{
-  animation: app-twinkle 1.5s infinite alternate;
-}
-@keyframes app-twinkle{
-  0% {
-    opacity: 0.3;
-  }
-  30% {
-    opacity: 0.5;
-  }
-  60% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
 }

@@ -340,6 +340,7 @@ export default {
     doNext (type) {
       if (type === 2) {
         sessionStorage.setItem('currentFlow', 2)
+        sessionStorage.setItem('isCapabilityActive', true)
       }
       this.$router.push('/EG/developer/home')
     },
