@@ -684,7 +684,7 @@ export default {
             font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
             font-size: 24px;
             color: #FFF;
-            margin-left: 30px;
+            margin-left: 40px;
           }
           .waitManual{
             font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
@@ -694,28 +694,24 @@ export default {
           .testFailed::before{
             content: '';
             display:inline-block;
-            width:20px;
-            height:20px;
-            margin-right: 10px;
+            width:30px;
+            height:30px;
             background-image: url('../../../assets/images/atp/test_failed.png');
             background-position: center;
             background-size: 100% 100%;
             position: absolute;
-            top: 6px;
-            left: -30px;
+            left: -40px;
           }
           .testSuccessful::before{
             content: '';
             display:inline-block;
-            width:20px;
-            height:20px;
-            margin-right: 10px;
+            width:30px;
+            height:30px;
             background-image: url('../../../assets/images/atp/test_successful.png');
             background-position: center;
             background-size: 100% 100%;
             position: absolute;
-            top: 6px;
-            left: -30px;
+            left: -40px;
           }
           .findproblem{
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
@@ -856,6 +852,6 @@ export default {
 
 }
 .blur-bg{
-  filter: blur(4px);
+  filter: blur(5px);
 }
 </style>

@@ -176,7 +176,7 @@
       </div>
     </div>
     <div v-if="isUploadDig">
-      <PromTaskDig
+      <PromoteTaskDlg
         ref="promItem"
         v-model="isUploadDig"
         @refreshAppPromInfo="refreshPromData"
@@ -188,12 +188,13 @@
 
 <script>
 import { appstoreApi } from '../../api/appstoreApi.js'
-import PromTaskDig from './PromTaskDlg.vue'
+import PromoteTaskDlg from './PromoteTaskDlg.vue'
 import Pagination from '../../components/Pagination.vue'
 
 export default {
+  name: 'AppPromotion',
   components: {
-    PromTaskDig,
+    PromoteTaskDlg,
     Pagination
   },
   data () {
@@ -489,6 +490,7 @@ export default {
         margin-left: 10px;
         float: right;
         .appPull{
+          box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8);
           font-size: 16px !important;
           font-weight: 300 !important;
           color: #0F0D87;
@@ -536,6 +538,6 @@ export default {
     }
   }
   .blur-bg{
-    filter: blur(4px);
+    filter: blur(5px);
   }
 </style>

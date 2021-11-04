@@ -114,12 +114,13 @@
       </el-form-item>
     </el-form>
     <div
-      class="dialog-footer"
+      style="text-align:right;"
     >
       <el-button
-        id="upload_package_close"
+        id="
+      upload_package_close"
         @click="closeContributionCase"
-        class="common-btn common-dark-btn"
+        class="common-btn"
         style="margin-right:20px;"
       >
         {{ $t('common.cancel') }}
@@ -292,6 +293,9 @@ export default {
   .contibution-form{
     .el-input__inner,.el-textarea__inner{
       background-color: rgba(255, 255, 255, 0.45);
+    }
+    .el-upload-list__item-name{
+      color: #fff;
     }
   }
     .form-button{
