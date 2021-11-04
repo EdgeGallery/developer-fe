@@ -118,6 +118,9 @@ export default {
   watch: {
     pageModel (val) {
       this.pageModel = val
+      if (this.pageModel === 'newVersion') {
+        this.zoom = 0
+      }
     },
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
