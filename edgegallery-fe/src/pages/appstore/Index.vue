@@ -196,7 +196,7 @@ export default {
       this.offsetPage = start
     },
     getAppData (searchCondition) {
-      appstoreApi.getAppTableApi(searchCondition).then((res) => {
+      appstoreApi.getAppTable(searchCondition).then((res) => {
         this.pageData = res.data.results
         this.listTotal = res.data.total
       }).catch(error => {

@@ -15,11 +15,11 @@
   -->
 
 <template>
-  <div class="app_detail padding56">
+  <div class="app_detail padding_default">
     <div class="title_top">
       {{ $t('store.introduction') }}
     </div>
-    <div class="app_info_div">
+    <div class="app_info_div common-div-bg">
       <div class="app_icon">
         <img
           :src="appIconPath"
@@ -82,7 +82,6 @@
         </p>
         <p class="score_btn">
           <el-button
-            type="primary"
             class="batchProButton"
             @click="beforeBuyIt()"
           >
@@ -105,7 +104,6 @@
         </p>
 
         <el-button
-          type="primary"
           class="batchProButton"
           :disabled="!canDownload || currentData.userId===userId ? false : true"
           @click="download(currentData)"
@@ -255,18 +253,11 @@
               {{ $t('store.demo') }}
             </span>
           </li>
-
-          <li
-            class="last_li"
-            :class="{'appShow_active':activeName==='vedio','last_default':activeName!=='vedio','last_default2':activeName==='vedio'}"
-          >
-            <span />
-          </li>
         </ul>
       </div>
       <div
-        class="container_div"
-        :class="{'container_div_active':activeName!=='appDetail'}"
+        class="container_div common-div-bg"
+        :class="{'container_div_active common-div-bg':activeName!=='appDetail'}"
       >
         <appIntroduction
           v-show="activeName==='appDetail'"
@@ -338,7 +329,6 @@
         >{{ $t('atp.confirm') }}</el-button>
       </span>
     </el-dialog>
-    <!-- 订购弹框 -->
     <el-dialog
       width="30%"
       :visible.sync="showSubDialog"
@@ -369,7 +359,7 @@
           >
             <el-select
               v-model="mechostIp"
-              :placeholder="$t('common.choose')"
+              :placeholder="$t('appstoreCommon.choose')"
               style="width: 260px;"
             >
               <el-option
@@ -389,12 +379,12 @@
         <el-button
           @click="showSubDialog = false,btnLoading = false"
           class="bgBtn"
-        >{{ $t('common.cancel') }}</el-button>
+        >{{ $t('appstoreCommon.cancel') }}</el-button>
         <el-button
           @click="confirmToBuy"
           class="bgBtn"
           :loading="btnLoading"
-        >{{ $t('common.confirm') }}</el-button>
+        >{{ $t('appstoreCommon.confirm') }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -408,6 +398,7 @@ import appShowOnline from './AppShowOnline.vue'
 import synchronizeMeao from './SynchronizeMeao.vue'
 import { appstoreApi, URL_PREFIX } from '../../../api/appstoreApi'
 import { INDUSTRY, TYPES, MEAO } from '../tools/constant.js'
+import { formatDateTime } from '../../../tools/common.js'
 export default {
   name: '',
   components: {
@@ -548,7 +539,7 @@ export default {
       if (this.pathSource === 'myapp') {
         userId = sessionStorage.getItem('userId')
       }
-      appstoreApi.getAppDetailTableApi(this.appId, userId, this.limit, this.offset).then(res => {
+      appstoreApi.getAppDetailTable(this.appId, userId, this.limit, this.offset).then(res => {
         let data = res.data
         data.forEach(item => {
           if (this.pathSource !== 'myapp' && item.status === 'Published') {
@@ -571,7 +562,7 @@ export default {
     },
     handleTableTada (data) {
       data.forEach(item => {
-        let newDateBegin = this.dateChange(item.createTime)
+        let newDateBegin = formatDateTime(item.createTime)
         item.createTime = newDateBegin
         let size = (Number(item.size) / 1024).toFixed(2)
         if (size >= 1024) {
@@ -594,28 +585,6 @@ export default {
       this.source = this.currentData.details
       this.appIconPath = URL_PREFIX + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
       this.checkProjectData()
-    },
-    dateChange (dateStr) {
-      if (dateStr) {
-        let date = new Date(Date.parse(dateStr))
-        let Y = date.getFullYear()
-        let M = date.getMonth() + 1
-        let D = date.getDate()
-        let H = date.getHours()
-        let m = date.getMinutes()
-        let s = date.getSeconds()
-        return Y +
-          '-' +
-          (M > 9 ? M : '0' + M) +
-          '-' +
-          (D > 9 ? D : '0' + D) +
-          ' ' +
-          (H > 9 ? H : '0' + H) +
-          ':' +
-          (m > 9 ? m : '0' + m) +
-          ':' +
-          (s > 9 ? s : '0' + s)
-      }
     },
     cancelImage (row) {
       this.isDownloadImage = false
@@ -661,7 +630,7 @@ export default {
       })
     },
     getAppData () {
-      appstoreApi.getAppListApi(this.appId).then(
+      appstoreApi.getAppList(this.appId).then(
         (res) => {
           this.score = res.data.score
           this.downloadNum = res.data.downloadCount
@@ -679,9 +648,9 @@ export default {
       )
     },
     getMyAppData () {
-      appstoreApi.getPackageDetailApi(this.appId, this.packageId).then(res => {
+      appstoreApi.getPackageDetail(this.appId, this.packageId).then(res => {
         let data = res.data
-        let newDateBegin = this.dateChange(data.createTime)
+        let newDateBegin = formatDateTime(data.createTime)
         data.createTime = newDateBegin
         this.tableData.push(data)
         if (data) {
@@ -691,11 +660,8 @@ export default {
     }
   },
   mounted () {
-    if ((sessionStorage.getItem('userNameRole') === 'guest') || (sessionStorage.getItem('userNameRole') === 'tenant')) {
-      this.canDownload = false
-    } else {
-      this.canDownload = true
-    }
+    let _userNameRole = sessionStorage.getItem('userNameRole')
+    this.canDownload = _userNameRole !== 'guest' && _userNameRole !== 'tenant'
     let params = this.$route.params.item
       ? this.$route.params.item
       : JSON.parse(sessionStorage.getItem('appstordetail'))
@@ -718,11 +684,7 @@ export default {
     this.getAppData()
     this.getTableData()
     this.checkProjectData()
-    if ((sessionStorage.getItem('userNameRole') === 'guest')) {
-      this.ifSynchronize = false
-    } else {
-      this.ifSynchronize = true
-    }
+    this.ifSynchronize = _userNameRole !== 'guest'
   }
 }
 </script>
@@ -735,17 +697,17 @@ export default {
     font-size: 26px;
     font-family: HarmonyOS Sans SC, sans-serif;
     font-weight: bold;
-    color: #5D3DA0;
+    color: #FFFFFF;
   }
   .el-dialog{
     text-align: left;
     box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
     width: 535px;
   }
- .el-dialog__header{
-   border-bottom: 2px solid #e0e0e0;
-   background: transparent !important;
- }
+  .el-dialog__header{
+    border-bottom: 2px solid #e0e0e0;
+    background: transparent !important;
+  }
   .down_radio{
     padding: 18px 25px;
     width: 400px;
@@ -769,7 +731,6 @@ export default {
   .dialog-footer {
     text-align: right;
     .cancle_btn{
-      background: #d0dbf7;
       color: #587fe7;
       margin-right: 30px !important;
     }
@@ -781,7 +742,6 @@ export default {
   }
   .app_info_div{
     border-radius: 16px;
-    background: #fff;
     padding: 20px 0 20px 70px;
     display: flex;
     align-items: center;
@@ -797,12 +757,12 @@ export default {
       word-wrap: break-word;
       .app_title{
         font-size: 36px;
-        color: #380879;
+        color: #FFFFFF;
         font-weight: bold;
         .createTime{
           font-size: 16px;
           font-weight: normal;
-          color: #666;
+          color: #FFFFFF;
           margin-left: 10px;
         }
       }
@@ -812,12 +772,15 @@ export default {
         .drop-down{
           top:-2px;
           margin-right: 5px;
+          background: rgba(255,255,255,0.4);
+          color: #FFFFFF;
         }
         .fg{
           display: inline-block;
-          width: 1px;
+          width: 2px;
           height: 14px;
-          background: #A1A7E6;
+          background: #FFFFFF;
+          opacity: 0.5;
           margin: 0 10px;
           position: relative;
           top: 1px;
@@ -837,23 +800,23 @@ export default {
           border-radius: 12pt  12pt   12pt  0pt;
         }
         .industry{
-          background: center right no-repeat #eaf6f9;
-          background-size: contain;
-          color: #54AAF3;
+          background: #FFFFFF;
+          opacity: 0.5;
+          color: #FFB800;
         }
         .architecture{
-          background: center right no-repeat #effafa;
-          background-size: contain;
-          color: #61CDD0;
+          background: #FFFFFF;
+          opacity: 0.5;
+          color: #16E9EF;
         }
         .type{
-          background: center right no-repeat #effcf9;
-          background-size: contain;
-          color: #5E40C8;
+          background: #FFFFFF;
+          opacity: 0.5;
+          color: #3800FF;
         }
         .deployMode{
-          background: center right no-repeat #fff2ed;
-          background-size: contain;
+          background: #FFFFFF;
+          opacity: 0.5;
           color: #FF7C50;
         }
       }
@@ -868,11 +831,11 @@ export default {
         line-height: 30px;
         text-align: center;
         margin-bottom: 5px;
-        color: #5E40C8;
+        color: #FFFFFF;
         font-size: 14px;
       }
       .score_num{
-        color: #5E40C8;
+        color: #FFFFFF;
         float: left;
         text-align: center;
         height: 20px;
@@ -896,30 +859,23 @@ export default {
         height: 40px !important;
         width: 160px !important;
         border-radius: 25px !important;
-         color: #FFFFFF;
+        color: #0F0D87 !important;
+        background: #DDE6FF;
         font-family: HarmonyHeiTi, sans-serif;
         font-weight: 300;
         font-size: 24px;
-        background: linear-gradient(to right, #4444D0, #6724CB) !important;
-        .el-button--primary{
-          font-size: 20px;
-          background-color: #fff;
-          border: none;
-          color: #FFFFFF;
-        }
       }
     }
   }
   .app_content{
     border-radius: 0 16px 16px 16px;
-    background: #fff;
     margin-top: 38px;
     .horizontal-cell{
-        padding: 12px 0;
-        float: left;
-        width: 2px;
-        height: 50px;
-        background-color: #d4d1ec;
+      padding: 12px 0;
+      float: left;
+      width: 2px;
+      height: 50px;
+      background: #FFFFFF;
     }
     .separator{
         position: relative;
@@ -934,14 +890,13 @@ export default {
       width:0;
     }
     .list_top{
-      background-color: #f0f2f5;
       margin-top: 58px;
       li{
         float: left;
         height: 50px;
         line-height: 50px;
         cursor: pointer;
-        background: #D4D1EC;
+        background: #d4d1ec;
         span{
           display: block;
           width: 100%;
@@ -1087,14 +1042,6 @@ export default {
           transition: all 0.1s;
         }
       }
-      .last_li.last_default2{
-        background: #fff;
-        span{
-          background: linear-gradient(to bottom, #f5f4f8, #f1edf6);
-          border-radius: 0 0 0 16px;
-          transition: all 0.1s;
-        }
-      }
       .appShow_active{
         background: #d4d1ec;
         border-radius: 0 0 0 0;
@@ -1219,7 +1166,7 @@ export default {
         }
       }
       .vedio_default{
-        background: #f4f3f7;
+        background: rgba(250,250,250,0.0001);
         transition: all 0.1s;
         span{
           background: #d4d1ec;
@@ -1278,20 +1225,13 @@ export default {
         }
       }
     }
-    .link-right {
-      width: 3px;
-      height: 10px;
-      border-right: solid #B3B0CA 2px;
-    }
   }
   .container_div{
-    background: #fff;
     border-radius: 0 16px 16px 16px;
     transition: all 0.1s;
     box-shadow: 0 0 68px 5px rgba(94,24,200,0.06);
   }
   .container_div_active{
-    background: #d4d1ec;
     border-radius: 0 16px 16px 16px;
   }
 }
