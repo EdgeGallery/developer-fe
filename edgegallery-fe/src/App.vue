@@ -21,26 +21,28 @@
     :class="{'app-new':pageModel==='newVersion'}"
     ref="app"
   >
-    <div class="common-bg-center-div">
-      <div
-        :class="{'common-bg-center-home':isIndex,'common-bg-center':!isIndex}"
-      >
-        <img
-          src="./assets/images/common_bg_center_home.png"
-          alt=""
-          v-show="isIndex"
+    <div v-if="pageModel==='newVersion'">
+      <div class="common-bg-center-div">
+        <div
+          :class="{'common-bg-center-home':isIndex,'common-bg-center':!isIndex}"
         >
-        <img
-          src="./assets/images/common_bg_center.png"
-          alt=""
-          v-show="!isIndex"
-        >
+          <img
+            src="./assets/images/common_bg_center_home.png"
+            alt=""
+            v-show="isIndex"
+          >
+          <img
+            src="./assets/images/common_bg_center.png"
+            alt=""
+            v-show="!isIndex"
+          >
+        </div>
       </div>
+      <div class="common-bg-left" />
+      <div class="common-bg-green-left" />
+      <div class="common-bg-green-right" />
     </div>
 
-    <div class="common-bg-left" />
-    <div class="common-bg-green-left" />
-    <div class="common-bg-green-right" />
     <Navcomp
       :scroll-top-prop="scrollTop"
       :is-home-prop="isHome"
@@ -116,6 +118,9 @@ export default {
   watch: {
     pageModel (val) {
       this.pageModel = val
+      if (this.pageModel === 'newVersion') {
+        this.zoom = 0
+      }
     },
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0

@@ -901,9 +901,8 @@ th{
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('../images/div_bg.png') left top;
-  backdrop-filter: blur(4px);
-  background-size: cover;
+  background: url('../images/div_bg.png') no-repeat;
+  backdrop-filter: blur(2px);
 }
 .rules-title{
   font-weight: normal;
