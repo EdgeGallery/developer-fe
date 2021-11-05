@@ -26,12 +26,15 @@ import VueCookies from 'vue-cookies'
 import 'eg-view/src/assets/style/element-variables.scss'
 import 'eg-view/src/assets/style/normal.css'
 import '../src/assets/css/common.css'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import EgMessageBox from '../src/components/MessageBox/index.js'
 
 Vue.use(ElementUI, { locale })
 Vue.prototype.$echarts = echarts
 Vue.use(VueCookies)
 Vue.use(EgMessageBox)
+Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
 
