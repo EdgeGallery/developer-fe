@@ -108,6 +108,7 @@
             <div class="details-center-vm">
               <div
                 class="flex-center details-center-vm-img"
+                :class="{'details-center-vm-img-finish':isExportImage===true}"
               >
                 <img
                   class="vm-center-img"
@@ -117,6 +118,7 @@
                 >
                 <div
                   class="vm-bg"
+                  :class="{'':xx===true}"
                   @mouseleave="isAddVmFinish===true?vmBreathStyle=true:vmBreathStyle=false"
                 >
                   <div
@@ -139,6 +141,7 @@
                   <div
                     class="vm-btn flex-center vm-btn-detail hoverHands"
                     @click="checkVmDetail"
+                    :class="isAddVmFinish === false ? 'img-onlyRead':'img-click'"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -149,11 +152,13 @@
                       <img
                         src="../../../assets/images/sandbox/vm_detail.png"
                         alt=""
-                        :class="isAddVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
-                  <div class="vm-btn flex-center hoverHands">
+                  <div
+                    class="vm-btn flex-center hoverHands"
+                    :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
+                  >
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
@@ -163,11 +168,13 @@
                       <img
                         src="../../../assets/images/sandbox/vm_login.png"
                         alt=""
-                        :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
-                  <div class="vm-btn flex-center hoverHands">
+                  <div
+                    class="vm-btn flex-center hoverHands"
+                    :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
+                  >
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
@@ -177,13 +184,13 @@
                       <img
                         src="../../../assets/images/sandbox/vm_upload.png"
                         alt=""
-                        :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
                   <div
                     class="vm-btn-start vm-btn flex-center hoverHands"
                     @click="startUpVm"
+                    :class="isBtnStart === false ? 'img-onlyRead':'img-click'"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -194,15 +201,23 @@
                       <img
                         src="../../../assets/images/sandbox/vm_start.png"
                         alt=""
-                        :class="isBtnStart === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
                 </div>
                 <div
-                  class="vmStatus"
                   v-if="isStartupVm"
-                  :class="{'vmStatus':isAddVmFinish === false}"
+                  :class="{'vmStatus':vmloading === true}"
+                >
+                  <div
+                    class="vmStatus-loading"
+                    v-for="(item,index) in 4"
+                    :key="index"
+                  />
+                </div>
+                <div
+                  v-else
+                  :class="{'vmStatus':vmloading === true}"
                 >
                   <div
                     v-for="(item,index) in 4"
@@ -407,7 +422,8 @@ export default {
       deployBreathStyle: false,
       vmBreathStyle: false,
       isMecSucess: false,
-      isUpfSucess: false
+      isUpfSucess: false,
+      vmloading: false
     }
   },
   methods: {
@@ -450,6 +466,7 @@ export default {
     },
     startUpVm () {
       this.isStartupVm = true
+      this.vmloading = true
       let _timer = setTimeout(() => {
         this.isStartupVmFinish = true
         this.isStartupVm = false
@@ -686,10 +703,6 @@ export default {
               background-size: 100% 100%;
               background-color: rgba(10, 9, 54, 0.65);
               opacity: 0.8;
-              .img-onlyRead{
-                pointer-events: none;
-                opacity: 0.2;
-              }
               .img-click{
                 opacity: 1;
               }
@@ -709,13 +722,13 @@ export default {
             position: absolute;
             top: 124px;
           }
-          .vmStatus div:first-child{
+          .vmStatus .vmStatus-loading:first-child{
             animation-delay: -0.48s;
           }
-          .vmStatus div:nth-child(2){
+          .vmStatus .vmStatus-loading:nth-child(2){
             animation-delay: -0.32s;
           }
-          .vmStatus div:nth-child(3){
+          .vmStatus .vmStatus-loading:nth-child(3){
             animation-delay: -0.16s;
           }
           .vmStatus > div {
@@ -725,6 +738,8 @@ export default {
             background-color: #42F6AC;
             border-radius: 100%;
             display: inline-block;
+          }
+          .vmStatus .vmStatus-loading{
             animation: bouncedelay 1.4s infinite ease-in-out;
             animation-fill-mode: both;
           }
@@ -747,6 +762,9 @@ export default {
               align-items: center;
               opacity: 0.6;
             }
+            .img-onlyRead{
+              pointer-events: none;
+            }
             .vm-btn:hover{
               opacity: 1;
             }
@@ -765,6 +783,9 @@ export default {
         }
         .details-center-vm-img{
           background-image: url('../../../assets/images/sandbox/deploy_internet.png');
+        }
+        .details-center-vm-img-finish{
+          background-image: url('../../../assets/images/sandbox/deploy_internet_finish.png');
         }
         .details-center-vm-img:hover{
           .vmStatus{
