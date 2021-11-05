@@ -60,7 +60,7 @@
                 {{ $t('distributeDeploy.delete') }}
               </el-button>
               <el-button
-                @click="checkDetail(scope.row)"
+                @click="toDistribute(scope.row)"
                 type="text"
                 size="small"
               >
@@ -140,6 +140,9 @@ export default {
       } else {
         return 'success'
       }
+    },
+    toDistribute (item) {
+      this.$router.push('/EG/mecm/distribute')
     },
     checkDetail (item) {
       this.$router.push('/EG/mecm/deployConfig')
