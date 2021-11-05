@@ -1044,7 +1044,7 @@ th{
   left: -25px;
   z-index: 10;
  }
-.center-active .item-must::after{
+.item-must::after{
   content:'';
   display: inline-block;
   width: 8px;
@@ -1054,7 +1054,7 @@ th{
   top: 55px;
   left: -20px;
  }
- .center-active .item-active::after{
+.item-active::after{
   content:'';
   display: inline-block;
   width: 8px;
