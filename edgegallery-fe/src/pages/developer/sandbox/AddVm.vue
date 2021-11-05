@@ -139,6 +139,42 @@
           </div>
         </div>
       </div>
+      <div class="simulator-info config-port">
+        <div class="simulator-info-title">
+          <p>
+            <span />
+            配置端口
+          </p>
+        </div>
+        <div class="simulator-info-content">
+          <el-table
+            class="common-table more-rows-table network-table vm-table"
+            :data="vmNetworkList"
+          >
+            <el-table-column width="35">
+              <template slot-scope="scope">
+                <el-checkbox
+                  v-model="selectedNetworks"
+                  :label="scope.row.name"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              width="200px"
+              label="名称"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              label="描述"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.description }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
       <div class="simulator-info selectImage-info">
         <div class="simulator-info-title">
           <p>
@@ -301,8 +337,22 @@ export default {
           }
         },
         imageType: 'public'
-      }
-
+      },
+      vmNetworkList: [
+        {
+          description: 'N6 network, when end-side devices access edge applications, they need to access through this network',
+          name: 'mec_network_n6'
+        },
+        {
+          description: 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed',
+          name: 'mec_network_mep'
+        },
+        {
+          description: 'Internet Network',
+          name: 'mec_network_internet'
+        }
+      ],
+      selectedNetworks: []
     }
   },
   watch: {
@@ -381,13 +431,22 @@ export default {
       return cellValue + 'GB'
     },
     addVmFinish (type) {
-      this.$emit('addVmFinish', type)
+      let _data = []
+      if (type === 'confirm') {
+        _data = this.selectedNetworks
+      }
+      this.$emit('addVmFinish', _data)
     }
   },
   mounted () {
     // this.filterVmRegulation()
     // this.filterOSName()
     // this.filterOperateSystemOption()
+    this.vmNetworkList.forEach((item) => {
+      if (item.name !== '') {
+        this.selectedNetworks.push(item.name)
+      }
+    })
   }
 }
 </script>
@@ -395,6 +454,8 @@ export default {
 <style lang="less">
 .addVm{
   width: 100%;
+  height: 100%;
+  overflow: hidden;
   position:relative;
   padding-top:10px ;
   font-size: 16px;
@@ -410,9 +471,9 @@ export default {
   }
   .addVm-bg{
     width:1184px;
-    min-height: 750px;
+    max-height: 805px;
     margin: 0px auto;
-    padding: 20px 0px 0px 100px;
+    padding: 40px;
     .vm-info{
       margin: 0 0 30px 20px;
       .addVm-top-title{

@@ -24,7 +24,7 @@
           v-for="(item, index) in listData"
           :key="index"
         >
-          <span class="title">{{ item.title }}</span>
+          <span class="title">{{ item }}</span>
         </li>
       </ul>
     </vue-seamless-scroll>
@@ -35,20 +35,18 @@
 import vueSeamlessScroll from 'vue-seamless-scroll'
 export default {
   name: 'Example3',
+  props: {
+    selectedNetworksProp: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     vueSeamlessScroll
   },
   data () {
     return {
-      listData: [
-        {
-          title: 'mec_network_n6'
-        }, {
-          title: 'mec_network_mep'
-        }, {
-          title: 'mec_network_internet'
-        }
-      ]
+      listData: ['mec_network_n6', 'mec_network_mep', 'mec_network_internet']
     }
   },
   computed: {
@@ -67,6 +65,7 @@ export default {
 
   },
   mounted () {
+    this.listData = this.selectedNetworksProp
   }
 }
 </script>
