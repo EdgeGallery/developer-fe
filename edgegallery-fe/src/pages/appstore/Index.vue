@@ -50,7 +50,7 @@
             class="application"
             @mouseover="hoverAppList(index)"
             @mouseout="activeIndex=-1"
-            @click="removeClass()"
+            @click="jumpTo('/EG/appstore/appDetail');removeClass()"
           >
             <div
               class="img-box"
