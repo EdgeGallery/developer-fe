@@ -108,7 +108,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="finishEditNetwork('confim')"
+          @click="finishEditNetwork('confirm')"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -155,8 +155,21 @@ export default {
     },
     finishEditNetwork (type) {
       let _data = []
-      if (type === 'confim') {
-        _data = this.selectedNetworks
+      let _dataTemp = []
+      if (type === 'confirm') {
+        _dataTemp = this.selectedNetworks
+        _dataTemp.forEach(item => {
+          this.newNetworkList.forEach(itemNew => {
+            if (itemNew.name !== '' && item === itemNew.name) {
+              _data.push(itemNew)
+            }
+          })
+          this.vmNetworkList.forEach(itemNet => {
+            if (item === itemNet.name) {
+              _data.push(itemNet)
+            }
+          })
+        })
       }
       this.$emit('editNetwork', _data)
     }

@@ -275,6 +275,12 @@
 import { uniqueArray } from '../../../tools/common.js'
 export default {
   name: 'AddVm',
+  props: {
+    netWorkListProp: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       language: localStorage.getItem('language'),
@@ -338,20 +344,7 @@ export default {
         },
         imageType: 'public'
       },
-      vmNetworkList: [
-        {
-          description: 'N6 network, when end-side devices access edge applications, they need to access through this network',
-          name: 'mec_network_n6'
-        },
-        {
-          description: 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed',
-          name: 'mec_network_mep'
-        },
-        {
-          description: 'Internet Network',
-          name: 'mec_network_internet'
-        }
-      ],
+      vmNetworkList: [],
       selectedNetworks: []
     }
   },
@@ -442,9 +435,10 @@ export default {
     // this.filterVmRegulation()
     // this.filterOSName()
     // this.filterOperateSystemOption()
-    this.vmNetworkList.forEach((item) => {
-      if (item.name !== '') {
+    this.netWorkListProp.forEach((item) => {
+      if (item !== '') {
         this.selectedNetworks.push(item.name)
+        this.vmNetworkList.push(item)
       }
     })
   }

@@ -119,6 +119,8 @@ export default {
     pageModel (val) {
       this.pageModel = val
       if (this.pageModel === 'newVersion') {
+        this.zoom = 2
+      } else {
         this.zoom = 0
       }
     },

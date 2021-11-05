@@ -335,6 +335,7 @@
     <AddVm
       v-if="showContent==='showAddVm'"
       @addVmFinish="addVmFinish"
+      :net-work-list-prop="netWorkList"
     />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
@@ -376,7 +377,8 @@ export default {
       upfBreathStyle: false,
       deployBreathStyle: false,
       vmBreathStyle: false,
-      selectedNetworks: []
+      selectedNetworks: [],
+      netWorkList: []
     }
   },
   methods: {
@@ -408,8 +410,10 @@ export default {
     editNetwork (data) {
       this.showContent = 'showDetail'
       if (data && data.length > 0) {
+        this.netWorkList = data
         this.configNetworkFinish = true
         this.deployBreathStyle = this.configNetworkFinish
+        this.netNum = data.length
       }
     },
     checkVmDetail () {
