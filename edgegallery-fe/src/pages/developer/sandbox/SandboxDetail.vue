@@ -104,6 +104,7 @@
             <NetScroll
               v-else
               class="netLine-list"
+              :selected-networks-prop="selectedNetworks"
             />
             <div class="details-center-vm">
               <div
@@ -423,7 +424,9 @@ export default {
       vmBreathStyle: false,
       isMecSucess: false,
       isUpfSucess: false,
-      vmloading: false
+      vmloading: false,
+      selectedNetworks: []
+
     }
   },
   methods: {
@@ -441,12 +444,14 @@ export default {
       this.showContent = 'showAddVm'
     },
     addVmFinish (data) {
-      if (data === 'confirm') {
+      if (data && data.length > 0) {
+        this.selectedNetworks = data
         this.isBtnStart = true
         this.isAddVmFinish = true
         this.configNetworkFinish = true
         this.vmBreathStyle = this.isAddVmFinish
         this.deployBreathStyle = this.configNetworkFinish
+        this.netNum = data.length
       }
       this.showContent = 'showDetail'
     },
@@ -455,7 +460,6 @@ export default {
       if (data && data.length > 0) {
         this.configNetworkFinish = true
         this.deployBreathStyle = this.configNetworkFinish
-        this.netNum = data.length
       }
     },
     checkVmDetail () {
