@@ -137,13 +137,13 @@
       <div class="btn-container">
         <el-button
           class="common-btn"
-          @click="configApplicationRules"
+          @click="configApplicationRules('cancel')"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
           class="common-btn"
-          @click="configApplicationRules"
+          @click="configApplicationRules('confirm')"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -271,9 +271,13 @@ export default {
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true
     },
-    configApplicationRules () {
+    configApplicationRules (type) {
       this.$router.push('/EG/developer/sandboxDetails')
-      sessionStorage.setItem('applicationRules', 'finish')
+      if (type === 'cancel') {
+        sessionStorage.setItem('applicationRules', 'cancel')
+      } else {
+        sessionStorage.setItem('applicationRules', 'confirm')
+      }
     }
   },
   watch: {

@@ -22,7 +22,10 @@
       >
         返回
       </el-button>
-      <el-button class="common-btn">
+      <el-button
+        class="common-btn"
+        @click="publish()"
+      >
         发布
       </el-button>
       <el-button
@@ -53,7 +56,7 @@
         class="process"
         id="process"
       >
-        <div class="toptitle">
+        <div class="toptitle common-div-bg">
           <div class="left">
             <div class="left-text">
               <img
@@ -105,7 +108,7 @@
         <!-- 顶部 -->
 
         <div
-          class="content"
+          class="content common-div-bg"
           id="content"
         >
           <el-tabs
@@ -316,6 +319,16 @@ export default {
     }, 1000)
   },
   methods: {
+    publish () {
+      this.$message({
+        showClose: true,
+        duration: 2000,
+        message: '发布成功',
+        type: 'success'
+      })
+      sessionStorage.setItem('currentFlow', 5)
+      this.$router.push('/EG/developer/home')
+    },
     closeDig () {
       this.isUploadPdf = false
     },
@@ -378,7 +391,7 @@ export default {
                   descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
                   descriptionEn: 'nstantiate application and its dependency application on one edge host',
                   type: 'automatic',
-                  result: 'failed'
+                  result: 'success'
                 },
                 {
                   nameCh: '扫描rrrr',
@@ -445,7 +458,7 @@ export default {
                   descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
                   descriptionEn: 'nstantiate application and its dependency application on one edge host',
                   type: 'automatic',
-                  result: 'failed'
+                  result: 'success'
                 }, {
                   id: '455',
                   nameCh: 'runn病d',
@@ -462,7 +475,7 @@ export default {
       ]
       // let data = res.data.testScenarios
       // let taskStatus = res.data.status
-      let taskStatus = 'failed'
+      let taskStatus = 'success'
       // this.uploadUser = res.data.user.userName
       // let reportPath = res.data.hasOwnProperty('reportPath')
       let reportPath = false
@@ -618,9 +631,6 @@ export default {
       min-width: 660px;
       display: block;
     .toptitle{
-      background-image: url('../../../assets/images/atp/atp_scenarious_bg.png');
-      border-radius: 17px;
-      box-shadow: 20px 30px 40px 0 #9896f3;
       margin-bottom: 45px;
       padding: 40px 55px;
       .left{
@@ -753,11 +763,7 @@ export default {
           }
       }
     .content{
-      background-image: url('../../../assets/images/atp/atp_scenarious_bg.png');
-      border-radius: 17px;
-      box-shadow: 20px 30px 40px 0 #9896f3;
       padding: 40px 55px;
-      overflow: auto;
       .el-tabs__header{
         margin: 0;
         border: none;

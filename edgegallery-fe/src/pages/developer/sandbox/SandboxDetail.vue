@@ -31,9 +31,10 @@
         :class="{'deploy-detail-center':isChangeStyle===false}"
       >
         <div
-          class="detail-center-bg flex-center"
+          class="detail-center-bg flex-center  hoverHands"
           v-if="isChangeStyle"
           @mouseleave="egBreathStyle=false"
+          @click="deployInternet"
         >
           <img
             src="../../../assets/images/sandbox/mec_img.png"
@@ -42,8 +43,7 @@
             :class="{'breath':egBreathStyle===false}"
           >
           <p
-            class="detail-center-title  hoverHands defaultFontLight"
-            @click="deployInternet"
+            class="detail-center-title defaultFontLight"
           >
             边缘应用
           </p>
@@ -62,7 +62,8 @@
             <div class="details-center-deploy">
               <div class="details-center-deploy-img">
                 <div
-                  class="lt deploy-img flex-center"
+                  class="lt deploy-img flex-center hoverHands"
+                  @click="selectNet"
                 >
                   <img
                     class="deploy-img-center"
@@ -71,19 +72,19 @@
                     @mouseleave="configNetworkFinish===false"
                     alt=""
                   >
-                  <el-tooltip
-                    class="item edit-tooltip"
-                    effect="light"
-                    content="编辑"
-                    placement="bottom-start"
-                  >
-                    <img
-                      src="../../../assets/images/sandbox/edit.png"
-                      alt=""
-                      class="hoverHands deploy-edit"
-                      @click="selectNet"
+                  <div class="deploy-edit flex-center">
+                    <el-tooltip
+                      class="item edit-tooltip"
+                      effect="light"
+                      content="编辑"
+                      placement="bottom-start"
                     >
-                  </el-tooltip>
+                      <img
+                        src="../../../assets/images/sandbox/edit.png"
+                        alt=""
+                      >
+                    </el-tooltip>
+                  </div>
                 </div>
               </div>
               <div class="deploy-title defaultFontLight">
@@ -119,7 +120,10 @@
                   class="vm-bg"
                   @mouseleave="isAddVmFinish===true?vmBreathStyle=true:vmBreathStyle=false"
                 >
-                  <div class="vm-btn flex-center vm-btn-add">
+                  <div
+                    class="vm-btn flex-center vm-btn-add hoverHands"
+                    @click="addVm"
+                  >
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
@@ -129,13 +133,13 @@
                       <img
                         src="../../../assets/images/sandbox/vm_add.png"
                         alt=""
-                        class="hoverHands img-click"
-                        @click="addVm"
+                        class="img-click"
                       >
                     </el-tooltip>
                   </div>
                   <div
-                    class="vm-btn flex-center vm-btn-detail"
+                    class="vm-btn flex-center vm-btn-detail hoverHands"
+                    @click="checkVmDetail"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -146,13 +150,11 @@
                       <img
                         src="../../../assets/images/sandbox/vm_detail.png"
                         alt=""
-                        class=" hoverHands"
                         :class="isAddVmFinish === false ? 'img-onlyRead':'img-click'"
-                        @click="checkVmDetail"
                       >
                     </el-tooltip>
                   </div>
-                  <div class="vm-btn flex-center">
+                  <div class="vm-btn flex-center hoverHands">
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
@@ -162,12 +164,11 @@
                       <img
                         src="../../../assets/images/sandbox/vm_login.png"
                         alt=""
-                        class=" hoverHands"
                         :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
-                  <div class="vm-btn flex-center">
+                  <div class="vm-btn flex-center hoverHands">
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
@@ -177,12 +178,14 @@
                       <img
                         src="../../../assets/images/sandbox/vm_upload.png"
                         alt=""
-                        class=" hoverHands"
                         :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
                       >
                     </el-tooltip>
                   </div>
-                  <div class="vm-btn-start vm-btn flex-center">
+                  <div
+                    class="vm-btn-start vm-btn flex-center hoverHands"
+                    @click="startUpVm"
+                  >
                     <el-tooltip
                       class="item edit-tooltip"
                       effect="light"
@@ -192,9 +195,7 @@
                       <img
                         src="../../../assets/images/sandbox/vm_start.png"
                         alt=""
-                        class=" hoverHands"
                         :class="isBtnStart === false ? 'img-onlyRead':'img-click'"
-                        @click="startUpVm"
                       >
                     </el-tooltip>
                   </div>
@@ -226,6 +227,13 @@
             >
               {{ $t('common.finish') }}
             </el-button>
+            <el-button
+              class="common-btn rt exportImage_btn"
+              @click="returnHome"
+              :class="{'exportImage_btn_show':isExportImage===true}"
+            >
+              {{ '导出镜像' }}
+            </el-button>
           </div>
         </div>
         <div
@@ -235,7 +243,15 @@
           5G MEC
         </div>
         <img
+          v-if="!isMecSucess"
           src="../../../assets/images/sandbox/failed_line.png"
+          alt=""
+          class="detail-center-line"
+          :class="{'scale-small-line':isChangeStyle===false}"
+        >
+        <img
+          v-else
+          src="../../../assets/images/sandbox/mec_sucess.png"
           alt=""
           class="detail-center-line"
           :class="{'scale-small-line':isChangeStyle===false}"
@@ -292,8 +308,8 @@
           @mouseleave="upfBreathStyle=false"
         >
           <img
-            :class="{'breath':upfBreathStyle===false}"
-            src="../../../assets/images/sandbox/upf_btn.png"
+            :class="{'breath':isUpfSucess===false}"
+            :src="isUpfSucess === true ? require('@/assets/images/sandbox/upf_finish.png'): require('@/assets/images/sandbox/upf_btn.png')"
             alt=""
           >
           <p
@@ -303,9 +319,16 @@
           </p>
         </div>
         <img
+          v-if="!isMecSucess"
           src="../../../assets/images/sandbox/sucess_line.png"
           alt=""
           class="detail-bottom-line"
+        >
+        <img
+          v-else
+          src="../../../assets/images/sandbox/internet_failed.png"
+          alt=""
+          class="detail-bottom-line detail-bottom-line-failed"
         >
         <div class="detail-bottom-one">
           <img
@@ -317,9 +340,16 @@
           </p>
         </div>
         <img
+          v-if="!isMecSucess"
           src="../../../assets/images/sandbox/sucess_line.png"
           alt=""
           class="detail-bottom-line"
+        >
+        <img
+          v-else
+          src="../../../assets/images/sandbox/internet_failed.png"
+          alt=""
+          class="detail-bottom-line detail-bottom-line-failed"
         >
         <div class="detail-bottom-one">
           <img
@@ -372,13 +402,16 @@ export default {
       configNetworkFinish: false,
       isStartupVm: false,
       isStartupVmFinish: false,
+      isExportImage: false,
       netNum: 3,
       egBreathStyle: false,
       upfBreathStyle: false,
       deployBreathStyle: false,
       vmBreathStyle: false,
       selectedNetworks: [],
-      netWorkList: []
+      netWorkList: [],
+      isMecSucess: false,
+      isUpfSucess: false
     }
   },
   methods: {
@@ -427,6 +460,7 @@ export default {
       let _timer = setTimeout(() => {
         this.isStartupVmFinish = true
         this.isStartupVm = false
+        this.isExportImage = true
         clearTimeout(_timer)
       }, 3000)
     },
@@ -437,10 +471,13 @@ export default {
   computed: {
   },
   mounted () {
-    if (sessionStorage.getItem('applicationRules')) {
+    if (sessionStorage.getItem('applicationRules') === 'confirm') {
       this.isChangeStyle = false
-    } else {
-      this.isChangeStyle = true
+      this.isMecSucess = true
+      this.isUpfSucess = true
+    } else if (sessionStorage.getItem('applicationRules') === 'cancel') {
+      this.isChangeStyle = false
+      this.isMecSucess = false
     }
   },
   beforeDestroy () {
@@ -481,14 +518,30 @@ export default {
         height: 127px;
       }
       .detail-center-title{
+        z-index: 1;
         width: 259px;
         height: 38px;
+        opacity: 1;
         margin-top: -10px;
         line-height: 38px;
         position: absolute;
         text-align: center;
+      }
+      .detail-center-title::after{
+        z-index: -1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background-color:rgba(10, 9, 54, 0.8) ;
-        filter: blur(0.6px);
+        backdrop-filter: blur(4px);
+      }
+    }
+    .detail-center-bg:hover{
+      .detail-center-title{
+        opacity: 1;
       }
     }
     .detail-center-name{
@@ -498,7 +551,7 @@ export default {
     .detail-center-line{
       display: block;
       margin: 10px auto;
-      width: 16px;
+      width: 20px;
       height: 96px;
     }
   }
@@ -517,6 +570,10 @@ export default {
       width: 76px;
       height: 22px;
       margin: 0 10px;
+    }
+    .detail-bottom-line-failed{
+      height: 14px !important;
+      margin-top: -1px !important;
     }
   }
   .deploy-detail-center{
@@ -567,17 +624,28 @@ export default {
               }
               .deploy-edit{
                 position: relative;
-                display: none;
+                width: 150px;
+                height: 150px;
+                border-radius:20px ;
+                opacity: 0;
               }
             }
             .deploy-img:hover{
-              border-radius:20px ;
-              background-color: rgba(10, 9, 54, 0.5);
-              .deploy-img-center{
-                opacity: 0.02;
-              }
               .deploy-edit{
-                display: block;
+                opacity: 1;
+                z-index: 1;
+              }
+              .deploy-edit::after{
+                border-radius:20px ;
+                z-index: -1;
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color:rgba(10, 9, 54, 0.5) ;
+                backdrop-filter: blur(4px);
               }
             }
             .internet-num{
@@ -623,7 +691,7 @@ export default {
               width: 75px;
               height: 50px;
               background-size: 100% 100%;
-              background-color: #3D3B94;
+              background-color: rgba(10, 9, 54, 0.65);
               opacity: 0.8;
               .img-onlyRead{
                 pointer-events: none;
@@ -642,18 +710,6 @@ export default {
             .vm-btn-start{
               width: 150px;
               border-radius: 0 0 20px 20px;
-            }
-          }
-          .vm-bg:hover{
-            .vm-btn{
-              display: block;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              opacity: 0.6;
-            }
-            .vm-btn:hover{
-              opacity: 1;
             }
           }
           .vmStatus{
@@ -688,6 +744,32 @@ export default {
             }
           }
         }
+        .details-center-vm:hover{
+          .vm-bg:hover{
+            z-index: 1;
+            .vm-btn{
+              display: block;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              opacity: 0.6;
+            }
+            .vm-btn:hover{
+              opacity: 1;
+            }
+          }
+          .vm-bg:hover::after{
+            border-radius: 20px;
+            z-index: -1;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(4px);
+          }
+        }
         .details-center-vm-img{
           background-image: url('../../../assets/images/sandbox/deploy_internet.png');
         }
@@ -713,6 +795,13 @@ export default {
           color: #0A0936;
           font-weight:bold;
           opacity: 0.5;
+        }
+        .exportImage_btn{
+          display: none;
+          margin-right: 8px !important;
+        }
+        .exportImage_btn_show{
+          display: block;
         }
       }
     }
@@ -763,7 +852,7 @@ export default {
   .breath{
     animation-timing-function:ease-in-out;
     animation-name:breathe;
-    animation-duration:2700ms;
+    animation-duration:2000ms;
     animation-iteration-count:infinite;
     animation-direction:alternate;
     @keyframes breathe  {
