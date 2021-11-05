@@ -32,9 +32,10 @@
       </div>
       <div class="sandboxs">
         <div
-          class="one-sandbox"
+          class="one-sandbox hoverHands"
           v-for=" (item,index) in sandbox"
           :key="index"
+          @click="selectSandbox(index)"
         >
           <div class="sandbox-content">
             <img
@@ -43,14 +44,13 @@
               alt=""
             >
             <img
-              class="sandbox-img hoverHands"
+              class="sandbox-img"
               :src="item.imgUrl"
               alt=""
-              @click="selectSandbox(index)"
             >
             <p
               class="sandbox-detail hoverHands defaultFontLight"
-              @click="goDetail(item);getIndex(index)"
+              @click.stop="goDetail(item);getIndex(index)"
             >
               详情
             </p>
