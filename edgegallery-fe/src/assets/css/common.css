@@ -1107,6 +1107,7 @@ img.next{
   position: absolute;
   top: 10%;
   right: 5%;
+  opacity: 0;
 }
 .test-btn.el-button{
   border: 1px solid #0F0D87;

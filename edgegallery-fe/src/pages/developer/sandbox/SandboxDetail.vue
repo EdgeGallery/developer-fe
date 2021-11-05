@@ -430,7 +430,14 @@ export default {
   computed: {
   },
   mounted () {
-
+    if (sessionStorage.getItem('applicationRules')) {
+      this.isChangeStyle = false
+    } else {
+      this.isChangeStyle = true
+    }
+  },
+  beforeDestroy () {
+    sessionStorage.removeItem('applicationRules')
   }
 }
 </script>
