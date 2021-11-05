@@ -143,7 +143,7 @@
         <div class="simulator-info-title">
           <p>
             <span />
-            配置端口
+            配置网络端口
           </p>
         </div>
         <div class="simulator-info-content">
