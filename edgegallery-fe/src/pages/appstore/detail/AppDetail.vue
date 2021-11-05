@@ -21,8 +21,12 @@
     </div>
     <div class="app_info_div common-div-bg">
       <div class="app_icon">
-        <img
+        <!-- <img
           :src="appIconPath"
+          alt=""
+        > -->
+        <img
+          src="../../../assets/images/appstore/app_icon.png"
           alt=""
         >
       </div>
@@ -68,25 +72,6 @@
           <span class="deployMode">
             {{ currentData.deployMode==='container'?$t('store.deployContainer'):$t('store.deployVM') }}
           </span>
-        </p>
-      </div>
-      <div
-        class="app_score"
-        style="position:relative;top:25px;margin-left:0;"
-      >
-        <p
-          class="download_num"
-          style="color:#ff5c02;"
-        >
-          {{ price }}{{ $t('order.price') }}
-        </p>
-        <p class="score_btn">
-          <el-button
-            class="batchProButton"
-            @click="beforeBuyIt()"
-          >
-            {{ $t('order.subscribe') }}
-          </el-button>
         </p>
       </div>
       <div class="app_score">
@@ -421,12 +406,23 @@ export default {
       tableData: [],
       isDownloadImage: false,
       isShowDownload: false,
-      currentData: {},
+      currentData: {
+        name: 'AI_Paint',
+        createTime: '2021-11-5',
+        version: '1.0',
+        provider: 'test',
+        size: '15M',
+        shortDesc: 'AI_paint测试应用',
+        industry: '智慧生活',
+        affinity: 'AI',
+        type: 'x86'
+      },
       comments: {
         score: 0,
         message: ''
       },
-      source: 'this is test',
+      // source: 'this is test',
+      source: "# WordPress Documentation Style Guide\r\n\r\nThe WordPress Documentation Style Guide is one of [Google Season of Docs' projects](https://developers.google.com/season-of-docs/docs/participants/project-wordpress-tacitonic) for 2020.  \r\n**⚠️ The Style Guide is currently under development.**\r\n\r\n- Technical writer: Atharva Dhekne ([@tacitonic](https://github.com/tacitonic))\r\n- Mentors: Felipe Elia ([@felipeelia](https://github.com/felipeelia)) and Milana Cap ([@zzap](https://github.com/zzap))\r\n\r\n## Proposed elements/components in the style guide\r\n\r\n| Status | Description |\r\n|---------|-------------|\r\n| 🔄      | In progress |\r\n| ✔️      | Completed   |\r\n| ❌      | Discarded   |\r\n| ⚠️      | Needs changes |\r\n\r\n### Style guide introduction (New section) 🔄\r\n\r\n| Component                          | Status  |\r\n|------------------------------------|---------|\r\n| WordPress style guide              |   🔄 (⚠️ while publishing)   |\r\n| Style guide highlights             |   🔄 (⚠️ while publishing)   |\r\n| Other resources                    |   ✔️   |\r\n| Changelog                          |   ✔️   |\r\n\r\n### Document guidelines 🔄\r\n\r\n| Component                          | Status  |\r\n|------------------------------------|---------|\r\n| Accessibility                      |   ✔️ (⚠️ while publishing)   |\r\n| Document structure                 |   ✔️ (⚠️ while publishing)   |\r\n| Changes to the guide (New component)|  ✔️ (⚠️ while publishing)   |\r\n| Encoding                           |   ✔️   |\r\n| External sources                   |   ✔️ (⚠️ while publishing)   |\r\n| Facts                              |   ✔️   |\r\n| Fonts                              |   ✔️ (Moved to Formatting)   |\r\n| Global audience                    |   ✔️   |\r\n| Inclusivity                        |   ✔️ (⚠️ while publishing)   |\r\n| Legality, licensing, trademarks    |   ✔️ (Moved to Formatting)   |\r\n| Multi-platform accessibility       |   ✔️   |\r\n| Non-ambiguous, no excessive claims |   ✔️   |\r\n| Page layout                        |   ✔️   |\r\n| Political correctness              |   ✔️   |\r\n| Protocols                          |   ✔️   |\r\n| Security                           |   ✔️   |\r\n| Sentence structure                 |   ✔️   |\r\n| Succinct writing                  ",
       appIconPath: '',
       playerOptions: {
         muted: false,
@@ -481,7 +477,7 @@ export default {
       if (Object.keys(this.currentData).length === 0 && this.currentData.constructor === Object && (this.tableData.length !== 0)) {
         this.currentData = this.tableData.sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime())[0]
         this.ifExperience = this.currentData.experienceAble
-        this.source = this.currentData.details
+        // this.source = this.currentData.details
         this.checkProjectData()
       }
       return ''
@@ -550,7 +546,7 @@ export default {
         this.handleTableTada(data)
         if (Object.keys(this.currentData).length === 0 && this.currentData.constructor === Object && (this.tableData.length !== 0)) {
           this.currentData = this.tableData.sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime())[0]
-          this.source = this.currentData.details
+          // this.source = this.currentData.details
           this.appIconPath = URL_PREFIX + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
           this.ifExperience = this.currentData.experienceAble
           if (sessionStorage.getItem('userNameRole') === 'tenant' && this.userId !== this.currentData.userId) {
@@ -582,7 +578,7 @@ export default {
     },
     updateData () {
       this.ifExperience = this.currentData.experienceAble
-      this.source = this.currentData.details
+      // this.source = this.currentData.details
       this.appIconPath = URL_PREFIX + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
       this.checkProjectData()
     },
@@ -653,39 +649,39 @@ export default {
         let newDateBegin = formatDateTime(data.createTime)
         data.createTime = newDateBegin
         this.tableData.push(data)
-        if (data) {
-          this.source = data.details
-        }
+        // if (data) {
+        //   this.source = data.details
+        // }
       })
     }
-  },
-  mounted () {
-    let _userNameRole = sessionStorage.getItem('userNameRole')
-    this.canDownload = _userNameRole !== 'guest' && _userNameRole !== 'tenant'
-    let params = this.$route.params.item
-      ? this.$route.params.item
-      : JSON.parse(sessionStorage.getItem('appstordetail'))
-    this.details = params
-    this.appId = this.details.appId
-    this.packageId = this.details.packageId
-    this.ifExperience = this.details.experienceAble
-    if (this.details.score) {
-      this.score = this.details.score
-      this.downloadNum = this.details.downloadCount
-    }
-    if (this.details.packageId) {
-      this.packageId = this.details.packageId
-      if (this.pathSource === 'myapp') {
-        this.source = this.details.details
-        this.getMyAppData()
-      }
-    }
-    this.appIconPath = URL_PREFIX + 'apps/' + this.appId + '/packages/' + this.packageId + '/icon'
-    this.getAppData()
-    this.getTableData()
-    this.checkProjectData()
-    this.ifSynchronize = _userNameRole !== 'guest'
   }
+  // mounted () {
+  //   let _userNameRole = sessionStorage.getItem('userNameRole')
+  //   this.canDownload = _userNameRole !== 'guest' && _userNameRole !== 'tenant'
+  //   let params = this.$route.params.item
+  //     ? this.$route.params.item
+  //     : JSON.parse(sessionStorage.getItem('appstordetail'))
+  //   this.details = params
+  //   this.appId = this.details.appId
+  //   this.packageId = this.details.packageId
+  //   this.ifExperience = this.details.experienceAble
+  //   if (this.details.score) {
+  //     this.score = this.details.score
+  //     this.downloadNum = this.details.downloadCount
+  //   }
+  //   if (this.details.packageId) {
+  //     this.packageId = this.details.packageId
+  //     if (this.pathSource === 'myapp') {
+  //       // this.source = this.details.details
+  //       // this.getMyAppData()
+  //     }
+  //   }
+  //   this.appIconPath = URL_PREFIX + 'apps/' + this.appId + '/packages/' + this.packageId + '/icon'
+  //   // this.getAppData()
+  //   // this.getTableData()
+  //   // this.checkProjectData()
+  //   this.ifSynchronize = _userNameRole !== 'guest'
+  // }
 }
 </script>
 
@@ -745,6 +741,7 @@ export default {
     padding: 20px 0 20px 70px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     .app_icon{
       width: 130px;
       img{
@@ -1227,6 +1224,8 @@ export default {
     }
   }
   .container_div{
+    height: 300px;
+    overflow: auto;
     border-radius: 0 16px 16px 16px;
     transition: all 0.1s;
     box-shadow: 0 0 68px 5px rgba(94,24,200,0.06);
