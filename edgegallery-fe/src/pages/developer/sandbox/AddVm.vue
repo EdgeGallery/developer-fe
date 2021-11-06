@@ -212,8 +212,8 @@
               <el-option
                 v-for="(item,index) in vmInfo.operateSystemOptionList"
                 :key="index"
-                :label="item.systemId"
-                :value="item.systemId"
+                :label="item"
+                :value="item"
               />
             </el-select>
           </div>
@@ -246,8 +246,8 @@
               <el-option
                 v-for="(item,index) in vmInfo.operateSystemOptionList"
                 :key="index"
-                :label="item.systemId"
-                :value="item.systemId"
+                :label="item"
+                :value="item"
               />
             </el-select>
           </div>
@@ -334,8 +334,8 @@ export default {
           sceneZh: '普通APP',
           systemDisk: 50
         }],
-        osNameOptionList: ['', ''],
-        operateSystemOptionList: [],
+        osNameOptionList: ['通用类型', '特别类型'],
+        operateSystemOptionList: ['一级镜像', '二级镜像'],
         selectedData: {
           private: {
             selectedOSName: '',
@@ -484,7 +484,7 @@ export default {
         }
         .el-input__inner{
           width: 816px ;
-          height: 25px ;
+          height: 25px;
           background-color: rgba(255, 255, 255, 0.3);
           color: #fff;
           border: none;
@@ -519,6 +519,7 @@ export default {
           .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: none;
             border-bottom:4px solid #5944C0 ;
+            box-shadow: none;
           }
         }
         .vm-size{
@@ -555,8 +556,14 @@ export default {
             width: 264px;
             margin-right: 80px;
             .el-input__inner{
-              height: 25px;
+              height: 25px !important;
               background-color: rgba(255, 255, 255, 0.3);
+              border: none;
+              color: #fff;
+              font-family: defaultFontLight,
+                Arial,
+                Helvetica,
+                sans-serif !important;
             }
             .el-icon-arrow-up {
               font-size: 16px;
@@ -570,6 +577,18 @@ export default {
     .addVm-btn{
       margin-right: 30px;
     }
+  }
+  .el-radio__input.is-checked .el-radio__inner::after {
+    background: #7ED4A9;
+    width: 8px;
+    height: 8px;
+  }
+ .el-radio__inner {
+      border:1px solid #fff;
+      background-color: #C4C4C4;
+  }
+  .el-radio__input.is-checked .el-radio__inner {
+      background: #6d5dc1;
   }
 }
 </style>
