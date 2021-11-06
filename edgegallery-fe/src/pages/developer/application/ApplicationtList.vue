@@ -52,28 +52,25 @@
         class="app-list-main"
         :class="zoom===2?'':'app-flex-items'"
       >
-        <div
-          v-for="(item,index) in projectList"
-          :key="index"
-          class="app-item"
-          @click.stop="index===0?createNewProject():checkProjectDetail(item)"
-        >
-          <img
-            :src="item.icon"
-            :alt="item.name"
-            :class="item.status==='creating'?'current':''"
-          >
-          <div>
-            {{ item.name }}
-          </div>
-          <div
-            class="app-common-status"
-            v-if="item.id!==1"
-            :class="item.status==='creating'?'app-creating':(item.status==='success'?'app-success':(item.status==='failed'?'app-failed':'app-published'))"
-          >
-            {{ switchStatus(item.status) }}
-          </div>
-        </div>
+        <ListComp
+          :data-list="currentAppList"
+          :class="zoom===2?'':'app-flex-items'"
+          @createNewProject="createNewProject"
+        />
+      </div>
+      <div
+        class="app-list-title"
+        v-if="zoom!==2"
+      >
+        创建完成
+      </div>
+      <div
+        class="app-list-main"
+      >
+        <ListComp
+          :data-list="filterStatus('CREATED')"
+          :class="zoom===2?'':'app-flex-items'"
+        />
       </div>
       <div
         class="app-list-title"
@@ -81,14 +78,39 @@
       >
         部署完成
       </div>
+      <div
+        class="app-list-main"
+      >
+        <ListComp
+          :data-list="filterStatus('CONFIGURED')"
+          :class="zoom===2?'':'app-flex-items'"
+        />
+      </div>
+      <div
+        class="app-list-title"
+        v-if="zoom!==2"
+      >
+        部署失败
+      </div>
+      <div
+        class="app-list-main"
+      >
+        <ListComp
+          :data-list="filterStatus('DEPLOYED')"
+          :class="zoom===2?'':'app-flex-items'"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { applicationApi } from '../../../api/developerApi.js'
+import ListComp from './ListComp.vue'
 export default {
+  name: 'ApplicationList',
   components: {
-
+    ListComp
   },
   props: {
     zoom: {
@@ -98,33 +120,8 @@ export default {
   },
   data () {
     return {
-      projectList: [
-        {
-          id: 1,
-          type: 'normal',
-          icon: require('../../../assets/images/projects/pro_add_new.png'),
-          name: '新增项目'
-        },
-        {
-          id: 2,
-          type: 'pro',
-          icon: require('../../../assets/images/projects/pro_current_pro.png'),
-          name: '云讯智能',
-          status: 'creating'
-        }, {
-          id: 3,
-          type: 'pro',
-          icon: require('../../../assets/images/projects/pro_history_pro.png'),
-          name: 'PBC检测',
-          status: 'failed'
-        }, {
-          id: 4,
-          type: 'pro',
-          icon: require('../../../assets/images/projects/pro_history_pro.png'),
-          name: '安恒WAF',
-          status: 'published'
-        }
-      ],
+      allAppList: [],
+      currentAppList: [],
       searchValue: '',
       isSearchActive: false,
       isViewActive: false
@@ -134,20 +131,69 @@ export default {
     changeView (val) {
       this.$emit('zoomChanged', val)
     },
-    createNewProject () {
-      this.$emit('createNewProject', true)
-    },
     searchProject () {
       this.isSearchActive = true
     },
-    checkProjectDetail (item) {
-      console.log(item)
+    initApplicationList () {
+      applicationApi.getApplicationList().then(res => {
+        let dataarr = [{
+          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
+          'name': 'application-Vm-Developer',
+          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
+          'createTime': '2021-11-04 19:48:48',
+          'status': 'CREATED'
+        },
+        {
+          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
+          'name': 'application-Vm-Developer',
+          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
+          'createTime': '2021-11-04 19:48:48',
+          'status': 'CONFIGURED'
+        },
+        {
+          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
+          'name': 'application-Vm-Developer',
+          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
+          'createTime': '2021-11-04 19:48:48',
+          'status': 'CONFIGURED'
+        },
+        {
+          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
+          'name': 'application-Vm-Developer',
+          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
+          'createTime': '2021-11-04 19:48:48',
+          'status': 'DEPLOYED'
+        }]
+        let data = res.data.results.concat(dataarr)
+        this.allAppList = data
+        data.sort(function (a, b) {
+          return b.createTime < a.createTime ? -1 : 1
+        })
+        this.currentAppList = data.slice(0, 5)
+        let newCreateData = {
+          id: 0,
+          type: 'normal',
+          iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
+          name: '新增项目'
+        }
+        this.currentAppList.unshift(newCreateData)
+        console.log(this.allAppList)
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    switchStatus (status) {
-      return status === 'creating' ? '创建中' : (status === 'success' ? '创建成功' : (status === 'failed' ? '创建失败' : '已发布'))
+    filterStatus (status) {
+      return this.allAppList.filter(item => {
+        return item.status === status
+      })
+    },
+    createNewProject () {
+      this.$emit('createNewProject', true)
     }
   },
-  mounted () {}
+  mounted () {
+    this.initApplicationList()
+  }
 }
 </script>
 
@@ -178,27 +224,14 @@ export default {
       background: url("../../../assets/images/projects/pro_view_click.png") no-repeat center;
     }
   }
+  .app-list-main{
+    margin: 0 auto;
+  }
   .top-center{
     justify-content: space-between;
   }
   .top-right{
     justify-content: right;
-  }
-  .app-list-main{
-    margin: 0 auto;
-    .app-item{
-      text-align: center;
-      cursor: pointer;
-      padding: 20px 15px;
-      img{
-        width: 66px;
-        height: 66px;
-      }
-      img.current{
-        border: 3px solid #42F6AC;
-        border-radius: 66px;
-      }
-    }
   }
   .app-flex-items{
     display: flex;
@@ -211,36 +244,6 @@ export default {
     font-size: 20px;
     font-weight: 400;
     margin-bottom: 35px;
-  }
-  .porject-search-input{
-    position: absolute;
-    top: 46px;
-    width: 180px;
-    z-index: 988;
-  }
-  .app-common-status{
-    font-size: 10px;
-  }
-  .app-common-status::before{
-    content:"";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    position: relative;
-    top: 5px;
-    left: 3px;
-  }
-  .app-creating::before{
-    background: url('../../../assets/images/projects/pro_creating.png') no-repeat center;
-  }
-  .app-success::before{
-    background: url('../../../assets/images/projects/pro_success.png') no-repeat center;
-  }
-  .app-failed::before{
-    background: url('../../../assets/images/projects/pro_failed.png') no-repeat center;
-  }
-  .app-published::before{
-    background: url('../../../assets/images/projects/pro_published.png') no-repeat center;
   }
 }
 </style>

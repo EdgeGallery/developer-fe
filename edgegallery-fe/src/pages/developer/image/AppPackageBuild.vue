@@ -170,7 +170,7 @@
                 <div class="progress-bar">
                   <el-progress
                     :percentage="100"
-                    stroke-width="5"
+                    :stroke-width="5"
                     status="success"
                   />
                 </div>

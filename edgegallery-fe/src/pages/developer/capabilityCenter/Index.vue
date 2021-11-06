@@ -36,6 +36,8 @@
           :key="tag.id"
           :closable="isClosable"
           style="margin-left: 10px;"
+          class="defaultFontLight"
+          @close="handleDeleteTag(tag)"
         >
           <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name }}
         </el-tag>
@@ -54,26 +56,39 @@
           <el-tree
             :check-strictly="true"
             :render-after-expand="false"
+            :show-checkbox="showCheckbox"
+            :props="defaultProps"
+            :default-expand-all="isExpandAll"
+            :default-expanded-keys="defaultShowNodes"
+            :check-on-click-node="clickIsSelected"
             accordion
+            node-key="id"
             lazy
             highlight-current
             icon-class="none"
+            @node-click="handleNodeClick"
+            @check-change="handleCheckChange"
             class="capability-tree defaultFontLight"
+            :load="loadNode"
+            ref="treeList"
           >
             <span
               class="el-tree-node__label"
+              slot-scope="{ node, data }"
             >
               <el-tooltip
                 popper-class="atooltip"
-                class="item"
+                class="tooltip-item"
+                :content="node.label"
+                :disabled="getTipDisabled(node, data)"
                 placement="right"
               >
                 <span>
                   <img
                     class="oneLevelIcon"
-                    src=""
+                    :src="data.icon"
                     alt=""
-                  > 规则 </span>
+                  > {{ node.label }}  </span>
               </el-tooltip>
             </span>
           </el-tree>
@@ -91,18 +106,18 @@
               </p>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class=""> 服务名称：</span>123
+                  <span class=""> 服务名称：</span>{{ serviceDetail.serviceName }}
                 </el-col>
                 <el-col :span="12">
-                  <span class="">版本 ：</span>1.2
+                  <span class="">版本 ：</span>{{ serviceDetail.version }}
                 </el-col>
               </el-row>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class="">发布时间 ：</span>2021-10-25
+                  <span class="">发布时间 ：</span>{{ formatDate(serviceDetail.uploadTime) }}
                 </el-col>
                 <el-col :span="12">
-                  <span class="">类型 ：</span>1235654
+                  <span class="">类型 ：</span>{{ serviceDetail.capabilityType }}
                 </el-col>
               </el-row>
               <el-row class="service_info">
@@ -126,7 +141,7 @@
                   </el-select>
                   <el-tooltip
                     popper-class="atooltip"
-                    class="item"
+                    class="tooltip-item"
                     content="SDK下载"
                     placement="right"
                   >
@@ -140,7 +155,7 @@
                   </el-tooltip>
                   <el-tooltip
                     popper-class="atooltip"
-                    class="item"
+                    class="tooltip-item"
                     content="安装指导"
                     placement="right"
                   >
@@ -161,7 +176,7 @@
         </div>
       </div>
     </div>
-    <div class="capability-publish">
+    <!-- <div class="capability-publish">
       <h3 class="common-dlg-title">
         能力发布
       </h3>
@@ -216,7 +231,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
+    </div> -->
     <div class="rt">
       <el-button
         class="common-btn"
@@ -235,11 +250,13 @@
 </template>
 
 <script>
+import { applicationApi } from '../../../api/developerApi.js'
+import SwaggerUIBundle from 'swagger-ui'
 export default {
   name: 'CapabilityCenter',
   data () {
     return {
-      codeLanguage: '',
+      codeLanguage: 'JAVA',
       optionsLanguage: [
         {
           value: 0,
@@ -263,16 +280,7 @@ export default {
         version: ''
       },
       isClosable: true,
-      selectedService: [
-        {
-          id: 1,
-          name: '位置服务'
-        },
-        {
-          id: 1,
-          name: '流量规则'
-        }
-      ],
+      selectedService: [],
       defaultProps: {
         children: 'children',
         label: 'label',
@@ -330,10 +338,20 @@ export default {
           dnsRule: 'asdf',
           trafficRule: 'q23r'
         }
-      ]
+      ],
+      capaList: [],
+      hasNoSelect: false,
+      groupId: ''
     }
   },
   methods: {
+    formatDate: function (timestamp) {
+      let date = new Date(timestamp)
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      return year + (month < 10 ? '-0' : '-') + month + (day < 10 ? '-0' : '-') + day
+    },
     downloadSDKApi () {
       return ''
     },
@@ -346,13 +364,112 @@ export default {
     },
     editCapability () {
       this.$router.push('/EG/developer/capabilityPublish')
+    },
+    getTipDisabled (node, data) {
+      return data.children || (!data.children && node.label.length < 7)
+    },
+    async handleDeleteTag (tag) {
+      let index = this.selectedService.indexOf(tag)
+      if (index !== -1) {
+        this.selectedService.splice(index, 1)
+      }
+      this.$refs.treeList.setChecked(tag.id, false)
+    },
+    async handleNodeClick (data, node, self) {
+      if (data.leaf) {
+        this.hasNoSelect = true
+        let apiUrl = ''
+        this.groupId = data.groupId
+        this.serviceDetail.id = data.id
+        this.serviceDetail.capabilityType = data.group.type
+        this.serviceDetail.serviceName = data.name
+        this.serviceDetail.serviceNameEn = data.nameEn
+        this.serviceDetail.uploadTime = data.uploadTime
+        this.serviceDetail.version = data.version
+        this.apiFileId = data.apiFileId
+        apiUrl = applicationApi.getApiUrl(this.apiFileId)
+        SwaggerUIBundle({
+          url: apiUrl,
+          dom_id: '#swagger-ui',
+          deepLinking: false,
+          presets: [
+            SwaggerUIBundle.presets.apis
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ]
+        })
+        let interval = setInterval(() => {
+          let baseUrl = document.getElementsByClassName('base-url')
+          try {
+            if (baseUrl[0].innerHTML) {
+              let childNodes = baseUrl[0].childNodes
+              childNodes[4].nodeValue = '{host}'
+              window.clearInterval(interval)
+            }
+          } catch (error) {
+            window.clearInterval(interval)
+          }
+        }, 200)
+      }
+    },
+    async handleCheckChange (data, is) {
+      if (data.leaf) {
+        if (is) {
+          this.selectedService.push(data)
+          this.handleNodeClick(data)
+        } else {
+          let index = this.tags.indexOf(data)
+          if (index !== -1) {
+            this.tags.splice(index, 1)
+          }
+        }
+      }
+    },
+    loadNode (node, resolve) {
+      console.log(node, resolve)
+      if (node.level === 0) {
+        this.treeLoad.node = node
+        this.treeLoad.resolve = resolve
+      }
+      this.initCapabilityList(node, resolve)
+    },
+    initCapabilityList (node, resolve) {
+      console.log(node)
+      if (node.level === 0) {
+        applicationApi.getServiceList().then(res => {
+          let groups = res.data
+          this.groups = groups
+          groups.forEach(group => {
+            group.label = group.name
+            group.leaf = false
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
+            }
+          })
+          resolve(groups)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+      if (node.level > 1) return resolve([])
+
+      if (node.level === 1) {
+        let groupId = node.data.id
+        applicationApi.getCapabilityByGroupId(groupId).then(result => {
+          let capabilities = result.data
+          this.capaList = capabilities
+          capabilities.forEach(capa => {
+            capa.label = this.language === 'en' ? capa.nameEn : capa.name
+            capa.leaf = true
+          })
+          resolve(capabilities)
+        })
+      }
     }
   },
-  watch: {
-
-  },
   mounted () {
-
+    this.initCapabilityList()
   }
 }
 
@@ -457,11 +574,9 @@ export default {
   }
 
   .api{
-    border: 1px solid #ddd;
     background: url('../../../assets/images/capability/capability_bg.png');
     background-size: cover;
     border-radius: 16px;
-    height: 320px;
     margin-right: 2%;
     color: #fff;
     .capability-left{
@@ -492,7 +607,7 @@ export default {
       border-radius: 16px 0 0 0px;
       .el-tree-node__label {
         font-size:20px;
-        color: #7a6e8a;
+        color: #fff;
       }
     }
     .capability-tree::-webkit-scrollbar {
@@ -505,9 +620,12 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       padding-top: 10px;
+      img{
+        position: relative;
+      }
     }
     .el-tree{
-      background-color:transparent;
+      background-color: transparent;
       padding-top: 12px;
     }
     .el-tree-node__content {
@@ -537,31 +655,33 @@ export default {
       padding-right: 51px;
       padding-bottom: 15px;
       border-radius: 0 26px 26px 0;
-      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
     }
     .el-tree-node.is-expanded.is-focusable .el-tree-node__content,.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
       background-color: transparent !important;
       border-radius: 0 26px 26px 0;
     }
     .el-tree-node__children .el-tree-node.is-current>.el-tree-node__content {
-      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
       border-radius: 0 8px 8px 0 !important;
     }
     .el-tree-node__children>.el-tree-node>.el-tree-node__content:hover {
-      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
       border-radius: 0 8px 8px 0 !important;
+      color: #fff !important;
+      background: transparent !important;
     }
     .el-tree-node__children>.el-tree-node.is-current>.el-tree-node__content:hover {
-      background-image: linear-gradient(to right, #e6e7f3 , #f0f0f7) !important;
       border-radius: 0 8px 8px 0 !important;
+      color: #fff !important;
+      background: transparent !important;
     }
     .el-tree-node__content:hover {
       border-radius: 0 26px 26px 0;
-      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+      color: #fff !important;
+      background: transparent !important;
     }
     .el-tree-node.is-current>.el-tree-node__content:hover {
       border-radius: 0 26px 26px 0;
-      background-image: linear-gradient(to right, #e6e6ef 0%, #f1f2fa 8%,#fdfeff 30%,#fefeff 80%) !important;
+      color: #fff !important;
+      background: transparent !important;
     }
 
     .el-checkbox__input.is-checked .el-checkbox__inner{
@@ -600,7 +720,7 @@ export default {
       height: auto !important;
       overflow-x: scroll;
       overflow-y: hidden;
-      margin-top: 20px;
+      margin: 20px 0 0 20px;
       .swagger-ui{
         width: 575px;
       }

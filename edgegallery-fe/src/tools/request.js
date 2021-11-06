@@ -16,6 +16,7 @@
  */
 
 import axios from 'axios'
+let accessToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2MzYyMDQwMzIsInNzb1Nlc3Npb25JZCI6IkFGNjkzMzFBNUM3OTkxRjgyMjhBNDc1MjhCNzk1MzZCIiwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJJZCI6IjM5OTM3MDc5LTk5ZmUtNGNkOC04ODFmLTA0Y2E4YzRmZTA5ZCIsImF1dGhvcml0aWVzIjpbIlJPTEVfTEFCX0FETUlOIiwiUk9MRV9ERVZFTE9QRVJfQURNSU4iLCJST0xFX0FQUFNUT1JFX0FETUlOIiwiUk9MRV9NRUNNX0FETUlOIiwiUk9MRV9BVFBfQURNSU4iXSwianRpIjoiMGVhNTllOTMtMDcyZS00ZGM1LThiNWUtMmY3MjA4Zjc5M2Q1IiwiY2xpZW50X2lkIjoiZGV2ZWxvcGVyLWZlIiwiZW5hYmxlU21zIjoiZmFsc2UiLCJlbmFibGVNYWlsIjoiZmFsc2UifQ.k_gklzC6vz_0a5aC0tVdd8RMk424Eke-DNKNEKYBTo3Nf4BSheE7mTqaH-EiZ7HJS5OcjEKt-itakWeVG0xrBYJrELx1Nbm7vL8-LGukwwp7iiZ4U0hSAaV9pjMJygZ_1qTaaUh5tfVVqs-WNy7fkc6RKpbfmLzG3pUKA5G-vkeSOnnVFYVlvx6p2_rOOj6hJopsjTG-cwVNnmUR0994jdQGS1rZT0YnQ7LhgtBHbb-M1NxD6iBYImNW4DDPTjpNJqmx86e8JVUtiOKibVMvV9yyg__hHxHwanVFKwzmqQ3FNA0i9q1LhK2ldwg50Z_mX_9tVeoQgta9AyBMUW6Mow'
 
 function getCookie (name) {
   let arr = []
@@ -35,7 +36,8 @@ function commonGetRequest (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+        'access_token': accessToken
       }
     }).then(res => {
       resolve(res)
@@ -54,7 +56,8 @@ function commonPostRequest (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+        'access_token': accessToken
       }
     }).then((res) => {
       resolve(res)
