@@ -136,6 +136,10 @@
             :data="resourceConfigInfoList"
           >
             <el-table-column
+              type="selection"
+              width="45"
+            />
+            <el-table-column
               prop="vimName"
               label="虚拟机名称"
               min-width="14%"
@@ -174,18 +178,6 @@
                     status="success"
                   />
                 </div>
-              </template>
-            </el-table-column>
-            <el-table-column
-              :label="$t('common.operation')"
-              min-width="18%"
-            >
-              <template>
-                <el-button
-                  class="operation-btn"
-                >
-                  导出镜像
-                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -607,9 +599,15 @@ export default {
           color: #5944C0;
           padding: 3px 16px 2px;
         }
-        .el-table__cell {
-          text-align: left;
-          padding-left: 30px !important;
+        .el-table__cell > .cell{
+          padding-left:30px;
+        }
+        .el-checkbox__input.is-checked .el-checkbox__inner {
+          background-color: #30E2E9;
+        }
+        .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+          background-color: #30E2E9;
+          border-color: #30E2E9;
         }
         .el-table__row {
           height: 101px;
@@ -619,7 +617,7 @@ export default {
         }
         .progress-bar {
           margin-top: 13px;
-          width: 100%;
+          width: 90%;
           .el-progress-bar {
             padding-right: 0px;
             margin: 0;

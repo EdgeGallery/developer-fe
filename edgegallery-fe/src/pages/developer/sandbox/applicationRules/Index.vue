@@ -273,6 +273,7 @@ export default {
     },
     configApplicationRules () {
       this.$router.push('/EG/developer/sandboxDetails')
+      sessionStorage.setItem('applicationRules', 'finish')
     }
   },
   watch: {

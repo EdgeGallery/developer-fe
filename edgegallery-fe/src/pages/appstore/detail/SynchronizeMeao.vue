@@ -188,13 +188,13 @@ export default {
       this.nameCount = 0
       return row[property] === value
     },
-    showFaileMessage () {
-      this.$message({
-        duration: 2000,
-        type: 'warning',
-        message: this.$t('promptMessage.getCommentFail')
-      })
-    },
+    // showFaileMessage () {
+    //   this.$message({
+    //     duration: 2000,
+    //     type: 'warning',
+    //     message: this.$t('promptMessage.getCommentFail')
+    //   })
+    // },
     getThirdSystemByType () {
       appstoreApi.getThirdSystemByType(this.type).then(res => {
         this.systemData = res.data

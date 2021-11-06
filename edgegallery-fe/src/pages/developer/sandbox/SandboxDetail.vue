@@ -103,6 +103,7 @@
             <NetScroll
               v-else
               class="netLine-list"
+              :selected-networks-prop="selectedNetworks"
             />
             <div class="details-center-vm">
               <div
@@ -374,7 +375,8 @@ export default {
       egBreathStyle: false,
       upfBreathStyle: false,
       deployBreathStyle: false,
-      vmBreathStyle: false
+      vmBreathStyle: false,
+      selectedNetworks: []
     }
   },
   methods: {
@@ -392,12 +394,14 @@ export default {
       this.showContent = 'showAddVm'
     },
     addVmFinish (data) {
-      if (data === 'confirm') {
+      if (data && data.length > 0) {
+        this.selectedNetworks = data
         this.isBtnStart = true
         this.isAddVmFinish = true
         this.configNetworkFinish = true
         this.vmBreathStyle = this.isAddVmFinish
         this.deployBreathStyle = this.configNetworkFinish
+        this.netNum = data.length
       }
       this.showContent = 'showDetail'
     },
@@ -406,7 +410,6 @@ export default {
       if (data && data.length > 0) {
         this.configNetworkFinish = true
         this.deployBreathStyle = this.configNetworkFinish
-        this.netNum = data.length
       }
     },
     checkVmDetail () {
@@ -430,7 +433,14 @@ export default {
   computed: {
   },
   mounted () {
-
+    if (sessionStorage.getItem('applicationRules')) {
+      this.isChangeStyle = false
+    } else {
+      this.isChangeStyle = true
+    }
+  },
+  beforeDestroy () {
+    sessionStorage.removeItem('applicationRules')
   }
 }
 </script>

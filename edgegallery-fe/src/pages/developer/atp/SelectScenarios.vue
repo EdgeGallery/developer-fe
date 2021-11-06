@@ -361,20 +361,6 @@ export default {
         sessionStorage.setItem('taskId', this.taskId)
         this.$router.push({ name: 'atpprocess', query: { taskId: this.taskId } })
       }).catch(() => {
-        // this.$message({
-        //   showClose: true,
-        //   duration: 2000,
-        //   message: '启动失败',
-        //   type: 'error'
-        // })
-        this.$message({
-          showClose: true,
-          duration: 2000,
-          message: '测试成功',
-          type: 'success'
-        })
-        sessionStorage.setItem('currentFlow', 5)
-        this.$router.push('/EG/developer/home')
       })
     }
   }
