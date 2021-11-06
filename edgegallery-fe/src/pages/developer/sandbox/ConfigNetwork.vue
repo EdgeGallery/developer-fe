@@ -153,25 +153,22 @@ export default {
       }
       this.newNetworkList.push(_obj)
     },
+    removeEmpty (arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].name === '') {
+          arr.splice(i, 1)
+          i = i - 1
+        }
+      }
+      return arr
+    },
     finishEditNetwork (type) {
       let _data = []
-      let _dataTemp = []
       if (type === 'confirm') {
-        _dataTemp = this.selectedNetworks
-        _dataTemp.forEach(item => {
-          this.newNetworkList.forEach(itemNew => {
-            if (itemNew.name !== '' && item === itemNew.name) {
-              _data.push(itemNew)
-            }
-          })
-          this.vmNetworkList.forEach(itemNet => {
-            if (item === itemNet.name) {
-              _data.push(itemNet)
-            }
-          })
-        })
+        let _newArr = this.removeEmpty(this.newNetworkList)
+        _data = this.vmNetworkList.concat(_newArr)
       }
-      this.$emit('editNetwork', _data)
+      this.$emit('editNetwork', _data, this.selectedNetworks)
     }
   },
   mounted () {

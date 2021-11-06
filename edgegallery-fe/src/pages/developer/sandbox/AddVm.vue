@@ -279,6 +279,10 @@ export default {
     netWorkListProp: {
       type: Array,
       default: () => []
+    },
+    selectedNetworksProp: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -344,8 +348,8 @@ export default {
         },
         imageType: 'public'
       },
-      vmNetworkList: [],
-      selectedNetworks: []
+      vmNetworkList: this.netWorkListProp,
+      selectedNetworks: this.selectedNetworksProp
     }
   },
   watch: {
@@ -435,12 +439,7 @@ export default {
     // this.filterVmRegulation()
     // this.filterOSName()
     // this.filterOperateSystemOption()
-    this.netWorkListProp.forEach((item) => {
-      if (item !== '') {
-        this.selectedNetworks.push(item.name)
-        this.vmNetworkList.push(item)
-      }
-    })
+    // this.vmNetworkList = this.netWorkListProp
   }
 }
 </script>
