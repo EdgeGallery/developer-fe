@@ -153,19 +153,12 @@ export default {
       }
       this.newNetworkList.push(_obj)
     },
-    removeEmpty (arr) {
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].name === '') {
-          arr.splice(i, 1)
-          i = i - 1
-        }
-      }
-      return arr
-    },
     finishEditNetwork (type) {
       let _data = []
       if (type === 'confirm') {
-        let _newArr = this.removeEmpty(this.newNetworkList)
+        let _newArr = this.newNetworkList.filter(item => {
+          return item.name !== ''
+        })
         _data = this.vmNetworkList.concat(_newArr)
       }
       this.$emit('editNetwork', _data, this.selectedNetworks)

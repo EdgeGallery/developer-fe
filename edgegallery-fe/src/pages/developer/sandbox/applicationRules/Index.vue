@@ -188,7 +188,7 @@ import trafficRules from './AddTrafficRules.vue'
 import interfaceInformation from './AddInterfaceInformation.vue'
 import trafficFilter from './AddTrafficFilter.vue'
 import dnsRules from './AddDnsRules.vue'
-import { ApplicationRules } from '../../../../api/developerApi.js'
+import { applicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'ApplicationRules',
   components: {
@@ -327,7 +327,7 @@ export default {
     },
     deleteTrafficRules (row) {
       this.$eg_messagebox('确认删除该数据', 'error').then(() => {
-        ApplicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
+        applicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
           this.getAppTrafficRuleList()
         })
       })
@@ -353,7 +353,7 @@ export default {
     },
     deleteDnsRules (row) {
       this.$eg_messagebox('确认删除该数据', 'error').then(() => {
-        ApplicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
+        applicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
           this.getAppDnsRuleList()
         })
       })
@@ -367,14 +367,14 @@ export default {
       }
     },
     getAppTrafficRuleList () {
-      ApplicationRules.getAppTrafficRules(this.applicationId).then(res => {
+      applicationRules.getAppTrafficRules(this.applicationId).then(res => {
         if (res.data) {
           this.trafficListData = res.data
         }
       })
     },
     getAppDnsRuleList () {
-      ApplicationRules.getAppDnsRules(this.applicationId).then(res => {
+      applicationRules.getAppDnsRules(this.applicationId).then(res => {
         if (res.data) {
           this.dnsListData = res.data
         }

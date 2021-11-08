@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import { ApplicationRules } from '../../../../api/developerApi.js'
+import { applicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'TrafficRules',
   props: {
@@ -302,7 +302,7 @@ export default {
       this.$emit('setRulesListTop', 'addInterfaceInfo')
     },
     submitAppTrafficRule (params, _data) {
-      ApplicationRules.postAppTrafficRule(this.applicationId, params).then(() => {
+      applicationRules.postAppTrafficRule(this.applicationId, params).then(() => {
         this.$emit('setRulesListTop', 'finishTrafficRules', _data)
       }).catch(error => {
         if (error.response.data.message === 'create trafficRule failed: ruleId have exit') {
@@ -311,7 +311,7 @@ export default {
       })
     },
     editAppTrafficRule (params, _data) {
-      ApplicationRules.editAppTrafficRule(this.applicationId, this.rulesId, params).then(res => {
+      applicationRules.editAppTrafficRule(this.applicationId, this.rulesId, params).then(res => {
         this.$emit('setRulesListTop', 'finishTrafficRules', _data)
       }).catch(() => {
         this.$eg_messagebox('编辑数据失败', 'error')

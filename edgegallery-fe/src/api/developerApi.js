@@ -24,7 +24,7 @@ import {
 
 const urlPrefix = '/mec/developer/v2/'
 
-let ApplicationRules = {
+let applicationRules = {
   getAppTrafficRules: function (applicationId) {
     return GET(urlPrefix + 'applications/' + applicationId + '/appconfiguration/trafficrules')
   },
@@ -52,5 +52,5 @@ let ApplicationRules = {
 }
 
 export {
-  ApplicationRules
+  applicationRules
 }

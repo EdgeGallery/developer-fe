@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { ApplicationRules } from '../../../../api/developerApi.js'
+import { applicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'DNSRules',
   props: {
@@ -139,7 +139,7 @@ export default {
       }
     },
     submitAppTrafficRule (params, _data) {
-      ApplicationRules.postAppDnsRule(this.applicationId, params).then(() => {
+      applicationRules.postAppDnsRule(this.applicationId, params).then(() => {
         this.$emit('setRulesListTop', 'finishDnsRules', _data)
       }).catch(error => {
         if (error.response.data.message === 'create dnsRule failed: ruleId have exit') {
@@ -148,7 +148,7 @@ export default {
       })
     },
     editAppTrafficRule (params, _data) {
-      ApplicationRules.editAppDnsRule(this.applicationId, this.rulesId, params).then(res => {
+      applicationRules.editAppDnsRule(this.applicationId, this.rulesId, params).then(res => {
         this.$emit('setRulesListTop', 'finishDnsRules', _data)
       }).catch(() => {
         this.$eg_messagebox('编辑数据失败', 'error')
