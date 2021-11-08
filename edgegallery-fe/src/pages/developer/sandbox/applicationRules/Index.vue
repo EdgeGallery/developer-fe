@@ -61,16 +61,18 @@
           :label="$t('common.operation')"
           min-width="20%"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="editAppTrafficRule(scope.$index,scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="deleteTrafficRules(scope.row)"
             >
               {{ $t('common.delete') }}
             </el-button>
@@ -117,16 +119,18 @@
           :label="$t('common.operation')"
           min-width="20%"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="editAppDnsRule(scope.$index,scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="deleteDnsRules(scope.row)"
             >
               {{ $t('common.delete') }}
             </el-button>
@@ -154,6 +158,9 @@
       class="traffic-rules"
       :class="{'traffic-rules-hidden-bottom':!isTrafficRulesShow,'traffic-rules-hidden-top':(isInterfaceInfoShow || isTrafficFilterShow)}"
       @setRulesListTop="setRulesListTop"
+      :application-id-prop="applicationId"
+      :traffic-rules-form-prop="appRulesData"
+      :is-add-rule-data-prop="isAddRuleData"
     />
     <trafficFilter
       class="traffic-filter"
@@ -169,6 +176,9 @@
       class="dns-rules"
       :class="{'dns-rules-hidden':!isDnsRulesShow}"
       @setRulesListTop="setRulesListTop"
+      :application-id-prop="applicationId"
+      :dns-rules-form-prop="appRulesData"
+      :is-add-rule-data-prop="isAddRuleData"
     />
   </div>
 </template>
@@ -178,6 +188,7 @@ import trafficRules from './AddTrafficRules.vue'
 import interfaceInformation from './AddInterfaceInformation.vue'
 import trafficFilter from './AddTrafficFilter.vue'
 import dnsRules from './AddDnsRules.vue'
+import { applicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'ApplicationRules',
   components: {
@@ -188,14 +199,7 @@ export default {
   },
   data () {
     return {
-      trafficListData: [
-        {
-          action: 'PASSTHROUGH',
-          filterType: 'FLOW',
-          priority: '1',
-          trafficRuleId: 'tr1'
-        }
-      ],
+      trafficListData: [],
       dnsListData: [
         {
           dnsRuleId: 'dd1',
@@ -210,7 +214,21 @@ export default {
       isTrafficRulesShow: false,
       isTrafficFilterShow: false,
       isInterfaceInfoShow: false,
-      isDnsRulesShow: false
+      isDnsRulesShow: false,
+      isAddRuleData: true,
+      editIndex: 0,
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      trafficRuleList: [
+        {
+          trafficRuleId: '',
+          action: '',
+          priority: '',
+          filterType: '',
+          trafficFilter: [],
+          dstInterface: []
+        }
+      ],
+      appRulesData: {}
     }
   },
   methods: {
@@ -222,11 +240,38 @@ export default {
         }
       })
     },
-    setRulesListTop (data) {
-      switch (data) {
-        case 'cancelTrafficRules': {
-          this.isTrafficRulesShow = false
-          this.isRulesConfigShow = true
+    handleTrafficRulesData (data) {
+      if (JSON.stringify(data) === '{}') {
+        this.isTrafficRulesShow = false
+        this.isRulesConfigShow = true
+        return
+      }
+      if (this.isAddRuleData) {
+        this.trafficListData.push(data)
+      } else {
+        this.trafficListData.splice(this.editIndex, 1, data)
+      }
+      this.isTrafficRulesShow = false
+      this.isRulesConfigShow = true
+    },
+    handleDnsRulesData (data) {
+      if (JSON.stringify(data) === '{}') {
+        this.isDnsRulesShow = false
+        this.isRulesConfigShow = true
+        return
+      }
+      if (this.isAddRuleData) {
+        this.dnsListData.push(data)
+      } else {
+        this.dnsListData.splice(this.editIndex, 1, data)
+      }
+      this.isDnsRulesShow = false
+      this.isRulesConfigShow = true
+    },
+    setRulesListTop (type, data) {
+      switch (type) {
+        case 'finishTrafficRules': {
+          this.handleTrafficRulesData(data)
           break
         }
         case 'addTrafficFilter': {
@@ -249,9 +294,8 @@ export default {
           this.isTrafficRulesShow = true
           break
         }
-        case 'cancelDnsRules': {
-          this.isDnsRulesShow = false
-          this.isRulesConfigShow = true
+        case 'finishDnsRules': {
+          this.handleDnsRulesData()
           break
         }
         default: {
@@ -264,12 +308,55 @@ export default {
       }
     },
     addTrafficRules () {
+      this.isAddRuleData = true
+      this.appRulesData = {
+        trafficRuleId: '',
+        priority: '',
+        action: 'FORWARD_DECAPSULATED',
+        filterType: 'FLOW'
+      }
       this.isRulesConfigShow = false
       this.isTrafficRulesShow = true
     },
+    editAppTrafficRule (index, row) {
+      this.editIndex = index
+      this.isAddRuleData = false
+      this.appRulesData = JSON.parse(JSON.stringify(row))
+      this.isRulesConfigShow = false
+      this.isTrafficRulesShow = true
+    },
+    deleteTrafficRules (row) {
+      this.$eg_messagebox('确认删除该数据', 'error').then(() => {
+        applicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
+          this.getAppTrafficRuleList()
+        })
+      })
+    },
     addDnsRules () {
+      this.isAddRuleData = true
+      this.appRulesData = {
+        dnsRuleId: '',
+        domainName: 'domainName',
+        ipAddressType: 'IP_V4',
+        ipAddress: '0.0.0.0',
+        ttl: '85000'
+      }
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true
+    },
+    editAppDnsRule (index, row) {
+      this.editIndex = index
+      this.isAddRuleData = false
+      this.appRulesData = JSON.parse(JSON.stringify(row))
+      this.isRulesConfigShow = false
+      this.isDnsRulesShow = true
+    },
+    deleteDnsRules (row) {
+      this.$eg_messagebox('确认删除该数据', 'error').then(() => {
+        applicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
+          this.getAppDnsRuleList()
+        })
+      })
     },
     configApplicationRules (type) {
       this.$router.push('/EG/developer/sandboxDetails')
@@ -278,6 +365,20 @@ export default {
       } else {
         sessionStorage.setItem('applicationRules', 'confirm')
       }
+    },
+    getAppTrafficRuleList () {
+      applicationRules.getAppTrafficRules(this.applicationId).then(res => {
+        if (res.data) {
+          this.trafficListData = res.data
+        }
+      })
+    },
+    getAppDnsRuleList () {
+      applicationRules.getAppDnsRules(this.applicationId).then(res => {
+        if (res.data) {
+          this.dnsListData = res.data
+        }
+      })
     }
   },
   watch: {
@@ -293,6 +394,8 @@ export default {
     }
   },
   mounted () {
+    this.getAppTrafficRuleList()
+    this.getAppDnsRuleList()
     this.setDivHeight(this.screenHeight)
     window.onresize = () => {
       return (() => {
@@ -334,7 +437,7 @@ export default {
     z-index: 1;
     width: 60%;
     padding: 40px;
-    max-height: 95%;
+    max-height: 90%;
     overflow: auto;
     opacity: 1;
     transition: all .2s linear;

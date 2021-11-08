@@ -365,6 +365,8 @@
     <AddVm
       v-if="showContent==='showAddVm'"
       @addVmFinish="addVmFinish"
+      :net-work-list-prop="netWorkList"
+      :selected-networks-prop="selectedNetworks"
     />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
@@ -407,9 +409,10 @@ export default {
       upfBreathStyle: false,
       deployBreathStyle: false,
       vmBreathStyle: false,
+      selectedNetworks: [],
+      netWorkList: [],
       isMecSucess: false,
-      isUpfSucess: false,
-      selectedNetworks: []
+      isUpfSucess: false
     }
   },
   methods: {
@@ -438,11 +441,14 @@ export default {
       }
       this.showContent = 'showDetail'
     },
-    editNetwork (data) {
+    editNetwork (data, selectedData) {
       this.showContent = 'showDetail'
       if (data && data.length > 0) {
+        this.netWorkList = data
         this.configNetworkFinish = true
         this.deployBreathStyle = this.configNetworkFinish
+        this.netNum = data.length
+        this.selectedNetworks = selectedData
       }
     },
     checkVmDetail () {
@@ -463,8 +469,6 @@ export default {
     addApplicationRules () {
       this.$router.push('/EG/developer/applicationRules')
     }
-  },
-  computed: {
   },
   mounted () {
     if (sessionStorage.getItem('applicationRules') === 'confirm') {
