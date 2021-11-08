@@ -32,6 +32,7 @@
         <el-input
           maxlength="30"
           v-model="trafficRuleForm.trafficRuleId"
+          :disabled="!isAddRuleData"
         />
       </el-form-item>
       <el-form-item
@@ -219,13 +220,13 @@
     <div class="btn-container">
       <el-button
         class="common-btn"
-        @click="cancelTrafficRules"
+        @click="finishTrafficRules('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
         class="common-btn"
-        @click="cancelTrafficRules"
+        @click="finishTrafficRules('confirm')"
       >
         {{ $t('common.confirm') }}
       </el-button>
@@ -234,16 +235,26 @@
 </template>
 
 <script>
+import { ApplicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'TrafficRules',
+  props: {
+    applicationIdProp: {
+      type: String,
+      default: ''
+    },
+    trafficRulesFormProp: {
+      type: Object,
+      default: () => ({})
+    },
+    isAddRuleDataProp: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
-      trafficRuleForm: {
-        trafficRuleId: '',
-        priority: '',
-        action: 'FORWARD_DECAPSULATED',
-        filterType: 'FLOW'
-      },
+      trafficRuleForm: {},
       filterType: [
         { value: 'FLOW' },
         { value: 'PACKET' }
@@ -256,47 +267,64 @@ export default {
         { value: 'SUPLICATED_DECAPSULATED' }
 
       ],
-      filterTableData: [
-        {
-          srcAddress: '0.0.0.0/0',
-          srcPort: '8080',
-          dstAddress: '0.0.0.0/0',
-          dstPort: '8080',
-          tgtTunnelAddress: '0.0.0.0',
-          dstTunnelPort: '8080',
-          srcTunnelAddress: '0.0.0.0',
-          srcTunnelPort: '8080',
-          tag: '1234',
-          qci: 1,
-          dscp: 0,
-          tc: 1
-        }
-      ],
-      interfaceTableData: [
-        {
-          interfaceType: 'TUNNEL',
-          tunnelInfo: {
-            tunnelDstAddress: '0',
-            tunnelSpecificData: '0',
-            tunnelSrcAddress: '0',
-            tunnelType: 'GTP-U'
-          },
-          dstMACAddress: '0.0.0.0',
-          srcMACAddress: '0.0.0.0',
-          dstIPAddress: '0.0.0.0'
-        }
-      ]
+      filterTableData: [],
+      interfaceTableData: [],
+      applicationId: this.applicationIdProp,
+      isAddRuleData: true,
+      rulesId: ''
     }
   },
   methods: {
-    cancelTrafficRules () {
-      this.$emit('setRulesListTop', 'cancelTrafficRules')
+    finishTrafficRules (type) {
+      let _data = {}
+      if (type === 'confirm') {
+        _data = this.trafficRuleForm
+        let _params = {
+          trafficFilter: [],
+          dstInterface: []
+        }
+        for (let k in _data) {
+          _params[k] = _data[k]
+        }
+        if (this.isAddRuleData) {
+          this.submitAppTrafficRule(_params, _data)
+        } else {
+          this.editAppTrafficRule(_params, _data)
+        }
+      } else {
+        this.$emit('setRulesListTop', 'finishTrafficRules', _data)
+      }
     },
     addTrafficFilter () {
       this.$emit('setRulesListTop', 'addTrafficFilter')
     },
     addInterfaceInformation () {
       this.$emit('setRulesListTop', 'addInterfaceInfo')
+    },
+    submitAppTrafficRule (params, _data) {
+      ApplicationRules.postAppTrafficRule(this.applicationId, params).then(() => {
+        this.$emit('setRulesListTop', 'finishTrafficRules', _data)
+      }).catch(error => {
+        if (error.response.data.message === 'create trafficRule failed: ruleId have exit') {
+          this.$eg_messagebox('流规则标识已存在', 'error')
+        }
+      })
+    },
+    editAppTrafficRule (params, _data) {
+      ApplicationRules.editAppTrafficRule(this.applicationId, this.rulesId, params).then(res => {
+        this.$emit('setRulesListTop', 'finishTrafficRules', _data)
+      }).catch(() => {
+        this.$eg_messagebox('编辑数据失败', 'error')
+      })
+    }
+  },
+  watch: {
+    trafficRulesFormProp (val) {
+      this.trafficRuleForm = val
+      this.rulesId = val.trafficRuleId
+    },
+    isAddRuleDataProp (val) {
+      this.isAddRuleData = val
     }
   }
 }

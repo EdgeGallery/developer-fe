@@ -15,12 +15,42 @@
  *  limitations under the License.
  */
 
-// import {
-//   GET,
-//   POST,
-//   PUT,
-//   DELETE
-// } from '../tools/request.js'
+import {
+  GET,
+  POST,
+  PUT,
+  DELETE
+} from '../tools/request.js'
+
+const urlPrefix = '/mec/developer/v2/'
+
+let ApplicationRules = {
+  getAppTrafficRules: function (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/appconfiguration/trafficrules')
+  },
+  postAppTrafficRule: function (applicationId, params) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/appconfiguration/trafficrules', params)
+  },
+  editAppTrafficRule: function (applicationId, ruleId, params) {
+    return PUT(urlPrefix + 'applications/' + applicationId + '/appconfiguration/trafficrules/' + ruleId, params)
+  },
+  deleteAppTrafficRule: function (applicationId, ruleId) {
+    return DELETE(urlPrefix + 'applications/' + applicationId + '/appconfiguration/trafficrules/' + ruleId)
+  },
+  getAppDnsRules: function (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/appconfiguration/dnsrules')
+  },
+  postAppDnsRule: function (applicationId, params) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/appconfiguration/dnsrules', params)
+  },
+  editAppDnsRule: function (applicationId, ruleId, params) {
+    return PUT(urlPrefix + 'applications/' + applicationId + '/appconfiguration/dnsrules/' + ruleId, params)
+  },
+  deleteAppDnsRule: function (applicationId, ruleId) {
+    return DELETE(urlPrefix + 'applications/' + applicationId + '/appconfiguration/dnsrules/' + ruleId)
+  }
+}
 
 export {
+  ApplicationRules
 }
