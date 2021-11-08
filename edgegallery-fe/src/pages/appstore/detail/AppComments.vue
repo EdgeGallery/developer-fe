@@ -20,6 +20,7 @@
       <span class="score_span">{{ $t('store.score') }}</span>
       <el-rate
         v-model="comments.score"
+        colors="colors"
         allow-half
         show-score
       />
@@ -91,7 +92,7 @@
             <el-rate
               v-model="item.score"
               disabled
-              text-color="#ff9900"
+              colors="colors"
               score-template="{value}"
               show-score
             />
@@ -119,14 +120,15 @@ export default {
       appName: '',
       limit: 100,
       offset: 0,
-      userIconUrl: require('../../../assets/images/appstore/app_detail_user.jpg'),
+      userIconUrl: require('../../../assets/images/appstore/app_detail_user.png'),
       noCommentIcon: require('../../../assets/images/appstore/app_detail_info_icon.png'),
       comments: {
         score: 0,
         message: ''
       },
       historyComentsList: [],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      colors: ['rgba(255, 255, 255, 0.01)']
     }
   },
   methods: {
@@ -194,7 +196,7 @@ export default {
 <style lang="less">
 .appComments {
   margin: auto;
-  background: #fff;
+  background: rgba(255,255,255,0.4);
   border-radius: 16px;
   .submit_comment{
     padding: 20px;
@@ -223,7 +225,7 @@ export default {
       }
       .el-textarea__inner{
         height: 80px;
-        box-shadow: inset 4px 4px 25px 5px rgba(36, 20, 119, 0.1) !important;
+        box-shadow: inset 4px 4px 25px 5px rgba(102, 92, 189, 0.5) !important;
         border-radius: 12px;
         padding: 10px 30px 15px !important;
       }
@@ -234,10 +236,18 @@ export default {
       text-align: right;
       .el-button{
         font-size: 16px;
-        background-color:  #8278B7;
-        color: #FFFFFF;
+        background-color: #FFFFFF;
+        color: #5944C0;
         border-radius: 8pt;
       }
+    }
+  }
+  .show_comment{
+    padding: 20px;
+    li{
+      border-bottom: 1px solid #ddd;
+      margin-left: 80px;
+      padding: 20px 0;
     }
   }
   .no_comment{

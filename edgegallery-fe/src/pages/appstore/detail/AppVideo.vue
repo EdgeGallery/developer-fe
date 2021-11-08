@@ -50,7 +50,7 @@ export default {
   },
   data () {
     return {
-      videoIconUrl: require('../../../assets/images/appstore/app_detail_video.png'),
+      videoIconUrl: require('../../../assets/images/appstore/app_detail_info_icon.png'),
       userId: sessionStorage.getItem('userId')
     }
   }
@@ -58,7 +58,7 @@ export default {
 </script>
 <style lang="less">
 .appVedio {
-  background: #fff;
+  background: rgba(255,255,255,0.4);
   border-radius: 16px ;
   padding: 20px;
   .vedio{
