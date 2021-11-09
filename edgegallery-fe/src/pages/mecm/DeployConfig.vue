@@ -16,86 +16,72 @@
   -->
 <template>
   <div class="deploy-config">
-    <div class="common-div-bg deploy-config-warraper">
-      <h3 class="rules-title">
-        部署配置
-      </h3>
+    <div class="common-div-bg deploy-config-wrapper">
+      <h3 class="rules-title">{{ $t("deployConfig.title") }}</h3>
       <div class="deploy-config-content">
         <el-form
-          label-position="left"
+          :model="deployConfigData"
           :rules="rules"
+          :class="language"
+          label-position="left"
+          ref="deployConfigData"
         >
-          <el-form-item label="MEC Host">
-            <el-row class="host">
-              <el-col :span="8">
-                <p class="left">
-                  IP地址：
-                </p>
-                <p>
-                  192.168
-                </p>
-              </el-col>
-              <el-col :span="12">
-                <p class="left">
-                  状态：
-                </p>
-                <p>
-                  <em
-                    class="el-icon-success"
-                  />
-                  Distributed
-                </p>
-              </el-col>
-            </el-row>
-          </el-form-item>
-          <el-form-item
-            label="应用名称"
-            prop="name"
-            class="app-name"
-          >
+          <div class="deploy-config__title">MEC Host</div>
+          <div class="deploy-config__basic-info">
+            <div class="deploy-config__item">
+              <p class="deploy-config__label">
+                {{ $t("deployConfig.IPAddress") }}
+              </p>
+              <p class="deploy-config__value">
+                {{ deployConfigData.ipAddress }}
+              </p>
+            </div>
+            <div class="deploy-config__item">
+              <p class="deploy-config__label">
+                {{ $t("deployConfig.status") }}
+              </p>
+              <p class="deploy-config__value">
+                <em class="el-icon-success" />
+                {{ deployConfigData.status }}
+              </p>
+            </div>
+          </div>
+          <el-form-item :label="$t('deployConfig.appName')" prop="appName">
             <el-input
-              placeholder="名称"
+              :placeholder="$t('deployConfig.placeholderName')"
               v-model="deployConfigData.appName"
             />
           </el-form-item>
-          <el-form-item
-            label="应用描述"
-            class="app-description"
-            prop="description"
-          >
+          <el-form-item :label="$t('deployConfig.appDesc')" prop="appDesc">
             <el-input
               type="textarea"
-              placeholder="描述"
-              v-model="deployConfigData.appDescription"
+              :placeholder="$t('deployConfig.placeholderDesc')"
+              v-model="deployConfigData.appDesc"
             />
           </el-form-item>
-          <el-form-item label="硬件能力">
-            <div class="deploy-config-radio">
-              <el-radio
-                label="GPU"
-                v-model="deployConfigData.hardware"
+          <el-form-item
+            :label="$t('deployConfig.hardwareAbilities')"
+            prop="hardwareAbilities"
+          >
+            <el-checkbox-group v-model="deployConfigData.hardwareAbilities">
+              <el-checkbox
+                class="deploy-config-checkbox"
+                v-for="item in capabilities"
+                :label="item"
+                :key="item"
               >
-                GPU
-              </el-radio>
-              <el-radio
-                label="CPU"
-                v-model="deployConfigData.hardware"
-              >
-                CPU
-              </el-radio>
-            </div>
+                {{ item }}
+              </el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
         </el-form>
       </div>
       <div class="btn-container btn_deployConfig">
         <el-button class="common-btn">
-          {{ $t('common.cancel') }}
+          {{ $t("common.cancel") }}
         </el-button>
-        <el-button
-          class="common-btn"
-          @click="returnHome"
-        >
-          {{ $t('common.confirm') }}
+        <el-button class="common-btn" @click="returnHome">
+          {{ $t("common.confirm") }}
         </el-button>
       </div>
     </div>
@@ -110,20 +96,15 @@ export default {
   data () {
     return {
       deployConfigData: {
-        ip: '',
-        status: '',
+        ipAddress: '192.168.0.1',
+        status: 'TEST',
+        appPackageID: '',
         appName: '',
-        appDescription: '',
-        hardware: ''
+        appDesc: '',
+        hardwareAbilities: []
       },
-      rules: {
-        name: [
-          { required: true, message: '请输入服务名称', trigger: 'blur' }
-        ],
-        description: [
-          { required: true, message: '请输入描述', trigger: 'blur' }
-        ]
-      }
+      capabilities: ['GPU', 'CPU'],
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -138,25 +119,44 @@ export default {
       this.$router.push('/EG/developer/home')
     }
   },
-  mounted () {}
+  computed: {
+    rules () {
+      return {
+        appName: [
+          { required: true, message: this.$t('deployConfig.appNameVerifyRequired'), trigger: 'blur' },
+          { pattern: /^[a-zA-Z0-9]{4,16}$/, message: this.$t('deployConfig.appNameVerifyValid') }
+        ],
+        appDesc: [
+          { required: true, message: this.$t('deployConfig.appDescVerifyRequired'), trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
+  },
+  mounted () { }
 }
 </script>
 
 <style lang='less'>
 .deploy-config {
   background: transparent;
-  height: 85%;
-  .deploy-config-warraper {
+  min-height: 85%;
+  .deploy-config-wrapper {
     width: 41%;
     background-size: cover;
     border-radius: 16px;
     margin: 120px auto;
     padding: 40px 40px 40px 40px;
-    background: url('../../assets/images/mecm/deploy_config/deploy_config_bg.png') center;
+    background: url("../../assets/images/mecm/deploy_config/deploy_config_bg.png")
+      center;
     .btn_deployConfig {
       margin: 60px 0px 0 0;
       .el-button {
-        color: #5944C0;
+        color: #5944c0;
         font-size: 14px;
         border-radius: 12px;
         padding: 4px 28px;
@@ -167,26 +167,48 @@ export default {
     }
     .rules-title {
       margin-bottom: 15px;
+      font-family: defaultFont, Arial, Helvetica, sans-serif;
     }
     .rules-title:before {
       margin-right: 7px;
-      background-color: #76E1E9;
+      background-color: #5944c0;
     }
     .deploy-config-content {
-      margin-left: 23px;
-      .host {
-        margin:45px 0 0 40px;
+      margin-left: 17px;
+      .deploy-config__title {
         font-size: 16px;
-        p {
-          display: inline-block;
-        }
+        font-family: defaultFont, Arial, Helvetica, sans-serif;
+      }
+      .deploy-config__item {
+        display: inline-block;
+        padding: 20px 0 20px 40px;
+        font-size: 16px;
+        font-family: defaultFont, Arial, Helvetica, sans-serif;
+      }
+      .deploy-config__item:first-child {
+        padding-left: 38px;
+      }
+      .deploy-config__label {
+        display: inline-block;
+      }
+      .deploy-config__value {
+        display: inline-block;
+        padding-left: 5px;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         .el-icon-success {
-          color: #3AC372;
-          font-size: 14px;
+          color: #3ac372;
+          font-size: 16px;
         }
       }
+      .cn .el-form-item__label {
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+        width: 89px;
+      }
+      .en .el-form-item__label {
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+        width: 149px;
+      }
       .el-input {
-        width: 80%;
         background-color: transparent;
         margin-left: 23px;
         border-radius: 4px;
@@ -196,78 +218,90 @@ export default {
           height: 25px;
           background-color: rgba(255, 255, 255, 0.3);
           border: 0px;
-          color: #E2E2E2;
+          color: #e2e2e2;
         }
       }
-      .app-name {
-        margin-bottom: 25px;
-        .el-form-item__label {
-          height: 30px;
-        }
-        .el-form-item__error {
-          margin: 0 0 0 115px;
-          padding-top: 5px;
-        }
+      .cn .el-input {
+        width: calc(100% - 150px);
       }
-      .app-description {
-        margin-bottom: 40px;
-        .el-form-item__error {
-          margin: 10px 0 0 115px;
-          padding-top: 0px;
-        }
+      .en .el-input {
+        width: calc(100% - 220px);
       }
       .el-textarea {
-        width: 80%;
         background-color: transparent;
         margin-left: 23px;
+        margin-bottom: 8px;
         border-radius: 4px;
-        height: 76px;
+        min-height: 76px;
         .el-textarea__inner {
           height: 76px;
+          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           background-color: rgba(255, 255, 255, 0.3);
           border: 0px;
-          color: #E2E2E2;
+          color: #e2e2e2;
         }
       }
-      .deploy-config-radio {
-        margin-left: 10px;
-        .el-radio__input.is-checked + .el-radio__label {
-          color: #FFFFFF;
+      .cn .el-textarea {
+        width: calc(100% - 150px);
+      }
+      .en .el-textarea {
+        width: calc(100% - 220px);
+      }
+      .cn .el-form-item__error {
+        padding-left: 110px;
+        padding-top: 0;
+      }
+      .en .el-form-item__error {
+        padding-left: 172px;
+        padding-top: 0;
+      }
+      .deploy-config-checkbox {
+        margin-left: 23px;
+        line-height: 40px;
+        color: #ffffff;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        .el-checkbox__inner {
+          width: 14px;
+          height: 14px;
+          border: solid 1px rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
         }
-        .el-radio {
-          color: #FFFFFF;
-          margin-left: 35px;
-          vertical-align: bottom;
-          .el-radio__inner {
-            height: 14px;
-            width: 14px;
-            border-color: rgba(255, 255, 255, 0.3);
-            background: transparent;
-          }
-          .el-radio__inner:before {
-            content: "";
-            display: block;
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            left: 2px;
-            top: 2px;
-            z-index: 10;
-          }
-          .el-radio__inner:after {
-            content: "";
-            display: block;
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background-color: #7ED4A9;
-            border-radius: 50%;
-            left: 6px;
-            top: -2px;
-            z-index: 10;
-          }
+        .is-checked .el-checkbox__inner {
+          width: 14px;
+          height: 14px;
+          border: solid 1px #ffffff;
+          border-radius: 50%;
+        }
+        .el-checkbox__inner {
+          background-color: transparent;
+        }
+        .el-checkbox__inner::after {
+          content: "";
+          display: block;
+          position: relative;
+          left: 2px;
+          top: 2px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          background-color: rgba(255, 255, 255, 0.3);
+          transform: none;
+        }
+        .is-checked .el-checkbox__inner::after {
+          content: "";
+          display: block;
+          position: relative;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          background-color: #7ed4a9;
+          transform: none;
+        }
+        .el-checkbox__label {
+          color: #ffffff;
         }
       }
     }

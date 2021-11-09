@@ -49,6 +49,19 @@ const cn = {
     city: '城市',
     MEPM: 'MEPM地址',
     hwCapability: '硬件能力'
+  },
+  deployConfig: {
+    title: '部署配置',
+    IPAddress: 'IP地址：',
+    status: '状态：',
+    appName: '应用名称',
+    appDesc: '应用描述',
+    placeholderName: '名称',
+    placeholderDesc: '描述',
+    hardwareAbilities: '硬件能力',
+    appNameVerifyRequired: '请输入应用名称',
+    appNameVerifyValid: '4到16位（字母，数字）',
+    appDescVerifyRequired: '请输入描述'
   }
 }
 export default cn
