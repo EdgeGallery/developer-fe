@@ -125,9 +125,15 @@ export default {
       let _data = {}
       if (type === 'confirm') {
         _data = this.dnsRulesForm
-        let _params = {}
+        let _params = {
+          dnsRuleId: ''
+        }
         for (let k in _data) {
           _params[k] = _data[k]
+        }
+        if (_params.dnsRuleId === '') {
+          this.$eg_messagebox('DNS规则标识不能为空', 'warning')
+          return
         }
         if (this.isAddRuleData) {
           this.submitAppTrafficRule(_params, _data)
@@ -142,7 +148,7 @@ export default {
       applicationRules.postAppDnsRule(this.applicationId, params).then(() => {
         this.$emit('setRulesListTop', 'finishDnsRules', _data)
       }).catch(error => {
-        if (error.response.data.message === 'create dnsRule failed: ruleId have exit') {
+        if (error.response.data.message === 'create DnsRule failed: ruleId have exit') {
           this.$eg_messagebox('DNS规则标识已存在', 'error')
         }
       })

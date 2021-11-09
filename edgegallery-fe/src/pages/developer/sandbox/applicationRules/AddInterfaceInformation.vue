@@ -31,6 +31,7 @@
       >
         <el-select
           v-model="interfaceInformationForm.interfaceType"
+          @change="selectInterfaceType"
         >
           <el-option
             v-for="item in interfaceType"
@@ -79,12 +80,12 @@
           </h3>
           <el-form-item label="源MAC地址">
             <el-input
-              v-model="interfaceInformationForm.srcMACAddress"
+              v-model="interfaceInformationForm.srcMacAddress"
             />
           </el-form-item>
           <el-form-item label="目的MAC地址">
             <el-input
-              v-model="interfaceInformationForm.dstMACAddress"
+              v-model="interfaceInformationForm.dstMacAddress"
             />
           </el-form-item>
         </div>
@@ -94,7 +95,7 @@
           </h3>
           <el-form-item label="目的IP地址">
             <el-input
-              v-model="interfaceInformationForm.dstIPAddress"
+              v-model="interfaceInformationForm.dstIpAddress"
             />
           </el-form-item>
         </div>
@@ -104,13 +105,13 @@
     <div class="btn-container">
       <el-button
         class="common-btn"
-        @click="cancelInterfaceInfo"
+        @click="finishInterfaceInformation('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
         class="common-btn"
-        @click="cancelInterfaceInfo"
+        @click="finishInterfaceInformation('confirm')"
       >
         {{ $t('common.confirm') }}
       </el-button>
@@ -121,20 +122,15 @@
 <script>
 export default {
   name: 'InterfaceInformation',
+  props: {
+    commonDataProp: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
-      interfaceInformationForm: {
-        interfaceType: 'TUNNEL',
-        srcMACAddress: '',
-        dstMACAddress: '',
-        dstIPAddress: '',
-        tunnelInfo: {
-          tunnelType: 'GTP-U',
-          tunnelDstAddress: '',
-          tunnelsrcAddress: '',
-          tunnelSpecificData: ''
-        }
-      },
+      interfaceInformationForm: {},
       interfaceType: [
         { value: 'TUNNEL' },
         { value: 'MAC' },
@@ -143,13 +139,101 @@ export default {
       tunnelType: [
         { value: 'GTP-U' },
         { value: 'GRE' }
-      ]
+      ],
+      commonData: this.commonDataProp
     }
   },
   methods: {
-    cancelInterfaceInfo () {
-      this.$emit('setRulesListTop', 'cancelInterfaceInfo')
+    // send InterfaceInformation Data to TrafficRules page
+    finishInterfaceInformation (type) {
+      let _data = {}
+      if (type === 'confirm') {
+        _data = this.interfaceInformationForm
+      }
+      this.bus.$emit('finishInterfaceInformation', _data)
+      this.$emit('setRulesListTop', 'finishInterfaceInformation')
+    },
+    // get InterfaceInformation Data from TrafficRules page when add
+    addInterfaceInformation () {
+      let _this = this
+      this.bus.$on('addInterfaceInformation', function (data) {
+        _this.interfaceInformationForm = data
+      })
+    },
+    // get InterfaceInformation Data from TrafficRules page when edit
+    editInterfaceInformation () {
+      let _this = this
+      this.bus.$on('editInterfaceInformation', function (data) {
+        _this.interfaceInformationForm = data
+      })
+    },
+    selectInterfaceType (val) {
+      switch (val) {
+        case 'TUNNEL': {
+          this.interfaceInformationForm = {
+            interfaceType: 'TUNNEL',
+            dstMacAddress: '',
+            srcMacAddress: '',
+            dstIpAddress: '',
+            tunnelInfo: {
+              tunnelType: 'GTP-U',
+              tunnelDstAddress: '0',
+              tunnelSpecificData: '0',
+              tunnelSrcAddress: '0'
+            }
+          }
+          break
+        }
+        case 'MAC': {
+          this.interfaceInformationForm = {
+            interfaceType: 'MAC',
+            dstMacAddress: this.commonData.ip,
+            srcMacAddress: this.commonData.ip,
+            dstIpAddress: '',
+            tunnelInfo: {
+              tunnelType: '',
+              tunnelDstAddress: '',
+              tunnelSpecificData: '',
+              tunnelSrcAddress: ''
+            }
+          }
+          break
+        }
+        case 'IP': {
+          this.interfaceInformationForm = {
+            interfaceType: 'IP',
+            dstMacAddress: '',
+            srcMacAddress: '',
+            dstIpAddress: this.commonData.ip,
+            tunnelInfo: {
+              tunnelType: '',
+              tunnelDstAddress: '',
+              tunnelSpecificData: '',
+              tunnelSrcAddress: ''
+            }
+          }
+          break
+        }
+        default: {
+          this.interfaceInformationForm = {
+            interfaceType: 'TUNNEL',
+            dstMacAddress: '',
+            srcMacAddress: '',
+            dstIpAddress: '',
+            tunnelInfo: {
+              tunnelType: 'GTP-U',
+              tunnelDstAddress: '0',
+              tunnelSpecificData: '0',
+              tunnelSrcAddress: '0'
+            }
+          }
+        }
+      }
     }
+  },
+  mounted () {
+    this.addInterfaceInformation()
+    this.editInterfaceInformation()
   }
 }
 </script>
