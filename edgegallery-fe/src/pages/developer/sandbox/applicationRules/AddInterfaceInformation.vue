@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import { CommonData } from '../../../../tools/common.js'
+import { CommonData } from '../../../../tools/commonData.js'
 export default {
   name: 'InterfaceInformation',
   data () {

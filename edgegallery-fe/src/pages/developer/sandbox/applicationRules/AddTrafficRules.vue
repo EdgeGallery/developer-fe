@@ -240,7 +240,7 @@
 
 <script>
 import { applicationRules } from '../../../../api/developerApi.js'
-import { CommonData } from '../../../../tools/common.js'
+import { CommonData } from '../../../../tools/commonData.js'
 export default {
   name: 'TrafficRules',
   props: {
