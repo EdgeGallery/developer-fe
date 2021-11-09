@@ -65,8 +65,16 @@ function uniqueArray (arrData) {
   }
   return _resultData
 }
+const CommonData = {
+  port: '8080',
+  protocol: 'ANY',
+  address: '0.0.0.0/0',
+  ip: '0.0.0.0',
+  ttl: '85000'
+}
 export {
   formatDateTime,
   promptJumpToClassic,
-  uniqueArray
+  uniqueArray,
+  CommonData
 }

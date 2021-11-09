@@ -32,7 +32,7 @@ const en = {
     cancel: 'Cancel',
     confirm: 'Confirm',
     finish: 'Finish',
-    confirmDelete: 'Confirm to delete the data'
+    confirmDelete: 'Confirm to delete the data?'
   },
   ...enLocale,
   ...enClassic,

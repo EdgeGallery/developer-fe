@@ -240,6 +240,7 @@
 
 <script>
 import { applicationRules } from '../../../../api/developerApi.js'
+import { CommonData } from '../../../../tools/common.js'
 export default {
   name: 'TrafficRules',
   props: {
@@ -349,19 +350,19 @@ export default {
     addTrafficFilter () {
       this.isAddTrafficFilter = true
       this.trafficFilterForm = {
-        srcAddress: '0.0.0.0/0',
-        srcPort: '8080',
-        dstAddress: '0.0.0.0/0',
-        dstPort: '8080',
-        protocol: 'ANY',
+        srcAddress: CommonData.address,
+        srcPort: CommonData.port,
+        dstAddress: CommonData.address,
+        dstPort: CommonData.port,
+        protocol: CommonData.protocol,
         tag: '1234',
         qCI: 1,
         dSCP: 0,
         tC: 1,
-        srcTunnelAddress: '0.0.0.0',
-        srcTunnelPort: '8080',
-        tgtTunnelAddress: '0.0.0.0',
-        dstTunnelPort: '8080'
+        srcTunnelAddress: CommonData.ip,
+        srcTunnelPort: CommonData.port,
+        tgtTunnelAddress: CommonData.ip,
+        dstTunnelPort: CommonData.port
       }
       this.$emit('setRulesListTop', 'addTrafficFilter')
       this.bus.$emit('addTrafficFilter', this.trafficFilterForm)

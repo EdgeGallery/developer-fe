@@ -32,7 +32,7 @@ const cn = {
     cancel: '取消',
     confirm: '确认',
     finish: '完成',
-    confirmDelete: '确认删除该数据'
+    confirmDelete: '确认删除该数据？'
   },
   ...zhLocale,
   ...cnClassic,

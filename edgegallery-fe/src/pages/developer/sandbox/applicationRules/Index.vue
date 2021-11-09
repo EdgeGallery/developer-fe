@@ -189,6 +189,7 @@ import interfaceInformation from './AddInterfaceInformation.vue'
 import trafficFilter from './AddTrafficFilter.vue'
 import dnsRules from './AddDnsRules.vue'
 import { applicationRules } from '../../../../api/developerApi.js'
+import { CommonData } from '../../../../tools/common.js'
 export default {
   name: 'ApplicationRules',
   components: {
@@ -323,8 +324,8 @@ export default {
         dnsRuleId: '',
         domainName: 'domainName',
         ipAddressType: 'IP_V4',
-        ipAddress: '0.0.0.0',
-        ttl: '85000'
+        ipAddress: CommonData.ip,
+        ttl: CommonData.ttl
       }
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true

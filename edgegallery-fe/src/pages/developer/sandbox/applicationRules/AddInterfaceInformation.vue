@@ -120,6 +120,7 @@
 </template>
 
 <script>
+import { CommonData } from '../../../../tools/common.js'
 export default {
   name: 'InterfaceInformation',
   data () {
@@ -180,8 +181,8 @@ export default {
         case 'MAC': {
           this.interfaceInformationForm = {
             interfaceType: 'MAC',
-            dstMacAddress: '0.0.0.0',
-            srcMacAddress: '0.0.0.0',
+            dstMacAddress: CommonData.ip,
+            srcMacAddress: CommonData.ip,
             dstIpAddress: '',
             tunnelInfo: {
               tunnelType: '',
@@ -197,7 +198,7 @@ export default {
             interfaceType: 'IP',
             dstMacAddress: '',
             srcMacAddress: '',
-            dstIpAddress: '0.0.0.0',
+            dstIpAddress: CommonData.ip,
             tunnelInfo: {
               tunnelType: '',
               tunnelDstAddress: '',
