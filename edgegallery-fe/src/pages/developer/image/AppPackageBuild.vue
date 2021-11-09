@@ -174,7 +174,7 @@
                 <div class="progress-bar">
                   <el-progress
                     :percentage="100"
-                    stroke-width="5"
+                    :stroke-width="5"
                     status="success"
                   />
                 </div>
@@ -501,7 +501,7 @@ export default {
   },
   methods: {
     returnHome () {
-      sessionStorage.setItem('currentFlow', 4)
+      this.$store.commit('changeFlow', 4)
       this.$router.push('/EG/developer/home')
     }
   },

@@ -13,7 +13,7 @@
         <div
           class="item"
           :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0&&item.id!==2?'item-must':'',item.class]"
-          @click="jumpTo(item.toPath)"
+          @click="item.id<=currentFlow+1?jumpTo(item):showWarning()"
         >
           <img
             :src="item.src"
@@ -32,9 +32,14 @@ export default {
   components: {
 
   },
+  props: {
+    currentFlow: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
-      currentFlow: 0,
       isCapabilityActive: false,
       workflowDataArray: [
         {
@@ -76,13 +81,20 @@ export default {
     }
   },
   methods: {
-    jumpTo (path) {
-      this.$router.push(path)
+    jumpTo (item) {
+      if (item.path === '/EG/developer/createApplication') {
+        if (item.id > this.currentFlow + 1) {
+          sessionStorage.setItem('isCreate', false)
+        }
+      }
+      this.$router.push(item.toPath)
+    },
+    showWarning () {
+      this.$message.warning('请先完成前面的步骤！')
     }
   },
   mounted () {
-    this.currentFlow = sessionStorage.getItem('currentFlow') ? Number(sessionStorage.getItem('currentFlow')) : 0
-    this.isCapabilityActive = sessionStorage.getItem('isCapabilityActive')
+
   }
 }
 </script>
