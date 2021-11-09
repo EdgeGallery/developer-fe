@@ -189,7 +189,7 @@ import interfaceInformation from './AddInterfaceInformation.vue'
 import trafficFilter from './AddTrafficFilter.vue'
 import dnsRules from './AddDnsRules.vue'
 import { applicationRules } from '../../../../api/developerApi.js'
-import { CommonData } from '../../../../tools/commonData.js'
+import { CommonData } from '../../../../tools/consts.js'
 export default {
   name: 'ApplicationRules',
   components: {
