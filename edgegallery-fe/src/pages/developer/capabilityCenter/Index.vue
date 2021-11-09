@@ -445,7 +445,9 @@ export default {
       this.initCapabilityList(node, resolve)
     },
     initCapabilityList (node, resolve) {
-      if (node.level > 1) { return resolve([]) }
+      if (node.level > 1) {
+        return resolve([])
+      }
       if (node.level === 0) {
         applicationApi.getServiceList().then(res => {
           this.getDependencies()
