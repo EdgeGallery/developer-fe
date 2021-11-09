@@ -44,9 +44,11 @@ export default {
   },
   methods: {
     checkProjectDetail (item) {
+      sessionStorage.setItem('applicationId', item.id)
       this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'TESTED' ? '5' : '3'))
     },
     createApplication () {
+      sessionStorage.setItem('applicationId', '')
       this.$emit('createApplication', true)
     },
     switchStatus (status) {

@@ -85,7 +85,6 @@ export default {
       if (item.path === '/EG/developer/createApplication') {
         if (item.id > this.currentFlow + 1) {
           sessionStorage.setItem('isCreate', false)
-          sessionStorage.setItem('applicationId', '')
         }
       }
       this.$router.push(item.toPath)
