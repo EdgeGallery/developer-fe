@@ -453,6 +453,7 @@ export default {
     initCapabilityList (node, resolve) {
       if (node.level === 0) {
         applicationApi.getServiceList().then(res => {
+          this.getDependencies()
           let groups = res.data
           this.groups = groups
           groups.forEach(group => {
@@ -478,7 +479,6 @@ export default {
             capa.label = this.language === 'en' ? capa.nameEn : capa.name
             capa.leaf = true
           })
-          this.getDependencies()
           resolve(capabilities)
         })
       }
@@ -488,6 +488,7 @@ export default {
         if (res.data && res.data.length > 0) {
           res.data.forEach(ser => {
             this.selectedService.push(ser)
+            console.log(this.selectedService)
           })
         }
       }).catch(err => {

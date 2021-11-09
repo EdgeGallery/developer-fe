@@ -46,6 +46,7 @@ export default {
     checkProjectDetail (item) {
       sessionStorage.setItem('applicationId', item.id)
       this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'TESTED' ? '5' : '3'))
+      this.$router.push('/EG/developer/home')
     },
     createApplication () {
       sessionStorage.setItem('applicationId', '')
