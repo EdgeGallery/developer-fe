@@ -32,9 +32,14 @@ export default {
   components: {
 
   },
+  props: {
+    currentFlow: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
-      currentFlow: 0,
       isCapabilityActive: false,
       deployWorkflowDataArray: [
         {
@@ -67,7 +72,6 @@ export default {
     }
   },
   mounted () {
-    this.currentFlow = sessionStorage.getItem('currentFlow') ? Number(sessionStorage.getItem('currentFlow')) : 0
     this.isCapabilityActive = sessionStorage.getItem('isCapabilityActive')
   }
 }

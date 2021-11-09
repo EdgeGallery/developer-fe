@@ -417,7 +417,7 @@ export default {
   },
   methods: {
     returnHome () {
-      sessionStorage.setItem('currentFlow', 3)
+      this.$store.commit('changeFlow', 3)
       this.$router.push('/EG/developer/home')
     },
     deployInternet () {
