@@ -419,9 +419,9 @@ export default {
         }, 200)
       }
     },
-    async handleCheckChange (data, is) {
+    async handleCheckChange (data, isNewService) {
       if (data.leaf) {
-        if (is) {
+        if (isNewService) {
           this.selectedService.push(data)
           let params = {
             serName: data.host,
@@ -451,6 +451,7 @@ export default {
       this.initCapabilityList(node, resolve)
     },
     initCapabilityList (node, resolve) {
+      if (node.level > 1) { return resolve([]) }
       if (node.level === 0) {
         applicationApi.getServiceList().then(res => {
           this.getDependencies()
@@ -468,8 +469,6 @@ export default {
           console.log(err)
         })
       }
-      if (node.level > 1) return resolve([])
-
       if (node.level === 1) {
         let groupId = node.data.id
         applicationApi.getCapabilityByGroupId(groupId).then(result => {
