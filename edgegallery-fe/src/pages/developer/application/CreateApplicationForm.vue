@@ -214,7 +214,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        alert('>1')
+        this.$message.warning('最多上传一个文件！')
       }
     },
     chooseDefaultIcon (file, index) {
