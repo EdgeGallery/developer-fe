@@ -200,14 +200,7 @@ export default {
   data () {
     return {
       trafficListData: [],
-      dnsListData: [
-        {
-          dnsRuleId: 'dd1',
-          domainName: 'domainName',
-          ipAddressType: 'IP_V4',
-          ttl: '85000'
-        }
-      ],
+      dnsListData: [],
       screenHeight: document.body.clientHeight,
       timer: false,
       isRulesConfigShow: true,
@@ -246,13 +239,7 @@ export default {
         this.isRulesConfigShow = true
         return
       }
-      if (this.isAddRuleData) {
-        this.trafficListData.push(data)
-      } else {
-        this.trafficListData.splice(this.editIndex, 1, data)
-      }
-      this.isTrafficRulesShow = false
-      this.isRulesConfigShow = true
+      this.getAppTrafficRuleList()
     },
     handleDnsRulesData (data) {
       if (JSON.stringify(data) === '{}') {
@@ -260,18 +247,14 @@ export default {
         this.isRulesConfigShow = true
         return
       }
-      if (this.isAddRuleData) {
-        this.dnsListData.push(data)
-      } else {
-        this.dnsListData.splice(this.editIndex, 1, data)
-      }
-      this.isDnsRulesShow = false
-      this.isRulesConfigShow = true
+      this.getAppDnsRuleList()
     },
     setRulesListTop (type, data) {
       switch (type) {
         case 'finishTrafficRules': {
           this.handleTrafficRulesData(data)
+          this.isTrafficRulesShow = false
+          this.isRulesConfigShow = true
           break
         }
         case 'addTrafficFilter': {
@@ -279,7 +262,7 @@ export default {
           this.isTrafficRulesShow = false
           break
         }
-        case 'cancelTrafficFilter': {
+        case 'finishTrafficFilter': {
           this.isTrafficFilterShow = false
           this.isTrafficRulesShow = true
           break
@@ -289,13 +272,15 @@ export default {
           this.isTrafficRulesShow = false
           break
         }
-        case 'cancelInterfaceInfo': {
+        case 'finishInterfaceInformation': {
           this.isInterfaceInfoShow = false
           this.isTrafficRulesShow = true
           break
         }
         case 'finishDnsRules': {
-          this.handleDnsRulesData()
+          this.handleDnsRulesData(data)
+          this.isDnsRulesShow = false
+          this.isRulesConfigShow = true
           break
         }
         default: {
@@ -326,7 +311,7 @@ export default {
       this.isTrafficRulesShow = true
     },
     deleteTrafficRules (row) {
-      this.$eg_messagebox('确认删除该数据', 'error').then(() => {
+      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
         applicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
           this.getAppTrafficRuleList()
         })
@@ -352,7 +337,7 @@ export default {
       this.isDnsRulesShow = true
     },
     deleteDnsRules (row) {
-      this.$eg_messagebox('确认删除该数据', 'error').then(() => {
+      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
         applicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
           this.getAppDnsRuleList()
         })
@@ -450,6 +435,9 @@ export default {
     overflow: auto;
     opacity: 1;
     transition: all .2s linear;
+    .el-input-number .el-input__inner{
+      text-align: center;
+    }
   }
   .interface-info{
     position: absolute;

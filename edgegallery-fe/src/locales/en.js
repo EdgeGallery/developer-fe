@@ -31,7 +31,8 @@ const en = {
     delete: 'Delete',
     cancel: 'Cancel',
     confirm: 'Confirm',
-    finish: 'Finish'
+    finish: 'Finish',
+    confirmDelete: 'Confirm to delete the data'
   },
   ...enLocale,
   ...enClassic,
