@@ -161,6 +161,7 @@
       :application-id-prop="applicationId"
       :traffic-rules-form-prop="appRulesData"
       :is-add-rule-data-prop="isAddRuleData"
+      :common-data-prop="commonData"
     />
     <trafficFilter
       class="traffic-filter"
@@ -171,6 +172,7 @@
       class="interface-info"
       :class="{'interface-info-hidden':!isInterfaceInfoShow}"
       @setRulesListTop="setRulesListTop"
+      :common-data-prop="commonData"
     />
     <dnsRules
       class="dns-rules"
@@ -189,7 +191,6 @@ import interfaceInformation from './AddInterfaceInformation.vue'
 import trafficFilter from './AddTrafficFilter.vue'
 import dnsRules from './AddDnsRules.vue'
 import { applicationRules } from '../../../../api/developerApi.js'
-import { CommonData } from '../../../../tools/consts.js'
 export default {
   name: 'ApplicationRules',
   components: {
@@ -222,7 +223,14 @@ export default {
           dstInterface: []
         }
       ],
-      appRulesData: {}
+      appRulesData: {},
+      commonData: {
+        port: '8080',
+        protocol: 'http',
+        address: '127.0.0.1/0',
+        ip: '127.0.0.1',
+        ttl: '85000'
+      }
     }
   },
   methods: {
@@ -324,8 +332,8 @@ export default {
         dnsRuleId: '',
         domainName: 'domainName',
         ipAddressType: 'IP_V4',
-        ipAddress: CommonData.ip,
-        ttl: CommonData.ttl
+        ipAddress: this.commonData.ip,
+        ttl: this.commonData.ttl
       }
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true

@@ -120,9 +120,14 @@
 </template>
 
 <script>
-import { CommonData } from '../../../../tools/consts.js'
 export default {
   name: 'InterfaceInformation',
+  props: {
+    commonDataProp: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
       interfaceInformationForm: {},
@@ -134,7 +139,8 @@ export default {
       tunnelType: [
         { value: 'GTP-U' },
         { value: 'GRE' }
-      ]
+      ],
+      commonData: this.commonDataProp
     }
   },
   methods: {
@@ -181,8 +187,8 @@ export default {
         case 'MAC': {
           this.interfaceInformationForm = {
             interfaceType: 'MAC',
-            dstMacAddress: CommonData.ip,
-            srcMacAddress: CommonData.ip,
+            dstMacAddress: this.commonData.ip,
+            srcMacAddress: this.commonData.ip,
             dstIpAddress: '',
             tunnelInfo: {
               tunnelType: '',
@@ -198,7 +204,7 @@ export default {
             interfaceType: 'IP',
             dstMacAddress: '',
             srcMacAddress: '',
-            dstIpAddress: CommonData.ip,
+            dstIpAddress: this.commonData.ip,
             tunnelInfo: {
               tunnelType: '',
               tunnelDstAddress: '',

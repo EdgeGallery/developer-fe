@@ -240,7 +240,6 @@
 
 <script>
 import { applicationRules } from '../../../../api/developerApi.js'
-import { CommonData } from '../../../../tools/consts.js'
 export default {
   name: 'TrafficRules',
   props: {
@@ -255,6 +254,10 @@ export default {
     isAddRuleDataProp: {
       type: Boolean,
       default: true
+    },
+    commonDataProp: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -282,7 +285,8 @@ export default {
       rulesId: '',
       editIndex: 0,
       isAddTrafficFilter: true,
-      isAddInterfaceInfo: true
+      isAddInterfaceInfo: true,
+      commonData: this.commonDataProp
     }
   },
   methods: {
@@ -350,19 +354,19 @@ export default {
     addTrafficFilter () {
       this.isAddTrafficFilter = true
       this.trafficFilterForm = {
-        srcAddress: CommonData.address,
-        srcPort: CommonData.port,
-        dstAddress: CommonData.address,
-        dstPort: CommonData.port,
-        protocol: CommonData.protocol,
+        srcAddress: this.commonData.address,
+        srcPort: this.commonData.port,
+        dstAddress: this.commonData.address,
+        dstPort: this.commonData.port,
+        protocol: this.commonData.protocol,
         tag: '1234',
         qCI: 1,
         dSCP: 0,
         tC: 1,
-        srcTunnelAddress: CommonData.ip,
-        srcTunnelPort: CommonData.port,
-        tgtTunnelAddress: CommonData.ip,
-        dstTunnelPort: CommonData.port
+        srcTunnelAddress: this.commonData.ip,
+        srcTunnelPort: this.commonData.port,
+        tgtTunnelAddress: this.commonData.ip,
+        dstTunnelPort: this.commonData.port
       }
       this.$emit('setRulesListTop', 'addTrafficFilter')
       this.bus.$emit('addTrafficFilter', this.trafficFilterForm)
