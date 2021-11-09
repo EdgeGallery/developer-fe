@@ -24,8 +24,8 @@
       <div
         class="sandbox hoverHands"
         @click="toSelectSandbox"
-        @mouseenter="breathStyle=true"
         @mouseleave="breathStyle=false"
+        @mouseenter="breathStyle=true"
       >
         <p
           class="sandbox-name-cn fontUltraLight"
@@ -103,16 +103,16 @@ export default {
     }
   }
   .breath{
-    animation:breathe 4s ease-in 0s infinite;
+    animation:breathe 1.5s ease-in 0s infinite;
     @keyframes breathe  {
       0%{
-        opacity: 0.3;
-      }
-      50%{
         opacity: 1;
       }
-      100%{
+      50%{
         opacity: 0.3;
+      }
+      100%{
+        opacity: 1;
       }
     }
   }

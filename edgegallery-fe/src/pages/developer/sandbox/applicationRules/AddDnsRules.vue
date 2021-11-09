@@ -31,6 +31,7 @@
       >
         <el-input
           v-model="dnsRulesForm.dnsRuleId"
+          :disabled="!isAddRuleData"
         />
       </el-form-item>
       <el-form-item
@@ -75,13 +76,13 @@
     <div class="btn-container">
       <el-button
         class="common-btn"
-        @click="cancelDnsRules"
+        @click="finishDnsRules('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
         class="common-btn"
-        @click="cancelDnsRules"
+        @click="finishDnsRules('confirm')"
       >
         {{ $t('common.confirm') }}
       </el-button>
@@ -90,26 +91,77 @@
 </template>
 
 <script>
+import { applicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'DNSRules',
+  props: {
+    applicationIdProp: {
+      type: String,
+      default: ''
+    },
+    dnsRulesFormProp: {
+      type: Object,
+      default: () => ({})
+    },
+    isAddRuleDataProp: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
-      dnsRulesForm: {
-        dnsRuleId: '',
-        domainName: 'domainName',
-        ipAddressType: 'IP_V4',
-        ipAddress: '0.0.0.0',
-        ttl: '85000'
-      },
+      dnsRulesForm: {},
       ipAddressTypeOptions: [
         { value: 'IP_V4' },
         { value: 'IP_V6' }
-      ]
+      ],
+      applicationId: this.applicationIdProp,
+      isAddRuleData: true,
+      rulesId: ''
     }
   },
   methods: {
-    cancelDnsRules () {
-      this.$emit('setRulesListTop', 'cancelDnsRules')
+    finishDnsRules (type) {
+      let _data = {}
+      if (type === 'confirm') {
+        _data = this.dnsRulesForm
+        let _params = {}
+        for (let k in _data) {
+          _params[k] = _data[k]
+        }
+        if (this.isAddRuleData) {
+          this.submitAppTrafficRule(_params, _data)
+        } else {
+          this.editAppTrafficRule(_params, _data)
+        }
+      } else {
+        this.$emit('setRulesListTop', 'finishDnsRules', _data)
+      }
+    },
+    submitAppTrafficRule (params, _data) {
+      applicationRules.postAppDnsRule(this.applicationId, params).then(() => {
+        this.$emit('setRulesListTop', 'finishDnsRules', _data)
+      }).catch(error => {
+        if (error.response.data.message === 'create dnsRule failed: ruleId have exit') {
+          this.$eg_messagebox('DNS规则标识已存在', 'error')
+        }
+      })
+    },
+    editAppTrafficRule (params, _data) {
+      applicationRules.editAppDnsRule(this.applicationId, this.rulesId, params).then(res => {
+        this.$emit('setRulesListTop', 'finishDnsRules', _data)
+      }).catch(() => {
+        this.$eg_messagebox('编辑数据失败', 'error')
+      })
+    }
+  },
+  watch: {
+    dnsRulesFormProp (val) {
+      this.dnsRulesForm = val
+      this.rulesId = val.dnsRuleId
+    },
+    isAddRuleDataProp (val) {
+      this.isAddRuleData = val
     }
   }
 }
