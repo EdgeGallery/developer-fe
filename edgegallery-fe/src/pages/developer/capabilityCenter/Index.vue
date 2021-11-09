@@ -114,7 +114,7 @@
               </el-row>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class="">发布时间 ：</span>{{ formatDate(serviceDetail.uploadTime) }}
+                  <span class="">发布时间 ：</span>{{ serviceDetail.uploadTime }}
                 </el-col>
                 <el-col :span="12">
                   <span class="">类型 ：</span>{{ serviceDetail.capabilityType }}
@@ -251,6 +251,7 @@
 
 <script>
 import { applicationApi } from '../../../api/developerApi.js'
+import { formatDateTime } from '../../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
 export default {
   name: 'CapabilityCenter',
@@ -346,13 +347,6 @@ export default {
     }
   },
   methods: {
-    formatDate: function (timestamp) {
-      let date = new Date(timestamp)
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      let day = date.getDate()
-      return year + (month < 10 ? '-0' : '-') + month + (day < 10 ? '-0' : '-') + day
-    },
     downloadSDKApi () {
       return ''
     },
@@ -390,7 +384,7 @@ export default {
         this.serviceDetail.capabilityType = data.group.type
         this.serviceDetail.serviceName = data.name
         this.serviceDetail.serviceNameEn = data.nameEn
-        this.serviceDetail.uploadTime = data.uploadTime
+        this.serviceDetail.uploadTime = formatDateTime(data.uploadTime)
         this.serviceDetail.version = data.version
         this.apiFileId = data.apiFileId
         apiUrl = applicationApi.getApiUrl(this.apiFileId)
