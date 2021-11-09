@@ -55,7 +55,7 @@
         <ListComp
           :data-list="currentAppList"
           :class="zoom===2?'':'app-flex-items'"
-          @createNewProject="createNewProject"
+          @createApplication="createApplication"
         />
       </div>
       <div
@@ -121,7 +121,14 @@ export default {
   data () {
     return {
       allAppList: [],
-      currentAppList: [],
+      currentAppList: [
+        {
+          id: 0,
+          type: 'normal',
+          iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
+          name: '新增项目'
+        }
+      ],
       searchValue: '',
       isSearchActive: false,
       isViewActive: false
@@ -136,48 +143,14 @@ export default {
     },
     initApplicationList () {
       applicationApi.getApplicationList().then(res => {
-        let dataarr = [{
-          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
-          'name': 'application-Vm-Developer',
-          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
-          'createTime': '2021-11-04 19:48:48',
-          'status': 'CREATED'
-        },
-        {
-          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
-          'name': 'application-Vm-Developer',
-          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
-          'createTime': '2021-11-04 19:48:48',
-          'status': 'CONFIGURED'
-        },
-        {
-          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
-          'name': 'application-Vm-Developer',
-          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
-          'createTime': '2021-11-04 19:48:48',
-          'status': 'CONFIGURED'
-        },
-        {
-          'id': 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
-          'name': 'application-Vm-Developer',
-          'iconFileId': '72d1210d-b5fe-4a28-bca8-766e4d971b77',
-          'createTime': '2021-11-04 19:48:48',
-          'status': 'DEPLOYED'
-        }]
-        let data = res.data.results.concat(dataarr)
-        this.allAppList = data
-        data.sort(function (a, b) {
-          return b.createTime < a.createTime ? -1 : 1
-        })
-        this.currentAppList = data.slice(0, 5)
-        let newCreateData = {
-          id: 0,
-          type: 'normal',
-          iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
-          name: '新增项目'
+        if (res.data && res.data.results.length > 0) {
+          let data = res.data.results
+          this.allAppList = data
+          data.sort(function (a, b) {
+            return b.createTime < a.createTime ? -1 : 1
+          })
+          data.length > 4 ? this.currentAppList.concat(data.slice(0, 4)) : this.currentAppList.concat(data)
         }
-        this.currentAppList.unshift(newCreateData)
-        console.log(this.allAppList)
       }).catch(err => {
         console.log(err)
       })
@@ -187,8 +160,9 @@ export default {
         return item.status === status
       })
     },
-    createNewProject () {
-      this.$emit('createNewProject', true)
+    createApplication () {
+      this.$store.commit('changeFlow', 0)
+      this.$emit('createApplication', true)
     }
   },
   mounted () {

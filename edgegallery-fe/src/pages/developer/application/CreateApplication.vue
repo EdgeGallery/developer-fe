@@ -2,7 +2,7 @@
   <div class="create-application">
     <div
       class="common-div-bg create-application-Dlg"
-      v-if="isShowAppDlg"
+      v-if="!isShowAppFormDlg"
     >
       <div class="app-warning-content">
         <img
@@ -21,7 +21,7 @@
           </el-button>
           <el-button
             class="tip-btn"
-            @click="isShowCreationDlg=true,isShowAppDlg=false"
+            @click="isShowAppFormDlg=true"
           >
             新建项目
           </el-button>
@@ -30,7 +30,7 @@
     </div>
     <div
       class="common-div-bg create-application-form"
-      v-if="isShowCreationDlg"
+      v-if="isShowAppFormDlg"
     >
       <createApplicationComp />
     </div>
@@ -46,8 +46,7 @@ export default {
   },
   data () {
     return {
-      isShowAppDlg: true,
-      isShowCreationDlg: false
+      isShowAppFormDlg: true
     }
   },
   methods: {
@@ -56,10 +55,7 @@ export default {
     }
   },
   mounted () {
-    if (sessionStorage.getItem('isCreate')) {
-      this.isShowCreationDlg = true
-      this.isShowAppDlg = false
-    }
+    sessionStorage.getItem('isCreate') === 'true' ? this.isShowAppFormDlg = true : this.isShowAppFormDlg = false
   }
 }
 </script>

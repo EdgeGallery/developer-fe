@@ -125,13 +125,13 @@
       </el-form>
       <el-button
         class="common-btn rt"
-        @click="confirmToCreate()"
+        @click="confirmToChoose()"
       >
         完成
       </el-button>
       <el-button
         class="common-cancel-btn rt"
-        @click="confirmToCreate()"
+        @click="confirmToChoose()"
       >
         取消
       </el-button>
@@ -148,7 +148,7 @@ export default {
     }
   },
   methods: {
-    confirmToCreate () {
+    confirmToChoose () {
       this.$router.push('/EG/developer/capabilityCenter')
     }
   },

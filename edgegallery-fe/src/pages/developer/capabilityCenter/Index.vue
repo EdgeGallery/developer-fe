@@ -39,7 +39,7 @@
           class="defaultFontLight"
           @close="handleDeleteTag(tag)"
         >
-          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name }}
+          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.serName }}
         </el-tag>
       </div>
     </div>
@@ -341,7 +341,8 @@ export default {
       ],
       capaList: [],
       hasNoSelect: false,
-      groupId: ''
+      groupId: '',
+      appId: sessionStorage.getItem('applicationId')
     }
   },
   methods: {
@@ -357,8 +358,8 @@ export default {
     },
     doNext (type) {
       if (type === 2) {
-        sessionStorage.setItem('currentFlow', 2)
         sessionStorage.setItem('isCapabilityActive', true)
+        this.$store.commit('changeFlow', 2)
       }
       this.$router.push('/EG/developer/home')
     },
@@ -374,6 +375,11 @@ export default {
         this.selectedService.splice(index, 1)
       }
       this.$refs.treeList.setChecked(tag.id, false)
+      applicationApi.deleteService(this.appId, tag.host).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     async handleNodeClick (data, node, self) {
       if (data.leaf) {
@@ -417,6 +423,17 @@ export default {
       if (data.leaf) {
         if (is) {
           this.selectedService.push(data)
+          let params = {
+            serName: data.host,
+            version: data.version,
+            appId: data.appId,
+            packageId: data.packageId
+          }
+          applicationApi.addService(this.appId, params).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
           this.handleNodeClick(data)
         } else {
           let index = this.tags.indexOf(data)
@@ -427,7 +444,6 @@ export default {
       }
     },
     loadNode (node, resolve) {
-      console.log(node, resolve)
       if (node.level === 0) {
         this.treeLoad.node = node
         this.treeLoad.resolve = resolve
@@ -435,7 +451,6 @@ export default {
       this.initCapabilityList(node, resolve)
     },
     initCapabilityList (node, resolve) {
-      console.log(node)
       if (node.level === 0) {
         applicationApi.getServiceList().then(res => {
           let groups = res.data
@@ -463,9 +478,21 @@ export default {
             capa.label = this.language === 'en' ? capa.nameEn : capa.name
             capa.leaf = true
           })
+          this.getDependencies()
           resolve(capabilities)
         })
       }
+    },
+    getDependencies () {
+      applicationApi.getServiceDependencies(this.appId).then(res => {
+        if (res.data && res.data.length > 0) {
+          res.data.forEach(ser => {
+            this.selectedService.push(ser)
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {

@@ -45,7 +45,7 @@ module.exports = {
         target: 'https://192.168.1.38:30098',
         changeOrigin: true,
         pathRewrite: {
-          '^': ''
+          '^/mec-developer': '/'
         }
       }
 

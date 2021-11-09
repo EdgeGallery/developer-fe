@@ -244,15 +244,26 @@ export default {
     confirmToCreate (fileId) {
       this.applicationFormData.iconFileId = fileId
       applicationApi.createNewApp(this.applicationFormData).then(res => {
-        sessionStorage.setItem('currentFlow', 1)
+        this.$store.commit('changeFlow', 1)
+        sessionStorage.setItem('applicationId', res.data.id)
         this.$router.push('/EG/developer/home')
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getApplicationInfo (appId) {
+      applicationApi.getAppInfo(appId).then(res => {
+        this.applicationFormData = res.data
       }).catch(err => {
         console.log(err)
       })
     }
   },
   mounted () {
-
+    let appId = sessionStorage.getItem('applicationId')
+    if (appId) {
+      this.getApplicationInfo(appId)
+    }
   }
 }
 </script>
@@ -301,8 +312,8 @@ export default {
   }
   .el-icon-info {
     position: relative;
-    top: 17px;
-    left: 10px;
+    top: -35px;
+    left: 35px;
     height: 15px;
   }
 </style>

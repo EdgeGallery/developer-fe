@@ -32,6 +32,7 @@
                     <IncubationComp
                       @showCapabilityCenterDlg="isShowCapabilityIndexDlg=true"
                       @showAppWarningDlg="isShowAppWarningDlg=true"
+                      :current-flow="currentFlow"
                     />
                   </div>
                 </div>
@@ -39,14 +40,18 @@
               <el-col :span="3">
                 <div class="main-app-store main-part-item">
                   <div class="main-part-item-container">
-                    <AppstoreComp />
+                    <AppstoreComp
+                      :current-flow="currentFlow"
+                    />
                   </div>
                 </div>
               </el-col>
               <el-col :span="9">
                 <div class="main-deploy main-part-item">
                   <div class="main-part-item-container">
-                    <DeploymentComp />
+                    <DeploymentComp
+                      :current-flow="currentFlow"
+                    />
                   </div>
                 </div>
               </el-col>
@@ -92,34 +97,18 @@ export default {
   data () {
     return {
       zoom: 2,
-      isShowProjectDlg: false,
       isShowCapabilityIndexDlg: false,
-      isShowCapabilityDlg: false,
       isShowAppWarningDlg: false
     }
   },
-  methods: {
-    zoomChanged (val) {
-      if (val === 1) {
-        this.zoom = 1
-        this.$refs.leftProComp.style.width = '15%'
-      } else {
-        this.zoom = 20
-        this.$refs.leftProComp.style.width = '100%'
-      }
-    },
-    enlarge () {
-      this.zoom = 2
-      this.$refs.leftProComp.style.width = '100%'
-    },
-    createNewProject (val) {
-      this.isShowProjectDlg = val
-      if (val) {
-        this.zoomChanged(1)
-        this.isShowCapabilityDlg = false
-        this.isShowCapabilityIndexDlg = false
-      }
+  computed: {
+    currentFlow () {
+      return Number(this.$store.state.currentFlow)
     }
+  },
+  methods: {
+  },
+  mounted () {
   },
   beforeRouteLeave (to, from, next) {
     promptJumpToClassic(to.path, next, this)

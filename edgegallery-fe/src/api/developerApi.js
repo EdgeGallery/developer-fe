@@ -16,33 +16,45 @@
  */
 
 import {
-  GET, POST
-  // POST,
+  GET,
+  POST,
   // PUT,
-  // DELETE
+  DELETE
 } from '../tools/request.js'
 
 const applicationApi = {
   getApplicationList: function () {
-    return GET('/mec/developer/v2/applications?limit=12&offset=0')
+    return GET('/mec-developer/mec/developer/v2/applications?limit=12&offset=0')
+  },
+  getAppInfo: function (appId) {
+    return GET('/mec-developer/mec/developer/v2/applications/' + appId)
   },
   getIcon: function (iconFileId) {
-    return GET('/mec/developer/v2/files/' + iconFileId + '/action/get-file-stream')
+    return GET('/mec-developer/mec/developer/v2/files/' + iconFileId + '/action/get-file-stream')
   },
   uploadAppIcon: function (params) {
-    return POST('/mec/developer/v2/files', params)
+    return POST('/mec-developer/mec/developer/v2/upload-files', params)
   },
   createNewApp: function (params) {
-    return POST('/mec/developer/v2/applications', params)
+    return POST('/mec-developer/mec/developer/v2/applications', params)
   },
   getServiceList: function () {
-    return GET('/mec/developer/v2/query/capability-groups/type/OPENMEP')
+    return GET('/mec-developer/mec/developer/v2/query/capability-groups/type/OPENMEP')
   },
   getCapabilityByGroupId: function (groupId) {
-    return GET('mec/developer/v2/query/capabilities/group-id/' + groupId)
+    return GET('/mec-developer/mec/developer/v2/query/capabilities/group-id/' + groupId)
+  },
+  addService: function (appId, params) {
+    return POST('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/servicerequireds', params)
+  },
+  getServiceDependencies (appId) {
+    return GET('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/servicerequireds')
+  },
+  deleteService: function (appId, serName) {
+    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/servicerequireds/' + serName)
   },
   getApiUrl: function (apiFileId) {
-    return 'mec/developer/v2/files/' + apiFileId
+    return '/mec-developer/mec/developer/v2/files/' + apiFileId
   }
 }
 
