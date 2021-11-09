@@ -54,7 +54,7 @@
       v-else
       style="font-size:20px;"
     >此场景没有用例</span>
-    <div style="margin-top:20px;">
+    <div style="text-align: right;">
       <el-button
         class="common-btn"
         @click="closeCaseDetail()"

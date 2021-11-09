@@ -199,75 +199,76 @@
               </el-collapse>
             </el-tab-pane>
           </el-tabs>
-          <el-dialog
-            :title="$t('process.modifyStatus')"
-            :visible.sync="dialogVisible"
-            width="30%"
-          >
-            <el-form
-              :model="form"
-              label-width="100px"
-            >
-              <el-form-item
-                :label="$t('userpage.name')"
-              >
-                <el-input
-                  width="100px"
-                  size="small"
-                  v-model="form.name"
-                />
-              </el-form-item>
-              <el-form-item
-                :label="$t('userpage.status')"
-              >
-                <el-select
-                  v-model="form.result"
-                  :placeholder="$t('userpage.choose')"
-                >
-                  <el-option
-                    label="success"
-                    value="success"
-                  />
-                  <el-option
-                    label="failed"
-                    value="failed"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item
-                :label="$t('userpage.failReason')"
-              >
-                <el-input
-                  type="textarea"
-                  autosize
-                  v-model="form.reason"
-                />
-              </el-form-item>
-            </el-form>
-            <div
-              slot="footer"
-              class="dialog-footer"
-            >
-              <el-button
-                size="small"
-                @click="dialogVisible = false"
-              >
-                {{ $t('common.cancel') }}
-              </el-button>
-              <el-button
-                size="small"
-                type="primary"
-                @click="confirmModify()"
-              >
-                {{ $t('common.confirm') }}
-              </el-button>
-            </div>
-          </el-dialog>
         </div>
+        <el-dialog
+          :title="$t('process.modifyStatus')"
+          :visible.sync="dialogVisible"
+          width="30%"
+        >
+          <el-form
+            :model="form"
+            label-width="100px"
+          >
+            <el-form-item
+              :label="$t('userpage.name')"
+            >
+              <el-input
+                width="100px"
+                size="small"
+                v-model="form.name"
+              />
+            </el-form-item>
+            <el-form-item
+              :label="$t('userpage.status')"
+            >
+              <el-select
+                v-model="form.result"
+                :placeholder="$t('userpage.choose')"
+              >
+                <el-option
+                  label="success"
+                  value="success"
+                />
+                <el-option
+                  label="failed"
+                  value="failed"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item
+              :label="$t('userpage.failReason')"
+            >
+              <el-input
+                type="textarea"
+                autosize
+                v-model="form.reason"
+              />
+            </el-form-item>
+          </el-form>
+          <div
+            slot="footer"
+            class="dialog-footer"
+          >
+            <el-button
+              size="small"
+              @click="dialogVisible = false"
+            >
+              {{ $t('common.cancel') }}
+            </el-button>
+            <el-button
+              size="small"
+              type="primary"
+              @click="confirmModify()"
+            >
+              {{ $t('common.confirm') }}
+            </el-button>
+          </div>
+        </el-dialog>
       </div>
     </div>
     <UploadSelfReportDig
       :is-upload-pdf="isUploadPdf"
+      :task-id="taskId"
       @closeDig="closeDig"
     />
   </div>
@@ -285,7 +286,7 @@ export default {
       isTest: '',
       statusTitle: [],
       percentage: 0,
-      taskId: '',
+      taskId: this.$route.query.taskId,
       testingScene: [],
       testingCase: [],
       testScenarios: [],
@@ -326,7 +327,7 @@ export default {
         message: '发布成功',
         type: 'success'
       })
-      this.$store.commit('changeFlow', 5)
+      sessionStorage.setItem('currentFlow', 5)
       this.$router.push('/EG/developer/home')
     },
     closeDig () {
@@ -336,195 +337,63 @@ export default {
       this.$router.push('/EG/developer/home')
     },
     jumpToReport () {
-      let taskId = this.taskId
-      let routeData = this.$router.resolve({ name: 'atpreport', query: { taskId: taskId } })
-      window.open(routeData.href, '_blank')
+      this.$router.push({ path: '/EG/developer/testReport', query: { taskId: this.taskId } })
     },
     handleChange (val) {
       this.activeName = val
     },
     getTaskProcess () {
-      // Userpage.getTaskApi(this.taskId).then(res => {
-      let data = [
-        {
-          nameCh: '联通场景',
-          nameEn: 'liantong',
-          testSuites: [
-            {
-              id: '12',
-              nameCh: '安全性测试',
-              nameEn: 'curitytest',
-              descriptionCh: '安全性测试描述',
-              descriptionEn: 'curitytest description',
-              scenarioIdList: '',
-              testCases: [
-                {
-                  id: '455',
-                  nameCh: '病毒扫描',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
+      Userpage.getTaskApi(this.taskId).then(res => {
+        let data = res.data.data.testScenarios
+        let taskStatus = res.data.data.status
+        this.uploadUser = res.data.data.user.userName
+        let reportPath = res.data.data.hasOwnProperty('reportPath')
+        this.testScenarios = data
+        this.setCollaspe()
+        this.setCollaspe = function () {}
+        this.hasFailActiveName = []
+        this.finishActiveName = []
+        this.firstScene = data[0].nameEn
+        this.alltestCase = []
+        let allsuccessNum = 0
+        let allfailNum = 0
+        let allNum = 0
+        data.forEach(element => {
+          element.testSuites.forEach(ele => {
+            this.finishActiveName.push(element.nameEn + ele.nameEn)
+            ele.testCases.forEach(item => {
+              this.alltestCase.push(item)
+              allNum++
+              if (item.result === 'success') {
+                allsuccessNum++
+              } else if (item.result === 'failed') {
+                allfailNum++
+                this.hasFailActiveName.push(element.nameEn + ele.nameEn)
+              } else if (item.result === 'running') {
+                this.activeNameTabs = element.nameEn
+                if (item.type === 'automatic') {
+                  this.testingCase = [item.nameCh, item.nameEn]
+                  this.testingScene = [element.nameCh, element.nameEn]
                 }
-              ]
-            }, {
-              id: '12',
-              nameCh: '遵从测试',
-              nameEn: 'curiereertytddddest',
-              descriptionCh: '安全性测试描述',
-              descriptionEn: 'curitytest description',
-              scenarioIdList: '',
-              testCases: [
-                {
-                  id: '455',
-                  nameCh: '扫描1',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                }, {
-                  id: '455',
-                  nameCh: '扫描rrrr',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                },
-                {
-                  nameCh: '扫描rrrr',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                },
-                {
-                  nameCh: '扫描rrrr',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'dd',
-                  result: 'success'
-                },
-                {
-                  nameCh: '扫描rrrr',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          nameCh: '社区场景',
-          nameEn: 'edgegallery',
-          testSuites: [
-            {
-              id: '12',
-              nameCh: '沙箱测试',
-              nameEn: 'curitytffffest',
-              descriptionCh: '安全性测试描述',
-              descriptionEn: 'curitytest description',
-              scenarioIdList: '',
-              testCases: [
-                {
-                  id: '455',
-                  nameCh: '沙箱dhsudfgjh',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                }
-              ]
-            }, {
-              id: '12',
-              nameCh: 'fdsf测试',
-              nameEn: 'curiesdfefreertytest',
-              descriptionCh: '安全性测试描述',
-              descriptionEn: 'curitytest description',
-              scenarioIdList: '',
-              testCases: [
-                {
-                  id: '455',
-                  nameCh: '病ffff',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                }, {
-                  id: '455',
-                  nameCh: 'runn病d',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  type: 'automatic',
-                  result: 'success'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-      // let data = res.data.testScenarios
-      // let taskStatus = res.data.status
-      let taskStatus = 'success'
-      // this.uploadUser = res.data.user.userName
-      // let reportPath = res.data.hasOwnProperty('reportPath')
-      let reportPath = false
-      this.testScenarios = data
-      this.setCollaspe()
-      this.setCollaspe = function () {}
-      this.hasFailActiveName = []
-      this.finishActiveName = []
-      this.firstScene = data[0].nameEn
-      this.alltestCase = []
-      let allsuccessNum = 0
-      let allfailNum = 0
-      let allNum = 0
-      data.forEach(element => {
-        element.testSuites.forEach(ele => {
-          this.finishActiveName.push(element.nameEn + ele.nameEn)
-          ele.testCases.forEach(item => {
-            this.alltestCase.push(item)
-            allNum++
-            if (item.result === 'success') {
-              allsuccessNum++
-            } else if (item.result === 'failed') {
-              allfailNum++
-              this.hasFailActiveName.push(element.nameEn + ele.nameEn)
-            } else if (item.result === 'running') {
-              this.activeNameTabs = element.nameEn
-              if (item.type === 'automatic') {
-                this.testingCase = [item.nameCh, item.nameEn]
-                this.testingScene = [element.nameCh, element.nameEn]
               }
-            }
+            })
           })
         })
+        this.percentage = Number(((allsuccessNum + allfailNum) / allNum * 100).toFixed(0))
+        this.allfailNum = allfailNum
+        this.isFinish(reportPath)
+        this.setTitle(taskStatus, data)
+        this.isManualPrompt()
+        this.setDivHeight()
+      }).catch(() => {
+        this.$message({
+          duration: 2000,
+          showClose: true,
+          type: 'warning',
+          message: this.$t('promptMessage.getprocessFail')
+        })
+        this.clearInterval()
       })
-      this.percentage = Number(((allsuccessNum + allfailNum) / allNum * 100).toFixed(0))
-      this.allfailNum = allfailNum
-      this.isFinish(reportPath)
-      this.setTitle(taskStatus, data)
-      this.isManualPrompt()
-      this.setDivHeight()
-      // }).catch(() => {
-      //   this.$message({
-      //     duration: 2000,
-      //     showClose: true,
-      //     type: 'warning',
-      //     message: this.$t('promptMessage.getprocessFail')
-      //   })
-      //   this.clearInterval()
-      // })
     },
     isFinish (reportPath) {
       if (this.percentage === 100) {
@@ -533,9 +402,9 @@ export default {
         this.activeNameTabs = this.firstScene
         this.activeName = this.finishActiveName
         this.clearInterval()
-        // if (!reportPath && this.uploadUser === this.userName && this.userName !== 'guest') {
-        //   this.isUploadPdf = true
-        // }
+        if (!reportPath && this.uploadUser === this.userName && this.userName !== 'guest') {
+          this.isUploadPdf = true
+        }
       } else {
         this.statusTitle = ['正在测试...', 'Testing...']
         this.isTest = 'running'
