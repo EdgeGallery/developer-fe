@@ -39,7 +39,7 @@
           class="defaultFontLight"
           @close="handleDeleteTag(tag)"
         >
-          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.serName }}
+          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
         </el-tag>
       </div>
     </div>
@@ -343,7 +343,9 @@ export default {
       capaList: [],
       hasNoSelect: false,
       groupId: '',
-      appId: sessionStorage.getItem('applicationId')
+      appId: sessionStorage.getItem('applicationId'),
+      oneLevelName: '',
+      oneLevelNameEn: ''
     }
   },
   methods: {
@@ -369,7 +371,10 @@ export default {
         this.selectedService.splice(index, 1)
       }
       this.$refs.treeList.setChecked(tag.id, false)
-      applicationApi.deleteService(this.appId, tag.host).then(res => {
+      this.deleteServices(tag.host)
+    },
+    deleteServices (serId) {
+      applicationApi.deleteService(this.appId, serId).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -421,7 +426,13 @@ export default {
             serName: data.host,
             version: data.version,
             appId: data.appId,
-            packageId: data.packageId
+            packageId: data.packageId,
+            id: data.id,
+            oneLevelName: this.oneLevelName,
+            oneLevelNameEn: this.oneLevelNameEn,
+            twoLevelName: data.name,
+            twoLevelNameEn: data.nameEn,
+            requestedPermissions: true
           }
           applicationApi.addService(this.appId, params).then(res => {
             console.log(res)
@@ -430,10 +441,12 @@ export default {
           })
           this.handleNodeClick(data)
         } else {
-          let index = this.tags.indexOf(data)
-          if (index !== -1) {
-            this.tags.splice(index, 1)
-          }
+          this.selectedService.forEach((ser, index) => {
+            if (ser.id === data.id) {
+              this.selectedService.splice(index, 1)
+              this.deleteServices(ser.serName)
+            }
+          })
         }
       }
     },
@@ -445,7 +458,7 @@ export default {
       this.initCapabilityList(node, resolve)
     },
     initCapabilityList (node, resolve) {
-      if (node.level > 1) {
+      if (node.level && node.level > 1) {
         return resolve([])
       }
       if (node.level === 0) {
@@ -466,6 +479,8 @@ export default {
         })
       }
       if (node.level === 1) {
+        this.oneLevelName = node.data.name
+        this.oneLevelNameEn = node.data.nameEn
         let groupId = node.data.id
         applicationApi.getCapabilityByGroupId(groupId).then(result => {
           let capabilities = result.data
@@ -475,6 +490,10 @@ export default {
             capa.leaf = true
           })
           resolve(capabilities)
+          this.selectedService.forEach(ser => {
+            let leafNode = this.$refs.treeList.getNode(ser.id)
+            leafNode.setChecked(true)
+          })
         })
       }
     },
@@ -483,16 +502,12 @@ export default {
         if (res.data && res.data.length > 0) {
           res.data.forEach(ser => {
             this.selectedService.push(ser)
-            console.log(this.selectedService)
           })
         }
       }).catch(err => {
         console.log(err)
       })
     }
-  },
-  mounted () {
-    this.initCapabilityList()
   }
 }
 

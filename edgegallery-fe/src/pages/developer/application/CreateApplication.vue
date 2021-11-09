@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted () {
-    sessionStorage.getItem('isCreate') === 'true' ? this.isShowAppFormDlg = true : this.isShowAppFormDlg = false
+    sessionStorage.getItem('isCreate') === 'true' ? this.isShowAppFormDlg = false : this.isShowAppFormDlg = true
   }
 }
 </script>
