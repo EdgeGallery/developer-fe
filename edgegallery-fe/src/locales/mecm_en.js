@@ -41,7 +41,10 @@ const en = {
     delete: 'Delete',
     distribute: 'Distribute',
     deploy: 'Deploy',
-    distributeDeploySuccess: 'Distribute & Deploy Success'
+    distributeDeploySuccess: 'Distribute & Deploy Success',
+    beforeDeleteFromMechost: 'Are you sure to delete this package from the MEC host?',
+    deletePacFrmoHost: 'You have deleted the package from the host successfully!',
+    tip: 'Please enter the search name IP or status'
   },
   distribute: {
     title: 'distribute',
