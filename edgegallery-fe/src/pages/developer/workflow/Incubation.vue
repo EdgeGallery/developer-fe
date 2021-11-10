@@ -20,6 +20,9 @@
             :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
             alt="EdgeGallery"
           >
+          <div class="flow-name">
+            {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -44,35 +47,35 @@ export default {
       workflowDataArray: [
         {
           id: 1,
-          name: '',
+          name: '应用',
           class: 'app-application',
           src: require('../../../assets/images/application/app_application.png'),
           toPath: '/EG/developer/createApplication'
         },
         {
           id: 2,
-          name: '',
+          name: '能力中心',
           class: 'capability-center',
           src: require('../../../assets/images/application/app_capability.png'),
           toPath: '/EG/developer/capabilityCenter'
         },
         {
           id: 3,
-          name: '',
+          name: '沙箱',
           class: 'app-sandbox',
           src: require('../../../assets/images/application/app_sandbox.png'),
           toPath: '/EG/developer/sandbox'
         },
         {
           id: 4,
-          name: '',
+          name: '镜像',
           class: 'app-image',
           src: require('../../../assets/images/application/app_image.png'),
           toPath: '/EG/images/appPackageBuild'
         },
         {
           id: 5,
-          name: '',
+          name: '测试',
           class: 'app-test',
           src: require('../../../assets/images/application/app_test.png'),
           toPath: '/EG/developer/selectScenarios'
@@ -82,10 +85,8 @@ export default {
   },
   methods: {
     jumpTo (item) {
-      if (item.path === '/EG/developer/createApplication') {
-        if (item.id > this.currentFlow + 1) {
-          sessionStorage.setItem('isCreate', false)
-        }
+      if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === 0) {
+        sessionStorage.setItem('isCreate', '0')
       }
       this.$router.push(item.toPath)
     },
@@ -102,24 +103,24 @@ export default {
 <style lang="less" scoped>
 .incubation{
   .capability-center{
-    left: 155px;
-    top: -70px;
+    left: 160px;
+    top: -140px;
   }
   .app-application{
     left: 25px;
-    top: 150px;
+    top: 140px;
   }
   .app-image{
-    left: 335px;
-    top: -120px;
+    left: 330px;
+    top: -250px;
   }
   .app-test{
-    left: 495px;
-    top: -210px;
+    left: 505px;
+    top: -380px;
   }
   .app-sandbox{
     left: 195px;
-    top: 95px;
+    top: 20px;
   }
 }
 </style>

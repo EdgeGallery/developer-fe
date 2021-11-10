@@ -31,8 +31,8 @@ const cn = {
     type: '类型',
     industry: '行业',
     appstoreName: '应用市场',
-    syncTime: '同步时间',
-    operationBtn: '分发&部署'
+    createTime: '同步时间',
+    operationBtn: '分发'
   },
   distributeDeploy: {
     title: '分发&部署',
@@ -41,7 +41,10 @@ const cn = {
     delete: '删除',
     distribute: '分发',
     deploy: '部署',
-    distributeDeploySuccess: '分发部署成功'
+    distributeDeploySuccess: '分发部署成功',
+    beforeDeleteFromMechost: '确认要从该节点删除应用应用包？',
+    deletePacFrmoHost: '你已经成功从节点删除应用！',
+    tip: '输入主机IP或状态搜索'
   },
   distribute: {
     title: '分发',

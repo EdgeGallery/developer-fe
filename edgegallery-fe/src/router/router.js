@@ -90,6 +90,11 @@ export default new Router({
       component: () => import('../pages/developer/image/AppPackageBuild.vue')
     },
     {
+      path: '/EG/images/appPackageFinish',
+      name: 'appPackageFinish',
+      component: () => import('../pages/developer/image/AppPackageFinish.vue')
+    },
+    {
       path: '/EG/images/appdPreview',
       name: 'appdPreview',
       component: () => import('../pages/developer/image/AppdPreview.vue')

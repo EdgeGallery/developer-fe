@@ -51,7 +51,10 @@
         </el-col>
       </el-row>
       <div class="btn-container appdPreviewBtn">
-        <el-button class="common-btn">
+        <el-button
+          class="common-btn"
+          @click="confirm()"
+        >
           {{ $t("common.confirm") }}
         </el-button>
       </div>
@@ -60,6 +63,7 @@
 </template>
 
 <script>
+import { imageApi } from '../../../api/developerApi'
 export default {
   name: 'AppdPreview',
   components: {},
@@ -74,81 +78,55 @@ export default {
       fileContent: '',
       projectId: sessionStorage.getItem('mecDetailID'),
       csarId: sessionStorage.getItem('csarId'),
-      markdownSource: ''
+      markdownSource: '',
+      packageId: this.$route.query.packageId
     }
   },
   methods: {
+    confirm () {
+      this.$router.push('/EG/images/appPackageBuild')
+    },
     getAppPackageList () {
-      let res = {
-        name: null,
-        id: null,
-        children: [
-          {
-            name: 'Image',
-            id: 'Image',
-            children: [
-              {
-                name: 'SwImageDesc.json',
-                id: 'SwImageDesc.json',
-                children: null,
-                parent: false
-              }
-            ],
-            parent: true
-          },
-          {
-            name: 'APPD',
-            id: 'APPD',
-            children: [
-              {
-                name: 'MainServiceTemplate.zip',
-                id: 'MainServiceTemplate.zip',
-                children: null,
-                parent: false
-              }
-            ],
-            parent: true
-          },
-          {
-            name: 'monitor33d2aa71.mf',
-            id: 'monitor33d2aa71.mf',
-            children: null,
-            parent: false
-          },
-          {
-            name: 'TOSCA-Metadata',
-            id: 'TOSCA-Metadata',
-            children: [
-              {
-                name: 'TOSCA.meta',
-                id: 'TOSCA.meta',
-                children: null,
-                parent: false
-              }
-            ],
-            parent: true
+      imageApi.getPackageStructure(this.packageId).then(res => {
+        if (res.data.children) {
+          this.appPageListData = res.data.children
+          let APPD = {}
+          this.appPageListData.forEach((item, index) => {
+            if (item.name === 'APPD') {
+              APPD = item
+              this.appPageListData.splice(index, 1)
+            }
+          })
+          this.appPageListData.unshift(APPD)
+          if (this.appPageListData.length > 0) {
+            this.$nextTick(function () {
+              const firstNode = document.querySelector(
+                '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node'
+              )
+              firstNode.click()
+            })
           }
-        ],
-        parent: true
-      }
-      if (res.children) {
-        this.appPageListData = res.children
-        let APPD = {}
-        this.appPageListData.forEach((item, index) => {
-          if (item.name === 'APPD') {
-            APPD = item
-            this.appPageListData.splice(index, 1)
+        }
+      })
+    },
+    getFileDetail (val) {
+      let temp = val.name
+      this.fileType = temp.substr(temp.lastIndexOf('.'))
+      if (!val.children) {
+        imageApi.getPackageFile(this.packageId, val.name).then(res => {
+          let typeArr = ['.zip', '.tgz', '.png']
+          if (this.fileType === '.md') {
+            this.markdownSource = res.data
+          } else if (typeArr.includes(this.fileType)) {
+            this.markdownSource = '文件格式不支持'
+          } else if (this.fileType === '.json') {
+            this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+          } else if (JSON.stringify(res.data) === '""') {
+            this.markdownSource = '文件内容为空'
+          } else {
+            this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
           }
         })
-        this.appPageListData.unshift(APPD)
-        if (this.appPageListData.length > 0) {
-          this.$nextTick(function () {
-            const firstNode = document.querySelector(
-              '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content'
-            )
-            firstNode.click()
-          })
-        }
       }
     }
   },
@@ -198,7 +176,7 @@ export default {
         }
       }
       .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
-        background-color: transparent !important;
+        background-color: rgba(255,255,255,.3);
       }
     }
     .appdPreviewBtn {

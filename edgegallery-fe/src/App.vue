@@ -69,7 +69,6 @@
         >
           <ProjectSideComp
             @zoomChanged="zoomChanged"
-            @createApplication="createApplication"
             :zoom="zoom"
             v-if="zoom>1"
           />
@@ -160,13 +159,6 @@ export default {
     enlarge () {
       this.zoom = 2
       this.$refs.leftProComp.style.width = '100%'
-    },
-    createApplication (val) {
-      if (val) {
-        this.zoomChanged(1)
-        sessionStorage.setItem('isCreate', val)
-        this.$router.push('/EG/developer/createApplication')
-      }
     },
     setDivHeight (screenHeight) {
       this.$nextTick(() => {

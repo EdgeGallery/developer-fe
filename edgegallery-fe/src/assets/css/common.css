@@ -1013,12 +1013,21 @@ th{
 }
 .workflow .item{
   display: inline-block;
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 130px;
   position: relative;
   cursor: pointer;
   border: 1px solid transparent;
-  border-radius : 45px;
+}
+.workflow .flow-name{
+  position: relative;
+  top: 85px;
+  text-align: center;
+  left: -9px;
+  font-size: 14px;
+}
+.item-capa-active>.flow-name,.item-active>.flow-name{
+  top: 45px;
 }
 .center-active .item-active::before{
  content:'';
@@ -1029,9 +1038,10 @@ th{
  background-size: cover;
  position: relative;
  top: 20px;
- left: -25px;
+ left: -50px;
  z-index: 10;
 }
+
 .center-active .item-capa-active::before{
   content:'';
   display: inline-block;
@@ -1041,7 +1051,7 @@ th{
   background-size: cover;
   position: relative;
   top: 20px;
-  left: -25px;
+  left: -50px;
   z-index: 10;
  }
 .item-must::after{
@@ -1051,8 +1061,9 @@ th{
   height: 8px;
   background: url('../images/projects/pro_mark_icon.png') no-repeat center;
   position: relative;
-  top: 55px;
-  left: -20px;
+  top: -18px;
+  left: -29px;
+  transform: rotate(270deg);
  }
 .item-active::after{
   content:'';
@@ -1061,8 +1072,9 @@ th{
   height: 8px;
   background: url('../images/projects/pro_mark_icon.png') no-repeat center;
   position: relative;
-  top: 25px;
-  left: -22px;
+  top: -58px;
+  left: -29px;
+  transform: rotate(270deg);
  }
  .item{
   background: url('../../assets/images/application/app_icon_bg.png') no-repeat;

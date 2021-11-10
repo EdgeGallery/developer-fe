@@ -39,7 +39,7 @@
           class="defaultFontLight"
           @close="handleDeleteTag(tag)"
         >
-          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.serName }}
+          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
         </el-tag>
       </div>
     </div>
@@ -118,56 +118,6 @@
                 </el-col>
                 <el-col :span="12">
                   <span class="">类型 ：</span>{{ serviceDetail.capabilityType }}
-                </el-col>
-              </el-row>
-              <el-row class="service_info">
-                <el-col :span="24">
-                  <span class="">SDK下载 ：</span>
-                  <el-select
-                    v-model="codeLanguage"
-                    name="codeLanguage"
-                    popper-class="setSelect"
-                    :popper-append-to-body="false"
-                    class="list-select defaultFont"
-                    size="mini"
-                  >
-                    <el-option
-                      v-for="item in optionsLanguage"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.label"
-                      :id="item.label"
-                    />
-                  </el-select>
-                  <el-tooltip
-                    popper-class="atooltip"
-                    class="tooltip-item"
-                    content="SDK下载"
-                    placement="right"
-                  >
-                    <span>
-                      <el-link
-                        class="download_sdk"
-                        :underline="false"
-                        :href="downloadSDKApi()"
-                      />
-                    </span>
-                  </el-tooltip>
-                  <el-tooltip
-                    popper-class="atooltip"
-                    class="tooltip-item"
-                    content="安装指导"
-                    placement="right"
-                  >
-                    <el-link
-                      :href="guideUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      :underline="false"
-                      type="primary"
-                      class="guide_url"
-                    />
-                  </el-tooltip>
                 </el-col>
               </el-row>
             </div>
@@ -251,7 +201,7 @@
 
 <script>
 import { applicationApi } from '../../../api/developerApi.js'
-import { formatDateTime } from '../../../tools/common.js'
+import { formatDate } from '../../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
 export default {
   name: 'CapabilityCenter',
@@ -277,7 +227,7 @@ export default {
         capabilityType: '',
         serviceName: '',
         serviceNameEn: '',
-        uploadTime: 0,
+        uploadTime: '',
         version: ''
       },
       isClosable: true,
@@ -343,13 +293,12 @@ export default {
       capaList: [],
       hasNoSelect: false,
       groupId: '',
-      appId: sessionStorage.getItem('applicationId')
+      appId: sessionStorage.getItem('applicationId'),
+      oneLevelName: '',
+      oneLevelNameEn: ''
     }
   },
   methods: {
-    downloadSDKApi () {
-      return ''
-    },
     doNext (type) {
       if (type === 2) {
         sessionStorage.setItem('isCapabilityActive', true)
@@ -369,13 +318,16 @@ export default {
         this.selectedService.splice(index, 1)
       }
       this.$refs.treeList.setChecked(tag.id, false)
-      applicationApi.deleteService(this.appId, tag.host).then(res => {
+      this.deleteServices(tag.host)
+    },
+    deleteServices (serId) {
+      applicationApi.deleteService(this.appId, serId).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
       })
     },
-    async handleNodeClick (data, node, self) {
+    async handleNodeClick (data) {
       if (data.leaf) {
         this.hasNoSelect = true
         let apiUrl = ''
@@ -384,7 +336,7 @@ export default {
         this.serviceDetail.capabilityType = data.group.type
         this.serviceDetail.serviceName = data.name
         this.serviceDetail.serviceNameEn = data.nameEn
-        this.serviceDetail.uploadTime = formatDateTime(data.uploadTime)
+        this.serviceDetail.uploadTime = formatDate(data.uploadTime)
         this.serviceDetail.version = data.version
         this.apiFileId = data.apiFileId
         apiUrl = applicationApi.getApiUrl(this.apiFileId)
@@ -421,7 +373,13 @@ export default {
             serName: data.host,
             version: data.version,
             appId: data.appId,
-            packageId: data.packageId
+            packageId: data.packageId,
+            id: data.id,
+            oneLevelName: this.oneLevelName,
+            oneLevelNameEn: this.oneLevelNameEn,
+            twoLevelName: data.name,
+            twoLevelNameEn: data.nameEn,
+            requestedPermissions: true
           }
           applicationApi.addService(this.appId, params).then(res => {
             console.log(res)
@@ -430,10 +388,12 @@ export default {
           })
           this.handleNodeClick(data)
         } else {
-          let index = this.tags.indexOf(data)
-          if (index !== -1) {
-            this.tags.splice(index, 1)
-          }
+          this.selectedService.forEach((ser, index) => {
+            if (ser.id === data.id) {
+              this.selectedService.splice(index, 1)
+              this.deleteServices(ser.serName)
+            }
+          })
         }
       }
     },
@@ -445,7 +405,7 @@ export default {
       this.initCapabilityList(node, resolve)
     },
     initCapabilityList (node, resolve) {
-      if (node.level > 1) {
+      if (node.level && node.level > 1) {
         return resolve([])
       }
       if (node.level === 0) {
@@ -466,6 +426,8 @@ export default {
         })
       }
       if (node.level === 1) {
+        this.oneLevelName = node.data.name
+        this.oneLevelNameEn = node.data.nameEn
         let groupId = node.data.id
         applicationApi.getCapabilityByGroupId(groupId).then(result => {
           let capabilities = result.data
@@ -475,6 +437,10 @@ export default {
             capa.leaf = true
           })
           resolve(capabilities)
+          this.selectedService.forEach(ser => {
+            let leafNode = this.$refs.treeList.getNode(ser.id)
+            leafNode.setChecked(true)
+          })
         })
       }
     },
@@ -483,16 +449,12 @@ export default {
         if (res.data && res.data.length > 0) {
           res.data.forEach(ser => {
             this.selectedService.push(ser)
-            console.log(this.selectedService)
           })
         }
       }).catch(err => {
         console.log(err)
       })
     }
-  },
-  mounted () {
-    this.initCapabilityList()
   }
 }
 

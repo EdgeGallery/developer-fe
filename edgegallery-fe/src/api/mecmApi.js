@@ -17,7 +17,8 @@
 
 import {
   GET,
-  POST
+  POST,
+  DELETE
 } from '../tools/request.js'
 
 const apmApi = '/apm/v1'
@@ -45,7 +46,24 @@ let appo = {
   }
 }
 
+let appDeploy = {
+  getDistributeDeployList: function (userId) {
+    return GET(apmApi + 'tenants/' + userId + '/packages')
+  },
+  deleteDistributionApp (type, hostIp, packageId, userId) {
+    let url = apmApi + 'tenants/' + userId + '/packages/' + packageId + '/hosts/' + hostIp
+    if (type === 2) {
+      url = apmApi + 'tenants/' + userId + '/packages/' + packageId
+    }
+    return DELETE(url)
+  },
+  initApmPackages () {
+    return GET(apmApi + 'apps/syncstatus')
+  }
+}
+
 export {
   apm,
-  appo
+  appo,
+  appDeploy
 }

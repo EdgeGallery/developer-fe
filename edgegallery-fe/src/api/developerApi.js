@@ -21,8 +21,46 @@ import {
   PUT,
   DELETE
 } from '../tools/request.js'
-
 const urlPrefix = '/mec-developer/mec/developer/v2/'
+let sandbox = {
+  // determine whether to select sandbox by applicationid
+  getUserSelectSandbox (applicationid) {
+    return GET('/mec/developer/v2/applications/' + applicationid)
+  },
+  // get all sandboxlist
+  getSandboxList: function (vimtype, architecture) {
+    return GET('/mec/developer/v2/mephosts' + '?vimType=' + vimtype + '&architecture=' + architecture + '&limit=12&offset=0')
+  },
+  // get sandboxname by mephostid
+  getSandboxByMepHostId: function (mepHostId) {
+    return GET('/mec/developer/v2/mephosts/' + mepHostId)
+  },
+  // Judge whether the sandbox is selected successfully
+  selectSandbox: function (applicationId, mepHostId) {
+    return PUT('/mec/developer/v2/applications/' + applicationId + '/action/sel-mephost', mepHostId)
+  },
+  // get all internet type
+  getAllInternetType (applicationid) {
+    return GET('/mec/developer/v2/applications/' + applicationid + '/networks')
+  },
+  // add internet type
+  addInternetType (applicationid, parmas) {
+    return POST('/mec/developer/v2/applications/' + applicationid + '/networks', parmas)
+  },
+  // get vm specs
+  getVmspec () {
+    return GET('/mec/developer/v2/flavors/')
+  },
+  // get vm image list
+  getVmImageList (parmas) {
+    return POST('/mec/developer/v2/vmimages/list', parmas)
+  },
+  // add vm image
+  addVmImage (applicationId, parmas) {
+    return POST('/mec/developer/v2/applications/' + applicationId + '/vms', parmas)
+  }
+}
+
 let applicationApi = {
   getApplicationList: function () {
     return GET('/mec-developer/mec/developer/v2/applications?limit=12&offset=0')
@@ -31,7 +69,7 @@ let applicationApi = {
     return GET('/mec-developer/mec/developer/v2/applications/' + appId)
   },
   getIcon: function (iconFileId) {
-    return GET('/mec-developer/mec/developer/v2/files/' + iconFileId + '/action/get-file-stream')
+    return GET('/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream')
   },
   uploadAppIcon: function (params) {
     return POST('/mec-developer/mec/developer/v2/upload-files', params)
@@ -55,7 +93,7 @@ let applicationApi = {
     return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/servicerequireds/' + serName)
   },
   getApiUrl: function (apiFileId) {
-    return '/mec-developer/mec/developer/v2/files/' + apiFileId
+    return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
   }
 }
 
@@ -85,8 +123,39 @@ let applicationRules = {
     return DELETE(urlPrefix + 'applications/' + applicationId + '/appconfiguration/dnsrules/' + ruleId)
   }
 }
+let imageApi = {
+  getAppInfo: function (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/detail')
+  },
+  getVmFlavors: function (flavorId) {
+    return GET(urlPrefix + 'flavors/' + flavorId)
+  },
+  getImage: function (imageId) {
+    return GET(urlPrefix + 'vmimages/' + imageId)
+  },
+  generatePackage: function (applicationId) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/generate-package')
+  },
+  getPackageStructure: function (packageId) {
+    return GET(urlPrefix + 'apppackages/' + packageId + '/action/get-pkg-structure')
+  },
+  getPackageFile: function (packageId, fileName) {
+    return GET(urlPrefix + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
+  }
+}
+let atpTestApi = {
+  submitTest: function (applicationId) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/atp-tests')
+  },
+  getTestId: function (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/action/atp-tests')
+  }
+}
 
 export {
+  sandbox,
   applicationApi,
-  applicationRules
+  applicationRules,
+  imageApi,
+  atpTestApi
 }

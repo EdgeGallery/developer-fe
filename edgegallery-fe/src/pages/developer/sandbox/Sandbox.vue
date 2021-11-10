@@ -45,7 +45,7 @@
             >
             <img
               class="sandbox-img"
-              :src="item.imgUrl"
+              :src="sandboxImgs[index%4]"
               alt=""
             >
             <p
@@ -83,12 +83,12 @@
         <div class="detail-left">
           <div class="detail-left-img flex-center">
             <img
-              :src="sandboxDetails.imgUrl"
+              :src="sandboxImg"
               alt=""
             >
           </div>
           <p class="defaultFontLight">
-            {{ sandboxDetails.name }}
+            {{ form.name }}
           </p>
         </div>
         <div class="detail-right">
@@ -137,60 +137,28 @@
 </template>
 
 <script>
-
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxFrame',
   data () {
     return {
-      sandbox: [
-        {
-          name: '北京沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox1.png'),
-          net: '6G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        },
-        {
-          name: '广东沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox2.png'),
-          net: '5G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        },
-        {
-          name: '武汉沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox3.png'),
-          net: '4G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        },
-        {
-          name: '西安沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox4.png'),
-          net: '3G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        }
-      ],
+      sandbox: [],
       activeItem: '',
       isSelected: false,
       isSandbox: true,
-      sandboxDetails: {},
       form: [],
-      detailIndex: '',
-      sandboxName: ''
+      sandboxImgs: [
+        require('../../../assets/images/sandbox/sandbox1.png'),
+        require('../../../assets/images/sandbox/sandbox2.png'),
+        require('../../../assets/images/sandbox/sandbox3.png'),
+        require('../../../assets/images/sandbox/sandbox4.png')
+      ],
+      sandboxImg: '',
+      sandboxName: '',
+      vimType: 'OpenStack',
+      architecture: 'X86',
+      mechostid: '',
+      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
     }
   },
   methods: {
@@ -199,29 +167,42 @@ export default {
     },
     goDetail (item) {
       this.isSandbox = false
-      this.sandboxDetails = item
       this.form = item
     },
     getIndex (index) {
-      this.detailIndex = index
+      this.activeItem = index
+      this.sandboxImg = this.sandboxImgs[this.activeItem % 4]
     },
     backSandbox () {
       this.isSandbox = true
     },
     checkSandbox () {
-      this.activeItem = this.detailIndex
-      this.sandboxName = this.sandbox[this.activeItem].name
       this.isSandbox = true
-      this.$router.push({ path: '/EG/developer/sandbox' })
-      sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
     },
     selectFinish () {
-      this.sandboxName = this.sandbox[this.activeItem].name
-      this.$emit('returnSelectSandbox', this.sandboxName)
-      sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+      this.mephostid = this.sandbox[this.activeItem].id
+      let mepHostId = { mepHostId: this.mephostid }
+      sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
+        this.sandboxName = this.sandbox[this.activeItem].name
+        this.$emit('returnSelectSandbox', this.sandboxName)
+        sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getSandboxLists () {
+      sandbox.getSandboxList(this.vimType, this.architecture).then(res => {
+        if (res.data && res.data.results.length <= 0) {
+          return
+        }
+        this.sandbox = res.data.results
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
+    this.getSandboxLists()
   }
 }
 </script>
@@ -311,11 +292,10 @@ export default {
     .details{
       display: flex;
       font-size: 14px;
-      justify-content: center;
       color: #fff;
       padding-top: 60px;
       .detail-left{
-        margin-right: 60px;
+        margin: 0px 60px 0px 90px;
         .detail-left-img{
           width: 100px;
           height: 168px;
@@ -341,6 +321,7 @@ export default {
         }
         .el-form-item {
             margin-bottom: 0;
+            max-width: 259px;
             font-family: defaultFontLight,
               Arial,
               Helvetica,
