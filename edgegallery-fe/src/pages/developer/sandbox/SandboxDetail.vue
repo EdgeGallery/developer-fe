@@ -106,129 +106,15 @@
               class="netLine-list"
               :selected-networks-prop="selectedNetworks"
             />
-            <div class="details-center-vm">
-              <div
-                class="flex-center details-center-vm-img"
-                :class="{'details-center-vm-img-finish':isExportImage}"
-              >
-                <img
-                  class="vm-center-img"
-                  :class="{'vm-center-img-finish':isAddVmFinish,'breath':!vmBreathStyle}"
-                  src="../../../assets/images/sandbox/vm_img.png"
-                  alt=""
-                >
-                <div
-                  class="vm-bg"
-                  @mouseleave="isAddVmFinish?vmBreathStyle=true:vmBreathStyle=false"
-                >
-                  <div
-                    class="vm-btn flex-center vm-btn-add hoverHands"
-                    @click="addVm"
-                  >
-                    <el-tooltip
-                      class="item edit-tooltip"
-                      effect="light"
-                      content="添加"
-                      placement="bottom-start"
-                    >
-                      <img
-                        src="../../../assets/images/sandbox/vm_add.png"
-                        alt=""
-                        class="img-click"
-                      >
-                    </el-tooltip>
-                  </div>
-                  <div
-                    class="vm-btn flex-center vm-btn-detail hoverHands"
-                    @click="checkVmDetail"
-                    :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
-                  >
-                    <el-tooltip
-                      class="item edit-tooltip"
-                      effect="light"
-                      content="详情"
-                      placement="bottom-start"
-                    >
-                      <img
-                        src="../../../assets/images/sandbox/vm_detail.png"
-                        alt=""
-                      >
-                    </el-tooltip>
-                  </div>
-                  <div
-                    class="vm-btn flex-center hoverHands"
-                    :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
-                  >
-                    <el-tooltip
-                      class="item edit-tooltip"
-                      effect="light"
-                      content="登录"
-                      placement="bottom-start"
-                    >
-                      <img
-                        src="../../../assets/images/sandbox/vm_login.png"
-                        alt=""
-                      >
-                    </el-tooltip>
-                  </div>
-                  <div
-                    class="vm-btn flex-center hoverHands"
-                    :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
-                  >
-                    <el-tooltip
-                      class="item edit-tooltip"
-                      effect="light"
-                      content="上传"
-                      placement="bottom-start"
-                    >
-                      <img
-                        src="../../../assets/images/sandbox/vm_upload.png"
-                        alt=""
-                      >
-                    </el-tooltip>
-                  </div>
-                  <div
-                    class="vm-btn-start vm-btn flex-center hoverHands"
-                    @click="startUpVm"
-                    :class="!isBtnStart ? 'img-onlyRead':'img-click'"
-                  >
-                    <el-tooltip
-                      class="item edit-tooltip"
-                      effect="light"
-                      content="启动"
-                      placement="bottom-start"
-                    >
-                      <img
-                        src="../../../assets/images/sandbox/vm_start.png"
-                        alt=""
-                      >
-                    </el-tooltip>
-                  </div>
-                </div>
-                <div
-                  v-if="isStartupVm"
-                  :class="{'vmStatus':vmloading}"
-                >
-                  <div
-                    class="vmStatus-loading"
-                    v-for="(item,index) in 4"
-                    :key="index"
-                  />
-                </div>
-                <div
-                  v-else
-                  :class="{'vmStatus':vmloading}"
-                >
-                  <div
-                    v-for="(item,index) in 4"
-                    :key="index"
-                  />
-                </div>
-              </div>
-              <p class="deploy-title defaultFontLight">
-                虚拟机
-              </p>
-            </div>
+            <VmList
+              v-if="!isChangeStyle"
+              @addVm="addVm"
+              @checkVmDetail="checkVmDetail"
+              :is-add-vm-finish-prop="isAddVmFinish"
+              @startUpVm="startUpVm"
+              :vm-breath-style-prop="vmBreathStyle"
+              :is-btn-start-prop="isBtnStart"
+            />
           </div>
           <div class="details-bottom">
             <p class="details-bottom-title lt defaultFontLight">
@@ -240,13 +126,6 @@
               @click="returnHome"
             >
               {{ $t('common.finish') }}
-            </el-button>
-            <el-button
-              class="common-btn rt exportImage_btn"
-              @click="returnHome"
-              :class="{'exportImage_btn_show':isExportImage}"
-            >
-              {{ '导出镜像' }}
             </el-button>
           </div>
         </div>
@@ -396,13 +275,15 @@ import ConfigNetwork from './ConfigNetwork.vue'
 import AddVm from './AddVm.vue'
 import NetScroll from './NetScroll.vue'
 import VmDetail from './VmDetail.vue'
+import VmList from './VmList.vue'
 export default {
   name: 'SandboxDetail',
   components: {
     ConfigNetwork,
     AddVm,
     NetScroll,
-    VmDetail
+    VmDetail,
+    VmList
   },
   data () {
     return {
@@ -413,9 +294,7 @@ export default {
       isBtnStart: false,
       isAddVmFinish: false,
       configNetworkFinish: false,
-      isStartupVm: false,
       isStartupVmFinish: false,
-      isExportImage: false,
       netNum: 3,
       egBreathStyle: false,
       upfBreathStyle: false,
@@ -424,8 +303,7 @@ export default {
       selectedNetworks: [],
       netWorkList: [],
       isMecSucess: false,
-      isUpfSucess: false,
-      vmloading: false
+      isUpfSucess: false
     }
   },
   methods: {
@@ -439,8 +317,8 @@ export default {
     selectNet () {
       this.showContent = 'showConfigNetwork'
     },
-    addVm () {
-      this.showContent = 'showAddVm'
+    addVm (data) {
+      this.showContent = data
     },
     addVmFinish (data) {
       if (data && data.length > 0) {
@@ -464,21 +342,14 @@ export default {
         this.selectedNetworks = selectedData
       }
     },
-    checkVmDetail () {
-      this.showContent = 'showVmDetail'
+    checkVmDetail (data) {
+      this.showContent = data
     },
     closeVmDetail () {
       this.showContent = 'showDetail'
     },
-    startUpVm () {
-      this.isStartupVm = true
-      this.vmloading = true
-      let _timer = setTimeout(() => {
-        this.isStartupVmFinish = true
-        this.isStartupVm = false
-        this.isExportImage = true
-        clearTimeout(_timer)
-      }, 3000)
+    startUpVm (data) {
+      this.isStartupVmFinish = data
     },
     addApplicationRules () {
       this.$router.push('/EG/developer/applicationRules')
@@ -683,124 +554,6 @@ export default {
         .netLine-list{
           margin: 30px 16px 0 16px;
         }
-        .details-center-vm{
-          position: relative;
-          .vm-center-img{
-            position:absolute;
-            width: 77px;
-            height: 81px;
-            opacity: 0.1;
-          }
-          .vm-center-img-finish{
-            opacity: 1;
-          }
-          .vm-bg{
-            width: 150px;
-            height: 150px;
-            display: flex;
-            flex-wrap: wrap;
-            position: relative;
-            .vm-btn{
-              display: none;
-              width: 75px;
-              height: 50px;
-              background-size: 100% 100%;
-              background-color: rgba(10, 9, 54, 0.65);
-              opacity: 0.8;
-              .img-click{
-                opacity: 1;
-              }
-            }
-            .vm-btn-add{
-              border-radius: 20px 0 0 0;
-            }
-            .vm-btn-detail{
-              border-radius: 0 20px 0 0;
-            }
-            .vm-btn-start{
-              width: 150px;
-              border-radius: 0 0 20px 20px;
-            }
-          }
-          .vmStatus{
-            position: absolute;
-            top: 124px;
-          }
-          .vmStatus .vmStatus-loading:first-child{
-            animation-delay: -0.48s;
-          }
-          .vmStatus .vmStatus-loading:nth-child(2){
-            animation-delay: -0.32s;
-          }
-          .vmStatus .vmStatus-loading:nth-child(3){
-            animation-delay: -0.16s;
-          }
-          .vmStatus > div {
-            width: 6px;
-            height: 6px;
-            margin-right: 4px;
-            background-color: #42F6AC;
-            border-radius: 100%;
-            display: inline-block;
-          }
-          .vmStatus .vmStatus-loading{
-            animation: bouncedelay 1.4s infinite ease-in-out;
-            animation-fill-mode: both;
-          }
-          @keyframes bouncedelay {
-            0%, 80%, 100% {
-              transform: scale(0.0);
-            }
-            40% {
-              transform: scale(1.0);
-            }
-          }
-        }
-        .details-center-vm:hover{
-          .vm-bg:hover{
-            z-index: 1;
-            .vm-btn{
-              display: block;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              opacity: 0.6;
-            }
-            .img-onlyRead{
-              pointer-events: none;
-            }
-            .vm-btn:hover{
-              opacity: 1;
-            }
-          }
-          .vm-bg:hover::after{
-            border-radius: 20px;
-            z-index: -1;
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            backdrop-filter: blur(4px);
-          }
-        }
-        .details-center-vm-img{
-          background-image: url('../../../assets/images/sandbox/deploy_internet.png');
-        }
-        .details-center-vm-img-finish{
-          background-image: url('../../../assets/images/sandbox/deploy_internet_finish.png');
-        }
-        .details-center-vm-img:hover{
-          .vmStatus{
-            display: none;
-          }
-        }
-        .details-center-vm:hover{
-          .vm-center-img{
-            opacity: 0.1;
-          }
-        }
         .deploy-title{
           text-align: center;
           line-height: 50px;
@@ -813,10 +566,6 @@ export default {
           color: #0A0936;
           font-weight:bold;
           opacity: 0.5;
-        }
-        .exportImage_btn{
-          display: none;
-          margin-right: 8px !important;
         }
         .exportImage_btn_show{
           display: block;
