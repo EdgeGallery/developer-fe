@@ -31,8 +31,8 @@ const en = {
     type: 'Type',
     industry: 'Industry',
     appstoreName: 'App Store Name',
-    syncTime: 'Sync Time',
-    operationBtn: 'Distribution&Instantiate'
+    createTime: 'Sync Time',
+    operationBtn: 'Distribution'
   },
   distributeDeploy: {
     title: 'Distribution&Instantiate',

@@ -7,32 +7,37 @@
       <el-card>
         <el-row>
           <el-col :span="4">
-            <el-input
+            <Search
               :placeholder="$t('deployList.tip')"
-              suffix-icon="el-icon-search"
+              @getSearchData="getSearchData"
             />
           </el-col>
         </el-row>
         <el-table
+          v-loading="dataLoading"
           class="common-table"
-          :data="deployListData"
+          :data="currPageTableData"
           :default-sort="{prop:'name',order:'descending'}"
         >
           <el-table-column
             prop="name"
+            width="150"
             sortable
             :label="$t('deployCommon.name')"
           />
           <el-table-column
             prop="version"
+            width="120"
             :label="$t('deployCommon.version')"
           />
           <el-table-column
             prop="provider"
+            width="160"
             :label="$t('deployCommon.provider')"
           />
           <el-table-column
             prop="type"
+            width="140"
             :label="$t('deployList.type')"
           />
           <el-table-column
@@ -48,8 +53,9 @@
             :label="$t('deployList.appstoreName')"
           />
           <el-table-column
-            prop="syncTime"
-            :label="$t('deployList.syncTime')"
+            prop="createTime"
+            width="120"
+            :label="$t('deployList.createTime')"
           />
           <el-table-column
             width="220"
@@ -68,69 +74,109 @@
             />
           </el-table-column>
         </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :pager-count="5"
-          :page-sizes="[1,5,10,20]"
-          :page-size="1"
-          layout="total,sizes,prev,pager,next,jumper"
-          :total="3"
+        <pagination
+          :table-data="paginationData"
+          @getCurrentPageData="getCurrentPageData"
         />
       </el-card>
     </div>
   </div>
 </template>
 <script>
+import { appDeploy } from '../../api/mecmApi.js'
+import { TYPESFORAPP, INDUSTRY } from '../../tools/mecm/constants.js'
+import Pagination from '../../components/Pagination.vue'
+import Search from '../../components/Search.vue'
 export default {
+  components: {
+    Pagination, Search
+  },
   data () {
     return {
-      deployListData: [
-        {
-          name: 'zhangsan',
-          version: 'v1.0',
-          provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
-        },
-        {
-          name: 'lisi',
-          version: 'v2.0',
-          provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
-        },
-        {
-          name: 'wangwu',
-          version: 'v3.0',
-          provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
-        }
-      ],
-      currentPage: 1
+      dataLoading: true,
+      appType: '',
+      language: localStorage.getItem('language'),
+      tableData: [],
+      paginationData: [],
+      currPageTableData: [],
+      serchData: null
+    }
+  },
+  mounted () {
+    this.appType = this.$route.query.type ? this.$route.query.type : ''
+    this.getDeployListData()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      this.language = language
+      this.getDeployListData()
     }
   },
   methods: {
-    handleSizeChange (val) {
-      console.log(`每页${val}条`)
+    filterTableData (val) {
+      this.paginationData = this.paginationData.filter(item => {
+        return Object.keys(item).some(key => {
+          return String(item[key]).toLowerCase().indexOf(val) > -1
+        })
+      })
     },
-    handleCurrentChange (val) {
-      console.log(`当前页：${val}`)
+    getCurrentPageData (data) {
+      this.currPageTableData = data
     },
-    checkDetail (item) {
-      this.$router.push('/EG/mecm/distributeDeploy')
+    getSearchData (data) {
+      this.paginationData = this.tableData
+      if (data) {
+        this.filterTableData(data.toLowerCase())
+      } else {
+        this.initList()
+      }
+    },
+    checkDetail (row) {
+      sessionStorage.setItem('appRow', JSON.stringify(row))
+      sessionStorage.setItem('appId', row.appId)
+      this.$nextTick(
+        this.$router.push('/EG/mecm/distribute?appId=' + row.appId)
+      )
+    },
+    getDeployListData () {
+      appDeploy.initApmPackages().then(response => {
+        this.tableData = response.data
+        this.tableData.forEach(item => {
+          item.createTime = item.createTime.split('T')[0]
+        })
+        this.paginationData = this.tableData
+        console.log(this.tableData)
+        this.checkProjectData()
+        if (this.appType) this.filterTableData(this.appType, 'type')
+        if (this.serchData) {
+          this.getSearchData(this.serchData)
+        }
+        this.dataLoading = false
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    checkProjectData () {
+      this.tableData.forEach(itemBe => {
+        INDUSTRY.forEach(itemFe => {
+          if (itemBe.industry.match(itemFe.label[1]) && this.language === 'cn') {
+            itemBe.industry = itemBe.industry.replace(itemFe.label[1], itemFe.label[0])
+          } else if (itemBe.industry.match(itemFe.label[1]) && this.language === 'en') {
+            itemBe.industry = itemBe.industry.replace(itemFe.label[0], itemFe.label[1])
+          }
+        })
+
+        TYPESFORAPP.forEach(itemFe => {
+          if (itemBe.type.match(itemFe.label[1]) && this.language === 'cn') {
+            itemBe.type = itemBe.type.replace(itemFe.label[1], itemFe.label[0])
+          } else if (itemBe.type.match(itemFe.label[1]) && this.language === 'en') {
+            itemBe.type = itemBe.type.replace(itemFe.label[0], itemFe.label[1])
+          }
+        })
+      })
     }
+
   }
 }
 </script>
@@ -158,7 +204,7 @@ export default {
     box-shadow: -1px -1px 3px rgba(255, 255, 255,0.3);
     .el-row{
       input{
-        color:red;
+        color:#fff;
       }
       .el-input__inner{
         height:30px;
@@ -209,72 +255,6 @@ export default {
           border-radius:6px;
         }
         }
-      .el-pagination{
-        text-align:right;
-        font-weight:normal;
-        .el-pagination__total{
-          float:none;
-          height:24px;
-          line-height:24px;
-          font-size:14px;
-          color:#fff;
-        }
-        .el-pagination__jump{
-          display:inline-block !important;
-          height:24px;
-          line-height:24px;
-          font-size:14px;
-          color:#fff;
-        }
-        .el-pagination__sizes{
-          height:24px;
-          line-height:24px;
-        }
-        .el-select .el-input{
-          height:24px;
-          line-height:24px;
-        }
-        .el-pagination__editor{
-          height:24px;
-        }
-        .el-input--mini{
-          height:24px;
-          line-height:22px;
-          font-size:14px;
-        }
-        .el-input__inner{
-          height:24px;
-          line-height:24px;
-          font-size:14px;
-          background: rgba(255,255,255,0.3);
-          color:#fff;
-        }
-        .el-input__icon{
-          line-height:22px;
-        }
-        .btn-prev .el-icon, .btn-next .el-icon{
-          font-size:14px;
-          height:24px;
-          line-height:26px;
-        }
-        .el-pager li{
-          font-size:14px;
-          font-weight:200;
-          height:24px;
-          line-height:24px;
-          background: none;
-          color:#fff;
-        }
-        button{
-          height:24px;
-          line-height:24px;
-          background: none;
-          color:#fff;
-        }
-        .active{
-          background-color: rgba(66,35,165,0.5) !important;
-        }
-      }
     }
   }
 }
