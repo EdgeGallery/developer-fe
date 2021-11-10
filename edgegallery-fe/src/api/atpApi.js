@@ -19,43 +19,34 @@ import {
   GET,
   POST,
   PUT
-  // DELETE
 } from '../tools/request.js'
 
 const URL_PREFIX = '/mec-atp/edgegallery/atp/v2/'
 
 let Userpage = {
   getAllSceneApi: function () {
-    let url = URL_PREFIX + 'testscenarios?limit=12&offset=0'
-    return GET(url)
+    return GET(URL_PREFIX + 'testscenarios?limit=12&offset=0')
   },
   getSceneIconApi: function (appId) {
-    let url = URL_PREFIX + 'apps/' + appId
-    return GET(url)
+    return GET(URL_PREFIX + 'apps/' + appId)
   },
   getSceneCaseApi: function (params) {
-    let url = URL_PREFIX + 'testscenarios/testcases'
-    return POST(url, params)
+    return POST(URL_PREFIX + 'testscenarios/testcases', params)
   },
   runTaskApi: function (taskId, params) {
-    let url = URL_PREFIX + 'tasks/' + taskId + '/action/run'
-    return POST(url, params)
+    return POST(URL_PREFIX + 'tasks/' + taskId + '/action/run', params)
   },
   getTaskApi: function (taskId) {
-    let url = URL_PREFIX + 'tasks/' + taskId
-    return GET(url)
+    return GET(URL_PREFIX + 'tasks/' + taskId)
   },
   modifyStatusApi: function (taskId, params) {
-    let url = URL_PREFIX + 'tasks/' + taskId + '/testcase'
-    return PUT(url, params)
+    return PUT(URL_PREFIX + 'tasks/' + taskId + '/testcase', params)
   },
   contributionApi: function (params) {
-    let url = URL_PREFIX + 'contributions'
-    return POST(url, params)
+    return POST(URL_PREFIX + 'contributions', params)
   },
   uploadReportApi: function (taskId, params) {
-    let url = URL_PREFIX + 'tasks/' + taskId + '/action/upload-report'
-    return POST(url, params, 'v2')
+    return POST(URL_PREFIX + 'tasks/' + taskId + '/action/upload-report', params)
   }
 }
 

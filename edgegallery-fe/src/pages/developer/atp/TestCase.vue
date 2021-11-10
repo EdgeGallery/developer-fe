@@ -1,10 +1,9 @@
 <template>
   <div
-    class="common-div-bg"
-    style="padding: 30px 50px"
+    class="common-div-bg test-case"
   >
     <div
-      class="case-detail"
+      class="case-detail-title"
     >
       <p class="title-icon">
         用例详情
@@ -51,10 +50,12 @@
       </el-collapse-item>
     </el-collapse>
     <span
+      class="no-use-case"
       v-else
-      style="font-size:20px;"
     >此场景没有用例</span>
-    <div style="text-align: right;">
+    <div
+      class="footer-btn"
+    >
       <el-button
         class="common-btn"
         @click="closeCaseDetail()"
@@ -100,10 +101,12 @@ export default {
 </script>
 
 <style lang="less">
-  .case-detail{
-    position: relative;
-    padding-bottom: 20px;
-  }
+  .test-case{
+    padding: 30px 50px;
+    .case-detail-title{
+      position: relative;
+      padding-bottom: 20px;
+    }
       .el-collapse {
         border: none;
         padding: 0;
@@ -159,4 +162,11 @@ export default {
         }
         }
       }
+    .no-use-case{
+      font-size: 20px;
+    }
+    .footer-btn{
+      text-align: right;
+  }
+  }
 </style>
