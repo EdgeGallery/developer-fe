@@ -61,7 +61,9 @@ const cn = {
     hardwareAbilities: '硬件能力',
     appNameVerifyRequired: '请输入应用名称',
     appNameVerifyValid: '4到16位（字母，数字）',
-    appDescVerifyRequired: '请输入描述'
+    appDescVerifyRequired: '请输入描述',
+    deployFailed: '部署失败，请检查！',
+    getTemplateListFail: '获取参数失败'
   }
 }
 export default cn

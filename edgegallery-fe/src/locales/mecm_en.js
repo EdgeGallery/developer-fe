@@ -61,7 +61,9 @@ const en = {
     hardwareAbilities: 'Hardware Abilities',
     appNameVerifyRequired: 'Please input the APP name',
     appNameVerifyValid: '4 to 16 digits (letters, numbers)',
-    appDescVerifyRequired: 'Please input the description.'
+    appDescVerifyRequired: 'Please input the description.',
+    deployFailed: 'Deploy failed!',
+    getTemplateListFail: 'Failed to get parameters'
   }
 }
 export default en

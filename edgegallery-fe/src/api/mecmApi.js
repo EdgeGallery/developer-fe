@@ -1,0 +1,51 @@
+
+/*
+ *  Copyright 2021 Huawei Technologies Co., Ltd.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+import {
+  GET,
+  POST
+} from '../tools/request.js'
+
+const apmApi = '/apm/v1'
+const appoApi = '/appo/v1'
+
+const getUserId = () => {
+  return sessionStorage.getItem('userId')
+}
+
+let apm = {
+  getAppTemplateApi (packageId) {
+    return GET(apmApi + '/tenants/' + getUserId() + '/packages/' + packageId + '/apptemplate')
+  }
+}
+
+let appo = {
+  confirmToDeploy (params) {
+    return POST(appoApi + '/tenants/' + getUserId() + '/app_instances', params)
+  },
+  confirmToBatchDeploy (params) {
+    return POST(appoApi + '/tenants/' + getUserId() + '/app_instances/batch_create', params)
+  },
+  getInstanceInfo (instanceId) {
+    return GET(appoApi + '/tenants/' + getUserId() + '/app_instance_infos/' + instanceId)
+  }
+}
+
+export {
+  apm,
+  appo
+}

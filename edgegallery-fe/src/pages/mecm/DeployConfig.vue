@@ -17,7 +17,9 @@
 <template>
   <div class="deploy-config">
     <div class="common-div-bg deploy-config-wrapper">
-      <h3 class="rules-title">{{ $t("deployConfig.title") }}</h3>
+      <h3 class="rules-title">
+        {{ $t("deployConfig.title") }}
+      </h3>
       <div class="deploy-config-content">
         <el-form
           :model="deployConfigData"
@@ -74,13 +76,34 @@
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
+          <div class="deploy-config__title" v-if="templateInputs.length > 0">
+            Apptemplate Information
+          </div>
+          <el-row>
+            <el-col
+              :span="12"
+              v-for="(item, index) in templateInputs"
+              :key="index"
+            >
+              <el-form-item :label="item.label" class="apptemplate-information">
+                <el-input id="podsel" maxlength="30" v-model="item.value" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
-      <div class="btn-container btn_deployConfig">
+      <div
+        class="btn-container btn_deployConfig"
+        v-loading="showLoading"
+        element-loading-background="rgba(255, 255, 255, 0.7)"
+      >
         <el-button class="common-btn">
           {{ $t("common.cancel") }}
         </el-button>
-        <el-button class="common-btn" @click="returnHome">
+        <el-button
+          class="common-btn"
+          @click="configButtonHandler('deployConfigData')"
+        >
           {{ $t("common.confirm") }}
         </el-button>
       </div>
@@ -89,6 +112,8 @@
 </template>
 
 <script>
+import { apm, appo } from '../../api/mecmApi'
+
 export default {
   name: 'DeployConfig',
   components: {
@@ -96,27 +121,129 @@ export default {
   data () {
     return {
       deployConfigData: {
-        ipAddress: '192.168.0.1',
-        status: 'TEST',
-        appPackageID: '',
+        ipAddress: '',
+        status: '',
+        appId: '',
+        appPackageId: '',
         appName: '',
         appDesc: '',
         hardwareAbilities: []
       },
+      templateInputs: [],
       capabilities: ['GPU', 'CPU'],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      showLoading: false
+    }
+  },
+  props: {
+    appId: {
+      type: String,
+      default: ''
+    },
+    appPackageId: {
+      type: String,
+      default: ''
+    },
+    ipAddress: {
+      type: String,
+      default: ''
     }
   },
   methods: {
-    returnHome () {
-      this.$message({
-        showClose: true,
-        duration: 2000,
-        message: '部署成功',
-        type: 'success'
+    getAppTemplate () {
+      apm.getAppTemplateApi(this.appId).then(res => {
+        this.templateInputs = []
+        if (res.data.deployType !== 'container') {
+          let inputs = res.data.inputs
+          inputs.forEach(item => {
+            this.templateInputs.push(this.__parseObject(item))
+          })
+        }
+        this.__resetDeployConfigData()
+        this.deployConfigData.appId = this.appId
+        this.deployConfigData.appPackageId = this.appPackageId
+        this.deployConfigData.ipAddress = this.ipAddress
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          type: 'warning',
+          message: this.$t('deployConfig.getTemplateListFail'),
+          duration: 2000
+        })
       })
-      this.$store.commit('changeFlow', 9)
-      this.$router.push('/EG/developer/home')
+    },
+    __parseObject (item) {
+      let obj = {
+        label: '',
+        value: ''
+      }
+      obj.label = item.name
+      obj.value = item.defaultValue
+      return obj
+    },
+    __resetDeployConfigData () {
+      this.deployConfigData = {
+        ipAddress: '',
+        status: '',
+        appId: '',
+        appPackageId: '',
+        appName: '',
+        appDesc: '',
+        hardwareAbilities: []
+      }
+    },
+    configButtonHandler (deployConfigData) {
+      this.$refs[deployConfigData].validate((valid) => {
+        if (valid) {
+          let params = {
+            appId: this.appId,
+            appPackageId: this.appPackageId,
+            appName: this.deployConfigData.appName,
+            appInstanceDescription: this.deployConfigData.appDesc,
+            mecHost: this.deployConfigData.ipAddress,
+            hwCapabilities: this.deployConfigData.hardwareAbilities
+          }
+          this.showLoading = true
+          if (typeof (params.mecHost) === 'string') {
+            appo.confirmToDeploy(params).then(res => {
+              let instanceId = res.data.response.app_instance_id
+              this.timer = setTimeout(() => {
+                this.queryInstanceStatus(instanceId)
+              }, 1000)
+            }).catch(() => {
+              this.$message.error(this.$t('deployConfig.deployFailed'))
+            })
+          }
+        }
+      })
+    },
+    queryInstanceStatus (instanceId) {
+      appo.getInstanceInfo(instanceId).then(res => {
+        let status = res.data.response.operationalStatus
+        if (status === 'Created') {
+          this.showLoading = false
+          this.$message({
+            showClose: true,
+            duration: 2000,
+            message: '部署成功',
+            type: 'success'
+          })
+          sessionStorage.setItem('currentFlow', 9)
+          this.$router.push('/EG/developer/home')
+        } else if (status === 'Create failed') {
+          this.showLoading = false
+          this.$message.error(res.data.response.operationInfo)
+          this.loading = false
+        } else {
+          this.timer = setTimeout(() => { this.queryInstanceStatus(instanceId) }, 1000)
+        }
+      }).catch(err => {
+        if (err.name === 'Error' && err.message === 'Request failed with status code 404') {
+          setTimeout(() => { this.queryInstanceStatus() }, 1000)
+        } else {
+          throw err
+        }
+      })
     }
   },
   computed: {
@@ -137,16 +264,20 @@ export default {
       this.language = localStorage.getItem('language')
     }
   },
-  mounted () { }
+  mounted () {
+    this.getAppTemplate()
+  }
 }
 </script>
 
 <style lang='less'>
 .deploy-config {
   background: transparent;
-  min-height: 85%;
   .deploy-config-wrapper {
     width: 41%;
+    min-height: 85%;
+    max-height: 900px;
+    overflow: auto;
     background-size: cover;
     border-radius: 16px;
     margin: 120px auto;
@@ -154,12 +285,15 @@ export default {
     background: url("../../assets/images/mecm/deploy_config/deploy_config_bg.png")
       center;
     .btn_deployConfig {
-      margin: 60px 0px 0 0;
+      padding: 20px;
       .el-button {
         color: #5944c0;
         font-size: 14px;
         border-radius: 12px;
         padding: 4px 28px;
+      }
+      .el-button:hover {
+        color: #ffffff;
       }
       .el-button + .el-button {
         margin-left: 20px;
@@ -178,10 +312,12 @@ export default {
       .deploy-config__title {
         font-size: 16px;
         font-family: defaultFont, Arial, Helvetica, sans-serif;
+        margin-bottom: 20px;
       }
       .deploy-config__item {
         display: inline-block;
-        padding: 20px 0 20px 40px;
+        padding-left: 40px;
+        padding-bottom: 20px;
         font-size: 16px;
         font-family: defaultFont, Arial, Helvetica, sans-serif;
       }
@@ -208,6 +344,18 @@ export default {
         font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         width: 149px;
       }
+      .apptemplate-information .el-form-item__label {
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+        width: 170px;
+      }
+      .cn .apptemplate-information .el-input {
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+        width: calc(100% - 210px);
+      }
+      .en .apptemplate-information .el-input {
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+        width: calc(100% - 210px);
+      }
       .el-input {
         background-color: transparent;
         margin-left: 23px;
@@ -221,11 +369,14 @@ export default {
           color: #e2e2e2;
         }
       }
+      .is-error .el-input__inner {
+        border: solid 1px #f56c6c;
+      }
       .cn .el-input {
-        width: calc(100% - 150px);
+        width: calc(100% - 140px);
       }
       .en .el-input {
-        width: calc(100% - 220px);
+        width: calc(100% - 210px);
       }
       .el-textarea {
         background-color: transparent;
@@ -241,11 +392,14 @@ export default {
           color: #e2e2e2;
         }
       }
+      .is-error .el-textarea__inner {
+        border: solid 1px #f56c6c;
+      }
       .cn .el-textarea {
-        width: calc(100% - 150px);
+        width: calc(100% - 140px);
       }
       .en .el-textarea {
-        width: calc(100% - 220px);
+        width: calc(100% - 210px);
       }
       .cn .el-form-item__error {
         padding-left: 110px;
