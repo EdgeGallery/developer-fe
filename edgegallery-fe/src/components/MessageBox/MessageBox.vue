@@ -73,7 +73,7 @@ export default {
   methods: {
     init () {
       this.visible = true
-      if (this.cancelText !== '') {
+      if (this.confirmText !== '') {
         return new Promise((resolve, reject) => {
           this.promise = { resolve, reject }
         })
