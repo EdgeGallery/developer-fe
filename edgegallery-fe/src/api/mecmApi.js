@@ -34,6 +34,9 @@ let appDeploy = {
       url = urlPrefix + 'tenants/' + userId + '/packages/' + packageId
     }
     return DELETE(url)
+  },
+  initApmPackages () {
+    return GET(urlPrefix + 'apps/syncstatus')
   }
 }
 
