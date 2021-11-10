@@ -21,6 +21,7 @@
     </h3>
 
     <el-form
+      id="form_dnsRules"
       label-width="120px"
       size="mini"
       class="common-form clear"
@@ -75,12 +76,14 @@
 
     <div class="btn-container">
       <el-button
+        id="btn_cancelDnsRules"
         class="common-btn"
         @click="finishDnsRules('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
+        id="btn_confirmDnsRules"
         class="common-btn"
         @click="finishDnsRules('confirm')"
       >

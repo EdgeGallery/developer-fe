@@ -25,6 +25,7 @@
       <h4 class="rules-title-sub clear">
         流量规则
         <el-button
+          id="btn_addTrafficRules"
           class="common-btn inner-btn rt"
           @click="addTrafficRules"
         >
@@ -63,6 +64,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              :id="'btn_editAppTrafficRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="editAppTrafficRule(scope.$index,scope.row)"
@@ -70,6 +72,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              :id="'btn_delAppTrafficRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="deleteTrafficRules(scope.row)"
@@ -83,6 +86,7 @@
       <h4 class="rules-title-sub title-top clear">
         DNS规则
         <el-button
+          id="btn_addDnsRules"
           class="common-btn inner-btn rt"
           @click="addDnsRules"
         >
@@ -121,6 +125,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              :id="'btn_editAppDnsRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="editAppDnsRule(scope.$index,scope.row)"
@@ -128,6 +133,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              :id="'btn_delAppDnsRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="deleteDnsRules(scope.row)"
@@ -140,12 +146,14 @@
 
       <div class="btn-container">
         <el-button
+          id="btn_cancelApprules"
           class="common-btn"
           @click="configApplicationRules('cancel')"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
+          id="btn_confirmApprules"
           class="common-btn"
           @click="configApplicationRules('confirm')"
         >
@@ -320,7 +328,7 @@ export default {
       this.isTrafficRulesShow = true
     },
     deleteTrafficRules (row) {
-      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         applicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
           this.getAppTrafficRuleList()
         })
@@ -346,9 +354,11 @@ export default {
       this.isDnsRulesShow = true
     },
     deleteDnsRules (row) {
-      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         applicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
           this.getAppDnsRuleList()
+        }).catch(() => {
+          this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
       })
     },
