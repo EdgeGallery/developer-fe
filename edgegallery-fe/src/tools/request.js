@@ -1,4 +1,3 @@
-
 /*
  *  Copyright 2021 Huawei Technologies Co., Ltd.
  *
@@ -16,8 +15,6 @@
  */
 
 import axios from 'axios'
-
-let accessToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2MzYzOTk1NzUsInNzb1Nlc3Npb25JZCI6IjkxNEQzNDcwMTA0NTlCNTU3MUZBQ0E1ODE5MkY5OUNGIiwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJJZCI6IjM5OTM3MDc5LTk5ZmUtNGNkOC04ODFmLTA0Y2E4YzRmZTA5ZCIsImF1dGhvcml0aWVzIjpbIlJPTEVfTEFCX0FETUlOIiwiUk9MRV9ERVZFTE9QRVJfQURNSU4iLCJST0xFX0FQUFNUT1JFX0FETUlOIiwiUk9MRV9NRUNNX0FETUlOIiwiUk9MRV9BVFBfQURNSU4iXSwianRpIjoiNzUxNTk5ZGYtYzg0YS00NmJlLTliNzMtY2U1NjAxYzlhZDIyIiwiY2xpZW50X2lkIjoibWVjbS1mZSIsImVuYWJsZVNtcyI6ImZhbHNlIiwiZW5hYmxlTWFpbCI6ImZhbHNlIn0.lQCfp__Ylyq4rSAVp5B3qg0HLud6cZmgTrRTCixynQI0qLnmK0L7JICTM_JajHBPo4tIxaS5vI_OwuWvqPzo67uFIsXBj-uooFsEb09gvwvMAo8yEzOFZjR1OeEEsIknZzT2bMsN7XG0SrxaFuQ16f1N7wc_t_NZkK_jBGluLHcIM9FZ7re44lOWnseBcfAP8yk2Da4up0pkbNys5w247Z9I08cmsymFGTNVaeQNe6jqehL-XY7o_zu9GCKS9lBFGlX8oduX5ubJSzMBanLQUdLYoU-QlfWpSUREFtiRFMB-JL2z13XorL8B8qAkBR5SoECGggjyY0GtSg2Z97C94A'
 
 function getCookie (name) {
   let arr = []
@@ -37,8 +34,7 @@ function commonGetRequest (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        'access_token': accessToken
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
       }
     }).then(res => {
       resolve(res)
