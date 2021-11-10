@@ -61,16 +61,18 @@
           :label="$t('common.operation')"
           min-width="20%"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="editAppTrafficRule(scope.$index,scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="deleteTrafficRules(scope.row)"
             >
               {{ $t('common.delete') }}
             </el-button>
@@ -117,16 +119,18 @@
           :label="$t('common.operation')"
           min-width="20%"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="editAppDnsRule(scope.$index,scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="deleteDnsRules(scope.row)"
             >
               {{ $t('common.delete') }}
             </el-button>
@@ -154,6 +158,10 @@
       class="traffic-rules"
       :class="{'traffic-rules-hidden-bottom':!isTrafficRulesShow,'traffic-rules-hidden-top':(isInterfaceInfoShow || isTrafficFilterShow)}"
       @setRulesListTop="setRulesListTop"
+      :application-id-prop="applicationId"
+      :traffic-rules-form-prop="appRulesData"
+      :is-add-rule-data-prop="isAddRuleData"
+      :common-data-prop="commonData"
     />
     <trafficFilter
       class="traffic-filter"
@@ -164,11 +172,15 @@
       class="interface-info"
       :class="{'interface-info-hidden':!isInterfaceInfoShow}"
       @setRulesListTop="setRulesListTop"
+      :common-data-prop="commonData"
     />
     <dnsRules
       class="dns-rules"
       :class="{'dns-rules-hidden':!isDnsRulesShow}"
       @setRulesListTop="setRulesListTop"
+      :application-id-prop="applicationId"
+      :dns-rules-form-prop="appRulesData"
+      :is-add-rule-data-prop="isAddRuleData"
     />
   </div>
 </template>
@@ -178,6 +190,7 @@ import trafficRules from './AddTrafficRules.vue'
 import interfaceInformation from './AddInterfaceInformation.vue'
 import trafficFilter from './AddTrafficFilter.vue'
 import dnsRules from './AddDnsRules.vue'
+import { applicationRules } from '../../../../api/developerApi.js'
 export default {
   name: 'ApplicationRules',
   components: {
@@ -188,29 +201,36 @@ export default {
   },
   data () {
     return {
-      trafficListData: [
-        {
-          action: 'PASSTHROUGH',
-          filterType: 'FLOW',
-          priority: '1',
-          trafficRuleId: 'tr1'
-        }
-      ],
-      dnsListData: [
-        {
-          dnsRuleId: 'dd1',
-          domainName: 'domainName',
-          ipAddressType: 'IP_V4',
-          ttl: '85000'
-        }
-      ],
+      trafficListData: [],
+      dnsListData: [],
       screenHeight: document.body.clientHeight,
       timer: false,
       isRulesConfigShow: true,
       isTrafficRulesShow: false,
       isTrafficFilterShow: false,
       isInterfaceInfoShow: false,
-      isDnsRulesShow: false
+      isDnsRulesShow: false,
+      isAddRuleData: true,
+      editIndex: 0,
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      trafficRuleList: [
+        {
+          trafficRuleId: '',
+          action: '',
+          priority: '',
+          filterType: '',
+          trafficFilter: [],
+          dstInterface: []
+        }
+      ],
+      appRulesData: {},
+      commonData: {
+        port: '8080',
+        protocol: 'http',
+        address: '127.0.0.1/0',
+        ip: '127.0.0.1',
+        ttl: '85000'
+      }
     }
   },
   methods: {
@@ -222,9 +242,26 @@ export default {
         }
       })
     },
-    setRulesListTop (data) {
-      switch (data) {
-        case 'cancelTrafficRules': {
+    handleTrafficRulesData (data) {
+      if (JSON.stringify(data) === '{}') {
+        this.isTrafficRulesShow = false
+        this.isRulesConfigShow = true
+        return
+      }
+      this.getAppTrafficRuleList()
+    },
+    handleDnsRulesData (data) {
+      if (JSON.stringify(data) === '{}') {
+        this.isDnsRulesShow = false
+        this.isRulesConfigShow = true
+        return
+      }
+      this.getAppDnsRuleList()
+    },
+    setRulesListTop (type, data) {
+      switch (type) {
+        case 'finishTrafficRules': {
+          this.handleTrafficRulesData(data)
           this.isTrafficRulesShow = false
           this.isRulesConfigShow = true
           break
@@ -234,7 +271,7 @@ export default {
           this.isTrafficRulesShow = false
           break
         }
-        case 'cancelTrafficFilter': {
+        case 'finishTrafficFilter': {
           this.isTrafficFilterShow = false
           this.isTrafficRulesShow = true
           break
@@ -244,12 +281,13 @@ export default {
           this.isTrafficRulesShow = false
           break
         }
-        case 'cancelInterfaceInfo': {
+        case 'finishInterfaceInformation': {
           this.isInterfaceInfoShow = false
           this.isTrafficRulesShow = true
           break
         }
-        case 'cancelDnsRules': {
+        case 'finishDnsRules': {
+          this.handleDnsRulesData(data)
           this.isDnsRulesShow = false
           this.isRulesConfigShow = true
           break
@@ -264,12 +302,55 @@ export default {
       }
     },
     addTrafficRules () {
+      this.isAddRuleData = true
+      this.appRulesData = {
+        trafficRuleId: '',
+        priority: '',
+        action: 'FORWARD_DECAPSULATED',
+        filterType: 'FLOW'
+      }
       this.isRulesConfigShow = false
       this.isTrafficRulesShow = true
     },
+    editAppTrafficRule (index, row) {
+      this.editIndex = index
+      this.isAddRuleData = false
+      this.appRulesData = JSON.parse(JSON.stringify(row))
+      this.isRulesConfigShow = false
+      this.isTrafficRulesShow = true
+    },
+    deleteTrafficRules (row) {
+      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
+        applicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
+          this.getAppTrafficRuleList()
+        })
+      })
+    },
     addDnsRules () {
+      this.isAddRuleData = true
+      this.appRulesData = {
+        dnsRuleId: '',
+        domainName: 'domainName',
+        ipAddressType: 'IP_V4',
+        ipAddress: this.commonData.ip,
+        ttl: this.commonData.ttl
+      }
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true
+    },
+    editAppDnsRule (index, row) {
+      this.editIndex = index
+      this.isAddRuleData = false
+      this.appRulesData = JSON.parse(JSON.stringify(row))
+      this.isRulesConfigShow = false
+      this.isDnsRulesShow = true
+    },
+    deleteDnsRules (row) {
+      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
+        applicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
+          this.getAppDnsRuleList()
+        })
+      })
     },
     configApplicationRules (type) {
       this.$router.push('/EG/developer/sandboxDetails')
@@ -278,6 +359,20 @@ export default {
       } else {
         sessionStorage.setItem('applicationRules', 'confirm')
       }
+    },
+    getAppTrafficRuleList () {
+      applicationRules.getAppTrafficRules(this.applicationId).then(res => {
+        if (res.data) {
+          this.trafficListData = res.data
+        }
+      })
+    },
+    getAppDnsRuleList () {
+      applicationRules.getAppDnsRules(this.applicationId).then(res => {
+        if (res.data) {
+          this.dnsListData = res.data
+        }
+      })
     }
   },
   watch: {
@@ -293,6 +388,8 @@ export default {
     }
   },
   mounted () {
+    this.getAppTrafficRuleList()
+    this.getAppDnsRuleList()
     this.setDivHeight(this.screenHeight)
     window.onresize = () => {
       return (() => {
@@ -334,7 +431,7 @@ export default {
     z-index: 1;
     width: 60%;
     padding: 40px;
-    max-height: 95%;
+    max-height: 90%;
     overflow: auto;
     opacity: 1;
     transition: all .2s linear;
@@ -347,6 +444,9 @@ export default {
     overflow: auto;
     opacity: 1;
     transition: all .2s linear;
+    .el-input-number .el-input__inner{
+      text-align: center;
+    }
   }
   .interface-info{
     position: absolute;

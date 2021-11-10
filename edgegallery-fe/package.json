@@ -17,6 +17,7 @@
     "element-ui": "^2.12.0",
     "less-loader": "^5.0.0",
     "mavon-editor": "^2.9.1",
+    "swagger-ui": "^3.39.0",
     "swiper": "^5.4.5",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.0",

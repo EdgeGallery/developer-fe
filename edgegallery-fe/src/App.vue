@@ -69,7 +69,7 @@
         >
           <ProjectSideComp
             @zoomChanged="zoomChanged"
-            @createNewProject="createNewProject"
+            @createApplication="createApplication"
             :zoom="zoom"
             v-if="zoom>1"
           />
@@ -118,9 +118,7 @@ export default {
   watch: {
     pageModel (val) {
       this.pageModel = val
-      if (this.pageModel === 'newVersion') {
-        this.zoom = 0
-      }
+      this.zoom = this.pageModel === 'newVersion' ? 2 : 0
     },
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
@@ -163,10 +161,10 @@ export default {
       this.zoom = 2
       this.$refs.leftProComp.style.width = '100%'
     },
-    createNewProject (val) {
+    createApplication (val) {
       if (val) {
         this.zoomChanged(1)
-        sessionStorage.setItem('isCreate', true)
+        sessionStorage.setItem('isCreate', val)
         this.$router.push('/EG/developer/createApplication')
       }
     },

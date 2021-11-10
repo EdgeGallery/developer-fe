@@ -29,6 +29,7 @@ import '../src/assets/css/common.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import EgMessageBox from '../src/components/MessageBox/index.js'
+Vue.prototype.bus = new Vue()
 
 Vue.use(ElementUI, { locale })
 Vue.prototype.$echarts = echarts

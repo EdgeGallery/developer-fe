@@ -108,7 +108,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="finishEditNetwork('confim')"
+          @click="finishEditNetwork('confirm')"
         >
           {{ $t('common.confirm') }}
         </el-button>

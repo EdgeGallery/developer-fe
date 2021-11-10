@@ -421,16 +421,16 @@ export default {
       upfBreathStyle: false,
       deployBreathStyle: false,
       vmBreathStyle: false,
+      selectedNetworks: [],
+      netWorkList: [],
       isMecSucess: false,
       isUpfSucess: false,
-      vmloading: false,
-      selectedNetworks: []
-
+      vmloading: false
     }
   },
   methods: {
     returnHome () {
-      sessionStorage.setItem('currentFlow', 3)
+      this.$store.commit('changeFlow', 3)
       this.$router.push('/EG/developer/home')
     },
     deployInternet () {
@@ -454,11 +454,14 @@ export default {
       }
       this.showContent = 'showDetail'
     },
-    editNetwork (data) {
+    editNetwork (data, selectedData) {
       this.showContent = 'showDetail'
       if (data && data.length > 0) {
+        this.netWorkList = data
         this.configNetworkFinish = true
         this.deployBreathStyle = this.configNetworkFinish
+        this.netNum = data.length
+        this.selectedNetworks = selectedData
       }
     },
     checkVmDetail () {
@@ -480,8 +483,6 @@ export default {
     addApplicationRules () {
       this.$router.push('/EG/developer/applicationRules')
     }
-  },
-  computed: {
   },
   mounted () {
     if (sessionStorage.getItem('applicationRules') === 'confirm') {
