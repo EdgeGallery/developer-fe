@@ -118,34 +118,38 @@
 </template>
 
 <script>
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'ConfigNetwork',
   data () {
     return {
-      vmNetworkList: [
-        {
-          description: 'N6 network, when end-side devices access edge applications, they need to access through this network',
-          name: 'mec_network_n6'
-        },
-        {
-          description: 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed',
-          name: 'mec_network_mep'
-        },
-        {
-          description: 'Internet Network',
-          name: 'mec_network_internet'
-        }
-      ],
+      vmNetworkList: [],
       newNetworkList: [
         {
-          description: '',
-          name: ''
+          name: '',
+          description: ''
         }
       ],
-      selectedNetworks: []
+      selectedNetworks: [],
+      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
     }
   },
   methods: {
+    getInternetType () {
+      sandbox.getAllInternetType(this.applicationId).then(res => {
+        if (res.data && res.data.length <= 0) {
+          return
+        }
+        this.vmNetworkList = res.data
+        this.vmNetworkList.forEach((item) => {
+          if (item.name !== '') {
+            this.selectedNetworks.push(item.name)
+          }
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     addNewNetwork () {
       let _obj = {
         description: '',
@@ -157,16 +161,16 @@ export default {
       let _data = []
       if (type === 'confim') {
         _data = this.selectedNetworks
+        this.newNetworkList.forEach(item => {
+          sandbox.addInternetType(this.applicationId, item).then(() => {
+            this.$emit('editNetwork', _data)
+          })
+        })
       }
-      this.$emit('editNetwork', _data)
     }
   },
   mounted () {
-    this.vmNetworkList.forEach((item) => {
-      if (item.name !== '') {
-        this.selectedNetworks.push(item.name)
-      }
-    })
+    this.getInternetType()
   }
 }
 </script>

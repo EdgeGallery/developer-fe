@@ -56,17 +56,13 @@ function promptJumpToClassic (path, next, _this) {
     next()
   }
 }
-function uniqueArray (arrData) {
-  let _resultData = []
-  for (let item of arrData) {
-    if (_resultData.indexOf(item) === -1) {
-      _resultData.push(item)
-    }
-  }
-  return _resultData
+function filterArr (arr) {
+  return arr.filter(function (item, index, arr) {
+    return arr.indexOf(item, 0) === index
+  })
 }
 export {
   formatDateTime,
   promptJumpToClassic,
-  uniqueArray
+  filterArr
 }
