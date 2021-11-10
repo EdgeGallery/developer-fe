@@ -50,7 +50,9 @@ export default {
     },
     createApplication () {
       sessionStorage.setItem('applicationId', '')
-      this.$emit('createApplication', true)
+      sessionStorage.setItem('isCreate', '1')
+      this.$store.commit('changeFlow', 0)
+      this.$router.push('/EG/developer/createApplication')
     },
     switchStatus (status) {
       return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置成功' : (status === 'DEPLOYED' ? '已部署' : (status === 'TESTED' ? '测试完成' : '已发布')))

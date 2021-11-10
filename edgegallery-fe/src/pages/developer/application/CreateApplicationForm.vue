@@ -69,7 +69,7 @@
         </el-form-item>
         <el-form-item
           label="图标"
-          class="cb choose-icon"
+          class="label-item-half choose-icon"
         >
           <div class="upload-comp">
             <div
@@ -102,10 +102,44 @@
                 content="必须是jpg、png格式图片"
                 placement="right"
               >
-                <em class="el-icon-info" />
+                <em
+                  class="el-icon-info"
+                  :class="{'icon-info-active':logoFileList.length>0}"
+                />
               </el-tooltip>
             </div>
           </div>
+        </el-form-item>
+        <el-form-item
+          label="指导文档"
+          class="label-item-half"
+        >
+          <el-upload
+            class="upload-demo lt"
+            :on-change="handleChangeMd"
+            :auto-upload="false"
+            action=""
+            multiple
+            :limit="1"
+            :on-exceed="handleMdExceed"
+            :file-list="mdFileList"
+          >
+            <el-button
+              size="small"
+              type="primary"
+              class="upload-md-btn"
+            >
+              点击上传
+            </el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="只能上传.md文件，且不超过500kb"
+              placement="right"
+            >
+              <em class="el-icon-info md-guide-info" />
+            </el-tooltip>
+          </el-upload>
         </el-form-item>
         <el-form-item
           label="描述"
@@ -181,6 +215,7 @@ export default {
       },
       isUploadIcon: false,
       logoFileList: [],
+      mdFileList: [],
       defaultIconFile: []
     }
   },
@@ -200,12 +235,13 @@ export default {
         }
         let fileTypeArr = ['jpg', 'png']
         if (file.name) {
-          this.fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(this.fileType.toLowerCase()) === -1) {
+          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
             this.logoFileList = []
           }
         }
       }
+      console.log(this.logoFileList)
     },
     removeUploadLogo (file) {
       this.isUploadIcon = false
@@ -222,16 +258,53 @@ export default {
       this.isUploadIcon = false
       this.defaultIconFile = []
     },
+    handleMdExceed (file, fileList) {
+      if (fileList.length === 1) {
+        this.$message.warning('最多上传一个文件！')
+      }
+    },
+    handleChangeMd (file) {
+      this.mdFileList = []
+      if (file) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.mdFileList = []
+        } else {
+          this.mdFileList.push(file.raw)
+        }
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+        }
+        let fileTypeArr = ['md']
+        if (file.name) {
+          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
+            this.mdFileList = []
+          }
+        }
+      }
+      console.log(this.mdFileList)
+    },
+    uploadMdFile (fileId) {
+      let formdata = new FormData()
+      formdata.append('file', this.mdFileList[0])
+      formdata.append('fileType', 'md')
+      applicationApi.uploadAppIcon(formdata).then(res => {
+        if (res.data && res.data.fileId) {
+          this.confirmToCreate(fileId, res.data.fileId)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     confirmForm () {
       this.$refs['applicationForm'].validate((valid) => {
         if (valid) {
           let formdata = new FormData()
-          console.log(this.logoFileList)
           formdata.append('file', this.logoFileList[0])
           formdata.append('fileType', 'icon')
           applicationApi.uploadAppIcon(formdata).then(res => {
             if (res.data && res.data.fileId) {
-              this.confirmToCreate(res.data.fileId)
+              this.uploadMdFile(res.data.fileId)
             }
           }).catch(err => {
             console.log(err)
@@ -241,8 +314,9 @@ export default {
         }
       })
     },
-    confirmToCreate (fileId) {
-      this.applicationFormData.iconFileId = fileId
+    confirmToCreate (iconFileId, mdFileId) {
+      this.applicationFormData.iconFileId = iconFileId
+      this.applicationFormData.guideFileId = mdFileId
       applicationApi.createNewApp(this.applicationFormData).then(res => {
         this.$store.commit('changeFlow', 1)
         sessionStorage.setItem('applicationId', res.data.id)
@@ -315,5 +389,26 @@ export default {
     top: -35px;
     left: 35px;
     height: 15px;
+  }
+  .icon-info-active {
+    position: relative;
+    top: -52px;
+    left: 60px;
+    height: 15px;
+  }
+  .upload-md-btn{
+    background: rgba(255,255,255,.5);
+  }
+  .md-guide-info{
+    position: relative;
+    top: 0px;
+    left: 5px;
+    height: 15px;
+  }
+  .el-upload-list__item{
+    background: #fff;
+  }
+  .el-upload--text{
+    float: left;
   }
 </style>

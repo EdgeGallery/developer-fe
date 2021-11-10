@@ -20,6 +20,9 @@
             :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
             alt="EdgeGallery"
           >
+          <div class="flow-name">
+            {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -44,21 +47,21 @@ export default {
       deployWorkflowDataArray: [
         {
           id: 7,
-          name: '',
+          name: 'MEAO',
           class: 'deploy-meao',
           src: require('../../../assets/images/application/app_meao.png'),
           toPath: '/EG/mecm/appDeployDetail'
         },
         {
           id: 8,
-          name: '',
+          name: 'MEPM',
           class: 'deploy-mepm',
           src: require('../../../assets/images/application/app_mepm.png'),
           toPath: ''
         },
         {
           id: 9,
-          name: '',
+          name: '边缘节点',
           class: 'deploy-node',
           src: require('../../../assets/images/application/app_node.png'),
           toPath: ''
@@ -80,16 +83,16 @@ export default {
 <style lang="less" scoped>
   .deployment{
     .deploy-meao{
-      top: 152px;
-      left: -58px;
+      top: 140px;
+      left: -55px;
     }
     .deploy-mepm{
-      top: 58px;
-      left: 104px;
+      top: 10px;
+      left: 115px;
     }
     .deploy-node{
-      top: -33px;
-      left: 265px;
+      top: -120px;
+      left: 285px;
     }
   }
 </style>
