@@ -53,14 +53,9 @@
           <div
             class="scenar-content"
           >
-            <!-- <img
+            <img
               :src="getAppIcon(item)"
               alt=""
-            > -->
-            <img
-              src="../../../assets/images/atp/kp2@2x.png"
-              alt=""
-              class="sceneimage"
             >
             <el-button
               class="select-button"
@@ -99,7 +94,7 @@
                   查看用例
                 </el-button>
                 <el-button
-                  :disabled="item.label==='EdgeGallery'"
+                  :disabled="item.nameEn === 'EdgeGallery Community Common Scenario'"
                   size="small"
                   class="scenebtn"
                   @click="chooseScene(item)"
@@ -113,6 +108,7 @@
       </div>
       <div class="testbtn rt">
         <el-button
+          :disabled="isCreateSuc"
           class="common-btn curp"
           @click="startTest()"
         >
@@ -136,6 +132,7 @@
 </template>
 <script>
 import { Userpage, URL_PREFIX } from '../../../api/atpApi.js'
+import { atpTestApi } from '../../../api/developerApi.js'
 import TestCaseDetail from './TestCase.vue'
 import ContributionCase from './ContributionCase.vue'
 
@@ -158,14 +155,35 @@ export default {
       activeInfo: -1,
       isShowScene: true,
       isShowContributionCase: false,
-      isShowCaseDetail: false
+      isShowCaseDetail: false,
+      applicationId: sessionStorage.getItem('applicationId'),
+      isCreateSuc: true
     }
   },
   mounted () {
+    this.getTaskId()
     this.getAllScene()
     this.setDivHeight()
   },
   methods: {
+    getTaskId () {
+      atpTestApi.submitTest(this.applicationId).then(res => {
+        if (res.data) {
+          atpTestApi.getTestId(this.applicationId).then(res => {
+            console.log(res.data)
+            this.taskId = res.data[0].id
+            this.isCreateSuc = false
+          })
+        } else {
+          this.$message({
+            showClose: true,
+            duration: 2000,
+            message: '任务创建失败',
+            type: 'error'
+          })
+        }
+      })
+    },
     setDivHeight () {
       this.$nextTick(() => {
         let screenHeight = document.body.clientHeight
@@ -190,79 +208,47 @@ export default {
       this.isShowContributionCase = true
     },
     getAllScene () {
-      // Userpage.getAllSceneApi().then(res => {
-      let data = [
-        {
-          id: '25232323',
-          nameCh: '社区场景',
-          nameEn: 'Edgegallery',
-          descriptionCh: '适用于社区测试场景',
-          descriptionEn: 'Suitable for China Unicom test scenarios',
-          label: 'EdgeGallery'
-        },
-        {
-          id: '455',
-          nameCh: '运营商A',
-          nameEn: 'Edgegallery',
-          descriptionCh: '适用于XXX测试场景',
-          descriptionEn: 'Suitable for China Unicom test scenarios'
-        },
-        {
-          id: '786',
-          nameCh: '运营商B',
-          nameEn: 'Edgegallery',
-          descriptionCh: '适用于XXX测试场景',
-          descriptionEn: 'Suitable for China Unicom test scenarios'
-        },
-        {
-          id: '58',
-          nameCh: '运营商B',
-          nameEn: 'Edgegallery',
-          descriptionCh: '适用于XXX测试场景',
-          descriptionEn: 'Suitable for China Unicom test scenarios'
-        }
-      ]
-      // let data = res.data
-      data.forEach(item => {
-        if (item.label === 'EdgeGallery') {
-          item.selected = true
-        } else {
-          item.selected = false
-        }
+      Userpage.getAllSceneApi().then(res => {
+        let data = res.data.results
+        data.forEach(item => {
+          if (item.nameEn === 'EdgeGallery Community Common Scenario') {
+            item.selected = true
+          } else {
+            item.selected = false
+          }
+        })
+        this.sceneData = data
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: this.$t('promptMessage.getSceneFail'),
+          type: 'error'
+        })
       })
-      this.sceneData = data
-      // }).catch(() => {
-      //   this.$message({
-      //     showClose: true,
-      //     duration: 2000,
-      //     message: this.$t('promptMessage.getSceneFail'),
-      //     type: 'error'
-      //   })
-      // })
     },
     chooseScene (item) {
-      item.selected = !item.selected
-      // let scenarioIds = []
-      // scenarioIds.push(item.id)
-      // let fd = new FormData()
-      // fd.append('scenarioIds', scenarioIds)
-      // Userpage.getSceneCaseApi(fd).then(res => {
-      //   let data = res.data[0].testSuites
-      //   let IsHaveCase = data.some(function (element) {
-      //     return (element.testCases.length !== 0)
-      //   })
-      //   if (IsHaveCase) {
-      //     this.scenarioIdList.push(item.id)
-      //     item.selected = !item.selected
-      //   } else {
-      //     this.$message({
-      //       showClose: true,
-      //       duration: 2000,
-      //       message: this.$t('promptMessage.noCase'),
-      //       type: 'warning'
-      //     })
-      //   }
-      // })
+      let scenarioIds = []
+      scenarioIds.push(item.id)
+      let fd = new FormData()
+      fd.append('scenarioIds', scenarioIds)
+      Userpage.getSceneCaseApi(fd).then(res => {
+        let data = res.data[0].testSuites
+        let IsHaveCase = data.some(function (element) {
+          return (element.testCases.length !== 0)
+        })
+        if (IsHaveCase) {
+          this.scenarioIdList.push(item.id)
+          item.selected = !item.selected
+        } else {
+          this.$message({
+            showClose: true,
+            duration: 2000,
+            message: this.$t('promptMessage.noCase'),
+            type: 'warning'
+          })
+        }
+      })
     },
     getAppIcon (item) {
       return URL_PREFIX + 'files/' + item.id
@@ -274,81 +260,21 @@ export default {
       scenarioIds.push(item.id)
       let fd = new FormData()
       fd.append('scenarioIds', scenarioIds)
-      // Userpage.getSceneCaseApi(fd).then(res => {
-      // this.testSuiteData = res.data[0].testSuites
-      let data = [
-        {
-          id: '4',
-          nameCh: '社区场景',
-          nameEn: 'Edgegallery',
-          descriptionCh: '适用于联通测试场景',
-          descriptionEn: 'Suitable for China Unicom test scenarios',
-          testSuites: [
-            {
-              id: '12',
-              nameCh: '安全性测试',
-              nameEn: 'curitytest',
-              descriptionCh: '安全性测试描述',
-              descriptionEn: 'curitytest description',
-              scenarioIdList: '',
-              testCases: [
-                {
-                  id: '455',
-                  nameCh: '病毒扫描',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  codeLanguage: 'java',
-                  expectResultCh: '应用程序可以成功实例化',
-                  expectResultEn: 'app can instantiate successfully.',
-                  type: 'automatic',
-                  testSuiteIdList: '',
-                  testStepCh: '',
-                  testStepEn: ''
-                }
-              ]
-            }, {
-              id: '12',
-              nameCh: '安全性测试',
-              nameEn: 'curitytest',
-              descriptionCh: '安全性测试描述',
-              descriptionEn: 'curitytest description',
-              scenarioIdList: '',
-              testCases: [
-                {
-                  id: '455',
-                  nameCh: '病毒扫描',
-                  nameEn: 'Application Instantiation',
-                  descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                  descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                  codeLanguage: 'java',
-                  expectResultCh: '应用程序可以成功实例化',
-                  expectResultEn: 'app can instantiate successfully.',
-                  type: 'automatic',
-                  testSuiteIdList: '',
-                  testStepCh: '',
-                  testStepEn: ''
-                }
-              ]
-            }
-          ]
-        }
-      ]
-      this.testSuiteData = data[0].testSuites
-      this.isTestCase = this.testSuiteData.every(function (element) {
-        return (element.testCases.length === 0)
+      Userpage.getSceneCaseApi(fd).then(res => {
+        this.testSuiteData = res.data[0].testSuites
+        this.isTestCase = this.testSuiteData.every(function (element) {
+          return (element.testCases.length === 0)
+        })
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: this.$t('home.getFail'),
+          type: 'warning'
+        })
       })
-      // }).catch(() => {
-      //   this.$message({
-      //     showClose: true,
-      //     duration: 2000,
-      //     message: this.$t('home.getFail'),
-      //     type: 'warning'
-      //   })
-      // })
     },
     startTest () {
-      this.$router.push('/EG/developer/testProcess')
       this.scenarioIdList = []
       this.sceneData.forEach(item => {
         if (item.selected) {
@@ -358,8 +284,7 @@ export default {
       let fd = new FormData()
       fd.append('scenarioIdList', this.scenarioIdList)
       Userpage.runTaskApi(this.taskId, fd).then(res => {
-        sessionStorage.setItem('taskId', this.taskId)
-        this.$router.push({ name: 'atpprocess', query: { taskId: this.taskId } })
+        this.$router.push({ path: '/EG/developer/testProcess', query: { taskId: this.taskId } })
       }).catch(() => {
       })
     }
@@ -413,7 +338,9 @@ export default {
     }
   .allscene{
     padding: 0 5.3%;
-    margin: 30px 0;
+    margin-top: 30px;
+    position: relative;
+    z-index: 0;
     display: flex;
     flex-wrap: wrap;
     .list {
@@ -507,8 +434,10 @@ export default {
     }
   }
   .testbtn{
-      margin: 0 80px 20px 0;
-    }
+      position: absolute;
+      z-index: 1;
+      right: 100px;
+      top: 500px;    }
   }
   .selectscene-hidden{
     z-index: -1;
@@ -522,8 +451,6 @@ export default {
     top: 500px;
     left: 22%;
     width: 55%;
-    max-height: 90%;
-    overflow: auto;
     opacity: 0;
     transition: all .2s linear;
   }

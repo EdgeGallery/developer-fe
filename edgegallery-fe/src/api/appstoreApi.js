@@ -27,7 +27,7 @@ const URL_PREFIXV2 = '/mec-appstore/mec/appstore/v2/'
 
 let appstoreApi = {
   getAppData: function (params) {
-    let url = URL_PREFIXV2 + 'query/apps'
+    let url = URL_PREFIXV2 + 'apps/action/query'
     return POST(url, params)
   },
   getAppPromTable: function (limit, offset, appName, sortType, sortItem) {

@@ -67,6 +67,10 @@ export default {
     isUploadPdf: {
       type: Boolean,
       default: false
+    },
+    taskId: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -86,7 +90,7 @@ export default {
           this.$message({
             showClose: true,
             duration: 2000,
-            message: this.$t('promptMessage.uploadSuc'),
+            message: '上传成功',
             type: 'success'
           })
         })

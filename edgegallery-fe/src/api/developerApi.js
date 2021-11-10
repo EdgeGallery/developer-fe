@@ -85,8 +85,38 @@ let applicationRules = {
     return DELETE(urlPrefix + 'applications/' + applicationId + '/appconfiguration/dnsrules/' + ruleId)
   }
 }
+let imageApi = {
+  getAppInfo: function (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/detail')
+  },
+  getVmFlavors: function (flavorId) {
+    return GET(urlPrefix + 'flavors/' + flavorId)
+  },
+  getImage: function (imageId) {
+    return GET(urlPrefix + 'vmimages/' + imageId)
+  },
+  generatePackage: function (applicationId) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/generate-package')
+  },
+  getPackageStructure: function (packageId) {
+    return GET(urlPrefix + 'apppackages/' + packageId + '/action/get-pkg-structure')
+  },
+  getPackageFile: function (packageId, fileName) {
+    return GET(urlPrefix + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
+  }
+}
+let atpTestApi = {
+  submitTest: function (applicationId) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/atp-tests')
+  },
+  getTestId: function (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/action/atp-tests')
+  }
+}
 
 export {
   applicationApi,
-  applicationRules
+  applicationRules,
+  imageApi,
+  atpTestApi
 }

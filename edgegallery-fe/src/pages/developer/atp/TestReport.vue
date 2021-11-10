@@ -38,7 +38,7 @@
           </el-button>
         </div>
       </div>
-      <div class="baseInfo">
+      <div class="baseInfo common-div-bg">
         <div class="title">
           <div class="title-text">
             <span class="titletext">
@@ -96,7 +96,7 @@
       </div>
       <div class="report-chart">
         <div
-          class="left"
+          class="left common-div-bg"
           id="chartwidth"
         >
           <div class="title">
@@ -112,7 +112,7 @@
           />
         </div>
         <div
-          class="right"
+          class="right common-div-bg"
           id="chartwidth"
         >
           <div class="title">
@@ -128,7 +128,7 @@
           />
         </div>
       </div>
-      <div class="report-detail">
+      <div class="report-detail common-div-bg">
         <div class="title">
           <div class="title-text">
             <span
@@ -252,7 +252,7 @@
 </template>
 
 <script>
-// import { Userpage } from '../../../api/atpApi.js'
+import { Userpage } from '../../../api/atpApi.js'
 import pdf from 'vue-pdf'
 import { formatDateTime } from '../../../tools/common.js'
 
@@ -269,7 +269,7 @@ export default {
       resultIcon: '',
       htmlTitle: '',
       currUrl: window.location.href,
-      taskId: '',
+      taskId: this.$route.query.taskId,
       scenarioId: '',
       tableData: [],
       chartData: [],
@@ -288,227 +288,46 @@ export default {
   },
   methods: {
     getReport () {
-      // Userpage.getTaskApiV2(this.taskId).then(res => {
-      let data = {
-        appName: 'positioning-serviceNoDependencyLhl',
-        appVersion: '1.0',
-        createTime: '2021-03-01T08:29:20.930+0000',
-        endTime: '2021-03-01T08:48:53.037+0000',
-        id: 'a46f632b-3f0c-44ca-b1be-28ad8b40d76d',
-        providerId: 'EdgeGallery',
-        status: 'success',
-        testScenarios: [
-          {
-            id: '123456',
-            label: 'China Unicom',
-            nameCh: '联通场景',
-            nameEn: 'liantong',
-            testSuites: [
-              {
-                id: '12',
-                nameCh: '安全性测试',
-                nameEn: 'curitytest',
-                descriptionCh: '安全性测试描述',
-                descriptionEn: 'curitytest description',
-                scenarioIdList: '',
-                testCases: [
-                  {
-                    id: '455',
-                    nameCh: '病毒扫描',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    codeLanguage: 'java',
-                    expectResultCh: '应用程序可以成功实例化',
-                    expectResultEn: 'app can instantiate successfully.',
-                    type: 'automatic',
-                    testSuiteIdList: '',
-                    testStepCh: '',
-                    testStepEn: '',
-                    result: 'success'
-                  }
-                ]
-              }, {
-                id: '12',
-                nameCh: '遵从测试',
-                nameEn: 'curiereertytddddest',
-                descriptionCh: '安全性测试描述',
-                descriptionEn: 'curitytest description',
-                scenarioIdList: '',
-                testCases: [
-                  {
-                    id: '455',
-                    nameCh: '扫描1',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    codeLanguage: 'java',
-                    expectResultCh: '应用程序可以成功实例化',
-                    expectResultEn: 'app can instantiate successfully.',
-                    type: 'automatic',
-                    testSuiteIdList: '',
-                    testStepCh: '',
-                    testStepEn: '',
-                    result: 'success'
-                  }, {
-                    id: '455',
-                    nameCh: '扫描rrrr',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    codeLanguage: 'java',
-                    expectResultCh: '应用程序可以成功实例化',
-                    expectResultEn: 'app can instantiate successfully.',
-                    type: 'automatic',
-                    testSuiteIdList: '',
-                    testStepCh: '',
-                    testStepEn: '',
-                    result: 'failed'
-                  },
-                  {
-                    nameCh: '扫描rrrr',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    type: 'automatic',
-                    result: 'success'
-                  },
-                  {
-                    nameCh: '扫描rrrr',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    type: 'dd',
-                    result: 'success'
-                  },
-                  {
-                    nameCh: '扫描rrrr',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    type: 'automatic',
-                    result: 'success'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: '654321',
-            label: 'EdgeGallery',
-            nameCh: '社区场景',
-            nameEn: 'edgegallery',
-            testSuites: [
-              {
-                id: '12',
-                nameCh: '沙箱测试',
-                nameEn: 'curitytffffest',
-                descriptionCh: '安全性测试描述',
-                descriptionEn: 'curitytest description',
-                scenarioIdList: '',
-                testCases: [
-                  {
-                    id: '455',
-                    nameCh: '沙箱dhsudfgjh',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    codeLanguage: 'java',
-                    expectResultCh: '应用程序可以成功实例化',
-                    expectResultEn: 'app can instantiate successfully.',
-                    type: 'automatic',
-                    testSuiteIdList: '',
-                    testStepCh: '',
-                    testStepEn: '',
-                    result: 'success'
-                  }
-                ]
-              }, {
-                id: '12',
-                nameCh: 'fdsf测试',
-                nameEn: 'curiesdfefreertytest',
-                descriptionCh: '安全性测试描述',
-                descriptionEn: 'curitytest description',
-                scenarioIdList: '',
-                testCases: [
-                  {
-                    id: '455',
-                    nameCh: '病ffff',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    codeLanguage: 'java',
-                    expectResultCh: '应用程序可以成功实例化',
-                    expectResultEn: 'app can instantiate successfully.',
-                    type: 'automatic',
-                    testSuiteIdList: '',
-                    testStepCh: '',
-                    testStepEn: '',
-                    result: 'failed'
-                  }, {
-                    id: '455',
-                    nameCh: 'runn病d',
-                    nameEn: 'Application Instantiation',
-                    descriptionCh: '在一个边缘主机上实例化应用程序及其依赖项应用程序',
-                    descriptionEn: 'nstantiate application and its dependency application on one edge host',
-                    codeLanguage: 'java',
-                    expectResultCh: '应用程序可以成功实例化',
-                    expectResultEn: 'app can instantiate successfully.',
-                    type: 'automatic',
-                    testSuiteIdList: '',
-                    testStepCh: '',
-                    testStepEn: '',
-                    result: 'success'
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        user: {
-          userId: '50ba5ba7-5165-4754-9192-9c739039109d',
-          userName: 'wenson'
+      Userpage.getTaskApi(this.taskId).then(res => {
+        let data = res.data.data
+        // pdf report
+        if (data.reportPath) {
+          this.pdfShow = true
+          this.pdfUrl = this.currUrl.split('#')[0] + 'mec-atp' + data.reportPath
+          this.getNumPages(this.pdfUrl)
+        } else {
+          this.pdfShow = false
         }
-      }
-      // let data = res.data.data
-      // pdf report
-      if (data.reportPath) {
-        this.pdfShow = true
-        this.pdfUrl = this.currUrl.split('#')[0] + 'mec-atp' + data.reportPath
-        this.getNumPages(this.pdfUrl)
-      } else {
-        this.pdfShow = false
-      }
-      this.htmlTitle = data.id
-      this.tableData.push(data)
-      this.resultIcon = this.tableData[0].status === 'success' ? require('../../../assets/images/atp/success.png') : require('../../../assets/images/atp/fail.png')
-      this.tableData.forEach(item => {
-        item.createTime = formatDateTime(item.createTime)
-        item.endTime = formatDateTime(item.endTime)
+        this.htmlTitle = data.id
+        this.tableData.push(data)
+        this.resultIcon = this.tableData[0].status === 'success' ? require('../../../assets/images/atp/success.png') : require('../../../assets/images/atp/fail.png')
+        this.tableData.forEach(item => {
+          item.createTime = formatDateTime(item.createTime)
+          item.endTime = formatDateTime(item.endTime)
+        })
+        this.testScenarios = data.testScenarios
+        this.activeNameList = []
+        this.finishActiveNameList = []
+        let _chartObj = {
+          dataRight: [],
+          nameRightCh: [],
+          nameRightEn: [],
+          dataCh: [],
+          dataEn: []
+        }
+        this.getResultData(_chartObj)
+        this.$nextTick(() => {
+          this.drawLeftLine()
+          this.drawRightLine()
+        })
+      }).catch(() => {
+        this.$message({
+          duration: 2000,
+          showClose: true,
+          type: 'warning',
+          message: this.$t('promptMessage.getTaskListFail')
+        })
       })
-      this.testScenarios = data.testScenarios
-      this.activeNameList = []
-      this.finishActiveNameList = []
-      let _chartObj = {
-        dataRight: [],
-        nameRightCh: [],
-        nameRightEn: [],
-        dataCh: [],
-        dataEn: []
-      }
-      this.getResultData(_chartObj)
-      this.$nextTick(() => {
-        this.drawLeftLine()
-        this.drawRightLine()
-      })
-      // }).catch(() => {
-      //   this.$message({
-      //     duration: 2000,
-      //     showClose: true,
-      //     type: 'warning',
-      //     message: this.$t('promptMessage.getTaskListFail')
-      //   })
-      // })
     },
     getResultData (chartObj) {
       this.testScenarios.forEach(scenarios => {
@@ -760,8 +579,6 @@ export default {
       border-radius: 16px;
       padding: 40px;
       border: solid 1px #8f80d9;
-      background-image: url('../../../assets/images/div_bg.png');
-      box-shadow: 50px 50px 75px rgba(36 ,20, 119 ,0.25);
       .report-app-info{
         position: relative;
         padding-top: 15px;
@@ -801,7 +618,6 @@ export default {
               padding: 40px;
               width: 100%;
               border: solid 1px #8f80d9;
-              background-image: url('../../../assets/images/div_bg.png');
               border-radius: 16px;
             }
             .sumchart{
@@ -816,8 +632,6 @@ export default {
     .report-detail{
       padding: 40px;
       border: solid 1px #8f80d9;
-      background-image: url('../../../assets/images/div_bg.png');
-      box-shadow: 50px 50px 75px rgba(36 ,20, 119 ,0.25);
       border-radius: 16px;
       .detail-content{
         .scene{
