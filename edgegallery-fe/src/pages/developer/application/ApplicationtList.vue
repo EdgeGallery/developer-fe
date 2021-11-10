@@ -55,7 +55,6 @@
         <ListComp
           :data-list="currentAppList"
           :class="zoom===2?'':'app-flex-items'"
-          @createApplication="createApplication"
         />
       </div>
       <div
@@ -159,10 +158,6 @@ export default {
       return this.allAppList.filter(item => {
         return item.status === status
       })
-    },
-    createApplication () {
-      this.$store.commit('changeFlow', 0)
-      this.$emit('createApplication', true)
     }
   },
   mounted () {

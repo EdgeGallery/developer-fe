@@ -22,6 +22,13 @@
 //   DELETE
 // } from './request.js'
 
+function formatDate (timestamp) {
+  let date = new Date(timestamp)
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
+  let day = date.getDate()
+  return year + (month < 10 ? '-0' : '-') + month + (day < 10 ? '-0' : '-') + day
+}
 function formatDateTime (dateStr) {
   if (!dateStr) {
     return ''
@@ -63,6 +70,7 @@ function filterArr (arr) {
 }
 export {
   formatDateTime,
+  formatDate,
   promptJumpToClassic,
   filterArr
 }

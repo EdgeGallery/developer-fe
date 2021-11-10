@@ -20,6 +20,9 @@
             :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
             alt="EdgeGallery"
           >
+          <div class="flow-name">
+            {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -44,7 +47,7 @@ export default {
       appStoreWorkflowDataArray: [
         {
           id: 6,
-          name: '',
+          name: '应用商店',
           class: 'app-store',
           src: require('../../../assets/images/application/app_store.png'),
           toPath: '/EG/appstore/applications'
@@ -67,8 +70,8 @@ export default {
   .appstore{
     color: #fff;
      .item{
-      top: 150px;
-      left: -80px;
+      top: 140px;
+      left: -70px;
     }
   }
 </style>

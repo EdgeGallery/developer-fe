@@ -69,7 +69,7 @@ let applicationApi = {
     return GET('/mec-developer/mec/developer/v2/applications/' + appId)
   },
   getIcon: function (iconFileId) {
-    return GET('/mec-developer/mec/developer/v2/files/' + iconFileId + '/action/get-file-stream')
+    return GET('/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream')
   },
   uploadAppIcon: function (params) {
     return POST('/mec-developer/mec/developer/v2/upload-files', params)
@@ -93,7 +93,7 @@ let applicationApi = {
     return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/servicerequireds/' + serName)
   },
   getApiUrl: function (apiFileId) {
-    return '/mec-developer/mec/developer/v2/files/' + apiFileId
+    return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
   }
 }
 
