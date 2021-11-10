@@ -28,7 +28,7 @@
       </div>
       <div
         class="detail-center"
-        :class="{'deploy-detail-center':isChangeStyle===false}"
+        :class="{'deploy-detail-center':!isChangeStyle}"
       >
         <div
           class="detail-center-bg flex-center  hoverHands"
@@ -40,7 +40,7 @@
             src="../../../assets/images/sandbox/mec_img.png"
             alt=""
             class="detail-center-img"
-            :class="{'breath':egBreathStyle===false}"
+            :class="{'breath':!egBreathStyle}"
           >
           <p
             class="detail-center-title defaultFontLight"
@@ -67,9 +67,9 @@
                 >
                   <img
                     class="deploy-img-center"
-                    :class="{'deploy-img-center-finish':configNetworkFinish===true,'breath':deployBreathStyle===false}"
+                    :class="{'deploy-img-center-finish':configNetworkFinish,'breath':!deployBreathStyle}"
                     src="../../../assets/images/sandbox/deploy_img.png"
-                    @mouseleave="configNetworkFinish===false"
+                    @mouseleave="!configNetworkFinish"
                     alt=""
                   >
                   <div class="deploy-edit flex-center">
@@ -109,18 +109,17 @@
             <div class="details-center-vm">
               <div
                 class="flex-center details-center-vm-img"
-                :class="{'details-center-vm-img-finish':isExportImage===true}"
+                :class="{'details-center-vm-img-finish':isExportImage}"
               >
                 <img
                   class="vm-center-img"
-                  :class="{'vm-center-img-finish':isAddVmFinish === true,'breath':vmBreathStyle===false}"
+                  :class="{'vm-center-img-finish':isAddVmFinish,'breath':!vmBreathStyle}"
                   src="../../../assets/images/sandbox/vm_img.png"
                   alt=""
                 >
                 <div
                   class="vm-bg"
-                  :class="{'':xx===true}"
-                  @mouseleave="isAddVmFinish===true?vmBreathStyle=true:vmBreathStyle=false"
+                  @mouseleave="isAddVmFinish?vmBreathStyle=true:vmBreathStyle=false"
                 >
                   <div
                     class="vm-btn flex-center vm-btn-add hoverHands"
@@ -142,7 +141,7 @@
                   <div
                     class="vm-btn flex-center vm-btn-detail hoverHands"
                     @click="checkVmDetail"
-                    :class="isAddVmFinish === false ? 'img-onlyRead':'img-click'"
+                    :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -158,7 +157,7 @@
                   </div>
                   <div
                     class="vm-btn flex-center hoverHands"
-                    :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
+                    :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -174,7 +173,7 @@
                   </div>
                   <div
                     class="vm-btn flex-center hoverHands"
-                    :class="isStartupVmFinish === false ? 'img-onlyRead':'img-click'"
+                    :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -191,7 +190,7 @@
                   <div
                     class="vm-btn-start vm-btn flex-center hoverHands"
                     @click="startUpVm"
-                    :class="isBtnStart === false ? 'img-onlyRead':'img-click'"
+                    :class="!isBtnStart ? 'img-onlyRead':'img-click'"
                   >
                     <el-tooltip
                       class="item edit-tooltip"
@@ -208,7 +207,7 @@
                 </div>
                 <div
                   v-if="isStartupVm"
-                  :class="{'vmStatus':vmloading === true}"
+                  :class="{'vmStatus':vmloading}"
                 >
                   <div
                     class="vmStatus-loading"
@@ -218,7 +217,7 @@
                 </div>
                 <div
                   v-else
-                  :class="{'vmStatus':vmloading === true}"
+                  :class="{'vmStatus':vmloading}"
                 >
                   <div
                     v-for="(item,index) in 4"
@@ -245,7 +244,7 @@
             <el-button
               class="common-btn rt exportImage_btn"
               @click="returnHome"
-              :class="{'exportImage_btn_show':isExportImage===true}"
+              :class="{'exportImage_btn_show':isExportImage}"
             >
               {{ '导出镜像' }}
             </el-button>
@@ -253,7 +252,7 @@
         </div>
         <div
           class="detail-center-name defaultFontLight"
-          :class="{'hide-div':isChangeStyle===false}"
+          :class="{'hide-div':!isChangeStyle}"
         >
           5G MEC
         </div>
@@ -262,19 +261,19 @@
           src="../../../assets/images/sandbox/failed_line.png"
           alt=""
           class="detail-center-line"
-          :class="{'scale-small-line':isChangeStyle===false}"
+          :class="{'scale-small-line':!isChangeStyle}"
         >
         <img
           v-else
           src="../../../assets/images/sandbox/mec_sucess.png"
           alt=""
           class="detail-center-line"
-          :class="{'scale-small-line':isChangeStyle===false}"
+          :class="{'scale-small-line':!isChangeStyle}"
         >
       </div>
       <div
         class="detail-bottom"
-        :class="{'scale-small':isChangeStyle===false}"
+        :class="{'scale-small':!isChangeStyle}"
       >
         <div class="detail-bottom-one">
           <img
@@ -323,8 +322,8 @@
           @mouseleave="upfBreathStyle=false"
         >
           <img
-            :class="{'breath':isUpfSucess===false}"
-            :src="isUpfSucess === true ? require('@/assets/images/sandbox/upf_finish.png'): require('@/assets/images/sandbox/upf_btn.png')"
+            :class="{'breath':!isUpfSucess}"
+            :src="isUpfSucess ? require('@/assets/images/sandbox/upf_finish.png'): require('@/assets/images/sandbox/upf_btn.png')"
             alt=""
           >
           <p
@@ -380,8 +379,6 @@
     <AddVm
       v-if="showContent==='showAddVm'"
       @addVmFinish="addVmFinish"
-      :net-work-list-prop="netWorkList"
-      :selected-networks-prop="selectedNetworks"
     />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"

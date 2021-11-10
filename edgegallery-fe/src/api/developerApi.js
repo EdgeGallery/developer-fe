@@ -21,8 +21,46 @@ import {
   PUT,
   DELETE
 } from '../tools/request.js'
-
 const urlPrefix = '/mec-developer/mec/developer/v2/'
+let sandbox = {
+  // determine whether to select sandbox by applicationid
+  getUserSelectSandbox (applicationid) {
+    return GET('/mec/developer/v2/applications/' + applicationid)
+  },
+  // get all sandboxlist
+  getSandboxList: function (vimtype, architecture) {
+    return GET('/mec/developer/v2/mephosts' + '?vimType=' + vimtype + '&architecture=' + architecture + '&limit=12&offset=0')
+  },
+  // get sandboxname by mephostid
+  getSandboxByMepHostId: function (mepHostId) {
+    return GET('/mec/developer/v2/mephosts/' + mepHostId)
+  },
+  // Judge whether the sandbox is selected successfully
+  selectSandbox: function (applicationId, mepHostId) {
+    return PUT('/mec/developer/v2/applications/' + applicationId + '/action/sel-mephost', mepHostId)
+  },
+  // get all internet type
+  getAllInternetType (applicationid) {
+    return GET('/mec/developer/v2/applications/' + applicationid + '/networks')
+  },
+  // add internet type
+  addInternetType (applicationid, parmas) {
+    return POST('/mec/developer/v2/applications/' + applicationid + '/networks', parmas)
+  },
+  // get vm specs
+  getVmspec () {
+    return GET('/mec/developer/v2/flavors/')
+  },
+  // get vm image list
+  getVmImageList (parmas) {
+    return POST('/mec/developer/v2/vmimages/list', parmas)
+  },
+  // add vm image
+  addVmImage (applicationId, parmas) {
+    return POST('/mec/developer/v2/applications/' + applicationId + '/vms', parmas)
+  }
+}
+
 let applicationApi = {
   getApplicationList: function () {
     return GET('/mec-developer/mec/developer/v2/applications?limit=12&offset=0')
@@ -115,6 +153,7 @@ let atpTestApi = {
 }
 
 export {
+  sandbox,
   applicationApi,
   applicationRules,
   imageApi,
