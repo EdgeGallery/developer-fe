@@ -141,6 +141,12 @@ let imageApi = {
   },
   getPackageFile: function (packageId, fileName) {
     return GET(urlPrefix + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
+  },
+  modifyPackageFile: function (packageId, fileName, params) {
+    return PUT(urlPrefix + 'apppackages/' + packageId + '/action/update-file-content?fileName' + fileName, params)
+  },
+  getFileInfo: function (fileId) {
+    return GET(urlPrefix + 'upload-files/' + fileId)
   }
 }
 let atpTestApi = {
