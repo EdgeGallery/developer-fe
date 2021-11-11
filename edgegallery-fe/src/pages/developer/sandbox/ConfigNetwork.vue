@@ -123,7 +123,20 @@ export default {
   name: 'ConfigNetwork',
   data () {
     return {
-      vmNetworkList: [],
+      vmNetworkList: [
+        {
+          description: 'N6 network, when end-side devices access edge applications, they need to access through this network',
+          name: 'mec_network_n6'
+        },
+        {
+          description: 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed',
+          name: 'mec_network_mep'
+        },
+        {
+          description: 'Internet Network',
+          name: 'mec_network_internet'
+        }
+      ],
       newNetworkList: [
         {
           name: '',
@@ -131,7 +144,7 @@ export default {
         }
       ],
       selectedNetworks: [],
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {
@@ -159,18 +172,32 @@ export default {
     },
     finishEditNetwork (type) {
       let _data = []
-      if (type === 'confim') {
-        _data = this.selectedNetworks
-        this.newNetworkList.forEach(item => {
-          sandbox.addInternetType(this.applicationId, item).then(() => {
-            this.$emit('editNetwork', _data)
-          })
+      // if (type === 'confim') {
+      //   _data = this.selectedNetworks
+      //   this.newNetworkList.forEach(item => {
+      //     sandbox.addInternetType(this.applicationId, item).then(() => {
+      //       this.$emit('editNetwork', _data)
+      //     })
+      //   })
+      // }
+      if (type === 'confirm') {
+        let _newArr = this.newNetworkList.filter(item => {
+          return item.name !== ''
         })
+        _data = this.vmNetworkList.concat(_newArr)
+        this.$emit('editNetwork', _data, this.selectedNetworks)
+      } else {
+        this.$emit('editNetwork', _data, [])
       }
     }
   },
   mounted () {
-    this.getInternetType()
+    this.vmNetworkList.forEach((item) => {
+      if (item.name !== '') {
+        this.selectedNetworks.push(item.name)
+      }
+    })
+    // this.getInternetType()
   }
 }
 </script>

@@ -59,7 +59,7 @@ export default {
       selectSandbox: '',
       isCheckSandboxList: false,
       breathStyle: false,
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {

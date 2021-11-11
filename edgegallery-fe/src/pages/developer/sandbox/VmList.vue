@@ -156,6 +156,7 @@
 </template>
 
 <script>
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: '',
   props: {
@@ -174,13 +175,15 @@ export default {
   },
   data () {
     return {
+      applicationId: sessionStorage.getItem('applicationId') || '',
       isAddVmFinish: this.isAddVmFinishProp,
       isStartupVm: false,
       vmloading: false,
       isExportImage: false,
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
-      isBtnStart: this.isBtnStartProp
+      isBtnStart: this.isBtnStartProp,
+      vmId: ''
     }
   },
   methods: {
@@ -188,6 +191,7 @@ export default {
       this.$emit('addVm', 'showAddVm')
     },
     checkVmDetail () {
+      this.bus.$emit('checkVmDetail', this.vmId)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
     startUpVm () {
@@ -200,11 +204,17 @@ export default {
         this.$emit('startUpVm', this.isStartupVmFinish)
         clearTimeout(_timer)
       }, 3000)
+    },
+    getVmList () {
+      sandbox.getVmList(this.applicationId).then(res => {
+        this.vmId = res.data[0].id
+      })
     }
   },
   created () {
   },
   mounted () {
+    // this.getVmList()
   }
 }
 </script>
