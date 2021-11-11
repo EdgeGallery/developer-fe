@@ -151,7 +151,7 @@ export default {
           data.sort(function (a, b) {
             return b.createTime < a.createTime ? -1 : 1
           })
-          data.length > 4 ? this.currentAppList.concat(data.slice(0, 4)) : this.currentAppList.concat(data)
+          this.currentAppList.concat(data)
         }
       }).catch(err => {
         console.log(err)
