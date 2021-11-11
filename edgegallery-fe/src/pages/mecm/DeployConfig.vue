@@ -102,7 +102,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="configButtonHandler('deployConfigData')"
+          @click="configButtonHandlerTest('deployConfigData')"
         >
           {{ $t("common.confirm") }}
         </el-button>
@@ -120,6 +120,7 @@ export default {
   },
   data () {
     return {
+      userId: sessionStorage.getItem('userId'),
       deployConfigData: {
         ipAddress: '',
         status: '',
@@ -146,20 +147,17 @@ export default {
     },
     ipAddress: {
       type: String,
-      default: ''
+      default: '192.168.1.16'
     }
   },
   methods: {
     getAppTemplate () {
-      apm.getAppTemplateApi(this.appId).then(res => {
+      apm.getAppTemplateApi(this.userId, this.appId).then(res => {
         this.templateInputs = []
         if (res.data.deployType !== 'container') {
-          let inputs = res.data.inputs
-          inputs.forEach(item => {
-            this.templateInputs.push(this.__parseObject(item))
-          })
+          this.templateInputs = this.parseTemplateData(res.data.inputs)
         }
-        this.__resetDeployConfigData()
+        this.resetDeployConfigData()
         this.deployConfigData.appId = this.appId
         this.deployConfigData.appPackageId = this.appPackageId
         this.deployConfigData.ipAddress = this.ipAddress
@@ -172,16 +170,20 @@ export default {
         })
       })
     },
-    __parseObject (item) {
-      let obj = {
-        label: '',
-        value: ''
-      }
-      obj.label = item.name
-      obj.value = item.defaultValue
-      return obj
+    parseTemplateData (inputs) {
+      let _templateDataList = []
+      inputs.forEach(item => {
+        let _templateDataItem = {
+          label: '',
+          value: ''
+        }
+        _templateDataItem.label = item.name
+        _templateDataItem.value = item.defaultValue
+        _templateDataList.push(_templateDataItem)
+      })
+      return _templateDataList
     },
-    __resetDeployConfigData () {
+    resetDeployConfigData () {
       this.deployConfigData = {
         ipAddress: '',
         status: '',
@@ -192,10 +194,18 @@ export default {
         hardwareAbilities: []
       }
     },
+    configButtonHandlerTest (deployConfigData) {
+      this.$refs[deployConfigData].validate((valid) => {
+        if (valid) {
+          sessionStorage.setItem('currentFlow', 9)
+          this.$router.push('/EG/mecm/distributeFinish')
+        }
+      })
+    },
     configButtonHandler (deployConfigData) {
       this.$refs[deployConfigData].validate((valid) => {
         if (valid) {
-          let params = {
+          let _params = {
             appId: this.appId,
             appPackageId: this.appPackageId,
             appName: this.deployConfigData.appName,
@@ -204,11 +214,12 @@ export default {
             hwCapabilities: this.deployConfigData.hardwareAbilities
           }
           this.showLoading = true
-          if (typeof (params.mecHost) === 'string') {
-            appo.confirmToDeploy(params).then(res => {
-              let instanceId = res.data.response.app_instance_id
-              this.timer = setTimeout(() => {
-                this.queryInstanceStatus(instanceId)
+          if (typeof (_params.mecHost) === 'string') {
+            appo.confirmToDeploy(this.userId, _params).then(res => {
+              let _instanceId = res.data.response.app_instance_id
+              let _timer = setTimeout(() => {
+                clearTimeout(_timer)
+                this.queryInstanceStatus(_instanceId)
               }, 1000)
             }).catch(() => {
               this.$message.error(this.$t('deployConfig.deployFailed'))
@@ -218,9 +229,9 @@ export default {
       })
     },
     queryInstanceStatus (instanceId) {
-      appo.getInstanceInfo(instanceId).then(res => {
-        let status = res.data.response.operationalStatus
-        if (status === 'Created') {
+      appo.getInstanceInfo(this.userId, instanceId).then(res => {
+        let _status = res.data.response.operationalStatus
+        if (_status === 'Created') {
           this.showLoading = false
           this.$message({
             showClose: true,
@@ -230,16 +241,22 @@ export default {
           })
           sessionStorage.setItem('currentFlow', 9)
           this.$router.push('/EG/developer/home')
-        } else if (status === 'Create failed') {
+        } else if (_status === 'Create failed') {
           this.showLoading = false
           this.$message.error(res.data.response.operationInfo)
           this.loading = false
         } else {
-          this.timer = setTimeout(() => { this.queryInstanceStatus(instanceId) }, 1000)
+          let _timer = setTimeout(() => {
+            clearTimeout(_timer)
+            this.queryInstanceStatus(instanceId)
+          }, 1000)
         }
       }).catch(err => {
         if (err.name === 'Error' && err.message === 'Request failed with status code 404') {
-          setTimeout(() => { this.queryInstanceStatus() }, 1000)
+          let _timer = setTimeout(() => {
+            clearTimeout(_timer)
+            this.queryInstanceStatus(instanceId)
+          }, 1000)
         } else {
           throw err
         }
@@ -265,7 +282,8 @@ export default {
     }
   },
   mounted () {
-    this.getAppTemplate()
+    this.deployConfigData.ipAddress = this.ipAddress
+    this.deployConfigData.status = 'Distributed'
   }
 }
 </script>

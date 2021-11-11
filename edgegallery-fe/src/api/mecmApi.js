@@ -24,25 +24,21 @@ import {
 const apmApi = '/apm/v1'
 const appoApi = '/appo/v1'
 
-const getUserId = () => {
-  return sessionStorage.getItem('userId')
-}
-
 let apm = {
-  getAppTemplateApi (packageId) {
-    return GET(apmApi + '/tenants/' + getUserId() + '/packages/' + packageId + '/apptemplate')
+  getAppTemplateApi (userId, packageId) {
+    return GET(apmApi + '/tenants/' + userId + '/packages/' + packageId + '/apptemplate')
   }
 }
 
 let appo = {
-  confirmToDeploy (params) {
-    return POST(appoApi + '/tenants/' + getUserId() + '/app_instances', params)
+  confirmToDeploy (userId, params) {
+    return POST(appoApi + '/tenants/' + userId + '/app_instances', params)
   },
-  confirmToBatchDeploy (params) {
-    return POST(appoApi + '/tenants/' + getUserId() + '/app_instances/batch_create', params)
+  confirmToBatchDeploy (userId, params) {
+    return POST(appoApi + '/tenants/' + userId + '/app_instances/batch_create', params)
   },
-  getInstanceInfo (instanceId) {
-    return GET(appoApi + '/tenants/' + getUserId() + '/app_instance_infos/' + instanceId)
+  getInstanceInfo (userId, instanceId) {
+    return GET(appoApi + '/tenants/' + userId + '/app_instance_infos/' + instanceId)
   }
 }
 
