@@ -430,7 +430,6 @@ export default {
 <style lang="less">
 .appShowOnline {
   margin: auto;
-  background: #fff;
   border-radius: 16px;
   .show_app {
     .show_common {

@@ -450,20 +450,8 @@ export default {
       btnInstantiate: false,
       btnClean: true,
       deployStatus: 'NOTDEPLOY',
-      workStatus: '',
-      instantiateInfo: '',
       displayDom: false,
       version: '',
-      showSynchronize: false,
-      customColor: '#1ececa',
-      huaweiper: 0,
-      jiuzhouyunper: 0,
-      startSync: false,
-      hwMeAO: false,
-      jzyMEAO: false,
-      hwinterval: '',
-      jzyinterval: '',
-      showlun: false,
       showSubDialog: false,
       options: [],
       mechostIp: '',
@@ -1228,9 +1216,11 @@ export default {
     border-radius: 0 16px 16px 16px;
     transition: all 0.1s;
     box-shadow: 0 0 68px 5px rgba(94,24,200,0.06);
+    height: 400px;
   }
   .container_div_active{
     border-radius: 0 16px 16px 16px;
+    height: 400px;
   }
 }
 </style>

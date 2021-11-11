@@ -41,7 +41,6 @@ export default {
 </script>
 <style lang="less">
 .appIntroduction {
-  background: url('../../../assets/images/div_bg.png');
   margin: auto;
   border-radius: 16px;
 }
