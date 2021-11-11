@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     handleClickFinish () {
-      sessionStorage.setItem('currentFlow', 9)
+      this.$store.commit('changeFlow', '9')
       this.$router.push('/EG/developer/home')
     }
   }
