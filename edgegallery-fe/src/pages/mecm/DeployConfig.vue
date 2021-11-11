@@ -215,7 +215,7 @@ export default {
     configButtonHandlerTest (deployConfigData) {
       this.$refs[deployConfigData].validate((valid) => {
         if (valid) {
-          sessionStorage.setItem('currentFlow', 9)
+          this.$store.commit('changeFlow', '9')
           this.$router.push('/EG/mecm/distributeFinish')
         }
       })
