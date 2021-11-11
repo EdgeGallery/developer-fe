@@ -173,16 +173,17 @@ export default {
       if (this.isSecureBackend === 'true') {
         address = 'https://'
       }
-      let params = {
-        appPkgId: this.currentRowData.packageId,
-        appId: this.currentRowData.appId,
-        appPkgName: this.currentRowData.name,
-        appPkgVersion: this.currentRowData.version,
-        appPkgDesc: this.currentRowData.shortDesc
-          ? this.currentRowData.shortDesc
-          : 'none',
-        appPkgAffinity: this.currentRowData.affinity,
-        appPkgPath:
+      if (this.currentRowData.version && selectedMecHost.length > 0) {
+        let params = {
+          appPkgId: this.currentRowData.packageId,
+          appId: this.currentRowData.appId,
+          appPkgName: this.currentRowData.name,
+          appPkgVersion: this.currentRowData.version,
+          appPkgDesc: this.currentRowData.shortDesc
+            ? this.currentRowData.shortDesc
+            : 'none',
+          appPkgAffinity: this.currentRowData.affinity,
+          appPkgPath:
           address +
           this.currentRowData.appstoreEndpoint +
           '/mec/appstore/v1/apps/' +
@@ -190,12 +191,11 @@ export default {
           '/packages/' +
           this.currentRowData.packageId +
           '/action/download',
-        appProvider: this.currentRowData.provider,
-        mecHostInfo: selectedMecHost,
-        createdTime: new Date().toString(),
-        modifiedTime: new Date().toString()
-      }
-      if (params.appPkgVersion && params.mecHostInfo.length > 0) {
+          appProvider: this.currentRowData.provider,
+          mecHostInfo: selectedMecHost,
+          createdTime: new Date().toString(),
+          modifiedTime: new Date().toString()
+        }
         appDeploy
           .distributeApp(params, this.userId)
           .then((response) => {
@@ -209,7 +209,7 @@ export default {
             )
           })
       } else {
-        if (params.mecHostInfo.length === 0) {
+        if (selectedMecHost.length === 0) {
           this.$eg_messagebox(this.$t('distribute.selectMecHost'), 'warning')
         } else {
           this.$eg_messagebox(this.$t('distribute.selectVersion'), 'warning')
