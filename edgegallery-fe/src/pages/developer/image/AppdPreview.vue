@@ -37,13 +37,11 @@
         </el-col>
         <el-col :span="16">
           <div class="file-desc">
-            2
             <mavon-editor
               v-model="markdownSource"
               :toolbars-flag="false"
-              :editable="false"
               :subfield="false"
-              default-open="preview"
+              :default-open="viewOrEdit"
               :box-shadow="false"
               preview-background="#ffffff"
             />
@@ -51,6 +49,20 @@
         </el-col>
       </el-row>
       <div class="btn-container appdPreviewBtn">
+        <el-button
+          class="common-btn"
+          v-show="!isEditFile"
+          @click="modifyFile()"
+        >
+          {{ $t('common.edit') }}
+        </el-button>
+        <el-button
+          class="common-btn"
+          v-show="isEditFile"
+          @click="saveFile()"
+        >
+          保存
+        </el-button>
         <el-button
           class="common-btn"
           @click="confirm()"
@@ -79,7 +91,9 @@ export default {
       projectId: sessionStorage.getItem('mecDetailID'),
       csarId: sessionStorage.getItem('csarId'),
       markdownSource: '',
-      packageId: this.$route.query.packageId
+      packageId: this.$route.query.packageId,
+      viewOrEdit: 'preview',
+      isEditFile: false
     }
   },
   methods: {
@@ -128,6 +142,18 @@ export default {
           }
         })
       }
+    },
+    modifyFile () {
+      this.viewOrEdit = 'edit'
+      this.isEditFile = true
+    },
+    saveFile () {
+      this.viewOrEdit = 'preview'
+      this.isEditFile = false
+      // imageApi.modifyPackageFile(this.packageId, this.modifyFileName, editMarkDownstr).then(res => {
+      //   this.viewOrEdit = 'preview'
+      //   this.isEditFile = false
+      // })
     }
   },
   mounted () {
@@ -180,7 +206,6 @@ export default {
       }
     }
     .appdPreviewBtn {
-      margin: 41px 0px 0 0;
       .el-button {
         border-radius: 12px;
         font-size: 14px;
