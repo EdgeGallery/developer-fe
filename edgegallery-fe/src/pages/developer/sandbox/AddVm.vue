@@ -54,7 +54,7 @@
         <div class="simulator-info-title">
           <p>
             <span />
-            选择模拟机规格
+            选择虚拟机规格
           </p>
         </div>
         <div class="simulator-info-content">
