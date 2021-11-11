@@ -23,7 +23,7 @@
       <div
         class="zoom app-btn"
         title="缩小"
-        @click.stop="changeView(1)"
+        @click.stop="changeSmall()"
       />
       <div
         class="app-btn"
@@ -35,7 +35,7 @@
         class="app-btn"
         :class="isViewActive?'view-active':'view-default'"
         title="更多"
-        @click.stop="changeView(2)"
+        @click.stop="changeView(isViewActive)"
       />
     </div>
     <div
@@ -111,10 +111,9 @@ export default {
   components: {
     ListComp
   },
-  props: {
-    zoom: {
-      type: Number,
-      default: 0
+  computed: {
+    zoom (val) {
+      return Number(this.$store.state.zoom)
     }
   },
   data () {
@@ -135,7 +134,11 @@ export default {
   },
   methods: {
     changeView (val) {
-      this.$emit('zoomChanged', val)
+      this.isViewActive = !val
+      val ? this.$emit('zoomChanged', 3) : this.$emit('zoomChanged', 2)
+    },
+    changeSmall () {
+      this.$emit('zoomChanged', 1)
     },
     searchProject () {
       this.isSearchActive = true
@@ -190,7 +193,7 @@ export default {
       background: url("../../../assets/images/projects/pro_view_default.png") no-repeat center;
     }
     .view-active{
-      background: url("../../../assets/images/projects/pro_view_click.png") no-repeat center;
+      background: url("../../../assets/images/projects/pro_put_away.png") no-repeat center;
     }
   }
   .app-list-main{

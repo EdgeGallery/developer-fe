@@ -257,7 +257,7 @@ export default {
             message: '部署成功',
             type: 'success'
           })
-          sessionStorage.setItem('currentFlow', 9)
+          this.$store.commit('changeFlow', '9')
           this.$router.push('/EG/developer/home')
         } else if (_status === 'Create failed') {
           this.showLoading = false

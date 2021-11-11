@@ -55,7 +55,12 @@ export default {
     }
   },
   mounted () {
-    sessionStorage.getItem('isCreate') === '0' ? this.isShowAppFormDlg = false : this.isShowAppFormDlg = true
+    if (sessionStorage.getItem('isCreate') === '0') {
+      this.isShowAppFormDlg = false
+    } else {
+      this.isShowAppFormDlg = true
+    }
+    this.$store.commit('changeZoom', '1')
   }
 }
 </script>

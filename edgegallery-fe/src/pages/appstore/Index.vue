@@ -184,7 +184,7 @@ export default {
       this.$router.push(path)
     },
     jumpToIncubation () {
-      this.$store.commit('changeFlow', 6)
+      this.$store.commit('changeFlow', '6')
       this.$router.push('/EG/developer/home')
     },
     removeClass () {

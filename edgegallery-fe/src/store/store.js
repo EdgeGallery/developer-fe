@@ -24,7 +24,8 @@ export default new Vuex.Store({
     activeTab: sessionStorage.getItem('activeTab'),
     keyValue: sessionStorage.getItem('keyValue'),
     language: localStorage.getItem('language') ? localStorage.getItem('language') : 'en',
-    currentFlow: sessionStorage.getItem('currentFlow') || '0'
+    currentFlow: sessionStorage.getItem('currentFlow') || '0',
+    zoom: sessionStorage.getItem('zoom') || '2'
   },
   mutations: {
     changeTab (state, data) {
@@ -37,6 +38,10 @@ export default new Vuex.Store({
     },
     changelanguage (state, data) {
       state.language = data
+    },
+    changeZoom (state, data) {
+      state.zoom = data
+      sessionStorage.setItem('zoom', data)
     },
     changeFlow (state, data) {
       state.currentFlow = data

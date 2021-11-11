@@ -53,19 +53,49 @@
           label="架构"
           class="label-item-half"
         >
-          <el-input v-model="applicationFormData.architecture" />
+          <el-select
+            v-model="applicationFormData.architecture"
+            placeholder="请选择架构类型"
+          >
+            <el-option
+              v-for="item in architectureOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           label="行业"
           class="label-item-half"
         >
-          <el-input v-model="applicationFormData.indusry" />
+          <el-select
+            v-model="applicationFormData.industry"
+            placeholder="请选择行业类型"
+          >
+            <el-option
+              v-for="item in industryOptions"
+              :key="item.value"
+              :label="item.label[0]"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           label="类型"
           class="label-item-half"
         >
-          <el-input v-model="applicationFormData.type" />
+          <el-select
+            v-model="applicationFormData.type"
+            placeholder="请选择应用类型"
+          >
+            <el-option
+              v-for="item in typeOptions"
+              :key="item.value"
+              :label="item.label[0]"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           label="图标"
@@ -171,6 +201,7 @@
 
 <script>
 import { applicationApi } from '../../../api/developerApi.js'
+import { Industry, Type, Architecture } from '../../../tools/commondata.js'
 export default {
   name: 'CreateProComp',
   data () {
@@ -181,7 +212,7 @@ export default {
         'provider': '',
         'appClass': '',
         'architecture': '',
-        'indusry': '',
+        'industry': '',
         'type': '',
         'description': '',
         'appCreateType': 'INTEGRATED'
@@ -213,6 +244,9 @@ export default {
           { required: true, message: '请输入应用描述', trigger: 'blur' }
         ]
       },
+      industryOptions: Industry,
+      typeOptions: Type,
+      architectureOptions: Architecture,
       isUploadIcon: false,
       logoFileList: [],
       mdFileList: [],
@@ -318,8 +352,10 @@ export default {
       this.applicationFormData.iconFileId = iconFileId
       this.applicationFormData.guideFileId = mdFileId
       applicationApi.createNewApp(this.applicationFormData).then(res => {
-        this.$store.commit('changeFlow', 1)
+        this.$store.commit('changeFlow', '1')
+        this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
+        this.$message.success('创建应用成功！')
         this.$router.push('/EG/developer/home')
       }).catch(err => {
         console.log(err)
@@ -351,18 +387,18 @@ export default {
     justify-content: left;
     height: 45px;
     .default-icon{
-      width: 45px;
-      height: 45px;
+      width: 30px;
+      height: 30px;
       background: url("../../../assets/images/projects/pro_history_pro.png") no-repeat center;
       background-size: cover;
     }
     .or{
-      line-height: 45px;
+      line-height: 30px;
       margin: 0 10px;
     }
     .upload-icon{
-      height: 45px;
-      line-height: 45px;
+      height: 30px;
+      line-height: 30px;
       display: flex;
     }
     .upload-content{
@@ -371,23 +407,23 @@ export default {
     }
   }
   .el-upload--picture-card{
-    width: 45px;
-    height: 45px;
-    line-height: 45px;;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     background: rgba(255,255,255,.5);
   }
   .el-upload-list--picture-card .el-upload-list__item{
-    width: 45px;
-    height: 45px;
-    min-width: 45px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
   }
   .el-upload-list{
     width: auto;
   }
   .el-icon-info {
     position: relative;
-    top: -35px;
-    left: 35px;
+    top: -30px;
+    left: 30px;
     height: 15px;
   }
   .icon-info-active {
