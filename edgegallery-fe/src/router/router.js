@@ -120,6 +120,11 @@ export default new Router({
       component: () => import('../pages/mecm/DeployConfig.vue')
     },
     {
+      path: '/EG/mecm/distributeFinish',
+      name: 'distributeFinish',
+      component: () => import('../pages/mecm/DistributeFinish.vue')
+    },
+    {
       path: '/EG/appstore/applications',
       name: 'applications',
       component: () => import('../pages/appstore/Index.vue')

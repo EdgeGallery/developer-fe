@@ -17,29 +17,49 @@
 
 import {
   GET,
-  // POST,
-  // PUT,
+  POST,
   DELETE
 } from '../tools/request.js'
 
-const urlPrefix = '/apm/v1/'
+const apmApi = '/apm/v1'
+const appoApi = '/appo/v1'
+
+let apm = {
+  getAppTemplateApi (userId, packageId) {
+    return GET(apmApi + '/tenants/' + userId + '/packages/' + packageId + '/apptemplate')
+  }
+}
+
+let appo = {
+  confirmToDeploy (userId, params) {
+    return POST(appoApi + '/tenants/' + userId + '/app_instances', params)
+  },
+  confirmToBatchDeploy (userId, params) {
+    return POST(appoApi + '/tenants/' + userId + '/app_instances/batch_create', params)
+  },
+  getInstanceInfo (userId, instanceId) {
+    return GET(appoApi + '/tenants/' + userId + '/app_instance_infos/' + instanceId)
+  }
+}
 
 let appDeploy = {
   getDistributeDeployList: function (userId) {
-    return GET(urlPrefix + 'tenants/' + userId + '/packages')
+    return GET(apmApi + 'tenants/' + userId + '/packages')
   },
   deleteDistributionApp (type, hostIp, packageId, userId) {
-    let url = urlPrefix + 'tenants/' + userId + '/packages/' + packageId + '/hosts/' + hostIp
+    let url = apmApi + 'tenants/' + userId + '/packages/' + packageId + '/hosts/' + hostIp
     if (type === 2) {
-      url = urlPrefix + 'tenants/' + userId + '/packages/' + packageId
+      url = apmApi + 'tenants/' + userId + '/packages/' + packageId
     }
     return DELETE(url)
   },
   initApmPackages () {
-    return GET(urlPrefix + 'apps/syncstatus')
+    return GET(apmApi + 'apps/syncstatus')
   }
 }
 
 export {
+  apm,
+  appo,
   appDeploy
 }
