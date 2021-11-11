@@ -108,7 +108,7 @@
             effect="light"
             placement="right"
           >
-            <em class="el-icon-question" />
+            <em class="el-icon-info" />
           </el-tooltip>
         </el-upload>
       </el-form-item>
@@ -239,7 +239,7 @@ export default {
           this.$message({
             showClose: true,
             duration: 2000,
-            message: this.$t('promptMessage.submitSuccess'),
+            message: '提交成功',
             type: 'success'
           })
           this.$emit('setCaseTop', 'close')

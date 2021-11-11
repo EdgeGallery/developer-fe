@@ -48,6 +48,7 @@
 
 <script>
 import SandBoxList from './Sandbox.vue'
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'SandBox',
   components: {
@@ -55,12 +56,28 @@ export default {
   },
   data () {
     return {
-      selectSandbox: '选择沙箱',
+      selectSandbox: '',
       isCheckSandboxList: false,
-      breathStyle: false
+      breathStyle: false,
+      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
     }
   },
   methods: {
+    isSelectSandbox () {
+      sandbox.getUserSelectSandbox(this.applicationId).then(res => {
+        if (res.data.mepHostId == null) {
+          this.selectSandbox = '选择沙箱'
+        } else {
+          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
+            this.selectSandbox = res.data.name
+          }).catch(err => {
+            console.log(err)
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     toSelectSandbox () {
       if (this.selectSandbox === '选择沙箱') {
         this.isCheckSandboxList = true
@@ -75,6 +92,7 @@ export default {
     }
   },
   mounted () {
+    this.isSelectSandbox()
   }
 }
 </script>

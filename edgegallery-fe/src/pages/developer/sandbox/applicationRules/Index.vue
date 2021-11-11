@@ -25,6 +25,7 @@
       <h4 class="rules-title-sub clear">
         流量规则
         <el-button
+          id="btn_addTrafficRules"
           class="common-btn inner-btn rt"
           @click="addTrafficRules"
         >
@@ -63,6 +64,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              :id="'btn_editAppTrafficRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="editAppTrafficRule(scope.$index,scope.row)"
@@ -70,6 +72,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              :id="'btn_delAppTrafficRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="deleteTrafficRules(scope.row)"
@@ -83,6 +86,7 @@
       <h4 class="rules-title-sub title-top clear">
         DNS规则
         <el-button
+          id="btn_addDnsRules"
           class="common-btn inner-btn rt"
           @click="addDnsRules"
         >
@@ -121,6 +125,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              :id="'btn_editAppDnsRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="editAppDnsRule(scope.$index,scope.row)"
@@ -128,6 +133,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              :id="'btn_delAppDnsRule'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="deleteDnsRules(scope.row)"
@@ -140,12 +146,14 @@
 
       <div class="btn-container">
         <el-button
+          id="btn_cancelApprules"
           class="common-btn"
           @click="configApplicationRules('cancel')"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
+          id="btn_confirmApprules"
           class="common-btn"
           @click="configApplicationRules('confirm')"
         >
@@ -161,6 +169,7 @@
       :application-id-prop="applicationId"
       :traffic-rules-form-prop="appRulesData"
       :is-add-rule-data-prop="isAddRuleData"
+      :common-data-prop="commonData"
     />
     <trafficFilter
       class="traffic-filter"
@@ -171,6 +180,7 @@
       class="interface-info"
       :class="{'interface-info-hidden':!isInterfaceInfoShow}"
       @setRulesListTop="setRulesListTop"
+      :common-data-prop="commonData"
     />
     <dnsRules
       class="dns-rules"
@@ -200,14 +210,7 @@ export default {
   data () {
     return {
       trafficListData: [],
-      dnsListData: [
-        {
-          dnsRuleId: 'dd1',
-          domainName: 'domainName',
-          ipAddressType: 'IP_V4',
-          ttl: '85000'
-        }
-      ],
+      dnsListData: [],
       screenHeight: document.body.clientHeight,
       timer: false,
       isRulesConfigShow: true,
@@ -228,7 +231,14 @@ export default {
           dstInterface: []
         }
       ],
-      appRulesData: {}
+      appRulesData: {},
+      commonData: {
+        port: '8080',
+        protocol: 'http',
+        address: '127.0.0.1/0',
+        ip: '127.0.0.1',
+        ttl: '85000'
+      }
     }
   },
   methods: {
@@ -246,13 +256,7 @@ export default {
         this.isRulesConfigShow = true
         return
       }
-      if (this.isAddRuleData) {
-        this.trafficListData.push(data)
-      } else {
-        this.trafficListData.splice(this.editIndex, 1, data)
-      }
-      this.isTrafficRulesShow = false
-      this.isRulesConfigShow = true
+      this.getAppTrafficRuleList()
     },
     handleDnsRulesData (data) {
       if (JSON.stringify(data) === '{}') {
@@ -260,18 +264,14 @@ export default {
         this.isRulesConfigShow = true
         return
       }
-      if (this.isAddRuleData) {
-        this.dnsListData.push(data)
-      } else {
-        this.dnsListData.splice(this.editIndex, 1, data)
-      }
-      this.isDnsRulesShow = false
-      this.isRulesConfigShow = true
+      this.getAppDnsRuleList()
     },
     setRulesListTop (type, data) {
       switch (type) {
         case 'finishTrafficRules': {
           this.handleTrafficRulesData(data)
+          this.isTrafficRulesShow = false
+          this.isRulesConfigShow = true
           break
         }
         case 'addTrafficFilter': {
@@ -279,7 +279,7 @@ export default {
           this.isTrafficRulesShow = false
           break
         }
-        case 'cancelTrafficFilter': {
+        case 'finishTrafficFilter': {
           this.isTrafficFilterShow = false
           this.isTrafficRulesShow = true
           break
@@ -289,13 +289,15 @@ export default {
           this.isTrafficRulesShow = false
           break
         }
-        case 'cancelInterfaceInfo': {
+        case 'finishInterfaceInformation': {
           this.isInterfaceInfoShow = false
           this.isTrafficRulesShow = true
           break
         }
         case 'finishDnsRules': {
-          this.handleDnsRulesData()
+          this.handleDnsRulesData(data)
+          this.isDnsRulesShow = false
+          this.isRulesConfigShow = true
           break
         }
         default: {
@@ -326,7 +328,7 @@ export default {
       this.isTrafficRulesShow = true
     },
     deleteTrafficRules (row) {
-      this.$eg_messagebox('确认删除该数据', 'error').then(() => {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         applicationRules.deleteAppTrafficRule(this.applicationId, row.trafficRuleId).then(() => {
           this.getAppTrafficRuleList()
         })
@@ -338,8 +340,8 @@ export default {
         dnsRuleId: '',
         domainName: 'domainName',
         ipAddressType: 'IP_V4',
-        ipAddress: '0.0.0.0',
-        ttl: '85000'
+        ipAddress: this.commonData.ip,
+        ttl: this.commonData.ttl
       }
       this.isRulesConfigShow = false
       this.isDnsRulesShow = true
@@ -352,9 +354,11 @@ export default {
       this.isDnsRulesShow = true
     },
     deleteDnsRules (row) {
-      this.$eg_messagebox('确认删除该数据', 'error').then(() => {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         applicationRules.deleteAppDnsRule(this.applicationId, row.dnsRuleId).then(() => {
           this.getAppDnsRuleList()
+        }).catch(() => {
+          this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
       })
     },
@@ -450,6 +454,9 @@ export default {
     overflow: auto;
     opacity: 1;
     transition: all .2s linear;
+    .el-input-number .el-input__inner{
+      text-align: center;
+    }
   }
   .interface-info{
     position: absolute;

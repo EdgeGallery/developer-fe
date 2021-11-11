@@ -21,6 +21,7 @@
     </h3>
 
     <el-form
+      id="form_trafficFilter"
       label-width="125px"
       size="mini"
       class="common-form clear"
@@ -104,30 +105,30 @@
         />
       </el-form-item>
       <el-form-item
-        label="QCI"
+        label="qCI"
         class="input-half lt"
       >
-        <el-input
-          maxlength="30"
-          v-model="trafficFilterForm.qci"
+        <el-input-number
+          v-model="trafficFilterForm.qCI"
+          :min="0"
         />
       </el-form-item>
       <el-form-item
-        label="DSCP"
+        label="dSCP"
         class="input-half lt"
       >
-        <el-input
-          maxlength="30"
-          v-model="trafficFilterForm.dscp"
+        <el-input-number
+          v-model="trafficFilterForm.dSCP"
+          :min="0"
         />
       </el-form-item>
       <el-form-item
-        label="TC"
+        label="tC"
         class="input-half lt"
       >
-        <el-input
-          maxlength="30"
-          v-model="trafficFilterForm.tc"
+        <el-input-number
+          v-model="trafficFilterForm.tC"
+          :min="0"
         />
       </el-form-item>
       <el-form-item
@@ -166,14 +167,16 @@
 
     <div class="btn-container">
       <el-button
+        id="btn_cancelTrafficFilter"
         class="common-btn"
-        @click="cancelTrafficFilter"
+        @click="finishTrafficFilter('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
+        id="btn_confirmTrafficFilter"
         class="common-btn"
-        @click="cancelTrafficFilter"
+        @click="finishTrafficFilter('confirm')"
       >
         {{ $t('common.confirm') }}
       </el-button>
@@ -186,27 +189,37 @@ export default {
   name: 'Traffic',
   data () {
     return {
-      trafficFilterForm: {
-        srcAddress: '0.0.0.0/0',
-        srcPort: '8080',
-        dstAddress: '0.0.0.0/0',
-        dstPort: '8080',
-        protocol: 'ANY',
-        tag: '1234',
-        qci: 1,
-        dscp: 0,
-        tc: 1,
-        srcTunnelAddress: '0.0.0.0',
-        srcTunnelPort: '8080',
-        tgtTunnelAddress: '0.0.0.0',
-        dstTunnelPort: '8080'
-      }
+      trafficFilterForm: {}
     }
   },
   methods: {
-    cancelTrafficFilter () {
-      this.$emit('setRulesListTop', 'cancelTrafficFilter')
+    // send TrafficFilter Data to TrafficRules page
+    finishTrafficFilter (type) {
+      let _data = {}
+      if (type === 'confirm') {
+        _data = this.trafficFilterForm
+      }
+      this.bus.$emit('finishTrafficFilter', _data)
+      this.$emit('setRulesListTop', 'finishTrafficFilter')
+    },
+    // get TrafficFilter Data from TrafficRules page when add
+    addTrafficFilter () {
+      let _this = this
+      this.bus.$on('addTrafficFilter', function (data) {
+        _this.trafficFilterForm = data
+      })
+    },
+    // get TrafficFilter Data from TrafficRules page when edit
+    editTrafficFilter () {
+      let _this = this
+      this.bus.$on('editTrafficFilter', function (data) {
+        _this.trafficFilterForm = data
+      })
     }
+  },
+  mounted () {
+    this.addTrafficFilter()
+    this.editTrafficFilter()
   }
 }
 </script>

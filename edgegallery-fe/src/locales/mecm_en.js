@@ -31,8 +31,8 @@ const en = {
     type: 'Type',
     industry: 'Industry',
     appstoreName: 'App Store Name',
-    syncTime: 'Sync Time',
-    operationBtn: 'Distribution&Instantiate'
+    createTime: 'Sync Time',
+    operationBtn: 'Distribution'
   },
   distributeDeploy: {
     title: 'Distribution&Instantiate',
@@ -41,7 +41,10 @@ const en = {
     delete: 'Delete',
     distribute: 'Distribute',
     deploy: 'Deploy',
-    distributeDeploySuccess: 'Distribute & Deploy Success'
+    distributeDeploySuccess: 'Distribute & Deploy Success',
+    beforeDeleteFromMechost: 'Are you sure to delete this package from the MEC host?',
+    deletePacFrmoHost: 'You have deleted the package from the host successfully!',
+    tip: 'Please enter the search name IP or status'
   },
   distribute: {
     title: 'distribute',
@@ -49,6 +52,21 @@ const en = {
     city: 'City',
     MEPM: 'App LCM IP',
     hwCapability: 'Capabilities'
+  },
+  deployConfig: {
+    title: 'Deployment Configuration',
+    IPAddress: 'IP Address: ',
+    status: 'Status: ',
+    appName: 'App Name',
+    appDesc: 'App Description',
+    placeholderName: 'Name',
+    placeholderDesc: 'Description',
+    hardwareAbilities: 'Hardware Abilities',
+    appNameVerifyRequired: 'Please input the APP name',
+    appNameVerifyValid: '4 to 16 digits (letters, numbers)',
+    appDescVerifyRequired: 'Please input the description.',
+    deployFailed: 'Deploy failed!',
+    getTemplateListFail: 'Failed to get parameters'
   }
 }
 export default en

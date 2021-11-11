@@ -32,7 +32,14 @@
         <div class="desc">
           {{ desc }}
         </div>
+        <div
+          class="desc-sub"
+          v-if="descSub!==''"
+        >
+          {{ descSub }}
+        </div>
         <el-button
+          v-if="cancelText !== ''"
           class="common-btn"
           @click="handleCancel"
         >
@@ -56,6 +63,7 @@ export default {
     return {
       type: 'info',
       desc: '',
+      descSub: '',
       visible: true,
       promise: null,
       cancelText: '',
@@ -65,9 +73,11 @@ export default {
   methods: {
     init () {
       this.visible = true
-      return new Promise((resolve, reject) => {
-        this.promise = { resolve, reject }
-      })
+      if (this.confirmText !== '') {
+        return new Promise((resolve, reject) => {
+          this.promise = { resolve, reject }
+        })
+      }
     },
     destroy () {
       this.visible = false
@@ -79,7 +89,9 @@ export default {
       })
     },
     handleCancel () {
-      this.promise.reject()
+      if (this.cancelText !== '') {
+        this.promise.reject()
+      }
       this.destroy()
     },
     handleConfirm () {
@@ -141,8 +153,13 @@ export default {
     text-align: center;
   }
   .desc {
-    margin: 29px 0 24px;
+    margin: 29px 0 15px;
     line-height: 25px;
+  }
+  .desc-sub{
+    margin-bottom: 15px;
+    font-size: 12px;
+    line-height: 22px;
   }
   .icon {
     width: 100%;

@@ -33,6 +33,10 @@ const en = {
     confirm: 'Confirm',
     finish: 'Finish'
   },
+  promptInformation: {
+    confirmDelete: 'Confirm to delete the data?',
+    deleteFailed: 'Failed to delete data!'
+  },
   ...enLocale,
   ...enClassic,
   ...enHome,

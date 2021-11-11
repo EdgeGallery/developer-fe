@@ -78,7 +78,7 @@
                 架构
               </p>
               <p>
-                {{ basicInfoData.platform }}
+                {{ basicInfoData.architecture }}
               </p>
             </el-col>
             <el-col :span="6">
@@ -94,7 +94,7 @@
                 创建时间
               </p>
               <p>
-                {{ basicInfoData.createDate }}
+                {{ basicInfoData.createTime }}
               </p>
             </el-col>
           </el-row>
@@ -107,15 +107,12 @@
                 {{ basicInfoData.description }}
               </p>
             </el-col>
-            <el-col :span="18">
+            <el-col :span="6">
               <p class="left">
                 应用详情介绍
               </p>
-              <el-button class="app-build-upload">
-                上传文件
-              </el-button>
-              <p class="tip">
-                （请上传md文件按格式的文件）
+              <p>
+                {{ basicInfoData.fileName }}
               </p>
             </el-col>
           </el-row>
@@ -136,50 +133,30 @@
             :data="resourceConfigInfoList"
           >
             <el-table-column
-              type="selection"
-              width="45"
-            />
-            <el-table-column
-              prop="vimName"
+              prop="vmName"
               label="虚拟机名称"
               min-width="14%"
             />
             <el-table-column
               prop="spec"
               label="规格"
-              min-width="14%"
+              min-width="18%"
             />
             <el-table-column
-              prop="net"
+              prop="network"
               label="连接网络"
-              min-width="14%"
+              min-width="18%"
             />
             <el-table-column
               prop="basicImage"
               label="基础镜像"
-              min-width="14%"
+              min-width="12%"
             />
             <el-table-column
-              prop="status"
-              label="状态"
-              min-width="11%"
-            />
-            <el-table-column
-              prop="vimImage"
+              prop="vmImage"
               label="虚机镜像"
-              min-width="35%"
-            >
-              <template>
-                <div>vimImage</div>
-                <div class="progress-bar">
-                  <el-progress
-                    :percentage="100"
-                    :stroke-width="5"
-                    status="success"
-                  />
-                </div>
-              </template>
-            </el-table-column>
+              min-width="15%"
+            />
           </el-table>
         </div>
       </div>
@@ -195,12 +172,6 @@
         <div class="content-wrapper appPackageBuild-content">
           <el-tabs>
             <el-tab-pane label="流量规则">
-              <el-button
-                class="ruleBtn"
-                @click="openDialog('trafficRule')"
-              >
-                {{ $t('appPackage.addTrafficRule') }}
-              </el-button>
               <div class="ruleTable">
                 <el-table
                   class="common-table"
@@ -226,111 +197,37 @@
                     :label="$t('appPackage.action')"
                     min-width="25%"
                   />
-                  <el-table-column
-                    :label="$t('common.operation')"
-                    min-width="20%"
-                  >
-                    <template slot-scope="scope">
-                      <el-button
-                        type="text"
-                        size="medium"
-                        class="editBtn"
-                        @click="checkFilter(scope.row)"
-                      >
-                        查看详情
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="editBtn"
-                        @click="editTrafficRule(scope.$index, scope.row)"
-                      >
-                        {{ $t('common.edit') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="deleteBtn"
-                        @click="deleteTrafficData(scope.$index)"
-                      >
-                        {{ $t('common.delete') }}
-                      </el-button>
-                    </template>
-                  </el-table-column>
                 </el-table>
               </div>
             </el-tab-pane>
             <el-tab-pane label="DNS规则">
-              <el-button
-                class="ruleBtn"
-                @click="openDialog('dnsRule')"
-              >
-                {{ $t('appPackage.addDnsRule') }}
-              </el-button>
               <div class="ruleTable">
                 <el-table
                   class="common-table"
                   :data="dnsRulesInfoList"
                 >
                   <el-table-column
-                    prop="trafficRuleId"
-                    :label="$t('appPackage.trafficRuleId')"
+                    prop="dnsRuleId"
+                    :label="$t('appPackage.dnsRuleId')"
                     min-width="25%"
                   />
                   <el-table-column
-                    prop="action"
-                    :label="$t('appPackage.filterType')"
+                    prop="domainName"
+                    :label="$t('appPackage.domainName')"
                     min-width="25%"
                   />
                   <el-table-column
-                    prop="priority"
-                    :label="$t('appPackage.priority')"
+                    prop="ipAddressType"
+                    :label="$t('appPackage.ipAddressType')"
                     min-width="25%"
                   />
                   <el-table-column
-                    prop="filterType"
-                    :label="$t('appPackage.action')"
+                    prop="ttl"
+                    :label="$t('appPackage.ttl')"
                     min-width="25%"
                   />
-                  <el-table-column
-                    :label="$t('common.operation')"
-                    min-width="20%"
-                  >
-                    <template slot-scope="scope">
-                      <el-button
-                        type="text"
-                        size="medium"
-                        class="editBtn"
-                        @click="checkFilter(scope.row)"
-                      >
-                        查看详情
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="editBtn"
-                        @click="editTrafficRule(scope.$index, scope.row)"
-                      >
-                        {{ $t('common.edit') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="deleteBtn"
-                        @click="deleteTrafficData(scope.$index)"
-                      >
-                        {{ $t('common.delete') }}
-                      </el-button>
-                    </template>
-                  </el-table-column>
                 </el-table>
               </div>
-            </el-tab-pane>
-            <el-tab-pane label="黑白名单">
-              黑白名单
-            </el-tab-pane>
-            <el-tab-pane label="UE标识">
-              UE标识
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -355,13 +252,13 @@
                 :data="capabalityDependsList"
               >
                 <el-table-column
-                  prop="serviceName"
+                  prop="serName"
                   :label="$t('appPackage.serviceName')"
                   min-width="40%"
                 />
                 <el-table-column
-                  prop="description"
-                  :label="$t('appPackage.description')"
+                  prop="version"
+                  :label="$t('appPackage.version')"
                   min-width="60%"
                 />
               </el-table>
@@ -382,7 +279,7 @@
                   min-width="26%"
                 />
                 <el-table-column
-                  prop="port"
+                  prop="internalPort"
                   :label="$t('appPackage.port')"
                   min-width="30%"
                 />
@@ -397,17 +294,8 @@
                   min-width="20%"
                 />
                 <el-table-column
-                  prop="dnaRule"
-                  :label="$t('appPackage.dnaRule')"
-                  min-width="28%"
-                />
-                <el-table-column
-                  prop="trafficRule"
-                  :label="$t('appPackage.trafficRule')"
-                  min-width="28%"
-                />
-                <el-table-column
-                  :label="$t('common.operation')"
+                  prop="description"
+                  :label="$t('appPackage.description')"
                   min-width="28%"
                 />
               </el-table>
@@ -416,12 +304,15 @@
         </div>
       </div>
       <div class="btn-container appPackageBtn">
-        <el-button class="common-btn">
+        <el-button
+          class="common-btn"
+          @click="jumpToPreview"
+        >
           {{ $t('appPackage.appdPreview') }}
         </el-button>
         <el-button
           class="common-btn"
-          @click="returnHome"
+          @click="packageApp()"
         >
           {{ $t('appPackage.build') }}
         </el-button>
@@ -431,81 +322,113 @@
 </template>
 
 <script>
+import { imageApi } from '../../../api/developerApi'
 export default {
   name: 'AppPackageBuild',
   components: {
   },
   data () {
     return {
-      basicInfoData: {
-        name: 'test',
-        version: 'v1',
-        provider: 'Huawei',
-        industry: '智慧园区',
-        type: '视频应用',
-        platform: 'x86',
-        createDate: '2021-10-29 12:34',
-        dependent: '无依赖',
-        description: 'test'
-      },
-      resourceConfigInfoList: [
-        {
-          vimName: 'Unicom_ar',
-          spec: '4C',
-          net: 'networkn6',
-          basicImage: 'ubuntu1804',
-          status: '已部署',
-          vimImage: 'Unicom_ar_ubuntu'
-        },
-        {
-          vimName: 'Unicom_ar',
-          spec: '4C',
-          net: 'networkn6',
-          basicImage: 'ubuntu1804',
-          status: '已部署',
-          vimImage: 'Unicom_ar_ubuntu'
-        }
-      ],
-      trafficRulesInfoList: [
-        {
-          action: 'PASSTHROUGH',
-          filterType: 'FLOW',
-          priority: '1',
-          trafficRuleId: 'tr1'
-        }
-      ],
-      dnsRulesInfoList: [
-        {
-          action: 'PASSTHROUGH',
-          filterType: 'FLOW',
-          priority: '1',
-          trafficRuleId: 'tr1'
-        }
-      ],
-      capabalityDependsList: [
-        {
-          serviceName: '5g位置服务',
-          description: '5g位置服务'
-        }
-      ],
-      capabalityReleaseDataList: [
-        {
-          serviceName: '服务名称',
-          port: '内部端口号',
-          version: '版本',
-          protocol: '协议',
-          dnaRule: 'DNA规则'
-        }
-      ]
+      basicInfoData: {},
+      resourceConfigInfoList: [],
+      trafficRulesInfoList: [],
+      dnsRulesInfoList: [],
+      capabalityDependsList: [],
+      capabalityReleaseDataList: [],
+      applicationId: sessionStorage.getItem('applicationId'),
+      packageId: ''
     }
   },
   methods: {
+    getAppBaseInfo () {
+      imageApi.getAppInfo(this.applicationId).then(res => {
+        if (res.data.vmApp) {
+          this.basicInfoData = res.data.vmApp
+        } else {
+          this.basicInfoData = res.data.containerApp
+        }
+        this.getBaseInfoFileName()
+        this.getResourceConfig()
+        this.getRulesInfo()
+        this.packageId = this.basicInfoData.appPackage.id
+        if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
+          this.basicInfoData.dependent = '无依赖'
+        } else {
+          let _dependents = []
+          let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
+          _requireData.forEach(item => {
+            _dependents.push(item.serName)
+          })
+          this.basicInfoData.dependent = _dependents.toString()
+        }
+      })
+    },
+    getBaseInfoFileName () {
+      imageApi.getFileInfo(this.basicInfoData.guideFileId).then(res => {
+        this.basicInfoData.fileName = res.data.fileName
+      })
+    },
+    getResourceConfig () {
+      let _configInfo = {
+        vmId: '',
+        vmName: '',
+        spec: '',
+        network: '',
+        basicImage: '',
+        vmImage: ''
+      }
+      this.basicInfoData.vmList.forEach(item => {
+        _configInfo.vmId = item.id
+        _configInfo.vmName = item.name
+        this.handleResourceConfig(_configInfo, item)
+        if (!item.imageExportInfo) {
+          _configInfo.vmImage = '无'
+        } else {
+          _configInfo.vmImage = item.imageExportInfo.imageName
+        }
+        this.resourceConfigInfoList.push(_configInfo)
+      })
+    },
+    handleResourceConfig (_configInfo, item) {
+      let _networks = []
+      item.portList.forEach(portItem => {
+        _networks.push(portItem.networkName)
+        _configInfo.network = _networks.toString()
+      })
+      imageApi.getVmFlavors(item.flavorId).then(res => {
+        let _flavors = res.data
+        _configInfo.spec = _flavors.architecture + ' | ' + _flavors.cpu + 'vCPUs' + ' | ' + _flavors.memory + 'GBRAM' + ' | ' + _flavors.dataDiskSize + 'GB+' + _flavors.systemDiskSize + 'GB' + ' Disk'
+      })
+      imageApi.getImage(item.imageId).then(res => {
+        _configInfo.basicImage = res.data.name
+      })
+    },
+    getRulesInfo () {
+      this.trafficRulesInfoList = this.basicInfoData.appConfiguration.trafficRuleList
+      this.dnsRulesInfoList = this.basicInfoData.appConfiguration.dnsRuleList
+      this.capabalityDependsList = this.basicInfoData.appConfiguration.appServiceRequiredList
+      this.capabalityReleaseDataList = this.basicInfoData.appConfiguration.appServiceProducedList
+    },
+    jumpToPreview () {
+      this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
+    },
+    packageApp () {
+      imageApi.generatePackage(this.applicationId).then(res => {
+        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+          this.$router.push('/EG/developer/home')
+        })
+      }).catch(() => {
+        this.$eg_messagebox('打包失败', 'error')
+      })
+    },
     returnHome () {
       this.$store.commit('changeFlow', '4')
       this.$router.push('/EG/developer/home')
     }
   },
-  mounted () {}
+  mounted () {
+    this.getAppBaseInfo()
+  }
 }
 </script>
 
@@ -643,11 +566,6 @@ export default {
         margin-top: 10px;
         .el-tabs__item {
           color: #FFFFFF;
-        }
-        .ruleBtn {
-          border-radius: 12px;
-          color: #5944C0;
-          padding: 3px 18px 2px;
         }
         .ruleTable {
           margin-top: 20px;

@@ -90,6 +90,11 @@ export default new Router({
       component: () => import('../pages/developer/image/AppPackageBuild.vue')
     },
     {
+      path: '/EG/images/appPackageFinish',
+      name: 'appPackageFinish',
+      component: () => import('../pages/developer/image/AppPackageFinish.vue')
+    },
+    {
       path: '/EG/images/appdPreview',
       name: 'appdPreview',
       component: () => import('../pages/developer/image/AppdPreview.vue')
@@ -113,6 +118,11 @@ export default new Router({
       path: '/EG/mecm/deployConfig',
       name: 'deployConfig',
       component: () => import('../pages/mecm/DeployConfig.vue')
+    },
+    {
+      path: '/EG/mecm/distributeFinish',
+      name: 'distributeFinish',
+      component: () => import('../pages/mecm/DistributeFinish.vue')
     },
     {
       path: '/EG/appstore/applications',

@@ -28,7 +28,7 @@
           </p>
           <el-input
             class="common-input"
-            v-model="vmInfo.vmName"
+            v-model="addvmImages.name"
             placeholder="请输入内容"
           />
         </div>
@@ -36,7 +36,7 @@
           <p>用户名</p>
           <el-input
             class="common-input"
-            v-model="vmInfo.vmUsername"
+            v-model="addvmImages.vmCertificate.pwdCertificate.username"
             placeholder="请输入内容"
           />
         </div>
@@ -44,7 +44,7 @@
           <p>密码</p>
           <el-input
             class="common-input"
-            v-model="vmInfo.vmPassword"
+            v-model="addvmImages.vmCertificate.pwdCertificate.password"
             placeholder="请输入内容"
           />
         </div>
@@ -75,8 +75,8 @@
               <el-table-column width="35px">
                 <template slot-scope="scope">
                   <el-radio
-                    :label="scope.row.regulationId"
-                    v-model="vmInfo.selectedRegulationId"
+                    :label="scope.row.id"
+                    v-model="addvmImages.flavorId"
                     class="work-radio"
                   />
                 </template>
@@ -88,7 +88,7 @@
                 show-overflow-tooltip
               >
                 <template slot-scope="scope">
-                  {{ language==='cn'?scope.row.nameZh:scope.row.nameEn }}
+                  {{ scope.row.name }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -98,7 +98,7 @@
                 show-overflow-tooltip
               >
                 <template slot-scope="scope">
-                  {{ language==='cn'?scope.row.sceneZh:scope.row.sceneEn }}
+                  {{ scope.row.description }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -116,21 +116,21 @@
                 :formatter="appendSizeUnit"
               />
               <el-table-column
-                prop="systemDisk"
+                prop="systemDiskSize"
                 label="系统盘"
                 width="110"
                 show-overflow-tooltip
                 :formatter="appendSizeUnit"
               />
               <el-table-column
-                prop="dataDisk"
+                prop="dataDiskSize"
                 label="数据盘"
                 width="100"
                 show-overflow-tooltip
                 :formatter="appendSizeUnit"
               />
               <el-table-column
-                prop="otherAbility"
+                prop="otherExtraInfo"
                 label="其他能力"
                 width="100"
                 show-overflow-tooltip
@@ -156,6 +156,7 @@
                 <el-checkbox
                   v-model="selectedNetworks"
                   :label="scope.row.name"
+                  @change="changeInternet(selectedNetworks)"
                 />
               </template>
             </el-table-column>
@@ -185,35 +186,35 @@
         <div class="selectImage-content">
           <div class="selectImage-public defaultFontLight">
             <el-radio
-              v-model="vmInfo.imageType"
               label="public"
-              @change="handleChangeImgType()"
+              v-model="vmInfo.imageType"
+              @change="changeImageType('public')"
             >
               公有镜像
             </el-radio>
             <el-select
-              v-model="vmInfo.selectedData.public.selectedOSName"
+              v-model="vmInfo.publicSystemName"
               placeholder="请选择"
-              @change="handleChangeOSName"
+              @change="changePublicType(vmInfo.publicSystemName)"
               :disabled="vmInfo.imageType === 'private'"
             >
               <el-option
-                v-for="(item,index) in vmInfo.osNameOptionList"
+                v-for="(item,index) in vmInfo.publicSystemType"
                 :key="index"
                 :label="item"
                 :value="item"
               />
             </el-select>
             <el-select
-              v-model="vmInfo.selectedData.public.selectedSystemId"
+              v-model="vmInfo.publicId"
               placeholder="请选择"
-              :disabled="vmInfo.imageType === 'private'"
+              :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
             >
               <el-option
-                v-for="(item,index) in vmInfo.operateSystemOptionList"
+                v-for="(item,index) in vmInfo.publicImageOptions"
                 :key="index"
-                :label="item"
-                :value="item"
+                :label="item.systemImage"
+                :value="item.id"
               />
             </el-select>
           </div>
@@ -221,33 +222,33 @@
             <el-radio
               v-model="vmInfo.imageType"
               label="private"
-              @change="handleChangeImgType()"
+              @change="changeImageType('private')"
             >
               私有镜像
             </el-radio>
             <el-select
-              v-model="vmInfo.selectedData.private.selectedOSName"
-              @change="handleChangeOSName"
+              v-model="vmInfo.privateSystemName"
+              @change="changePrivateType(vmInfo.privateSystemName)"
               placeholder="请选择"
               :disabled="vmInfo.imageType === 'public'"
             >
               <el-option
-                v-for="(item,index) in vmInfo.osNameOptionList"
+                v-for="(item,index) in vmInfo.privateSystemType"
                 :key="index"
                 :label="item"
                 :value="item"
               />
             </el-select>
             <el-select
-              v-model="vmInfo.selectedData.private.selectedSystemId"
+              v-model="vmInfo.privateId"
               placeholder="请选择"
-              :disabled="vmInfo.imageType === 'public'"
+              :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
             >
               <el-option
-                v-for="(item,index) in vmInfo.operateSystemOptionList"
+                v-for="(item,index) in vmInfo.privateImageOptions"
                 :key="index"
-                :label="item"
-                :value="item"
+                :label="item.systemImage"
+                :value="item.id"
               />
             </el-select>
           </div>
@@ -272,84 +273,63 @@
 </template>
 
 <script>
-import { uniqueArray } from '../../../tools/common.js'
+import { sandbox } from '../../../api/developerApi.js'
+import { filterArr } from '../../../tools/common.js'
 export default {
   name: 'AddVm',
-  props: {
-    netWorkListProp: {
-      type: Array,
-      default: () => []
-    },
-    selectedNetworksProp: {
-      type: Array,
-      default: () => []
-    }
-  },
   data () {
     return {
       language: localStorage.getItem('language'),
-      vmInfo: {
-        vmName: '',
-        vmUsername: '',
-        vmPassword: '',
-        archType: 'X86',
-        selectedRegulationId: '',
-        vmRegulationList: [{
-          architecture: 'X86',
-          cpu: 4,
-          dataDisk: 100,
-          gpu: '',
-          memory: 8,
-          nameEn: 'General Computing-2',
-          nameZh: '通用计算型-2',
-          otherAbility: '',
-          regulationId: 2,
-          sceneEn: 'Ordinary APP',
-          sceneZh: '普通APP',
-          systemDisk: 50
-        }, {
-          architecture: 'X86',
-          cpu: 4,
-          dataDisk: 100,
-          gpu: '',
-          memory: 8,
-          nameEn: 'General Computing-2',
-          nameZh: '通用计算型-2',
-          otherAbility: '',
-          regulationId: 1,
-          sceneEn: 'Ordinary APP',
-          sceneZh: '普通APP',
-          systemDisk: 50
-        }, {
-          architecture: 'X86',
-          cpu: 4,
-          dataDisk: 100,
-          gpu: '',
-          memory: 16,
-          nameEn: 'General Computing-4',
-          nameZh: '通用计算型-4',
-          otherAbility: '',
-          regulationId: 3,
-          sceneEn: 'Ordinary APP',
-          sceneZh: '普通APP',
-          systemDisk: 50
-        }],
-        osNameOptionList: ['通用类型', '特别类型'],
-        operateSystemOptionList: ['一级镜像', '二级镜像'],
-        selectedData: {
-          private: {
-            selectedOSName: '',
-            selectedSystemId: ''
+      addvmImages: {
+        name: '',
+        flavorId: '',
+        imageId: '',
+        vmCertificate: {
+          certificateType: 'PASSWORD',
+          pwdCertificate: {
+            password: '',
+            username: ''
           },
-          public: {
-            selectedOSName: '',
-            selectedSystemId: ''
-          }
+          keyPairCertificate: null
         },
+        areaZone: 'nova',
+        userDate: null,
+        portList: []
+      },
+      vmInfo: {
+        archType: 'X86',
+        publicSystemName: '',
+        privateSystemName: '',
+        publicSystemType: [],
+        publicSystemImage: [],
+        publicImageOptions: [],
+        privateSystemType: [],
+        privateSystemImage: [],
+        privateImageOptions: [],
+        vmRegulationList: [],
+        osNameOptionList: [],
+        publicId: '',
+        privateId: '',
         imageType: 'public'
       },
-      vmNetworkList: this.netWorkListProp,
-      selectedNetworks: this.selectedNetworksProp
+      vmNetworkList: [],
+      selectedNetworks: [],
+      vmSpecs: [],
+      queryImage: {
+        name: '',
+        visibleType: '',
+        osType: '',
+        status: 'PUBLISHED',
+        uploadTimeBegin: '',
+        queryCtrl: {
+          offset: 0,
+          limit: 10,
+          sortBy: 'uploadTime',
+          sortOrder: 'Desc'
+        }
+      },
+      imageList: [],
+      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
     }
   },
   watch: {
@@ -358,66 +338,94 @@ export default {
     }
   },
   methods: {
-    resetData (imageType = 'public', selectedOSName = '', selectedSystemId = '') {
-      this.vmInfo.selectedData = {
-        private: {
-          selectedOSName: '',
-          selectedSystemId: ''
-        },
-        public: {
-          selectedOSName: '',
-          selectedSystemId: ''
+    getVmSpecs () {
+      sandbox.getVmspec().then(res => {
+        if (res.data && res.data.length <= 0) {
+          return
         }
-      }
-      this.vmInfo.selectedData[imageType].selectedOSName = selectedOSName
-      this.vmInfo.selectedData[imageType].selectedSystemId = selectedSystemId
+        this.vmSpecs = res.data
+        this.filterVmRegulation()
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getInternetType () {
+      sandbox.getAllInternetType(this.applicationId).then(res => {
+        if (res.data && res.data.length <= 0) {
+          return
+        }
+        this.vmNetworkList = res.data
+        this.vmNetworkList.forEach((item) => {
+          if (item.name !== '') {
+            this.selectedNetworks.push(item.name)
+          }
+        })
+        this.vmNetworkList.forEach(item => {
+          this.selectedNetworks.forEach(items => {
+            if (item.name === items) {
+              this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+            }
+          })
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getVmImageLists () {
+      sandbox.getVmImageList(this.queryImage).then(res => {
+        if (res.data && res.data.length <= 0) {
+          return
+        }
+        this.imageList = res.data.imageList
+        this.imageList.forEach(item => {
+          if (item.visibleType === 'public') {
+            this.vmInfo.publicSystemType.push(item.osType)
+            this.vmInfo.publicSystemImage.push({ systemType: item.osType, systemImage: item.name + '[' + item.osVersion + ' ' + item.osBitType + '(' + item.systemDiskSize + 'GB)]', id: item.id })
+          } else {
+            this.vmInfo.privateSystemType.push(item.osType)
+            this.vmInfo.privateSystemImage.push({ systemType: item.osType, systemImage: item.name + '[' + item.osVersion + ' ' + item.osBitType + '(' + item.systemDiskSize + 'GB)]', id: item.id })
+          }
+        })
+        this.vmInfo.publicSystemType = filterArr(this.vmInfo.publicSystemType)
+        this.vmInfo.privateSystemType = filterArr(this.vmInfo.privateSystemType)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     addVmInfo () {
       this.validateInput()
-      this.$emit('getStepData', { step: 'specSetting' })
+    },
+    changeImageType (data) {
+      this.vmInfo.imageType = data
+      data === 'public' ? this.vmInfo.privateSystemName = '' : this.vmInfo.publicSystemName = ''
+      data === 'public' ? this.vmInfo.privateImageOptions = '' : this.vmInfo.publicImageOptions = ''
+      data === 'public' ? this.vmInfo.privateId = '' : this.vmInfo.publicId = ''
     },
     validateInput () {
-      if (this.vmInfo.selectedRegulationId === -1) {
-        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSpecMustSelectTip'), 'warning')
-        return false
-      }
-      if (this.vmInfo.selectedData[this.vmInfo.imageType].selectedSystemId === '') {
-        this.$eg_messagebox(this.$t('workspace.deployDebugVm.vmSystemImageMustSelectTip'), 'warning')
-        return false
-      }
-      return true
+
     },
     handleChangeArch () {
       this.filterVmRegulation()
-      this.vmInfo.selectedRegulationId = -1
+      this.addvmImages.flavorId = -1
     },
     filterVmRegulation () {
-      this.vmInfo.vmRegulationList = this.vmConfigData.vmRegulationList.filter(item => item.architecture === this.vmInfo.archType)
+      this.vmInfo.vmRegulationList = this.vmSpecs.filter(item => item.architecture === this.vmInfo.archType)
     },
-    handleChangeImgType () {
-      this.resetData(this.vmInfo.imageType)
-      this.filterOSName()
-      this.vmInfo.operateSystemOptionList = []
+    changePublicType (data) {
+      this.vmInfo.publicId = ''
+      this.vmInfo.publicImageOptions = []
+      this.vmInfo.publicSystemImage.forEach(item => {
+        if (item.systemType === data) {
+          this.vmInfo.publicImageOptions.push(item)
+        }
+      })
     },
-    filterOSName () {
-      this.vmInfo.osNameOptionList = uniqueArray(this.vmConfigData.vmSystemList.filter(item => item.type === this.vmInfo.imageType)
-        .map(item => item.operateSystem))
-    },
-    handleChangeOSName () {
-      this.filterOperateSystemOption()
-      this.resetData(this.vmInfo.imageType, this.vmInfo.selectedData[this.imageType].selectedOSName)
-    },
-    filterOperateSystemOption () {
-      if (this.vmInfo.selectedData[this.imageType].selectedOSName === '') {
-        return
-      }
-
-      this.vmInfo.operateSystemOptionList = this.vmConfigData.vmSystemList.filter(
-        item => item.type === this.vmInfo.imageType && item.operateSystem === this.vmInfo.selectedData[this.imageType].selectedOSName
-      ).map(item => {
-        return {
-          'systemId': item.systemId,
-          'label': item.systemName + '[' + item.operateSystem + ' ' + item.version + ' ' + item.systemBit + '(' + item.systemDisk + 'GB)]'
+    changePrivateType (data) {
+      this.vmInfo.privateId = ''
+      this.vmInfo.privateImageOptions = []
+      this.vmInfo.privateSystemImage.forEach(item => {
+        if (item.systemType === data) {
+          this.vmInfo.privateImageOptions.push(item)
         }
       })
     },
@@ -427,19 +435,42 @@ export default {
     appendSizeUnit (row, column, cellValue) {
       return cellValue + 'GB'
     },
+    changeInternet (data) {
+      this.addvmImages.portList = []
+      this.vmNetworkList.forEach(item => {
+        data.forEach(items => {
+          if (item.name === items) {
+            this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+          }
+        })
+      })
+    },
     addVmFinish (type) {
-      let _data = []
+      this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
       if (type === 'confirm') {
-        _data = this.selectedNetworks
+        if (this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== '') {
+          sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+            this.$message({
+              message: '虚拟机添加成功！',
+              type: 'success'
+            })
+            this.$emit('addVmFinish', this.selectedNetworks)
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.$message({
+            message: '请完善内容，再次点击提交！',
+            type: 'warning'
+          })
+        }
       }
-      this.$emit('addVmFinish', _data)
     }
   },
   mounted () {
-    // this.filterVmRegulation()
-    // this.filterOSName()
-    // this.filterOperateSystemOption()
-    // this.vmNetworkList = this.netWorkListProp
+    this.getVmSpecs()
+    this.getInternetType()
+    this.getVmImageLists()
   }
 }
 </script>

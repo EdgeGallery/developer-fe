@@ -20,6 +20,7 @@
       分流规则
     </h3>
     <el-form
+      id="form_trafficRules"
       label-width="120px"
       size="mini"
       class="common-form clear"
@@ -87,6 +88,7 @@
     <h4 class="rules-title-sub clear">
       流过滤规则
       <el-button
+        id="btn_addTrafficFilter"
         class="common-btn inner-btn rt"
         @click="addTrafficFilter"
       >
@@ -127,16 +129,20 @@
         :label="$t('common.operation')"
         width="120px"
       >
-        <template>
+        <template slot-scope="scope">
           <el-button
+            :id="'btn_editTrafficFilter'+scope.$index"
             type="text"
             class="operation-btn-text"
+            @click="editTrafficFilter(scope.$index,scope.row)"
           >
             {{ $t('common.edit') }}
           </el-button>
           <el-button
+            :id="'btn_delTrafficFilter'+scope.$index"
             type="text"
             class="operation-btn-text"
+            @click="deleteTrafficFilter(scope.$index)"
           >
             {{ $t('common.delete') }}
           </el-button>
@@ -151,6 +157,7 @@
       <h4 class="rules-title-sub clear">
         转发接口信息
         <el-button
+          id="btn_addInterfaceInformation"
           class="common-btn inner-btn rt"
           @click="addInterfaceInformation"
         >
@@ -184,31 +191,35 @@
           label="隧道指定参数"
         />
         <el-table-column
-          prop="dstMACAddress"
+          prop="dstMacAddress"
           label="目的MAC地址"
         />
         <el-table-column
-          prop="srcMACAddress"
+          prop="srcMacAddress"
           label="源MAC地址"
         />
         <el-table-column
-          prop="dstIPAddress"
+          prop="dstIpAddress"
           label="目的地址"
         />
         <el-table-column
           :label="$t('common.operation')"
           width="120px"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
+              :id="'btn_editInterfaceInformation'+scope.$index"
               type="text"
               class="operation-btn-text"
+              @click="editInterfaceInformation(scope.$index,scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              :id="'btn_delInterfaceInformation'+scope.$index"
               type="text"
               class="operation-btn-text"
+              @click="deleteInterfaceInformation(scope.$index)"
             >
               {{ $t('common.delete') }}
             </el-button>
@@ -219,12 +230,14 @@
 
     <div class="btn-container">
       <el-button
+        id="btn_cancelTrafficRules"
         class="common-btn"
         @click="finishTrafficRules('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
+        id="btn_confirmTrafficRules"
         class="common-btn"
         @click="finishTrafficRules('confirm')"
       >
@@ -250,11 +263,18 @@ export default {
     isAddRuleDataProp: {
       type: Boolean,
       default: true
+    },
+    commonDataProp: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
     return {
-      trafficRuleForm: {},
+      trafficRuleForm: {
+        trafficFilter: [],
+        dstInterface: []
+      },
       filterType: [
         { value: 'FLOW' },
         { value: 'PACKET' }
@@ -271,20 +291,65 @@ export default {
       interfaceTableData: [],
       applicationId: this.applicationIdProp,
       isAddRuleData: true,
-      rulesId: ''
+      rulesId: '',
+      editIndex: 0,
+      isAddTrafficFilter: true,
+      isAddInterfaceInfo: true,
+      commonData: this.commonDataProp
     }
   },
   methods: {
+    handleTrafficFilterData (data) {
+      let _trafficFilterTemp = []
+      if (data.trafficFilter) {
+        data.trafficFilter.forEach(item => {
+          let _objFilter = {
+            qCI: item.qCI,
+            dSCP: item.dSCP,
+            tC: item.tC
+          }
+          for (let key in item) {
+            if (typeof (item[key]) !== 'number') {
+              _objFilter[key] = item[key].join(',')
+            }
+          }
+          _trafficFilterTemp.push(_objFilter)
+        })
+      }
+      this.filterTableData = _trafficFilterTemp
+    },
     finishTrafficRules (type) {
       let _data = {}
+      let _arrFilter = []
+      this.filterTableData.forEach(item => {
+        let _objFilter = {
+          qCI: item.qCI,
+          dSCP: item.dSCP,
+          tC: item.tC
+        }
+        for (let key in item) {
+          if (typeof (item[key]) !== 'number') {
+            _objFilter[key] = item[key].split(',')
+          }
+        }
+        _arrFilter.push(_objFilter)
+      })
+      this.trafficRuleForm.trafficFilter = _arrFilter
+      this.trafficRuleForm.dstInterface = this.interfaceTableData
+
       if (type === 'confirm') {
         _data = this.trafficRuleForm
         let _params = {
+          trafficRuleId: '',
           trafficFilter: [],
           dstInterface: []
         }
         for (let k in _data) {
           _params[k] = _data[k]
+        }
+        if (_params.trafficRuleId === '') {
+          this.$eg_messagebox('流规则标识不能为空', 'warning')
+          return
         }
         if (this.isAddRuleData) {
           this.submitAppTrafficRule(_params, _data)
@@ -296,10 +361,93 @@ export default {
       }
     },
     addTrafficFilter () {
+      this.isAddTrafficFilter = true
+      this.trafficFilterForm = {
+        srcAddress: this.commonData.address,
+        srcPort: this.commonData.port,
+        dstAddress: this.commonData.address,
+        dstPort: this.commonData.port,
+        protocol: this.commonData.protocol,
+        tag: '1234',
+        qCI: 1,
+        dSCP: 0,
+        tC: 1,
+        srcTunnelAddress: this.commonData.ip,
+        srcTunnelPort: this.commonData.port,
+        tgtTunnelAddress: this.commonData.ip,
+        dstTunnelPort: this.commonData.port
+      }
       this.$emit('setRulesListTop', 'addTrafficFilter')
+      this.bus.$emit('addTrafficFilter', this.trafficFilterForm)
+    },
+    // send TrafficFilter Data to TrafficFilter page
+    editTrafficFilter (index, row) {
+      this.isAddTrafficFilter = false
+      this.trafficFilterForm = JSON.parse(JSON.stringify(row))
+      this.editIndex = index
+      this.$emit('setRulesListTop', 'addTrafficFilter')
+      this.bus.$emit('editTrafficFilter', this.trafficFilterForm)
+    },
+    deleteTrafficFilter (index) {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
+        this.filterTableData.splice(index, 1)
+      })
+    },
+    // get TrafficFilter Data from TrafficFilter page
+    finishTrafficFilter () {
+      let _this = this
+      this.bus.$on('finishTrafficFilter', function (data) {
+        if (JSON.stringify(data) !== '{}') {
+          if (_this.isAddTrafficFilter) {
+            _this.filterTableData.push(data)
+          } else {
+            _this.filterTableData.splice(_this.editIndex, 1, data)
+          }
+        }
+      })
     },
     addInterfaceInformation () {
+      this.isAddInterfaceInfo = true
+      this.interfaceInformationForm = {
+        interfaceType: 'TUNNEL',
+        dstMacAddress: '',
+        srcMacAddress: '',
+        dstIpAddress: '',
+        tunnelInfo: {
+          tunnelType: 'GTP-U',
+          tunnelDstAddress: '0',
+          tunnelSpecificData: '0',
+          tunnelSrcAddress: '0'
+        }
+      }
       this.$emit('setRulesListTop', 'addInterfaceInfo')
+      this.bus.$emit('addInterfaceInformation', this.interfaceInformationForm)
+    },
+    // send InterfaceInformation Data to InterfaceInformation Page
+    editInterfaceInformation (index, row) {
+      this.isAddInterfaceInfo = false
+      this.interfaceInformationForm = JSON.parse(JSON.stringify(row))
+      this.editIndex = index
+      this.$emit('setRulesListTop', 'addInterfaceInfo')
+      this.bus.$emit('editInterfaceInformation', this.interfaceInformationForm)
+    },
+    deleteInterfaceInformation (index) {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
+        this.interfaceTableData.splice(index, 1)
+      })
+    },
+    // get InterfaceInformation Data from InterfaceInformation Page
+    finishInterfaceInformation () {
+      let _this = this
+      this.bus.$on('finishInterfaceInformation', function (data) {
+        if (JSON.stringify(data) !== '{}') {
+          if (_this.isAddInterfaceInfo) {
+            _this.interfaceTableData.push(data)
+          } else {
+            _this.interfaceTableData.splice(_this.editIndex, 1, data)
+          }
+        }
+      })
     },
     submitAppTrafficRule (params, _data) {
       applicationRules.postAppTrafficRule(this.applicationId, params).then(() => {
@@ -322,10 +470,16 @@ export default {
     trafficRulesFormProp (val) {
       this.trafficRuleForm = val
       this.rulesId = val.trafficRuleId
+      this.handleTrafficFilterData(val)
+      this.interfaceTableData = val.dstInterface
     },
     isAddRuleDataProp (val) {
       this.isAddRuleData = val
     }
+  },
+  mounted () {
+    this.finishTrafficFilter()
+    this.finishInterfaceInformation()
   }
 }
 </script>

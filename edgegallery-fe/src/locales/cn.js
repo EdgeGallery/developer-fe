@@ -33,6 +33,10 @@ const cn = {
     confirm: '确认',
     finish: '完成'
   },
+  promptInformation: {
+    confirmDelete: '确认删除该数据？',
+    deleteFailed: '删除数据失败！'
+  },
   ...zhLocale,
   ...cnClassic,
   ...cnHome,

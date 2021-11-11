@@ -31,8 +31,8 @@ const cn = {
     type: '类型',
     industry: '行业',
     appstoreName: '应用市场',
-    syncTime: '同步时间',
-    operationBtn: '分发&部署'
+    createTime: '同步时间',
+    operationBtn: '分发'
   },
   distributeDeploy: {
     title: '分发&部署',
@@ -41,7 +41,10 @@ const cn = {
     delete: '删除',
     distribute: '分发',
     deploy: '部署',
-    distributeDeploySuccess: '分发部署成功'
+    distributeDeploySuccess: '分发部署成功',
+    beforeDeleteFromMechost: '确认要从该节点删除应用应用包？',
+    deletePacFrmoHost: '你已经成功从节点删除应用！',
+    tip: '输入主机IP或状态搜索'
   },
   distribute: {
     title: '分发',
@@ -49,6 +52,21 @@ const cn = {
     city: '城市',
     MEPM: 'MEPM地址',
     hwCapability: '硬件能力'
+  },
+  deployConfig: {
+    title: '部署配置',
+    IPAddress: 'IP地址：',
+    status: '状态：',
+    appName: '应用名称',
+    appDesc: '应用描述',
+    placeholderName: '名称',
+    placeholderDesc: '描述',
+    hardwareAbilities: '硬件能力',
+    appNameVerifyRequired: '请输入应用名称',
+    appNameVerifyValid: '4到16位（字母，数字）',
+    appDescVerifyRequired: '请输入描述',
+    deployFailed: '部署失败，请检查！',
+    getTemplateListFail: '获取参数失败'
   }
 }
 export default cn
