@@ -88,9 +88,7 @@ export default {
       appPageListData: [],
       fileType: '',
       fileContent: '',
-      projectId: sessionStorage.getItem('mecDetailID'),
-      csarId: sessionStorage.getItem('csarId'),
-      markdownSource: '',
+      markdownSource: 'app_product_name: GoWalk app_provider_id: EdgeGallery app_package_version: v1 .0 app_release_data_time: 2021-10-29 11: 34 app_type: edgegallery_vm_package app_class: vm app_package_description: fe Source: APPD/testVm123.zip Algorithm: SHA-256 Hash: a6da368fc76310f1e380978ed257a2f422835948ef91674822c3d41c17ecbf66 Source: Image/SwImageDesc.json Algorithm: SHA-256 Hash: 5 c30de94db40812c6d25541894799cebddadf629591bb1f1ebf02ebfc44050-----BEGIN CMS-----MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwGggCSABIHqU291cmNlOiBBUFBEL3Rlc3RWbTEyMy56aXAKQWxnb3JpdGhtOiBTSEEtMjU2Ckhhc2g6YTZkYTM2OGZjNzYzMTBmMWUzODA5NzhlZDI1N2EyZjQyMjgzNTk0OGVmOTE2NzQ4MjJjM2Q0MWMxN2VjYmY2NgoKU291cmNlOiBJbWFnZS9Td0ltYWdlRGVzYy5',
       packageId: this.$route.query.packageId,
       viewOrEdit: 'preview',
       isEditFile: false
@@ -101,27 +99,98 @@ export default {
       this.$router.push('/EG/images/appPackageBuild')
     },
     getAppPackageList () {
-      imageApi.getPackageStructure(this.packageId).then(res => {
-        if (res.data.children) {
-          this.appPageListData = res.data.children
-          let APPD = {}
-          this.appPageListData.forEach((item, index) => {
-            if (item.name === 'APPD') {
-              APPD = item
-              this.appPageListData.splice(index, 1)
-            }
-          })
-          this.appPageListData.unshift(APPD)
-          if (this.appPageListData.length > 0) {
-            this.$nextTick(function () {
-              const firstNode = document.querySelector(
-                '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node'
-              )
-              firstNode.click()
-            })
+      let res = {
+        name: null,
+        id: null,
+        children: [
+          {
+            name: 'Image',
+            id: 'Image',
+            children: [
+              {
+                name: 'SwImageDesc.json',
+                id: 'SwImageDesc.json',
+                children: null,
+                parent: false
+              }
+            ],
+            parent: true
+          },
+          {
+            name: 'APPD',
+            id: 'APPD',
+            children: [
+              {
+                name: 'MainServiceTemplate.zip',
+                id: 'MainServiceTemplate.zip',
+                children: null,
+                parent: false
+              }
+            ],
+            parent: true
+          },
+          {
+            name: 'monitor33d2aa71.mf',
+            id: 'monitor33d2aa71.mf',
+            children: null,
+            parent: false
+          },
+          {
+            name: 'TOSCA-Metadata',
+            id: 'TOSCA-Metadata',
+            children: [
+              {
+                name: 'TOSCA.meta',
+                id: 'TOSCA.meta',
+                children: null,
+                parent: false
+              }
+            ],
+            parent: true
           }
+        ],
+        parent: true
+      }
+      if (res.children) {
+        this.appPageListData = res.children
+        let APPD = {}
+        this.appPageListData.forEach((item, index) => {
+          if (item.name === 'APPD') {
+            APPD = item
+            this.appPageListData.splice(index, 1)
+          }
+        })
+        this.appPageListData.unshift(APPD)
+        if (this.appPageListData.length > 0) {
+          this.$nextTick(function () {
+            const firstNode = document.querySelector(
+              '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node'
+            )
+            firstNode.click()
+          })
         }
-      })
+      }
+      // imageApi.getPackageStructure(this.packageId).then(res => {
+      //   if (res.data.children) {
+      //     this.appPageListData = res.data.children
+      //     let APPD = {}
+      //     this.appPageListData.forEach((item, index) => {
+      //       if (item.name === 'APPD') {
+      //         APPD = item
+      //         this.appPageListData.splice(index, 1)
+      //       }
+      //     })
+      //     this.appPageListData.unshift(APPD)
+      //     if (this.appPageListData.length > 0) {
+      //       this.$nextTick(function () {
+      //         const firstNode = document.querySelector(
+      //           '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node'
+      //         )
+      //         firstNode.click()
+      //       })
+      //     }
+      //   }
+      // })
     },
     getFileDetail (val) {
       let temp = val.name
