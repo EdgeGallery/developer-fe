@@ -186,7 +186,7 @@ export default {
       }
     },
     beforeDelete (rows) {
-      this.$eg_messagebox(this.$t('distributeDeploy.beforeDeleteFromMechost'), 'warning')
+      this.$eg_messagebox(this.$t('distributeDeploy.beforeDeleteFromMechost'), 'warning', this.$t('common.cancel'))
         .then(() => {
           let hostIp = rows.hostIp
           let type = 1

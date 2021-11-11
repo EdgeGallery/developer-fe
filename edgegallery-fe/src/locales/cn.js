@@ -31,8 +31,11 @@ const cn = {
     delete: '删除',
     cancel: '取消',
     confirm: '确认',
-    finish: '完成',
-    confirmDelete: '确认删除该数据？'
+    finish: '完成'
+  },
+  promptInformation: {
+    confirmDelete: '确认删除该数据？',
+    deleteFailed: '删除数据失败！'
   },
   ...zhLocale,
   ...cnClassic,
