@@ -37,15 +37,16 @@
           <el-input
             class="common-input"
             v-model="addvmImages.vmCertificate.pwdCertificate.username"
-            placeholder="请输入内容"
+            placeholder="请输入用户名"
           />
         </div>
         <div class="addVm-top-title defaultFontLight">
           <p>密码</p>
           <el-input
+            type="password"
             class="common-input"
             v-model="addvmImages.vmCertificate.pwdCertificate.password"
-            placeholder="请输入内容"
+            placeholder="请输入密码"
           />
         </div>
       </div>
@@ -148,7 +149,7 @@
         </div>
         <div class="simulator-info-content">
           <el-table
-            class="common-table more-rows-table network-table vm-table"
+            class="common-table network-table vm-table"
             :data="vmNetworkList"
           >
             <el-table-column width="35">
@@ -277,6 +278,16 @@ import { sandbox } from '../../../api/developerApi.js'
 import { filterArr } from '../../../tools/common.js'
 export default {
   name: 'AddVm',
+  props: {
+    netWorkListProp: {
+      type: Array,
+      default: () => []
+    },
+    selectedNetworksProp: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       language: localStorage.getItem('language'),
@@ -312,8 +323,8 @@ export default {
         privateId: '',
         imageType: 'public'
       },
-      vmNetworkList: [],
-      selectedNetworks: [],
+      vmNetworkList: this.netWorkListProp,
+      selectedNetworks: this.selectedNetworksProp,
       vmSpecs: [],
       queryImage: {
         name: '',
@@ -329,7 +340,7 @@ export default {
         }
       },
       imageList: [],
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   watch: {
@@ -446,24 +457,30 @@ export default {
       })
     },
     addVmFinish (type) {
-      this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
+      // this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
+      // if (type === 'confirm') {
+      //   if (this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== '') {
+      //     sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+      //       this.$message({
+      //         message: '虚拟机添加成功！',
+      //         type: 'success'
+      //       })
+      //       this.$emit('addVmFinish', this.selectedNetworks)
+      //     }).catch(err => {
+      //       console.log(err)
+      //     })
+      //   } else {
+      //     this.$message({
+      //       message: '请完善内容，再次点击提交！',
+      //       type: 'warning'
+      //     })
+      //   }
+      // }
       if (type === 'confirm') {
-        if (this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== '') {
-          sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-            this.$message({
-              message: '虚拟机添加成功！',
-              type: 'success'
-            })
-            this.$emit('addVmFinish', this.selectedNetworks)
-          }).catch(err => {
-            console.log(err)
-          })
-        } else {
-          this.$message({
-            message: '请完善内容，再次点击提交！',
-            type: 'warning'
-          })
-        }
+        this.$eg_messagebox('虚拟机添加成功', 'success')
+        this.$emit('addVmFinish', this.selectedNetworks)
+      } else {
+        this.$emit('addVmFinish', [])
       }
     }
   },
@@ -563,6 +580,9 @@ export default {
             border: 2px solid red !important;
             height: 59px;
           }
+        }
+        .network-table{
+          margin-top: 20px;
         }
         .el-table td,.el-table tr.is-leaf {
           border-bottom: 1px solid rgba(255, 255, 255, 0.3);
