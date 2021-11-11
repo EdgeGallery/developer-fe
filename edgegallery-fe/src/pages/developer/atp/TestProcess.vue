@@ -326,7 +326,7 @@ export default {
         message: '发布成功',
         type: 'success'
       })
-      this.$store.commit('changeFlow', 5)
+      this.$store.commit('changeFlow', '5')
       this.$router.push('/EG/developer/home')
     },
     closeDig () {

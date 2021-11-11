@@ -501,7 +501,7 @@ export default {
   },
   methods: {
     returnHome () {
-      this.$store.commit('changeFlow', 4)
+      this.$store.commit('changeFlow', '4')
       this.$router.push('/EG/developer/home')
     }
   },

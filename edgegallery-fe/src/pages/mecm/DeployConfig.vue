@@ -134,7 +134,7 @@ export default {
         message: '部署成功',
         type: 'success'
       })
-      this.$store.commit('changeFlow', 9)
+      this.$store.commit('changeFlow', '9')
       this.$router.push('/EG/developer/home')
     }
   },
