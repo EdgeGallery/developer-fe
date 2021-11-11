@@ -95,9 +95,7 @@ export default {
       this.destroy()
     },
     handleConfirm () {
-      if (this.cancelText !== '') {
-        this.promise.resolve()
-      }
+      this.promise.resolve()
       this.destroy()
     }
   }
