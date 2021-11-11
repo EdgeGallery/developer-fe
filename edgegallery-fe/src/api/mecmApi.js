@@ -23,6 +23,7 @@ import {
 
 const apmApi = '/apm/v1'
 const appoApi = '/appo/v1'
+const inventoryApi = '/inventory/v1'
 
 let apm = {
   getAppTemplateApi (userId, packageId) {
@@ -55,11 +56,21 @@ let appDeploy = {
   },
   initApmPackages () {
     return GET(apmApi + 'apps/syncstatus')
+  },
+  distributeApp (params, userId) {
+    return POST(apmApi + 'tenants/' + userId + '/packages', params)
+  }
+}
+
+let inventory = {
+  getEdgeNodeList () {
+    return GET(inventoryApi + '/mechosts')
   }
 }
 
 export {
   apm,
   appo,
-  appDeploy
+  appDeploy,
+  inventory
 }

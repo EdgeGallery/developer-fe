@@ -24,7 +24,7 @@
       :current-page="currentPage"
       :page-sizes="pageSizeArr"
       :page-size="pageSize"
-      layout="total,sizes, prev, pager, next"
+      layout="total,sizes, prev, pager, next, jumper"
       :total="totalNum"
     />
   </div>
@@ -63,7 +63,9 @@ export default {
         this.totalNum = val.length
       }
       this.returnTableData()
-      let page = sessionStorage.getItem('currentPage') ? Number(sessionStorage.getItem('currentPage')) : 1
+      let page = sessionStorage.getItem('currentPage')
+        ? Number(sessionStorage.getItem('currentPage'))
+        : 1
       this.handleCurrentPageChange(page)
     },
     listTotal (val) {
@@ -100,52 +102,61 @@ export default {
     }
   }
 }
-
 </script>
 <style lang="less">
-  .custom_pagination{
-    .el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
-      min-width: 24px;
-    }
-    .el-input--mini .el-input__inner,.el-pager li,.el-pagination button, .el-pagination span:not([class*=suffix]),.el-pagination__editor.el-input .el-input__inner{
-      height: 24px;
-      line-height: 24px;
-    }
-    .el-pager li:not(.disabled).active {
-      background-color: rgba(66, 35, 165, 0.5);
-      background-color: transparent;
-      border-radius: 50%;
-    }
-    .el-pagination.is-background .el-pager li {
-      background-color: transparent;
-      color: #4e4e4e;
-    }
-    .el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next{
-      background-color: transparent;
-    }
-    .el-pagination.is-background .el-pager li:not(.disabled):hover {
-      color: #9f6dee;
-    }
-    .el-pagination .btn-prev .el-icon, .el-pagination .btn-next .el-icon{
-      font-size: large;
-    }
-    .el-pagination__total{
-      margin-left: 20px;
-      color: #fff;
-      font-size: 14px;
-    }
-    .el-pagination .el-select .el-input .el-input__inner{
-      background-color: transparent;
-      border-radius: 10px;
-      color: #fff;
-    }
-    .el-select .el-input .el-select__caret{
-      font-size: 18px;
-      color: #fff;
-      opacity: 0.4;
-    }
+.custom_pagination {
+  height: 30px;
+}
+.custom_pagination {
+  .el-pagination.is-background .btn-prev,
+  .el-pagination.is-background .btn-next,
+  .el-pagination.is-background .el-pager li {
+    min-width: 24px;
   }
-    .el-select-dropdown__item.selected{
-      color: #380879 !important;
-    }
+  .el-input--mini .el-input__inner,
+  .el-pager li,
+  .el-pagination button,
+  .el-pagination span:not([class*="suffix"]),
+  .el-pagination__editor.el-input .el-input__inner {
+    height: 24px;
+    line-height: 24px;
+  }
+  .el-pager li:not(.disabled).active {
+    background-color: rgba(66, 35, 165, 0.5);
+    background-color: transparent;
+    border-radius: 50%;
+  }
+  .el-pagination.is-background .el-pager li {
+    background-color: transparent;
+  }
+  .el-pagination.is-background .btn-prev,
+  .el-pagination.is-background .btn-next {
+    background-color: transparent;
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #9f6dee;
+  }
+  .el-pagination .btn-prev .el-icon,
+  .el-pagination .btn-next .el-icon {
+    font-size: large;
+  }
+  .el-pagination__total {
+    margin-left: 20px;
+    color: #fff;
+    font-size: 14px;
+  }
+  .el-pagination .el-select .el-input .el-input__inner {
+    background-color: transparent;
+    border-radius: 10px;
+    color: #fff;
+  }
+  .el-select .el-input .el-select__caret {
+    font-size: 18px;
+    color: #fff;
+    opacity: 0.4;
+  }
+}
+.el-select-dropdown__item.selected {
+  color: #380879 !important;
+}
 </style>

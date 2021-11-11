@@ -51,7 +51,10 @@ const en = {
     ip: 'IP',
     city: 'City',
     MEPM: 'App LCM IP',
-    hwCapability: 'Capabilities'
+    hwCapability: 'Capabilities',
+    selectMecHost: 'Please choose the host.',
+    selectVersion: 'Please choose the package version first.',
+    failedToDistribute: 'Failed to distribute.'
   },
   deployConfig: {
     title: 'Deployment Configuration',

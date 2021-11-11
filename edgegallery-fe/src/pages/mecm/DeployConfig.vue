@@ -28,7 +28,9 @@
           label-position="left"
           ref="deployConfigData"
         >
-          <div class="deploy-config__title">MEC Host</div>
+          <div class="deploy-config__title">
+            MEC Host
+          </div>
           <div class="deploy-config__basic-info">
             <div class="deploy-config__item">
               <p class="deploy-config__label">
@@ -48,13 +50,19 @@
               </p>
             </div>
           </div>
-          <el-form-item :label="$t('deployConfig.appName')" prop="appName">
+          <el-form-item
+            :label="$t('deployConfig.appName')"
+            prop="appName"
+          >
             <el-input
               :placeholder="$t('deployConfig.placeholderName')"
               v-model="deployConfigData.appName"
             />
           </el-form-item>
-          <el-form-item :label="$t('deployConfig.appDesc')" prop="appDesc">
+          <el-form-item
+            :label="$t('deployConfig.appDesc')"
+            prop="appDesc"
+          >
             <el-input
               type="textarea"
               :placeholder="$t('deployConfig.placeholderDesc')"
@@ -76,7 +84,10 @@
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <div class="deploy-config__title" v-if="templateInputs.length > 0">
+          <div
+            class="deploy-config__title"
+            v-if="templateInputs.length > 0"
+          >
             Apptemplate Information
           </div>
           <el-row>
@@ -85,8 +96,15 @@
               v-for="(item, index) in templateInputs"
               :key="index"
             >
-              <el-form-item :label="item.label" class="apptemplate-information">
-                <el-input id="podsel" maxlength="30" v-model="item.value" />
+              <el-form-item
+                :label="item.label"
+                class="apptemplate-information"
+              >
+                <el-input
+                  id="podsel"
+                  maxlength="30"
+                  v-model="item.value"
+                />
               </el-form-item>
             </el-col>
           </el-row>

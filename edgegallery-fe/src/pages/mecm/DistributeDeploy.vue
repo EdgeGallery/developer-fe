@@ -117,18 +117,23 @@ export default {
       userId: sessionStorage.getItem('userId'),
       appId: window.location.href.split('=')[1] || sessionStorage.getItem('appId'),
       loading: false,
-      currPageTableData: [],
+      currPageTableData: [
+        {
+          hostIp: '192.168.1.156',
+          status: 'Distributed'
+        }
+      ],
       paginationData: [],
       searchVal: '',
       selectData: null,
       selectedData: [],
-      appPackageId: '',
-      appVersion: '',
-      appPackageName: '',
-      appAffinity: '',
-      provider: '',
+      appPackageId: '1',
+      appVersion: 'v1.0',
+      appPackageName: '位置服务',
+      appAffinity: 'X86',
+      provider: 'EdgeGallery',
       dialogVisible: false,
-      dataLoading: true,
+      dataLoading: false,
       tableData: [],
       packageData: [],
       interval: null,
@@ -218,10 +223,10 @@ export default {
     }
   },
   mounted () {
-    this.getDistributeDeployList()
-    this.interval = setInterval(() => {
-      this.getDistributeDeployList()
-    }, 15000)
+    // this.getDistributeDeployList()
+    // this.interval = setInterval(() => {
+    //   this.getDistributeDeployList()
+    // }, 15000)
   },
   beforeDestroy () {
     this.clearInterval()

@@ -18,13 +18,20 @@
   <div class="distribute-finish">
     <div class="distribute-finish__body">
       <div class="distribute-finish__icon">
-        <embed :src="successImg" width="30" height="30" />
+        <embed
+          :src="successImg"
+          width="30"
+          height="30"
+        >
       </div>
       <div class="distribute-finish__title">
         {{ $t("distributeDeploy.distributeDeploySuccess") }}
       </div>
       <div class="distribute-finish__buttons">
-        <button class="distribute-finish__button" @click="handleClickFinish">
+        <button
+          class="distribute-finish__button"
+          @click="handleClickFinish"
+        >
           {{ $t("common.finish") }}
         </button>
       </div>
