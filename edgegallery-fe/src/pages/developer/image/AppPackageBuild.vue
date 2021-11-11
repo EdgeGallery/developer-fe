@@ -468,6 +468,7 @@ export default {
     },
     packageApp () {
       this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+        this.$store.commit('changeFlow', '4')
         this.$router.push('/EG/developer/home')
       })
       // imageApi.generatePackage(this.applicationId).then(res => {
@@ -477,10 +478,6 @@ export default {
       // }).catch(() => {
       //   this.$eg_messagebox('打包失败', 'error')
       // })
-    },
-    returnHome () {
-      this.$store.commit('changeFlow', '4')
-      this.$router.push('/EG/developer/home')
     }
   },
   mounted () {
