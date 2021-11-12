@@ -244,8 +244,8 @@ export default {
       border: 1px solid rgba(171, 151, 229, 1);
       border-radius: 17px;
       padding: 35px 16px 7px 24px;
-      background: url("../../assets/images/mecm/deployCommon/deploy_bg.png")
-        center;
+      background-color: transparent;
+      // background: url("../../assets/images/mecm/deployCommon/deploy_bg.png") center;
       box-shadow: 1px 1px 3px #ab97e5 inset;
       .el-loading-mask {
         background-color: transparent;

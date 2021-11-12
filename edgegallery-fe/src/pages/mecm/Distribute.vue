@@ -262,8 +262,8 @@ export default {
     .el-card {
       border: 1px solid rgba(171, 151, 229, 1);
       border-radius: 17px;
-      background: url("../../assets/images/mecm/deployCommon/deploy_bg.png")
-        center;
+      background-color: transparent;
+      // background: url("../../assets/images/mecm/deployCommon/deploy_bg.png") center;
       box-shadow: 1px 1px 3px #ab97e5 inset;
       .common-dlg-title:before {
         right: 5px;
