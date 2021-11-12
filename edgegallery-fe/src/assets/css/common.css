@@ -888,7 +888,7 @@ th{
   padding: 55px 120px;
   border: 2px solid #b6a4ec;
   border-radius: 16px;
-  background: url('../images/div_bg.png') rgba(36,20,119,.1) no-repeat;
+  /* background: url('../images/div_bg.png') rgba(36,20,119,.1) no-repeat; */
   box-shadow: 60px 70px 75px rgba(36,20,119,.3);
   backdrop-filter: blur(2px);
   clear: both;

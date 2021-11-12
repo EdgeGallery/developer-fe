@@ -92,8 +92,11 @@ let applicationApi = {
   getAppInfo: function (appId) {
     return GET('/mec-developer/mec/developer/v2/applications/' + appId)
   },
-  getIcon: function (iconFileId) {
-    return GET('/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream')
+  getFileStream: function (fileId) {
+    return '/mec-developer/mec/developer/v2/upload-files/' + fileId + '/action/get-file-stream'
+  },
+  getFileInfo: function (fileId) {
+    return GET('/mec-developer/mec/developer/v2/upload-files/' + fileId)
   },
   uploadAppIcon: function (params) {
     return POST('/mec-developer/mec/developer/v2/upload-files', params)

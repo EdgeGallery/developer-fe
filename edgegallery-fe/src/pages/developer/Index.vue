@@ -120,31 +120,6 @@ export default {
   .application{
     width: 100%;
     height: 100%;
-    .left-pro-comp{
-      width: 100%;
-      height: 95%;
-      position: relative;
-      border: 2px solid #838ACB;
-      border-left: none;
-      border-radius: 0 17px 17px 0;
-      z-index: 15;
-      overflow: hidden;
-    }
-    .left-pro-comp-show{
-      min-width: 150px!important;
-    }
-    .left-pro-comp::after {
-      content: "";
-      background: url("../../assets/images/index/index_mask.png") no-repeat center;
-      background-size: cover;
-      opacity: 0.5;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      position: absolute;
-      z-index: -1;
-    }
     .main-content{
       height: 840px;
       width: 1680px;

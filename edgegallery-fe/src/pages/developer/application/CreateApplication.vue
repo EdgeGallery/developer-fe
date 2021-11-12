@@ -73,6 +73,7 @@ export default {
     width: 30%;
     padding: 35px;
     text-align: center;
+    background: url('../../../assets/images/div_bg.png') no-repeat;
     p{
       line-height: 85px;
     }
