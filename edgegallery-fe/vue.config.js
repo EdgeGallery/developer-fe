@@ -38,6 +38,20 @@ module.exports = {
       })
       .end()
   },
+
+  devServer: {
+    disableHostCheck: true,
+    proxy: {
+      '': {
+        target: 'https://192.168.1.38:30098',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/mec-developer': '/'
+        }
+      }
+
+    }
+  },
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
   pluginOptions: {
