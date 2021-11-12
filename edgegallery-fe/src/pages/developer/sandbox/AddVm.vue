@@ -443,7 +443,6 @@ export default {
       return cellValue + 'GB'
     },
     changeInternet (data) {
-      console.log(data)
       this.addvmImages.portList = []
       this.vmNetworkList.forEach(item => {
         data.forEach(items => {
@@ -454,28 +453,35 @@ export default {
       })
     },
     addVmFinish (type) {
-      let _data = []
+      // let _data = []
+      // if (type === 'confirm') {
+      //   let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
+      //   if (_addVmImagesVal) {
+      //     sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+      //       this.$message({
+      //         message: '虚拟机添加成功！',
+      //         type: 'success'
+      //       })
+      //       _data = this.selectedNetworks
+      //       this.$emit('addVmFinish', _data)
+      //     }).catch(err => {
+      //       console.log(err)
+      //     })
+      //   } else {
+      //     this.$message({
+      //       message: '请完善内容，再次点击提交！',
+      //       type: 'warning'
+      //     })
+      //   }
+      // } else {
+      //   this.$emit('addVmFinish', _data)
+      // }
+
       if (type === 'confirm') {
-        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
-        if (_addVmImagesVal) {
-          sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-            this.$message({
-              message: '虚拟机添加成功！',
-              type: 'success'
-            })
-            _data=this.selectedNetworks
-            this.$emit('addVmFinish', _data)
-          }).catch(err => {
-            console.log(err)
-          })
-        } else {
-          this.$message({
-            message: '请完善内容，再次点击提交！',
-            type: 'warning'
-          })
-        }
+        this.$eg_messagebox('虚拟机添加成功', 'success')
+        this.$emit('addVmFinish', this.selectedNetworks)
       } else {
-        this.$emit('addVmFinish', _data)
+        this.$emit('addVmFinish', [])
       }
     }
   },
