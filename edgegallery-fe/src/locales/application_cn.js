@@ -52,7 +52,7 @@ const cn = {
     chooseArea: '请先选择部署区域！',
     noNodes: '没有可供使用的边缘节点！'
   },
-  system: {
+  appstoreSystem: {
     ipErrorInfo: '请输入正确的IP地址',
     upload: '上传',
     name: '名称',
