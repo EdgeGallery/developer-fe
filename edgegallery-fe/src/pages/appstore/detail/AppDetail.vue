@@ -340,7 +340,7 @@
             <span class="val_span">{{ price }}{{ $t('order.price') }}</span>
           </el-form-item>
           <el-form-item
-            :label="$t('system.address')"
+            :label="$t('appstoreSystem.address')"
           >
             <el-select
               v-model="mechostIp"
@@ -499,7 +499,7 @@ export default {
           console.log(error)
         })
       } else {
-        this.$message.warning(this.$t('system.guestPrompt'))
+        this.$message.warning(this.$t('appstoreSystem.guestPrompt'))
       }
     },
     confirmToBuy () {
