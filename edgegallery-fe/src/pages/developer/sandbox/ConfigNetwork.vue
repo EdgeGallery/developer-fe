@@ -15,11 +15,6 @@
   -->
 <template>
   <div class="config-network">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
     <div class="common-div-bg network-list">
       <h3 class="rules-title-green">
         选择网络类型

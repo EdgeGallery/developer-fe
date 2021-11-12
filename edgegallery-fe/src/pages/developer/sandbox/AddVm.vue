@@ -15,11 +15,6 @@
   -->
 <template>
   <div class="addVm">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
     <div class="common-div-bg addVm-bg">
       <div class="vm-info">
         <div class="addVm-top-title">
