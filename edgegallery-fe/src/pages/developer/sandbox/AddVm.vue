@@ -29,7 +29,7 @@
           <el-input
             class="common-input"
             v-model="addvmImages.name"
-            placeholder="请输入内容"
+            placeholder="请输入虚拟机名称"
           />
         </div>
         <div class="addVm-top-title defaultFontLight">
@@ -45,6 +45,7 @@
           <el-input
             type="password"
             class="common-input"
+            show-password
             v-model="addvmImages.vmCertificate.pwdCertificate.password"
             placeholder="请输入密码"
           />
@@ -374,7 +375,7 @@ export default {
         this.vmNetworkList.forEach(item => {
           this.selectedNetworks.forEach(items => {
             if (item.name === items) {
-              this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+              this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
             }
           })
         })
@@ -447,40 +448,39 @@ export default {
       return cellValue + 'GB'
     },
     changeInternet (data) {
+      console.log(data)
       this.addvmImages.portList = []
       this.vmNetworkList.forEach(item => {
         data.forEach(items => {
           if (item.name === items) {
-            this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+            this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
           }
         })
       })
     },
     addVmFinish (type) {
-      // this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
-      // if (type === 'confirm') {
-      //   if (this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== '') {
-      //     sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-      //       this.$message({
-      //         message: '虚拟机添加成功！',
-      //         type: 'success'
-      //       })
-      //       this.$emit('addVmFinish', this.selectedNetworks)
-      //     }).catch(err => {
-      //       console.log(err)
-      //     })
-      //   } else {
-      //     this.$message({
-      //       message: '请完善内容，再次点击提交！',
-      //       type: 'warning'
-      //     })
-      //   }
-      // }
+      let _data = []
       if (type === 'confirm') {
-        this.$eg_messagebox('虚拟机添加成功', 'success')
-        this.$emit('addVmFinish', this.selectedNetworks)
+        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
+        if (_addVmImagesVal) {
+          sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+            this.$message({
+              message: '虚拟机添加成功！',
+              type: 'success'
+            })
+            _data=this.selectedNetworks
+            this.$emit('addVmFinish', _data)
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.$message({
+            message: '请完善内容，再次点击提交！',
+            type: 'warning'
+          })
+        }
       } else {
-        this.$emit('addVmFinish', [])
+        this.$emit('addVmFinish', _data)
       }
     }
   },

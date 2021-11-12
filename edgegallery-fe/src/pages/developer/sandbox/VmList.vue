@@ -15,148 +15,141 @@
   -->
 <template>
   <div class="details-center-vm">
-    <div
-      class="flex-center details-center-vm-img"
-      :class="{'details-center-vm-img-finish':isExportImage}"
-    >
-      <img
-        class="vm-center-img"
-        :class="{'vm-center-img-finish':isAddVmFinish,'breath':!vmBreathStyle}"
-        src="../../../assets/images/sandbox/vm_img.png"
-        alt=""
-      >
+    <div>
       <div
-        class="vm-bg"
-        @mouseleave="isAddVmFinish?vmBreathStyle=true:vmBreathStyle=false"
+        class="flex-center details-center-vm-img"
+        :class="{'details-center-vm-img-finish':isExportImage}"
       >
-        <div
-          class="vm-btn flex-center vm-btn-add hoverHands"
-          @click="addVm"
+        <img
+          class="vm-center-img"
+          :class="{'vm-center-img-finish':isAddVmFinish,'breath':!vmBreathStyle}"
+          src="../../../assets/images/sandbox/vm_img.png"
+          alt=""
         >
-          <el-tooltip
-            class="item edit-tooltip"
-            effect="light"
-            content="添加"
-            placement="bottom-start"
+        <div
+          class="vm-bg"
+          @mouseleave="isAddVmFinish?vmBreathStyle=true:vmBreathStyle=false"
+        >
+          <div
+            class="vm-btn flex-center vm-btn-add hoverHands"
+            @click="addVm"
           >
-            <img
-              src="../../../assets/images/sandbox/vm_add.png"
-              alt=""
-              class="img-click"
+            <el-tooltip
+              class="item edit-tooltip"
+              effect="light"
+              content="添加"
+              placement="bottom-start"
             >
-          </el-tooltip>
+              <img
+                src="../../../assets/images/sandbox/vm_add.png"
+                alt=""
+                class="img-click"
+              >
+            </el-tooltip>
+          </div>
+          <div
+            class="vm-btn flex-center vm-btn-detail hoverHands"
+            @click="checkVmDetail"
+            :class="!isBtnStart ? 'img-onlyRead':'img-click'"
+          >
+            <el-tooltip
+              class="item edit-tooltip"
+              effect="light"
+              content="详情"
+              placement="bottom-start"
+            >
+              <img
+                src="../../../assets/images/sandbox/vm_detail.png"
+                alt=""
+              >
+            </el-tooltip>
+          </div>
+          <div
+            class="vm-btn flex-center hoverHands"
+            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+          >
+            <el-tooltip
+              class="item edit-tooltip"
+              effect="light"
+              content="登录"
+              placement="bottom-start"
+            >
+              <img
+                src="../../../assets/images/sandbox/vm_login.png"
+                alt=""
+              >
+            </el-tooltip>
+          </div>
+          <div
+            class="vm-btn flex-center hoverHands"
+            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+          >
+            <el-tooltip
+              class="item edit-tooltip"
+              effect="light"
+              content="上传"
+              placement="bottom-start"
+            >
+              <img
+                src="../../../assets/images/sandbox/vm_upload.png"
+                alt=""
+              >
+            </el-tooltip>
+          </div>
+          <div
+            class="vm-btn vm-btn-start flex-center hoverHands"
+            @click="startUpVm(vmLists.id)"
+            :class="!isBtnStart ? 'img-onlyRead':'img-click'"
+          >
+            <el-tooltip
+              class="item edit-tooltip"
+              effect="light"
+              content="启动"
+              placement="bottom-start"
+            >
+              <img
+                src="../../../assets/images/sandbox/vm_start.png"
+                alt=""
+              >
+            </el-tooltip>
+          </div>
+          <div
+            class="vm-btn vm-btn-export flex-center hoverHands"
+            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            @click="exportImage(vmLists.id)"
+          >
+            <el-tooltip
+              class="item edit-tooltip"
+              effect="light"
+              content="导出镜像"
+              placement="bottom-start"
+            >
+              <img
+                src="../../../assets/images/sandbox/vm_export.png"
+                alt=""
+              >
+            </el-tooltip>
+          </div>
         </div>
         <div
-          class="vm-btn flex-center vm-btn-detail hoverHands"
-          @click="checkVmDetail"
-          :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
+          class="vmStatus"
+          v-if="isprogess"
         >
-          <el-tooltip
-            class="item edit-tooltip"
-            effect="light"
-            content="详情"
-            placement="bottom-start"
-          >
-            <img
-              src="../../../assets/images/sandbox/vm_detail.png"
-              alt=""
-            >
-          </el-tooltip>
-        </div>
-        <div
-          class="vm-btn flex-center hoverHands"
-          :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
-        >
-          <el-tooltip
-            class="item edit-tooltip"
-            effect="light"
-            content="登录"
-            placement="bottom-start"
-          >
-            <img
-              src="../../../assets/images/sandbox/vm_login.png"
-              alt=""
-            >
-          </el-tooltip>
-        </div>
-        <div
-          class="vm-btn flex-center hoverHands"
-          :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
-        >
-          <el-tooltip
-            class="item edit-tooltip"
-            effect="light"
-            content="上传"
-            placement="bottom-start"
-          >
-            <img
-              src="../../../assets/images/sandbox/vm_upload.png"
-              alt=""
-            >
-          </el-tooltip>
-        </div>
-        <div
-          class="vm-btn vm-btn-start flex-center hoverHands"
-          @click="startUpVm"
-          :class="!isBtnStart ? 'img-onlyRead':'img-click'"
-        >
-          <el-tooltip
-            class="item edit-tooltip"
-            effect="light"
-            content="启动"
-            placement="bottom-start"
-          >
-            <img
-              src="../../../assets/images/sandbox/vm_start.png"
-              alt=""
-            >
-          </el-tooltip>
-        </div>
-        <div
-          class="vm-btn vm-btn-export flex-center hoverHands"
-          :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
-        >
-          <el-tooltip
-            class="item edit-tooltip"
-            effect="light"
-            content="导出镜像"
-            placement="bottom-start"
-          >
-            <img
-              src="../../../assets/images/sandbox/vm_export.png"
-              alt=""
-            >
-          </el-tooltip>
+          <el-progress
+            :percentage="percentages"
+            :format="format"
+          />
         </div>
       </div>
-      <div
-        v-if="isStartupVm"
-        :class="{'vmStatus':vmloading}"
-      >
-        <div
-          class="vmStatus-loading"
-          v-for="(item,index) in 4"
-          :key="index"
-        />
-      </div>
-      <div
-        v-else
-        :class="{'vmStatus':vmloading}"
-      >
-        <div
-          v-for="(item,index) in 4"
-          :key="index"
-        />
-      </div>
+      <p class="deploy-title defaultFontLight">
+        虚拟机
+      </p>
     </div>
-    <p class="deploy-title defaultFontLight">
-      虚拟机
-    </p>
   </div>
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi.js'
+import { sandbox } from '../../../api/developerApi'
 export default {
   name: '',
   props: {
@@ -175,18 +168,54 @@ export default {
   },
   data () {
     return {
-      applicationId: sessionStorage.getItem('applicationId') || '',
-      isAddVmFinish: this.isAddVmFinishProp,
-      isStartupVm: false,
-      vmloading: false,
+      isAddVmFinish: false,
       isExportImage: false,
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
-      isBtnStart: this.isBtnStartProp,
-      vmId: ''
+      isBtnStart: false,
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      vmLists: [],
+      operationId: '',
+      percentages: 0,
+      isprogess: false
     }
   },
   methods: {
+    getVmlists () {
+      sandbox.getVmlist(this.applicationId).then(res => {
+        this.vmLists = res.data[0]
+        if (this.vmLists.imageId !== 0) {
+          this.isBtnStart = true
+        }
+        if (this.vmLists.vmInstantiateInfo.operationId !== '') {
+          let isvmFinish = setInterval(() => {
+            sandbox.getVmStatus(this.operationId).then(res => {
+              this.percentages = res.data.progress
+              if (res.data.status === 'SUCCESS') {
+                this.isStartupVmFinish = true
+                this.isBtnStart = false
+                this.isExportImage = true
+                this.$emit('startUpVm', this.isStartupVmFinish)
+                clearTimeout(isvmFinish)
+              }
+            }).catch(() => {
+            })
+          }, 5000)
+          this.isprogess = true
+        }
+      }).catch(() => {
+      })
+    },
+    deleteVm () {
+      sandbox.deleteVmImage(this.applicationId, 'c92a375f-0f53-417e-af1a-169f04b7e6e8').then(() => {
+      }).catch(() => {
+      })
+    },
+    clearVmList () {
+      sandbox.clearVmImage(this.applicationId).then(() => {
+      }).catch(() => {
+      })
+    },
     addVm () {
       this.$emit('addVm', 'showAddVm')
     },
@@ -194,27 +223,38 @@ export default {
       this.bus.$emit('checkVmDetail', this.vmId)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
-    startUpVm () {
-      this.isStartupVm = true
-      this.vmloading = true
-      let _timer = setTimeout(() => {
-        this.isStartupVmFinish = true
-        this.isStartupVm = false
-        this.isExportImage = true
-        this.$emit('startUpVm', this.isStartupVmFinish)
-        clearTimeout(_timer)
-      }, 3000)
-    },
-    getVmList () {
-      sandbox.getVmList(this.applicationId).then(res => {
-        this.vmId = res.data[0].id
+    startUpVm (data) {
+      this.isprogess = true
+      sandbox.getVmPullId(this.applicationId, data).then(res => {
+        this.operationId = res.data.operationId
+        let vmFinish = setInterval(() => {
+          sandbox.getVmStatus(this.operationId).then(res => {
+            this.percentages = res.data.progress
+            if (res.data.status === 'SUCCESS') {
+              this.isStartupVmFinish = true
+              this.isBtnStart = false
+              this.isExportImage = true
+              this.$emit('startUpVm', this.isStartupVmFinish)
+              clearTimeout(vmFinish)
+            }
+          }).catch(() => {
+          })
+        }, 5000)
+      }).catch(() => {
       })
+    },
+    exportImage (data) {
+      sandbox.exportImage(this.applicationId, data).then(() => {
+      })
+    },
+    format (percentage) {
+      return percentage === 100 ? '完成' : `${percentage}%`
     }
   },
   created () {
   },
   mounted () {
-    // this.getVmList()
+    this.getVmlists()
   }
 }
 </script>
@@ -265,27 +305,13 @@ export default {
   .vmStatus{
     position: absolute;
     top: 124px;
-  }
-  .vmStatus .vmStatus-loading:first-child{
-    animation-delay: -0.48s;
-  }
-  .vmStatus .vmStatus-loading:nth-child(2){
-    animation-delay: -0.32s;
-  }
-  .vmStatus .vmStatus-loading:nth-child(3){
-    animation-delay: -0.16s;
-  }
-  .vmStatus > div {
-    width: 6px;
-    height: 6px;
-    margin-right: 4px;
-    background-color: #42F6AC;
-    border-radius: 100%;
-    display: inline-block;
-  }
-  .vmStatus .vmStatus-loading{
-    animation: bouncedelay 1.4s infinite ease-in-out;
-    animation-fill-mode: both;
+    height: 30px;
+    width: 100px;
+    margin-left: 30px;
+    .el-progress__text {
+      color: #fff;
+      font-size: 12px;
+    }
   }
   @keyframes bouncedelay {
     0%, 80%, 100% {
