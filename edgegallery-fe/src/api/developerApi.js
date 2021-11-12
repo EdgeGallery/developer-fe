@@ -58,6 +58,30 @@ let sandbox = {
   // add vm image
   addVmImage (applicationId, parmas) {
     return POST('/mec/developer/v2/applications/' + applicationId + '/vms', parmas)
+  },
+  // get vmList
+  getVmlist (applicationId) {
+    return GET('/mec/developer/v2/applications/' + applicationId + '/vms')
+  },
+  // delete vmImage
+  deleteVmImage (applicationId, vmId) {
+    return DELETE('/mec/developer/v2/applications/' + applicationId + '/vms/' + vmId)
+  },
+  // get vm operationId
+  getVmPullId (applicationId, vmId) {
+    return POST('/mec/developer/v2/applications/' + applicationId + '/vms/' + vmId + '/action/launch')
+  },
+  // look vm status
+  getVmStatus (operationId) {
+    return GET('/mec/developer/v2/operations/' + operationId)
+  },
+  // clearVmImage
+  clearVmImage (applicationId) {
+    return POST('/mec/developer/v2/applications/' + applicationId + '/action/clean-env')
+  },
+  // export Image
+  exportImage (applicationId, vmId) {
+    return POST('/mec/developer/applications/' + applicationId + '/vms/' + vmId + '/action/export-image')
   }
 }
 

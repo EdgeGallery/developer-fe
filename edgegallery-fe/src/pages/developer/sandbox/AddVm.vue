@@ -29,7 +29,7 @@
           <el-input
             class="common-input"
             v-model="addvmImages.name"
-            placeholder="请输入内容"
+            placeholder="请输入虚拟机名称"
           />
         </div>
         <div class="addVm-top-title defaultFontLight">
@@ -37,15 +37,16 @@
           <el-input
             class="common-input"
             v-model="addvmImages.vmCertificate.pwdCertificate.username"
-            placeholder="请输入内容"
+            placeholder="请输入用户名"
           />
         </div>
         <div class="addVm-top-title defaultFontLight">
           <p>密码</p>
           <el-input
             class="common-input"
+            show-password
             v-model="addvmImages.vmCertificate.pwdCertificate.password"
-            placeholder="请输入内容"
+            placeholder="请输入密码"
           />
         </div>
       </div>
@@ -363,7 +364,7 @@ export default {
         this.vmNetworkList.forEach(item => {
           this.selectedNetworks.forEach(items => {
             if (item.name === items) {
-              this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+              this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
             }
           })
         })
@@ -436,11 +437,12 @@ export default {
       return cellValue + 'GB'
     },
     changeInternet (data) {
+      console.log(data)
       this.addvmImages.portList = []
       this.vmNetworkList.forEach(item => {
         data.forEach(items => {
           if (item.name === items) {
-            this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+            this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
           }
         })
       })
@@ -464,6 +466,8 @@ export default {
             type: 'warning'
           })
         }
+      } else {
+        this.$emit('addVmFinish', '')
       }
     }
   },

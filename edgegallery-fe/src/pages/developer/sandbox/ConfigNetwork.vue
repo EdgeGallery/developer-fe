@@ -41,6 +41,7 @@
             <el-checkbox
               v-model="selectedNetworks"
               :label="scope.row.name"
+              @change="getInternet(selectedNetworks)"
             />
           </template>
         </el-table-column>
@@ -130,7 +131,7 @@ export default {
           description: ''
         }
       ],
-      selectedNetworks: [],
+      selectedNetworks: ['MEC_APP_N6', 'MEC_APP_Public', 'MEC_APP_Private'],
       applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
     }
   },
@@ -141,11 +142,6 @@ export default {
           return
         }
         this.vmNetworkList = res.data
-        this.vmNetworkList.forEach((item) => {
-          if (item.name !== '') {
-            this.selectedNetworks.push(item.name)
-          }
-        })
       }).catch(err => {
         console.log(err)
       })
@@ -166,6 +162,9 @@ export default {
             this.$emit('editNetwork', _data)
           })
         })
+      } else {
+        _data = this.selectedNetworks
+        this.$emit('editNetwork', _data)
       }
     }
   },
