@@ -114,6 +114,10 @@ export default {
   computed: {
     zoom (val) {
       return Number(this.$store.state.zoom)
+    },
+    currentFlow (val) {
+      this.initApplicationList()
+      return Number(this.$store.state.currentFlow)
     }
   },
   data () {
