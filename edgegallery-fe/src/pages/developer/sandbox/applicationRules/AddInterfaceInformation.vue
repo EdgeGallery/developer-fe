@@ -21,6 +21,7 @@
     </h3>
 
     <el-form
+      id="form_interfaceInformation"
       label-width="125px"
       size="mini"
       class="common-form form-one-column"
@@ -104,12 +105,14 @@
 
     <div class="btn-container">
       <el-button
+        id="btn_cancelInterfaceInformation"
         class="common-btn"
         @click="finishInterfaceInformation('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
+        id="btn_confirmInterfaceInformation"
         class="common-btn"
         @click="finishInterfaceInformation('confirm')"
       >

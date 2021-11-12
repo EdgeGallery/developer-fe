@@ -20,6 +20,7 @@
       分流规则
     </h3>
     <el-form
+      id="form_trafficRules"
       label-width="120px"
       size="mini"
       class="common-form clear"
@@ -87,6 +88,7 @@
     <h4 class="rules-title-sub clear">
       流过滤规则
       <el-button
+        id="btn_addTrafficFilter"
         class="common-btn inner-btn rt"
         @click="addTrafficFilter"
       >
@@ -129,6 +131,7 @@
       >
         <template slot-scope="scope">
           <el-button
+            :id="'btn_editTrafficFilter'+scope.$index"
             type="text"
             class="operation-btn-text"
             @click="editTrafficFilter(scope.$index,scope.row)"
@@ -136,6 +139,7 @@
             {{ $t('common.edit') }}
           </el-button>
           <el-button
+            :id="'btn_delTrafficFilter'+scope.$index"
             type="text"
             class="operation-btn-text"
             @click="deleteTrafficFilter(scope.$index)"
@@ -153,6 +157,7 @@
       <h4 class="rules-title-sub clear">
         转发接口信息
         <el-button
+          id="btn_addInterfaceInformation"
           class="common-btn inner-btn rt"
           @click="addInterfaceInformation"
         >
@@ -203,6 +208,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              :id="'btn_editInterfaceInformation'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="editInterfaceInformation(scope.$index,scope.row)"
@@ -210,6 +216,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              :id="'btn_delInterfaceInformation'+scope.$index"
               type="text"
               class="operation-btn-text"
               @click="deleteInterfaceInformation(scope.$index)"
@@ -223,12 +230,14 @@
 
     <div class="btn-container">
       <el-button
+        id="btn_cancelTrafficRules"
         class="common-btn"
         @click="finishTrafficRules('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
+        id="btn_confirmTrafficRules"
         class="common-btn"
         @click="finishTrafficRules('confirm')"
       >
@@ -380,7 +389,7 @@ export default {
       this.bus.$emit('editTrafficFilter', this.trafficFilterForm)
     },
     deleteTrafficFilter (index) {
-      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         this.filterTableData.splice(index, 1)
       })
     },
@@ -423,7 +432,7 @@ export default {
       this.bus.$emit('editInterfaceInformation', this.interfaceInformationForm)
     },
     deleteInterfaceInformation (index) {
-      this.$eg_messagebox(this.$t('common.confirmDelete'), 'warning').then(() => {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         this.interfaceTableData.splice(index, 1)
       })
     },

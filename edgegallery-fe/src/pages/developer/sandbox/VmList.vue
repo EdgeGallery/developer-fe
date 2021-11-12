@@ -173,7 +173,7 @@ export default {
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
       isBtnStart: false,
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1',
+      applicationId: sessionStorage.getItem('applicationId') || '',
       vmLists: [],
       operationId: '',
       percentages: 0,
@@ -220,6 +220,7 @@ export default {
       this.$emit('addVm', 'showAddVm')
     },
     checkVmDetail () {
+      this.bus.$emit('checkVmDetail', this.vmId)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
     startUpVm (data) {

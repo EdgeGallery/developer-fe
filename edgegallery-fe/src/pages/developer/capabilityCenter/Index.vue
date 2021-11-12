@@ -302,8 +302,9 @@ export default {
     doNext (type) {
       if (type === 2) {
         sessionStorage.setItem('isCapabilityActive', true)
-        this.$store.commit('changeFlow', 2)
+        this.$store.commit('changeFlow', '2')
       }
+      this.$message.success('添加能力成功！')
       this.$router.push('/EG/developer/home')
     },
     editCapability () {
@@ -417,7 +418,7 @@ export default {
             group.label = group.name
             group.leaf = false
             if (this.capabilityIcon[group.nameEn]) {
-              group.icon = this.capabilityIcon[group.nameEn].icon
+              group.icon = this.capabilityIcon[group.nameEn].iconSelect
             }
           })
           resolve(groups)
@@ -707,7 +708,7 @@ export default {
       overflow-y: hidden;
       margin: 20px 0 0 20px;
       .swagger-ui{
-        width: 575px;
+        width: 860px;
       }
       .swagger-ui .info{
         margin: -25px 0;

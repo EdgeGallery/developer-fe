@@ -258,6 +258,8 @@
     <AddVm
       v-if="showContent==='showAddVm'"
       @addVmFinish="addVmFinish"
+      :net-work-list-prop="netWorkList"
+      :selected-networks-prop="selectedNetworks"
     />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
@@ -276,6 +278,7 @@ import AddVm from './AddVm.vue'
 import NetScroll from './NetScroll.vue'
 import VmDetail from './VmDetail.vue'
 import VmList from './VmList.vue'
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxDetail',
   components: {
@@ -287,6 +290,7 @@ export default {
   },
   data () {
     return {
+      applicationId: sessionStorage.getItem('applicationId') || '',
       detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
       isChangeStyle: true,
       showContent: 'showDetail',
@@ -308,7 +312,7 @@ export default {
   },
   methods: {
     returnHome () {
-      this.$store.commit('changeFlow', 3)
+      this.$store.commit('changeFlow', '3')
       this.$router.push('/EG/developer/home')
     },
     deployInternet () {
@@ -353,6 +357,19 @@ export default {
     },
     addApplicationRules () {
       this.$router.push('/EG/developer/applicationRules')
+    },
+    getVmList () {
+      sandbox.getVmList(this.applicationId).then(res => {
+        console.log(res.data)
+        if (res.data && res.data.length > 0) {
+          this.isAddVmFinish = true
+        }
+      })
+    }
+  },
+  watch: {
+    showContent (val) {
+      console.log(val)
     }
   },
   mounted () {
@@ -364,6 +381,7 @@ export default {
       this.isChangeStyle = false
       this.isMecSucess = false
     }
+    // this.getVmList()
   },
   beforeDestroy () {
     sessionStorage.removeItem('applicationRules')

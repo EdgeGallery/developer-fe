@@ -28,7 +28,10 @@
         {{ $t("distributeDeploy.distributeDeploySuccess") }}
       </div>
       <div class="distribute-finish__buttons">
-        <button class="distribute-finish__button">
+        <button
+          class="distribute-finish__button"
+          @click="handleClickFinish"
+        >
           {{ $t("common.finish") }}
         </button>
       </div>
@@ -44,6 +47,12 @@ export default {
   data () {
     return {
       successImg: successImg
+    }
+  },
+  methods: {
+    handleClickFinish () {
+      this.$store.commit('changeFlow', '9')
+      this.$router.push('/EG/developer/home')
     }
   }
 }
@@ -64,7 +73,8 @@ export default {
   left: 50%;
   width: 465px;
   height: 286px;
-  background-image: url("../../../assets/images/mecm/distributeDeploy/distribute_deploy_success_bg.png");
+
+  background-image: url("../../assets/images/mecm/distributeDeploy/distribute_deploy_success_bg.png");
   border-radius: 17px;
   border: solid 1px #b6a4ec;
   text-align: center;

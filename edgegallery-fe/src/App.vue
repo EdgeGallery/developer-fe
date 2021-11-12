@@ -69,7 +69,6 @@
         >
           <ProjectSideComp
             @zoomChanged="zoomChanged"
-            :zoom="zoom"
             v-if="zoom>1"
           />
         </div>
@@ -110,8 +109,12 @@ export default {
       navDataClassic: navDataClassic,
       screenHeight: document.body.clientHeight,
       timer: false,
-      zoom: 2,
       isIndex: true
+    }
+  },
+  computed: {
+    zoom (val) {
+      return Number(this.$store.state.zoom)
     }
   },
   watch: {
@@ -149,15 +152,17 @@ export default {
   methods: {
     zoomChanged (val) {
       if (val === 1) {
-        this.zoom = 1
+        this.$store.commit('changeZoom', '1')
         this.$refs.leftProComp.style.width = '15%'
-      } else {
-        this.zoom = 20
+      } else if (val === 2) {
+        this.$store.commit('changeZoom', '20')
         this.$refs.leftProComp.style.width = '100%'
+      } else {
+        this.$store.commit('changeZoom', '2')
       }
     },
     enlarge () {
-      this.zoom = 2
+      this.$store.commit('changeZoom', '2')
       this.$refs.leftProComp.style.width = '100%'
     },
     setDivHeight (screenHeight) {
@@ -203,6 +208,11 @@ export default {
         this.screenHeight = document.body.clientHeight
         this.setDivHeight(this.screenHeight)
       })()
+    }
+  },
+  updated () {
+    if (this.zoom === 1) {
+      this.$refs.leftProComp.style.width = '15%'
     }
   },
   beforeDestroy () {

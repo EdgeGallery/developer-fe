@@ -21,6 +21,7 @@
     </h3>
 
     <el-form
+      id="form_trafficFilter"
       label-width="125px"
       size="mini"
       class="common-form clear"
@@ -166,12 +167,14 @@
 
     <div class="btn-container">
       <el-button
+        id="btn_cancelTrafficFilter"
         class="common-btn"
         @click="finishTrafficFilter('cancel')"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
+        id="btn_confirmTrafficFilter"
         class="common-btn"
         @click="finishTrafficFilter('confirm')"
       >

@@ -132,7 +132,7 @@ export default {
         }
       ],
       selectedNetworks: ['MEC_APP_N6', 'MEC_APP_Public', 'MEC_APP_Private'],
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {
@@ -153,7 +153,7 @@ export default {
       }
       this.newNetworkList.push(_obj)
     },
-    finishEditNetwork (type) {
+     finishEditNetwork (type) {
       let _data = []
       if (type === 'confim') {
         _data = this.selectedNetworks

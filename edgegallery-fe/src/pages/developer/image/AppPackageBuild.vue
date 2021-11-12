@@ -107,6 +107,14 @@
                 {{ basicInfoData.description }}
               </p>
             </el-col>
+            <el-col :span="6">
+              <p class="left">
+                应用详情介绍
+              </p>
+              <p>
+                {{ basicInfoData.fileName }}
+              </p>
+            </el-col>
           </el-row>
         </div>
       </div>
@@ -124,10 +132,6 @@
             class="common-table"
             :data="resourceConfigInfoList"
           >
-            <el-table-column
-              type="selection"
-              width="45"
-            />
             <el-table-column
               prop="vmName"
               label="虚拟机名称"
@@ -149,11 +153,6 @@
               min-width="12%"
             />
             <el-table-column
-              prop="status"
-              label="状态"
-              min-width="11%"
-            />
-            <el-table-column
               prop="vmImage"
               label="虚机镜像"
               min-width="15%"
@@ -173,12 +172,6 @@
         <div class="content-wrapper appPackageBuild-content">
           <el-tabs>
             <el-tab-pane label="流量规则">
-              <el-button
-                class="ruleBtn"
-                @click="openDialog('trafficRule')"
-              >
-                {{ $t('appPackage.addTrafficRule') }}
-              </el-button>
               <div class="ruleTable">
                 <el-table
                   class="common-table"
@@ -204,47 +197,10 @@
                     :label="$t('appPackage.action')"
                     min-width="25%"
                   />
-                  <el-table-column
-                    :label="$t('common.operation')"
-                    min-width="20%"
-                  >
-                    <template slot-scope="scope">
-                      <el-button
-                        type="text"
-                        size="medium"
-                        class="editBtn"
-                        @click="checkFilter(scope.row)"
-                      >
-                        查看详情
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="editBtn"
-                        @click="editTrafficRule(scope.$index, scope.row)"
-                      >
-                        {{ $t('common.edit') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="deleteBtn"
-                        @click="deleteTrafficData(scope.$index)"
-                      >
-                        {{ $t('common.delete') }}
-                      </el-button>
-                    </template>
-                  </el-table-column>
                 </el-table>
               </div>
             </el-tab-pane>
             <el-tab-pane label="DNS规则">
-              <el-button
-                class="ruleBtn"
-                @click="openDialog('dnsRule')"
-              >
-                {{ $t('appPackage.addDnsRule') }}
-              </el-button>
               <div class="ruleTable">
                 <el-table
                   class="common-table"
@@ -270,45 +226,8 @@
                     :label="$t('appPackage.ttl')"
                     min-width="25%"
                   />
-                  <el-table-column
-                    :label="$t('common.operation')"
-                    min-width="20%"
-                  >
-                    <template slot-scope="scope">
-                      <el-button
-                        type="text"
-                        size="medium"
-                        class="editBtn"
-                        @click="checkFilter(scope.row)"
-                      >
-                        查看详情
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="editBtn"
-                        @click="editTrafficRule(scope.$index, scope.row)"
-                      >
-                        {{ $t('common.edit') }}
-                      </el-button>
-                      <el-button
-                        size="medium"
-                        type="text"
-                        class="deleteBtn"
-                        @click="deleteTrafficData(scope.$index)"
-                      >
-                        {{ $t('common.delete') }}
-                      </el-button>
-                    </template>
-                  </el-table-column>
                 </el-table>
               </div>
-            </el-tab-pane>
-            <el-tab-pane label="黑白名单">
-              黑白名单
-            </el-tab-pane>
-            <el-tab-pane label="UE标识">
-              UE标识
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -379,10 +298,6 @@
                   :label="$t('appPackage.description')"
                   min-width="28%"
                 />
-                <el-table-column
-                  :label="$t('common.operation')"
-                  min-width="28%"
-                />
               </el-table>
             </div>
           </div>
@@ -414,12 +329,66 @@ export default {
   },
   data () {
     return {
-      basicInfoData: {},
-      resourceConfigInfoList: [],
-      trafficRulesInfoList: [],
-      dnsRulesInfoList: [],
-      capabalityDependsList: [],
-      capabalityReleaseDataList: [],
+      basicInfoData: {
+        name: 'applicationVM',
+        version: 'V1.0',
+        provider: 'huawei',
+        industry: 'game',
+        type: '游戏',
+        architecture: 'x86',
+        dependent: '无依赖',
+        createTime: '2021-11-04:19.46',
+        description: '2048游戏',
+        fileName: 'gameIntru.docs'
+      },
+      resourceConfigInfoList: [
+        {
+          vmId: '',
+          vmName: 'VmTest1',
+          spec: 'x86 | 1vCPUs | 1GBRAM | 40GB+50GB Disk',
+          network: 'MEC_APP_N6, MEC_app_Private,',
+          basicImage: 'ubuntu',
+          vmImage: '暂无'
+        }, {
+          vmId: '',
+          vmName: 'VmTest1',
+          spec: 'x86 | 1vCPUs | 1GBRAM | 40GB+50GB Disk',
+          network: 'MEC_APP_Public',
+          basicImage: 'ubuntu',
+          vmImage: '暂无'
+        }
+      ],
+      trafficRulesInfoList: [
+        {
+          trafficRuleId: 'rules',
+          action: 'FLOW',
+          priority: '1',
+          filterType: 'DROP'
+        }
+      ],
+      dnsRulesInfoList: [
+        {
+          dnsRuleId: 'rules',
+          domainName: 'domainName',
+          ipAddressType: '0.0.0.0',
+          ttl: '85000'
+        }
+      ],
+      capabalityDependsList: [
+        {
+          serName: 'VmServe',
+          version: 'V1.0'
+        }
+      ],
+      capabalityReleaseDataList: [
+        {
+          serviceName: 'oneTest',
+          internalPort: '8000',
+          version: 'V1.0',
+          protocol: 'https',
+          description: 'test'
+        }
+      ],
       applicationId: sessionStorage.getItem('applicationId'),
       packageId: ''
     }
@@ -429,22 +398,28 @@ export default {
       imageApi.getAppInfo(this.applicationId).then(res => {
         if (res.data.vmApp) {
           this.basicInfoData = res.data.vmApp
-          this.getResourceConfig()
-          this.getRulesInfo()
-          this.packageId = this.basicInfoData.appPackage.id
-          if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
-            this.basicInfoData.dependent = '无依赖'
-          } else {
-            let _dependents = []
-            let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
-            _requireData.forEach(item => {
-              _dependents.push(item.serName)
-            })
-            this.basicInfoData.dependent = _dependents.toString()
-          }
         } else {
-          console.log('容器')
+          this.basicInfoData = res.data.containerApp
         }
+        this.getBaseInfoFileName()
+        this.getResourceConfig()
+        this.getRulesInfo()
+        this.packageId = this.basicInfoData.appPackage.id
+        if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
+          this.basicInfoData.dependent = '无依赖'
+        } else {
+          let _dependents = []
+          let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
+          _requireData.forEach(item => {
+            _dependents.push(item.serName)
+          })
+          this.basicInfoData.dependent = _dependents.toString()
+        }
+      })
+    },
+    getBaseInfoFileName () {
+      imageApi.getFileInfo(this.basicInfoData.guideFileId).then(res => {
+        this.basicInfoData.fileName = res.data.fileName
       })
     },
     getResourceConfig () {
@@ -454,17 +429,11 @@ export default {
         spec: '',
         network: '',
         basicImage: '',
-        status: '',
         vmImage: ''
       }
       this.basicInfoData.vmList.forEach(item => {
         _configInfo.vmId = item.id
         _configInfo.vmName = item.name
-        if (!item.vmInstantiateInfo) {
-          _configInfo.status = '未部署'
-        } else {
-          _configInfo.status = '部署中'
-        }
         this.handleResourceConfig(_configInfo, item)
         if (!item.imageExportInfo) {
           _configInfo.vmImage = '无'
@@ -498,30 +467,21 @@ export default {
       this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
     },
     packageApp () {
-      imageApi.generatePackage(this.applicationId).then(res => {
-        this.$message({
-          showClose: true,
-          duration: 2000,
-          message: '打包成功',
-          type: 'success'
-        })
+      this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+        this.$store.commit('changeFlow', '4')
         this.$router.push('/EG/developer/home')
-      }).catch(() => {
-        this.$message({
-          showClose: true,
-          duration: 2000,
-          message: '打包失败',
-          type: 'error'
-        })
       })
-    },
-    returnHome () {
-      sessionStorage.setItem('currentFlow', 4)
-      this.$router.push('/EG/developer/home')
+      // imageApi.generatePackage(this.applicationId).then(res => {
+      //   this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+      //     this.$router.push('/EG/developer/home')
+      //   })
+      // }).catch(() => {
+      //   this.$eg_messagebox('打包失败', 'error')
+      // })
     }
   },
   mounted () {
-    this.getAppBaseInfo()
+    // this.getAppBaseInfo()
   }
 }
 </script>
@@ -661,11 +621,6 @@ export default {
         .el-tabs__item {
           color: #FFFFFF;
         }
-        .ruleBtn {
-          border-radius: 12px;
-          color: #5944C0;
-          padding: 3px 18px 2px;
-        }
         .ruleTable {
           margin-top: 20px;
           .el-table__cell {
@@ -711,9 +666,9 @@ export default {
     .appPackageBtn {
       margin: 41px 0px 0 0;
       .el-button {
-        font-size: 20px;
+        // font-size: 20px;
         border-radius: 16px;
-        padding: 17px 45px;
+        // padding: 17px 45px;
       }
       .el-button + .el-button {
         margin-left: 60px;

@@ -51,7 +51,25 @@ const en = {
     ip: 'IP',
     city: 'City',
     MEPM: 'App LCM IP',
-    hwCapability: 'Capabilities'
+    hwCapability: 'Capabilities',
+    selectMecHost: 'Please choose the host.',
+    selectVersion: 'Please choose the package version first.',
+    failedToDistribute: 'Failed to distribute.'
+  },
+  deployConfig: {
+    title: 'Deployment Configuration',
+    IPAddress: 'IP Address: ',
+    status: 'Status: ',
+    appName: 'App Name',
+    appDesc: 'App Description',
+    placeholderName: 'Name',
+    placeholderDesc: 'Description',
+    hardwareAbilities: 'Hardware Abilities',
+    appNameVerifyRequired: 'Please input the APP name',
+    appNameVerifyValid: '4 to 16 digits (letters, numbers)',
+    appDescVerifyRequired: 'Please input the description.',
+    deployFailed: 'Deploy failed!',
+    getTemplateListFail: 'Failed to get parameters'
   }
 }
 export default en

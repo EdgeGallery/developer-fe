@@ -51,7 +51,25 @@ const cn = {
     ip: 'IP地址',
     city: '城市',
     MEPM: 'MEPM地址',
-    hwCapability: '硬件能力'
+    hwCapability: '硬件能力',
+    selectMecHost: '请选择要下发的host节点。',
+    selectVersion: '请选择要下发的应用包版本。',
+    failedToDistribute: '分发失败。'
+  },
+  deployConfig: {
+    title: '部署配置',
+    IPAddress: 'IP地址：',
+    status: '状态：',
+    appName: '应用名称',
+    appDesc: '应用描述',
+    placeholderName: '名称',
+    placeholderDesc: '描述',
+    hardwareAbilities: '硬件能力',
+    appNameVerifyRequired: '请输入应用名称',
+    appNameVerifyValid: '4到16位（字母，数字）',
+    appDescVerifyRequired: '请输入描述',
+    deployFailed: '部署失败，请检查！',
+    getTemplateListFail: '获取参数失败'
   }
 }
 export default cn
