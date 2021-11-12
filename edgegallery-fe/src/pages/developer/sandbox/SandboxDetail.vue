@@ -50,7 +50,7 @@
         </div>
         <div
           v-else
-          class="deploy-detail-bg"
+          class="deploy-detail-bg common-div-bg"
         >
           <div class="details-top">
             <p class="deploy-detail-circle" />
@@ -488,8 +488,7 @@ export default {
       height: 464px;
       max-height: 100%;
       padding: 40px 40px;
-      background: url('../../../assets/images/sandbox/detail_center_bg.png') no-repeat;
-      .details-top{
+       .details-top{
         display: flex;
         .deploy-detail-circle{
           width: 9px;
@@ -581,7 +580,7 @@ export default {
         margin-top: 60px;
         .details-bottom-title{
           font-size: 40px;
-          color: #0A0936;
+          color: #fff;
           font-weight:bold;
           opacity: 0.5;
         }

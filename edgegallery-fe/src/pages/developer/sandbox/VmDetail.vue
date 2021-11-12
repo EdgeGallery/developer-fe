@@ -114,7 +114,7 @@ export default {
     .vm-content{
       padding: 16px 40px;
       border-radius: 8px;
-      background: rgba(255,255,255,.3);
+      background: rgba(255,255,255,.1);
       font-size: 14px;
       line-height: 22px;
       p{
