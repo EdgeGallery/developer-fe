@@ -318,8 +318,8 @@ export default {
     border-radius: 16px;
     margin: 120px auto;
     padding: 40px 40px 40px 40px;
-    background: url("../../assets/images/mecm/deploy_config/deploy_config_bg.png")
-      center;
+    background: transparent;
+    // background: url("../../assets/images/mecm/deploy_config/deploy_config_bg.png") center;
     .btn_deployConfig {
       padding: 20px;
       .el-button {

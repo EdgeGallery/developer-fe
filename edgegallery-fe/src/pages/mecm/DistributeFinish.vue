@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 .distribute-finish {
   display: flex;
   justify-content: center;
@@ -73,8 +73,8 @@ export default {
   left: 50%;
   width: 465px;
   height: 286px;
-
-  background-image: url("../../assets/images/mecm/distributeDeploy/distribute_deploy_success_bg.png");
+  background-color: transparent;
+  // background-image: url("../../assets/images/mecm/distributeDeploy/distribute_deploy_success_bg.png");
   border-radius: 17px;
   border: solid 1px #b6a4ec;
   text-align: center;
