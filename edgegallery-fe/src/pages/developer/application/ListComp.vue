@@ -7,12 +7,15 @@
       @click.stop="item.id===0?createApplication():checkProjectDetail(item)"
     >
       <img
-        :src="item.id===0?item.iconUrl:getIconFile(item.iconFileId)"
+        :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
         :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
         :class="item.status==='creating'?'current':''"
       >
-      <div class="app-name">
-        {{ item.name }}
+      <div
+        class="app-name"
+        :title="item.name"
+      >
+        {{ item.name.length>4?item.name.substr(0,12)+'...':item.name }}
       </div>
       <div
         class="app-common-status"
@@ -26,6 +29,7 @@
 </template>
 
 <script>
+import { applicationApi } from '../../../api/developerApi'
 export default {
   name: 'ListComp',
   components: {
@@ -58,11 +62,11 @@ export default {
     switchStatus (status) {
       return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置成功' : (status === 'DEPLOYED' ? '已部署' : (status === 'TESTED' ? '测试完成' : '已发布')))
     },
-    getIconFile (iconFileId) {
-      return '/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream'
-    },
     getStatusClass (status) {
       return status === 'CREATED' ? 'app-created' : (status === 'CONFIGURED' ? 'app-success' : (status === 'DEPLOYED' ? 'app-failed' : 'app-published'))
+    },
+    getFile (id) {
+      return applicationApi.getFileStream(id)
     }
   }
 }
@@ -73,6 +77,7 @@ export default {
     text-align: center;
     cursor: pointer;
     padding: 20px 15px;
+    width: 154px;
     .app-name{
       text-align: center;
       white-space: pre-wrap;

@@ -119,14 +119,7 @@ export default {
   data () {
     return {
       allAppList: [],
-      currentAppList: [
-        {
-          id: 0,
-          type: 'normal',
-          iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
-          name: '新增项目'
-        }
-      ],
+      currentAppList: [],
       searchValue: '',
       isSearchActive: false,
       isViewActive: false
@@ -151,7 +144,15 @@ export default {
           data.sort(function (a, b) {
             return b.createTime < a.createTime ? -1 : 1
           })
-          this.currentAppList.concat(data)
+          let tempData = [
+            {
+              id: 0,
+              type: 'normal',
+              iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
+              name: '新增项目'
+            }
+          ]
+          data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
         }
       }).catch(err => {
         console.log(err)
@@ -215,7 +216,7 @@ export default {
   .app-list-title{
     font-size: 20px;
     font-weight: 400;
-    margin-bottom: 35px;
+    margin: 15px 0;
   }
 }
 </style>
