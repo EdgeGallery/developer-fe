@@ -446,7 +446,7 @@ export default {
     overflow: auto;
     border: 2px solid #b6a4ec;
     border-radius: 16px;
-    background: url('../../../assets/images/div_bg.png');
+    // background: url('../../../assets/images/div_bg.png');
     box-shadow: 60px 70px 75px rgba(36,20,119,.25);
     position: absolute;
     z-index: 1;
