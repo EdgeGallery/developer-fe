@@ -50,7 +50,7 @@
           <div
             class="vm-btn flex-center vm-btn-detail hoverHands"
             @click="checkVmDetail"
-            :class="!isBtnStart ? 'img-onlyRead':'img-click'"
+            :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
               class="item edit-tooltip"
@@ -98,7 +98,7 @@
           </div>
           <div
             class="vm-btn vm-btn-start flex-center hoverHands"
-            @click="startUpVm(vmLists.id)"
+            @click="startUpVm"
             :class="!isBtnStart ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
@@ -116,7 +116,6 @@
           <div
             class="vm-btn vm-btn-export flex-center hoverHands"
             :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
-            @click="exportImage(vmLists.id)"
           >
             <el-tooltip
               class="item edit-tooltip"
@@ -132,12 +131,22 @@
           </div>
         </div>
         <div
-          class="vmStatus"
-          v-if="isprogess"
+          v-if="isStartupVm"
+          :class="{'vmStatus':vmloading}"
         >
-          <el-progress
-            :percentage="percentages"
-            :format="format"
+          <div
+            class="vmStatus-loading"
+            v-for="(item,index) in 4"
+            :key="index"
+          />
+        </div>
+        <div
+          v-else
+          :class="{'vmStatus':vmloading}"
+        >
+          <div
+            v-for="(item,index) in 4"
+            :key="index"
           />
         </div>
       </div>
@@ -149,7 +158,7 @@
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi'
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: '',
   props: {
@@ -168,54 +177,18 @@ export default {
   },
   data () {
     return {
-      isAddVmFinish: false,
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      isAddVmFinish: this.isAddVmFinishProp,
+      isStartupVm: false,
+      vmloading: false,
       isExportImage: false,
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
-      isBtnStart: false,
-      applicationId: sessionStorage.getItem('applicationId') || '',
-      vmLists: [],
-      operationId: '',
-      percentages: 0,
-      isprogess: false
+      isBtnStart: this.isBtnStartProp,
+      vmId: ''
     }
   },
   methods: {
-    getVmlists () {
-      sandbox.getVmlist(this.applicationId).then(res => {
-        this.vmLists = res.data[0]
-        if (this.vmLists.imageId !== 0) {
-          this.isBtnStart = true
-        }
-        if (this.vmLists.vmInstantiateInfo.operationId !== '') {
-          let isvmFinish = setInterval(() => {
-            sandbox.getVmStatus(this.operationId).then(res => {
-              this.percentages = res.data.progress
-              if (res.data.status === 'SUCCESS') {
-                this.isStartupVmFinish = true
-                this.isBtnStart = false
-                this.isExportImage = true
-                this.$emit('startUpVm', this.isStartupVmFinish)
-                clearTimeout(isvmFinish)
-              }
-            }).catch(() => {
-            })
-          }, 5000)
-          this.isprogess = true
-        }
-      }).catch(() => {
-      })
-    },
-    deleteVm () {
-      sandbox.deleteVmImage(this.applicationId, 'c92a375f-0f53-417e-af1a-169f04b7e6e8').then(() => {
-      }).catch(() => {
-      })
-    },
-    clearVmList () {
-      sandbox.clearVmImage(this.applicationId).then(() => {
-      }).catch(() => {
-      })
-    },
     addVm () {
       this.$emit('addVm', 'showAddVm')
     },
@@ -223,38 +196,27 @@ export default {
       this.bus.$emit('checkVmDetail', this.vmId)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
-    startUpVm (data) {
-      this.isprogess = true
-      sandbox.getVmPullId(this.applicationId, data).then(res => {
-        this.operationId = res.data.operationId
-        let vmFinish = setInterval(() => {
-          sandbox.getVmStatus(this.operationId).then(res => {
-            this.percentages = res.data.progress
-            if (res.data.status === 'SUCCESS') {
-              this.isStartupVmFinish = true
-              this.isBtnStart = false
-              this.isExportImage = true
-              this.$emit('startUpVm', this.isStartupVmFinish)
-              clearTimeout(vmFinish)
-            }
-          }).catch(() => {
-          })
-        }, 5000)
-      }).catch(() => {
-      })
+    startUpVm () {
+      this.isStartupVm = true
+      this.vmloading = true
+      let _timer = setTimeout(() => {
+        this.isStartupVmFinish = true
+        this.isStartupVm = false
+        this.isExportImage = true
+        this.$emit('startUpVm', this.isStartupVmFinish)
+        clearTimeout(_timer)
+      }, 3000)
     },
-    exportImage (data) {
-      sandbox.exportImage(this.applicationId, data).then(() => {
+    getVmList () {
+      sandbox.getVmList(this.applicationId).then(res => {
+        this.vmId = res.data[0].id
       })
-    },
-    format (percentage) {
-      return percentage === 100 ? '完成' : `${percentage}%`
     }
   },
   created () {
   },
   mounted () {
-    this.getVmlists()
+    // this.getVmList()
   }
 }
 </script>
@@ -305,13 +267,27 @@ export default {
   .vmStatus{
     position: absolute;
     top: 124px;
-    height: 30px;
-    width: 100px;
-    margin-left: 30px;
-    .el-progress__text {
-      color: #fff;
-      font-size: 12px;
-    }
+  }
+  .vmStatus .vmStatus-loading:first-child{
+    animation-delay: -0.48s;
+  }
+  .vmStatus .vmStatus-loading:nth-child(2){
+    animation-delay: -0.32s;
+  }
+  .vmStatus .vmStatus-loading:nth-child(3){
+    animation-delay: -0.16s;
+  }
+  .vmStatus > div {
+    width: 6px;
+    height: 6px;
+    margin-right: 4px;
+    background-color: #42F6AC;
+    border-radius: 100%;
+    display: inline-block;
+  }
+  .vmStatus .vmStatus-loading{
+    animation: bouncedelay 1.4s infinite ease-in-out;
+    animation-fill-mode: both;
   }
   @keyframes bouncedelay {
     0%, 80%, 100% {
