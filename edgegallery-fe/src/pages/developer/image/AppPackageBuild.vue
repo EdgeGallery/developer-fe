@@ -495,8 +495,11 @@ export default {
   }
   .app-package-build-warraper {
     width: 85%;
-    background: url('../../../assets/images/app_pacakage_build_bg.png') no-repeat center;
-    background-size: cover;
+    max-height: 85%;
+    overflow: auto;
+    border: 2px solid #b6a4ec;
+    // background: url('../../../assets/images/app_pacakage_build_bg.png') no-repeat center;
+    // background-size: cover;
     border-radius: 16px;
     margin: 51px auto;
     padding: 40px 40px 40px 40px;
