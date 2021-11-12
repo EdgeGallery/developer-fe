@@ -21,7 +21,7 @@
       class="question hoverHands"
     >
     <div
-      class="all-sandbox"
+      class="all-sandbox common-div-bg"
       v-if="isSandbox"
     >
       <div class="sandbox-top">
@@ -69,7 +69,7 @@
     </div>
     <div
       v-else
-      class="all-sandbox"
+      class="all-sandbox common-div-bg"
     >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
@@ -118,7 +118,7 @@
           </el-form>
         </div>
       </div>
-      <div class="btns">
+      <div class="btn-container">
         <el-button
           class="common-btn btn_margin_right"
           @click="backSandbox"
@@ -216,7 +216,6 @@ export default {
     padding: 20px 2%;
     min-height: 405px;
     margin: 245px auto;
-    background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
     background-size: 100% 100%;
     .sandbox-top{
       display: flex;
@@ -328,13 +327,6 @@ export default {
               sans-serif !important;
         }
       }
-    }
-    .btns{
-        position: relative;
-        left:420px;
-        .btn_margin_right{
-          margin-right: 14px !important;
-        }
     }
   }
 }

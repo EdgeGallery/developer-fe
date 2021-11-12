@@ -17,7 +17,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 import enClassic from '../classic/locales/en.js'
 import enHome from './home_en.js'
-import enApplication from './application_en.js'
+import enAppStore from './appstore_en.js'
 import enCapability from './capability_en.js'
 import enSandbox from './sandbox_en.js'
 import enImages from './images_en.js'
@@ -40,7 +40,7 @@ const en = {
   ...enLocale,
   ...enClassic,
   ...enHome,
-  ...enApplication,
+  ...enAppStore,
   ...enCapability,
   ...enSandbox,
   ...enImages,

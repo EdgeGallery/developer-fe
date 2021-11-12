@@ -17,7 +17,7 @@
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 import cnClassic from '../classic/locales/cn.js'
 import cnHome from './home_cn.js'
-import cnApplication from './application_cn.js'
+import cnAppStore from './appstore_cn.js'
 import cnCapability from './capability_cn.js'
 import cnSandbox from './sandbox_cn.js'
 import cnImages from './images_cn.js'
@@ -40,7 +40,7 @@ const cn = {
   ...zhLocale,
   ...cnClassic,
   ...cnHome,
-  ...cnApplication,
+  ...cnAppStore,
   ...cnCapability,
   ...cnSandbox,
   ...cnImages,
