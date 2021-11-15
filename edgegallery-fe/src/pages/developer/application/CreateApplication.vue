@@ -81,8 +81,8 @@ export default {
   .create-application-form{
     position: absolute;
     top: 20%;
-    left: 35%;
-    width: 35%;
+    left: 25%;
+    width: 45%;
     padding: 35px;
     text-align: center;
   }

@@ -49,7 +49,6 @@ module.exports = {
           '^/mec-developer': '/'
         }
       }
-
     }
   },
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',

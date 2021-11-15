@@ -76,7 +76,8 @@ function DELETE (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+        'access_token': token
       }
     }).then(res => {
       resolve(res)

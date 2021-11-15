@@ -33,6 +33,13 @@
       />
       <div
         class="app-btn"
+        :class="isDeleteActive?'delete-active':'delete-default'"
+        title="删除"
+        v-if="zoom>2"
+        @click.stop="deleteApp()"
+      />
+      <div
+        class="app-btn"
         :class="isViewActive?'view-active':'view-default'"
         title="更多"
         @click.stop="changeView(isViewActive)"
@@ -54,6 +61,7 @@
       >
         <ListComp
           :data-list="currentAppList"
+          :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
         />
       </div>
@@ -68,6 +76,7 @@
       >
         <ListComp
           :data-list="filterStatus('CREATED')"
+          :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
         />
       </div>
@@ -82,6 +91,7 @@
       >
         <ListComp
           :data-list="filterStatus('CONFIGURED')"
+          :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
         />
       </div>
@@ -96,6 +106,7 @@
       >
         <ListComp
           :data-list="filterStatus('DEPLOYED')"
+          :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
         />
       </div>
@@ -116,6 +127,7 @@ export default {
       return Number(this.$store.state.zoom)
     },
     currentFlow (val) {
+      console.log(val)
       this.initApplicationList()
       return Number(this.$store.state.currentFlow)
     }
@@ -126,19 +138,26 @@ export default {
       currentAppList: [],
       searchValue: '',
       isSearchActive: false,
-      isViewActive: false
+      isViewActive: false,
+      isDeleteActive: false
     }
   },
   methods: {
     changeView (val) {
       this.isViewActive = !val
       val ? this.$emit('zoomChanged', 3) : this.$emit('zoomChanged', 2)
+      if (!this.isViewActive) {
+        this.isDeleteActive = false
+      }
     },
     changeSmall () {
       this.$emit('zoomChanged', 1)
     },
     searchProject () {
       this.isSearchActive = true
+    },
+    deleteApp () {
+      this.isDeleteActive = !this.isDeleteActive
     },
     initApplicationList () {
       applicationApi.getApplicationList().then(res => {
@@ -193,6 +212,12 @@ export default {
     }
     .search-active{
       background: url("../../../assets/images/projects/pro_search_after.png") no-repeat center;
+    }
+    .delete-default{
+      background: url("../../../assets/images/projects/pro_delete_default.png") no-repeat center;
+    }
+    .delete-active{
+      background: url("../../../assets/images/projects/pro_delete_click.png") no-repeat center;
     }
     .view-default{
       background: url("../../../assets/images/projects/pro_view_default.png") no-repeat center;

@@ -133,7 +133,7 @@ export default {
         height: 100%;
         margin-right: 3%;
         overflow: hidden;
-        background: url('../../assets/images/index/index_mask.png') no-repeat center;
+        background: url('../../assets/images/index/index_module_bg_default.png') no-repeat center;
         background-size: cover;
         border: 2px solid #B6A4EC;
         border-radius: 17px;
@@ -151,6 +151,9 @@ export default {
       }
       .main-content-right-item:hover{
         transform: translate3d(0,-20px,0);
+        border: 3px solid #42F6AC;
+        background: url('../../assets/images/index/index_module_bg_active.png') no-repeat center;
+        background-size: cover;
       }
     }
 
