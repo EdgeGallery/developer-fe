@@ -21,27 +21,11 @@
     :class="{'app-new':pageModel==='newVersion'}"
     ref="app"
   >
-    <div v-if="pageModel==='newVersion'">
-      <div class="common-bg-center-div">
-        <div
-          :class="{'common-bg-center-home':isIndex,'common-bg-center':!isIndex}"
-        >
-          <img
-            src="./assets/images/common_bg_center_home.png"
-            alt=""
-            v-show="isIndex"
-          >
-          <img
-            src="./assets/images/common_bg_center.png"
-            alt=""
-            v-show="!isIndex"
-          >
-        </div>
-      </div>
+    <!-- <div v-if="pageModel==='newVersion'">
       <div class="common-bg-left" />
       <div class="common-bg-green-left" />
       <div class="common-bg-green-right" />
-    </div>
+    </div> -->
 
     <Navcomp
       :scroll-top-prop="scrollTop"
@@ -234,26 +218,6 @@ export default {
 .app-new{
   background:url('./assets/images/common_bg.png');
   background-size:cover;
-  .common-bg-center-div{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  .common-bg-center-home{
-    position: absolute;
-    top: 0;
-    left: 150px;
-    animation: animationCenterHome 10s linear infinite;
-  }
-  .common-bg-center{
-    position: absolute;
-    top: 0;
-    left: -170px;
-    animation: animationCenter 10s linear infinite;
-  }
   .common-bg-left{
     position: absolute;
     top: 100px;
@@ -313,28 +277,6 @@ export default {
 }
 .el-row, .el-col{
   height: 100%;
-}
-@keyframes animationCenterHome {
-  0% {
-    bottom: 0px;
-  }
-  50% {
-    top: 80px;
-  }
-  100% {
-    top: 0px;
-  }
-}
-@keyframes animationCenter {
-  0% {
-    bottom: 0px;
-  }
-  50% {
-    top: 60px;
-  }
-  100% {
-    top: 0px;
-  }
 }
 @keyframes animationLeft {
   0% {
