@@ -303,7 +303,7 @@ export default {
 }
 .left-pro-comp::after {
   content: "";
-  // background: url("./assets/images/div_bg.png") no-repeat center;
+  background: url("./assets/images/div_bg.png") no-repeat center;
   top: 0;
   left: 0;
   bottom: 0;
