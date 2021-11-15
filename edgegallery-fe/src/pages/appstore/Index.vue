@@ -116,14 +116,14 @@ export default {
     return {
       pageData: [
         {
-          name: 'AI_Paint',
+          name: '位置服务',
           version: '1.0',
           provider: 'HuaWeicompanyIntr',
           size: '12.00 k',
           score: '5',
           type: 'CSAR',
           experienceAble: false,
-          images: require('../../assets/images/appstore/app_icon.png')
+          images: require('../../assets/images/appstore/app_bg_yanshi.png')
         }, {
           name: 'Game_2048',
           version: '1.0',

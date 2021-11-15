@@ -24,7 +24,14 @@
           v-for="(item, index) in listData"
           :key="index"
         >
-          <span class="title">{{ item }}</span>
+          <p class="title">
+            {{ item }}
+          </p>
+          <p class="clear">
+            <span class="span-cicle lt" />
+            <span class="span-line lt" />
+            <span class="span-cicle lt" />
+          </p>
         </li>
       </ul>
     </vue-seamless-scroll>
@@ -53,7 +60,7 @@ export default {
     defaultOption () {
       return {
         step: 0.2, // 数值越大速度滚动越快
-        limitMoveNum: 4, // 开始无缝滚动的数据量 this.dataList.length
+        limitMoveNum: 5, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
         direction: 1, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom
@@ -81,10 +88,21 @@ export default {
       overflow: hidden;
       height: 24px;
       font-size: 10px;
-      background: url('../../../assets/images/sandbox/oneNet_bg.png') no-repeat center;
       .title{
         display: block;
         transform: scale(0.8);
+      }
+      .span-cicle{
+        width: 8px;
+        height: 8px;
+        background: #fff;
+        border-radius: 50%;
+      }
+      .span-line{
+        width: calc(100% - 16px);
+        height: 1px;
+        background: #929292;
+        margin-top: 4px;
       }
     }
   }

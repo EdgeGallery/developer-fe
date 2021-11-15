@@ -51,7 +51,10 @@ const cn = {
     ip: 'IP地址',
     city: '城市',
     MEPM: 'MEPM地址',
-    hwCapability: '硬件能力'
+    hwCapability: '硬件能力',
+    selectMecHost: '请选择要下发的host节点。',
+    selectVersion: '请选择要下发的应用包版本。',
+    failedToDistribute: '分发失败。'
   },
   deployConfig: {
     title: '部署配置',

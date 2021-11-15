@@ -318,7 +318,7 @@ export default {
     },
     getNodePort () {
       if (this.userName === 'guest') {
-        this.$message.error(this.$t('system.guestPrompt'))
+        this.$message.error(this.$t('appstoreSystem.guestPrompt'))
       } else {
         this.goStep()
         this.btnInstantiate = true
@@ -341,7 +341,7 @@ export default {
     },
     cleanTestEnv () {
       if (this.userName === 'guest') {
-        this.$message.error(this.$t('system.guestPrompt'))
+        this.$message.error(this.$t('appstoreSystem.guestPrompt'))
       } else {
         appstoreApi.cleanTestEnv(this.packageId, this.userId, this.name, this.ip).then(
           (res) => {
@@ -430,7 +430,6 @@ export default {
 <style lang="less">
 .appShowOnline {
   margin: auto;
-  background: #fff;
   border-radius: 16px;
   .show_app {
     .show_common {

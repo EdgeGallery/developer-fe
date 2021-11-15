@@ -15,11 +15,6 @@
   -->
 <template>
   <div class="addVm">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
     <div class="common-div-bg addVm-bg">
       <div class="vm-info">
         <div class="addVm-top-title">
@@ -29,7 +24,7 @@
           <el-input
             class="common-input"
             v-model="addvmImages.name"
-            placeholder="请输入内容"
+            placeholder="请输入虚拟机名称"
           />
         </div>
         <div class="addVm-top-title defaultFontLight">
@@ -37,15 +32,17 @@
           <el-input
             class="common-input"
             v-model="addvmImages.vmCertificate.pwdCertificate.username"
-            placeholder="请输入内容"
+            placeholder="请输入用户名"
           />
         </div>
         <div class="addVm-top-title defaultFontLight">
           <p>密码</p>
           <el-input
+            type="password"
             class="common-input"
+            show-password
             v-model="addvmImages.vmCertificate.pwdCertificate.password"
-            placeholder="请输入内容"
+            placeholder="请输入密码"
           />
         </div>
       </div>
@@ -53,7 +50,7 @@
         <div class="simulator-info-title">
           <p>
             <span />
-            选择模拟机规格
+            选择虚拟机规格
           </p>
         </div>
         <div class="simulator-info-content">
@@ -148,7 +145,7 @@
         </div>
         <div class="simulator-info-content">
           <el-table
-            class="common-table more-rows-table network-table vm-table"
+            class="common-table network-table vm-table"
             :data="vmNetworkList"
           >
             <el-table-column width="35">
@@ -277,6 +274,16 @@ import { sandbox } from '../../../api/developerApi.js'
 import { filterArr } from '../../../tools/common.js'
 export default {
   name: 'AddVm',
+  props: {
+    netWorkListProp: {
+      type: Array,
+      default: () => []
+    },
+    selectedNetworksProp: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       language: localStorage.getItem('language'),
@@ -312,8 +319,8 @@ export default {
         privateId: '',
         imageType: 'public'
       },
-      vmNetworkList: [],
-      selectedNetworks: [],
+      vmNetworkList: this.netWorkListProp,
+      selectedNetworks: this.selectedNetworksProp,
       vmSpecs: [],
       queryImage: {
         name: '',
@@ -329,7 +336,7 @@ export default {
         }
       },
       imageList: [],
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   watch: {
@@ -363,7 +370,7 @@ export default {
         this.vmNetworkList.forEach(item => {
           this.selectedNetworks.forEach(items => {
             if (item.name === items) {
-              this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+              this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
             }
           })
         })
@@ -436,25 +443,28 @@ export default {
       return cellValue + 'GB'
     },
     changeInternet (data) {
+      console.log(data)
       this.addvmImages.portList = []
       this.vmNetworkList.forEach(item => {
         data.forEach(items => {
           if (item.name === items) {
-            this.addvmImages.portList.push({ name: item.name, description: item.description, newworkName: item.name, id: item.id })
+            this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
           }
         })
       })
     },
     addVmFinish (type) {
-      this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
+      let _data = []
       if (type === 'confirm') {
-        if (this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== '') {
+        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
+        if (_addVmImagesVal) {
           sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
             this.$message({
               message: '虚拟机添加成功！',
               type: 'success'
             })
-            this.$emit('addVmFinish', this.selectedNetworks)
+            _data=this.selectedNetworks
+            this.$emit('addVmFinish', _data)
           }).catch(err => {
             console.log(err)
           })
@@ -464,6 +474,8 @@ export default {
             type: 'warning'
           })
         }
+      } else {
+        this.$emit('addVmFinish', _data)
       }
     }
   },
@@ -563,6 +575,9 @@ export default {
             border: 2px solid red !important;
             height: 59px;
           }
+        }
+        .network-table{
+          margin-top: 20px;
         }
         .el-table td,.el-table tr.is-leaf {
           border-bottom: 1px solid rgba(255, 255, 255, 0.3);

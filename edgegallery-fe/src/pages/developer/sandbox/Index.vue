@@ -36,7 +36,9 @@
         <p
           class="sandbox-name-en"
           :class="{'breath':breathStyle===false}"
-        />
+        >
+          SANDBOX
+        </p>
       </div>
     </div>
     <SandBoxList
@@ -59,7 +61,7 @@ export default {
       selectSandbox: '',
       isCheckSandboxList: false,
       breathStyle: false,
-      applicationId: 'dee8696f-c1ac-49e1-b0f7-7de1d99bcdb1'
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {
@@ -109,15 +111,14 @@ export default {
     background: url('../../../assets/images/sandbox/index_sandbox_bg.png') no-repeat center;
     .sandbox-name-cn{
       font-size: 25px;
-      letter-spacing: 10px;
+      letter-spacing: 8px;
       text-align: center;
       color: #fff;
     }
     .sandbox-name-en{
-      background: url('../../../assets/images/sandbox/sandbox_en.png') no-repeat center;
-      width: 248px;
-      height: 67px;
-      margin: 0 auto;
+      line-height: 67px;
+      font-size: 50px;
+      text-align: center;
     }
   }
   .breath{
