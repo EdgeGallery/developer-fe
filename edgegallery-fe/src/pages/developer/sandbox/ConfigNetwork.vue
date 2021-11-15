@@ -148,7 +148,7 @@ export default {
       }
       this.newNetworkList.push(_obj)
     },
-     finishEditNetwork (type) {
+    finishEditNetwork (type) {
       let _data = []
       if (type === 'confim') {
         _data = this.selectedNetworks
