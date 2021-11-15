@@ -21,11 +21,11 @@
     :class="{'app-new':pageModel==='newVersion'}"
     ref="app"
   >
-    <div v-if="pageModel==='newVersion'">
+    <!-- <div v-if="pageModel==='newVersion'">
       <div class="common-bg-left" />
       <div class="common-bg-green-left" />
-      <!-- <div class="common-bg-green-right" /> -->
-    </div>
+      <div class="common-bg-green-right" />
+    </div> -->
 
     <Navcomp
       :scroll-top-prop="scrollTop"
