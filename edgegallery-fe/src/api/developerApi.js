@@ -92,6 +92,12 @@ let applicationApi = {
   getAppInfo: function (appId) {
     return GET('/mec-developer/mec/developer/v2/applications/' + appId)
   },
+  deleteApp: function (appId) {
+    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId)
+  },
+  modifyApp: function (appId, params) {
+    return PUT('/mec-developer/mec/developer/v2/applications/' + appId, params)
+  },
   getFileStream: function (fileId) {
     return '/mec-developer/mec/developer/v2/upload-files/' + fileId + '/action/get-file-stream'
   },

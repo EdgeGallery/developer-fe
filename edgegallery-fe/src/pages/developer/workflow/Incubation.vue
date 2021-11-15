@@ -103,24 +103,24 @@ export default {
 <style lang="less" scoped>
 .incubation{
   .capability-center{
-    left: 160px;
-    top: -140px;
+    left: 155px;
+    top: -145px;
   }
   .app-application{
-    left: 25px;
-    top: 140px;
+    left: 20px;
+    top: 130px;
   }
   .app-image{
     left: 330px;
-    top: -250px;
+    top: -260px;
   }
   .app-test{
-    left: 505px;
-    top: -380px;
+    left: 500px;
+    top: -390px;
   }
   .app-sandbox{
-    left: 195px;
-    top: 20px;
+    left: 190px;
+    top: 15px;
   }
 }
 </style>

@@ -253,7 +253,8 @@ export default {
       isUploadIcon: false,
       logoFileList: [],
       mdFileList: [],
-      defaultIconFile: []
+      defaultIconFile: [],
+      appId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {
@@ -377,16 +378,27 @@ export default {
             formdata.append('file', this.defaultIconFile[0])
             formdata.append('fileType', 'icon')
           }
-          applicationApi.uploadAppIcon(formdata).then(res => {
-            if (res.data && res.data.fileId) {
-              this.uploadMdFile(res.data.fileId)
-            }
-          }).catch(err => {
-            console.log(err)
-          })
+          if (this.appId.length > 0) {
+            this.modifyApp()
+          } else {
+            applicationApi.uploadAppIcon(formdata).then(res => {
+              if (res.data && res.data.fileId) {
+                this.uploadMdFile(res.data.fileId)
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }
         } else {
           console.log('error submit!!')
         }
+      })
+    },
+    modifyApp () {
+      this.applicationFormData.id = this.appId
+      applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
+        this.$message.success('更新应用成功！')
+        this.$router.push('/EG/developer/home')
       })
     },
     confirmToCreate (iconFileId, mdFileId) {
@@ -425,11 +437,9 @@ export default {
     }
   },
   mounted () {
-    let appId = sessionStorage.getItem('applicationId')
-    if (appId.length > 0) {
-      this.getApplicationInfo(appId)
-    } else {
-      this.conversionIcon()
+    this.conversionIcon()
+    if (this.appId.length > 0) {
+      this.getApplicationInfo(this.appId)
     }
   }
 }

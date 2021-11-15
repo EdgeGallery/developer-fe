@@ -6,10 +6,15 @@
       class="app-item"
       @click.stop="item.id===0?createApplication():checkProjectDetail(item)"
     >
+      <div
+        class="app-item-delete"
+        @click="deleteApp(item.id)"
+        v-if="item.id!==0&&showDeleteBtn"
+      />
       <img
         :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
         :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
-        :class="item.status==='creating'?'current':''"
+        :class="item.id==='creating'?'current':''"
       >
       <div
         class="app-name"
@@ -36,6 +41,10 @@ export default {
 
   },
   props: {
+    showDeleteBtn: {
+      type: Boolean,
+      default: false
+    },
     dataList: {
       type: Array,
       default: () => []
@@ -67,6 +76,21 @@ export default {
     },
     getFile (id) {
       return applicationApi.getFileStream(id)
+    },
+    deleteApp (id) {
+      this.$confirm('此操作将永久删除该应用, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        applicationApi.deleteApp(id).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.$store.commit('changeFlow', '0')
+        })
+      })
     }
   }
 }
@@ -78,6 +102,7 @@ export default {
     cursor: pointer;
     padding: 20px 15px;
     width: 154px;
+    position: relative;
     .app-name{
       text-align: center;
       white-space: pre-wrap;
@@ -91,6 +116,15 @@ export default {
       border: 3px solid #42F6AC;
       border-radius: 66px;
     }
+  }
+  .app-item-delete{
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: 10px;
+    left: 75px;
+    background: url("../../../assets/images/projects/pro_failed.png") no-repeat center;
+    z-index: 10;
   }
   .app-common-status{
     font-size: 10px;
