@@ -36,13 +36,13 @@
     >
       <el-form-item
         :label="$t('system.imageMgmt.imgName')"
-        prop="systemName"
+        prop="name"
         class="half"
       >
         <el-input
           id="elinput_systemName"
           size="small"
-          v-model="imageDataForm.systemName"
+          v-model="imageDataForm.name"
           :placeholder="$t('system.imageMgmt.imgName')"
           clearable
         />
@@ -60,12 +60,12 @@
       </el-form-item>
       <el-form-item
         :label="$t('system.imageMgmt.osName')"
-        prop="operateSystem"
+        prop="osType"
         class="half"
       >
         <el-select
           id="elselect_operateSystem"
-          v-model="imageDataForm.operateSystem"
+          v-model="imageDataForm.osType"
           size="small"
         >
           <el-option
@@ -78,28 +78,28 @@
       </el-form-item>
       <el-form-item
         :label="$t('system.imageMgmt.osVersion')"
-        prop="version"
+        prop="osVersion"
         class="half"
       >
         <el-input
           id="elinput_osversion"
           maxlength="20"
           size="small"
-          v-model="imageDataForm.version"
+          v-model="imageDataForm.osVersion"
           :placeholder="$t('system.imageMgmt.osVersion')"
           clearable
         />
       </el-form-item>
       <el-form-item
         :label="$t('system.imageMgmt.sysDisk')"
-        prop="systemDisk"
+        prop="systemDiskSize"
         class="elinput_sysdisk half"
       >
         <el-input
           id="elinput_sysdisk"
           maxlength="4"
           size="small"
-          v-model="imageDataForm.systemDisk"
+          v-model="imageDataForm.systemDiskSize"
           :placeholder="$t('system.imageMgmt.sysDisk')"
           clearable
         />
@@ -108,11 +108,11 @@
       <el-form-item
         v-show="isAdmin"
         :label="$t('system.imageMgmt.imgType')"
-        prop="type"
+        prop="visibleType"
         class="lt"
       >
         <el-radio-group
-          v-model="imageDataForm.type"
+          v-model="imageDataForm.visibleType"
           class="default_radio"
         >
           <el-radio
@@ -126,11 +126,11 @@
       </el-form-item>
       <el-form-item
         :label="$t('system.imageMgmt.osBit')"
-        prop="systemBit"
+        prop="osBitType"
         class="lt"
       >
         <el-radio-group
-          v-model="imageDataForm.systemBit"
+          v-model="imageDataForm.osBitType"
           class="default_radio"
         >
           <el-radio
@@ -248,23 +248,23 @@ export default {
       systemBitOptionList: ['64', '32'],
       systemFormatOptionList: ['qcow2', 'iso'],
       imageDataForm: {
-        'systemName': '',
-        'type': '',
-        'operateSystem': 'ubuntu',
-        'version': '',
-        'systemBit': '64',
-        'systemDisk': ''
+        'name': '',
+        'visibleType': '',
+        'osType': 'ubuntu',
+        'osVersion': '',
+        'osBitType': '64',
+        'systemDiskSize': ''
       },
       rules: {
-        systemName: [
+        name: [
           { required: true, validator: validateImgNameEmpty, trigger: 'blur' },
           { validator: validateImgNameRule }
         ],
-        version: [
+        osVersion: [
           { required: true, validator: validateVersionEmpty, trigger: 'blur' },
           { validator: validateVersionRule }
         ],
-        systemDisk: [
+        systemDiskSize: [
           { required: true, validator: validateSystemDiskEmpty, trigger: 'blur' },
           { validator: validateSystemDiskRule }
         ]
@@ -291,7 +291,7 @@ export default {
   mounted () {
     this.initUser()
     this.initOptionList()
-    this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
+    this.imageDataForm.visibleType = this.isAdmin ? 'public' : 'private'
   },
   methods: {
     initUser () {
@@ -314,24 +314,24 @@ export default {
     },
     init () {
       this.resetForm()
-      if (this.imageData && this.imageData.systemName) {
-        this.imageDataForm.systemName = this.imageData.systemName
-        this.imageDataForm.type = this.imageData.type
-        this.imageDataForm.operateSystem = this.imageData.operateSystem
-        this.imageDataForm.version = this.imageData.version
-        this.imageDataForm.systemBit = this.imageData.systemBit
-        this.imageDataForm.systemDisk = this.imageData.systemDisk
+      if (this.imageData && this.imageData.name) {
+        this.imageDataForm.name = this.imageData.name
+        this.imageDataForm.visibleType = this.imageData.visibleType
+        this.imageDataForm.osType = this.imageData.osType
+        this.imageDataForm.osVersion = this.imageData.osVersion
+        this.imageDataForm.osBitType = this.imageData.osBitType
+        this.imageDataForm.systemDiskSize = this.imageData.systemDiskSize
 
         this.isModify = true
-        this.systemIdToModi = this.imageData.systemId
+        this.systemIdToModi = this.imageData.imageId
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
       } else {
-        this.imageDataForm.systemName = ''
-        this.imageDataForm.type = this.isAdmin ? 'public' : 'private'
-        this.imageDataForm.operateSystem = 'ubuntu'
-        this.imageDataForm.version = ''
-        this.imageDataForm.systemBit = '64'
-        this.imageDataForm.systemDisk = ''
+        this.imageDataForm.name = ''
+        this.imageDataForm.visibleType = this.isAdmin ? 'public' : 'private'
+        this.imageDataForm.osType = 'ubuntu'
+        this.imageDataForm.osVersion = ''
+        this.imageDataForm.osBitType = '64'
+        this.imageDataForm.systemDiskSize = ''
 
         this.isModify = false
         this.systemIdToModi = -1

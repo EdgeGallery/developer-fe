@@ -168,7 +168,7 @@ export default {
   created () {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
-    this.options.target = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/upload'
+    this.options.target = url + urlPrefix + 'mec/developer/v2/vmimages/' + this.imageData.id + '/action/upload'
   },
   methods: {
     onFileError () {
@@ -197,7 +197,7 @@ export default {
       this.isUploading = false
       this.isMerging = true
       const file = arguments[0].file
-      imageMgmtService.mergeImage(this.imageData.systemId, file.name, arguments[0].uniqueIdentifier).then(response => {
+      imageMgmtService.mergeImage(this.imageData.id, file.name, arguments[0].uniqueIdentifier).then(response => {
         this.$message.success(this.$t('system.imageMgmt.tip.uploadImgSucceed'))
         let _timer = setTimeout(() => {
           clearTimeout(_timer)
@@ -261,7 +261,7 @@ export default {
       }
     },
     cancelUpload (uploaderList) {
-      imageMgmtService.cancelUploadImage(this.imageData.systemId, this.fileIdentifier).then(response => {
+      imageMgmtService.cancelUploadImage(this.imageData.id, this.fileIdentifier).then(response => {
         this.isUploading = false
         this.isMerging = false
         this.hasFileFlag = false
