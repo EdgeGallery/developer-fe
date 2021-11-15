@@ -175,18 +175,18 @@ let Test = {
 }
 
 let System = {
-  deleteHost: function (hostId) {
-    return Delete(`mec/developer/v1/hosts/${hostId}`)
+  deleteHost: function (mephostId) {
+    return Delete(`mec/developer/v2/mephosts/${mephostId}`)
   },
   deleteService: function (params) {
     return Delete('mec/developer/v1/capabilities', params)
   },
   getLogData: function (hostId) {
-    return Get(`mec/developer/v1/hosts/${hostId}/logs`)
+    return Get(`mec/developer/v2/mephosts/${hostId}/logs`)
   },
   saveHostInfo: function (params) {
-    const func = params.hostId ? Put : Post
-    const path = params.hostId ? `mec/developer/v1/hosts/${params.hostId}` : 'mec/developer/v1/hosts'
+    const func = params.id ? Put : Post
+    const path = params.id ? `mec/developer/v2/mephosts/${params.id}` : 'mec/developer/v2/mephosts'
     const data = { ...params }
     return func(path, data)
   },
@@ -201,7 +201,7 @@ let System = {
     return func(path, params)
   },
   getHosts: function (params) {
-    return Get('mec/developer/v1/hosts', params)
+    return Get('mec/developer/v2/mephosts', params)
   },
   getSerives: function (params) {
     return Get('mec/developer/v2/capabilities', params)
@@ -334,6 +334,10 @@ let Workspace = {
   // UploadApifile
   submitApiFileApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
+  },
+  // UploadConfigFile
+  submitConfigFileApi: function (params) {
+    return Post('/mec/developer/v2/mephosts/action/upload-config-file', params)
   },
   // Get uploadedApifile
   getApiFileApi: function (appApiFileId, userId) {
