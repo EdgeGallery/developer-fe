@@ -73,7 +73,8 @@ export default {
     width: 30%;
     padding: 35px;
     text-align: center;
-    background: url('../../../assets/images/div_bg.png') no-repeat;
+    background: linear-gradient(to bottom right, rgba(205,209,231,0.8),rgba(101,111,205,0.17));
+    backdrop-filter: blur(6px);
     p{
       line-height: 85px;
     }
