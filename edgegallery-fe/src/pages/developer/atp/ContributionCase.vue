@@ -151,7 +151,7 @@
   </div>
 </template>
 <script>
-import { testAppApi } from '../../../api/atpApi.js'
+import { atpApi } from '../../../api/atpApi.js'
 
 export default {
   name: 'ContributionCase',
@@ -250,7 +250,7 @@ export default {
           _addCaseForm.file.push(_objFile)
           fd.append('file', _addCaseForm.file[0])
         }
-        testAppApi.contributionApi(fd).then(res => {
+        atpApi.contributionApi(fd).then(res => {
           this.$message({
             showClose: true,
             duration: 2000,

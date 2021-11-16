@@ -274,7 +274,7 @@
   </div>
 </template>
 <script>
-import { testAppApi } from '../../../api/atpApi.js'
+import { atpApi } from '../../../api/atpApi.js'
 import { applicationApi } from '../../../api/developerApi.js'
 import UploadSelfReportDig from './UploadSelfReportDlg.vue'
 export default {
@@ -358,7 +358,7 @@ export default {
       this.activeName = val
     },
     getTaskProcess () {
-      testAppApi.getTaskApi(this.taskId).then(res => {
+      atpApi.getTaskApi(this.taskId).then(res => {
         let data = res.data.data.testScenarios
         let taskStatus = res.data.data.status
         this.uploadUser = res.data.data.user.userName
@@ -489,7 +489,7 @@ export default {
         result: this.form.result,
         reason: this.form.reason
       }]
-      testAppApi.modifyStatusApi(this.taskId, param).then(res => {
+      atpApi.modifyStatusApi(this.taskId, param).then(res => {
         this.$message({
           showClose: true,
           duration: 2000,
