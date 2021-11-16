@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { Userpage } from '../../../api/atpApi.js'
+import { testAppApi } from '../../../api/atpApi.js'
 export default {
   name: 'UploadReportDlg',
   props: {
@@ -86,7 +86,7 @@ export default {
       fd.append('file', this.pdfFile[0])
       if (this.pdfFile.length > 0) {
         this.$emit('closeDig')
-        Userpage.uploadReportApi(this.taskId, fd).then(res => {
+        testAppApi.uploadReportApi(this.taskId, fd).then(res => {
           this.$message({
             showClose: true,
             duration: 2000,

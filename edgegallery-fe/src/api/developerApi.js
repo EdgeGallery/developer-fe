@@ -139,6 +139,9 @@ let applicationApi = {
   },
   getApiUrl: function (apiFileId) {
     return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
+  },
+  publishApp: function (applicationId, params) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/release', params)
   }
 }
 

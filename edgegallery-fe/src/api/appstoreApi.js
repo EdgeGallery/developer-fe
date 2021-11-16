@@ -39,7 +39,7 @@ let appstoreApi = {
     return GET(url, '')
   },
   promTask: function (packageId, param) {
-    let url = 'packages/' + packageId + '/action/push'
+    let url = URL_PREFIX + 'packages/' + packageId + '/action/push'
     return POST(url, param)
   },
   getComments: function (appId, limit, offset) {

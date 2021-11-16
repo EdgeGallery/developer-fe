@@ -23,7 +23,7 @@ import {
 
 const URL_PREFIX = '/mec-atp/edgegallery/atp/v2/'
 
-let Userpage = {
+let testAppApi = {
   getAllSceneApi: function () {
     return GET(URL_PREFIX + 'testscenarios?limit=12&offset=0')
   },
@@ -51,5 +51,5 @@ let Userpage = {
 }
 
 export {
-  URL_PREFIX, Userpage
+  URL_PREFIX, testAppApi
 }

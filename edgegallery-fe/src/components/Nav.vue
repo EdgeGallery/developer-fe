@@ -320,6 +320,13 @@ export default {
           window.location.href = res.data.forceModifyPwPage
           return
         }
+        if (res.data.authorities.indexOf('ROLE_APPSTORE_ADMIN') > -1) {
+          sessionStorage.setItem('userNameRole', 'admin')
+        } else if (res.data.authorities.indexOf('ROLE_APPSTORE_TENANT') > -1) {
+          sessionStorage.setItem('userNameRole', 'tenant')
+        } else {
+          sessionStorage.setItem('userNameRole', 'guest')
+        }
         const authorities = res.data.authorities || []
         sessionStorage.setItem('userAuthorities', authorities)
         const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
