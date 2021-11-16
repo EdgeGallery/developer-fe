@@ -40,7 +40,41 @@
         </p>
         <p class="clear">
           <span class="content-left lt">规格：</span>
-          <span class="content-right lt">{{ vmBasicInformation.format }}</span>
+          <span class="content-right lt">{{ vmBasicInformation.flavor }}</span>
+        </p>
+      </div>
+
+      <div class="vm-content">
+        <p class="clear">
+          <span class="content-left lt">测试状态：</span>
+          <span class="content-right lt">{{ vmTestInformation.status }}</span>
+        </p>
+        <p class="clear">
+          <span class="content-left lt">测试节点：</span>
+          <span class="content-right lt">
+            <span
+              v-for="(item,index) in vmTestInformation.nodes"
+              :key="index"
+              class="node-span"
+            >
+              {{ item.networkName }}：{{ item.ipAddress }}
+            </span>
+          </span>
+        </p>
+      </div>
+
+      <div class="vm-content">
+        <p class="clear">
+          <span class="content-left lt">镜像名称：</span>
+          <span class="content-right lt">{{ vmImageInformation.imageName }}</span>
+        </p>
+        <p class="clear">
+          <span class="content-left lt">镜像类型：</span>
+          <span class="content-right lt">{{ vmImageInformation.imageType }}</span>
+        </p>
+        <p class="clear">
+          <span class="content-left lt">阶段状态：</span>
+          <span class="content-right lt">{{ vmImageInformation.status }}</span>
         </p>
       </div>
 
@@ -65,11 +99,16 @@ export default {
       applicationId: sessionStorage.getItem('applicationId') || '',
       testNodes: 'https://192.168.1.38:30091,https://192.168.1.38:30092,https://192.168.1.38:30093',
       vmBasicInformation: {
-        vmName: 'vm-name',
-        netWork: 'newWork-n6，network-mep，network-internet',
-        image: 'ubuntu 1804 64(40GB Disk)',
-        format: 'X86，通用计算机-4，4vCPUs，16GB RAM，50GB+100GB Disk'
+        vmName: '',
+        netWork: '',
+        image: '',
+        flavor: ''
       },
+      vmTestInformation: {
+        status: '',
+        nodes: []
+      },
+      vmImageInformation: {},
       vmId: ''
     }
   },
@@ -84,16 +123,45 @@ export default {
         _this.getVmDetail(_this.vmId)
       })
     },
+    getVmExportImageInfo () {
+      let _this = this
+      this.bus.$on('getVmExportImageInfo', function (data) {
+        _this.vmImageInformation = data
+      })
+    },
     getVmDetail (vmId) {
       sandbox.getVmDetail(this.applicationId, vmId).then(res => {
         if (res.data) {
           this.vmBasicInformation.vmName = res.data.name
+          let _arr = []
+          res.data.portList.forEach(item => {
+            _arr.push(item.networkName)
+          })
+          this.vmBasicInformation.netWork = _arr.join('，')
+          this.getVmDetailImage(res.data.imageId)
+          this.getVmDetailFlavor(res.data.flavorId)
+
+          if (res.data.vmInstantiateInfo) {
+            this.vmTestInformation.status = res.data.vmInstantiateInfo.status
+            this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
+          }
         }
+      })
+    },
+    getVmDetailImage (imageId) {
+      sandbox.getVmDetailImage(imageId).then(res => {
+        this.vmBasicInformation.image = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+      })
+    },
+    getVmDetailFlavor (flavorId) {
+      sandbox.getVmDetailFlavor(flavorId).then(res => {
+        this.vmBasicInformation.flavor = res.data.architecture + '，' + res.data.name + '，' + res.data.cpu + 'vCPUs' + res.data.memory + 'GB RAM，' + res.data.dataDiskSize + 'GB+' + res.data.systemDiskSize + 'GB Disk'
       })
     }
   },
   mounted () {
-    // this.checkVmDetail()
+    this.checkVmDetail()
+    this.getVmExportImageInfo()
   }
 }
 </script>
@@ -117,6 +185,7 @@ export default {
       background: rgba(255,255,255,.1);
       font-size: 14px;
       line-height: 22px;
+      margin-top: 15px;
       p{
         margin-bottom: 10px;
         .content-left{
@@ -125,6 +194,10 @@ export default {
         }
         .content-right{
           width: calc(100% - 100px);
+        }
+        .node-span{
+          display: block;
+          line-height: 25px;
         }
       }
     }

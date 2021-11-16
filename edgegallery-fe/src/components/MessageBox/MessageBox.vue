@@ -187,6 +187,12 @@ export default {
   .icon-success{
     background: url('../../assets/images/prompt_icon_success.png');
   }
+  .icon-error{
+    background: url('../../assets/images/prompt_icon_error.png');
+  }
+  .icon-warning{
+    background: url('../../assets/images/prompt_icon_warning.png');
+  }
 }
 
 </style>

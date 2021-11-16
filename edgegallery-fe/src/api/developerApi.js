@@ -53,35 +53,47 @@ let sandbox = {
   },
   // get vm image list
   getVmImageList (parmas) {
-    return POST(urlPrefix + 'vmimages/list', parmas)
+    return POST(urlPrefix + 'vmimages/action/get-list', parmas)
   },
   // add vm image
   addVmImage (applicationId, parmas) {
-    return POST(urlPrefix + '/mec/developer/v2/applications/' + applicationId + '/vms', parmas)
+    return POST(urlPrefix + 'applications/' + applicationId + '/vms', parmas)
   },
   // get vmList
   getVmlist (applicationId) {
-    return GET(urlPrefix + '/mec/developer/v2/applications/' + applicationId + '/vms')
+    return GET(urlPrefix + 'applications/' + applicationId + '/vms')
   },
   // delete vmImage
   deleteVmImage (applicationId, vmId) {
-    return DELETE(urlPrefix + '/mec/developer/v2/applications/' + applicationId + '/vms/' + vmId)
+    return DELETE(urlPrefix + 'applications/' + applicationId + '/vms/' + vmId)
   },
   // get vm operationId
   getVmPullId (applicationId, vmId) {
-    return POST(urlPrefix + '/mec/developer/v2/applications/' + applicationId + '/vms/' + vmId + '/action/launch')
+    return POST(urlPrefix + 'applications/' + applicationId + '/vms/' + vmId + '/action/launch')
   },
   // look vm status
   getVmStatus (operationId) {
-    return GET(urlPrefix + '/mec/developer/v2/operations/' + operationId)
+    return GET(urlPrefix + 'operations/' + operationId)
   },
   // clearVmImage
   clearVmImage (applicationId) {
-    return POST(urlPrefix + '/mec/developer/v2/applications/' + applicationId + '/action/clean-env')
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/clean-env')
   },
   // export Image
   exportImage (applicationId, vmId) {
-    return POST(urlPrefix + '/mec/developer/applications/' + applicationId + '/vms/' + vmId + '/action/export-image')
+    return POST(urlPrefix + 'applications/' + applicationId + '/vms/' + vmId + '/action/export-image')
+  },
+  getVmList (applicationId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/vms')
+  },
+  getVmDetail (applicationId, vmId) {
+    return GET(urlPrefix + 'applications/' + applicationId + '/vms/' + vmId)
+  },
+  getVmDetailImage (imageId) {
+    return GET(urlPrefix + 'vmimages/' + imageId)
+  },
+  getVmDetailFlavor (flavorId) {
+    return GET(urlPrefix + 'flavors/' + flavorId)
   }
 }
 

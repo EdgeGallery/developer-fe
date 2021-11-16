@@ -18,11 +18,11 @@
     <div>
       <div
         class="flex-center details-center-vm-img"
-        :class="{'details-center-vm-img-finish':isExportImage}"
+        :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
       >
         <img
           class="vm-center-img"
-          :class="{'vm-center-img-finish':isAddVmFinish,'breath':!vmBreathStyle}"
+          :class="{'vm-center-img-finish':isAddVmFinish,'breath':(!vmBreathStyle && !isAddVmFinish)}"
           src="../../../assets/images/sandbox/vm_img.png"
           alt=""
         >
@@ -98,7 +98,7 @@
           </div>
           <div
             class="vm-btn vm-btn-start flex-center hoverHands"
-            @click="startUpVm"
+            @click="startUpVm(vmLists.id)"
             :class="!isBtnStart ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
@@ -116,11 +116,12 @@
           <div
             class="vm-btn vm-btn-export flex-center hoverHands"
             :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            @click="exportImage(vmLists.id)"
           >
             <el-tooltip
               class="item edit-tooltip"
               effect="light"
-              content="导出镜像"
+              content="生成镜像"
               placement="bottom-start"
             >
               <img
@@ -130,24 +131,21 @@
             </el-tooltip>
           </div>
         </div>
-        <div
-          v-if="isStartupVm"
-          :class="{'vmStatus':vmloading}"
-        >
-          <div
-            class="vmStatus-loading"
-            v-for="(item,index) in 4"
-            :key="index"
+        <div class="vm-status">
+          <el-progress
+            v-if="isStartupVm && !isStartupVmFinish"
+            :percentage="percentages"
           />
-        </div>
-        <div
-          v-else
-          :class="{'vmStatus':vmloading}"
-        >
-          <div
-            v-for="(item,index) in 4"
-            :key="index"
-          />
+          <p
+            v-if="isStartupVm && isStartupVmFinish"
+            class="start-up-result"
+            :class="{'start-up-result-error':!isStartUpVmSuccess}"
+          >
+            <span
+              v-for="(item,index) in 4"
+              :key="index"
+            />
+          </p>
         </div>
       </div>
       <p class="deploy-title defaultFontLight">
@@ -180,15 +178,85 @@ export default {
       applicationId: sessionStorage.getItem('applicationId') || '',
       isAddVmFinish: this.isAddVmFinishProp,
       isStartupVm: false,
-      vmloading: false,
-      isExportImage: false,
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
-      isBtnStart: this.isBtnStartProp,
-      vmId: ''
+      isBtnStart: false,
+      vmLists: [],
+      operationId: '',
+      percentages: 0,
+      timer: null,
+      timerExport: null,
+      isStartUpVmSuccess: false,
+      vmId: '',
+      vmImageInformation: {
+        imageName: '',
+        status: '',
+        imageType: ''
+      }
     }
   },
   methods: {
+    getVmlists () {
+      sandbox.getVmlist(this.applicationId).then(res => {
+        if (res.data.length === 0) {
+          return
+        }
+        this.vmLists = res.data[0]
+        this.vmId = res.data[0].id
+        if (this.vmLists.imageId !== 0) {
+          this.isBtnStart = true
+          this.isAddVmFinish = true
+        }
+        if (this.vmLists.vmInstantiateInfo && this.vmLists.vmInstantiateInfo.operationId) {
+          this.getVmStatus(this.vmLists.vmInstantiateInfo.operationId)
+          this.timer = setInterval(() => {
+            this.getVmStatus(this.vmLists.vmInstantiateInfo.operationId)
+          }, 5000)
+          this.isStartupVm = true
+        }
+        if (this.vmLists.imageExportInfo && this.vmLists.imageExportInfo.operationId) {
+          this.getVmExportStatus(this.vmLists.imageExportInfo.operationId)
+          this.timerExport = setInterval(() => {
+            this.getVmExportStatus(this.vmLists.imageExportInfo.operationId)
+          }, 5000)
+        }
+      })
+    },
+    getVmStatus (operationId) {
+      sandbox.getVmStatus(operationId).then(res => {
+        this.percentages = res.data.progress
+        if (res.data.status === 'SUCCESS') {
+          this.isStartUpVmSuccess = true
+          this.isStartupVmFinish = true
+          this.isBtnStart = false
+          this.$emit('startUpVm', this.isStartupVmFinish)
+          clearTimeout(this.timer)
+        }
+        if (res.data.status === 'FAILED') {
+          this.isStartUpVmSuccess = false
+          this.isStartupVmFinish = true
+          this.$emit('startUpVm', this.isStartupVmFinish)
+          clearTimeout(this.timer)
+        }
+      }).catch(() => {
+        clearTimeout(this.timer)
+      })
+    },
+    getVmExportStatus (operationId) {
+      sandbox.getVmStatus(operationId).then(res => {
+        if (res.data) {
+          this.vmImageInformation.imageName = res.data.operationName
+          this.vmImageInformation.status = res.data.status
+          this.vmImageInformation.imageType = res.data.objectType
+          this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+        }
+        if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED') {
+          clearTimeout(this.timerExport)
+        }
+      }).catch(() => {
+        clearTimeout(this.timerExport)
+      })
+    },
     addVm () {
       this.$emit('addVm', 'showAddVm')
     },
@@ -196,27 +264,31 @@ export default {
       this.bus.$emit('checkVmDetail', this.vmId)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
-    startUpVm () {
+    startUpVm (data) {
       this.isStartupVm = true
-      this.vmloading = true
-      let _timer = setTimeout(() => {
-        this.isStartupVmFinish = true
-        this.isStartupVm = false
-        this.isExportImage = true
-        this.$emit('startUpVm', this.isStartupVmFinish)
-        clearTimeout(_timer)
-      }, 3000)
+      sandbox.getVmPullId(this.applicationId, data).then(res => {
+        this.operationId = res.data.operationId
+        this.timer = setInterval(() => {
+          this.getVmStatus(this.operationId)
+        }, 5000)
+      })
     },
-    getVmList () {
-      sandbox.getVmList(this.applicationId).then(res => {
-        this.vmId = res.data[0].id
+    exportImage (data) {
+      sandbox.exportImage(this.applicationId, data).then(res => {
+        this.timerExport = setInterval(() => {
+          this.getVmExportStatus(res.data.operationId)
+        }, 5000)
       })
     }
   },
   created () {
   },
   mounted () {
-    // this.getVmList()
+    this.getVmlists()
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
+    clearTimeout(this.timerExport)
   }
 }
 </script>
@@ -264,30 +336,34 @@ export default {
       border-radius: 0 0 20px 0;
     }
   }
-  .vmStatus{
+  .vm-status{
     position: absolute;
     top: 124px;
-  }
-  .vmStatus .vmStatus-loading:first-child{
-    animation-delay: -0.48s;
-  }
-  .vmStatus .vmStatus-loading:nth-child(2){
-    animation-delay: -0.32s;
-  }
-  .vmStatus .vmStatus-loading:nth-child(3){
-    animation-delay: -0.16s;
-  }
-  .vmStatus > div {
-    width: 6px;
-    height: 6px;
-    margin-right: 4px;
-    background-color: #42F6AC;
-    border-radius: 100%;
-    display: inline-block;
-  }
-  .vmStatus .vmStatus-loading{
-    animation: bouncedelay 1.4s infinite ease-in-out;
-    animation-fill-mode: both;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    .el-progress{
+      width: 80%;
+      margin-left: 10%;
+    }
+    .el-progress__text {
+      color: #fff;
+      font-size: 12px;
+    }
+    .start-up-result{
+      text-align: center;
+      span{
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #4CD473;
+        border-radius: 50%;
+        margin: 0 5px;
+      }
+    }
+    .start-up-result-error span{
+      background: #E15050;
+    }
   }
   @keyframes bouncedelay {
     0%, 80%, 100% {
@@ -328,13 +404,15 @@ export default {
   }
 }
 .details-center-vm-img{
-  background-image: url('../../../assets/images/sandbox/deploy_internet.png');
+  background: rgba(10, 9, 54, .25);
+  border-radius: 20px;
 }
 .details-center-vm-img-finish{
-  background-image: url('../../../assets/images/sandbox/deploy_internet_finish.png');
+  background: rgba(212, 202, 255, .25);
+  border-radius: 20px;
 }
 .details-center-vm-img:hover{
-  .vmStatus{
+  .vm-status{
     display: none;
   }
 }
