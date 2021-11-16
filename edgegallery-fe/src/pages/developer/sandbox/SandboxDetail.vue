@@ -381,11 +381,7 @@ export default {
           return
         }
         let _data = res.data[0]
-        if (_data.vmInstantiateInfo) {
-          this.isStartupVmFinish = true
-        } else {
-          this.isStartupVmFinish = false
-        }
+        this.isStartupVmFinish = !!_data.vmInstantiateInfo
         this.isAddVmFinish = true
         this.configNetworkFinish = true
         this.deployBreathStyle = true
