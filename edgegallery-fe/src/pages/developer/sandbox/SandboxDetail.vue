@@ -380,7 +380,8 @@ export default {
         if (res.data.length === 0) {
           return
         }
-        if (res.data[0].vmInstantiateInfo) {
+        let _data = res.data[0]
+        if (_data.vmInstantiateInfo) {
           this.isStartupVmFinish = true
         } else {
           this.isStartupVmFinish = false
@@ -389,7 +390,7 @@ export default {
         this.configNetworkFinish = true
         this.deployBreathStyle = true
         let _arrTemp = []
-        res.data[0].portList.forEach(item => {
+        _data.portList.forEach(item => {
           _arrTemp.push(item.networkName)
         })
         this.networkList = _arrTemp

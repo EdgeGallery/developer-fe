@@ -137,7 +137,7 @@ export default {
           res.data.portList.forEach(item => {
             _arr.push(item.networkName)
           })
-          this.vmBasicInformation.netWork = _arr.join('，')
+          this.vmBasicInformation.netWork = _arr.join(', ')
           this.getVmDetailImage(res.data.imageId)
           this.getVmDetailFlavor(res.data.flavorId)
 
@@ -155,7 +155,7 @@ export default {
     },
     getVmDetailFlavor (flavorId) {
       sandbox.getVmDetailFlavor(flavorId).then(res => {
-        this.vmBasicInformation.flavor = res.data.architecture + '，' + res.data.name + '，' + res.data.cpu + 'vCPUs' + res.data.memory + 'GB RAM，' + res.data.dataDiskSize + 'GB+' + res.data.systemDiskSize + 'GB Disk'
+        this.vmBasicInformation.flavor = res.data.architecture + ', ' + res.data.name + ', ' + res.data.cpu + 'vCPUs' + res.data.memory + 'GB RAM, ' + res.data.dataDiskSize + 'GB+' + res.data.systemDiskSize + 'GB Disk'
       })
     }
   },
