@@ -200,6 +200,9 @@ let atpTestApi = {
   },
   getTestId: function (applicationId) {
     return GET(urlPrefix + 'applications/' + applicationId + '/action/atp-tests')
+  },
+  publishApp: function (applicationId, params) {
+    return POST(urlPrefix + 'applications/' + applicationId + '/action/release', params)
   }
 }
 

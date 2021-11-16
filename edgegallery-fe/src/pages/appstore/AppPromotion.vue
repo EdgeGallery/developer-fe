@@ -204,47 +204,7 @@ export default {
       appData: [],
       pageData: [],
       appPackageData: [],
-      currentPageData: [
-        {
-          affinity: 'X86',
-          appId: '052b038687f8426ea2d0062b80bb8c3a',
-          atpTestReportUrl: 'https://192.168.1.38:30094/#/atpreport?taskid=1174e117-57bd-4c51-a7dd-d51da374c4d6',
-          atpTestStatus: 'success',
-          atpTestTaskId: '1174e117-57bd-4c51-a7dd-d51da374c4d6',
-          createTime: '2021-10-13 09:18:18',
-          deployMode: 'container',
-          industry: 'Smart Park',
-          latestPushTime: '2021-11-01 20:30:51',
-          name: 'WordPress',
-          packageId: 'eaa319cc17a64978ae26a55fe02a4f7d',
-          provider: 'OpenSource',
-          pushTimes: 3,
-          shortDesc: 'zheshi一个验证名称的问题都是上帝发誓',
-          sourcePlatform: 'EdgeGallery AppStore',
-          targetPlatform: null,
-          type: 'Video Application',
-          version: 'v1.0'
-        }, {
-          affinity: 'X86',
-          appId: '052b038687f8426ea2d0062b80bb8c3a',
-          atpTestReportUrl: 'https://192.168.1.38:30094/#/atpreport?taskid=1174e117-57bd-4c51-a7dd-d51da374c4d6',
-          atpTestStatus: 'success',
-          atpTestTaskId: '1174e117-57bd-4c51-a7dd-d51da374c4d6',
-          createTime: '2021-10-13 09:18:18',
-          deployMode: 'container',
-          industry: 'Smart Park',
-          latestPushTime: '2021-11-01 20:30:51',
-          name: 'WordPress',
-          packageId: 'eaa319cc17a64978ae26a55fe02a4f7d',
-          provider: 'OpenSource',
-          pushTimes: 3,
-          shortDesc: 'zheshi一个验证名称的问题都是上帝发誓',
-          sourcePlatform: 'EdgeGallery AppStore',
-          targetPlatform: null,
-          type: 'Video Application',
-          version: 'v1.0'
-        }
-      ],
+      currentPageData: [],
       appStoreList: [],
       promAppstoreList: ['All'],
       isBtnEnable: true,
@@ -319,7 +279,28 @@ export default {
       })
     },
     showPushAppDialog (row) {
+      this.promStoreList = []
+      if (this.promAppstoreList.length === 1 && this.promAppstoreList[0] === 'All') {
+        if (this.appStoreList.length === 0) {
+          this.$message({
+            duration: 2000,
+            message: '推送app失败',
+            type: 'warning'
+          })
+          return
+        }
+        for (let item of this.appStoreList) {
+          this.promStoreList.push(item)
+        }
+      } else {
+        this.setPromAppstoreList()
+      }
       this.isUploadDig = true
+      let _timer = setTimeout(() => {
+        clearTimeout(_timer)
+        this.$refs.promItem.handleExecute()
+      }, 500)
+      this.savePromData(row)
     },
     setPromAppstoreList () {
       for (let idItem of this.promAppstoreList) {
@@ -444,9 +425,9 @@ export default {
   },
   mounted () {
     // this.setDivHeight()
-    // this.getTableData()
-    // this.getProviders()
-    // this.defaultSort()
+    this.getTableData()
+    this.getProviders()
+    this.defaultSort()
   },
   watch: {
     '$i18n.locale': function () {
