@@ -66,7 +66,7 @@ export default {
         {
           name: '应用商店',
           src: require('../../assets/images/index/index_app_store.png'),
-          path: '/EG/appstore/applications'
+          path: '/EG/appstore/appWarehouse'
         },
         {
           name: '应用部署',
