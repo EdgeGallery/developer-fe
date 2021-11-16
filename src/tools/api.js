@@ -337,7 +337,7 @@ let Workspace = {
   },
   // UploadConfigFile
   submitConfigFileApi: function (params) {
-    return Post('/mec/developer/v2/mephosts/action/upload-config-file', params)
+    return Post('mec/developer/v2/mephosts/action/upload-config-file', params)
   },
   // Get uploadedApifile
   getApiFileApi: function (appApiFileId, userId) {
