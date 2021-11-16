@@ -1,3 +1,18 @@
+<!--
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
 <template>
   <div class="distribute">
     <div class="card-shadow">
@@ -67,7 +82,7 @@
           <el-button @click="cancel()">
             {{ $t("common.cancel") }}
           </el-button>
-          <el-button @click="confirm()">
+          <el-button @click="distributeConfirm()">
             {{ $t("common.confirm") }}
           </el-button>
         </div>
@@ -76,7 +91,7 @@
   </div>
 </template>
 <script>
-import { inventory, appDeploy } from '../../api/mecmApi'
+import { inventory, apm } from '../../api/mecmApi'
 import Search from '../../components/Search.vue'
 import Pagination from '../../components/Pagination.vue'
 export default {
@@ -156,9 +171,7 @@ export default {
     },
     cancel () {
       this.$refs.multipleEdgeNodeTable.clearSelection()
-    },
-    confirm () {
-      this.$router.push('/EG/mecm/distributeDeploy')
+      this.$router.push('/EG/mecm/appDeployDetail')
     },
     async distributeConfirm () {
       let selectedMecHost = []
@@ -196,7 +209,7 @@ export default {
           createdTime: new Date().toString(),
           modifiedTime: new Date().toString()
         }
-        appDeploy
+        apm
           .distributeApp(params, this.userId)
           .then((response) => {
             sessionStorage.setItem('appId', params.appId)
@@ -218,7 +231,7 @@ export default {
     }
   },
   mounted () {
-    // this.distribute()
+    this.distribute()
   }
 }
 </script>
@@ -263,13 +276,12 @@ export default {
       border: 1px solid rgba(171, 151, 229, 1);
       border-radius: 17px;
       background-color: transparent;
-      // background: url("../../assets/images/mecm/deployCommon/deploy_bg.png") center;
       box-shadow: 1px 1px 3px #ab97e5 inset;
       .common-dlg-title:before {
         right: 5px;
       }
       .el-card__body {
-        padding: 52px 109px 65px 112px;
+        padding: 40px 90px 40px 100px;
       }
       .el-table {
         margin-top: 10px;

@@ -1,3 +1,18 @@
+<!--
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
 <template>
   <div class="distribute-deploy">
     <div class="card-shadow">
@@ -6,18 +21,34 @@
           {{ $t("distributeDeploy.title") }}
         </div>
         <el-row>
-          <el-col :span="4">
+          <el-col :span="20">
             <Search
               :placeholder="$t('distributeDeploy.tip')"
               @getSearchData="getSearchData"
             />
+          </el-col>
+          <el-col :span="4">
+            <el-button
+              class="multipleDeploy"
+              @click.native.prevent="multipleDeploy"
+              type="text"
+              size="small"
+            >
+              {{ $t("distributeDeploy.multipleDeploy") }}
+            </el-button>
           </el-col>
         </el-row>
         <el-table
           class="common-table"
           :data="currPageTableData"
           v-loading="dataLoading"
+          @selection-change="handleSelectionChange"
         >
+          <el-table-column
+            type="selection"
+            revers-selection
+            width="45"
+          />
           <el-table-column
             prop="appPackageName"
             :label="$t('deployCommon.name')"
@@ -60,10 +91,12 @@
           </el-table-column>
           <el-table-column
             prop="hostIp"
+            width="150"
             :label="$t('distributeDeploy.hostIp')"
           />
           <el-table-column
             prop="status"
+            width="140"
             :label="$t('distributeDeploy.status')"
           >
             <template slot-scope="scope">
@@ -72,7 +105,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="250"
+            width="180"
             :label="$t('deployCommon.operation')"
             align="center"
           >
@@ -85,7 +118,8 @@
                 {{ $t("distributeDeploy.delete") }}
               </el-button>
               <el-button
-                @click="checkDetail(scope.row)"
+                @click="deploy(scope.row)"
+                :disabled="scope.row.status !=='Distributed' && scope.row.status !=='uploaded'"
                 type="text"
                 size="small"
               >
@@ -105,7 +139,7 @@
   </div>
 </template>
 <script>
-import { appDeploy } from '../../api/mecmApi'
+import { apm } from '../../api/mecmApi'
 import Search from '../../components/Search.vue'
 import Pagination from '../../components/Pagination.vue'
 export default {
@@ -144,12 +178,13 @@ export default {
       hostList: [],
       templateInputs: [],
       capabilities: ['GPU', 'NPU'],
-      currentPage: 1
+      currentPage: 1,
+      AppDeployInfo: {}
     }
   },
   methods: {
     getDistributeDeployList () {
-      appDeploy.getDistributeDeployList(this.userId).then((res) => {
+      apm.getDistributeDeployList(this.userId).then((res) => {
         this.paginationData = []
         res.data.forEach((item) => {
           if (item.appId === this.appId) {
@@ -159,6 +194,7 @@ export default {
             this.appAffinity = item.appPkgAffinity
             this.provider = item.appProvider
             this.paginationData = item.mecHostInfo
+            sessionStorage.setItem('appPackageId', this.appPackageId)
           }
         })
         this.tableData = this.paginationData
@@ -172,6 +208,27 @@ export default {
           this.dataLoading = false
           this.tableData = this.paginationData = []
         })
+    },
+    handleSelectionChange (selection) {
+      this.selectData = selection
+    },
+    multipleDeploy () {
+      if (this.selectData !== null && this.selectData.length > 0) {
+        let _allStatus = []
+        this.selectData.forEach(item => {
+          _allStatus.push(item.status)
+        })
+        if (!_allStatus.includes('Error')) {
+          this.AppDeployInfo.selectData = this.selectData
+          this.AppDeployInfo.deployType = '2'
+          sessionStorage.setItem('appDeployInfo', JSON.stringify(this.AppDeployInfo))
+          this.$router.push('/EG/mecm/deployConfig')
+        } else {
+          this.$eg_messagebox(this.$t('distributeDeploy.deleteError'), 'info')
+        }
+      } else {
+        this.$eg_messagebox(this.$t('distributeDeploy.onePackageAtLeast'), 'info')
+      }
     },
     // Filter Table Data
     filterTableData (val) {
@@ -191,11 +248,11 @@ export default {
       }
     },
     beforeDelete (rows) {
-      this.$eg_messagebox(this.$t('distributeDeploy.beforeDeleteFromMechost'), 'warning', this.$t('common.cancel'))
+      this.$eg_messagebox(this.$t('distributeDeploy.beforeDeleteFromMechost'), 'info', this.$t('common.cancel'))
         .then(() => {
           let hostIp = rows.hostIp
           let type = 1
-          appDeploy.deleteDistributionApp(type, hostIp, this.appPackageId, this.userId).then(res => {
+          apm.deleteDistributionApp(type, hostIp, this.appPackageId, this.userId).then(res => {
             this.getDistributeDeployList()
           })
         })
@@ -218,15 +275,18 @@ export default {
       clearTimeout(this.timer)
       this.timer = null
     },
-    checkDetail (item) {
+    deploy (item) {
+      this.AppDeployInfo.selectData = item
+      this.AppDeployInfo.deployType = '1'
+      sessionStorage.setItem('appDeployInfo', JSON.stringify(this.AppDeployInfo))
       this.$router.push('/EG/mecm/deployConfig')
     }
   },
   mounted () {
-    // this.getDistributeDeployList()
-    // this.interval = setInterval(() => {
-    //   this.getDistributeDeployList()
-    // }, 15000)
+    this.getDistributeDeployList()
+    this.interval = setInterval(() => {
+      this.getDistributeDeployList()
+    }, 15000)
   },
   beforeDestroy () {
     this.clearInterval()
@@ -270,7 +330,6 @@ export default {
       border: 1px solid rgba(171, 151, 229, 1);
       border-radius: 17px;
       background-color: transparent;
-      // background: url("../../assets/images/mecm/deployCommon/deploy_bg.png") center;
       box-shadow: 1px 1px 3px #ab97e5 inset;
       .common-dlg-title:before {
         right: 5px;
@@ -278,8 +337,19 @@ export default {
       .el-card__body {
         padding: 52px 109px 65px 112px;
       }
+      .multipleDeploy {
+        width: 90px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+        border-radius: 6px;
+        border-color: #ab97e5;
+        background-color: rgba(182, 164, 236, 0.3);
+        box-shadow: -1px -1px 3px rgb(175, 163, 212, 60%);
+        float: right;
+      }
       .el-table {
-        margin-top: 30px;
+        margin-top: 10px;
         margin-bottom: 50px;
         thead {
           height: 30px;

@@ -74,7 +74,6 @@ export default {
   width: 465px;
   height: 286px;
   background-color: transparent;
-  // background-image: url("../../assets/images/mecm/distributeDeploy/distribute_deploy_success_bg.png");
   border-radius: 17px;
   border: solid 1px #b6a4ec;
   text-align: center;
