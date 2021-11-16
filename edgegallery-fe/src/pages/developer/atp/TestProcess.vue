@@ -274,8 +274,8 @@
   </div>
 </template>
 <script>
-import { Userpage } from '../../../api/atpApi.js'
-import { atpTestApi } from '../../../api/developerApi.js'
+import { testAppApi } from '../../../api/atpApi.js'
+import { applicationApi } from '../../../api/developerApi.js'
 import UploadSelfReportDig from './UploadSelfReportDlg.vue'
 export default {
   name: 'TestProcess',
@@ -327,7 +327,7 @@ export default {
         isFree: true,
         price: 0
       }
-      atpTestApi.publishApp(this.applicationId, _parameter).then(res => {
+      applicationApi.publishApp(this.applicationId, _parameter).then(res => {
         this.$message({
           showClose: true,
           duration: 2000,
@@ -358,7 +358,7 @@ export default {
       this.activeName = val
     },
     getTaskProcess () {
-      Userpage.getTaskApi(this.taskId).then(res => {
+      testAppApi.getTaskApi(this.taskId).then(res => {
         let data = res.data.data.testScenarios
         let taskStatus = res.data.data.status
         this.uploadUser = res.data.data.user.userName
@@ -489,7 +489,7 @@ export default {
         result: this.form.result,
         reason: this.form.reason
       }]
-      Userpage.modifyStatusApi(this.taskId, param).then(res => {
+      testAppApi.modifyStatusApi(this.taskId, param).then(res => {
         this.$message({
           showClose: true,
           duration: 2000,
