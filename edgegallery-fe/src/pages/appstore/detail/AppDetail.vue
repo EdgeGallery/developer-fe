@@ -384,7 +384,7 @@ import appComments from './AppComments.vue'
 import appVideo from './AppVideo.vue'
 import appShowOnline from './AppShowOnline.vue'
 import synchronizeMeao from './SynchronizeMeao.vue'
-import { appstoreApi, URL_PREFIX } from '../../../api/appstoreApi'
+import { appstoreApi, URL_PREFIX_APPSTORE } from '../../../api/appstoreApi'
 import { INDUSTRY, TYPES, MEAO } from '../tools/constant.js'
 import { formatDateTime } from '../../../tools/common.js'
 export default {
@@ -530,7 +530,7 @@ export default {
         if (Object.keys(this.currentData).length === 0 && this.currentData.constructor === Object && (this.tableData.length !== 0)) {
           this.currentData = this.tableData.sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime())[0]
           this.source = this.currentData.details
-          this.appIconPath = URL_PREFIX + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
+          this.appIconPath = URL_PREFIX_APPSTORE + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
           this.ifExperience = this.currentData.experienceAble
           if (sessionStorage.getItem('userNameRole') === 'tenant' && this.userId !== this.currentData.userId) {
             this.ifSynchronize = false
@@ -553,7 +553,7 @@ export default {
         if (item.demoVideoName) {
           let val = {
             type: 'video/mp4',
-            src: URL_PREFIX + 'apps/' + this.appId + '/demoVideo'
+            src: URL_PREFIX_APPSTORE + 'apps/' + this.appId + '/demoVideo'
           }
           this.playerOptions.sources.push(val)
         }
@@ -562,7 +562,7 @@ export default {
     updateData () {
       this.ifExperience = this.currentData.experienceAble
       this.source = this.currentData.details
-      this.appIconPath = URL_PREFIX + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
+      this.appIconPath = URL_PREFIX_APPSTORE + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
       this.checkProjectData()
     },
     cancelImage (row) {
@@ -659,7 +659,7 @@ export default {
         this.getMyAppData()
       }
     }
-    this.appIconPath = URL_PREFIX + 'apps/' + this.appId + '/packages/' + this.packageId + '/icon'
+    this.appIconPath = URL_PREFIX_APPSTORE + 'apps/' + this.appId + '/packages/' + this.packageId + '/icon'
     this.getAppData()
     this.getTableData()
     this.checkProjectData()

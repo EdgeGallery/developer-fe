@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { URL_PREFIX, appstoreApi } from '../../api/appstoreApi'
+import { URL_PREFIX_APPSTORE, appstoreApi } from '../../api/appstoreApi'
 import Pagination from '../../components/Pagination.vue'
 
 export default {
@@ -139,7 +139,7 @@ export default {
       this.activeIndex = index
     },
     getAppIcon (item) {
-      return URL_PREFIX + 'apps/' + item.appId + '/packages/' + item.packageId + '/icon'
+      return URL_PREFIX_APPSTORE + 'apps/' + item.appId + '/packages/' + item.packageId + '/icon'
     },
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize

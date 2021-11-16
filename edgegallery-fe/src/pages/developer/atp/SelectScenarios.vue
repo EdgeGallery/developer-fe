@@ -131,7 +131,7 @@
   </div>
 </template>
 <script>
-import { testAppApi, URL_PREFIX } from '../../../api/atpApi.js'
+import { atpApi, URL_PREFIX_ATP } from '../../../api/atpApi.js'
 import { atpTestApi } from '../../../api/developerApi.js'
 import TestCaseDetail from './TestCase.vue'
 import ContributionCase from './ContributionCase.vue'
@@ -208,7 +208,7 @@ export default {
       this.isShowContributionCase = true
     },
     getAllScene () {
-      testAppApi.getAllSceneApi().then(res => {
+      atpApi.getAllSceneApi().then(res => {
         let data = res.data.results
         data.forEach(item => {
           if (item.nameEn === 'EdgeGallery Community Common Scenario') {
@@ -232,7 +232,7 @@ export default {
       scenarioIds.push(item.id)
       let fd = new FormData()
       fd.append('scenarioIds', scenarioIds)
-      testAppApi.getSceneCaseApi(fd).then(res => {
+      atpApi.getSceneCaseApi(fd).then(res => {
         let data = res.data[0].testSuites
         let IsHaveCase = data.some(function (element) {
           return (element.testCases.length !== 0)
@@ -251,7 +251,7 @@ export default {
       })
     },
     getAppIcon (item) {
-      return URL_PREFIX + 'files/' + item.id
+      return URL_PREFIX_ATP + 'files/' + item.id
     },
     getCaseList (item) {
       this.isShowScene = false
@@ -260,7 +260,7 @@ export default {
       scenarioIds.push(item.id)
       let fd = new FormData()
       fd.append('scenarioIds', scenarioIds)
-      testAppApi.getSceneCaseApi(fd).then(res => {
+      atpApi.getSceneCaseApi(fd).then(res => {
         this.testSuiteData = res.data[0].testSuites
         this.isTestCase = this.testSuiteData.every(function (element) {
           return (element.testCases.length === 0)
@@ -283,7 +283,7 @@ export default {
       })
       let fd = new FormData()
       fd.append('scenarioIdList', this.scenarioIdList)
-      testAppApi.runTaskApi(this.taskId, fd).then(res => {
+      atpApi.runTaskApi(this.taskId, fd).then(res => {
         this.$router.push({ path: '/EG/developer/testProcess', query: { taskId: this.taskId } })
       }).catch(() => {
       })
