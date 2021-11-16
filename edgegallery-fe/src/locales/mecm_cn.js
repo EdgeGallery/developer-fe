@@ -35,7 +35,7 @@ const cn = {
     operationBtn: '分发'
   },
   distributeDeploy: {
-    title: '分发&部署',
+    title: '部署',
     hostIp: '主机IP地址',
     status: '状态',
     delete: '删除',
@@ -43,8 +43,11 @@ const cn = {
     deploy: '部署',
     distributeDeploySuccess: '分发部署成功',
     beforeDeleteFromMechost: '确认要从该节点删除应用应用包？',
-    deletePacFrmoHost: '你已经成功从节点删除应用！',
-    tip: '输入主机IP或状态搜索'
+    deletePacFrmoHost: '你已经成功从节点删除应用',
+    tip: '输入主机IP或状态搜索',
+    multipleDeploy: '批量部署',
+    onePackageAtLeast: '请至少选择一条数据进行操作',
+    deleteError: '请先删除分发状态为“Error”的应用'
   },
   distribute: {
     title: '分发',

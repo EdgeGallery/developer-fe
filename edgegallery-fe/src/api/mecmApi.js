@@ -21,44 +21,47 @@ import {
   DELETE
 } from '../tools/request.js'
 
-const apmApi = '/apm/v1'
-const appoApi = '/appo/v1'
-const inventoryApi = '/inventory/v1'
-
-let apm = {
-  getAppTemplateApi (userId, packageId) {
-    return GET(apmApi + '/tenants/' + userId + '/packages/' + packageId + '/apptemplate')
-  }
-}
+const apmApi = '/mecm-apm/apm/v1'
+const appoApi = '/mecm-appo/appo/v1'
+const inventoryApi = '/mecm-inventory/inventory/v1'
 
 let appo = {
-  confirmToDeploy (userId, params) {
+  toDeploy (userId, params) {
     return POST(appoApi + '/tenants/' + userId + '/app_instances', params)
   },
-  confirmToBatchDeploy (userId, params) {
+  toBatchDeploy (userId, params) {
     return POST(appoApi + '/tenants/' + userId + '/app_instances/batch_create', params)
   },
   getInstanceInfo (userId, instanceId) {
     return GET(appoApi + '/tenants/' + userId + '/app_instance_infos/' + instanceId)
+  },
+  instantiateApp (userId, instanceId, params) {
+    return POST(appoApi + '/tenants/' + userId + '/app_instances/' + instanceId, params)
+  },
+  batchInstantiateApp (userId, params) {
+    return POST(appoApi + '/tenants/' + userId + '/app_instances/batch_instantiate', params)
   }
 }
 
-let appDeploy = {
+let apm = {
   getDistributeDeployList: function (userId) {
-    return GET(apmApi + 'tenants/' + userId + '/packages')
+    return GET(apmApi + '/tenants/' + userId + '/packages')
   },
   deleteDistributionApp (type, hostIp, packageId, userId) {
-    let url = apmApi + 'tenants/' + userId + '/packages/' + packageId + '/hosts/' + hostIp
+    let url = apmApi + '/tenants/' + userId + '/packages/' + packageId + '/hosts/' + hostIp
     if (type === 2) {
-      url = apmApi + 'tenants/' + userId + '/packages/' + packageId
+      url = apmApi + '/tenants/' + userId + '/packages/' + packageId
     }
     return DELETE(url)
   },
   initApmPackages () {
-    return GET(apmApi + 'apps/syncstatus')
+    return GET(apmApi + '/apps/syncstatus')
   },
   distributeApp (params, userId) {
-    return POST(apmApi + 'tenants/' + userId + '/packages', params)
+    return POST(apmApi + '/tenants/' + userId + '/packages', params)
+  },
+  getAppTemplateApi (userId, packageId) {
+    return GET(apmApi + '/tenants/' + userId + '/packages/' + packageId + '/apptemplate')
   }
 }
 
@@ -69,8 +72,7 @@ let inventory = {
 }
 
 export {
-  apm,
   appo,
-  appDeploy,
+  apm,
   inventory
 }

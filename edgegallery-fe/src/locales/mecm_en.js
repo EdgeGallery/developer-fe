@@ -35,7 +35,7 @@ const en = {
     operationBtn: 'Distribution'
   },
   distributeDeploy: {
-    title: 'Distribution&Instantiate',
+    title: 'Instantiate',
     hostIp: 'Host IP',
     status: 'Status',
     delete: 'Delete',
@@ -44,7 +44,10 @@ const en = {
     distributeDeploySuccess: 'Distribute & Deploy Success',
     beforeDeleteFromMechost: 'Are you sure to delete this package from the MEC host?',
     deletePacFrmoHost: 'You have deleted the package from the host successfully!',
-    tip: 'Please enter the search name IP or status'
+    tip: 'Please enter the search name IP or status',
+    multipleDeploy: 'Batch Deployment',
+    onePackageAtLeast: 'Please select one piece pf data at least',
+    deleteError: 'Please delete the error status applications'
   },
   distribute: {
     title: 'distribute',
