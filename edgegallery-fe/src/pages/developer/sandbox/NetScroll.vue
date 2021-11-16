@@ -43,7 +43,7 @@ import vueSeamlessScroll from 'vue-seamless-scroll'
 export default {
   name: 'Example3',
   props: {
-    selectedNetworksProp: {
+    networkListProp: {
       type: Array,
       default: () => []
     }
@@ -53,7 +53,7 @@ export default {
   },
   data () {
     return {
-      listData: ['mec_network_n6', 'mec_network_mep', 'mec_network_internet']
+      listData: []
     }
   },
   computed: {
@@ -72,7 +72,7 @@ export default {
 
   },
   mounted () {
-    this.listData = this.selectedNetworksProp
+    this.listData = this.networkListProp
   }
 }
 </script>

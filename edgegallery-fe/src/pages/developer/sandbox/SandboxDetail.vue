@@ -71,6 +71,14 @@
                     src="../../../assets/images/sandbox/deploy_img.png"
                     @mouseleave="!configNetworkFinish"
                     alt=""
+                    v-if="!configNetworkFinish"
+                  >
+                  <img
+                    class="deploy-img-center"
+                    :class="{'deploy-img-center-finish':configNetworkFinish}"
+                    src="../../../assets/images/sandbox/deploy_img_finish.png"
+                    alt=""
+                    v-if="configNetworkFinish"
                   >
                   <div class="deploy-edit flex-center">
                     <el-tooltip
@@ -104,10 +112,10 @@
             <NetScroll
               v-else
               class="netLine-list"
-              :selected-networks-prop="selectedNetworks"
+              :network-list-prop="networkList"
             />
             <VmList
-              v-if="!isChangeStyle"
+              v-show="!isChangeStyle"
               @addVm="addVm"
               @checkVmDetail="checkVmDetail"
               :is-add-vm-finish-prop="isAddVmFinish"
@@ -120,13 +128,22 @@
             <p class="details-bottom-title lt defaultFontLight">
               5G MEC
             </p>
-            <el-button
-              class="common-btn rt"
-              :disabled="!this.isStartupVmFinish"
-              @click="returnHome"
-            >
-              {{ $t('common.finish') }}
-            </el-button>
+            <div class="btn-container">
+              <el-button
+                class="common-btn"
+                :disabled="!this.isStartupVmFinish"
+                @click="clearVmList"
+              >
+                释放环境
+              </el-button>
+              <el-button
+                class="common-btn"
+                :disabled="!this.isAddVmFinish"
+                @click="returnHome"
+              >
+                {{ $t('common.finish') }}
+              </el-button>
+            </div>
           </div>
         </div>
         <div
@@ -266,7 +283,7 @@
       @editNetwork="editNetwork"
     />
     <VmDetail
-      v-if="showContent==='showVmDetail'"
+      v-show="showContent==='showVmDetail'"
       @closeVmDetail="closeVmDetail"
     />
   </div>
@@ -326,7 +343,7 @@ export default {
     },
     addVmFinish (data) {
       if (data && data.length > 0) {
-        this.selectedNetworks = data
+        this.networkList = data
         this.isBtnStart = true
         this.isAddVmFinish = true
         this.configNetworkFinish = true
@@ -360,16 +377,31 @@ export default {
     },
     getVmList () {
       sandbox.getVmList(this.applicationId).then(res => {
-        console.log(res.data)
-        if (res.data && res.data.length > 0) {
-          this.isAddVmFinish = true
+        if (res.data.length === 0) {
+          return
         }
+        let _data = res.data[0]
+        if (_data.vmInstantiateInfo) {
+          this.isStartupVmFinish = true
+        } else {
+          this.isStartupVmFinish = false
+        }
+        this.isAddVmFinish = true
+        this.configNetworkFinish = true
+        this.deployBreathStyle = true
+        let _arrTemp = []
+        _data.portList.forEach(item => {
+          _arrTemp.push(item.networkName)
+        })
+        this.networkList = _arrTemp
       })
-    }
-  },
-  watch: {
-    showContent (val) {
-      console.log(val)
+    },
+    clearVmList () {
+      sandbox.clearVmImage(this.applicationId).then(() => {
+        this.isStartupVmFinish = false
+      }).catch(() => {
+        this.$eg_messagebox('释放环境失败！', 'error')
+      })
     }
   },
   mounted () {
@@ -381,7 +413,7 @@ export default {
       this.isChangeStyle = false
       this.isMecSucess = false
     }
-    // this.getVmList()
+    this.getVmList()
   },
   beforeDestroy () {
     sessionStorage.removeItem('applicationRules')
@@ -397,18 +429,17 @@ export default {
   color: #fff;
   .detail-top{
     .detail-top-title{
-      width: 160px;
       height: 63px;
       margin: 1% 0 0 13%;
       font-size: 30px;
       line-height: 50px;
-      text-align: center;
+      padding-left: 10px;
       letter-spacing: 4px;
-      background: url('../../../assets/images/sandbox/detail_title.png') no-repeat center;
+      background: url('../../../assets/images/sandbox/detail_title.png') no-repeat left;
     }
   }
   .detail-center{
-    margin: 10px auto 0;
+    margin: 50px auto 0;
     width: 259px;
     height: 350px;
     .detail-center-bg{
@@ -454,7 +485,7 @@ export default {
     .detail-center-line{
       display: block;
       margin: 10px auto;
-      width: 20px;
+      width: 16px;
       height: 96px;
     }
   }

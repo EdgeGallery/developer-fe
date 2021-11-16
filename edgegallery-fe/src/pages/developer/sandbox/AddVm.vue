@@ -453,41 +453,38 @@ export default {
       })
     },
     addVmFinish (type) {
-      // let _data = []
-      // if (type === 'confirm') {
-      //   let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
-      //   if (_addVmImagesVal) {
-      //     sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-      //       this.$message({
-      //         message: '虚拟机添加成功！',
-      //         type: 'success'
-      //       })
-      //       _data = this.selectedNetworks
-      //       this.$emit('addVmFinish', _data)
-      //     }).catch(err => {
-      //       console.log(err)
-      //     })
-      //   } else {
-      //     this.$message({
-      //       message: '请完善内容，再次点击提交！',
-      //       type: 'warning'
-      //     })
-      //   }
-      // } else {
-      //   this.$emit('addVmFinish', _data)
-      // }
-
+      let _data = []
       if (type === 'confirm') {
-        this.$eg_messagebox('虚拟机添加成功', 'success')
-        this.$emit('addVmFinish', this.selectedNetworks)
+        this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
+        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
+        if (_addVmImagesVal) {
+          sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+            this.$eg_messagebox('虚拟机添加成功！', 'success')
+            _data = this.selectedNetworks
+            this.$emit('addVmFinish', _data)
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.$eg_messagebox('请完善内容，再次点击提交！', 'warning')
+        }
       } else {
-        this.$emit('addVmFinish', [])
+        this.$emit('addVmFinish', _data)
       }
     }
   },
   mounted () {
     this.getVmSpecs()
-    this.getInternetType()
+    this.vmNetworkList.forEach(item => {
+      this.selectedNetworks.forEach(items => {
+        if (item.name === items) {
+          this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
+        }
+      })
+    })
+    if (this.netWorkListProp.length === 0) {
+      this.getInternetType()
+    }
     this.getVmImageLists()
   }
 }
