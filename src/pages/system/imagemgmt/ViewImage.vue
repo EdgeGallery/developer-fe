@@ -36,7 +36,7 @@
             <el-form-item
               :label="$t('system.imageMgmt.imgName')"
             >
-              <span>{{ imageData.systemName }}</span>
+              <span>{{ imageData.name }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -52,14 +52,14 @@
             <el-form-item
               :label="$t('system.imageMgmt.imgType')"
             >
-              <span>{{ convertImgType(imageData.type) }}</span>
+              <span>{{ convertImgType(imageData.visibleType) }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item
               :label="$t('system.imageMgmt.osName')"
             >
-              <span>{{ imageData.operateSystem }}</span>
+              <span>{{ imageData.osType }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -68,14 +68,14 @@
             <el-form-item
               :label="$t('system.imageMgmt.osVersion')"
             >
-              <span>{{ imageData.version }}</span>
+              <span>{{ imageData.osVersion }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item
               :label="$t('system.imageMgmt.osBit')"
             >
-              <span>{{ imageData.systemBit }}</span>
+              <span>{{ imageData.osBitType }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -84,14 +84,14 @@
             <el-form-item
               :label="$t('system.imageMgmt.sysDisk')"
             >
-              <span>{{ imageData.systemDisk }}G</span>
+              <span>{{ imageData.systemDiskSize }}G</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item
               :label="$t('system.imageMgmt.imgFormat')"
             >
-              <span>{{ imageData.systemFormat }}</span>
+              <span>{{ imageData.imageFormat }}</span>
             </el-form-item>
           </el-col>
         </el-row>

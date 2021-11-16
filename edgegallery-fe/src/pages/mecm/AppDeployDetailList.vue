@@ -1,3 +1,18 @@
+<!--
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
 <template>
   <div class="appdeploy">
     <div class="deploylist-top-title">
@@ -83,7 +98,7 @@
   </div>
 </template>
 <script>
-import { appDeploy } from '../../api/mecmApi.js'
+import { apm } from '../../api/mecmApi.js'
 import { TYPESFORAPP, INDUSTRY } from '../../tools/mecm/constants.js'
 import Pagination from '../../components/Pagination.vue'
 import Search from '../../components/Search.vue'
@@ -115,16 +130,16 @@ export default {
     }
   },
   mounted () {
-    // this.appType = this.$route.query.type ? this.$route.query.type : ''
-    // this.getDeployListData()
+    this.appType = this.$route.query.type ? this.$route.query.type : ''
+    this.getDeployListData()
   },
-  // watch: {
-  //   '$i18n.locale': function () {
-  //     let language = localStorage.getItem('language')
-  //     this.language = language
-  //     this.getDeployListData()
-  //   }
-  // },
+  watch: {
+    '$i18n.locale': function () {
+      let language = localStorage.getItem('language')
+      this.language = language
+      this.getDeployListData()
+    }
+  },
   methods: {
     filterTableData (val) {
       this.paginationData = this.paginationData.filter((item) => {
@@ -145,18 +160,18 @@ export default {
       if (data) {
         this.filterTableData(data.toLowerCase())
       } else {
-        this.initList()
+        this.getDeployListData()
       }
     },
     checkDetail (row) {
-      // sessionStorage.setItem('appRow', JSON.stringify(row))
-      // sessionStorage.setItem('appId', row.appId)
+      sessionStorage.setItem('appRow', JSON.stringify(row))
+      sessionStorage.setItem('appId', row.appId)
       this.$nextTick(
         this.$router.push('/EG/mecm/distribute')
       )
     },
     getDeployListData () {
-      appDeploy
+      apm
         .initApmPackages()
         .then((response) => {
           this.tableData = response.data
@@ -245,7 +260,6 @@ export default {
       border-radius: 17px;
       padding: 35px 16px 7px 24px;
       background-color: transparent;
-      // background: url("../../assets/images/mecm/deployCommon/deploy_bg.png") center;
       box-shadow: 1px 1px 3px #ab97e5 inset;
       .el-loading-mask {
         background-color: transparent;

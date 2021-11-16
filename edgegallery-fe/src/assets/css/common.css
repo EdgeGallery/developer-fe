@@ -1121,10 +1121,10 @@ img.next{
   opacity: 0;
 }
 .test-btn.el-button{
-  border: 1px solid #0F0D87;
+  border: 1px solid #fff;
   background-color: transparent;
   padding: 12px 30px;
-  color: #0F0D87;
+  color: #fff;
   border-radius: 16px;
 }
 .test-light-btn.el-button{

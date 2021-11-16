@@ -125,8 +125,8 @@ export default new Router({
       component: () => import('../pages/mecm/DistributeFinish.vue')
     },
     {
-      path: '/EG/appstore/applications',
-      name: 'applications',
+      path: '/EG/appstore/appWarehouse',
+      name: 'appWarehouse',
       component: () => import('../pages/appstore/Index.vue')
     },
     {

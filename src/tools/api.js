@@ -175,18 +175,18 @@ let Test = {
 }
 
 let System = {
-  deleteHost: function (hostId) {
-    return Delete(`mec/developer/v1/hosts/${hostId}`)
+  deleteHost: function (mephostId) {
+    return Delete(`mec/developer/v2/mephosts/${mephostId}`)
   },
   deleteService: function (params) {
     return Delete('mec/developer/v1/capabilities', params)
   },
   getLogData: function (hostId) {
-    return Get(`mec/developer/v1/hosts/${hostId}/logs`)
+    return Get(`mec/developer/v2/mephosts/${hostId}/logs`)
   },
   saveHostInfo: function (params) {
-    const func = params.hostId ? Put : Post
-    const path = params.hostId ? `mec/developer/v1/hosts/${params.hostId}` : 'mec/developer/v1/hosts'
+    const func = params.id ? Put : Post
+    const path = params.id ? `mec/developer/v2/mephosts/${params.id}` : 'mec/developer/v2/mephosts'
     const data = { ...params }
     return func(path, data)
   },
@@ -201,7 +201,7 @@ let System = {
     return func(path, params)
   },
   getHosts: function (params) {
-    return Get('mec/developer/v1/hosts', params)
+    return Get('mec/developer/v2/mephosts', params)
   },
   getSerives: function (params) {
     return Get('mec/developer/v2/capabilities', params)
@@ -335,6 +335,10 @@ let Workspace = {
   submitApiFileApi: function (userId, params) {
     return Post('mec/developer/v1/files?userId=' + userId, params)
   },
+  // UploadConfigFile
+  submitConfigFileApi: function (params) {
+    return Post('mec/developer/v2/mephosts/action/upload-config-file', params)
+  },
   // Get uploadedApifile
   getApiFileApi: function (appApiFileId, userId) {
     return Get('mec/developer/v1/files/api-info/' + appApiFileId + '?userId=' + userId)
@@ -453,32 +457,35 @@ let vmService = {
 }
 
 let imageMgmtService = {
-  getImageDataList: function (queryData, userId) {
-    return Post('mec/developer/v1/system/images/list?userId=' + userId, queryData)
+  getImageDataList: function (queryData) {
+    return Post('mec/developer/v2/vmimages/action/get-list', queryData)
   },
-  newImage: function (imgData, userId) {
-    return Post('mec/developer/v1/system/images?userId=' + userId, imgData)
+  newImage: function (imgData) {
+    return Post('mec/developer/v2/vmimages', imgData)
   },
-  modifyImage: function (imgData, systemId, userId) {
-    return Put('mec/developer/v1/system/images/' + systemId + '?userId=' + userId, imgData)
+  modifyImage: function (imgData, id) {
+    return Put('mec/developer/v2/vmimages/' + id, imgData)
   },
-  deleteImage: function (systemId, userId) {
-    return Delete('mec/developer/v1/system/images/' + systemId + '?userId=' + userId)
+  deleteImage: function (id) {
+    return Delete('mec/developer/v2/vmimages/' + id)
   },
-  publishImage: function (systemId, userId) {
-    return Put('mec/developer/v1/system/images/' + systemId + '/publish?userId=' + userId)
+  publishImage: function (id) {
+    return Put('mec/developer/v2/vmimages/' + id + '/action/publish')
   },
-  resetImageStatus: function (systemId, userId) {
-    return Put('mec/developer/v1/system/images/' + systemId + '/reset?userId=' + userId)
+  resetImageStatus: function (id) {
+    return Put('mec/developer/v2/vmimages/' + id + '/action/reset')
   },
-  mergeImage: function (systemId, fileName, identifier) {
-    return Get('mec/developer/v1/system/images/' + systemId + '/merge?fileName=' + fileName + '&identifier=' + identifier)
+  mergeImage: function (id, fileName, identifier) {
+    return Get('mec/developer/v2/vmimages/' + id + '/action/merge?fileName=' + fileName + '&identifier=' + identifier)
   },
-  cancelUploadImage: function (systemId, identifier) {
-    return Delete('mec/developer/v1/system/images/' + systemId + '/upload?identifier=' + identifier)
+  cancelUploadImage: function (id, identifier) {
+    return Delete('mec/developer/v2/vmimages/' + id + '/action/upload?identifier=' + identifier)
   },
-  downloadSystemImageUrl: function (systemId, userId) {
-    return urlPrefix + 'mec/developer/v1/system/images/' + systemId + '/download?userId=' + userId
+  downloadSystemImageUrl: function (id) {
+    return urlPrefix + 'mec/developer/v2/vmimages/' + id + '/action/download'
+  },
+  slimImage: function (imageId) {
+    return Post('mec/developer/v2/vmimages/' + imageId + '/action/slim', '')
   },
   // ContainerImage
   newContainerImage: function (imgData) {
@@ -504,9 +511,6 @@ let imageMgmtService = {
   },
   cancelUploadContainerImage: function (imageId) {
     return Delete('mec/developer/v2/containerimages/' + imageId + '/upload')
-  },
-  slimImage: function (imageId) {
-    return Post('mec/developer/v1/system/images/' + imageId + '/slim', '')
   }
 }
 

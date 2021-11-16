@@ -50,7 +50,7 @@ export default {
           name: '应用商店',
           class: 'app-store',
           src: require('../../../assets/images/application/app_store.png'),
-          toPath: '/EG/appstore/applications'
+          toPath: '/EG/appstore/appWarehouse'
         }
       ]
     }

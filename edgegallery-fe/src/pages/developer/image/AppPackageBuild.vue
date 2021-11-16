@@ -329,66 +329,12 @@ export default {
   },
   data () {
     return {
-      basicInfoData: {
-        name: 'applicationVM',
-        version: 'V1.0',
-        provider: 'huawei',
-        industry: 'game',
-        type: '游戏',
-        architecture: 'x86',
-        dependent: '无依赖',
-        createTime: '2021-11-04:19.46',
-        description: '2048游戏',
-        fileName: 'gameIntru.docs'
-      },
-      resourceConfigInfoList: [
-        {
-          vmId: '',
-          vmName: 'VmTest1',
-          spec: 'x86 | 1vCPUs | 1GBRAM | 40GB+50GB Disk',
-          network: 'MEC_APP_N6, MEC_app_Private,',
-          basicImage: 'ubuntu',
-          vmImage: '暂无'
-        }, {
-          vmId: '',
-          vmName: 'VmTest1',
-          spec: 'x86 | 1vCPUs | 1GBRAM | 40GB+50GB Disk',
-          network: 'MEC_APP_Public',
-          basicImage: 'ubuntu',
-          vmImage: '暂无'
-        }
-      ],
-      trafficRulesInfoList: [
-        {
-          trafficRuleId: 'rules',
-          action: 'FLOW',
-          priority: '1',
-          filterType: 'DROP'
-        }
-      ],
-      dnsRulesInfoList: [
-        {
-          dnsRuleId: 'rules',
-          domainName: 'domainName',
-          ipAddressType: '0.0.0.0',
-          ttl: '85000'
-        }
-      ],
-      capabalityDependsList: [
-        {
-          serName: 'VmServe',
-          version: 'V1.0'
-        }
-      ],
-      capabalityReleaseDataList: [
-        {
-          serviceName: 'oneTest',
-          internalPort: '8000',
-          version: 'V1.0',
-          protocol: 'https',
-          description: 'test'
-        }
-      ],
+      basicInfoData: {},
+      resourceConfigInfoList: [],
+      trafficRulesInfoList: [],
+      dnsRulesInfoList: [],
+      capabalityDependsList: [],
+      capabalityReleaseDataList: [],
       applicationId: sessionStorage.getItem('applicationId'),
       packageId: ''
     }
@@ -467,21 +413,18 @@ export default {
       this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
     },
     packageApp () {
-      this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
-        this.$store.commit('changeFlow', '4')
-        this.$router.push('/EG/developer/home')
+      imageApi.generatePackage(this.applicationId).then(res => {
+        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+          this.$store.commit('changeFlow', '4')
+          this.$router.push('/EG/developer/home')
+        })
+      }).catch(() => {
+        this.$eg_messagebox('打包失败', 'error')
       })
-      // imageApi.generatePackage(this.applicationId).then(res => {
-      //   this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
-      //     this.$router.push('/EG/developer/home')
-      //   })
-      // }).catch(() => {
-      //   this.$eg_messagebox('打包失败', 'error')
-      // })
     }
   },
   mounted () {
-    // this.getAppBaseInfo()
+    this.getAppBaseInfo()
   }
 }
 </script>
@@ -497,9 +440,6 @@ export default {
     width: 85%;
     max-height: 85%;
     overflow: auto;
-    border: 2px solid #b6a4ec;
-    // background: url('../../../assets/images/app_pacakage_build_bg.png') no-repeat center;
-    // background-size: cover;
     border-radius: 16px;
     margin: 51px auto;
     padding: 40px 40px 40px 40px;
@@ -640,6 +580,7 @@ export default {
     }
     .app-package-build-capabalityconfig {
       .appPackageBuild-content {
+        display: flex;
         margin-top: 15px;
         .dependTable, .releaseTable {
           margin-top: 18px;
@@ -654,11 +595,9 @@ export default {
         }
         .depend {
           width: 33%;
-          display: inline-block;
         }
         .release {
           width: 62%;
-          display: inline-block;
           margin-left: 5%;
         }
         .rules-title:before {
@@ -669,9 +608,9 @@ export default {
     .appPackageBtn {
       margin: 41px 0px 0 0;
       .el-button {
-        // font-size: 20px;
+        font-size: 20px;
         border-radius: 16px;
-        // padding: 17px 45px;
+        padding: 17px 45px;
       }
       .el-button + .el-button {
         margin-left: 60px;

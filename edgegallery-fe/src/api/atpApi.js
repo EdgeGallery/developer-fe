@@ -21,35 +21,35 @@ import {
   PUT
 } from '../tools/request.js'
 
-const URL_PREFIX = '/mec-atp/edgegallery/atp/v2/'
+const URL_PREFIX_ATP = '/mec-atp/edgegallery/atp/v2/'
 
-let Userpage = {
+let atpApi = {
   getAllSceneApi: function () {
-    return GET(URL_PREFIX + 'testscenarios?limit=12&offset=0')
+    return GET(URL_PREFIX_ATP + 'testscenarios?limit=12&offset=0')
   },
   getSceneIconApi: function (appId) {
-    return GET(URL_PREFIX + 'apps/' + appId)
+    return GET(URL_PREFIX_ATP + 'apps/' + appId)
   },
   getSceneCaseApi: function (params) {
-    return POST(URL_PREFIX + 'testscenarios/testcases', params)
+    return POST(URL_PREFIX_ATP + 'testscenarios/testcases', params)
   },
   runTaskApi: function (taskId, params) {
-    return POST(URL_PREFIX + 'tasks/' + taskId + '/action/run', params)
+    return POST(URL_PREFIX_ATP + 'tasks/' + taskId + '/action/run', params)
   },
   getTaskApi: function (taskId) {
-    return GET(URL_PREFIX + 'tasks/' + taskId)
+    return GET(URL_PREFIX_ATP + 'tasks/' + taskId)
   },
   modifyStatusApi: function (taskId, params) {
-    return PUT(URL_PREFIX + 'tasks/' + taskId + '/testcase', params)
+    return PUT(URL_PREFIX_ATP + 'tasks/' + taskId + '/testcase', params)
   },
   contributionApi: function (params) {
-    return POST(URL_PREFIX + 'contributions', params)
+    return POST(URL_PREFIX_ATP + 'contributions', params)
   },
   uploadReportApi: function (taskId, params) {
-    return POST(URL_PREFIX + 'tasks/' + taskId + '/action/upload-report', params)
+    return POST(URL_PREFIX_ATP + 'tasks/' + taskId + '/action/upload-report', params)
   }
 }
 
 export {
-  URL_PREFIX, Userpage
+  URL_PREFIX_ATP, atpApi
 }
