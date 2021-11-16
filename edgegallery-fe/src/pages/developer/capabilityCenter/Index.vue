@@ -182,7 +182,7 @@
             <el-button
               type="text"
               class="operation-btn-text"
-              @click="deletePublishedService(scope.row.serviceName)"
+              @click="deletePublishedService(scope.row.appServiceProducedId)"
             >
               {{ $t('common.delete') }}
             </el-button>
@@ -328,7 +328,7 @@ export default {
         this.selectedService.splice(index, 1)
       }
       this.$refs.treeList.setChecked(tag.id, false)
-      this.deleteServices(tag.host)
+      this.deleteServices(tag.id)
     },
     deleteServices (serId) {
       applicationApi.deleteService(this.appId, serId).then(res => {
@@ -337,14 +337,15 @@ export default {
         console.log(err)
       })
     },
-    deletePublishedService (name) {
+    deletePublishedService (id) {
       this.$confirm('此操作将永久删除该能力, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        applicationApi.deletePublishedService(this.appId, name).then(res => {
+        applicationApi.deletePublishedService(this.appId, id).then(res => {
           this.$message.success('删除已发布能力成功！')
+          this.getPublishedService()
         })
       })
     },
@@ -412,7 +413,7 @@ export default {
           this.selectedService.forEach((ser, index) => {
             if (ser.id === data.id) {
               this.selectedService.splice(index, 1)
-              this.deleteServices(ser.serName)
+              this.deleteServices(ser.id)
             }
           })
         }

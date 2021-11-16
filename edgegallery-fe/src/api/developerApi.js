@@ -137,8 +137,8 @@ let applicationApi = {
   getServiceDependencies (appId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds')
   },
-  deleteService: function (appId, serName) {
-    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds/' + serName)
+  deleteService: function (appId, serId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds/' + serId)
   },
   getApiUrl: function (apiFileId) {
     return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
@@ -149,11 +149,11 @@ let applicationApi = {
   getPublishedService: function (appId) {
     return GET('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds')
   },
-  modifyPublishedService: function (appId, serName, params) {
-    return PUT('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds' + serName, params)
+  modifyPublishedService: function (appId, serId, params) {
+    return PUT('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId, params)
   },
-  deletePublishedService: function (appId, serName) {
-    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds' + serName)
+  deletePublishedService: function (appId, serId) {
+    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId)
   }
 }
 

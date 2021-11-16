@@ -37,7 +37,7 @@
         </el-form-item>
         <el-form-item
           label="API定义文件"
-          class="label-item-half cp"
+          class="label-item-half"
         >
           <el-upload
             :on-change="handleApiChange"
@@ -64,7 +64,7 @@
         </el-form-item>
         <el-form-item
           label="说明文档"
-          class="label-item-half cp"
+          class="label-item-half"
         >
           <el-upload
             :on-change="handleDocChange"
@@ -100,7 +100,7 @@
         </el-form-item> -->
         <el-form-item
           label="自定义图片"
-          class="cp"
+          class="cb"
         >
           <el-upload
             :on-change="handleIconChange"
@@ -203,7 +203,8 @@ export default {
       apiFIleId: '',
       docFileId: '',
       iconFileId: '',
-      isModify: false
+      isModify: false,
+      serviceId: ''
     }
   },
   methods: {
@@ -272,14 +273,17 @@ export default {
       }
     },
     publishService () {
-      applicationApi.publishService(this.appId, this.serFormData).then(res => {
-        if (this.isModify) {
+      if (this.isModify) {
+        applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serFormData).then(res => {
           this.$message.success('编辑能力成功！')
-        } else {
+          this.$router.push('/EG/developer/capabilityCenter')
+        })
+      } else {
+        applicationApi.publishService(this.appId, this.serFormData).then(res => {
           this.$message.success('发布能力成功！')
-        }
-        this.$router.push('/EG/developer/capabilityCenter')
-      })
+          this.$router.push('/EG/developer/capabilityCenter')
+        })
+      }
     },
     getFileInfo (type, fileId) {
       applicationApi.getFileInfo(fileId).then(res => {
@@ -300,6 +304,7 @@ export default {
     if (this.$route.query && this.$route.query.serviceName) {
       this.isModify = true
       this.serFormData = this.$route.query
+      this.serviceId = this.$route.query.appServiceProducedId
       this.getFileInfo(1, this.serFormData.apiFileId)
       this.getFileInfo(2, this.serFormData.guideFileId)
       this.getFileInfo(3, this.serFormData.iconFileId)
