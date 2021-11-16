@@ -986,7 +986,7 @@ th{
 .common-dlg-title{
   font-weight: normal;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin: 15px;
 }
 .common-dlg-title:before{
   display: inline-block;
@@ -1094,15 +1094,16 @@ img.next{
   animation-duration:2000ms;
   animation-iteration-count:infinite;
   animation-direction:alternate;
-  @keyframes next  {
-    0%{
-       opacity:0.2;
-       filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
-    }
-    100%{
-      opacity:1;
-       filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.8));
-    }
+}
+
+@keyframes breathe  {
+  0%{
+     opacity:0.2;
+     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
+  }
+  100%{
+    opacity:1;
+     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.8));
   }
 }
 
@@ -1156,4 +1157,8 @@ input::-webkit-input-placeholder {
   position: absolute;
   top: 8px;
   left: -18px;
+}
+
+.el-upload-list__item-name{
+  color: #ffffff !important;
 }

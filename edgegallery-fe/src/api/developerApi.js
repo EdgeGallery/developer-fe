@@ -104,7 +104,7 @@ let applicationApi = {
   getFileInfo: function (fileId) {
     return GET('/mec-developer/mec/developer/v2/upload-files/' + fileId)
   },
-  uploadAppIcon: function (params) {
+  uploadFileApi: function (params) {
     return POST('/mec-developer/mec/developer/v2/upload-files', params)
   },
   createNewApp: function (params) {
@@ -127,6 +127,18 @@ let applicationApi = {
   },
   getApiUrl: function (apiFileId) {
     return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
+  },
+  publishService: function (appId, params) {
+    return POST('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds', params)
+  },
+  getPublishedService: function (appId) {
+    return GET('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds')
+  },
+  modifyPublishedService: function (appId, serName, params) {
+    return PUT('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds' + serName, params)
+  },
+  deletePublishedService: function (appId, serName) {
+    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds' + serName)
   }
 }
 

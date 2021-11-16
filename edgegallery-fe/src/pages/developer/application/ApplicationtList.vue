@@ -241,6 +241,7 @@ export default {
   }
   .app-flex-main{
     margin-left: 50px;
+    overflow-y: auto;
   }
   .app-list-title{
     font-size: 20px;

@@ -47,7 +47,7 @@ export default new Router({
     },
     {
       path: '/EG/developer/capabilityPublish',
-      name: 'capabilityCenter',
+      name: 'capabilityPublish',
       component: () => import('../pages/developer/capabilityCenter/CapabilityPublish.vue')
     },
     {

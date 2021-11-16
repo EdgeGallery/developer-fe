@@ -14,7 +14,7 @@
       <img
         :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
         :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
-        :class="item.id==='creating'?'current':''"
+        :class="item.isCurrent?'current':''"
       >
       <div
         class="app-name"
@@ -58,6 +58,7 @@ export default {
   methods: {
     checkProjectDetail (item) {
       sessionStorage.setItem('applicationId', item.id)
+      item.isCurrent = true
       sessionStorage.setItem('isCreate', '1')
       this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'MEPHOST_SELECTED' ? '3' : (item.status === 'CONFIGUARED' ? '4' : '5')))
       this.$router.push('/EG/developer/home')
@@ -69,7 +70,7 @@ export default {
       this.$router.push('/EG/developer/createApplication')
     },
     switchStatus (status) {
-      return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置成功' : (status === 'DEPLOYED' ? '已部署' : (status === 'TESTED' ? '测试完成' : '已发布')))
+      return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置成功' : (status === 'DEPLOYED' ? '已部署' : (status === 'TESTED' ? '测试完成' : (status === 'MEPHOST_SELECTED' ? '沙箱选择' : '已发布'))))
     },
     getStatusClass (status) {
       return status === 'CREATED' ? 'app-created' : (status === 'CONFIGURED' ? 'app-success' : (status === 'DEPLOYED' ? 'app-failed' : 'app-published'))
@@ -111,6 +112,8 @@ export default {
     img{
       width: 66px;
       height: 66px;
+      border: 3px solid transparent;
+      border-radius: 66px;
     }
     img.current{
       border: 3px solid #42F6AC;

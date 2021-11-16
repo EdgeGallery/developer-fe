@@ -194,6 +194,7 @@ export default {
             background-size: contain;
             position: relative;
             top: 3px;
+            transform: rotate(270deg);
           }
         }
       }
