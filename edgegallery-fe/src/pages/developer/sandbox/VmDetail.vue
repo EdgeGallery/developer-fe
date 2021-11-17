@@ -47,11 +47,14 @@
       <div class="vm-content">
         <p class="clear">
           <span class="content-left lt">测试状态 :</span>
-          <span class="content-right lt">{{ vmTestInformation.status }}</span>
+          <span class="content-right lt">{{ vmTestInformation.status?vmTestInformation.status:'NA' }}</span>
         </p>
         <p class="clear">
           <span class="content-left lt">测试节点 :</span>
-          <span class="content-right lt">
+          <span
+            class="content-right lt"
+            v-if="vmTestInformation.nodes.length>0"
+          >
             <span
               v-for="(item,index) in vmTestInformation.nodes"
               :key="index"
@@ -60,13 +63,17 @@
               {{ item.networkName }}: {{ item.ipAddress }}
             </span>
           </span>
+          <span
+            class="content-right lt"
+            v-if="vmTestInformation.nodes.length===0"
+          >NA</span>
         </p>
       </div>
 
       <div class="vm-content">
         <p class="clear">
           <span class="content-left lt">镜像名称 :</span>
-          <span class="content-right lt">{{ vmImageInformation.imageName }}</span>
+          <span class="content-right lt">{{ vmImageInformation.imageName?vmImageInformation.imageName:'NA' }}</span>
         </p>
         <p class="clear">
           <span class="content-left lt">下载地址 :</span>
@@ -76,13 +83,13 @@
               :underline="false"
               rel="noopener noreferrer"
             >
-              {{ vmImageInformation.downloadUrl }}
+              {{ vmImageInformation.downloadUrl?vmImageInformation.downloadUrl:'NA' }}
             </el-link>
           </span>
         </p>
         <p class="clear">
           <span class="content-left lt">阶段状态 :</span>
-          <span class="content-right lt">{{ vmImageInformation.status }}</span>
+          <span class="content-right lt">{{ vmImageInformation.status?vmImageInformation.status:'NA' }}</span>
         </p>
       </div>
 

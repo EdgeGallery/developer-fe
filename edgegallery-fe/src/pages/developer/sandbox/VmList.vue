@@ -66,7 +66,7 @@
           </div>
           <div
             class="vm-btn flex-center hoverHands"
-            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="vmVncLogin"
           >
             <el-tooltip
@@ -83,7 +83,7 @@
           </div>
           <div
             class="vm-btn flex-center hoverHands"
-            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="uploadVmFile"
           >
             <el-tooltip
@@ -133,7 +133,10 @@
             </el-tooltip>
           </div>
         </div>
-        <div class="vm-status">
+        <div
+          class="vm-status"
+          v-if="!isClearVmImage"
+        >
           <el-progress
             v-if="isStartupVm && !isStartupVmFinish"
             :percentage="percentages"
@@ -173,6 +176,10 @@ export default {
     isBtnStartProp: {
       type: Boolean,
       default: false
+    },
+    isClearVmImageProp: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -194,7 +201,8 @@ export default {
         imageName: '',
         status: '',
         downloadUrl: ''
-      }
+      },
+      isClearVmImage: this.isClearVmImageProp
     }
   },
   methods: {
@@ -267,6 +275,7 @@ export default {
       this.$emit('checkVmDetail', 'showVmDetail')
     },
     startUpVm (data) {
+      this.isClearVmImage = false
       this.isStartupVm = true
       sandbox.getVmPullId(this.applicationId, data).then(res => {
         this.operationId = res.data.operationId
@@ -290,6 +299,11 @@ export default {
     uploadVmFile () {
       this.bus.$emit('uploadVmFile', this.vmId)
       this.$emit('uploadVmFile', 'showVmUploadFile')
+    }
+  },
+  watch: {
+    isClearVmImageProp: function (val) {
+      this.isClearVmImage = val
     }
   },
   created () {
