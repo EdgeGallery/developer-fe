@@ -803,22 +803,24 @@
 
 .common-btn{
   /* box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8); */
-  border-radius: 12px;
-  padding: 6px 32px;
-  border: none;
-  color: #5944C0;
+  border-radius: 12px !important;
+  padding: 6px 32px !important;
+  border: none !important;
+  color: #5944C0 !important;
   font-family: defaultFontLight !important;
-  font-size: 14px;
-  margin-top: 10px;
-  font-weight: 400;
+  font-size: 14px !important;
+  margin-top: 10px !important;
 }
 .common-btn:hover{
-  color: #fff;
-  background-color: #5347a0;
+  color: #fff !important;
+  background-color: #5347a0 !important;
 }
 .inner-btn{
-  color: #fff;
-  background-color: rgba(190,194,225,.7);
+  color: #fff !important;
+  background-color: rgba(190,194,225,.7) !important;
+}
+.el-button+.el-button{
+  margin-left: 32px !important;
 }
 .common-dark-btn{
   color: #fff;
@@ -888,9 +890,9 @@ th{
 .common-div-bg{
   max-height: 85%;
   overflow: auto;
-  padding: 55px 120px;
+  padding: 40px;
   border-radius: 16px;
-  background: linear-gradient(to bottom right, rgba(130, 138, 243, 0.404),rgba(101,111,205,0.17));
+  background: linear-gradient(to bottom right, rgba(205,235,245,0.6),rgba(101,111,205,0.17));
   backdrop-filter: blur(6px);
   clear: both;
   position: relative;

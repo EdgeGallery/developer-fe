@@ -25,6 +25,7 @@
     "vue-pdf": "^4.3.0",
     "vue-router": "^3.1.3",
     "vue-seamless-scroll": "^1.1.23",
+    "vue-simple-uploader": "^0.7.6",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

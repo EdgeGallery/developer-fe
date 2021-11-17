@@ -69,8 +69,8 @@
           <span class="content-right lt">{{ vmImageInformation.imageName }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">镜像类型：</span>
-          <span class="content-right lt">{{ vmImageInformation.imageType }}</span>
+          <span class="content-left lt">下载地址</span>
+          <span class="content-right lt">{{ vmImageInformation.downloadUrl }}</span>
         </p>
         <p class="clear">
           <span class="content-left lt">阶段状态：</span>
