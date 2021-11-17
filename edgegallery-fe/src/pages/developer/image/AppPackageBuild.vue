@@ -331,8 +331,7 @@ export default {
       dnsRulesInfoList: [],
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
-      applicationId: sessionStorage.getItem('applicationId'),
-      packageId: ''
+      applicationId: sessionStorage.getItem('applicationId')
     }
   },
   methods: {
@@ -346,7 +345,6 @@ export default {
         this.getBaseInfoFileName()
         this.getResourceConfig()
         this.getRulesInfo()
-        this.packageId = this.basicInfoData.appPackage.id
         if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
           this.basicInfoData.dependent = '无依赖'
         } else {
@@ -415,7 +413,7 @@ export default {
           message: '打包成功',
           type: 'success'
         })
-        this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
+        this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: res.data.id } })
       }).catch(() => {
         this.$eg_messagebox('打包失败', 'error')
       })

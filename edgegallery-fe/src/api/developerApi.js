@@ -215,7 +215,7 @@ let imageApi = {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
   },
   packageToZip: function (packageId) {
-    return POST(URL_PREFIX_DEVELOPER + 'apppackages' + packageId + '/action/zip-package')
+    return POST(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/zip-package')
   }
 }
 let atpTestApi = {
