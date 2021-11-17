@@ -153,9 +153,9 @@ export default {
         showType: ['public', 'inner-public'],
         workloadType: [],
         userId: '',
+        appName: '',
         status: 'Published',
         queryCtrl: {
-          appName: '',
           offset: this.offsetPage,
           limit: this.limitSize,
           sortItem: 'createTime',

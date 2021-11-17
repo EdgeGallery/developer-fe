@@ -24,6 +24,14 @@
       </el-button>
       <el-button
         class="common-btn"
+        :disabled="report"
+        @click="testAgain()"
+      >
+        再次测试
+      </el-button>
+      <el-button
+        class="common-btn"
+        :disabled="report"
         @click="publish()"
       >
         发布
@@ -105,7 +113,6 @@
               </em>项问题</span>
           </div>
         </div>
-        <!-- 顶部 -->
 
         <div
           class="content common-div-bg"
@@ -275,7 +282,7 @@
 </template>
 <script>
 import { atpApi } from '../../../api/atpApi.js'
-import { applicationApi } from '../../../api/developerApi.js'
+import { applicationApi, atpTestApi } from '../../../api/developerApi.js'
 import UploadSelfReportDig from './UploadSelfReportDlg.vue'
 export default {
   name: 'TestProcess',
@@ -316,12 +323,25 @@ export default {
     }
   },
   mounted () {
+    this.getTaskId()
     this.getTaskProcess()
     this.interval = setInterval(() => {
       this.getTaskProcess()
     }, 1000)
   },
   methods: {
+    getTaskId () {
+      atpTestApi.getTestId(this.applicationId).then(res => {
+        if (res.data.length > 0) {
+          this.taskId = res.data[0].id
+        } else {
+          this.taskId = this.$route.query.taskId
+        }
+      })
+    },
+    testAgain () {
+      this.$router.push('/EG/developer/selectScenarios')
+    },
     publish () {
       let _parameter = {
         isFree: true,
