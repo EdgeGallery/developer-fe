@@ -154,6 +154,9 @@ let applicationApi = {
   },
   deletePublishedService: function (appId, serId) {
     return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId)
+  },
+  publishApp: function (applicationId, params) {
+    return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/release', params)
   }
 }
 
