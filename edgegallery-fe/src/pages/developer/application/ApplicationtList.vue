@@ -175,9 +175,11 @@ export default {
     },
     putAway () {
       this.$emit('zoomChanged', 3)
+      this.isDeleteActive = false
     },
     changeSmall () {
       this.$emit('zoomChanged', 1)
+      this.isDeleteActive = false
     },
     searchProject () {
       this.isSearchActive = true
