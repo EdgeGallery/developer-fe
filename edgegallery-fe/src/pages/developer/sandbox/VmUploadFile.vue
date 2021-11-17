@@ -17,7 +17,7 @@
 <template>
   <div class="uploadApp">
     <div class="common-div-bg">
-      <p class="title">
+      <p class="rules-title">
         上传应用代码包
       </p>
       <div class="uploadAppBody">
@@ -77,6 +77,11 @@ export default {
   methods: {
     closeVmUpload () {
       this.$emit('closeVmUpload')
+    }
+  },
+  watch: {
+    vmId: function (val) {
+      this.vmId = val
     }
   }
 }
