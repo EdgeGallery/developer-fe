@@ -170,7 +170,6 @@ export default {
       atpTestApi.submitTest(this.applicationId).then(res => {
         if (res.data) {
           atpTestApi.getTestId(this.applicationId).then(res => {
-            console.log(res.data)
             this.taskId = res.data[0].id
             this.isCreateSuc = false
           })

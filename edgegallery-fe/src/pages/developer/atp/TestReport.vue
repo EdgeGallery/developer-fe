@@ -17,9 +17,11 @@
 <template>
   <div
     class="report padding_default"
-    id="pdfDom"
   >
-    <div class="report-content">
+    <div
+      class="report-content"
+      id="pdfDom"
+    >
       <div class="logo">
         <h3> EdgeGallery测试认证报告</h3>
         <div>
@@ -252,7 +254,7 @@
 </template>
 
 <script>
-import { Userpage } from '../../../api/atpApi.js'
+import { atpApi } from '../../../api/atpApi.js'
 import pdf from 'vue-pdf'
 import { formatDateTime } from '../../../tools/common.js'
 
@@ -291,7 +293,7 @@ export default {
       this.$router.push('/EG/developer/home')
     },
     getReport () {
-      Userpage.getTaskApi(this.taskId).then(res => {
+      atpApi.getTaskApi(this.taskId).then(res => {
         let data = res.data.data
         // pdf report
         if (data.reportPath) {
@@ -561,6 +563,7 @@ export default {
     overflow: auto;
     margin: 20px 0;
   .report-content {
+    padding: 10px;
      .logo {
       display: flex;
       justify-content: space-between;
@@ -571,7 +574,7 @@ export default {
       }
       h3{
         font-family: sans-serif;
-        color: #380879;
+        color: #fff;
         font-size: 24px;
         font-weight: 800;
       }
