@@ -32,8 +32,7 @@
         @click.stop="searchProject()"
       />
       <div
-        class="app-btn"
-        :class="isDeleteActive?'delete-active':'delete-default'"
+        class="app-btn delete-default"
         title="删除"
         v-if="zoom>2"
         @click.stop="deleteApp()"
@@ -53,7 +52,7 @@
         class="app-list-title"
         v-if="zoom!==2"
       >
-        新建应用/最近创建
+        新建应用/最近操作
       </div>
       <div
         class="app-list-main"
@@ -61,53 +60,78 @@
       >
         <ListComp
           :data-list="currentAppList"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
         />
       </div>
       <div
-        class="app-list-title"
+        class="app-list-main"
         v-if="zoom!==2"
       >
-        创建完成
-      </div>
-      <div
-        class="app-list-main"
-      >
+        <div
+          class="app-list-title"
+        >
+          创建完成
+        </div>
         <ListComp
           :data-list="filterStatus('CREATED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
-          :class="zoom===2?'':'app-flex-items'"
+          class="app-flex-items"
         />
       </div>
       <div
-        class="app-list-title"
+        class="app-list-main"
         v-if="zoom!==2"
       >
-        部署完成
-      </div>
-      <div
-        class="app-list-main"
-      >
+        <div
+          class="app-list-title"
+        >
+          配置完成
+        </div>
         <ListComp
           :data-list="filterStatus('CONFIGURED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
-          :class="zoom===2?'':'app-flex-items'"
+          class="app-flex-items"
         />
       </div>
       <div
-        class="app-list-title"
+        class="app-list-main"
         v-if="zoom!==2"
       >
-        部署失败
+        <div
+          class="app-list-title"
+        >
+          测试完成
+        </div>
+        <ListComp
+          :data-list="filterStatus('TESTED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
+          :show-delete-btn="isDeleteActive"
+          class="app-flex-items"
+        />
       </div>
       <div
         class="app-list-main"
+        v-if="zoom!==2"
       >
+        <div
+          class="app-list-title"
+        >
+          发布成功
+        </div>
         <ListComp
-          :data-list="filterStatus('DEPLOYED')"
+          :data-list="filterStatus('RELEASED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
-          :class="zoom===2?'':'app-flex-items'"
+          class="app-flex-items"
         />
       </div>
     </div>
@@ -127,7 +151,6 @@ export default {
       return Number(this.$store.state.zoom)
     },
     currentFlow (val) {
-      console.log(val)
       this.initApplicationList()
       return Number(this.$store.state.currentFlow)
     }
@@ -150,14 +173,22 @@ export default {
         this.isDeleteActive = false
       }
     },
+    putAway () {
+      this.$emit('zoomChanged', 3)
+      this.isDeleteActive = false
+    },
     changeSmall () {
       this.$emit('zoomChanged', 1)
+      this.isDeleteActive = false
     },
     searchProject () {
       this.isSearchActive = true
     },
     deleteApp () {
       this.isDeleteActive = !this.isDeleteActive
+    },
+    refreshList () {
+      this.initApplicationList()
     },
     initApplicationList () {
       applicationApi.getApplicationList().then(res => {

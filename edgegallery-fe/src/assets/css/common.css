@@ -1165,5 +1165,5 @@ input::-webkit-input-placeholder {
 }
 
 .el-upload-list__item-name{
-  color: #ffffff !important;
+  color: rgb(25, 25, 252) !important;
 }

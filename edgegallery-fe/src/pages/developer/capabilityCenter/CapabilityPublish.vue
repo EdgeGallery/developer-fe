@@ -332,5 +332,7 @@ export default {
   }
   .file-tip-info{
     margin-left: 5px;
+    top: 0px;
+    left: 0px;
   }
 </style>

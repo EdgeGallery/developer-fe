@@ -598,7 +598,7 @@ export default {
       width: 80%;
       border-radius: 16px;
       padding: 25px 0px 0 0;
-      height: 320px;
+      height: 425px;
       .select_initialization{
         padding-top: 100px;
         text-align: center;
@@ -730,7 +730,7 @@ export default {
       height: auto !important;
       overflow-x: scroll;
       overflow-y: hidden;
-      margin: 20px 0 0 20px;
+      padding: 40px 0 0 20px;
       .swagger-ui{
         width: 860px;
       }
