@@ -220,6 +220,9 @@ export default {
   },
   mounted () {
     this.initApplicationList()
+    if (this.zoom > 2) {
+      this.isViewActive = true
+    }
   }
 }
 </script>
