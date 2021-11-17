@@ -69,8 +69,8 @@ export default {
   },
   data () {
     return {
-      uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + 'action/upload-file',
-      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + 'action/file-merge',
+      uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/upload-file',
+      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/file-merge',
       paramsName: 'identifier'
     }
   },
