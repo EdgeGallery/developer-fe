@@ -96,6 +96,10 @@ let appstoreApi = {
   },
   createOrder: function (param) {
     return POST(URL_PREFIX_APPSTORE + 'orders', param)
+  },
+  downloadAppPakageApi: function (appId, row, isDownloadImage) {
+    let URL = URL_PREFIX_APPSTORE + 'apps/' + appId + '/packages/' + row.packageId + '/action/download?isDownloadImage=' + isDownloadImage
+    window.open(URL)
   }
 }
 export {

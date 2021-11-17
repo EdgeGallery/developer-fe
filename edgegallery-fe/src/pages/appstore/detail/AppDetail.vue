@@ -572,12 +572,14 @@ export default {
     confirmImage (row) {
       this.isShowDownload = false
       this.isDownloadImage = false
+      appstoreApi.downloadAppPakageApi(this.appId, row, this.isDownloadImage)
     },
     ifDownloadImage (currentData, row) {
       if (this.currentData.deployMode === 'vm') {
         this.isShowDownload = true
       } else {
         this.isDownloadImage = false
+        appstoreApi.downloadAppPakageApi(this.appId, row, this.isDownloadImage)
       }
     },
     download (row) {
