@@ -68,5 +68,6 @@ function healthCheck (url) {
 export {
   logoutApi,
   loginApi,
-  healthCheck
+  healthCheck,
+  getCookie
 }

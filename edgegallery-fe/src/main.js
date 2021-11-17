@@ -29,6 +29,7 @@ import '../src/assets/css/common.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import EgMessageBox from '../src/components/MessageBox/index.js'
+import uploader from 'vue-simple-uploader'
 Vue.prototype.bus = new Vue()
 
 Vue.use(ElementUI, { locale })
@@ -36,6 +37,7 @@ Vue.prototype.$echarts = echarts
 Vue.use(VueCookies)
 Vue.use(EgMessageBox)
 Vue.use(mavonEditor)
+Vue.use(uploader)
 
 Vue.config.productionTip = false
 
