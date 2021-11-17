@@ -801,7 +801,7 @@
    padding-top: 200px;
  }
 
-.common-btn{
+.el-button.common-btn{
   /* box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8); */
   border-radius: 12px !important;
   padding: 6px 32px !important;
@@ -811,7 +811,7 @@
   font-size: 14px !important;
   margin-top: 10px !important;
 }
-.common-btn:hover{
+.el-button.common-btn:hover{
   color: #fff !important;
   background-color: #5347a0 !important;
 }
@@ -822,11 +822,11 @@
 .el-button+.el-button{
   margin-left: 32px !important;
 }
-.common-dark-btn{
+.el-button.common-dark-btn{
   color: #fff;
   background-color: #60569A;
 }
-.common-cancel-btn{
+.el-button.common-cancel-btn{
   padding: 6px 24px;
   color: #fff;
   font-family: defaultFontLight !important;
@@ -839,12 +839,12 @@
   margin-right: 15px!important;
 }
 
-.common-table{
+.el-table.common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
-.common-table, .el-table__expanded-cell, .common-table th.el-table__cell, 
-.common-table th,.common-table th.el-table__cell > .cell, .common-table tr, .common-table td.el-table__cell > .cell { 
+.el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
+.el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
   background-color: transparent;
   color: #fff;
 }
@@ -854,7 +854,7 @@ background-color:transparent !important
 .el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell, .el-table.more-rows-table thead th.is-leaf{
   border-bottom: none;
 }
-.common-table thead tr{
+.el-table.common-table thead tr{
   height: 30px;
   background-color: rgba(255,255,255,.3);
 }
@@ -873,7 +873,7 @@ th{
 .el-button--text,.el-button--text:hover{
   color: #fff;
 }
-.operation-btn-text{
+.el-button.operation-btn-text{
   font-size: 16px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
 }
@@ -935,20 +935,20 @@ th{
 .title-top{
   margin-top: 30px;
 }
-.common-form .el-form-item__label{
+.el-form.common-form .el-form-item__label{
   color: #fff;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
 }
-.common-form .el-input__inner,.common-form .el-textarea__inner{
+.el-form.common-form .el-input__inner,.el-form.common-form .el-textarea__inner{
   color: #fff;
   background-color: rgba(255,255,255,.5);
   border: none;
 }
 
-.common-form .el-input__inner:focus{
+.el-form.common-form .el-input__inner:focus{
   border: 1px solid #ddd;
 }
-.common-form .el-input-number--mini{
+.el-form.common-form .el-input-number--mini{
   width: 100%;
 }
 .el-input-number .el-input__inner{
@@ -1139,7 +1139,7 @@ img.next{
   color: #0F0D87;
   border-radius: 16px;
 }
-.common-input .el-input__inner{
+.el-input.common-input .el-input__inner{
   width: 180px;
   color: #fff;
   background-color: rgba(255,255,255,.45);
