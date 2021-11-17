@@ -308,7 +308,7 @@
       <div class="btn-container appPackageBtn">
         <el-button
           class="common-btn"
-          @click="jumpToPreview"
+          @click="packageApp"
         >
           {{ $t('appPackage.appdPreview') }}
         </el-button>
@@ -332,7 +332,7 @@ export default {
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
       // applicationId: sessionStorage.getItem('applicationId'),
-      applicationId: '0600229b-3e9e-4ec4-9ecc-ed9ed912d869',
+      applicationId: '017eedab-791e-4988-9476-2a8832a82446',
       packageId: ''
     }
   },
@@ -406,15 +406,15 @@ export default {
       this.capabalityDependsList = this.basicInfoData.appConfiguration.appServiceRequiredList
       this.capabalityReleaseDataList = this.basicInfoData.appConfiguration.appServiceProducedList
     },
-    jumpToPreview () {
-      this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
-    },
     packageApp () {
       imageApi.generatePackage(this.applicationId).then(res => {
-        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
-          this.$store.commit('changeFlow', '4')
-          this.$router.push('/EG/developer/home')
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: '打包成功',
+          type: 'success'
         })
+        this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
       }).catch(() => {
         this.$eg_messagebox('打包失败', 'error')
       })

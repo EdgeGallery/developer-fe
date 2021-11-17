@@ -21,7 +21,7 @@ import {
   PUT,
   DELETE
 } from '../tools/request.js'
-const URL_PREFIX_DEVELOPER = '/mec-developer/mec/developer/v2/'
+const URL_PREFIX_DEVELOPER = '/mec/developer/v2/'
 let sandbox = {
   // determine whether to select sandbox by applicationid
   getUserSelectSandbox (applicationid) {
@@ -206,10 +206,13 @@ let imageApi = {
     return GET(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
   },
   modifyPackageFile: function (packageId, fileName, params) {
-    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content?fileName' + fileName, params)
+    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content?fileName=' + fileName, params)
   },
   getFileInfo: function (fileId) {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
+  },
+  packageToZip: function (packageId) {
+    return POST(URL_PREFIX_DEVELOPER + 'apppackages' + packageId + '/action/zip-package')
   }
 }
 let atpTestApi = {

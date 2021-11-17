@@ -88,15 +88,27 @@ export default {
       fileType: '',
       fileContent: '',
       markdownSource: '',
-      // packageId: this.$route.query.packageId,
-      packageId: '3b604568-15ef-4bf0-b91f-c2572463219c',
+      packageId: this.$route.query.packageId,
       viewOrEdit: 'preview',
-      isEditFile: false
+      isEditFile: false,
+      modifyFileName: ''
     }
   },
   methods: {
     confirm () {
-      this.$router.push('/EG/images/appPackageBuild')
+      imageApi.packageToZip(this.packageId).then(res => {
+        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+          this.$store.commit('changeFlow', '4')
+          this.$router.push('/EG/developer/home')
+        })
+      }).catch(
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: '打包失败',
+          type: 'error'
+        })
+      )
     },
     getAppPackageList () {
       imageApi.getPackageStructure(this.packageId).then(res => {
@@ -122,8 +134,8 @@ export default {
       })
     },
     getFileDetail (val) {
-      let temp = val.name
-      this.fileType = temp.substr(temp.lastIndexOf('.'))
+      this.modifyFileName = val.name
+      this.fileType = this.modifyFileName.substr(this.modifyFileName.lastIndexOf('.'))
       if (!val.children) {
         imageApi.getPackageFile(this.packageId, val.name).then(res => {
           let typeArr = ['.zip', '.tgz', '.png']
@@ -132,7 +144,11 @@ export default {
           } else if (typeArr.includes(this.fileType)) {
             this.markdownSource = '文件格式不支持'
           } else if (this.fileType === '.json') {
-            this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+            if (res.data.length === 0) {
+              this.markdownSource = '文件内容为空'
+            } else {
+              this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+            }
           } else if (JSON.stringify(res.data) === '""') {
             this.markdownSource = '文件内容为空'
           } else {
@@ -142,16 +158,59 @@ export default {
       }
     },
     modifyFile () {
-      this.viewOrEdit = 'edit'
-      this.isEditFile = true
+      let typeArr = ['.yaml', '.json', '.meta', '.mf']
+      if (typeArr.includes(this.fileType)) {
+        this.markdownSource = this.markdownSource.substring(8, (this.markdownSource.length - 4))
+      }
+      let unSupportTypes = ['.zip', '.tgz', '.png']
+      if (unSupportTypes.includes(this.fileType)) {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: '格式不支持修改',
+          type: 'error'
+        })
+      } else {
+        this.viewOrEdit = 'edit'
+        this.isEditFile = true
+      }
     },
     saveFile () {
       this.viewOrEdit = 'preview'
       this.isEditFile = false
-      // imageApi.modifyPackageFile(this.packageId, this.modifyFileName, editMarkDownstr).then(res => {
-      //   this.viewOrEdit = 'preview'
-      //   this.isEditFile = false
-      // })
+      imageApi.getPackageFile(this.packageId, this.modifyFileName).then(response => {
+        if (this.fileType === '.json') {
+          let _configFileContent = JSON.stringify(response.data, null, 2)
+          if (_configFileContent !== this.markdownSource) {
+            let _editMarkDownstr = JSON.parse(this.markdownSource, null, 2)
+            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
+              this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+            })
+          } else {
+            this.markdownSource = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
+          }
+        } else if (this.fileType === '.yaml' || this.fileType === '.meta' || this.fileType === '.mf') {
+          let _configFileContent = response.data
+          if (_configFileContent !== this.markdownSource) {
+            let _editMarkDownstr = this.markdownSource
+            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
+              this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+            })
+          } else {
+            this.markdownSource = '```yaml\r\n' + response.data + '\r\n```'
+          }
+        } else {
+          let _configFileContent = response.data
+          if (_configFileContent !== this.markdownSource) {
+            let _editMarkDownstr = this.markdownSource
+            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
+              this.markdownSource = res.data
+            })
+          } else {
+            this.markdownSource = response.data
+          }
+        }
+      })
     }
   },
   mounted () {

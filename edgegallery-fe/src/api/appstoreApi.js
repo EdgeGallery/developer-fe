@@ -22,8 +22,8 @@ import {
   // DELETE
 } from '../tools/request.js'
 
-const URL_PREFIX_APPSTORE = '/mec-appstore/mec/appstore/v1/'
-const URL_PREFIX_APPSTORE_V2 = '/mec-appstore/mec/appstore/v2/'
+const URL_PREFIX_APPSTORE = '/mec/appstore/v1/'
+const URL_PREFIX_APPSTORE_V2 = '/mec/appstore/v2/'
 
 let appstoreApi = {
   getAppData: function (params) {
@@ -96,6 +96,10 @@ let appstoreApi = {
   },
   createOrder: function (param) {
     return POST(URL_PREFIX_APPSTORE + 'orders', param)
+  },
+  downloadAppPakageApi: function (appId, row, isDownloadImage) {
+    let URL = URL_PREFIX_APPSTORE + 'apps/' + appId + '/packages/' + row.packageId + '/action/download?isDownloadImage=' + isDownloadImage
+    window.open(URL)
   }
 }
 export {
