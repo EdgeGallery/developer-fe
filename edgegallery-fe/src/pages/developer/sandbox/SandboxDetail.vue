@@ -122,10 +122,11 @@
               @startUpVm="startUpVm"
               :vm-breath-style-prop="vmBreathStyle"
               :is-btn-start-prop="isBtnStart"
+              @uploadVmFile="uploadVmFile"
             />
           </div>
           <div class="details-bottom">
-            <p class="details-bottom-title lt defaultFontLight">
+            <p class="details-bottom-title lt defaultFontBlod">
               5G MEC
             </p>
             <div class="btn-container">
@@ -286,6 +287,12 @@
       v-show="showContent==='showVmDetail'"
       @closeVmDetail="closeVmDetail"
     />
+    <VmUploadFile
+      v-show="showContent==='showVmUploadFile'"
+      @closeVmUpload="closeVmUpload"
+      :application-id="applicationId"
+      :vm-id="vmId"
+    />
   </div>
 </template>
 
@@ -295,6 +302,7 @@ import AddVm from './AddVm.vue'
 import NetScroll from './NetScroll.vue'
 import VmDetail from './VmDetail.vue'
 import VmList from './VmList.vue'
+import VmUploadFile from './VmUploadFile.vue'
 import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxDetail',
@@ -303,7 +311,8 @@ export default {
     AddVm,
     NetScroll,
     VmDetail,
-    VmList
+    VmList,
+    VmUploadFile
   },
   data () {
     return {
@@ -324,7 +333,8 @@ export default {
       selectedNetworks: [],
       netWorkList: [],
       isMecSucess: false,
-      isUpfSucess: false
+      isUpfSucess: false,
+      vmId: ''
     }
   },
   methods: {
@@ -369,6 +379,12 @@ export default {
     closeVmDetail () {
       this.showContent = 'showDetail'
     },
+    uploadVmFile (data) {
+      this.showContent = data
+    },
+    closeVmUpload () {
+      this.showContent = 'showDetail'
+    },
     startUpVm (data) {
       this.isStartupVmFinish = data
     },
@@ -381,6 +397,7 @@ export default {
           return
         }
         let _data = res.data[0]
+        this.vmId = _data.id
         this.isStartupVmFinish = !!_data.vmInstantiateInfo
         this.isAddVmFinish = true
         this.configNetworkFinish = true
@@ -607,9 +624,9 @@ export default {
         margin-top: 60px;
         .details-bottom-title{
           font-size: 40px;
-          color: #fff;
-          font-weight:bold;
-          opacity: 0.5;
+          color: #0a0936;
+          font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+          opacity: 0.2;
         }
         .exportImage_btn_show{
           display: block;

@@ -67,6 +67,7 @@
           <div
             class="vm-btn flex-center hoverHands"
             :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            @click="vmVncLogin"
           >
             <el-tooltip
               class="item edit-tooltip"
@@ -83,6 +84,7 @@
           <div
             class="vm-btn flex-center hoverHands"
             :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            @click="uploadVmFile"
           >
             <el-tooltip
               class="item edit-tooltip"
@@ -191,7 +193,7 @@ export default {
       vmImageInformation: {
         imageName: '',
         status: '',
-        imageType: ''
+        downloadUrl: ''
       }
     }
   },
@@ -244,13 +246,13 @@ export default {
     },
     getVmExportStatus (operationId) {
       sandbox.getVmStatus(operationId).then(res => {
-        if (res.data) {
-          this.vmImageInformation.imageName = res.data.operationName
-          this.vmImageInformation.status = res.data.status
-          this.vmImageInformation.imageType = res.data.objectType
-          this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
-        }
         if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED') {
+          sandbox.getVmlist(this.applicationId).then(response => {
+            this.vmImageInformation.imageName = response.data.name
+            this.vmImageInformation.status = response.data.status
+            this.vmImageInformation.downloadUrl = response.data.downloadUrl
+            this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+          })
           clearTimeout(this.timerExport)
         }
       }).catch(() => {
@@ -279,6 +281,15 @@ export default {
           this.getVmExportStatus(res.data.operationId)
         }, 5000)
       })
+    },
+    vmVncLogin () {
+      sandbox.vncLogin(this.applicationId, this.vmId).then(res => {
+        window.open(res.data.vncUrl, '_blank')
+      })
+    },
+    uploadVmFile () {
+      this.bus.$emit('uploadVmFile', this.vmId)
+      this.$emit('uploadVmFile', 'showVmUploadFile')
     }
   },
   created () {
