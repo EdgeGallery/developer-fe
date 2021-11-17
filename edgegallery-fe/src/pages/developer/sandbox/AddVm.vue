@@ -16,241 +16,328 @@
 <template>
   <div class="addVm">
     <div class="common-div-bg addVm-bg">
-      <div class="vm-info">
-        <div class="addVm-top-title">
-          <p class="defaultFontLight">
-            <span>*</span>虚拟机名称
-          </p>
-          <el-input
-            class="common-input"
-            v-model="addvmImages.name"
-            placeholder="请输入虚拟机名称"
-          />
-        </div>
-        <div class="addVm-top-title defaultFontLight">
-          <p>用户名</p>
-          <el-input
-            class="common-input"
-            v-model="addvmImages.vmCertificate.pwdCertificate.username"
-            placeholder="请输入用户名"
-          />
-        </div>
-        <div class="addVm-top-title defaultFontLight">
-          <p>密码</p>
-          <el-input
-            type="password"
-            class="common-input"
-            show-password
-            v-model="addvmImages.vmCertificate.pwdCertificate.password"
-            placeholder="请输入密码"
-          />
-        </div>
-      </div>
-      <div class="simulator-info">
-        <div class="simulator-info-title">
-          <p>
-            <span />
-            选择虚拟机规格
-          </p>
-        </div>
-        <div class="simulator-info-content">
-          <div class="defaultFontLight">
-            <el-radio-group
-              v-model="vmInfo.archType"
-              @change="handleChangeArch"
-            >
-              <el-radio-button label="X86" />
-              <el-radio-button label="ARM" />
-            </el-radio-group>
-            <p class="vm-size defaultFontLight">
-              虚拟机规格
-            </p>
+      <el-collapse
+        v-model="activeNames"
+        class="vmCollapse"
+      >
+        <el-collapse-item
+          title="虚拟机信息"
+          name="1"
+        >
+          <div class="vm-info">
+            <div class="addVm-top-title">
+              <p class="defaultFontLight">
+                <span>*</span>虚拟机名称
+              </p>
+              <el-input
+                class="common-input"
+                v-model="addvmImages.name"
+                placeholder="请输入虚拟机名称"
+              />
+            </div>
+            <div class="addVm-top-title defaultFontLight">
+              <p>用户名</p>
+              <el-input
+                class="common-input"
+                v-model="addvmImages.vmCertificate.pwdCertificate.username"
+                placeholder="请输入用户名"
+              />
+            </div>
+            <div class="addVm-top-title defaultFontLight">
+              <p>密码</p>
+              <el-input
+                type="password"
+                class="common-input"
+                show-password
+                v-model="addvmImages.vmCertificate.pwdCertificate.password"
+                placeholder="请输入密码"
+              />
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item
+          title="选择虚拟机规格"
+          name="2"
+        >
+          <div class="simulator-info-content">
+            <div class="defaultFontLight">
+              <el-radio-group
+                v-model="vmInfo.archType"
+                @change="handleChangeArch"
+              >
+                <el-radio-button label="X86" />
+                <el-radio-button label="ARM" />
+              </el-radio-group>
+              <p class="vm-size defaultFontLight">
+                虚拟机规格
+              </p>
+              <el-table
+                :data="vmInfo.vmRegulationList"
+                class="common-table vm-table"
+              >
+                <el-table-column width="35px">
+                  <template slot-scope="scope">
+                    <el-radio
+                      :label="scope.row.id"
+                      v-model="addvmImages.flavorId"
+                      class="work-radio"
+                    />
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="名称"
+                  width="140"
+                  show-overflow-tooltip
+                >
+                  <template slot-scope="scope">
+                    {{ scope.row.name }}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="sence"
+                  label="使用场景"
+                  width="110"
+                  show-overflow-tooltip
+                >
+                  <template slot-scope="scope">
+                    {{ scope.row.description }}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="cpu"
+                  label="CPU"
+                  width="110"
+                  show-overflow-tooltip
+                  :formatter="appendCPUUnit"
+                />
+                <el-table-column
+                  prop="memory"
+                  label="内存"
+                  width="110"
+                  show-overflow-tooltip
+                  :formatter="appendSizeUnit"
+                />
+                <el-table-column
+                  prop="systemDiskSize"
+                  label="系统盘"
+                  width="110"
+                  show-overflow-tooltip
+                  :formatter="appendSizeUnit"
+                />
+                <el-table-column
+                  prop="dataDiskSize"
+                  label="数据盘"
+                  width="100"
+                  show-overflow-tooltip
+                  :formatter="appendSizeUnit"
+                />
+                <el-table-column
+                  prop="otherExtraInfo"
+                  label="其他能力"
+                  width="100"
+                  show-overflow-tooltip
+                />
+              </el-table>
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item
+          title="配置网络端口"
+          name="3"
+        >
+          <div class="internetInfos">
             <el-table
-              :data="vmInfo.vmRegulationList"
-              class="common-table vm-table"
+              class="common-table network-table vm-table"
+              :data="vmNetworkList"
             >
-              <el-table-column width="35px">
+              <el-table-column width="35">
                 <template slot-scope="scope">
-                  <el-radio
-                    :label="scope.row.id"
-                    v-model="addvmImages.flavorId"
-                    class="work-radio"
+                  <el-checkbox
+                    v-model="selectedNetworks"
+                    :label="scope.row.name"
+                    @change="changeInternet(selectedNetworks)"
                   />
                 </template>
               </el-table-column>
               <el-table-column
                 prop="name"
+                width="200px"
                 label="名称"
-                width="140"
                 show-overflow-tooltip
-              >
-                <template slot-scope="scope">
-                  {{ scope.row.name }}
-                </template>
-              </el-table-column>
+              />
               <el-table-column
-                prop="sence"
-                label="使用场景"
-                width="110"
-                show-overflow-tooltip
+                label="描述"
               >
                 <template slot-scope="scope">
                   {{ scope.row.description }}
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="cpu"
-                label="CPU"
-                width="110"
-                show-overflow-tooltip
-                :formatter="appendCPUUnit"
-              />
-              <el-table-column
-                prop="memory"
-                label="内存"
-                width="110"
-                show-overflow-tooltip
-                :formatter="appendSizeUnit"
-              />
-              <el-table-column
-                prop="systemDiskSize"
-                label="系统盘"
-                width="110"
-                show-overflow-tooltip
-                :formatter="appendSizeUnit"
-              />
-              <el-table-column
-                prop="dataDiskSize"
-                label="数据盘"
-                width="100"
-                show-overflow-tooltip
-                :formatter="appendSizeUnit"
-              />
-              <el-table-column
-                prop="otherExtraInfo"
-                label="其他能力"
-                width="100"
-                show-overflow-tooltip
-              />
             </el-table>
           </div>
-        </div>
-      </div>
-      <div class="simulator-info config-port">
-        <div class="simulator-info-title">
-          <p>
-            <span />
-            配置网络端口
-          </p>
-        </div>
-        <div class="simulator-info-content">
-          <el-table
-            class="common-table network-table vm-table"
-            :data="vmNetworkList"
-          >
-            <el-table-column width="35">
-              <template slot-scope="scope">
-                <el-checkbox
-                  v-model="selectedNetworks"
-                  :label="scope.row.name"
-                  @change="changeInternet(selectedNetworks)"
+        </el-collapse-item>
+        <el-collapse-item
+          title="选择镜像"
+          name="4"
+        >
+          <div class="selectImage-content">
+            <div class="selectImage-public defaultFontLight">
+              <el-radio
+                label="public"
+                v-model="vmInfo.imageType"
+                @change="changeImageType('public')"
+              >
+                公有镜像
+              </el-radio>
+              <el-select
+                v-model="vmInfo.publicSystemName"
+                placeholder="请选择"
+                @change="changePublicType(vmInfo.publicSystemName)"
+                :disabled="vmInfo.imageType === 'private'"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.publicSystemType"
+                  :key="index"
+                  :label="item"
+                  :value="item"
                 />
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              width="200px"
-              label="名称"
-              show-overflow-tooltip
+              </el-select>
+              <el-select
+                v-model="vmInfo.publicId"
+                placeholder="请选择"
+                :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.publicImageOptions"
+                  :key="index"
+                  :label="item.systemImage"
+                  :value="item.id"
+                />
+              </el-select>
+            </div>
+            <div class="selectImage-public defaultFontLight">
+              <el-radio
+                v-model="vmInfo.imageType"
+                label="private"
+                @change="changeImageType('private')"
+              >
+                私有镜像
+              </el-radio>
+              <el-select
+                v-model="vmInfo.privateSystemName"
+                @change="changePrivateType(vmInfo.privateSystemName)"
+                placeholder="请选择"
+                :disabled="vmInfo.imageType === 'public'"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.privateSystemType"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+              <el-select
+                v-model="vmInfo.privateId"
+                placeholder="请选择"
+                :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.privateImageOptions"
+                  :key="index"
+                  :label="item.systemImage"
+                  :value="item.id"
+                />
+              </el-select>
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item
+          title="主机主配置"
+          name="5"
+        >
+          <div
+            class="item-right"
+            @click="clickEdit('flavor')"
+          >
+            <p v-if="viewOrEditFlavor === 'preview'">
+              {{ '编辑' }}
+            </p>
+            <p v-else>
+              {{ '保存' }}
+            </p>
+          </div>
+          <div class="editor-wrapper">
+            <mavon-editor
+              class="editor"
+              v-model="flavorExtraSpecs"
+              :toolbars-flag="false"
+              :subfield="false"
+              :default-open="viewOrEditFlavor"
+              :box-shadow="false"
+              preview-background="#ffffff"
             />
-            <el-table-column
-              label="描述"
-            >
-              <template slot-scope="scope">
-                {{ scope.row.description }}
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-      <div class="simulator-info selectImage-info">
-        <div class="simulator-info-title">
-          <p>
-            <span />
-            选择镜像
-          </p>
-        </div>
-        <div class="selectImage-content">
-          <div class="selectImage-public defaultFontLight">
-            <el-radio
-              label="public"
-              v-model="vmInfo.imageType"
-              @change="changeImageType('public')"
-            >
-              公有镜像
-            </el-radio>
-            <el-select
-              v-model="vmInfo.publicSystemName"
-              placeholder="请选择"
-              @change="changePublicType(vmInfo.publicSystemName)"
-              :disabled="vmInfo.imageType === 'private'"
-            >
-              <el-option
-                v-for="(item,index) in vmInfo.publicSystemType"
-                :key="index"
-                :label="item"
-                :value="item"
-              />
-            </el-select>
-            <el-select
-              v-model="vmInfo.publicId"
-              placeholder="请选择"
-              :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
-            >
-              <el-option
-                v-for="(item,index) in vmInfo.publicImageOptions"
-                :key="index"
-                :label="item.systemImage"
-                :value="item.id"
-              />
-            </el-select>
           </div>
-          <div class="selectImage-public defaultFontLight">
-            <el-radio
-              v-model="vmInfo.imageType"
-              label="private"
-              @change="changeImageType('private')"
+        </el-collapse-item>
+        <el-collapse-item
+          title="脚本"
+          name="6"
+        >
+          <div>
+            <el-radio-group
+              class="work-radio"
+              v-model="isInjectScript"
+              @change="handleSelectInjectScript"
             >
-              私有镜像
-            </el-radio>
-            <el-select
-              v-model="vmInfo.privateSystemName"
-              @change="changePrivateType(vmInfo.privateSystemName)"
-              placeholder="请选择"
-              :disabled="vmInfo.imageType === 'public'"
+              <el-radio label="select">
+                true
+              </el-radio>
+              <el-radio label="cancel">
+                false
+              </el-radio>
+            </el-radio-group>
+            <div
+              class="script-div"
+              v-if="changeResult"
             >
-              <el-option
-                v-for="(item,index) in vmInfo.privateSystemType"
-                :key="index"
-                :label="item"
-                :value="item"
-              />
-            </el-select>
-            <el-select
-              v-model="vmInfo.privateId"
-              placeholder="请选择"
-              :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
-            >
-              <el-option
-                v-for="(item,index) in vmInfo.privateImageOptions"
-                :key="index"
-                :label="item.systemImage"
-                :value="item.id"
-              />
-            </el-select>
+              <div class="script-content">
+                <el-collapse
+                  v-model="activeScriptEditPanel"
+                  accordion
+                >
+                  <el-link
+                    class="edit"
+                    :underline="false"
+                    @click.stop="clickEdit('content')"
+                  >
+                    <p v-if="viewOrEditContent === 'preview'">
+                      {{ '编辑' }}
+                    </p>
+                    <p v-else>
+                      {{ '保存' }}
+                    </p>
+                  </el-link>
+                  <el-collapse-item
+                    name="1"
+                    title="contents"
+                  >
+                    <template slot="title">
+                      contents
+                    </template>
+                    <mavon-editor
+                      v-model="userData"
+                      :toolbars-flag="false"
+                      :subfield="false"
+                      :default-open="viewOrEditContent"
+                      :box-shadow="false"
+                      preview-background="transparent"
+                    />
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </el-collapse-item>
+      </el-collapse>
       <div class="addVm-btn rt">
         <el-button
           class="common-btn"
@@ -287,6 +374,7 @@ export default {
   data () {
     return {
       language: localStorage.getItem('language'),
+      activeNames: ['1'],
       addvmImages: {
         name: '',
         flavorId: '',
@@ -300,7 +388,8 @@ export default {
           keyPairCertificate: null
         },
         areaZone: 'nova',
-        userDate: null,
+        userData: null,
+        flavorExtraSpecs: null,
         portList: []
       },
       vmInfo: {
@@ -336,6 +425,16 @@ export default {
         }
       },
       imageList: [],
+      isInjectScript: 'cancel',
+      changeResult: false,
+      activeScriptEditPanel: '1',
+      contentDefaultData: '',
+      viewOrEditContent: 'preview',
+      viewOrEditParams: 'preview',
+      FlavorDefaultData: '',
+      viewOrEditFlavor: 'preview',
+      userData: null,
+      flavorExtraSpecs: null,
       applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
@@ -421,6 +520,15 @@ export default {
     changePublicType (data) {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
+      sandbox.getScriptByImageId(data).then(res => {
+        this.contentDefaultData = '```shell\r\n' + res.data.replace(/\\r\\n/g, '\n') + '\r\n```'
+        this.contentDefaultData = this.contentDefaultData.replace(/\n/g, '\\r\\n')
+        this.contentDefaultData = this.contentDefaultData.substring(13, (this.contentDefaultData.length - 8))
+        this.userData = '```shell\r\n' + res.data.replace(/\\r\\n/g, '\n') + '\r\n```'
+        this.flavorDefaultData = this.flavorExtraSpecs
+        this.flavorExtraSpecs = '```shell\r\n' + this.flavorExtraSpecs.replace(/\\r\\n/g, '\n') + '\r\n```'
+        console.log(this.userData)
+      })
       this.vmInfo.publicSystemImage.forEach(item => {
         if (item.systemType === data) {
           this.vmInfo.publicImageOptions.push(item)
@@ -430,6 +538,9 @@ export default {
     changePrivateType (data) {
       this.vmInfo.privateId = ''
       this.vmInfo.privateImageOptions = []
+      sandbox.getScriptByImageId(data).then(res => {
+        console.log(res.data)
+      })
       this.vmInfo.privateSystemImage.forEach(item => {
         if (item.systemType === data) {
           this.vmInfo.privateImageOptions.push(item)
@@ -441,6 +552,36 @@ export default {
     },
     appendSizeUnit (row, column, cellValue) {
       return cellValue + 'GB'
+    },
+    handleSelectInjectScript (val) {
+      if (val === 'select') {
+        this.changeResult = true
+      } else if (val === 'cancel') {
+        this.changeResult = false
+      }
+    },
+    clickEdit (name) {
+      if (name === 'content') {
+        if (this.viewOrEditContent === 'edit') {
+          this.viewOrEditContent = 'preview'
+          console.log(this.viewOrEditContent)
+        } else {
+          this.viewOrEditContent = 'edit'
+          console.log(this.viewOrEditContent)
+        }
+      } else if (name === 'params') {
+        if (this.viewOrEditParams === 'edit') {
+          this.viewOrEditParams = 'preview'
+        } else {
+          this.viewOrEditParams = 'edit'
+        }
+      } else if (name === 'flavor') {
+        if (this.viewOrEditFlavor === 'edit') {
+          this.viewOrEditFlavor = 'preview'
+        } else {
+          this.viewOrEditFlavor = 'edit'
+        }
+      }
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -455,6 +596,25 @@ export default {
     addVmFinish (type) {
       let _data = []
       if (type === 'confirm') {
+        if (this.changeResult) {
+          this.addvmImages.userData = this.userData
+          this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
+        } else {
+          this.addvmImages.userData = ''
+          this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
+        }
+        this.addvmImages.userData = this.addvmImages.userData.replace(/\n/g, '\\r\\n')
+        this.addvmImages.flavorExtraSpecs = this.addvmImages.flavorExtraSpecs.replace(/\n/g, '\\r\\n')
+        let _flavorTemp = this.addvmImages.flavorExtraSpecs
+        let _contentTemp = this.addvmImages.userData
+        this.addvmImages.flavorExtraSpecs = _flavorTemp.substring(13, (_flavorTemp.length - 8))
+        this.addvmImages.userData = _contentTemp.substring(13, (_contentTemp.length - 8))
+        if (this.flavorDefaultData !== this.addvmImages.flavorExtraSpecs) {
+          this.addvmImages.flavorExtraSpecs = _flavorTemp.substring(12, (_flavorTemp.length - 7))
+        }
+        if (this.contentDefaultData !== this.addvmImages.userData) {
+          this.addvmImages.userData = _contentTemp.substring(12, (_contentTemp.length - 7))
+        }
         this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
@@ -514,7 +674,7 @@ export default {
     margin: 0px auto;
     padding: 40px;
     .vm-info{
-      margin: 0 0 30px 20px;
+      margin: 0 0 30px 0px;
       .addVm-top-title{
         display: flex;
         margin: 20px 0px;
@@ -537,66 +697,55 @@ export default {
         }
       }
     }
-    .simulator-info{
-      margin-bottom: 30px;
-      .simulator-info-title{
-        p{
-          font-size: 20px;
-          display: flex;
-          span{
-            display: block;
-            background-color: #5944C0;
-            width: 9px;
-            height: 9px;
-            border-radius:50%;
-            margin: 10px 20px 0 0 ;
-          }
-        }
-      }
-      .simulator-info-content{
-        .el-radio-group{
-          margin: 10px 0 0 130px;
-          .el-radio-button__inner {
-            background: none;
-            color: #fff;
-            border: none;
-            border-bottom:4px solid #8f86cc ;
-          }
-          .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-            background-color: none;
-            border-bottom:4px solid #5944C0 ;
-            box-shadow: none;
-          }
-        }
-        .vm-size{
-          margin: 20px 0 20px 144px;
-        }
-        .vm-table{
-          margin-left: 130px;
-          width: 816px;
-          .el-table__row{
-            border: 2px solid red !important;
-            height: 59px;
-          }
-        }
-        .network-table{
-          margin-top: 20px;
-        }
-        .el-table td,.el-table tr.is-leaf {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-      }
+    .addVm-btn{
+      margin-right: 30px;
     }
-    .selectImage-info{
+  }
+  .el-radio__input.is-checked .el-radio__inner::after {
+    background: #7ED4A9;
+    width: 8px;
+    height: 8px;
+  }
+ .el-radio__inner {
+      border:1px solid #fff;
+      background-color: #C4C4C4;
+  }
+  .el-radio__input.is-checked .el-radio__inner {
+      background: #6d5dc1;
+  }
+  .el-collapse {
+    border-top:none;
+    border-bottom:none;
+    .el-radio__label {
+      color: #5944C0;
+    }
+    .el-collapse-item__header{
+      background: none;
+      border-bottom:none;
+      padding-left: 10px;
+    }
+    .el-collapse-item__header:hover{
+      background-color: #5944C0;
+      border-radius: 15px;
+      color: #fff;
+    }
+    .el-collapse-item__wrap{
+      background: none;
+      border-bottom:none;
+      padding-left: 40px;
+      .internetInfos{
+        margin-top: 30px;
+      }
       .selectImage-content{
-        margin-left: 140px;
+        margin-left: 40px;
+        margin-top: 30px;
         .selectImage-public{
           display: flex;
           margin-bottom: 20px;
           .el-radio{
             height: 25px;
             line-height: 25px;
-            color: #fff;
+            color: rgb(27, 13, 13);
           }
           .el-radio__input.is-checked + .el-radio__label {
             color: #fff;
@@ -622,22 +771,24 @@ export default {
           }
         }
       }
+        .simulator-info-content{
+          .el-radio-group{
+            margin: 10px 0 0 50px;
+            .el-radio-button__inner {
+              background: none;
+              color: #fff;
+              border: none;
+              border-bottom:4px solid #8f86cc ;
+            }
+            .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+              background-color: none;
+              border-bottom:4px solid #5944C0 ;
+              box-shadow: none;
+            }
+          }
+        }
     }
-    .addVm-btn{
-      margin-right: 30px;
-    }
   }
-  .el-radio__input.is-checked .el-radio__inner::after {
-    background: #7ED4A9;
-    width: 8px;
-    height: 8px;
-  }
- .el-radio__inner {
-      border:1px solid #fff;
-      background-color: #C4C4C4;
-  }
-  .el-radio__input.is-checked .el-radio__inner {
-      background: #6d5dc1;
-  }
+
 }
 </style>

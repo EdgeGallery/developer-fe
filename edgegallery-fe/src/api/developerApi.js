@@ -94,6 +94,9 @@ let sandbox = {
   },
   getVmDetailFlavor (flavorId) {
     return GET(urlPrefix + 'flavors/' + flavorId)
+  },
+  getScriptByImageId (osType) {
+    return GET(urlPrefix + 'user-data?' + 'osType=' + osType)
   }
 }
 
