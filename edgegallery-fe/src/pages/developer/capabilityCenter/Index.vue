@@ -26,7 +26,7 @@
           alt=""
         >
         <p class="capabilityInfo fontUltraLight">
-          请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。如果是集成项目，或者您的项目不需要依赖其他服务，可以跳过该步骤继续创建。
+          请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。如果是集成应用，或者您的应用不需要依赖其他服务，可以跳过该步骤继续创建。
         </p>
       </div>
       <div class="upper-ability">
@@ -126,22 +126,37 @@
         </div>
       </div>
     </div>
-    <!-- <div class="capability-publish">
-      <h3 class="common-dlg-title">
+    <div class="capability-publish">
+      <h3 class="common-dlg-title service-publish">
         能力发布
+        <el-button
+          class="rt"
+          type="primary"
+          @click="publishService()"
+        >
+          添加能力
+        </el-button>
       </h3>
       <el-table
         class="common-table"
-        :data="filterTableData"
+        :data="serviceTableData"
         :cell-style="{ textAlign: 'center' }"
         :header-cell-style="{textAlign: 'center'}"
       >
         <el-table-column
-          prop="ruleTag"
-          label="规则标识"
+          prop="serviceName"
+          label="服务名称"
         />
         <el-table-column
-          prop="innerPort"
+          prop="oneLevelName"
+          label="一级能力"
+        />
+        <el-table-column
+          prop="twoLevelName"
+          label="二级能力"
+        />
+        <el-table-column
+          prop="internalPort"
           label="内部端口号"
         />
         <el-table-column
@@ -149,39 +164,32 @@
           label="版本"
         />
         <el-table-column
-          prop="dnsRule"
-          label="DNS规则"
-        />
-        <el-table-column
           prop="protocol"
           label="协议"
-        />
-        <el-table-column
-          prop="trafficRule"
-          label="流量规则"
         />
         <el-table-column
           :label="$t('common.operation')"
           width="120px"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
               type="text"
               class="operation-btn-text"
-              @click="editCapability"
+              @click="publishService(scope.row)"
             >
               {{ $t('common.edit') }}
             </el-button>
             <el-button
               type="text"
               class="operation-btn-text"
+              @click="deletePublishedService(scope.row.appServiceProducedId)"
             >
               {{ $t('common.delete') }}
             </el-button>
           </template>
         </el-table-column>
       </el-table>
-    </div> -->
+    </div>
     <div class="rt">
       <el-button
         class="common-btn"
@@ -203,6 +211,7 @@
 import { applicationApi } from '../../../api/developerApi.js'
 import { formatDate } from '../../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
+import 'swagger-ui/dist/swagger-ui.css'
 export default {
   name: 'CapabilityCenter',
   data () {
@@ -280,16 +289,7 @@ export default {
         node: null,
         resolve: null
       },
-      filterTableData: [
-        {
-          ruleTag: '1234567',
-          innerPort: '3022',
-          version: 'v1.205',
-          protocol: 'https',
-          dnsRule: 'asdf',
-          trafficRule: 'q23r'
-        }
-      ],
+      serviceTableData: [],
       capaList: [],
       hasNoSelect: false,
       groupId: '',
@@ -303,15 +303,24 @@ export default {
       if (type === 2) {
         sessionStorage.setItem('isCapabilityActive', true)
         this.$store.commit('changeFlow', '2')
+        this.$message.success('添加能力成功！')
       }
-      this.$message.success('添加能力成功！')
       this.$router.push('/EG/developer/home')
     },
-    editCapability () {
-      this.$router.push('/EG/developer/capabilityPublish')
+    publishService  (service) {
+      if (service) {
+        this.$router.push({ path: '/EG/developer/capabilityPublish', query: service })
+      } else {
+        this.$router.push('/EG/developer/capabilityPublish')
+      }
     },
     getTipDisabled (node, data) {
       return data.children || (!data.children && node.label.length < 7)
+    },
+    getPublishedService () {
+      applicationApi.getPublishedService(this.appId).then(res => {
+        this.serviceTableData = res.data
+      })
     },
     async handleDeleteTag (tag) {
       let index = this.selectedService.indexOf(tag)
@@ -319,13 +328,25 @@ export default {
         this.selectedService.splice(index, 1)
       }
       this.$refs.treeList.setChecked(tag.id, false)
-      this.deleteServices(tag.host)
+      this.deleteServices(tag.id)
     },
     deleteServices (serId) {
       applicationApi.deleteService(this.appId, serId).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
+      })
+    },
+    deletePublishedService (id) {
+      this.$confirm('此操作将永久删除该能力, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        applicationApi.deletePublishedService(this.appId, id).then(res => {
+          this.$message.success('删除已发布能力成功！')
+          this.getPublishedService()
+        })
       })
     },
     async handleNodeClick (data) {
@@ -392,7 +413,7 @@ export default {
           this.selectedService.forEach((ser, index) => {
             if (ser.id === data.id) {
               this.selectedService.splice(index, 1)
-              this.deleteServices(ser.serName)
+              this.deleteServices(ser.id)
             }
           })
         }
@@ -456,6 +477,9 @@ export default {
         console.log(err)
       })
     }
+  },
+  mounted () {
+    this.getPublishedService()
   }
 }
 
@@ -816,5 +840,8 @@ export default {
 }
 .capability-publish{
   clear: both;
+}
+.service-publish{
+  padding-right: 1%;
 }
 </style>

@@ -37,6 +37,9 @@
    padding:0;
    box-sizing: border-box;
  }
+ textarea::-webkit-input-placeholder{
+   color: #fff;
+ }
  .defaultFont button{
    font-family:defaultFont, Arial, Helvetica, sans-serif;
  }
@@ -988,7 +991,7 @@ th{
 .common-dlg-title{
   font-weight: normal;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin: 15px;
 }
 .common-dlg-title:before{
   display: inline-block;
@@ -1059,7 +1062,7 @@ th{
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -18px;
   left: -29px;
@@ -1070,7 +1073,7 @@ th{
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -58px;
   left: -29px;
@@ -1096,15 +1099,16 @@ img.next{
   animation-duration:2000ms;
   animation-iteration-count:infinite;
   animation-direction:alternate;
-  @keyframes next  {
-    0%{
-       opacity:0.2;
-       filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
-    }
-    100%{
-      opacity:1;
-       filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.8));
-    }
+}
+
+@keyframes breathe  {
+  0%{
+     opacity:0.2;
+     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
+  }
+  100%{
+    opacity:1;
+     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.8));
   }
 }
 
@@ -1158,4 +1162,8 @@ input::-webkit-input-placeholder {
   position: absolute;
   top: 8px;
   left: -18px;
+}
+
+.el-upload-list__item-name{
+  color: #ffffff !important;
 }

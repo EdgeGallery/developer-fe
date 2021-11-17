@@ -33,7 +33,7 @@
           <el-row>
             <el-col :span="6">
               <p class="left">
-                项目名称
+                应用名称
               </p>
               <p>
                 {{ basicInfoData.name }}

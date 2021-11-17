@@ -1,7 +1,7 @@
 <template>
   <div class="new-application">
     <h3 class="common-dlg-title lt">
-      项目信息
+      应用信息
     </h3>
     <div>
       <el-form
@@ -246,7 +246,7 @@ export default {
           { required: true, message: '请输入应用描述', trigger: 'blur' }
         ]
       },
-      defaultIconSrc: require('../../../assets/images/projects/pro_history_pro.png'),
+      defaultIconSrc: require('../../../assets/images/application/app_history_pro.png'),
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -353,13 +353,12 @@ export default {
           }
         }
       }
-      console.log(this.mdFileList)
     },
     uploadMdFile (fileId) {
       let formdata = new FormData()
       formdata.append('file', this.mdFileList[0])
       formdata.append('fileType', 'md')
-      applicationApi.uploadAppIcon(formdata).then(res => {
+      applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
           this.confirmToCreate(fileId, res.data.fileId)
         }
@@ -381,7 +380,7 @@ export default {
           if (this.appId.length > 0) {
             this.modifyApp()
           } else {
-            applicationApi.uploadAppIcon(formdata).then(res => {
+            applicationApi.uploadFileApi(formdata).then(res => {
               if (res.data && res.data.fileId) {
                 this.uploadMdFile(res.data.fileId)
               }
@@ -426,18 +425,24 @@ export default {
       })
     },
     getFileIconInfo (iconFileId) {
-      applicationApi.getFileInfo(iconFileId).then(res => {
-        console.log(res)
-      })
+      let image = new Image()
+      image.src = '/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream'
+      image.onload = () => {
+        let base64 = this.getBase64Image(image)
+        this.logoFileList.push(this.base64toFile(base64))
+      }
     },
     getMdFileInfo (mdFileId) {
       applicationApi.getFileInfo(mdFileId).then(res => {
-        console.log(res)
+        this.mdFileList.length = 0
+        let obj = { name: res.data.fileName }
+        this.mdFileList.push(obj)
       })
     }
   },
   mounted () {
     this.conversionIcon()
+    this.getMdFileInfo()
     if (this.appId.length > 0) {
       this.getApplicationInfo(this.appId)
     }
@@ -456,7 +461,7 @@ export default {
     .default-icon{
       width: 30px;
       height: 30px;
-      background: url("../../../assets/images/projects/pro_history_pro.png") no-repeat center;
+      background: url("../../../assets/images/application/app_history_pro.png") no-repeat center;
       background-size: cover;
     }
     // .choose-default-icon::after{

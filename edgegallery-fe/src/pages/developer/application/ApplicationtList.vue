@@ -53,7 +53,7 @@
         class="app-list-title"
         v-if="zoom!==2"
       >
-        新建项目/最近创建
+        新建应用/最近创建
       </div>
       <div
         class="app-list-main"
@@ -171,8 +171,8 @@ export default {
             {
               id: 0,
               type: 'normal',
-              iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
-              name: '新增项目'
+              iconUrl: require('../../../assets/images/application/app_add_new.png'),
+              name: '新增应用'
             }
           ]
           data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
@@ -205,25 +205,25 @@ export default {
       background-size: cover;
     }
     .zoom{
-      background: url("../../../assets/images/projects/pro_zoom_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_zoom_default.png") no-repeat center;
     }
     .search-default{
-      background: url("../../../assets/images/projects/pro_search_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_search_default.png") no-repeat center;
     }
     .search-active{
-      background: url("../../../assets/images/projects/pro_search_after.png") no-repeat center;
+      background: url("../../../assets/images/application/app_search_after.png") no-repeat center;
     }
     .delete-default{
-      background: url("../../../assets/images/projects/pro_delete_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_delete_default.png") no-repeat center;
     }
     .delete-active{
-      background: url("../../../assets/images/projects/pro_delete_click.png") no-repeat center;
+      background: url("../../../assets/images/application/app_delete_click.png") no-repeat center;
     }
     .view-default{
-      background: url("../../../assets/images/projects/pro_view_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_view_default.png") no-repeat center;
     }
     .view-active{
-      background: url("../../../assets/images/projects/pro_put_away.png") no-repeat center;
+      background: url("../../../assets/images/application/app_put_away.png") no-repeat center;
     }
   }
   .app-list-main{
@@ -241,6 +241,7 @@ export default {
   }
   .app-flex-main{
     margin-left: 50px;
+    overflow-y: auto;
   }
   .app-list-title{
     font-size: 20px;

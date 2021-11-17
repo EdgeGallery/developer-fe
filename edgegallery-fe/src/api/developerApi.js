@@ -119,8 +119,8 @@ let applicationApi = {
   getFileInfo: function (fileId) {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
   },
-  uploadAppIcon: function (params) {
-    return POST(URL_PREFIX_DEVELOPER + 'upload-files', params)
+  uploadFileApi: function (params) {
+    return POST('/mec-developer/mec/developer/v2/upload-files', params)
   },
   createNewApp: function (params) {
     return POST(URL_PREFIX_DEVELOPER + 'applications', params)
@@ -137,14 +137,23 @@ let applicationApi = {
   getServiceDependencies (appId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds')
   },
-  deleteService: function (appId, serName) {
-    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds/' + serName)
+  deleteService: function (appId, serId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds/' + serId)
   },
   getApiUrl: function (apiFileId) {
-    return URL_PREFIX_DEVELOPER + 'upload-files/' + apiFileId + '/action/get-file-stream'
+    return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
   },
-  publishApp: function (applicationId, params) {
-    return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/release', params)
+  publishService: function (appId, params) {
+    return POST('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds', params)
+  },
+  getPublishedService: function (appId) {
+    return GET('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds')
+  },
+  modifyPublishedService: function (appId, serId, params) {
+    return PUT('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId, params)
+  },
+  deletePublishedService: function (appId, serId) {
+    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId)
   }
 }
 
