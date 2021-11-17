@@ -8,13 +8,12 @@
     >
       <div
         class="app-item-delete"
-        @click="deleteApp(item.id)"
+        @click.stop="deleteApp(item.id)"
         v-if="item.id!==0&&showDeleteBtn"
       />
       <img
         :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
         :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
-        :class="item.isCurrent?'current':''"
       >
       <div
         class="app-name"
@@ -59,11 +58,6 @@ export default {
     checkProjectDetail (item) {
       sessionStorage.setItem('applicationId', item.id)
       sessionStorage.setItem('isCreate', '1')
-      this.dataList.forEach(it => {
-        if (it.id === item.id) {
-          it.isCurrent = true
-        }
-      })
       this.$emit('putAway')
       this.$store.commit('changeApp', item.name)
       this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGUARED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
