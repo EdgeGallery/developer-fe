@@ -408,6 +408,7 @@ export default {
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
         this.$message.success('创建应用成功！')
+        this.$store.commit('changeApp', res.data.name)
         this.$router.push('/EG/developer/home')
       }).catch(err => {
         console.log(err)
@@ -434,9 +435,11 @@ export default {
     },
     getMdFileInfo (mdFileId) {
       applicationApi.getFileInfo(mdFileId).then(res => {
-        this.mdFileList.length = 0
-        let obj = { name: res.data.fileName }
-        this.mdFileList.push(obj)
+        if (res && res.data) {
+          this.mdFileList.length = 0
+          let obj = { name: res.data.fileName }
+          this.mdFileList.push(obj)
+        }
       })
     }
   },
@@ -464,9 +467,6 @@ export default {
       background: url("../../../assets/images/application/app_history_pro.png") no-repeat center;
       background-size: cover;
     }
-    // .choose-default-icon::after{
-
-    // }
     .or{
       line-height: 30px;
       margin: 0 10px;

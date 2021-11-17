@@ -58,15 +58,23 @@ export default {
   methods: {
     checkProjectDetail (item) {
       sessionStorage.setItem('applicationId', item.id)
-      item.isCurrent = true
       sessionStorage.setItem('isCreate', '1')
-      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'MEPHOST_SELECTED' ? '3' : (item.status === 'CONFIGUARED' ? '4' : '5')))
+      this.dataList.forEach(it => {
+        if (it.id === item.id) {
+          it.isCurrent = true
+        }
+      })
+      this.$emit('putAway')
+      this.$store.commit('changeApp', item.name)
+      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGUARED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
       this.$router.push('/EG/developer/home')
     },
     createApplication () {
       sessionStorage.setItem('applicationId', '')
       sessionStorage.setItem('isCreate', '1')
       this.$store.commit('changeFlow', '0')
+      this.$emit('putAway')
+      this.$store.commit('changeApp', '5G边缘应用孵化流水线')
       this.$router.push('/EG/developer/createApplication')
     },
     switchStatus (status) {
@@ -89,7 +97,7 @@ export default {
             type: 'success',
             message: '删除成功!'
           })
-          this.$store.commit('changeFlow', '0')
+          this.$emit('refreshList')
         })
       })
     }
@@ -121,10 +129,10 @@ export default {
     }
   }
   .app-item-delete{
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     position: relative;
-    top: 10px;
+    top: 15px;
     left: 75px;
     background: url("../../../assets/images/application/app_failed.png") no-repeat center;
     z-index: 10;
