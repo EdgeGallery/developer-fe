@@ -255,6 +255,8 @@ export default {
           apm.deleteDistributionApp(type, hostIp, this.appPackageId, this.userId).then(res => {
             this.getDistributeDeployList()
           })
+        }).catch(() => {
+          console.log('cancel')
         })
     },
     getCurrentPageData (data) {
