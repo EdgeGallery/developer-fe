@@ -97,6 +97,9 @@ let sandbox = {
   },
   vncLogin (applicationId, vmId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/vnc')
+  },
+  getScriptByImageId (osType) {
+    return GET(URL_PREFIX_DEVELOPER + 'user-data?' + 'osType=' + osType)
   }
 }
 
