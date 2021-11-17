@@ -44,24 +44,24 @@
             <template slot-scope="scope">
               <span
                 v-if="scope.row[scope.column.property] === 'false'"
-                class="el-icon-close"
+                class="push-fail"
                 title="false"
-              />
+              >失败</span>
               <span
                 v-else-if="scope.row[scope.column.property] === 'true' "
-                class="el-icon-check"
+                class="push-success"
                 title="succeed"
-              />
+              >成功</span>
               <span
                 v-else-if="scope.row[scope.column.property] === 'start'"
-                class="el-icon-finished"
+                class="push-prepare"
                 title="start"
-              />
+              >准备</span>
               <span
                 v-else-if="scope.row[scope.column.property] === 'inProgress'"
-                class="el-icon-loading"
+                class="push-loading"
                 title="inProgress"
-              />
+              >推送中</span>
             </template>
           </el-table-column>
         </el-table>
@@ -193,18 +193,7 @@ export default {
     }
   },
   mounted () {
-    // this.getTableData()
-    this.promStoreList = [
-      {
-        number: 1,
-        value: '',
-        label: 'test'
-      }, {
-        number: 2,
-        value: '',
-        label: 'test'
-      }
-    ]
+    this.getTableData()
   }
 }
 </script>
@@ -215,7 +204,7 @@ export default {
   }
   .el-dialog{
     border-radius: 16px;
-    background: url('../../assets/images/div_bg.png');
+    background: linear-gradient(to bottom right, rgba(205,209,231,.8),rgba(101,111,205,.17));
     box-shadow: 60px 70px 75px rgba(36,20,119,.25);
   }
   .el-dialog__header{
@@ -247,6 +236,62 @@ export default {
       font-size: 16px;
       height: 50px;
       line-height: 50px;
+    }
+    .push-success,.push-prepare,.push-fail,.push-loading{
+      padding-left: 30px;
+    }
+    .push-success::before{
+      content: '';
+      display:inline-block;
+      width:20px;
+      height:20px;
+      background-image: url('../../assets/images/appstore/push_suc.png');
+      background-size: cover;
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+    .push-fail::before{
+      content: '';
+      display:inline-block;
+      width:20px;
+      height:20px;
+      background-image: url('../../assets/images/appstore/push_fail.png');
+      background-size: cover;
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+    .push-prepare::before{
+      content: '';
+      display:inline-block;
+      width:20px;
+      height:20px;
+      background-image: url('../../assets/images/appstore/push_pre.png');
+      background-size: cover;
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+    .push-loading::before{
+      content: '';
+      display:inline-block;
+      width:20px;
+      height:20px;
+      background-image: url('../../assets/images/appstore/push_loading.png');
+      background-size: cover;
+      position: absolute;
+      top: 15px;
+      left: 10px;
+      animation: rotate 2s infinite linear ;
+    }
+    @keyframes rotate {
+      from {
+          transform: rotate(0deg);
+      }
+      to {
+          transform: rotate(360deg);
+      }
     }
   }
 

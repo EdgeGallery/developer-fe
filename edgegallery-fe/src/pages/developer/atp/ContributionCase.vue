@@ -151,7 +151,7 @@
   </div>
 </template>
 <script>
-import { Userpage } from '../../../api/atpApi.js'
+import { atpApi } from '../../../api/atpApi.js'
 
 export default {
   name: 'ContributionCase',
@@ -250,7 +250,7 @@ export default {
           _addCaseForm.file.push(_objFile)
           fd.append('file', _addCaseForm.file[0])
         }
-        Userpage.contributionApi(fd).then(res => {
+        atpApi.contributionApi(fd).then(res => {
           this.$message({
             showClose: true,
             duration: 2000,
@@ -309,15 +309,12 @@ export default {
     .el-input__inner,.el-textarea__inner{
       background-color: rgba(255, 255, 255, 0.45);
     }
-    .el-upload-list__item-name{
-      color: #fff;
-    }
   }
-    .form-button{
-      background-color: #f7f2ff;
-      border: 1px solid #380879;
-      color: #380879;
-      border-radius: 25px;
-      box-shadow: 0 5px 5px #deccf9;
-    }
+  .form-button{
+    background-color: #f7f2ff;
+    border: 1px solid #380879;
+    color: #380879;
+    border-radius: 25px;
+    box-shadow: 0 5px 5px #deccf9;
+  }
 </style>

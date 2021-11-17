@@ -53,12 +53,8 @@
           <div
             class="scenar-content"
           >
-            <!-- <img
-              :src="getAppIcon(item)"
-              alt=""
-            > -->
             <img
-              :src="item.images"
+              :src="getAppIcon(item)"
               alt=""
             >
             <el-button
@@ -135,7 +131,7 @@
   </div>
 </template>
 <script>
-import { Userpage, URL_PREFIX } from '../../../api/atpApi.js'
+import { atpApi, URL_PREFIX_ATP } from '../../../api/atpApi.js'
 import { atpTestApi } from '../../../api/developerApi.js'
 import TestCaseDetail from './TestCase.vue'
 import ContributionCase from './ContributionCase.vue'
@@ -161,11 +157,11 @@ export default {
       isShowContributionCase: false,
       isShowCaseDetail: false,
       applicationId: sessionStorage.getItem('applicationId'),
-      isCreateSuc: false
+      isCreateSuc: true
     }
   },
   mounted () {
-    // this.getTaskId()
+    this.getTaskId()
     this.getAllScene()
     this.setDivHeight()
   },
@@ -174,7 +170,6 @@ export default {
       atpTestApi.submitTest(this.applicationId).then(res => {
         if (res.data) {
           atpTestApi.getTestId(this.applicationId).then(res => {
-            console.log(res.data)
             this.taskId = res.data[0].id
             this.isCreateSuc = false
           })
@@ -212,70 +207,31 @@ export default {
       this.isShowContributionCase = true
     },
     getAllScene () {
-      // Userpage.getAllSceneApi().then(res => {
-      let res = {
-        'total': 5,
-        'offset': 0,
-        'limit': 12,
-        'results': [{
-          'id': '4d203111-1111-4f62-aabb-8ebcec357f87',
-          'nameCh': '社区通用场景',
-          'nameEn': 'EdgeGallery Community Common Scenario',
-          'descriptionCh': '适用于社区场景的通用的测试',
-          'descriptionEn': 'suite for EdgeGallery community common test',
-          'createTime': '2021-10-11T13:02:53.157+0000',
-          'images': require('../../../assets/images/atp/edge.png')
-        }, {
-          'id': 'e71718a5-864a-49e5-855a-5805a5e9f97d',
-          'nameCh': 'A运营商',
-          'nameEn': 'A Operator',
-          'descriptionCh': '适用于A运营商场景的测试',
-          'descriptionEn': 'suite for A Operator test scenario',
-          'createTime': '2021-10-11T13:02:53.157+0000',
-          'images': require('../../../assets/images/atp/A.png')
-        }, {
-          'id': '6fe8581c-b83f-40c2-8f5b-505478f9e30b',
-          'nameCh': 'B运营商',
-          'nameEn': 'B Operator',
-          'descriptionCh': '适用于B运营商场景的测试',
-          'descriptionEn': 'suite for B Operator test scenario',
-          'createTime': '2021-10-11T13:02:53.157+0000',
-          'images': require('../../../assets/images/atp/B.png')
-        }, {
-          'id': '96a82e85-d40d-4ce5-beec-2dd1c9a3d41d',
-          'nameCh': 'C运营商',
-          'nameEn': 'C Operator',
-          'descriptionCh': '适用于C运营商场景的测试',
-          'descriptionEn': 'suite for C Operator test scenario',
-          'createTime': '2021-10-11T13:02:53.157+0000',
-          'images': require('../../../assets/images/atp/C.png')
-        }]
-      }
-      // let data = res.data.results
-      let data = res.results
-      data.forEach(item => {
-        if (item.nameEn === 'EdgeGallery Community Common Scenario') {
-          item.selected = true
-        } else {
-          item.selected = false
-        }
+      atpApi.getAllSceneApi().then(res => {
+        let data = res.data.results
+        data.forEach(item => {
+          if (item.nameEn === 'EdgeGallery Community Common Scenario') {
+            item.selected = true
+          } else {
+            item.selected = false
+          }
+        })
+        this.sceneData = data
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: this.$t('promptMessage.getSceneFail'),
+          type: 'error'
+        })
       })
-      this.sceneData = data
-      // }).catch(() => {
-      //   this.$message({
-      //     showClose: true,
-      //     duration: 2000,
-      //     message: this.$t('promptMessage.getSceneFail'),
-      //     type: 'error'
-      //   })
-      // })
     },
     chooseScene (item) {
       let scenarioIds = []
       scenarioIds.push(item.id)
       let fd = new FormData()
       fd.append('scenarioIds', scenarioIds)
-      Userpage.getSceneCaseApi(fd).then(res => {
+      atpApi.getSceneCaseApi(fd).then(res => {
         let data = res.data[0].testSuites
         let IsHaveCase = data.some(function (element) {
           return (element.testCases.length !== 0)
@@ -294,7 +250,7 @@ export default {
       })
     },
     getAppIcon (item) {
-      return URL_PREFIX + 'files/' + item.id
+      return URL_PREFIX_ATP + 'files/' + item.id
     },
     getCaseList (item) {
       this.isShowScene = false
@@ -303,123 +259,21 @@ export default {
       scenarioIds.push(item.id)
       let fd = new FormData()
       fd.append('scenarioIds', scenarioIds)
-      // Userpage.getSceneCaseApi(fd).then(res => {
-      // this.testSuiteData = res.data[0].testSuites
-      let res = [{
-        'id': '4d203111-1111-4f62-aabb-8ebcec357f87',
-        'nameCh': '社区通用场景',
-        'nameEn': 'EdgeGallery Community Common Scenario',
-        'descriptionCh': '适用于社区场景的通用的测试',
-        'descriptionEn': 'suite for EdgeGallery community common test',
-        'label': 'EdgeGallery',
-        'testSuites': [{
-          'id': '522684bd-d6df-4b47-aab8-b43f1b4c19c0',
-          'nameCh': '通用遵从性测试',
-          'nameEn': 'Common Compliance Test',
-          'descriptionCh': '遵从社区APPD标准、ETSI标准对应用包结构进行校验',
-          'descriptionEn': 'Validate app package structure according to commnunity and ETSI standard',
-          'scenarioIdList': ['4d203111-1111-4f62-aabb-8ebcec357f87'],
-          'testCases': [{
-            'id': '4d203173-1017-4f62-aabb-8ebcec357f87',
-            'nameCh': '容器tgz中chart文件校验',
-            'nameEn': 'Container Tgz Chart Validaion',
-            'type': 'automatic',
-            'descriptionCh': '容器的应用包，在helm模板的.tgz文件中，必须存在chart.yaml文件',
-            'descriptionEn': 'There must exist chart.yaml file in .tgz file of helm for container app package',
-            'hashCode': '',
-            'codeLanguage': 'jar',
-            'expectResultCh': '容器应用包的Artifacts/Deployment/Charts目录下的.tgz文件中必须存在chart.yaml文件',
-            'expectResultEn': 'There must exist chart.yaml file in .tgz file of Artifacts/Deployment/Charts dir for container app package.',
-            'testStepCh': '1.打开csar包 2.打开Artifacts/Deployment/Charts目录下的.tgz文件 3.是否存在chart.yaml文件',
-            'testStepEn': '1.open csar package 2.open .tgz file in Artifacts/Deployment/Charts dir 3.validate the existence of chart.yaml file',
-            'createTime': '2021-10-11T13:02:53.169+0000',
-            'testSuiteIdList': ['522684bd-d6df-4b47-aab8-b43f1b4c19c0']
-          }, {
-            'id': '4d203173-1028-4f62-aabb-8ebcec357f87',
-            'nameCh': 'MEP服务取消注册校验',
-            'nameEn': 'Unregister Service To Mep Validation',
-            'type': 'automatic',
-            'descriptionCh': '向MEP平台取消已注册的服务',
-            'descriptionEn': 'unregister service to mep',
-            'hashCode': '',
-            'codeLanguage': 'jar',
-            'expectResultCh': '向MEP取消已注册的服务成功',
-            'expectResultEn': 'unregister service to mep successfully.',
-            'testStepCh': '1.调用mep服务取消注册接口 2.看接口返回结果',
-            'testStepEn': '1.call mep unregister service interface 2.validate response',
-            'createTime': '2021-10-11T13:02:53.176+0000',
-            'testSuiteIdList': ['6d04da1b-1f36-4295-920a-8074f7f9d942']
-          }]
-        }, {
-          'id': '743abd93-57a3-499d-9591-fa7db86a4778',
-          'nameCh': '通用安全性测试',
-          'nameEn': 'Common Security Test',
-          'descriptionCh': '应用包安全测试',
-          'descriptionEn': 'App package security test',
-          'scenarioIdList': ['4d203111-1111-4f62-aabb-8ebcec357f87'],
-          'testCases': [{
-            'id': '4d203173-1009-4f62-aabb-8ebcec357f87',
-            'nameCh': '文件目录层深校验',
-            'nameEn': 'File Dir Depth Validation',
-            'type': 'automatic',
-            'descriptionCh': '文件目录层深校验',
-            'descriptionEn': 'File Dir Depth Validation',
-            'hashCode': '',
-            'codeLanguage': 'java',
-            'expectResultCh': '应用包包含文件的目录层级不超过10层',
-            'expectResultEn': 'The depth of file dir no more than 10',
-            'testStepCh': '1.解压应用包 2.遍历文件目录，没有超过10层的文件存在',
-            'testStepEn': '1. unzip app package 2. traverse file dir, no file dir depth more than 10',
-            'createTime': '2021-10-11T13:02:53.169+0000',
-            'testSuiteIdList': ['743abd93-57a3-499d-9591-fa7db86a4778']
-          }, {
-            'id': '4d203173-1006-4f62-aabb-8ebcec357f87',
-            'nameCh': '文件大小校验',
-            'nameEn': 'File Size Validation',
-            'type': 'automatic',
-            'descriptionCh': '应用包大小校验',
-            'descriptionEn': 'The size of app package validation',
-            'hashCode': '',
-            'codeLanguage': 'java',
-            'expectResultCh': '应用包大小不超过5G',
-            'expectResultEn': 'The size of app package no more than 5G',
-            'testStepCh': '应用包大小不超过5G',
-            'testStepEn': 'The size of app package no more than 5G',
-            'createTime': '2021-10-11T13:02:53.169+0000',
-            'testSuiteIdList': ['743abd93-57a3-499d-9591-fa7db86a4778']
-          }, {
-            'id': '4d203173-1003-4f62-aabb-8ebcec357f87',
-            'nameCh': 'mf文件hash值列表校验',
-            'nameEn': 'Manifest File Hash List Validation',
-            'type': 'automatic',
-            'descriptionCh': '.mf文件中，每个文件必须有对应的hash值描述',
-            'descriptionEn': 'Every Source file must has Hash field in manifest file',
-            'hashCode': '',
-            'codeLanguage': 'java',
-            'expectResultCh': '.mf文件中每个文件都有对应的hash值描述',
-            'expectResultEn': 'Every Source file has Hash field in manifest file',
-            'testStepCh': '1.打开csar包 2.打开.mf文件 3.校验每个Source字段对应的文件都有Hash字段的描述',
-            'testStepEn': '1.open csar package 2.open .mf file 3.validate every Source file has Hash field in manifest file',
-            'createTime': '2021-10-11T13:02:53.169+0000',
-            'testSuiteIdList': ['743abd93-57a3-499d-9591-fa7db86a4778']
-          }]
-        }]
-      }]
-      this.testSuiteData = res[0].testSuites
-      this.isTestCase = this.testSuiteData.every(function (element) {
-        return (element.testCases.length === 0)
+      atpApi.getSceneCaseApi(fd).then(res => {
+        this.testSuiteData = res.data[0].testSuites
+        this.isTestCase = this.testSuiteData.every(function (element) {
+          return (element.testCases.length === 0)
+        })
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: this.$t('home.getFail'),
+          type: 'warning'
+        })
       })
-      // }).catch(() => {
-      //   this.$message({
-      //     showClose: true,
-      //     duration: 2000,
-      //     message: this.$t('home.getFail'),
-      //     type: 'warning'
-      //   })
-      // })
     },
     startTest () {
-      this.$router.push('/EG/developer/testProcess')
       this.scenarioIdList = []
       this.sceneData.forEach(item => {
         if (item.selected) {
@@ -428,10 +282,10 @@ export default {
       })
       let fd = new FormData()
       fd.append('scenarioIdList', this.scenarioIdList)
-      // Userpage.runTaskApi(this.taskId, fd).then(res => {
-      //   this.$router.push({ path: '/EG/developer/testProcess', query: { taskId: this.taskId } })
-      // }).catch(() => {
-      // })
+      atpApi.runTaskApi(this.taskId, fd).then(res => {
+        this.$router.push({ path: '/EG/developer/testProcess', query: { taskId: this.taskId } })
+      }).catch(() => {
+      })
     }
   }
 }
@@ -444,9 +298,7 @@ export default {
 }
   .selectscene{
     overflow: auto;
-    border: 2px solid #b6a4ec;
     border-radius: 16px;
-    box-shadow: 60px 70px 75px rgba(36,20,119,.25);
     position: absolute;
     z-index: 1;
     top: 110px;

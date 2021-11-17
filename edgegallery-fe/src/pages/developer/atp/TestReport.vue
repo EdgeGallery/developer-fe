@@ -17,9 +17,11 @@
 <template>
   <div
     class="report padding_default"
-    id="pdfDom"
   >
-    <div class="report-content">
+    <div
+      class="report-content"
+      id="pdfDom"
+    >
       <div class="logo">
         <h3> EdgeGallery测试认证报告</h3>
         <div>
@@ -252,7 +254,7 @@
 </template>
 
 <script>
-// import { Userpage } from '../../../api/atpApi.js'
+import { atpApi } from '../../../api/atpApi.js'
 import pdf from 'vue-pdf'
 import { formatDateTime } from '../../../tools/common.js'
 
@@ -291,387 +293,46 @@ export default {
       this.$router.push('/EG/developer/home')
     },
     getReport () {
-      // Userpage.getTaskApi(this.taskId).then(res => {
-      let res = {
-        'data': {
-          'id': 'b150303a-1de8-4895-9ce3-b8e00a3dd119',
-          'appName': 'GoWalk',
-          'appVersion': 'v1.0',
-          'status': 'success',
-          'createTime': '2021-10-29T08:01:14.601+0000',
-          'endTime': '2021-10-29T08:01:35.100+0000',
-          'user': {
-            'userId': '39937079-99fe-4cd8-881f-04ca8c4fe09d',
-            'userName': 'admin'
-          },
-          'testScenarios': [{
-            'id': '4d203111-1111-4f62-aabb-8ebcec357f87',
-            'nameCh': '社区通用场景',
-            'nameEn': 'EdgeGallery Community Common Scenario',
-            'label': 'EdgeGallery',
-            'testSuites': [{
-              'id': '522684bd-d6df-4b47-aab8-b43f1b4c19c0',
-              'nameCh': '通用遵从性测试',
-              'nameEn': 'Common Compliance Test',
-              'testCases': [{
-                'id': '4d203173-9999-4f62-aabb-8ebcec357f87',
-                'nameCh': 'APPD文件目录校验',
-                'nameEn': 'APPD File Dir Validation',
-                'descriptionCh': '根目录下必须包含APPD文件目录',
-                'descriptionEn': 'Root directory must contain APPD file dir',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1002-4f62-aabb-8ebcec357f87',
-                'nameCh': 'yaml描述文件校验',
-                'nameEn': 'Yaml Description File Validation',
-                'descriptionCh': 'APPD/Definition/目录下必须存在yaml描述文件',
-                'descriptionEn': 'There must contain yaml file in APPD/Definition/ dir',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1000-4f62-aabb-8ebcec357f87',
-                'nameCh': 'Artifacts文件目录校验',
-                'nameEn': 'Artifacts File Dir Validation',
-                'descriptionCh': '根目录下必须包含Artifacts文件目录',
-                'descriptionEn': 'Root directory must contain Artifacts file dir',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-2222-4f62-aabb-8ebcec357f87',
-                'nameCh': 'MF文件必填字段校验',
-                'nameEn': 'Manifest File Field Validation',
-                'descriptionCh': '.mf文件必须包含如下字段： app_product_name, app_provider_id, app_package_version, app_release_date_time, app_class and app_package_description',
-                'descriptionEn': '.mf file must contain the following field: app_product_name, app_provider_id, app_package_version, app_release_date_time, app_class and app_package_description',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1015-4f62-aabb-8ebcec357f87',
-                'nameCh': '容器helm模板镜像文件校验',
-                'nameEn': 'Container Helm Tgz File Validation',
-                'descriptionCh': '容器的应用包，必须存在helm模板的镜像文件',
-                'descriptionEn': 'There must exist .tgz file of helm for container app package',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1016-4f62-aabb-8ebcec357f87',
-                'nameCh': '容器tgz中templates文件夹校验',
-                'nameEn': 'Container Tgz Templates Validaion',
-                'descriptionCh': '容器的应用包，在helm模板的.tgz文件中，必须存在templates文件夹',
-                'descriptionEn': 'There must exist templates file dir in .tgz file of helm for container app package',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1017-4f62-aabb-8ebcec357f87',
-                'nameCh': '容器tgz中chart文件校验',
-                'nameEn': 'Container Tgz Chart Validaion',
-                'descriptionCh': '容器的应用包，在helm模板的.tgz文件中，必须存在chart.yaml文件',
-                'descriptionEn': 'There must exist chart.yaml file in .tgz file of helm for container app package',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1018-4f62-aabb-8ebcec357f87',
-                'nameCh': '容器tgz中values文件校验',
-                'nameEn': 'Container Tgz Values Validaion',
-                'descriptionCh': '容器的应用包，在helm模板的.tgz文件中，必须存在values.yaml文件',
-                'descriptionEn': 'There must exist values.yaml file in .tgz file of helm for container app package',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-3333-4f62-aabb-8ebcec357f87',
-                'nameCh': 'MF文件Source路径校验',
-                'nameEn': 'Manifest File Source Path Validation',
-                'descriptionCh': 'Source字段的值必须是正确的文件路径，文件必须存在',
-                'descriptionEn': 'The value of Source filed must be right path, the corresponding file must exist',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1004-4f62-aabb-8ebcec357f87',
-                'nameCh': 'CPU数量描述字段校验',
-                'nameEn': 'CPU Number Description Validation',
-                'descriptionCh': 'yaml描述文件中必须有对cpu数量的描述字段：num_virtual_cpu',
-                'descriptionEn': 'There must contain cpu number description in yaml file',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1001-4f62-aabb-8ebcec357f87',
-                'nameCh': 'TOSCA-Metadata文件目录校验',
-                'nameEn': 'Tosca Metadata File Dir Validation',
-                'descriptionCh': '根目录下必须包含TOSCA-Metadata文件目录',
-                'descriptionEn': 'Root directory must contain TOSCA-Metadata file dir',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1111-4f62-aabb-8ebcec357f87',
-                'nameCh': 'MF文件路径校验',
-                'nameEn': 'Manifest File Path Validation',
-                'descriptionCh': '根目录必须包含以.mf结尾的文件',
-                'descriptionEn': 'Root path must contain the file which name ends of .mf',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1005-4f62-aabb-8ebcec357f87',
-                'nameCh': '虚拟内存描述字段校验',
-                'nameEn': 'Virtual Memory Description Validation',
-                'descriptionCh': 'yaml文件中有对虚拟内存大小的描述字段：virtual_mem_size',
-                'descriptionEn': 'There must contain virtual memory size description in yaml file',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-4444-4f62-aabb-8ebcec357f87',
-                'nameCh': 'TOSCA文件校验',
-                'nameEn': 'Tosca File Validation',
-                'descriptionCh': 'TOSCA.meta文件必须存在，该文件必须包含字段Entry-Definitions，且其值对应的路径必须是正确的路径，路径中的文件必须存在',
-                'descriptionEn': 'ToscaFileValidation  TOSCA.meta file must exist, and it must contain the field: Entry-Definitions, and the the value of the filed must be right path, the corresponding file must exist.',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }]
-            }, {
-              'id': '6d04da1b-1f36-4295-920a-8074f7f9d942',
-              'nameCh': '通用沙箱测试',
-              'nameEn': 'Common Sandbox Test',
-              'testCases': [{
-                'id': '4d203173-5555-4f62-aabb-8ebcec357f87',
-                'nameCh': '应用实例化',
-                'nameEn': 'Application Instantiation',
-                'descriptionCh': '将应用包部署到边缘节点',
-                'descriptionEn': 'Instantiate application and its dependency application on one edge host',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1025-4f62-aabb-8ebcec357f87',
-                'nameCh': 'MEP服务注册校验',
-                'nameEn': 'Register Service To Mep Validation',
-                'descriptionCh': '向MEP平台注册服务',
-                'descriptionEn': 'Register service to mep',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1021-4f62-aabb-8ebcec357f87',
-                'nameCh': '边缘节点连通性校验',
-                'nameEn': 'Mec Host Access Validation',
-                'descriptionCh': '检查MEC平台的边缘站点连通性',
-                'descriptionEn': 'Validate mec host accessible in MEC platform',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1027-4f62-aabb-8ebcec357f87',
-                'nameCh': '向MEP更新已注册的服务校验',
-                'nameEn': 'Update Registered Service To Mep Validation',
-                'descriptionCh': '向MEP平台更新已注册的服务',
-                'descriptionEn': 'update registered service to mep',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1026-4f62-aabb-8ebcec357f87',
-                'nameCh': 'MEP服务二次注册校验',
-                'nameEn': 'Secondary Register Service To Mep Validation',
-                'descriptionCh': '向MEP平台二次注册服务',
-                'descriptionEn': 'Secondary Register service to mep',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1010-4f62-aabb-8ebcec357f87',
-                'nameCh': '依赖服务存在性校验',
-                'nameEn': 'Dependency Service Existence Validation',
-                'descriptionCh': '依赖服务存在性校验',
-                'descriptionEn': 'Dependency Service Existence Validation',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1028-4f62-aabb-8ebcec357f87',
-                'nameCh': 'MEP服务取消注册校验',
-                'nameEn': 'Unregister Service To Mep Validation',
-                'descriptionCh': '向MEP平台取消已注册的服务',
-                'descriptionEn': 'unregister service to mep',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }]
-            }, {
-              'id': '743abd93-57a3-499d-9591-fa7db86a4778',
-              'nameCh': '通用安全性测试',
-              'nameEn': 'Common Security Test',
-              'testCases': [{
-                'id': '4d203173-1009-4f62-aabb-8ebcec357f87',
-                'nameCh': '文件目录层深校验',
-                'nameEn': 'File Dir Depth Validation',
-                'descriptionCh': '文件目录层深校验',
-                'descriptionEn': 'File Dir Depth Validation',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1007-4f62-aabb-8ebcec357f87',
-                'nameCh': '文件数量校验',
-                'nameEn': 'File Number Validation',
-                'descriptionCh': '应用包包含的文件数量校验',
-                'descriptionEn': 'The number of files app package contains validation',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1029-4f62-aabb-8ebcec357f87',
-                'nameCh': '漏洞扫描',
-                'nameEn': 'Vulnerable Scanning Validation',
-                'descriptionCh': '检查应用部署的边缘节点是否包含常见漏洞',
-                'descriptionEn': 'Validate common vulnerables in app instantiated edge node',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1006-4f62-aabb-8ebcec357f87',
-                'nameCh': '文件大小校验',
-                'nameEn': 'File Size Validation',
-                'descriptionCh': '应用包大小校验',
-                'descriptionEn': 'The size of app package validation',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1019-4f62-aabb-8ebcec357f87',
-                'nameCh': '签名校验',
-                'nameEn': 'Signature Validation',
-                'descriptionCh': 'mf文件中签名值校验',
-                'descriptionEn': 'Signature value in mf file validation',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1008-4f62-aabb-8ebcec357f87',
-                'nameCh': '解压后文件大小校验',
-                'nameEn': 'Unzip File Size Validation',
-                'descriptionCh': '解压后文件大小校验',
-                'descriptionEn': 'The size of unzip app package validation',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1020-4f62-aabb-8ebcec357f87',
-                'nameCh': '端口扫描',
-                'nameEn': 'Port Scanning Validation',
-                'descriptionCh': '检查应用部署的边缘节点端口号使用情况',
-                'descriptionEn': 'Validate the usage of port in app instantiated edge node',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1003-4f62-aabb-8ebcec357f87',
-                'nameCh': 'mf文件hash值列表校验',
-                'nameEn': 'Manifest File Hash List Validation',
-                'descriptionCh': '.mf文件中，每个文件必须有对应的hash值描述',
-                'descriptionEn': 'Every Source file must has Hash field in manifest file',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }]
-            }, {
-              'id': '743abd93-1111-499d-9591-fa7db86a4778',
-              'nameCh': '通用性能测试',
-              'nameEn': 'Common Performance Test',
-              'testCases': [{
-                'id': '4d203173-1023-4f62-aabb-8ebcec357f87',
-                'nameCh': 'Cpu使用率校验',
-                'nameEn': 'Cpu Usage Validation',
-                'descriptionCh': '校验应用部署后的cpu使用率',
-                'descriptionEn': 'Validate cpu usage after app instantiated',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1024-4f62-aabb-8ebcec357f87',
-                'nameCh': '内存使用率校验',
-                'nameEn': 'Memory Usage Validation',
-                'descriptionCh': '校验应用部署后的内存使用率',
-                'descriptionEn': 'Validate memory usage after app instantiated',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-1022-4f62-aabb-8ebcec357f87',
-                'nameCh': '网络延时校验',
-                'nameEn': 'Network Delay Validation',
-                'descriptionCh': '检查边缘站点的网络延时',
-                'descriptionEn': 'Validate mec host network delay time',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }, {
-                'id': '4d203173-6666-4f62-aabb-8ebcec357f87',
-                'nameCh': '应用实例化终止',
-                'nameEn': 'Application Termination',
-                'descriptionCh': '将实例化后的应用包卸载',
-                'descriptionEn': 'Uninstantiate application and its dependency application on one edge host',
-                'type': 'automatic',
-                'result': 'success',
-                'reason': ''
-              }]
-            }]
-          }],
-          'providerId': 'EdgeGallery'
-        },
-        'retCode': 0,
-        'message': 'get task by id successfully.'
-      }
-      let data = res.data
-      // pdf report
-      if (data.reportPath) {
-        this.pdfShow = true
-        this.pdfUrl = this.currUrl.split('#')[0] + 'mec-atp' + data.reportPath
-        this.getNumPages(this.pdfUrl)
-      } else {
-        this.pdfShow = false
-      }
-      this.htmlTitle = data.id
-      this.tableData.push(data)
-      this.resultIcon = this.tableData[0].status === 'success' ? require('../../../assets/images/atp/success.png') : require('../../../assets/images/atp/fail.png')
-      this.tableData.forEach(item => {
-        item.createTime = formatDateTime(item.createTime)
-        item.endTime = formatDateTime(item.endTime)
+      atpApi.getTaskApi(this.taskId).then(res => {
+        let data = res.data.data
+        // pdf report
+        if (data.reportPath) {
+          this.pdfShow = true
+          this.pdfUrl = this.currUrl.split('#')[0] + 'mec-atp' + data.reportPath
+          this.getNumPages(this.pdfUrl)
+        } else {
+          this.pdfShow = false
+        }
+        this.htmlTitle = data.id
+        this.tableData.push(data)
+        this.resultIcon = this.tableData[0].status === 'success' ? require('../../../assets/images/atp/success.png') : require('../../../assets/images/atp/fail.png')
+        this.tableData.forEach(item => {
+          item.createTime = formatDateTime(item.createTime)
+          item.endTime = formatDateTime(item.endTime)
+        })
+        this.testScenarios = data.testScenarios
+        this.activeNameList = []
+        this.finishActiveNameList = []
+        let _chartObj = {
+          dataRight: [],
+          nameRightCh: [],
+          nameRightEn: [],
+          dataCh: [],
+          dataEn: []
+        }
+        this.getResultData(_chartObj)
+        this.$nextTick(() => {
+          this.drawLeftLine()
+          this.drawRightLine()
+        })
+      }).catch(() => {
+        this.$message({
+          duration: 2000,
+          showClose: true,
+          type: 'warning',
+          message: this.$t('promptMessage.getTaskListFail')
+        })
       })
-      this.testScenarios = data.testScenarios
-      this.activeNameList = []
-      this.finishActiveNameList = []
-      let _chartObj = {
-        dataRight: [],
-        nameRightCh: [],
-        nameRightEn: [],
-        dataCh: [],
-        dataEn: []
-      }
-      this.getResultData(_chartObj)
-      this.$nextTick(() => {
-        this.drawLeftLine()
-        this.drawRightLine()
-      })
-      // }).catch(() => {
-      //   this.$message({
-      //     duration: 2000,
-      //     showClose: true,
-      //     type: 'warning',
-      //     message: this.$t('promptMessage.getTaskListFail')
-      //   })
-      // })
     },
     getResultData (chartObj) {
       this.testScenarios.forEach(scenarios => {
@@ -902,6 +563,7 @@ export default {
     overflow: auto;
     margin: 20px 0;
   .report-content {
+    padding: 10px;
      .logo {
       display: flex;
       justify-content: space-between;
@@ -912,7 +574,7 @@ export default {
       }
       h3{
         font-family: sans-serif;
-        color: #380879;
+        color: #fff;
         font-size: 24px;
         font-weight: 800;
       }

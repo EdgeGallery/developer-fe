@@ -12,12 +12,12 @@
       >
         <div
           class="item"
-          :class="[item.id===currentFlow&&isCapabilityActive?'item-capa-active':(item.id===currentFlow?'item-active':''),currentFlow>0&&item.id!==2?'item-must':'',item.class]"
-          @click="item.id<=currentFlow+1?jumpTo(item):showWarning()"
+          :class="[item.id===currentFlow?'item-active':'',currentFlow>0&&item.id!==2?'item-must':'',item.class]"
+          @click="(currentFlow===1&&item.id===3)||item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item):showWarning()"
         >
           <img
             :src="item.src"
-            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',(currentFlow===1&&item.id===3)||item.id===currentFlow+1?'next':'']"
             alt="EdgeGallery"
           >
           <div class="flow-name">
@@ -87,11 +87,13 @@ export default {
     jumpTo (item) {
       if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === 0) {
         sessionStorage.setItem('isCreate', '0')
+      } else if (item.toPath === '/EG/developer/selectScenarios' && this.currentFlow >= 5) {
+        item.toPath = '/EG/developer/testProcess'
       }
       this.$router.push(item.toPath)
     },
     showWarning () {
-      this.$message.warning('请先完成前面的步骤！')
+      this.$message.warning('请先完成必经步骤！')
     }
   },
   mounted () {

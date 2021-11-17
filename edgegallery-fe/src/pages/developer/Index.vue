@@ -22,7 +22,7 @@
       >
         <div class="main-content">
           <div class="main-title">
-            5G边缘应用孵化流水线
+            {{ appName }}
           </div>
           <div class="main-part">
             <el-row class="main-part-container">
@@ -63,7 +63,7 @@
                 行动方向
               </p>
               <img
-                src="../../assets/images/projects/pro_direction.png"
+                src="../../assets/images/application/app_direction.png"
                 alt=""
               >
             </div>
@@ -104,6 +104,9 @@ export default {
   computed: {
     currentFlow () {
       return Number(this.$store.state.currentFlow)
+    },
+    appName (val) {
+      return this.$store.state.appName
     }
   },
   methods: {
@@ -128,7 +131,6 @@ export default {
       .main-title{
         font-size: 25px;
         font-weight: bold;
-        opacity: 0.8;
       }
       .main-part{
         height: 85%;
@@ -194,6 +196,7 @@ export default {
             background-size: contain;
             position: relative;
             top: 3px;
+            transform: rotate(270deg);
           }
         }
       }

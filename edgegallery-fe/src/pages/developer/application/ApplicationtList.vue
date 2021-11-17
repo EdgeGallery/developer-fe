@@ -32,8 +32,7 @@
         @click.stop="searchProject()"
       />
       <div
-        class="app-btn"
-        :class="isDeleteActive?'delete-active':'delete-default'"
+        class="app-btn delete-default"
         title="删除"
         v-if="zoom>2"
         @click.stop="deleteApp()"
@@ -53,7 +52,7 @@
         class="app-list-title"
         v-if="zoom!==2"
       >
-        新建项目/最近创建
+        新建应用/最近操作
       </div>
       <div
         class="app-list-main"
@@ -61,53 +60,78 @@
       >
         <ListComp
           :data-list="currentAppList"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
         />
       </div>
       <div
-        class="app-list-title"
+        class="app-list-main"
         v-if="zoom!==2"
       >
-        创建完成
-      </div>
-      <div
-        class="app-list-main"
-      >
+        <div
+          class="app-list-title"
+        >
+          创建完成
+        </div>
         <ListComp
           :data-list="filterStatus('CREATED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
-          :class="zoom===2?'':'app-flex-items'"
+          class="app-flex-items"
         />
       </div>
       <div
-        class="app-list-title"
+        class="app-list-main"
         v-if="zoom!==2"
       >
-        部署完成
-      </div>
-      <div
-        class="app-list-main"
-      >
+        <div
+          class="app-list-title"
+        >
+          配置完成
+        </div>
         <ListComp
           :data-list="filterStatus('CONFIGURED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
-          :class="zoom===2?'':'app-flex-items'"
+          class="app-flex-items"
         />
       </div>
       <div
-        class="app-list-title"
+        class="app-list-main"
         v-if="zoom!==2"
       >
-        部署失败
+        <div
+          class="app-list-title"
+        >
+          测试完成
+        </div>
+        <ListComp
+          :data-list="filterStatus('TESTED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
+          :show-delete-btn="isDeleteActive"
+          class="app-flex-items"
+        />
       </div>
       <div
         class="app-list-main"
+        v-if="zoom!==2"
       >
+        <div
+          class="app-list-title"
+        >
+          发布成功
+        </div>
         <ListComp
-          :data-list="filterStatus('DEPLOYED')"
+          :data-list="filterStatus('RELEASED')"
+          @putAway="putAway"
+          @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
-          :class="zoom===2?'':'app-flex-items'"
+          class="app-flex-items"
         />
       </div>
     </div>
@@ -127,7 +151,6 @@ export default {
       return Number(this.$store.state.zoom)
     },
     currentFlow (val) {
-      console.log(val)
       this.initApplicationList()
       return Number(this.$store.state.currentFlow)
     }
@@ -150,14 +173,22 @@ export default {
         this.isDeleteActive = false
       }
     },
+    putAway () {
+      this.$emit('zoomChanged', 3)
+      this.isDeleteActive = false
+    },
     changeSmall () {
       this.$emit('zoomChanged', 1)
+      this.isDeleteActive = false
     },
     searchProject () {
       this.isSearchActive = true
     },
     deleteApp () {
       this.isDeleteActive = !this.isDeleteActive
+    },
+    refreshList () {
+      this.initApplicationList()
     },
     initApplicationList () {
       applicationApi.getApplicationList().then(res => {
@@ -171,8 +202,8 @@ export default {
             {
               id: 0,
               type: 'normal',
-              iconUrl: require('../../../assets/images/projects/pro_add_new.png'),
-              name: '新增项目'
+              iconUrl: require('../../../assets/images/application/app_add_new.png'),
+              name: '新增应用'
             }
           ]
           data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
@@ -205,25 +236,25 @@ export default {
       background-size: cover;
     }
     .zoom{
-      background: url("../../../assets/images/projects/pro_zoom_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_zoom_default.png") no-repeat center;
     }
     .search-default{
-      background: url("../../../assets/images/projects/pro_search_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_search_default.png") no-repeat center;
     }
     .search-active{
-      background: url("../../../assets/images/projects/pro_search_after.png") no-repeat center;
+      background: url("../../../assets/images/application/app_search_after.png") no-repeat center;
     }
     .delete-default{
-      background: url("../../../assets/images/projects/pro_delete_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_delete_default.png") no-repeat center;
     }
     .delete-active{
-      background: url("../../../assets/images/projects/pro_delete_click.png") no-repeat center;
+      background: url("../../../assets/images/application/app_delete_click.png") no-repeat center;
     }
     .view-default{
-      background: url("../../../assets/images/projects/pro_view_default.png") no-repeat center;
+      background: url("../../../assets/images/application/app_view_default.png") no-repeat center;
     }
     .view-active{
-      background: url("../../../assets/images/projects/pro_put_away.png") no-repeat center;
+      background: url("../../../assets/images/application/app_put_away.png") no-repeat center;
     }
   }
   .app-list-main{
@@ -241,6 +272,7 @@ export default {
   }
   .app-flex-main{
     margin-left: 50px;
+    overflow-y: auto;
   }
   .app-list-title{
     font-size: 20px;

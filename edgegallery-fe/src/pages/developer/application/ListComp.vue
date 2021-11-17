@@ -8,13 +8,12 @@
     >
       <div
         class="app-item-delete"
-        @click="deleteApp(item.id)"
+        @click.stop="deleteApp(item.id)"
         v-if="item.id!==0&&showDeleteBtn"
       />
       <img
         :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
         :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
-        :class="item.id==='creating'?'current':''"
       >
       <div
         class="app-name"
@@ -59,20 +58,24 @@ export default {
     checkProjectDetail (item) {
       sessionStorage.setItem('applicationId', item.id)
       sessionStorage.setItem('isCreate', '1')
-      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'MEPHOST_SELECTED' ? '3' : (item.status === 'CONFIGUARED' ? '4' : '5')))
+      this.$emit('putAway')
+      this.$store.commit('changeApp', item.name)
+      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGUARED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
       this.$router.push('/EG/developer/home')
     },
     createApplication () {
       sessionStorage.setItem('applicationId', '')
       sessionStorage.setItem('isCreate', '1')
       this.$store.commit('changeFlow', '0')
+      this.$emit('putAway')
+      this.$store.commit('changeApp', '5G边缘应用孵化流水线')
       this.$router.push('/EG/developer/createApplication')
     },
     switchStatus (status) {
-      return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置成功' : (status === 'DEPLOYED' ? '已部署' : (status === 'TESTED' ? '测试完成' : '已发布')))
+      return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置完成' : (status === 'PACKAGED' ? '打包完成' : (status === 'TESTED' ? '测试完成' : (status === 'RELEASED' ? '已发布' : '已部署'))))
     },
     getStatusClass (status) {
-      return status === 'CREATED' ? 'app-created' : (status === 'CONFIGURED' ? 'app-success' : (status === 'DEPLOYED' ? 'app-failed' : 'app-published'))
+      return status === 'CREATED' ? 'app-created' : (status === 'CONFIGURED' || status === 'PACKAGED' ? 'app-success' : (status === 'TESTED' ? 'app-success' : 'app-published'))
     },
     getFile (id) {
       return applicationApi.getFileStream(id)
@@ -88,7 +91,7 @@ export default {
             type: 'success',
             message: '删除成功!'
           })
-          this.$store.commit('changeFlow', '0')
+          this.$emit('refreshList')
         })
       })
     }
@@ -111,6 +114,8 @@ export default {
     img{
       width: 66px;
       height: 66px;
+      border: 3px solid transparent;
+      border-radius: 66px;
     }
     img.current{
       border: 3px solid #42F6AC;
@@ -118,12 +123,12 @@ export default {
     }
   }
   .app-item-delete{
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     position: relative;
-    top: 10px;
+    top: 15px;
     left: 75px;
-    background: url("../../../assets/images/projects/pro_failed.png") no-repeat center;
+    background: url("../../../assets/images/application/app_failed.png") no-repeat center;
     z-index: 10;
   }
   .app-common-status{
@@ -139,15 +144,15 @@ export default {
     left: 3px;
   }
   .app-created::before{
-    background: url('../../../assets/images/projects/pro_creating.png') no-repeat center;
+    background: url('../../../assets/images/application/app_creating.png') no-repeat center;
   }
   .app-success::before{
-    background: url('../../../assets/images/projects/pro_success.png') no-repeat center;
+    background: url('../../../assets/images/application/app_success.png') no-repeat center;
   }
   .app-failed::before{
-    background: url('../../../assets/images/projects/pro_failed.png') no-repeat center;
+    background: url('../../../assets/images/application/app_failed.png') no-repeat center;
   }
   .app-published::before{
-    background: url('../../../assets/images/projects/pro_published.png') no-repeat center;
+    background: url('../../../assets/images/application/app_published.png') no-repeat center;
   }
 </style>

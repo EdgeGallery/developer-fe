@@ -16,7 +16,25 @@
 
 const cn = {
   appPackage: {
+    appdTitle: '应用配置预览',
+    basicInfo: '基本信息',
+    appName: '应用名称',
+    provider: '提供者',
+    industry: '行业',
+    type: '类型',
+    architecture: '架构',
+    dependent: '依赖应用',
+    createTime: '创建时间',
+    description: '描述',
+    fileName: '应用详情介绍',
+    resourceConfig: '资源配置',
+    vmName: '虚拟机名称',
+    spec: '规格',
+    network: '连接网络',
+    basicImage: '基础镜像',
+    vmImage: '虚机镜像',
     exportImage: '导出镜像',
+    rule: '分流规则',
     trafficRule: '流量规则',
     addTrafficRule: '添加流量规则',
     trafficRuleId: '流规则标识',
@@ -30,17 +48,21 @@ const cn = {
     dnsRule: 'DNS规则',
     addDnsRule: '添加DNS规则',
     serviceName: '服务名称',
-    description: '描述',
     port: '内部端口号',
     version: '版本',
     protocol: '协议',
     dnaRule: 'DNA规则',
-    appdPreview: 'APPD预览',
+    capabalityConfig: '能力配置',
+    capabalityDepend: '能力依赖',
+    capabalityRelease: '能力发布',
+    appdPreview: '打包预览',
     build: '打包',
     packFinished: '打包完成',
-    packFinishedTip: '认证前系统会默认释放虚拟机资源，释放后将不可再返回修改',
+    packFinishedTip: '认证前系统会默认释放虚拟机资源，释放后将不可再返回修改。',
     packBack: '返回',
-    packAuthentication: '认证'
+    packAuthentication: '认证',
+    appdDetail: '应用包详情',
+    save: '保存'
   }
 }
 export default cn

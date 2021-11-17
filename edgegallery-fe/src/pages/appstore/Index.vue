@@ -50,19 +50,14 @@
             class="application"
             @mouseover="hoverAppList(index)"
             @mouseout="activeIndex=-1"
-            @click="jumpTo('/EG/appstore/appDetail');removeClass()"
+            @click="jumpToDetail(item);removeClass()"
           >
             <div
               class="img-box"
               :class="[item.experienceAble!==false ? (language==='cn'?'img-boxcn':'img-boxen'): '']"
             >
-              <!-- <img
-                :src="getAppIcon(item)"
-                alt=""
-              > -->
               <img
-                class="newapp-breath"
-                :src="item.images"
+                :src="getAppIcon(item)"
                 alt=""
               >
             </div>
@@ -106,74 +101,18 @@
 </template>
 
 <script>
-import { URL_PREFIX, appstoreApi } from '../../api/appstoreApi'
+import { URL_PREFIX_APPSTORE, appstoreApi } from '../../api/appstoreApi'
 import Pagination from '../../components/Pagination.vue'
 
 export default {
-  name: 'Application',
+  name: 'AppWarehouse',
   components: { Pagination },
   data () {
     return {
-      pageData: [
-        {
-          name: '位置服务',
-          version: '1.0',
-          provider: 'HuaWeicompanyIntr',
-          size: '12.00 k',
-          score: '5',
-          type: 'CSAR',
-          experienceAble: false,
-          images: require('../../assets/images/appstore/app_bg_yanshi.png')
-        }, {
-          name: 'Game_2048',
-          version: '1.0',
-          provider: 'HuaWeicompanyIntr',
-          size: '12.00 k',
-          score: '5',
-          type: 'CSAR',
-          experienceAble: false,
-          images: require('../../assets/images/appstore/game2048.png')
-        }, {
-          name: 'Mediawiki',
-          version: '1.0',
-          provider: 'HuaWeicompanyIntr',
-          size: '12.00 k',
-          score: '5',
-          type: 'CSAR',
-          experienceAble: true,
-          images: require('../../assets/images/appstore/mediawiki.png')
-        }, {
-          name: 'Pacman',
-          version: '1.0',
-          provider: 'HuaWeicompanyIntr',
-          size: '12.00 k',
-          score: '5',
-          type: 'CSAR',
-          experienceAble: true,
-          images: require('../../assets/images/appstore/pacman.png')
-        }, {
-          name: '飞船大战',
-          version: '1.0',
-          provider: 'HuaWeicompanyIntr',
-          size: '12.00 k',
-          score: '5',
-          type: 'CSAR',
-          experienceAble: false,
-          images: require('../../assets/images/appstore/spaceships.png')
-        }, {
-          name: '飞船大战',
-          version: '1.0',
-          provider: 'HuaWeicompanyIntr',
-          size: '12.00 k',
-          score: '5',
-          type: 'CSAR',
-          experienceAble: false,
-          images: require('../../assets/images/appstore/spaceships.png')
-        }
-      ],
+      pageData: [],
       language: 'cn',
       activeIndex: -1,
-      limitSize: 5,
+      limitSize: 10,
       offsetPage: 0,
       listTotal: 0,
       currentPage: 1
@@ -183,8 +122,13 @@ export default {
     jumpTo (path) {
       this.$router.push(path)
     },
+    jumpToDetail (item) {
+      this.$router.push({ path: '/EG/appstore/appDetail', params: { item } })
+      sessionStorage.setItem('appstordetail', JSON.stringify(item))
+      sessionStorage.setItem('pathSource', 'index')
+    },
     jumpToIncubation () {
-      this.$store.commit('changeFlow', '6')
+      this.$store.commit('changeFlow', 6)
       this.$router.push('/EG/developer/home')
     },
     removeClass () {
@@ -195,20 +139,54 @@ export default {
       this.activeIndex = index
     },
     getAppIcon (item) {
-      return URL_PREFIX + 'apps/' + item.appId + '/packages/' + item.packageId + '/icon'
+      return URL_PREFIX_APPSTORE + 'apps/' + item.appId + '/packages/' + item.packageId + '/icon'
     },
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
     },
-    getAppData (searchCondition) {
+    getAppData () {
+      let searchCondition = {
+        types: [],
+        affinity: [],
+        industry: [],
+        showType: ['public', 'inner-public'],
+        workloadType: [],
+        userId: '',
+        appName: '',
+        status: 'Published',
+        queryCtrl: {
+          offset: this.offsetPage,
+          limit: this.limitSize,
+          sortItem: 'createTime',
+          sortType: 'desc'
+        }
+      }
       appstoreApi.getAppData(searchCondition).then((res) => {
         this.pageData = res.data.results
         this.listTotal = res.data.total
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: '获取应用失败',
+          type: 'error'
+        })
       })
     }
+  },
+  watch: {
+    offsetPage (val, oldVal) {
+      this.offsetPage = val
+      this.getAppData()
+    },
+    limitSize (val, oldVal) {
+      this.limitSize = val
+      this.getAppData()
+    }
+  },
+  mounted () {
+    this.getAppData()
   }
 }
 </script>
