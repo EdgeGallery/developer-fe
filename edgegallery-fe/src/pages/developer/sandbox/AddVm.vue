@@ -614,7 +614,7 @@ export default {
         if (this.contentDefaultData !== this.addvmImages.userData) {
           this.addvmImages.userData = _contentTemp.substring(12, (_contentTemp.length - 7))
         }
-        this.addvmImages.flavorExtraSpecs = null
+        this.addvmImages.flavorExtraSpecs = ''
         this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
