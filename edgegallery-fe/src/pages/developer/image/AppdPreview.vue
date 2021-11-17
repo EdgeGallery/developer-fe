@@ -16,12 +16,12 @@
 <template>
   <div class="appd-preview">
     <div class="common-div-bg appd-preview-warraper">
-      <h3 class="rules-title">
-        应用包详情
-      </h3>
+      <div class="app-package-preview-title">
+        {{ $t('appPackage.appdDetail') }}
+      </div>
       <el-row>
         <el-col
-          :span="8"
+          :span="6"
           class="file-list"
         >
           <el-tree
@@ -35,7 +35,7 @@
             @node-click="getFileDetail"
           />
         </el-col>
-        <el-col :span="16">
+        <el-col :span="18">
           <div class="file-desc">
             <mavon-editor
               v-model="markdownSource"
@@ -43,7 +43,6 @@
               :subfield="false"
               :default-open="viewOrEdit"
               :box-shadow="false"
-              preview-background="#ffffff"
             />
           </div>
         </el-col>
@@ -61,7 +60,7 @@
           v-show="isEditFile"
           @click="saveFile()"
         >
-          保存
+          {{ $t('appPackage.save') }}
         </el-button>
         <el-button
           class="common-btn"
@@ -89,7 +88,8 @@ export default {
       fileType: '',
       fileContent: '',
       markdownSource: '',
-      packageId: this.$route.query.packageId,
+      // packageId: this.$route.query.packageId,
+      packageId: '3b604568-15ef-4bf0-b91f-c2572463219c',
       viewOrEdit: 'preview',
       isEditFile: false
     }
@@ -164,7 +164,7 @@ export default {
 .appd-preview {
   background: transparent;
   height: 90%;
-  .appd-preview-warraper::-webkit-scrollbar {
+  .appd-preview-warraper::-webkit-scrollbar,.file-list::-webkit-scrollbar {
     display: none;
   }
   .appd-preview-warraper {
@@ -174,11 +174,30 @@ export default {
     border-radius: 16px;
     margin: 51px auto;
     padding: 40px 40px 40px 40px;
+    .app-package-preview-title {
+      height: 30px;
+      line-height: 30px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: bold;
+    }
     .rules-title:before {
       margin-right: 7px;
       background-color: #76e1e9;
     }
     .el-row {
+      margin-top: 20px;
+      .file-list, .markdown-body {
+        height: 425px;
+        overflow: auto;
+      }
+      .file-list {
+        border-radius: 16px;
+        border: 1px #ffffff solid;
+      }
+      .file-desc {
+        padding-left: 15px;
+      }
       .el-tree {
         background-color: transparent;
         color: #ffffff;
