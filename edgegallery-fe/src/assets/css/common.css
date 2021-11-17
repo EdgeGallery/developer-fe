@@ -37,6 +37,9 @@
    padding:0;
    box-sizing: border-box;
  }
+ textarea::-webkit-input-placeholder{
+   color: #fff;
+ }
  .defaultFont button{
    font-family:defaultFont, Arial, Helvetica, sans-serif;
  }
@@ -887,7 +890,7 @@ th{
   overflow: auto;
   padding: 55px 120px;
   border-radius: 16px;
-  background: linear-gradient(to bottom right, rgba(205,209,231,0.8),rgba(101,111,205,0.17));
+  background: linear-gradient(to bottom right, rgba(130, 138, 243, 0.404),rgba(101,111,205,0.17));
   backdrop-filter: blur(6px);
   clear: both;
   position: relative;
@@ -1057,7 +1060,7 @@ th{
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -18px;
   left: -29px;
@@ -1068,7 +1071,7 @@ th{
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -58px;
   left: -29px;

@@ -55,7 +55,7 @@
           <div class="details-top">
             <p class="deploy-detail-circle" />
             <p class="deploy-detail-title defaultFontLight">
-              大亚湾项目
+              大亚湾应用
             </p>
           </div>
           <div class="details-center">

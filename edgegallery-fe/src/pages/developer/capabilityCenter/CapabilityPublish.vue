@@ -7,7 +7,7 @@
     </h3>
     <div>
       <el-form
-        :model="serFormData"
+        :model="serviceFormData"
         class="common-form"
         label-width="100px"
         label-position="right"
@@ -17,19 +17,19 @@
           label="二级能力"
           class="cb"
         >
-          <el-input v-model="serFormData.twoLevelName" />
+          <el-input v-model="serviceFormData.twoLevelName" />
         </el-form-item>
         <el-form-item
           label="一级能力"
         >
-          <el-input v-model="serFormData.oneLevelName" />
+          <el-input v-model="serviceFormData.oneLevelName" />
         </el-form-item>
         <el-form-item
           label="描述"
           class="cb"
         >
           <el-input
-            v-model="serFormData.description"
+            v-model="serviceFormData.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
             placeholder="请输入内容"
@@ -131,7 +131,7 @@
           label="服务名称"
           class="label-item-half"
         >
-          <el-input v-model="serFormData.serviceName" />
+          <el-input v-model="serviceFormData.serviceName" />
         </el-form-item>
         <el-form-item
           label="内部端口号"
@@ -139,26 +139,26 @@
         >
           <el-input
             type="number"
-            v-model="serFormData.internalPort"
+            v-model="serviceFormData.internalPort"
           />
         </el-form-item>
         <el-form-item
           label="版本"
           class="label-item-half"
         >
-          <el-input v-model="serFormData.version" />
+          <el-input v-model="serviceFormData.version" />
         </el-form-item>
         <el-form-item
           label="协议"
           class="label-item-half"
         >
-          <el-input v-model="serFormData.protocol" />
+          <el-input v-model="serviceFormData.protocol" />
         </el-form-item>
         <el-form-item
           label="在线体验URL"
           class="cb"
         >
-          <el-input v-model="serFormData.experienceUrl" />
+          <el-input v-model="serviceFormData.experienceUrl" />
         </el-form-item>
         <!-- <el-form-item
           label="流量规则"
@@ -190,7 +190,7 @@ export default {
   data () {
     return {
       appId: sessionStorage.getItem('applicationId'),
-      serFormData: {
+      serviceFormData: {
         dnsRuleIdList: [],
         trafficRuleIdList: [],
         oneLevelNameEn: '',
@@ -200,7 +200,7 @@ export default {
       apiFileList: [],
       guideFileId: [],
       iconFileList: [],
-      apiFIleId: '',
+      apiFileId: '',
       docFileId: '',
       iconFileId: '',
       isModify: false,
@@ -263,9 +263,9 @@ export default {
               this.handleUpload('icon', this.iconFileList[0])
             } else {
               this.iconFileId = res.data.fileId
-              this.serFormData.apiFileId = this.apiFileId
-              this.serFormData.guideFileId = this.docFileId
-              this.serFormData.iconFileId = this.iconFileId
+              this.serviceFormData.apiFileId = this.apiFileId
+              this.serviceFormData.guideFileId = this.docFileId
+              this.serviceFormData.iconFileId = this.iconFileId
               this.publishService()
             }
           }
@@ -274,12 +274,12 @@ export default {
     },
     publishService () {
       if (this.isModify) {
-        applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serFormData).then(res => {
+        applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
           this.$message.success('编辑能力成功！')
           this.$router.push('/EG/developer/capabilityCenter')
         })
       } else {
-        applicationApi.publishService(this.appId, this.serFormData).then(res => {
+        applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
           this.$message.success('发布能力成功！')
           this.$router.push('/EG/developer/capabilityCenter')
         })
@@ -303,11 +303,11 @@ export default {
   mounted () {
     if (this.$route.query && this.$route.query.serviceName) {
       this.isModify = true
-      this.serFormData = this.$route.query
+      this.serviceFormData = this.$route.query
       this.serviceId = this.$route.query.appServiceProducedId
-      this.getFileInfo(1, this.serFormData.apiFileId)
-      this.getFileInfo(2, this.serFormData.guideFileId)
-      this.getFileInfo(3, this.serFormData.iconFileId)
+      this.getFileInfo(1, this.serviceFormData.apiFileId)
+      this.getFileInfo(2, this.serviceFormData.guideFileId)
+      this.getFileInfo(3, this.serviceFormData.iconFileId)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="new-application">
     <h3 class="common-dlg-title lt">
-      项目信息
+      应用信息
     </h3>
     <div>
       <el-form
@@ -246,7 +246,7 @@ export default {
           { required: true, message: '请输入应用描述', trigger: 'blur' }
         ]
       },
-      defaultIconSrc: require('../../../assets/images/projects/pro_history_pro.png'),
+      defaultIconSrc: require('../../../assets/images/application/app_history_pro.png'),
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -461,7 +461,7 @@ export default {
     .default-icon{
       width: 30px;
       height: 30px;
-      background: url("../../../assets/images/projects/pro_history_pro.png") no-repeat center;
+      background: url("../../../assets/images/application/app_history_pro.png") no-repeat center;
       background-size: cover;
     }
     // .choose-default-icon::after{

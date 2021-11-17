@@ -68,7 +68,7 @@ const cn = {
     useDetail: '使用详情',
     deleteConfirm: '确定删除吗？',
     userId: '用户ID',
-    projectId: '项目ID',
+    projectId: '应用ID',
     deployTime: '部署时间',
     deleteTime: '删除时间',
     addMep: '新增服务',
@@ -107,7 +107,7 @@ const cn = {
     networkConfig: '网络配置',
     log: {
       userName: '使用者',
-      projectName: '项目名',
+      projectName: '应用名',
       appInstancesId: '实例化ID',
       deployTime: '使用时间',
       status: '状态',

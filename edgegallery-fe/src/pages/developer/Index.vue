@@ -63,7 +63,7 @@
                 行动方向
               </p>
               <img
-                src="../../assets/images/projects/pro_direction.png"
+                src="../../assets/images/application/app_direction.png"
                 alt=""
               >
             </div>

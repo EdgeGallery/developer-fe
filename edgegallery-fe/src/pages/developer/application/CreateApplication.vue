@@ -10,7 +10,7 @@
           alt="warning_icon"
         >
         <p>
-          此类内容需在项目中查看
+          此类内容需在应用中查看
         </p>
         <div class="tip-btn-group">
           <el-button
@@ -23,7 +23,7 @@
             class="tip-btn"
             @click="isShowAppFormDlg=true"
           >
-            新建项目
+            新建应用
           </el-button>
         </div>
       </div>
