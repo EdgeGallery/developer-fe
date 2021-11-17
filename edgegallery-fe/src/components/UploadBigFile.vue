@@ -119,6 +119,18 @@ export default {
     background: none;
     padding: 0;
   }
+  .uploader-list{
+    margin-top: 20px;
+  }
+  .uploader-file .uploader-file-progress{
+    background: rgba(226,238,255,.2);
+  }
+  .uploader-file[status=error] .uploader-file-progress{
+    background: rgba(255,224,224,.2);
+  }
+  .uploader-file-actions .uploader-file-remove{
+    background-position-y: -32px;
+  }
 }
 
 </style>

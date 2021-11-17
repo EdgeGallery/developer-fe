@@ -27,37 +27,37 @@
       </h3>
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">虚拟机名称：</span>
+          <span class="content-left lt">虚拟机名称 :</span>
           <span class="content-right lt">{{ vmBasicInformation.vmName }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">网络：</span>
+          <span class="content-left lt">网络 :</span>
           <span class="content-right lt">{{ vmBasicInformation.netWork }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">镜像：</span>
+          <span class="content-left lt">镜像 :</span>
           <span class="content-right lt">{{ vmBasicInformation.image }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">规格：</span>
+          <span class="content-left lt">规格 :</span>
           <span class="content-right lt">{{ vmBasicInformation.flavor }}</span>
         </p>
       </div>
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">测试状态：</span>
+          <span class="content-left lt">测试状态 :</span>
           <span class="content-right lt">{{ vmTestInformation.status }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">测试节点：</span>
+          <span class="content-left lt">测试节点 :</span>
           <span class="content-right lt">
             <span
               v-for="(item,index) in vmTestInformation.nodes"
               :key="index"
               class="node-span"
             >
-              {{ item.networkName }}：{{ item.ipAddress }}
+              {{ item.networkName }}: {{ item.ipAddress }}
             </span>
           </span>
         </p>
@@ -65,15 +65,23 @@
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">镜像名称：</span>
+          <span class="content-left lt">镜像名称 :</span>
           <span class="content-right lt">{{ vmImageInformation.imageName }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">下载地址</span>
-          <span class="content-right lt">{{ vmImageInformation.downloadUrl }}</span>
+          <span class="content-left lt">下载地址 :</span>
+          <span class="content-right lt">
+            <el-link
+              :href="vmImageInformation.downloadUrl"
+              :underline="false"
+              rel="noopener noreferrer"
+            >
+              {{ vmImageInformation.downloadUrl }}
+            </el-link>
+          </span>
         </p>
         <p class="clear">
-          <span class="content-left lt">阶段状态：</span>
+          <span class="content-left lt">阶段状态 :</span>
           <span class="content-right lt">{{ vmImageInformation.status }}</span>
         </p>
       </div>
@@ -91,13 +99,12 @@
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi'
+import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'Vmdetail',
   data () {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
-      testNodes: 'https://192.168.1.38:30091,https://192.168.1.38:30092,https://192.168.1.38:30093',
       vmBasicInformation: {
         vmName: '',
         netWork: '',
@@ -191,6 +198,7 @@ export default {
         .content-left{
           width: 100px;
           text-align: right;
+          padding-right: 5px;
         }
         .content-right{
           width: calc(100% - 100px);
@@ -198,6 +206,9 @@ export default {
         .node-span{
           display: block;
           line-height: 25px;
+        }
+        .el-link.el-link--default{
+          color: #fff;
         }
       }
     }

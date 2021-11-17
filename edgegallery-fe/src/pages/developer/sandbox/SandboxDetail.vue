@@ -55,7 +55,7 @@
           <div class="details-top">
             <p class="deploy-detail-circle" />
             <p class="deploy-detail-title defaultFontLight">
-              大亚湾应用
+              {{ applicationName }}
             </p>
           </div>
           <div class="details-center">
@@ -303,7 +303,7 @@ import NetScroll from './NetScroll.vue'
 import VmDetail from './VmDetail.vue'
 import VmList from './VmList.vue'
 import VmUploadFile from './VmUploadFile.vue'
-import { sandbox } from '../../../api/developerApi.js'
+import { sandbox, applicationApi } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxDetail',
   components: {
@@ -334,7 +334,8 @@ export default {
       netWorkList: [],
       isMecSucess: false,
       isUpfSucess: false,
-      vmId: ''
+      vmId: '',
+      applicationName: ''
     }
   },
   methods: {
@@ -415,6 +416,11 @@ export default {
       }).catch(() => {
         this.$eg_messagebox('释放环境失败！', 'error')
       })
+    },
+    getApplicationInfo () {
+      applicationApi.getAppInfo(this.applicationId).then(res => {
+        this.applicationName = res.data.name
+      })
     }
   },
   mounted () {
@@ -426,6 +432,7 @@ export default {
       this.isChangeStyle = false
       this.isMecSucess = false
     }
+    this.getApplicationInfo()
     this.getVmList()
   },
   beforeDestroy () {
