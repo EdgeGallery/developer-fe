@@ -267,7 +267,7 @@ export default {
 }
 .left-pro-comp::after {
   content: "";
-  background: linear-gradient(to bottom right, rgba(205,209,231,0.8),rgba(101,111,205,0.17));
+  background: linear-gradient(to bottom right, rgba(130, 138, 243, 0.404),rgba(101,111,205,0.17));
   backdrop-filter: blur(6px);
   top: 0;
   left: 0;

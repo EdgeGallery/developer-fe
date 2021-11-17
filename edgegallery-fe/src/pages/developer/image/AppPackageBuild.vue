@@ -18,287 +18,289 @@
   <div class="app-package-build">
     <div class="common-div-bg app-package-build-warraper">
       <div class="app-package-build-title">
-        应用打包预览
+        {{ $t('appPackage.appdTitle') }}
       </div>
-      <div class="app-package-build-basicinfo">
-        <div class="title-wrapper">
-          <div class="circle-out">
-            <div class="circle-in" />
-          </div>
-          <div class="basicinfo-title title">
-            基本信息
-          </div>
-        </div>
-        <div class="content-wrapper">
-          <el-row>
-            <el-col :span="6">
-              <p class="left">
-                项目名称
-              </p>
-              <p>
-                {{ basicInfoData.name }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                版本
-              </p>
-              <p>
-                {{ basicInfoData.version }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                提供者
-              </p>
-              <p>
-                {{ basicInfoData.provider }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                行业
-              </p>
-              <p>
-                {{ basicInfoData.industry }}
-              </p>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="6">
-              <p class="left">
-                类型
-              </p>
-              <p>
-                {{ basicInfoData.type }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                架构
-              </p>
-              <p>
-                {{ basicInfoData.architecture }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                依赖应用
-              </p>
-              <p>
-                {{ basicInfoData.dependent }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                创建时间
-              </p>
-              <p>
-                {{ basicInfoData.createTime }}
-              </p>
-            </el-col>
-          </el-row>
-          <el-row class="thirdline">
-            <el-col :span="6">
-              <p class="left">
-                描述
-              </p>
-              <p>
-                {{ basicInfoData.description }}
-              </p>
-            </el-col>
-            <el-col :span="6">
-              <p class="left">
-                应用详情介绍
-              </p>
-              <p>
-                {{ basicInfoData.fileName }}
-              </p>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-      <div class="app-package-build-resourceconfig">
-        <div class="title-wrapper">
-          <div class="circle-out">
-            <div class="circle-in" />
-          </div>
-          <div class="resourceconfig-title title">
-            资源配置
-          </div>
-        </div>
-        <div class="content-wrapper appPackageBuild-content">
-          <el-table
-            class="common-table"
-            :data="resourceConfigInfoList"
-          >
-            <el-table-column
-              prop="vmName"
-              label="虚拟机名称"
-              min-width="14%"
-            />
-            <el-table-column
-              prop="spec"
-              label="规格"
-              min-width="18%"
-            />
-            <el-table-column
-              prop="network"
-              label="连接网络"
-              min-width="18%"
-            />
-            <el-table-column
-              prop="basicImage"
-              label="基础镜像"
-              min-width="12%"
-            />
-            <el-table-column
-              prop="vmImage"
-              label="虚机镜像"
-              min-width="15%"
-            />
-          </el-table>
-        </div>
-      </div>
-      <div class="app-package-build-rule">
-        <div class="title-wrapper">
-          <div class="circle-out">
-            <div class="circle-in" />
-          </div>
-          <div class="rule-title title">
-            分流规则
-          </div>
-        </div>
-        <div class="content-wrapper appPackageBuild-content">
-          <el-tabs>
-            <el-tab-pane label="流量规则">
-              <div class="ruleTable">
-                <el-table
-                  class="common-table"
-                  :data="trafficRulesInfoList"
-                >
-                  <el-table-column
-                    prop="trafficRuleId"
-                    :label="$t('appPackage.trafficRuleId')"
-                    min-width="25%"
-                  />
-                  <el-table-column
-                    prop="action"
-                    :label="$t('appPackage.filterType')"
-                    min-width="25%"
-                  />
-                  <el-table-column
-                    prop="priority"
-                    :label="$t('appPackage.priority')"
-                    min-width="25%"
-                  />
-                  <el-table-column
-                    prop="filterType"
-                    :label="$t('appPackage.action')"
-                    min-width="25%"
-                  />
-                </el-table>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="DNS规则">
-              <div class="ruleTable">
-                <el-table
-                  class="common-table"
-                  :data="dnsRulesInfoList"
-                >
-                  <el-table-column
-                    prop="dnsRuleId"
-                    :label="$t('appPackage.dnsRuleId')"
-                    min-width="25%"
-                  />
-                  <el-table-column
-                    prop="domainName"
-                    :label="$t('appPackage.domainName')"
-                    min-width="25%"
-                  />
-                  <el-table-column
-                    prop="ipAddressType"
-                    :label="$t('appPackage.ipAddressType')"
-                    min-width="25%"
-                  />
-                  <el-table-column
-                    prop="ttl"
-                    :label="$t('appPackage.ttl')"
-                    min-width="25%"
-                  />
-                </el-table>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-        </div>
-      </div>
-      <div class="app-package-build-capabalityconfig">
-        <div class="title-wrapper">
-          <div class="circle-out">
-            <div class="circle-in" />
-          </div>
-          <div class="capabalityconfig-title title">
-            能力配置
-          </div>
-        </div>
-        <div class="content-wrapper appPackageBuild-content">
-          <div class="depend">
-            <h3 class="rules-title title">
-              能力依赖
-            </h3>
-            <div class="dependTable">
-              <el-table
-                class="common-table"
-                :data="capabalityDependsList"
-              >
-                <el-table-column
-                  prop="serName"
-                  :label="$t('appPackage.serviceName')"
-                  min-width="40%"
-                />
-                <el-table-column
-                  prop="version"
-                  :label="$t('appPackage.version')"
-                  min-width="60%"
-                />
-              </el-table>
+      <div class="app-package-build-content">
+        <div class="app-package-build-basicinfo">
+          <div class="title-wrapper">
+            <div class="circle-out">
+              <div class="circle-in" />
+            </div>
+            <div class="basicinfo-title title">
+              {{ $t('appPackage.basicInfo') }}
             </div>
           </div>
-          <div class="release">
-            <h3 class="rules-title title">
-              能力发布
-            </h3>
-            <div class="releaseTable">
-              <el-table
-                class="common-table"
-                :data="capabalityReleaseDataList"
-              >
-                <el-table-column
-                  prop="serviceName"
-                  :label="$t('appPackage.serviceName')"
-                  min-width="26%"
-                />
-                <el-table-column
-                  prop="internalPort"
-                  :label="$t('appPackage.port')"
-                  min-width="30%"
-                />
-                <el-table-column
-                  prop="version"
-                  :label="$t('appPackage.version')"
-                  min-width="20%"
-                />
-                <el-table-column
-                  prop="protocol"
-                  :label="$t('appPackage.protocol')"
-                  min-width="20%"
-                />
-                <el-table-column
-                  prop="description"
-                  :label="$t('appPackage.description')"
-                  min-width="28%"
-                />
-              </el-table>
+          <div class="content-wrapper">
+            <el-row>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.appName') }}
+                </p>
+                <p>
+                  {{ basicInfoData.name }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.version') }}
+                </p>
+                <p>
+                  {{ basicInfoData.version }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.provider') }}
+                </p>
+                <p>
+                  {{ basicInfoData.provider }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.industry') }}
+                </p>
+                <p>
+                  {{ basicInfoData.industry }}
+                </p>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.type') }}
+                </p>
+                <p>
+                  {{ basicInfoData.type }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.architecture') }}
+                </p>
+                <p>
+                  {{ basicInfoData.architecture }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.dependent') }}
+                </p>
+                <p>
+                  {{ basicInfoData.dependent }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.createTime') }}
+                </p>
+                <p>
+                  {{ basicInfoData.createTime }}
+                </p>
+              </el-col>
+            </el-row>
+            <el-row class="thirdline">
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.description') }}
+                </p>
+                <p>
+                  {{ basicInfoData.description }}
+                </p>
+              </el-col>
+              <el-col :span="6">
+                <p class="left">
+                  {{ $t('appPackage.fileName') }}
+                </p>
+                <p>
+                  {{ basicInfoData.fileName }}
+                </p>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div class="app-package-build-resourceconfig">
+          <div class="title-wrapper">
+            <div class="circle-out">
+              <div class="circle-in" />
+            </div>
+            <div class="resourceconfig-title title">
+              {{ $t('appPackage.resourceConfig') }}
+            </div>
+          </div>
+          <div class="content-wrapper appPackageBuild-content">
+            <el-table
+              class="common-table"
+              :data="resourceConfigInfoList"
+            >
+              <el-table-column
+                prop="vmName"
+                :label="$t('appPackage.vmName')"
+                min-width="14%"
+              />
+              <el-table-column
+                prop="spec"
+                :label="$t('appPackage.spec')"
+                min-width="18%"
+              />
+              <el-table-column
+                prop="network"
+                :label="$t('appPackage.network')"
+                min-width="18%"
+              />
+              <el-table-column
+                prop="basicImage"
+                :label="$t('appPackage.basicImage')"
+                min-width="12%"
+              />
+              <el-table-column
+                prop="vmImage"
+                :label="$t('appPackage.vmImage')"
+                min-width="15%"
+              />
+            </el-table>
+          </div>
+        </div>
+        <div class="app-package-build-rule">
+          <div class="title-wrapper">
+            <div class="circle-out">
+              <div class="circle-in" />
+            </div>
+            <div class="rule-title title">
+              {{ $t('appPackage.rule') }}
+            </div>
+          </div>
+          <div class="content-wrapper appPackageBuild-content">
+            <el-tabs>
+              <el-tab-pane :label="$t('appPackage.trafficRule')">
+                <div class="ruleTable">
+                  <el-table
+                    class="common-table"
+                    :data="trafficRulesInfoList"
+                  >
+                    <el-table-column
+                      prop="trafficRuleId"
+                      :label="$t('appPackage.trafficRuleId')"
+                      min-width="25%"
+                    />
+                    <el-table-column
+                      prop="action"
+                      :label="$t('appPackage.filterType')"
+                      min-width="25%"
+                    />
+                    <el-table-column
+                      prop="priority"
+                      :label="$t('appPackage.priority')"
+                      min-width="25%"
+                    />
+                    <el-table-column
+                      prop="filterType"
+                      :label="$t('appPackage.action')"
+                      min-width="25%"
+                    />
+                  </el-table>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane :label="$t('appPackage.dnsRule')">
+                <div class="ruleTable">
+                  <el-table
+                    class="common-table"
+                    :data="dnsRulesInfoList"
+                  >
+                    <el-table-column
+                      prop="dnsRuleId"
+                      :label="$t('appPackage.dnsRuleId')"
+                      min-width="25%"
+                    />
+                    <el-table-column
+                      prop="domainName"
+                      :label="$t('appPackage.domainName')"
+                      min-width="25%"
+                    />
+                    <el-table-column
+                      prop="ipAddressType"
+                      :label="$t('appPackage.ipAddressType')"
+                      min-width="25%"
+                    />
+                    <el-table-column
+                      prop="ttl"
+                      :label="$t('appPackage.ttl')"
+                      min-width="25%"
+                    />
+                  </el-table>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+          </div>
+        </div>
+        <div class="app-package-build-capabalityconfig">
+          <div class="title-wrapper">
+            <div class="circle-out">
+              <div class="circle-in" />
+            </div>
+            <div class="capabalityconfig-title title">
+              {{ $t('appPackage.capabalityConfig') }}
+            </div>
+          </div>
+          <div class="content-wrapper appPackageBuild-content">
+            <div class="depend">
+              <h3 class="rules-title title">
+                {{ $t('appPackage.capabalityDepend') }}
+              </h3>
+              <div class="dependTable">
+                <el-table
+                  class="common-table"
+                  :data="capabalityDependsList"
+                >
+                  <el-table-column
+                    prop="serName"
+                    :label="$t('appPackage.serviceName')"
+                    min-width="60%"
+                  />
+                  <el-table-column
+                    prop="version"
+                    :label="$t('appPackage.version')"
+                    min-width="40%"
+                  />
+                </el-table>
+              </div>
+            </div>
+            <div class="release">
+              <h3 class="rules-title title">
+                {{ $t('appPackage.capabalityRelease') }}
+              </h3>
+              <div class="releaseTable">
+                <el-table
+                  class="common-table"
+                  :data="capabalityReleaseDataList"
+                >
+                  <el-table-column
+                    prop="serviceName"
+                    :label="$t('appPackage.serviceName')"
+                    min-width="26%"
+                  />
+                  <el-table-column
+                    prop="internalPort"
+                    :label="$t('appPackage.port')"
+                    min-width="30%"
+                  />
+                  <el-table-column
+                    prop="version"
+                    :label="$t('appPackage.version')"
+                    min-width="20%"
+                  />
+                  <el-table-column
+                    prop="protocol"
+                    :label="$t('appPackage.protocol')"
+                    min-width="20%"
+                  />
+                  <el-table-column
+                    prop="description"
+                    :label="$t('appPackage.description')"
+                    min-width="28%"
+                  />
+                </el-table>
+              </div>
             </div>
           </div>
         </div>
@@ -309,12 +311,6 @@
           @click="jumpToPreview"
         >
           {{ $t('appPackage.appdPreview') }}
-        </el-button>
-        <el-button
-          class="common-btn"
-          @click="packageApp()"
-        >
-          {{ $t('appPackage.build') }}
         </el-button>
       </div>
     </div>
@@ -329,67 +325,14 @@ export default {
   },
   data () {
     return {
-      basicInfoData: {
-        name: 'applicationVM',
-        version: 'V1.0',
-        provider: 'huawei',
-        industry: 'game',
-        type: '游戏',
-        architecture: 'x86',
-        dependent: '无依赖',
-        createTime: '2021-11-04:19.46',
-        description: '2048游戏',
-        fileName: 'gameIntru.docs'
-      },
-      resourceConfigInfoList: [
-        {
-          vmId: '',
-          vmName: 'VmTest1',
-          spec: 'x86 | 1vCPUs | 1GBRAM | 40GB+50GB Disk',
-          network: 'MEC_APP_N6, MEC_app_Private,',
-          basicImage: 'ubuntu',
-          vmImage: '暂无'
-        }, {
-          vmId: '',
-          vmName: 'VmTest1',
-          spec: 'x86 | 1vCPUs | 1GBRAM | 40GB+50GB Disk',
-          network: 'MEC_APP_Public',
-          basicImage: 'ubuntu',
-          vmImage: '暂无'
-        }
-      ],
-      trafficRulesInfoList: [
-        {
-          trafficRuleId: 'rules',
-          action: 'FLOW',
-          priority: '1',
-          filterType: 'DROP'
-        }
-      ],
-      dnsRulesInfoList: [
-        {
-          dnsRuleId: 'rules',
-          domainName: 'domainName',
-          ipAddressType: '0.0.0.0',
-          ttl: '85000'
-        }
-      ],
-      capabalityDependsList: [
-        {
-          serName: 'VmServe',
-          version: 'V1.0'
-        }
-      ],
-      capabalityReleaseDataList: [
-        {
-          serviceName: 'oneTest',
-          internalPort: '8000',
-          version: 'V1.0',
-          protocol: 'https',
-          description: 'test'
-        }
-      ],
-      applicationId: sessionStorage.getItem('applicationId'),
+      basicInfoData: {},
+      resourceConfigInfoList: [],
+      trafficRulesInfoList: [],
+      dnsRulesInfoList: [],
+      capabalityDependsList: [],
+      capabalityReleaseDataList: [],
+      // applicationId: sessionStorage.getItem('applicationId'),
+      applicationId: '0600229b-3e9e-4ec4-9ecc-ed9ed912d869',
       packageId: ''
     }
   },
@@ -467,21 +410,18 @@ export default {
       this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
     },
     packageApp () {
-      this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
-        this.$store.commit('changeFlow', '4')
-        this.$router.push('/EG/developer/home')
+      imageApi.generatePackage(this.applicationId).then(res => {
+        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+          this.$store.commit('changeFlow', '4')
+          this.$router.push('/EG/developer/home')
+        })
+      }).catch(() => {
+        this.$eg_messagebox('打包失败', 'error')
       })
-      // imageApi.generatePackage(this.applicationId).then(res => {
-      //   this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
-      //     this.$router.push('/EG/developer/home')
-      //   })
-      // }).catch(() => {
-      //   this.$eg_messagebox('打包失败', 'error')
-      // })
     }
   },
   mounted () {
-    // this.getAppBaseInfo()
+    this.getAppBaseInfo()
   }
 }
 </script>
@@ -490,16 +430,12 @@ export default {
 .app-package-build {
   background: transparent;
   height: 90%;
-  .app-package-build-warraper::-webkit-scrollbar {
+  .app-package-build-warraper::-webkit-scrollbar, .app-package-build-content::-webkit-scrollbar {
     display: none;
   }
   .app-package-build-warraper {
     width: 85%;
-    max-height: 85%;
-    overflow: auto;
-    border: 2px solid #b6a4ec;
-    // background: url('../../../assets/images/app_pacakage_build_bg.png') no-repeat center;
-    // background-size: cover;
+    height: 85%;
     border-radius: 16px;
     margin: 51px auto;
     padding: 40px 40px 40px 40px;
@@ -512,6 +448,11 @@ export default {
     }
     .title {
       padding-left: 8px;
+    }
+    .app-package-build-content {
+      height: calc(100% - 130px);
+      overflow: auto;
+      margin-top: 20px;
     }
     .circle-out {
       width: 14px;
@@ -640,6 +581,7 @@ export default {
     }
     .app-package-build-capabalityconfig {
       .appPackageBuild-content {
+        display: flex;
         margin-top: 15px;
         .dependTable, .releaseTable {
           margin-top: 18px;
@@ -654,11 +596,9 @@ export default {
         }
         .depend {
           width: 33%;
-          display: inline-block;
         }
         .release {
           width: 62%;
-          display: inline-block;
           margin-left: 5%;
         }
         .rules-title:before {
@@ -669,9 +609,9 @@ export default {
     .appPackageBtn {
       margin: 41px 0px 0 0;
       .el-button {
-        // font-size: 20px;
+        font-size: 20px;
         border-radius: 16px;
-        // padding: 17px 45px;
+        padding: 17px 45px;
       }
       .el-button + .el-button {
         margin-left: 60px;

@@ -80,7 +80,7 @@ export default {
 <style scoped lang="scss">
 .netScroll{
   width: 154px;
-  height: 94px;
+  height: 96px;
   overflow: hidden;
   .ul-scoll{
     li{

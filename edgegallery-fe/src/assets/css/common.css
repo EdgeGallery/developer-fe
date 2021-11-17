@@ -37,6 +37,9 @@
    padding:0;
    box-sizing: border-box;
  }
+ textarea::-webkit-input-placeholder{
+   color: #fff;
+ }
  .defaultFont button{
    font-family:defaultFont, Arial, Helvetica, sans-serif;
  }
@@ -798,30 +801,32 @@
    padding-top: 200px;
  }
 
-.common-btn{
+.el-button.common-btn{
   /* box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8); */
-  border-radius: 12px;
-  padding: 6px 32px;
-  border: none;
-  color: #5944C0;
+  border-radius: 12px !important;
+  padding: 6px 32px !important;
+  border: none !important;
+  color: #5944C0 !important;
   font-family: defaultFontLight !important;
-  font-size: 14px;
-  margin-top: 10px;
-  font-weight: 400;
+  font-size: 14px !important;
+  margin-top: 10px !important;
 }
-.common-btn:hover{
-  color: #fff;
-  background-color: #5347a0;
+.el-button.common-btn:hover{
+  color: #fff !important;
+  background-color: #5347a0 !important;
 }
 .inner-btn{
-  color: #fff;
-  background-color: rgba(190,194,225,.7);
+  color: #fff !important;
+  background-color: rgba(190,194,225,.7) !important;
 }
-.common-dark-btn{
+.el-button+.el-button{
+  margin-left: 32px !important;
+}
+.el-button.common-dark-btn{
   color: #fff;
   background-color: #60569A;
 }
-.common-cancel-btn{
+.el-button.common-cancel-btn{
   padding: 6px 24px;
   color: #fff;
   font-family: defaultFontLight !important;
@@ -834,12 +839,12 @@
   margin-right: 15px!important;
 }
 
-.common-table{
+.el-table.common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
-.common-table, .el-table__expanded-cell, .common-table th.el-table__cell, 
-.common-table th,.common-table th.el-table__cell > .cell, .common-table tr, .common-table td.el-table__cell > .cell { 
+.el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
+.el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
   background-color: transparent;
   color: #fff;
 }
@@ -849,7 +854,7 @@ background-color:transparent !important
 .el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell, .el-table.more-rows-table thead th.is-leaf{
   border-bottom: none;
 }
-.common-table thead tr{
+.el-table.common-table thead tr{
   height: 30px;
   background-color: rgba(255,255,255,.3);
 }
@@ -868,7 +873,7 @@ th{
 .el-button--text,.el-button--text:hover{
   color: #fff;
 }
-.operation-btn-text{
+.el-button.operation-btn-text{
   font-size: 16px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
 }
@@ -885,9 +890,9 @@ th{
 .common-div-bg{
   max-height: 85%;
   overflow: auto;
-  padding: 55px 120px;
+  padding: 40px;
   border-radius: 16px;
-  background: linear-gradient(to bottom right, rgba(205,209,231,0.8),rgba(101,111,205,0.17));
+  background: linear-gradient(to bottom right, rgba(205,235,245,0.6),rgba(101,111,205,0.17));
   backdrop-filter: blur(6px);
   clear: both;
   position: relative;
@@ -930,20 +935,20 @@ th{
 .title-top{
   margin-top: 30px;
 }
-.common-form .el-form-item__label{
+.el-form.common-form .el-form-item__label{
   color: #fff;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
 }
-.common-form .el-input__inner,.common-form .el-textarea__inner{
+.el-form.common-form .el-input__inner,.el-form.common-form .el-textarea__inner{
   color: #fff;
   background-color: rgba(255,255,255,.5);
   border: none;
 }
 
-.common-form .el-input__inner:focus{
+.el-form.common-form .el-input__inner:focus{
   border: 1px solid #ddd;
 }
-.common-form .el-input-number--mini{
+.el-form.common-form .el-input-number--mini{
   width: 100%;
 }
 .el-input-number .el-input__inner{
@@ -986,7 +991,7 @@ th{
 .common-dlg-title{
   font-weight: normal;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin: 15px;
 }
 .common-dlg-title:before{
   display: inline-block;
@@ -1057,7 +1062,7 @@ th{
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -18px;
   left: -29px;
@@ -1068,7 +1073,7 @@ th{
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: url('../images/projects/pro_mark_icon.png') no-repeat center;
+  background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -58px;
   left: -29px;
@@ -1094,15 +1099,16 @@ img.next{
   animation-duration:2000ms;
   animation-iteration-count:infinite;
   animation-direction:alternate;
-  @keyframes next  {
-    0%{
-       opacity:0.2;
-       filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
-    }
-    100%{
-      opacity:1;
-       filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.8));
-    }
+}
+
+@keyframes breathe  {
+  0%{
+     opacity:0.2;
+     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.1));
+  }
+  100%{
+    opacity:1;
+     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,0.8));
   }
 }
 
@@ -1120,10 +1126,10 @@ img.next{
   opacity: 0;
 }
 .test-btn.el-button{
-  border: 1px solid #0F0D87;
+  border: 1px solid #fff;
   background-color: transparent;
   padding: 12px 30px;
-  color: #0F0D87;
+  color: #fff;
   border-radius: 16px;
 }
 .test-light-btn.el-button{
@@ -1133,7 +1139,7 @@ img.next{
   color: #0F0D87;
   border-radius: 16px;
 }
-.common-input .el-input__inner{
+.el-input.common-input .el-input__inner{
   width: 180px;
   color: #fff;
   background-color: rgba(255,255,255,.45);
@@ -1156,4 +1162,8 @@ input::-webkit-input-placeholder {
   position: absolute;
   top: 8px;
   left: -18px;
+}
+
+.el-upload-list__item-name{
+  color: rgb(25, 25, 252) !important;
 }
