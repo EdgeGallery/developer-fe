@@ -331,8 +331,7 @@ export default {
       dnsRulesInfoList: [],
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
-      // applicationId: sessionStorage.getItem('applicationId'),
-      applicationId: '017eedab-791e-4988-9476-2a8832a82446',
+      applicationId: sessionStorage.getItem('applicationId'),
       packageId: ''
     }
   },

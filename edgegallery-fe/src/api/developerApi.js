@@ -21,7 +21,7 @@ import {
   PUT,
   DELETE
 } from '../tools/request.js'
-const URL_PREFIX_DEVELOPER = '/mec/developer/v2/'
+const URL_PREFIX_DEVELOPER = '/mec-developer/mec/developer/v2/'
 let sandbox = {
   // determine whether to select sandbox by applicationid
   getUserSelectSandbox (applicationid) {
