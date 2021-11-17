@@ -346,7 +346,7 @@ export default {
     },
     publish () {
       let _parameter = {
-        isFree: true,
+        free: true,
         price: 0
       }
       applicationApi.publishApp(this.applicationId, _parameter).then(res => {
@@ -427,7 +427,7 @@ export default {
           duration: 2000,
           showClose: true,
           type: 'warning',
-          message: this.$t('promptMessage.getprocessFail')
+          message: '获取任务进度失败'
         })
         this.clearInterval()
       })
