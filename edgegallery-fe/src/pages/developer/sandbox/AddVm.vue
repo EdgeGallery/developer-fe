@@ -526,8 +526,9 @@ export default {
         this.contentDefaultData = this.contentDefaultData.substring(13, (this.contentDefaultData.length - 8))
         this.userData = '```shell\r\n' + res.data.replace(/\\r\\n/g, '\n') + '\r\n```'
         this.flavorDefaultData = this.flavorExtraSpecs
-        this.flavorExtraSpecs = '```shell\r\n' + this.flavorExtraSpecs.replace(/\\r\\n/g, '\n') + '\r\n```'
-        console.log(this.userData)
+        this.flavorDefaultData = this.flavorDefaultData.replace(/\n/g, '\\r\\n')
+        this.flavorDefaultData = this.flavorDefaultData.substring(13, (this.flavorDefaultData.length - 8))
+        this.flavorExtraSpecs = '```shell\r\n' + '\r\n```'
       })
       this.vmInfo.publicSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -538,8 +539,8 @@ export default {
     changePrivateType (data) {
       this.vmInfo.privateId = ''
       this.vmInfo.privateImageOptions = []
-      sandbox.getScriptByImageId(data).then(res => {
-        console.log(res.data)
+      sandbox.getScriptByImageId(data).then(() => {
+
       })
       this.vmInfo.privateSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -564,10 +565,8 @@ export default {
       if (name === 'content') {
         if (this.viewOrEditContent === 'edit') {
           this.viewOrEditContent = 'preview'
-          console.log(this.viewOrEditContent)
         } else {
           this.viewOrEditContent = 'edit'
-          console.log(this.viewOrEditContent)
         }
       } else if (name === 'params') {
         if (this.viewOrEditParams === 'edit') {
@@ -615,6 +614,7 @@ export default {
         if (this.contentDefaultData !== this.addvmImages.userData) {
           this.addvmImages.userData = _contentTemp.substring(12, (_contentTemp.length - 7))
         }
+        this.addvmImages.flavorExtraSpecs = null
         this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
@@ -717,7 +717,12 @@ export default {
     border-top:none;
     border-bottom:none;
     .el-radio__label {
-      color: #5944C0;
+      color: rgb(42, 33, 51);
+    }
+    .el-link--inner{
+      p{
+        color: #cfccdb;
+      }
     }
     .el-collapse-item__header{
       background: none;
