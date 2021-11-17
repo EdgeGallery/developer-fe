@@ -123,6 +123,7 @@
               :vm-breath-style-prop="vmBreathStyle"
               :is-btn-start-prop="isBtnStart"
               @uploadVmFile="uploadVmFile"
+              :is-clear-vm-image-prop="isClearVmImage"
             />
           </div>
           <div class="details-bottom">
@@ -335,7 +336,8 @@ export default {
       isMecSucess: false,
       isUpfSucess: false,
       vmId: '',
-      applicationName: ''
+      applicationName: '',
+      isClearVmImage: false
     }
   },
   methods: {
@@ -412,6 +414,7 @@ export default {
     },
     clearVmList () {
       sandbox.clearVmImage(this.applicationId).then(() => {
+        this.isClearVmImage = true
         this.isStartupVmFinish = false
       }).catch(() => {
         this.$eg_messagebox('释放环境失败！', 'error')
