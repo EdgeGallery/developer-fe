@@ -657,9 +657,8 @@ export default {
         margin-top: 60px;
         .details-bottom-title{
           font-size: 40px;
-          color: #0a0936;
+          color: rgba(238, 238, 238, 0.2);
           font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
-          opacity: 0.2;
         }
         .exportImage_btn_show{
           display: block;
