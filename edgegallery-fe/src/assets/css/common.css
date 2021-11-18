@@ -898,7 +898,7 @@ th{
   overflow: auto;
   padding: 40px;
   border-radius: 16px;
-  background: rgb(58,20,139);
+  background: rgba(46,20,124,.7);
   backdrop-filter: blur(6px);
   clear: both;
   position: relative;
