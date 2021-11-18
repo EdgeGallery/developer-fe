@@ -70,7 +70,7 @@ export default {
   data () {
     return {
       uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/upload-file',
-      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/file-merge',
+      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/merge-file',
       paramsName: 'identifier'
     }
   },

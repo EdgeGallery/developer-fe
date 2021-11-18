@@ -121,7 +121,6 @@
               :is-add-vm-finish-prop="isAddVmFinish"
               @startUpVm="startUpVm"
               :vm-breath-style-prop="vmBreathStyle"
-              :is-btn-start-prop="isBtnStart"
               @uploadVmFile="uploadVmFile"
               :is-clear-vm-image-prop="isClearVmImage"
             />

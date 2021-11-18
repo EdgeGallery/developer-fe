@@ -117,7 +117,7 @@
           </div>
           <div
             class="vm-btn vm-btn-export flex-center hoverHands"
-            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="exportImage(vmLists.id)"
           >
             <el-tooltip
@@ -170,10 +170,6 @@ export default {
       default: false
     },
     vmBreathStyleProp: {
-      type: Boolean,
-      default: false
-    },
-    isBtnStartProp: {
       type: Boolean,
       default: false
     },
@@ -304,6 +300,9 @@ export default {
   watch: {
     isClearVmImageProp: function (val) {
       this.isClearVmImage = val
+      if (val) {
+        this.isBtnStart = false
+      }
     }
   },
   created () {
