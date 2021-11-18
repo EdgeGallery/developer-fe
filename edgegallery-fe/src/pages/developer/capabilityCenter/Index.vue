@@ -193,7 +193,7 @@
     <div class="rt">
       <el-button
         class="common-btn"
-        @click="doNext(1)"
+        @click="$router.go(-1)"
       >
         取消
       </el-button>
@@ -300,11 +300,9 @@ export default {
   },
   methods: {
     doNext (type) {
-      if (type === 2) {
-        sessionStorage.setItem('isCapabilityActive', true)
-        this.$store.commit('changeFlow', '2')
-        this.$message.success('添加能力成功！')
-      }
+      sessionStorage.setItem('isCapabilityActive', true)
+      this.$store.commit('changeFlow', '2')
+      this.$message.success('操作成功！')
       this.$router.push('/EG/developer/home')
     },
     publishService  (service) {
@@ -344,7 +342,7 @@ export default {
         type: 'warning'
       }).then(() => {
         applicationApi.deletePublishedService(this.appId, id).then(res => {
-          this.$message.success('删除已发布能力成功！')
+          this.$message.success('删除能力成功！')
           this.getPublishedService()
         })
       })

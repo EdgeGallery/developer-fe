@@ -254,7 +254,10 @@ export default {
   border-left: none;
   border-radius: 0 17px 17px 0;
   z-index: 15;
-  overflow: hidden;
+  overflow-y: auto;
+}
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
 }
 .app-list-comp .el-icon-arrow-right{
   position: absolute;

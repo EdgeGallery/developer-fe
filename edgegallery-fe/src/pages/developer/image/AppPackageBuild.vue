@@ -331,8 +331,7 @@ export default {
       dnsRulesInfoList: [],
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
-      applicationId: sessionStorage.getItem('applicationId'),
-      packageId: ''
+      applicationId: sessionStorage.getItem('applicationId')
     }
   },
   methods: {
@@ -346,7 +345,6 @@ export default {
         this.getBaseInfoFileName()
         this.getResourceConfig()
         this.getRulesInfo()
-        this.packageId = this.basicInfoData.appPackage.id
         if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
           this.basicInfoData.dependent = '无依赖'
         } else {
@@ -377,11 +375,6 @@ export default {
         _configInfo.vmId = item.id
         _configInfo.vmName = item.name
         this.handleResourceConfig(_configInfo, item)
-        if (!item.imageExportInfo) {
-          _configInfo.vmImage = '无'
-        } else {
-          _configInfo.vmImage = item.imageExportInfo.imageName
-        }
         this.resourceConfigInfoList.push(_configInfo)
       })
     },
@@ -396,8 +389,15 @@ export default {
         _configInfo.spec = _flavors.architecture + ' | ' + _flavors.cpu + 'vCPUs' + ' | ' + _flavors.memory + 'GBRAM' + ' | ' + _flavors.dataDiskSize + 'GB+' + _flavors.systemDiskSize + 'GB' + ' Disk'
       })
       imageApi.getImage(item.imageId).then(res => {
-        _configInfo.basicImage = res.data.name
+        _configInfo.basicImage = res.data.name + ' | V' + res.data.osVersion
       })
+      if (!item.targetImageId) {
+        _configInfo.vmImage = '无'
+      } else {
+        imageApi.getImage(item.targetImageId).then(res => {
+          _configInfo.vmImage = res.data.name
+        })
+      }
     },
     getRulesInfo () {
       this.trafficRulesInfoList = this.basicInfoData.appConfiguration.trafficRuleList
@@ -413,7 +413,7 @@ export default {
           message: '打包成功',
           type: 'success'
         })
-        this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: this.packageId } })
+        this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: res.data.id } })
       }).catch(() => {
         this.$eg_messagebox('打包失败', 'error')
       })

@@ -151,7 +151,6 @@ export default {
       return Number(this.$store.state.zoom)
     },
     currentFlow (val) {
-      this.initApplicationList()
       return Number(this.$store.state.currentFlow)
     }
   },
@@ -163,6 +162,11 @@ export default {
       isSearchActive: false,
       isViewActive: false,
       isDeleteActive: false
+    }
+  },
+  watch: {
+    currentFlow (val) {
+      this.initApplicationList()
     }
   },
   methods: {
@@ -220,6 +224,9 @@ export default {
   },
   mounted () {
     this.initApplicationList()
+    if (this.zoom > 2) {
+      this.isViewActive = true
+    }
   }
 }
 </script>
