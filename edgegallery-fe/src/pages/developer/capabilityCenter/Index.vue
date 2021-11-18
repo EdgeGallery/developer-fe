@@ -130,11 +130,10 @@
       <h3 class="common-dlg-title service-publish">
         能力发布
         <el-button
-          class="rt"
-          type="primary"
+          class="common-btn rt add-service"
           @click="publishService()"
         >
-          添加能力
+          添加服务发布配置
         </el-button>
       </h3>
       <el-table
@@ -582,11 +581,10 @@ export default {
   }
 
   .api{
-    background: url('../../../assets/images/capability/capability_bg.png');
-    background-size: cover;
+    background: #9b94c0;
     border-radius: 16px;
     margin-right: 2%;
-    color: #fff;
+    color: #000000;
     .capability-left{
       float: left;
       width: 20%;
@@ -615,7 +613,7 @@ export default {
       border-radius: 16px 0 0 0px;
       .el-tree-node__label {
         font-size:20px;
-        color: #fff;
+        color: #000000;
       }
     }
     .capability-tree::-webkit-scrollbar {
@@ -740,13 +738,13 @@ export default {
       padding-left: 20px;
       .capability-top{
         line-height: 25px;
-        font-size: 14px;
+        font-size: 16px;
         letter-spacing: 1.5px;
         padding-right: 16px;
       }
       .service_info{
         span{
-          font-size: 14px;
+          font-size: 16px;
         }
       }
       .title{
@@ -841,5 +839,9 @@ export default {
 }
 .service-publish{
   padding-right: 1%;
+}
+.add-service{
+  position: relative;
+  top: -10px;
 }
 </style>

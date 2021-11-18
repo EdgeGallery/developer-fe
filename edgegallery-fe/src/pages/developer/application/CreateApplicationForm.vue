@@ -133,7 +133,7 @@
                 placement="right"
               >
                 <em
-                  class="el-icon-info"
+                  class="common-info icon-upload-info"
                   :class="{'icon-info-active':logoFileList.length>0}"
                 />
               </el-tooltip>
@@ -167,7 +167,7 @@
               content="只能上传.md文件，且不超过500kb"
               placement="right"
             >
-              <em class="el-icon-info md-guide-info" />
+              <em class="common-info  guide-upload-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
@@ -495,11 +495,13 @@ export default {
   .el-upload-list{
     width: auto;
   }
-  .el-icon-info {
-    position: relative;
-    top: -30px;
+  .icon-upload-info{
+    top: -27px;
     left: 30px;
-    height: 15px;
+  }
+   .guide-upload-info{
+    top: 2px;
+    left: 8px;
   }
   .icon-info-active {
     position: relative;
