@@ -53,12 +53,11 @@
               API定义文件
             </span>
             <el-tooltip
-              class="item"
               effect="dark"
               content="仅支持.yaml文档"
               placement="right"
             >
-              <em class="el-icon-info file-tip-info" />
+              <em class="common-info tip-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
@@ -80,12 +79,11 @@
               说明文档
             </span>
             <el-tooltip
-              class="item"
               effect="dark"
               content="仅支持.md文档"
               placement="right"
             >
-              <em class="el-icon-info file-tip-info" />
+              <em class="common-info tip-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
@@ -114,13 +112,13 @@
           >
             <span class="cap-upload-btn">
               自定义图片
-            </span><el-tooltip
-              class="item"
+            </span>
+            <el-tooltip
               effect="dark"
               content="仅支持.jpg或者.png图片"
               placement="right"
             >
-              <em class="el-icon-info file-tip-info" />
+              <em class="common-info tip-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
@@ -317,8 +315,8 @@ export default {
   .capability-publish{
     position: absolute;
     top: 9%;
-    left: 35%;
-    width: 35%;
+    left: 30%;
+    width: 40%;
     padding: 35px;
   }
   .cap-upload-btn{
@@ -330,9 +328,8 @@ export default {
     border-radius: 12px;
     background: rgba(255,255,255,.3);
   }
-  .file-tip-info{
-    margin-left: 5px;
-    top: 0px;
-    left: 0px;
+  .tip-info{
+    left: 10px;
+    top: 2px;
   }
 </style>
