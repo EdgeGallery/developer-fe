@@ -87,7 +87,7 @@
                 <el-table-column
                   prop="name"
                   label="名称"
-                  width="140"
+                  min-width="25%"
                   show-overflow-tooltip
                 >
                   <template slot-scope="scope">
@@ -97,7 +97,7 @@
                 <el-table-column
                   prop="sence"
                   label="使用场景"
-                  width="110"
+                  min-width="20%"
                   show-overflow-tooltip
                 >
                   <template slot-scope="scope">
@@ -107,35 +107,35 @@
                 <el-table-column
                   prop="cpu"
                   label="CPU"
-                  width="110"
+                  min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendCPUUnit"
                 />
                 <el-table-column
                   prop="memory"
                   label="内存"
-                  width="110"
+                  min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendSizeUnit"
                 />
                 <el-table-column
                   prop="systemDiskSize"
                   label="系统盘"
-                  width="110"
+                  min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendSizeUnit"
                 />
                 <el-table-column
                   prop="dataDiskSize"
                   label="数据盘"
-                  width="100"
+                  min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendSizeUnit"
                 />
                 <el-table-column
                   prop="otherExtraInfo"
                   label="其他能力"
-                  width="100"
+                  min-width="15%"
                   show-overflow-tooltip
                 />
               </el-table>
@@ -256,7 +256,7 @@
           name="5"
         >
           <div
-            class="item-right"
+            class="vm-size"
             @click="clickEdit('flavor')"
           >
             <p v-if="viewOrEditFlavor === 'preview'">
@@ -282,7 +282,8 @@
           title="脚本"
           name="6"
         >
-          <div>
+          <div class="vm-size">
+            <p>是否使用注入脚本</p>
             <el-radio-group
               class="work-radio"
               v-model="isInjectScript"
@@ -300,39 +301,25 @@
               v-if="changeResult"
             >
               <div class="script-content">
-                <el-collapse
-                  v-model="activeScriptEditPanel"
-                  accordion
+                <div
+                  class="vm-size"
+                  @click.stop="clickEdit('content')"
                 >
-                  <el-link
-                    class="edit"
-                    :underline="false"
-                    @click.stop="clickEdit('content')"
-                  >
-                    <p v-if="viewOrEditContent === 'preview'">
-                      {{ '编辑' }}
-                    </p>
-                    <p v-else>
-                      {{ '保存' }}
-                    </p>
-                  </el-link>
-                  <el-collapse-item
-                    name="1"
-                    title="contents"
-                  >
-                    <template slot="title">
-                      contents
-                    </template>
-                    <mavon-editor
-                      v-model="userData"
-                      :toolbars-flag="false"
-                      :subfield="false"
-                      :default-open="viewOrEditContent"
-                      :box-shadow="false"
-                      preview-background="transparent"
-                    />
-                  </el-collapse-item>
-                </el-collapse>
+                  <p v-if="viewOrEditContent === 'preview'">
+                    {{ '编辑' }}
+                  </p>
+                  <p v-else>
+                    {{ '保存' }}
+                  </p>
+                </div>
+                <mavon-editor
+                  v-model="userData"
+                  :toolbars-flag="false"
+                  :subfield="false"
+                  :default-open="viewOrEditContent"
+                  :box-shadow="false"
+                  preview-background="transparent"
+                />
               </div>
             </div>
           </div>
@@ -669,10 +656,15 @@ export default {
     }
   }
   .addVm-bg{
-    width:1184px;
-    max-height: 805px;
-    margin: 0px auto;
+    position: absolute;
+    width: 1000px;
     padding: 40px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    .el-collapse-item__header,.el-collapse-item__content{
+      color: #fff;
+    }
     .vm-info{
       margin: 0 0 30px 0px;
       .addVm-top-title{
@@ -688,8 +680,11 @@ export default {
             line-height: 25px;
           }
         }
+        .el-input{
+          width: calc(100% - 100px);
+        }
         .el-input__inner{
-          width: 816px ;
+          width: 100%;
           height: 25px;
           background-color: rgba(255, 255, 255, 0.3);
           color: #fff;
@@ -713,26 +708,51 @@ export default {
   .el-radio__input.is-checked .el-radio__inner {
       background: #6d5dc1;
   }
+  .el-radio__input.is-checked+.el-radio__label{
+    color: #fff;
+  }
   .el-collapse {
     border-top:none;
     border-bottom:none;
     .el-radio__label {
-      color: #5944C0;
+      color: #fff;
+      padding-left: 12px;
+    }
+    .el-checkbox__label{
+      padding-left: 12px;
     }
     .el-collapse-item__header{
+      height: 39px;
       background: none;
       border-bottom:none;
-      padding-left: 10px;
+      padding-left: 20px;
+      font-size: 16px;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+    }
+    .el-collapse-item__header:before{
+      display: inline-block;
+      content: '';
+      width: 9px;
+      height: 9px;
+      background: #43F6AD;
+      border-radius: 50%;
+      position: relative;
+      top: 1px;
+      left: -10px;
     }
     .el-collapse-item__header:hover{
-      background-color: #5944C0;
+      background-color: rgba(58,24,160,0.16);
+      border-radius: 15px;
+      color: #fff;
+    }
+    .el-collapse-item__header.is-active{
+      background-color: rgba(58,24,160,0.16);
       border-radius: 15px;
       color: #fff;
     }
     .el-collapse-item__wrap{
       background: none;
       border-bottom:none;
-      padding-left: 40px;
       .internetInfos{
         margin-top: 30px;
       }
@@ -771,22 +791,28 @@ export default {
           }
         }
       }
-        .simulator-info-content{
-          .el-radio-group{
-            margin: 10px 0 0 50px;
-            .el-radio-button__inner {
-              background: none;
-              color: #fff;
-              border: none;
-              border-bottom:4px solid #8f86cc ;
-            }
-            .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-              background-color: none;
-              border-bottom:4px solid #5944C0 ;
-              box-shadow: none;
-            }
+      .simulator-info-content{
+        .el-radio-group{
+          margin: 10px 0 10px 0;
+          .el-radio-button__inner {
+            background: none;
+            color: #fff;
+            border: none;
+            border-bottom:4px solid #8f86cc ;
+          }
+          .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+            background-color: none;
+            border-bottom:4px solid #5944C0 ;
+            box-shadow: none;
           }
         }
+      }
+      .vm-size{
+        margin: 10px 0;
+      }
+      .vm-table thead tr{
+        height: 50px;
+      }
     }
   }
 
