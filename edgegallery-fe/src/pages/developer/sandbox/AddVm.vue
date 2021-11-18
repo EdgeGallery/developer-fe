@@ -264,14 +264,14 @@
               v-if="viewOrEditFlavor === 'preview'"
               @click="clickEdit('flavor')"
             >
-              {{ '编辑' }}
+              {{ $t('common.edit') }}
             </el-button>
             <el-button
               class="rt"
               v-else
               @click="clickEdit('flavor')"
             >
-              {{ '保存' }}
+              {{ $t('common.save') }}
             </el-button>
           </div>
           <div class="editor-wrapper">
@@ -320,14 +320,14 @@
                     v-if="viewOrEditContent === 'preview'"
                     @click.stop="clickEdit('content')"
                   >
-                    {{ '编辑' }}
+                    {{ $t('common.edit') }}
                   </el-button>
                   <el-button
                     class="rt"
                     v-else
                     @click.stop="clickEdit('content')"
                   >
-                    {{ '保存' }}
+                    {{ $t('common.save') }}
                   </el-button>
                 </div>
                 <mavon-editor
