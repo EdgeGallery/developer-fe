@@ -82,7 +82,7 @@
                   >
                   <div class="deploy-edit flex-center">
                     <el-tooltip
-                      class="item edit-tooltip"
+                      class="edit-tooltip"
                       effect="light"
                       content="编辑"
                       placement="bottom-start"
@@ -173,10 +173,12 @@
         :class="{'scale-small':!isChangeStyle}"
       >
         <div class="detail-bottom-one">
-          <img
-            src="../../../assets/images/sandbox/terminal.png"
-            alt=""
-          >
+          <div class="one-content flex-center">
+            <img
+              src="../../../assets/images/sandbox/terminal.png"
+              alt=""
+            >
+          </div>
           <p class="defaultFontLight">
             5G终端
           </p>
@@ -187,10 +189,12 @@
           class="detail-bottom-line"
         >
         <div class="detail-bottom-one">
-          <img
-            src="../../../assets/images/sandbox/base_station.png"
-            alt=""
-          >
+          <div class="one-content flex-center">
+            <img
+              src="../../../assets/images/sandbox/base_station.png"
+              alt=""
+            >
+          </div>
           <p class="defaultFontLight">
             5G基站
           </p>
@@ -204,10 +208,12 @@
           class="detail-bottom-one"
           v-if="isChangeStyle"
         >
-          <img
-            src="../../../assets/images/sandbox/edge.png"
-            alt=""
-          >
+          <div class="one-content flex-center">
+            <img
+              src="../../../assets/images/sandbox/edge.png"
+              alt=""
+            >
+          </div>
           <p class="defaultFontLight">
             边缘UPF
           </p>
@@ -242,10 +248,12 @@
           class="detail-bottom-line detail-bottom-line-failed"
         >
         <div class="detail-bottom-one">
-          <img
-            src="../../../assets/images/sandbox/core.png"
-            alt=""
-          >
+          <div class="one-content flex-center">
+            <img
+              src="../../../assets/images/sandbox/core.png"
+              alt=""
+            >
+          </div>
           <p class="defaultFontLight">
             5G核心网
           </p>
@@ -263,10 +271,12 @@
           class="detail-bottom-line detail-bottom-line-failed"
         >
         <div class="detail-bottom-one">
-          <img
-            src="../../../assets/images/sandbox/internet.png"
-            alt=""
-          >
+          <div class="one-content flex-center">
+            <img
+              src="../../../assets/images/sandbox/internet.png"
+              alt=""
+            >
+          </div>
           <p class="defaultFontLight">
             INTERNET
           </p>
@@ -468,13 +478,20 @@ export default {
       position: relative;
       width: 259px;
       height: 200px;
-      background: url('../../../assets/images/sandbox/mec_bg.png') no-repeat center;
+      border-radius: 15px;
+      background-color:rgba(46,20,124,0.7) ;
       .detail-center-img{
         width: 154px;
         height: 127px;
       }
       .detail-center-title{
-        z-index: 1;
+        display: none;
+      }
+    }
+    .detail-center-bg:hover{
+      .detail-center-title{
+        display: block;
+        z-index: 0;
         width: 259px;
         height: 38px;
         opacity: 1;
@@ -491,7 +508,7 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color:rgba(10, 9, 54, 0.8) ;
+        background-color:rgba(10, 9, 54, 0.4) ;
         backdrop-filter: blur(4px);
       }
     }
@@ -517,15 +534,21 @@ export default {
     margin: 10px auto 0;
     width: 1140px;
     .detail-bottom-one{
+      .one-content{
+        width: 152.45px;
+        height: 152.45px;
+        border-radius:50%;
+        background-color: rgba(46,20,124, 0.7);
+      }
       p{
         text-align: center;
-        line-height: 30px;
+        line-height: 60px;
       }
     }
     .detail-bottom-line{
       width: 76px;
       height: 22px;
-      margin: 0 10px;
+      margin: -30px 10px 0px 10px;
     }
     .detail-bottom-line-failed{
       height: 14px !important;
@@ -566,7 +589,8 @@ export default {
             .deploy-img{
               width: 150px;
               height: 150px;
-              background-image: url('../../../assets/images/sandbox/deploy_internet.png');
+              border-radius: 20px;
+              background-color: rgba(10, 9, 54, 0.25);
               .deploy-img-center{
                 width: 96px;
                 height: 96px;
@@ -652,12 +676,12 @@ export default {
     height: 130px;
     .detail-bottom-one{
       width: 120px;
-      img{
+      .one-content{
         transform: scale(0.42);
       }
       p{
         margin-left: 30px;
-        margin-top: -40px;
+        margin-top: -56px;
       }
     }
     .detail-bottom-line{
@@ -670,7 +694,8 @@ export default {
       height: 109px;
       margin: 40px 10px 0 40px;
       cursor: pointer;
-      background-image: url('../../../assets/images/sandbox/upf_bg.png');
+      border-radius:20px ;
+      background-color: rgba(46, 20, 124, 0.7);
       display: flex;
       align-items: center;
       flex-direction: column;

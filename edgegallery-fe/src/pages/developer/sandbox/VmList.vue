@@ -35,7 +35,7 @@
             @click="addVm"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="添加"
               placement="bottom-start"
@@ -53,7 +53,7 @@
             :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="详情"
               placement="bottom-start"
@@ -70,7 +70,7 @@
             @click="vmVncLogin"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="登录"
               placement="bottom-start"
@@ -87,7 +87,7 @@
             @click="uploadVmFile"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="上传"
               placement="bottom-start"
@@ -104,7 +104,7 @@
             :class="!isBtnStart ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="启动"
               placement="bottom-start"
@@ -121,7 +121,7 @@
             @click="exportImage(vmLists.id)"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="生成镜像"
               placement="bottom-start"
@@ -340,15 +340,12 @@ export default {
       width: 75px;
       height: 50px;
       background-size: 100% 100%;
-      background-color: rgba(10, 9, 54, 0.65);
-      opacity: 0.5;
       .img-click{
         opacity: 1;
       }
     }
     .vm-btn-add{
       border-radius: 20px 0 0 0;
-      opacity: 0.8;
     }
     .vm-btn-detail{
       border-radius: 0 20px 0 0;
@@ -406,13 +403,13 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      opacity: 0.6;
+      background-color: rgba(27, 14, 75, 0.7);
     }
     .img-onlyRead{
       pointer-events: none;
     }
     .vm-btn:hover{
-      opacity: 1;
+      background-color: rgba(27, 14, 75, 1);
     }
   }
   .vm-bg:hover::after{
