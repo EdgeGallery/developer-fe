@@ -416,6 +416,7 @@ export default {
       sandbox.clearVmImage(this.applicationId).then(() => {
         this.isClearVmImage = true
         this.isStartupVmFinish = false
+        this.isBtnStart = true
       }).catch(() => {
         this.$eg_messagebox('释放环境失败！', 'error')
       })

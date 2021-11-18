@@ -46,11 +46,11 @@
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">测试状态 :</span>
+          <span class="content-left lt">实例状态 :</span>
           <span class="content-right lt">{{ vmTestInformation.status?vmTestInformation.status:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">测试节点 :</span>
+          <span class="content-left lt">实例信息 :</span>
           <span
             class="content-right lt"
             v-if="vmTestInformation.nodes.length>0"

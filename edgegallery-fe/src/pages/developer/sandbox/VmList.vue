@@ -189,7 +189,7 @@ export default {
       isStartupVm: false,
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
-      isBtnStart: false,
+      isBtnStart: this.isBtnStartProp,
       vmLists: [],
       operationId: '',
       percentages: 0,
@@ -304,6 +304,9 @@ export default {
   watch: {
     isClearVmImageProp: function (val) {
       this.isClearVmImage = val
+    },
+    isBtnStartProp: function (val) {
+      this.isBtnStart = val
     }
   },
   created () {
