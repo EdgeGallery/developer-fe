@@ -336,7 +336,7 @@
                   :subfield="false"
                   :default-open="viewOrEditContent"
                   :box-shadow="false"
-                  preview-background="#4e3494"
+                  preview-background="transparent"
                 />
               </div>
             </div>
