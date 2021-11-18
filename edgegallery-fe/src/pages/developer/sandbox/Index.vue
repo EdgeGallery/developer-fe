@@ -73,6 +73,7 @@ export default {
           sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
             this.selectSandbox = res.data.name
           }).catch(err => {
+            this.selectSandbox = '选择沙箱'
             console.log(err)
           })
         }
