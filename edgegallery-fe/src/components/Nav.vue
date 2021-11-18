@@ -620,11 +620,11 @@ export default {
 
   @media screen and (max-width: 1090px) {
     .main-sidebar .el-menu .first-menu{
-      font-size: 14px;
+      font-size: 16px;
     }
     .logo{
       span{
-        font-size: 14px;
+        font-size: 16px;
       }
     }
   }

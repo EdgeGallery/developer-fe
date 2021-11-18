@@ -106,23 +106,23 @@ export default {
 .incubation{
   .capability-center{
     left: 155px;
-    top: -145px;
+    top: -130px;
   }
   .app-application{
     left: 20px;
-    top: 130px;
+    top: 135px;
   }
   .app-image{
     left: 330px;
-    top: -260px;
+    top: -205px;
   }
   .app-test{
-    left: 500px;
-    top: -390px;
+    left: 505px;
+    top: -315px;
   }
   .app-sandbox{
     left: 190px;
-    top: 15px;
+    top: 50px;
   }
 }
 </style>

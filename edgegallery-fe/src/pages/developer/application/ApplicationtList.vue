@@ -73,61 +73,10 @@
         <div
           class="app-list-title"
         >
-          创建完成
+          其他分类
         </div>
         <ListComp
-          :data-list="filterStatus('CREATED')"
-          @putAway="putAway"
-          @refreshList="refreshList"
-          :show-delete-btn="isDeleteActive"
-          class="app-flex-items"
-        />
-      </div>
-      <div
-        class="app-list-main"
-        v-if="zoom!==2"
-      >
-        <div
-          class="app-list-title"
-        >
-          配置完成
-        </div>
-        <ListComp
-          :data-list="filterStatus('CONFIGURED')"
-          @putAway="putAway"
-          @refreshList="refreshList"
-          :show-delete-btn="isDeleteActive"
-          class="app-flex-items"
-        />
-      </div>
-      <div
-        class="app-list-main"
-        v-if="zoom!==2"
-      >
-        <div
-          class="app-list-title"
-        >
-          测试完成
-        </div>
-        <ListComp
-          :data-list="filterStatus('TESTED')"
-          @putAway="putAway"
-          @refreshList="refreshList"
-          :show-delete-btn="isDeleteActive"
-          class="app-flex-items"
-        />
-      </div>
-      <div
-        class="app-list-main"
-        v-if="zoom!==2"
-      >
-        <div
-          class="app-list-title"
-        >
-          发布成功
-        </div>
-        <ListComp
-          :data-list="filterStatus('RELEASED')"
+          :data-list="allAppList"
           @putAway="putAway"
           @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
@@ -215,11 +164,6 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    },
-    filterStatus (status) {
-      return this.allAppList.filter(item => {
-        return item.status === status
-      })
     }
   },
   mounted () {
@@ -276,6 +220,7 @@ export default {
   .app-flex-items{
     display: flex;
     justify-content: left;
+    flex-wrap: wrap;
   }
   .app-flex-main{
     margin-left: 50px;

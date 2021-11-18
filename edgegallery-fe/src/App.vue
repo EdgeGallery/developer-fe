@@ -270,8 +270,7 @@ export default {
 }
 .left-pro-comp::after {
   content: "";
-  background: linear-gradient(to bottom right, rgba(130, 138, 243, 0.404),rgba(101,111,205,0.17));
-  backdrop-filter: blur(6px);
+  background: rgb(58,20,139);
   top: 0;
   left: 0;
   bottom: 0;

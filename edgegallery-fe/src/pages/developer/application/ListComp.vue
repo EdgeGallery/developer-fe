@@ -60,7 +60,7 @@ export default {
       sessionStorage.setItem('isCreate', '1')
       this.$emit('putAway')
       this.$store.commit('changeApp', item.name)
-      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGUARED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
+      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGURED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
       this.$router.push('/EG/developer/home')
     },
     createApplication () {
