@@ -101,14 +101,14 @@ export default {
           this.$store.commit('changeFlow', '4')
           this.$router.push('/EG/developer/home')
         })
-      }).catch(
+      }).catch(() => {
         this.$message({
           showClose: true,
           duration: 2000,
           message: '打包失败',
           type: 'error'
         })
-      )
+      })
     },
     getAppPackageList () {
       imageApi.getPackageStructure(this.packageId).then(res => {

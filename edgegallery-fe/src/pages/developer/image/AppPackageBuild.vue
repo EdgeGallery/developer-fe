@@ -434,10 +434,11 @@ export default {
   }
   .app-package-build-warraper {
     width: 85%;
-    height: 85%;
+    max-height: 95%;
+    height: 95%;
     border-radius: 16px;
     margin: 51px auto;
-    padding: 40px 40px 40px 40px;
+    padding: 20px 40px;
     .app-package-build-title {
       height: 30px;
       line-height: 30px;
@@ -449,7 +450,7 @@ export default {
       padding-left: 8px;
     }
     .app-package-build-content {
-      height: calc(100% - 130px);
+      height: calc(100% - 110px);
       overflow: auto;
       margin-top: 20px;
     }
@@ -606,7 +607,6 @@ export default {
       }
     }
     .appPackageBtn {
-      margin: 41px 0px 0 0;
       .el-button {
         font-size: 20px;
         border-radius: 16px;
