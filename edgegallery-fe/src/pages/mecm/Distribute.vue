@@ -181,7 +181,7 @@ export default {
         selectedMecHost.push(obj)
       })
       this.$refs.multipleEdgeNodeTable.clearSelection()
-      let address = 'https://'
+      let _address = 'https://'
       if (this.currentRowData.version && selectedMecHost.length > 0) {
         let params = {
           appPkgId: this.currentRowData.packageId,
@@ -193,7 +193,7 @@ export default {
             : 'none',
           appPkgAffinity: this.currentRowData.affinity,
           appPkgPath:
-          address +
+          _address +
           this.currentRowData.appstoreEndpoint +
           '/mec/appstore/v1/apps/' +
           this.currentRowData.appId +
