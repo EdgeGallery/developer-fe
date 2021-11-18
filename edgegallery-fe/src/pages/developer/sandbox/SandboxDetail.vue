@@ -289,7 +289,7 @@
       @closeVmDetail="closeVmDetail"
     />
     <VmUploadFile
-      v-show="showContent==='showVmUploadFile'"
+      v-if="showContent==='showVmUploadFile'"
       @closeVmUpload="closeVmUpload"
       :application-id="applicationId"
       :vm-id="vmId"

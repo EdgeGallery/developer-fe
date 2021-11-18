@@ -78,11 +78,6 @@ export default {
     closeVmUpload () {
       this.$emit('closeVmUpload')
     }
-  },
-  watch: {
-    vmId: function (val) {
-      this.vmId = val
-    }
   }
 }
 
