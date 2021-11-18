@@ -40,12 +40,6 @@
         <p class="prompt">
           {{ $t('system.imageMgmt.tip.uploadImgPromtExample') }}
         </p>
-        <div style="text-align:center">
-          <img
-            :src="uploadSystemImageTipImg"
-            alt=""
-          >
-        </div>
         <uploader
           v-if="showUploader"
           :options="options"
@@ -143,7 +137,6 @@ export default {
       isUploading: false,
       isMerging: false,
       hasFileFlag: false,
-      sysImgFileTypeArr: ['zip'],
       options: {
         testChunks: true,
         checkChunkUploadedByResponse: function (chunk, unloadedChunkArr) {
@@ -161,7 +154,6 @@ export default {
         paused: this.$t('system.imageMgmt.uploadStatusText.paused'),
         waiting: this.$t('system.imageMgmt.uploadStatusText.waiting')
       },
-      uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png'),
       fileIdentifier: ''
     }
   },
@@ -182,8 +174,7 @@ export default {
       }
 
       let fileSize = file.file.size / 1024 / 1024 / 1024
-      let typeName = file.file.name.substring(file.file.name.lastIndexOf('.') + 1)
-      if (this.sysImgFileTypeArr.indexOf(typeName) === -1 || fileSize > 100) {
+      if (fileSize > 100) {
         file.ignored = true
         this.$message.warning(this.$t('system.imageMgmt.tip.sysImageFileType'))
         return
