@@ -139,8 +139,8 @@ export default {
         height: 100%;
         margin-right: 3%;
         overflow: hidden;
-        background: rgb(58,20,139);
-        opacity: 0.9;
+        background: rgb(46,20,124,0.7);
+        opacity: 0.5;
         border-radius: 17px;
         transition: transform 0.3s ease-in;
         cursor: pointer;

@@ -304,9 +304,6 @@ export default {
   .card-shadow {
     padding: 0px 0 1px 2px;
     border-radius: 17px;
-    border: 1px solid;
-    border-color: rgba(182, 164, 236, 0.6);
-    box-shadow: -1px -1px 3px rgba(255, 255, 255, 0.3);
     .distribute-deploy-top-title {
       color: #fff;
       margin-left: -15px;
@@ -329,10 +326,10 @@ export default {
       }
     }
     .el-card {
-      border: 1px solid rgba(171, 151, 229, 1);
-      border-radius: 17px;
-      background-color: transparent;
-      box-shadow: 1px 1px 3px #ab97e5 inset;
+      border: 1px solid transparent !important;
+      border-radius: 16px;
+      background: rgba(46,20,124,.7);
+      backdrop-filter: blur(6px);
       .common-dlg-title:before {
         right: 5px;
       }
