@@ -27,7 +27,6 @@
         <div class="upolader-button-wrapper">
           <uploader-btn
             id="btn_vmUploadFile"
-            class="common-btn inner-btn"
           >
             {{ btnNameProp }}
           </uploader-btn>
@@ -118,6 +117,16 @@ export default {
     border: none;
     background: none;
     padding: 0;
+  }
+  .uploader-btn{
+    border-radius: 12px;
+    padding: 6px 32px;
+    border: none;
+    font-family: defaultFontLight;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #fff;
+    background-color: rgba(190,194,225,.7);
   }
   .uploader-list{
     margin-top: 20px;
