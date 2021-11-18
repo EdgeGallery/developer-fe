@@ -92,6 +92,14 @@ export default {
             message: '删除成功!'
           })
           this.$emit('refreshList')
+          if (id === sessionStorage.getItem('applicationId')) {
+            this.$message({
+              type: 'info',
+              message: '当前应用已删除，1s后将回到首页!'
+            })
+            sessionStorage.setItem('applicationId', '')
+            this.$router.push('/EG/developer/home')
+          }
         })
       })
     }

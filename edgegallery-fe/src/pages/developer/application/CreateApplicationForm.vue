@@ -127,7 +127,6 @@
                 <em class="el-icon-plus" />
               </el-upload>
               <el-tooltip
-                class="item"
                 effect="dark"
                 content="必须是jpg、png格式图片"
                 placement="right"
@@ -162,7 +161,6 @@
               点击上传
             </el-button>
             <el-tooltip
-              class="item"
               effect="dark"
               content="只能上传.md文件，且不超过500kb"
               placement="right"
