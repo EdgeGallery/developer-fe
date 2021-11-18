@@ -493,8 +493,8 @@ export default {
         const processcDiv = document.getElementById('process')
         const appDiv = document.getElementById('app')
         const content = document.getElementById('content')
-        processcDiv.style.maxHeight = appDiv.clientHeight - 230 + 'px'
-        content.style.maxHeight = appDiv.clientHeight - 487 + 'px'
+        processcDiv.style.maxHeight = appDiv.clientHeight - 207 + 'px'
+        content.style.maxHeight = appDiv.clientHeight - 402 + 'px'
       })
     },
     modify (row, testScenarioId, testSuiteId) {
@@ -717,7 +717,7 @@ export default {
              border: none;
           }
           .caseHearder{
-            background-color: #4E3494;
+            background-color: transparent;
             color: #fff;
             padding: 0 10px;
             height: 35px;

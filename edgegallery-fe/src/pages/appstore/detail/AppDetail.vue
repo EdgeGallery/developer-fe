@@ -728,6 +728,7 @@ export default {
     align-items: center;
     .app_icon{
       width: 130px;
+      background: #fff;
       img{
         width: 100%;
       }
@@ -1207,7 +1208,7 @@ export default {
     }
   }
   .container_div{
-    height: 350px;
+    height: 410px;
     overflow: auto;
     border-radius: 0 16px 16px 16px;
     transition: all 0.1s;
