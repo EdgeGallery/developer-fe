@@ -252,19 +252,27 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="主机主配置"
+          title="主机组配置"
           name="5"
         >
           <div
-            class="vm-size"
-            @click="clickEdit('flavor')"
+            class="edit-btn clear"
           >
-            <p v-if="viewOrEditFlavor === 'preview'">
+            <span class="title-info">填写主机组配置</span>
+            <el-button
+              class="rt"
+              v-if="viewOrEditFlavor === 'preview'"
+              @click="clickEdit('flavor')"
+            >
               {{ '编辑' }}
-            </p>
-            <p v-else>
+            </el-button>
+            <el-button
+              class="rt"
+              v-else
+              @click="clickEdit('flavor')"
+            >
               {{ '保存' }}
-            </p>
+            </el-button>
           </div>
           <div class="editor-wrapper">
             <mavon-editor
@@ -274,7 +282,7 @@
               :subfield="false"
               :default-open="viewOrEditFlavor"
               :box-shadow="false"
-              preview-background="#ffffff"
+              preview-background="transparent"
             />
           </div>
         </el-collapse-item>
@@ -283,7 +291,9 @@
           name="6"
         >
           <div class="vm-size">
-            <p>是否使用注入脚本</p>
+            <p class="vm-title">
+              是否使用注入脚本
+            </p>
             <el-radio-group
               class="work-radio"
               v-model="isInjectScript"
@@ -302,15 +312,23 @@
             >
               <div class="script-content">
                 <div
-                  class="vm-size"
-                  @click.stop="clickEdit('content')"
+                  class="edit-btn clear"
                 >
-                  <p v-if="viewOrEditContent === 'preview'">
+                  <span class="title-info">填写脚本内容</span>
+                  <el-button
+                    class="rt"
+                    v-if="viewOrEditContent === 'preview'"
+                    @click.stop="clickEdit('content')"
+                  >
                     {{ '编辑' }}
-                  </p>
-                  <p v-else>
+                  </el-button>
+                  <el-button
+                    class="rt"
+                    v-else
+                    @click.stop="clickEdit('content')"
+                  >
                     {{ '保存' }}
-                  </p>
+                  </el-button>
                 </div>
                 <mavon-editor
                   v-model="userData"
@@ -318,7 +336,7 @@
                   :subfield="false"
                   :default-open="viewOrEditContent"
                   :box-shadow="false"
-                  preview-background="transparent"
+                  preview-background="#4e3494"
                 />
               </div>
             </div>
@@ -568,6 +586,9 @@ export default {
           this.viewOrEditFlavor = 'edit'
         }
       }
+      this.setDivBackgroundColor('content-input-wrapper')
+      this.setDivBackgroundColor('auto-textarea-wrapper')
+      this.setDivBackgroundColor('auto-textarea-input')
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -618,6 +639,12 @@ export default {
       } else {
         this.$emit('addVmFinish', _data)
       }
+    },
+    setDivBackgroundColor (className) {
+      let _oDiv = document.getElementsByClassName(className)
+      _oDiv.forEach(item => {
+        item.style.backgroundColor = '#4e3494'
+      })
     }
   },
   mounted () {
@@ -663,6 +690,7 @@ export default {
     top: 50%;
     transform: translate(-50%,-50%);
     .el-collapse-item__header,.el-collapse-item__content{
+      font-size: 14px;
       color: #fff;
     }
     .vm-info{
@@ -746,14 +774,30 @@ export default {
       left: -10px;
     }
     .el-collapse-item__header:hover{
-      background-color: rgba(58,24,160,0.16);
-      border-radius: 15px;
+      background-color: #5f499d;
+      border-radius: 19.5px;
       color: #fff;
     }
+    .el-collapse-item__header:hover .el-icon-arrow-right:before{
+      background: url('../../../assets/images/sandbox/addvm_icon_down.png');
+    }
     .el-collapse-item__header.is-active{
-      background-color: rgba(58,24,160,0.16);
-      border-radius: 15px;
+      background-color: #5f499d;
+      border-radius: 19.5px;
       color: #fff;
+    }
+    .el-collapse-item__header .el-icon-arrow-right:before{
+      content: '';
+      display: block;
+      width: 8px;
+      height: 8px;
+    }
+    .el-collapse-item__header.is-active .el-icon-arrow-right:before{
+      background: url('../../../assets/images/sandbox/addvm_icon_up.png');
+      transform: rotate(-90deg);
+    }
+    .el-collapse-item__arrow{
+      margin: 0 16px 0 auto;
     }
     .el-collapse-item__wrap{
       background: none;
@@ -818,6 +862,31 @@ export default {
       .vm-table thead tr{
         height: 50px;
       }
+      .vm-title{
+        margin: 15px 0;
+      }
+      .edit-btn{
+        margin: 15px 0;
+        .title-info{
+          display: inline-block;
+          height: 30px;
+          line-height: 30px;
+        }
+        .el-button{
+          background: #4e3494;
+          border: none;
+          border-radius: 35px;
+          padding: 8px 24px;
+          color: #fff;
+        }
+      }
+    }
+    .v-note-wrapper{
+      background-color: #4e3494;
+    }
+    .markdown-body,.auto-textarea-wrapper .auto-textarea-input{
+      color: #fff;
+      font-size: 14px;
     }
   }
 

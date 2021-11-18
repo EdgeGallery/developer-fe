@@ -44,7 +44,7 @@
    font-family:defaultFont, Arial, Helvetica, sans-serif;
  }
  .defaultFont{
-   font-family:defaultFont, Arial, Helvetica, sans-serif;
+   font-family:defaultFontLight, Arial, Helvetica, sans-serif;
  }
  .defaultFontBlod{
    font-family:defaultFontBlod, Arial, Helvetica, sans-serif;
@@ -555,7 +555,7 @@
    font-weight: normal;
  }
  .el-table__header-wrapper{
-   border-radius: 8px;
+   border-radius: 8px 8px 0 0;
  }
  .tableStyle.el-table .cell {
    padding: 0 0 0 30px !important;
@@ -815,6 +815,10 @@
   color: #fff !important;
   background-color: #5347a0 !important;
 }
+.el-button.common-btn.is-disabled,.el-button.common-btn.is-disabled:focus, .el-button.common-btn.is-disabled:hover{
+  color: #5E49A7 !important;
+  background-color: rgba(10,9,54,.1) !important;
+}
 .inner-btn{
   color: #fff !important;
   background-color: rgba(190,194,225,.7) !important;
@@ -841,7 +845,7 @@
 
 .el-table.common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
 }
 .el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
 .el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
@@ -852,11 +856,11 @@
 background-color:transparent !important
 }
 .el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell, .el-table.more-rows-table thead th.is-leaf{
-  border-bottom: none;
+  border-bottom: 1px solid #4e3494;
 }
 .el-table.common-table thead tr{
-  height: 30px;
-  background-color: rgba(255,255,255,.3);
+  height: 51px;
+  background-color: #4e3494;
 }
 .el-table.more-rows-table td, .el-table.more-rows-table th.is-leaf{
   border-bottom: 2px solid rgba(255,255,255,.3);
@@ -867,7 +871,7 @@ background-color:transparent !important
 th{
   font-weight: normal;
 }
-.el-table::before{
+.el-table.common-table::before{
   height: 0;
 }
 .el-button--text,.el-button--text:hover{
@@ -892,7 +896,7 @@ th{
   overflow: auto;
   padding: 40px;
   border-radius: 16px;
-  background: rgb(58,20,139);
+  background: rgba(46,20,124,.7);
   backdrop-filter: blur(6px);
   clear: both;
   position: relative;
