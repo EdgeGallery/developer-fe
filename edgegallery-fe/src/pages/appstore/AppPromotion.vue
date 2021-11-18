@@ -501,7 +501,6 @@ export default {
           text-decoration: none;
           color: #fff;
           padding: 4px 12px;
-          background: rgba(255, 255, 255, 0.4);
           border-radius: 12px;
         }
         .el-table th > .cell {

@@ -657,7 +657,8 @@ export default {
               padding-left: 15px;
               font-size: 18px;
               color: #fff;
-              background-color: rgba(255, 255, 255,0.3);
+              background-color: #5F499D;
+              border-radius: 19.5px;
               border: none;
             }
             .el-collapse-item__content{

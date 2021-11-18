@@ -58,7 +58,6 @@ export default {
 </script>
 <style lang="less">
 .appVedio {
-  background: rgba(255,255,255,0.4);
   border-radius: 16px ;
   padding: 20px;
   .vedio{

@@ -753,7 +753,6 @@ export default {
         .drop-down{
           top:-2px;
           margin-right: 5px;
-          background: rgba(255,255,255,0.4);
           color: #FFFFFF;
         }
         .fg{
