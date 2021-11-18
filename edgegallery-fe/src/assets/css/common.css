@@ -828,10 +828,10 @@
 }
 .el-button.common-cancel-btn{
   padding: 6px 24px;
-  color: #fff;
+  color: #5944C0 !important;
   font-family: defaultFontLight !important;
   font-size: 14px;
-  background: #60569A;
+  background: #ffffff;
   border-radius: 12px;
   font-weight: 400;
   border: none;
@@ -892,7 +892,7 @@ th{
   overflow: auto;
   padding: 40px;
   border-radius: 16px;
-  background: linear-gradient(to bottom right, rgba(205,235,245,0.6),rgba(101,111,205,0.17));
+  background: rgb(58,20,139);
   backdrop-filter: blur(6px);
   clear: both;
   position: relative;
@@ -941,7 +941,7 @@ th{
 }
 .el-form.common-form .el-input__inner,.el-form.common-form .el-textarea__inner{
   color: #fff;
-  background-color: rgba(255,255,255,.5);
+  background-color: rgb(84,48,156);
   border: none;
 }
 
@@ -1016,8 +1016,8 @@ th{
 }
 .workflow .item{
   display: inline-block;
-  width: 110px;
-  height: 130px;
+  width: 88px;
+  height: 113px;
   position: relative;
   cursor: pointer;
   border: 1px solid transparent;
@@ -1026,11 +1026,11 @@ th{
   position: relative;
   top: 85px;
   text-align: center;
-  left: -9px;
+  top: 81px;
   font-size: 14px;
 }
 .item-capa-active>.flow-name,.item-active>.flow-name{
-  top: 45px;
+  top: 42px;
 }
 .center-active .item-active::before{
  content:'';
@@ -1041,7 +1041,7 @@ th{
  background-size: cover;
  position: relative;
  top: 20px;
- left: -50px;
+ left: -30px;
  z-index: 10;
 }
 
@@ -1065,7 +1065,7 @@ th{
   background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -18px;
-  left: -29px;
+  left: -10px;
   transform: rotate(270deg);
  }
 .item-active::after{
@@ -1076,7 +1076,7 @@ th{
   background: url('../images/application/app_mark_icon.png') no-repeat center;
   position: relative;
   top: -58px;
-  left: -29px;
+  left: -10px;
   transform: rotate(270deg);
  }
  .item{

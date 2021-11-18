@@ -86,15 +86,15 @@ export default {
 <style lang="less" scoped>
   .deployment{
     .deploy-meao{
-      top: 130px;
+      top: 135px;
       left: -60px;
     }
     .deploy-mepm{
-      top: 0px;
+      top: 23px;
       left: 110px;
     }
     .deploy-node{
-      top: -130px;
+      top: -90px;
       left: 280px;
     }
   }

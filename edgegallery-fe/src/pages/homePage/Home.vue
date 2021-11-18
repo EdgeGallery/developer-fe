@@ -19,15 +19,17 @@
     <div class="main-content">
       <div class="main-content-left">
         <img
-          src="../../assets/images/index/index_EG_icon.png"
+          src="../../assets/images/index/index_developer.png"
           alt="icon"
         >
-        <div class="main-title">
-          开发者大集结
-        </div>
         <p class="mian-sub-title">
           每一个开发者都了不起
         </p>
+        <img
+          class="main-title-dot"
+          src="../../assets/images/index/index_dot.png"
+          alt="icon"
+        >
       </div>
       <div class="main-content-right">
         <div
@@ -97,7 +99,6 @@ export default {
   .main-content{
     width: 100%;
     height: 100%;
-    background: url('../../assets/images/index/index_circle_bg.png') no-repeat 4% 28%;
     position: relative;
     z-index: 10;
     .main-content-left{
@@ -106,11 +107,16 @@ export default {
       text-align: left;
       color: #fff;
       position: relative;
-      top: 35%;
+      top: 25%;
       left: 12%;
       .main-title{
         font-size: 80px;
         font-weight: bold;
+      }
+      .main-title-dot{
+        position: relative;
+        top: 50px;
+        left: 3px;
       }
       .mian-sub-title{
         font-size: 20px;
@@ -120,22 +126,21 @@ export default {
     }
     .main-content-right{
       height: 400px;
-      width: 35%;
+      width: 37%;
       text-align: center;
       color: #fff;
       position: relative;
-      top: 15%;
-      left: 55%;
+      top: 11%;
+      left: 60%;
       display: flex;
       justify-content: center;
       .main-content-right-item{
-        width: 30%;
+        width: 31%;
         height: 100%;
         margin-right: 3%;
         overflow: hidden;
-        background: url('../../assets/images/index/index_module_bg_default.png') no-repeat center;
-        background-size: cover;
-        border: 2px solid #B6A4EC;
+        background: rgb(58,20,139);
+        opacity: 0.9;
         border-radius: 17px;
         transition: transform 0.3s ease-in;
         cursor: pointer;
@@ -152,8 +157,7 @@ export default {
       .main-content-right-item:hover{
         transform: translate3d(0,-20px,0);
         border: 3px solid #42F6AC;
-        background: url('../../assets/images/index/index_module_bg_active.png') no-repeat center;
-        background-size: cover;
+        opacity: 1;
       }
     }
 

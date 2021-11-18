@@ -73,7 +73,7 @@ export default {
   .appstore{
     color: #fff;
      .item{
-      top: 130px;
+      top: 135px;
       left: -75px;
     }
   }
