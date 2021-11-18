@@ -181,11 +181,7 @@ export default {
         selectedMecHost.push(obj)
       })
       this.$refs.multipleEdgeNodeTable.clearSelection()
-      this.isSecureBackend = sessionStorage.getItem('isSecureBackend')
-      let address = 'http://'
-      if (this.isSecureBackend === 'true') {
-        address = 'https://'
-      }
+      let address = 'https://'
       if (this.currentRowData.version && selectedMecHost.length > 0) {
         let params = {
           appPkgId: this.currentRowData.packageId,
