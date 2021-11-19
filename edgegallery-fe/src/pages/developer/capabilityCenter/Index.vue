@@ -583,6 +583,7 @@ export default {
     border-radius: 16px;
     margin-right: 2%;
     color: #000000;
+    margin-bottom: 15px;
     .capability-left{
       float: left;
       width: 20%;
@@ -837,9 +838,5 @@ export default {
 }
 .service-publish{
   padding-right: 1%;
-}
-.add-service{
-  position: relative;
-  top: -10px;
 }
 </style>
