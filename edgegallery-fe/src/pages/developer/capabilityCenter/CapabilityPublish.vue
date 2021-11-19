@@ -49,9 +49,9 @@
             :file-list="apiFileList"
             accept=".yaml"
           >
-            <span class="cap-upload-btn">
+            <el-button class="inner-btn">
               API定义文件
-            </span>
+            </el-button>
             <el-tooltip
               effect="dark"
               content="仅支持.yaml文档"
@@ -75,9 +75,9 @@
             :file-list="guideFileId"
             accept=".md"
           >
-            <span class="cap-upload-btn">
+            <el-button class="inner-btn">
               说明文档
-            </span>
+            </el-button>
             <el-tooltip
               effect="dark"
               content="仅支持.md文档"
@@ -110,9 +110,9 @@
             :file-list="iconFileList"
             accept=".jpg,.png"
           >
-            <span class="cap-upload-btn">
+            <el-button class="inner-btn">
               自定义图片
-            </span>
+            </el-button>
             <el-tooltip
               effect="dark"
               content="仅支持.jpg或者.png图片"
