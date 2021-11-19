@@ -44,7 +44,7 @@
       <el-table
         :data="tableData"
         :key="reflush"
-        class="tableStyle"
+        class="common-table"
         style="width: 100%"
         @filter-change="filterTagTable"
       >

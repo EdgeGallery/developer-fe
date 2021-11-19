@@ -69,11 +69,6 @@
         <div class="toptitle common-div-bg">
           <div class="left">
             <div class="left-text">
-              <img
-                src="../../../assets/images/atp/select_scene_icon.png"
-                alt=""
-                style="margin-right:10px;"
-              >
               <span v-if=" isTest === 'running'"> 正在测试...</span>
               <span v-else>测试结果</span>
             </div>
@@ -543,12 +538,22 @@ export default {
       padding: 18px 45px;
       .left{
         .left-text{
-          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
           position: relative;
           z-index: 2;
           border-radius: 12px;
           height: 47px;
-          font-size: 24px;
+          font-size: 26px;
+        }
+        .left-text::before{
+          display: inline-block;
+          content: '';
+          width: 9px;
+          height: 9px;
+          background: #76E1E9;
+          border-radius: 50%;
+          position: relative;
+          top: -2px;
+          left: -15px;
         }
       }
       .header{
@@ -570,7 +575,7 @@ export default {
             }
             .el-progress__text{
               font-family: defaultFontBold, Arial, Helvetica, sans-serif;
-              font-size: 33px !important;
+              font-size: 30px !important;
               color: #fff;
               margin-left: -30px;
             }
@@ -684,8 +689,8 @@ export default {
           font-size: 14px;
         }
         .el-tabs__item.is-active{
-          font-size: 16px;
-          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
+          font-size: 18px;
+          font-family: defaultFont, Arial, Helvetica, sans-serif;
         }
         .el-tabs__active-bar{
           background-color: #6A52CA;
@@ -706,7 +711,7 @@ export default {
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             height: 40px;
             padding-left: 15px;
-            font-size: 18px;
+            font-size: 16px;
             color: #fff;
             background-color: #5F499D;
             border-radius: 19.5px;
@@ -722,20 +727,23 @@ export default {
             padding: 0 10px;
             height: 35px;
             line-height: 35px;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             font-size: 14px;
-            font-weight: normal;
           }
           .el-table tr {
             height: 37px;
             background-color: transparent;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+            font-size: 14px;
           }
           .el-table td{
-            font-size: 16px;
             padding: 0 10px;
             color: #fff;
             vertical-align: top;
             height: 37px;
             line-height: 37px;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+            font-size: 14px;
           }
           .el-table__body{
             .cell{
@@ -749,6 +757,8 @@ export default {
           background-color: transparent;
           .cell{
             display: table-cell;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+            font-size: 14px;
             img{
               vertical-align: middle;
               margin-right: 10px;

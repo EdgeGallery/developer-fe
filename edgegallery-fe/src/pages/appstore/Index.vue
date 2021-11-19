@@ -23,13 +23,13 @@
       style="margin:50px 20px 20px;"
     >
       <el-button
-        class="test-btn"
+        class="common-btn"
         @click="jumpToIncubation"
       >
         返回
       </el-button>
       <el-button
-        class="test-light-btn"
+        class="common-btn"
         @click="jumpTo('/EG/appstore/apppromotion')"
       >
         应用推送

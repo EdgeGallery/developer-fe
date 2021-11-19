@@ -22,11 +22,8 @@
       </div>
       <div class="app-package-build-content">
         <div class="app-package-build-basicinfo">
-          <div class="title-wrapper">
-            <div class="circle-out">
-              <div class="circle-in" />
-            </div>
-            <div class="basicinfo-title title">
+          <div>
+            <div class="basicinfo-title common-dlg-title">
               {{ $t('appPackage.basicInfo') }}
             </div>
           </div>
@@ -120,11 +117,8 @@
           </div>
         </div>
         <div class="app-package-build-resourceconfig">
-          <div class="title-wrapper">
-            <div class="circle-out">
-              <div class="circle-in" />
-            </div>
-            <div class="resourceconfig-title title">
+          <div>
+            <div class="resourceconfig-title common-dlg-title">
               {{ $t('appPackage.resourceConfig') }}
             </div>
           </div>
@@ -162,11 +156,8 @@
           </div>
         </div>
         <div class="app-package-build-rule">
-          <div class="title-wrapper">
-            <div class="circle-out">
-              <div class="circle-in" />
-            </div>
-            <div class="rule-title title">
+          <div>
+            <div class="rule-title common-dlg-title">
               {{ $t('appPackage.rule') }}
             </div>
           </div>
@@ -234,17 +225,14 @@
           </div>
         </div>
         <div class="app-package-build-capabalityconfig">
-          <div class="title-wrapper">
-            <div class="circle-out">
-              <div class="circle-in" />
-            </div>
-            <div class="capabalityconfig-title title">
+          <div>
+            <div class="capabalityconfig-title common-dlg-title">
               {{ $t('appPackage.capabalityConfig') }}
             </div>
           </div>
           <div class="content-wrapper appPackageBuild-content">
             <div class="depend">
-              <h3 class="rules-title title">
+              <h3 class="rules-title common-dlg-title">
                 {{ $t('appPackage.capabalityDepend') }}
               </h3>
               <div class="dependTable">
@@ -266,7 +254,7 @@
               </div>
             </div>
             <div class="release">
-              <h3 class="rules-title title">
+              <h3 class="rules-title common-dlg-title">
                 {{ $t('appPackage.capabalityRelease') }}
               </h3>
               <div class="releaseTable">
@@ -331,7 +319,8 @@ export default {
       dnsRulesInfoList: [],
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
-      applicationId: sessionStorage.getItem('applicationId')
+      // applicationId: sessionStorage.getItem('applicationId')
+      applicationId: 'c5abc488-d230-46f8-96c9-a3fd9ffbd2ab'
     }
   },
   methods: {
@@ -442,48 +431,19 @@ export default {
     .app-package-build-title {
       height: 30px;
       line-height: 30px;
-      font-size: 30px;
+      font-size: 26px;
       text-align: center;
-      font-weight: bold;
-    }
-    .title {
-      padding-left: 8px;
     }
     .app-package-build-content {
       height: calc(100% - 110px);
       overflow: auto;
       margin-top: 20px;
     }
-    .circle-out {
-      width: 14px;
-      height: 14px;
-      border: 2px solid #76E1E9;
-      border-radius: 50%;
-      position: relative;
-      float: left;
-      .circle-in {
-        width: 6px;
-        height: 6px;
-        border: 2px solid #76E1E9;
-        border-radius: 50%;
-        position: absolute;
-        margin: auto;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-      }
-    }
     .app-package-build-basicinfo, .app-package-build-resourceconfig, .app-package-build-rule, .app-package-build-capabalityconfig{
-      padding: 40px 0 0 0px;
-      font-size: 18px;
+      padding: 25px 0 0 0px;
+      font-size: 16px;
       text-align: left;
-    }
-    .title-wrapper {
-        height: 18px;
-        line-height: 18px;
-        display:flex;
-        align-items:center;
+      font-family: defaultFontLight;
     }
     .content-wrapper {
       padding-left: 22px;
@@ -496,7 +456,7 @@ export default {
           padding-right: 24px;
         }
         .left {
-          font-weight: 600;
+          font-size: 16px;
         }
         .app-build-upload {
           border-radius: 12px;
@@ -589,20 +549,15 @@ export default {
             padding-left: 30px !important;
           }
         }
-        .title {
-          font-size: 16px;
-          padding-left: 0;
-          margin-bottom: 18px;
-        }
         .depend {
           width: 33%;
+        }
+        .rules-title{
+          font-size: 16px;
         }
         .release {
           width: 62%;
           margin-left: 5%;
-        }
-        .rules-title:before {
-          background-color: #76E1E9;
         }
       }
     }

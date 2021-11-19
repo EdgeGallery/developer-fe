@@ -26,14 +26,14 @@
         <h3> EdgeGallery测试认证报告</h3>
         <div>
           <el-button
-            class="test-btn"
+            class="common-btn"
             @click="back()"
           >
             返回
           </el-button>
           <el-button
             v-if="downloadBtn"
-            class="test-light-btn"
+            class="common-btn"
             icon="el-icon-download"
             @click="downLoadReport()"
           >
@@ -582,7 +582,7 @@ export default {
     .baseInfo{
       margin: 30px 0;
       border-radius: 16px;
-      padding: 40px;
+      padding: 30px;
       .report-app-info{
         position: relative;
         padding-top: 15px;
@@ -595,6 +595,7 @@ export default {
     }
     .title {
       font-size: 20px;
+      font-family: defaultFont, Arial, Helvetica, sans-serif;
       .title-text{
         position: relative;
         z-index: 100;
@@ -637,9 +638,9 @@ export default {
       border-radius: 16px;
       .detail-content{
         .scene{
-          padding-left: 10px;
+          font-family: defaultFont, Arial, Helvetica, sans-serif;
           line-height: 40px;
-          font-size: 16px;
+          font-size: 18px;
           font-weight: 600;
           color: #fff;
         }
@@ -652,7 +653,7 @@ export default {
               font-family: defaultFontLight, Arial, Helvetica, sans-serif;
               height: 40px;
               padding-left: 15px;
-              font-size: 18px;
+              font-size: 16px;
               color: #fff;
               background-color: #5F499D;
               border-radius: 19.5px;
@@ -675,7 +676,8 @@ export default {
             width: 0;
           }
           .el-table td{
-            font-size: 16px;
+            font-size: 14px;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             padding: 0;
             height: 45px;
             line-height: 45px;

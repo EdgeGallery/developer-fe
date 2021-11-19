@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="padding_default">
+  <div class="padding_default promotion">
     <div
       class="promotion-content"
       :class="isUploadDig?'blur-bg':''"
@@ -25,7 +25,7 @@
           应用推送
         </span>
         <el-button
-          class="test-btn"
+          class="common-btn"
           @click="jumpToIncubation"
         >
           返回
@@ -447,21 +447,26 @@ export default {
 </script>
 
 <style lang="less">
+.promotion{
+  height: 95%;
+}
   .promotion-content {
     min-height: 500px;
-    min-width: 1200px;
+    height: 95%;
     .title-btn{
       padding: 35px 0 20px;
       display: flex;
       justify-content: space-between;
       .pushTitle{
         font-size: 24px;
-        font-family: defaultFontBold, sans-serif;
+        font-family: defaultFont, sans-serif;
         font-weight: bold;
         color: #fff;
       }
     }
     .app-list {
+      max-height: 93%;
+      overflow: auto;
       padding: 31px;
       position: relative;
       border-radius:16px ;
@@ -484,12 +489,12 @@ export default {
         color: #fff;
       }
       .search-input .el-input__inner,.selectStyle .el-input__inner{
+        color: #C9BDF3;
         border-radius: 16px;
-        background-color: transparent;
+        background-color: rgba(255,255,255,.45);
       }
       .selectStyle{
         width: 260px;
-        color: #fff;
         float: right;
       }
       .appPromPackageTable{

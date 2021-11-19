@@ -170,10 +170,15 @@ export default {
         this.viewOrEdit = 'edit'
         this.isEditFile = true
       }
+      let typeList = ['.md', '.json']
+      if (this.markdownSource === '文件内容为空' && !typeList.includes(this.fileType)) {
+        this.markdownSource = '```yaml\r\n' + '文件内容为空' + '\r\n```'
+      }
     },
     saveFile () {
       this.viewOrEdit = 'preview'
       this.isEditFile = false
+      let yamlList = ['.yaml', '.meta', '.mf', '.txt', '.csh']
       imageApi.getPackageFile(this.packageId, this.modifyFileName).then(response => {
         if (this.fileType === '.json') {
           let _configFileContent = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
@@ -185,7 +190,7 @@ export default {
           } else {
             this.markdownSource = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
           }
-        } else if (this.fileType === '.yaml' || this.fileType === '.meta' || this.fileType === '.mf') {
+        } else if (yamlList.includes(this.fileType)) {
           let _configFileContent = '```yaml\r\n' + response.data + '\r\n```'
           if (_configFileContent !== this.markdownSource) {
             let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
@@ -232,9 +237,8 @@ export default {
     .app-package-preview-title {
       height: 30px;
       line-height: 30px;
-      font-size: 30px;
+      font-size: 26px;
       text-align: center;
-      font-weight: bold;
     }
     .rules-title:before {
       margin-right: 7px;

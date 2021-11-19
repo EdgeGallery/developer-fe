@@ -122,7 +122,7 @@ export default {
       .uploadReport{
         text-align: center;
         .uploadpdf{
-          font-size: 16px;
+          font-size: 18px;
           color: #fff;
         }
         p{

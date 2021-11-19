@@ -22,12 +22,7 @@
     >
       <div class="toptitle">
         <div class="left flex">
-          <div class="left-text">
-            <img
-              src="../../../assets/images/atp/select_scene_icon.png"
-              alt=""
-              style="margin-right:10px;"
-            >
+          <div class="left-text common-dlg-title">
             选择测试场景
           </div>
         </div>
@@ -36,7 +31,7 @@
           @click="contributionCase()"
         >
           <el-button
-            class="test-light-btn"
+            class="common-btn"
           >
             贡献用例
           </el-button>
@@ -323,7 +318,7 @@ export default {
           border-radius: 12px;
           height: 47px;
           width: 100%;
-          font-size: 20px;
+          margin-bottom: 0;
         }
       }
       .right{
