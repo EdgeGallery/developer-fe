@@ -818,9 +818,9 @@
   color: #5E49A7 !important;
   background-color: rgba(10,9,54,.1) !important;
 }
-.inner-btn{
+.el-button.inner-btn{
   color: #fff !important;
-  background-color: rgba(190,194,225,.7) !important;
+  background-color: #4e3494 !important;
 }
 .el-button+.el-button{
   margin-left: 32px !important;
@@ -884,8 +884,12 @@ th{
   color: #fff;
 }
 .el-button.operation-btn-text{
-  font-size: 16px;
+  font-size: 14px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
+  color: #fff;
+}
+.el-button.operation-btn-text:hover{
+  color: #fff;
 }
 .btn-container{
   text-align: right;

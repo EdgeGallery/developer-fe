@@ -252,9 +252,9 @@ export default {
       sandbox.getVmStatus(operationId).then(res => {
         if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED') {
           sandbox.getVmlist(this.applicationId).then(response => {
-            this.vmImageInformation.imageName = response.data.name
-            this.vmImageInformation.status = response.data.status
-            this.vmImageInformation.downloadUrl = response.data.downloadUrl
+            this.vmImageInformation.imageName = response.data[0].imageExportInfo.name
+            this.vmImageInformation.status = response.data[0].imageExportInfo.status
+            this.vmImageInformation.downloadUrl = response.data[0].imageExportInfo.downloadUrl
             this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
           })
           clearTimeout(this.timerExport)

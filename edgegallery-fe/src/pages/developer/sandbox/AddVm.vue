@@ -438,8 +438,8 @@ export default {
       viewOrEditParams: 'preview',
       FlavorDefaultData: '',
       viewOrEditFlavor: 'preview',
-      userData: null,
-      flavorExtraSpecs: null,
+      userData: '',
+      flavorExtraSpecs: '',
       applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
@@ -530,7 +530,7 @@ export default {
         this.contentDefaultData = this.contentDefaultData.replace(/\n/g, '\\r\\n')
         this.contentDefaultData = this.contentDefaultData.substring(13, (this.contentDefaultData.length - 8))
         this.userData = '```shell\r\n' + res.data.replace(/\\r\\n/g, '\n') + '\r\n```'
-        this.flavorDefaultData = this.flavorExtraSpecs
+        this.flavorDefaultData = '```shell\r\n' + '\r\n```'
         this.flavorDefaultData = this.flavorDefaultData.replace(/\n/g, '\\r\\n')
         this.flavorDefaultData = this.flavorDefaultData.substring(13, (this.flavorDefaultData.length - 8))
         this.flavorExtraSpecs = '```shell\r\n' + '\r\n```'
@@ -622,7 +622,6 @@ export default {
         if (this.contentDefaultData !== this.addvmImages.userData) {
           this.addvmImages.userData = _contentTemp.substring(12, (_contentTemp.length - 7))
         }
-        this.addvmImages.flavorExtraSpecs = ''
         this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
@@ -642,8 +641,10 @@ export default {
     },
     setDivBackgroundColor (className) {
       let _oDiv = document.getElementsByClassName(className)
-      _oDiv.forEach(item => {
-        item.style.backgroundColor = '#4e3494'
+      this.$nextTick(() => {
+        _oDiv.forEach(item => {
+          item.style.backgroundColor = '#4e3494'
+        })
       })
     }
   },
@@ -660,6 +661,9 @@ export default {
       this.getInternetType()
     }
     this.getVmImageLists()
+    this.setDivBackgroundColor('content-input-wrapper')
+    this.setDivBackgroundColor('auto-textarea-wrapper')
+    this.setDivBackgroundColor('auto-textarea-input')
   }
 }
 </script>
@@ -887,6 +891,10 @@ export default {
     .markdown-body,.auto-textarea-wrapper .auto-textarea-input{
       color: #fff;
       font-size: 14px;
+    }
+    .markdown-body pre,.hljs{
+      background-color: #4e3494;
+      color: #fff;
     }
   }
 
