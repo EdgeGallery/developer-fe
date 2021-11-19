@@ -807,7 +807,7 @@
   padding: 6px 32px !important;
   border: none !important;
   color: #5944C0 !important;
-  font-size: 14px !important;
+  font-size: 18px !important;
   margin-top: 10px !important;
 }
 .common-btn:hover{
@@ -824,17 +824,6 @@
 .common-dark-btn{
   color: #fff;
   background-color: #60569A;
-}
-.common-cancel-btn{
-  padding: 6px 24px;
-  color: #5944C0 !important;
-  font-size: 14px;
-  background: #ffffff;
-  border-radius: 12px;
-  font-weight: 400;
-  border: none;
-  margin-top: 10px;
-  margin-right: 15px!important;
 }
 .common-info {
   display: inline-block;
@@ -894,7 +883,7 @@ th{
   cursor: pointer;
  }
 .common-div-bg{
-  max-height: 85%;
+  max-height: 95%;
   overflow: auto;
   padding: 40px;
   border-radius: 16px;
@@ -996,7 +985,7 @@ th{
 
 .common-dlg-title{
   font-weight: normal;
-  font-size: 20px;
+  font-size: 18px;
   margin: 15px;
 }
 .common-dlg-title:before{
@@ -1032,11 +1021,11 @@ th{
   position: relative;
   top: 85px;
   text-align: center;
-  top: 81px;
-  font-size: 14px;
+  top: 80px;
+  font-size: 16px;
 }
 .item-capa-active>.flow-name,.item-active>.flow-name{
-  top: 42px;
+  top: 40px;
 }
 .center-active .item-active::before{
  content:'';

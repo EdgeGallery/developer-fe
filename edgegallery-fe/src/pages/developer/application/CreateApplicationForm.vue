@@ -181,18 +181,20 @@
           />
         </el-form-item>
       </el-form>
-      <el-button
-        class="common-btn rt"
-        @click="confirmForm()"
-      >
-        完成
-      </el-button>
-      <el-button
-        class="common-cancel-btn rt"
-        @click="$router.go(-1)"
-      >
-        返回
-      </el-button>
+      <div class="rt">
+        <el-button
+          class="common-btn"
+          @click="$router.go(-1)"
+        >
+          返回
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="confirmForm()"
+        >
+          完成
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -244,7 +246,7 @@ export default {
           { required: true, message: '请输入应用描述', trigger: 'blur' }
         ]
       },
-      defaultIconSrc: require('../../../assets/images/application/app_history_pro.png'),
+      defaultIconSrc: require('../../../assets/images/application/app_default_icon.png'),
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -462,7 +464,7 @@ export default {
     .default-icon{
       width: 30px;
       height: 30px;
-      background: url("../../../assets/images/application/app_history_pro.png") no-repeat center;
+      background: url("../../../assets/images/application/app_default_icon.png") no-repeat center;
       background-size: cover;
     }
     .or{

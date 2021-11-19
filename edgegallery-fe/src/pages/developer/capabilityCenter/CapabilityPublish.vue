@@ -165,18 +165,20 @@
           label="DNS规则"
         /> -->
       </el-form>
-      <el-button
-        class="common-btn rt"
-        @click="handleUpload('api',apiFileList[0])"
-      >
-        完成
-      </el-button>
-      <el-button
-        class="common-cancel-btn rt"
-        @click="$router.go(-1)"
-      >
-        取消
-      </el-button>
+      <div class="rt">
+        <el-button
+          class="common-btn"
+          @click="$router.go(-1)"
+        >
+          取消
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="handleUpload('api',apiFileList[0])"
+        >
+          完成
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -314,7 +316,7 @@ export default {
 <style lang="less" scoped>
   .capability-publish{
     position: absolute;
-    top: 9%;
+    top: 5%;
     left: 30%;
     width: 40%;
     padding: 35px;
