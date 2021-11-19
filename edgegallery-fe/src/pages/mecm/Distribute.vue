@@ -79,10 +79,16 @@
           />
         </div>
         <div class="distribute-btn">
-          <el-button @click="cancel()">
+          <el-button
+            class="common-btn"
+            @click="cancel()"
+          >
             {{ $t("common.cancel") }}
           </el-button>
-          <el-button @click="distributeConfirm()">
+          <el-button
+            class="common-btn"
+            @click="distributeConfirm()"
+          >
             {{ $t("common.confirm") }}
           </el-button>
         </div>

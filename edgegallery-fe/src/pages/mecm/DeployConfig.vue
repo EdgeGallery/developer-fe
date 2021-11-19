@@ -443,8 +443,8 @@ export default {
         }
       }
       .rules-title {
+        font-size: 18px;
         margin-bottom: 15px;
-        font-family: defaultFont, Arial, Helvetica, sans-serif;
       }
       .rules-title:before {
         margin-right: 7px;
@@ -480,11 +480,9 @@ export default {
           }
         }
         .cn .el-form-item__label {
-          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           width: 89px;
         }
         .en .el-form-item__label {
-          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           width: 149px;
         }
         .apptemplate-information .el-form-item__label {
@@ -505,11 +503,12 @@ export default {
           border-radius: 4px;
           height: 25px;
           vertical-align: middle;
+          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           .el-input__inner {
             height: 25px;
             background-color: rgba(255, 255, 255, 0.3);
             border: 0px;
-            color: #e2e2e2;
+            color: #C9BDF3;
           }
         }
         .is-error .el-input__inner {
@@ -532,7 +531,7 @@ export default {
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             background-color: rgba(255, 255, 255, 0.3);
             border: 0px;
-            color: #e2e2e2;
+            color: #C9BDF3;
           }
         }
         .is-error .el-textarea__inner {
