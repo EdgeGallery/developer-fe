@@ -18,15 +18,9 @@
   <div
     id="app"
     class="defaultFont"
-    :class="{'app-new':pageModel==='newVersion'}"
+    :class="{'app-new':pageModel==='newVersion','app-new-inner':!isIndex}"
     ref="app"
   >
-    <!-- <div v-if="pageModel==='newVersion'">
-      <div class="common-bg-left" />
-      <div class="common-bg-green-left" />
-      <div class="common-bg-green-right" />
-    </div> -->
-
     <Navcomp
       :scroll-top-prop="scrollTop"
       :is-home-prop="isHome"
@@ -216,35 +210,10 @@ export default {
   position: relative;
 }
 .app-new{
-  background:url('./assets/images/common_bg.png');
-  background-size:cover;
-  .common-bg-left{
-    position: absolute;
-    top: 100px;
-    left: 70px;
-    width: 170px;
-    height: 296px;
-    background: url('./assets/images/common_bg_left.png') no-repeat;
-    animation: animationLeft 5s linear infinite;
-  }
-  .common-bg-green-left{
-    position: absolute;
-    bottom: 140px;
-    left: 110px;
-    width: 297px;
-    height: 363px;
-    background: url('./assets/images/common_bg_green_left.png') no-repeat;
-    animation: animationGreenLeft 6s linear infinite;
-  }
-  .common-bg-green-right{
-    position: absolute;
-    bottom: 300px;
-    left: 50%;
-    width: 244px;
-    height: 300px;
-    background: url('./assets/images/common_bg_green_right.png') no-repeat;
-    animation: animationGreenRight 5s linear infinite;
-  }
+  background: url('./assets/images/common_bg_index.png') #3E279B -10px 92% no-repeat;
+}
+.app-new-inner{
+  background: url('./assets/images/common_bg_inner.png') #3E279B -10px 92% no-repeat;
 }
 .left-pro-comp{
   width: 100%;
@@ -281,38 +250,5 @@ export default {
 }
 .el-row, .el-col{
   height: 100%;
-}
-@keyframes animationLeft {
-  0% {
-    top: 100px;
-  }
-  50% {
-    top: 130px;
-  }
-  100% {
-    top: 100px;
-  }
-}
-@keyframes animationGreenLeft {
-  0% {
-    bottom: 110px;
-  }
-  50% {
-    bottom: 140px;
-  }
-  100% {
-    bottom: 110px;
-  }
-}
-@keyframes animationGreenRight {
-  0% {
-    bottom: 300px;
-  }
-  50% {
-    bottom: 260px;
-  }
-  100% {
-    bottom: 300px;
-  }
 }
 </style>

@@ -1199,7 +1199,55 @@ input::-webkit-input-placeholder {
   top: 8px;
   left: -18px;
 }
-
 .el-upload-list__item-name{
   color: rgb(25, 25, 252) !important;
+}
+.common-radio .el-radio__input{
+  border: 1px solid #fff;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+}
+.common-radio .el-radio__inner,.el-radio__inner:hover{
+  border: none;
+  background-color: #C4C4C4;
+  width: 8px;
+  height: 8px;
+  position: relative;
+  top: -2px;
+  left: 2px;
+}
+.common-radio .el-radio__input.is-checked .el-radio__inner,.common-radio .el-radio__inner::after{
+  background: #3AC372;
+}
+.common-radio .el-radio__label {
+  color: #fff;
+  padding-left: 12px;
+}
+.common-radio .el-radio__input.is-checked+.el-radio__label{
+  color: #fff;
+}
+.common-checkbox .el-checkbox__inner{
+  background: #4E3494;
+  width: 8px;
+  height: 8px;
+  position: relative;
+  top: -2px;
+  left: 2px;
+  border: none;
+}
+.common-checkbox .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background: #3AC372;
+}
+.common-checkbox .el-checkbox__input{
+  border: 1px solid #fff;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+}
+.common-checkbox .el-checkbox__inner::after{
+  width: 4px;
+  height: 4px;
+  left: 1px;
+  top: 0px;
 }

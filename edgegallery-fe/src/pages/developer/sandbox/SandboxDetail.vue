@@ -52,11 +52,8 @@
           v-else
           class="deploy-detail-bg common-div-bg"
         >
-          <div class="details-top">
-            <p class="deploy-detail-circle" />
-            <p class="deploy-detail-title defaultFontLight">
-              {{ applicationName }}
-            </p>
+          <div class="common-dlg-title">
+            {{ applicationName }}
           </div>
           <div class="details-center">
             <div class="details-center-deploy">
@@ -148,7 +145,7 @@
           </div>
         </div>
         <div
-          class="detail-center-name defaultFontLight"
+          class="detail-center-name"
           :class="{'hide-div':!isChangeStyle}"
         >
           5G MEC
@@ -179,7 +176,7 @@
               alt=""
             >
           </div>
-          <p class="defaultFontLight">
+          <p>
             5G终端
           </p>
         </div>
@@ -195,7 +192,7 @@
               alt=""
             >
           </div>
-          <p class="defaultFontLight">
+          <p>
             5G基站
           </p>
         </div>
@@ -214,7 +211,7 @@
               alt=""
             >
           </div>
-          <p class="defaultFontLight">
+          <p>
             边缘UPF
           </p>
         </div>
@@ -229,9 +226,7 @@
             :src="isUpfSucess ? require('@/assets/images/sandbox/upf_finish.png'): require('@/assets/images/sandbox/upf_btn.png')"
             alt=""
           >
-          <p
-            class="defaultFontLight"
-          >
+          <p>
             边缘UPF
           </p>
         </div>
@@ -254,7 +249,7 @@
               alt=""
             >
           </div>
-          <p class="defaultFontLight">
+          <p>
             5G核心网
           </p>
         </div>
@@ -277,7 +272,7 @@
               alt=""
             >
           </div>
-          <p class="defaultFontLight">
+          <p>
             INTERNET
           </p>
         </div>
@@ -518,8 +513,9 @@ export default {
       }
     }
     .detail-center-name{
+      font-size: 26px;
       text-align: center;
-      line-height: 34px;
+      margin-top: 14px;
     }
     .detail-center-line{
       display: block;
@@ -543,6 +539,7 @@ export default {
       p{
         text-align: center;
         line-height: 60px;
+        font-size: 26px;
       }
     }
     .detail-bottom-line{
@@ -580,7 +577,7 @@ export default {
       }
       .details-center{
         display: flex;
-        padding-top: 60px;
+        padding-top: 37px;
         margin: 0 60px;
         .details-center-deploy{
           display: flex;
@@ -655,7 +652,7 @@ export default {
         }
       }
       .details-bottom{
-        margin-top: 60px;
+        margin-top: 45px;
         .details-bottom-title{
           font-size: 40px;
           color: rgba(238, 238, 238, 0.2);
@@ -685,6 +682,7 @@ export default {
       p{
         margin-left: 30px;
         margin-top: -56px;
+        font-size: 16px;
       }
     }
     .detail-bottom-line{
