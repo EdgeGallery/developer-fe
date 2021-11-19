@@ -861,7 +861,7 @@
 .el-table tbody tr:hover>td {
 background-color:transparent !important
 }
-.coomon-table.el-table th.el-table__cell.is-leaf, .coomon-table.el-table td.el-table__cell{
+.common-table.el-table th.el-table__cell.is-leaf, .common-table.el-table td.el-table__cell{
   border-bottom: 1px solid #4e3494;
 }
 .el-table.common-table thead tr{

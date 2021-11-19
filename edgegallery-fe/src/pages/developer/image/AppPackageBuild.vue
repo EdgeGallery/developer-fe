@@ -491,9 +491,6 @@ export default {
         }
         .el-table__row {
           height: 101px;
-          .el-table__cell {
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-          }
         }
         .progress-bar {
           margin-top: 13px;
@@ -531,9 +528,6 @@ export default {
           }
           .el-table__row {
             height: 50px;
-            .el-table__cell {
-              border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            }
           }
         }
       }
