@@ -481,20 +481,6 @@ export default {
       justify-content: left;
     }
   }
-  .el-upload--picture-card{
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    background: rgba(255,255,255,.5);
-  }
-  .el-upload-list--picture-card .el-upload-list__item{
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-  }
-  .el-upload-list{
-    width: auto;
-  }
   .icon-upload-info{
     top: -27px;
     left: 30px;
@@ -517,6 +503,20 @@ export default {
     top: 0px;
     left: 5px;
     height: 15px;
+  }
+  .el-upload--picture-card{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background: rgba(255,255,255,.5);
+  }
+  .el-upload-list--picture-card .el-upload-list__item{
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+  }
+  .el-upload-list{
+    width: auto;
   }
   .el-upload-list__item{
     background: #fff;

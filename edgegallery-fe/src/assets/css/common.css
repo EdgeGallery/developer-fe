@@ -1043,11 +1043,11 @@ th{
   position: relative;
   top: 85px;
   text-align: center;
-  top: 80px;
+  top: 84px;
   font-size: 16px;
 }
 .item-capa-active>.flow-name,.item-active>.flow-name{
-  top: 40px;
+  top: 44px;
 }
 .center-active .item-active::before{
  content:'';
