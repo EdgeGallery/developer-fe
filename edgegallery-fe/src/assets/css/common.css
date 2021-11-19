@@ -1045,6 +1045,7 @@ th{
   text-align: center;
   top: 84px;
   font-size: 16px;
+  font-family: defaultFont;
 }
 .item-capa-active>.flow-name,.item-active>.flow-name{
   top: 44px;
@@ -1191,4 +1192,11 @@ input::-webkit-input-placeholder {
 
 .el-upload-list__item-name{
   color: rgb(25, 25, 252) !important;
+}
+
+.workflow-name{
+  float: right;
+  position: relative;
+  font-size: 20px;
+  font-family: defaultFontLight;
 }

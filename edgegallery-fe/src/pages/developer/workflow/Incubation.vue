@@ -3,6 +3,9 @@
     class="incubation workflow"
     :class="currentFlow===0?'':'center-active'"
   >
+    <div class="workflow-name">
+      应用孵化
+    </div>
     <div
       v-for="(item,index) in workflowDataArray"
       :key="index"
@@ -104,6 +107,10 @@ export default {
 
 <style lang="less" scoped>
 .incubation{
+  .workflow-name{
+    top: -35px;
+    left: -110px;
+  }
   .capability-center{
     left: 155px;
     top: -130px;

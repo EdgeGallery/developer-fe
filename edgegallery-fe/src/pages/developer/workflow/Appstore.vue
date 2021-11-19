@@ -3,6 +3,9 @@
     class="appstore workflow"
     :class="currentFlow>6||currentFlow===6?'center-active':''"
   >
+    <div class="workflow-name">
+      应用商店
+    </div>
     <div
       v-for="(item,index) in appStoreWorkflowDataArray"
       :key="index"
@@ -71,6 +74,10 @@ export default {
 
 <style lang="less" scoped>
   .appstore{
+    .workflow-name{
+      top: -35px;
+      left: -90px;
+    }
     color: #fff;
      .item{
       top: 135px;
