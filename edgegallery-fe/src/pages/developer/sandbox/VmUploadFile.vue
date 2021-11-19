@@ -37,7 +37,7 @@
           class="common-btn"
           @click="closeVmUpload"
         >
-          {{ $t('common.cancel') }}
+          {{ $t('common.close') }}
         </el-button>
       </div>
     </div>
@@ -70,7 +70,7 @@ export default {
   data () {
     return {
       uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/upload-file',
-      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/merge-file?',
+      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/merge-file?fileName',
       paramsName: 'identifier'
     }
   },

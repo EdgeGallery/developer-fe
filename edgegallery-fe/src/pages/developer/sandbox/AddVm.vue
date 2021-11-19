@@ -26,7 +26,7 @@
         >
           <div class="vm-info">
             <div class="addVm-top-title">
-              <p class="defaultFontLight">
+              <p>
                 虚拟机名称
               </p>
               <el-input
@@ -62,6 +62,7 @@
           <div class="simulator-info-content">
             <div class="defaultFontLight">
               <el-radio-group
+                class="common-radio"
                 v-model="vmInfo.archType"
                 @change="handleChangeArch"
               >
@@ -77,7 +78,7 @@
                     <el-radio
                       :label="scope.row.id"
                       v-model="addvmImages.flavorId"
-                      class="work-radio"
+                      class="common-radio"
                     />
                   </template>
                 </el-table-column>
@@ -151,6 +152,7 @@
               <el-table-column width="35">
                 <template slot-scope="scope">
                   <el-checkbox
+                    class="common-checkbox"
                     v-model="selectedNetworks"
                     :label="scope.row.name"
                     @change="changeInternet(selectedNetworks)"
@@ -180,6 +182,7 @@
           <div class="selectImage-content">
             <div class="selectImage-public defaultFontLight">
               <el-radio
+                class="common-radio"
                 label="public"
                 v-model="vmInfo.imageType"
                 @change="changeImageType('public')"
@@ -214,6 +217,7 @@
             </div>
             <div class="selectImage-public defaultFontLight">
               <el-radio
+                class="common-radio"
                 v-model="vmInfo.imageType"
                 label="private"
                 @change="changeImageType('private')"
@@ -288,11 +292,11 @@
           name="6"
         >
           <div class="vm-size">
-            <p class="vm-title scriprt-madgin">
+            <p class="title-info">
               是否使用注入脚本
             </p>
             <el-radio-group
-              class="work-radio scriprt-madgin"
+              class="common-radio work-radio"
               v-model="isInjectScript"
               @change="handleSelectInjectScript"
             >
@@ -694,7 +698,7 @@ export default {
     top: 50%;
     transform: translate(-50%,-50%);
     .el-collapse-item__header,.el-collapse-item__content{
-      font-size: 14px;
+      font-size: 16px;
       color: #fff;
     }
     .vm-info{
@@ -728,28 +732,9 @@ export default {
       margin-right: 30px;
     }
   }
-  .el-radio__input.is-checked .el-radio__inner::after {
-    background: #7ED4A9;
-    width: 8px;
-    height: 8px;
-  }
-  .el-radio__inner {
-      border:1px solid #fff;
-      background-color: #C4C4C4;
-  }
-  .el-radio__input.is-checked .el-radio__inner {
-      background: #6d5dc1;
-  }
-  .el-radio__input.is-checked+.el-radio__label{
-    color: #fff;
-  }
   .el-collapse {
     border-top:none;
     border-bottom:none;
-    .el-radio__label {
-      color: #fff;
-      padding-left: 12px;
-    }
     .el-checkbox__label{
       padding-left: 12px;
     }
@@ -764,7 +749,6 @@ export default {
       border-bottom:none;
       padding-left: 20px;
       font-size: 16px;
-      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
     .el-collapse-item__header:before{
       display: inline-block;
@@ -804,6 +788,7 @@ export default {
       margin: 0 16px 0 auto;
     }
     .el-collapse-item__wrap{
+      padding: 0 8px;
       background: none;
       border-bottom:none;
       .internetInfos{
@@ -818,7 +803,6 @@ export default {
           .el-radio{
             height: 25px;
             line-height: 25px;
-            color: rgb(27, 13, 13);
             margin-right: 20px;
           }
           .el-radio__input.is-checked + .el-radio__label {
@@ -847,17 +831,20 @@ export default {
       }
       .simulator-info-content{
         .el-radio-group{
-          margin: 10px 0 20px 24px;
+          margin: 15px 0 20px 15px;
           .el-radio-button__inner {
             background: none;
             color: #fff;
             border: none;
-            border-bottom:4px solid #4E3494 ;
+            border-bottom:2px solid #4E3494;
           }
           .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: none;
-            border-bottom:4px solid #43F6AD ;
+            border-bottom:2px solid #43F6AD ;
             box-shadow: none;
+          }
+          .el-radio-button:first-child .el-radio-button__inner,.el-radio-button:last-child .el-radio-button__inner{
+            border-radius: 2px;
           }
         }
       }
@@ -879,17 +866,20 @@ export default {
           border-bottom: 1px solid #4E3494;
         }
       }
-      .vm-title{
-        margin: 15px 0;
+      .title-info{
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        font-family: defaultFontLight,Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        padding-left: 15px;
+      }
+      .work-radio{
+        display: block;
+        margin: 15px 0 0 15px;
       }
       .edit-btn{
         margin: 15px 0;
-        .title-info{
-          display: inline-block;
-          height: 30px;
-          line-height: 30px;
-          margin-left: 24px;
-        }
         .el-button{
           background: #4e3494;
           border: none;
