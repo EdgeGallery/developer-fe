@@ -204,8 +204,8 @@ export default {
   }
   .el-dialog{
     border-radius: 16px;
-    background: linear-gradient(to bottom right, rgba(205,209,231,.8),rgba(101,111,205,.17));
-    box-shadow: 60px 70px 75px rgba(36,20,119,.25);
+    background: rgba(46,20,124,.7);
+    backdrop-filter: blur(6px);
   }
   .el-dialog__header{
     border-radius: 16px 16px 0 0 !important;

@@ -19,7 +19,7 @@
     <div class="title_top">
       {{ $t('store.introduction') }}
       <el-button
-        class="test-btn rt"
+        class="common-btn rt"
         @click="backApp"
       >
         返回
@@ -92,7 +92,7 @@
         </p>
 
         <el-button
-          class="batchProButton"
+          class="common-btn"
           :disabled="!canDownload || currentData.userId===userId ? false : true"
           @click="download(currentData)"
         >
@@ -675,8 +675,8 @@ export default {
   .title_top{
     padding: 60px 0 20px !important;
     position: relative;
-    font-size: 26px;
-    font-family: HarmonyOS Sans SC, sans-serif;
+    font-size: 24px;
+    font-family: defaultFont, sans-serif;
     font-weight: bold;
     color: #FFFFFF;
   }
@@ -738,9 +738,9 @@ export default {
       padding: 0 20px;
       word-wrap: break-word;
       .app_title{
-        font-size: 36px;
+        font-size: 26px;
         color: #FFFFFF;
-        font-weight: bold;
+        font-family: defaultFont, Arial, Helvetica, sans-serif;
         .createTime{
           font-size: 16px;
           font-weight: normal;
@@ -883,7 +883,7 @@ export default {
           width: 100%;
           height: 100%;
           padding: 0 26px;
-          font-size: 20px;
+          font-size: 16px;
           color: #fff;
           transition: all 0.1s;
         }

@@ -21,7 +21,7 @@
     <div
       class="case-detail"
     >
-      <p class="title-icon">
+      <p class="common-dlg-title">
         贡献测试用例
       </p>
     </div>
@@ -113,7 +113,7 @@
           <el-button
             slot="trigger"
             size="small"
-            class="form-button"
+            class="inner-btn"
           >
             上传
           </el-button>
@@ -303,18 +303,17 @@ export default {
 <style lang="less">
   .case-detail{
     position: relative;
-    padding-bottom: 20px;
   }
   .contibution-form{
     .el-input__inner,.el-textarea__inner{
-      background-color: rgba(255, 255, 255, 0.45);
+      color: #C9BDF3;
+      background-color: rgba(255,255,255,.45);
+      border: none;
+      font-family: defaultFontLight;
+      font-size: 14px;
     }
-  }
-  .form-button{
-    background-color: #f7f2ff;
-    border: 1px solid #380879;
-    color: #380879;
-    border-radius: 25px;
-    box-shadow: 0 5px 5px #deccf9;
+    .el-icon-info:before{
+      color: #8969f9;
+    }
   }
 </style>

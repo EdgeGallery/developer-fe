@@ -150,8 +150,8 @@ export default {
             padding: 0 10px;
             height: 35px;
             line-height: 35px;
+            font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             font-size: 14px;
-            font-weight: normal;
           }
           .el-table tr {
             height: 37px;
@@ -168,6 +168,8 @@ export default {
           .el-table__body{
             .cell{
               padding-top: 5px;
+              font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+              font-size: 14px;
             }
           }
          .el-table::before {
