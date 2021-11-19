@@ -19,7 +19,7 @@
       class="rules-config common-div-bg"
       :class="{'rules-config-hidden':!isRulesConfigShow}"
     >
-      <h3 class="rules-title">
+      <h3 class="common-dlg-title">
         应用规则配置
       </h3>
       <h4 class="rules-title-sub clear">
