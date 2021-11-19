@@ -410,8 +410,8 @@ export default {
   background: transparent;
   width: 41%;
   min-height: 85%;
-  max-height: 900px;
-  margin: 120px auto;
+  max-height: 720px;
+  margin: 2% auto;
   .card-shadow {
     padding: 0px 0 1px 2px;
     border-radius: 17px;
@@ -420,6 +420,8 @@ export default {
       border-radius: 16px;
       background: rgba(46,20,124,.7);
       backdrop-filter: blur(6px);
+      max-height: 710px;
+      overflow-y: auto;
       .common-dlg-title:before {
         right: 5px;
       }
