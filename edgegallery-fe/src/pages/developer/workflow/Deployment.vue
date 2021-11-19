@@ -3,6 +3,9 @@
     class="deployment workflow"
     :class="currentFlow>9||currentFlow===9?'center-active':''"
   >
+    <div class="workflow-name">
+      生产环境
+    </div>
     <div
       v-for="(item,index) in deployWorkflowDataArray"
       :key="index"
@@ -85,6 +88,10 @@ export default {
 
 <style lang="less" scoped>
   .deployment{
+    .workflow-name{
+      top: -35px;
+      left: -140px;
+    }
     .deploy-meao{
       top: 135px;
       left: -60px;
