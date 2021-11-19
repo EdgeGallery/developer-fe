@@ -97,6 +97,9 @@ let sandbox = {
   },
   vncLogin (applicationId, vmId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/vnc')
+  },
+  getScriptByImageId (osType) {
+    return GET(URL_PREFIX_DEVELOPER + 'user-data?' + 'osType=' + osType)
   }
 }
 
@@ -154,6 +157,9 @@ let applicationApi = {
   },
   deletePublishedService: function (appId, serId) {
     return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId)
+  },
+  publishApp: function (applicationId, params) {
+    return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/release', params)
   }
 }
 
@@ -203,10 +209,13 @@ let imageApi = {
     return GET(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
   },
   modifyPackageFile: function (packageId, fileName, params) {
-    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content?fileName' + fileName, params)
+    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content?fileName=' + fileName, params)
   },
   getFileInfo: function (fileId) {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
+  },
+  packageToZip: function (packageId) {
+    return POST(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/zip-package')
   }
 }
 let atpTestApi = {

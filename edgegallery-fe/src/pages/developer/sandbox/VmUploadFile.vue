@@ -17,7 +17,7 @@
 <template>
   <div class="uploadApp">
     <div class="common-div-bg">
-      <p class="title">
+      <p class="common-dlg-title">
         上传应用代码包
       </p>
       <div class="uploadAppBody">
@@ -69,8 +69,8 @@ export default {
   },
   data () {
     return {
-      uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + 'action/upload-file',
-      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + 'action/file-merge',
+      uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/upload-file',
+      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/merge-file?',
       paramsName: 'identifier'
     }
   },

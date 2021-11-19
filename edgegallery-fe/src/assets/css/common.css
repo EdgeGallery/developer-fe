@@ -16,21 +16,20 @@
  @font-face
  {
    font-family: defaultFont;
-   src: url(../fonts/Harmony-Regular.ttf);
+   src: url(../fonts/HarmonyOS_Sans_SC_Regular.ttf);
  }
  @font-face
  {
-   font-family: defaultFontBlod;
-   src: url(../fonts/Harmony-SemiBold.ttf);
+   font-family: defaultFontBold;
+   src: url(../fonts/HarmonyOS_Sans_SC_Bold.ttf);
  }
+ @font-face {
+  font-family: defaultFontLight;
+  src: url(../fonts/HarmonyOS_Sans_SC_Light.ttf);
+}
  @font-face {
    font-family: defaultFontUltraLight;
    src: url(../fonts/Harmony-UltraLight.ttf);
- }
- 
- @font-face {
-   font-family: defaultFontLight;
-   src: url(../fonts/Harmony-Light.ttf);
  }
  html,body,div,p,h1,h2,h3,h4,h5,h6,ul,li,button,span,a{
    margin:0;
@@ -46,8 +45,8 @@
  .defaultFont{
    font-family:defaultFont, Arial, Helvetica, sans-serif;
  }
- .defaultFontBlod{
-   font-family:defaultFontBlod, Arial, Helvetica, sans-serif;
+ .defaultFontBold{
+   font-family:defaultFontBold, Arial, Helvetica, sans-serif;
  }
  .fontUltraLight {
    font-family: defaultFontUltraLight,
@@ -388,7 +387,7 @@
  }
  .title_center{
    font-size: 36px;
-   font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+   font-family: defaultFontBold, Arial, Helvetica, sans-serif;
    display: flex;
    flex-direction: column;
   align-items: center;
@@ -442,10 +441,20 @@
    border-bottom: none !important;
    background-color: transparent !important;
    color: #fff !important;
+   font-family: defaultFontBold, Arial, Helvetica, sans-serif;
  }
  
  .el-menu--horizontal > .el-menu-item,.el-menu--horizontal > .el-menu-item:hover{
    border-bottom: none;
+   letter-spacing: 1px;
+   font-family: defaultFont, Arial, Helvetica, sans-serif;
+   font-size: 18px !important;
+ }
+ .main-sidebar .el-menu .first-menu{
+   font-size: 18px;
+ }
+ .main-sidebar .el-menu.el-menu--horizontal .el-menu-item{
+   margin-right: 40px;
  }
  .el-menu--horizontal > .el-submenu{
    position: relative;
@@ -555,7 +564,7 @@
    font-weight: normal;
  }
  .el-table__header-wrapper{
-   border-radius: 8px;
+   border-radius: 8px 8px 0 0;
  }
  .tableStyle.el-table .cell {
    padding: 0 0 0 30px !important;
@@ -619,7 +628,7 @@
    width: 82px;
  }
  .el-icon-arrow-up:before{
-   font-size: 16px;
+   font-size: 8px;
    position: relative;
  }
  .el-select .el-input.is-focus .el-input__inner,.el-pagination__sizes .el-input .el-input__inner:hover{
@@ -631,9 +640,6 @@
  .el-textarea .el-textarea__inner{
    min-height: 80px !important;
  }
-.el-table .el-table__cell {
-  padding: 0;
-}
  .el-table .sort-caret.descending{
    border-top-color: #b5e8e9;
    bottom: 4px;
@@ -801,27 +807,36 @@
    padding-top: 200px;
  }
 
-.common-btn{
+.el-button.common-btn{
   /* box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8); */
-  border-radius: 12px !important;
+  border-radius: 17px !important;
   padding: 6px 32px !important;
   border: none !important;
   color: #5944C0 !important;
   font-size: 18px !important;
-  margin-top: 10px !important;
 }
-.common-btn:hover{
+.el-button.common-btn:hover{
   color: #fff !important;
   background-color: #5347a0 !important;
 }
-.inner-btn{
+.el-button.common-btn.is-disabled,.el-button.common-btn.is-disabled:focus, .el-button.common-btn.is-disabled:hover{
+  color: #5E49A7 !important;
+  background-color: rgba(10,9,54,.1) !important;
+}
+.el-button.inner-btn{
   color: #fff !important;
-  background-color: rgba(190,194,225,.7) !important;
+  font-size: 12px !important;
+  background-color: #4e3494 !important;
+  border: none;
+}
+.el-button.inner-btn:hover{
+  color: #806bbc !important;
+  background-color: #412590 !important;
 }
 .el-button+.el-button{
   margin-left: 32px !important;
 }
-.common-dark-btn{
+.el-button.common-dark-btn{
   color: #fff;
   background-color: #60569A;
 }
@@ -834,27 +849,27 @@
   position: relative;
 }
 
-.common-table{
+.el-table.common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
 }
-.common-table, .el-table__expanded-cell, .common-table th.el-table__cell, 
-.common-table th,.common-table th.el-table__cell > .cell, .common-table tr, .common-table td.el-table__cell > .cell { 
+.el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
+.el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
   background-color: transparent;
   color: #fff;
 }
 .el-table tbody tr:hover>td {
 background-color:transparent !important
 }
-.el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell, .el-table.more-rows-table thead th.is-leaf{
-  border-bottom: none;
+.el-table th.el-table__cell.is-leaf, .el-table td.el-table__cell{
+  border-bottom: 1px solid #4e3494;
 }
-.common-table thead tr{
-  height: 30px;
-  background-color: rgba(255,255,255,.3);
+.el-table.common-table thead tr{
+  height: 51px;
+  background-color: #4e3494;
 }
-.el-table.more-rows-table td, .el-table.more-rows-table th.is-leaf{
-  border-bottom: 2px solid rgba(255,255,255,.3);
+.el-table.common-table .el-table__cell {
+  padding: 0;
 }
 .el-table td{
   height: 50px !important;
@@ -862,15 +877,19 @@ background-color:transparent !important
 th{
   font-weight: normal;
 }
-.el-table::before{
+.el-table.common-table::before{
   height: 0;
 }
 .el-button--text,.el-button--text:hover{
   color: #fff;
 }
-.operation-btn-text{
-  font-size: 16px;
+.el-button.operation-btn-text{
+  font-size: 14px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
+  color: #fff;
+}
+.el-button.operation-btn-text:hover{
+  color: #fff;
 }
 .btn-container{
   text-align: right;
@@ -930,21 +949,24 @@ th{
 .title-top{
   margin-top: 30px;
 }
-.common-form .el-form-item__label{
+.el-form.common-form .el-form-item__label{
   color: #fff;
-  font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
+  font-size: 16px;
 }
-.common-form .el-input__inner,.common-form .el-textarea__inner{
+.el-form.common-form .el-input__inner,.el-form.common-form .el-textarea__inner{
   color: #fff;
   background-color: rgb(84,48,156);
   border: none;
 }
 
-.common-form .el-input__inner:focus{
+.el-form.common-form .el-input__inner:focus{
   border: 1px solid #ddd;
 }
-.common-form .el-input-number--mini{
+.el-form.common-form .el-input-number--mini{
   width: 100%;
+}
+.el-form.common-form .el-form-item--mini.el-form-item{
+  margin-bottom: 20px;
 }
 .el-input-number .el-input__inner{
   text-align: left;
@@ -977,7 +999,7 @@ th{
   width: 50%;
 }
 .label-item-half .el-form-item__content{
-  width: calc(100% - 100px);
+  width: calc(100% - 105px);
 }
 .label-item-half .el-select{
   width: 100%;
@@ -986,7 +1008,7 @@ th{
 .common-dlg-title{
   font-weight: normal;
   font-size: 18px;
-  margin: 15px;
+  margin-bottom: 32px;
 }
 .common-dlg-title:before{
   display: inline-block;
@@ -1134,14 +1156,22 @@ img.next{
   color: #0F0D87;
   border-radius: 16px;
 }
-.common-input .el-input__inner{
+.el-input.common-input .el-input__inner{
   width: 180px;
   color: #fff;
   background-color: rgba(255,255,255,.45);
   border: none;
 }
 input::-webkit-input-placeholder {
-  color: rgba(255,255,255,.7) !important;
+  color: #c9bdf3 !important;
+}
+.el-upload--picture-card{
+  background: #4E3494 !important;
+  border: 1px dashed #9687e5;
+}
+.el-upload--picture-card:hover{
+  border-color: #9687e5;
+  color: #9687e5;
 }
 .title-icon{
   font-size: 16px;

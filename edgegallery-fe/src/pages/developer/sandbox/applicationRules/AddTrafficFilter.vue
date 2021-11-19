@@ -16,7 +16,7 @@
 
 <template>
   <div class="common-div-bg">
-    <h3 class="rules-title">
+    <h3 class="common-dlg-title">
       流量过滤器
     </h3>
 

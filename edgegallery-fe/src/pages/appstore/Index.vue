@@ -50,7 +50,7 @@
             class="application"
             @mouseover="hoverAppList(index)"
             @mouseout="activeIndex=-1"
-            @click="jumpToDetail(item);removeClass()"
+            @click="jumpToDetail(item)"
           >
             <div
               class="img-box"
@@ -131,10 +131,6 @@ export default {
       this.$store.commit('changeFlow', 6)
       this.$router.push('/EG/developer/home')
     },
-    removeClass () {
-      let _classBreaths = document.getElementsByClassName('newapp-breath')
-      _classBreaths[0].classList.remove('newapp-breath')
-    },
     hoverAppList (index) {
       this.activeIndex = index
     },
@@ -153,9 +149,9 @@ export default {
         showType: ['public', 'inner-public'],
         workloadType: [],
         userId: '',
-        appName: '',
-        status: 'Published',
         queryCtrl: {
+          appName: '',
+          status: ['Published'],
           offset: this.offsetPage,
           limit: this.limitSize,
           sortItem: 'createTime',
@@ -283,20 +279,6 @@ export default {
     .application{
       .img-box{
          background-image: url(../../assets/images/appstore/new_app_flag.png) ;
-      }
-    }
-    .newapp-breath{
-      animation: breathe 2s ease-in 0s infinite;
-      @keyframes breathe {
-        0%{
-          opacity: 0.3;
-        }
-        50%{
-          opacity: 1;
-        }
-        100%{
-          opacity: 0.3;
-        }
       }
     }
   }

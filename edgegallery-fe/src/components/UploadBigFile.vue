@@ -27,7 +27,6 @@
         <div class="upolader-button-wrapper">
           <uploader-btn
             id="btn_vmUploadFile"
-            class="common-btn inner-btn"
           >
             {{ btnNameProp }}
           </uploader-btn>
@@ -118,6 +117,28 @@ export default {
     border: none;
     background: none;
     padding: 0;
+  }
+  .uploader-btn{
+    border-radius: 12px;
+    padding: 6px 32px;
+    border: none;
+    font-family: defaultFontLight;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #fff;
+    background-color: rgba(190,194,225,.7);
+  }
+  .uploader-list{
+    margin-top: 20px;
+  }
+  .uploader-file .uploader-file-progress{
+    background: rgba(226,238,255,.2);
+  }
+  .uploader-file[status=error] .uploader-file-progress{
+    background: rgba(255,224,224,.2);
+  }
+  .uploader-file-actions .uploader-file-remove{
+    background-position-y: -32px;
   }
 }
 

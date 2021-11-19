@@ -16,12 +16,12 @@
 <template>
   <div class="appd-preview">
     <div class="common-div-bg appd-preview-warraper">
-      <h3 class="rules-title">
-        应用包详情
-      </h3>
+      <div class="app-package-preview-title">
+        {{ $t('appPackage.appdDetail') }}
+      </div>
       <el-row>
         <el-col
-          :span="8"
+          :span="6"
           class="file-list"
         >
           <el-tree
@@ -35,7 +35,7 @@
             @node-click="getFileDetail"
           />
         </el-col>
-        <el-col :span="16">
+        <el-col :span="18">
           <div class="file-desc">
             <mavon-editor
               v-model="markdownSource"
@@ -43,7 +43,6 @@
               :subfield="false"
               :default-open="viewOrEdit"
               :box-shadow="false"
-              preview-background="#ffffff"
             />
           </div>
         </el-col>
@@ -61,7 +60,7 @@
           v-show="isEditFile"
           @click="saveFile()"
         >
-          保存
+          {{ $t('appPackage.save') }}
         </el-button>
         <el-button
           class="common-btn"
@@ -91,12 +90,25 @@ export default {
       markdownSource: '',
       packageId: this.$route.query.packageId,
       viewOrEdit: 'preview',
-      isEditFile: false
+      isEditFile: false,
+      modifyFileName: ''
     }
   },
   methods: {
     confirm () {
-      this.$router.push('/EG/images/appPackageBuild')
+      imageApi.packageToZip(this.packageId).then(res => {
+        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+          this.$store.commit('changeFlow', '4')
+          this.$router.push('/EG/developer/home')
+        })
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: '打包失败',
+          type: 'error'
+        })
+      })
     },
     getAppPackageList () {
       imageApi.getPackageStructure(this.packageId).then(res => {
@@ -122,8 +134,8 @@ export default {
       })
     },
     getFileDetail (val) {
-      let temp = val.name
-      this.fileType = temp.substr(temp.lastIndexOf('.'))
+      this.modifyFileName = val.name
+      this.fileType = this.modifyFileName.substr(this.modifyFileName.lastIndexOf('.'))
       if (!val.children) {
         imageApi.getPackageFile(this.packageId, val.name).then(res => {
           let typeArr = ['.zip', '.tgz', '.png']
@@ -132,7 +144,11 @@ export default {
           } else if (typeArr.includes(this.fileType)) {
             this.markdownSource = '文件格式不支持'
           } else if (this.fileType === '.json') {
-            this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+            if (res.data.length === 0) {
+              this.markdownSource = '文件内容为空'
+            } else {
+              this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+            }
           } else if (JSON.stringify(res.data) === '""') {
             this.markdownSource = '文件内容为空'
           } else {
@@ -142,16 +158,55 @@ export default {
       }
     },
     modifyFile () {
-      this.viewOrEdit = 'edit'
-      this.isEditFile = true
+      let unSupportTypes = ['.zip', '.tgz', '.png']
+      if (unSupportTypes.includes(this.fileType)) {
+        this.$message({
+          showClose: true,
+          duration: 2000,
+          message: '格式不支持修改',
+          type: 'error'
+        })
+      } else {
+        this.viewOrEdit = 'edit'
+        this.isEditFile = true
+      }
     },
     saveFile () {
       this.viewOrEdit = 'preview'
       this.isEditFile = false
-      // imageApi.modifyPackageFile(this.packageId, this.modifyFileName, editMarkDownstr).then(res => {
-      //   this.viewOrEdit = 'preview'
-      //   this.isEditFile = false
-      // })
+      imageApi.getPackageFile(this.packageId, this.modifyFileName).then(response => {
+        if (this.fileType === '.json') {
+          let _configFileContent = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
+          if (_configFileContent !== this.markdownSource) {
+            let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
+            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
+              this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
+            })
+          } else {
+            this.markdownSource = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
+          }
+        } else if (this.fileType === '.yaml' || this.fileType === '.meta' || this.fileType === '.mf') {
+          let _configFileContent = '```yaml\r\n' + response.data + '\r\n```'
+          if (_configFileContent !== this.markdownSource) {
+            let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
+            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
+              this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+            })
+          } else {
+            this.markdownSource = '```yaml\r\n' + response.data + '\r\n```'
+          }
+        } else {
+          let _configFileContent = response.data
+          if (_configFileContent !== this.markdownSource) {
+            let _editMarkDownstr = this.markdownSource
+            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
+              this.markdownSource = res.data
+            })
+          } else {
+            this.markdownSource = response.data
+          }
+        }
+      })
     }
   },
   mounted () {
@@ -164,7 +219,7 @@ export default {
 .appd-preview {
   background: transparent;
   height: 90%;
-  .appd-preview-warraper::-webkit-scrollbar {
+  .appd-preview-warraper::-webkit-scrollbar,.file-list::-webkit-scrollbar {
     display: none;
   }
   .appd-preview-warraper {
@@ -174,11 +229,30 @@ export default {
     border-radius: 16px;
     margin: 51px auto;
     padding: 40px 40px 40px 40px;
+    .app-package-preview-title {
+      height: 30px;
+      line-height: 30px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: bold;
+    }
     .rules-title:before {
       margin-right: 7px;
       background-color: #76e1e9;
     }
     .el-row {
+      margin-top: 20px;
+      .file-list, .markdown-body {
+        height: 425px;
+        overflow: auto;
+      }
+      .file-list {
+        border-radius: 16px;
+        border: 1px #ffffff solid;
+      }
+      .file-desc {
+        padding-left: 15px;
+      }
       .el-tree {
         background-color: transparent;
         color: #ffffff;

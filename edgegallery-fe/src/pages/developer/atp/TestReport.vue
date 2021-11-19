@@ -27,7 +27,7 @@
         <div>
           <el-button
             class="test-btn"
-            @click="jumpToIncubation()"
+            @click="back()"
           >
             返回
           </el-button>
@@ -289,8 +289,8 @@ export default {
     this.getReport()
   },
   methods: {
-    jumpToIncubation () {
-      this.$router.push('/EG/developer/home')
+    back () {
+      this.$router.push('/EG/developer/testProcess')
     },
     getReport () {
       atpApi.getTaskApi(this.taskId).then(res => {
@@ -559,7 +559,7 @@ export default {
 
 <style lang='less'>
 .report {
-    max-height: 85%;
+    max-height: 93%;
     overflow: auto;
     margin: 20px 0;
   .report-content {
@@ -583,7 +583,6 @@ export default {
       margin: 30px 0;
       border-radius: 16px;
       padding: 40px;
-      border: solid 1px #8f80d9;
       .report-app-info{
         position: relative;
         padding-top: 15px;
@@ -622,7 +621,6 @@ export default {
             .left,.right{
               padding: 40px;
               width: 100%;
-              border: solid 1px #8f80d9;
               border-radius: 16px;
             }
             .sumchart{
@@ -636,7 +634,6 @@ export default {
       }
     .report-detail{
       padding: 40px;
-      border: solid 1px #8f80d9;
       border-radius: 16px;
       .detail-content{
         .scene{
@@ -657,7 +654,8 @@ export default {
               padding-left: 15px;
               font-size: 18px;
               color: #fff;
-              background-color: rgba(255, 255, 255,0.3);
+              background-color: #5F499D;
+              border-radius: 19.5px;
               border: none;
             }
             .el-collapse-item__content{

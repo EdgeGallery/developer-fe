@@ -88,34 +88,26 @@
             >
           </div>
           <p class="defaultFontLight">
-            {{ form.name }}
+            {{ this.sandboxDetailsName }}
           </p>
         </div>
         <div class="detail-right">
-          <el-form
-            ref="form"
-            :model="form"
-            label-width="120px"
-          >
-            <el-form-item label="网络:">
-              <p>{{ form.net }}</p>
-            </el-form-item>
-            <el-form-item label="X86计算资源:">
-              <p>{{ form.xIntentnet }}</p>
-            </el-form-item>
-            <el-form-item label="ARM计算资源:">
-              <p>{{ form.armIntentnet }}</p>
-            </el-form-item>
-            <el-form-item label="GPU算力:">
-              <p>{{ form.gpu }}</p>
-            </el-form-item>
-            <el-form-item label="AI加速:">
-              <p>{{ form.ai }}</p>
-            </el-form-item>
-            <el-form-item label="终端:">
-              <p>{{ form.final }}</p>
-            </el-form-item>
-          </el-form>
+          <div class="detail-name">
+            <p
+              v-for="(item,i) in sandboxDetailsNames"
+              :key="i"
+            >
+              {{ item +':' }}
+            </p>
+          </div>
+          <div class="detail-val">
+            <p
+              v-for="(item,i) in sandboxDetailsVals"
+              :key="i"
+            >
+              {{ item }}
+            </p>
+          </div>
         </div>
       </div>
       <div class="btn-container">
@@ -146,7 +138,6 @@ export default {
       activeItem: '',
       isSelected: false,
       isSandbox: true,
-      form: [],
       sandboxImgs: [
         require('../../../assets/images/sandbox/sandbox1.png'),
         require('../../../assets/images/sandbox/sandbox2.png'),
@@ -158,7 +149,10 @@ export default {
       vimType: 'OpenStack',
       architecture: 'X86',
       mechostid: '',
-      applicationId: sessionStorage.getItem('applicationId') || ''
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      sandboxDetailsNames: [],
+      sandboxDetailsVals: [],
+      sandboxDetailName: ''
     }
   },
   methods: {
@@ -166,8 +160,15 @@ export default {
       this.activeItem = value === this.activeItem ? '' : value
     },
     goDetail (item) {
+      this.sandboxDetailsNames = []
+      this.sandboxDetailsVals = []
       this.isSandbox = false
-      this.form = item
+      this.sandboxDetailsName = item.name
+      let sandboxDetails = JSON.parse(item.resource)
+      for (let i in sandboxDetails) {
+        this.sandboxDetailsNames.push(i)
+        this.sandboxDetailsVals.push(sandboxDetails[i])
+      }
     },
     getIndex (index) {
       this.activeItem = index
@@ -294,7 +295,7 @@ export default {
       color: #fff;
       padding-top: 60px;
       .detail-left{
-        margin: 0px 60px 0px 90px;
+        margin: 0px 86px 0px 90px;
         .detail-left-img{
           width: 100px;
           height: 168px;
@@ -310,21 +311,23 @@ export default {
         }
       }
       .detail-right{
-        .el-form-item__label {
-          line-height:30px;
+        display: flex;
+        max-width: 400px;
+        p{
+          line-height:24px;
           color: #fff;
+          font-size: 14px;
+          letter-spacing: 1px;
           font-family: defaultFontLight,
             Arial,
             Helvetica,
             sans-serif !important;
         }
-        .el-form-item {
-            margin-bottom: 0;
-            max-width: 259px;
-            font-family: defaultFontLight,
-              Arial,
-              Helvetica,
-              sans-serif !important;
+        .detail-name{
+          p{
+             text-align: right;
+             margin-right: 10px;
+          }
         }
       }
     }

@@ -136,8 +136,9 @@ export default {
             padding-left: 15px;
             font-size: 18px;
             color: #fff;
-            background-color: rgba(255, 255, 255,0.3);
             border: none;
+            background-color: #5F499D;
+            border-radius: 19.5px;
           }
           .el-collapse-item__wrap{
              background-color: transparent;

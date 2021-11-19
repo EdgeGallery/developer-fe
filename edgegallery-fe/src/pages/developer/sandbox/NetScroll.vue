@@ -19,7 +19,7 @@
       :data="listData"
       :class-option="defaultOption"
     >
-      <ul class="ul-scoll">
+      <ul class="ul-scoll defaultFontLight">
         <li
           v-for="(item, index) in listData"
           :key="index"
@@ -80,7 +80,7 @@ export default {
 <style scoped lang="scss">
 .netScroll{
   width: 154px;
-  height: 94px;
+  height: 96px;
   overflow: hidden;
   .ul-scoll{
     li{
@@ -90,7 +90,6 @@ export default {
       font-size: 10px;
       .title{
         display: block;
-        transform: scale(0.8);
       }
       .span-cicle{
         width: 8px;

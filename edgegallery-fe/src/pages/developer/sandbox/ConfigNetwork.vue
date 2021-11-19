@@ -16,7 +16,7 @@
 <template>
   <div class="config-network">
     <div class="common-div-bg network-list">
-      <h3 class="rules-title-green">
+      <h3 class="common-dlg-title">
         选择网络类型
       </h3>
 
@@ -28,7 +28,7 @@
         >
       </span>
       <el-table
-        class="common-table more-rows-table network-table"
+        class="common-table"
         :data="vmNetworkList"
       >
         <el-table-column width="35">
@@ -55,7 +55,7 @@
       </el-table>
 
       <el-table
-        class="common-table more-rows-table new-network-table"
+        class="common-table new-network-table"
         :data="newNetworkList"
       >
         <el-table-column width="35">
@@ -203,7 +203,7 @@ export default {
     .add-btn{
       position: absolute;
       right: 60px;
-      top: 95px;
+      top: 98px;
       z-index: 2;
       cursor: pointer;
     }

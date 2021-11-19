@@ -9,7 +9,7 @@
         :rules="applicationFormRules"
         ref="applicationForm"
         class="common-form"
-        label-width="100px"
+        label-width="105px"
         label-position="right"
         size="mini"
       >
@@ -156,7 +156,7 @@
             <el-button
               size="small"
               type="primary"
-              class="upload-md-btn"
+              class="inner-btn"
             >
               点击上传
             </el-button>
@@ -181,7 +181,7 @@
           />
         </el-form-item>
       </el-form>
-      <div class="rt">
+      <div class="btn-container">
         <el-button
           class="common-btn"
           @click="$router.go(-1)"
@@ -460,7 +460,7 @@ export default {
   .upload-comp{
     display: flex;
     justify-content: left;
-    height: 45px;
+    height: 30px;
     .default-icon{
       width: 30px;
       height: 30px;

@@ -369,7 +369,7 @@ export default {
         }
         .content-info{
           background: #fff;
-          border-radius: 8px;
+          border-radius: 0 0 8px 8px;
           position: absolute;
           width: 100%;
           bottom: 0px;

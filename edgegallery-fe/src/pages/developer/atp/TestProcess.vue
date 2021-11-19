@@ -15,7 +15,9 @@
   -->
 <template>
   <div class="padding_default">
-    <div style="padding: 40px 0;text-align:right;">
+    <div
+      class="top-btn"
+    >
       <el-button
         class="common-btn"
         @click="jumpToIncubation"
@@ -294,7 +296,7 @@ export default {
       isTest: '',
       statusTitle: [],
       percentage: 0,
-      taskId: this.$route.query.taskId,
+      taskId: '',
       testingScene: [],
       testingCase: [],
       testScenarios: [],
@@ -324,19 +326,21 @@ export default {
   },
   mounted () {
     this.getTaskId()
-    this.getTaskProcess()
-    this.interval = setInterval(() => {
-      this.getTaskProcess()
-    }, 1000)
   },
   methods: {
     getTaskId () {
       atpTestApi.getTestId(this.applicationId).then(res => {
         if (res.data.length > 0) {
           this.taskId = res.data[0].id
+          console.log(this.taskId)
         } else {
           this.taskId = this.$route.query.taskId
+          console.log(this.taskId)
         }
+        this.getTaskProcess()
+        this.interval = setInterval(() => {
+          this.getTaskProcess()
+        }, 1000)
       })
     },
     testAgain () {
@@ -344,7 +348,7 @@ export default {
     },
     publish () {
       let _parameter = {
-        isFree: true,
+        free: true,
         price: 0
       }
       applicationApi.publishApp(this.applicationId, _parameter).then(res => {
@@ -425,7 +429,7 @@ export default {
           duration: 2000,
           showClose: true,
           type: 'warning',
-          message: this.$t('promptMessage.getprocessFail')
+          message: '获取任务进度失败'
         })
         this.clearInterval()
       })
@@ -489,8 +493,8 @@ export default {
         const processcDiv = document.getElementById('process')
         const appDiv = document.getElementById('app')
         const content = document.getElementById('content')
-        processcDiv.style.maxHeight = appDiv.clientHeight - 230 + 'px'
-        content.style.maxHeight = appDiv.clientHeight - 487 + 'px'
+        processcDiv.style.maxHeight = appDiv.clientHeight - 207 + 'px'
+        content.style.maxHeight = appDiv.clientHeight - 402 + 'px'
       })
     },
     modify (row, testScenarioId, testSuiteId) {
@@ -535,11 +539,11 @@ export default {
       min-width: 660px;
       display: block;
     .toptitle{
-      margin-bottom: 45px;
-      padding: 40px 55px;
+      margin-bottom: 25px;
+      padding: 18px 45px;
       .left{
         .left-text{
-          font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
           position: relative;
           z-index: 2;
           border-radius: 12px;
@@ -565,7 +569,7 @@ export default {
               padding-right: 15%;
             }
             .el-progress__text{
-              font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+              font-family: defaultFontBold, Arial, Helvetica, sans-serif;
               font-size: 33px !important;
               color: #fff;
               margin-left: -30px;
@@ -595,13 +599,13 @@ export default {
           }
           .test-result{
             position: relative;
-            font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+            font-family: defaultFontBold, Arial, Helvetica, sans-serif;
             font-size: 24px;
             color: #FFF;
             margin-left: 40px;
           }
           .waitManual{
-            font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+            font-family: defaultFontBold, Arial, Helvetica, sans-serif;
             font-size: 16px;
             color: #fff;
           }
@@ -667,7 +671,7 @@ export default {
           }
       }
     .content{
-      padding: 40px 55px;
+      padding: 20px 45px;
       .el-tabs__header{
         margin: 0;
         border: none;
@@ -681,7 +685,7 @@ export default {
         }
         .el-tabs__item.is-active{
           font-size: 16px;
-          font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
         }
         .el-tabs__active-bar{
           background-color: #6A52CA;
@@ -704,7 +708,8 @@ export default {
             padding-left: 15px;
             font-size: 18px;
             color: #fff;
-            background-color: rgba(255, 255, 255,0.3);
+            background-color: #5F499D;
+            border-radius: 19.5px;
             border: none;
           }
           .el-collapse-item__wrap{
@@ -760,6 +765,10 @@ export default {
       border: 1px solid #688ef3!important;
     }
 
+}
+.top-btn{
+  padding: 30px 0 20px;
+  text-align:right;
 }
 .blur-bg{
   filter: blur(5px);

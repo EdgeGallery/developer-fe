@@ -23,7 +23,7 @@
       :subfield="false"
       default-open="preview"
       :box-shadow="false"
-      preview-background="#ffffff"
+      preview-background="#fff"
     />
   </div>
 </template>

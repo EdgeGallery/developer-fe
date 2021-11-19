@@ -21,7 +21,7 @@
       :unique-opened="true"
       router
       @select="handleSelect"
-      text-color="rgba(255,255,255,.8)"
+      text-color="rgba(255,255,255,1)"
       active-text-color="#fff"
       mode="horizontal"
     >

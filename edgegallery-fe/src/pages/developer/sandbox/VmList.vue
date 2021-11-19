@@ -35,7 +35,7 @@
             @click="addVm"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="添加"
               placement="bottom-start"
@@ -53,7 +53,7 @@
             :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="详情"
               placement="bottom-start"
@@ -66,11 +66,11 @@
           </div>
           <div
             class="vm-btn flex-center hoverHands"
-            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="vmVncLogin"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="登录"
               placement="bottom-start"
@@ -83,11 +83,11 @@
           </div>
           <div
             class="vm-btn flex-center hoverHands"
-            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="uploadVmFile"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="上传"
               placement="bottom-start"
@@ -104,7 +104,7 @@
             :class="!isBtnStart ? 'img-onlyRead':'img-click'"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="启动"
               placement="bottom-start"
@@ -117,11 +117,11 @@
           </div>
           <div
             class="vm-btn vm-btn-export flex-center hoverHands"
-            :class="!isStartupVmFinish ? 'img-onlyRead':'img-click'"
+            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="exportImage(vmLists.id)"
           >
             <el-tooltip
-              class="item edit-tooltip"
+              class="edit-tooltip"
               effect="light"
               content="生成镜像"
               placement="bottom-start"
@@ -133,7 +133,10 @@
             </el-tooltip>
           </div>
         </div>
-        <div class="vm-status">
+        <div
+          class="vm-status"
+          v-if="!isClearVmImage"
+        >
           <el-progress
             v-if="isStartupVm && !isStartupVmFinish"
             :percentage="percentages"
@@ -170,7 +173,7 @@ export default {
       type: Boolean,
       default: false
     },
-    isBtnStartProp: {
+    isClearVmImageProp: {
       type: Boolean,
       default: false
     }
@@ -194,7 +197,8 @@ export default {
         imageName: '',
         status: '',
         downloadUrl: ''
-      }
+      },
+      isClearVmImage: this.isClearVmImageProp
     }
   },
   methods: {
@@ -248,9 +252,9 @@ export default {
       sandbox.getVmStatus(operationId).then(res => {
         if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED') {
           sandbox.getVmlist(this.applicationId).then(response => {
-            this.vmImageInformation.imageName = response.data.name
-            this.vmImageInformation.status = response.data.status
-            this.vmImageInformation.downloadUrl = response.data.downloadUrl
+            this.vmImageInformation.imageName = response.data[0].imageExportInfo.name
+            this.vmImageInformation.status = response.data[0].imageExportInfo.status
+            this.vmImageInformation.downloadUrl = response.data[0].imageExportInfo.downloadUrl
             this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
           })
           clearTimeout(this.timerExport)
@@ -267,6 +271,7 @@ export default {
       this.$emit('checkVmDetail', 'showVmDetail')
     },
     startUpVm (data) {
+      this.isClearVmImage = false
       this.isStartupVm = true
       sandbox.getVmPullId(this.applicationId, data).then(res => {
         this.operationId = res.data.operationId
@@ -290,6 +295,14 @@ export default {
     uploadVmFile () {
       this.bus.$emit('uploadVmFile', this.vmId)
       this.$emit('uploadVmFile', 'showVmUploadFile')
+    }
+  },
+  watch: {
+    isClearVmImageProp: function (val) {
+      this.isClearVmImage = val
+      if (val) {
+        this.isBtnStart = false
+      }
     }
   },
   created () {
@@ -327,15 +340,12 @@ export default {
       width: 75px;
       height: 50px;
       background-size: 100% 100%;
-      background-color: rgba(10, 9, 54, 0.65);
-      opacity: 0.5;
       .img-click{
         opacity: 1;
       }
     }
     .vm-btn-add{
       border-radius: 20px 0 0 0;
-      opacity: 0.8;
     }
     .vm-btn-detail{
       border-radius: 0 20px 0 0;
@@ -393,13 +403,13 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      opacity: 0.6;
+      background-color: rgba(27, 14, 75, 0.7);
     }
     .img-onlyRead{
       pointer-events: none;
     }
     .vm-btn:hover{
-      opacity: 1;
+      background-color: rgba(27, 14, 75, 1);
     }
   }
   .vm-bg:hover::after{

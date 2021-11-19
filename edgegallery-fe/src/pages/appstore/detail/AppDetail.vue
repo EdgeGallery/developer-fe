@@ -572,12 +572,14 @@ export default {
     confirmImage (row) {
       this.isShowDownload = false
       this.isDownloadImage = false
+      appstoreApi.downloadAppPakageApi(this.appId, row, this.isDownloadImage)
     },
     ifDownloadImage (currentData, row) {
       if (this.currentData.deployMode === 'vm') {
         this.isShowDownload = true
       } else {
         this.isDownloadImage = false
+        appstoreApi.downloadAppPakageApi(this.appId, row, this.isDownloadImage)
       }
     },
     download (row) {
@@ -726,6 +728,7 @@ export default {
     align-items: center;
     .app_icon{
       width: 130px;
+      background: #fff;
       img{
         width: 100%;
       }
@@ -751,7 +754,6 @@ export default {
         .drop-down{
           top:-2px;
           margin-right: 5px;
-          background: rgba(255,255,255,0.4);
           color: #FFFFFF;
         }
         .fg{
@@ -1206,7 +1208,7 @@ export default {
     }
   }
   .container_div{
-    height: 350px;
+    height: 410px;
     overflow: auto;
     border-radius: 0 16px 16px 16px;
     transition: all 0.1s;

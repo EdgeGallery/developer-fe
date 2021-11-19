@@ -23,6 +23,7 @@
         colors="colors"
         allow-half
         show-score
+        text-color="#ff9900"
       />
       <div class="comment_input">
         <img
@@ -95,6 +96,7 @@
               colors="colors"
               score-template="{value}"
               show-score
+              text-color="#ff9900"
             />
           </div>
         </li>
@@ -196,7 +198,6 @@ export default {
 <style lang="less">
 .appComments {
   margin: auto;
-  background: rgba(255,255,255,0.4);
   border-radius: 16px;
   .submit_comment{
     padding: 20px;
@@ -210,6 +211,7 @@ export default {
       margin: 3px 0 0 10px;
       .el-rate__icon{
         font-size: 22px;
+        color: #cb7234;
       }
     }
     .comment_input{
