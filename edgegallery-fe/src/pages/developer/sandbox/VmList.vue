@@ -21,9 +21,16 @@
         :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
       >
         <img
+          v-if="!isStartUpVmSuccess"
           class="vm-center-img"
           :class="{'vm-center-img-finish':isAddVmFinish,'breath':(!vmBreathStyle && !isAddVmFinish)}"
           src="../../../assets/images/sandbox/vm_img.png"
+          alt=""
+        >
+        <img
+          v-else
+          class="vm-center-img"
+          src="../../../assets/images/sandbox/vm_finish_icon.png"
           alt=""
         >
         <div
@@ -32,7 +39,10 @@
         >
           <div
             class="vm-btn flex-center vm-btn-add hoverHands"
+            :class="!isAddVmFinish ? 'img-click':'img-onlyRead'"
             @click="addVm"
+            @mouseleave="addGreen=false"
+            @mouseenter="isAddVmFinish?addGreen=false:addGreen=true"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -41,7 +51,14 @@
               placement="bottom-start"
             >
               <img
+                v-if="!addGreen"
                 src="../../../assets/images/sandbox/vm_add.png"
+                alt=""
+                class="img-click"
+              >
+              <img
+                v-else
+                src="../../../assets/images/sandbox/vm_add_green.png"
                 alt=""
                 class="img-click"
               >
@@ -51,6 +68,8 @@
             class="vm-btn flex-center vm-btn-detail hoverHands"
             @click="checkVmDetail"
             :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
+            @mouseleave="detailGreen=false"
+            @mouseenter="isAddVmFinish?detailGreen=true:detailGreen=false"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -59,7 +78,13 @@
               placement="bottom-start"
             >
               <img
+                v-if="!detailGreen"
                 src="../../../assets/images/sandbox/vm_detail.png"
+                alt=""
+              >
+              <img
+                v-else
+                src="../../../assets/images/sandbox/vm_detail_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -68,6 +93,8 @@
             class="vm-btn flex-center hoverHands"
             :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="vmVncLogin"
+            @mouseleave="loginGreen=false"
+            @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -76,7 +103,13 @@
               placement="bottom-start"
             >
               <img
+                v-if="!loginGreen"
                 src="../../../assets/images/sandbox/vm_login.png"
+                alt=""
+              >
+              <img
+                v-else
+                src="../../../assets/images/sandbox/vm_login_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -85,6 +118,8 @@
             class="vm-btn flex-center hoverHands"
             :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="uploadVmFile"
+            @mouseleave="uploadGreen=false"
+            @mouseenter="isStartUpVmSuccess?uploadGreen=true:uploadGreen=false"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -93,6 +128,12 @@
               placement="bottom-start"
             >
               <img
+                v-if="!uploadGreen"
+                src="../../../assets/images/sandbox/vm_upload.png"
+                alt=""
+              >
+              <img
+                v-else
                 src="../../../assets/images/sandbox/vm_upload.png"
                 alt=""
               >
@@ -102,6 +143,8 @@
             class="vm-btn vm-btn-start flex-center hoverHands"
             @click="startUpVm(vmLists.id)"
             :class="!isBtnStart ? 'img-onlyRead':'img-click'"
+            @mouseleave="startGreen=false"
+            @mouseenter="isBtnStart?startGreen=true:startGreen=false"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -110,7 +153,13 @@
               placement="bottom-start"
             >
               <img
+                v-if="!startGreen"
                 src="../../../assets/images/sandbox/vm_start.png"
+                alt=""
+              >
+              <img
+                v-else
+                src="../../../assets/images/sandbox/vm_start_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -119,6 +168,8 @@
             class="vm-btn vm-btn-export flex-center hoverHands"
             :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
             @click="exportImage(vmLists.id)"
+            @mouseleave="imageGreen=false"
+            @mouseenter="isStartUpVmSuccess?imageGreen=true:imageGreen=false"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -127,6 +178,12 @@
               placement="bottom-start"
             >
               <img
+                v-if="!imageGreen"
+                src="../../../assets/images/sandbox/vm_export.png"
+                alt=""
+              >
+              <img
+                v-else
                 src="../../../assets/images/sandbox/vm_export.png"
                 alt=""
               >
@@ -198,7 +255,13 @@ export default {
         status: '',
         downloadUrl: ''
       },
-      isClearVmImage: this.isClearVmImageProp
+      isClearVmImage: this.isClearVmImageProp,
+      addGreen: false,
+      detailGreen: false,
+      loginGreen: false,
+      uploadGreen: false,
+      startGreen: false,
+      imageGreen: false
     }
   },
   methods: {
@@ -309,6 +372,7 @@ export default {
   },
   mounted () {
     this.getVmlists()
+    console.log(this.isAddVmFinish)
   },
   beforeDestroy () {
     clearTimeout(this.timer)
@@ -324,7 +388,7 @@ export default {
     position:absolute;
     width: 77px;
     height: 81px;
-    opacity: 0.1;
+    opacity: 1;
   }
   .vm-center-img-finish{
     opacity: 1;
@@ -398,15 +462,19 @@ export default {
 .details-center-vm:hover{
   .vm-bg:hover{
     z-index: 1;
+    opacity: 0.9;
     .vm-btn{
       display: block;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgba(27, 14, 75, 0.7);
+      background-color: rgba(29, 13, 90, 0.7);
     }
     .img-onlyRead{
       pointer-events: none;
+      img{
+        opacity: 0.5;
+      }
     }
     .vm-btn:hover{
       background-color: rgba(27, 14, 75, 1);
