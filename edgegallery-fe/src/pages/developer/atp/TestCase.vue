@@ -145,7 +145,7 @@ export default {
              border: none;
           }
           .caseHearder{
-            background-color: #4E3494;
+            background-color: transparent;
             color: #fff;
             padding: 0 10px;
             height: 35px;
