@@ -154,6 +154,7 @@
 <script>
 import { Industry, Type, Architecture } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../../tools/constant.js'
 export default {
   name: '',
   props: {
@@ -216,7 +217,7 @@ export default {
       this.form.description = this.projectDetailData.description
       this.form.iconFileId = this.projectDetailData.iconFileId
       let iconUrl = this.getIcon(this.form.iconFileId)
-      let currUrl = window.location.origin
+      let currUrl = window.location.origin + PROXY_PREFIX_CURRENTSERVER
       this.IconfileIdSrc = currUrl + iconUrl
     },
     getIcon (fileId) {

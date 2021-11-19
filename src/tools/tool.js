@@ -20,10 +20,13 @@ import ElementUI from 'element-ui'
 import i18n from '../locales/i18n.js'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueCookies from 'vue-cookies'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from './constant.js'
 Vue.use(VueCookies)
 
-const urlPrefix = '/mec-developer/'
-const urlPrefixTool = '/toolchain/'
+const urlPrefix = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/'
+const urlPrefixTool = PROXY_PREFIX_CURRENTSERVER + '/toolchain/'
 
 let accessToken = JSON.stringify(sessionStorage.getItem('accessToken'))
 let codeErr = false
@@ -192,7 +195,7 @@ function downLoadReport ({ url, reportId }) {
 function logoutApi () {
   return axios({
     method: 'POST',
-    url: '/logout',
+    url: PROXY_PREFIX_CURRENTSERVER + '/logout',
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
@@ -204,7 +207,7 @@ function logoutApi () {
 function loginApi () {
   return axios({
     method: 'GET',
-    url: '/auth/login-info',
+    url: PROXY_PREFIX_CURRENTSERVER + '/auth/login-info',
     headers: {
       'Content-Type': 'application/json'
     }

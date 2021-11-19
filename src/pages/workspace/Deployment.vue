@@ -132,6 +132,7 @@
 
 <script>
 import { Workspace } from '../../tools/api.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../../tools/constant.js'
 import ProgressBar from '../../components/deployment/ProgressBar.vue'
 import DeploymentStatus from '../../components/deployment/DeploymentStatus.vue'
 import SelectTestEnvironment from '../../components/deployment/SelectTestEnvironment.vue'
@@ -304,7 +305,11 @@ export default {
       return res
     },
     refToVNC () {
-      window.open('webssh.html', 'webssh')
+      if (PROXY_PREFIX_CURRENTSERVER) {
+        window.open(PROXY_PREFIX_CURRENTSERVER + '/webssh.html', 'webssh')
+      } else {
+        window.open('webssh.html', 'webssh')
+      }
     },
     podsToContainers: function () {
       let temp = []

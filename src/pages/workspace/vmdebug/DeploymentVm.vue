@@ -262,6 +262,7 @@
 
 <script>
 import { vmService } from '../../../tools/api.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../../../tools/constant.js'
 import ProgressBar from '../../../components/deployment/ProgressBar.vue'
 import DeploymentStatus from '../../../components/deployment/DeploymentStatus.vue'
 import SelectTestEnvironment from '../../../components/deployment/SelectTestEnvironment.vue'
@@ -464,7 +465,11 @@ export default {
       this.getProjectVmList()
     },
     handleVNC (vmData) {
-      window.open('webssh.html', 'webssh')
+      if (PROXY_PREFIX_CURRENTSERVER) {
+        window.open(PROXY_PREFIX_CURRENTSERVER + '/webssh.html', 'webssh')
+      } else {
+        window.open('webssh.html', 'webssh')
+      }
     },
     handleUploadFile (vmData) {
       this.showUploadAppDlg = true

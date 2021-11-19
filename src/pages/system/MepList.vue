@@ -951,10 +951,8 @@ export default {
       this.logoFileList = []
       this.isAddService = false
       this.form = JSON.parse(JSON.stringify(row))
-      let iconUrl = this.getIcon(this.form.iconFileId)
-      let currUrl = window.location.origin
       let obj = {}
-      obj.url = iconUrl + currUrl
+      obj.url = this.getIcon(this.form.iconFileId)
       this.uploadIcon = true
       this.form.appIcon = []
       this.defaultIconFile = []
