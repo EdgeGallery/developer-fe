@@ -34,6 +34,7 @@
           class="detail-center-bg flex-center  hoverHands"
           v-if="isChangeStyle"
           @mouseleave="egBreathStyle=false"
+          @mouseenter="egBreathStyle=true"
           @click="deployInternet"
         >
           <img
