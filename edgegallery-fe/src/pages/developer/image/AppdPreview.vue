@@ -158,10 +158,6 @@ export default {
       }
     },
     modifyFile () {
-      let typeArr = ['.yaml', '.json', '.meta', '.mf']
-      if (typeArr.includes(this.fileType)) {
-        this.markdownSource = this.markdownSource.substring(8, (this.markdownSource.length - 4))
-      }
       let unSupportTypes = ['.zip', '.tgz', '.png']
       if (unSupportTypes.includes(this.fileType)) {
         this.$message({
@@ -180,9 +176,9 @@ export default {
       this.isEditFile = false
       imageApi.getPackageFile(this.packageId, this.modifyFileName).then(response => {
         if (this.fileType === '.json') {
-          let _configFileContent = JSON.stringify(response.data, null, 2)
+          let _configFileContent = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
           if (_configFileContent !== this.markdownSource) {
-            let _editMarkDownstr = JSON.parse(this.markdownSource, null, 2)
+            let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
             imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
               this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
             })
@@ -190,9 +186,9 @@ export default {
             this.markdownSource = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
           }
         } else if (this.fileType === '.yaml' || this.fileType === '.meta' || this.fileType === '.mf') {
-          let _configFileContent = response.data
+          let _configFileContent = '```yaml\r\n' + response.data + '\r\n```'
           if (_configFileContent !== this.markdownSource) {
-            let _editMarkDownstr = this.markdownSource
+            let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
             imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
               this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
             })
