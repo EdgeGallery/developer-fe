@@ -27,7 +27,7 @@
           <div class="vm-info">
             <div class="addVm-top-title">
               <p class="defaultFontLight">
-                <span>*</span>虚拟机名称
+                虚拟机名称
               </p>
               <el-input
                 class="common-input"
@@ -68,9 +68,6 @@
                 <el-radio-button label="X86" />
                 <el-radio-button label="ARM" />
               </el-radio-group>
-              <p class="vm-size defaultFontLight">
-                虚拟机规格
-              </p>
               <el-table
                 :data="vmInfo.vmRegulationList"
                 class="common-table vm-table"
@@ -291,11 +288,11 @@
           name="6"
         >
           <div class="vm-size">
-            <p class="vm-title">
+            <p class="vm-title scriprt-madgin">
               是否使用注入脚本
             </p>
             <el-radio-group
-              class="work-radio"
+              class="work-radio scriprt-madgin"
               v-model="isInjectScript"
               @change="handleSelectInjectScript"
             >
@@ -678,6 +675,9 @@ export default {
   font-size: 16px;
   animation: delay 0.5s  ease-in-out;
   animation-fill-mode: both;
+  p{
+    font-weight: lighter !important;
+  }
   @keyframes delay {
     0%{
       transform:scale(0.25);
@@ -703,7 +703,7 @@ export default {
         display: flex;
         margin: 20px 0px;
         p{
-          width: 100px;
+          width: 84px;
           line-height: 25px;
           text-align: right;
           margin-right: 10px;
@@ -733,7 +733,7 @@ export default {
     width: 8px;
     height: 8px;
   }
- .el-radio__inner {
+  .el-radio__inner {
       border:1px solid #fff;
       background-color: #C4C4C4;
   }
@@ -810,8 +810,8 @@ export default {
         margin-top: 30px;
       }
       .selectImage-content{
-        margin-left: 40px;
-        margin-top: 30px;
+        margin-left: 16px;
+        margin-top: 22px;
         .selectImage-public{
           display: flex;
           margin-bottom: 20px;
@@ -819,6 +819,7 @@ export default {
             height: 25px;
             line-height: 25px;
             color: rgb(27, 13, 13);
+            margin-right: 20px;
           }
           .el-radio__input.is-checked + .el-radio__label {
             color: #fff;
@@ -846,25 +847,37 @@ export default {
       }
       .simulator-info-content{
         .el-radio-group{
-          margin: 10px 0 10px 0;
+          margin: 10px 0 20px 24px;
           .el-radio-button__inner {
             background: none;
             color: #fff;
             border: none;
-            border-bottom:4px solid #8f86cc ;
+            border-bottom:4px solid #4E3494 ;
           }
           .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: none;
-            border-bottom:4px solid #5944C0 ;
+            border-bottom:4px solid #43F6AD ;
             box-shadow: none;
           }
         }
       }
       .vm-size{
         margin: 10px 0;
+        .scriprt-madgin{
+          margin-left: 24px;
+        }
       }
-      .vm-table thead tr{
-        height: 50px;
+      .vm-table{
+        padding-left: 10px;
+        thead tr{
+          height: 50px;
+        }
+        th.el-table__cell.is-leaf {
+          border-bottom: none;
+        }
+        td.el-table__cell, .el-table th.el-table__cell.is-leaf {
+          border-bottom: 1px solid #4E3494;
+        }
       }
       .vm-title{
         margin: 15px 0;
@@ -875,6 +888,7 @@ export default {
           display: inline-block;
           height: 30px;
           line-height: 30px;
+          margin-left: 24px;
         }
         .el-button{
           background: #4e3494;
@@ -897,6 +911,5 @@ export default {
       color: #fff;
     }
   }
-
 }
 </style>
