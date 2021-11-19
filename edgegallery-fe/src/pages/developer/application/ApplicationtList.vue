@@ -203,6 +203,7 @@ export default {
     }
     .view-default{
       background: url("../../../assets/images/application/app_view_default.png") no-repeat center;
+      background-size: cover;
     }
     .view-active{
       background: url("../../../assets/images/application/app_put_away.png") no-repeat center;
