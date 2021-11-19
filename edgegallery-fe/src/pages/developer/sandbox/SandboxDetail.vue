@@ -95,7 +95,7 @@
                   </div>
                 </div>
               </div>
-              <div class="deploy-title defaultFontLight">
+              <div class="deploy-title">
                 配置网络
               </div>
             </div>
@@ -125,8 +125,8 @@
               :is-clear-vm-image-prop="isClearVmImage"
             />
           </div>
-          <div class="details-bottom">
-            <p class="details-bottom-title lt defaultFontBlod">
+          <div class="details-bottom clear">
+            <p class="details-bottom-title lt defaultFontBold">
               5G MEC
             </p>
             <div class="btn-container">
@@ -457,7 +457,7 @@ export default {
 .detail{
   width: 100%;
   height: 100%;
-  font-size: 14px;
+  font-size: 16px;
   color: #fff;
   .detail-top{
     .detail-top-title{
@@ -651,6 +651,7 @@ export default {
         .deploy-title{
           text-align: center;
           line-height: 50px;
+          font-size: 18px;
         }
       }
       .details-bottom{
@@ -658,7 +659,10 @@ export default {
         .details-bottom-title{
           font-size: 40px;
           color: rgba(238, 238, 238, 0.2);
-          font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
+        }
+        .el-button{
+          margin-top: 15px;
         }
         .exportImage_btn_show{
           display: block;
@@ -701,7 +705,7 @@ export default {
       img{
         width: 38px;
         height: 38px;
-        margin: 22px 0 18px 0;
+        margin: 22px 0 11px 0;
         border-radius:50%;
       }
     }

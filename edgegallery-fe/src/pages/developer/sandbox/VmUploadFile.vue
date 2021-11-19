@@ -17,7 +17,7 @@
 <template>
   <div class="uploadApp">
     <div class="common-div-bg">
-      <p class="rules-title">
+      <p class="common-dlg-title">
         上传应用代码包
       </p>
       <div class="uploadAppBody">

@@ -16,7 +16,7 @@
 
 <template>
   <div class="common-div-bg">
-    <h3 class="rules-title">
+    <h3 class="common-dlg-title">
       接口信息
     </h3>
 
@@ -44,7 +44,7 @@
       </el-form-item>
       <div class="interfaceSubFormitem">
         <div v-if="interfaceInformationForm.interfaceType==='TUNNEL'">
-          <h3 class="rules-title">
+          <h3 class="common-dlg-title">
             隧道信息
           </h3>
           <el-form-item label="隧道类型">
@@ -76,7 +76,7 @@
           </el-form-item>
         </div>
         <div v-if="interfaceInformationForm.interfaceType==='MAC'">
-          <h3 class="rules-title">
+          <h3 class="common-dlg-title">
             MAC信息
           </h3>
           <el-form-item label="源MAC地址">
@@ -91,7 +91,7 @@
           </el-form-item>
         </div>
         <div v-if="interfaceInformationForm.interfaceType==='IP'">
-          <h3 class="rules-title">
+          <h3 class="common-dlg-title">
             IP信息
           </h3>
           <el-form-item label="目的IP地址">

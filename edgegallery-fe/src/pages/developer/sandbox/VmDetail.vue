@@ -22,7 +22,7 @@
     >
 
     <div class="common-div-bg vm-detail-dlg">
-      <h3 class="rules-title-green">
+      <h3 class="common-dlg-title">
         虚拟机详情
       </h3>
       <div class="vm-content">

@@ -493,13 +493,13 @@ export default {
   .logo {
     height: 80px;
     line-height: 80px;
-    margin-right: 80px;
+    margin-right: 120px;
     display: flex;
 
     img {
-      height: 29px;
+      height: 36px;
       cursor: pointer;
-      margin-top: 25px;
+      margin-top: 27px;
     }
     span {
       font-size: 18px;

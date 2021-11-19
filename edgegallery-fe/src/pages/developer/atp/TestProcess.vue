@@ -543,7 +543,7 @@ export default {
       padding: 18px 45px;
       .left{
         .left-text{
-          font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
           position: relative;
           z-index: 2;
           border-radius: 12px;
@@ -569,7 +569,7 @@ export default {
               padding-right: 15%;
             }
             .el-progress__text{
-              font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+              font-family: defaultFontBold, Arial, Helvetica, sans-serif;
               font-size: 33px !important;
               color: #fff;
               margin-left: -30px;
@@ -599,13 +599,13 @@ export default {
           }
           .test-result{
             position: relative;
-            font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+            font-family: defaultFontBold, Arial, Helvetica, sans-serif;
             font-size: 24px;
             color: #FFF;
             margin-left: 40px;
           }
           .waitManual{
-            font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+            font-family: defaultFontBold, Arial, Helvetica, sans-serif;
             font-size: 16px;
             color: #fff;
           }
@@ -685,7 +685,7 @@ export default {
         }
         .el-tabs__item.is-active{
           font-size: 16px;
-          font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+          font-family: defaultFontBold, Arial, Helvetica, sans-serif;
         }
         .el-tabs__active-bar{
           background-color: #6A52CA;

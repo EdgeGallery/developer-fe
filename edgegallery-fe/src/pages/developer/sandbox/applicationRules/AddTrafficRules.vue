@@ -16,7 +16,7 @@
 
 <template>
   <div class="common-div-bg">
-    <h3 class="rules-title">
+    <h3 class="common-dlg-title">
       分流规则
     </h3>
     <el-form
@@ -82,7 +82,7 @@
       </el-form-item>
     </el-form>
 
-    <h3 class="rules-title list-top">
+    <h3 class="common-dlg-title list-top">
       流过滤规则
     </h3>
     <h4 class="rules-title-sub clear">
@@ -151,7 +151,7 @@
     </el-table>
 
     <div v-if="trafficRuleForm.action==='FORWARD_DECAPSULATED'||trafficRuleForm.action==='FORWARD_AS_IS'">
-      <h3 class="rules-title list-top">
+      <h3 class="common-dlg-title list-top">
         接口信息
       </h3>
       <h4 class="rules-title-sub clear">

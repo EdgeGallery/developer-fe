@@ -456,7 +456,7 @@ export default {
       justify-content: space-between;
       .pushTitle{
         font-size: 24px;
-        font-family: defaultFontBlod, sans-serif;
+        font-family: defaultFontBold, sans-serif;
         font-weight: bold;
         color: #fff;
       }
