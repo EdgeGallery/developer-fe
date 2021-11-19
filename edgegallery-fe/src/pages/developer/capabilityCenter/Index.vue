@@ -484,7 +484,7 @@ export default {
 <style lang="less">
 .capability-index{
   position: absolute;
-  top: 8%;
+  top: 1%;
   left: 12%;
   width: 76%;
   padding: 35px 35px 35px 4%;
@@ -508,9 +508,7 @@ export default {
   }
   .upper-ability{
     min-height:35px !important;
-    margin-top: 15px;
-    margin-bottom: 25px;
-    margin-right: 13px;
+    margin: 15px 13px 15px 0px;
     clear: both;
   }
   .selected-service{
@@ -585,6 +583,7 @@ export default {
     border-radius: 16px;
     margin-right: 2%;
     color: #000000;
+    margin-bottom: 15px;
     .capability-left{
       float: left;
       width: 20%;
@@ -839,9 +838,5 @@ export default {
 }
 .service-publish{
   padding-right: 1%;
-}
-.add-service{
-  position: relative;
-  top: -10px;
 }
 </style>

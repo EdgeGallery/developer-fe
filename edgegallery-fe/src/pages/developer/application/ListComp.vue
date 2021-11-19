@@ -19,7 +19,7 @@
         class="app-name"
         :title="item.name"
       >
-        {{ item.name.length>4?item.name.substr(0,12)+'...':item.name }}
+        {{ item.name.length>12?item.name.substr(0,12)+'...':item.name }}
       </div>
       <div
         class="app-common-status"
@@ -124,6 +124,7 @@ export default {
       height: 66px;
       border: 3px solid transparent;
       border-radius: 66px;
+      background: #ffffff;
     }
     img.current{
       border: 3px solid #42F6AC;

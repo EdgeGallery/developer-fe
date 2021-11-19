@@ -27,7 +27,7 @@
           <div class="vm-info">
             <div class="addVm-top-title">
               <p>
-                <span>*</span>虚拟机名称
+                虚拟机名称
               </p>
               <el-input
                 class="common-input"
@@ -679,6 +679,9 @@ export default {
   font-size: 16px;
   animation: delay 0.5s  ease-in-out;
   animation-fill-mode: both;
+  p{
+    font-weight: lighter !important;
+  }
   @keyframes delay {
     0%{
       transform:scale(0.25);
@@ -704,7 +707,7 @@ export default {
         display: flex;
         margin: 20px 0px;
         p{
-          width: 100px;
+          width: 84px;
           line-height: 25px;
           text-align: right;
           margin-right: 10px;
@@ -792,14 +795,15 @@ export default {
         margin-top: 30px;
       }
       .selectImage-content{
-        margin-left: 40px;
-        margin-top: 30px;
+        margin-left: 16px;
+        margin-top: 22px;
         .selectImage-public{
           display: flex;
           margin-bottom: 20px;
           .el-radio{
             height: 25px;
             line-height: 25px;
+            margin-right: 20px;
           }
           .el-radio__input.is-checked + .el-radio__label {
             color: #fff;
@@ -836,7 +840,7 @@ export default {
           }
           .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: none;
-            border-bottom:2px solid #43F6AD;
+            border-bottom:2px solid #43F6AD ;
             box-shadow: none;
           }
           .el-radio-button:first-child .el-radio-button__inner,.el-radio-button:last-child .el-radio-button__inner{
@@ -846,9 +850,21 @@ export default {
       }
       .vm-size{
         margin: 10px 0;
+        .scriprt-madgin{
+          margin-left: 24px;
+        }
       }
-      .vm-table thead tr{
-        height: 50px;
+      .vm-table{
+        padding-left: 10px;
+        thead tr{
+          height: 50px;
+        }
+        th.el-table__cell.is-leaf {
+          border-bottom: none;
+        }
+        td.el-table__cell, .el-table th.el-table__cell.is-leaf {
+          border-bottom: 1px solid #4E3494;
+        }
       }
       .title-info{
         display: inline-block;
@@ -885,6 +901,5 @@ export default {
       color: #fff;
     }
   }
-
 }
 </style>

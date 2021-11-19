@@ -87,6 +87,7 @@ export default {
       } else {
         this.isCheckSandboxList = false
         this.$router.push({ path: '/EG/developer/sandboxDetails' })
+        sessionStorage.setItem('sandboxName', JSON.stringify(this.selectSandbox))
       }
     },
     returnSelectSandbox (data) {

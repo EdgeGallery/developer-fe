@@ -49,9 +49,9 @@
             :file-list="apiFileList"
             accept=".yaml"
           >
-            <span class="cap-upload-btn">
+            <el-button class="inner-btn">
               API定义文件
-            </span>
+            </el-button>
             <el-tooltip
               effect="dark"
               content="仅支持.yaml文档"
@@ -75,9 +75,9 @@
             :file-list="guideFileId"
             accept=".md"
           >
-            <span class="cap-upload-btn">
+            <el-button class="inner-btn">
               说明文档
-            </span>
+            </el-button>
             <el-tooltip
               effect="dark"
               content="仅支持.md文档"
@@ -110,9 +110,9 @@
             :file-list="iconFileList"
             accept=".jpg,.png"
           >
-            <span class="cap-upload-btn">
+            <el-button class="inner-btn">
               自定义图片
-            </span>
+            </el-button>
             <el-tooltip
               effect="dark"
               content="仅支持.jpg或者.png图片"
@@ -165,18 +165,20 @@
           label="DNS规则"
         /> -->
       </el-form>
-      <el-button
-        class="common-btn rt"
-        @click="handleUpload('api',apiFileList[0])"
-      >
-        完成
-      </el-button>
-      <el-button
-        class="common-cancel-btn rt"
-        @click="$router.go(-1)"
-      >
-        取消
-      </el-button>
+      <div class="rt">
+        <el-button
+          class="common-btn"
+          @click="$router.go(-1)"
+        >
+          取消
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="handleUpload('api',apiFileList[0])"
+        >
+          完成
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -314,7 +316,7 @@ export default {
 <style lang="less" scoped>
   .capability-publish{
     position: absolute;
-    top: 9%;
+    top: 5%;
     left: 30%;
     width: 40%;
     padding: 35px;

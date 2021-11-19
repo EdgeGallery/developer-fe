@@ -252,23 +252,24 @@ export default {
           background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
           background-size: cover;
           .select-img{
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             margin: 14% 0 6% 0;
           }
           .sandbox-img{
+            margin-top: 12px;
             width: 50px;
             height: 100px;
+            width: 46.36px;
           }
           .sandbox-detail{
-            font-size: 8px;
-            color: #fff;
-            background-color: #76E1E9;
-            border-radius: 6px;
-            margin-top: 10px;
-            padding: 2px 4px;
-            transform: scale(0.8);
+            font-size: 12px;
+            color: #5944c0;
+            padding: 4px 10px;
+            background-color: #fff;
+            border-radius: 12px;
             display: none;
+            margin-top: -40px;
           }
         }
         .sandbox-name{

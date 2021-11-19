@@ -246,7 +246,7 @@ export default {
           { required: true, message: '请输入应用描述', trigger: 'blur' }
         ]
       },
-      defaultIconSrc: require('../../../assets/images/application/app_history_pro.png'),
+      defaultIconSrc: require('../../../assets/images/application/app_default_icon.png'),
       industryOptions: Industry,
       typeOptions: Type,
       architectureOptions: Architecture,
@@ -464,7 +464,7 @@ export default {
     .default-icon{
       width: 30px;
       height: 30px;
-      background: url("../../../assets/images/application/app_history_pro.png") no-repeat center;
+      background: url("../../../assets/images/application/app_default_icon.png") no-repeat center;
       background-size: cover;
     }
     .or{
@@ -480,20 +480,6 @@ export default {
       display: flex;
       justify-content: left;
     }
-  }
-  .el-upload--picture-card{
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    background: rgba(255,255,255,.5);
-  }
-  .el-upload-list--picture-card .el-upload-list__item{
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-  }
-  .el-upload-list{
-    width: auto;
   }
   .icon-upload-info{
     top: -27px;
@@ -517,6 +503,20 @@ export default {
     top: 0px;
     left: 5px;
     height: 15px;
+  }
+  .el-upload--picture-card{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background: rgba(255,255,255,.5);
+  }
+  .el-upload-list--picture-card .el-upload-list__item{
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+  }
+  .el-upload-list{
+    width: auto;
   }
   .el-upload-list__item{
     background: #fff;

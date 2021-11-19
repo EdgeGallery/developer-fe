@@ -34,6 +34,7 @@
           class="detail-center-bg flex-center  hoverHands"
           v-if="isChangeStyle"
           @mouseleave="egBreathStyle=false"
+          @mouseenter="egBreathStyle=true"
           @click="deployInternet"
         >
           <img
@@ -85,7 +86,7 @@
                       placement="bottom-start"
                     >
                       <img
-                        src="../../../assets/images/sandbox/edit.png"
+                        src="../../../assets/images/sandbox/edit_green.png"
                         alt=""
                       >
                     </el-tooltip>
@@ -161,7 +162,7 @@
           v-else
           src="../../../assets/images/sandbox/mec_sucess.png"
           alt=""
-          class="detail-center-line"
+          class="detail-center-line mec-bottom-line-failed"
           :class="{'scale-small-line':!isChangeStyle}"
         >
       </div>
@@ -522,6 +523,9 @@ export default {
       margin: 10px auto;
       width: 16px;
       height: 96px;
+    }
+    .mec-bottom-line-failed{
+      width: 20px;
     }
   }
   .detail-bottom{
