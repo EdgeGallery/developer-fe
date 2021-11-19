@@ -124,7 +124,7 @@ export default {
       height: 66px;
       border: 3px solid transparent;
       border-radius: 66px;
-      background: #dddddd;
+      background: #ffffff;
     }
     img.current{
       border: 3px solid #42F6AC;
