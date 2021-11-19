@@ -41,6 +41,7 @@ import Navcomp from 'eg-view/src/components/EgNav.vue'
 import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
+import { PROXY_PREFIX_CURRENTSERVER } from './tools/constant.js'
 export default {
   name: 'App',
   components: {
@@ -204,8 +205,7 @@ export default {
       })
     },
     enterLoginPage () {
-      let _protocol = window.location.href.indexOf('https') > -1 ? 'https://' : 'http://'
-      window.location.href = this.loginPage + '&return_to=' + _protocol + window.location.host
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
     }
   },
   mounted () {

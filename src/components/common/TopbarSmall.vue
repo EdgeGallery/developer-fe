@@ -95,6 +95,8 @@
 </template>
 
 <script>
+import { common } from '../../tools/common.js'
+import { PLATFORMNAME_LAB } from '../../tools/constant.js'
 
 export default {
   name: 'MainSidebar',
@@ -123,12 +125,7 @@ export default {
       if (index) {
         this.indexName = index
       } else if (item.$vnode.data.key === '3.17') {
-        let currUrl = window.location.origin
-        if (currUrl.indexOf('30092') !== -1) {
-          this.labUrl = 'https://' + currUrl.split('//')[1].split(':')[0] + ':30096' + '/lab'
-        } else {
-          this.labUrl = currUrl.replace('developer', 'lab')
-        }
+        this.labUrl = common.getPlatformUrlPrefix(PLATFORMNAME_LAB)
         window.open(this.labUrl, '_blank')
       }
       this.$emit('closeMenu', false)

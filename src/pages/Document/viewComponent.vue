@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { common } from '../../tools/common.js'
+import { PLATFORMNAME_EGVIEWDOC } from '../../tools/constant.js'
 export default {
   name: '',
   data () {
@@ -57,12 +59,9 @@ export default {
       })
     },
     getUrl () {
-      let currhostname = window.location.hostname
-      if (this.language === 'cn') {
-        this.srcUrl = 'https://' + currhostname + ':30089/#/zh-CN/component/OverviewInstru'
-      } else {
-        this.srcUrl = 'https://' + currhostname + ':30089/#/en-US/component/OverviewInstru'
-      }
+      let _langDir = this.language === 'cn' ? 'zh-CN' : 'en-US'
+      this.srcUrl = common.getPlatformUrlPrefix(PLATFORMNAME_EGVIEWDOC)
+      this.srcUrl = this.srcUrl + '/#/' + _langDir + '/component/OverviewInstru'
     }
   },
   mounted () {

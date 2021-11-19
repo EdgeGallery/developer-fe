@@ -610,10 +610,8 @@ export default {
           this.apiMdList.push(obj)
         }
         if (type === 'iconFileId' && fileId) {
-          let iconUrl = this.getIcon(this.form.iconFileId)
-          let currUrl = window.location.origin
           let iconObj = {}
-          iconObj.url = iconUrl + currUrl
+          iconObj.url = this.getIcon(this.form.iconFileId)
           this.uploadIcon = true
           this.form.appIcon = []
           this.form.defaultActive = ''

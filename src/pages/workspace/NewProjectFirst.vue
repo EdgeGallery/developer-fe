@@ -231,6 +231,7 @@
 <script>
 import { Industry, Type, Architecture } from '../../tools/project_data.js'
 import { Workspace } from '../../tools/api.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../../tools/constant.js'
 export default {
   name: '',
   props: {
@@ -382,13 +383,13 @@ export default {
           if (this.form.appIcon) {
             this.logoFileList = this.form.appIcon
             let iconUrl = this.getIcon(this.iconFileIdProp)
-            let currUrl = window.location.origin
+            let currUrl = window.location.origin + PROXY_PREFIX_CURRENTSERVER
             this.logoFileList[0].url = currUrl + iconUrl
             this.handleChangeLogo(this.logoFileList[0])
           } else {
             let obj = {}
             let iconUrl = this.getIcon(this.iconFileIdProp)
-            let currUrl = window.location.origin
+            let currUrl = window.location.origin + PROXY_PREFIX_CURRENTSERVER
             obj.url = currUrl + iconUrl
             this.logoFileList.push(obj)
             this.uploadIcon = true
