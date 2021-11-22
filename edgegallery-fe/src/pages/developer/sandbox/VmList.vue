@@ -365,6 +365,7 @@ export default {
       this.isClearVmImage = val
       if (val) {
         this.isBtnStart = true
+        this.isStartUpVmSuccess = false
       }
     }
   },
@@ -372,7 +373,6 @@ export default {
   },
   mounted () {
     this.getVmlists()
-    console.log(this.isAddVmFinish)
   },
   beforeDestroy () {
     clearTimeout(this.timer)
