@@ -153,7 +153,7 @@
         </div>
         <img
           v-if="!isMecSucess"
-          src="../../../assets/images/sandbox/failed_line.png"
+          src="../../../assets/images/sandbox/mec_failed.png"
           alt=""
           class="detail-center-line"
           :class="{'scale-small-line':!isChangeStyle}"
@@ -162,7 +162,7 @@
           v-else
           src="../../../assets/images/sandbox/mec_sucess.png"
           alt=""
-          class="detail-center-line mec-bottom-line-failed"
+          class="detail-center-line"
           :class="{'scale-small-line':!isChangeStyle}"
         >
       </div>
@@ -241,7 +241,7 @@
           v-else
           src="../../../assets/images/sandbox/internet_failed.png"
           alt=""
-          class="detail-bottom-line detail-bottom-line-failed"
+          class="detail-bottom-line"
         >
         <div class="detail-bottom-one">
           <div class="one-content flex-center">
@@ -264,7 +264,7 @@
           v-else
           src="../../../assets/images/sandbox/internet_failed.png"
           alt=""
-          class="detail-bottom-line detail-bottom-line-failed"
+          class="detail-bottom-line"
         >
         <div class="detail-bottom-one">
           <div class="one-content flex-center">
@@ -359,6 +359,13 @@ export default {
     addVm (data) {
       this.showContent = data
     },
+    getUpfFinish () {
+      sandbox.getUpfFinished(this.applicationId).then(res => {
+        if (res.data.dnsRuleList.length !== 0 || res.data.trafficrulelist.length !== 0) {
+          this.isMecSucess = true
+        }
+      }).catch(() => {})
+    },
     addVmFinish (data) {
       if (data && data.length > 0) {
         this.networkList = data
@@ -442,6 +449,7 @@ export default {
     }
     this.getApplicationInfo()
     this.getVmList()
+    this.getUpfFinish()
   },
   beforeDestroy () {
     sessionStorage.removeItem('applicationRules')
@@ -520,12 +528,9 @@ export default {
     }
     .detail-center-line{
       display: block;
-      margin: 10px auto;
+      margin: 15px auto;
       width: 16px;
-      height: 96px;
-    }
-    .mec-bottom-line-failed{
-      width: 20px;
+      height: 76px;
     }
   }
   .detail-bottom{
@@ -548,12 +553,8 @@ export default {
     }
     .detail-bottom-line{
       width: 76px;
-      height: 22px;
+      height: 16px;
       margin: -30px 10px 0px 10px;
-    }
-    .detail-bottom-line-failed{
-      height: 14px !important;
-      margin-top: -1px !important;
     }
   }
   .deploy-detail-center{
@@ -675,7 +676,7 @@ export default {
     display: none;
   }
   .scale-small{
-    transform: translate(-64px,50px);
+    transform: translate(-70px,50px);
     transition: all 0.4s ;
     height: 130px;
     .detail-bottom-one{
@@ -690,9 +691,8 @@ export default {
       }
     }
     .detail-bottom-line{
-      margin: 10px -36px 0 0 ;
-      width: 60px;
-      height: 18px;
+      margin: 0px -36px 0 -10px ;
+      transform: scale(0.8);
     }
     .edgePuf{
       width: 100px;
@@ -713,7 +713,7 @@ export default {
     }
   }
   .scale-small-line{
-    transform: translate(-250px,-10px) scale(0.7);
+    transform: translate(-250px,-10px) scale(0.8);
     transition: all  0.4s;
   }
   .breath{

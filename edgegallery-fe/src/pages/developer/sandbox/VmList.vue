@@ -372,7 +372,6 @@ export default {
   },
   mounted () {
     this.getVmlists()
-    console.log(this.isAddVmFinish)
   },
   beforeDestroy () {
     clearTimeout(this.timer)
