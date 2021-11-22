@@ -11,10 +11,16 @@
         @click.stop="deleteApp(item.id)"
         v-if="item.id!==0&&showDeleteBtn"
       />
-      <img
-        :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
-        :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
+      <div
+        class="img-div"
+        :class="{'current':item.id===applicationId}"
       >
+        <img
+          :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
+          :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
+        >
+      </div>
+
       <div
         class="app-name"
         :title="item.name"
@@ -51,13 +57,14 @@ export default {
   },
   data () {
     return {
-
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {
     checkProjectDetail (item) {
       sessionStorage.setItem('applicationId', item.id)
       sessionStorage.setItem('isCreate', '1')
+      this.applicationId = item.id
       this.$emit('putAway')
       this.$store.commit('changeApp', item.name)
       this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGURED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
@@ -119,16 +126,24 @@ export default {
       white-space: pre-wrap;
       word-wrap: break-word;
     }
-    img{
+    .img-div{
+      display: inline-block;
       width: 66px;
       height: 66px;
       border: 3px solid transparent;
-      border-radius: 66px;
-      background: #ffffff;
+      border-radius: 50%;
+      padding: 3px;
+      img{
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #ffffff;
+      }
     }
-    img.current{
+    .img-div.current{
       border: 3px solid #42F6AC;
-      border-radius: 66px;
+      border-radius: 50%;
     }
   }
   .app-item-delete{
