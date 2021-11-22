@@ -34,6 +34,7 @@
         <el-table-column width="35">
           <template slot-scope="scope">
             <el-checkbox
+              class="common-checkbox"
               v-model="selectedNetworks"
               :label="scope.row.name"
             />
