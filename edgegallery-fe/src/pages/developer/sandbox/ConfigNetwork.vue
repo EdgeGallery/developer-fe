@@ -205,7 +205,7 @@ export default {
     .add-btn{
       position: absolute;
       right: 60px;
-      top: 98px;
+      top: 110px;
       z-index: 2;
       cursor: pointer;
     }

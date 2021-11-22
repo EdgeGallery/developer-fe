@@ -147,7 +147,7 @@ export default {
       this.$nextTick(() => {
         let _oDiv = document.getElementsByClassName('app-new')[0]
         if (_oDiv) {
-          _oDiv.style.minHeight = Number(screenHeight) + 'px'
+          _oDiv.style.height = Number(screenHeight) + 'px'
         }
       })
     },
@@ -211,6 +211,8 @@ export default {
 }
 .app-new{
   background: url('./assets/images/common_bg_index.png') #3E279B -10px 92% no-repeat;
+  min-height: 805px;
+  overflow: hidden;
 }
 .app-new-inner{
   background: url('./assets/images/common_bg_inner.png') #3E279B -10px 92% no-repeat;
@@ -224,9 +226,7 @@ export default {
   border-radius: 0 17px 17px 0;
   z-index: 15;
   overflow-y: auto;
-}
-::-webkit-scrollbar {
-  display: none; /* Chrome Safari */
+  overflow-x: hidden;
 }
 .app-list-comp .el-icon-arrow-right{
   position: absolute;

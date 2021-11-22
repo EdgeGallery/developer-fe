@@ -134,7 +134,7 @@
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_upload.png"
+                src="../../../assets/images/sandbox/vm_upload_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -184,7 +184,7 @@
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_export.png"
+                src="../../../assets/images/sandbox/vm_export_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -364,7 +364,7 @@ export default {
     isClearVmImageProp: function (val) {
       this.isClearVmImage = val
       if (val) {
-        this.isBtnStart = false
+        this.isBtnStart = true
       }
     }
   },
@@ -458,6 +458,23 @@ export default {
       transform: scale(1.0);
     }
   }
+  .el-progress .el-progress-bar__inner:before {
+    content:"";
+    width:100%;
+    height:100%;
+    display:block;
+    background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 12.5%,transparent 0,transparent 25%);
+    background-size:80px 80px;
+    animation:move 2.5s linear infinite;
+  }
+  @keyframes move {
+    from {
+      background-position: 80px 0;
+    }
+    to {
+      background-position:  0;
+    }
+  }
 }
 .details-center-vm:hover{
   .vm-bg:hover{
@@ -473,7 +490,7 @@ export default {
     .img-onlyRead{
       pointer-events: none;
       img{
-        opacity: 0.5;
+        opacity: 0.4;
       }
     }
     .vm-btn:hover{

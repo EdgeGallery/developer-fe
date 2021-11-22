@@ -337,13 +337,14 @@
    font-size: 14px;
  }
  div::-webkit-scrollbar{
-   width: 8px;
+   width: 20px;
    height: 12px;
  }
- div::-webkit-scrollbar-thumb{
-   border-radius: 10px;
-   background: rgba(0,0,0,0.2);
- }
+ div::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+  border: 6px solid rgba(0, 0, 0, 0);
+  box-shadow: 8px 0 0 rgba(255, 255, 255, 0.1) inset;
+}
  body::-webkit-scrollbar{
    width: 8px;
    height: 12px;
