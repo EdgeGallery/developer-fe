@@ -54,7 +54,7 @@ function formatDateTime (dateStr) {
 }
 function promptJumpToClassic (path, next, _this) {
   if (path === '/appStore/home' || path === '/mecm/' || path === '/system') {
-    _this.$eg_messagebox('点击确认跳转至经典版查看').then(() => {
+    _this.$eg_messagebox('点击确认跳转至经典版查看', 'info', _this.$t('common.cancel'), _this.$t('common.confirm')).then(() => {
       next()
     }).catch(() => {
       next(false)
