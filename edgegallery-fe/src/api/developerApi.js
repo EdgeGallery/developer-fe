@@ -100,6 +100,9 @@ let sandbox = {
   },
   getScriptByImageId (osType) {
     return GET(URL_PREFIX_DEVELOPER + 'user-data?' + 'osType=' + osType)
+  },
+  getUpfFinished (applicationId) {
+    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/appconfiguration')
   }
 }
 

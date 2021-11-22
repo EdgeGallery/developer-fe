@@ -527,12 +527,10 @@ export default {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
       sandbox.getScriptByImageId(data).then(res => {
-        this.contentDefaultData = '```shell\r\n' + res.data.replace(/\\r\\n/g, '\n') + '\r\n```'
-        this.contentDefaultData = this.contentDefaultData.replace(/\n/g, '\\r\\n')
+        this.contentDefaultData = '```shell\r\n' + res.data + '\r\n```'
         this.contentDefaultData = this.contentDefaultData.substring(13, (this.contentDefaultData.length - 8))
-        this.userData = '```shell\r\n' + res.data.replace(/\\r\\n/g, '\n') + '\r\n```'
+        this.userData = '```shell\r\n' + res.data + '\r\n```'
         this.flavorDefaultData = '```shell\r\n' + '\r\n```'
-        this.flavorDefaultData = this.flavorDefaultData.replace(/\n/g, '\\r\\n')
         this.flavorDefaultData = this.flavorDefaultData.substring(13, (this.flavorDefaultData.length - 8))
         this.flavorExtraSpecs = '```shell\r\n' + '\r\n```'
       })
@@ -611,8 +609,6 @@ export default {
           this.addvmImages.userData = ''
           this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
         }
-        this.addvmImages.userData = this.addvmImages.userData.replace(/\n/g, '\\r\\n')
-        this.addvmImages.flavorExtraSpecs = this.addvmImages.flavorExtraSpecs.replace(/\n/g, '\\r\\n')
         let _flavorTemp = this.addvmImages.flavorExtraSpecs
         let _contentTemp = this.addvmImages.userData
         this.addvmImages.flavorExtraSpecs = _flavorTemp.substring(13, (_flavorTemp.length - 8))
