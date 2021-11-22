@@ -124,10 +124,9 @@ export default {
     width: 100%;
     height: 100%;
     .main-content{
-      height: 840px;
       width: 1680px;
       margin: 0 auto;
-      padding: 90px 50px 50px 50px;
+      padding: 90px 50px 0 50px;
       .main-title{
         font-size: 25px;
         font-weight: bold;

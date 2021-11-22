@@ -389,6 +389,7 @@ export default {
     },
     uploadVmFile (data) {
       this.showContent = data
+      this.getVmList()
     },
     closeVmUpload () {
       this.showContent = 'showDetail'
@@ -562,7 +563,7 @@ export default {
     transition: all  0.4s;
     .deploy-detail-bg{
       width: 694px;
-      height: 464px;
+      height: 100%;
       max-height: 100%;
       padding: 40px 40px;
        .details-top{
@@ -656,7 +657,7 @@ export default {
         }
       }
       .details-bottom{
-        margin-top: 45px;
+        margin-top: 35px;
         .details-bottom-title{
           font-size: 40px;
           color: rgba(238, 238, 238, 0.2);

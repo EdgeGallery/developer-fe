@@ -60,7 +60,7 @@
               :key="index"
               class="node-span"
             >
-              {{ item.networkName }}: {{ item.ipAddress }}
+              {{ item.networkName }} : {{ item.ipAddress }}
             </span>
           </span>
           <span
