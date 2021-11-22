@@ -57,7 +57,7 @@
           />
         </div>
         <em
-          class="el-icon-arrow-right"
+          class="icon-arrow-right"
           v-if="zoom ===1"
           @click.stop="enlarge()"
         />
@@ -259,7 +259,11 @@ export default {
 ::-webkit-scrollbar {
   display: none; /* Chrome Safari */
 }
-.app-list-comp .el-icon-arrow-right{
+.app-list-comp .icon-arrow-right{
+  width: 30px;
+  height: 35px;
+  background: url('./assets/images/application/app_arrow_icon.png') no-repeat center;
+  background-size: cover;
   position: absolute;
   top: 50%;
   left: 0.5%;

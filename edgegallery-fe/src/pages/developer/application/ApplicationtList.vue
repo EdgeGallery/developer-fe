@@ -84,16 +84,23 @@
         />
       </div>
     </div>
+    <Pagination
+      class="app-pagenation"
+      :table-data="allAppList"
+      v-if="zoom!==2"
+    />
   </div>
 </template>
 
 <script>
 import { applicationApi } from '../../../api/developerApi.js'
+import Pagination from '../../../components/Pagination.vue'
 import ListComp from './ListComp.vue'
 export default {
   name: 'ApplicationList',
   components: {
-    ListComp
+    ListComp,
+    Pagination
   },
   computed: {
     zoom (val) {
@@ -177,6 +184,7 @@ export default {
 
 <style lang='less' scoped>
 .app-list {
+  height: 100%;
   .app-list-top{
     display: flex;
     .app-btn{
@@ -231,6 +239,11 @@ export default {
     font-size: 20px;
     font-weight: 400;
     margin: 15px 0;
+  }
+  .app-pagenation{
+    position: relative;
+    top: 45%;
+    right: 30px;
   }
 }
 </style>
