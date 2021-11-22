@@ -226,6 +226,7 @@ export default {
   border-radius: 0 17px 17px 0;
   z-index: 15;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .app-list-comp .el-icon-arrow-right{
   position: absolute;
