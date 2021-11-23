@@ -22,25 +22,25 @@
     >
       <div
         class="zoom app-btn"
-        title="缩小"
+        :title="$t('incubation.zoomOut')"
         @click.stop="changeSmall()"
       />
       <div
         class="app-btn"
         :class="isSearchActive?'search-active':'search-default'"
-        title="搜索"
+        :title="$t('incubation.search')"
         @click.stop="searchProject()"
       />
       <div
         class="app-btn delete-default"
-        title="删除"
+        :title="$t('incubation.delete')"
         v-if="zoom>2"
         @click.stop="deleteApp()"
       />
       <div
         class="app-btn"
         :class="isViewActive?'view-active':'view-default'"
-        title="更多"
+        :title="isViewActive?$t('incubation.putAway'):$t('incubation.more')"
         @click.stop="changeView(isViewActive)"
       />
     </div>
@@ -52,7 +52,7 @@
         class="app-list-title"
         v-if="zoom!==2"
       >
-        新建应用/最近操作
+        {{ $t('incubation.newAndRecent') }}
       </div>
       <div
         class="app-list-main"
@@ -73,7 +73,7 @@
         <div
           class="app-list-title"
         >
-          其他分类
+          {{ $t('incubation.others') }}
         </div>
         <ListComp
           :data-list="allAppList"
@@ -163,7 +163,7 @@ export default {
               id: 0,
               type: 'normal',
               iconUrl: require('../../../assets/images/application/app_add_new.png'),
-              name: '新增应用'
+              name: this.$t('incubation.addNewApp')
             }
           ]
           data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)

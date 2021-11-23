@@ -26,11 +26,11 @@
           alt=""
         >
         <p class="capabilityInfo fontUltraLight">
-          请选择您的应用需要依赖的生态服务，有关生态能力详情请查看能力中心。如果是集成应用，或者您的应用不需要依赖其他服务，可以跳过该步骤继续创建。
+          {{ $t('service.serviceTip') }}
         </p>
       </div>
       <div class="upper-ability">
-        <label class="selected-service defaultFont">已选服务: </label>
+        <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
         <el-tag
           v-for="tag in selectedService"
           :key="tag.id"
@@ -44,7 +44,7 @@
       </div>
     </div>
     <h3 class="common-dlg-title">
-      能力选择
+      {{ $t('service.chooseServices') }}
     </h3>
     <div class="api">
       <div
@@ -99,25 +99,25 @@
           >
             <div class="service_div">
               <p class="capability-top defaultFont">
-                API模拟器提供公共环境用于本地接口调试和线上模拟测试。开发者可以使用模拟器主机地址和应用外部端口号的方式在本地访问，实际部署测试时通过调用mep服务发现接口查看具体服务的url。
+                {{ $t('service.apiMonitor') }}
               </p>
               <p class="title ">
-                服务详情
+                {{ $t('service.serviceDetail') }}
               </p>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class=""> 服务名称：</span>{{ serviceDetail.serviceName }}
+                  <span class=""> {{ $t('service.serviceName1') }}</span>{{ serviceDetail.serviceName }}
                 </el-col>
                 <el-col :span="12">
-                  <span class="">版本 ：</span>{{ serviceDetail.version }}
+                  <span class=""> {{ $t('service.version1') }}</span>{{ serviceDetail.version }}
                 </el-col>
               </el-row>
               <el-row class="service_info">
                 <el-col :span="12">
-                  <span class="">发布时间 ：</span>{{ serviceDetail.uploadTime }}
+                  <span class="">{{ $t('service.publishTime') }}</span>{{ serviceDetail.uploadTime }}
                 </el-col>
                 <el-col :span="12">
-                  <span class="">类型 ：</span>{{ serviceDetail.capabilityType }}
+                  <span class="">{{ $t('service.type') }}</span>{{ serviceDetail.capabilityType }}
                 </el-col>
               </el-row>
             </div>
@@ -128,12 +128,12 @@
     </div>
     <div class="capability-publish">
       <h3 class="common-dlg-title service-publish">
-        能力发布
+        {{ $t('service.servicePublish') }}
         <el-button
           class="common-btn rt add-service"
           @click="publishService()"
         >
-          添加服务发布配置
+          {{ $t('service.addServiceConfig') }}
         </el-button>
       </h3>
       <el-table
@@ -144,27 +144,27 @@
       >
         <el-table-column
           prop="serviceName"
-          label="服务名称"
+          :label="$t('service.serviceName')"
         />
         <el-table-column
           prop="oneLevelName"
-          label="一级能力"
+          :label="$t('service.firLevel')"
         />
         <el-table-column
           prop="twoLevelName"
-          label="二级能力"
+          :label="$t('service.secLevel')"
         />
         <el-table-column
           prop="internalPort"
-          label="内部端口号"
+          :label="$t('service.internalPort')"
         />
         <el-table-column
           prop="version"
-          label="版本"
+          :label="$t('incubation.version')"
         />
         <el-table-column
           prop="protocol"
-          label="协议"
+          :label="$t('service.protocol')"
         />
         <el-table-column
           :label="$t('common.operation')"
@@ -194,13 +194,13 @@
         class="common-btn"
         @click="$router.go(-1)"
       >
-        取消
+        {{ $t('common.cancel') }}
       </el-button>
       <el-button
         class="common-btn"
         @click="doNext(2)"
       >
-        确认
+        {{ $t('common.confirm') }}
       </el-button>
     </div>
   </div>
