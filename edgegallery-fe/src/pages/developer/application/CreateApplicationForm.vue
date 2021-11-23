@@ -186,13 +186,13 @@
           class="common-btn"
           @click="$router.go(-1)"
         >
-          返回
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button
           class="common-btn"
           @click="confirmForm()"
         >
-          完成
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>

@@ -9,7 +9,7 @@
       <el-form
         :model="serviceFormData"
         class="common-form"
-        label-width="100px"
+        label-width="120px"
         label-position="right"
         size="mini"
       >
@@ -32,7 +32,7 @@
             v-model="serviceFormData.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            :placeholder="$t('incubation.inputBox')"
+            :placeholder="$t('service.inputBox')"
           />
         </el-form-item>
         <el-form-item
@@ -132,7 +132,7 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('incubation.versioin')"
+          :label="$t('incubation.version')"
           class="label-item-half"
         >
           <el-input v-model="serviceFormData.version" />
@@ -155,13 +155,13 @@
           class="common-btn"
           @click="$router.go(-1)"
         >
-          {{ $t('common.confirm') }}
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button
           class="common-btn"
           @click="handleUpload('api',apiFileList[0])"
         >
-          {{ $t('common.cancel') }}
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>
