@@ -21,36 +21,39 @@
       class="question hoverHands"
     >
 
-    <div class="common-div-bg vm-detail-dlg">
+    <div
+      class="common-div-bg vm-detail-dlg"
+      :class="{'vm-detail-dlg-en':language==='en'}"
+    >
       <h3 class="common-dlg-title">
-        虚拟机详情
+        {{ $t('sandbox.vmDetail') }}
       </h3>
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">虚拟机名称 :</span>
-          <span class="content-right lt">{{ vmBasicInformation.vmName }}</span>
+          <span class="content-left lt">{{ $t('sandbox.vmName') }} :</span>
+          <span class="content-right lt">{{ vmBasicInformation.vmName?vmBasicInformation.vmName:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">网络 :</span>
-          <span class="content-right lt">{{ vmBasicInformation.netWork }}</span>
+          <span class="content-left lt">{{ $t('sandbox.network') }} :</span>
+          <span class="content-right lt">{{ vmBasicInformation.netWork?vmBasicInformation.netWork:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">镜像 :</span>
-          <span class="content-right lt">{{ vmBasicInformation.image }}</span>
+          <span class="content-left lt">{{ $t('sandbox.image') }} :</span>
+          <span class="content-right lt">{{ vmBasicInformation.image?vmBasicInformation.image:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">规格 :</span>
-          <span class="content-right lt">{{ vmBasicInformation.flavor }}</span>
+          <span class="content-left lt">{{ $t('sandbox.flavor') }} :</span>
+          <span class="content-right lt">{{ vmBasicInformation.flavor?vmBasicInformation.flavor:'NA' }}</span>
         </p>
       </div>
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">实例状态 :</span>
+          <span class="content-left lt">{{ $t('sandbox.instanceStatus') }} :</span>
           <span class="content-right lt">{{ vmTestInformation.status?vmTestInformation.status:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">实例信息 :</span>
+          <span class="content-left lt">{{ $t('sandbox.instanceInformation') }} :</span>
           <span
             class="content-right lt"
             v-if="vmTestInformation.nodes.length>0"
@@ -72,11 +75,11 @@
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">镜像名称 :</span>
+          <span class="content-left lt">{{ $t('sandbox.imageName') }} :</span>
           <span class="content-right lt">{{ vmImageInformation.imageName?vmImageInformation.imageName:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">下载地址 :</span>
+          <span class="content-left lt">{{ $t('sandbox.downloadUrl') }} :</span>
           <span class="content-right lt">
             <el-link
               :href="vmImageInformation.downloadUrl"
@@ -88,7 +91,7 @@
           </span>
         </p>
         <p class="clear">
-          <span class="content-left lt">阶段状态 :</span>
+          <span class="content-left lt">{{ $t('sandbox.stageStatus') }} :</span>
           <span class="content-right lt">{{ vmImageInformation.status?vmImageInformation.status:'NA' }}</span>
         </p>
       </div>
@@ -123,7 +126,8 @@ export default {
         nodes: []
       },
       vmImageInformation: {},
-      vmId: ''
+      vmId: '',
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   methods: {
@@ -173,6 +177,11 @@ export default {
       })
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
+  },
   mounted () {
     this.checkVmDetail()
     this.getVmExportImageInfo()
@@ -218,6 +227,14 @@ export default {
           color: #fff;
         }
       }
+    }
+  }
+  .vm-detail-dlg-en{
+    .content-left{
+      width: 140px !important;
+    }
+    .content-right{
+      width: calc(100% - 140px) !important;
     }
   }
 }

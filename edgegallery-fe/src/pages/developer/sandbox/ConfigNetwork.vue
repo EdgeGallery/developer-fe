@@ -17,7 +17,7 @@
   <div class="config-network">
     <div class="common-div-bg network-list">
       <h3 class="common-dlg-title">
-        选择网络类型
+        {{ $t('sandbox.selectNetworkType') }}
       </h3>
 
       <span class="add-btn">
@@ -43,11 +43,11 @@
         <el-table-column
           prop="name"
           width="200px"
-          label="名称"
+          :label="$t('common.name')"
           show-overflow-tooltip
         />
         <el-table-column
-          label="描述"
+          :label="$t('common.describe')"
         >
           <template slot-scope="scope">
             {{ scope.row.description }}
@@ -77,7 +77,7 @@
             <el-input
               class="common-input"
               size="mini"
-              placeholder="添加自定义网络"
+              :placeholder="$t('sandbox.addCustomNetwork')"
               v-model="scope.row.name"
             />
           </template>
@@ -89,7 +89,7 @@
             <el-input
               class="common-input"
               size="mini"
-              placeholder="添加描述"
+              :placeholder="$t('sandbox.addDescribe')"
               v-model="scope.row.description"
             />
           </template>

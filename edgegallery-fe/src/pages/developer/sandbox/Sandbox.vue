@@ -27,7 +27,7 @@
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
         <p class="sandbox-top-title defaultFontLight">
-          选择沙箱
+          {{ $t('sandbox.selectSandbox') }}
         </p>
       </div>
       <div class="sandboxs">
@@ -52,7 +52,7 @@
               class="sandbox-detail hoverHands defaultFontLight"
               @click.stop="goDetail(item);getIndex(index)"
             >
-              详情
+              {{ $t('common.detail') }}
             </p>
           </div>
           <p class="sandbox-name defaultFontLight">
@@ -64,7 +64,7 @@
         class="makesure common-btn"
         @click="selectFinish"
       >
-        完成
+        {{ $t('common.finish') }}
       </el-button>
     </div>
     <div
@@ -74,7 +74,7 @@
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
         <p class="sandbox-top-title defaultFontLight">
-          沙箱详情
+          {{ $t('sandbox.sandboxDetail') }}
         </p>
       </div>
       <div
@@ -115,13 +115,13 @@
           class="common-btn btn_margin_right"
           @click="backSandbox"
         >
-          返回
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button
           class="common-btn"
           @click="checkSandbox"
         >
-          选择
+          {{ $t('common.select') }}
         </el-button>
       </div>
     </div>

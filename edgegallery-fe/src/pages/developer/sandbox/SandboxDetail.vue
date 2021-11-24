@@ -46,7 +46,7 @@
           <p
             class="detail-center-title defaultFontLight"
           >
-            边缘应用
+            {{ $t('sandbox.edgeApplication') }}
           </p>
         </div>
         <div
@@ -82,7 +82,7 @@
                     <el-tooltip
                       class="edit-tooltip"
                       effect="light"
-                      content="编辑"
+                      :content="$t('common.edit')"
                       placement="bottom-start"
                     >
                       <img
@@ -94,7 +94,7 @@
                 </div>
               </div>
               <div class="deploy-title">
-                配置网络
+                {{ $t('sandbox.configureNetwork') }}
               </div>
             </div>
             <ul
@@ -133,7 +133,7 @@
                 :disabled="!this.isStartupVmFinish"
                 @click="clearVmList"
               >
-                释放环境
+                {{ $t('sandbox.releaseResources') }}
               </el-button>
               <el-button
                 class="common-btn"
@@ -178,7 +178,7 @@
             >
           </div>
           <p>
-            5G终端
+            {{ $t('sandbox.terminal') }}
           </p>
         </div>
         <img
@@ -194,7 +194,7 @@
             >
           </div>
           <p>
-            5G基站
+            {{ $t('sandbox.baseStation') }}
           </p>
         </div>
         <img
@@ -213,7 +213,7 @@
             >
           </div>
           <p>
-            边缘UPF
+            {{ $t('sandbox.upf') }}
           </p>
         </div>
         <div
@@ -228,7 +228,7 @@
             alt=""
           >
           <p>
-            边缘UPF
+            {{ $t('sandbox.upf') }}
           </p>
         </div>
         <img
@@ -251,7 +251,7 @@
             >
           </div>
           <p>
-            5G核心网
+            {{ $t('sandbox.coreNetwork') }}
           </p>
         </div>
         <img
@@ -342,7 +342,8 @@ export default {
       isUpfSucess: false,
       vmId: '',
       applicationName: '',
-      isClearVmImage: false
+      isClearVmImage: false,
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   methods: {
@@ -439,7 +440,13 @@ export default {
       })
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
+  },
   mounted () {
+    console.log(this.language)
     if (sessionStorage.getItem('applicationRules') === 'confirm') {
       this.isChangeStyle = false
       this.isMecSucess = true
@@ -536,7 +543,7 @@ export default {
   }
   .detail-bottom{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin: 10px auto 0;
     width: 1140px;
     .detail-bottom-one{
@@ -548,14 +555,14 @@ export default {
       }
       p{
         text-align: center;
-        line-height: 60px;
         font-size: 26px;
+        margin-top: 10px;
       }
     }
     .detail-bottom-line{
       width: 76px;
       height: 16px;
-      margin: -30px 10px 0px 10px;
+      margin: 65px 10px 0px 10px;
     }
   }
   .deploy-detail-center{
@@ -652,6 +659,7 @@ export default {
           margin: 30px 16px 0 16px;
         }
         .deploy-title{
+          width: 100%;
           text-align: center;
           line-height: 50px;
           font-size: 18px;
@@ -682,23 +690,24 @@ export default {
     height: 130px;
     .detail-bottom-one{
       width: 120px;
+      margin-top: -20px;
       .one-content{
         transform: scale(0.42);
       }
       p{
         margin-left: 30px;
-        margin-top: -56px;
+        margin-top: -35px;
         font-size: 16px;
       }
     }
     .detail-bottom-line{
-      margin: 0px -36px 0 -10px ;
+      margin: 45px -36px 0 -10px ;
       transform: scale(0.8);
     }
     .edgePuf{
       width: 100px;
       height: 109px;
-      margin: 40px 10px 0 40px;
+      margin: 25px 10px 0 40px;
       cursor: pointer;
       border-radius:20px ;
       background-color: rgba(46, 20, 124, 0.7);

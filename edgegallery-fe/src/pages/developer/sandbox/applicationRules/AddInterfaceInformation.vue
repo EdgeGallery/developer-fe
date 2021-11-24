@@ -17,7 +17,7 @@
 <template>
   <div class="common-div-bg">
     <h3 class="common-dlg-title">
-      接口信息
+      {{ $t('rulesConfig.interfaceInfo') }}
     </h3>
 
     <el-form
@@ -45,9 +45,9 @@
       <div class="interfaceSubFormitem">
         <div v-if="interfaceInformationForm.interfaceType==='TUNNEL'">
           <h3 class="common-dlg-title">
-            隧道信息
+            {{ $t('rulesConfig.tunnelInfo') }}
           </h3>
-          <el-form-item label="隧道类型">
+          <el-form-item :label="$t('rulesConfig.tunnelType')">
             <el-select
               v-model="interfaceInformationForm.tunnelInfo.tunnelType"
             >
@@ -59,17 +59,17 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="隧道源地址">
+          <el-form-item :label="$t('rulesConfig.srcTunnelAddress')">
             <el-input
               v-model="interfaceInformationForm.tunnelInfo.tunnelSrcAddress"
             />
           </el-form-item>
-          <el-form-item label="隧道目的地址">
+          <el-form-item :label="$t('rulesCinfig.tgtTunnelAddress')">
             <el-input
               v-model="interfaceInformationForm.tunnelInfo.tunnelDstAddress"
             />
           </el-form-item>
-          <el-form-item label="隧道指定参数">
+          <el-form-item :label="$t('rulesConfig.tunnelParams')">
             <el-input
               v-model="interfaceInformationForm.tunnelInfo.tunnelSpecificData"
             />
@@ -77,14 +77,14 @@
         </div>
         <div v-if="interfaceInformationForm.interfaceType==='MAC'">
           <h3 class="common-dlg-title">
-            MAC信息
+            {{ $t('rulesConfig.macInfo') }}
           </h3>
-          <el-form-item label="源MAC地址">
+          <el-form-item :label="$t('rulesConfig.sourceMacAddress')">
             <el-input
               v-model="interfaceInformationForm.srcMacAddress"
             />
           </el-form-item>
-          <el-form-item label="目的MAC地址">
+          <el-form-item :label="$t('rulesConfig.macAddress')">
             <el-input
               v-model="interfaceInformationForm.dstMacAddress"
             />
@@ -92,9 +92,9 @@
         </div>
         <div v-if="interfaceInformationForm.interfaceType==='IP'">
           <h3 class="common-dlg-title">
-            IP信息
+            {{ $t('rulesConfig.IpInfo') }}
           </h3>
-          <el-form-item label="目的IP地址">
+          <el-form-item :label="$t('rulesConfig.dstAddress')">
             <el-input
               v-model="interfaceInformationForm.dstIpAddress"
             />

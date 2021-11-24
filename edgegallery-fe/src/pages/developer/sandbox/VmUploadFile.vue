@@ -18,7 +18,7 @@
   <div class="uploadApp">
     <div class="common-div-bg">
       <p class="common-dlg-title">
-        上传应用代码包
+        {{ $t('sandbox.uploadAppPackage') }}
       </p>
       <div class="uploadAppBody">
         <UploadBigFile
@@ -28,7 +28,7 @@
           :params-name-prop="paramsName"
         />
         <p class="prompt">
-          注：文件默认上传到虚拟机的根目录下
+          {{ $t('sandbox.uploadAppPackagePromt') }}
         </p>
       </div>
       <div class="btn-container">
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     btnName () {
-      return '选择包文件'
+      return this.$t('sandbox.selectFile')
     }
   },
   data () {

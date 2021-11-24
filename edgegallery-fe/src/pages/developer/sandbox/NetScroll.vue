@@ -59,14 +59,14 @@ export default {
   computed: {
     defaultOption () {
       return {
-        step: 0.2, // 数值越大速度滚动越快
-        limitMoveNum: 5, // 开始无缝滚动的数据量 this.dataList.length
-        hoverStop: true, // 是否开启鼠标悬停stop
-        direction: 1, // 0向下 1向上 2向左 3向右
-        openWatch: true, // 开启数据实时监控刷新dom
-        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
-        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
-        waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
+        step: 0.2, // The higher the value, the faster the scroll
+        limitMoveNum: 5, // The amount of data to start seamless scrolling
+        hoverStop: true, // Whether to turn on mouse hover stop
+        direction: 1, // 0 down 1 up 2 left 3 right
+        openWatch: true, // Enable data real-time monitoring and refresh dom
+        singleHeight: 0, // The height of the single-step motion stop (the default value of 0 is seamless and non-stop scrolling) direction => 0/1
+        singleWidth: 0, // The width of the single-step motion stop (the default value of 0 is seamless and non-stop scrolling) direction => 2/3
+        waitTime: 1000 // Stop time of single step motion (default value is 1000ms)
       }
     }
 

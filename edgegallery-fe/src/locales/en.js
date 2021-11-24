@@ -33,11 +33,25 @@ const en = {
     confirm: 'Confirm',
     finish: 'Finish',
     save: 'Save',
-    close: 'Close'
+    close: 'Close',
+    detail: 'Detail',
+    select: 'Select',
+    add: 'Add',
+    login: '登录',
+    upload: 'Upload',
+    start: 'Start',
+    name: 'Name',
+    describe: 'Describe',
+    userName: 'User Name',
+    enterUserName: 'Please enter user name',
+    password: 'Password',
+    enterPassword: 'Please enter password',
+    pleaseSelect: 'Please Select'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
-    deleteFailed: 'Failed to delete data!'
+    deleteFailed: 'Failed to delete data!',
+    editDataFailed: 'Failed to edit data!'
   },
   ...enLocale,
   ...enClassic,

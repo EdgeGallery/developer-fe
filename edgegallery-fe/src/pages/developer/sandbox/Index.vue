@@ -58,7 +58,7 @@ export default {
   },
   data () {
     return {
-      selectSandbox: '',
+      selectSandbox: this.$t('sandbox.selectSandbox'),
       isCheckSandboxList: false,
       breathStyle: false,
       applicationId: sessionStorage.getItem('applicationId') || ''
@@ -68,12 +68,12 @@ export default {
     isSelectSandbox () {
       sandbox.getUserSelectSandbox(this.applicationId).then(res => {
         if (res.data.mepHostId == null) {
-          this.selectSandbox = '选择沙箱'
+          this.selectSandbox = this.$t('sandbox.selectSandbox')
         } else {
           sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
             this.selectSandbox = res.data.name
           }).catch(err => {
-            this.selectSandbox = '选择沙箱'
+            this.selectSandbox = this.$t('sandbox.selectSandbox')
             console.log(err)
           })
         }
@@ -82,7 +82,8 @@ export default {
       })
     },
     toSelectSandbox () {
-      if (this.selectSandbox === '选择沙箱') {
+      let _isSelectSandbox = this.selectSandbox === this.$t('sandbox.selectSandbox')
+      if (_isSelectSandbox) {
         this.isCheckSandboxList = true
       } else {
         this.isCheckSandboxList = false
@@ -93,6 +94,11 @@ export default {
     returnSelectSandbox (data) {
       this.selectSandbox = data
       this.isCheckSandboxList = false
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.selectSandbox = this.$t('sandbox.selectSandbox')
     }
   },
   mounted () {

@@ -33,11 +33,25 @@ const cn = {
     confirm: '确认',
     finish: '完成',
     save: '保存',
-    close: '关闭'
+    close: '关闭',
+    detail: '详情',
+    select: '选择',
+    add: '添加',
+    login: '登录',
+    upload: '上传',
+    start: '启动',
+    name: '名称',
+    describe: '描述',
+    userName: '用户名',
+    enterUserName: '请输入用户名',
+    password: '密码',
+    enterPassword: '请输入密码',
+    pleaseSelect: '请选择'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',
-    deleteFailed: '删除数据失败！'
+    deleteFailed: '删除数据失败！',
+    editDataFailed: '编辑数据失败！'
   },
   ...zhLocale,
   ...cnClassic,

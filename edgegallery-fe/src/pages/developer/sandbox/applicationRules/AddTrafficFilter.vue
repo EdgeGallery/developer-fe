@@ -17,7 +17,7 @@
 <template>
   <div class="common-div-bg">
     <h3 class="common-dlg-title">
-      流量过滤器
+      {{ $t('rulesConfig.flowFilter') }}
     </h3>
 
     <el-form
@@ -28,7 +28,7 @@
       :model="trafficFilterForm"
     >
       <el-form-item
-        label="源IP地址"
+        :label="$t('rulesConfig.srcAddress')"
       >
         <el-input
           maxlength="20"
@@ -36,14 +36,14 @@
         />
         <el-tooltip
           effect="dark"
-          content="多个IP请用','分隔"
+          :content="$t('rulesConfig.multipleIP')"
           placement="right"
         >
           <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
-        label="源端口号"
+        :label="$t('rulesConfig.srcPort')"
       >
         <el-input
           maxlength="30"
@@ -51,14 +51,14 @@
         />
         <el-tooltip
           effect="dark"
-          content="多个端口请用','分隔"
+          :content="$t('rulesConfig.multiplePort')"
           placement="right"
         >
           <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
-        label="目的IP地址"
+        :label="$t('rulesConfig.dstAddress')"
       >
         <el-input
           maxlength="30"
@@ -66,14 +66,14 @@
         />
         <el-tooltip
           effect="dark"
-          content="多个IP请用','分隔"
+          :content="$t('rulesConfig.multipleIP')"
           placement="right"
         >
           <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
-        label="目的端口号"
+        :label="$t('rulesConfig.dstPort')"
       >
         <el-input
           maxlength="30"
@@ -81,14 +81,14 @@
         />
         <el-tooltip
           effect="dark"
-          content="多个端口请用','分隔"
+          :content="$t('rulesConfig.multiplePort')"
           placement="right"
         >
           <span class="default_info_promt icon-pos-right">i</span>
         </el-tooltip>
       </el-form-item>
       <el-form-item
-        label="标签"
+        :label="$t('rulesConfig.tag')"
         class="input-half lt"
       >
         <el-input
@@ -96,7 +96,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="协议类型"
+        :label="$t('rulesConfig.protocol')"
         class="input-half lt"
       >
         <el-input
@@ -132,7 +132,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="隧道目的地址"
+        :label="$t('rulesCinfig.tgtTunnelAddress')"
         class="input-half lt"
       >
         <el-input
@@ -140,7 +140,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="隧道目的端口"
+        :label="$t('rulesConfig.dstTunnelPort')"
         class="input-half lt"
       >
         <el-input
@@ -148,7 +148,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="隧道源地址"
+        :label="$t('rulesConfig.srcTunnelAddress')"
         class="input-half lt"
       >
         <el-input
@@ -156,7 +156,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="隧道源端口"
+        :label="$t('rulesConfig.srcTunnelPort')"
         class="input-half lt"
       >
         <el-input
