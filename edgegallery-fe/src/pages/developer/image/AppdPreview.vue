@@ -97,7 +97,7 @@ export default {
   methods: {
     confirm () {
       imageApi.packageToZip(this.packageId).then(res => {
-        this.$eg_messagebox('打包完成', 'success', '', '确认', '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改').then(() => {
+        this.$eg_messagebox(this.$t('appPackage.packageFinish'), 'success', '', this.$t('common.confirm'), this.$t('appPackage.subText')).then(() => {
           this.$store.commit('changeFlow', '4')
           this.$router.push('/EG/developer/home')
         })
@@ -105,7 +105,7 @@ export default {
         this.$message({
           showClose: true,
           duration: 2000,
-          message: '打包失败',
+          message: this.$t('appPackage.packageFail'),
           type: 'error'
         })
       })
@@ -163,7 +163,7 @@ export default {
         this.$message({
           showClose: true,
           duration: 2000,
-          message: '格式不支持修改',
+          message: this.$t('appPackage.notSupport'),
           type: 'error'
         })
       } else {

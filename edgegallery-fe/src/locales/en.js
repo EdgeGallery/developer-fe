@@ -34,7 +34,8 @@ const en = {
     confirm: 'Confirm',
     finish: 'Finish',
     save: 'Save',
-    close: 'Close'
+    close: 'Close',
+    return: 'Return'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',

@@ -34,7 +34,8 @@ const cn = {
     confirm: '确认',
     finish: '完成',
     save: '保存',
-    close: '关闭'
+    close: '关闭',
+    return: '返回'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',

@@ -22,7 +22,7 @@
         class="common-btn rt"
         @click="backApp"
       >
-        返回
+        {{ $t(common.return) }}
       </el-button>
     </div>
 

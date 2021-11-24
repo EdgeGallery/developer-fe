@@ -24,7 +24,7 @@
         <el-button
           type="primary"
         >
-          同步应用到MEAO
+          {{ $t('store.synchronous') }}
         </el-button>
         <el-dropdown-menu
           slot="dropdown"
