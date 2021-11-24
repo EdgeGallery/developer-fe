@@ -10,20 +10,20 @@
           alt="warning_icon"
         >
         <p>
-          此类内容需在应用中查看
+          {{ $t('incubation.checkFromApp') }}
         </p>
         <div class="tip-btn-group">
           <el-button
             class="tip-btn"
             @click="returnIndexPage()"
           >
-            返回
+            {{ $t('incubation.return') }}
           </el-button>
           <el-button
             class="tip-btn"
             @click="isShowAppFormDlg=true"
           >
-            新建应用
+            {{ $t('incubation.addNewApp') }}
           </el-button>
         </div>
       </div>

@@ -23,7 +23,7 @@
           alt="icon"
         >
         <p class="mian-sub-title">
-          每一个开发者都了不起
+          {{ $t('home.mainTitle') }}
         </p>
         <img
           class="main-title-dot"
@@ -61,17 +61,17 @@ export default {
     return {
       rightBtnList: [
         {
-          name: '应用孵化',
+          name: this.$t('home.appIncubation'),
           src: require('../../assets/images/index/index_app_create.png'),
           path: '/EG/developer/home'
         },
         {
-          name: '应用商店',
+          name: this.$t('home.appStore'),
           src: require('../../assets/images/index/index_app_store.png'),
           path: '/EG/appstore/appWarehouse'
         },
         {
-          name: '应用部署',
+          name: this.$t('home.appDeploy'),
           src: require('../../assets/images/index/index_app_deploy.png'),
           path: '/EG/mecm/appDeployDetail'
         }

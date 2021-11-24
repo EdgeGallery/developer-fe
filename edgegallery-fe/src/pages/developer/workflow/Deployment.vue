@@ -4,7 +4,7 @@
     :class="currentFlow>9||currentFlow===9?'center-active':''"
   >
     <div class="workflow-name">
-      生产环境
+      {{ $t('workflow.produceEnv') }}
     </div>
     <div
       v-for="(item,index) in deployWorkflowDataArray"
@@ -51,6 +51,7 @@ export default {
         {
           id: 7,
           name: 'MEAO',
+          nameEn: 'MEAO',
           class: 'deploy-meao',
           src: require('../../../assets/images/application/app_meao.png'),
           toPath: '/EG/mecm/appDeployDetail'
@@ -58,6 +59,7 @@ export default {
         {
           id: 8,
           name: 'MEPM',
+          nameEn: 'MEPM',
           class: 'deploy-mepm',
           src: require('../../../assets/images/application/app_mepm.png'),
           toPath: ''
@@ -65,6 +67,7 @@ export default {
         {
           id: 9,
           name: '边缘节点',
+          nameEn: 'Nodes',
           class: 'deploy-node',
           src: require('../../../assets/images/application/app_node.png'),
           toPath: ''
@@ -77,7 +80,7 @@ export default {
       this.$router.push(path)
     },
     showWarning () {
-      this.$message.warning('请先完成必经步骤！')
+      this.$message.warning(this.$t('workflow.mustSteps'))
     }
   },
   mounted () {
