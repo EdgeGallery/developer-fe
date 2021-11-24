@@ -38,7 +38,7 @@
           @click="$emit('closeDig')"
           class="common-btn"
         >
-          {{ $t('common.return') }}
+          {{ $t('common.back') }}
         </el-button>
         <el-upload
           :show-file-list="false"

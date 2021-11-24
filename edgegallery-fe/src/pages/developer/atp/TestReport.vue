@@ -29,7 +29,7 @@
             class="common-btn"
             @click="back()"
           >
-            {{ $t(common.return) }}
+            {{ $t(common.back) }}
           </el-button>
           <el-button
             v-if="downloadBtn"

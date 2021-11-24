@@ -60,7 +60,7 @@
           v-show="isEditFile"
           @click="saveFile()"
         >
-          {{ $t('appPackage.save') }}
+          {{ $t('common.save') }}
         </el-button>
         <el-button
           class="common-btn"

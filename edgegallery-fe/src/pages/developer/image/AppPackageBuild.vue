@@ -335,7 +335,7 @@ export default {
         this.getResourceConfig()
         this.getRulesInfo()
         if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
-          this.basicInfoData.dependent = this.language === 'cn' ? '无依赖' : 'No dependences'
+          this.basicInfoData.dependent = this.$t('appPackage.noDependences')
         } else {
           let _dependents = []
           let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList

@@ -62,12 +62,12 @@ const cn = {
     packBack: '返回',
     packAuthentication: '认证',
     appdDetail: '应用包详情',
-    save: '保存',
     packageSuc: '打包成功',
     packageFail: '打包失败',
     packageFinish: '打包完成',
     subText: '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改',
-    notSupport: '格式不支持修改'
+    notSupport: '格式不支持修改',
+    noDependences: '无依赖'
   }
 }
 export default cn

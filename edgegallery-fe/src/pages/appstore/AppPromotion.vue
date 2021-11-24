@@ -28,7 +28,7 @@
           class="common-btn"
           @click="jumpToIncubation"
         >
-          {{ $t('common.return') }}
+          {{ $t('common.back') }}
         </el-button>
       </div>
       <div class="app-list common-div-bg">
