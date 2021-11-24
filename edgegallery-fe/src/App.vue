@@ -18,7 +18,7 @@
   <div
     id="app"
     class="defaultFont"
-    :class="{'app-new':pageModel==='newVersion','app-new-inner':!isIndex}"
+    :class="{'app-new':pageModel==='newVersion','app-new-inner':!isIndex,'app-incubation':isIncubationPage}"
     ref="app"
   >
     <Navcomp
@@ -87,7 +87,8 @@ export default {
       navDataClassic: navDataClassic,
       screenHeight: document.body.clientHeight,
       timer: false,
-      isIndex: true
+      isIndex: true,
+      isIncubationPage: false
     }
   },
   computed: {
@@ -102,6 +103,7 @@ export default {
     },
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
+      this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > 0
       this.toPath = to.path
       this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
       let toJumpClassic = this.pageModel === 'Classic'
@@ -211,11 +213,16 @@ export default {
 }
 .app-new{
   background: url('./assets/images/common_bg_index.png') #3E279B -10px 92% no-repeat;
+  background-size: contain;
   min-height: 805px;
   overflow: hidden;
 }
 .app-new-inner{
   background: url('./assets/images/common_bg_inner.png') #3E279B -10px 92% no-repeat;
+  background-size: contain;
+}
+.app-incubation{
+  min-width: 1600px;
 }
 .left-pro-comp{
   width: 100%;

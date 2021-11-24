@@ -121,7 +121,8 @@ export default {
 
 <style lang="less" scoped>
   .application{
-    width: 100%;
+    min-width: 1480px;
+    overflow: auto;
     height: 100%;
     .main-content{
       width: 1680px;

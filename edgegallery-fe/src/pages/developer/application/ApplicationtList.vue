@@ -133,7 +133,10 @@ export default {
         this.isDeleteActive = false
       }
     },
-    putAway () {
+    putAway (val) {
+      if (this.isViewActive) {
+        this.isViewActive = val
+      }
       this.$emit('zoomChanged', 3)
       this.isDeleteActive = false
     },
