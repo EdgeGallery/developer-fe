@@ -39,8 +39,8 @@ const Industry = [
     value: 'Game Competition',
     label: ['游戏竞技', 'Game Competition']
   }, {
-    value: 'Other',
-    label: ['其他', 'Other']
+    value: 'Others',
+    label: ['其他', 'Others']
   }
 ]
 
@@ -67,8 +67,8 @@ const Type = [
     value: 'Game',
     label: ['游戏', 'Game']
   }, {
-    value: 'Other',
-    label: ['其他', 'Other']
+    value: 'Others',
+    label: ['其他', 'Others']
   }
 ]
 
