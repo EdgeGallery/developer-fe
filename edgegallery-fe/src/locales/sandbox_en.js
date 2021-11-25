@@ -54,8 +54,8 @@ const en = {
     configureNetworkPorts: 'Configure Network Ports',
     selectImage: 'Select Image',
     imageType: {
-      publicImage: '公有镜像',
-      privateImage: '私有镜像'
+      publicImage: 'Public',
+      privateImage: 'Private'
     },
     flavorExtraSpecs: 'Flavor Extra Specs',
     enterFlavorExtraSpecs: 'Enter Flavor Extra Specs',
