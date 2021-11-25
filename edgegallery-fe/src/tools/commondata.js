@@ -1,25 +1,43 @@
 const Industry = [
   {
+    value: 'Smart City',
+    label: ['智慧城市', 'Smart City']
+  }, {
     value: 'Smart Park',
     label: ['智慧园区', 'Smart Park']
   }, {
-    value: 'Smart Supermarket',
-    label: ['智慧商城', 'Smart Supermarket']
+    value: 'Smart Agriculture',
+    label: ['智慧农业', 'Smart Agriculture']
   }, {
-    value: 'Industrial Manufacturing',
-    label: ['工业制造', 'Industrial Manufacturing']
+    value: 'Industrial Internet',
+    label: ['工业互联网', 'Industrial Internet']
   }, {
     value: 'Transportation Logistics',
     label: ['交通物流', 'Transportation Logistics']
   }, {
-    value: 'Water Conservancy',
-    label: ['水利', 'Water Conservancy']
+    value: 'Energy',
+    label: ['能源', 'Energy']
+  }, {
+    value: 'Finance',
+    label: ['金融', 'Finance']
+  }, {
+    value: 'Education',
+    label: ['教育', 'Education']
+  }, {
+    value: 'Cultural Tourism',
+    label: ['文化旅游', 'Cultural Tourism']
+  }, {
+    value: 'Medical Health',
+    label: ['医疗健康', 'Medical Health']
+  }, {
+    value: 'Digital Government',
+    label: ['数字政府', 'Digital Government']
+  }, {
+    value: 'Ecosystem',
+    label: ['生态环境', 'Ecosystem']
   }, {
     value: 'Game Competition',
     label: ['游戏竞技', 'Game Competition']
-  }, {
-    value: 'Open Source',
-    label: ['开源', 'Open Source']
   }, {
     value: 'Other',
     label: ['其他', 'Other']
@@ -31,20 +49,11 @@ const Type = [
     value: 'Video Application',
     label: ['视频应用', 'Video Application']
   }, {
-    value: 'Game',
-    label: ['游戏', 'Game']
-  }, {
-    value: 'Video Surveillance',
-    label: ['视频监控', 'Video Surveillance']
-  }, {
     value: 'Safety',
     label: ['安全', 'Safety']
   }, {
     value: 'Blockchain',
     label: ['区块链', 'Blockchain']
-  }, {
-    value: 'Smart Device',
-    label: ['智能设备', 'Smart Device']
   }, {
     value: 'Internet of Things',
     label: ['物联网', 'Internet of Things']
@@ -55,14 +64,8 @@ const Type = [
     value: 'AR/VR',
     label: ['AR/VR', 'AR/VR']
   }, {
-    value: 'API',
-    label: ['API', 'API']
-  }, {
-    value: 'SDK',
-    label: ['SDK', 'SDK']
-  }, {
-    value: 'MEP',
-    label: ['MEP', 'MEP']
+    value: 'Game',
+    label: ['游戏', 'Game']
   }, {
     value: 'Other',
     label: ['其他', 'Other']
