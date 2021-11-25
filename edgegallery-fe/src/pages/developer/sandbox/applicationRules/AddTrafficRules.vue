@@ -17,7 +17,7 @@
 <template>
   <div class="common-div-bg">
     <h3 class="common-dlg-title">
-      分流规则
+      {{ $t('appPackage.rule') }}
     </h3>
     <el-form
       id="form_trafficRules"
@@ -27,7 +27,7 @@
       :model="trafficRuleForm"
     >
       <el-form-item
-        label="流规则标识"
+        :label="$t('appPackage.trafficRuleId')"
         class="input-half lt"
       >
         <el-input
@@ -37,7 +37,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="优先级"
+        :label="$t('appPackage.priority')"
         class="input-half lt"
       >
         <el-input-number
@@ -49,7 +49,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="规则动作"
+        :label="$t('appPackage.action')"
         class="input-half lt"
       >
         <el-select
@@ -65,7 +65,7 @@
         </el-select>
       </el-form-item>
       <el-form-item
-        label="过滤类型"
+        :label="$t('appPackage.filterType')"
         class="input-half lt"
       >
         <el-select
@@ -83,16 +83,16 @@
     </el-form>
 
     <h3 class="common-dlg-title list-top">
-      流过滤规则
+      {{ $t('rulesConfig.filterRules') }}
     </h3>
     <h4 class="rules-title-sub clear">
-      流过滤规则
+      {{ $t('rulesConfig.filterRules') }}
       <el-button
         id="btn_addTrafficFilter"
         class="common-btn inner-btn rt"
         @click="addTrafficFilter"
       >
-        添加流量过滤器
+        {{ $t('rulesConfig.addFlowFilter') }}
       </el-button>
     </h4>
     <el-table
@@ -103,27 +103,27 @@
     >
       <el-table-column
         prop="srcAddress"
-        label="源IP地址"
+        :label="$t('rulesConfig.srcAddress')"
       />
       <el-table-column
         prop="srcPort"
-        label="源端口号"
+        :label="$t('rulesConfig.srcPort')"
       />
       <el-table-column
         prop="dstAddress"
-        label="目的IP地址"
+        :label="$t('rulesConfig.dstAddress')"
       />
       <el-table-column
         prop="dstPort"
-        label="目的端口号"
+        :label="$t('rulesConfig.dstPort')"
       />
       <el-table-column
         prop="tgtTunnelAddress"
-        label="隧道目的地址"
+        :label="$t('rulesConfig.tgtTunnelAddress')"
       />
       <el-table-column
         prop="dstTunnelPort"
-        label="隧道目的端口"
+        :label="$t('rulesConfig.dstTunnelPort')"
       />
       <el-table-column
         :label="$t('common.operation')"
@@ -152,16 +152,16 @@
 
     <div v-if="trafficRuleForm.action==='FORWARD_DECAPSULATED'||trafficRuleForm.action==='FORWARD_AS_IS'">
       <h3 class="common-dlg-title list-top">
-        接口信息
+        {{ $t('rulesConfig.interfaceInfo') }}
       </h3>
       <h4 class="rules-title-sub clear">
-        转发接口信息
+        {{ $t('rulesConfig.forwardInterfaceTabTitle') }}
         <el-button
           id="btn_addInterfaceInformation"
           class="common-btn inner-btn rt"
           @click="addInterfaceInformation"
         >
-          添加接口信息
+          {{ $t('rulesConfig.addInterfaceInfo') }}
         </el-button>
       </h4>
       <el-table
@@ -172,35 +172,35 @@
       >
         <el-table-column
           prop="interfaceType"
-          label="接口类型"
+          :label="$t('rulesConfig.interfaceType')"
         />
         <el-table-column
           prop="tunnelInfo.tunnelType"
-          label="隧道类型"
+          :label="$t('rulesConfig.tunnelType')"
         />
         <el-table-column
           prop="tunnelInfo.tunnelDstAddress"
-          label="隧道目的地址"
+          :label="$t('rulesConfig.tgtTunnelAddress')"
         />
         <el-table-column
           prop="tunnelInfo.tunnelSrcAddress"
-          label="隧道源地址"
+          :label="$t('rulesConfig.srcTunnelAddress')"
         />
         <el-table-column
           prop="tunnelInfo.tunnelSpecificData"
-          label="隧道指定参数"
+          :label="$t('rulesConfig.tunnelParams')"
         />
         <el-table-column
           prop="dstMacAddress"
-          label="目的MAC地址"
+          :label="$t('rulesConfig.macAddress')"
         />
         <el-table-column
           prop="srcMacAddress"
-          label="源MAC地址"
+          :label="$t('rulesConfig.sourceMacAddress')"
         />
         <el-table-column
           prop="dstIpAddress"
-          label="目的地址"
+          :label="$t('rulesConfig.dstIpAddress')"
         />
         <el-table-column
           :label="$t('common.operation')"
@@ -348,7 +348,7 @@ export default {
           _params[k] = _data[k]
         }
         if (_params.trafficRuleId === '') {
-          this.$eg_messagebox('流规则标识不能为空', 'warning')
+          this.$eg_messagebox(this.$t('rulesConfig.trafficRuleIdisEmpty'), 'warning')
           return
         }
         if (this.isAddRuleData) {
@@ -454,7 +454,7 @@ export default {
         this.$emit('setRulesListTop', 'finishTrafficRules', _data)
       }).catch(error => {
         if (error.response.data.message === 'create trafficRule failed: ruleId have exit') {
-          this.$eg_messagebox('流规则标识已存在', 'error')
+          this.$eg_messagebox(this.$t('rulesConfig.trafficRuleIdisExists'), 'error')
         }
       })
     },
@@ -462,7 +462,7 @@ export default {
       applicationRules.editAppTrafficRule(this.applicationId, this.rulesId, params).then(res => {
         this.$emit('setRulesListTop', 'finishTrafficRules', _data)
       }).catch(() => {
-        this.$eg_messagebox('编辑数据失败', 'error')
+        this.$eg_messagebox(this.$t('promptInformation.editDataFailed'), 'error')
       })
     }
   },

@@ -179,9 +179,10 @@ export default {
     }
   },
   beforeMount () {
-    let language = localStorage.getItem('language') || 'cn'
-    this.language = language === 'en' ? 'Cn' : 'En'
-    if (language === 'en') {
+    localStorage.setItem('language', 'cn')
+    let _language = localStorage.getItem('language')
+    this.language = _language === 'en' ? 'Cn' : 'En'
+    if (_language === 'en') {
       this.jsonData = navData
     } else {
       this.jsonData = navDataCn

@@ -17,7 +17,7 @@
 <template>
   <div class="common-div-bg">
     <h3 class="common-dlg-title">
-      添加DNS规则
+      {{ $t('appPackage.addDnsRule') }}
     </h3>
 
     <el-form
@@ -28,7 +28,7 @@
       :model="dnsRulesForm"
     >
       <el-form-item
-        label="DNS规则标识"
+        :label="$t('appPackage.dnsRuleId')"
       >
         <el-input
           v-model="dnsRulesForm.dnsRuleId"
@@ -36,14 +36,14 @@
         />
       </el-form-item>
       <el-form-item
-        label="FQDN域名"
+        :label="$t('appPackage.domainName')"
       >
         <el-input
           v-model="dnsRulesForm.domainName"
         />
       </el-form-item>
       <el-form-item
-        label="IP地址类型"
+        :label="$t('appPackage.ipAddressType')"
       >
         <el-select
           v-model="dnsRulesForm.ipAddressType"
@@ -59,7 +59,7 @@
         </el-select>
       </el-form-item>
       <el-form-item
-        label="IP地址"
+        :label="$t('rulesConfig.ipAddress')"
       >
         <el-input
           v-model="dnsRulesForm.ipAddress"
@@ -135,7 +135,7 @@ export default {
           _params[k] = _data[k]
         }
         if (_params.dnsRuleId === '') {
-          this.$eg_messagebox('DNS规则标识不能为空', 'warning')
+          this.$eg_messagebox(this.$t('rulesConfig.dnsRuleIdisEmpty'), 'warning')
           return
         }
         if (this.isAddRuleData) {
@@ -152,7 +152,7 @@ export default {
         this.$emit('setRulesListTop', 'finishDnsRules', _data)
       }).catch(error => {
         if (error.response.data.message === 'create DnsRule failed: ruleId have exit') {
-          this.$eg_messagebox('DNS规则标识已存在', 'error')
+          this.$eg_messagebox(this.$t('rulesConfig.dnsRuleIdisExists'), 'error')
         }
       })
     },
@@ -160,7 +160,7 @@ export default {
       applicationRules.editAppDnsRule(this.applicationId, this.rulesId, params).then(res => {
         this.$emit('setRulesListTop', 'finishDnsRules', _data)
       }).catch(() => {
-        this.$eg_messagebox('编辑数据失败', 'error')
+        this.$eg_messagebox(this.$t('promptInformation.editDataFailed'), 'error')
       })
     }
   },

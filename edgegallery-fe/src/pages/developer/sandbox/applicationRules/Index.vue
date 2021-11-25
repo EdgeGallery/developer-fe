@@ -20,16 +20,16 @@
       :class="{'rules-config-hidden':!isRulesConfigShow}"
     >
       <h3 class="common-dlg-title">
-        应用规则配置
+        {{ $t('rulesConfig.appRuleConfig') }}
       </h3>
       <h4 class="rules-title-sub clear">
-        流量规则
+        {{ $t('appPackage.trafficRule') }}
         <el-button
           id="btn_addTrafficRules"
           class="common-btn inner-btn rt"
           @click="addTrafficRules"
         >
-          添加流量规则
+          {{ $t('appPackage.addTrafficRule') }}
         </el-button>
       </h4>
       <el-table
@@ -40,22 +40,22 @@
       >
         <el-table-column
           prop="trafficRuleId"
-          label="流规则标识"
+          :label="$t('appPackage.trafficRuleId')"
           min-width="20%"
         />
         <el-table-column
           prop="action"
-          label="过滤类型"
+          :label="$t('appPackage.action')"
           min-width="20%"
         />
         <el-table-column
           prop="priority"
-          label="优先级"
+          :label="$t('appPackage.priority')"
           min-width="20%"
         />
         <el-table-column
           prop="filterType"
-          label="规则动作"
+          :label="$t('appPackage.filterType')"
           min-width="20%"
         />
         <el-table-column
@@ -84,13 +84,13 @@
       </el-table>
 
       <h4 class="rules-title-sub title-top clear">
-        DNS规则
+        {{ $t('appPackage.dnsRule') }}
         <el-button
           id="btn_addDnsRules"
           class="common-btn inner-btn rt"
           @click="addDnsRules"
         >
-          添加DNS规则
+          {{ $t('appPackage.addDnsRule') }}
         </el-button>
       </h4>
       <el-table
@@ -101,17 +101,17 @@
       >
         <el-table-column
           prop="dnsRuleId"
-          label="DNS规则标识"
+          :label="$t('appPackage.dnsRuleId')"
           min-width="20%"
         />
         <el-table-column
           prop="domainName"
-          label="FQDN域名"
+          :label="$t('appPackage.domainName')"
           min-width="20%"
         />
         <el-table-column
           prop="ipAddressType"
-          label="IP地址类型"
+          :label="$t('appPackage.ipAddressType')"
           min-width="20%"
         />
         <el-table-column

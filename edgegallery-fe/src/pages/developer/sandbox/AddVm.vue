@@ -21,42 +21,42 @@
         class="vmCollapse"
       >
         <el-collapse-item
-          title="虚拟机信息"
+          :title="$t('sandbox.vmInformation')"
           name="1"
         >
           <div class="vm-info">
             <div class="addVm-top-title">
               <p>
-                虚拟机名称
+                {{ $t('sandbox.vmName') }}
               </p>
               <el-input
                 class="common-input"
                 v-model="addvmImages.name"
-                placeholder="请输入虚拟机名称"
+                :placeholder="$t('sandbox.enterVmName')"
               />
             </div>
             <div class="addVm-top-title defaultFontLight">
-              <p>用户名</p>
+              <p>{{ $t('common.userName') }}</p>
               <el-input
                 class="common-input"
                 v-model="addvmImages.vmCertificate.pwdCertificate.username"
-                placeholder="请输入用户名"
+                :placeholder="$t('common.enterUserName')"
               />
             </div>
             <div class="addVm-top-title defaultFontLight">
-              <p>密码</p>
+              <p>{{ $t('common.password') }}</p>
               <el-input
                 type="password"
                 class="common-input"
                 show-password
                 v-model="addvmImages.vmCertificate.pwdCertificate.password"
-                placeholder="请输入密码"
+                :placeholder="$t('common.enterPassword')"
               />
             </div>
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="选择虚拟机规格"
+          :title="$t('sandbox.selectVmflavor')"
           name="2"
         >
           <div class="simulator-info-content">
@@ -84,7 +84,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="name"
-                  label="名称"
+                  :label="$t('common.name')"
                   min-width="25%"
                   show-overflow-tooltip
                 >
@@ -94,7 +94,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="sence"
-                  label="使用场景"
+                  :label="$t('sandbox.usageScenes')"
                   min-width="20%"
                   show-overflow-tooltip
                 >
@@ -111,28 +111,28 @@
                 />
                 <el-table-column
                   prop="memory"
-                  label="内存"
+                  :label="$t('sandbox.memory')"
                   min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendSizeUnit"
                 />
                 <el-table-column
                   prop="systemDiskSize"
-                  label="系统盘"
+                  :label="$t('sandbox.systemDisk')"
                   min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendSizeUnit"
                 />
                 <el-table-column
                   prop="dataDiskSize"
-                  label="数据盘"
+                  :label="$t('sandbox.dataDisk')"
                   min-width="10%"
                   show-overflow-tooltip
                   :formatter="appendSizeUnit"
                 />
                 <el-table-column
                   prop="otherExtraInfo"
-                  label="其他能力"
+                  :label="$t('sandbox.otherCapability')"
                   min-width="15%"
                   show-overflow-tooltip
                 />
@@ -141,7 +141,7 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="配置网络端口"
+          :title="$t('sandbox.configureNetworkPorts')"
           name="3"
         >
           <div class="internetInfos">
@@ -162,11 +162,11 @@
               <el-table-column
                 prop="name"
                 width="200px"
-                label="名称"
+                :label="$t('common.name')"
                 show-overflow-tooltip
               />
               <el-table-column
-                label="描述"
+                :label="$t('common.describe')"
               >
                 <template slot-scope="scope">
                   {{ scope.row.description }}
@@ -176,7 +176,7 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="选择镜像"
+          :title="$t('sandbox.selectImage')"
           name="4"
         >
           <div class="selectImage-content">
@@ -187,11 +187,11 @@
                 v-model="vmInfo.imageType"
                 @change="changeImageType('public')"
               >
-                公有镜像
+                {{ $t('sandbox.imageType.publicImage') }}
               </el-radio>
               <el-select
                 v-model="vmInfo.publicSystemName"
-                placeholder="请选择"
+                :placeholder="$t('common.pleaseSelect')"
                 @change="changePublicType(vmInfo.publicSystemName)"
                 :disabled="vmInfo.imageType === 'private'"
               >
@@ -204,7 +204,7 @@
               </el-select>
               <el-select
                 v-model="vmInfo.publicId"
-                placeholder="请选择"
+                :placeholder="$t('common.pleaseSelect')"
                 :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
               >
                 <el-option
@@ -222,12 +222,12 @@
                 label="private"
                 @change="changeImageType('private')"
               >
-                私有镜像
+                {{ $t('sandbox.imageType.privateImage') }}
               </el-radio>
               <el-select
                 v-model="vmInfo.privateSystemName"
                 @change="changePrivateType(vmInfo.privateSystemName)"
-                placeholder="请选择"
+                :placeholder="$t('common.pleaseSelect')"
                 :disabled="vmInfo.imageType === 'public'"
               >
                 <el-option
@@ -239,7 +239,7 @@
               </el-select>
               <el-select
                 v-model="vmInfo.privateId"
-                placeholder="请选择"
+                :placeholder="$t('common.pleaseSelect')"
                 :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
               >
                 <el-option
@@ -253,13 +253,13 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="主机组配置"
+          :title="$t('sandbox.flavorExtraSpecs')"
           name="5"
         >
           <div
             class="edit-btn clear"
           >
-            <span class="title-info">填写主机组配置</span>
+            <span class="title-info">{{ $t('sandbox.enterFlavorExtraSpecs') }}</span>
             <el-button
               class="rt"
               v-if="viewOrEditFlavor === 'preview'"
@@ -288,12 +288,12 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="脚本"
+          :title="$t('sandbox.script')"
           name="6"
         >
           <div class="vm-size">
             <p class="title-info">
-              是否使用注入脚本
+              {{ $t('sandbox.useScript') }}
             </p>
             <el-radio-group
               class="common-radio work-radio"
@@ -315,7 +315,7 @@
                 <div
                   class="edit-btn clear"
                 >
-                  <span class="title-info">填写脚本内容</span>
+                  <span class="title-info">{{ $t('sandbox.enterScriptContent') }}</span>
                   <el-button
                     class="rt"
                     v-if="viewOrEditContent === 'preview'"

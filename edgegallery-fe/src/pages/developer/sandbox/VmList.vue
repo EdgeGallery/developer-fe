@@ -47,7 +47,7 @@
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              content="添加"
+              :content="$t('common.add')"
               placement="bottom-start"
             >
               <img
@@ -74,7 +74,7 @@
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              content="详情"
+              :content="$t('common.detail')"
               placement="bottom-start"
             >
               <img
@@ -99,7 +99,7 @@
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              content="登录"
+              :content="$t('common.login')"
               placement="bottom-start"
             >
               <img
@@ -124,7 +124,7 @@
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              content="上传"
+              :content="$t('common.upload')"
               placement="bottom-start"
             >
               <img
@@ -149,7 +149,7 @@
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              content="启动"
+              :content="$t('common.start')"
               placement="bottom-start"
             >
               <img
@@ -174,7 +174,7 @@
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              content="生成镜像"
+              :content="$t('sandbox.createImage')"
               placement="bottom-start"
             >
               <img
@@ -211,7 +211,7 @@
         </div>
       </div>
       <p class="deploy-title defaultFontLight">
-        虚拟机
+        {{ $t('sandbox.vm') }}
       </p>
     </div>
   </div>

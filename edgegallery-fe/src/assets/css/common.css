@@ -882,7 +882,7 @@ th{
   height: 0;
 }
 .el-button--text,.el-button--text:hover{
-  color: #fff;
+  color: #fff !important;
 }
 .el-button.operation-btn-text{
   font-size: 14px;
