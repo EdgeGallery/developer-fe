@@ -23,13 +23,13 @@
       id="pdfDom"
     >
       <div class="logo">
-        <h3> EdgeGallery测试认证报告</h3>
+        <h3> {{ $t('report.testReport') }}</h3>
         <div>
           <el-button
             class="common-btn"
             @click="back()"
           >
-            返回
+            {{ $t(common.back) }}
           </el-button>
           <el-button
             v-if="downloadBtn"
@@ -37,7 +37,7 @@
             icon="el-icon-download"
             @click="downLoadReport()"
           >
-            下载报告
+            {{ $t('report.downloadReport') }}
           </el-button>
         </div>
       </div>
@@ -45,7 +45,7 @@
         <div class="title">
           <div class="title-text">
             <span class="titletext">
-              基本信息
+              {{ $t('report.baseInfo') }}
             </span>
           </div>
         </div>
@@ -57,30 +57,30 @@
           >
             <el-table-column
               prop="appName"
-              label="应用名称"
+              :label="$t('report.packageName')"
             />
             <el-table-column
               prop="appVersion"
-              label="版本"
+              :label="$t('report.version')"
             />
             <el-table-column
               prop="providerId"
-              label="供应商"
+              :label="$t('report.provider')"
             />
             <el-table-column
               prop="user.userName"
-              label="上传人"
+              :label="$t('report.uploadUser')"
             />
             <el-table-column
               prop="createTime"
-              label="提交时间"
+              :label="$t('report.startTime')"
             />
             <el-table-column
               prop="endTime"
-              label="结束时间"
+              :label="$t('report.endTime')"
             />
             <el-table-column
-              label="测试结果"
+              :label="$t('report.result')"
               width="180"
             >
               <template slot-scope="scope">
@@ -105,7 +105,7 @@
           <div class="title">
             <div class="title-text">
               <span class="titletext">
-                场景用例分布
+                {{ $t('report.caseDistribution') }}
               </span>
             </div>
           </div>
@@ -121,7 +121,7 @@
           <div class="title">
             <div class="title-text">
               <span class="titletext">
-                测试用例成功率
+                {{ $t('report.successfulRate') }}
               </span>
             </div>
           </div>
@@ -137,7 +137,7 @@
             <span
               class="titletext"
             >
-              测试用例详情
+              {{ $t('report.reportDetail') }}
             </span>
           </div>
         </div>
@@ -164,7 +164,7 @@
                 header-cell-class-name="tableheaderStyle"
               >
                 <el-table-column
-                  label="用例名称"
+                  :label="$t('atpTestProcess.name')"
                 >
                   <template slot-scope="scope">
                     {{ language==='cn'?scope.row.nameCh:scope.row.nameEn }}
@@ -172,21 +172,21 @@
                 </el-table-column>
                 <el-table-column
                   prop="result"
-                  label="结果"
+                  :label="$t('atpTestProcess.result')"
                 />
                 <el-table-column
                   prop="reason"
-                  label="失败原因"
+                  :label="$t('report.failReason')"
                 />
                 <el-table-column
-                  label="类型"
+                  :label="$t('atpTestProcess.type')"
                 >
                   <template slot-scope="scope">
                     {{ language==='en'?scope.row.type:scope.row.type==='automatic'?'自动化类型':'手动类型' }}
                   </template>
                 </el-table-column>
                 <el-table-column
-                  label="描述"
+                  :label="$t('atpTestProcess.description')"
                   width="500"
                 >
                   <template slot-scope="scope">
@@ -203,14 +203,14 @@
       <p
         class="reportTitle"
       >
-        {{ $t('userpage.applicationReport') }}
+        {{ $t('atpTestProcess.applicationReport') }}
       </p>
       <div
         class="pdf-main"
         v-show="printShow"
       >
         <div class="totalnum">
-          <span class="curp"> {{ $t('userpage.pageNum') }}:{{ pageNum }}/{{ pageTotalNum }}</span>
+          <span class="curp"> {{ $t('atpTestProcess.pageNum') }}:{{ pageNum }}/{{ pageTotalNum }}</span>
         </div>
         <div class="pdf-content">
           <div class="pagearrow">
@@ -266,7 +266,7 @@ export default {
   data () {
     return {
       testScenarios: [],
-      language: 'cn',
+      language: localStorage.getItem('language'),
       activeNameList: [],
       resultIcon: '',
       htmlTitle: '',
@@ -330,7 +330,7 @@ export default {
           duration: 2000,
           showClose: true,
           type: 'warning',
-          message: this.$t('promptMessage.getTaskListFail')
+          message: this.$t('atpPromptMessage.getTaskListFail')
         })
       })
     },

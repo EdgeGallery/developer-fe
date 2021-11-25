@@ -1,7 +1,7 @@
 <template>
   <div class="new-application">
     <h3 class="common-dlg-title lt">
-      应用信息
+      {{ $t('incubation.appInfo') }}
     </h3>
     <div>
       <el-form
@@ -14,30 +14,30 @@
         size="mini"
       >
         <el-form-item
-          label="应用名称"
+          :label="$t('incubation.appName')"
           class="cb"
         >
           <el-input v-model="applicationFormData.name" />
         </el-form-item>
         <el-form-item
-          label="版本"
+          :label="$t('incubation.version')"
           class="label-item-half"
         >
           <el-input v-model="applicationFormData.version" />
         </el-form-item>
         <el-form-item
-          label="提供者"
+          :label="$t('incubation.provider')"
           class="label-item-half"
         >
           <el-input v-model="applicationFormData.provider" />
         </el-form-item>
         <el-form-item
-          label="负载类型"
+          :label="$t('incubation.appClass')"
           class="label-item-half"
         >
           <el-select
             v-model="applicationFormData.appClass"
-            placeholder="请选择负载类型"
+            :placeholder="$t('incubation.chooseAppClass')"
           >
             <el-option
               label="容器"
@@ -50,12 +50,12 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          label="架构"
+          :label="$t('incubation.architecture')"
           class="label-item-half"
         >
           <el-select
             v-model="applicationFormData.architecture"
-            placeholder="请选择架构类型"
+            :placeholder="$t('incubation.chooseArchitecture')"
           >
             <el-option
               v-for="item in architectureOptions"
@@ -66,12 +66,12 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          label="行业"
+          :label="$t('incubation.industry')"
           class="label-item-half"
         >
           <el-select
             v-model="applicationFormData.industry"
-            placeholder="请选择行业类型"
+            :placeholder="$t('incubation.chooseIndustry')"
           >
             <el-option
               v-for="item in industryOptions"
@@ -82,12 +82,12 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          label="类型"
+          :label="$t('incubation.type')"
           class="label-item-half"
         >
           <el-select
             v-model="applicationFormData.type"
-            placeholder="请选择应用类型"
+            :placeholder="$t('incubation.chooseType')"
           >
             <el-option
               v-for="item in typeOptions"
@@ -98,7 +98,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          label="图标"
+          :label="$t('incubation.logo')"
           class="label-item-half choose-icon"
         >
           <div class="upload-comp">
@@ -107,7 +107,7 @@
               :class="isUploadIcon?'':'choose-default-icon'"
             />
             <div class="or">
-              或
+              {{ $t('incubation.or') }}
             </div>
             <div class="uplod-icon">
               <el-upload
@@ -128,7 +128,7 @@
               </el-upload>
               <el-tooltip
                 effect="dark"
-                content="必须是jpg、png格式图片"
+                :content="$t('incubation.logoLimit')"
                 placement="right"
               >
                 <em
@@ -140,7 +140,7 @@
           </div>
         </el-form-item>
         <el-form-item
-          label="指导文档"
+          :label="$t('incubation.guideDoc')"
           class="label-item-half"
         >
           <el-upload
@@ -158,11 +158,11 @@
               type="primary"
               class="inner-btn"
             >
-              点击上传
+              {{ $t('incubation.upload') }}
             </el-button>
             <el-tooltip
               effect="dark"
-              content="只能上传.md文件，且不超过500kb"
+              :content="$t('incubation.docLimit')"
               placement="right"
             >
               <em class="common-info  guide-upload-info" />
@@ -170,7 +170,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item
-          label="描述"
+          :label="$t('incubation.description')"
           class="cb"
         >
           <el-input
@@ -186,13 +186,13 @@
           class="common-btn"
           @click="$router.go(-1)"
         >
-          返回
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button
           class="common-btn"
           @click="confirmForm()"
         >
-          完成
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>
@@ -210,10 +210,10 @@ export default {
         'name': '',
         'version': '',
         'provider': '',
-        'appClass': '',
-        'architecture': '',
-        'industry': '',
-        'type': '',
+        'appClass': 'CONTAINER',
+        'architecture': 'X86',
+        'industry': '智慧园区',
+        'type': '视频应用',
         'description': '',
         'appCreateType': 'INTEGRATED',
         'iconFileId': '',
@@ -229,18 +229,6 @@ export default {
         ],
         provider: [
           { required: true, message: '请输入应用开发商', trigger: 'blur' }
-        ],
-        appClass: [
-          { required: true, message: '请输入应用负载类型', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请输入应用场景类型', trigger: 'blur' }
-        ],
-        architecture: [
-          { required: true, message: '请输入应用架构', trigger: 'blur' }
-        ],
-        industry: [
-          { required: true, message: '请输入应用所属行业', trigger: 'blur' }
         ],
         description: [
           { required: true, message: '请输入应用描述', trigger: 'blur' }

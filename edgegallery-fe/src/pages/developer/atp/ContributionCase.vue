@@ -22,7 +22,7 @@
       class="case-detail"
     >
       <p class="common-dlg-title">
-        贡献测试用例
+        {{ $t('atpTestProcess.contribution') }}
       </p>
     </div>
     <el-form
@@ -33,7 +33,7 @@
       class="contibution-form"
     >
       <el-form-item
-        label="用例名称"
+        :label="$t('testCase.caseName')"
         prop="name"
       >
         <el-input
@@ -44,7 +44,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="用例目的"
+        :label="$t('testCase.casePurpose')"
         prop="objective"
       >
         <el-input
@@ -55,7 +55,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="测试步骤"
+        :label="$t('testCase.step')"
         prop="step"
       >
         <el-input
@@ -66,7 +66,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="预期结果"
+        :label="$t('testCase.expectedResult')"
         prop="expectResult"
       >
         <el-input
@@ -76,13 +76,13 @@
         />
       </el-form-item>
       <el-form-item
-        label="贡献类型"
+        :label="$t('testCase.type')"
         prop="type"
       >
         <el-select
           size="small"
           v-model="addCaseForm.type"
-          placeholder="请选择"
+          :placeholder="$t('atpTestProcess.choose')"
         >
           <el-option
             :label="language==='cn'?'文本':'text'"
@@ -96,7 +96,7 @@
       </el-form-item>
       <el-form-item
         v-if="addCaseForm.type==='script'"
-        label="用例导入"
+        :label="$t('testCase.import')"
         prop="file"
         ref="import"
       >
@@ -115,11 +115,11 @@
             size="small"
             class="inner-btn"
           >
-            上传
+            {{ $t('testCase.upload') }}
           </el-button>
           <el-tooltip
             style="margin-left:10px;"
-            content="用例脚本打包成zip包格式上传"
+            :content="$t('atpTestProcess.contentTip')"
             effect="light"
             placement="right"
           >
@@ -158,48 +158,48 @@ export default {
   data () {
     const nameEmpty = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('promptMessage.nameEmpty')))
+        callback(new Error(this.$t('atpPromptMessage.nameEmpty')))
       } else {
         callback()
       }
     }
     const objectiveEmpty = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('promptMessage.objectiveEmpty')))
+        callback(new Error(this.$t('atpPromptMessage.objectiveEmpty')))
       } else {
         callback()
       }
     }
     const resultEmpty = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('promptMessage.expectResultEmpty')))
+        callback(new Error(this.$t('atpPromptMessage.expectResultEmpty')))
       } else {
         callback()
       }
     }
     const typeEmpty = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('promptMessage.typeEmpty')))
+        callback(new Error(this.$t('atpPromptMessage.typeEmpty')))
       } else {
         callback()
       }
     }
     const stepEmpty = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('promptMessage.testStepEmpty')))
+        callback(new Error(this.$t('atpPromptMessage.testStepEmpty')))
       } else {
         callback()
       }
     }
     const fileEmpty = (rule, value, callback) => {
       if (value.length === 0) {
-        callback(new Error(this.$t('promptMessage.fileEmpty')))
+        callback(new Error(this.$t('atpPromptMessage.fileEmpty')))
       } else {
         callback()
       }
     }
     return {
-      language: 'cn',
+      language: localStorage.getItem('language'),
       addCaseForm: {
         name: '',
         objective: '',
@@ -254,7 +254,7 @@ export default {
           this.$message({
             showClose: true,
             duration: 2000,
-            message: '提交成功',
+            message: this.$t('atpPromptMessage.submitSuccess'),
             type: 'success'
           })
           this.$emit('setCaseTop', 'close')
@@ -287,7 +287,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning(this.$t('promptMessage.onlyOneFile'))
+        this.$message.warning(this.$t('atpPromptMessage.onlyOneFile'))
       }
     },
     handleChange (file, fileList) {

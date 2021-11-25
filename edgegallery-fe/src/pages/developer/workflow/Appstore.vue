@@ -4,7 +4,7 @@
     :class="currentFlow>6||currentFlow===6?'center-active':''"
   >
     <div class="workflow-name">
-      应用商店
+      {{ $t('workflow.appstore') }}
     </div>
     <div
       v-for="(item,index) in appStoreWorkflowDataArray"
@@ -63,7 +63,7 @@ export default {
       this.$router.push(path)
     },
     showWarning () {
-      this.$message.warning('请先完成必经步骤！')
+      this.$message.warning(this.$t('workflow.mustSteps'))
     }
   },
   mounted () {

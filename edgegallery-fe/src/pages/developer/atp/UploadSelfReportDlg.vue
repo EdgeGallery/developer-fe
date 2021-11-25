@@ -26,10 +26,10 @@
           alt=""
         >
         <div class="uploadpdf">
-          上传自测报告
+          {{ $t('atpTestProcess.uploadReport') }}
         </div>
-        <p>若有自测报告,可在此处上传报告</p>
-        <span>(报告文件必须为pdf格式)</span>
+        <p>{{ $t('atpTestProcess.haveReport') }}</p>
+        <span>{{ $t('atpTestProcess.pdfFormat') }}</span>
       </div>
       <div
         class="dialog-footer"
@@ -38,7 +38,7 @@
           @click="$emit('closeDig')"
           class="common-btn"
         >
-          返回
+          {{ $t('common.back') }}
         </el-button>
         <el-upload
           :show-file-list="false"
@@ -52,7 +52,7 @@
           <el-button
             class="common-btn"
           >
-            上传
+            {{ $t('testCase.upload') }}
           </el-button>
         </el-upload>
       </div>
@@ -90,7 +90,7 @@ export default {
           this.$message({
             showClose: true,
             duration: 2000,
-            message: '上传成功',
+            message: this.$t('atpPromptMessage.uploadSuc'),
             type: 'success'
           })
         })

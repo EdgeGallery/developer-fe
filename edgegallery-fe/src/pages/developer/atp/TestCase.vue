@@ -21,7 +21,7 @@
       class="case-detail-title"
     >
       <p class="title-icon">
-        用例详情
+        {{ $t('testCase.caseDetail') }}
       </p>
     </div>
     <el-collapse
@@ -39,7 +39,7 @@
           header-cell-class-name="caseHearder"
         >
           <el-table-column
-            label="用例名称"
+            :label="$t('testCase.caseName')"
             width="210"
           >
             <template slot-scope="scope">
@@ -47,7 +47,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="类型"
+            :label="$t('testCase.caseType')"
             width="120"
           >
             <template slot-scope="scope">
@@ -55,7 +55,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="描述"
+            :label="$t('testCase.description')"
           >
             <template slot-scope="scope">
               {{ language==='cn'?scope.row.descriptionCh:scope.row.descriptionEn }}
@@ -67,7 +67,7 @@
     <span
       class="no-use-case"
       v-else
-    >此场景没有用例</span>
+    > {{ $t('testCase.noCase') }}</span>
     <div
       class="footer-btn"
     >
@@ -75,7 +75,7 @@
         class="common-btn"
         @click="closeCaseDetail()"
       >
-        关闭
+        {{ $t('common.close') }}
       </el-button>
     </div>
   </div>
@@ -97,7 +97,7 @@ export default {
   },
   data () {
     return {
-      language: 'cn'
+      language: localStorage.getItem('language')
     }
   },
   methods: {

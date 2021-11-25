@@ -327,6 +327,7 @@ const en = {
     getNodePortSuccess: 'Success to obtain service borrowing point information'
   },
   store: {
+    synchronous: 'Synchronous app to MEAO',
     appChange: 'Application package conversion tool',
     backAppStore: 'Back App Store',
     backMyApp: 'Back My App',
@@ -495,6 +496,10 @@ const en = {
     packageSizeLimit: 'no more than 10M'
   },
   apppromotion: {
+    prepare: 'Prepare',
+    pushing: 'Pushing',
+    pushResult: 'Push Result',
+    pushFail: 'Failed to push app',
     number: 'number',
     appName: 'App Name',
     provider: 'Provider',
