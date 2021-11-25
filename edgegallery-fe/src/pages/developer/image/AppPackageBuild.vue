@@ -319,7 +319,8 @@ export default {
       dnsRulesInfoList: [],
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
-      applicationId: sessionStorage.getItem('applicationId')
+      applicationId: sessionStorage.getItem('applicationId'),
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -334,7 +335,7 @@ export default {
         this.getResourceConfig()
         this.getRulesInfo()
         if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
-          this.basicInfoData.dependent = '无依赖'
+          this.basicInfoData.dependent = this.$t('appPackage.noDependences')
         } else {
           let _dependents = []
           let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
@@ -380,7 +381,7 @@ export default {
         _configInfo.basicImage = res.data.name + ' | V' + res.data.osVersion
       })
       if (!item.targetImageId) {
-        _configInfo.vmImage = '无'
+        _configInfo.vmImage = 'NA'
       } else {
         imageApi.getImage(item.targetImageId).then(res => {
           _configInfo.vmImage = res.data.name
@@ -398,12 +399,12 @@ export default {
         this.$message({
           showClose: true,
           duration: 2000,
-          message: '打包成功',
+          message: this.$t('appPackage.packageSuc'),
           type: 'success'
         })
         this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: res.data.id } })
       }).catch(() => {
-        this.$eg_messagebox('打包失败', 'error')
+        this.$eg_messagebox(this.$t('appPackage.packageFail'), 'error')
       })
     }
   },

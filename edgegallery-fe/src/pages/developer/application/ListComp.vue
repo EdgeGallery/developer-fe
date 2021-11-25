@@ -88,21 +88,21 @@ export default {
       return applicationApi.getFileStream(id)
     },
     deleteApp (id) {
-      this.$confirm('此操作将永久删除该应用, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('incubation.deleteTip'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         applicationApi.deleteApp(id).then(res => {
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: this.$t('common.deleted')
           })
           this.$emit('refreshList')
           if (id === sessionStorage.getItem('applicationId')) {
             this.$message({
               type: 'info',
-              message: '当前应用已删除，1s后将回到首页!'
+              message: this.$t('incubation.afterDelete')
             })
             sessionStorage.setItem('applicationId', '')
             this.$router.push('/EG/developer/home')

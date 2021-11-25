@@ -17,6 +17,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 import enClassic from '../classic/locales/en.js'
 import enHome from './home_en.js'
+import enApp from './app_en.js'
 import enAppStore from './appstore_en.js'
 import enCapability from './capability_en.js'
 import enSandbox from './sandbox_en.js'
@@ -46,7 +47,8 @@ const en = {
     enterUserName: 'Please enter user name',
     password: 'Password',
     enterPassword: 'Please enter password',
-    pleaseSelect: 'Please select'
+    pleaseSelect: 'Please select',
+    back: 'Back'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
@@ -61,6 +63,7 @@ const en = {
   ...enSandbox,
   ...enImages,
   ...enAtp,
-  ...enMecm
+  ...enMecm,
+  ...enApp
 }
 export default en

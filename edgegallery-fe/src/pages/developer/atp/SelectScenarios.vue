@@ -23,7 +23,7 @@
       <div class="toptitle">
         <div class="left flex">
           <div class="left-text common-dlg-title">
-            选择测试场景
+            {{ $t('testCase.provideTestScenario') }}
           </div>
         </div>
         <div
@@ -33,7 +33,7 @@
           <el-button
             class="common-btn"
           >
-            贡献用例
+            {{ $t('testCase.contributionCase') }}
           </el-button>
         </div>
       </div>
@@ -86,7 +86,7 @@
                   class="scenebtn"
                   @click="getCaseList(item)"
                 >
-                  查看用例
+                  {{ $t('testCase.viewCase') }}
                 </el-button>
                 <el-button
                   :disabled="item.nameEn === 'EdgeGallery Community Common Scenario'"
@@ -94,7 +94,7 @@
                   class="scenebtn"
                   @click="chooseScene(item)"
                 >
-                  选择场景
+                  {{ $t('testCase.selectScenes') }}
                 </el-button>
               </div>
             </div>
@@ -107,7 +107,7 @@
           class="common-btn curp"
           @click="startTest()"
         >
-          开始测试
+          {{ $t('testCase.startTest') }}
         </el-button>
       </div>
     </div>
@@ -145,7 +145,7 @@ export default {
       scenarioIdList: [],
       taskId: '',
       testSuiteData: [],
-      language: 'cn',
+      language: localStorage.getItem('language'),
       isTestCase: false,
       activeInfo: -1,
       isShowScene: true,
@@ -172,7 +172,7 @@ export default {
           this.$message({
             showClose: true,
             duration: 2000,
-            message: '任务创建失败',
+            message: this.$t('atpPromptMessage.creattaskFail'),
             type: 'error'
           })
         }
@@ -216,7 +216,7 @@ export default {
         this.$message({
           showClose: true,
           duration: 2000,
-          message: this.$t('promptMessage.getSceneFail'),
+          message: this.$t('atpPromptMessage.getSceneFail'),
           type: 'error'
         })
       })
@@ -238,7 +238,7 @@ export default {
           this.$message({
             showClose: true,
             duration: 2000,
-            message: this.$t('promptMessage.noCase'),
+            message: this.$t('atpPromptMessage.noCase'),
             type: 'warning'
           })
         }
@@ -458,7 +458,7 @@ export default {
   }
   .contirbution-case-show{
     z-index: 1;
-    top: 110px;
+    top: 40px;
     opacity: 1;
     transition: all .2s;
   }

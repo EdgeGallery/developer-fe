@@ -3,40 +3,40 @@
     class="common-div-bg capability-publish"
   >
     <h3 class="common-dlg-title">
-      基本信息
+      {{ $t('service.basicInfo') }}
     </h3>
     <div>
       <el-form
         :model="serviceFormData"
         class="common-form"
-        label-width="100px"
+        label-width="120px"
         label-position="right"
         size="mini"
       >
         <el-form-item
-          label="二级能力"
+          :label="$t('service.secLevel')"
           class="cb"
         >
           <el-input v-model="serviceFormData.twoLevelName" />
         </el-form-item>
         <el-form-item
-          label="一级能力"
+          :label="$t('service.firLevel')"
         >
           <el-input v-model="serviceFormData.oneLevelName" />
         </el-form-item>
         <el-form-item
-          label="描述"
+          :label="$t('incubation.description')"
           class="cb"
         >
           <el-input
             v-model="serviceFormData.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入内容"
+            :placeholder="$t('service.inputBox')"
           />
         </el-form-item>
         <el-form-item
-          label="API定义文件"
+          :label="$t('service.apiFile')"
           class="label-item-half"
         >
           <el-upload
@@ -50,11 +50,11 @@
             accept=".yaml"
           >
             <el-button class="inner-btn">
-              API定义文件
+              {{ $t('incubation.upload') }}
             </el-button>
             <el-tooltip
               effect="dark"
-              content="仅支持.yaml文档"
+              :content="$t('service.yamlMust')"
               placement="right"
             >
               <em class="common-info tip-info" />
@@ -62,7 +62,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item
-          label="说明文档"
+          :label="$t('service.guideFile')"
           class="label-item-half"
         >
           <el-upload
@@ -76,28 +76,19 @@
             accept=".md"
           >
             <el-button class="inner-btn">
-              说明文档
+              {{ $t('incubation.upload') }}
             </el-button>
             <el-tooltip
               effect="dark"
-              content="仅支持.md文档"
+              :content="$t('service.mdMust')"
               placement="right"
             >
               <em class="common-info tip-info" />
             </el-tooltip>
           </el-upload>
         </el-form-item>
-        <!-- <el-form-item
-          label="图片"
-          class="label-item-half"
-        >
-          <img
-            src="../../../assets/images/capability/capability_default_img.png"
-            alt="default_capability"
-          >
-        </el-form-item> -->
         <el-form-item
-          label="自定义图片"
+          :label="$t('service.customPic')"
           class="cb"
         >
           <el-upload
@@ -111,11 +102,11 @@
             accept=".jpg,.png"
           >
             <el-button class="inner-btn">
-              自定义图片
+              {{ $t('incubation.upload') }}
             </el-button>
             <el-tooltip
               effect="dark"
-              content="仅支持.jpg或者.png图片"
+              :content="$t('incubation.logoLimit')"
               placement="right"
             >
               <em class="common-info tip-info" />
@@ -123,16 +114,16 @@
           </el-upload>
         </el-form-item>
         <h3 class="common-dlg-title">
-          注册信息
+          {{ $t('service.registrationInfo') }}
         </h3>
         <el-form-item
-          label="服务名称"
+          :label="$t('service.serviceName')"
           class="label-item-half"
         >
           <el-input v-model="serviceFormData.serviceName" />
         </el-form-item>
         <el-form-item
-          label="内部端口号"
+          :label="$t('service.internalPort')"
           class="label-item-half"
         >
           <el-input
@@ -141,42 +132,36 @@
           />
         </el-form-item>
         <el-form-item
-          label="版本"
+          :label="$t('incubation.version')"
           class="label-item-half"
         >
           <el-input v-model="serviceFormData.version" />
         </el-form-item>
         <el-form-item
-          label="协议"
+          :label="$t('service.protocol')"
           class="label-item-half"
         >
           <el-input v-model="serviceFormData.protocol" />
         </el-form-item>
         <el-form-item
-          label="在线体验URL"
+          :label="$t('service.expURL')"
           class="cb"
         >
           <el-input v-model="serviceFormData.experienceUrl" />
         </el-form-item>
-        <!-- <el-form-item
-          label="流量规则"
-        />
-        <el-form-item
-          label="DNS规则"
-        /> -->
       </el-form>
       <div class="rt">
         <el-button
           class="common-btn"
           @click="$router.go(-1)"
         >
-          取消
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button
           class="common-btn"
           @click="handleUpload('api',apiFileList[0])"
         >
-          完成
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>
@@ -223,7 +208,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length > 1) {
-        this.$message.warning('最多上传一个文件！')
+        this.$message.warning(this.$t('incubation.uploadLimit'))
       }
     },
     handleDocChange (file) {
@@ -275,12 +260,12 @@ export default {
     publishService () {
       if (this.isModify) {
         applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
-          this.$message.success('编辑能力成功！')
+          this.$message.success(this.$t('service.editSuccess'))
           this.$router.push('/EG/developer/capabilityCenter')
         })
       } else {
         applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
-          this.$message.success('发布能力成功！')
+          this.$message.success(this.$t('service.publishSuccess'))
           this.$router.push('/EG/developer/capabilityCenter')
         })
       }

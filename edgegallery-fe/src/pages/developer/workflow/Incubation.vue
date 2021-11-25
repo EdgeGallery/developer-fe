@@ -4,7 +4,7 @@
     :class="currentFlow===0?'':'center-active'"
   >
     <div class="workflow-name">
-      应用孵化
+      {{ $t('workflow.incubation') }}
     </div>
     <div
       v-for="(item,index) in workflowDataArray"
@@ -51,6 +51,7 @@ export default {
         {
           id: 1,
           name: '应用',
+          nameEn: 'Application',
           class: 'app-application',
           src: require('../../../assets/images/application/app_application.png'),
           toPath: '/EG/developer/createApplication'
@@ -58,6 +59,7 @@ export default {
         {
           id: 2,
           name: '能力中心',
+          nameEn: 'Services',
           class: 'capability-center',
           src: require('../../../assets/images/application/app_capability.png'),
           toPath: '/EG/developer/capabilityCenter'
@@ -65,6 +67,7 @@ export default {
         {
           id: 3,
           name: '沙箱',
+          nameEn: 'Sandbox',
           class: 'app-sandbox',
           src: require('../../../assets/images/application/app_sandbox.png'),
           toPath: '/EG/developer/sandbox'
@@ -72,6 +75,7 @@ export default {
         {
           id: 4,
           name: '镜像',
+          nameEn: 'Image',
           class: 'app-image',
           src: require('../../../assets/images/application/app_image.png'),
           toPath: '/EG/images/appPackageBuild'
@@ -79,6 +83,7 @@ export default {
         {
           id: 5,
           name: '测试',
+          nameEn: 'Test',
           class: 'app-test',
           src: require('../../../assets/images/application/app_test.png'),
           toPath: '/EG/developer/selectScenarios'
@@ -96,7 +101,7 @@ export default {
       this.$router.push(item.toPath)
     },
     showWarning () {
-      this.$message.warning('请先完成必经步骤！')
+      this.$message.warning(this.$t('workflow.mustSteps'))
     }
   },
   mounted () {

@@ -17,6 +17,12 @@
 const en = {
   banner: {
     text: 'HOME'
+  },
+  home: {
+    mainTitle: 'Every developer is amazing',
+    appIncubation: 'Incubation',
+    appStore: 'App Store',
+    appDeploy: 'App Deployment'
   }
 }
 export default en

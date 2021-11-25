@@ -434,10 +434,8 @@ export default {
       isInjectScript: 'cancel',
       changeResult: false,
       activeScriptEditPanel: '1',
-      contentDefaultData: '',
       viewOrEditContent: 'preview',
       viewOrEditParams: 'preview',
-      FlavorDefaultData: '',
       viewOrEditFlavor: 'preview',
       userData: '',
       flavorExtraSpecs: '',
@@ -527,12 +525,8 @@ export default {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
       sandbox.getScriptByImageId(data).then(res => {
-        this.contentDefaultData = '```shell\r\n' + res.data + '\r\n```'
-        this.contentDefaultData = this.contentDefaultData.substring(13, (this.contentDefaultData.length - 8))
-        this.userData = '```shell\r\n' + res.data + '\r\n```'
-        this.flavorDefaultData = '```shell\r\n' + '\r\n```'
-        this.flavorDefaultData = this.flavorDefaultData.substring(13, (this.flavorDefaultData.length - 8))
-        this.flavorExtraSpecs = '```shell\r\n' + '\r\n```'
+        this.userData = res.data
+        this.flavorExtraSpecs = ''
       })
       this.vmInfo.publicSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -608,16 +602,6 @@ export default {
         } else {
           this.addvmImages.userData = ''
           this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
-        }
-        let _flavorTemp = this.addvmImages.flavorExtraSpecs
-        let _contentTemp = this.addvmImages.userData
-        this.addvmImages.flavorExtraSpecs = _flavorTemp.substring(13, (_flavorTemp.length - 8))
-        this.addvmImages.userData = _contentTemp.substring(13, (_contentTemp.length - 8))
-        if (this.flavorDefaultData !== this.addvmImages.flavorExtraSpecs) {
-          this.addvmImages.flavorExtraSpecs = _flavorTemp.substring(12, (_flavorTemp.length - 7))
-        }
-        if (this.contentDefaultData !== this.addvmImages.userData) {
-          this.addvmImages.userData = _contentTemp.substring(12, (_contentTemp.length - 7))
         }
         this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
