@@ -37,7 +37,7 @@ const en = {
     detail: 'Detail',
     select: 'Select',
     add: 'Add',
-    login: '登录',
+    login: 'Login',
     upload: 'Upload',
     start: 'Start',
     name: 'Name',
@@ -46,7 +46,7 @@ const en = {
     enterUserName: 'Please enter user name',
     password: 'Password',
     enterPassword: 'Please enter password',
-    pleaseSelect: 'Please Select'
+    pleaseSelect: 'Please select'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',

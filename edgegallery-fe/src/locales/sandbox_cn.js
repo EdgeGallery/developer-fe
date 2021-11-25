@@ -95,6 +95,9 @@ const cn = {
     dnsRuleIdisEmpty: 'DNS规则标识不能为空！',
     trafficRuleIdisExists: '流规则标识已存在！',
     dnsRuleIdisExists: 'DNS规则标识已存在！'
+  },
+  sandboxPromptInfomation: {
+    imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G'
   }
 }
 export default cn
