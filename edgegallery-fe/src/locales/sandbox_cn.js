@@ -53,8 +53,10 @@ const cn = {
     otherCapability: '其他能力',
     configureNetworkPorts: '配置网络端口',
     selectImage: '选择镜像',
-    publicImage: '公有镜像',
-    privateImage: '私有镜像',
+    imageType: {
+      publicImage: '公有镜像',
+      privateImage: '私有镜像'
+    },
     flavorExtraSpecs: '主机组配置',
     enterFlavorExtraSpecs: '填写主机组配置',
     script: '脚本',

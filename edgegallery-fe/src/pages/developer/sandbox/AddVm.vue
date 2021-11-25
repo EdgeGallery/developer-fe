@@ -187,11 +187,11 @@
                 v-model="vmInfo.imageType"
                 @change="changeImageType('public')"
               >
-                {{ $t('sandbox.publicImage') }}
+                {{ $t('sandbox.imageType.publicImage') }}
               </el-radio>
               <el-select
                 v-model="vmInfo.publicSystemName"
-                :placeholder="$t('sandbox.pleaseSelect')"
+                :placeholder="$t('common.pleaseSelect')"
                 @change="changePublicType(vmInfo.publicSystemName)"
                 :disabled="vmInfo.imageType === 'private'"
               >
@@ -204,7 +204,7 @@
               </el-select>
               <el-select
                 v-model="vmInfo.publicId"
-                :placeholder="$t('sandbox.pleaseSelect')"
+                :placeholder="$t('common.pleaseSelect')"
                 :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
               >
                 <el-option
@@ -222,12 +222,12 @@
                 label="private"
                 @change="changeImageType('private')"
               >
-                {{ $t('sandbox.privateImage') }}
+                {{ $t('sandbox.imageType.privateImage') }}
               </el-radio>
               <el-select
                 v-model="vmInfo.privateSystemName"
                 @change="changePrivateType(vmInfo.privateSystemName)"
-                :placeholder="$t('sandbox.pleaseSelect')"
+                :placeholder="$t('common.pleaseSelect')"
                 :disabled="vmInfo.imageType === 'public'"
               >
                 <el-option
@@ -239,7 +239,7 @@
               </el-select>
               <el-select
                 v-model="vmInfo.privateId"
-                :placeholder="$t('sandbox.pleaseSelect')"
+                :placeholder="$t('common.pleaseSelect')"
                 :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
               >
                 <el-option

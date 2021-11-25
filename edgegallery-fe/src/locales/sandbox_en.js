@@ -53,8 +53,10 @@ const en = {
     otherCapability: 'Other Capability',
     configureNetworkPorts: 'Configure Network Ports',
     selectImage: 'Select Image',
-    publicImage: 'Public',
-    privateImage: 'Private',
+    imageType: {
+      publicImage: '公有镜像',
+      privateImage: '私有镜像'
+    },
     flavorExtraSpecs: 'Flavor Extra Specs',
     enterFlavorExtraSpecs: 'Enter Flavor Extra Specs',
     script: 'Script',
