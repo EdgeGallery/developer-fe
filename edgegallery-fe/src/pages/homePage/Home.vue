@@ -121,7 +121,7 @@ export default {
       .mian-sub-title{
         font-size: 20px;
         margin-top: 40px;
-        letter-spacing: 25px;
+        letter-spacing: 5px;
       }
     }
     .main-content-right{
