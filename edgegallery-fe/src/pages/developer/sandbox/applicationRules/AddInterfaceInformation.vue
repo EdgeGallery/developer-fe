@@ -64,7 +64,7 @@
               v-model="interfaceInformationForm.tunnelInfo.tunnelSrcAddress"
             />
           </el-form-item>
-          <el-form-item :label="$t('rulesCinfig.tgtTunnelAddress')">
+          <el-form-item :label="$t('rulesConfig.tgtTunnelAddress')">
             <el-input
               v-model="interfaceInformationForm.tunnelInfo.tunnelDstAddress"
             />

@@ -659,7 +659,8 @@ export default {
           margin: 30px 16px 0 16px;
         }
         .deploy-title{
-          width: 100%;
+          width: 104%;
+          margin-left: -2%;
           text-align: center;
           line-height: 50px;
           font-size: 18px;

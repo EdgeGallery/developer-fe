@@ -119,7 +119,7 @@
       />
       <el-table-column
         prop="tgtTunnelAddress"
-        :label="$t('rulesCinfig.tgtTunnelAddress')"
+        :label="$t('rulesConfig.tgtTunnelAddress')"
       />
       <el-table-column
         prop="dstTunnelPort"
@@ -180,7 +180,7 @@
         />
         <el-table-column
           prop="tunnelInfo.tunnelDstAddress"
-          :label="$t('rulesCinfig.tgtTunnelAddress')"
+          :label="$t('rulesConfig.tgtTunnelAddress')"
         />
         <el-table-column
           prop="tunnelInfo.tunnelSrcAddress"

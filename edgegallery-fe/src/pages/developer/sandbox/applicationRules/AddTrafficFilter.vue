@@ -132,7 +132,7 @@
         />
       </el-form-item>
       <el-form-item
-        :label="$t('rulesCinfig.tgtTunnelAddress')"
+        :label="$t('rulesConfig.tgtTunnelAddress')"
         class="input-half lt"
       >
         <el-input
