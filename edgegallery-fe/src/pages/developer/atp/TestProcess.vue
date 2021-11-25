@@ -22,21 +22,21 @@
         class="common-btn"
         @click="jumpToIncubation"
       >
-        返回
+        {{ $t('common.back') }}
       </el-button>
       <el-button
         class="common-btn"
         :disabled="report"
         @click="testAgain()"
       >
-        再次测试
+        {{ $t('atpTestProcess.testAgain') }}
       </el-button>
       <el-button
         class="common-btn"
         :disabled="report"
         @click="publish()"
       >
-        发布
+        {{ $t('atpTestProcess.publish') }}
       </el-button>
       <el-button
         :disabled="report || userName==='guest'"
@@ -45,7 +45,7 @@
         size="small"
         @click="isUploadPdf=true"
       >
-        上传自测报告
+        {{ $t('atpTestProcess.uploadReport') }}
       </el-button>
       <el-button
         size="small"
@@ -55,7 +55,7 @@
         icon="el-icon-document"
         @click="jumpToReport()"
       >
-        查看报告
+        {{ $t('atpTestProcess.viewReport') }}
       </el-button>
     </div>
     <div
@@ -69,8 +69,8 @@
         <div class="toptitle common-div-bg">
           <div class="left">
             <div class="left-text">
-              <span v-if=" isTest === 'running'"> 正在测试...</span>
-              <span v-else>测试结果</span>
+              <span v-if=" isTest === 'running'">{{ language==='cn' ? '正在测试...' : 'Testing...' }}</span>
+              <span v-else>{{ language==='cn' ? '测试结果' : 'Test Results' }}</span>
             </div>
           </div>
           <div class="header">
@@ -93,7 +93,7 @@
             <span
               v-show="isManualTitle"
               class="waitManual"
-            >{{ $t('userpage.waitManual') }}</span>
+            >{{ $t('atpTestProcess.waitManual') }}</span>
             <span
               v-if=" isTest !== 'running'"
               class="test-result"
@@ -104,10 +104,10 @@
             <span
               v-if="allfailNum!==0"
               class="findproblem point"
-            >所有场景共发现
+            >{{ $t('atpTestProcess.find') }}
               <em>
                 {{ allfailNum }}
-              </em>项问题</span>
+              </em>{{ $t('atpTestProcess.issue') }}</span>
           </div>
         </div>
 
@@ -140,7 +140,7 @@
                     header-cell-class-name="caseHearder"
                   >
                     <el-table-column
-                      label="用例名称"
+                      :label="$t('atpTestProcess.name')"
                       width="270"
                     >
                       <template slot-scope="scope">
@@ -169,7 +169,7 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      label="类型"
+                      :label="$t('atpTestProcess.type')"
                       width="120"
                     >
                       <template slot-scope="scope">
@@ -177,7 +177,7 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      label="描述"
+                      :label="$t('atpTestProcess.description')"
                     >
                       <template slot-scope="scope">
                         {{ language==='cn'?scope.row.descriptionCh:scope.row.descriptionEn }}
@@ -214,7 +214,7 @@
             label-width="100px"
           >
             <el-form-item
-              :label="$t('userpage.name')"
+              :label="$t('atpTestProcess.name')"
             >
               <el-input
                 width="100px"
@@ -223,11 +223,11 @@
               />
             </el-form-item>
             <el-form-item
-              :label="$t('userpage.status')"
+              :label="$t('atpTestProcess.status')"
             >
               <el-select
                 v-model="form.result"
-                :placeholder="$t('userpage.choose')"
+                :placeholder="$t('atpTestProcess.choose')"
               >
                 <el-option
                   label="success"
@@ -240,7 +240,7 @@
               </el-select>
             </el-form-item>
             <el-form-item
-              :label="$t('userpage.failReason')"
+              :label="$t('atpTestProcess.failReason')"
             >
               <el-input
                 type="textarea"
@@ -286,7 +286,7 @@ export default {
   components: { UploadSelfReportDig },
   data () {
     return {
-      language: 'cn',
+      language: localStorage.getItem('language'),
       report: true,
       isTest: '',
       statusTitle: [],
@@ -424,7 +424,7 @@ export default {
           duration: 2000,
           showClose: true,
           type: 'warning',
-          message: '获取任务进度失败'
+          message: this.$t('atpPromptMessage.getprocessFail')
         })
         this.clearInterval()
       })
@@ -461,7 +461,7 @@ export default {
         duration: 5000,
         showClose: true,
         type: 'success',
-        message: this.$t('promptMessage.manualTip')
+        message: this.$t('atpPromptMessage.manualTip')
       })
     },
     isManualPrompt () {
@@ -512,7 +512,7 @@ export default {
         this.$message({
           showClose: true,
           duration: 2000,
-          message: this.$t('promptMessage.modifySuccess'),
+          message: this.$t('atpPromptMessage.modifySuccess'),
           type: 'success'
         })
         this.getTaskProcess()

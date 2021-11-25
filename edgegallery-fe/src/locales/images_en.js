@@ -62,7 +62,12 @@ const en = {
     packBack: 'back',
     packAuthentication: 'Authentication',
     appdDetail: 'Appd Detail',
-    save: 'save'
+    packageSuc: 'Packaged successfully',
+    packageFail: 'Packaging failed',
+    packageFinish: 'Packaged',
+    subText: 'The system will release virtual machine resources by default before authentication. Cannot return to modify after release.',
+    notSupport: 'Format does not support modification',
+    noDependences: 'no Dependences'
   }
 }
 export default en

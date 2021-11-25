@@ -26,13 +26,13 @@
         class="common-btn"
         @click="jumpToIncubation"
       >
-        返回
+        {{ $t(common.back) }}
       </el-button>
       <el-button
         class="common-btn"
         @click="jumpTo('/EG/appstore/apppromotion')"
       >
-        应用推送
+        {{ $t('apppromotion.appPromotion') }}
       </el-button>
     </div>
     <div
@@ -82,7 +82,7 @@
                 <p
                   class="deployMode"
                 >
-                  {{ item.deployMode==='container'?'容器':'虚拟机' }}
+                  {{ item.deployMode==='container' ? this.$t('store.deployContainer'):this.$t('store.deployVM') }}
                 </p>
               </div>
             </div>
@@ -165,7 +165,7 @@ export default {
         this.$message({
           showClose: true,
           duration: 2000,
-          message: '获取应用失败',
+          message: this.$t('promptMessage.getfail'),
           type: 'error'
         })
       })

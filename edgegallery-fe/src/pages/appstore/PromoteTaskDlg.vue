@@ -17,7 +17,7 @@
 <template>
   <div class="promTask">
     <el-dialog
-      title="推送结果"
+      :title="$t('apppromotion.pushResult')"
       :visible.sync="dialogVisible"
       width="40%"
       :before-close="handleClose"
@@ -33,7 +33,7 @@
         >
           <el-table-column
             prop="name"
-            label="应用名称"
+            :label="$t('apppromotion.appName')"
           />
           <el-table-column
             v-for="item in promStoreList"
@@ -46,22 +46,22 @@
                 v-if="scope.row[scope.column.property] === 'false'"
                 class="push-fail"
                 title="false"
-              >失败</span>
+              >{{ $t('appstoreSystem.error') }}</span>
               <span
                 v-else-if="scope.row[scope.column.property] === 'true' "
                 class="push-success"
                 title="succeed"
-              >成功</span>
+              >{{ $t('appstoreSystem.success') }}</span>
               <span
                 v-else-if="scope.row[scope.column.property] === 'start'"
                 class="push-prepare"
                 title="start"
-              >准备</span>
+              >{{ $t('apppromotion.prepare') }}</span>
               <span
                 v-else-if="scope.row[scope.column.property] === 'inProgress'"
                 class="push-loading"
                 title="inProgress"
-              >推送中</span>
+              >{{ $t('apppromotion.pushing') }}</span>
             </template>
           </el-table-column>
         </el-table>

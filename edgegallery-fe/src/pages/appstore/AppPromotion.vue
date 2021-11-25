@@ -22,13 +22,13 @@
     >
       <div class="title-btn">
         <span class="pushTitle">
-          应用推送
+          {{ $t('apppromotion.appPromotion') }}
         </span>
         <el-button
           class="common-btn"
           @click="jumpToIncubation"
         >
-          返回
+          {{ $t('common.back') }}
         </el-button>
       </div>
       <div class="app-list common-div-bg">
@@ -39,7 +39,7 @@
             :disabled="isBtnEnable"
             @click="showPushAppDialog"
           >
-            批量推送
+            {{ $t('apppromotion.batchPro') }}
           </el-button>
         </div>
         <template>
@@ -71,7 +71,7 @@
             suffix-icon="el-icon-search"
             v-model="nameQuery"
             @change="queryApp"
-            placeholder="应用名称"
+            :placeholder="$t('apppromotion.appName')"
           />
         </div>
         <div class="appPromPackageTable">
@@ -92,7 +92,7 @@
             />
             <el-table-column
               prop="name"
-              label="应用名称"
+              :placeholder="$t('apppromotion.appName')"
               sortable="custom"
               width="200"
               :cell-class-name="hiddenClass"
@@ -116,50 +116,45 @@
             </el-table-column>
             <el-table-column
               prop="provider"
-              label="厂商"
+              :placeholder="$t('apppromotion.provider')"
             />
             <el-table-column
               prop="version"
-              label="版本"
+              :placeholder="$t('apppromotion.version')"
             />
             <el-table-column
               prop="deployMode"
-              label="负载类型"
+              :placeholder="$t('store.workloadType')"
               width="125"
             >
               <template slot-scope="scope">
-                {{ scope.row.deployMode==='container'?'容器':'虚拟机' }}
+                {{ scope.row.deployMode==='container' ? this.$t('store.deployContainer') : this.$t('store.deployVM') }}
               </template>
             </el-table-column>
             <el-table-column
               prop="latestPushTime"
-              label="最后推广时间"
+              :label="$t('apppromotion.lastProTime')"
               sortable="custom"
             />
             <el-table-column
               prop="pushTimes"
-              label="推广次数"
+              :label="$t('apppromotion.proTimes')"
               sortable="custom"
             />
             <template slot="empty">
               <div>
-                <!-- <img
-                  src="../../assets/images/empty.png"
-                  alt=""
-                  style="padding: 10px;"
-                > -->
-                <p>暂无数据</p>
+                <p>{{ $t('appstoreCommon.noData') }}</p>
               </div>
             </template>
             <el-table-column
-              label="认证测试报告"
+              :label="$t('apppromotion.testRepo')"
             >
               <template slot-scope="scope">
                 <a
                   :href="scope.row.atpTestReportUrl + (language === 'cn' ? '&language=cn' : '&language=en')"
                   target="_blank"
                   class="lookReport"
-                >查看报告</a>
+                >{{ $t('apppromotion.viewTestRepo') }}</a>
               </template>
             </el-table-column>
           </el-table>
@@ -284,7 +279,7 @@ export default {
         if (this.appStoreList.length === 0) {
           this.$message({
             duration: 2000,
-            message: '推送app失败',
+            message: this.$t('apppromotion.pushFail'),
             type: 'warning'
           })
           return
@@ -424,7 +419,6 @@ export default {
     sessionStorage.removeItem('offsetAppPush')
   },
   mounted () {
-    // this.setDivHeight()
     this.getTableData()
     this.getProviders()
     this.defaultSort()

@@ -338,6 +338,7 @@ const cn = {
     getNodePortSuccess: '获取服务节点信息成功'
   },
   store: {
+    synchronous: '同步应用到MEAO',
     appChange: '应用包转换工具',
     backAppStore: '返回应用仓库',
     backMyApp: '返回我的应用',
@@ -512,6 +513,10 @@ const cn = {
     packageSizeLimit: '文件大小不超过10M'
   },
   apppromotion: {
+    prepare: '准备',
+    pushing: '推送中',
+    pushFail: '推送app失败',
+    pushResult: '推送结果',
     number: '序号',
     appName: '应用名称',
     provider: '厂商',
