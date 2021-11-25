@@ -17,23 +17,53 @@
 import enLocale from 'element-ui/lib/locale/lang/en'
 import enClassic from '../classic/locales/en.js'
 import enHome from './home_en.js'
-import enApplication from './application_en.js'
+import enApp from './app_en.js'
+import enAppStore from './appstore_en.js'
 import enCapability from './capability_en.js'
 import enSandbox from './sandbox_en.js'
 import enImages from './images_en.js'
 import enAtp from './atp_en.js'
+import enMecm from './mecm_en.js'
 const en = {
-  normal: {
-    newVersion: 'New Version',
-    classic: 'Classic'
+  common: {
+    classic: 'Classic',
+    operation: 'Operation',
+    edit: 'Edit',
+    delete: 'Delete',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    finish: 'Finish',
+    save: 'Save',
+    close: 'Close',
+    detail: 'Detail',
+    select: 'Select',
+    add: 'Add',
+    login: 'Login',
+    upload: 'Upload',
+    start: 'Start',
+    name: 'Name',
+    describe: 'Describe',
+    userName: 'User Name',
+    enterUserName: 'Please enter user name',
+    password: 'Password',
+    enterPassword: 'Please enter password',
+    pleaseSelect: 'Please select',
+    back: 'Back'
+  },
+  promptInformation: {
+    confirmDelete: 'Confirm to delete the data?',
+    deleteFailed: 'Failed to delete data!',
+    editDataFailed: 'Failed to edit data!'
   },
   ...enLocale,
   ...enClassic,
   ...enHome,
-  ...enApplication,
+  ...enAppStore,
   ...enCapability,
   ...enSandbox,
   ...enImages,
-  ...enAtp
+  ...enAtp,
+  ...enMecm,
+  ...enApp
 }
 export default en

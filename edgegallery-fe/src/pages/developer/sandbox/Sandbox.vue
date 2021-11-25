@@ -21,60 +21,60 @@
       class="question hoverHands"
     >
     <div
-      class="all-sandbox"
-      v-if="ifSandbox"
+      class="all-sandbox common-div-bg"
+      v-if="isSandbox"
     >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
-        <p class="sandbox-top-title">
-          选择沙箱
+        <p class="sandbox-top-title defaultFontLight">
+          {{ $t('sandbox.selectSandbox') }}
         </p>
       </div>
       <div class="sandboxs">
         <div
-          class="one-sandbox"
+          class="one-sandbox hoverHands"
           v-for=" (item,index) in sandbox"
           :key="index"
+          @click="selectSandbox(index)"
         >
           <div class="sandbox-content">
             <img
               class="select-img"
-              :src="activeItem === index?selectedImg:unselectedImg"
+              :src="activeItem === index ? require('@/assets/images/sandbox/selected.png'): require('@/assets/images/sandbox/unselected.png')"
               alt=""
             >
             <img
-              class="sandbox-img hoverHands"
-              :src="item.imgUrl"
+              class="sandbox-img"
+              :src="sandboxImgs[index%4]"
               alt=""
-              @click="selectSandbox(index)"
             >
             <p
-              class="sandbox-detail hoverHands"
-              @click="goDetail(item);getIndex(index)"
+              class="sandbox-detail hoverHands defaultFontLight"
+              @click.stop="goDetail(item);getIndex(index)"
             >
-              详情
+              {{ $t('common.detail') }}
             </p>
           </div>
-          <p class="sandbox-name">
+          <p class="sandbox-name defaultFontLight">
             {{ item.name }}
           </p>
         </div>
       </div>
       <el-button
-        class="makesure"
-        @click="selectFinash"
+        class="makesure common-btn"
+        @click="selectFinish"
       >
-        完成
+        {{ $t('common.finish') }}
       </el-button>
     </div>
     <div
       v-else
-      class="all-sandbox"
+      class="all-sandbox common-div-bg"
     >
       <div class="sandbox-top">
         <p class="sandbox-top-circle" />
-        <p class="sandbox-top-title">
-          沙箱详情
+        <p class="sandbox-top-title defaultFontLight">
+          {{ $t('sandbox.sandboxDetail') }}
         </p>
       </div>
       <div
@@ -83,51 +83,45 @@
         <div class="detail-left">
           <div class="detail-left-img flex-center">
             <img
-              :src="sandboxDetails.imgUrl"
+              :src="sandboxImg"
               alt=""
             >
           </div>
-          <p>{{ sandboxDetails.name }}</p>
+          <p class="defaultFontLight">
+            {{ this.sandboxDetailsName }}
+          </p>
         </div>
         <div class="detail-right">
-          <el-form
-            ref="form"
-            :model="form"
-            label-width="120px"
-          >
-            <el-form-item label="网络:">
-              <p>{{ form.net }}</p>
-            </el-form-item>
-            <el-form-item label="X86计算资源:">
-              <p>{{ form.xIntentnet }}</p>
-            </el-form-item>
-            <el-form-item label="ARM计算资源:">
-              <p>{{ form.armIntentnet }}</p>
-            </el-form-item>
-            <el-form-item label="GPU算力:">
-              <p>{{ form.gpu }}</p>
-            </el-form-item>
-            <el-form-item label="AI加速:">
-              <p>{{ form.ai }}</p>
-            </el-form-item>
-            <el-form-item label="终端:">
-              <p>{{ form.final }}</p>
-            </el-form-item>
-          </el-form>
+          <div class="detail-name">
+            <p
+              v-for="(item,i) in sandboxDetailsNames"
+              :key="i"
+            >
+              {{ item +':' }}
+            </p>
+          </div>
+          <div class="detail-val">
+            <p
+              v-for="(item,i) in sandboxDetailsVals"
+              :key="i"
+            >
+              {{ item }}
+            </p>
+          </div>
         </div>
       </div>
-      <div class="btns">
+      <div class="btn-container">
         <el-button
-          class="makesure"
+          class="common-btn btn_margin_right"
           @click="backSandbox"
         >
-          返回
+          {{ $t('common.cancel') }}
         </el-button>
         <el-button
-          class="makesure"
+          class="common-btn"
           @click="checkSandbox"
         >
-          选择
+          {{ $t('common.select') }}
         </el-button>
       </div>
     </div>
@@ -135,98 +129,81 @@
 </template>
 
 <script>
-import selectedImg from '@/assets/images/sandbox/selected.png'
-import unselectedImg from '@/assets/images/sandbox/unselected.png'
+import { sandbox } from '../../../api/developerApi.js'
 export default {
-  name: '',
+  name: 'SandboxFrame',
   data () {
     return {
-      sandbox: [
-        {
-          name: '北京沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox1.png'),
-          net: '6G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        },
-        {
-          name: '广东沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox2.png'),
-          net: '5G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        },
-        {
-          name: '武汉沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox3.png'),
-          net: '4G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        },
-        {
-          name: '西安沙箱',
-          imgUrl: require('../../../assets/images/sandbox/sandbox4.png'),
-          net: '3G',
-          xIntentnet: '50c、256G',
-          armIntentnet: '1T、158G',
-          gpu: 'TESLA P4*5 tesla P100*2 TIAN X*2',
-          ai: 'ATLAS 200*2',
-          final: '5G sim卡 5GSPE*6'
-        }
-      ],
+      sandbox: [],
       activeItem: '',
-      selectedImg: selectedImg,
-      unselectedImg: unselectedImg,
-      ifSelected: false,
-      ifSandbox: true,
-      sandboxDetails: {},
-      form: [],
-      detailIndex: '',
-      sandboxName: ''
+      isSelected: false,
+      isSandbox: true,
+      sandboxImgs: [
+        require('../../../assets/images/sandbox/sandbox1.png'),
+        require('../../../assets/images/sandbox/sandbox2.png'),
+        require('../../../assets/images/sandbox/sandbox3.png'),
+        require('../../../assets/images/sandbox/sandbox4.png')
+      ],
+      sandboxImg: '',
+      sandboxName: '',
+      vimType: 'OpenStack',
+      architecture: 'X86',
+      mechostid: '',
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      sandboxDetailsNames: [],
+      sandboxDetailsVals: [],
+      sandboxDetailName: ''
     }
   },
   methods: {
     selectSandbox (value) {
-      if (value === this.activeItem) {
-        this.activeItem = ''
-      } else {
-        this.activeItem = value
-      }
+      this.activeItem = value === this.activeItem ? '' : value
     },
     goDetail (item) {
-      this.ifSandbox = false
-      this.sandboxDetails = item
-      this.form = item
+      this.sandboxDetailsNames = []
+      this.sandboxDetailsVals = []
+      this.isSandbox = false
+      this.sandboxDetailsName = item.name
+      let sandboxDetails = JSON.parse(item.resource)
+      for (let i in sandboxDetails) {
+        this.sandboxDetailsNames.push(i)
+        this.sandboxDetailsVals.push(sandboxDetails[i])
+      }
     },
     getIndex (index) {
-      this.detailIndex = index
+      this.activeItem = index
+      this.sandboxImg = this.sandboxImgs[this.activeItem % 4]
     },
     backSandbox () {
-      this.ifSandbox = true
+      this.isSandbox = true
     },
     checkSandbox () {
-      this.activeItem = this.detailIndex
-      this.sandboxName = this.sandbox[this.activeItem].name
-      this.ifSandbox = true
-      this.$router.push({ path: '/incubation' })
-      sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+      this.isSandbox = true
     },
-    selectFinash () {
-      this.sandboxName = this.sandbox[this.activeItem].name
-      this.$router.push({ path: '/incubation' })
-      sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+    selectFinish () {
+      this.mephostid = this.sandbox[this.activeItem].id
+      let mepHostId = { mepHostId: this.mephostid }
+      sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
+        this.sandboxName = this.sandbox[this.activeItem].name
+        this.$emit('returnSelectSandbox', this.sandboxName)
+        sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getSandboxLists () {
+      sandbox.getSandboxList(this.vimType, this.architecture).then(res => {
+        if (res.data && res.data.results.length <= 0) {
+          return
+        }
+        this.sandbox = res.data.results
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
+    this.getSandboxLists()
   }
 }
 </script>
@@ -234,19 +211,12 @@ export default {
 <style lang="less">
 .select-sandbox{
   width: 100%;
-  height: 100%;
   font-size: 20px;
-    .question{
-      width: 67px;
-      height: 67px;
-      margin: 2% 0 0 90%;
-  }
   .all-sandbox{
     width: 695px;
     padding: 20px 2%;
     min-height: 405px;
-    margin: 6% auto;
-    background-image: url('../../../assets/images/sandbox/sandboxNameBg.png');
+    margin: 245px auto;
     background-size: 100% 100%;
     .sandbox-top{
       display: flex;
@@ -272,8 +242,8 @@ export default {
       .one-sandbox{
         width: 98px;
         height: 168px;
-        margin: 0 5% 40px 4%;
-       .sandbox-content{
+        margin: 0 24px 40px 32px;
+        .sandbox-content{
           height: 168px;
           width: 100%;
           display: flex;
@@ -281,33 +251,34 @@ export default {
           align-items: center;
           background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
           background-size: cover;
-        .select-img{
-          width: 12px;
-          height: 12px;
-          margin: 14% 0 6% 0;
+          .select-img{
+            width: 16px;
+            height: 16px;
+            margin: 14% 0 6% 0;
+          }
+          .sandbox-img{
+            margin-top: 12px;
+            width: 50px;
+            height: 100px;
+            width: 46.36px;
+          }
+          .sandbox-detail{
+            font-size: 12px;
+            color: #5944c0;
+            padding: 4px 10px;
+            background-color: #fff;
+            border-radius: 12px;
+            display: none;
+            margin-top: -40px;
+          }
         }
-        .sandbox-img{
-          width: 50px;
-          height: 100px;
-        }
-        .sandbox-detail{
-          font-size: 8px;
+        .sandbox-name{
+          margin-top: 12%;
+          font-size: 14px;
           color: #fff;
-          background-color: #76E1E9;
-          border-radius: 6px;
-          margin-top: 10px;
-          padding: 2px 4px;
-          transform: scale(0.8);
-          display: none;
+          text-align: center;
         }
       }
-      .sandbox-name{
-        margin-top: 12%;
-        font-size: 14px;
-        color: #fff;
-        text-align: center;
-      }
-    }
       .one-sandbox:hover{
         .sandbox-detail{
           display: block;
@@ -315,25 +286,21 @@ export default {
       }
     }
     .makesure{
-      width: 88px;
-      height: 30px;
-      border-radius: 12px;
       position: relative;
-      left: 78%;
+      left: 527px;
       margin-top: 40px;
     }
     .details{
       display: flex;
       font-size: 14px;
-      justify-content: center;
       color: #fff;
       padding-top: 60px;
       .detail-left{
-        margin-right: 60px;
+        margin: 0px 86px 0px 90px;
         .detail-left-img{
-            width: 100px;
-            height: 168px;
-            background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
+          width: 100px;
+          height: 168px;
+          background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
           img{
             width: 57px;
             height: 94px;
@@ -345,17 +312,25 @@ export default {
         }
       }
       .detail-right{
-        .el-form-item__label {
-            line-height:30px;
-            color: #fff;
+        display: flex;
+        max-width: 400px;
+        p{
+          line-height:24px;
+          color: #fff;
+          font-size: 14px;
+          letter-spacing: 1px;
+          font-family: defaultFontLight,
+            Arial,
+            Helvetica,
+            sans-serif !important;
         }
-        .el-form-item {
-            margin-bottom: 0;
+        .detail-name{
+          p{
+             text-align: right;
+             margin-right: 10px;
+          }
         }
       }
-    }
-    .btns{
-      margin:-30px  50px 0 0;
     }
   }
 }

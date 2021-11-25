@@ -18,6 +18,7 @@
   <div
     id="app"
     class="defaultFont"
+    :class="{'app-new':pageModel==='newVersion','app-new-inner':!isIndex,'app-incubation':isIncubationPage}"
     ref="app"
   >
     <Navcomp
@@ -33,7 +34,35 @@
       class="clearfix"
       v-if="pageModel==='newVersion'"
     />
-    <router-view />
+    <el-row>
+      <el-col
+        :span="zoom"
+        v-if="!isIndex"
+        class="app-list-comp"
+      >
+        <div
+          class="left-pro-comp"
+          :class="zoom>1?'left-pro-comp-show':''"
+          ref="leftProComp"
+        >
+          <ProjectSideComp
+            @zoomChanged="zoomChanged"
+            v-if="zoom>1"
+          />
+        </div>
+        <em
+          class="icon-arrow-right"
+          v-if="zoom ===1"
+          @click.stop="enlarge()"
+        />
+      </el-col>
+      <el-col
+        :span="24-zoom"
+        v-if="zoom<20"
+      >
+        <router-view />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -41,11 +70,13 @@
 import Navcomp from '../src/classic/components/Nav.vue'
 import NavcompNew from '../src/components/Nav.vue'
 import navDataClassic from '../src/classic/navdata/navDataCn.js'
+import ProjectSideComp from './pages/developer/application/ApplicationtList.vue'
 export default {
   name: 'App',
   components: {
     Navcomp,
-    NavcompNew
+    NavcompNew,
+    ProjectSideComp
   },
   data () {
     return {
@@ -55,14 +86,24 @@ export default {
       toPath: '/index',
       navDataClassic: navDataClassic,
       screenHeight: document.body.clientHeight,
-      timer: false
+      timer: false,
+      isIndex: true,
+      isIncubationPage: false
+    }
+  },
+  computed: {
+    zoom (val) {
+      return Number(this.$store.state.zoom)
     }
   },
   watch: {
     pageModel (val) {
       this.pageModel = val
+      this.zoom = this.pageModel === 'newVersion' ? 2 : 0
     },
     $route (to, from) {
+      this.isIndex = window.location.hash.indexOf('/EG') < 0
+      this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > 0
       this.toPath = to.path
       this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
       let toJumpClassic = this.pageModel === 'Classic'
@@ -89,11 +130,26 @@ export default {
     }
   },
   methods: {
+    zoomChanged (val) {
+      if (val === 1) {
+        this.$store.commit('changeZoom', '1')
+        this.$refs.leftProComp.style.width = '15%'
+      } else if (val === 2) {
+        this.$store.commit('changeZoom', '20')
+        this.$refs.leftProComp.style.width = '100%'
+      } else {
+        this.$store.commit('changeZoom', '2')
+      }
+    },
+    enlarge () {
+      this.$store.commit('changeZoom', '2')
+      this.$refs.leftProComp.style.width = '100%'
+    },
     setDivHeight (screenHeight) {
       this.$nextTick(() => {
-        let oDiv = document.getElementById('app')
-        if (oDiv) {
-          oDiv.style.minHeight = Number(screenHeight) + 'px'
+        let _oDiv = document.getElementsByClassName('app-new')[0]
+        if (_oDiv) {
+          _oDiv.style.height = Number(screenHeight) + 'px'
         }
       })
     },
@@ -134,6 +190,11 @@ export default {
       })()
     }
   },
+  updated () {
+    if (this.zoom === 1) {
+      this.$refs.leftProComp.style.width = '15%'
+    }
+  },
   beforeDestroy () {
     window.removeEventListener('scroll', this.getScrollTop, true)
   }
@@ -147,9 +208,58 @@ export default {
   color: #fff;
   width: 100%;
   height: 100%;
-  background:url('../src/assets/images/common-bg.png');
   padding-top: 80px;
-  background-size:cover;
   position: relative;
+}
+.app-new{
+  background: url('./assets/images/common_bg_index.png') #3E279B -10px 92% no-repeat;
+  background-size: contain;
+  min-height: 805px;
+  overflow: hidden;
+}
+.app-new-inner{
+  background: url('./assets/images/common_bg_inner.png') #3E279B -10px 92% no-repeat;
+  background-size: contain;
+}
+.app-incubation{
+  min-width: 1600px;
+}
+.left-pro-comp{
+  width: 100%;
+  height: 805px;
+  position: relative;
+  border: 2px solid #838ACB;
+  border-left: none;
+  border-radius: 0 17px 17px 0;
+  z-index: 15;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.app-list-comp .icon-arrow-right{
+  width: 30px;
+  height: 35px;
+  background: url('./assets/images/application/app_arrow_icon.png') no-repeat center;
+  background-size: cover;
+  position: absolute;
+  top: 50%;
+  left: 0.5%;
+  cursor: pointer;
+}
+.left-pro-comp-show{
+  min-width: 150px!important;
+}
+.left-pro-comp::after {
+  content: "";
+  background: rgba(46,20,124,.7);
+  backdrop-filter: blur(6px);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+.el-row, .el-col{
+  height: 100%;
 }
 </style>

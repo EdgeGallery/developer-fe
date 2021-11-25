@@ -40,12 +40,6 @@
         <p class="prompt">
           {{ $t('system.imageMgmt.tip.uploadImgPromtExample') }}
         </p>
-        <div style="text-align:center">
-          <img
-            :src="uploadSystemImageTipImg"
-            alt=""
-          >
-        </div>
         <uploader
           v-if="showUploader"
           :options="options"
@@ -143,7 +137,6 @@ export default {
       isUploading: false,
       isMerging: false,
       hasFileFlag: false,
-      sysImgFileTypeArr: ['zip'],
       options: {
         testChunks: true,
         checkChunkUploadedByResponse: function (chunk, unloadedChunkArr) {
@@ -161,14 +154,13 @@ export default {
         paused: this.$t('system.imageMgmt.uploadStatusText.paused'),
         waiting: this.$t('system.imageMgmt.uploadStatusText.waiting')
       },
-      uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png'),
       fileIdentifier: ''
     }
   },
   created () {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let url = window.location.origin
-    this.options.target = url + urlPrefix + 'mec/developer/v1/system/images/' + this.imageData.systemId + '/upload'
+    this.options.target = url + urlPrefix + 'mec/developer/v2/vmimages/' + this.imageData.id + '/action/upload'
   },
   methods: {
     onFileError () {
@@ -182,8 +174,7 @@ export default {
       }
 
       let fileSize = file.file.size / 1024 / 1024 / 1024
-      let typeName = file.file.name.substring(file.file.name.lastIndexOf('.') + 1)
-      if (this.sysImgFileTypeArr.indexOf(typeName) === -1 || fileSize > 100) {
+      if (fileSize > 100) {
         file.ignored = true
         this.$message.warning(this.$t('system.imageMgmt.tip.sysImageFileType'))
         return
@@ -197,7 +188,7 @@ export default {
       this.isUploading = false
       this.isMerging = true
       const file = arguments[0].file
-      imageMgmtService.mergeImage(this.imageData.systemId, file.name, arguments[0].uniqueIdentifier).then(response => {
+      imageMgmtService.mergeImage(this.imageData.id, file.name, arguments[0].uniqueIdentifier).then(response => {
         this.$message.success(this.$t('system.imageMgmt.tip.uploadImgSucceed'))
         let _timer = setTimeout(() => {
           clearTimeout(_timer)
@@ -261,7 +252,7 @@ export default {
       }
     },
     cancelUpload (uploaderList) {
-      imageMgmtService.cancelUploadImage(this.imageData.systemId, this.fileIdentifier).then(response => {
+      imageMgmtService.cancelUploadImage(this.imageData.id, this.fileIdentifier).then(response => {
         this.isUploading = false
         this.isMerging = false
         this.hasFileFlag = false

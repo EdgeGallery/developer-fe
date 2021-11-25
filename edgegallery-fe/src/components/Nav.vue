@@ -16,7 +16,7 @@
 
 <template>
   <div
-    class="navgation padding_default"
+    class="navgation-new padding_default"
   >
     <div
       class="logo lt"
@@ -38,7 +38,7 @@
         class="user_icon rt"
         @click="changeModel"
       >
-        <span>{{ $t('normal.classic') }}</span>
+        <span>{{ $t('common.classic') }}</span>
       </div>
       <div class="language rt">
         <span>
@@ -115,7 +115,7 @@ import Topbar from './Topbar.vue'
 import TopbarSmall from './TopbarSmall.vue'
 import { NAV_PRE, FIRST_LEVEL_MENU_PATH, MODULES, HEALTH_URL } from '../constants.js'
 export default {
-  name: 'Navgation',
+  name: 'NavgationNew',
   components: {
     Topbar,
     TopbarSmall
@@ -179,9 +179,10 @@ export default {
     }
   },
   beforeMount () {
-    let language = localStorage.getItem('language') || 'cn'
-    this.language = language === 'en' ? 'Cn' : 'En'
-    if (language === 'en') {
+    localStorage.setItem('language', 'cn')
+    let _language = localStorage.getItem('language')
+    this.language = _language === 'en' ? 'Cn' : 'En'
+    if (_language === 'en') {
       this.jsonData = navData
     } else {
       this.jsonData = navDataCn
@@ -319,6 +320,13 @@ export default {
         if (!this.ifGuest && res.data.forceModifyPwPage) {
           window.location.href = res.data.forceModifyPwPage
           return
+        }
+        if (res.data.authorities.indexOf('ROLE_APPSTORE_ADMIN') > -1) {
+          sessionStorage.setItem('userNameRole', 'admin')
+        } else if (res.data.authorities.indexOf('ROLE_APPSTORE_TENANT') > -1) {
+          sessionStorage.setItem('userNameRole', 'tenant')
+        } else {
+          sessionStorage.setItem('userNameRole', 'guest')
         }
         const authorities = res.data.authorities || []
         sessionStorage.setItem('userAuthorities', authorities)
@@ -458,8 +466,8 @@ export default {
 </script>
 
 <style lang='less'>
-.navgation {
-  background: #5e40c8;
+.navgation-new {
+  background: transparent;
   height: 80px;
   top: 0px;
   width: 100%;
@@ -486,13 +494,13 @@ export default {
   .logo {
     height: 80px;
     line-height: 80px;
-    margin-right: 80px;
+    margin-right: 120px;
     display: flex;
 
     img {
-      height: 29px;
+      height: 36px;
       cursor: pointer;
-      margin-top: 25px;
+      margin-top: 27px;
     }
     span {
       font-size: 18px;
@@ -617,7 +625,7 @@ export default {
     }
     .logo{
       span{
-        font-size: 14px;
+        font-size: 16px;
       }
     }
   }
@@ -658,10 +666,10 @@ export default {
     }
   }
 }
-.navgation.isScroll{
+.navgation-new.isScroll{
   box-shadow: 0 6px 10px 0 rgba(27, 7, 118, 0.2)
 }
-.navgation.isHome{
+.navgation-new.isHome{
   background: transparent !important;
   .el-menu--horizontal,.el-menu-item,.el-submenu__title{
     background-color: transparent !important;

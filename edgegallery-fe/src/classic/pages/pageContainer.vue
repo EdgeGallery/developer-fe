@@ -66,7 +66,7 @@ export default {
     const deviceWidth = document.documentElement.clientWidth
     const deviceHeight = document.documentElement.clientHeight
     oIframe.style.width = (Number(deviceWidth) - 4) + 'px'
-    oIframe.style.height = (Number(deviceHeight) - 2) + 'px'
+    oIframe.style.height = (Number(deviceHeight) + 6) + 'px'
     this.iframeUrl = this.getIFrameUrl()
     this.iframeWin = this.$refs.iframe.contentWindow
   },

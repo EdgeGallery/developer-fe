@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="main-sidebar">
+  <div class="main-sidebar classic">
     <el-menu
       :default-active="indexName"
       :unique-opened="true"

@@ -20,7 +20,7 @@ import {
   POST,
   PUT,
   DELETE
-} from './requset.js'
+} from './request.js'
 const URL_SYSTEM = '/mec-appstore' + '/mec/appstore/v1/thirdsystem'
 
 let system = {

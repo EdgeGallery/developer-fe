@@ -17,6 +17,12 @@
 const cn = {
   banner: {
     text: '首页'
+  },
+  home: {
+    mainTitle: '每一个开发者都了不起',
+    appIncubation: '应用孵化',
+    appStore: '应用商店',
+    appDeploy: '应用部署'
   }
 }
 export default cn

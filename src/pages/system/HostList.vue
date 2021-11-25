@@ -37,7 +37,7 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ showLog ? $t('system.useDetail') : form.hostId ? $t('api.modify') : $t('system.addHost') }}
+        <em class="title_icon" />{{ showLog ? $t('system.useDetail') : form.id ? $t('api.modify') : $t('system.addHost') }}
       </div>
       <div v-show="showLog && visible">
         <el-table
@@ -104,12 +104,12 @@
         </el-form-item>
         <el-form-item
           :label="$t('system.inPort')"
-          prop="port"
+          prop="lcmPort"
           class="w50"
         >
           <el-input
             size="small"
-            v-model="form.port"
+            v-model="form.lcmPort"
           />
         </el-form-item>
         <el-form-item
@@ -124,35 +124,35 @@
         </el-form-item>
         <el-form-item
           :label="$t('system.mecHost')"
-          prop="mecHost"
+          prop="mecHostIp"
           class="w50"
         >
           <el-input
             size="small"
-            v-model="form.mecHost"
+            v-model="form.mecHostIp"
           />
         </el-form-item>
         <el-form-item
           :label="$t('system.username')"
-          prop="userName"
+          prop="mecHostUserName"
           class="w50"
-          v-if="!form.hostId"
+          v-if="!form.id"
         >
           <el-input
             size="small"
-            v-model="form.userName"
+            v-model="form.mecHostUserName"
           />
         </el-form-item>
         <el-form-item
           :label="$t('system.password')"
-          prop="password"
+          prop="mecHostPassword"
           class="w50"
-          v-if="!form.hostId"
+          v-if="!form.id"
         >
           <el-input
             type="password"
             size="small"
-            v-model="form.password"
+            v-model="form.mecHostPassword"
           />
         </el-form-item>
         <el-form-item
@@ -175,12 +175,12 @@
         </el-form-item>
         <el-form-item
           :label="$t('workspace.protocol')"
-          prop="protocol"
+          prop="lcmProtocol"
           class="w50"
         >
           <el-select
             size="small"
-            v-model="form.protocol"
+            v-model="form.lcmProtocol"
             :style="{width: '100%'}"
           >
             <el-option
@@ -210,28 +210,11 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('system.portRange')"
-          prop="portRangeMin"
-          class="w50"
-        >
-          <el-input
-            size="small"
-            v-model="form.portRangeMin"
-            class="port_input"
-          />
-          <span class="port_span">-</span>
-          <el-input
-            size="small"
-            v-model="form.portRangeMax"
-            class="port_input"
-          />
-        </el-form-item>
-        <el-form-item
           :label="$t('breadCrumb.system')"
-          prop="os"
+          prop="vimType"
         >
           <el-radio-group
-            v-model="form.os"
+            v-model="form.vimType"
             class="default_radio"
             @change="changeOs"
           >
@@ -262,7 +245,7 @@
         >
           <el-input
             size="small"
-            v-model="form.parameter"
+            v-model="form.networkParameter"
           >
             <span
               slot="suffix"
@@ -408,7 +391,7 @@
       </div>
       <el-table
         v-loading="loading"
-        row-key="hostId"
+        row-key="id"
         :data="allListData"
         class="tableStyle"
       >
@@ -418,7 +401,7 @@
           min-width="10%"
         />
         <el-table-column
-          prop="os"
+          prop="vimType"
           :label="$t('breadCrumb.system')"
           min-width="10%"
         />
@@ -428,17 +411,17 @@
           min-width="10%"
         />
         <el-table-column
-          prop="mecHost"
+          prop="mecHostIp"
           :label="$t('system.mecHost')"
           min-width="13%"
         />
         <el-table-column
-          prop="port"
+          prop="lcmPort"
           :label="$t('system.inPort')"
           min-width="9%"
         />
         <el-table-column
-          prop="protocol"
+          prop="lcmProtocol"
           :label="$t('workspace.protocol')"
           min-width="9%"
         />
@@ -607,53 +590,49 @@ export default {
       formLabelWidth: '110px',
       formLabelWidthEn: '150px',
       form: {
-        port: 31252,
-        portRangeMin: '30000',
-        portRangeMax: '32000',
+        lcmPort: 31252,
         architecture: 'X86',
-        protocol: 'https',
+        lcmProtocol: 'https',
         status: 'NORMAL',
-        os: 'K8S'
+        vimType: 'K8S'
       },
       defaultForm: {
-        port: 31252,
-        portRangeMin: '30000',
-        portRangeMax: '32000',
+        lcmPort: 31252,
         architecture: 'X86',
-        protocol: 'https',
+        lcmProtocol: 'https',
         status: 'NORMAL',
-        os: 'K8S',
+        vimType: 'K8S',
         parameter: `app_mp1_ip=192.168.226.0/24;app_n6_ip=192.168.225.0/24;app_internet_ip=192.168.227.0/24`
       },
       rules: {
         name: [
           { required: true, validator: validateName }
         ],
-        os: [
+        vimType: [
           { required: true }
         ],
-        mecHost: [
+        mecHostIp: [
           { required: true, validator: validateMechost }
         ],
         lcmIp: [
           { required: true, validator: validateLcmIp }
         ],
-        port: [
+        lcmPort: [
           { required: true, validator: validatePort }
         ],
         architecture: [
           { required: true }
         ],
-        protocol: [
+        lcmProtocol: [
           { required: true }
         ],
         address: [
           { required: true, validator: validateAddress }
         ],
-        userName: [
+        mecHostUserName: [
           { required: true, validator: validateUserName }
         ],
-        password: [
+        mecHostPassword: [
           { required: true, validator: validatePassword }
         ],
         status: [
@@ -719,7 +698,7 @@ export default {
     addMore () {
       this.innerVisible = true
       this.otherData = []
-      let str = this.form.parameter
+      let str = this.form.networkParameter
       if (str) {
         let arrTemp = str.split(';')
         arrTemp.forEach(item => {
@@ -755,21 +734,21 @@ export default {
         this.otherData.forEach(item => {
           str += item.name + '=' + item.value + ';'
         })
-        this.form.parameter = str.substr(0, str.length - 1)
+        this.form.networkParameter = str.substr(0, str.length - 1)
         this.innerVisible = false
         this.isEdit = false
       } else {
         this.$eg_messagebox(this.$t('system.completeInfo'), 'warning')
       }
     },
-    handleDelete ({ hostId }) {
+    handleDelete ({ id }) {
       this.$confirm(this.$t('system.deleteConfirm'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         this.loading = true
-        System.deleteHost(hostId).finally(() => {
+        System.deleteHost(id).finally(() => {
           this.loading = false
           this.getListData()
         })
@@ -790,13 +769,13 @@ export default {
           }
           System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
             if (res.data) {
-              this.$eg_messagebox((this.form.hostId ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'), 'success')
+              this.$eg_messagebox((this.form.id ? this.$t('api.modify') : this.$t('system.addHost')) + this.$t('system.success'), 'success')
               this.onClose()
             } else {
               throw new Error()
             }
           }).catch(error => {
-            if (error.response.data.message === 'mecHost have exit') {
+            if (error.response.data.message === 'mecHost already exists!') {
               this.$eg_messagebox(this.$t('system.imageMgmt.tip.mecHostExist'), 'error')
             } else {
               this.$eg_messagebox(this.$t('promptMessage.saveFail'), 'error')
@@ -815,7 +794,7 @@ export default {
     // Fetch list data
     getListData () {
       this.loading = true
-      System.getHosts({ name: this.enterQuery, offset: this.offsetPage, limit: this.limitSize }).then(res => {
+      System.getHosts({ name: this.enterQuery, vimType: '', architecture: '', limit: this.limitSize, offset: this.offsetPage }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
       }).finally(() => {
@@ -838,7 +817,7 @@ export default {
       const fd = new FormData()
       fd.append('file', fileList[0])
       this.loading = true
-      Workspace.submitApiFileApi(this.userId, fd).then(res => {
+      Workspace.submitConfigFileApi(fd).then(res => {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
@@ -863,8 +842,9 @@ export default {
     },
     handleShowForm (v) {
       this.form = JSON.parse(JSON.stringify(v))
+      console.log(this.form)
       delete this.form.userName
-      if (this.form.os === 'K8S') {
+      if (this.form.vimType === 'K8S') {
         this.showOther = false
       } else {
         this.showOther = true

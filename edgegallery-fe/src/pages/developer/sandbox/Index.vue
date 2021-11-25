@@ -15,45 +15,94 @@
   -->
 <template>
   <div class="incubation">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
-    <div
-      class="sandbox hoverHands"
-      @click="toSelectSandbox"
-    >
-      <p
-        class="sandbox-name-cn"
+    <div v-if="!isCheckSandboxList">
+      <img
+        src="../../../assets/images/sandbox/question.png"
+        alt=""
+        class="question hoverHands"
       >
-        {{ selectSandbox }}
-      </p>
-      <p class="sandbox-name-en">
-        SANDBOX
-      </p>
+      <div
+        class="sandbox hoverHands"
+        @click="toSelectSandbox"
+        @mouseleave="breathStyle=false"
+        @mouseenter="breathStyle=true"
+      >
+        <p
+          class="sandbox-name-cn fontUltraLight"
+          :class="{'breath':breathStyle===false}"
+        >
+          {{ selectSandbox }}
+        </p>
+        <p
+          class="sandbox-name-en"
+          :class="{'breath':breathStyle===false}"
+        >
+          SANDBOX
+        </p>
+      </div>
     </div>
+    <SandBoxList
+      v-else
+      @returnSelectSandbox="returnSelectSandbox"
+    />
   </div>
 </template>
 
 <script>
+import SandBoxList from './Sandbox.vue'
+import { sandbox } from '../../../api/developerApi.js'
 export default {
-  name: '',
+  name: 'SandBox',
+  components: {
+    SandBoxList
+  },
   data () {
     return {
-      selectSandbox: JSON.parse(sessionStorage.getItem('sandboxName')) || 'selectSandbox'
+      selectSandbox: this.$t('sandbox.selectSandbox'),
+      isCheckSandboxList: false,
+      breathStyle: false,
+      applicationId: sessionStorage.getItem('applicationId') || ''
     }
   },
   methods: {
+    isSelectSandbox () {
+      sandbox.getUserSelectSandbox(this.applicationId).then(res => {
+        if (res.data.mepHostId == null) {
+          this.selectSandbox = this.$t('sandbox.selectSandbox')
+        } else {
+          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
+            this.selectSandbox = res.data.name
+          }).catch(err => {
+            this.selectSandbox = this.$t('sandbox.selectSandbox')
+            console.log(err)
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     toSelectSandbox () {
-      if (this.selectSandbox === 'selectSandbox') {
-        this.$router.push({ path: '/sandbox' })
+      let _isSelectSandbox = this.selectSandbox === this.$t('sandbox.selectSandbox')
+      if (_isSelectSandbox) {
+        this.isCheckSandboxList = true
       } else {
-        this.$router.push({ path: '/sandboxDetail' })
+        this.isCheckSandboxList = false
+        this.$router.push({ path: '/EG/developer/sandboxDetails' })
+        sessionStorage.setItem('sandboxName', JSON.stringify(this.selectSandbox))
       }
+    },
+    returnSelectSandbox (data) {
+      this.selectSandbox = data
+      this.isCheckSandboxList = false
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.selectSandbox = this.$t('sandbox.selectSandbox')
     }
   },
   mounted () {
+    this.isSelectSandbox()
   }
 }
 </script>
@@ -61,52 +110,37 @@ export default {
 <style lang="less">
 .incubation{
   width: 100%;
-  height: 100%;
   font-size: 20px;
-  .question{
-    width: 67px;
-    height: 67px;
-    margin: 2% 0 0 90%;
-  }
   .sandbox{
     width: 344px;
     height: 420px;
-    margin: 6% auto;
-    padding:170px   0;
-    background: url('../../../assets/images/sandbox/index-sandbox-bg.png') no-repeat center;
-    animation: scaleBox 4s  ease-in 0s infinite ;
-    @keyframes scaleBox {
-      0%{
-         transform: scale(1);
-      }
-      20%{
-        transform: scale(1.05);
-      }
-      40%{
-        transform: scale(1);
-      }
-      60%{
-        transform: scale(0.93);
-      }
-      80%{
-        transform: scale(0.95);
-      }
-      100%{
-        transform: scale(1);
-      }
-    }
+    margin: 10% auto;
+    padding:170px 0;
+    background: url('../../../assets/images/sandbox/index_sandbox_bg.png') no-repeat center;
     .sandbox-name-cn{
       font-size: 25px;
-      letter-spacing: 10px;
+      letter-spacing: 8px;
       text-align: center;
       color: #fff;
-      font-weight: lighter;
     }
     .sandbox-name-en{
-      font-weight: bold;
+      line-height: 67px;
       font-size: 50px;
       text-align: center;
-      color:#D6CFFB;
+    }
+  }
+  .breath{
+    animation:breathe 1.5s ease-in 0s infinite;
+    @keyframes breathe  {
+      0%{
+        opacity: 1;
+      }
+      50%{
+        opacity: 0.3;
+      }
+      100%{
+        opacity: 1;
+      }
     }
   }
 }

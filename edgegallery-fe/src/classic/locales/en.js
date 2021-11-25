@@ -18,8 +18,10 @@ import enLocale from 'element-ui/lib/locale/lang/en'
 const en = {
   home: {
   },
-  common: {
-    developing: 'The page is under development.'
+  normal: {
+    newVersion: 'New Version',
+    cancel: 'Cancel',
+    confirm: 'Confirm'
   },
   nav: {
     logIn: 'Login',

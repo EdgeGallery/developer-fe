@@ -1,0 +1,322 @@
+<template>
+  <div
+    class="common-div-bg capability-publish"
+  >
+    <h3 class="common-dlg-title">
+      {{ $t('service.basicInfo') }}
+    </h3>
+    <div>
+      <el-form
+        :model="serviceFormData"
+        class="common-form"
+        label-width="120px"
+        label-position="right"
+        size="mini"
+      >
+        <el-form-item
+          :label="$t('service.secLevel')"
+          class="cb"
+        >
+          <el-input v-model="serviceFormData.twoLevelName" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.firLevel')"
+        >
+          <el-input v-model="serviceFormData.oneLevelName" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('incubation.description')"
+          class="cb"
+        >
+          <el-input
+            v-model="serviceFormData.description"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4}"
+            :placeholder="$t('service.inputBox')"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.apiFile')"
+          class="label-item-half"
+        >
+          <el-upload
+            :on-change="handleApiChange"
+            :auto-upload="false"
+            action=""
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="apiFileList"
+            accept=".yaml"
+          >
+            <el-button class="inner-btn">
+              {{ $t('incubation.upload') }}
+            </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="$t('service.yamlMust')"
+              placement="right"
+            >
+              <em class="common-info tip-info" />
+            </el-tooltip>
+          </el-upload>
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.guideFile')"
+          class="label-item-half"
+        >
+          <el-upload
+            :on-change="handleDocChange"
+            :auto-upload="false"
+            action=""
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="guideFileId"
+            accept=".md"
+          >
+            <el-button class="inner-btn">
+              {{ $t('incubation.upload') }}
+            </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="$t('service.mdMust')"
+              placement="right"
+            >
+              <em class="common-info tip-info" />
+            </el-tooltip>
+          </el-upload>
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.customPic')"
+          class="cb"
+        >
+          <el-upload
+            :on-change="handleIconChange"
+            :auto-upload="false"
+            action=""
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="iconFileList"
+            accept=".jpg,.png"
+          >
+            <el-button class="inner-btn">
+              {{ $t('incubation.upload') }}
+            </el-button>
+            <el-tooltip
+              effect="dark"
+              :content="$t('incubation.logoLimit')"
+              placement="right"
+            >
+              <em class="common-info tip-info" />
+            </el-tooltip>
+          </el-upload>
+        </el-form-item>
+        <h3 class="common-dlg-title">
+          {{ $t('service.registrationInfo') }}
+        </h3>
+        <el-form-item
+          :label="$t('service.serviceName')"
+          class="label-item-half"
+        >
+          <el-input v-model="serviceFormData.serviceName" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.internalPort')"
+          class="label-item-half"
+        >
+          <el-input
+            type="number"
+            v-model="serviceFormData.internalPort"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('incubation.version')"
+          class="label-item-half"
+        >
+          <el-input v-model="serviceFormData.version" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.protocol')"
+          class="label-item-half"
+        >
+          <el-input v-model="serviceFormData.protocol" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.expURL')"
+          class="cb"
+        >
+          <el-input v-model="serviceFormData.experienceUrl" />
+        </el-form-item>
+      </el-form>
+      <div class="rt">
+        <el-button
+          class="common-btn"
+          @click="$router.go(-1)"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="handleUpload('api',apiFileList[0])"
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { applicationApi } from '../../../api/developerApi.js'
+export default {
+  name: 'CapCenter',
+  data () {
+    return {
+      appId: sessionStorage.getItem('applicationId'),
+      serviceFormData: {
+        dnsRuleIdList: [],
+        trafficRuleIdList: [],
+        oneLevelNameEn: '',
+        twoLevelNameEn: '',
+        author: ''
+      },
+      apiFileList: [],
+      guideFileId: [],
+      iconFileList: [],
+      apiFileId: '',
+      docFileId: '',
+      iconFileId: '',
+      isModify: false,
+      serviceId: ''
+    }
+  },
+  methods: {
+    confirmToChoose () {
+      this.$router.push('/EG/developer/capabilityCenter')
+    },
+    handleApiChange (file) {
+      this.apiFileList = []
+      if (file) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.apiFileList = []
+        } else {
+          this.apiFileList.push(file.raw)
+        }
+      }
+    },
+    handleExceed (file, fileList) {
+      if (fileList.length > 1) {
+        this.$message.warning(this.$t('incubation.uploadLimit'))
+      }
+    },
+    handleDocChange (file) {
+      this.guideFileId = []
+      if (file) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.guideFileId = []
+        } else {
+          this.guideFileId.push(file.raw)
+        }
+      }
+    },
+    handleIconChange (file) {
+      this.iconFileList = []
+      if (file) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.iconFileList = []
+        } else {
+          this.iconFileList.push(file.raw)
+        }
+      }
+    },
+    handleUpload (key, file) {
+      if (this.isModify) {
+        this.publishService()
+      } else {
+        let formdata = new FormData()
+        formdata.append('file', file)
+        formdata.append('fileType', key)
+        applicationApi.uploadFileApi(formdata).then(res => {
+          if (res && res.data) {
+            if (key === 'api') {
+              this.apiFileId = res.data.fileId
+              this.handleUpload('md', this.guideFileId[0])
+            } else if (key === 'md') {
+              this.docFileId = res.data.fileId
+              this.handleUpload('icon', this.iconFileList[0])
+            } else {
+              this.iconFileId = res.data.fileId
+              this.serviceFormData.apiFileId = this.apiFileId
+              this.serviceFormData.guideFileId = this.docFileId
+              this.serviceFormData.iconFileId = this.iconFileId
+              this.publishService()
+            }
+          }
+        })
+      }
+    },
+    publishService () {
+      if (this.isModify) {
+        applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
+          this.$message.success(this.$t('service.editSuccess'))
+          this.$router.push('/EG/developer/capabilityCenter')
+        })
+      } else {
+        applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
+          this.$message.success(this.$t('service.publishSuccess'))
+          this.$router.push('/EG/developer/capabilityCenter')
+        })
+      }
+    },
+    getFileInfo (type, fileId) {
+      applicationApi.getFileInfo(fileId).then(res => {
+        let obj = {
+          name: res.data.fileName
+        }
+        if (type === 1) {
+          this.apiFileList.push(obj)
+        } else if (type === 2) {
+          this.guideFileId.push(obj)
+        } else {
+          this.iconFileList.push(obj)
+        }
+      })
+    }
+  },
+  mounted () {
+    if (this.$route.query && this.$route.query.serviceName) {
+      this.isModify = true
+      this.serviceFormData = this.$route.query
+      this.serviceId = this.$route.query.appServiceProducedId
+      this.getFileInfo(1, this.serviceFormData.apiFileId)
+      this.getFileInfo(2, this.serviceFormData.guideFileId)
+      this.getFileInfo(3, this.serviceFormData.iconFileId)
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .capability-publish{
+    position: absolute;
+    top: 5%;
+    left: 30%;
+    width: 40%;
+    padding: 35px;
+  }
+  .cap-upload-btn{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 25px;
+    font-size: 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.3);
+  }
+  .tip-info{
+    left: 10px;
+    top: 2px;
+  }
+</style>
