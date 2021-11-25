@@ -23,7 +23,10 @@ export default new Vuex.Store({
   state: {
     activeTab: sessionStorage.getItem('activeTab'),
     keyValue: sessionStorage.getItem('keyValue'),
-    language: localStorage.getItem('language') ? localStorage.getItem('language') : 'en'
+    language: localStorage.getItem('language') ? localStorage.getItem('language') : 'en',
+    currentFlow: sessionStorage.getItem('currentFlow') || '0',
+    zoom: sessionStorage.getItem('zoom') || '2',
+    appName: sessionStorage.getItem('appName') ? sessionStorage.getItem('appName') : '5G边缘应用孵化流水线'
   },
   mutations: {
     changeTab (state, data) {
@@ -36,6 +39,18 @@ export default new Vuex.Store({
     },
     changelanguage (state, data) {
       state.language = data
+    },
+    changeZoom (state, data) {
+      state.zoom = data
+      sessionStorage.setItem('zoom', data)
+    },
+    changeFlow (state, data) {
+      state.currentFlow = data
+      sessionStorage.setItem('currentFlow', data)
+    },
+    changeApp (state, data) {
+      state.appName = data
+      sessionStorage.setItem('appName', data)
     }
   },
   actions: {

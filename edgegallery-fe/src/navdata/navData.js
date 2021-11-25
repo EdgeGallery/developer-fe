@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-import { systemNavData } from './thirdSystem.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
@@ -45,10 +44,9 @@ const navData = [
   },
   {
     id: '5',
-    name: 'System',
+    name: 'System Management',
     path: '/system',
-    display: true,
-    children: systemNavData
+    display: true
   }
 ]
 

@@ -345,7 +345,7 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
-      this.filterMenu()
+      // this.filterMenu()
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {
@@ -454,8 +454,8 @@ export default {
     },
     beforeLogout () {
       this.$confirm(this.$t('promptMessage.logoutPage'), this.$t('promptMessage.prompt'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
+        confirmButtonText: this.$t('normal.confirm'),
+        cancelButtonText: this.$t('normal.cancel'),
         type: 'warning'
       }).then(() => {
         this.logout()

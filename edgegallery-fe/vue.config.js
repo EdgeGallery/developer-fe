@@ -38,6 +38,7 @@ module.exports = {
       })
       .end()
   },
+
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
   pluginOptions: {

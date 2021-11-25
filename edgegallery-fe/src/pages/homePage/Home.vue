@@ -15,25 +15,28 @@
   -  limitations under the License.
   -->
 <template>
-  <div class="new-home">
+  <div class="developer-home">
     <div class="main-content">
       <div class="main-content-left">
         <img
-          src="../../assets/images/index/index_EG_icon.png"
+          src="../../assets/images/index/index_developer.png"
           alt="icon"
         >
-        <div class="main-title">
-          开发者大集结
-        </div>
         <p class="mian-sub-title">
-          每一个开发者都了不起
+          {{ $t('home.mainTitle') }}
         </p>
+        <img
+          class="main-title-dot"
+          src="../../assets/images/index/index_dot.png"
+          alt="icon"
+        >
       </div>
       <div class="main-content-right">
         <div
           v-for="(item,index) in rightBtnList"
           :key="index"
           class="main-content-right-item"
+          @click="jumpTo(item.path)"
         >
           <img
             :src="item.src"
@@ -49,6 +52,7 @@
 </template>
 
 <script>
+import { promptJumpToClassic } from '../../tools/common.js'
 export default {
   components: {
 
@@ -57,29 +61,37 @@ export default {
     return {
       rightBtnList: [
         {
-          name: '应用孵化',
-          src: require('../../assets/images/index/index_app_create.png')
+          name: this.$t('home.appIncubation'),
+          src: require('../../assets/images/index/index_app_create.png'),
+          path: '/EG/developer/home'
         },
         {
-          name: '应用商店',
-          src: require('../../assets/images/index/index_app_store.png')
+          name: this.$t('home.appStore'),
+          src: require('../../assets/images/index/index_app_store.png'),
+          path: '/EG/appstore/appWarehouse'
         },
         {
-          name: '应用部署',
-          src: require('../../assets/images/index/index_app_deploy.png')
+          name: this.$t('home.appDeploy'),
+          src: require('../../assets/images/index/index_app_deploy.png'),
+          path: '/EG/mecm/appDeployDetail'
         }
       ]
     }
   },
   methods: {
-
+    jumpTo (path) {
+      this.$router.push(path)
+    }
   },
-  mounted () {}
+  mounted () {},
+  beforeRouteLeave (to, from, next) {
+    promptJumpToClassic(to.path, next, this)
+  }
 }
 </script>
 
 <style lang='less'>
-.new-home {
+.developer-home {
   width: 100%;
   height: 100%;
   font-size: 20px;
@@ -87,8 +99,6 @@ export default {
   .main-content{
     width: 100%;
     height: 100%;
-    background: url('../../assets/images/index/index_bg.png') no-repeat center;
-    background-size: cover;
     position: relative;
     z-index: 10;
     .main-content-left{
@@ -97,36 +107,40 @@ export default {
       text-align: left;
       color: #fff;
       position: relative;
-      top: 35%;
+      top: 25%;
       left: 12%;
       .main-title{
         font-size: 80px;
         font-weight: bold;
       }
+      .main-title-dot{
+        position: relative;
+        top: 50px;
+        left: 3px;
+      }
       .mian-sub-title{
         font-size: 20px;
         margin-top: 40px;
-        letter-spacing: 20px;
+        letter-spacing: 25px;
       }
     }
     .main-content-right{
       height: 400px;
-      width: 35%;
+      width: 37%;
       text-align: center;
       color: #fff;
       position: relative;
-      top: 15%;
-      left: 55%;
+      top: 11%;
+      left: 60%;
       display: flex;
       justify-content: center;
       .main-content-right-item{
-        width: 30%;
+        width: 31%;
         height: 100%;
         margin-right: 3%;
         overflow: hidden;
-        background: url('../../assets/images/index/index_mask.png') no-repeat center;
-        background-size: cover;
-        border: 2px solid #B6A4EC;
+        background: rgb(46,20,124,0.7);
+        opacity: 0.5;
         border-radius: 17px;
         transition: transform 0.3s ease-in;
         cursor: pointer;
@@ -142,7 +156,8 @@ export default {
       }
       .main-content-right-item:hover{
         transform: translate3d(0,-20px,0);
-        border: none;
+        border: 3px solid #42F6AC;
+        opacity: 1;
       }
     }
 

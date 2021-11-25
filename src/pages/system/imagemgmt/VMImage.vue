@@ -36,17 +36,17 @@
         @filter-change="filterChange"
       >
         <el-table-column
-          prop="systemName"
+          prop="name"
           :label="$t('system.imageMgmt.imgName')"
           show-overflow-tooltip
           min-width="10%"
         >
           <template slot-scope="scope">
-            {{ scope.row.systemName }}
+            {{ scope.row.name }}
           </template>
         </el-table-column>
         <el-table-column
-          :column-key="'type'"
+          :column-key="'visibleType'"
           min-width="10%"
           :label="$t('system.imageMgmt.imgType')"
           :formatter="convertType"
@@ -60,24 +60,24 @@
           show-overflow-tooltip
         />
         <el-table-column
-          :column-key="'operateSystem'"
-          prop="operateSystem"
+          :column-key="'osType'"
+          prop="osType"
           min-width="11.5%"
           :label="$t('system.imageMgmt.osName')"
           show-overflow-tooltip
           :filters="osData"
         />
         <el-table-column
-          prop="systemSize"
+          prop="imageSize"
           min-width="10%"
           :label="$t('system.imageMgmt.imageSize')+'(M)'"
         >
           <template slot-scope="scope">
-            {{ scope.row.systemSize?(scope.row.systemSize/1024/1024).toFixed(2):'' }}
+            {{ scope.row.imageSize?(scope.row.imageSize/1024/1024).toFixed(2):'' }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="version"
+          prop="osVersion"
           min-width="6%"
           :label="$t('system.imageMgmt.osVersion')"
           show-overflow-tooltip
@@ -208,7 +208,7 @@
                       <em />
                       <el-button
                         type="text"
-                        :disabled="scope.row.systemSlim!=='SLIM_WAIT'"
+                        :disabled="scope.row.imageSlimStatus!=='SLIM_WAIT'"
                         @click="handleSlim(scope.row)"
                       >
                         {{ $t('system.imageMgmt.slimming') }}
@@ -275,8 +275,8 @@ export default {
       isAdmin: false,
       dataLoading: false,
       searchCondition: {
-        systemName: '',
-        operateSystem: '',
+        name: '',
+        osType: '',
         status: '',
         uploadTimeBegin: '',
         uploadTimeEnd: ''
@@ -332,14 +332,14 @@ export default {
       } else if (filters.status && filters.status.length === 0) {
         this.searchCondition.status = ''
       }
-      if (filters.operateSystem && filters.operateSystem.length >= 1) {
-        this.searchCondition.operateSystem = filters.operateSystem.join(',')
-      } else if (filters.operateSystem && filters.operateSystem.length === 0) {
-        this.searchCondition.operateSystem = ''
+      if (filters.osType && filters.osType.length >= 1) {
+        this.searchCondition.osType = filters.osType.join(',')
+      } else if (filters.osType && filters.osType.length === 0) {
+        this.searchCondition.osType = ''
       }
-      if (filters.type && filters.type.length >= 1) {
-        this.imageType = filters.type.join(',')
-      } else if (filters.type && filters.type.length === 0) {
+      if (filters.visibleType && filters.visibleType.length >= 1) {
+        this.imageType = filters.visibleType.join(',')
+      } else if (filters.visibleType && filters.visibleType.length === 0) {
         this.imageType = ''
       }
       this.getImageDataList()
@@ -386,8 +386,8 @@ export default {
     },
     getSearchData (searchFormData) {
       this.pageCtrl.currentPage = 1
-      this.searchCondition.systemName = searchFormData.systemName
-      this.searchCondition.operateSystem = searchFormData.operateSystem
+      this.searchCondition.name = searchFormData.name
+      this.searchCondition.visibleType = searchFormData.visibleType
       this.searchCondition.status = searchFormData.status
       this.searchCondition.uploadTimeBegin = ''
       this.searchCondition.uploadTimeEnd = ''
@@ -439,8 +439,8 @@ export default {
       return _queryReq
     },
     convertType (row) {
-      if (row.type) {
-        let imgTypeOption = this.typeData.find(item => item.value === row.type)
+      if (row.visibleType) {
+        let imgTypeOption = this.typeData.find(item => item.value === row.visibleType)
         if (imgTypeOption) {
           return imgTypeOption.text
         }
@@ -459,8 +459,8 @@ export default {
       return this.$t('common.unknown')
     },
     convertSlim (row) {
-      if (row.systemSlim) {
-        let slimOption = this.slimData.find(item => item.value === row.systemSlim)
+      if (row.imageSlimStatus) {
+        let slimOption = this.slimData.find(item => item.value === row.imageSlimStatus)
         if (slimOption) {
           return slimOption.text
         }
@@ -491,11 +491,11 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        this.doDeleteImage(row.systemId)
+        this.doDeleteImage(row.id)
       })
     },
-    doDeleteImage (systemId) {
-      imageMgmtService.deleteImage(systemId, this.userId).then(() => {
+    doDeleteImage (id) {
+      imageMgmtService.deleteImage(id).then(() => {
         this.pageCtrl.currentPage = 1
         this.getImageDataList()
       }).catch(() => {
@@ -530,7 +530,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        window.open(imageMgmtService.downloadSystemImageUrl(row.systemId, this.userId))
+        window.open(imageMgmtService.downloadSystemImageUrl(row.id))
       })
     },
     processCloseUploadImageDlg () {
@@ -543,7 +543,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        this.doPublishImage(row.systemId)
+        this.doPublishImage(row.id)
       })
     },
     handleReset (row) {
@@ -552,26 +552,26 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        this.doResetImage(row.systemId)
+        this.doResetImage(row.id)
       })
     },
     handleSlim (row) {
-      imageMgmtService.slimImage(row.systemId).then(() => {
+      imageMgmtService.slimImage(row.id).then(() => {
         this.getImageDataList()
       }).catch(() => {
         this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
         this.getImageDataList()
       })
     },
-    doPublishImage (systemId) {
-      imageMgmtService.publishImage(systemId, this.userId).then(() => {
+    doPublishImage (id) {
+      imageMgmtService.publishImage(id).then(() => {
         this.getImageDataList()
       }).catch(() => {
         this.$message.error(this.$t('system.imageMgmt.tip.publishImgFailed'))
       })
     },
-    doResetImage (systemId) {
-      imageMgmtService.resetImageStatus(systemId, this.userId).then(() => {
+    doResetImage (id) {
+      imageMgmtService.resetImageStatus(id).then(() => {
         this.getImageDataList()
       }).catch(() => {
         this.$message.error(this.$t('system.imageMgmt.tip.resetImgStatusFailed'))
