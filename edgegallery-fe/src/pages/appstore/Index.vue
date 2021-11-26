@@ -26,7 +26,7 @@
         class="common-btn"
         @click="jumpToIncubation"
       >
-        {{ $t(common.back) }}
+        {{ $t('common.back') }}
       </el-button>
       <el-button
         class="common-btn"
