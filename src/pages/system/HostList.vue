@@ -602,7 +602,7 @@ export default {
         lcmProtocol: 'https',
         status: 'NORMAL',
         vimType: 'K8S',
-        parameter: `app_mp1_ip=192.168.226.0/24;app_n6_ip=192.168.225.0/24;app_internet_ip=192.168.227.0/24`
+        networkParameter: `VDU1_APP_Plane01_IP=192.168.220.0/24;VDU1_APP_Plane03_IP=192.168.222.0/24;VDU1_APP_Plane02_IP=192.168.221.0/24`
       },
       rules: {
         name: [
@@ -765,7 +765,7 @@ export default {
         if (valid) {
           this.loading = true
           if (!this.showOther) {
-            this.form.parameter = ''
+            this.form.networkParameter = ''
           }
           System.saveHostInfo({ ...this.form, ...params, userId: this.userName }).then(res => {
             if (res.data) {
@@ -842,7 +842,6 @@ export default {
     },
     handleShowForm (v) {
       this.form = JSON.parse(JSON.stringify(v))
-      console.log(this.form)
       delete this.form.userName
       if (this.form.vimType === 'K8S') {
         this.showOther = false
