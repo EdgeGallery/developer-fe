@@ -16,14 +16,9 @@
  */
 import { NAV_PRE } from '../constants'
 
+const atpPathPre = NAV_PRE.ATP
 const pathPre = NAV_PRE.DEVELOPER
 const devNavData = [
-  {
-    id: '1.1',
-    name: '概览',
-    path: pathPre + '/mecDeveloper',
-    display: true
-  },
   {
     id: '1.2',
     name: '集成工具',
@@ -111,7 +106,52 @@ const devNavData = [
         display: true
       }
     ]
+  },
+
+  {
+    id: '2',
+    name: '测试认证中心',
+    path: atpPathPre + '/index',
+    display: true,
+    children: [
+      {
+        name: '测试场景管理',
+        path: atpPathPre + '/scenarios',
+        display: true,
+        id: '4.2.1'
+      }, {
+        name: '测试套管理',
+        path: atpPathPre + '/suites',
+        display: true,
+        id: '4.2.2'
+      }, {
+        name: '测试用例管理',
+        path: atpPathPre + '/testcasemanage',
+        display: true,
+        id: '4.2.3'
+      },
+      {
+        name: '任务管理',
+        path: atpPathPre + '/tasklist',
+        display: true,
+        id: '4.3'
+      },
+      {
+        name: '贡献管理',
+        path: atpPathPre + '/contributionlist',
+        display: true,
+        id: '4.4',
+        authority: ['ROLE_APPSTORE_ADMIN']
+      },
+      {
+        name: '配置管理',
+        path: atpPathPre + '/configurationlist',
+        display: true,
+        id: '4.5'
+      }
+    ]
   }
+
 ]
 
 export {

@@ -17,13 +17,8 @@
 import { NAV_PRE } from '../constants'
 
 const pathPre = NAV_PRE.DEVELOPER
+const atpPathPre = NAV_PRE.ATP
 const devNavData = [
-  {
-    id: '1.1',
-    name: 'Overview',
-    path: pathPre + '/mecDeveloper',
-    display: true
-  },
   {
     id: '1.2',
     name: 'Integrated Tools',
@@ -109,6 +104,49 @@ const devNavData = [
         name: 'Interface Components',
         path: pathPre + '/mecDeveloper/docs/component',
         display: true
+      }
+    ]
+  },
+  {
+    id: '4',
+    name: 'Testing Center',
+    path: atpPathPre + '/index',
+    display: true,
+    children: [
+      {
+        name: 'Scenarios Management',
+        path: atpPathPre + '/scenarios',
+        display: true,
+        id: '4.2.1'
+      }, {
+        name: 'Suites Management',
+        path: atpPathPre + '/suites',
+        display: true,
+        id: '4.2.2'
+      }, {
+        name: 'Case Management',
+        path: atpPathPre + '/testcasemanage',
+        display: true,
+        id: '4.2.3'
+      },
+      {
+        name: 'Task',
+        path: atpPathPre + '/tasklist',
+        display: true,
+        id: '4.3'
+      },
+      {
+        name: 'Contribution Case',
+        path: atpPathPre + '/contributionlist',
+        display: true,
+        id: '4.4',
+        authority: ['ROLE_APPSTORE_ADMIN']
+      },
+      {
+        name: 'Configuration',
+        path: atpPathPre + '/configurationlist',
+        display: true,
+        id: '4.5'
       }
     ]
   }

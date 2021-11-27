@@ -17,12 +17,12 @@
 
 import { NAV_PRE } from '../constants'
 
-const pathPre = NAV_PRE.ATP
+const atpPathPre = NAV_PRE.ATP
 
 const atpNavData = [
   {
     name: 'Overview',
-    path: pathPre + '/index',
+    path: atpPathPre + '/index',
     display: true,
     id: '4.1'
   },
@@ -33,17 +33,17 @@ const atpNavData = [
     children: [
       {
         name: 'Scenarios Management',
-        path: pathPre + '/scenarios',
+        path: atpPathPre + '/scenarios',
         display: true,
         id: '4.2.1'
       }, {
         name: 'Suites Management',
-        path: pathPre + '/suites',
+        path: atpPathPre + '/suites',
         display: true,
         id: '4.2.2'
       }, {
         name: 'Case Management',
-        path: pathPre + '/testcasemanage',
+        path: atpPathPre + '/testcasemanage',
         display: true,
         id: '4.2.3'
       }
@@ -51,20 +51,20 @@ const atpNavData = [
   },
   {
     name: 'Task',
-    path: pathPre + '/tasklist',
+    path: atpPathPre + '/tasklist',
     display: true,
     id: '4.3'
   },
   {
     name: 'Contribution Case',
-    path: pathPre + '/contributionlist',
+    path: atpPathPre + '/contributionlist',
     display: true,
     id: '4.4',
     authority: ['ROLE_APPSTORE_ADMIN']
   },
   {
     name: 'Configuration',
-    path: pathPre + '/configurationlist',
+    path: atpPathPre + '/configurationlist',
     display: true,
     id: '4.5'
   }
