@@ -53,7 +53,8 @@ const cn = {
   promptInformation: {
     confirmDelete: '确认删除该数据？',
     deleteFailed: '删除数据失败！',
-    editDataFailed: '编辑数据失败！'
+    editDataFailed: '编辑数据失败！',
+    noPermission: 'Guest没有权限操作，请登录后重试'
   },
   ...zhLocale,
   ...cnClassic,

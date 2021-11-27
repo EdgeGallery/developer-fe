@@ -76,7 +76,11 @@ export default {
       this.$store.commit('changeFlow', '0')
       this.$emit('putAway')
       this.$store.commit('changeApp', '5G边缘应用孵化流水线')
-      this.$router.push('/EG/developer/createApplication')
+      if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_ADMIN') > -1) {
+        this.$router.push('/EG/developer/createApplication')
+      } else {
+        this.$message.warning(this.$t('promptInformation.noPermission'))
+      }
     },
     switchStatus (status) {
       return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置完成' : (status === 'PACKAGED' ? '打包完成' : (status === 'TESTED' ? '测试完成' : (status === 'RELEASED' ? '已发布' : '已部署'))))
@@ -88,7 +92,7 @@ export default {
       return applicationApi.getFileStream(id)
     },
     deleteApp (id) {
-      this.$confirm(this.$t('incubation.deleteTip'), this.$t('promptMessage.prompt'), {
+      this.$confirm(this.$t('incubation.deleteAppTip'), this.$t('promptMessage.prompt'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'

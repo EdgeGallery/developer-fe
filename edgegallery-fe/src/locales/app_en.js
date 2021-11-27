@@ -45,11 +45,14 @@ const en = {
     chooseType: 'App Type',
     logoLimit: 'Only supports jpg, png format pictures',
     docLimit: 'Only .md files can be uploaded, and no more than 500kb',
-    deleteTip: 'This operation will permanently delete the app, do you want to continue?',
+    deleteAppTip: 'This operation will permanently delete the app, do you want to continue?',
     deleted: 'Successfully deleted',
     afterDelete: 'The current application has been deleted, it will return to the homepage in 1s!',
     uploadLimit: 'Only supports uploading one file!',
-    others: 'Others'
+    others: 'Others',
+    direction: 'Action Direction',
+    currentLocation: 'Current Location',
+    necessaryNode: 'Necessary Node'
   },
   service: {
     basicInfo: 'Basic information',
@@ -78,7 +81,8 @@ const en = {
     publishTime: 'release time:',
     type: 'Type: ',
     servicePublish: 'Service release',
-    addServiceConfig: 'Add service'
+    addServiceConfig: 'Add service',
+    deleteServiceTip: 'This operation will permanently delete the service, do you want to continue?'
   },
   workflow: {
     incubation: 'Incubation',
