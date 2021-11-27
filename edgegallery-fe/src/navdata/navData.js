@@ -14,7 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
+import { devNavData } from './devNav.js'
+import { appStoreNavData } from './appStoreNav.js'
+import { atpNavData } from './atpNav.js'
+import { mecmNavData } from './mecmNav.js'
+import { systemNavData } from './thirdSystem.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navData = [
@@ -28,25 +32,36 @@ const navData = [
     id: '1',
     name: 'Develop',
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
-    display: true
+    display: true,
+    children: devNavData
+  },
+  {
+    id: '2',
+    name: 'Testing Center',
+    path: FIRST_LEVEL_MENU_PATH.ATP,
+    display: true,
+    children: atpNavData
   },
   {
     id: '3',
     name: 'APP Store',
     path: FIRST_LEVEL_MENU_PATH.APPSTORE,
-    display: true
+    display: true,
+    children: appStoreNavData
   },
   {
     id: '4',
     name: 'MECM',
     path: FIRST_LEVEL_MENU_PATH.MECM,
-    display: true
+    display: true,
+    children: mecmNavData
   },
   {
     id: '5',
-    name: 'System Management',
+    name: 'System',
     path: '/system',
-    display: true
+    display: true,
+    children: systemNavData
   }
 ]
 

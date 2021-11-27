@@ -488,12 +488,6 @@
    border-bottom:2px solid #43F6AD;
    transform: scale(1);
  }
- .classic .el-menu--horizontal > .el-menu-item:after,.classic .el-menu--horizontal > .el-submenu:after,
- .classic .el-menu--horizontal > .el-menu-item:hover:after,.classic .el-menu--horizontal > .el-submenu:hover:after,
- .classic .el-menu--horizontal > .el-menu-item.is-active:after,.classic .el-menu--horizontal > .el-submenu.is-active:after,
- .classic .el-menu--horizontal > .el-menu-item.is-active:hover:after,.classic .el-menu--horizontal > .el-submenu.is-active:hover:after{
-  border-bottom:2px solid #61cdd0;
- }
  @media screen and (max-width:1600px){
    .padding_default{
      padding: 0 6.5%;

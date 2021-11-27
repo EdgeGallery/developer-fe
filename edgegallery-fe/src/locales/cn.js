@@ -15,7 +15,7 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-import cnClassic from '../classic/locales/cn.js'
+import cnClassic from './classic_cn.js'
 import cnHome from './home_cn.js'
 import cnApp from './app_cn.js'
 import cnAppStore from './appstore_cn.js'

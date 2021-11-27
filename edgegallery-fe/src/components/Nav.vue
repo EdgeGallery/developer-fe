@@ -34,12 +34,6 @@
       />
     </div>
     <div class="user_right rt">
-      <div
-        class="user_icon rt"
-        @click="changeModel"
-      >
-        <span>{{ $t('common.classic') }}</span>
-      </div>
       <div class="language rt">
         <span>
           <img
@@ -467,7 +461,7 @@ export default {
 
 <style lang='less'>
 .navgation-new {
-  background: transparent;
+  background: #3e279b;
   height: 80px;
   top: 0px;
   width: 100%;
