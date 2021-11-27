@@ -48,7 +48,8 @@ const cn = {
     deleteTip: '此操作将永久删除该应用, 是否继续?',
     deleted: '删除成功',
     afterDelete: '当前应用已删除，1s后将回到首页!',
-    uploadLimit: '仅支持上传一个文件！'
+    uploadLimit: '仅支持上传一个文件！',
+    others: '其他分类'
   },
   service: {
     basicInfo: '基本信息',

@@ -48,7 +48,8 @@ const en = {
     deleteTip: 'This operation will permanently delete the app, do you want to continue?',
     deleted: 'Successfully deleted',
     afterDelete: 'The current application has been deleted, it will return to the homepage in 1s!',
-    uploadLimit: 'Only supports uploading one file!'
+    uploadLimit: 'Only supports uploading one file!',
+    others: 'Others'
   },
   service: {
     basicInfo: 'Basic information',
