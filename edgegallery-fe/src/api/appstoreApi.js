@@ -17,9 +17,9 @@
 
 import {
   GET,
-  POST
-  // PUT
-  // DELETE
+  POST,
+  PUT,
+  DELETE
 } from '../tools/request.js'
 
 const URL_PREFIX_APPSTORE = '/mec-appstore/mec/appstore/v1/'
@@ -102,6 +102,34 @@ let appstoreApi = {
     window.open(URL)
   }
 }
+const URL_SYSTEM = '/mec-appstore' + '/mec/appstore/v1/thirdsystem'
+
+let system = {
+  systemNum: function (params) {
+    let url = URL_SYSTEM + '/count'
+    return POST(url, params)
+  },
+  getOneSystem: function (params) {
+    let url = URL_SYSTEM + '/systemType/' + params
+    return GET(url)
+  },
+  addSystems: function (params) {
+    let url = URL_SYSTEM
+    return POST(url, params)
+  },
+  updateSystems: function (params) {
+    let url = URL_SYSTEM
+    return PUT(url, params)
+  },
+  deleteSystems: function (params) {
+    let url = URL_SYSTEM + '/' + params
+    return DELETE(url)
+  },
+  searchSystem: function (params) {
+    let url = URL_SYSTEM + '/nameLike/' + params
+    return GET(url)
+  }
+}
 export {
-  URL_PREFIX_APPSTORE, URL_PREFIX_APPSTORE_V2, appstoreApi
+  URL_PREFIX_APPSTORE, URL_PREFIX_APPSTORE_V2, appstoreApi, system
 }

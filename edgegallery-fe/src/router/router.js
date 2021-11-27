@@ -16,9 +16,60 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import routesclassic from '../classic/router/router.js'
+import navDataCn from '../navdata/navDataCn.js'
+import { NAV_PRE, FIRST_LEVEL_MENU_PATH } from '../constants'
+
 Vue.use(Router)
 
+function getRouterComponent (routerPath) {
+  if (routerPath.startsWith(FIRST_LEVEL_MENU_PATH.HOME)) {
+    return () => import('../pages/homePage/Home.vue')
+  } else if (routerPath.startsWith(NAV_PRE.APPSTORE) || routerPath.startsWith(NAV_PRE.DEVELOPER) || routerPath.startsWith(NAV_PRE.MECM) || routerPath.startsWith(NAV_PRE.ATP)) {
+    return () => import('../pages/Container.vue')
+  } else if (routerPath.startsWith(FIRST_LEVEL_MENU_PATH.SYSTEM)) {
+    return () => import('../pages/system/System.vue')
+  } else {
+    return () => import('../pages/homePage/Home.vue')
+  }
+}
+
+function getRouterConfigItem (navItem) {
+  return {
+    path: navItem.path,
+    component: getRouterComponent(navItem.path)
+  }
+}
+
+function getRouterConfigRecursively (navParam) {
+  let routerConfig = []
+  navParam.forEach(item => {
+    if (item.children && item.children.length > 0) {
+      routerConfig = routerConfig.concat(getRouterConfigRecursively(item.children))
+    } else {
+      routerConfig.push(getRouterConfigItem(item))
+    }
+  })
+  return routerConfig
+}
+
+const originalPush = Router.prototype.push
+const originalReplace = Router.prototype.replace
+// push
+Router.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) { return originalPush.call(this, location, onResolve, onReject) }
+  return originalPush.call(this, location).catch(err => err)
+}
+// replace
+Router.prototype.replace = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) { return originalReplace.call(this, location, onResolve, onReject) }
+  return originalReplace.call(this, location).catch(err => err)
+}
+
+function getRouterConfig () {
+  return getRouterConfigRecursively(navDataCn)
+}
+
+let routes = getRouterConfig()
 export default new Router({
   routes: [
     {
@@ -134,13 +185,11 @@ export default new Router({
       name: 'appDetail',
       component: () => import('../pages/appstore/detail/AppDetail.vue')
     },
-
-    ...routesclassic
-  ],
-  scrollBehavior () {
-    return {
-      x: 0,
-      y: 0
-    }
-  }
+    {
+      path: '/detail',
+      name: 'detail',
+      component: () => import('../pages/system/Detail.vue')
+    },
+    ...routes
+  ]
 })

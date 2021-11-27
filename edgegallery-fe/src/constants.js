@@ -49,6 +49,36 @@ const MODULES = {
     port: '30094'
   }
 }
+const systemName = [
+  {
+    labelcn: '大数据系统',
+    labelen: 'Big data system'
+  },
+  {
+    labelcn: '公有云',
+    labelen: 'Public Cloud'
+  },
+  {
+    labelcn: '3dr 边缘系统',
+    labelen: '3dr Limbic system'
+  },
+  {
+    labelcn: '应用',
+    labelen: 'Application'
+  },
+  {
+    labelcn: '5G 网元',
+    labelen: '5G Network element'
+  },
+  {
+    labelcn: 'laaS',
+    labelen: 'laaS'
+  },
+  {
+    labelcn: 'Meao',
+    labelen: 'Meao'
+  }
+]
 
 const HEALTH_URL = '/health'
 
@@ -56,5 +86,6 @@ export {
   NAV_PRE,
   FIRST_LEVEL_MENU_PATH,
   MODULES,
-  HEALTH_URL
+  HEALTH_URL,
+  systemName
 }

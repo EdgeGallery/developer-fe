@@ -14,7 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
+import { devNavData } from './devNavCn.js'
+import { appStoreNavData } from './appStoreNavCn.js'
+import { atpNavData } from './atpNavCn.js'
+import { mecmNavData } from './mecmNavCn.js'
+import { systemNavData } from './thirdSystemCn.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
 
 const navDataCn = [
@@ -26,27 +30,38 @@ const navDataCn = [
   },
   {
     id: '1',
-    name: '应用孵化',
+    name: '应用集成开发平台',
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
-    display: true
+    display: true,
+    children: devNavData
+  },
+  {
+    id: '2',
+    name: '测试认证中心',
+    path: FIRST_LEVEL_MENU_PATH.ATP,
+    display: true,
+    children: atpNavData
   },
   {
     id: '3',
-    name: '应用商店',
+    name: 'APP商店',
     path: FIRST_LEVEL_MENU_PATH.APPSTORE,
-    display: true
+    display: true,
+    children: appStoreNavData
   },
   {
     id: '4',
-    name: '应用部署',
+    name: 'MECM管理平台',
     path: FIRST_LEVEL_MENU_PATH.MECM,
-    display: true
+    display: true,
+    children: mecmNavData
   },
   {
     id: '5',
-    name: '三方系统管理',
-    path: FIRST_LEVEL_MENU_PATH.SYSTEM,
-    display: true
+    name: '系统',
+    path: '../pages/System.vue',
+    display: true,
+    children: systemNavData
   }
 ]
 

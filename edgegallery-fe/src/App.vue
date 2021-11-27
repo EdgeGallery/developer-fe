@@ -26,13 +26,6 @@
       :is-home-prop="isHome"
       :to-path-prop="toPath"
       class="clearfix"
-      v-if="pageModel!=='newVersion'"
-    />
-    <NavcompNew
-      :scroll-top-prop="scrollTop"
-      :to-path-prop="toPath"
-      class="clearfix"
-      v-if="pageModel==='newVersion'"
     />
     <el-row>
       <el-col
@@ -67,15 +60,13 @@
 </template>
 
 <script>
-import Navcomp from '../src/classic/components/Nav.vue'
-import NavcompNew from '../src/components/Nav.vue'
-import navDataClassic from '../src/classic/navdata/navDataCn.js'
+import Navcomp from './components/Nav.vue'
+import navDataClassic from './navdata/navDataCn.js'
 import ProjectSideComp from './pages/developer/application/ApplicationtList.vue'
 export default {
   name: 'App',
   components: {
     Navcomp,
-    NavcompNew,
     ProjectSideComp
   },
   data () {
@@ -97,23 +88,10 @@ export default {
     }
   },
   watch: {
-    pageModel (val) {
-      this.pageModel = val
-      this.zoom = this.pageModel === 'newVersion' ? 2 : 0
-    },
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
       this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > 0
       this.toPath = to.path
-      this.pageModel = sessionStorage.getItem('pageModel') || 'newVersion'
-      let toJumpClassic = this.pageModel === 'Classic'
-      let isHome = to.path === '/home'
-      if (!toJumpClassic && isHome) {
-        this.isHome = true
-      } else {
-        this.isHome = false
-      }
-      this.ifToJumpClassic(this.toPath)
     },
     scrollTop (val) {
       this.scrollTop = val
@@ -155,27 +133,6 @@ export default {
     },
     getScrollTop () {
       this.scrollTop = this.$refs.app.getBoundingClientRect().top
-    },
-    ifToJumpClassic (toPath) {
-      let numTemp = 0
-      this.navDataClassic.forEach(item => {
-        if (item.path === toPath) {
-          numTemp++
-        }
-        if (!item.children) {
-          return
-        }
-        item.children.forEach(itemChild => {
-          if (itemChild.path === toPath) {
-            numTemp++
-          }
-        })
-        if (numTemp > 0) {
-          this.pageModel = 'Classic'
-        } else {
-          this.pageModel = 'newVersion'
-        }
-      })
     }
   },
   mounted () {
