@@ -117,64 +117,7 @@ export default {
       demoYaml,
       viewOrEditContent: 'preview',
       fileName: '',
-      containerPackageData: [{
-        label: 'AppDemo',
-        children: [{
-          label: 'Chart.yaml'
-        }, {
-          label: 'values.yaml'
-        }, {
-          label: 'templates',
-          children: [{
-            label: 'templates.yaml'
-          }]
-        }, {
-          label: 'Chart.yaml'
-        }, {
-          label: 'values.yaml'
-        }, {
-          label: 'templates',
-          children: [{
-            label: 'templates.yaml'
-          }]
-        }, {
-          label: 'Chart.yaml'
-        }, {
-          label: 'values.yaml'
-        }, {
-          label: 'templates',
-          children: [{
-            label: 'templates.yaml'
-          }]
-        }, {
-          label: 'Chart.yaml'
-        }, {
-          label: 'values.yaml'
-        }, {
-          label: 'templates',
-          children: [{
-            label: 'templates.yaml'
-          }]
-        }, {
-          label: 'Chart.yaml'
-        }, {
-          label: 'values.yaml'
-        }, {
-          label: 'templates',
-          children: [{
-            label: 'templates.yaml'
-          }]
-        }, {
-          label: 'Chart.yaml'
-        }, {
-          label: 'values.yaml'
-        }, {
-          label: 'templates',
-          children: [{
-            label: 'templates.yaml'
-          }]
-        }]
-      }],
+      containerPackageData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
