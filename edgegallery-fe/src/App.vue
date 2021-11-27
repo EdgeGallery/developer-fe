@@ -136,7 +136,6 @@ export default {
     }
   },
   mounted () {
-    this.ifToJumpClassic(this.toPath)
     this.setDivHeight(this.screenHeight)
     window.addEventListener('scroll', this.getScrollTop, true)
     window.onresize = () => {

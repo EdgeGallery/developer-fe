@@ -45,10 +45,14 @@ const cn = {
     chooseType: '请选择应用类型',
     logoLimit: '必须是jpg、png格式图片',
     docLimit: '只能上传.md文件，且不超过500kb',
-    deleteTip: '此操作将永久删除该应用, 是否继续?',
+    deleteAppTip: '此操作将永久删除该应用, 是否继续?',
     deleted: '删除成功',
     afterDelete: '当前应用已删除，1s后将回到首页!',
-    uploadLimit: '仅支持上传一个文件！'
+    uploadLimit: '仅支持上传一个文件！',
+    others: '其他分类',
+    direction: '行动方向',
+    currentLocation: '当前应用位置',
+    necessaryNode: '必经节点'
   },
   service: {
     basicInfo: '基本信息',
@@ -77,7 +81,8 @@ const cn = {
     publishTime: '发布时间 ：',
     type: '类型 ：',
     servicePublish: '能力发布',
-    addServiceConfig: '添加服务发布配置'
+    addServiceConfig: '添加服务发布配置',
+    deleteServiceTip: '此操作将永久删除该服务, 是否继续?'
   },
   workflow: {
     incubation: '应用孵化',

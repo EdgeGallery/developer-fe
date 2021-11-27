@@ -335,13 +335,13 @@ export default {
       })
     },
     deletePublishedService (id) {
-      this.$confirm('此操作将永久删除该能力, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('service.deleteServiceTip'), this.$t('promptMessage.prompt'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         applicationApi.deletePublishedService(this.appId, id).then(res => {
-          this.$message.success('删除能力成功！')
+          this.$message.success(this.$t('incubation.deleted'))
           this.getPublishedService()
         })
       })
@@ -429,7 +429,6 @@ export default {
       }
       if (node.level === 0) {
         applicationApi.getServiceList().then(res => {
-          this.getDependencies()
           let groups = res.data
           this.groups = groups
           groups.forEach(group => {
@@ -439,6 +438,7 @@ export default {
               group.icon = this.capabilityIcon[group.nameEn].iconSelect
             }
           })
+          this.getDependencies()
           resolve(groups)
         }).catch(err => {
           console.log(err)
@@ -468,6 +468,36 @@ export default {
         if (res.data && res.data.length > 0) {
           res.data.forEach(ser => {
             this.selectedService.push(ser)
+          })
+          this.groups.forEach(group => {
+            if (group.name === this.selectedService[0].oneLevelName) {
+              applicationApi.getCapabilityByGroupId(group.id).then(result => {
+                if (result.data) {
+                  result.data.forEach(data => {
+                    if (data.name === this.selectedService[0].twoLevelName) {
+                      this.serviceDetail.capabilityType = data.group.type
+                      this.serviceDetail.serviceName = data.name
+                      this.serviceDetail.serviceNameEn = data.nameEn
+                      this.serviceDetail.uploadTime = formatDate(data.uploadTime)
+                      this.serviceDetail.version = data.version
+                      this.apiFileId = data.apiFileId
+                      let apiUrl = applicationApi.getApiUrl(this.apiFileId)
+                      SwaggerUIBundle({
+                        url: apiUrl,
+                        dom_id: '#swagger-ui',
+                        deepLinking: false,
+                        presets: [
+                          SwaggerUIBundle.presets.apis
+                        ],
+                        plugins: [
+                          SwaggerUIBundle.plugins.DownloadUrl
+                        ]
+                      })
+                    }
+                  })
+                }
+              })
+            }
           })
         }
       }).catch(err => {

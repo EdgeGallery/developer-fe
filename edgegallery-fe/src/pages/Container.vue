@@ -65,7 +65,7 @@ export default {
     const oIframe = document.getElementById('pageContainer')
     const deviceWidth = document.documentElement.clientWidth
     const deviceHeight = document.documentElement.clientHeight
-    oIframe.style.width = (Number(deviceWidth) - 4) + 'px'
+    oIframe.style.width = (Number(deviceWidth)) + 'px'
     oIframe.style.height = (Number(deviceHeight) + 6) + 'px'
     this.iframeUrl = this.getIFrameUrl()
     this.iframeWin = this.$refs.iframe.contentWindow
@@ -82,10 +82,11 @@ export default {
 </script>
 <style lang='less' scoped>
   .pageIframe {
+    display: block;
     width: 100%;
     height: 100%;
     min-height: 600px;
     margin-top: -82px;
-    display: 'block';
+    border: none;
   }
 </style>
