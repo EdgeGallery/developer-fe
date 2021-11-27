@@ -22,7 +22,7 @@
 
       <span class="add-btn">
         <img
-          src="../../../assets/images/sandbox/add_network_btn.png"
+          src="../../../../assets/images/sandbox/add_network_btn.png"
           alt=""
           @click="addNewNetwork"
         >
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi.js'
+import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'ConfigNetwork',
   data () {
