@@ -20,11 +20,6 @@
         <div class="detail-top-title lt">
           {{ detailTitle }}
         </div>
-        <img
-          src="../../../assets/images/sandbox/question.png"
-          alt=""
-          class="question hoverHands"
-        >
       </div>
       <div
         class="detail-center"
@@ -56,7 +51,10 @@
           <div class="common-dlg-title">
             {{ applicationName }}
           </div>
-          <div class="details-center">
+          <div
+            class="details-center"
+            v-if="appClass==='VM'"
+          >
             <div class="details-center-deploy">
               <div class="details-center-deploy-img">
                 <div
@@ -123,12 +121,22 @@
               :is-clear-vm-image-prop="isClearVmImage"
             />
           </div>
+          <div
+            class="details-center"
+            v-if="appClass==='CONTAINER'"
+          >
+            <ContainerIndex
+              @importScript="importScript"
+              @checkContainerDetail="checkContainerDetail"
+            />
+          </div>
           <div class="details-bottom clear">
             <p class="details-bottom-title lt defaultFontBold">
               5G MEC
             </p>
             <div class="btn-container">
               <el-button
+                v-if="appClass==='VM'"
                 class="common-btn"
                 :disabled="!this.isStartupVmFinish"
                 @click="clearVmList"
@@ -299,16 +307,24 @@
       :application-id="applicationId"
       :vm-id="vmId"
     />
+    <ContainerScript v-if="showContent==='showImportScript'" />
+    <ContainerDetail
+      v-if="showContent==='showContainerDetail'"
+      @closeContainerDetail="closeContainerDetail"
+    />
   </div>
 </template>
 
 <script>
-import ConfigNetwork from './ConfigNetwork.vue'
-import AddVm from './AddVm.vue'
-import NetScroll from './NetScroll.vue'
-import VmDetail from './VmDetail.vue'
-import VmList from './VmList.vue'
-import VmUploadFile from './VmUploadFile.vue'
+import ConfigNetwork from './vm/ConfigNetwork.vue'
+import AddVm from './vm/AddVm.vue'
+import NetScroll from './vm/NetScroll.vue'
+import VmDetail from './vm/VmDetail.vue'
+import VmList from './vm/VmList.vue'
+import VmUploadFile from './vm/VmUploadFile.vue'
+import ContainerIndex from './container/Index.vue'
+import ContainerScript from './container/ContainerScript.vue'
+import ContainerDetail from './container/ContainerDetail.vue'
 import { sandbox, applicationApi } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxDetail',
@@ -318,7 +334,10 @@ export default {
     NetScroll,
     VmDetail,
     VmList,
-    VmUploadFile
+    VmUploadFile,
+    ContainerIndex,
+    ContainerScript,
+    ContainerDetail
   },
   data () {
     return {
@@ -343,7 +362,7 @@ export default {
       vmId: '',
       applicationName: '',
       isClearVmImage: false,
-      language: localStorage.getItem('language') || 'cn'
+      appClass: ''
     }
   },
   methods: {
@@ -431,22 +450,26 @@ export default {
         this.isClearVmImage = true
         this.isStartupVmFinish = false
       }).catch(() => {
-        this.$eg_messagebox('释放环境失败！', 'error')
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.releaseEnvFailed'), 'error')
       })
     },
     getApplicationInfo () {
       applicationApi.getAppInfo(this.applicationId).then(res => {
         this.applicationName = res.data.name
+        this.appClass = res.data.appClass
       })
-    }
-  },
-  watch: {
-    '$i18n.locale': function () {
-      this.language = localStorage.getItem('language')
+    },
+    importScript (data) {
+      this.showContent = data
+    },
+    closeContainerDetail () {
+      this.showContent = 'showDetail'
+    },
+    checkContainerDetail (data) {
+      this.showContent = data
     }
   },
   mounted () {
-    console.log(this.language)
     if (sessionStorage.getItem('applicationRules') === 'confirm') {
       this.isChangeStyle = false
       this.isMecSucess = true
@@ -606,7 +629,10 @@ export default {
                 height: 96px;
                 opacity: 0.1;
                 position:absolute;
-                border-radius:50%;
+              }
+              .deploy-img-center.script-icon{
+                width: 82px;
+                height: 84px;
               }
               .deploy-img-center-finish{
                 opacity: 1;

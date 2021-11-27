@@ -98,8 +98,22 @@ const en = {
     trafficRuleIdisExists: 'Traffic Rule Id already exists!',
     dnsRuleIdisExists: 'DNS Rule Id already exists!'
   },
+  container: {
+    script: 'Script',
+    import: 'Import',
+    container: 'Container',
+    containerDetail: 'Container Detail',
+    containerScript: 'Container Script',
+    uploadFile: 'Upload File',
+    downloadDemo: 'Download Template',
+    configFile: 'Config File',
+    configFileText: 'Support two mode switching of browsing and editing'
+  },
   sandboxPromptInfomation: {
-    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G'
+    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
+    addVmSuccess: 'The VM is added successfully!',
+    completeContent: 'Please complete the content and click submit again!',
+    releaseEnvFailed: 'Failed to release environment!'
   }
 }
 export default en

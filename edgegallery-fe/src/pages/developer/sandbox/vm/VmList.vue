@@ -24,13 +24,13 @@
           v-if="!isStartUpVmSuccess"
           class="vm-center-img"
           :class="{'vm-center-img-finish':isAddVmFinish,'breath':(!vmBreathStyle && !isAddVmFinish)}"
-          src="../../../assets/images/sandbox/vm_img.png"
+          src="../../../../assets/images/sandbox/vm_img.png"
           alt=""
         >
         <img
           v-else
           class="vm-center-img"
-          src="../../../assets/images/sandbox/vm_finish_icon.png"
+          src="../../../../assets/images/sandbox/vm_finish_icon.png"
           alt=""
         >
         <div
@@ -52,13 +52,13 @@
             >
               <img
                 v-if="!addGreen"
-                src="../../../assets/images/sandbox/vm_add.png"
+                src="../../../../assets/images/sandbox/vm_add.png"
                 alt=""
                 class="img-click"
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_add_green.png"
+                src="../../../../assets/images/sandbox/vm_add_green.png"
                 alt=""
                 class="img-click"
               >
@@ -79,12 +79,12 @@
             >
               <img
                 v-if="!detailGreen"
-                src="../../../assets/images/sandbox/vm_detail.png"
+                src="../../../../assets/images/sandbox/vm_detail.png"
                 alt=""
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_detail_green.png"
+                src="../../../../assets/images/sandbox/vm_detail_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -104,12 +104,12 @@
             >
               <img
                 v-if="!loginGreen"
-                src="../../../assets/images/sandbox/vm_login.png"
+                src="../../../../assets/images/sandbox/vm_login.png"
                 alt=""
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_login_green.png"
+                src="../../../../assets/images/sandbox/vm_login_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -129,12 +129,12 @@
             >
               <img
                 v-if="!uploadGreen"
-                src="../../../assets/images/sandbox/vm_upload.png"
+                src="../../../../assets/images/sandbox/vm_upload.png"
                 alt=""
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_upload_green.png"
+                src="../../../../assets/images/sandbox/vm_upload_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -154,12 +154,12 @@
             >
               <img
                 v-if="!startGreen"
-                src="../../../assets/images/sandbox/vm_start.png"
+                src="../../../../assets/images/sandbox/vm_start.png"
                 alt=""
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_start_green.png"
+                src="../../../../assets/images/sandbox/vm_start_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -179,12 +179,12 @@
             >
               <img
                 v-if="!imageGreen"
-                src="../../../assets/images/sandbox/vm_export.png"
+                src="../../../../assets/images/sandbox/vm_export.png"
                 alt=""
               >
               <img
                 v-else
-                src="../../../assets/images/sandbox/vm_export_green.png"
+                src="../../../../assets/images/sandbox/vm_export_green.png"
                 alt=""
               >
             </el-tooltip>
@@ -218,7 +218,7 @@
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi.js'
+import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: '',
   props: {
