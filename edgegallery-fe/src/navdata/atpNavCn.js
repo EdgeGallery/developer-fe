@@ -16,12 +16,12 @@
  */
 import { NAV_PRE } from '../constants'
 
-const pathPre = NAV_PRE.ATP
+const atpPathPre = NAV_PRE.ATP
 
 const atpNavData = [
   {
     name: '概览',
-    path: pathPre + '/index',
+    path: atpPathPre + '/index',
     display: true,
     id: '4.1'
   },
@@ -32,17 +32,17 @@ const atpNavData = [
     children: [
       {
         name: '测试场景管理',
-        path: pathPre + '/scenarios',
+        path: atpPathPre + '/scenarios',
         display: true,
         id: '4.2.1'
       }, {
         name: '测试套管理',
-        path: pathPre + '/suites',
+        path: atpPathPre + '/suites',
         display: true,
         id: '4.2.2'
       }, {
         name: '测试用例管理',
-        path: pathPre + '/testcasemanage',
+        path: atpPathPre + '/testcasemanage',
         display: true,
         id: '4.2.3'
       }
@@ -50,20 +50,20 @@ const atpNavData = [
   },
   {
     name: '任务管理',
-    path: pathPre + '/tasklist',
+    path: atpPathPre + '/tasklist',
     display: true,
     id: '4.3'
   },
   {
     name: '贡献管理',
-    path: pathPre + '/contributionlist',
+    path: atpPathPre + '/contributionlist',
     display: true,
     id: '4.4',
     authority: ['ROLE_APPSTORE_ADMIN']
   },
   {
     name: '配置管理',
-    path: pathPre + '/configurationlist',
+    path: atpPathPre + '/configurationlist',
     display: true,
     id: '4.5'
   }

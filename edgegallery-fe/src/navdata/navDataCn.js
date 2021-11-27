@@ -16,7 +16,6 @@
  */
 import { devNavData } from './devNavCn.js'
 import { appStoreNavData } from './appStoreNavCn.js'
-import { atpNavData } from './atpNavCn.js'
 import { mecmNavData } from './mecmNavCn.js'
 import { systemNavData } from './thirdSystemCn.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
@@ -34,13 +33,6 @@ const navDataCn = [
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData
-  },
-  {
-    id: '2',
-    name: '测试认证中心',
-    path: FIRST_LEVEL_MENU_PATH.ATP,
-    display: true,
-    children: atpNavData
   },
   {
     id: '3',
