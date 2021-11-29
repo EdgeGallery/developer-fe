@@ -282,6 +282,12 @@ export default {
       }).catch(() => {
       })
     }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.getAllScene()
+    }
   }
 }
 </script>
