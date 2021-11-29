@@ -82,7 +82,7 @@
                 <p
                   class="deployMode"
                 >
-                  {{ item.deployMode==='container' ? this.$t('store.deployContainer'):this.$t('store.deployVM') }}
+                  {{ item.deployMode==='container' ? $t('store.deployContainer'):$t('store.deployVM') }}
                 </p>
               </div>
             </div>
