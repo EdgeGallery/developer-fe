@@ -501,16 +501,16 @@ let imageMgmtService = {
     return Post('mec/developer/v2/containerimages/list', queryData)
   },
   mergeContainerImage: function (imageId, fileName, identifier) {
-    return Get('mec/developer/v2/containerimages/' + imageId + '/merge?fileName=' + fileName + '&guid=' + identifier)
+    return Get('mec/developer/v2/containerimages/' + imageId + '/action/merge?fileName=' + fileName + '&guid=' + identifier)
   },
   downloadContainerImageUrl: function (imageId) {
-    return urlPrefix + 'mec/developer/v2/containerimages/' + imageId + '/download'
+    return urlPrefix + 'mec/developer/v2/containerimages/' + imageId + '/action/download'
   },
   synchronizeContainerImageApi: function () {
-    return GetFun('mec/developer/v2/containerimages/synchronize')
+    return GetFun('mec/developer/v2/containerimages/action/synchronize')
   },
   cancelUploadContainerImage: function (imageId) {
-    return Delete('mec/developer/v2/containerimages/' + imageId + '/upload')
+    return Delete('mec/developer/v2/containerimages/' + imageId + '/action/upload')
   }
 }
 
