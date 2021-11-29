@@ -154,23 +154,21 @@ export default {
       this.initApplicationList()
     },
     initApplicationList () {
-      applicationApi.getApplicationList().then(res => {
-        if (res.data && res.data.results.length > 0) {
-          let data = res.data.results
-          this.allAppList = data
-          data.sort(function (a, b) {
-            return b.createTime < a.createTime ? -1 : 1
-          })
-          let tempData = [
-            {
-              id: 0,
-              type: 'normal',
-              iconUrl: require('../../../assets/images/application/app_add_new.png'),
-              name: this.$t('incubation.addNewApp')
-            }
-          ]
-          data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
+      let tempData = [
+        {
+          id: 0,
+          type: 'normal',
+          iconUrl: require('../../../assets/images/application/app_add_new.png'),
+          name: this.$t('incubation.addNewApp')
         }
+      ]
+      applicationApi.getApplicationList().then(res => {
+        let data = res.data.results
+        this.allAppList = data
+        data.sort(function (a, b) {
+          return b.createTime < a.createTime ? -1 : 1
+        })
+        data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
       }).catch(err => {
         console.log(err)
       })

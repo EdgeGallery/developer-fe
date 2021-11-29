@@ -60,7 +60,7 @@
           <div class="main-flow-direction">
             <div class="lt">
               <p>
-                行动方向
+                {{ $t('incubation.direction') }}
               </p>
               <img
                 src="../../assets/images/application/app_direction.png"
@@ -69,10 +69,10 @@
             </div>
             <div class="rt label-content">
               <div class="current-app-label">
-                当前应用位置
+                {{ $t('incubation.currentLocation') }}
               </div>
               <div class="must-node-label">
-                必经节点
+                {{ $t('incubation.necessaryNode') }}
               </div>
             </div>
           </div>

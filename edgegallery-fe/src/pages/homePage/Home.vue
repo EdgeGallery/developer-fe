@@ -67,12 +67,12 @@ export default {
         {
           name: this.$t('home.appStore'),
           src: require('../../assets/images/index/index_app_store.png'),
-          path: '/EG/appstore/appWarehouse'
+          path: '/appStore/home/home'
         },
         {
           name: this.$t('home.appDeploy'),
           src: require('../../assets/images/index/index_app_deploy.png'),
-          path: '/EG/mecm/appDeployDetail'
+          path: '/mecm'
         }
       ]
     }

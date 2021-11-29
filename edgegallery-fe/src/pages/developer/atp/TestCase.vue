@@ -105,6 +105,11 @@ export default {
       this.$emit('setCaseTop', 'close')
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
+  },
   computed: {
     opened () {
       return this.testSuiteData.map((testSuite) => {

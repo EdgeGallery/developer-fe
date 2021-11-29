@@ -17,7 +17,7 @@
 const NAV_PRE = {
   DEVELOPER: '/developer',
   APPSTORE: '/appStore/home',
-  MECM: '/mecm/',
+  MECM: '/mecm',
   ATP: '/atp',
   SYSTEM: '/system'
 }
@@ -26,7 +26,7 @@ const FIRST_LEVEL_MENU_PATH = {
   HOME: '/index',
   DEVELOPER: '/EG/developer/home',
   APPSTORE: '/appStore/home',
-  MECM: '/mecm/',
+  MECM: '/mecm',
   ATP: '/atp',
   SYSTEM: '/system'
 }

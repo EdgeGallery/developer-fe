@@ -16,7 +16,6 @@
  */
 import { devNavData } from './devNav.js'
 import { appStoreNavData } from './appStoreNav.js'
-import { atpNavData } from './atpNav.js'
 import { mecmNavData } from './mecmNav.js'
 import { systemNavData } from './thirdSystem.js'
 import { FIRST_LEVEL_MENU_PATH } from '../constants'
@@ -34,13 +33,6 @@ const navData = [
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData
-  },
-  {
-    id: '2',
-    name: 'Testing Center',
-    path: FIRST_LEVEL_MENU_PATH.ATP,
-    display: true,
-    children: atpNavData
   },
   {
     id: '3',
