@@ -327,10 +327,8 @@ export default {
       atpTestApi.getTestId(this.applicationId).then(res => {
         if (res.data.length > 0) {
           this.taskId = res.data[0].id
-          console.log(this.taskId)
         } else {
           this.taskId = this.$route.query.taskId
-          console.log(this.taskId)
         }
         this.getTaskProcess()
         this.interval = setInterval(() => {
@@ -521,6 +519,12 @@ export default {
     clearInterval () {
       clearTimeout(this.interval)
       this.interval = null
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.getTaskProcess()
     }
   },
   beforeDestroy () {

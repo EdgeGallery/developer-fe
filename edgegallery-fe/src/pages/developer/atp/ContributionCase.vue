@@ -297,6 +297,11 @@ export default {
     handleDelte (file, fileList) {
       this.addCaseForm.file = fileList
     }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>

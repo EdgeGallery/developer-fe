@@ -553,6 +553,12 @@ export default {
     pdfError (error) {
       console.error(error)
     }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.getReport()
+    }
   }
 }
 </script>
@@ -729,7 +735,7 @@ export default {
     }
   }
   .reportTitle{
-    color: #380879;
+    color: #fff;
     padding: 10px;
     font-size: 30px;
     font-weight: bolder;
