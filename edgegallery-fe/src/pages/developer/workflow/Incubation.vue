@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     jumpTo (item) {
-      if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === 0) {
+      if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
         sessionStorage.setItem('isCreate', '0')
         if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_ADMIN') > -1) {
           this.$router.push('/EG/developer/createApplication')
@@ -102,6 +102,8 @@ export default {
         }
       } else if (item.toPath === '/EG/developer/selectScenarios' && this.currentFlow >= 5) {
         item.toPath = '/EG/developer/testProcess'
+        this.$router.push(item.toPath)
+      } else {
         this.$router.push(item.toPath)
       }
     },
