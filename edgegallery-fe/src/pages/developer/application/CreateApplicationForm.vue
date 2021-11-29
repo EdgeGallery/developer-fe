@@ -40,11 +40,11 @@
             :placeholder="$t('incubation.chooseAppClass')"
           >
             <el-option
-              label="容器"
+              :label="language==='cn'?'容器':'Container'"
               value="CONTAINER"
             />
             <el-option
-              label="虚拟机"
+              :label="language==='cn'?'虚拟机':'VM'"
               value="VM"
             />
           </el-select>
@@ -76,7 +76,7 @@
             <el-option
               v-for="item in industryOptions"
               :key="item.value"
-              :label="item.label[0]"
+              :label="language==='cn'?item.label[0]:item.label[1]"
               :value="item.value"
             />
           </el-select>
@@ -92,7 +92,7 @@
             <el-option
               v-for="item in typeOptions"
               :key="item.value"
-              :label="item.label[0]"
+              :label="language==='cn'?item.label[0]:item.label[1]"
               :value="item.value"
             />
           </el-select>
@@ -242,7 +242,13 @@ export default {
       logoFileList: [],
       mdFileList: [],
       defaultIconFile: [],
-      appId: sessionStorage.getItem('applicationId') || ''
+      appId: sessionStorage.getItem('applicationId') || '',
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {

@@ -95,7 +95,7 @@ export default {
     jumpTo (item) {
       if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
         sessionStorage.setItem('isCreate', '0')
-        if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_ADMIN') > -1) {
+        if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
           this.$router.push('/EG/developer/createApplication')
         } else {
           this.$message.warning(this.$t('promptInformation.noPermission'))
