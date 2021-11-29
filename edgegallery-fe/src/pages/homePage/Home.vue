@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import { promptJumpToClassic } from '../../tools/common.js'
 export default {
   components: {
 
@@ -82,10 +81,6 @@ export default {
     jumpTo (path) {
       this.$router.push(path)
     }
-  },
-  mounted () {},
-  beforeRouteLeave (to, from, next) {
-    promptJumpToClassic(to.path, next, this)
   }
 }
 </script>

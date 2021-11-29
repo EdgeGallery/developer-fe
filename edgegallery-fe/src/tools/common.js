@@ -52,17 +52,6 @@ function formatDateTime (dateStr) {
       ':' +
       (s > 9 ? s : '0' + s)
 }
-function promptJumpToClassic (path, next, _this) {
-  if (path === '/appStore/home' || path === '/mecm/' || path === '/system') {
-    _this.$eg_messagebox(_this.$t('promptInformation.toClassicVersion'), 'info', _this.$t('common.cancel'), _this.$t('common.confirm')).then(() => {
-      next()
-    }).catch(() => {
-      next(false)
-    })
-  } else {
-    next()
-  }
-}
 function filterArr (arr) {
   return arr.filter(function (item, index, arr) {
     return arr.indexOf(item, 0) === index
@@ -71,6 +60,5 @@ function filterArr (arr) {
 export {
   formatDateTime,
   formatDate,
-  promptJumpToClassic,
   filterArr
 }
