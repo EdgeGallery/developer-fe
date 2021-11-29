@@ -57,8 +57,6 @@
               >
                 <em :class="itemChild_Child.icon" />
                 <span slot="title">{{ itemChild_Child.name }}</span>
-
-                <!-- forth layer menu -->
               </el-menu-item>
             </el-submenu>
 
