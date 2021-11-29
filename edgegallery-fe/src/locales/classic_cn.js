@@ -35,7 +35,8 @@ const cn = {
     hsInvalidHint: '当前会话已失效。请选择刷新页面或重新登录。'
   },
   promptMessage: {
-    prompt: '提示'
+    prompt: '提示',
+    logoutPage: '确认要注销当前用户？'
   },
   system: {
     threeSystem: '三方系统管理',

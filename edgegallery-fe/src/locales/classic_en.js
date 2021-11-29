@@ -35,7 +35,8 @@ const en = {
     hsInvalidHint: 'the current session has expired. Please choose to refresh the page or log in again.'
   },
   promptMessage: {
-    prompt: 'Prompt'
+    prompt: 'Prompt',
+    logoutPage: 'Are you sure to log out?'
   },
   system: {
     threeSystem: 'Third party system management',
