@@ -498,7 +498,7 @@ let imageMgmtService = {
     return Put('mec/developer/v2/containerimages/' + imageId, imgData)
   },
   getContainerImageDataList: function (queryData) {
-    return Post('mec/developer/v2/containerimages/list', queryData)
+    return Post('mec/developer/v2/containerimages/action/get-all-images', queryData)
   },
   mergeContainerImage: function (imageId, fileName, identifier) {
     return Get('mec/developer/v2/containerimages/' + imageId + '/action/merge?fileName=' + fileName + '&guid=' + identifier)
