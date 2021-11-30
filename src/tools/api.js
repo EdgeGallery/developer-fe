@@ -15,6 +15,7 @@
  */
 
 import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
+import axios from 'axios'
 
 let Plugin = {
   // Get the list of plugins
@@ -514,6 +515,40 @@ let imageMgmtService = {
   }
 }
 
+let profileMgmtApi = {
+  getProfileDataList: function (params) {
+    return Get('mec/developer/v2/profiles', params)
+  },
+  addProfile: function (params) {
+    return Post('mec/developer/v2/profiles', params)
+  },
+  modifyProfile: function (profileId, params) {
+    return Put('mec/developer/v2/profiles/' + profileId, params)
+  },
+  deleteOneProfile: function (profileId) {
+    return Delete('mec/developer/v2/profiles/' + profileId)
+  },
+  downLoadProfileApi: function (profileId, appName) {
+    let url = urlPrefix + 'mec/developer/v2/profiles/' + profileId + '/action/download?type=profileFile' + '&name=' + appName
+    return axios({
+      method: 'get',
+      url: url,
+      responseType: 'blob'
+    }).then((res) => {
+      if (!res) {
+        return
+      }
+      let objectUrl = window.URL.createObjectURL(res.data)
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = objectUrl
+      link.setAttribute('download', appName + '.' + 'zip')
+      document.body.appendChild(link)
+      link.click()
+    })
+  }
+}
+
 export {
   Plugin,
   Api,
@@ -522,5 +557,6 @@ export {
   System,
   vmService,
   imageMgmtService,
-  Capability
+  Capability,
+  profileMgmtApi
 }
