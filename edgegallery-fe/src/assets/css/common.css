@@ -361,6 +361,7 @@
  .el-upload-list__item{
    width: 25%;
    min-width: 200px;
+   background-color: #F5F7FA;
  }
  .el-select-dropdown__list {
    padding: 0px 0 !important;
@@ -996,6 +997,9 @@ th{
 .label-item-half .el-form-item__content{
   width: calc(100% - 105px);
 }
+.label-item-half150 .el-form-item__content{
+  width: calc(100% - 150px);
+}
 .label-item-half .el-select{
   width: 100%;
 }
@@ -1185,6 +1189,7 @@ input::-webkit-input-placeholder {
 }
 .el-upload-list__item-name{
   color: rgb(25, 25, 252) !important;
+  background-color: #F5F7FA;
 }
 .common-radio .el-radio__input{
   border: 1px solid #fff;

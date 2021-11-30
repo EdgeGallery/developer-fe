@@ -56,7 +56,8 @@ const en = {
   },
   service: {
     basicInfo: 'Basic information',
-    secLevel: 'Second Level',
+    secLevelCn: 'Second Level(Cn)',
+    secLevelEn: 'Second Level(En)',
     firLevel: 'First Level',
     inputBox: 'Type something',
     apiFile: 'API file',

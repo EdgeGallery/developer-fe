@@ -9,20 +9,37 @@
       <el-form
         :model="serviceFormData"
         class="common-form"
-        label-width="120px"
+        label-width="150px"
         label-position="right"
         size="mini"
       >
         <el-form-item
-          :label="$t('service.secLevel')"
-          class="cb"
-        >
-          <el-input v-model="serviceFormData.twoLevelName" />
-        </el-form-item>
-        <el-form-item
           :label="$t('service.firLevel')"
         >
-          <el-input v-model="serviceFormData.oneLevelName" />
+          <el-select
+            v-model="serviceFormData.oneLevelNameEn"
+            :placeholder="$t('service.firLevel')"
+            @change="oneLevelNameChanged"
+          >
+            <el-option
+              v-for="item in serviceOptions"
+              :key="item.id"
+              :label="language==='cn'?item.name:item.nameEn"
+              :value="item.nameEn"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.secLevelCn')"
+          class="cb"
+        >
+          <el-input v-model="serviceFormData.twoLevelNameCn" />
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.secLevelEn')"
+          class="cb"
+        >
+          <el-input v-model="serviceFormData.twoLevelNameEn" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.description')"
@@ -180,6 +197,7 @@ export default {
         trafficRuleIdList: [],
         oneLevelNameEn: '',
         twoLevelNameEn: '',
+        twoLevelName: 'abab',
         author: ''
       },
       apiFileList: [],
@@ -189,10 +207,24 @@ export default {
       docFileId: '',
       iconFileId: '',
       isModify: false,
-      serviceId: ''
+      serviceId: '',
+      serviceOptions: [],
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
+    oneLevelNameChanged (val) {
+      this.serviceOptions.forEach(ser => {
+        if (ser.nameEn === val) {
+          this.serviceFormData.oneLevelName = ser.name
+        }
+      })
+    },
     confirmToChoose () {
       this.$router.push('/EG/developer/capabilityCenter')
     },
@@ -283,9 +315,17 @@ export default {
           this.iconFileList.push(obj)
         }
       })
+    },
+    getServiceOptions () {
+      applicationApi.getServiceList().then(res => {
+        this.serviceOptions = res.data
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
+    this.getServiceOptions()
     if (this.$route.query && this.$route.query.serviceName) {
       this.isModify = true
       this.serviceFormData = this.$route.query
