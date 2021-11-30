@@ -14,6 +14,7 @@
       <div
         class="img-div"
         :class="{'current':item.id===applicationId}"
+        @click="getType(item)"
       >
         <img
           :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
@@ -80,6 +81,12 @@ export default {
         this.$router.push('/EG/developer/createApplication')
       } else {
         this.$message.warning(this.$t('promptInformation.noPermission'))
+      }
+    },
+    getType (data) {
+      if (data !== '') {
+        data.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
+        sessionStorage.setItem('architecture', data.architecture)
       }
     },
     switchStatus (status) {
