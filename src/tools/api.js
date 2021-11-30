@@ -529,7 +529,7 @@ let profileMgmtApi = {
     return Delete('mec/developer/v2/profiles/' + profileId)
   },
   downLoadProfileApi: function (profileId, appName) {
-    let url = '/mec-developer/mec/developer/v2/profiles/' + profileId + '/action/download?type=profileFile' + '&name=' + appName
+    let url = urlPrefix + 'mec/developer/v2/profiles/' + profileId + '/action/download?type=profileFile' + '&name=' + appName
     return axios({
       method: 'get',
       url: url,
