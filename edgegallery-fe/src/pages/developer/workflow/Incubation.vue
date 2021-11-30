@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { atpTestApi } from '../../../api/developerApi.js'
 export default {
   name: 'Incubation',
   components: {
@@ -101,8 +102,16 @@ export default {
           this.$message.warning(this.$t('promptInformation.noPermission'))
         }
       } else if (item.toPath === '/EG/developer/selectScenarios' && this.currentFlow >= 5) {
-        item.toPath = '/EG/developer/testProcess'
-        this.$router.push(item.toPath)
+        atpTestApi.getTestId().then(res => {
+          if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
+            item.toPath = '/EG/developer/testProcess'
+          } else {
+            this.$router.push(item.toPath)
+          }
+        }).catch(err => {
+          console.log(err)
+          this.$router.push(item.toPath)
+        })
       } else {
         this.$router.push(item.toPath)
       }
