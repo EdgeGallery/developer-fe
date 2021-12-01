@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-import enLocale from 'element-ui/lib/locale/lang/en'
 const en = {
-  home: {
-  },
   normal: {
     newVersion: 'New Version',
     cancel: 'Cancel',
@@ -72,7 +69,6 @@ const en = {
     tooltipPassword: 'Please enter the password',
     addStstemSucess: 'New message succeeded!',
     updateStstemSucess: 'Update succeeded!'
-  },
-  ...enLocale
+  }
 }
 export default en

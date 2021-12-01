@@ -62,7 +62,9 @@ const cn = {
     lengthTip: '长度在 3 到 15 个字符',
     versionTip: '请输入应用版本',
     providerTip: '请输入应用开发商',
-    descTip: '请输入应用描述'
+    descTip: '请输入应用描述',
+    container: '容器',
+    vm: '虚拟机'
   },
   service: {
     basicInfo: '基本信息',

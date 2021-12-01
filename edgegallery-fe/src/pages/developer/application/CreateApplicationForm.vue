@@ -43,11 +43,11 @@
             :placeholder="$t('incubation.chooseAppClass')"
           >
             <el-option
-              :label="language==='cn'?'容器':'Container'"
+              :label="$t('incubation.container')"
               value="CONTAINER"
             />
             <el-option
-              :label="language==='cn'?'虚拟机':'VM'"
+              :label="$t('incubation.vm')"
               value="VM"
             />
           </el-select>

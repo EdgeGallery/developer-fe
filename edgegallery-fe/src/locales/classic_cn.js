@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 const cn = {
-  home: {
-  },
   normal: {
     newVersion: '新版',
     cancel: '取消',
@@ -73,7 +70,6 @@ const cn = {
     addStstemSucess: '新建系统成功!',
     updateStstemSucess: '更新成功'
 
-  },
-  ...zhLocale
+  }
 }
 export default cn
