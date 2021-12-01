@@ -43,7 +43,7 @@
             :alt="index"
           >
           <div class="main-content-right-item-name">
-            {{ item.name }}
+            {{ index===0?$t('home.appIncubation'):(index===1?$t('home.appStore'):$t('home.appDeploy')) }}
           </div>
         </div>
       </div>
@@ -61,17 +61,14 @@ export default {
     return {
       rightBtnList: [
         {
-          name: this.$t('home.appIncubation'),
           src: require('../../assets/images/index/index_app_create.png'),
           path: '/EG/developer/home'
         },
         {
-          name: this.$t('home.appStore'),
           src: require('../../assets/images/index/index_app_store.png'),
           path: '/appStore/home/home'
         },
         {
-          name: this.$t('home.appDeploy'),
           src: require('../../assets/images/index/index_app_deploy.png'),
           path: '/mecm'
         }
