@@ -265,6 +265,10 @@ export default {
     handleApiChange (file) {
       this.apiFileList = []
       if (file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.apiFileList = []
         } else {
@@ -280,6 +284,10 @@ export default {
     handleDocChange (file) {
       this.guideFileId = []
       if (file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.guideFileId = []
         } else {
@@ -290,6 +298,10 @@ export default {
     handleIconChange (file) {
       this.iconFileList = []
       if (file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.iconFileList = []
         } else {

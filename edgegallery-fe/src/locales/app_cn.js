@@ -64,7 +64,8 @@ const cn = {
     providerTip: '请输入应用开发商',
     descTip: '请输入应用描述',
     container: '容器',
-    vm: '虚拟机'
+    vm: '虚拟机',
+    uploadSizeLimit: '上传文件超多超过2M限制，请重试'
   },
   service: {
     basicInfo: '基本信息',

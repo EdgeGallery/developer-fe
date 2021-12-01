@@ -62,7 +62,10 @@ const en = {
     lengthTip: 'The app name should be including 3-15 letters.',
     versionTip: 'Please enter the app version.',
     providerTip: 'Please enter the app provider.',
-    descTip: 'Please enter the app description.'
+    descTip: 'Please enter the app description.',
+    container: 'Container',
+    vm: 'VM',
+    uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.'
   },
   service: {
     basicInfo: 'Basic information',

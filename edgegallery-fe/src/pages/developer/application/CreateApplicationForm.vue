@@ -267,6 +267,7 @@ export default {
         }
         if (file.size / 1024 / 1024 > 2) {
           this.logoFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
         }
         let fileTypeArr = ['jpg', 'png']
         if (file.name) {
@@ -342,6 +343,7 @@ export default {
         }
         if (file.size / 1024 / 1024 > 2) {
           this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
         }
         let fileTypeArr = ['md']
         if (file.name) {
