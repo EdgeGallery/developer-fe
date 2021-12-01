@@ -8,7 +8,7 @@
     <div>
       <el-form
         :model="serviceFormData"
-        :rule="serviceFormRule"
+        :rules="serviceFormRule"
         ref="serviceForm"
         class="common-form"
         label-width="150px"
@@ -34,9 +34,9 @@
         <el-form-item
           :label="$t('service.secLevelCn')"
           class="cb"
-          prop="twoLevelNameCn"
+          prop="twoLevelName"
         >
-          <el-input v-model="serviceFormData.twoLevelNameCn" />
+          <el-input v-model="serviceFormData.twoLevelName" />
         </el-form-item>
         <el-form-item
           :label="$t('service.secLevelEn')"
