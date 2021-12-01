@@ -226,7 +226,7 @@ export default {
       applicationFormRules: {
         name: [
           { required: true, message: this.$t('incubation.nameTip'), trigger: 'blur' },
-          { min: 3, max: 5, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
         ],
         version: [
           { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }

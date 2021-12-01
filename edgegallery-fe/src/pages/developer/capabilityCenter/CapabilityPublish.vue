@@ -8,6 +8,8 @@
     <div>
       <el-form
         :model="serviceFormData"
+        :rule="serviceFormRule"
+        ref="serviceForm"
         class="common-form"
         label-width="150px"
         label-position="right"
@@ -32,18 +34,21 @@
         <el-form-item
           :label="$t('service.secLevelCn')"
           class="cb"
+          prop="twoLevelNameCn"
         >
           <el-input v-model="serviceFormData.twoLevelNameCn" />
         </el-form-item>
         <el-form-item
           :label="$t('service.secLevelEn')"
           class="cb"
+          prop="twoLevelNameEn"
         >
           <el-input v-model="serviceFormData.twoLevelNameEn" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.description')"
           class="cb"
+          prop="description"
         >
           <el-input
             v-model="serviceFormData.description"
@@ -136,12 +141,14 @@
         <el-form-item
           :label="$t('service.serviceName')"
           class="label-item-half"
+          prop="serviceName"
         >
           <el-input v-model="serviceFormData.serviceName" />
         </el-form-item>
         <el-form-item
           :label="$t('service.internalPort')"
           class="label-item-half"
+          prop="internalPort"
         >
           <el-input
             type="number"
@@ -151,12 +158,14 @@
         <el-form-item
           :label="$t('incubation.version')"
           class="label-item-half"
+          prop="version"
         >
           <el-input v-model="serviceFormData.version" />
         </el-form-item>
         <el-form-item
           :label="$t('service.protocol')"
           class="label-item-half"
+          prop="protocol"
         >
           <el-input v-model="serviceFormData.protocol" />
         </el-form-item>
@@ -195,10 +204,35 @@ export default {
       serviceFormData: {
         dnsRuleIdList: [],
         trafficRuleIdList: [],
-        oneLevelNameEn: '',
+        oneLevelNameEn: 'Telecom network',
         twoLevelNameEn: '',
-        twoLevelName: 'abab',
+        twoLevelName: '',
         author: ''
+      },
+      serviceFormRule: {
+        twoLevelNameEn: [
+          { required: true, message: this.$t('service.secondLevelNameEnTip'), trigger: 'blur' },
+          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+        ],
+        twoLevelName: [
+          { required: true, message: this.$t('service.secondLevelNameCnTip'), trigger: 'blur' },
+          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
+        ],
+        serviceName: [
+          { required: true, message: this.$t('service.serviceNameTip'), trigger: 'blur' }
+        ],
+        version: [
+          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
+        ],
+        protocol: [
+          { required: true, message: this.$t('service.protocolTip'), trigger: 'blur' }
+        ],
+        internalPort: [
+          { required: true, message: this.$t('service.innerPortTip'), trigger: 'blur' }
+        ]
       },
       apiFileList: [],
       guideFileId: [],
@@ -264,30 +298,34 @@ export default {
       }
     },
     handleUpload (key, file) {
-      if (this.isModify) {
-        this.publishService()
-      } else {
-        let formdata = new FormData()
-        formdata.append('file', file)
-        formdata.append('fileType', key)
-        applicationApi.uploadFileApi(formdata).then(res => {
-          if (res && res.data) {
-            if (key === 'api') {
-              this.apiFileId = res.data.fileId
-              this.handleUpload('md', this.guideFileId[0])
-            } else if (key === 'md') {
-              this.docFileId = res.data.fileId
-              this.handleUpload('icon', this.iconFileList[0])
-            } else {
-              this.iconFileId = res.data.fileId
-              this.serviceFormData.apiFileId = this.apiFileId
-              this.serviceFormData.guideFileId = this.docFileId
-              this.serviceFormData.iconFileId = this.iconFileId
-              this.publishService()
-            }
+      this.$refs['serviceForm'].validate((valid) => {
+        if (valid) {
+          if (this.isModify) {
+            this.publishService()
+          } else {
+            let formdata = new FormData()
+            formdata.append('file', file)
+            formdata.append('fileType', key)
+            applicationApi.uploadFileApi(formdata).then(res => {
+              if (res && res.data) {
+                if (key === 'api') {
+                  this.apiFileId = res.data.fileId
+                  this.handleUpload('md', this.guideFileId[0])
+                } else if (key === 'md') {
+                  this.docFileId = res.data.fileId
+                  this.handleUpload('icon', this.iconFileList[0])
+                } else {
+                  this.iconFileId = res.data.fileId
+                  this.serviceFormData.apiFileId = this.apiFileId
+                  this.serviceFormData.guideFileId = this.docFileId
+                  this.serviceFormData.iconFileId = this.iconFileId
+                  this.publishService()
+                }
+              }
+            })
           }
-        })
-      }
+        }
+      })
     },
     publishService () {
       if (this.isModify) {

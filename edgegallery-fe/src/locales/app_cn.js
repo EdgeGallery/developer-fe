@@ -95,7 +95,12 @@ const cn = {
     type: '类型 ：',
     servicePublish: '能力发布',
     addServiceConfig: '添加服务发布配置',
-    deleteServiceTip: '此操作将永久删除该服务, 是否继续?'
+    deleteServiceTip: '此操作将永久删除该服务, 是否继续?',
+    serviceNameTip: '请填写服务名称',
+    innerPortTip: '请填写内部端口号',
+    protocolTip: '请填写协议',
+    secondLevelNameCnTip: '请填写二级能力中文名',
+    secondLevelNameEnTip: '请填写二级能力英文名'
   },
   workflow: {
     incubation: '应用孵化',

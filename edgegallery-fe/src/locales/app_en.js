@@ -93,7 +93,12 @@ const en = {
     type: 'Type: ',
     servicePublish: 'Service release',
     addServiceConfig: 'Add service',
-    deleteServiceTip: 'This operation will permanently delete the service, do you want to continue?'
+    deleteServiceTip: 'This operation will permanently delete the service, do you want to continue?',
+    serviceNameTip: 'Please enter the service name.',
+    innerPortTip: 'Please enter the internal port',
+    protocolTip: 'Please enter the protocol.',
+    secondLevelNameCnTip: 'Please enter the second level service name(Cn).',
+    secondLevelNameEnTip: 'Please enter the second level service name(En).'
   },
   workflow: {
     incubation: 'Incubation',
