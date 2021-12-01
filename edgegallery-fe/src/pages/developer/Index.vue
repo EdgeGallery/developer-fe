@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import { promptJumpToClassic } from '../../tools/common.js'
 import IncubationComp from './workflow/Incubation.vue'
 import AppstoreComp from './workflow/Appstore.vue'
 import DeploymentComp from './workflow/Deployment.vue'
@@ -108,13 +107,6 @@ export default {
     appName (val) {
       return this.$store.state.appName
     }
-  },
-  methods: {
-  },
-  mounted () {
-  },
-  beforeRouteLeave (to, from, next) {
-    promptJumpToClassic(to.path, next, this)
   }
 }
 </script>
