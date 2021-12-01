@@ -16,18 +16,21 @@
         <el-form-item
           :label="$t('incubation.appName')"
           class="cb"
+          prop="name"
         >
           <el-input v-model="applicationFormData.name" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.version')"
           class="label-item-half"
+          prop="version"
         >
           <el-input v-model="applicationFormData.version" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.provider')"
           class="label-item-half"
+          prop="provider"
         >
           <el-input v-model="applicationFormData.provider" />
         </el-form-item>
@@ -172,12 +175,13 @@
         <el-form-item
           :label="$t('incubation.description')"
           class="cb"
+          prop="description"
         >
           <el-input
             v-model="applicationFormData.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入内容"
+            :placeholder="$t('service.inputBox')"
           />
         </el-form-item>
       </el-form>
@@ -190,7 +194,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="confirmForm()"
+          @click="confirmForm('applicationForm')"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -279,7 +283,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning('最多上传一个文件！')
+        this.$message.warning(this.$t('incubation.fileLimitNum'))
       }
     },
     fileToBase64 (file) {
@@ -325,7 +329,7 @@ export default {
     },
     handleMdExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning('最多上传一个文件！')
+        this.$message.warning(this.$t('incubation.fileLimitNum'))
       }
     },
     handleChangeMd (file) {
@@ -360,8 +364,8 @@ export default {
         console.log(err)
       })
     },
-    confirmForm () {
-      this.$refs['applicationForm'].validate((valid) => {
+    confirmForm (form) {
+      this.$refs[form].validate((valid) => {
         if (valid) {
           let formdata = new FormData()
           if (this.logoFileList.length > 0) {
@@ -390,8 +394,11 @@ export default {
     modifyApp () {
       this.applicationFormData.id = this.appId
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
-        this.$message.success('更新应用成功！')
+        this.$message.success(this.$t('incubation.modifyAppSuccess'))
         this.$router.push('/EG/developer/home')
+      }).catch(err => {
+        console.log(err)
+        this.$message.success(this.$t('incubation.modifyAppFailed'))
       })
     },
     confirmToCreate (iconFileId, mdFileId) {
@@ -401,10 +408,11 @@ export default {
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
-        this.$message.success('创建应用成功！')
+        this.$message.success(this.$t('incubation.addAppSuccess'))
         this.$store.commit('changeApp', res.data.name)
         this.$router.push('/EG/developer/home')
       }).catch(err => {
+        this.$message.warning(this.$t('incubation.addAppFailed'))
         console.log(err)
       })
     },

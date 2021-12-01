@@ -52,7 +52,12 @@ const cn = {
     others: '其他分类',
     direction: '行动方向',
     currentLocation: '当前应用位置',
-    necessaryNode: '必经节点'
+    necessaryNode: '必经节点',
+    addAppSuccess: '创建应用成功！',
+    addAppFailed: '创建应用失败！',
+    modifyAppSuccess: '编辑应用成功！',
+    modifyAppFailed: '编辑应用失败！',
+    fileLimitNum: '仅支持上传一个文件！'
   },
   service: {
     basicInfo: '基本信息',

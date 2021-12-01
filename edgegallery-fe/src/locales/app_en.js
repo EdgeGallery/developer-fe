@@ -52,7 +52,12 @@ const en = {
     others: 'Others',
     direction: 'Action Direction',
     currentLocation: 'Current Location',
-    necessaryNode: 'Necessary Node'
+    necessaryNode: 'Necessary Node',
+    addAppSuccess: 'Created App successfully!',
+    addAppFailed: 'Created App failed!',
+    modifyAppSuccess: 'Modified App successfully!',
+    modifyAppFailed: 'Modified App failed!',
+    fileLimitNum: 'Only support one file!'
   },
   service: {
     basicInfo: 'Basic information',
