@@ -57,7 +57,12 @@ const en = {
     addAppFailed: 'Created App failed!',
     modifyAppSuccess: 'Modified App successfully!',
     modifyAppFailed: 'Modified App failed!',
-    fileLimitNum: 'Only support one file!'
+    fileLimitNum: 'Only support one file!',
+    nameTip: 'You should enter the app name.',
+    lengthTip: 'The app name should be including 3-15 letters.',
+    versionTip: 'Please enter the app version.',
+    providerTip: 'Please enter the app provider.',
+    descTip: 'Please enter the app description.'
   },
   service: {
     basicInfo: 'Basic information',

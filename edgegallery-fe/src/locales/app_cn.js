@@ -57,7 +57,12 @@ const cn = {
     addAppFailed: '创建应用失败！',
     modifyAppSuccess: '编辑应用成功！',
     modifyAppFailed: '编辑应用失败！',
-    fileLimitNum: '仅支持上传一个文件！'
+    fileLimitNum: '仅支持上传一个文件！',
+    nameTip: '请输应用名称',
+    lengthTip: '长度在 3 到 15 个字符',
+    versionTip: '请输入应用版本',
+    providerTip: '请输入应用开发商',
+    descTip: '请输入应用描述'
   },
   service: {
     basicInfo: '基本信息',

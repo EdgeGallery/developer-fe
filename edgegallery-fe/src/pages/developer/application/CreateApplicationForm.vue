@@ -225,17 +225,17 @@ export default {
       },
       applicationFormRules: {
         name: [
-          { required: true, message: '请输应用名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.nameTip'), trigger: 'blur' },
+          { min: 3, max: 5, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
         ],
         version: [
-          { required: true, message: '请输入应用版本', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
         ],
         provider: [
-          { required: true, message: '请输入应用开发商', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.providerTip'), trigger: 'blur' }
         ],
         description: [
-          { required: true, message: '请输入应用描述', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
         ]
       },
       defaultIconSrc: require('../../../assets/images/application/app_default_icon.png'),
