@@ -15,7 +15,6 @@
  */
 
 import enLocale from 'element-ui/lib/locale/lang/en'
-import enClassic from './classic_en.js'
 import enHome from './home_en.js'
 import enApp from './app_en.js'
 import enAppStore from './appstore_en.js'
@@ -76,7 +75,7 @@ const en = {
     prompt: 'Prompt',
     logoutPage: 'Are you sure to log out?'
   },
-  system: {
+  thirdSystem: {
     threeSystem: 'Third party system management',
     search: 'Please enter name to search',
     allNum: 'allNum',
@@ -112,7 +111,6 @@ const en = {
     updateStstemSucess: 'Update succeeded!'
   },
   ...enLocale,
-  ...enClassic,
   ...enHome,
   ...enAppStore,
   ...enCapability,

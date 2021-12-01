@@ -15,7 +15,6 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-import cnClassic from './classic_cn.js'
 import cnHome from './home_cn.js'
 import cnApp from './app_cn.js'
 import cnAppStore from './appstore_cn.js'
@@ -76,7 +75,7 @@ const cn = {
     prompt: '提示',
     logoutPage: '确认要注销当前用户？'
   },
-  system: {
+  thirdSystem: {
     threeSystem: '三方系统管理',
     search: '请输入名称进行搜索',
     allNum: '总数',
@@ -112,7 +111,6 @@ const cn = {
     updateStstemSucess: '更新成功'
   },
   ...zhLocale,
-  ...cnClassic,
   ...cnHome,
   ...cnApp,
   ...cnAppStore,
