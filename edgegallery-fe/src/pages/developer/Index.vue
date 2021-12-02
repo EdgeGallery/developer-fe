@@ -22,7 +22,7 @@
       >
         <div class="main-content">
           <div class="main-title">
-            {{ appName }}
+            {{ appName==='5G'?$t('incubation.appWorkflow') : appName }}
           </div>
           <div class="main-part">
             <el-row class="main-part-container">
@@ -97,7 +97,13 @@ export default {
     return {
       zoom: 2,
       isShowCapabilityIndexDlg: false,
-      isShowAppWarningDlg: false
+      isShowAppWarningDlg: false,
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   computed: {

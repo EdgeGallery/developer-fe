@@ -65,7 +65,8 @@ const en = {
     descTip: 'Please enter the app description.',
     container: 'Container',
     vm: 'VM',
-    uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.'
+    uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.',
+    appWorkflow: '5G App incubation workflow'
   },
   service: {
     basicInfo: 'Basic information',

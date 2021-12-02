@@ -31,6 +31,17 @@
         :title="$t('incubation.search')"
         @click.stop="searchProject()"
       />
+      <el-input
+        class="search-input"
+        v-model="searchContent"
+        v-if="isSearchActive"
+      >
+        <i
+          class="el-icon-search el-input__icon cp"
+          slot="suffix"
+          @click="searchApp"
+        />
+      </el-input>
       <div
         class="app-btn delete-default"
         :title="$t('incubation.delete')"
@@ -117,7 +128,8 @@ export default {
       searchValue: '',
       isSearchActive: false,
       isViewActive: false,
-      isDeleteActive: false
+      isDeleteActive: false,
+      searchContent: ''
     }
   },
   watch: {
@@ -131,6 +143,7 @@ export default {
       val ? this.$emit('zoomChanged', 3) : this.$emit('zoomChanged', 2)
       if (!this.isViewActive) {
         this.isDeleteActive = false
+        this.isSearchActive = false
       }
     },
     putAway (val) {
@@ -146,6 +159,15 @@ export default {
     },
     searchProject () {
       this.isSearchActive = true
+      if (!this.isViewActive) {
+        this.isViewActive = true
+        this.changeView(false)
+      }
+    },
+    searchApp () {
+      this.allAppList = this.allAppList.filter(item => {
+        return item.name.toLowerCase().indexOf(this.searchContent) > -1
+      })
     },
     deleteApp () {
       this.isDeleteActive = !this.isDeleteActive
@@ -194,6 +216,13 @@ export default {
       margin: 10px 15px;
       cursor: pointer;
       background-size: cover;
+      position: relative;
+    }
+    .search-input{
+      width: 180px;
+      position: absolute;
+      top: 45px;
+      left: 85%;
     }
     .zoom{
       background: url("../../../assets/images/application/app_zoom_default.png") no-repeat center;
@@ -246,5 +275,8 @@ export default {
     top: 45%;
     right: 30px;
   }
+}
+.el-input__icon{
+  line-height: 30px!important;
 }
 </style>

@@ -1246,3 +1246,6 @@ input::-webkit-input-placeholder {
   font-size: 20px;
   font-family: defaultFontLight;
 }
+.el-input__inner{
+  height: 30px!important;
+}

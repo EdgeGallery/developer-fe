@@ -75,7 +75,7 @@ export default {
       sessionStorage.setItem('isCreate', '1')
       this.$store.commit('changeFlow', '0')
       this.$emit('putAway')
-      this.$store.commit('changeApp', '5G边缘应用孵化流水线')
+      this.$store.commit('changeApp', '5G')
       if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
         this.$router.push('/EG/developer/createApplication')
       } else {

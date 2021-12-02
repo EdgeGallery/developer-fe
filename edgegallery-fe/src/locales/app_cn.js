@@ -65,7 +65,8 @@ const cn = {
     descTip: '请输入应用描述',
     container: '容器',
     vm: '虚拟机',
-    uploadSizeLimit: '上传文件超多超过2M限制，请重试'
+    uploadSizeLimit: '上传文件超多超过2M限制，请重试',
+    appWorkflow: '5G边缘应用孵化流水线'
   },
   service: {
     basicInfo: '基本信息',
