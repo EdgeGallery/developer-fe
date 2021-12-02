@@ -24,7 +24,7 @@
             alt="EdgeGallery"
           >
           <div class="flow-name">
-            {{ item.name }}
+            {{ language==='cn'?item.name:item.nameEn }}
           </div>
         </div>
       </div>
@@ -51,11 +51,18 @@ export default {
         {
           id: 6,
           name: '应用商店',
+          nameEn: 'App Store',
           class: 'app-store',
           src: require('../../../assets/images/application/app_store.png'),
           toPath: '/EG/appstore/appWarehouse'
         }
-      ]
+      ],
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
