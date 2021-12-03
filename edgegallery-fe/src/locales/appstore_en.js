@@ -595,8 +595,10 @@ const en = {
     tooltipVendor: 'Please enter the vendor ',
     tooltipUsername: 'Please enter the username',
     tooltipPassword: 'Please enter the password',
-    addStstemSucess: 'New message succeeded!',
-    updateStstemSucess: 'Update succeeded!'
+    addSystemSucess: 'New message succeeded!',
+    updateStstemSucess: 'Update succeeded!',
+    or: 'or',
+    uploadRequire: 'Only one JPG / PNG file can be uploaded'
   },
   about: {
   },
