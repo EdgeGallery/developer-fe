@@ -24,69 +24,36 @@
       </h3>
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.vmName') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.vmName?vmBasicInformation.vmName:'NA' }}</span>
+          <span class="content-left lt">应用名称 :</span>
+          <span class="content-right lt">{{ containerApp.name?containerApp.name:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.network') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.netWork?vmBasicInformation.netWork:'NA' }}</span>
+          <span class="content-left lt">负载类型 :</span>
+          <span class="content-right lt">{{ containerApp.appClass?containerApp.appClass==='CONTAINER'?$t('container.container'):$t('sandbox.vm'):'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.image') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.image?vmBasicInformation.image:'NA' }}</span>
+          <span class="content-left lt">创建时间 :</span>
+          <span class="content-right lt">{{ containerApp.createTime?containerApp.createTime:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.flavor') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.flavor?vmBasicInformation.flavor:'NA' }}</span>
+          <span class="content-left lt">依赖应用 :</span>
+          <!-- <span class="content-right lt">{{ vmBasicInformation.flavor?vmBasicInformation.flavor:'NA' }}</span> -->
         </p>
       </div>
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.instanceStatus') }} :</span>
-          <span class="content-right lt">{{ vmTestInformation.status?vmTestInformation.status:'NA' }}</span>
+          <span class="content-left lt">部署状态 :</span>
+          <span class="content-right lt">{{ containerApp.instantiateInfo.status?containerApp.instantiateInfo.status:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.instanceInformation') }} :</span>
+          <span class="content-left lt">pod信息 :</span>
           <span
             class="content-right lt"
-            v-if="vmTestInformation.nodes.length>0"
-          >
-            <span
-              v-for="(item,index) in vmTestInformation.nodes"
-              :key="index"
-              class="node-span"
-            >
-              {{ item.networkName }} : {{ item.ipAddress }}
-            </span>
-          </span>
+          />
           <span
             class="content-right lt"
-            v-if="vmTestInformation.nodes.length===0"
           >NA</span>
-        </p>
-      </div>
-
-      <div class="vm-content">
-        <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.imageName') }} :</span>
-          <span class="content-right lt">{{ vmImageInformation.imageName?vmImageInformation.imageName:'NA' }}</span>
-        </p>
-        <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.downloadUrl') }} :</span>
-          <span class="content-right lt">
-            <el-link
-              :href="vmImageInformation.downloadUrl"
-              :underline="false"
-              rel="noopener noreferrer"
-            >
-              {{ vmImageInformation.downloadUrl?vmImageInformation.downloadUrl:'NA' }}
-            </el-link>
-          </span>
-        </p>
-        <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.stageStatus') }} :</span>
-          <span class="content-right lt">{{ vmImageInformation.status?vmImageInformation.status:'NA' }}</span>
         </p>
       </div>
 
@@ -103,23 +70,18 @@
 </template>
 
 <script>
-import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'Vmdetail',
   data () {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
+      containerApp: {},
       vmBasicInformation: {
         vmName: '',
         netWork: '',
         image: '',
         flavor: ''
       },
-      vmTestInformation: {
-        status: '',
-        nodes: []
-      },
-      vmImageInformation: {},
       vmId: '',
       language: localStorage.getItem('language') || 'cn'
     }
@@ -128,46 +90,10 @@ export default {
     closeContainerDetail () {
       this.$emit('closeContainerDetail')
     },
-    checkVmDetail () {
+    getContainerDetail () {
       let _this = this
-      this.bus.$on('checkVmDetail', function (data) {
-        _this.vmId = data
-        _this.getVmDetail(_this.vmId)
-      })
-    },
-    getVmExportImageInfo () {
-      let _this = this
-      this.bus.$on('getVmExportImageInfo', function (data) {
-        _this.vmImageInformation = data
-      })
-    },
-    getVmDetail (vmId) {
-      sandbox.getVmDetail(this.applicationId, vmId).then(res => {
-        if (res.data) {
-          this.vmBasicInformation.vmName = res.data.name
-          let _arr = []
-          res.data.portList.forEach(item => {
-            _arr.push(item.networkName)
-          })
-          this.vmBasicInformation.netWork = _arr.join(', ')
-          this.getVmDetailImage(res.data.imageId)
-          this.getVmDetailFlavor(res.data.flavorId)
-
-          if (res.data.vmInstantiateInfo) {
-            this.vmTestInformation.status = res.data.vmInstantiateInfo.status
-            this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
-          }
-        }
-      })
-    },
-    getVmDetailImage (imageId) {
-      sandbox.getVmDetailImage(imageId).then(res => {
-        this.vmBasicInformation.image = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
-      })
-    },
-    getVmDetailFlavor (flavorId) {
-      sandbox.getVmDetailFlavor(flavorId).then(res => {
-        this.vmBasicInformation.flavor = res.data.architecture + ', ' + res.data.name + ', ' + res.data.cpu + 'vCPUs' + res.data.memory + 'GB RAM, ' + res.data.dataDiskSize + 'GB+' + res.data.systemDiskSize + 'GB Disk'
+      this.bus.$on('getContainerDetail', function (data) {
+        _this.containerApp = data
       })
     }
   },
@@ -177,8 +103,7 @@ export default {
     }
   },
   mounted () {
-    this.checkVmDetail()
-    this.getVmExportImageInfo()
+    this.getContainerDetail()
   }
 }
 </script>

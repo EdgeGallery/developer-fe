@@ -315,7 +315,9 @@ export default {
         trafficRuleId: '',
         priority: '',
         action: 'FORWARD_DECAPSULATED',
-        filterType: 'FLOW'
+        filterType: 'FLOW',
+        trafficFilter: [],
+        dstInterface: []
       }
       this.isRulesConfigShow = false
       this.isTrafficRulesShow = true

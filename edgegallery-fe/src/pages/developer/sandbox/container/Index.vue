@@ -23,7 +23,7 @@
         >
           <img
             class="deploy-img-center script-icon"
-            :class="{'deploy-img-center-finish':importScriptFinish,'breath':!deployBreathStyle}"
+            :class="{'deploy-img-center-finish':importScriptFinish,'breath':!importScriptFinish}"
             src="../../../../assets/images/sandbox/script_icon.png"
             @mouseleave="!importScriptFinish"
             alt=""
@@ -59,29 +59,32 @@
     <div class="details-center-container">
       <div
         class="flex-center details-center-container-img"
-        :class="{'details-center-container-img-finish':isStartUpContainerSuccess}"
+        :class="{'details-center-container-img-finish':isDeployContainerSuccess}"
       >
         <img
-          v-if="!isStartUpContainerSuccess"
+          v-if="!isDeployContainerSuccess"
           class="container-center-img"
-          :class="{'container-center-img-finish':isStartupVm,'breath':(!vmBreathStyle && !isStartupVm)}"
+          :class="{'breath':containerBreathStyle && !isDeployContainer,'container-center-img-finish':isDeployContainer}"
           src="../../../../assets/images/sandbox/container_icon.png"
           alt=""
         >
         <img
           v-else
           class="container-center-img"
+          :class="{'container-center-img-success':isDeployContainerSuccess}"
           src="../../../../assets/images/sandbox/container_icon_finish.png"
           alt=""
         >
         <div
           class="container-bg"
-          @mouseleave="isStartupVm?vmBreathStyle=true:vmBreathStyle=false"
+          @mouseleave="!isDeployContainer?containerBreathStyle=true:containerBreathStyle=false"
+          @mouseenter="containerBreathStyle=false"
         >
           <div
-            v-if="!isBtnStart"
+            v-if="!isDeployContainer"
             class="container-btn flex-center hoverHands img-click"
-            @click="startUpContainer()"
+            :class="scriptBreathStyle ? 'img-click':'img-onlyRead'"
+            @click="deployContainer"
             @mouseleave="startGreen=false"
             @mouseenter="startGreen=true"
           >
@@ -105,6 +108,7 @@
           </div>
           <div
             class="container-btn flex-center hoverHands img-click"
+            :class="isDeployContainerFinish ? 'img-click':'img-onlyRead'"
             @click="checkContainerDetail"
             @mouseleave="detailGreen=false"
             @mouseenter="detailGreen=true"
@@ -128,12 +132,12 @@
             </el-tooltip>
           </div>
           <div
-            v-if="isBtnStart"
+            v-if="isDeployContainer"
             class="container-btn flex-center hoverHands"
-            :class="!isStartUpContainerSuccess ? 'img-onlyRead':'img-click'"
-            @click="releaseContainerEnv"
+            :class="isDeployContainerFinish ? 'img-click':'img-onlyRead'"
+            @click="cleanContainerEnv"
             @mouseleave="closeGreen=false"
-            @mouseenter="isStartUpContainerSuccess?closeGreen=true:closeGreen=false"
+            @mouseenter="isDeployContainerFinish?closeGreen=true:closeGreen=false"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -159,13 +163,13 @@
           v-if="!isClearContainer"
         >
           <el-progress
-            v-if="isBtnStart && !isStartUpContainerSuccess"
+            v-if="isDeployContainer && !isDeployContainerFinish"
             :percentage="percentages"
           />
           <p
-            v-if="isBtnStart && isStartUpContainerSuccess"
+            v-if="isDeployContainer && isDeployContainerFinish"
             class="start-up-result"
-            :class="{'start-up-result-error':!isStartUpContainerSuccess}"
+            :class="{'start-up-result-error':!isDeployContainerSuccess}"
           >
             <span
               v-for="(item,index) in 4"
@@ -182,13 +186,10 @@
 </template>
 
 <script>
+import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'ContainerIndex',
   props: {
-    vmBreathStyleProp: {
-      type: Boolean,
-      default: false
-    },
     isClearVmImageProp: {
       type: Boolean,
       default: true
@@ -197,19 +198,20 @@ export default {
   data () {
     return {
       importScriptFinish: false,
-      deployBreathStyle: false,
       applicationId: sessionStorage.getItem('applicationId') || '',
-      isStartupVm: false,
-      vmBreathStyle: this.vmBreathStyleProp,
-      isStartupVmFinish: false,
-      isBtnStart: false,
+      isDeployContainer: false,
+      containerBreathStyle: false,
+      isDeployContainerFinish: false,
       operationId: '',
       percentages: 0,
-      isStartUpContainerSuccess: false,
+      isDeployContainerSuccess: false,
       isClearContainer: this.isClearVmImageProp,
       startGreen: false,
       detailGreen: false,
-      closeGreen: false
+      closeGreen: false,
+      scriptBreathStyle: false,
+      timer: null,
+      containerApp: {}
     }
   },
   methods: {
@@ -217,29 +219,92 @@ export default {
       this.$emit('importScript', 'showImportScript')
     },
     checkContainerDetail () {
+      this.bus.$emit('getContainerDetail', this.containerApp)
       this.$emit('checkContainerDetail', 'showContainerDetail')
     },
-    startUpContainer (data) {
-      let _timer = setTimeout(() => {
-        clearTimeout(_timer)
-        this.isBtnStart = true
-        this.isStartUpContainerSuccess = true
-        this.isClearContainer = false
-      }, 3000)
+    deployContainer () {
+      sandbox.container.deployContainer(this.applicationId).then(res => {
+        if (!res.data) {
+          return
+        }
+        this.isDeployContainer = true
+        this.operationId = res.data.operationId
+        this.timer = setInterval(() => {
+          this.getDeployContainerInfo(this.operationId)
+        }, 5000)
+      })
     },
-    releaseContainerEnv () {
+    getDeployContainerInfo (operationId) {
+      sandbox.container.getDeployContainerInfo(operationId).then(res => {
+        if (!res.data) {
+          return
+        }
+        this.isClearContainer = false
+        this.percentages = res.data.progress
+        if (res.data.status === 'SUCCESS') {
+          this.isDeployContainerSuccess = true
+          this.isDeployContainerFinish = true
+          this.isDeployContainer = true
+          this.$emit('deployContainerFinish', this.isDeployContainerFinish)
+          clearTimeout(this.timer)
+        } else if (res.data.status === 'FAILED') {
+          this.isDeployContainerSuccess = false
+          this.isDeployContainerFinish = true
+          this.isDeployContainer = true
+          this.$emit('deployContainerFinish', this.isDeployContainerFinish)
+          clearTimeout(this.timer)
+        } else {
+          this.isDeployContainerFinish = false
+        }
+      }).catch(() => {
+        clearTimeout(this.timer)
+      })
+    },
+    cleanContainerEnv () {
+      sandbox.container.cleanContainerEnv(this.applicationId).then(() => {
+        this.isClearContainer = true
+        this.isDeployContainer = false
+        this.containerBreathStyle = true
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvSuccess'), 'success')
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvFailed'), 'error')
+      })
+    },
+    getHelmChartsFileList () {
+      sandbox.container.getHelmchartsFileList(this.applicationId).then(res => {
+        if (res.data && res.data.length > 0) {
+          this.importScriptFinish = true
+          this.containerBreathStyle = true
+          this.scriptBreathStyle = true
+        }
+      })
+    },
+    getApplicationDetail () {
+      sandbox.container.getApplicationDetail(this.applicationId).then(res => {
+        if (!res.data || !res.data.containerApp || !res.data.containerApp.instantiateInfo) {
+          return
+        }
+        this.$emit('deployContainerFinish', true)
+        this.containerApp = res.data.containerApp
+        this.operationId = res.data.containerApp.instantiateInfo.operationId
+        this.getDeployContainerInfo(this.operationId)
+        this.timer = setInterval(() => {
+          this.getDeployContainerInfo(this.operationId)
+        }, 5000)
+      })
     }
   },
   watch: {
     isClearVmImageProp: function (val) {
       this.isClearContainer = val
       if (val) {
-        this.isBtnStart = true
-        this.isStartUpContainerSuccess = false
+        this.isDeployContainerSuccess = false
       }
     }
   },
   mounted () {
+    this.getHelmChartsFileList()
+    this.getApplicationDetail()
   }
 }
 </script>
@@ -255,9 +320,9 @@ export default {
       position:absolute;
       width: 81px;
       height: 92px;
-      opacity: 1;
+      opacity: .3;
     }
-    .container-center-img-finish{
+    .container-center-img-finish,.container-center-img-success{
       opacity: 1;
     }
     .container-bg{
@@ -315,23 +380,6 @@ export default {
       }
       40% {
         transform: scale(1.0);
-      }
-    }
-    .el-progress .el-progress-bar__inner:before {
-      content:"";
-      width:100%;
-      height:100%;
-      display:block;
-      background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 12.5%,transparent 0,transparent 25%);
-      background-size:80px 80px;
-      animation:move 2.5s linear infinite;
-    }
-    @keyframes move {
-      from {
-        background-position: 80px 0;
-      }
-      to {
-        background-position:  0;
       }
     }
   }
