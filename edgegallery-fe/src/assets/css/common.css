@@ -79,12 +79,6 @@
    color: #688ef3;
    text-decoration: none;
  }
- .markdown-body{
-   font-family: defaultFont, Arial, Helvetica, sans-serif !important;
- }
- .markdown-body a{
-   color: #688ef3 !important;
- }
  li{
    list-style: none;
  }
@@ -1248,4 +1242,13 @@ input::-webkit-input-placeholder {
 }
 .el-input__inner{
   height: 30px!important;
+}
+.common-mavon-editor.markdown-body{
+  color: #fff !important;
+}
+.common-mavon-editor.v-note-wrapper,.common-mavon-editor .content-input-wrapper,
+.common-mavon-editor.markdown-body .highlight pre, .common-mavon-editor.markdown-body pre,
+.common-mavon-editor.markdown-body textarea {
+  background-color: #4E3494 !important;
+  color: #fff !important;
 }

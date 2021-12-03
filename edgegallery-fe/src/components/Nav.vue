@@ -127,7 +127,7 @@ export default {
   data () {
     return {
       jsonData: [],
-      language: 'En',
+      language: '',
       languageIcon: require('../assets/images/nav_en.png'),
       loginPage: '',
       userCenterPage: '',
@@ -173,9 +173,9 @@ export default {
     }
   },
   beforeMount () {
-    localStorage.setItem('language', 'cn')
-    let _language = localStorage.getItem('language')
+    let _language = localStorage.getItem('language') || 'cn'
     this.language = _language === 'en' ? 'Cn' : 'En'
+    this.languageIcon = _language === 'cn' ? require('../assets/images/nav_en.png') : require('../assets/images/nav_cn.png')
     if (_language === 'en') {
       this.jsonData = navData
     } else {
@@ -437,8 +437,6 @@ export default {
       }
       this.$i18n.locale = language
       localStorage.setItem('language', language)
-      this.$store.commit('changelanguage', language)
-      this.$root.$emit('languageChange')
     },
     jumpFromLogo (newPath) {
       this.$router.push(newPath)

@@ -87,8 +87,6 @@ export default {
       }
       this.$i18n.locale = language
       localStorage.setItem('language', language)
-      this.$store.commit('changelanguage', language)
-      this.$root.$emit('languageChange')
     },
     loginFun () {
       loginApi().then(res => {
@@ -231,9 +229,8 @@ export default {
     }
   },
   beforeMount () {
-    localStorage.setItem('language', 'cn')
-    let language = localStorage.getItem('language')
-    this.language = language === 'en' ? 'Cn' : 'En'
+    let language = localStorage.getItem('language') || 'cn'
+    this.$i18n.locale = language
     if (language === 'en') {
       this.jsonData = navData.mecDeveloper
     } else {

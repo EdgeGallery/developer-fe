@@ -128,7 +128,7 @@
               width="125"
             >
               <template slot-scope="scope">
-                {{ scope.row.deployMode==='container' ? this.$t('store.deployContainer') : this.$t('store.deployVM') }}
+                {{ scope.row.deployMode==='container' ? $t('store.deployContainer') : $t('store.deployVM') }}
               </template>
             </el-table-column>
             <el-table-column

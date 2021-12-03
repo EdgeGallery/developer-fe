@@ -14,19 +14,13 @@
   -  limitations under the License.
   -->
 <template>
-  <div class="vm-detail">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
-
+  <div class="container-detail">
     <div
-      class="common-div-bg vm-detail-dlg"
-      :class="{'vm-detail-dlg-en':language==='en'}"
+      class="common-div-bg container-detail-dlg"
+      :class="{'container-detail-dlg-en':language==='en'}"
     >
       <h3 class="common-dlg-title">
-        {{ $t('sandbox.vmDetail') }}
+        {{ $t('container.containerDetail') }}
       </h3>
       <div class="vm-content">
         <p class="clear">
@@ -99,7 +93,7 @@
       <div class="btn-container network-btn">
         <el-button
           class="common-btn"
-          @click="closeVmDetail"
+          @click="closeContainerDetail"
         >
           {{ $t('common.finish') }}
         </el-button>
@@ -109,7 +103,7 @@
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi.js'
+import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'Vmdetail',
   data () {
@@ -131,8 +125,8 @@ export default {
     }
   },
   methods: {
-    closeVmDetail () {
-      this.$emit('closeVmDetail')
+    closeContainerDetail () {
+      this.$emit('closeContainerDetail')
     },
     checkVmDetail () {
       let _this = this
@@ -190,12 +184,12 @@ export default {
 </script>
 
 <style lang="less">
-.vm-detail{
+.container-detail{
   width: 100%;
   height: 100%;
   position: relative;
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
-  .vm-detail-dlg{
+  .container-detail-dlg{
     position: absolute;
     width: 700px;
     padding: 40px;
@@ -229,7 +223,7 @@ export default {
       }
     }
   }
-  .vm-detail-dlg-en{
+  .container-detail-dlg-en{
     .content-left{
       width: 140px !important;
     }

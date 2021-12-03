@@ -790,7 +790,8 @@ const en = {
     systemProject: 'Project Management',
     systemMep: 'Ability Center Management',
     systemHost: 'Host Management',
-    systemImgMgmt: 'System Image Management'
+    systemImgMgmt: 'System Image Management',
+    profileMgmt: 'Profile Management'
   },
   system: {
     completeInfo: 'Please fill in the complete information',
@@ -846,6 +847,15 @@ const en = {
     lcmIp: 'lcmIP',
     mecHost: 'mecHost',
 
+    profileMgmt: {
+      addProfile: 'Add Profile',
+      appList: 'App List',
+      newProfile: ' Add Profile',
+      modifyProfile: 'Modify',
+      file: 'File',
+      uploadFile: 'Upload File',
+      contentTip: 'The file format is zip'
+    },
     imageMgmt: {
       imgName: 'Image Name',
       imgPath: 'Image Path',
