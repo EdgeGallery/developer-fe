@@ -597,6 +597,7 @@ const en = {
     tooltipPassword: 'Please enter the password',
     addSystemSucess: 'New message succeeded!',
     updateStstemSucess: 'Update succeeded!',
+    deleteSystemSucess: 'Delete succeeded!',
     or: 'or',
     uploadRequire: 'Only one JPG / PNG file can be uploaded'
   },
