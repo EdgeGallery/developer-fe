@@ -163,6 +163,12 @@ let applicationApi = {
   },
   publishApp: function (applicationId, params) {
     return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/release', params)
+  },
+  getProfileDataList: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'profiles', params)
+  },
+  createProfileNewApp: function (profileId, params) {
+    return POST(URL_PREFIX_DEVELOPER + 'profiles/' + profileId + '/create-application', params)
   }
 }
 

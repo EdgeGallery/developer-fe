@@ -92,6 +92,11 @@ export default new Router({
       component: () => import('../pages/developer/application/CreateApplication.vue')
     },
     {
+      path: '/EG/developer/createProfileApplication',
+      name: 'createProfileApplication',
+      component: () => import('../pages/developer/application/CreateProfileApplication.vue')
+    },
+    {
       path: '/EG/developer/capabilityCenter',
       name: 'capabilityCenter',
       component: () => import('../pages/developer/capabilityCenter/Index.vue')

@@ -66,7 +66,14 @@ const cn = {
     container: '容器',
     vm: '虚拟机',
     uploadSizeLimit: '上传文件超多超过2M限制，请重试',
-    appWorkflow: '5G边缘应用孵化流水线'
+    appWorkflow: '5G边缘应用孵化流水线',
+    newProject: '新建应用',
+    selectProfile: '选择场景',
+    appList: '应用列表',
+    noData: '暂无数据',
+    noProfile: '请选择场景',
+    createSuc: '创建应用成功!',
+    createFail: '创建应用失败!'
   },
   service: {
     basicInfo: '基本信息',
