@@ -20,24 +20,10 @@ const pathPre = NAV_PRE.DEVELOPER
 const atpPathPre = NAV_PRE.ATP
 const devNavData = [
   {
-    id: '1.2',
-    name: 'Integrated Tools',
-    path: pathPre + '/mecDeveloper/plugin/list',
-    display: true,
-    children: [
-      {
-        id: '1.2.1',
-        name: 'Plugin',
-        path: pathPre + '/mecDeveloper/plugin/list',
-        display: true
-      },
-      {
-        id: '1.2.2',
-        name: 'Upload',
-        path: pathPre + '/mecDeveloper/plugin/upload',
-        display: true
-      }
-    ]
+    id: '1.7',
+    name: 'Incubation',
+    path: '/EG/developer/home',
+    display: true
   },
   {
     id: '1.3',
@@ -46,44 +32,16 @@ const devNavData = [
     display: true
   },
   {
-    id: '1.7',
-    name: 'Incubation',
-    path: '/EG/developer/home',
-    display: true
-  },
-  {
-    id: '1.4',
-    name: 'Workspace',
-    path: pathPre + '/mecDeveloper/work',
-    display: true
-  },
-  {
-    id: '1.5',
-    name: 'System',
+    id: '1.8',
+    name: 'Toolbox',
+    path: '',
     display: true,
-    path: pathPre + '/mecDeveloper/system',
-    authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT'],
     children: [
       {
-        id: '1.5.1',
-        name: 'Host Management',
-        path: pathPre + '/mecDeveloper/system/host',
-        display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN']
-      },
-      {
-        id: '1.5.2',
-        name: 'Ability Center Management',
-        path: pathPre + '/mecDeveloper/system/mep',
-        display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN']
-      },
-      {
-        id: '1.5.3',
-        name: 'System Image Management',
-        path: pathPre + '/mecDeveloper/system/imagemgmt',
-        display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
+        id: '1.8.1',
+        name: 'Application Editor',
+        path: '',
+        display: true
       }
     ]
   },
@@ -147,6 +105,36 @@ const devNavData = [
         path: atpPathPre + '/configurationlist',
         display: true,
         id: '4.5'
+      }
+    ]
+  },
+  {
+    id: '1.5',
+    name: 'System',
+    display: true,
+    path: pathPre + '/mecDeveloper/system',
+    authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT'],
+    children: [
+      {
+        id: '1.5.1',
+        name: 'Host Management',
+        path: pathPre + '/mecDeveloper/system/host',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN']
+      },
+      {
+        id: '1.5.2',
+        name: 'Ability Center Management',
+        path: pathPre + '/mecDeveloper/system/mep',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN']
+      },
+      {
+        id: '1.5.3',
+        name: 'System Image Management',
+        path: pathPre + '/mecDeveloper/system/imagemgmt',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }
     ]
   }
