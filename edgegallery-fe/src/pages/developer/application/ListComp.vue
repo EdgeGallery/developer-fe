@@ -143,7 +143,7 @@ export default {
         applicationApi.deleteApp(id).then(res => {
           this.$message({
             type: 'success',
-            message: this.$t('common.deleted')
+            message: this.$t('incubation.deleted')
           })
           this.$emit('refreshList')
           if (id === sessionStorage.getItem('applicationId')) {

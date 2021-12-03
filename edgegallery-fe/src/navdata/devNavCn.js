@@ -20,24 +20,10 @@ const atpPathPre = NAV_PRE.ATP
 const pathPre = NAV_PRE.DEVELOPER
 const devNavData = [
   {
-    id: '1.2',
-    name: '集成工具',
-    path: pathPre + '/mecDeveloper/plugin/list',
-    display: true,
-    children: [
-      {
-        id: '1.2.1',
-        name: '插件',
-        path: pathPre + '/mecDeveloper/plugin/list',
-        display: true
-      },
-      {
-        id: '1.2.2',
-        name: '上传',
-        path: pathPre + '/mecDeveloper/plugin/upload',
-        display: true
-      }
-    ]
+    id: '1.7',
+    name: '应用孵化',
+    path: '/EG/developer/home',
+    display: true
   },
   {
     id: '1.3',
@@ -46,44 +32,16 @@ const devNavData = [
     display: true
   },
   {
-    id: '1.7',
-    name: '应用孵化',
-    path: '/EG/developer/home',
-    display: true
-  },
-  {
-    id: '1.4',
-    name: '工作空间',
-    path: pathPre + '/mecDeveloper/work',
-    display: true
-  },
-  {
-    id: '1.5',
-    name: '系统',
+    id: '1.8',
+    name: '工具箱',
+    path: '',
     display: true,
-    path: pathPre + '/mecDeveloper/system',
-    authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT'],
     children: [
       {
-        id: '1.5.1',
-        name: '沙箱管理',
-        path: pathPre + '/mecDeveloper/system/host',
-        display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN']
-      },
-      {
-        id: '1.5.2',
-        name: '能力中心管理',
-        path: pathPre + '/mecDeveloper/system/mep',
-        display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN']
-      },
-      {
-        id: '1.5.3',
-        name: '系统镜像管理',
-        path: pathPre + '/mecDeveloper/system/imagemgmt',
-        display: true,
-        authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
+        id: '1.8.1',
+        name: '应用编辑',
+        path: '',
+        display: true
       }
     ]
   },
@@ -107,7 +65,6 @@ const devNavData = [
       }
     ]
   },
-
   {
     id: '2',
     name: '测试认证中心',
@@ -150,8 +107,37 @@ const devNavData = [
         id: '4.5'
       }
     ]
+  },
+  {
+    id: '1.5',
+    name: '系统管理',
+    display: true,
+    path: pathPre + '/mecDeveloper/system',
+    authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT'],
+    children: [
+      {
+        id: '1.5.1',
+        name: '沙箱管理',
+        path: pathPre + '/mecDeveloper/system/host',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN']
+      },
+      {
+        id: '1.5.2',
+        name: '能力中心管理',
+        path: pathPre + '/mecDeveloper/system/mep',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN']
+      },
+      {
+        id: '1.5.3',
+        name: '系统镜像管理',
+        path: pathPre + '/mecDeveloper/system/imagemgmt',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
+      }
+    ]
   }
-
 ]
 
 export {
