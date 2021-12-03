@@ -4,7 +4,9 @@
       v-for="(item,index) in dataList"
       :key="index"
       class="app-item"
-      @click.stop="item.id===0?createApplication():checkProjectDetail(item)"
+      @mouseenter="isShowCreate=!isShowCreate"
+      @mouseleave="isShowCreate=!isShowCreate"
+      @click.stop="item.id===0?'':checkProjectDetail(item)"
     >
       <div
         class="app-item-delete"
@@ -21,7 +23,24 @@
           :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
         >
       </div>
-
+      <div
+        v-if="item.id===0 && isShowCreate"
+        class="down_div"
+        :class="zoom!==2?'down_div_position':''"
+      >
+        <div
+          class="transition-box"
+          @click="createApplication()"
+        >
+          <em />{{ $t('incubation.newProject') }}
+        </div>
+        <div
+          class="transition-box"
+          @click="createProfileApplication()"
+        >
+          <em />{{ $t('incubation.selectProfile') }}
+        </div>
+      </div>
       <div
         class="app-name"
         :title="item.name"
@@ -54,11 +73,16 @@ export default {
     dataList: {
       type: Array,
       default: () => []
+    },
+    zoom: {
+      type: Number,
+      default: 0
     }
   },
   data () {
     return {
-      applicationId: sessionStorage.getItem('applicationId') || ''
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      isShowCreate: false
     }
   },
   methods: {
@@ -79,6 +103,18 @@ export default {
       this.$store.commit('changeApp', '5G')
       if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
         this.$router.push('/EG/developer/createApplication')
+      } else {
+        this.$message.warning(this.$t('promptInformation.noPermission'))
+      }
+    },
+    createProfileApplication () {
+      sessionStorage.setItem('applicationId', '')
+      sessionStorage.setItem('isCreate', '1')
+      this.$store.commit('changeFlow', '0')
+      this.$emit('putAway')
+      this.$store.commit('changeApp', '5G')
+      if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
+        this.$router.push('/EG/developer/createProfileApplication')
       } else {
         this.$message.warning(this.$t('promptInformation.noPermission'))
       }
@@ -156,6 +192,47 @@ export default {
       border: 3px solid #42F6AC;
       border-radius: 50%;
     }
+  }
+  .down_div{
+    width: 105px;
+    position: fixed;
+    z-index: 9999;
+    left: 120px;
+    top: 160px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: defaultFontLight;
+    color: rgba(255, 255, 255, 0.6);
+    background: #290E74;
+    .transition-box{
+      height: 32px;
+      line-height: 32px;
+      position: relative;
+      z-index: 2;
+      em{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 13px;
+        left: 4px;
+      }
+    }
+    .transition-box:hover{
+      background: rgba(96, 86, 154, 0.5);
+      border-radius: 4px;
+      em{
+        border-bottom: 5px solid #42F6AC;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        transform: rotate(90deg);
+      }
+    }
+  }
+  .down_div_position{
+    position: absolute;
+    left: 120px;
+    top: 25px;
   }
   .app-item-delete{
     width: 20px;
