@@ -47,13 +47,15 @@ const cn = {
     password: '密码',
     enterPassword: '请输入密码',
     pleaseSelect: '请选择',
-    back: '返回'
+    back: '返回',
+    noData: '暂无数据'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',
     deleteFailed: '删除数据失败！',
     editDataFailed: '编辑数据失败！',
-    noPermission: 'Guest没有权限操作，请登录后重试'
+    noPermission: 'Guest没有权限操作，请登录后重试',
+    fileIsEmpty: '文件内容为空！'
   },
   normal: {
     newVersion: '新版',

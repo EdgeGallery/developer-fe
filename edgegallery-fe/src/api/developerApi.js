@@ -103,7 +103,37 @@ let sandbox = {
   },
   getUpfFinished (applicationId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/appconfiguration')
+  },
+  container: {
+    postHelmChartsFile (applicationId, parmas) {
+      return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts', parmas)
+    },
+    getHelmchartsFileList (applicationId) {
+      return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts')
+    },
+    getHelmChartFileContent (applicationId, helmChartId, filePath) {
+      return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts/' + helmChartId + '/action/get-inner-file?filePath=' + filePath)
+    },
+    saveHelmChartFile (applicationId, helmChartId, params) {
+      return PUT(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts/' + helmChartId + '/action/modify-inner-file', params)
+    },
+    deleteHelmChartsFile (applicationId, helmChartId) {
+      return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts/' + helmChartId)
+    },
+    deployContainer (applicationId) {
+      return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/containers/action/launch')
+    },
+    getDeployContainerInfo (operationId) {
+      return GET(URL_PREFIX_DEVELOPER + 'operations/' + operationId)
+    },
+    getApplicationDetail (applicationId) {
+      return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/detail')
+    },
+    cleanContainerEnv (applicationId) {
+      return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/clean-env')
+    }
   }
+
 }
 
 let applicationApi = {

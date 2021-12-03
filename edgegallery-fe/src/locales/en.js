@@ -47,13 +47,15 @@ const en = {
     password: 'Password',
     enterPassword: 'Please enter password',
     pleaseSelect: 'Please select',
-    back: 'Back'
+    back: 'Back',
+    noData: 'No Data'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
     deleteFailed: 'Failed to delete data!',
     editDataFailed: 'Failed to edit data!',
-    noPermission: 'Guest user has no permissioin，please login and retry it!'
+    noPermission: 'Guest user has no permissioin，please login and retry it!',
+    fileIsEmpty: 'File content is empty!'
   },
   normal: {
     newVersion: 'New Version',

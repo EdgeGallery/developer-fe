@@ -69,6 +69,7 @@ export default {
       sandbox.getUserSelectSandbox(this.applicationId).then(res => {
         if (res.data.mepHostId == null) {
           this.selectSandbox = this.$t('sandbox.selectSandbox')
+          this.$store.commit('changeFlow', '3')
         } else {
           sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
             this.selectSandbox = res.data.name
