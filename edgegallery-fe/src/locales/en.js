@@ -15,7 +15,6 @@
  */
 
 import enLocale from 'element-ui/lib/locale/lang/en'
-import enClassic from './classic_en.js'
 import enHome from './home_en.js'
 import enApp from './app_en.js'
 import enAppStore from './appstore_en.js'
@@ -56,8 +55,27 @@ const en = {
     editDataFailed: 'Failed to edit data!',
     noPermission: 'Guest user has no permissioin，please login and retry it!'
   },
+  normal: {
+    newVersion: 'New Version',
+    cancel: 'Cancel',
+    confirm: 'Confirm'
+  },
+  nav: {
+    logIn: 'Login',
+    userAccountCenter: 'My Account',
+    logOut: 'Logout',
+    refresh: 'Refresh',
+    reLogin: 'ReLogin',
+    hsInvalidHintForTimeout: 'You have not operated for a long time, ',
+    hsInvalidHintForLogout: 'You have logged in or logged out through other pages, ',
+    hsInvalidHintForServerStopped: 'The server has been upgraded, ',
+    hsInvalidHint: 'the current session has expired. Please choose to refresh the page or log in again.'
+  },
+  promptMessage: {
+    prompt: 'Prompt',
+    logoutPage: 'Are you sure to log out?'
+  },
   ...enLocale,
-  ...enClassic,
   ...enHome,
   ...enAppStore,
   ...enCapability,

@@ -52,11 +52,26 @@ const cn = {
     others: '其他分类',
     direction: '行动方向',
     currentLocation: '当前应用位置',
-    necessaryNode: '必经节点'
+    necessaryNode: '必经节点',
+    addAppSuccess: '创建应用成功！',
+    addAppFailed: '创建应用失败！',
+    modifyAppSuccess: '编辑应用成功！',
+    modifyAppFailed: '编辑应用失败！',
+    fileLimitNum: '仅支持上传一个文件！',
+    nameTip: '请输应用名称',
+    lengthTip: '长度在 3 到 15 个字符',
+    versionTip: '请输入应用版本',
+    providerTip: '请输入应用开发商',
+    descTip: '请输入应用描述',
+    container: '容器',
+    vm: '虚拟机',
+    uploadSizeLimit: '上传文件超多超过2M限制，请重试',
+    appWorkflow: '5G边缘应用孵化流水线'
   },
   service: {
     basicInfo: '基本信息',
-    secLevel: '二级能力',
+    secLevelCn: '二级能力（中文）',
+    secLevelEn: '二级能力（英文）',
     firLevel: '一级能力',
     inputBox: '请输入内容',
     apiFile: 'API定义文件',
@@ -82,7 +97,12 @@ const cn = {
     type: '类型 ：',
     servicePublish: '能力发布',
     addServiceConfig: '添加服务发布配置',
-    deleteServiceTip: '此操作将永久删除该服务, 是否继续?'
+    deleteServiceTip: '此操作将永久删除该服务, 是否继续?',
+    serviceNameTip: '请填写服务名称',
+    innerPortTip: '请填写内部端口号',
+    protocolTip: '请填写协议',
+    secondLevelNameCnTip: '请填写二级能力中文名',
+    secondLevelNameEnTip: '请填写二级能力英文名'
   },
   workflow: {
     incubation: '应用孵化',

@@ -16,18 +16,21 @@
         <el-form-item
           :label="$t('incubation.appName')"
           class="cb"
+          prop="name"
         >
           <el-input v-model="applicationFormData.name" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.version')"
           class="label-item-half"
+          prop="version"
         >
           <el-input v-model="applicationFormData.version" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.provider')"
           class="label-item-half"
+          prop="provider"
         >
           <el-input v-model="applicationFormData.provider" />
         </el-form-item>
@@ -40,11 +43,11 @@
             :placeholder="$t('incubation.chooseAppClass')"
           >
             <el-option
-              label="容器"
+              :label="$t('incubation.container')"
               value="CONTAINER"
             />
             <el-option
-              label="虚拟机"
+              :label="$t('incubation.vm')"
               value="VM"
             />
           </el-select>
@@ -76,7 +79,7 @@
             <el-option
               v-for="item in industryOptions"
               :key="item.value"
-              :label="item.label[0]"
+              :label="language==='cn'?item.label[0]:item.label[1]"
               :value="item.value"
             />
           </el-select>
@@ -92,7 +95,7 @@
             <el-option
               v-for="item in typeOptions"
               :key="item.value"
-              :label="item.label[0]"
+              :label="language==='cn'?item.label[0]:item.label[1]"
               :value="item.value"
             />
           </el-select>
@@ -172,12 +175,13 @@
         <el-form-item
           :label="$t('incubation.description')"
           class="cb"
+          prop="description"
         >
           <el-input
             v-model="applicationFormData.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入内容"
+            :placeholder="$t('service.inputBox')"
           />
         </el-form-item>
       </el-form>
@@ -190,7 +194,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="confirmForm()"
+          @click="confirmForm('applicationForm')"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -221,17 +225,17 @@ export default {
       },
       applicationFormRules: {
         name: [
-          { required: true, message: '请输应用名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.nameTip'), trigger: 'blur' },
+          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
         ],
         version: [
-          { required: true, message: '请输入应用版本', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
         ],
         provider: [
-          { required: true, message: '请输入应用开发商', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.providerTip'), trigger: 'blur' }
         ],
         description: [
-          { required: true, message: '请输入应用描述', trigger: 'blur' }
+          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
         ]
       },
       defaultIconSrc: require('../../../assets/images/application/app_default_icon.png'),
@@ -242,7 +246,13 @@ export default {
       logoFileList: [],
       mdFileList: [],
       defaultIconFile: [],
-      appId: sessionStorage.getItem('applicationId') || ''
+      appId: sessionStorage.getItem('applicationId') || '',
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
@@ -257,6 +267,7 @@ export default {
         }
         if (file.size / 1024 / 1024 > 2) {
           this.logoFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
         }
         let fileTypeArr = ['jpg', 'png']
         if (file.name) {
@@ -273,7 +284,7 @@ export default {
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning('最多上传一个文件！')
+        this.$message.warning(this.$t('incubation.fileLimitNum'))
       }
     },
     fileToBase64 (file) {
@@ -319,7 +330,7 @@ export default {
     },
     handleMdExceed (file, fileList) {
       if (fileList.length === 1) {
-        this.$message.warning('最多上传一个文件！')
+        this.$message.warning(this.$t('incubation.fileLimitNum'))
       }
     },
     handleChangeMd (file) {
@@ -332,6 +343,7 @@ export default {
         }
         if (file.size / 1024 / 1024 > 2) {
           this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
         }
         let fileTypeArr = ['md']
         if (file.name) {
@@ -354,8 +366,8 @@ export default {
         console.log(err)
       })
     },
-    confirmForm () {
-      this.$refs['applicationForm'].validate((valid) => {
+    confirmForm (form) {
+      this.$refs[form].validate((valid) => {
         if (valid) {
           let formdata = new FormData()
           if (this.logoFileList.length > 0) {
@@ -384,8 +396,11 @@ export default {
     modifyApp () {
       this.applicationFormData.id = this.appId
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
-        this.$message.success('更新应用成功！')
+        this.$message.success(this.$t('incubation.modifyAppSuccess'))
         this.$router.push('/EG/developer/home')
+      }).catch(err => {
+        console.log(err)
+        this.$message.success(this.$t('incubation.modifyAppFailed'))
       })
     },
     confirmToCreate (iconFileId, mdFileId) {
@@ -395,10 +410,11 @@ export default {
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
-        this.$message.success('创建应用成功！')
+        this.$message.success(this.$t('incubation.addAppSuccess'))
         this.$store.commit('changeApp', res.data.name)
         this.$router.push('/EG/developer/home')
       }).catch(err => {
+        this.$message.warning(this.$t('incubation.addAppFailed'))
         console.log(err)
       })
     },

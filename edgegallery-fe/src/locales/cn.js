@@ -15,7 +15,6 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-import cnClassic from './classic_cn.js'
 import cnHome from './home_cn.js'
 import cnApp from './app_cn.js'
 import cnAppStore from './appstore_cn.js'
@@ -56,8 +55,27 @@ const cn = {
     editDataFailed: '编辑数据失败！',
     noPermission: 'Guest没有权限操作，请登录后重试'
   },
+  normal: {
+    newVersion: '新版',
+    cancel: '取消',
+    confirm: '确认'
+  },
+  nav: {
+    logIn: '登录',
+    userAccountCenter: '我的帐号',
+    logOut: '注销',
+    refresh: '刷新',
+    reLogin: '重新登录',
+    hsInvalidHintForTimeout: '您长时间未操作，',
+    hsInvalidHintForLogout: '您通过其它页面执行了登录或注销操作，',
+    hsInvalidHintForServerStopped: '后台服务升级，',
+    hsInvalidHint: '当前会话已失效。请选择刷新页面或重新登录。'
+  },
+  promptMessage: {
+    prompt: '提示',
+    logoutPage: '确认要注销当前用户？'
+  },
   ...zhLocale,
-  ...cnClassic,
   ...cnHome,
   ...cnApp,
   ...cnAppStore,

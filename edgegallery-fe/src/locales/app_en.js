@@ -52,11 +52,26 @@ const en = {
     others: 'Others',
     direction: 'Action Direction',
     currentLocation: 'Current Location',
-    necessaryNode: 'Necessary Node'
+    necessaryNode: 'Necessary Node',
+    addAppSuccess: 'Created App successfully!',
+    addAppFailed: 'Created App failed!',
+    modifyAppSuccess: 'Modified App successfully!',
+    modifyAppFailed: 'Modified App failed!',
+    fileLimitNum: 'Only support one file!',
+    nameTip: 'You should enter the app name.',
+    lengthTip: 'The app name should be including 3-15 letters.',
+    versionTip: 'Please enter the app version.',
+    providerTip: 'Please enter the app provider.',
+    descTip: 'Please enter the app description.',
+    container: 'Container',
+    vm: 'VM',
+    uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.',
+    appWorkflow: '5G App incubation workflow'
   },
   service: {
     basicInfo: 'Basic information',
-    secLevel: 'Second Level',
+    secLevelCn: 'Second Level(Cn)',
+    secLevelEn: 'Second Level(En)',
     firLevel: 'First Level',
     inputBox: 'Type something',
     apiFile: 'API file',
@@ -82,7 +97,12 @@ const en = {
     type: 'Type: ',
     servicePublish: 'Service release',
     addServiceConfig: 'Add service',
-    deleteServiceTip: 'This operation will permanently delete the service, do you want to continue?'
+    deleteServiceTip: 'This operation will permanently delete the service, do you want to continue?',
+    serviceNameTip: 'Please enter the service name.',
+    innerPortTip: 'Please enter the internal port',
+    protocolTip: 'Please enter the protocol.',
+    secondLevelNameCnTip: 'Please enter the second level service name(Cn).',
+    secondLevelNameEnTip: 'Please enter the second level service name(En).'
   },
   workflow: {
     incubation: 'Incubation',

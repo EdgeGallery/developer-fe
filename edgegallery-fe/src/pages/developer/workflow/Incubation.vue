@@ -24,7 +24,7 @@
             alt="EdgeGallery"
           >
           <div class="flow-name">
-            {{ item.name }}
+            {{ language==='cn'?item.name:item.nameEn }}
           </div>
         </div>
       </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { atpTestApi } from '../../../api/developerApi.js'
 export default {
   name: 'Incubation',
   components: {
@@ -88,21 +89,35 @@ export default {
           src: require('../../../assets/images/application/app_test.png'),
           toPath: '/EG/developer/selectScenarios'
         }
-      ]
+      ],
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
     jumpTo (item) {
       if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
         sessionStorage.setItem('isCreate', '0')
-        if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_ADMIN') > -1) {
+        if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
           this.$router.push('/EG/developer/createApplication')
         } else {
           this.$message.warning(this.$t('promptInformation.noPermission'))
         }
       } else if (item.toPath === '/EG/developer/selectScenarios' && this.currentFlow >= 5) {
-        item.toPath = '/EG/developer/testProcess'
-        this.$router.push(item.toPath)
+        atpTestApi.getTestId().then(res => {
+          if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
+            item.toPath = '/EG/developer/testProcess'
+          } else {
+            this.$router.push(item.toPath)
+          }
+        }).catch(err => {
+          console.log(err)
+          this.$router.push(item.toPath)
+        })
       } else {
         this.$router.push(item.toPath)
       }

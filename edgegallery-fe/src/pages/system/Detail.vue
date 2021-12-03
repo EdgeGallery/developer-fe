@@ -18,7 +18,7 @@
     <div class="detailTop">
       <div class="topLeft">
         <p class="leftName">
-          {{ $t('system.systemDetail') }}
+          {{ $t('thirdSystem.systemDetail') }}
         </p>
         <p class="leftName2" />
       </div>
@@ -32,7 +32,7 @@
           src="../../assets/images/add.png"
           alt=""
         >
-        {{ $t('system.add') }}
+        {{ $t('common.add') }}
       </el-button>
     </div>
     <div
@@ -43,7 +43,7 @@
         <el-input
           class="searchSystem"
           v-model="searchName"
-          :placeholder="$t('system.search') "
+          :placeholder="$t('thirdSystem.search') "
           @input="searchSystems"
         />
         <img
@@ -110,13 +110,13 @@
                 class="btnEdit"
                 @click="editSystem(item)"
               >
-                {{ $t('system.edit') }}
+                {{ $t('common.edit') }}
               </el-button>
               <el-button
                 class="btnDelete"
                 @click="btnDelete(item.id)"
               >
-                {{ $t('system.delete') }}
+                {{ $t('common.delete') }}
               </el-button>
             </div>
           </div>
@@ -132,38 +132,38 @@
         >
           <el-table-column
             prop="systemName"
-            :label="$t('system.systemName')"
+            :label="$t('thirdSystem.systemName')"
             sortable
             width="160"
           />
           <el-table-column
             prop="url"
-            :label="$t('system.url')"
+            :label="$t('thirdSystem.url')"
             width="160"
           />
           <el-table-column
             prop="region"
-            :label="$t('system.region')"
+            :label="$t('thirdSystem.region')"
             width="160"
           />
           <el-table-column
             prop="product"
-            :label="$t('system.product')"
+            :label="$t('thirdSystem.product')"
             width="160"
           />
           <el-table-column
             prop="vendor"
-            :label="$t('system.vendor')"
+            :label="$t('thirdSystem.vendor')"
             width="160"
           />
           <el-table-column
             prop="version"
-            :label="$t('system.version')"
+            :label="$t('thirdSystem.version')"
             width="160"
           />
           <el-table-column
             prop="status"
-            :label="$t('system.status')"
+            :label="$t('thirdSystem.status')"
             sortable
             width="160"
           >
@@ -178,7 +178,7 @@
             </template>
           </el-table-column>>
           <el-table-column
-            :label="$t('system.operation')"
+            :label="$t('common.operation')"
             width="170"
           >
             <template slot-scope="scope">
@@ -188,14 +188,14 @@
                 type="danger"
                 @click="handleDelete(scope.row)"
               >
-                {{ $t('system.delete') }}
+                {{ $t('common.delete') }}
               </el-button>
               <el-button
                 class="tableDelete"
                 size="mini"
                 @click="handleEdit(scope.row)"
               >
-                {{ $t('system.edit') }}
+                {{ $t('common.edit') }}
               </el-button>
             </template>
           </el-table-column>
@@ -207,7 +207,7 @@
     >
       <div class="elTop">
         <span />
-        <p>{{ $t('system.add') }}</p>
+        <p>{{ $t('common.add') }}</p>
       </div>
       <el-form
         :model="form"
@@ -217,55 +217,55 @@
         class="demo-ruleForm"
       >
         <el-form-item
-          :label="$t('system.systemName')"
+          :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
           <el-input v-model="form.systemName" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.product')"
+          :label="$t('thirdSystem.product')"
           prop="product"
         >
           <el-input v-model="form.product" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.url')"
+          :label="$t('thirdSystem.url')"
           prop="url"
         >
           <el-input v-model="form.url" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.version')"
+          :label="$t('thirdSystem.version')"
           prop="version"
         >
           <el-input v-model="form.version" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.region')"
+          :label="$t('thirdSystem.region')"
           prop="region"
         >
           <el-input v-model="form.region" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.vendor')"
+          :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
           <el-input v-model="form.vendor" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.username')"
+          :label="$t('thirdSystem.username')"
           prop="username"
         >
           <el-input v-model="form.username" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.password')"
+          :label="$t('thirdSystem.password')"
           prop="password"
         >
           <el-input v-model="form.password" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.icon')"
+          :label="$t('thirdSystem.icon')"
           label-width="100px"
           prop="type"
         >
@@ -304,10 +304,10 @@
             type="primary"
             @click="submitForm('form')"
           >
-            {{ $t('system.sure') }}
+            {{ $t('common.confirm') }}
           </el-button>
           <el-button @click="addCancle">
-            {{ $t('system.cancel') }}
+            {{ $t('common.cancel') }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -317,7 +317,7 @@
     >
       <div class="elTop">
         <span />
-        <p>{{ $t('system.edit') }}</p>
+        <p>{{ $t('common.edit') }}</p>
       </div>
       <el-form
         :model="form2"
@@ -327,55 +327,55 @@
         class="demo-ruleForm"
       >
         <el-form-item
-          :label="$t('system.systemName')"
+          :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
           <el-input v-model="form2.systemName" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.product')"
+          :label="$t('thirdSystem.product')"
           prop="product"
         >
           <el-input v-model="form2.product" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.url')"
+          :label="$t('thirdSystem.url')"
           prop="url"
         >
           <el-input v-model="form2.url" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.version')"
+          :label="$t('thirdSystem.version')"
           prop="version"
         >
           <el-input v-model="form2.version" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.region')"
+          :label="$t('thirdSystem.region')"
           prop="region"
         >
           <el-input v-model="form2.region" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.vendor')"
+          :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
           <el-input v-model="form2.vendor" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.username')"
+          :label="$t('thirdSystem.username')"
           prop="username"
         >
           <el-input v-model="form2.username" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.password')"
+          :label="$t('thirdSystem.password')"
           prop="password"
         >
           <el-input v-model="form2.password" />
         </el-form-item>
         <el-form-item
-          :label="$t('system.icon')"
+          :label="$t('thirdSystem.icon')"
           label-width="100px"
           prop="type"
         >
@@ -414,10 +414,10 @@
             type="primary"
             @click="submitForm2('ruleForm2')"
           >
-            {{ $t('system.sure') }}
+            {{ $t('common.confirm') }}
           </el-button>
           <el-button @click="dialogVisibleEdit = false">
-            {{ $t('system.cancel') }}
+            {{ $t('common.cancel') }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -432,56 +432,56 @@ export default {
   data () {
     const validateSystemName = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tootipSystemName')}`))
+        callback(new Error(`${this.$t('thirdSystem.tootipSystemName')}`))
       } else {
         callback()
       }
     }
     const validateProduct = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tootipProduct')}`))
+        callback(new Error(`${this.$t('thirdSystem.tootipProduct')}`))
       } else {
         callback()
       }
     }
     const validateUrl = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tootipUrl')}`))
+        callback(new Error(`${this.$t('thirdSystem.tootipUrl')}`))
       } else {
         callback()
       }
     }
     const validateVersion = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tootipVersion')}`))
+        callback(new Error(`${this.$t('thirdSystem.tootipVersion')}`))
       } else {
         callback()
       }
     }
     const validateRegion = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tooltipRegion')}`))
+        callback(new Error(`${this.$t('thirdSystem.tooltipRegion')}`))
       } else {
         callback()
       }
     }
     const validateVendor = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tooltipVendor')}`))
+        callback(new Error(`${this.$t('thirdSystem.tooltipVendor')}`))
       } else {
         callback()
       }
     }
     const validateUsername = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tooltipPassword')}`))
+        callback(new Error(`${this.$t('thirdSystem.tooltipPassword')}`))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('system.tooltipPassword')}`))
+        callback(new Error(`${this.$t('thirdSystem.tooltipPassword')}`))
       } else {
         callback()
       }
@@ -627,7 +627,7 @@ export default {
           system.addSystems(this.form).then(res => {
             this.$message({
               duration: 2000,
-              message: this.$t('system.addStstemSucess'),
+              message: this.$t('common.addStstemSucess'),
               type: 'success'
             })
             this.goDetail()
@@ -663,7 +663,7 @@ export default {
           system.updateSystems(this.form2).then(res => {
             this.$message({
               duration: 2000,
-              message: this.$t('system.updateStstemSucess'),
+              message: this.$t('thirdSystem.updateStstemSucess'),
               type: 'success'
             })
             this.searchSystems()

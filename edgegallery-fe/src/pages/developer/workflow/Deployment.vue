@@ -24,7 +24,7 @@
             alt="EdgeGallery"
           >
           <div class="flow-name">
-            {{ item.name }}
+            {{ language==='cn'?item.name:item.nameEn }}
           </div>
         </div>
       </div>
@@ -72,7 +72,13 @@ export default {
           src: require('../../../assets/images/application/app_node.png'),
           toPath: ''
         }
-      ]
+      ],
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {

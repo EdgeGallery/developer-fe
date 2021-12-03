@@ -623,7 +623,7 @@ export default {
       width: 80%;
       border-radius: 16px;
       padding: 25px 0px 0 0;
-      height: 425px;
+      height: 380px;
       .select_initialization{
         padding-top: 100px;
         text-align: center;

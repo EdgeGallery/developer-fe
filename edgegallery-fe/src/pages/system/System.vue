@@ -20,7 +20,7 @@
     >
       <div class="thirdSystemTop">
         <p class="topName">
-          {{ $t('system.threeSystem') }}
+          {{ $t('thirdSystem.threeSystem') }}
         </p>
         <p class="topLines" />
       </div>
@@ -48,17 +48,17 @@
                 <div class="oneNum">
                   <div class="oneNum1">
                     <p class="allnum" />
-                    <p>{{ $t('system.allNum') }}:</p>
+                    <p>{{ $t('thirdSystem.allNum') }}:</p>
                     <p>{{ item.totalNum }}</p>
                   </div>
                   <div class="oneNum1">
                     <p class="active" />
-                    <p>{{ $t('system.active') }}:</p>
+                    <p>{{ $t('thirdSystem.active') }}:</p>
                     <p>{{ item.activeNum }}</p>
                   </div>
                   <div class="oneNum1">
                     <p class="invalid" />
-                    <p>{{ $t('system.invalid') }}:</p>
+                    <p>{{ $t('thirdSystem.invalid') }}:</p>
                     <p>{{ item.inactiveNum }}</p>
                   </div>
                 </div>

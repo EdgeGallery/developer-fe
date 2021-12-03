@@ -8,25 +8,47 @@
     <div>
       <el-form
         :model="serviceFormData"
+        :rules="serviceFormRule"
+        ref="serviceForm"
         class="common-form"
-        label-width="120px"
+        label-width="150px"
         label-position="right"
         size="mini"
       >
         <el-form-item
-          :label="$t('service.secLevel')"
+          :label="$t('service.firLevel')"
+        >
+          <el-select
+            v-model="serviceFormData.oneLevelNameEn"
+            :placeholder="$t('service.firLevel')"
+            @change="oneLevelNameChanged"
+          >
+            <el-option
+              v-for="item in serviceOptions"
+              :key="item.id"
+              :label="language==='cn'?item.name:item.nameEn"
+              :value="item.nameEn"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('service.secLevelCn')"
           class="cb"
+          prop="twoLevelName"
         >
           <el-input v-model="serviceFormData.twoLevelName" />
         </el-form-item>
         <el-form-item
-          :label="$t('service.firLevel')"
+          :label="$t('service.secLevelEn')"
+          class="cb"
+          prop="twoLevelNameEn"
         >
-          <el-input v-model="serviceFormData.oneLevelName" />
+          <el-input v-model="serviceFormData.twoLevelNameEn" />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.description')"
           class="cb"
+          prop="description"
         >
           <el-input
             v-model="serviceFormData.description"
@@ -119,12 +141,14 @@
         <el-form-item
           :label="$t('service.serviceName')"
           class="label-item-half"
+          prop="serviceName"
         >
           <el-input v-model="serviceFormData.serviceName" />
         </el-form-item>
         <el-form-item
           :label="$t('service.internalPort')"
           class="label-item-half"
+          prop="internalPort"
         >
           <el-input
             type="number"
@@ -134,12 +158,14 @@
         <el-form-item
           :label="$t('incubation.version')"
           class="label-item-half"
+          prop="version"
         >
           <el-input v-model="serviceFormData.version" />
         </el-form-item>
         <el-form-item
           :label="$t('service.protocol')"
           class="label-item-half"
+          prop="protocol"
         >
           <el-input v-model="serviceFormData.protocol" />
         </el-form-item>
@@ -178,9 +204,35 @@ export default {
       serviceFormData: {
         dnsRuleIdList: [],
         trafficRuleIdList: [],
-        oneLevelNameEn: '',
+        oneLevelNameEn: 'Telecom network',
         twoLevelNameEn: '',
+        twoLevelName: '',
         author: ''
+      },
+      serviceFormRule: {
+        twoLevelNameEn: [
+          { required: true, message: this.$t('service.secondLevelNameEnTip'), trigger: 'blur' },
+          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+        ],
+        twoLevelName: [
+          { required: true, message: this.$t('service.secondLevelNameCnTip'), trigger: 'blur' },
+          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
+        ],
+        serviceName: [
+          { required: true, message: this.$t('service.serviceNameTip'), trigger: 'blur' }
+        ],
+        version: [
+          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
+        ],
+        protocol: [
+          { required: true, message: this.$t('service.protocolTip'), trigger: 'blur' }
+        ],
+        internalPort: [
+          { required: true, message: this.$t('service.innerPortTip'), trigger: 'blur' }
+        ]
       },
       apiFileList: [],
       guideFileId: [],
@@ -189,16 +241,34 @@ export default {
       docFileId: '',
       iconFileId: '',
       isModify: false,
-      serviceId: ''
+      serviceId: '',
+      serviceOptions: [],
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
+    oneLevelNameChanged (val) {
+      this.serviceOptions.forEach(ser => {
+        if (ser.nameEn === val) {
+          this.serviceFormData.oneLevelName = ser.name
+        }
+      })
+    },
     confirmToChoose () {
       this.$router.push('/EG/developer/capabilityCenter')
     },
     handleApiChange (file) {
       this.apiFileList = []
       if (file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.apiFileList = []
         } else {
@@ -214,6 +284,10 @@ export default {
     handleDocChange (file) {
       this.guideFileId = []
       if (file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.guideFileId = []
         } else {
@@ -224,6 +298,10 @@ export default {
     handleIconChange (file) {
       this.iconFileList = []
       if (file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.iconFileList = []
         } else {
@@ -232,30 +310,34 @@ export default {
       }
     },
     handleUpload (key, file) {
-      if (this.isModify) {
-        this.publishService()
-      } else {
-        let formdata = new FormData()
-        formdata.append('file', file)
-        formdata.append('fileType', key)
-        applicationApi.uploadFileApi(formdata).then(res => {
-          if (res && res.data) {
-            if (key === 'api') {
-              this.apiFileId = res.data.fileId
-              this.handleUpload('md', this.guideFileId[0])
-            } else if (key === 'md') {
-              this.docFileId = res.data.fileId
-              this.handleUpload('icon', this.iconFileList[0])
-            } else {
-              this.iconFileId = res.data.fileId
-              this.serviceFormData.apiFileId = this.apiFileId
-              this.serviceFormData.guideFileId = this.docFileId
-              this.serviceFormData.iconFileId = this.iconFileId
-              this.publishService()
-            }
+      this.$refs['serviceForm'].validate((valid) => {
+        if (valid) {
+          if (this.isModify) {
+            this.publishService()
+          } else {
+            let formdata = new FormData()
+            formdata.append('file', file)
+            formdata.append('fileType', key)
+            applicationApi.uploadFileApi(formdata).then(res => {
+              if (res && res.data) {
+                if (key === 'api') {
+                  this.apiFileId = res.data.fileId
+                  this.handleUpload('md', this.guideFileId[0])
+                } else if (key === 'md') {
+                  this.docFileId = res.data.fileId
+                  this.handleUpload('icon', this.iconFileList[0])
+                } else {
+                  this.iconFileId = res.data.fileId
+                  this.serviceFormData.apiFileId = this.apiFileId
+                  this.serviceFormData.guideFileId = this.docFileId
+                  this.serviceFormData.iconFileId = this.iconFileId
+                  this.publishService()
+                }
+              }
+            })
           }
-        })
-      }
+        }
+      })
     },
     publishService () {
       if (this.isModify) {
@@ -283,9 +365,17 @@ export default {
           this.iconFileList.push(obj)
         }
       })
+    },
+    getServiceOptions () {
+      applicationApi.getServiceList().then(res => {
+        this.serviceOptions = res.data
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
+    this.getServiceOptions()
     if (this.$route.query && this.$route.query.serviceName) {
       this.isModify = true
       this.serviceFormData = this.$route.query
