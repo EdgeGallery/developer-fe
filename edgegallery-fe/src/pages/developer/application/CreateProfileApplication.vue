@@ -113,10 +113,9 @@ export default {
       if (this.profileId === '') {
         this.$message.warning(this.$t('incubation.noProfile'))
       } else {
-        let fd = new FormData()
-        // this.conversionIcon(this.defaultIcon[0])
-        fd.append('iconFile', this.defaultIconFile[0])
-        applicationApi.createProfileNewApp(this.profileId, fd).then(res => {
+        let formData = new FormData()
+        formData.append('iconFile', this.defaultIconFile[0])
+        applicationApi.createProfileNewApp(this.profileId, formData).then(res => {
           this.$store.commit('changeFlow', '1')
           this.$store.commit('changeZoom', '2')
           sessionStorage.setItem('applicationId', res.data.id)
@@ -138,7 +137,7 @@ export default {
         this.profileId = item.id
       }
     },
-    conversionIcon (file) {
+    convertIcon (file) {
       let image = new Image()
       image.src = file
       image.onload = () => {
@@ -174,7 +173,7 @@ export default {
   },
   mounted () {
     this.getListData()
-    this.conversionIcon(this.defaultIcon[0])
+    this.convertIcon(this.defaultIcon[0])
   },
   watch: {
     '$i18n.locale': function () {
