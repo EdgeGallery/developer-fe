@@ -135,6 +135,13 @@ const devNavData = [
         path: pathPre + '/mecDeveloper/system/imagemgmt',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
+      },
+      {
+        id: '1.5.4',
+        name: '场景管理',
+        path: pathPre + '/mecDeveloper/system/profilemgmt',
+        display: true,
+        authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }
     ]
   }
