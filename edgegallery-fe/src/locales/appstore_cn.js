@@ -612,8 +612,10 @@ const cn = {
     tooltipVendor: '请输入厂商名称',
     tooltipUsername: '请输入用户名',
     tooltipPassword: '请输入密码',
-    addStstemSucess: '新建系统成功!',
-    updateStstemSucess: '更新成功'
+    addSystemSucess: '新建系统成功!',
+    updateStstemSucess: '更新成功',
+    or: '或',
+    uploadRequire: '只能上传一张jpg/png文件'
   },
   about: {},
   ...zhLocale

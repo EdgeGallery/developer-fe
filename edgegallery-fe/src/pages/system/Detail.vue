@@ -36,7 +36,7 @@
       </el-button>
     </div>
     <div
-      class="detailContent"
+      class="detailContent common-div-bg"
       :class="[ this.active == false?'activeTable':'activePicture']"
     >
       <div class="contentTop">
@@ -68,7 +68,7 @@
               <div class="imgs">
                 <div class="imgBox">
                   <img
-                    src="../../assets/images/bigData.png"
+                    :src="item.icon===''?defaultIcon:item.icon"
                     alt=""
                   >
                 </div>
@@ -114,7 +114,7 @@
               </el-button>
               <el-button
                 class="btnDelete"
-                @click="btnDelete(item.id)"
+                @click="deleteSystem(item.id)"
               >
                 {{ $t('common.delete') }}
               </el-button>
@@ -129,43 +129,44 @@
         <el-table
           :data="this.systemDetails"
           style="width: 100%"
+          class="common-table"
         >
           <el-table-column
             prop="systemName"
             :label="$t('thirdSystem.systemName')"
             sortable
-            width="160"
+            width="150"
           />
           <el-table-column
             prop="url"
             :label="$t('thirdSystem.url')"
-            width="160"
+            width="140"
           />
           <el-table-column
             prop="region"
             :label="$t('thirdSystem.region')"
-            width="160"
+            width="140"
           />
           <el-table-column
             prop="product"
             :label="$t('thirdSystem.product')"
-            width="160"
+            width="140"
           />
           <el-table-column
             prop="vendor"
             :label="$t('thirdSystem.vendor')"
-            width="160"
+            width="140"
           />
           <el-table-column
             prop="version"
             :label="$t('thirdSystem.version')"
-            width="160"
+            width="120"
           />
           <el-table-column
             prop="status"
             :label="$t('thirdSystem.status')"
             sortable
-            width="160"
+            width="120"
           >
             <template slot-scope="scope">
               <img
@@ -179,21 +180,21 @@
           </el-table-column>>
           <el-table-column
             :label="$t('common.operation')"
-            width="170"
+            width="140"
           >
             <template slot-scope="scope">
               <el-button
                 class="tableDelete"
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.row)"
+                @click="deleteSystem(scope.row.id)"
               >
                 {{ $t('common.delete') }}
               </el-button>
               <el-button
                 class="tableDelete"
                 size="mini"
-                @click="handleEdit(scope.row)"
+                @click="editSystem(scope.row)"
               >
                 {{ $t('common.edit') }}
               </el-button>
@@ -210,9 +211,9 @@
         <p>{{ $t('common.add') }}</p>
       </div>
       <el-form
-        :model="form"
+        :model="addForm"
         :rules="rules"
-        ref="ruleForm"
+        ref="addForm"
         label-width="100px"
         class="demo-ruleForm"
       >
@@ -220,89 +221,88 @@
           :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
-          <el-input v-model="form.systemName" />
+          <el-input v-model="addForm.systemName" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.product')"
           prop="product"
         >
-          <el-input v-model="form.product" />
+          <el-input v-model="addForm.product" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.url')"
           prop="url"
         >
-          <el-input v-model="form.url" />
+          <el-input v-model="addForm.url" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.version')"
           prop="version"
         >
-          <el-input v-model="form.version" />
+          <el-input v-model="addForm.version" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.region')"
           prop="region"
         >
-          <el-input v-model="form.region" />
+          <el-input v-model="addForm.region" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
-          <el-input v-model="form.vendor" />
+          <el-input v-model="addForm.vendor" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.username')"
           prop="username"
         >
-          <el-input v-model="form.username" />
+          <el-input v-model="addForm.username" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.password')"
           prop="password"
         >
-          <el-input v-model="form.password" />
+          <el-input v-model="addForm.password" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.icon')"
           label-width="100px"
           prop="type"
         >
-          <div
-            class="default-icon"
-          >
-            <div
-              class="box"
-              v-for="(item) in defaultIcon"
-              @click="chooseDefaultIcon(item)"
-              :key="item"
+          <div class="imgUpload">
+            <img
+              class="defaultIcon"
+              :src="defaultIcon"
+              alt=""
             >
-              <img
-                :src="item"
-                alt=""
+            <p class="or">
+              {{ $t('thirdSystem.or') }}
+            </p>
+            <el-upload
+              list-type="picture-card"
+              action=""
+              accept=".jpg, .png"
+              :limit="1"
+              :auto-upload="false"
+              :file-list="fileList"
+              :on-change="getFile"
+              :on-remove="handleUploadRemove"
+            >
+              <i class="el-icon-plus" />
+              <div
+                slot="tip"
+                class="el-upload__tip"
               >
-              <em
-                class="el-icon-success"
-                style="color:green;"
-              />
-            </div>
-          </div>
-          <em
-            class="upIcon el-icon-success"
-            v-if="uploadIcon"
-          />
-          <div
-            class="el-form-error"
-            v-if="showErr"
-          >
-            {{ $t('store.iconRequired') }}
+                {{ $t('thirdSystem.uploadRequire') }}
+              </div>
+            </el-upload>
           </div>
         </el-form-item>
         <el-form-item class="btns">
           <el-button
             type="primary"
-            @click="submitForm('form')"
+            @click="addSystem('addForm')"
           >
             {{ $t('common.confirm') }}
           </el-button>
@@ -320,9 +320,9 @@
         <p>{{ $t('common.edit') }}</p>
       </div>
       <el-form
-        :model="form2"
+        :model="editForm"
         :rules="rules"
-        ref="ruleForm2"
+        ref="editForm"
         label-width="100px"
         class="demo-ruleForm"
       >
@@ -330,89 +330,103 @@
           :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
-          <el-input v-model="form2.systemName" />
+          <el-input v-model="editForm.systemName" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.product')"
           prop="product"
         >
-          <el-input v-model="form2.product" />
+          <el-input v-model="editForm.product" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.url')"
           prop="url"
         >
-          <el-input v-model="form2.url" />
+          <el-input v-model="editForm.url" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.version')"
           prop="version"
         >
-          <el-input v-model="form2.version" />
+          <el-input v-model="editForm.version" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.region')"
           prop="region"
         >
-          <el-input v-model="form2.region" />
+          <el-input v-model="editForm.region" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
-          <el-input v-model="form2.vendor" />
+          <el-input v-model="editForm.vendor" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.username')"
           prop="username"
         >
-          <el-input v-model="form2.username" />
+          <el-input v-model="editForm.username" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.password')"
           prop="password"
         >
-          <el-input v-model="form2.password" />
+          <el-input v-model="editForm.password" />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.icon')"
           label-width="100px"
           prop="type"
         >
-          <div
-            class="default-icon"
-          >
+          <div class="imgUpload">
+            <img
+              class="defaultIcon"
+              :src="defaultIcon"
+              alt=""
+            >
+            <p class="or">
+              {{ $t('thirdSystem.or') }}
+            </p>
             <div
-              class="box"
-              v-for="(item) in defaultIcon"
-              @click="chooseDefaultIcon(item)"
-              :key="item"
+              class="editImg"
+              v-if="editImg!==''"
             >
               <img
-                :src="item"
+                class="defaultIcon"
+                :src="editImg"
                 alt=""
               >
-              <em
-                class="el-icon-success"
-                style="color:green;"
+              <i
+                class="el-icon-delete deleteEditImg"
+                @click="deleteEditImg()"
               />
             </div>
-          </div>
-          <em
-            class="upIcon el-icon-success"
-            v-if="uploadIcon"
-          />
-          <div
-            class="el-form-error"
-            v-if="showErr"
-          >
-            {{ $t('store.iconRequired') }}
+            <el-upload
+              v-else
+              list-type="picture-card"
+              action=""
+              accept=".jpg, .png"
+              :limit="1"
+              :auto-upload="false"
+              :file-list="fileListEdit"
+              :on-change="getFileEdit"
+              :on-remove="handleUploadRemoveEdit"
+            >
+              <i class="el-icon-plus" />
+              <div
+                slot="tip"
+                class="el-upload__tip"
+              >
+                {{ $t('thirdSystem.uploadRequire') }}
+              </div>
+            </el-upload>
           </div>
         </el-form-item>
         <el-form-item class="btns">
           <el-button
             type="primary"
-            @click="submitForm2('ruleForm2')"
+            @click="keepEdit('editForm')"
           >
             {{ $t('common.confirm') }}
           </el-button>
@@ -495,10 +509,11 @@ export default {
       dialogVisible: false,
       dialogVisibleEdit: false,
       imageUrl: '',
+      editId: '',
       defaultIcon: [
         require('../../assets/images/bigData.png')
       ],
-      form: {
+      addForm: {
         systemName: '',
         product: '',
         url: '',
@@ -511,9 +526,33 @@ export default {
         username: '',
         password: '',
         tokenType: '',
-        status: 'active'
+        status: 'active',
+        icon: '',
+        userId: '',
+        configContent: ''
       },
-      form2: {},
+      editForm: {
+        systemName: '',
+        product: '',
+        url: '',
+        version: '',
+        region: '',
+        vendor: '',
+        systemType: this.$route.query.systemType,
+        ip: '',
+        port: '',
+        username: '',
+        password: '',
+        tokenType: '',
+        status: 'active',
+        icon: '',
+        userId: '',
+        configContent: ''
+      },
+      proofImage: '',
+      editImg: '',
+      editImgDefault: '',
+      proofImageEdit: '',
       rules: {
         systemName: [
           { required: true, validator: validateSystemName }
@@ -546,6 +585,7 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      console.log(this.language)
     }
   },
   mounted () {
@@ -572,20 +612,22 @@ export default {
         })
       }
     },
-    handleEdit (row) {
+    editSystem (data) {
+      this.editImg = data.icon
+      this.editImgDefault = data.icon
+      this.editId = data.id
       this.dialogVisibleEdit = true
-      let copy = Object.assign({}, row)
-      this.form2 = copy
+      let copy = Object.assign({}, data)
+      this.editForm = copy
     },
-    handleDelete (row) {
-      let id = row.id
+    deleteSystem (data) {
+      let id = data
       system.deleteSystems(id).then(res => {
-        this.searchSystems()
-      })
-    },
-    btnDelete (Id) {
-      let id = Id
-      system.deleteSystems(id).then(res => {
+        this.$message({
+          duration: 2000,
+          message: this.$t('thirdSystem.deleteSystemSucess'),
+          type: 'success'
+        })
         this.searchSystems()
       })
     },
@@ -595,9 +637,9 @@ export default {
     addCancle () {
       this.dialogVisible = false
       this.$nextTick(() => {
-        this.$refs['ruleForm'].clearValidate()
+        this.$refs['addForm'].clearValidate()
       })
-      this.form = {
+      this.addForm = {
         systemName: '',
         product: '',
         url: '',
@@ -610,30 +652,68 @@ export default {
         username: '',
         password: '',
         tokenType: '',
-        status: 'active'
+        status: 'active',
+        userId: '',
+        icon: '',
+        configContent: ''
       }
-    },
-    editSystem (item) {
-      this.dialogVisibleEdit = true
-      let copy = Object.assign({}, item)
-      this.form2 = copy
     },
     changeTable () {
       this.active = !this.active
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    getFile (file, fileList) {
+      this.getBase64(file.raw).then(res => {
+        const params = res
+        this.proofImage = params
+      })
+    },
+    getFileEdit (file, fileListEdit) {
+      this.getBase64(file.raw).then(res => {
+        const params = res
+        this.proofImageEdit = params
+      })
+    },
+    getBase64 (file) {
+      return new Promise(function (resolve, reject) {
+        const reader = new FileReader()
+        let imgResult = ''
+        reader.readAsDataURL(file)
+        reader.onload = function () {
+          imgResult = reader.result
+        }
+        reader.onerror = function (error) {
+          reject(error)
+        }
+        reader.onloadend = function () {
+          resolve(imgResult)
+        }
+      })
+    },
+    handleUploadRemove (file, fileList) {
+      this.proofImage = ''
+    },
+    handleUploadRemoveEdit (file, fileListEdit) {
+      this.proofImageEdit = ''
+      this.editImg = this.editImgDefault
+    },
+    deleteEditImg () {
+      this.editImg = ''
+    },
+    addSystem (addForm) {
+      this.$refs[addForm].validate((valid) => {
         if (valid) {
-          system.addSystems(this.form).then(res => {
+          this.addForm.icon = this.proofImage
+          this.addForm.userId = sessionStorage.getItem('userId')
+          system.addSystems(this.addForm).then(res => {
             this.$message({
               duration: 2000,
-              message: this.$t('common.addStstemSucess'),
+              message: this.$t('thirdSystem.addSystemSucess'),
               type: 'success'
             })
             this.goDetail()
             this.searchSystems()
             this.dialogVisible = false
-            this.form = {
+            this.addForm = {
               systemName: '',
               product: '',
               url: '',
@@ -646,21 +726,33 @@ export default {
               username: '',
               password: '',
               tokenType: '',
-              status: 'active'
+              status: 'active',
+              userId: '',
+              icon: '',
+              configContent: ''
             }
+            this.proofImage = ''
           })
         } else {
           return false
         }
         this.$nextTick(() => {
-          this.$refs.form.clearValidate()
+          this.$refs[addForm].clearValidate()
         })
       })
     },
-    submitForm2 (formName2) {
-      this.$refs[formName2].validate((valid) => {
+    keepEdit (editForm) {
+      this.$refs[editForm].validate((valid) => {
         if (valid) {
-          system.updateSystems(this.form2).then(res => {
+          if (this.proofImageEdit !== '') {
+            this.editForm.icon = this.proofImageEdit
+          } else if (this.editImg !== '') {
+            this.editForm.icon = this.editImg
+          } else {
+            this.editForm.icon = ''
+          }
+          console.log(this.editForm.icon)
+          system.updateSystems(this.editId, this.editForm).then(res => {
             this.$message({
               duration: 2000,
               message: this.$t('thirdSystem.updateStstemSucess'),
@@ -671,27 +763,25 @@ export default {
           })
         }
         this.$nextTick(() => {
-          this.$refs.form2.clearValidate()
+          this.$refs[editForm].clearValidate()
         })
       })
     }
-
   }
 }
 </script>
 
 <style lang='less'>
 .detail{
-  min-height:900px;
   width: 100%;
   padding-bottom: 100px;
   .detailTop{
-      width: 73.64%;
-      margin: 0 auto ;
-      margin-top: 55px;
-      height: 100px;
-      min-width: 1200px;
-      margin-bottom: 30px;
+    width: 73.64%;
+    margin: 0 auto ;
+    margin-top: 55px;
+    height: 100px;
+    min-width: 1200px;
+    margin-bottom: 30px;
     .topLeft{
       float: left;
       margin-left: 10.1%;
@@ -699,13 +789,13 @@ export default {
         font-size: 36px;
         font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: bold;
-        color: #5D3DA0;
+        color: #fff;
       }
       .leftName2{
         margin-top: 20px;
         width: 88px;
         height: 7px;
-        background: #9E7BCD;
+        background: #fff;
         opacity: 0.2;
         border-radius: 4px;
       }
@@ -716,19 +806,19 @@ export default {
       height: 50px;
       background: linear-gradient(122deg, #4444D0, #6724CB);
       border-radius: 25px;
+      border: none;
       font-size: 20px;
       font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       font-weight: 300;
       color: #FFFFFF;
       margin-top: 50px;
-      box-shadow: 0px 16px 8px rgba(94 ,44 ,204 ,0.3);
       .addIcon{
         position: relative;
         top: 2px;
         right: 6px;
       }
     }
-    }
+  }
   .activeTable{
     padding-bottom: 0;
   }
@@ -738,13 +828,8 @@ export default {
   .detailContent{
     width: 73.65%;
     margin: 0 auto ;
-    min-height: 690px;
     min-width: 1200px;
-    background: #FFFFFF;
-    box-shadow: 5px 9px 63px 5px rgba(94, 64, 200, 0.06);
-    border-radius: 12px;
-    padding-top: 40px;
-    position: relative;
+    padding: 40px 0 0 0 ;
     .contentTop{
       margin:0px 0 29px 4.1%;
       display: flex;
@@ -796,30 +881,30 @@ export default {
         border-radius:12px;
         margin:34px 7% 0 6.67% ;
         .imgBox{
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           img{
             width: 74.23%;
             height: 61px;
+            border-radius: 6px;
           }
         }
         p{
-            font-size: 14px;
-            font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-            font-weight: 400;
-            max-width: 100%;
-            color: #5D3DA0;
-            line-height: 15px;
-            text-align: center;
-            margin:12px 0  20px 0 ;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
+          font-size: 14px;
+          font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
+          font-weight: 400;
+          max-width: 100%;
+          color: #5D3DA0;
+          line-height: 15px;
+          text-align: center;
+          margin:12px 0  20px 0 ;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
       .infos{
         width: 47.3%;
@@ -859,13 +944,18 @@ export default {
           box-shadow: 0px 5px 24px 0px rgba(178, 193, 249, 0.26);
           width: 60px;
           height: 24px;
-          background: #8A7DF9;
+          background:#FFFFFF;
           border-radius: 5px;
           padding: 0;
           font-size: 14px;
           font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
           font-weight: 200;
+          color: #8A7DF9;
+          border: 1xp solid #8A7DF9 !important;
+        }
+        .el-button:hover{
           color: #FFFFFF;
+          background: #8A7DF9;
         }
         .btnDelete{
           float: right;
@@ -881,43 +971,48 @@ export default {
     .systemTable{
       margin: 0 auto;
       width: 91.94%;
-      min-height: 580px;
+      min-height: 500px;
       position: relative;
       padding-bottom:100px;
+      overflow-y:auto ;
       .stateIcon{
         position: relative;
         top: 4px;
         right: 4px;
       }
+      .el-button+.el-button {
+        margin-left: 10px !important;
+      }
       .tableDelete{
         border: none;
-        padding: 0;
-        width: 43px;
-        height: 24px;
+        padding: 4px 10px;
         background: #EFEFEF;
         border-radius: 5px;
         font-size: 14px;
-        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: 200;
-        color: #7A6E8A;
+        color: #8A7DF9;
+      }
+      .tableDelete:hover{
+        background:#8A7DF9;
+        color:#fff;
       }
     }
   }
   .el-dialog{
-        width: 912px;
-        height: 502px;
-        background: #EFEFEF;
-        border-radius: 12px;
+    width: 912px;
+    height: 576px;
+    background: #EFEFEF;
+    border-radius: 12px;
     .el-dialog__header {
       border-top-left-radius: 12px;
       border-top-right-radius: 12px;
       padding:0 ;
     }
     .el-icon-close:before {
-        display: none;
+      display: none;
     }
     .el-dialog__body {
-    padding: 40px!important;
+      padding: 40px!important;
     }
     .elTop{
       display: flex;
@@ -934,118 +1029,123 @@ export default {
         font-size: 20px;
         font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
         font-weight: 300;
-        color: #380879;
+        color: #380879 !important;
       }
     }
     .el-form{
-              margin-top: 30px;
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: space-between;
-              padding-right: 40px;
-          .el-form-item {
-              margin-left: 40px;
-          }
-          .el-form-item__label {
-              font-size: 16px;
-              font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-              font-weight: 300;
-              color: #380879;
-              line-height: 36px;
-              padding-right: 15px;
-          }
-          .el-input__inner {
-              width: 240px;
-          }
-          .btns{
-            margin-top: 88px;
-          }
-          .upload-demo{
-            display: flex;
-          }
-          .el-upload--picture-card {
-              width: 72px;
-              height: 61px;
-              line-height: 61px;
-          }
-          .el-upload-list--picture-card .el-upload-list__item {
-              overflow: hidden;
-              background-color: #fff;
-              border: 1px solid #c0ccda;
-              border-radius: 6px;
-              -webkit-box-sizing: border-box;
-              box-sizing: border-box;
-              width: 72px;
-              height: 61px;
-              margin: 0 8px 8px 0;
-              display: inline-block;
-          }
-          .el-button{
-            background: #fff;
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-            font-weight: 300;
-            color: #5844BE;
-            border: 1px solid #5844BE ;
-          }
-          .el-button:hover{
-            background: #5844BE;
-            color: #FFFFFF;
-          }
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-right: 40px;
+      .el-form-item {
+        margin-left: 40px;
       }
-    }
-
-  }
-.default-icon{
-    float: left;
-    display: flex;
-    flex-wrap: wrap;
-    .box{
-      position: relative;
-      width: 44px;
-      height: 44px;
-      margin: 0 68px 0 0;
-      img{
+      .el-form-item__label {
+        font-size: 16px;
+        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        color: #380879 !important;
+        line-height: 36px;
+        padding-right: 15px;
+      }
+      .el-input__inner {
+        width: 240px;
+      }
+      .editImg{
         width: 72px;
         height: 61px;
+        border-radius:15px ;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        .deleteEditImg{
+          width: 72px;
+          height: 61px;
+          font-size: 20px;
+          color: #fff;
+          background: rgba(22 ,22 ,24 ,0.7);
+          display: none;
+          position:absolute;
+          text-align: center;
+          line-height: 61px;
+        }
       }
-      em{
+      .editImg:hover{
+        .deleteEditImg{
+          display: block;
+          cursor: pointer;
+        }
+      }
+      .imgUpload{
+        display: flex;
+        width: 500px;
+        .defaultIcon{
+          width: 72px;
+          height: 61px;
+        }
+        .or{
+          line-height: 59px;
+          margin: 0 10px;
+        }
+        .el-upload__tip{
+          margin-top: 30px
+        }
+      }
+      .btns{
+        margin-top: 60px;
+        position: relative;
+        top: 0;
+        right: -459px;
+      }
+      .el-upload--picture-card {
+        width: 72px;
+        height: 61px;
+        line-height: 61px;
+      }
+      .el-upload-list--picture-card .el-upload-list__item {
+        overflow: hidden;
+        background-color: #fff;
+        border: 1px solid #c0ccda;
+        border-radius: 6px;
+        box-sizing: border-box;
+        width: 72px;
+        height: 61px;
+        margin: 0 8px 8px 0;
         display: inline-block;
-        position: absolute;
-        bottom:-20px;
-        right: -50px;
       }
-      .active{
-        color: #409EFF;
+      .el-button{
+        background: #fff;
+        border-radius: 10px;
+        font-size: 14px;
+        font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        color: #8a7df9;
+        border: 1px solid #8a7df9 ;
+      }
+      .el-button:hover{
+        background: #8a7df9;
+        color: #FFFFFF;
       }
     }
   }
-  .upIcon.el-icon-success{
-    position: absolute;
-    top: 30px;
-    left: 88px;
-    z-index: 99;
-  }
-  .upIcon.active{
-    color: #409EFF;
-  }
-  .el-form-item{
-    margin-bottom: 21px;
-  }
-  .el-form-item.icon{
-    content: '';
-    display: block;
-    clear: both;
-  }
-  .el-upload-list{
-    width: auto;
-  }
-  .el-upload-list--picture-card .el-upload-list__item{
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    border: none;
-  }
-
+}
+.el-form-item{
+  margin-bottom: 21px;
+}
+.el-form-item.icon{
+  content: '';
+  display: block;
+  clear: both;
+}
+.el-upload-list{
+  width: auto;
+}
+.el-upload-list--picture-card .el-upload-list__item{
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border: none;
+}
 </style>

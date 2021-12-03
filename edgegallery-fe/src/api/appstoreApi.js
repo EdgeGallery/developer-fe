@@ -102,27 +102,27 @@ let appstoreApi = {
     window.open(URL)
   }
 }
-const URL_SYSTEM = '/mec-appstore' + '/mec/appstore/v1/thirdsystem'
+const URL_SYSTEM = '/mec-thirdsystem' + '/mec/third-system/v1'
 
 let system = {
   systemNum: function (params) {
     let url = URL_SYSTEM + '/count'
     return POST(url, params)
   },
-  getOneSystem: function (params) {
-    let url = URL_SYSTEM + '/systemType/' + params
+  getOneSystem: function (type) {
+    let url = URL_SYSTEM + '/systemType/' + type
     return GET(url)
   },
   addSystems: function (params) {
     let url = URL_SYSTEM
     return POST(url, params)
   },
-  updateSystems: function (params) {
-    let url = URL_SYSTEM
+  updateSystems: function (thirdSystemId, params) {
+    let url = URL_SYSTEM + '/' + thirdSystemId
     return PUT(url, params)
   },
-  deleteSystems: function (params) {
-    let url = URL_SYSTEM + '/' + params
+  deleteSystems: function (thirdSystemId) {
+    let url = URL_SYSTEM + '/' + thirdSystemId
     return DELETE(url)
   },
   searchSystem: function (params) {
