@@ -158,10 +158,10 @@ export default {
   },
   created () {
     this.showDlg = this.showDlgProp
-    this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
+    this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'), access_token: JSON.stringify(sessionStorage.getItem('accessToken')) }
     let url = window.location.origin
     this.imageId = this.createUUID()
-    this.options.target = url + urlPrefix + 'mec/developer/v2/containerimages/' + this.imageId + '/upload'
+    this.options.target = url + urlPrefix + 'mec/developer/v2/containerimages/' + this.imageId + '/action/upload'
   },
   methods: {
     createUUID () {

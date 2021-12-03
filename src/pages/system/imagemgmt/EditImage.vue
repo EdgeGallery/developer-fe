@@ -235,7 +235,6 @@ export default {
       formLabelWidth: '115px',
       formLabelWidthEn: '160px',
       language: localStorage.getItem('language'),
-      userId: '',
       isAdmin: false,
       dlgTitle: this.$t('system.imageMgmt.tip.newImg'),
       imageTypeOptionList: [],
@@ -295,7 +294,6 @@ export default {
   },
   methods: {
     initUser () {
-      this.userId = sessionStorage.getItem('userId')
       let _authorities = sessionStorage.getItem('userAuthorities')
       if (_authorities && _authorities.length > 0) {
         this.isAdmin = _authorities.includes('ROLE_DEVELOPER_ADMIN')
@@ -323,7 +321,7 @@ export default {
         this.imageDataForm.systemDiskSize = this.imageData.systemDiskSize
 
         this.isModify = true
-        this.systemIdToModi = this.imageData.imageId
+        this.systemIdToModi = this.imageData.id
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
       } else {
         this.imageDataForm.name = ''
@@ -348,14 +346,14 @@ export default {
         }
 
         if (!this.isModify) {
-          imageMgmtService.newImage(this.imageDataForm, this.userId).then(() => {
+          imageMgmtService.newImage(this.imageDataForm).then(() => {
             this.$message.success(this.$t('system.imageMgmt.tip.newImg') + this.$t('system.success'))
             this.$emit('processEditImageSuccess', 'vm')
           }).catch((error) => {
             this.processEditError(error)
           })
         } else {
-          imageMgmtService.modifyImage(this.imageDataForm, this.systemIdToModi, this.userId).then(() => {
+          imageMgmtService.modifyImage(this.imageDataForm, this.systemIdToModi).then(() => {
             this.$message.success(this.$t('promptMessage.editSuccess'))
             this.$emit('processEditImageSuccess', 'vm')
           }).catch((error) => {

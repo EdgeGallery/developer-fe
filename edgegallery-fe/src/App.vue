@@ -136,6 +136,8 @@ export default {
     }
   },
   mounted () {
+    let language = localStorage.getItem('language') || 'cn'
+    this.$i18n.locale = language
     this.setDivHeight(this.screenHeight)
     window.addEventListener('scroll', this.getScrollTop, true)
     window.onresize = () => {

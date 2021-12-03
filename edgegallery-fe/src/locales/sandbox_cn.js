@@ -98,8 +98,22 @@ const cn = {
     trafficRuleIdisExists: '流规则标识已存在！',
     dnsRuleIdisExists: 'DNS规则标识已存在！'
   },
+  container: {
+    script: '脚本',
+    import: '导入',
+    container: '容器',
+    containerDetail: '容器详情',
+    containerScript: '容器脚本',
+    uploadFile: '上传文件',
+    downloadDemo: '模版下载',
+    configFile: '配置文件',
+    configFileText: '支持浏览和编辑两个模式切换'
+  },
   sandboxPromptInfomation: {
-    imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G'
+    imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G',
+    addVmSuccess: '虚拟机添加成功！',
+    completeContent: '请完善内容，再次点击提交！',
+    releaseEnvFailed: '释放环境失败！'
   }
 }
 export default cn

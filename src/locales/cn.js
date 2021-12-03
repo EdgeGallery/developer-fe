@@ -790,7 +790,8 @@ const cn = {
     systemProject: '项目管理',
     systemMep: '能力中心管理',
     systemHost: '沙箱管理',
-    systemImgMgmt: '系统镜像管理'
+    systemImgMgmt: '系统镜像管理',
+    profileMgmt: '场景管理'
   },
   system: {
     completeInfo: '请填写完整的信息',
@@ -846,6 +847,15 @@ const cn = {
     lcmIp: 'lcmIP',
     mecHost: 'mecHost',
 
+    profileMgmt: {
+      addProfile: '新增场景',
+      appList: '应用列表',
+      newProfile: '创建场景',
+      modifyProfile: '修改',
+      file: '文件',
+      uploadFile: '上传文件',
+      contentTip: '文件格式为zip'
+    },
     imageMgmt: {
       imgName: '镜像名称',
       imgPath: '镜像路径',

@@ -630,7 +630,7 @@
               >
                 <el-input-number
                   v-model="priceSet"
-                  style="width:150px;"
+                  class="price-input"
                   :disabled="price==='1'"
                 /> {{ $t('workspace.appRelease.price') }}
               </el-radio>
@@ -662,6 +662,8 @@ import addTrafficRules from './AddTrafficRules.vue'
 import addDnsRules from './AddDnsRules.vue'
 import addAppPublishConfig from './AddAppPublishConfig.vue'
 import appPackageDetail from './AppPackageDetails.vue'
+import { common } from '../../tools/common.js'
+import { PLATFORMNAME_APPSTORE, PLATFORMNAME_ATP } from '../../tools/constant.js'
 export default {
   name: 'AppRelease',
   props: {
@@ -1216,15 +1218,9 @@ export default {
       this.dnsDialog = data
       this.appPublishDialog = data
     },
-    getAppstoreUrl () {
-      let currUrl = window.location.origin
-      if (currUrl.indexOf('30092') !== -1) {
-        this.appStoreUrl = currUrl.replace('30092', '30091')
-        this.atpUrl = currUrl.replace('30092', '30094')
-      } else {
-        this.appStoreUrl = currUrl.replace('developer', 'appstore')
-        this.atpUrl = currUrl.replace('developer', 'atp')
-      }
+    getPlatformUrl () {
+      this.appStoreUrl = common.getPlatformUrlPrefix(PLATFORMNAME_APPSTORE)
+      this.atpUrl = common.getPlatformUrlPrefix(PLATFORMNAME_ATP)
     },
     getFileList () {
       Workspace.getApiFileApi(this.mdFileId, this.userId).then(res => {
@@ -1251,7 +1247,7 @@ export default {
     this.getProjectInfo()
     this.getTestConfig()
     this.getVmResourceList()
-    this.getAppstoreUrl()
+    this.getPlatformUrl()
     this.getReleaseConfigList()
   },
   watch: {
@@ -1259,7 +1255,7 @@ export default {
       let language = localStorage.getItem('language')
       this.language = language
       this.rebuildComponents()
-      this.getAppstoreUrl()
+      this.getPlatformUrl()
       this.checkProjectData()
       this.getProjectInfo()
     }
@@ -1714,5 +1710,8 @@ export default {
 }
 .el-radio__input.is-checked + .el-radio__label{
   color:#380879;
+}
+.price-input{
+  width:150px;
 }
 </style>

@@ -277,7 +277,7 @@
           </div>
           <div class="editor-wrapper">
             <mavon-editor
-              class="editor"
+              class="common-mavon-editor"
               v-model="flavorExtraSpecs"
               :toolbars-flag="false"
               :subfield="false"
@@ -332,6 +332,7 @@
                   </el-button>
                 </div>
                 <mavon-editor
+                  class="common-mavon-editor"
                   v-model="userData"
                   :toolbars-flag="false"
                   :subfield="false"
@@ -363,8 +364,8 @@
 </template>
 
 <script>
-import { sandbox } from '../../../api/developerApi.js'
-import { filterArr } from '../../../tools/common.js'
+import { sandbox } from '../../../../api/developerApi.js'
+import { filterArr } from '../../../../tools/common.js'
 export default {
   name: 'AddVm',
   props: {
@@ -579,9 +580,6 @@ export default {
           this.viewOrEditFlavor = 'edit'
         }
       }
-      this.setDivBackgroundColor('content-input-wrapper')
-      this.setDivBackgroundColor('auto-textarea-wrapper')
-      this.setDivBackgroundColor('auto-textarea-input')
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -607,26 +605,18 @@ export default {
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
           sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-            this.$eg_messagebox('虚拟机添加成功！', 'success')
+            this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
             _data = this.selectedNetworks
             this.$emit('addVmFinish', _data)
           }).catch(err => {
             console.log(err)
           })
         } else {
-          this.$eg_messagebox('请完善内容，再次点击提交！', 'warning')
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
         }
       } else {
         this.$emit('addVmFinish', _data)
       }
-    },
-    setDivBackgroundColor (className) {
-      let _oDiv = document.getElementsByClassName(className)
-      this.$nextTick(() => {
-        _oDiv.forEach(item => {
-          item.style.backgroundColor = '#4e3494'
-        })
-      })
     }
   },
   mounted () {
@@ -642,9 +632,6 @@ export default {
       this.getInternetType()
     }
     this.getVmImageLists()
-    this.setDivBackgroundColor('content-input-wrapper')
-    this.setDivBackgroundColor('auto-textarea-wrapper')
-    this.setDivBackgroundColor('auto-textarea-input')
   }
 }
 </script>
@@ -747,7 +734,7 @@ export default {
       color: #fff;
     }
     .el-collapse-item__header:hover .el-icon-arrow-right:before{
-      background: url('../../../assets/images/sandbox/addvm_icon_down.png');
+      background: url('../../../../assets/images/sandbox/addvm_icon_down.png');
     }
     .el-collapse-item__header.is-active{
       background-color: #5f499d;
@@ -761,7 +748,7 @@ export default {
       height: 8px;
     }
     .el-collapse-item__header.is-active .el-icon-arrow-right:before{
-      background: url('../../../assets/images/sandbox/addvm_icon_up.png');
+      background: url('../../../../assets/images/sandbox/addvm_icon_up.png');
       transform: rotate(-90deg);
     }
     .el-collapse-item__arrow{

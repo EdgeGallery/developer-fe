@@ -182,6 +182,14 @@ export default new Router({
           meta: {
             id: '3.10'
           }
+        },
+        {
+          path: '/mecDeveloper/system/profilemgmt',
+          name: 'profileMgmt',
+          component: () => import('../pages/system/profileMgmt/profileList.vue'),
+          meta: {
+            id: '3.11'
+          }
         }
       ]
     }

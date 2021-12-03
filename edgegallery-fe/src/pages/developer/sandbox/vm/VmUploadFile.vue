@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import UploadBigFile from '../../../components/UploadBigFile.vue'
+import UploadBigFile from '../../../../components/UploadBigFile.vue'
 
 export default {
   name: 'UploadApp',
