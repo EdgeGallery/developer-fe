@@ -32,7 +32,7 @@
           src="../../assets/images/add.png"
           alt=""
         >
-        {{ $t('thirdSystem.add') }}
+        {{ $t('common.add') }}
       </el-button>
     </div>
     <div
@@ -110,13 +110,13 @@
                 class="btnEdit"
                 @click="editSystem(item)"
               >
-                {{ $t('thirdSystem.edit') }}
+                {{ $t('common.edit') }}
               </el-button>
               <el-button
                 class="btnDelete"
                 @click="btnDelete(item.id)"
               >
-                {{ $t('thirdSystem.delete') }}
+                {{ $t('common.delete') }}
               </el-button>
             </div>
           </div>
@@ -178,7 +178,7 @@
             </template>
           </el-table-column>>
           <el-table-column
-            :label="$t('thirdSystem.operation')"
+            :label="$t('common.operation')"
             width="170"
           >
             <template slot-scope="scope">
@@ -188,14 +188,14 @@
                 type="danger"
                 @click="handleDelete(scope.row)"
               >
-                {{ $t('thirdSystem.delete') }}
+                {{ $t('common.delete') }}
               </el-button>
               <el-button
                 class="tableDelete"
                 size="mini"
                 @click="handleEdit(scope.row)"
               >
-                {{ $t('thirdSystem.edit') }}
+                {{ $t('common.edit') }}
               </el-button>
             </template>
           </el-table-column>
@@ -207,7 +207,7 @@
     >
       <div class="elTop">
         <span />
-        <p>{{ $t('thirdSystem.add') }}</p>
+        <p>{{ $t('common.add') }}</p>
       </div>
       <el-form
         :model="form"
@@ -304,10 +304,10 @@
             type="primary"
             @click="submitForm('form')"
           >
-            {{ $t('thirdSystem.sure') }}
+            {{ $t('common.confirm') }}
           </el-button>
           <el-button @click="addCancle">
-            {{ $t('thirdSystem.cancel') }}
+            {{ $t('common.cancel') }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -317,7 +317,7 @@
     >
       <div class="elTop">
         <span />
-        <p>{{ $t('thirdSystem.edit') }}</p>
+        <p>{{ $t('common.edit') }}</p>
       </div>
       <el-form
         :model="form2"
@@ -414,10 +414,10 @@
             type="primary"
             @click="submitForm2('ruleForm2')"
           >
-            {{ $t('thirdSystem.sure') }}
+            {{ $t('common.confirm') }}
           </el-button>
           <el-button @click="dialogVisibleEdit = false">
-            {{ $t('thirdSystem.cancel') }}
+            {{ $t('common.cancel') }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -627,7 +627,7 @@ export default {
           system.addSystems(this.form).then(res => {
             this.$message({
               duration: 2000,
-              message: this.$t('thirdSystem.addStstemSucess'),
+              message: this.$t('common.addStstemSucess'),
               type: 'success'
             })
             this.goDetail()
