@@ -15,11 +15,6 @@
   -->
 <template>
   <div class="select-sandbox">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
     <div
       class="all-sandbox common-div-bg"
       v-if="isSandbox"
@@ -189,6 +184,7 @@ export default {
       sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
         this.sandboxName = this.sandbox[this.activeItem].name
         this.$emit('returnSelectSandbox', this.sandboxName)
+        this.$store.commit('changeFlow', '3')
         sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
       }).catch(err => {
         console.log(err)
