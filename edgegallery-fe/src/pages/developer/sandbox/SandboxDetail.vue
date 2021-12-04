@@ -137,6 +137,7 @@
             </p>
             <div class="btn-container">
               <el-button
+                id="btn_clearVmList"
                 v-if="appClass==='VM'"
                 class="common-btn"
                 :disabled="!this.isStartupVmFinish"
@@ -145,6 +146,7 @@
                 {{ $t('sandbox.releaseResources') }}
               </el-button>
               <el-button
+                id="btn_sandboxFinish"
                 class="common-btn"
                 :disabled="!this.isAddVmFinish"
                 @click="returnHome"
@@ -573,7 +575,7 @@ export default {
     }
     .detail-center-line{
       display: block;
-      margin: 15px auto;
+      margin: 25px auto;
       width: 16px;
       height: 76px;
     }
@@ -604,12 +606,12 @@ export default {
   }
   .deploy-detail-center{
     width: 694px;
-    height: 464px;
+    height: 474px;
     transition: all  0.4s;
     .deploy-detail-bg{
       width: 694px;
-      height: 100%;
-      max-height: 100%;
+      height: 474px;
+      overflow: hidden;
       padding: 40px 40px;
        .details-top{
         display: flex;

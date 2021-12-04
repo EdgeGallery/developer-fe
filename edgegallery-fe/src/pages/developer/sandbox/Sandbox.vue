@@ -61,6 +61,7 @@
         </div>
       </div>
       <el-button
+        id="btn_selectSandbox"
         class="makesure common-btn"
         @click="selectFinish"
       >
@@ -112,12 +113,14 @@
       </div>
       <div class="btn-container">
         <el-button
+          id="btn_backSandbox"
           class="common-btn btn_margin_right"
           @click="backSandbox"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
+          id="btn_checkSandbox"
           class="common-btn"
           @click="checkSandbox"
         >
@@ -147,7 +150,7 @@ export default {
       sandboxImg: '',
       sandboxName: '',
       vimType: '',
-      architecture: '',
+      architecture: sessionStorage.setItem('architecture'),
       mechostid: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       sandboxDetailsNames: [],

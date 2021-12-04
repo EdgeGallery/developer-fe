@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+    <title>WebSSH</title>
+    <link rel="stylesheet" href="../css/xterm.css" />
+</head>
+<body>
+<div id="terminal" style="width: 100%;height: 100%"></div>
+
+<script src="../js/jquery-3.4.1.min.js"></script>
+<script src="../js/xterm.js" charset="utf-8"></script>
+<script src="../js/webssh.js" charset="utf-8"></script>
+<script>
+    openTerminal( {
+        operate:'connect',
+        userId: window.sessionStorage.getItem("userId"),
+        applicationId: window.sessionStorage.getItem("applicationId")
+    });
+    function openTerminal(options){
+        var window_width=$(window).width()
+        var window_height=$(window).height()
+        var client = new WSSHClient();
+        var term = new Terminal({
+            cols: Math.floor(window_width/15),
+            rows: Math.floor(window_height/20),
+            cursorBlink: true, // Cursor blink configuration
+            cursorStyle: "block", // Cursor Stgyle  null | 'block' | 'underline' | 'bar'
+            scrollback: 800, // Scroll back
+            tabStopWidth: 8, // Table Stop Width
+            screenKeys: true
+        });
+
+        term.on('data', function (data) {
+            //Callback function during keyboard input
+            client.sendClientData(data);
+        });
+        term.open(document.getElementById('terminal'));
+        //Show connected on the page...
+        term.write('Connecting...');
+        //Perform connection operation
+        client.connect({
+            onError: function (error) {
+                //Connection failure callback
+                term.write('Error: ' + error + '\r\n');
+            },
+            onConnect: function () {
+                //Successful connection callback
+                client.sendInitData(options);
+            },
+            onClose: function () {
+                //Connection closed callback
+                term.write("\rconnection closed");
+            },
+            onData: function (data) {
+                //Call back when data is received
+                term.write(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>
