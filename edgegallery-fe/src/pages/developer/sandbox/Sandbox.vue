@@ -150,7 +150,7 @@ export default {
       sandboxImg: '',
       sandboxName: '',
       vimType: '',
-      architecture: sessionStorage.setItem('architecture'),
+      architecture: sessionStorage.getItem('architecture') || '',
       mechostid: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       sandboxDetailsNames: [],
