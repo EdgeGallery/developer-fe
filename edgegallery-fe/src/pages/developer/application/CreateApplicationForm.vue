@@ -247,7 +247,9 @@ export default {
       mdFileList: [],
       defaultIconFile: [],
       appId: sessionStorage.getItem('applicationId') || '',
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      isMdChanged: false,
+      isIconChanged: false
     }
   },
   watch: {
@@ -262,8 +264,16 @@ export default {
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.logoFileList = []
         } else {
+          this.isIconChanged = true
           this.logoFileList.push(file.raw)
-          this.isUploadIcon = true
+          let formdata = new FormData()
+          formdata.append('file', this.logoFileList[0])
+          formdata.append('fileType', 'icon')
+          applicationApi.uploadFileApi(formdata).then(res => {
+            if (res.data && res.data.fileId) {
+              this.applicationFormData.iconFileId = res.data.fileId
+            }
+          })
         }
         if (file.size / 1024 / 1024 > 2) {
           this.logoFileList = []
@@ -340,6 +350,17 @@ export default {
           this.mdFileList = []
         } else {
           this.mdFileList.push(file.raw)
+          this.isMdChanged = true
+          let formdata = new FormData()
+          formdata.append('file', this.mdFileList[0])
+          formdata.append('fileType', 'md')
+          applicationApi.uploadFileApi(formdata).then(res => {
+            if (res.data && res.data.fileId) {
+              this.applicationFormData.guideFileId = res.data.fileId
+            }
+          }).catch(err => {
+            console.log(err)
+          })
         }
         if (file.size / 1024 / 1024 > 2) {
           this.mdFileList = []
@@ -354,47 +375,31 @@ export default {
         }
       }
     },
-    uploadMdFile (fileId) {
+    uploadIconFile () {
       let formdata = new FormData()
-      formdata.append('file', this.mdFileList[0])
-      formdata.append('fileType', 'md')
+      formdata.append('file', this.defaultIconFile[0])
+      formdata.append('fileType', 'icon')
       applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
-          this.confirmToCreate(fileId, res.data.fileId)
+          this.applicationFormData.iconFileId = res.data.fileId
         }
-      }).catch(err => {
-        console.log(err)
       })
     },
     confirmForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          let formdata = new FormData()
-          if (this.logoFileList.length > 0) {
-            formdata.append('file', this.logoFileList[0])
-            formdata.append('fileType', 'icon')
-          } else {
-            formdata.append('file', this.defaultIconFile[0])
-            formdata.append('fileType', 'icon')
-          }
           if (this.appId.length > 0) {
-            this.modifyApp()
-          } else {
-            applicationApi.uploadFileApi(formdata).then(res => {
-              if (res.data && res.data.fileId) {
-                this.uploadMdFile(res.data.fileId)
-              }
-            }).catch(err => {
-              console.log(err)
-            })
+            this.confirmToModify()
+            if (this.logoFileList === 0) {
+              this.uploadIconFile(1)
+            } else {
+              this.uploadIconFile(2)
+            }
           }
-        } else {
-          console.log('error submit!!')
         }
       })
     },
-    modifyApp () {
-      this.applicationFormData.id = this.appId
+    confirmToModify () {
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
         this.$message.success(this.$t('incubation.modifyAppSuccess'))
         this.$router.push('/EG/developer/home')

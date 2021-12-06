@@ -23,7 +23,7 @@ const en = {
     putAway: 'Put away',
     newAndRecent: 'New/Recent',
     otehrs: 'Others',
-    addNewApp: 'Create New Application',
+    addNewApp: 'Create App',
     checkFromApp: 'You need to check it in the app content',
     return: 'Return',
     appInfo: 'App Information',
@@ -66,7 +66,7 @@ const en = {
     container: 'Container',
     vm: 'VM',
     uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.',
-    appWorkflow: '5G App incubation workflow'
+    appWorkflow: '5G App Incubation Workflow'
   },
   service: {
     basicInfo: 'Basic information',

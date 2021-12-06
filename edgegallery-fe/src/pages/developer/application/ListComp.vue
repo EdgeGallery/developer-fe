@@ -26,7 +26,7 @@
         class="app-name"
         :title="item.name"
       >
-        {{ item.name.length>12?item.name.substr(0,12)+'...':item.name }}
+        {{ item.id===0?$t('incubation.addNewApp'):(item.name.length>12?item.name.substr(0,12)+'...':item.name) }}
       </div>
       <div
         class="app-common-status"
@@ -58,7 +58,20 @@ export default {
   },
   data () {
     return {
-      applicationId: sessionStorage.getItem('applicationId') || ''
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      statusData: {
+        CREATED: ['创建完成', 'Created'],
+        CONFIGURED: ['配置完成', 'Configuared'],
+        PACKAGED: ['打包完成', 'Packaged'],
+        TESTED: ['测试完成', 'Tested'],
+        RELEASED: ['已发布', 'Released']
+      },
+      language: localStorage.getItem('language')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
@@ -90,7 +103,11 @@ export default {
       }
     },
     switchStatus (status) {
-      return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置完成' : (status === 'PACKAGED' ? '打包完成' : (status === 'TESTED' ? '测试完成' : (status === 'RELEASED' ? '已发布' : '已部署'))))
+      if (this.language === 'cn') {
+        return this.statusData[status][0]
+      } else {
+        return this.statusData[status][1]
+      }
     },
     getStatusClass (status) {
       return status === 'CREATED' ? 'app-created' : (status === 'CONFIGURED' || status === 'PACKAGED' ? 'app-success' : (status === 'TESTED' ? 'app-success' : 'app-published'))

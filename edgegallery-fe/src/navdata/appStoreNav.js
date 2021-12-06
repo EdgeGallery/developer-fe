@@ -40,6 +40,12 @@ const appStoreNavData = [
     authority: ['ROLE_APPSTORE_ADMIN', 'ROLE_APPSTORE_TENANT']
   },
   {
+    id: '2.1.8',
+    name: 'Docs',
+    path: pathPre + '/docs',
+    display: true
+  },
+  {
     id: '2.4',
     name: 'APP Share',
     path: pathPre + '/appShare',
@@ -93,12 +99,6 @@ const appStoreNavData = [
         display: true
       }
     ]
-  },
-  {
-    id: '2.1.8',
-    name: 'Docs',
-    path: pathPre + '/docs',
-    display: true
   }
 ]
 

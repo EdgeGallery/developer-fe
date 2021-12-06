@@ -40,6 +40,12 @@ const appStoreNavData = [
     authority: ['ROLE_APPSTORE_ADMIN', 'ROLE_APPSTORE_TENANT']
   },
   {
+    id: '2.6',
+    name: '文档',
+    path: pathPre + '/docs',
+    display: true
+  },
+  {
     id: '2.4',
     name: '应用共享',
     path: pathPre + '/appShare',
@@ -76,7 +82,7 @@ const appStoreNavData = [
   },
   {
     id: '2.5',
-    name: '系统',
+    name: '系统管理',
     path: pathPre + '/system',
     display: true,
     authority: ['ROLE_APPSTORE_ADMIN'],
@@ -93,12 +99,6 @@ const appStoreNavData = [
         display: true
       }
     ]
-  },
-  {
-    id: '2.6',
-    name: '文档',
-    path: pathPre + '/docs',
-    display: true
   }
 ]
 
