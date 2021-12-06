@@ -123,7 +123,7 @@
                 :on-change="handleChangeLogo"
                 :on-exceed="handleExceed"
                 :auto-upload="false"
-                :on-remove="removeUploadLogo"
+                :on-remove="removeLogo"
                 accept=".jpg,.png"
                 name="file"
               >
@@ -154,6 +154,7 @@
             multiple
             :limit="1"
             :on-exceed="handleMdExceed"
+            :on-remove="removeMdFile"
             :file-list="mdFileList"
           >
             <el-button
@@ -288,14 +289,56 @@ export default {
         }
       }
     },
-    removeUploadLogo (file) {
+    removeLogo (file) {
       this.logoFileList = []
       this.isUploadIcon = false
+      this.isIconChanged = false
     },
     handleExceed (file, fileList) {
       if (fileList.length === 1) {
         this.$message.warning(this.$t('incubation.fileLimitNum'))
       }
+    },
+    handleChangeMd (file) {
+      this.mdFileList = []
+      if (file) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.mdFileList = []
+        } else {
+          this.mdFileList.push(file.raw)
+          this.isMdChanged = true
+          let formdata = new FormData()
+          formdata.append('file', this.mdFileList[0])
+          formdata.append('fileType', 'md')
+          applicationApi.uploadFileApi(formdata).then(res => {
+            if (res.data && res.data.fileId) {
+              this.applicationFormData.guideFileId = res.data.fileId
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        }
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
+        let fileTypeArr = ['md']
+        if (file.name) {
+          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
+            this.mdFileList = []
+          }
+        }
+      }
+    },
+    handleMdExceed (file, fileList) {
+      if (fileList.length === 1) {
+        this.$message.warning(this.$t('incubation.fileLimitNum'))
+      }
+    },
+    removeMdFile () {
+      this.mdFileList = []
+      this.isMdChanged = false
     },
     fileToBase64 (file) {
       let reader = new FileReader()
@@ -338,47 +381,10 @@ export default {
         this.defaultIconFile.push(this.base64toFile(base64))
       }
     },
-    handleMdExceed (file, fileList) {
-      if (fileList.length === 1) {
-        this.$message.warning(this.$t('incubation.fileLimitNum'))
-      }
-    },
-    handleChangeMd (file) {
-      this.mdFileList = []
-      if (file) {
-        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
-          this.mdFileList = []
-        } else {
-          this.mdFileList.push(file.raw)
-          this.isMdChanged = true
-          let formdata = new FormData()
-          formdata.append('file', this.mdFileList[0])
-          formdata.append('fileType', 'md')
-          applicationApi.uploadFileApi(formdata).then(res => {
-            if (res.data && res.data.fileId) {
-              this.applicationFormData.guideFileId = res.data.fileId
-            }
-          }).catch(err => {
-            console.log(err)
-          })
-        }
-        if (file.size / 1024 / 1024 > 2) {
-          this.mdFileList = []
-          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
-        }
-        let fileTypeArr = ['md']
-        if (file.name) {
-          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-            this.mdFileList = []
-          }
-        }
-      }
-    },
-    uploadIconFile () {
+    uploadIconFile (type) {
       let formdata = new FormData()
-      formdata.append('file', this.defaultIconFile[0])
       formdata.append('fileType', 'icon')
+      type === 1 ? formdata.append('file', this.defaultIconFile[0]) : formdata.append('file', this.defaultIconFile[0])
       applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
           this.applicationFormData.iconFileId = res.data.fileId
@@ -388,18 +394,16 @@ export default {
     confirmForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          if (this.appId.length > 0) {
-            this.confirmToModify()
-            if (this.logoFileList === 0) {
-              this.uploadIconFile(1)
-            } else {
-              this.uploadIconFile(2)
-            }
+          if (this.logoFileList.length > 0 && this.mdFileList.length > 0) {
+            this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
+          } else {
+            this.$message.warning('请上传文件')
           }
         }
       })
     },
     confirmToModify () {
+      this.applicationFormData.id = this.appId
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
         this.$message.success(this.$t('incubation.modifyAppSuccess'))
         this.$router.push('/EG/developer/home')
@@ -408,9 +412,7 @@ export default {
         this.$message.success(this.$t('incubation.modifyAppFailed'))
       })
     },
-    confirmToCreate (iconFileId, mdFileId) {
-      this.applicationFormData.iconFileId = iconFileId
-      this.applicationFormData.guideFileId = mdFileId
+    confirmToCreate () {
       applicationApi.createNewApp(this.applicationFormData).then(res => {
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
@@ -454,7 +456,6 @@ export default {
   },
   mounted () {
     this.conversionIcon()
-    this.getMdFileInfo()
     if (this.appId.length > 0) {
       this.getApplicationInfo(this.appId)
     }

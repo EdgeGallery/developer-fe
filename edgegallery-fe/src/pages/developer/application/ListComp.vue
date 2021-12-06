@@ -89,6 +89,7 @@ export default {
         TESTED: ['测试完成', 'Tested'],
         RELEASED: ['已发布', 'Released']
       },
+      isShowCreate: false,
       language: localStorage.getItem('language')
     }
   },
