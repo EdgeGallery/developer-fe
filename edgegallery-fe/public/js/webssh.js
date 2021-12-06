@@ -2,7 +2,7 @@ function WSSHClient () {
 };
 
 WSSHClient.prototype._generateEndpoint = function () {
-  let currUrl = window.location.host
+  let _currUrl = window.location.host
   let _protocol = ''
   let _VncUrl = ''
   if (window.location.protocol === 'https:') {
@@ -10,12 +10,12 @@ WSSHClient.prototype._generateEndpoint = function () {
   } else {
     _protocol = 'ws://'
   }
-  if (currUrl.indexOf('30095') !== -1) {
-    _VncUrl = currUrl.replace('30095', '30098')
-  } else if (currUrl.indexOf('8080') !== -1) {
-    _VncUrl = currUrl.replace('8080', '9082')
+  if (_currUrl.indexOf('30095') !== -1) {
+    _VncUrl = _currUrl.replace('30095', '30098')
+  } else if (_currUrl.indexOf('8080') !== -1) {
+    _VncUrl = _currUrl.replace('8080', '9082')
   } else {
-    _VncUrl = currUrl + ':30098'
+    _VncUrl = _currUrl + ':30098'
   }
   var endpoint = _protocol + _VncUrl + '/webssh'
   return endpoint
