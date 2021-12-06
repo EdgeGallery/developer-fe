@@ -330,18 +330,18 @@
    margin:0 5px 0 10px;
    font-size: 14px;
  }
- div::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 20px;
   height: 20px;
 }
-div::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
   border-radius: 20px;
   border: 7px solid transparent;
 }
-div::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
 }
-div::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   box-shadow: 0 0 0 3px #4e3494 inset;
 }
 body::-webkit-scrollbar{
@@ -868,7 +868,7 @@ background-color:transparent !important
   padding: 0;
 }
 .el-table td{
-  height: 50px !important;
+  min-height: 50px !important;
 }
 th{
   font-weight: normal;

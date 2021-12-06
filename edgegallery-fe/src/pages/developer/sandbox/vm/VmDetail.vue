@@ -92,6 +92,7 @@
 
       <div class="btn-container network-btn">
         <el-button
+          id="btn_confirm"
           class="common-btn"
           @click="closeVmDetail"
         >

@@ -111,7 +111,19 @@ const cn = {
     format: '参数校验',
     imageInfo: '镜像信息',
     serviceInfo: '服务信息',
-    mepAgentTip: '如果没有集成mepagent，将无法发布API'
+    mepAgentTip: '如果没有集成mepagent，将无法发布API',
+    cpuUsage: 'CPU使用率',
+    memUsage: '内存使用率',
+    diskUsage: '硬盘使用率',
+    appName: '应用名称',
+    appClass: '负载类型',
+    createTime: '创建时间',
+    dependent: '依赖应用',
+    deploymentStatus: '部署状态',
+    podInformation: 'pod信息',
+    podName: 'pod名称',
+    podStatus: 'pod状态',
+    containerName: '容器名称'
   },
   sandboxPromptInfomation: {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G！',
@@ -121,7 +133,10 @@ const cn = {
     imageInfoErr: '镜像不存在，请前往“系统镜像管理”上传镜像！',
     containerScriptUploadTip: '请上传.yaml或.tgz格式的文件！',
     cleanEnvSuccess: '释放资源成功！',
-    cleanEnvFailed: '释放资源失败！'
+    cleanEnvFailed: '释放资源失败！',
+    noServiceInfo: '服务信息有误，请检查文件！',
+    noImageInfo: '镜像信息有误，请检查文件！',
+    noFormat: '参数校验有误，请检查文件！'
   }
 }
 export default cn

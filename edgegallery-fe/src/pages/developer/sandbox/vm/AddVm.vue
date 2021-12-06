@@ -261,6 +261,7 @@
           >
             <span class="title-info">{{ $t('sandbox.enterFlavorExtraSpecs') }}</span>
             <el-button
+              id="btn_editVmFlavor"
               class="rt"
               v-if="viewOrEditFlavor === 'preview'"
               @click="clickEdit('flavor')"
@@ -268,6 +269,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              id="btn_saveVmFlavor"
               class="rt"
               v-else
               @click="clickEdit('flavor')"
@@ -317,6 +319,7 @@
                 >
                   <span class="title-info">{{ $t('sandbox.enterScriptContent') }}</span>
                   <el-button
+                    id="btn_editVmScript"
                     class="rt"
                     v-if="viewOrEditContent === 'preview'"
                     @click.stop="clickEdit('content')"
@@ -324,6 +327,7 @@
                     {{ $t('common.edit') }}
                   </el-button>
                   <el-button
+                    id="btn_saveVmScript"
                     class="rt"
                     v-else
                     @click.stop="clickEdit('content')"
@@ -347,12 +351,14 @@
       </el-collapse>
       <div class="addVm-btn rt">
         <el-button
+          id="btn_cancelAddVm"
           class="common-btn"
           @click="addVmFinish('cancel')"
         >
           {{ $t('normal.cancel') }}
         </el-button>
         <el-button
+          id="btn_confirmAddVm"
           class="common-btn"
           @click="addVmFinish('confirm')"
         >

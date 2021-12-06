@@ -33,12 +33,15 @@
         :auto-upload="false"
         accept=".yaml,.tgz"
         name="yamlFile"
+        :disabled="helmChartFile.length>0 || uploadYamlLoading"
       >
         <a
           class="uploader-button"
           :class="{'btn-disabled':helmChartFile.length>0 || uploadYamlLoading}"
           slot="trigger"
           id="btn_uploadContainerFile"
+          v-loading="uploadYamlLoading"
+          element-loading-background="rgba(0, 0, 0, 0.2)"
         >
           {{ $t('container.uploadFile') }}
         </a>
@@ -81,15 +84,17 @@
           class="edit-btn clear"
         >
           <span class="title-info">{{ $t('container.configFileText') }}</span>
-          <!-- :class="{'btn-disabled':helmChartFileList.length===0}" -->
           <el-button
+            id="btn_editContainerScript"
             class="rt"
+            :class="{'btn-disabled':helmChartFileList.length===0}"
             v-if="viewOrEditContent==='preview'"
             @click="editFile()"
           >
             {{ $t('common.edit') }}
           </el-button>
           <el-button
+            id="btn_saveContainerScript"
             class="rt"
             v-else
             @click="saveFile"
@@ -166,7 +171,12 @@ export default {
       },
       hasValidate: false,
       hasValidateSave: false,
-      checkFlag: {},
+      checkFlag: {
+        formatSuccess: true,
+        imageSuccess: true,
+        serviceSuccess: true,
+        mepAgentSuccess: true
+      },
       helmChartId: '',
       innerPath: '',
       markdownSource: '',
@@ -219,8 +229,17 @@ export default {
           this.helmChartFileList = res.data.helmChartFileList
           this.clickFirstNode()
         }
-      }, () => {
-        this.$eg_messagebox(this.$t('promptInformation.uploadFileFailed'), 'error')
+      }, (error) => {
+        if (error.response.data.message === 'Service info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
+          this.checkFlag.serviceSuccess = false
+        } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
+          this.checkFlag.imageSuccess = false
+        } else {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
+          this.checkFlag.formatSuccess = false
+        }
         this.helmChartFile = []
         this.hasValidate = false
       }).finally(() => {
@@ -249,6 +268,17 @@ export default {
       this.viewOrEditContent = 'preview'
       sandbox.container.saveHelmChartFile(this.applicationId, this.helmChartId, this.saveFileparams).then(res => {
         this.getHelmChartFileContent(this.innerPath)
+      }).catch(error => {
+        if (error.response.data.message === 'Service info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
+          this.checkFlag.serviceSuccess = false
+        } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
+          this.checkFlag.imageSuccess = false
+        } else {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
+          this.checkFlag.formatSuccess = false
+        }
       })
     },
     getHelmChartFileContent (filePath) {
@@ -400,6 +430,31 @@ export default {
         overflow: hidden;
         overflow: auto;
       }
+      div.file-content::-webkit-scrollbar, pre::-webkit-scrollbar {
+        width: 20px;
+        height: 20px;
+      }
+      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
+        box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
+      }
+      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
+        border-radius: 20px;
+        border: 7px solid transparent;
+      }
+      div.file-content::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb{
+        box-shadow: 0 0 0 3px #7050c3 inset;
+      }
+
+      // pre::-webkit-scrollbar {
+      //   width: 20px;
+      //   height: 20px;
+      // }
+      // pre::-webkit-scrollbar-track {
+      //   box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
+      // }
+      // pre::-webkit-scrollbar-thumb {
+      //   box-shadow: 0 0 0 3px #7050c3 inset;
+      // }
       .check-result-save{
         top: calc(100% + 10px);
       }

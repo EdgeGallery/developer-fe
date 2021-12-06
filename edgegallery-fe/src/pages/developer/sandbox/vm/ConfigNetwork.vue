@@ -98,12 +98,14 @@
 
       <div class="btn-container network-btn">
         <el-button
+          id="btn_cancelEditNetwork"
           class="common-btn"
           @click="finishEditNetwork('cancel')"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
+          id="btn_confirmEditNetwork"
           class="common-btn"
           @click="finishEditNetwork('confirm')"
         >

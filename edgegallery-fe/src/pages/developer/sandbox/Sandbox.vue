@@ -15,11 +15,6 @@
   -->
 <template>
   <div class="select-sandbox">
-    <img
-      src="../../../assets/images/sandbox/question.png"
-      alt=""
-      class="question hoverHands"
-    >
     <div
       class="all-sandbox common-div-bg"
       v-if="isSandbox"
@@ -61,6 +56,7 @@
         </div>
       </div>
       <el-button
+        id="btn_selectSandbox"
         class="makesure common-btn"
         @click="selectFinish"
       >
@@ -112,12 +108,14 @@
       </div>
       <div class="btn-container">
         <el-button
+          id="btn_backSandbox"
           class="common-btn btn_margin_right"
           @click="backSandbox"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
+          id="btn_checkSandbox"
           class="common-btn"
           @click="checkSandbox"
         >
@@ -147,7 +145,7 @@ export default {
       sandboxImg: '',
       sandboxName: '',
       vimType: '',
-      architecture: '',
+      architecture: sessionStorage.getItem('architecture') || '',
       mechostid: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       sandboxDetailsNames: [],
@@ -186,6 +184,7 @@ export default {
       sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
         this.sandboxName = this.sandbox[this.activeItem].name
         this.$emit('returnSelectSandbox', this.sandboxName)
+        this.$store.commit('changeFlow', '3')
         sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
       }).catch(err => {
         console.log(err)

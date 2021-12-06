@@ -39,6 +39,7 @@
           {{ descSub }}
         </div>
         <el-button
+          id="btn_messageBoxCancle"
           v-if="cancelText !== ''"
           class="common-btn"
           @click="handleCancel"
@@ -46,6 +47,7 @@
           {{ cancelText }}
         </el-button>
         <el-button
+          id="btn_messageBoxConfirm"
           class="common-btn"
           @click="handleConfirm"
         >
