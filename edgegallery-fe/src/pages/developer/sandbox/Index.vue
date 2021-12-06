@@ -16,11 +16,6 @@
 <template>
   <div class="incubation">
     <div v-if="!isCheckSandboxList">
-      <img
-        src="../../../assets/images/sandbox/question.png"
-        alt=""
-        class="question hoverHands"
-      >
       <div
         class="sandbox hoverHands"
         @click="toSelectSandbox"
@@ -67,15 +62,10 @@ export default {
   methods: {
     isSelectSandbox () {
       sandbox.getUserSelectSandbox(this.applicationId).then(res => {
-        if (res.data.mepHostId == null) {
+        if (res.data.mepHostId === null) {
           this.selectSandbox = this.$t('sandbox.selectSandbox')
         } else {
-          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
-            this.selectSandbox = res.data.name
-          }).catch(err => {
-            this.selectSandbox = this.$t('sandbox.selectSandbox')
-            console.log(err)
-          })
+          this.$router.push('/EG/developer/sandboxDetails')
         }
       }).catch(err => {
         console.log(err)

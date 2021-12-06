@@ -65,7 +65,7 @@ const cn = {
     packageSuc: '打包成功',
     packageFail: '打包失败',
     packageFinish: '打包完成',
-    subText: '认证前系统会默认释放虚拟机资源,释放后再不可再返回修改',
+    subText: '认证前系统会默认释放资源,释放后再不可再返回修改',
     notSupport: '格式不支持修改',
     noDependences: '无依赖'
   }

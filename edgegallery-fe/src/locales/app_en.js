@@ -66,7 +66,14 @@ const en = {
     container: 'Container',
     vm: 'VM',
     uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.',
-    appWorkflow: '5G App Incubation Workflow'
+    appWorkflow: '5G App incubation workflow',
+    newProject: 'New Project',
+    selectProfile: 'Select Profile',
+    appList: 'Application List',
+    noData: 'No Data',
+    noProfile: 'Please select a profile',
+    createSuc: 'Successfully created application.',
+    createFail: 'Failed to create application.'
   },
   service: {
     basicInfo: 'Basic information',

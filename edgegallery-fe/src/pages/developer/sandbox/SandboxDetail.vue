@@ -128,6 +128,7 @@
             <ContainerIndex
               @importScript="importScript"
               @checkContainerDetail="checkContainerDetail"
+              @deployContainerFinish="deployContainerFinish"
             />
           </div>
           <div class="details-bottom clear">
@@ -136,6 +137,7 @@
             </p>
             <div class="btn-container">
               <el-button
+                id="btn_clearVmList"
                 v-if="appClass==='VM'"
                 class="common-btn"
                 :disabled="!this.isStartupVmFinish"
@@ -144,6 +146,7 @@
                 {{ $t('sandbox.releaseResources') }}
               </el-button>
               <el-button
+                id="btn_sandboxFinish"
                 class="common-btn"
                 :disabled="!this.isAddVmFinish"
                 @click="returnHome"
@@ -307,9 +310,12 @@
       :application-id="applicationId"
       :vm-id="vmId"
     />
-    <ContainerScript v-if="showContent==='showImportScript'" />
+    <ContainerScript
+      v-if="showContent==='showImportScript'"
+      @finishUploadScript="finishUploadScript"
+    />
     <ContainerDetail
-      v-if="showContent==='showContainerDetail'"
+      v-show="showContent==='showContainerDetail'"
       @closeContainerDetail="closeContainerDetail"
     />
   </div>
@@ -367,7 +373,6 @@ export default {
   },
   methods: {
     returnHome () {
-      this.$store.commit('changeFlow', '3')
       this.$router.push('/EG/developer/home')
     },
     deployInternet () {
@@ -457,6 +462,12 @@ export default {
       applicationApi.getAppInfo(this.applicationId).then(res => {
         this.applicationName = res.data.name
         this.appClass = res.data.appClass
+        if (this.appClass === 'VM') {
+          this.getVmList()
+        }
+        if (res.data.status !== 'CREATED') {
+          this.isAddVmFinish = true
+        }
       })
     },
     importScript (data) {
@@ -467,6 +478,12 @@ export default {
     },
     checkContainerDetail (data) {
       this.showContent = data
+    },
+    finishUploadScript () {
+      this.showContent = 'showDetail'
+    },
+    deployContainerFinish (data) {
+      this.isAddVmFinish = data
     }
   },
   mounted () {
@@ -479,7 +496,6 @@ export default {
       this.isMecSucess = false
     }
     this.getApplicationInfo()
-    this.getVmList()
     this.getUpfFinish()
   },
   beforeDestroy () {
@@ -559,7 +575,7 @@ export default {
     }
     .detail-center-line{
       display: block;
-      margin: 15px auto;
+      margin: 25px auto;
       width: 16px;
       height: 76px;
     }
@@ -590,12 +606,12 @@ export default {
   }
   .deploy-detail-center{
     width: 694px;
-    height: 464px;
+    height: 474px;
     transition: all  0.4s;
     .deploy-detail-bg{
       width: 694px;
-      height: 100%;
-      max-height: 100%;
+      height: 474px;
+      overflow: hidden;
       padding: 40px 40px;
        .details-top{
         display: flex;
@@ -768,6 +784,23 @@ export default {
         opacity:1;
          filter: drop-shadow(0px 0px 20px rgba(255, 255, 255,.8));
       }
+    }
+  }
+  .el-progress .el-progress-bar__inner:before {
+    content:"";
+    width:100%;
+    height:100%;
+    display:block;
+    background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 12.5%,transparent 0,transparent 25%);
+    background-size:80px 80px;
+    animation:move 2.5s linear infinite;
+  }
+  @keyframes move {
+    from {
+      background-position: 80px 0;
+    }
+    to {
+      background-position:  0;
     }
   }
 }

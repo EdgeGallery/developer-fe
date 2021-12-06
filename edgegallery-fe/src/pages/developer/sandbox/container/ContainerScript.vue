@@ -29,27 +29,51 @@
         action=""
         :on-change="handleChangeYaml"
         :limit="1"
-        :file-list="yamlFileList"
+        :file-list="helmChartFile"
         :auto-upload="false"
-        :on-remove="removeUploadyaml"
-        :on-exceed="handleExceed"
-        accept=".yaml"
+        accept=".yaml,.tgz"
         name="yamlFile"
-        v-loading="uploadYamlLoading"
+        :disabled="helmChartFile.length>0 || uploadYamlLoading"
       >
         <a
           class="uploader-button"
+          :class="{'btn-disabled':helmChartFile.length>0 || uploadYamlLoading}"
           slot="trigger"
+          id="btn_uploadContainerFile"
+          v-loading="uploadYamlLoading"
+          element-loading-background="rgba(0, 0, 0, 0.2)"
         >
           {{ $t('container.uploadFile') }}
+        </a>
+        <el-tooltip
+          effect="dark"
+          :content="$t('sandboxPromptInfomation.containerScriptUploadTip')"
+          placement="top-start"
+        >
+          <em class="script-upload-tip">i</em>
+        </el-tooltip>
+        <a
+          class="uploader-button"
+          :class="{'btn-disabled':helmChartFile.length===0}"
+          id="btn_deleteContainerBtn"
+          @click="deleteHelmChartsFile"
+        >
+          {{ $t('common.delete') }}
         </a>
         <a
           class="uploader-button"
           :href="demoYaml"
           download="demo.yaml"
+          id="btn_downloadContainerDemoFile"
         >
           {{ $t('container.downloadDemo') }}
         </a>
+
+        <div
+          v-show="hasValidate"
+        >
+          <CheckResult :check-flag-prop="checkFlag" />
+        </div>
       </el-upload>
 
       <div class="config-file">
@@ -61,13 +85,16 @@
         >
           <span class="title-info">{{ $t('container.configFileText') }}</span>
           <el-button
+            id="btn_editContainerScript"
             class="rt"
+            :class="{'btn-disabled':helmChartFileList.length===0}"
             v-if="viewOrEditContent==='preview'"
-            @click="editFile(fileName)"
+            @click="editFile()"
           >
             {{ $t('common.edit') }}
           </el-button>
           <el-button
+            id="btn_saveContainerScript"
             class="rt"
             v-else
             @click="saveFile"
@@ -79,11 +106,12 @@
           <el-tree
             id="container-package-tree"
             class="container-package-tree lt"
-            :data="containerPackageData"
+            :data="helmChartFileList"
             :props="defaultProps"
             @node-click="handleNodeClick"
             default-expand-all
             highlight-current
+            :empty-text="$t('common.noData')"
           />
           <div
             class="file-content rt"
@@ -91,7 +119,7 @@
           >
             <mavon-editor
               class="common-mavon-editor"
-              v-model="fileName"
+              v-model="markdownSource"
               :toolbars-flag="false"
               :subfield="false"
               :default-open="viewOrEditContent"
@@ -99,7 +127,21 @@
               preview-background="#4E3494"
             />
           </div>
+          <CheckResult
+            v-show="hasValidateSave"
+            class="check-result-save"
+            :check-flag-prop="checkFlag"
+          />
         </div>
+      </div>
+      <div class="btn-container">
+        <el-button
+          id="btn_closeUploadScript"
+          class="common-btn"
+          @click="finishUploadScript"
+        >
+          {{ $t('common.close') }}
+        </el-button>
       </div>
     </div>
   </div>
@@ -107,52 +149,188 @@
 
 <script>
 import demoYaml from '@/assets/file/test_helm_template.yaml'
+import CheckResult from './CheckResult.vue'
+import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'ContainerScript',
+  components: {
+    CheckResult
+  },
   data () {
     return {
       detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
-      yamlFileList: [],
+      applicationId: sessionStorage.getItem('applicationId'),
+      helmChartFile: [],
       uploadYamlLoading: false,
       demoYaml,
       viewOrEditContent: 'preview',
-      fileName: '',
-      containerPackageData: [],
+      helmChartFileList: [],
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'name'
+      },
+      hasValidate: false,
+      hasValidateSave: false,
+      checkFlag: {
+        formatSuccess: true,
+        imageSuccess: true,
+        serviceSuccess: true,
+        mepAgentSuccess: true
+      },
+      helmChartId: '',
+      innerPath: '',
+      markdownSource: '',
+      saveFileparams: {
+        innerFilePath: '',
+        content: ''
       }
     }
   },
   methods: {
+    getHelmChartsFileList () {
+      sandbox.container.getHelmchartsFileList(this.applicationId).then(res => {
+        if (!res.data || res.data.length === 0) {
+          return
+        }
+        let _data = res.data[0]
+        this.helmChartId = _data.id
+        this.helmChartFile = [{ name: _data.name }]
+        this.hasValidate = true
+        this.helmChartFileList = _data.helmChartFileList
+        this.setResultDivLeft()
+        this.clickFirstNode()
+      })
+    },
     handleChangeYaml (file, fileList) {
+      let _helmChartFile = []
+      _helmChartFile.push(file.raw)
+      this.helmChartFile = []
+      const fileType = file.raw.name.substring(file.raw.name.lastIndexOf('.') + 1)
+      const fileTypeArr = ['yaml', 'tgz']
+      if (!fileTypeArr.includes(fileType)) {
+        this.$eg_messagebox(this.$t('workspace.configYaml.yamlFileType'), 'warning')
+        _helmChartFile = []
+      }
+      if (_helmChartFile.length > 0) {
+        this.helmChartFile = _helmChartFile
+        this.setResultDivLeft()
+        this.submitContainerScript(_helmChartFile)
+      }
     },
-    handleExceed (file, fileList) {
+    submitContainerScript (helmChartFile) {
+      this.uploadYamlLoading = true
+      let fd = new FormData()
+      fd.append('file', helmChartFile[0])
+      sandbox.container.postHelmChartsFile(this.applicationId, fd).then(res => {
+        if (res.data.id) {
+          this.helmChartFile = helmChartFile
+          this.hasValidate = true
+          this.helmChartId = res.data.id
+          this.helmChartFileList = res.data.helmChartFileList
+          this.clickFirstNode()
+        }
+      }, (error) => {
+        if (error.response.data.message === 'Service info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
+          this.checkFlag.serviceSuccess = false
+        } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
+          this.checkFlag.imageSuccess = false
+        } else {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
+          this.checkFlag.formatSuccess = false
+        }
+        this.helmChartFile = []
+        this.hasValidate = false
+      }).finally(() => {
+        this.uploadYamlLoading = false
+      })
     },
-    // Remove uploaded YAML file
-    removeUploadyaml (file, fileList) {
+    jumpToImageList () {
+      let _isEGPlatform = window.location.href.indexOf('/EG/')
+      let _imageListHref
+      if (_isEGPlatform > 0) {
+        _imageListHref = this.$router.resolve({ path: '/developer/mecDeveloper/system/imagemgmt' })
+      } else {
+        _imageListHref = this.$router.resolve({ path: '/mecDeveloper/system/imagemgmt' })
+      }
+      window.open(_imageListHref.href, '_blank')
     },
-    editFile (fileName) {
+    editFile () {
+      let _content = this.markdownSource.substring(9, (this.markdownSource.length - 5))
+      this.markdownSource = _content
       this.viewOrEditContent = 'edit'
     },
     saveFile () {
+      this.saveFileparams.innerFilePath = this.innerPath
+      this.saveFileparams.content = this.markdownSource
+      this.markdownSource = '```yaml\r\n' + this.markdownSource + '\r\n```'
       this.viewOrEditContent = 'preview'
+      sandbox.container.saveHelmChartFile(this.applicationId, this.helmChartId, this.saveFileparams).then(res => {
+        this.getHelmChartFileContent(this.innerPath)
+      }).catch(error => {
+        if (error.response.data.message === 'Service info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
+          this.checkFlag.serviceSuccess = false
+        } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
+          this.checkFlag.imageSuccess = false
+        } else {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
+          this.checkFlag.formatSuccess = false
+        }
+      })
+    },
+    getHelmChartFileContent (filePath) {
+      sandbox.container.getHelmChartFileContent(this.applicationId, this.helmChartId, filePath).then(res => {
+        this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+      })
+    },
+    deleteHelmChartsFile () {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
+        sandbox.container.deleteHelmChartsFile(this.applicationId, this.helmChartId).then(() => {
+          this.helmChartFile = []
+          this.markdownSource = ''
+          this.helmChartFileList = []
+        }).catch(() => {
+          this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
+        })
+      }).catch(() => {})
     },
     handleNodeClick (data) {
       if (data.children) {
         return
       }
-      this.fileName = data.label
+      this.innerPath = data.innerPath
+      this.getHelmChartFileContent(data.innerPath)
     },
     clickFirstNode () {
       this.$nextTick().then(() => {
-        const firstNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node')
-        firstNode.click()
+        const firstNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+        if (firstNode && this.helmChartId !== '') {
+          firstNode.click()
+        }
       })
+    },
+    setResultDivLeft () {
+      this.$nextTick().then(() => {
+        let _oDiv = document.querySelector('.script-div .el-upload-list .el-upload-list__item-name')
+        let _oDivResult = document.querySelector('.script-div .result')
+        if (_oDiv.offsetWidth >= 440) {
+          _oDivResult.style.left = 0 + 'px'
+          _oDivResult.style.top = 75 + 'px'
+        } else {
+          _oDivResult.style.left = (_oDiv.offsetWidth + 32) + 'px'
+        }
+        this.hasValidate = true
+      })
+    },
+    finishUploadScript () {
+      this.$emit('finishUploadScript')
     }
   },
   mounted () {
-    this.clickFirstNode()
+    this.getHelmChartsFileList()
   }
 }
 </script>
@@ -162,8 +340,7 @@ export default {
   height: 100%;
   position: relative;
   .script-div{
-    width: 60%;
-    min-width: 700px;
+    width: 1000px;
     height: calc(100% - 150px);
     overflow: hidden;
     position: absolute;
@@ -173,7 +350,11 @@ export default {
   }
   .upload-btn{
     margin-left: 15px;
-    a{
+    position: relative;
+    .el-upload{
+      cursor: default;
+    }
+    .uploader-button{
       display: inline-block;
       height: 25px;
       line-height: 25px;
@@ -185,13 +366,27 @@ export default {
       font-size: 14px;
       font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
-    a:hover{
+    .uploader-button:hover{
       color: #806bbc;
       background-color: #412590;
+      cursor: pointer;
+    }
+    .script-upload-tip{
+      position: relative;
+      left: -15px;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      text-align: center;
+      border-radius: 50%;
+      background: #604AD0;
+      font-size: 12px;
+      font-style: normal;
     }
   }
   .config-file{
-    height: 100%;
+    height: calc(100% - 222px);
     margin-top: 80px;
     .edit-btn{
       margin-top: -11px;
@@ -214,10 +409,9 @@ export default {
     .package{
       margin: 15px 0 0 15px;
       position: relative;
-      height: calc(100% - 265px);
-      overflow: hidden;
+      height: calc(100% - 90px);
       .el-tree.container-package-tree{
-        width: 170px;
+        width: 270px;
         background: #4E3494;
         border-radius: 4px;
         color: #fff;
@@ -229,14 +423,58 @@ export default {
         background-color: #7050c3;
       }
       .file-content{
-        width: calc(100% - 180px);
+        width: calc(100% - 280px);
         height: 100%;
         background: #4E3494;
         border-radius: 4px;
         overflow: hidden;
         overflow: auto;
       }
+      div.file-content::-webkit-scrollbar, pre::-webkit-scrollbar {
+        width: 20px;
+        height: 20px;
+      }
+      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
+        box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
+      }
+      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
+        border-radius: 20px;
+        border: 7px solid transparent;
+      }
+      div.file-content::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb{
+        box-shadow: 0 0 0 3px #7050c3 inset;
+      }
+
+      // pre::-webkit-scrollbar {
+      //   width: 20px;
+      //   height: 20px;
+      // }
+      // pre::-webkit-scrollbar-track {
+      //   box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
+      // }
+      // pre::-webkit-scrollbar-thumb {
+      //   box-shadow: 0 0 0 3px #7050c3 inset;
+      // }
+      .check-result-save{
+        top: calc(100% + 10px);
+      }
     }
+  }
+  .el-upload-list__item{
+    background-color:transparent;
+    transition: none !important;
+    color: #fff;
+    margin-top: 20px;
+    .el-icon-close,.el-icon-upload-success{
+      display: none;
+    }
+  }
+  .el-upload-list__item-name{
+    color: #fff !important;
+    background: #301b69;
+    display: inline;
+    padding: 3px 10px;
+    cursor: default !important;
   }
 }
 </style>

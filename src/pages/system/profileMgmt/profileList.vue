@@ -76,7 +76,7 @@
         <el-table-column
           prop="type"
           :label="$t('system.type')"
-          min-width="10%"
+          min-width="15%"
         />
         <el-table-column
           prop="industry"

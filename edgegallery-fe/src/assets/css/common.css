@@ -330,23 +330,29 @@
    margin:0 5px 0 10px;
    font-size: 14px;
  }
- div::-webkit-scrollbar{
-   width: 20px;
-   height: 12px;
- }
- div::-webkit-scrollbar-thumb {
-  border-radius: 12px;
-  border: 6px solid rgba(0, 0, 0, 0);
-  box-shadow: 8px 0 0 rgba(255, 255, 255, 0.1) inset;
+::-webkit-scrollbar {
+  width: 20px;
+  height: 20px;
 }
- body::-webkit-scrollbar{
-   width: 8px;
-   height: 12px;
- }
- body::-webkit-scrollbar-thumb{
-   border-radius: 10px;
-   background: rgba(0,0,0,0.2);
- }
+::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  border: 7px solid transparent;
+}
+::-webkit-scrollbar-track {
+  box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
+}
+::-webkit-scrollbar-thumb {
+  box-shadow: 0 0 0 3px #4e3494 inset;
+}
+body::-webkit-scrollbar{
+  width: 8px;
+  height: 12px;
+}
+body::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
+}
+
  .el-upload-list{
    float: left;
    width: 100%;
@@ -862,7 +868,7 @@ background-color:transparent !important
   padding: 0;
 }
 .el-table td{
-  height: 50px !important;
+  min-height: 50px !important;
 }
 th{
   font-weight: normal;
@@ -1251,4 +1257,23 @@ input::-webkit-input-placeholder {
 .common-mavon-editor.markdown-body textarea {
   background-color: #4E3494 !important;
   color: #fff !important;
+}
+.common-mavon-editor .hljs{
+  background: #9b94c0 !important;
+  overflow:visible;
+}
+.common-mavon-editor.markdown-body pre{
+  margin: 0;
+  padding: 0;
+  background: #9b94c0 !important;
+}
+.common-mavon-editor.v-note-wrapper .v-note-panel .v-note-show .v-show-content,
+.common-mavon-editor.v-note-wrapper .v-note-panel .v-note-show .v-show-content-html{
+  padding: 10px;
+}
+.btn-disabled{
+  pointer-events: none;
+  cursor: default;
+  color: #5E49A7 !important;
+  background-color: rgba(10,9,54,.1) !important;
 }

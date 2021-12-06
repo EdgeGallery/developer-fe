@@ -24,78 +24,137 @@
       </h3>
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.vmName') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.vmName?vmBasicInformation.vmName:'NA' }}</span>
+          <span class="content-left lt">{{ $t('container.appName') }} :</span>
+          <span class="content-right lt">{{ containerApp.name?containerApp.name:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.network') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.netWork?vmBasicInformation.netWork:'NA' }}</span>
+          <span class="content-left lt">{{ $t('container.appClass') }} :</span>
+          <span class="content-right lt">{{ containerApp.appClass?containerApp.appClass==='CONTAINER'?$t('container.container'):$t('sandbox.vm'):'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.image') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.image?vmBasicInformation.image:'NA' }}</span>
+          <span class="content-left lt">{{ $t('container.createTime') }} :</span>
+          <span class="content-right lt">{{ containerApp.createTime?containerApp.createTime:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.flavor') }} :</span>
-          <span class="content-right lt">{{ vmBasicInformation.flavor?vmBasicInformation.flavor:'NA' }}</span>
+          <span class="content-left lt">{{ $t('container.dependent') }} :</span>
+          <span class="content-right lt">{{ appServiceRequired!==''?appServiceRequired.substr(0, appServiceRequired.length-2):'NA' }}</span>
         </p>
       </div>
 
       <div class="vm-content">
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.instanceStatus') }} :</span>
-          <span class="content-right lt">{{ vmTestInformation.status?vmTestInformation.status:'NA' }}</span>
+          <span class="content-left lt">{{ $t('container.deploymentStatus') }} :</span>
+          <span class="content-right lt">{{ containerApp.instantiateInfo?containerApp.instantiateInfo.status:'NA' }}</span>
         </p>
         <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.instanceInformation') }} :</span>
+          <span class="content-left lt">{{ $t('container.podInformation') }} :</span>
           <span
             class="content-right lt"
-            v-if="vmTestInformation.nodes.length>0"
           >
-            <span
-              v-for="(item,index) in vmTestInformation.nodes"
-              :key="index"
-              class="node-span"
+            <div class="refresh-btn">
+              <el-button
+                id="btn_refreshPodInfo"
+                class="common-btn inner-btn"
+                @click="refreshDeployStatus"
+              >
+                {{ $t('nav.refresh') }}
+              </el-button>
+            </div>
+            <el-table
+              class="common-table pod-table"
+              :data="appPodsData"
+              :cell-style="{ textAlign: 'center'}"
+              :header-cell-style="{textAlign: 'center'}"
+              border
+              v-loading="refreshPods"
+              element-loading-background="rgba(0, 0, 0, 0.2)"
             >
-              {{ item.networkName }} : {{ item.ipAddress }}
-            </span>
+              <el-table-column
+                prop="name"
+                :label="$t('container.podName')"
+                min-width="28%"
+              />
+              <el-table-column
+                prop="podStatus"
+                :label="$t('container.podStatus')"
+                min-width="15%"
+              />
+              <el-table-column
+                :label="$t('container.containerName')"
+                min-width="15%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.containerList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ item.name }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.cpuUsage')"
+                min-width="13%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.containerList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ getPercentage(item.cpuUsage) }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.diskUsage')"
+                min-width="13%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.containerList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ getPercentage(item.diskUsage) }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.memUsage')"
+                min-width="16%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.containerList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ getPercentage(item.memUsage) }}
+                  </div>
+                </template>
+              </el-table-column>
+            </el-table>
           </span>
-          <span
-            class="content-right lt"
-            v-if="vmTestInformation.nodes.length===0"
-          >NA</span>
-        </p>
-      </div>
-
-      <div class="vm-content">
-        <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.imageName') }} :</span>
-          <span class="content-right lt">{{ vmImageInformation.imageName?vmImageInformation.imageName:'NA' }}</span>
-        </p>
-        <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.downloadUrl') }} :</span>
-          <span class="content-right lt">
-            <el-link
-              :href="vmImageInformation.downloadUrl"
-              :underline="false"
-              rel="noopener noreferrer"
-            >
-              {{ vmImageInformation.downloadUrl?vmImageInformation.downloadUrl:'NA' }}
-            </el-link>
-          </span>
-        </p>
-        <p class="clear">
-          <span class="content-left lt">{{ $t('sandbox.stageStatus') }} :</span>
-          <span class="content-right lt">{{ vmImageInformation.status?vmImageInformation.status:'NA' }}</span>
         </p>
       </div>
 
       <div class="btn-container network-btn">
         <el-button
+          id="btn_loginToVNC"
+          class="common-btn"
+          @click="loginToVNC"
+          :disabled="appPodsData.length===0"
+        >
+          VNC
+        </el-button>
+        <el-button
+          id="btn_closeContainerDetail"
           class="common-btn"
           @click="closeContainerDetail"
         >
-          {{ $t('common.finish') }}
+          {{ $t('common.close') }}
         </el-button>
       </div>
     </div>
@@ -103,82 +162,95 @@
 </template>
 
 <script>
+import { PROXY_PREFIX_CURRENTSERVER } from '../../../../tools/constant.js'
 import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'Vmdetail',
   data () {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
-      vmBasicInformation: {
-        vmName: '',
-        netWork: '',
-        image: '',
-        flavor: ''
+      containerApp: {
+        appConfiguration: {
+          appServiceRequiredList: []
+        },
+        instantiateInfo: null
       },
-      vmTestInformation: {
-        status: '',
-        nodes: []
-      },
-      vmImageInformation: {},
-      vmId: '',
-      language: localStorage.getItem('language') || 'cn'
+      language: localStorage.getItem('language') || 'cn',
+      appPodsData: [],
+      appServiceRequired: '',
+      refreshPods: false
     }
   },
   methods: {
     closeContainerDetail () {
       this.$emit('closeContainerDetail')
     },
-    checkVmDetail () {
+    getContainerDetail () {
       let _this = this
-      this.bus.$on('checkVmDetail', function (data) {
-        _this.vmId = data
-        _this.getVmDetail(_this.vmId)
-      })
-    },
-    getVmExportImageInfo () {
-      let _this = this
-      this.bus.$on('getVmExportImageInfo', function (data) {
-        _this.vmImageInformation = data
-      })
-    },
-    getVmDetail (vmId) {
-      sandbox.getVmDetail(this.applicationId, vmId).then(res => {
-        if (res.data) {
-          this.vmBasicInformation.vmName = res.data.name
-          let _arr = []
-          res.data.portList.forEach(item => {
-            _arr.push(item.networkName)
-          })
-          this.vmBasicInformation.netWork = _arr.join(', ')
-          this.getVmDetailImage(res.data.imageId)
-          this.getVmDetailFlavor(res.data.flavorId)
-
-          if (res.data.vmInstantiateInfo) {
-            this.vmTestInformation.status = res.data.vmInstantiateInfo.status
-            this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
-          }
+      this.bus.$on('getContainerDetail', function (data) {
+        _this.containerApp = data
+        _this.getServiceRequiredLists()
+        if (_this.containerApp.instantiateInfo) {
+          _this.appPodsData = _this.containerApp.instantiateInfo.pods
+        } else {
+          _this.appPodsData = []
         }
       })
     },
-    getVmDetailImage (imageId) {
-      sandbox.getVmDetailImage(imageId).then(res => {
-        this.vmBasicInformation.image = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+    getServiceRequiredLists () {
+      this.appServiceRequired = ''
+      this.containerApp.appConfiguration.appServiceRequiredList.forEach(item => {
+        if (this.language === 'cn') {
+          this.appServiceRequired += item.twoLevelName + ', '
+        } else {
+          this.appServiceRequired += item.twoLevelNameEn + ', '
+        }
       })
     },
-    getVmDetailFlavor (flavorId) {
-      sandbox.getVmDetailFlavor(flavorId).then(res => {
-        this.vmBasicInformation.flavor = res.data.architecture + ', ' + res.data.name + ', ' + res.data.cpu + 'vCPUs' + res.data.memory + 'GB RAM, ' + res.data.dataDiskSize + 'GB+' + res.data.systemDiskSize + 'GB Disk'
+    getPercentage (data) {
+      var _devide = data.indexOf('/')
+      var _s1 = data.substring(0, _devide)
+      var _s2 = data.substring(_devide + 1, data.length)
+      let _res = (Math.round(_s1 / _s2 * 10000) / 100.00)
+      if (_res > 100) {
+        _res = 100
+      }
+      return _res
+    },
+    loginToVNC () {
+      if (PROXY_PREFIX_CURRENTSERVER) {
+        window.open(PROXY_PREFIX_CURRENTSERVER + '/webssh.html', 'webssh')
+      } else {
+        window.open('webssh.html', 'webssh')
+      }
+    },
+    refreshDeployStatus () {
+      this.refreshPods = true
+      let _timer = setTimeout(() => {
+        clearTimeout(_timer)
+        this.refreshPods = false
+      }, 1000)
+      sandbox.container.getApplicationDetail(this.applicationId).then(res => {
+        if (!res.data || !res.data.containerApp) {
+          return
+        }
+        this.containerApp = res.data.containerApp
+        this.getServiceRequiredLists()
+        if (!res.data.containerApp.instantiateInfo) {
+          return
+        }
+        this.appPodsData = res.data.containerApp.instantiateInfo.pods
       })
     }
   },
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.getServiceRequiredLists()
     }
   },
   mounted () {
-    this.checkVmDetail()
-    this.getVmExportImageInfo()
+    this.getContainerDetail()
   }
 }
 </script>
@@ -191,7 +263,8 @@ export default {
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .container-detail-dlg{
     position: absolute;
-    width: 700px;
+    width: 60%;
+    min-width: 800px;
     padding: 40px;
     left: 50%;
     top: 50%;
@@ -206,12 +279,12 @@ export default {
       p{
         margin-bottom: 10px;
         .content-left{
-          width: 100px;
+          width: 75px;
           text-align: right;
           padding-right: 5px;
         }
         .content-right{
-          width: calc(100% - 100px);
+          width: calc(100% - 75px);
         }
         .node-span{
           display: block;
@@ -220,15 +293,49 @@ export default {
         .el-link.el-link--default{
           color: #fff;
         }
+        .refresh-btn{
+          margin-bottom: 15px;
+          .el-button{
+            background-color: #6145b1 !important;
+            color: #fff !important;
+          }
+          .el-button:hover{
+            background-color: #694dc5 !important;
+          }
+        }
+      }
+      .pod-table{
+        td.el-table__cell{
+          border-bottom: 1px solid #694ec0 !important;
+          border-right: 1px solid #694ec0 !important;
+        }
+        .container-div{
+          padding: 5px 0;
+        }
+      }
+      .pod-table.el-table{
+        border: 1px solid #694ec0;
+      }
+      .el-table.pod-table thead tr{
+        background-color: #7b62c0;
+      }
+      .el-table__header-wrapper{
+        border-radius: 0;
+      }
+      .el-table--border::after, .el-table--group::after{
+        width: 0;
+      }
+      .el-table--border .el-table__cell, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed{
+        border-right: 1px solid #694ec0 !important;
       }
     }
   }
   .container-detail-dlg-en{
     .content-left{
-      width: 140px !important;
+      width: 135px !important;
     }
     .content-right{
-      width: calc(100% - 140px) !important;
+      width: calc(100% - 135px) !important;
     }
   }
 }

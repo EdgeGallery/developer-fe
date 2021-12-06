@@ -75,6 +75,7 @@
           @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
+          :zoom="zoom"
         />
       </div>
       <div

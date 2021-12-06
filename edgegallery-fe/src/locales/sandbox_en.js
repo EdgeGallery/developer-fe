@@ -107,13 +107,36 @@ const en = {
     uploadFile: 'Upload File',
     downloadDemo: 'Download Template',
     configFile: 'Config File',
-    configFileText: 'Support two mode switching of browsing and editing'
+    configFileText: 'Support two mode switching of browsing and editing',
+    format: 'Params Check',
+    imageInfo: 'Image Information',
+    serviceInfo: 'Service Information',
+    mepAgentTip: 'If mepagent is not integrated, api cannot be released',
+    cpuUsage: 'CPU Usage',
+    memUsage: 'Memory Usage',
+    diskUsage: 'Disk Usage',
+    appName: 'Application Name',
+    appClass: 'Load Type',
+    createTime: 'Create Time',
+    dependent: 'Dependent',
+    deploymentStatus: 'Deployment Status',
+    podInformation: 'pod Information',
+    podName: 'pod Name',
+    podStatus: 'pod Status',
+    containerName: 'Container Name'
   },
   sandboxPromptInfomation: {
-    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G',
+    imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G!',
     addVmSuccess: 'The VM is added successfully!',
     completeContent: 'Please complete the content and click submit again!',
-    releaseEnvFailed: 'Failed to release environment!'
+    releaseEnvFailed: 'Failed to release environment!',
+    imageInfoErr: 'The image does not exist, please go to "System Image Management" to upload the image!',
+    containerScriptUploadTip: 'Please upload files in .yaml or .tgz format!',
+    cleanEnvSuccess: 'Release resources successfully!',
+    cleanEnvFailed: 'Failed to release resources!',
+    noServiceInfo: 'The service information is wrong, please check the file!',
+    noImageInfo: 'The image information is wrong, please check the file!',
+    noFormat: 'The parameter verification is wrong, please check the file!'
   }
 }
 export default en
