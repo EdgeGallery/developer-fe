@@ -106,39 +106,51 @@
         >
           <div class="upload-comp">
             <div
-              class="default-icon"
+              class="default-icon cp"
               :class="isUploadIcon?'':'choose-default-icon'"
+              @click="removeLogo"
             />
             <div class="or">
               {{ $t('incubation.or') }}
             </div>
             <div class="uplod-icon">
               <el-upload
-                class="upload-content"
+                class="avatar-uploader"
                 ref="upload"
                 action=""
-                list-type="picture-card"
+                :show-file-list="false"
                 :limit="1"
                 :file-list="logoFileList"
                 :on-change="handleChangeLogo"
-                :on-exceed="handleExceed"
                 :auto-upload="false"
-                :on-remove="removeLogo"
                 accept=".jpg,.png"
                 name="file"
               >
-                <em class="el-icon-plus" />
-              </el-upload>
-              <el-tooltip
-                effect="dark"
-                :content="$t('incubation.logoLimit')"
-                placement="right"
-              >
+                <img
+                  v-if="imageUrl"
+                  :src="imageUrl"
+                  class="avatar"
+                >
+                <!-- <em
+                  v-if="isShowDeleteBtn"
+                  class="el-icon-delete"
+                  @click="removeLogo"
+                /> -->
                 <em
-                  class="common-info icon-upload-info"
-                  :class="{'icon-info-active':logoFileList.length>0}"
+                  v-else
+                  class="el-icon-plus"
                 />
-              </el-tooltip>
+                <el-tooltip
+                  effect="dark"
+                  :content="$t('incubation.logoLimit')"
+                  placement="right"
+                >
+                  <em
+                    class="common-info icon-upload-info"
+                    :class="{'icon-info-active':logoFileList.length>0}"
+                  />
+                </el-tooltip>
+              </el-upload>
             </div>
           </div>
         </el-form-item>
@@ -250,7 +262,9 @@ export default {
       appId: sessionStorage.getItem('applicationId') || '',
       language: localStorage.getItem('language'),
       isMdChanged: false,
-      isIconChanged: false
+      isIconChanged: false,
+      imageUrl: '',
+      isShowDeleteBtn: false
     }
   },
   watch: {
@@ -267,12 +281,14 @@ export default {
         } else {
           this.isIconChanged = true
           this.logoFileList.push(file.raw)
+          this.imageUrl = URL.createObjectURL(file.raw)
           let formdata = new FormData()
           formdata.append('file', this.logoFileList[0])
           formdata.append('fileType', 'icon')
           applicationApi.uploadFileApi(formdata).then(res => {
             if (res.data && res.data.fileId) {
               this.applicationFormData.iconFileId = res.data.fileId
+              this.isUploadIcon = true
             }
           })
         }
@@ -290,14 +306,11 @@ export default {
       }
     },
     removeLogo (file) {
+      this.imageUrl = ''
       this.logoFileList = []
       this.isUploadIcon = false
       this.isIconChanged = false
-    },
-    handleExceed (file, fileList) {
-      if (fileList.length === 1) {
-        this.$message.warning(this.$t('incubation.fileLimitNum'))
-      }
+      this.isShowDeleteBtn = false
     },
     handleChangeMd (file) {
       this.mdFileList = []
@@ -443,6 +456,7 @@ export default {
     getFileIconInfo (iconFileId) {
       let image = new Image()
       image.src = '/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream'
+      this.imageUrl = image.src
       image.onload = () => {
         let base64 = this.getBase64Image(image)
         this.logoFileList.push(this.base64toFile(base64))
@@ -495,18 +509,21 @@ export default {
       justify-content: left;
     }
   }
+  .el-upload{
+    display: flex;
+  }
   .icon-upload-info{
-    top: -27px;
-    left: 30px;
+    top: 5px;
+    left: 10px;
   }
    .guide-upload-info{
-    top: 2px;
+    top: 5px;
     left: 8px;
   }
   .icon-info-active {
     position: relative;
-    top: -52px;
-    left: 60px;
+    top: 5px;
+    left: 10px;
     height: 15px;
   }
   .upload-md-btn{
@@ -537,5 +554,41 @@ export default {
   }
   .el-upload--text{
     float: left;
+  }
+  .avatar{
+    width:  28px;
+    height: 28px;
+    border: 1px solid #fff;
+    border-radius: 6px;
+  }
+  .el-icon-plus{
+    border: 1px dashed #fff;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+  }
+  .el-icon-delete{
+    width: 28px;
+    height: 28px;
+    background: #000;
+    opacity: 0.5;
+    position: relative;
+    left: -29px;
+    top: 1px;
+    border-radius: 6px;
+    z-index: 10;
+    line-height: 28px;
+  }
+  .choose-default-icon::after{
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url('../../../assets/images/application/app_success.png') center no-repeat;
+    position: relative;
+    top: -10px;
+    left: 10px;
   }
 </style>
