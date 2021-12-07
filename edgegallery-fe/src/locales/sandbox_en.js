@@ -46,7 +46,7 @@ const en = {
     vmInformation: 'VM Information',
     enterVmName: 'Please enter the name of the VM',
     selectVmflavor: 'Select Vm Flavor',
-    usageScenes: 'Usage Scenes',
+    useCase: 'Use Case',
     memory: 'Memory',
     systemDisk: 'System Disk',
     dataDisk: 'Data Disk',
@@ -61,7 +61,10 @@ const en = {
     enterFlavorExtraSpecs: 'Enter Flavor Extra Specs',
     script: 'Script',
     useScript: 'Whether to use injection script',
-    enterScriptContent: 'Enter Script Content'
+    enterScriptContent: 'Enter Script Content',
+    type: 'type',
+    customSpec: 'Custom Specs',
+    typeTip: 'Please select a type'
   },
   rulesConfig: {
     appRuleConfig: 'Application Rule Configuration',
@@ -136,7 +139,8 @@ const en = {
     cleanEnvFailed: 'Failed to release resources!',
     noServiceInfo: 'The service information is wrong, please check the file!',
     noImageInfo: 'The image information is wrong, please check the file!',
-    noFormat: 'The parameter verification is wrong, please check the file!'
+    noFormat: 'The parameter verification is wrong, please check the file!',
+    addCustomSuccess: 'Custom specification added successfully!'
   }
 }
 export default en

@@ -15,7 +15,10 @@
   -->
 <template>
   <div class="addVm">
-    <div class="common-div-bg addVm-bg">
+    <div
+      class="common-div-bg addVm-bg"
+      v-if="!customSpecs"
+    >
       <el-collapse
         v-model="activeNames"
         class="vmCollapse"
@@ -61,14 +64,22 @@
         >
           <div class="simulator-info-content">
             <div class="defaultFontLight">
-              <el-radio-group
-                class="common-radio"
-                v-model="vmInfo.archType"
-                @change="handleChangeArch"
-              >
-                <el-radio-button label="X86" />
-                <el-radio-button label="ARM" />
-              </el-radio-group>
+              <div>
+                <el-radio-group
+                  class="common-radio"
+                  v-model="vmInfo.archType"
+                  @change="handleChangeArch"
+                >
+                  <el-radio-button label="X86" />
+                  <el-radio-button label="ARM" />
+                </el-radio-group>
+                <el-button
+                  class="common-btn custom-specs defaultFontLight"
+                  @click="customSpecs = true"
+                >
+                  {{ $t('sandbox.customSpec') }}
+                </el-button>
+              </div>
               <el-table
                 :data="vmInfo.vmRegulationList"
                 class="common-table vm-table"
@@ -94,7 +105,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="sence"
-                  :label="$t('sandbox.usageScenes')"
+                  :label="$t('sandbox.useCase')"
                   min-width="20%"
                   show-overflow-tooltip
                 >
@@ -366,6 +377,136 @@
         </el-button>
       </div>
     </div>
+    <div
+      v-else
+      class="common-div-bg addVm-bg customSpecs"
+    >
+      <p class="customSpec-title defaultFontLight">
+        <span />
+        {{ $t('sandbox.customSpec') }}
+      </p>
+      <el-form
+        :model="custom"
+        :rules="customRule"
+      >
+        <el-form-item
+          :label="$t('common.name')"
+          prop="name"
+        >
+          <el-input
+            v-model="custom.name"
+            class="common-input"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('sandbox.useCase')"
+          prop="description"
+        >
+          <el-input
+            v-model="custom.description"
+            class="common-input"
+          />
+        </el-form-item>
+        <el-form-item
+          label="CPU"
+          prop="cpu"
+        >
+          <el-select
+            v-model="custom.cpu"
+          >
+            <el-option
+              v-for="item in cpuSpecs"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('sandbox.memory')"
+          prop="memory"
+        >
+          <el-select
+            v-model="custom.memory"
+          >
+            <el-option
+              v-for="item in memorySpecs"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('sandbox.systemDisk')"
+          prop="systemDiskSize"
+        >
+          <el-input-number
+            v-model="custom.systemDiskSize"
+            :min="50"
+            :max="100"
+          />
+          <p class="company">
+            GB
+          </p>
+        </el-form-item>
+        <el-form-item
+          :label="$t('sandbox.dataDisk')"
+          prop="dataDiskSize"
+        >
+          <el-input-number
+            v-model="custom.dataDiskSize"
+            :min="10"
+            :max="200"
+          />
+          <p class="company">
+            GB
+          </p>
+        </el-form-item>
+        <el-form-item
+          :label="$t('sandbox.type')"
+          prop="architecture"
+        >
+          <el-select
+            v-model="custom.architecture"
+            :placeholder="$t('sandbox.typeTip')"
+          >
+            <el-option
+              v-for="item in architectureSpecs"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="GPU">
+          <el-input
+            v-model="custom.gpuExtraInfo"
+            class="common-input"
+          />
+        </el-form-item>
+        <el-form-item :label="$t('sandbox.otherCapability')">
+          <el-input
+            v-model="custom.otherExtraInfo"
+            class="common-input"
+          />
+        </el-form-item>
+        <el-form-item class="rt specsBtn">
+          <el-button
+            class="common-btn defaultFontLight"
+            @click="addSpecks()"
+          >
+            {{ $t('common.confirm') }}
+          </el-button>
+          <el-button
+            class="common-btn defaultFontLight"
+            @click="cancleSpecks()"
+          >
+            {{ $t('common.cancel') }}
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -437,7 +578,85 @@ export default {
           sortOrder: 'Desc'
         }
       },
+      customSpecs: false,
       imageList: [],
+      custom: {
+        id: '',
+        name: '',
+        cpu: 1,
+        description: '',
+        architecture: '',
+        memory: 1,
+        dataDiskSize: 10,
+        systemDiskSize: 1,
+        gpuExtraInfo: '',
+        otherExtraInfo: ''
+      },
+      customRule: {
+        name: [
+          { required: true }
+        ],
+        cpu: [
+          { required: true }
+        ],
+        description: [
+          { required: true }
+        ],
+        architecture: [
+          { required: true }
+        ],
+        dataDiskSize: [
+          { required: true }
+        ],
+        systemDiskSize: [
+          { required: true }
+        ],
+        memory: [
+          { required: true }
+        ]
+      },
+      cpuSpecs: [{
+        value: 1,
+        label: '1vCPU'
+      }, {
+        value: 2,
+        label: '2vCPU'
+      }, {
+        value: 4,
+        label: '4vCPU'
+      }, {
+        value: 8,
+        label: '8vCPU'
+      }, {
+        value: 16,
+        label: '16vCPU'
+      }],
+      memorySpecs: [{
+        value: 1,
+        label: '1GB'
+      }, {
+        value: 2,
+        label: '2GB'
+      }, {
+        value: 4,
+        label: '4GB'
+      }, {
+        value: 8,
+        label: '8GB'
+      }, {
+        value: 16,
+        label: '16GB'
+      }, {
+        value: 32,
+        label: '32GB'
+      }],
+      architectureSpecs: [{
+        value: 'X86',
+        label: 'X86'
+      }, {
+        value: 'ARM',
+        label: 'ARM'
+      } ],
       isInjectScript: 'cancel',
       changeResult: false,
       activeScriptEditPanel: '1',
@@ -519,7 +738,6 @@ export default {
       data === 'public' ? this.vmInfo.privateId = '' : this.vmInfo.publicId = ''
     },
     validateInput () {
-
     },
     handleChangeArch () {
       this.filterVmRegulation()
@@ -596,6 +814,46 @@ export default {
           }
         })
       })
+    },
+    addSpecks () {
+      let _customs = this.custom.name !== '' && this.custom.description !== '' && this.custom.architecture !== '' && this.custom.dataDiskSize !== '' && this.custom.systemDiskSize !== ''
+      if (_customs) {
+        sandbox.addCustom(this.custom).then(() => {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
+          this.getVmSpecs()
+          this.customSpecs = false
+          this.custom = {
+            id: '',
+            name: '',
+            cpu: 1,
+            description: '',
+            architecture: '',
+            memory: 1,
+            dataDiskSize: 10,
+            systemDiskSize: 1,
+            gpuExtraInfo: '',
+            otherExtraInfo: ''
+          }
+        }).catch(() => {
+        })
+      } else {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
+      }
+    },
+    cancleSpecks () {
+      this.customSpecs = false
+      this.custom = {
+        id: '',
+        name: '',
+        cpu: 1,
+        description: '',
+        architecture: '',
+        memory: 1,
+        dataDiskSize: 10,
+        systemDiskSize: 1,
+        gpuExtraInfo: '',
+        otherExtraInfo: ''
+      }
     },
     addVmFinish (type) {
       let _data = []
@@ -703,6 +961,97 @@ export default {
     }
     .addVm-btn{
       margin-right: 30px;
+    }
+  }
+  .customSpecs{
+    width:777px;
+    height:454px;
+    .customSpec-title{
+      display: flex;
+      span{
+        background-color: #76E1E9;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        margin: 6px 6px 0 0;
+        display: flex;
+      }
+      margin: 0 0 30px 0;
+    }
+    .el-form{
+      display: flex;
+      flex-wrap: wrap;
+      width: 690px;
+      justify-content: space-between;
+      .el-form-item{
+        display: flex;
+        .el-form-item__content {
+          display: flex;
+          width: 215px;
+          .el-input-number__increase {
+            right: 1px;
+            height: 30px;
+            border:none ;
+            background-color: rgba(255,255,255,.45);
+          }
+          .el-input-number__decrease{
+            height: 30px;
+            background-color: rgba(255,255,255,.45);
+          }
+          .el-icon-plus:before {
+            position: relative;
+            top: -3px;
+            color: #4E3494;
+          }
+          .el-icon-minus:before {
+            position: relative;
+            top: -3px;
+            color: #4E3494;
+          }
+          .el-input-number .el-input__inner {
+            text-align: center;
+            background-color: rgba(255,255,255,.45);
+            border: none;
+            position: relative;
+            top: -3px;
+          }
+        }
+        .el-form-item__label{
+          width: 123px;
+          height: 30px;
+          line-height: 30px;
+          text-align: right;
+          font-family: defaultFontLight,
+            Arial,
+            Helvetica,
+            sans-serif !important;
+        }
+        .el-select{
+          width: 83%;
+          .el-input--suffix .el-input__inner {
+            background-color: rgba(255,255,255,.45);
+            border: none;
+          }
+          .el-select__caret {
+              line-height: 30px;
+          }
+        }
+        .el-input__inner{
+          color: #fff;
+        }
+        .company{
+          position: relative;
+          left: -74px;
+          top: 1px;
+          color: fff;
+          font-size: 12px;
+        }
+      }
+      .specsBtn{
+        position: relative;
+        top:60px;
+        left: -40px;
+      }
     }
   }
   .el-collapse {
@@ -819,6 +1168,13 @@ export default {
           .el-radio-button:first-child .el-radio-button__inner,.el-radio-button:last-child .el-radio-button__inner{
             border-radius: 2px;
           }
+        }
+        .custom-specs{
+          border-radius: 6px !important;
+          padding: 6px 16px !important;
+          position: relative;
+          top: 4px;
+          left: 16px;
         }
       }
       .vm-size{
