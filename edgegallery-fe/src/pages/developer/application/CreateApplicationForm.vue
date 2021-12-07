@@ -106,39 +106,46 @@
         >
           <div class="upload-comp">
             <div
-              class="default-icon"
+              class="default-icon cp"
               :class="isUploadIcon?'':'choose-default-icon'"
+              @click="removeLogo"
             />
             <div class="or">
               {{ $t('incubation.or') }}
             </div>
             <div class="uplod-icon">
               <el-upload
-                class="upload-content"
+                class="avatar-uploader"
                 ref="upload"
                 action=""
-                list-type="picture-card"
+                :show-file-list="false"
                 :limit="1"
                 :file-list="logoFileList"
                 :on-change="handleChangeLogo"
-                :on-exceed="handleExceed"
                 :auto-upload="false"
-                :on-remove="removeUploadLogo"
                 accept=".jpg,.png"
                 name="file"
               >
-                <em class="el-icon-plus" />
-              </el-upload>
-              <el-tooltip
-                effect="dark"
-                :content="$t('incubation.logoLimit')"
-                placement="right"
-              >
+                <img
+                  v-if="imageUrl"
+                  :src="imageUrl"
+                  class="avatar"
+                >
                 <em
-                  class="common-info icon-upload-info"
-                  :class="{'icon-info-active':logoFileList.length>0}"
+                  v-else
+                  class="el-icon-plus"
                 />
-              </el-tooltip>
+                <el-tooltip
+                  effect="dark"
+                  :content="$t('incubation.logoLimit')"
+                  placement="right"
+                >
+                  <em
+                    class="common-info icon-upload-info"
+                    :class="{'icon-info-active':logoFileList.length>0}"
+                  />
+                </el-tooltip>
+              </el-upload>
             </div>
           </div>
         </el-form-item>
@@ -154,6 +161,7 @@
             multiple
             :limit="1"
             :on-exceed="handleMdExceed"
+            :on-remove="removeMdFile"
             :file-list="mdFileList"
           >
             <el-button
@@ -247,7 +255,11 @@ export default {
       mdFileList: [],
       defaultIconFile: [],
       appId: sessionStorage.getItem('applicationId') || '',
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      isMdChanged: false,
+      isIconChanged: false,
+      imageUrl: '',
+      isShowDeleteBtn: false
     }
   },
   watch: {
@@ -262,8 +274,18 @@ export default {
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
           this.logoFileList = []
         } else {
+          this.isIconChanged = true
           this.logoFileList.push(file.raw)
-          this.isUploadIcon = true
+          this.imageUrl = URL.createObjectURL(file.raw)
+          let formdata = new FormData()
+          formdata.append('file', this.logoFileList[0])
+          formdata.append('fileType', 'icon')
+          applicationApi.uploadFileApi(formdata).then(res => {
+            if (res.data && res.data.fileId) {
+              this.applicationFormData.iconFileId = res.data.fileId
+              this.isUploadIcon = true
+            }
+          })
         }
         if (file.size / 1024 / 1024 > 2) {
           this.logoFileList = []
@@ -278,14 +300,53 @@ export default {
         }
       }
     },
-    removeUploadLogo (file) {
+    removeLogo (file) {
+      this.imageUrl = ''
       this.logoFileList = []
       this.isUploadIcon = false
+      this.isIconChanged = false
+      this.isShowDeleteBtn = false
     },
-    handleExceed (file, fileList) {
+    handleChangeMd (file) {
+      this.mdFileList = []
+      if (file) {
+        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.mdFileList = []
+        } else {
+          this.mdFileList.push(file.raw)
+          this.isMdChanged = true
+          let formdata = new FormData()
+          formdata.append('file', this.mdFileList[0])
+          formdata.append('fileType', 'md')
+          applicationApi.uploadFileApi(formdata).then(res => {
+            if (res.data && res.data.fileId) {
+              this.applicationFormData.guideFileId = res.data.fileId
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        }
+        if (file.size / 1024 / 1024 > 2) {
+          this.mdFileList = []
+          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+        }
+        let fileTypeArr = ['md']
+        if (file.name) {
+          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
+            this.mdFileList = []
+          }
+        }
+      }
+    },
+    handleMdExceed (file, fileList) {
       if (fileList.length === 1) {
         this.$message.warning(this.$t('incubation.fileLimitNum'))
       }
+    },
+    removeMdFile () {
+      this.mdFileList = []
+      this.isMdChanged = false
     },
     fileToBase64 (file) {
       let reader = new FileReader()
@@ -328,72 +389,32 @@ export default {
         this.defaultIconFile.push(this.base64toFile(base64))
       }
     },
-    handleMdExceed (file, fileList) {
-      if (fileList.length === 1) {
-        this.$message.warning(this.$t('incubation.fileLimitNum'))
-      }
-    },
-    handleChangeMd (file) {
-      this.mdFileList = []
-      if (file) {
-        if (file.raw && file.raw.name.indexOf(' ') !== -1) {
-          this.mdFileList = []
-        } else {
-          this.mdFileList.push(file.raw)
-        }
-        if (file.size / 1024 / 1024 > 2) {
-          this.mdFileList = []
-          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
-        }
-        let fileTypeArr = ['md']
-        if (file.name) {
-          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-            this.mdFileList = []
-          }
-        }
-      }
-    },
-    uploadMdFile (fileId) {
+    uploadDefaultIconFile (type) {
       let formdata = new FormData()
-      formdata.append('file', this.mdFileList[0])
-      formdata.append('fileType', 'md')
+      formdata.append('file', this.defaultIconFile[0])
       applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
-          this.confirmToCreate(fileId, res.data.fileId)
+          this.applicationFormData.iconFileId = res.data.fileId
+          this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
         }
-      }).catch(err => {
-        console.log(err)
       })
     },
     confirmForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          let formdata = new FormData()
-          if (this.logoFileList.length > 0) {
-            formdata.append('file', this.logoFileList[0])
-            formdata.append('fileType', 'icon')
+          if (this.mdFileList.length < 0) {
+            this.$message.warning(this.$t('incubation.uploadMdFileTip'))
           } else {
-            formdata.append('file', this.defaultIconFile[0])
-            formdata.append('fileType', 'icon')
+            if (this.logoFileList.length < 0) {
+              this.uploadDefaultIconFile()
+            } else {
+              this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
+            }
           }
-          if (this.appId.length > 0) {
-            this.modifyApp()
-          } else {
-            applicationApi.uploadFileApi(formdata).then(res => {
-              if (res.data && res.data.fileId) {
-                this.uploadMdFile(res.data.fileId)
-              }
-            }).catch(err => {
-              console.log(err)
-            })
-          }
-        } else {
-          console.log('error submit!!')
         }
       })
     },
-    modifyApp () {
+    confirmToModify () {
       this.applicationFormData.id = this.appId
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
         this.$message.success(this.$t('incubation.modifyAppSuccess'))
@@ -403,9 +424,7 @@ export default {
         this.$message.success(this.$t('incubation.modifyAppFailed'))
       })
     },
-    confirmToCreate (iconFileId, mdFileId) {
-      this.applicationFormData.iconFileId = iconFileId
-      this.applicationFormData.guideFileId = mdFileId
+    confirmToCreate () {
       applicationApi.createNewApp(this.applicationFormData).then(res => {
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
@@ -432,6 +451,7 @@ export default {
     getFileIconInfo (iconFileId) {
       let image = new Image()
       image.src = '/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream'
+      this.imageUrl = image.src
       image.onload = () => {
         let base64 = this.getBase64Image(image)
         this.logoFileList.push(this.base64toFile(base64))
@@ -449,7 +469,6 @@ export default {
   },
   mounted () {
     this.conversionIcon()
-    this.getMdFileInfo()
     if (this.appId.length > 0) {
       this.getApplicationInfo(this.appId)
     }
@@ -485,18 +504,21 @@ export default {
       justify-content: left;
     }
   }
+  .el-upload{
+    display: flex;
+  }
   .icon-upload-info{
-    top: -27px;
-    left: 30px;
+    top: 5px;
+    left: 10px;
   }
    .guide-upload-info{
-    top: 2px;
+    top: 5px;
     left: 8px;
   }
   .icon-info-active {
     position: relative;
-    top: -52px;
-    left: 60px;
+    top: 5px;
+    left: 10px;
     height: 15px;
   }
   .upload-md-btn{
@@ -527,5 +549,41 @@ export default {
   }
   .el-upload--text{
     float: left;
+  }
+  .avatar{
+    width:  28px;
+    height: 28px;
+    border: 1px solid #fff;
+    border-radius: 6px;
+  }
+  .el-icon-plus{
+    border: 1px dashed #fff;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+  }
+  .el-icon-delete{
+    width: 28px;
+    height: 28px;
+    background: #000;
+    opacity: 0.5;
+    position: relative;
+    left: -29px;
+    top: 1px;
+    border-radius: 6px;
+    z-index: 10;
+    line-height: 28px;
+  }
+  .choose-default-icon::after{
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url('../../../assets/images/application/app_success.png') center no-repeat;
+    position: relative;
+    top: -10px;
+    left: 10px;
   }
 </style>

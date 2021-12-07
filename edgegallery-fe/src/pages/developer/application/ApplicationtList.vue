@@ -182,7 +182,7 @@ export default {
           id: 0,
           type: 'normal',
           iconUrl: require('../../../assets/images/application/app_add_new.png'),
-          name: this.$t('incubation.addNewApp')
+          name: ''
         }
       ]
       applicationApi.getApplicationList().then(res => {

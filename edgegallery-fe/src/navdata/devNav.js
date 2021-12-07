@@ -36,6 +36,7 @@ const devNavData = [
     name: 'Toolbox',
     path: '',
     display: true,
+    authority: ['ROLE_APPSTORE_ADMIN'],
     children: [
       {
         id: '1.8.1',

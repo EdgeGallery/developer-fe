@@ -23,7 +23,7 @@ const en = {
     putAway: 'Put away',
     newAndRecent: 'New/Recent',
     otehrs: 'Others',
-    addNewApp: 'Create New Application',
+    addNewApp: 'Create App',
     checkFromApp: 'You need to check it in the app content',
     return: 'Return',
     appInfo: 'App Information',
@@ -73,7 +73,8 @@ const en = {
     noData: 'No Data',
     noProfile: 'Please select a profile',
     createSuc: 'Successfully created application.',
-    createFail: 'Failed to create application.'
+    createFail: 'Failed to create application.',
+    uploadMdFileTip: 'Please upload application introduction file.'
   },
   service: {
     basicInfo: 'Basic information',

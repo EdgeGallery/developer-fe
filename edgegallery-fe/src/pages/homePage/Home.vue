@@ -78,6 +78,11 @@ export default {
     jumpTo (path) {
       this.$router.push(path)
     }
+  },
+  mounted () {
+    sessionStorage.removeItem('applicationId')
+    this.$store.commit('changeFlow', '0')
+    sessionStorage.removeItem('appName')
   }
 }
 </script>

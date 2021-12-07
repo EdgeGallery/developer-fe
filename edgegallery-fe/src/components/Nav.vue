@@ -448,7 +448,8 @@ export default {
         type: 'warning'
       }).then(() => {
         sessionStorage.removeItem('applicationId')
-        sessionStorage.removeItem('currentFlow')
+
+        this.$store.commit('changeFlow', '0')
         sessionStorage.removeItem('appName')
         this.logout()
       })

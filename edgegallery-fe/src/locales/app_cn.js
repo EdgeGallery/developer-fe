@@ -73,7 +73,8 @@ const cn = {
     noData: '暂无数据',
     noProfile: '请选择场景',
     createSuc: '创建应用成功!',
-    createFail: '创建应用失败!'
+    createFail: '创建应用失败!',
+    uploadMdFileTip: '请上传应用介绍文档！'
   },
   service: {
     basicInfo: '基本信息',
