@@ -83,11 +83,11 @@ export default {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
       statusData: {
-        CREATED: ['创建完成', 'Created'],
-        CONFIGURED: ['配置完成', 'Configuared'],
-        PACKAGED: ['打包完成', 'Packaged'],
-        TESTED: ['测试完成', 'Tested'],
-        RELEASED: ['已发布', 'Released']
+        CREATED: ['创建完成', 'Created', 'app-created'],
+        CONFIGURED: ['配置完成', 'Configuared', 'app-success'],
+        PACKAGED: ['打包完成', 'Packaged', 'app-success'],
+        TESTED: ['测试完成', 'Tested', 'app-success'],
+        RELEASED: ['已发布', 'Released', 'app-published']
       },
       isShowCreate: false,
       language: localStorage.getItem('language')
@@ -146,7 +146,7 @@ export default {
       }
     },
     getStatusClass (status) {
-      return status === 'CREATED' ? 'app-created' : (status === 'CONFIGURED' || status === 'PACKAGED' ? 'app-success' : (status === 'TESTED' ? 'app-success' : 'app-published'))
+      return this.statusData[status][2]
     },
     getFile (id) {
       return applicationApi.getFileStream(id)
