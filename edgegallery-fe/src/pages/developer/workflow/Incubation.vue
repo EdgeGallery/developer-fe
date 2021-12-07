@@ -108,7 +108,7 @@ export default {
           this.$message.warning(this.$t('promptInformation.noPermission'))
         }
       } else if (item.toPath === '/EG/developer/selectScenarios' && this.currentFlow >= 5) {
-        atpTestApi.getTestId().then(res => {
+        atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
           if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
             item.toPath = '/EG/developer/testProcess'
           } else {
