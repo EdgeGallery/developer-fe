@@ -59,7 +59,8 @@
 </template>
 
 <script>
-import { applicationApi } from '../../../api/developerApi'
+import { applicationApi } from '../../../api/developerApi.js'
+import { Status } from '../../../tools/commondata.js'
 export default {
   name: 'ListComp',
   components: {
@@ -82,13 +83,6 @@ export default {
   data () {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
-      statusData: {
-        CREATED: ['创建完成', 'Created', 'app-created'],
-        CONFIGURED: ['配置完成', 'Configuared', 'app-success'],
-        PACKAGED: ['打包完成', 'Packaged', 'app-success'],
-        TESTED: ['测试完成', 'Tested', 'app-success'],
-        RELEASED: ['已发布', 'Released', 'app-published']
-      },
       isShowCreate: false,
       language: localStorage.getItem('language')
     }
@@ -140,13 +134,13 @@ export default {
     },
     switchStatus (status) {
       if (this.language === 'cn') {
-        return this.statusData[status][0]
+        return Status[status][0]
       } else {
-        return this.statusData[status][1]
+        return Status[status][1]
       }
     },
     getStatusClass (status) {
-      return this.statusData[status][2]
+      return Status[status][2]
     },
     getFile (id) {
       return applicationApi.getFileStream(id)
