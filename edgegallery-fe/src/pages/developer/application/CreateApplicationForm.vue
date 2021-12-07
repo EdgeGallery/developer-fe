@@ -407,6 +407,10 @@ export default {
       this.applicationFormData.iconFileId = iconFileId
       this.applicationFormData.guideFileId = mdFileId
       applicationApi.createNewApp(this.applicationFormData).then(res => {
+        if (this.applicationFormData !== '') {
+          this.applicationFormData.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
+          sessionStorage.setItem('architecture', this.applicationFormData.architecture)
+        }
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
