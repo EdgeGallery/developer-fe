@@ -73,7 +73,8 @@ const en = {
     noData: 'No Data',
     noProfile: 'Please select a profile',
     createSuc: 'Successfully created application.',
-    createFail: 'Failed to create application.'
+    createFail: 'Failed to create application.',
+    uploadMdFileTip: 'Please upload application introduction file.'
   },
   service: {
     basicInfo: 'Basic information',

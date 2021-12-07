@@ -381,23 +381,27 @@ export default {
         this.defaultIconFile.push(this.base64toFile(base64))
       }
     },
-    uploadIconFile (type) {
+    uploadDefaultIconFile (type) {
       let formdata = new FormData()
-      formdata.append('fileType', 'icon')
-      type === 1 ? formdata.append('file', this.defaultIconFile[0]) : formdata.append('file', this.defaultIconFile[0])
+      formdata.append('file', this.defaultIconFile[0])
       applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
           this.applicationFormData.iconFileId = res.data.fileId
+          this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
         }
       })
     },
     confirmForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          if (this.logoFileList.length > 0 && this.mdFileList.length > 0) {
-            this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
+          if (this.mdFileList.length < 0) {
+            this.$message.warning(this.$t('incubation.uploadMdFileTip'))
           } else {
-            this.$message.warning('请上传文件')
+            if (this.logoFileList.length < 0) {
+              this.uploadDefaultIconFile()
+            } else {
+              this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
+            }
           }
         }
       })
