@@ -131,11 +131,6 @@
                   :src="imageUrl"
                   class="avatar"
                 >
-                <!-- <em
-                  v-if="isShowDeleteBtn"
-                  class="el-icon-delete"
-                  @click="removeLogo"
-                /> -->
                 <em
                   v-else
                   class="el-icon-plus"
