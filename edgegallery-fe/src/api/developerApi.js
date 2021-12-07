@@ -104,6 +104,9 @@ let sandbox = {
   getUpfFinished (applicationId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/appconfiguration')
   },
+  addCustom (parmas) {
+    return POST(URL_PREFIX_DEVELOPER + 'flavors', parmas)
+  },
   container: {
     postHelmChartsFile (applicationId, parmas) {
       return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts', parmas)
