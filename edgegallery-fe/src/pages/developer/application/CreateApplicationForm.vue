@@ -474,6 +474,7 @@ export default {
   mounted () {
     this.conversionIcon()
     if (this.appId.length > 0) {
+      this.isUploadIcon = true
       this.getApplicationInfo(this.appId)
     }
   }

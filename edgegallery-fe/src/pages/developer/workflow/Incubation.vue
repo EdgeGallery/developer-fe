@@ -110,7 +110,7 @@ export default {
       } else if (item.toPath === '/EG/developer/selectScenarios' && this.currentFlow >= 5) {
         atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
           if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
-            item.toPath = '/EG/developer/testProcess'
+            this.$router.push('/EG/developer/testProcess')
           } else {
             this.$router.push(item.toPath)
           }
