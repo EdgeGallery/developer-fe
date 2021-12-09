@@ -144,7 +144,7 @@ export default {
         },
         headers: {},
         forceChunkSize: true,
-        simultaneousUploads: 5, // concurrent number supported
+        simultaneousUploads: 3, // concurrent number supported
         chunkSize: 8 * 1024 * 1024 // chunk size
       },
       fileStatusText: {
