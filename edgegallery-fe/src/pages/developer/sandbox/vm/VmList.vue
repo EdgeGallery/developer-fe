@@ -375,7 +375,7 @@ export default {
     },
     vmSshLogin () {
       sandbox.sshLogin(this.applicationId, this.vmId).then(res => {
-        window.open(res.data.sshAddress + '?id=' + res.data.id, '_blank')
+        window.open(res.data.sshAddress + '?id=' + res.data.id + '&encoding=' + res.data.encoding, '_blank')
       })
     },
     uploadVmFile () {
@@ -534,7 +534,7 @@ export default {
   }
 }
 .down_div{
-    width: 65px;
+    width: 85px;
     position: fixed;
     z-index: 9999;
     left: 485px;
@@ -542,7 +542,7 @@ export default {
     border-radius: 4px;
     font-size: 14px;
     font-family: defaultFontLight;
-    color: rgba(255, 255, 255, 0.6);
+    color: #ffffff;
     background: #290E74;
     .transition-box{
       height: 32px;
