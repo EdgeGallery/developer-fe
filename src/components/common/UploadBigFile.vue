@@ -68,7 +68,7 @@ export default {
         testChunks: false,
         headers: {},
         forceChunkSize: true,
-        simultaneousUploads: 5, // Concurrent number supported
+        simultaneousUploads: 3, // Concurrent number supported
         chunkSize: 8 * 1024 * 1024 // Chunk size
       }
     }
