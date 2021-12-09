@@ -19,6 +19,7 @@
       <div
         class="flex-center details-center-vm-img"
         :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
+        @mouseleave="isShowRemote=false"
       >
         <img
           v-if="!isStartUpVmSuccess"
@@ -92,9 +93,8 @@
           <div
             class="vm-btn flex-center hoverHands"
             :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-            @click="vmVncLogin"
             @mouseleave="loginGreen=false"
-            @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false"
+            @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false,isShowRemote=true"
           >
             <el-tooltip
               class="edit-tooltip"
@@ -113,6 +113,23 @@
                 alt=""
               >
             </el-tooltip>
+          </div>
+          <div
+            v-if="isShowRemote"
+            class="down_div"
+          >
+            <div
+              class="transition-box"
+              @click="vmVncLogin"
+            >
+              <em />VNC
+            </div>
+            <div
+              class="transition-box"
+              @click="vmSshLogin"
+            >
+              <em />SSH
+            </div>
           </div>
           <div
             class="vm-btn flex-center hoverHands"
@@ -261,7 +278,8 @@ export default {
       loginGreen: false,
       uploadGreen: false,
       startGreen: false,
-      imageGreen: false
+      imageGreen: false,
+      isShowRemote: false
     }
   },
   methods: {
@@ -353,6 +371,11 @@ export default {
     vmVncLogin () {
       sandbox.vncLogin(this.applicationId, this.vmId).then(res => {
         window.open(res.data.vncUrl, '_blank')
+      })
+    },
+    vmSshLogin () {
+      sandbox.sshLogin(this.applicationId, this.vmId).then(res => {
+        window.open(res.data.sshAddress + '?id=' + res.data.id, '_blank')
       })
     },
     uploadVmFile () {
@@ -510,5 +533,42 @@ export default {
     opacity: 0.1;
   }
 }
-
+.down_div{
+    width: 65px;
+    position: fixed;
+    z-index: 9999;
+    left: 485px;
+    top: 215px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: defaultFontLight;
+    color: rgba(255, 255, 255, 0.6);
+    background: #290E74;
+    .transition-box{
+      height: 32px;
+      line-height: 32px;
+      position: relative;
+      z-index: 2;
+      padding-left: 20px;
+      cursor: pointer;
+      em{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 13px;
+        left: 4px;
+      }
+    }
+    .transition-box:hover{
+      background: rgba(96, 86, 154, 0.5);
+      border-radius: 4px;
+      em{
+        border-bottom: 5px solid #42F6AC;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        transform: rotate(90deg);
+      }
+    }
+  }
 </style>
