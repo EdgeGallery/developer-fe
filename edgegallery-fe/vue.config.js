@@ -39,6 +39,20 @@ module.exports = {
       .end()
   },
 
+  devServer: {
+    disableHostCheck: true,
+    proxy: {
+      '': {
+        target: 'https://192.168.1.38:30098', // 后端接口地址
+        changeOrigin: true, // 是否允许跨越
+        pathRewrite: {
+          '^/mec-developer': ''
+        }
+      }
+
+    }
+  },
+
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
   pluginOptions: {
