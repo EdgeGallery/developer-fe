@@ -19,27 +19,10 @@
       <h3 class="common-dlg-title">
         {{ $t('sandbox.selectNetworkType') }}
       </h3>
-
-      <span class="add-btn">
-        <img
-          src="../../../../assets/images/sandbox/add_network_btn.png"
-          alt=""
-          @click="addNewNetwork"
-        >
-      </span>
       <el-table
-        class="common-table"
+        class="common-table network-table"
         :data="vmNetworkList"
       >
-        <el-table-column width="35">
-          <template slot-scope="scope">
-            <el-checkbox
-              class="common-checkbox"
-              v-model="selectedNetworks"
-              :label="scope.row.name"
-            />
-          </template>
-        </el-table-column>
         <el-table-column
           prop="name"
           width="200px"
@@ -53,22 +36,21 @@
             {{ scope.row.description }}
           </template>
         </el-table-column>
+        <el-table-column width="120px">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="deleteInternet(scope.row.id)"
+            >
+              {{ $t('common.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
-
       <el-table
         class="common-table new-network-table"
         :data="newNetworkList"
       >
-        <el-table-column width="35">
-          <template slot-scope="scope">
-            <el-checkbox
-              class="common-checkbox"
-              v-model="selectedNetworks"
-              :label="scope.row.name"
-              :disabled="scope.row.name===''"
-            />
-          </template>
-        </el-table-column>
         <el-table-column
           width="200px"
           show-overflow-tooltip
@@ -79,6 +61,7 @@
               size="mini"
               :placeholder="$t('sandbox.addCustomNetwork')"
               v-model="scope.row.name"
+              :disabled="ifAddInternet"
             />
           </template>
         </el-table-column>
@@ -91,11 +74,11 @@
               size="mini"
               :placeholder="$t('sandbox.addDescribe')"
               v-model="scope.row.description"
+              :disabled="ifAddInternet"
             />
           </template>
         </el-table-column>
       </el-table>
-
       <div class="btn-container network-btn">
         <el-button
           id="btn_cancelEditNetwork"
@@ -129,8 +112,8 @@ export default {
           description: ''
         }
       ],
-      selectedNetworks: [],
-      applicationId: sessionStorage.getItem('applicationId') || ''
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      ifAddInternet: true
     }
   },
   methods: {
@@ -140,40 +123,22 @@ export default {
           return
         }
         this.vmNetworkList = res.data
-        this.vmNetworkList.forEach((item) => {
-          if (item.name !== '') {
-            this.selectedNetworks.push(item.name)
-          }
-        })
+        this.ifAddInternet = this.vmNetworkList.length > 3
       }).catch(err => {
         console.log(err)
       })
     },
-    addNewNetwork () {
-      let _obj = {
-        description: '',
-        name: ''
-      }
-      this.newNetworkList.push(_obj)
+    deleteInternet (data) {
+      sandbox.deleteInternet(this.applicationId, data).then(() => {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.deleteInternetSuccess'), 'success')
+        this.getInternetType()
+      })
     },
     finishEditNetwork (type) {
-      let _data = []
+      this.$emit('editNetwork', '')
       if (type === 'confirm') {
-        let _newArr = this.newNetworkList.filter(item => {
-          return item.name !== ''
+        sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
         })
-        _data = this.vmNetworkList.concat(_newArr)
-        this.newNetworkList.forEach(item => {
-          if (item.name === '') {
-            return
-          }
-          sandbox.addInternetType(this.applicationId, item).then(() => {
-            this.$emit('editNetwork', _data)
-          })
-        })
-        this.$emit('editNetwork', _data, this.selectedNetworks)
-      } else {
-        this.$emit('editNetwork', _data, this.selectedNetworks)
       }
     }
   },
@@ -210,6 +175,19 @@ export default {
       top: 110px;
       z-index: 2;
       cursor: pointer;
+    }
+    .network-table{
+      .el-button--mini{
+        color: #5944C0 ;
+        border: none;
+      }
+      .el-button--mini:hover{
+        color: #fff;
+        background: #5944C0;
+      }
+      .el-button.is-disabled{
+        background: #fff !important;
+      }
     }
     .network-table thead{
       height: 50px;

@@ -140,7 +140,8 @@ const en = {
     noServiceInfo: 'The service information is wrong, please check the file!',
     noImageInfo: 'The image information is wrong, please check the file!',
     noFormat: 'The parameter verification is wrong, please check the file!',
-    addCustomSuccess: 'Custom specification added successfully!'
+    addCustomSuccess: 'Custom specification added successfully!',
+    deleteInternetSuccess: 'Network configuration deleted successfully!'
   }
 }
 export default en

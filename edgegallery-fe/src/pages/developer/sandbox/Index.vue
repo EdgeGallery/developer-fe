@@ -65,7 +65,10 @@ export default {
         if (res.data.mepHostId === null) {
           this.selectSandbox = this.$t('sandbox.selectSandbox')
         } else {
-          this.$router.push('/EG/developer/sandboxDetails')
+          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
+            this.selectSandbox = res.data.name
+            sessionStorage.setItem('sandboxName', res.data.name)
+          })
         }
       }).catch(err => {
         console.log(err)
@@ -78,7 +81,7 @@ export default {
       } else {
         this.isCheckSandboxList = false
         this.$router.push({ path: '/EG/developer/sandboxDetails' })
-        sessionStorage.setItem('sandboxName', JSON.stringify(this.selectSandbox))
+        sessionStorage.setItem('sandboxName', this.selectSandbox)
       }
     },
     returnSelectSandbox (data) {

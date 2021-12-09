@@ -124,6 +124,7 @@ export default {
         data.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
         sessionStorage.setItem('architecture', data.architecture)
       }
+      sessionStorage.setItem('loadtype', data.appClass === 'VM' ? 'vm' : 'container')
     },
     switchStatus (status) {
       return status === 'CREATED' ? '创建完成' : (status === 'CONFIGURED' ? '配置完成' : (status === 'PACKAGED' ? '打包完成' : (status === 'TESTED' ? '测试完成' : (status === 'RELEASED' ? '已发布' : '已部署'))))

@@ -185,7 +185,7 @@ export default {
         this.sandboxName = this.sandbox[this.activeItem].name
         this.$emit('returnSelectSandbox', this.sandboxName)
         this.$store.commit('changeFlow', '3')
-        sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+        sessionStorage.setItem('sandboxName', this.sandboxName)
       }).catch(err => {
         console.log(err)
       })

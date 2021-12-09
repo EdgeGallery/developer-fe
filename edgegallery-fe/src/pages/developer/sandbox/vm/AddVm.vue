@@ -64,7 +64,7 @@
         >
           <div class="simulator-info-content">
             <div class="defaultFontLight">
-              <div>
+              <div class="flex">
                 <el-radio-group
                   class="common-radio"
                   v-model="vmInfo.archType"
@@ -73,12 +73,9 @@
                   <el-radio-button label="X86" />
                   <el-radio-button label="ARM" />
                 </el-radio-group>
-                <el-button
-                  class="common-btn custom-specs defaultFontLight"
-                  @click="customSpecs = true"
-                >
+                <p class="custom-specs defaultFontLight hoverHands">
                   {{ $t('sandbox.customSpec') }}
-                </el-button>
+                </p>
               </div>
               <el-table
                 :data="vmInfo.vmRegulationList"
@@ -515,16 +512,6 @@ import { sandbox } from '../../../../api/developerApi.js'
 import { filterArr } from '../../../../tools/common.js'
 export default {
   name: 'AddVm',
-  props: {
-    netWorkListProp: {
-      type: Array,
-      default: () => []
-    },
-    selectedNetworksProp: {
-      type: Array,
-      default: () => []
-    }
-  },
   data () {
     return {
       language: localStorage.getItem('language'),
@@ -562,8 +549,8 @@ export default {
         privateId: '',
         imageType: 'public'
       },
-      vmNetworkList: this.netWorkListProp,
-      selectedNetworks: this.selectedNetworksProp,
+      vmNetworkList: [],
+      selectedNetworks: [],
       vmSpecs: [],
       queryImage: {
         name: '',
@@ -885,16 +872,7 @@ export default {
   },
   mounted () {
     this.getVmSpecs()
-    this.vmNetworkList.forEach(item => {
-      this.selectedNetworks.forEach(items => {
-        if (item.name === items) {
-          this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
-        }
-      })
-    })
-    if (this.netWorkListProp.length === 0) {
-      this.getInternetType()
-    }
+    this.getInternetType()
     this.getVmImageLists()
   }
 }
@@ -1170,11 +1148,15 @@ export default {
           }
         }
         .custom-specs{
-          border-radius: 6px !important;
-          padding: 6px 16px !important;
           position: relative;
-          top: 4px;
+          top: 22px;
           left: 16px;
+          height: 33px;
+          font-size: 14px;
+          border-bottom:2px solid #4E3494;
+        }
+        .custom-specs:hover{
+          border-bottom:2px solid #43F6AD;
         }
       }
       .vm-size{

@@ -140,7 +140,8 @@ const cn = {
     noServiceInfo: '服务信息有误，请检查文件！',
     noImageInfo: '镜像信息有误，请检查文件！',
     noFormat: '参数校验有误，请检查文件！',
-    addCustomSuccess: '自定义规格添加成功！'
+    addCustomSuccess: '自定义规格添加成功！',
+    deleteInternetSuccess: '删除网络配置成功！'
   }
 }
 export default cn
