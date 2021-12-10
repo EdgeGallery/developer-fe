@@ -110,6 +110,9 @@ let sandbox = {
   addCustom (parmas) {
     return POST(URL_PREFIX_DEVELOPER + 'flavors', parmas)
   },
+  deleteInternet (applicationid, networkId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + applicationid + '/networks/' + networkId)
+  },
   container: {
     postHelmChartsFile (applicationId, parmas) {
       return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/helmcharts', parmas)

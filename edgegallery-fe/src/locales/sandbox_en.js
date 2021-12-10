@@ -40,7 +40,7 @@ const en = {
     uploadAppPackage: 'Upload Application Code Package',
     uploadAppPackagePromt: 'Note: The file is uploaded to the root directory of the virtual machine by default',
     selectFile: 'Select Package File',
-    selectNetworkType: 'Select Network Type',
+    selectNetworkType: 'Configure Network Type',
     addCustomNetwork: 'Add Custom Network',
     addDescribe: 'Add Describe',
     vmInformation: 'VM Information',
@@ -140,7 +140,10 @@ const en = {
     noServiceInfo: 'The service information is wrong, please check the file!',
     noImageInfo: 'The image information is wrong, please check the file!',
     noFormat: 'The parameter verification is wrong, please check the file!',
-    addCustomSuccess: 'Custom specification added successfully!'
+    addCustomSuccess: 'Custom specification added successfully!',
+    deleteInternetSuccess: 'Network configuration deleted successfully!',
+    addInternetFaild: 'The maximum number of network configuration data is 4!',
+    internetNameRepeat: 'Duplicate network configuration name!'
   }
 }
 export default en

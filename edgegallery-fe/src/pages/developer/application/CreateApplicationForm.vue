@@ -426,10 +426,8 @@ export default {
     },
     confirmToCreate () {
       applicationApi.createNewApp(this.applicationFormData).then(res => {
-        if (this.applicationFormData !== '') {
-          this.applicationFormData.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
-          sessionStorage.setItem('architecture', this.applicationFormData.architecture)
-        }
+        sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
+        sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
