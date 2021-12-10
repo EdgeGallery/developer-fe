@@ -18,7 +18,18 @@
     <div v-if="showContent==='showDetail'">
       <div class="detail-top clear">
         <div class="detail-top-title lt">
-          {{ detailTitle }}
+          <el-select
+            v-model="detailTitle"
+            @change="changeSandbox"
+            :disabled="isChangeSandboxName"
+          >
+            <el-option
+              v-for="item in sandboxNames"
+              :key="item.value"
+              :label="item.label"
+              :value="item.id"
+            />
+          </el-select>
         </div>
       </div>
       <div
@@ -401,7 +412,7 @@ export default {
   data () {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
-      detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
+      detailTitle: sessionStorage.getItem('sandboxName'),
       isChangeStyle: true,
       showContent: 'showDetail',
       isBtnDetail: false,
@@ -432,10 +443,56 @@ export default {
           clickable: true
         }
       },
-      netWorkListShow: []
+      netWorkListShow: [],
+      vimType: sessionStorage.getItem('vimType'),
+      architecture: sessionStorage.getItem('architecture'),
+      sandboxNames: [],
+      isChangeSandboxName: false
     }
   },
   methods: {
+    getSandboxLists () {
+      sandbox.getSandboxList(this.vimType, this.architecture).then(res => {
+        if (res.data && res.data.results.length <= 0) {
+          return
+        }
+        res.data.results.forEach(item => {
+          this.sandboxNames.push({ 'value': item.name, 'label': item.name, 'id': item.id })
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    changeSandbox (value) {
+      this.mephostid = value
+      let mepHostId = { mepHostId: this.mephostid }
+      sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
+        sandbox.getSandboxByMepHostId(this.mephostid).then(res => {
+          sessionStorage.setItem('mepHostId', this.mephostid)
+          sessionStorage.setItem('sandboxName', res.data.name)
+          this.detailTitle = res.data.name
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    ischangeSandbox () {
+      sandbox.container.getApplicationDetail(this.applicationId).then(res => {
+        if (sessionStorage.getItem('loadtype') === 'vm') {
+          if (res.data.vmApp.vmList.length > 0) {
+            res.data.vmApp.vmList.forEach(item => {
+              if (item.vmInstantiateInfo !== '') {
+                this.isChangeSandboxName = true
+              }
+            })
+          }
+        } else {
+          if (res.data.containerApp.instantiateInfo !== null) {
+            this.isChangeSandboxName = true
+          }
+        }
+      })
+    },
     returnHome () {
       this.$router.push('/EG/developer/home')
     },
@@ -580,6 +637,8 @@ export default {
       this.isMecSucess = false
     }
     this.getUpfFinish()
+    this.getSandboxLists()
+    this.ischangeSandbox()
   },
   beforeDestroy () {
     sessionStorage.removeItem('applicationRules')
@@ -597,11 +656,18 @@ export default {
     .detail-top-title{
       height: 63px;
       margin: 1% 0 0 13%;
-      font-size: 30px;
-      line-height: 50px;
       padding-left: 10px;
       letter-spacing: 4px;
       background: url('../../../assets/images/sandbox/detail_title.png') no-repeat left;
+      .el-input__inner {
+        margin: 14px 0 0 10px;
+        background-color:#3e279b ;
+        border:none;
+        font-size: 24px;
+        color: #fff;
+        padding: 0;
+        width: 200px;
+      }
     }
   }
   .detail-center{
@@ -931,5 +997,26 @@ export default {
       background-position:  0;
     }
   }
+}
+.el-icon-arrow-up:before {
+    content: "";
+}
+.el-scrollbar {
+  width: 210px;
+}
+.el-select-dropdown {
+  margin: 40px 0 0 0 !important;
+  border: none;
+  background: none ;
+}
+.el-popper[x-placement^=bottom] .popper__arrow{
+  display: none !important;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #60569A;
+}
+.el-select-dropdown__item{
+  background-color: #290E74;
+  color: #fff;
 }
 </style>

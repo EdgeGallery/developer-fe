@@ -19,27 +19,17 @@
       <h3 class="common-dlg-title">
         {{ $t('sandbox.selectNetworkType') }}
       </h3>
-
       <span class="add-btn">
         <img
           src="../../../../assets/images/sandbox/add_network_btn.png"
           alt=""
-          @click="addNewNetwork"
+          @click="addInternetBtn"
         >
       </span>
       <el-table
-        class="common-table"
+        class="common-table network-table"
         :data="vmNetworkList"
       >
-        <el-table-column width="35">
-          <template slot-scope="scope">
-            <el-checkbox
-              class="common-checkbox"
-              v-model="selectedNetworks"
-              :label="scope.row.name"
-            />
-          </template>
-        </el-table-column>
         <el-table-column
           prop="name"
           width="200px"
@@ -53,63 +43,59 @@
             {{ scope.row.description }}
           </template>
         </el-table-column>
+        <el-table-column width="120px">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="deleteInternet(scope.row.id)"
+            >
+              {{ $t('common.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
-
-      <el-table
-        class="common-table new-network-table"
-        :data="newNetworkList"
+      <div
+        class="editInternet"
+        v-if="ifAddInternetBtn"
       >
-        <el-table-column width="35">
-          <template slot-scope="scope">
-            <el-checkbox
-              class="common-checkbox"
-              v-model="selectedNetworks"
-              :label="scope.row.name"
-              :disabled="scope.row.name===''"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column
-          width="200px"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-input
-              class="common-input"
-              size="mini"
-              :placeholder="$t('sandbox.addCustomNetwork')"
-              v-model="scope.row.name"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-input
-              class="common-input"
-              size="mini"
-              :placeholder="$t('sandbox.addDescribe')"
-              v-model="scope.row.description"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
-
+        <div class="editInternet-inputs">
+          <el-input
+            class="common-input"
+            size="mini"
+            :placeholder="$t('sandbox.addCustomNetwork')"
+            v-model="newNetworkList[0].name"
+            @change="ifInternetNameRepeat"
+          />
+          <el-input
+            class="common-input"
+            size="mini"
+            :placeholder="$t('sandbox.addDescribe')"
+            v-model="newNetworkList[0].description"
+          />
+        </div>
+        <div class="editInternet-btns">
+          <el-button
+            size="mini"
+            @click="addInetrnetConfirm('cancel')"
+          >
+            {{ $t('common.cancel') }}
+          </el-button>
+          <el-button
+            size="mini"
+            :disabled="addTypeBtn"
+            @click="addInetrnetConfirm('confirm')"
+          >
+            {{ $t('common.confirm') }}
+          </el-button>
+        </div>
+      </div>
       <div class="btn-container network-btn">
-        <el-button
-          id="btn_cancelEditNetwork"
-          class="common-btn"
-          @click="finishEditNetwork('cancel')"
-        >
-          {{ $t('common.cancel') }}
-        </el-button>
         <el-button
           id="btn_confirmEditNetwork"
           class="common-btn"
-          @click="finishEditNetwork('confirm')"
+          @click="backVmDetail()"
         >
-          {{ $t('common.confirm') }}
+          {{ $t('common.back') }}
         </el-button>
       </div>
     </div>
@@ -129,8 +115,9 @@ export default {
           description: ''
         }
       ],
-      selectedNetworks: [],
-      applicationId: sessionStorage.getItem('applicationId') || ''
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      ifAddInternetBtn: false,
+      addTypeBtn: false
     }
   },
   methods: {
@@ -140,41 +127,60 @@ export default {
           return
         }
         this.vmNetworkList = res.data
-        this.vmNetworkList.forEach((item) => {
-          if (item.name !== '') {
-            this.selectedNetworks.push(item.name)
-          }
-        })
+        this.ifAddInternetBtn = !this.vmNetworkList.length > 3
+        console.log(this.ifAddInternetBtn)
       }).catch(err => {
         console.log(err)
       })
     },
-    addNewNetwork () {
-      let _obj = {
-        description: '',
-        name: ''
-      }
-      this.newNetworkList.push(_obj)
+    deleteInternet (data) {
+      sandbox.deleteInternet(this.applicationId, data).then(() => {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.deleteInternetSuccess'), 'success')
+        this.getInternetType()
+      })
     },
-    finishEditNetwork (type) {
-      let _data = []
-      if (type === 'confirm') {
-        let _newArr = this.newNetworkList.filter(item => {
-          return item.name !== ''
-        })
-        _data = this.vmNetworkList.concat(_newArr)
-        this.newNetworkList.forEach(item => {
-          if (item.name === '') {
-            return
-          }
-          sandbox.addInternetType(this.applicationId, item).then(() => {
-            this.$emit('editNetwork', _data)
-          })
-        })
-        this.$emit('editNetwork', _data, this.selectedNetworks)
+    addInternetBtn () {
+      if (this.vmNetworkList.length > 3) {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.addInternetFaild'), 'warning')
+        this.ifAddInternetBtn = false
       } else {
-        this.$emit('editNetwork', _data, this.selectedNetworks)
+        this.ifAddInternetBtn = true
       }
+    },
+    ifInternetNameRepeat () {
+      this.vmNetworkList.forEach(item => {
+        if (item.name === this.newNetworkList[0].name) {
+          this.addTypeBtn = true
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.internetNameRepeat'), 'warning')
+        } else {
+          this.addTypeBtn = false
+        }
+      })
+    },
+    addInetrnetConfirm (data) {
+      if (data === 'confirm') {
+        sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
+          this.getInternetType()
+          this.ifAddInternetBtn = false
+          this.newNetworkList = [
+            {
+              name: '',
+              description: ''
+            }
+          ]
+        })
+      } else {
+        this.ifAddInternetBtn = false
+        this.newNetworkList = [
+          {
+            name: '',
+            description: ''
+          }
+        ]
+      }
+    },
+    backVmDetail () {
+      this.$emit('editNetwork', '')
     }
   },
   mounted () {
@@ -211,6 +217,14 @@ export default {
       z-index: 2;
       cursor: pointer;
     }
+    .el-button--mini{
+      color: #5944C0 ;
+      border: none;
+    }
+    .el-button--mini:hover{
+      color: #fff;
+      background: #5944C0;
+    }
     .network-table thead{
       height: 50px;
     }
@@ -224,8 +238,20 @@ export default {
         padding: 10px;
       }
     }
-    .new-network-table thead{
-      display: none;
+    .editInternet{
+      margin-top: 20px;
+      padding-bottom: 20px;
+      display: flex;
+      justify-content:space-between;
+      border-bottom:1px solid #4e3494 ;
+      .editInternet-inputs{
+        width: 600px;
+        display: flex;
+        justify-content: start;
+        .el-input {
+          width: 35%;
+        }
+      }
     }
   }
   .network-btn{
