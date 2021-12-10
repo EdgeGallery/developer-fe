@@ -537,8 +537,8 @@ export default {
     width: 85px;
     position: fixed;
     z-index: 9999;
-    left: 485px;
-    top: 215px;
+    left: 85px;
+    top: 15px;
     border-radius: 4px;
     font-size: 14px;
     font-family: defaultFontLight;

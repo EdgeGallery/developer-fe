@@ -15,9 +15,12 @@
       >
         <div
           class="item"
-          :class="[item.id===currentFlow?'item-active':'',currentFlow>0&&item.id!==2?'item-must':'',item.class]"
+          :class="[item.id===currentFlow?'item-active':'',item.class]"
           @click="(currentFlow===1&&item.id===3)||item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item):showWarning()"
         >
+          <div class="abcde">
+            {{ item.id }}
+          </div>
           <img
             :src="item.src"
             :class="[currentFlow>item.id||currentFlow===item.id?'active':'',(currentFlow===1&&item.id===3)||item.id===currentFlow+1?'next':'']"
@@ -51,7 +54,7 @@ export default {
       workflowDataArray: [
         {
           id: 1,
-          name: '应用',
+          name: '创建应用',
           nameEn: 'Application',
           class: 'app-application',
           src: require('../../../assets/images/application/app_application.png'),
@@ -67,7 +70,7 @@ export default {
         },
         {
           id: 3,
-          name: '沙箱',
+          name: '选择沙箱',
           nameEn: 'Sandbox',
           class: 'app-sandbox',
           src: require('../../../assets/images/application/app_sandbox.png'),
@@ -75,7 +78,7 @@ export default {
         },
         {
           id: 4,
-          name: '镜像',
+          name: '制作镜像',
           nameEn: 'Image',
           class: 'app-image',
           src: require('../../../assets/images/application/app_image.png'),
@@ -83,7 +86,7 @@ export default {
         },
         {
           id: 5,
-          name: '测试',
+          name: '测试认证',
           nameEn: 'Test',
           class: 'app-test',
           src: require('../../../assets/images/application/app_test.png'),

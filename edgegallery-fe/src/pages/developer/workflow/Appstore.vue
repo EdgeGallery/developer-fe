@@ -15,7 +15,7 @@
       >
         <div
           class="item"
-          :class="[item.id===currentFlow?'item-active':'',currentFlow>0?'item-must':'',item.class]"
+          :class="[item.id===currentFlow?'item-active':'',item.class]"
           @click="item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item.toPath):showWarning()"
         >
           <img
@@ -50,7 +50,7 @@ export default {
       appStoreWorkflowDataArray: [
         {
           id: 6,
-          name: '应用商店',
+          name: '应用仓库',
           nameEn: 'App Store',
           class: 'app-store',
           src: require('../../../assets/images/application/app_store.png'),

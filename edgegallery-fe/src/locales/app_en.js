@@ -116,7 +116,7 @@ const en = {
     incubation: 'Incubation',
     mustSteps: 'Please complete the necessary steps first!',
     appstore: 'App Store',
-    produceEnv: 'Production Env'
+    produceEnv: 'Deployment'
   }
 }
 export default en

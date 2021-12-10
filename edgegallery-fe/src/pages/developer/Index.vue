@@ -57,25 +57,6 @@
               </el-col>
             </el-row>
           </div>
-          <div class="main-flow-direction">
-            <div class="lt">
-              <p>
-                {{ $t('incubation.direction') }}
-              </p>
-              <img
-                src="../../assets/images/application/app_direction.png"
-                alt=""
-              >
-            </div>
-            <div class="rt label-content">
-              <div class="current-app-label">
-                {{ $t('incubation.currentLocation') }}
-              </div>
-              <div class="must-node-label">
-                {{ $t('incubation.necessaryNode') }}
-              </div>
-            </div>
-          </div>
         </div>
       </el-col>
     </el-row>
@@ -155,46 +136,6 @@ export default {
             font-size: 20px;
             font-weight: bold;
             opacity: 0.7;
-          }
-        }
-      }
-      .main-flow-direction{
-        position: relative;
-        top: -110px;
-        p{
-          font-size: 14px;
-          padding-top: 20px;
-          line-height: 30px;
-        }
-        .label-content{
-          margin-right: 200px;
-          font-size: 14px;
-          .current-app-label{
-            margin-top: 15px;
-          }
-          .current-app-label::before{
-            content:"";
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: url("../../assets/images/application/app_mark_box.png") no-repeat center;
-            background-size: contain;
-            position: relative;
-            top: 5px;
-          }
-          .must-node-label{
-            margin-top: 5px;
-          }
-          .must-node-label::before{
-            content:"";
-            display: inline-block;
-            width: 20px;
-            height: 15px;
-            background: url("../../assets/images/application/app_corner_icon.png") no-repeat center;
-            background-size: contain;
-            position: relative;
-            top: 3px;
-            transform: rotate(270deg);
           }
         }
       }
