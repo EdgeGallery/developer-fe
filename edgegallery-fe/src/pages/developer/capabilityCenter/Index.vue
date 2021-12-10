@@ -763,6 +763,9 @@ export default {
         margin: -25px 0;
       }
     }
+    #swagger-ui::-webkit-scrollbar-thumb {
+      box-shadow: 0 0 0 3px #7656cc inset;
+    }
     .service_div{
       padding-left: 20px;
       .capability-top{

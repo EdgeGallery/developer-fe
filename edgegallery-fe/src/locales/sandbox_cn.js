@@ -40,13 +40,13 @@ const cn = {
     uploadAppPackage: '上传应用代码包',
     uploadAppPackagePromt: '注：文件默认上传到虚拟机的根目录下',
     selectFile: '选择包文件',
-    selectNetworkType: '选择网络类型',
+    selectNetworkType: '配置网络类型',
     addCustomNetwork: '添加自定义网络',
     addDescribe: '添加描述',
     vmInformation: '虚拟机信息',
     enterVmName: '请输入虚拟机名称',
     selectVmflavor: '选择虚拟机规格',
-    usageScenes: '使用场景',
+    useCase: '使用场景',
     memory: '内存',
     systemDisk: '系统盘',
     dataDisk: '数据盘',
@@ -61,7 +61,10 @@ const cn = {
     enterFlavorExtraSpecs: '填写主机组配置',
     script: '脚本',
     useScript: '是否使用注入脚本',
-    enterScriptContent: '填写脚本内容'
+    enterScriptContent: '填写脚本内容',
+    type: '类型',
+    customSpec: '自定义规格',
+    typeTip: '请选择类型'
   },
   rulesConfig: {
     appRuleConfig: '应用规则配置',
@@ -136,7 +139,11 @@ const cn = {
     cleanEnvFailed: '释放资源失败！',
     noServiceInfo: '服务信息有误，请检查文件！',
     noImageInfo: '镜像信息有误，请检查文件！',
-    noFormat: '参数校验有误，请检查文件！'
+    noFormat: '参数校验有误，请检查文件！',
+    addCustomSuccess: '自定义规格添加成功！',
+    deleteInternetSuccess: '删除网络配置成功！',
+    addInternetFaild: '网络配置数据最多为4条！',
+    internetNameRepeat: '网络配置名重复！'
   }
 }
 export default cn

@@ -131,6 +131,7 @@ export default {
         data.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
         sessionStorage.setItem('architecture', data.architecture)
       }
+      sessionStorage.setItem('loadtype', data.appClass === 'VM' ? 'vm' : 'container')
     },
     switchStatus (status) {
       if (this.language === 'cn') {

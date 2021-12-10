@@ -158,7 +158,7 @@ export default {
   },
   data () {
     return {
-      detailTitle: JSON.parse(sessionStorage.getItem('sandboxName')),
+      detailTitle: sessionStorage.getItem('sandboxName'),
       applicationId: sessionStorage.getItem('applicationId'),
       helmChartFile: [],
       uploadYamlLoading: false,

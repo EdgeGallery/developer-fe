@@ -144,8 +144,8 @@ export default {
       ],
       sandboxImg: '',
       sandboxName: '',
-      vimType: '',
-      architecture: sessionStorage.getItem('architecture') || '',
+      vimType: sessionStorage.getItem('vimType'),
+      architecture: sessionStorage.getItem('architecture'),
       mechostid: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       sandboxDetailsNames: [],
@@ -185,7 +185,7 @@ export default {
         this.sandboxName = this.sandbox[this.activeItem].name
         this.$emit('returnSelectSandbox', this.sandboxName)
         this.$store.commit('changeFlow', '3')
-        sessionStorage.setItem('sandboxName', JSON.stringify(this.sandboxName))
+        sessionStorage.setItem('sandboxName', this.sandboxName)
       }).catch(err => {
         console.log(err)
       })

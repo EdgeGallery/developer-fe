@@ -56,10 +56,6 @@ export default {
     applicationId: {
       required: true,
       type: String
-    },
-    vmId: {
-      required: true,
-      type: String
     }
   },
   computed: {
@@ -69,8 +65,8 @@ export default {
   },
   data () {
     return {
-      uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/upload-file',
-      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + this.vmId + '/action/merge-file?fileName=',
+      uploadUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + sessionStorage.getItem('vmId') + '/action/upload-file',
+      mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + sessionStorage.getItem('vmId') + '/action/merge-file?fileName=',
       paramsName: 'identifier'
     }
   },

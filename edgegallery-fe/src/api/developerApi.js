@@ -83,9 +83,6 @@ let sandbox = {
   exportImage (applicationId, vmId) {
     return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/export-image')
   },
-  getVmList (applicationId) {
-    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms')
-  },
   getVmDetail (applicationId, vmId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId)
   },
@@ -106,6 +103,12 @@ let sandbox = {
   },
   getUpfFinished (applicationId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/appconfiguration')
+  },
+  addCustom (parmas) {
+    return POST(URL_PREFIX_DEVELOPER + 'flavors', parmas)
+  },
+  deleteInternet (applicationid, networkId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + applicationid + '/networks/' + networkId)
   },
   container: {
     postHelmChartsFile (applicationId, parmas) {

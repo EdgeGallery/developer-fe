@@ -15,31 +15,24 @@
   -->
 <template>
   <div class="netScroll">
-    <vue-seamless-scroll
-      :data="listData"
-      :class-option="defaultOption"
-    >
-      <ul class="ul-scoll defaultFontLight">
-        <li
-          v-for="(item, index) in listData"
-          :key="index"
-        >
-          <p class="title">
-            {{ item }}
-          </p>
-          <p class="clear">
-            <span class="span-cicle lt" />
-            <span class="span-line lt" />
-            <span class="span-cicle lt" />
-          </p>
-        </li>
-      </ul>
-    </vue-seamless-scroll>
+    <ul class="ul-scoll defaultFontLight">
+      <li
+        v-for="(item, index) in listData"
+        :key="index"
+      >
+        <p class="title">
+          {{ item }}
+        </p>
+        <p class="clear">
+          <span class="span-cicle lt" />
+          <span class="span-line lt" />
+        </p>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import vueSeamlessScroll from 'vue-seamless-scroll'
 export default {
   name: 'Example3',
   props: {
@@ -48,28 +41,10 @@ export default {
       default: () => []
     }
   },
-  components: {
-    vueSeamlessScroll
-  },
   data () {
     return {
       listData: []
     }
-  },
-  computed: {
-    defaultOption () {
-      return {
-        step: 0.2, // The higher the value, the faster the scroll
-        limitMoveNum: 5, // The amount of data to start seamless scrolling
-        hoverStop: true, // Whether to turn on mouse hover stop
-        direction: 1, // 0 down 1 up 2 left 3 right
-        openWatch: true, // Enable data real-time monitoring and refresh dom
-        singleHeight: 0, // The height of the single-step motion stop (the default value of 0 is seamless and non-stop scrolling) direction => 0/1
-        singleWidth: 0, // The width of the single-step motion stop (the default value of 0 is seamless and non-stop scrolling) direction => 2/3
-        waitTime: 1000 // Stop time of single step motion (default value is 1000ms)
-      }
-    }
-
   },
   mounted () {
     this.listData = this.networkListProp
@@ -98,9 +73,9 @@ export default {
         border-radius: 50%;
       }
       .span-line{
-        width: calc(100% - 16px);
+        width: calc(100% - 8px);
         height: 1px;
-        background: #929292;
+        background: #4F3AA4;
         margin-top: 4px;
       }
     }
