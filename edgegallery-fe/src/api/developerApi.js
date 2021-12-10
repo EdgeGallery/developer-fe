@@ -96,10 +96,10 @@ let sandbox = {
     return GET(URL_PREFIX_DEVELOPER + 'flavors/' + flavorId)
   },
   vncLogin (applicationId, vmId) {
-    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/vnc')
+    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/vnc')
   },
   sshLogin (applicationId, vmId) {
-    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/ssh')
+    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/ssh')
   },
   getScriptByImageId (osType) {
     return GET(URL_PREFIX_DEVELOPER + 'user-data?' + 'osType=' + osType)
