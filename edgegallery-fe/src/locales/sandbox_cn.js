@@ -40,7 +40,7 @@ const cn = {
     uploadAppPackage: '上传应用代码包',
     uploadAppPackagePromt: '注：文件默认上传到虚拟机的根目录下',
     selectFile: '选择包文件',
-    selectNetworkType: '选择网络类型',
+    selectNetworkType: '配置网络类型',
     addCustomNetwork: '添加自定义网络',
     addDescribe: '添加描述',
     vmInformation: '虚拟机信息',
@@ -141,7 +141,9 @@ const cn = {
     noImageInfo: '镜像信息有误，请检查文件！',
     noFormat: '参数校验有误，请检查文件！',
     addCustomSuccess: '自定义规格添加成功！',
-    deleteInternetSuccess: '删除网络配置成功！'
+    deleteInternetSuccess: '删除网络配置成功！',
+    addInternetFaild: '网络配置数据最多为4条！',
+    internetNameRepeat: '网络配置名重复！'
   }
 }
 export default cn
