@@ -237,16 +237,15 @@ export default {
           return
         }
         this.percentages = res.data.progress
+        this.isDeployContainer = true
         if (res.data.status === 'SUCCESS') {
           this.isDeployContainerSuccess = true
           this.isDeployContainerFinish = true
-          this.isDeployContainer = true
           this.$emit('deployContainerFinish', this.isDeployContainerFinish)
           clearTimeout(this.timer)
         } else if (res.data.status === 'FAILED') {
           this.isDeployContainerSuccess = false
           this.isDeployContainerFinish = true
-          this.isDeployContainer = true
           this.$emit('deployContainerFinish', this.isDeployContainerFinish)
           clearTimeout(this.timer)
         } else {

@@ -15,7 +15,23 @@
   -->
 <template>
   <div class="details-center-vm">
-    <div>
+    <div :class="'vm-list-'+vmIndexProp">
+      <ul
+        class="ul-scoll defaultFontLight"
+        :class="'ul-scoll-'+vmIndexProp"
+      >
+        <li
+          v-for="(item, index) in networkLists"
+          :key="index"
+        >
+          <div v-if="item!==''">
+            <p class="clear">
+              <span class="span-line lt" />
+              <span class="span-cicle lt" />
+            </p>
+          </div>
+        </li>
+      </ul>
       <div
         class="flex-center details-center-vm-img"
         :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
@@ -40,26 +56,25 @@
         >
           <div
             class="vm-btn flex-center vm-btn-add hoverHands"
-            :class="!isAddVmFinish ? 'img-click':'img-onlyRead'"
-            @click="addVm"
-            @mouseleave="addGreen=false"
-            @mouseenter="isAddVmFinish?addGreen=false:addGreen=true"
+            @click="deleteVm"
+            @mouseleave="deleteGreen=false"
+            @mouseenter="deleteGreen=true"
           >
             <el-tooltip
               class="edit-tooltip"
               effect="light"
-              :content="$t('common.add')"
+              :content="$t('common.delete')"
               placement="bottom-start"
             >
               <img
-                v-if="!addGreen"
-                src="../../../../assets/images/sandbox/vm_add.png"
+                v-if="!deleteGreen"
+                src="../../../../assets/images/sandbox/vm_delete.png"
                 alt=""
                 class="img-click"
               >
               <img
                 v-else
-                src="../../../../assets/images/sandbox/vm_add_green.png"
+                src="../../../../assets/images/sandbox/vm_delete_green.png"
                 alt=""
                 class="img-click"
               >
@@ -158,7 +173,7 @@
           </div>
           <div
             class="vm-btn vm-btn-start flex-center hoverHands"
-            @click="startUpVm(vmLists.id)"
+            @click="startUpVm(vmListsDetail.id)"
             :class="!isBtnStart ? 'img-onlyRead':'img-click'"
             @mouseleave="startGreen=false"
             @mouseenter="isBtnStart?startGreen=true:startGreen=false"
@@ -184,7 +199,7 @@
           <div
             class="vm-btn vm-btn-export flex-center hoverHands"
             :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-            @click="exportImage(vmLists.id)"
+            @click="exportImage(vmListsDetail.id)"
             @mouseleave="imageGreen=false"
             @mouseenter="isStartUpVmSuccess?imageGreen=true:imageGreen=false"
           >
@@ -228,7 +243,7 @@
         </div>
       </div>
       <p class="deploy-title defaultFontLight">
-        {{ $t('sandbox.vm') }}
+        {{ vmListsDetail.name }}
       </p>
     </div>
   </div>
@@ -239,6 +254,18 @@ import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: '',
   props: {
+    vmListsDetailProp: {
+      type: Object,
+      default: () => ({})
+    },
+    vmIndexProp: {
+      type: Number,
+      default: 0
+    },
+    netWorkListShowProp: {
+      type: Array,
+      default: () => ([])
+    },
     isAddVmFinishProp: {
       type: Boolean,
       default: false
@@ -260,54 +287,48 @@ export default {
       vmBreathStyle: this.vmBreathStyleProp,
       isStartupVmFinish: false,
       isBtnStart: false,
-      vmLists: [],
       operationId: '',
       percentages: 0,
       timer: null,
       timerExport: null,
       isStartUpVmSuccess: false,
-      vmId: '',
+      vmId: this.vmListsDetailProp.id,
       vmImageInformation: {
         imageName: '',
         status: '',
         downloadUrl: ''
       },
       isClearVmImage: this.isClearVmImageProp,
-      addGreen: false,
+      deleteGreen: false,
       detailGreen: false,
       loginGreen: false,
       uploadGreen: false,
       startGreen: false,
       imageGreen: false,
+      vmListsDetail: this.vmListsDetailProp,
+      networkLists: [],
       isShowRemote: false
     }
   },
   methods: {
-    getVmlists () {
-      sandbox.getVmlist(this.applicationId).then(res => {
-        if (res.data.length === 0) {
-          return
-        }
-        this.vmLists = res.data[0]
-        this.vmId = res.data[0].id
-        if (this.vmLists.imageId !== 0) {
-          this.isBtnStart = true
-          this.isAddVmFinish = true
-        }
-        if (this.vmLists.vmInstantiateInfo && this.vmLists.vmInstantiateInfo.operationId) {
-          this.getVmStatus(this.vmLists.vmInstantiateInfo.operationId)
-          this.timer = setInterval(() => {
-            this.getVmStatus(this.vmLists.vmInstantiateInfo.operationId)
-          }, 5000)
-          this.isStartupVm = true
-        }
-        if (this.vmLists.imageExportInfo && this.vmLists.imageExportInfo.operationId) {
-          this.getVmExportStatus(this.vmLists.imageExportInfo.operationId)
-          this.timerExport = setInterval(() => {
-            this.getVmExportStatus(this.vmLists.imageExportInfo.operationId)
-          }, 5000)
-        }
-      })
+    getVmlistsStatus () {
+      if (this.vmListsDetail.imageId !== 0) {
+        this.isBtnStart = true
+        this.isAddVmFinish = true
+      }
+      if (this.vmListsDetail.vmInstantiateInfo && this.vmListsDetail.vmInstantiateInfo.operationId) {
+        this.getVmStatus(this.vmListsDetail.vmInstantiateInfo.operationId)
+        this.timer = setInterval(() => {
+          this.getVmStatus(this.vmListsDetail.vmInstantiateInfo.operationId)
+        }, 5000)
+        this.isStartupVm = true
+      }
+      if (this.vmListsDetail.imageExportInfo && this.vmListsDetail.imageExportInfo.operationId) {
+        this.getVmExportStatus(this.vmListsDetail.imageExportInfo.operationId)
+        this.timerExport = setInterval(() => {
+          this.getVmExportStatus(this.vmListsDetail.imageExportInfo.operationId)
+        }, 5000)
+      }
     },
     getVmStatus (operationId) {
       sandbox.getVmStatus(operationId).then(res => {
@@ -344,8 +365,14 @@ export default {
         clearTimeout(this.timerExport)
       })
     },
-    addVm () {
-      this.$emit('addVm', 'showAddVm')
+    deleteVm () {
+      this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
+        sandbox.deleteVmImage(this.applicationId, this.vmId).then(() => {
+          this.$emit('deleteVm')
+        }).catch(() => {
+          this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
+        })
+      }).catch(() => {})
     },
     checkVmDetail () {
       this.bus.$emit('checkVmDetail', this.vmId)
@@ -379,8 +406,36 @@ export default {
       })
     },
     uploadVmFile () {
-      this.bus.$emit('uploadVmFile', this.vmId)
+      sessionStorage.setItem('vmId', this.vmId)
       this.$emit('uploadVmFile', 'showVmUploadFile')
+    },
+    handleNetworkLists () {
+      let _arrTemp = []
+      this.vmListsDetail.portList.forEach(item => {
+        _arrTemp.push(item.networkName)
+      })
+      let _arr = ['', '', '', '']
+      for (let i = 0; i < this.netWorkListShowProp.length; i++) {
+        for (let j = 0; j < _arrTemp.length; j++) {
+          if (this.netWorkListShowProp[i] === _arrTemp[j]) {
+            _arr[i] = _arrTemp[j]
+          }
+        }
+      }
+      this.networkLists = _arr
+    },
+    getVmListLeft () {
+      this.$nextTick(() => {
+        let _oDivNet = document.getElementsByClassName('netScroll')[0]
+        let _oDivVm = document.getElementsByClassName('vm-list-' + this.vmIndexProp)[0]
+        let _oDivNetwork = document.getElementsByClassName('ul-scoll-' + this.vmIndexProp)[0]
+        if (_oDivNet && _oDivVm && _oDivNetwork) {
+          let _num = _oDivVm.getBoundingClientRect().left - _oDivNet.getBoundingClientRect().left - 154
+          _oDivNetwork.style.width = (_num + 150 * this.vmIndexProp) + 'px'
+          _oDivNetwork.style.left = -(_num + 150 * this.vmIndexProp + 10) + 'px'
+          _oDivNetwork.style.zIndex = -this.vmIndexProp
+        }
+      })
     }
   },
   watch: {
@@ -395,7 +450,9 @@ export default {
   created () {
   },
   mounted () {
-    this.getVmlists()
+    this.getVmListLeft()
+    this.handleNetworkLists()
+    this.getVmlistsStatus()
   },
   beforeDestroy () {
     clearTimeout(this.timer)
@@ -407,6 +464,29 @@ export default {
 <style lang="less">
 .details-center-vm{
   position: relative;
+  .ul-scoll{
+    position: absolute;
+    top: 30px;
+    li{
+      text-align: right;
+      overflow: hidden;
+      height: 24px;
+      padding-top: 16px;
+      font-size: 10px;
+      .span-cicle{
+        width: 8px;
+        height: 8px;
+        background: #fff;
+        border-radius: 50%;
+      }
+      .span-line{
+        width: calc(100% - 8px);
+        height: 1px;
+        background: #4F3AA4;
+        margin-top: 4px;
+      }
+    }
+  }
   .vm-center-img{
     position:absolute;
     width: 77px;
@@ -516,8 +596,11 @@ export default {
   }
 }
 .details-center-vm-img{
+  position: relative;
   background: rgba(10, 9, 54, .25);
   border-radius: 20px;
+  z-index: 1;
+  backdrop-filter: blur(4px);
 }
 .details-center-vm-img-finish{
   background: rgba(212, 202, 255, .25);

@@ -61,12 +61,19 @@
         >
           <div class="common-dlg-title">
             {{ applicationName }}
+            <img
+              v-if="appClass==='VM' && vmLists.length>=3"
+              class="add-vm-small rt"
+              src="../../../assets/images/sandbox/vm_add_icon.png"
+              alt=""
+              @click="addVm"
+            >
           </div>
           <div
-            class="details-center"
+            class="details-center clear"
             v-if="appClass==='VM'"
           >
-            <div class="details-center-deploy">
+            <div class="details-center-deploy vm-div">
               <div class="details-center-deploy-img">
                 <div
                   class="lt deploy-img flex-center hoverHands"
@@ -107,7 +114,7 @@
               </div>
             </div>
             <ul
-              class="netLine"
+              class="netLine lt"
               v-if="!isAddVmFinish"
             >
               <li
@@ -118,19 +125,66 @@
             </ul>
             <NetScroll
               v-else
-              class="netLine-list"
-              :network-list-prop="networkList"
+              class="netLine-list lt"
+              :network-list-prop="netWorkListShow"
             />
-            <VmList
-              v-show="!isChangeStyle"
-              @addVm="addVm"
-              @checkVmDetail="checkVmDetail"
-              :is-add-vm-finish-prop="isAddVmFinish"
-              @startUpVm="startUpVm"
-              :vm-breath-style-prop="vmBreathStyle"
-              @uploadVmFile="uploadVmFile"
-              :is-clear-vm-image-prop="isClearVmImage"
-            />
+
+            <swiper
+              v-if="vmLists.length>0"
+              class="vm-swiper"
+              :class="{'lt':vmLists.length<3}"
+              :options="swiperOption"
+              ref="mySwiper"
+            >
+              <swiper-slide
+                v-for="(item,index) in vmLists"
+                :key="index"
+              >
+                <VmList
+                  :key="index"
+                  class="vm-div"
+                  v-show="!isChangeStyle"
+                  @deleteVm="deleteVm"
+                  @checkVmDetail="checkVmDetail"
+                  :is-add-vm-finish-prop="isAddVmFinish"
+                  @startUpVm="startUpVm"
+                  :vm-breath-style-prop="vmBreathStyle"
+                  @uploadVmFile="uploadVmFile"
+                  :is-clear-vm-image-prop="isClearVmImage"
+                  :vm-lists-detail-prop="item"
+                  :vm-index-prop="index"
+                  :net-work-list-show-prop="netWorkListShow"
+                />
+              </swiper-slide>
+              <div
+                class="swiper-pagination"
+                :class="{'swiper-pagination-none':vmLists.length<=3}"
+                slot="pagination"
+              />
+            </swiper>
+            <div
+              class="details-center-deploy vm-div"
+              v-if="vmLists.length<3"
+            >
+              <div class="details-center-deploy-img">
+                <div
+                  class="lt deploy-img flex-center hoverHands"
+                  @click="addVm"
+                >
+                  <img
+                    class="deploy-img-center-finish"
+                    :class="{'breath':addVmBreathStyle}"
+                    src="../../../assets/images/sandbox/vm_add_icon.png"
+                    @mouseleave="addVmBreathStyle=true"
+                    @mouseenter="addVmBreathStyle=false"
+                    alt=""
+                  >
+                </div>
+              </div>
+              <div class="deploy-title">
+                {{ $t('sandbox.vm') }}
+              </div>
+            </div>
           </div>
           <div
             class="details-center"
@@ -146,7 +200,7 @@
             <p class="details-bottom-title lt defaultFontBold">
               5G MEC
             </p>
-            <div class="btn-container">
+            <div class="btn-container vm-btn">
               <el-button
                 id="btn_clearVmList"
                 v-if="appClass==='VM'"
@@ -316,10 +370,9 @@
       @closeVmDetail="closeVmDetail"
     />
     <VmUploadFile
-      v-if="showContent==='showVmUploadFile'"
+      v-show="showContent==='showVmUploadFile'"
       @closeVmUpload="closeVmUpload"
       :application-id="applicationId"
-      :vm-id="vmId"
     />
     <ContainerScript
       v-if="showContent==='showImportScript'"
@@ -371,6 +424,7 @@ export default {
       egBreathStyle: false,
       upfBreathStyle: false,
       deployBreathStyle: false,
+      addVmBreathStyle: true,
       vmBreathStyle: false,
       selectedNetworks: [],
       netWorkList: [],
@@ -380,6 +434,16 @@ export default {
       applicationName: '',
       isClearVmImage: false,
       appClass: '',
+      vmLists: [],
+      swiperOption: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      },
+      netWorkListShow: [],
       vimType: sessionStorage.getItem('vimType'),
       architecture: sessionStorage.getItem('architecture'),
       sandboxNames: [],
@@ -438,8 +502,14 @@ export default {
     selectNet () {
       this.showContent = 'showConfigNetwork'
     },
-    addVm (data) {
-      this.showContent = data
+    addVm () {
+      this.showContent = 'showAddVm'
+    },
+    deleteVm () {
+      this.getVmList()
+    },
+    editVmDetail () {
+      this.showContent = 'showAddVm'
     },
     getUpfFinish () {
       sandbox.getUpfFinished(this.applicationId).then(res => {
@@ -457,6 +527,7 @@ export default {
         this.vmBreathStyle = this.isAddVmFinish
         this.deployBreathStyle = this.configNetworkFinish
         this.netNum = data.length
+        this.getVmList()
       }
       this.showContent = 'showDetail'
     },
@@ -490,21 +561,22 @@ export default {
       this.$router.push('/EG/developer/applicationRules')
     },
     getVmList () {
-      sandbox.getVmList(this.applicationId).then(res => {
+      sandbox.getVmlist(this.applicationId).then(res => {
         if (res.data.length === 0) {
           return
         }
-        let _data = res.data[0]
-        this.vmId = _data.id
-        this.isStartupVmFinish = !!_data.vmInstantiateInfo
+        this.vmLists = res.data
+        this.handleAllNetworkLists()
+        let _num = 0
+        this.vmLists.forEach(item => {
+          if (item.vmInstantiateInfo) {
+            _num++
+          }
+        })
+        this.isStartupVmFinish = _num > 0
         this.isAddVmFinish = true
         this.configNetworkFinish = true
         this.deployBreathStyle = true
-        let _arrTemp = []
-        _data.portList.forEach(item => {
-          _arrTemp.push(item.networkName)
-        })
-        this.networkList = _arrTemp
       })
     },
     clearVmList () {
@@ -541,7 +613,19 @@ export default {
     },
     deployContainerFinish (data) {
       this.isAddVmFinish = data
+    },
+    handleAllNetworkLists () {
+      let _arrTemp = []
+      this.vmLists.forEach(item => {
+        item.portList.forEach(itemSub => {
+          _arrTemp.push(itemSub.networkName)
+        })
+      })
+      this.netWorkListShow = [...new Set(_arrTemp)]
     }
+  },
+  created () {
+    this.getApplicationInfo()
   },
   mounted () {
     if (sessionStorage.getItem('applicationRules') === 'confirm') {
@@ -552,7 +636,6 @@ export default {
       this.isChangeStyle = false
       this.isMecSucess = false
     }
-    this.getApplicationInfo()
     this.getUpfFinish()
     this.getSandboxLists()
     this.ischangeSandbox()
@@ -590,6 +673,7 @@ export default {
   .detail-center{
     margin: 50px auto 0;
     width: 259px;
+    max-width: 1110px;
     height: 350px;
     .detail-center-bg{
       position: relative;
@@ -671,14 +755,35 @@ export default {
     }
   }
   .deploy-detail-center{
-    width: 694px;
+    width: auto;
     height: 474px;
     transition: all  0.4s;
     .deploy-detail-bg{
-      width: 694px;
+      display:inline-block;
+      text-align:left;
+      min-width: 694px;
+      max-width: 1100px;
       height: 474px;
       overflow: hidden;
       padding: 40px 40px;
+      .add-vm-small{
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(10, 9, 54, 1);
+        opacity: 0.25;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .add-vm-small:hover{
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(10, 9, 54, 0.25);
+        opacity: 1;
+        padding: 5px;
+        cursor: pointer;
+      }
        .details-top{
         display: flex;
         .deploy-detail-circle{
@@ -694,9 +799,8 @@ export default {
         }
       }
       .details-center{
-        display: flex;
-        padding-top: 37px;
-        margin: 0 60px;
+        width: auto;
+        padding: 37px 0 0 60px;
         .details-center-deploy{
           display: flex;
           flex-direction: column;
@@ -750,6 +854,10 @@ export default {
             }
           }
         }
+        .vm-div{
+          width: 150px;
+          float: left;
+        }
         .netLine{
           width: 154px;
           height: 100px;
@@ -764,7 +872,7 @@ export default {
           }
         }
         .netLine-list{
-          margin: 30px 16px 0 16px;
+          margin: 30px 0 0 16px;
         }
         .deploy-title{
           width: 104%;
@@ -780,9 +888,6 @@ export default {
           font-size: 40px;
           color: rgba(238, 238, 238, 0.2);
           font-family: defaultFontBold, Arial, Helvetica, sans-serif;
-        }
-        .el-button{
-          margin-top: 15px;
         }
         .exportImage_btn_show{
           display: block;
@@ -860,6 +965,29 @@ export default {
     background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 12.5%,transparent 0,transparent 25%);
     background-size:80px 80px;
     animation:move 2.5s linear infinite;
+  }
+  .swiper-container.vm-swiper{
+    position: static;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    margin: 0;
+    .swiper-slide{
+      width: 206.66px !important;
+    }
+    .swiper-pagination-bullets{
+      width: auto;
+      bottom: 90px;
+      right: 40px;
+      text-align: right;
+      .swiper-pagination-bullet{
+        width: 12px;
+        height: 12px;
+        background: #C4C4C4;
+      }
+    }
+    .swiper-pagination-none{
+      opacity: 0;
+    }
   }
   @keyframes move {
     from {
