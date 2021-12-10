@@ -28,6 +28,8 @@ import 'eg-view/src/assets/style/normal.css'
 import htmlToPdf from './tools/htmlToPdf'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import 'swiper/css/swiper.css'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 import EgMessageBox from '../src/components/MessageBox/index.js'
 import uploader from 'vue-simple-uploader'
 import '../src/assets/css/common.css'
@@ -38,6 +40,7 @@ Vue.prototype.$echarts = echarts
 Vue.use(VueCookies)
 Vue.use(EgMessageBox)
 Vue.use(mavonEditor)
+Vue.use(VueAwesomeSwiper)
 Vue.use(uploader)
 Vue.use(htmlToPdf)
 

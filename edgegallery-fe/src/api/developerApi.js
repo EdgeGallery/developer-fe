@@ -83,9 +83,6 @@ let sandbox = {
   exportImage (applicationId, vmId) {
     return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/export-image')
   },
-  getVmList (applicationId) {
-    return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms')
-  },
   getVmDetail (applicationId, vmId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId)
   },
