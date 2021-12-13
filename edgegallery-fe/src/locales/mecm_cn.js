@@ -30,7 +30,7 @@ const cn = {
     tip: '输入内容进行搜索',
     type: '类型',
     industry: '行业',
-    appstoreName: '应用市场',
+    appstoreName: '应用仓库',
     createTime: '同步时间',
     operationBtn: '分发'
   },

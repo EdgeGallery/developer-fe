@@ -72,7 +72,7 @@ const mecmNavData = [
       },
       {
         'id': '3.4.3',
-        'name': '应用市场注册系统',
+        'name': '应用仓库注册系统',
         'path': pathPre + '/mecm/system/appstore',
         'pageId': '2.0.3.1.3',
         'display': false

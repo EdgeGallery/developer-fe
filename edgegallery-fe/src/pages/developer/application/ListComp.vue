@@ -147,7 +147,7 @@ export default {
       return applicationApi.getFileStream(id)
     },
     deleteApp (id) {
-      this.$confirm(this.$t('incubation.deleteAppTip'), this.$t('promptMessage.prompt'), {
+      this.$confirm(this.$t('incubation.deleteAppTip'), this.$t('homePromptMessage.prompt'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
@@ -177,7 +177,7 @@ export default {
   .app-item{
     text-align: center;
     cursor: pointer;
-    padding: 20px 15px;
+    padding: 30px 15px 0;
     width: 154px;
     position: relative;
     .app-name{
@@ -185,6 +185,7 @@ export default {
       white-space: pre-wrap;
       word-wrap: break-word;
       font-size: 18px;
+      padding: 5px 0;
     }
     .img-div{
       display: inline-block;
@@ -202,7 +203,7 @@ export default {
       }
     }
     .img-div.current{
-      border: 3px solid #42F6AC;
+      border: 3px solid #f2b720;
       border-radius: 50%;
     }
   }

@@ -36,7 +36,7 @@ const navDataCn = [
   },
   {
     id: '3',
-    name: '应用市场',
+    name: '应用仓库',
     path: FIRST_LEVEL_MENU_PATH.APPSTORE,
     display: true,
     children: appStoreNavData
