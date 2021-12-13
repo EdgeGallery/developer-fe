@@ -367,7 +367,7 @@ export default {
           window.location.reload()
           return
         }
-        _thisObj.$confirm(_hintInfo, _thisObj.$t('promptMessage.prompt'), {
+        _thisObj.$confirm(_hintInfo, _thisObj.$t('homePromptMessage.prompt'), {
           confirmButtonText: _thisObj.$t('nav.reLogin'),
           cancelButtonText: _thisObj.$t('nav.refresh'),
           type: 'warning'
@@ -442,7 +442,7 @@ export default {
       this.$router.push(newPath)
     },
     beforeLogout () {
-      this.$confirm(this.$t('promptMessage.logoutPage'), this.$t('promptMessage.prompt'), {
+      this.$confirm(this.$t('homePromptMessage.logoutPage'), this.$t('homePromptMessage.prompt'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
