@@ -49,6 +49,20 @@ const mecDeveloper = [
     ]
   },
   {
+    id: '3.7',
+    name: '工具箱',
+    path: '/mecDeveloper/toolbox',
+    display: true,
+    children: [
+      {
+        id: '3.8',
+        name: '应用编辑',
+        path: '/mecDeveloper/toolbox/appedit',
+        display: true
+      }
+    ]
+  },
+  {
     id: '3.5',
     name: '能力中心',
     path: '/mecDeveloper/api/mep',

@@ -27,6 +27,7 @@ Vue.use(VueCookies)
 
 const urlPrefix = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/'
 const urlPrefixTool = PROXY_PREFIX_CURRENTSERVER + '/toolchain/'
+const urlPrefixAppstore = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/'
 
 let accessToken = JSON.stringify(sessionStorage.getItem('accessToken'))
 let codeErr = false
@@ -118,7 +119,9 @@ function guestPrompt (reject, err) {
 
 function Post (url, params, type = 'developer') {
   let prefixUrl = urlPrefix
-  if (type !== 'developer') {
+  if (type === 'appstore') {
+    prefixUrl = urlPrefixAppstore
+  } else if (type !== 'developer') {
     prefixUrl = urlPrefixTool
   }
   return new Promise((resolve, reject) => {
@@ -231,6 +234,7 @@ export {
   Delete,
   urlPrefix,
   urlPrefixTool,
+  urlPrefixAppstore,
   downloadFile,
   downLoadReport,
   logoutApi,
