@@ -46,6 +46,11 @@ export default {
       listData: []
     }
   },
+  watch: {
+    networkListProp (val) {
+      this.listData = val
+    }
+  },
   mounted () {
     this.listData = this.networkListProp
   }
