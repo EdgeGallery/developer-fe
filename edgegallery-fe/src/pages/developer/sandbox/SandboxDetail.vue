@@ -594,6 +594,7 @@ export default {
       sandbox.clearVmImage(this.applicationId).then(() => {
         this.isClearVmImage = true
         this.isStartupVmFinish = false
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvSuccess'), 'success')
       }).catch(() => {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.releaseEnvFailed'), 'error')
       })

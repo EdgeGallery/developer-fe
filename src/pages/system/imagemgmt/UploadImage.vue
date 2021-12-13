@@ -37,9 +37,6 @@
         <p class="prompt">
           {{ $t('system.imageMgmt.tip.uploadImgPromt') }}
         </p>
-        <p class="prompt">
-          {{ $t('system.imageMgmt.tip.uploadImgPromtExample') }}
-        </p>
         <uploader
           v-if="showUploader"
           :options="options"
@@ -287,6 +284,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     color: #3e4863;
+    text-align: center;
   }
 }
 </style>
