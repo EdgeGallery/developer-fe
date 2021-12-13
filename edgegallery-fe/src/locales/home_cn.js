@@ -21,7 +21,7 @@ const cn = {
   home: {
     mainTitle: '每一个开发者都了不起',
     appIncubation: '应用孵化',
-    appStore: '应用商店',
+    appStore: '应用仓库',
     appDeploy: '应用部署'
   }
 }

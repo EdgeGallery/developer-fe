@@ -14,13 +14,13 @@
         class="center"
       >
         <div
-          class="item"
-          :class="[item.id===currentFlow?'item-active':'',currentFlow>0?'item-must':'',item.class]"
+          class="step-item"
+          :class="[item.id===currentFlow?'item-active':'',item.class]"
           @click="item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item.toPath):showWarning()"
         >
           <img
             :src="item.src"
-            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'']"
             alt="EdgeGallery"
           >
           <div class="flow-name">
@@ -50,7 +50,7 @@ export default {
       appStoreWorkflowDataArray: [
         {
           id: 6,
-          name: '应用商店',
+          name: '应用仓库',
           nameEn: 'App Store',
           class: 'app-store',
           src: require('../../../assets/images/application/app_store.png'),
@@ -82,13 +82,12 @@ export default {
 <style lang="less" scoped>
   .appstore{
     .workflow-name{
-      top: -35px;
-      left: -90px;
+      left: 0px;
     }
     color: #fff;
-     .item{
-      top: 135px;
-      left: -75px;
+     .step-item{
+      top: 240px;
+      left: 30px;
     }
   }
 </style>

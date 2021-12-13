@@ -160,18 +160,6 @@ export default {
     background: transparent !important;
     border-bottom: 2px solid #fff !important;
   }
-  .el-menu{
-    display: flex;
-    .first-menu{
-      font-size: 16px;
-    }
-    .second-menu{
-      font-size: 15px;
-    }
-    .third-menu{
-      font-size: 12px;
-    }
-  }
 }
 
 </style>

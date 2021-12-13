@@ -619,9 +619,9 @@ export default {
 .down_div{
     width: 85px;
     position: fixed;
-    z-index: 9999;
-    left: 485px;
-    top: 215px;
+    z-index: 39999;
+    left: 70px;
+    top: 10px;
     border-radius: 4px;
     font-size: 14px;
     font-family: defaultFontLight;

@@ -184,6 +184,7 @@ export default {
       text-align: center;
       white-space: pre-wrap;
       word-wrap: break-word;
+      font-size: 18px;
     }
     .img-div{
       display: inline-block;
@@ -212,9 +213,9 @@ export default {
     left: 120px;
     top: 160px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px;
     font-family: defaultFontLight;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 1);
     background: #290E74;
     .transition-box{
       height: 32px;
@@ -256,7 +257,7 @@ export default {
     z-index: 10;
   }
   .app-common-status{
-    font-size: 10px;
+    font-size: 14px;
   }
   .app-common-status::before{
     content:"";
