@@ -49,6 +49,20 @@ const mecDeveloper = [
     ]
   },
   {
+    id: '3.7',
+    name: 'ToolBox',
+    path: '/mecDeveloper/toolbox',
+    display: true,
+    children: [
+      {
+        id: '3.8',
+        name: 'Application Editor ',
+        path: '/mecDeveloper/toolbox/appedit',
+        display: true
+      }
+    ]
+  },
+  {
     id: '3.5',
     name: 'Ability Center',
     path: '/mecDeveloper/api/mep',
