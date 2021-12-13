@@ -14,16 +14,19 @@
         class="center"
       >
         <div
-          class="item"
+          class="step-item"
           :class="[item.id===currentFlow?'item-active':'',item.class]"
-          @click="(currentFlow===1&&item.id===3)||item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item):showWarning()"
+          @click="(currentFlow===1&&item.id===3)||item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow||item.id===10?jumpTo(item):showWarning()"
         >
-          <div class="abcde">
+          <div
+            class="steps-num"
+            v-if="item.id!==10"
+          >
             {{ item.id }}
           </div>
           <img
             :src="item.src"
-            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',(currentFlow===1&&item.id===3)||item.id===currentFlow+1?'next':'']"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'']"
             alt="EdgeGallery"
           >
           <div class="flow-name">
@@ -61,7 +64,7 @@ export default {
           toPath: '/EG/developer/createApplication'
         },
         {
-          id: 2,
+          id: 10,
           name: '能力中心',
           nameEn: 'Services',
           class: 'capability-center',
@@ -69,7 +72,7 @@ export default {
           toPath: '/EG/developer/capabilityCenter'
         },
         {
-          id: 3,
+          id: 2,
           name: '选择沙箱',
           nameEn: 'Sandbox',
           class: 'app-sandbox',
@@ -77,7 +80,7 @@ export default {
           toPath: '/EG/developer/sandbox'
         },
         {
-          id: 4,
+          id: 3,
           name: '制作镜像',
           nameEn: 'Image',
           class: 'app-image',
@@ -85,7 +88,7 @@ export default {
           toPath: '/EG/images/appPackageBuild'
         },
         {
-          id: 5,
+          id: 4,
           name: '测试认证',
           nameEn: 'Test',
           class: 'app-test',
@@ -138,28 +141,39 @@ export default {
 <style lang="less" scoped>
 .incubation{
   .workflow-name{
-    top: -35px;
-    left: -110px;
+    left: -60px;
   }
   .capability-center{
-    left: 155px;
-    top: -130px;
+    left: 190px;
+    top: -110px;
   }
   .app-application{
-    left: 20px;
-    top: 135px;
+    left: 55px;
+    top: 240px;
+    .flow-name{
+      top: 70px;
+    }
   }
   .app-image{
-    left: 330px;
-    top: -205px;
+    left: 395px;
+    top: -180px;
+    .flow-name{
+      top: 70px;
+    }
   }
   .app-test{
-    left: 505px;
-    top: -315px;
+    left: 567px;
+    top: -320px;
+    .flow-name{
+      top: 70px;
+    }
   }
   .app-sandbox{
-    left: 190px;
-    top: 50px;
+    left: 260px;
+    top: 165px;
+    .flow-name{
+      top: 70px;
+    }
   }
 }
 </style>

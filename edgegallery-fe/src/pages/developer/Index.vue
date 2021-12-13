@@ -106,25 +106,22 @@ export default {
     .main-content{
       width: 1680px;
       margin: 0 auto;
-      padding: 90px 50px 0 50px;
+      padding: 45px 50px 0 50px;
       .main-title{
         font-size: 25px;
         font-weight: bold;
+        margin-bottom: 30px;
       }
       .main-part{
-        height: 85%;
-        margin-top: 30px;
         .main-part-container{
           background: url("../../assets/images/application/app_workflow_bg.png") no-repeat;
-          background-size: inherit;
+          background-size: contain;
         }
         .main-part-item{
-          height: 100%;
           border-radius: 17px;
           margin-right: 30px;
           background-size: cover;
           text-align: right;
-          padding: 25px 20px;
           .main-part-item-container{
             height: 100%;
             clear: both;

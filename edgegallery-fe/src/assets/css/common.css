@@ -489,6 +489,15 @@ body::-webkit-scrollbar-thumb{
    border-bottom:2px solid #43F6AD;
    transform: scale(1);
  }
+  .first-menu{
+    font-size: 22px!important;
+  }
+  .second-menu{
+    font-size: 18px!important;
+  }
+  .third-menu{
+    font-size: 16px!important;
+  }
  @media screen and (max-width:1600px){
    .padding_default{
      padding: 0 6.5%;
@@ -1030,10 +1039,10 @@ th{
   padding-top: 30px;
   
 }
-.workflow .item{
+.workflow .step-item{
   display: inline-block;
-  width: 88px;
-  height: 113px;
+  width: 110px;
+  height: 140px;
   position: relative;
   cursor: pointer;
   border: 1px solid transparent;
@@ -1041,12 +1050,20 @@ th{
 .workflow .flow-name{
   position: relative;
   text-align: center;
-  top: 84px;
-  font-size: 16px;
+  top: 100px;
+  font-size: 18px;
   font-family: defaultFont;
+  clear: both;
+  top: 100px;
 }
-.item-capa-active>.flow-name,.item-active>.flow-name{
-  top: 44px;
+.item-active .flow-name{
+  top: 30px!important;
+}
+.capability-center .flow-name{
+  top: 100px;
+}
+.item-capa-active>.flow-name{
+  top: 70px;
 }
 .item-active{
   border: 3px solid #42f6ac !important;
@@ -1055,13 +1072,13 @@ th{
 .center-active .item-active::before{
  content:'';
  display: inline-block;
- width: 25px;
- height: 36px;
+ width: 40px;
+ height: 58px;
  background: url('../images/application/app_mark_box1.png') no-repeat center;
  background-size: cover;
  position: relative;
  top: 20px;
- left: -30px;
+ left: 0px;
  z-index: 10;
 }
 .center-active .item-capa-active::before{
@@ -1076,40 +1093,34 @@ th{
   left: -50px;
   z-index: 10;
  }
- .abcde{
+ .steps-num{
   float: right;
   width: 25px;
   height: 25px;
-  background: red;
+  background: #42f6ac;
   border-radius: 25px;
-  color: #fff;
+  color: #331A86;
   text-align: center;
   line-height: 25px;
   margin: 3px 3px 0 0;
   position: relative;
   top: -10px;
   right: -10px;
+  font-weight: bold;
  }
- .item{
+ .step-item{
   background: url('../../assets/images/application/app_icon_bg.png') no-repeat;
   background-size: cover;
 }
-.item img{
-  width: 40px;
+.step-item img{
+  width: 50px;
   position: absolute;
   top: 25px;
-  left: 25px;
+  left: 30px;
   opacity: 1;
 }
 img.active{
   opacity: 0.1;
-}
-img.next{
-  animation-timing-function:ease-in-out;
-  animation-name:breathe;
-  animation-duration:2000ms;
-  animation-iteration-count:infinite;
-  animation-direction:alternate;
 }
 
 @keyframes breathe  {
@@ -1238,8 +1249,9 @@ input::-webkit-input-placeholder {
 .workflow-name{
   float: right;
   position: relative;
-  font-size: 20px;
+  font-size: 22px;
   font-family: defaultFontLight;
+  font-weight: bold;
 }
 .el-input__inner{
   height: 30px!important;

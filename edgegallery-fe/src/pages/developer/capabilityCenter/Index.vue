@@ -300,7 +300,6 @@ export default {
   methods: {
     doNext (type) {
       sessionStorage.setItem('isCapabilityActive', true)
-      this.$store.commit('changeFlow', '2')
       this.$message.success('操作成功！')
       this.$router.push('/EG/developer/home')
     },
