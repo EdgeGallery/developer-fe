@@ -108,7 +108,7 @@ export default {
       margin: 0 auto;
       padding: 45px 50px 0 50px;
       .main-title{
-        font-size: 25px;
+        font-size: 28px;
         font-weight: bold;
         margin-bottom: 30px;
       }

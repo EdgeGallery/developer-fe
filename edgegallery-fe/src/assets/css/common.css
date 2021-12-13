@@ -452,9 +452,6 @@ body::-webkit-scrollbar-thumb{
    font-family: defaultFont, Arial, Helvetica, sans-serif;
    font-size: 18px !important;
  }
- .main-sidebar .el-menu .first-menu{
-   font-size: 20px;
- }
  .main-sidebar .el-menu.el-menu--horizontal .el-menu-item{
    margin-right: 40px;
  }
@@ -490,7 +487,7 @@ body::-webkit-scrollbar-thumb{
    transform: scale(1);
  }
   .first-menu{
-    font-size: 22px!important;
+    font-size: 25px!important;
   }
   .second-menu{
     font-size: 18px!important;
@@ -1051,7 +1048,7 @@ th{
   position: relative;
   text-align: center;
   top: 100px;
-  font-size: 18px;
+  font-size: 20px;
   font-family: defaultFont;
   clear: both;
   top: 100px;
@@ -1066,7 +1063,7 @@ th{
   top: 70px;
 }
 .item-active{
-  border: 3px solid #42f6ac !important;
+  border: 3px solid #f2b720 !important;
   border-radius: 14px;
 }
 .center-active .item-active::before{
@@ -1078,7 +1075,7 @@ th{
  background-size: cover;
  position: relative;
  top: 20px;
- left: 0px;
+ left: 10px;
  z-index: 10;
 }
 .center-active .item-capa-active::before{
@@ -1093,19 +1090,23 @@ th{
   left: -50px;
   z-index: 10;
  }
+ .item-active .steps-num{
+  background: #f2b720;
+ }
  .steps-num{
   float: right;
-  width: 25px;
-  height: 25px;
-  background: #42f6ac;
-  border-radius: 25px;
+  width: 35px;
+  height: 35px;
+  border-radius: 35px;
   color: #331A86;
+  background: #968bb2;
   text-align: center;
-  line-height: 25px;
+  line-height: 35px;
   margin: 3px 3px 0 0;
   position: relative;
-  top: -10px;
-  right: -10px;
+  top: -15px;
+  right: -15px;
+  font-size: 20px;
   font-weight: bold;
  }
  .step-item{
@@ -1249,7 +1250,7 @@ input::-webkit-input-placeholder {
 .workflow-name{
   float: right;
   position: relative;
-  font-size: 22px;
+  font-size: 25px;
   font-family: defaultFontLight;
   font-weight: bold;
 }
