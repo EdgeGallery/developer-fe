@@ -134,7 +134,7 @@
               class="vm-swiper"
               :class="{'lt':vmLists.length<3}"
               :options="swiperOption"
-              ref="mySwiper"
+              :key="swiperKey"
             >
               <swiper-slide
                 v-for="(item,index) in vmLists"
@@ -356,10 +356,10 @@
       </div>
     </div>
     <AddVm
-      v-if="showContent==='showAddVm'"
+      v-show="showContent==='showAddVm'"
       @addVmFinish="addVmFinish"
-      :net-work-list-prop="netWorkList"
-      :selected-networks-prop="selectedNetworks"
+      :is-add-vm-prop="isAddVm"
+      ref="addVmChild"
     />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
@@ -368,6 +368,7 @@
     <VmDetail
       v-show="showContent==='showVmDetail'"
       @closeVmDetail="closeVmDetail"
+      @editVmDetail="editVmDetail"
     />
     <VmUploadFile
       v-show="showContent==='showVmUploadFile'"
@@ -438,6 +439,8 @@ export default {
       swiperOption: {
         slidesPerView: 3,
         slidesPerGroup: 3,
+        observer: true,
+        observeParents: true,
         pagination: {
           el: '.swiper-pagination',
           clickable: true
@@ -447,7 +450,9 @@ export default {
       vimType: sessionStorage.getItem('vimType'),
       architecture: sessionStorage.getItem('architecture'),
       sandboxNames: [],
-      isChangeSandboxName: false
+      isChangeSandboxName: false,
+      isAddVm: true,
+      swiperKey: 1
     }
   },
   methods: {
@@ -487,7 +492,7 @@ export default {
             })
           }
         } else {
-          if (res.data.containerApp.instantiateInfo !== null) {
+          if (res.data.containerApp && res.data.containerApp.instantiateInfo !== null) {
             this.isChangeSandboxName = true
           }
         }
@@ -504,12 +509,15 @@ export default {
     },
     addVm () {
       this.showContent = 'showAddVm'
+      this.isAddVm = true
+      this.$refs.addVmChild.handleAddVmData(true)
     },
     deleteVm () {
       this.getVmList()
     },
     editVmDetail () {
       this.showContent = 'showAddVm'
+      this.isAddVm = false
     },
     getUpfFinish () {
       sandbox.getUpfFinished(this.applicationId).then(res => {
@@ -562,6 +570,9 @@ export default {
     },
     getVmList () {
       sandbox.getVmlist(this.applicationId).then(res => {
+        this.swiperKey = window.crypto.getRandomValues(new Uint8Array(1)) * 0.01
+        this.vmLists = []
+        this.netWorkListShow = []
         if (res.data.length === 0) {
           return
         }

@@ -67,6 +67,10 @@ let sandbox = {
   deleteVmImage (applicationId, vmId) {
     return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId)
   },
+  // edit vmDetail
+  editVmDetail (applicationId, vmId, parmas) {
+    return PUT(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId, parmas)
+  },
   // get vm operationId
   getVmPullId (applicationId, vmId) {
     return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/launch')
