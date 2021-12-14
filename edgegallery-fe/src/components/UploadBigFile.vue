@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import { getCookie } from '../../../src/tools/tool.js'
+import { getCookie } from '../tools/tool.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../tools/constant.js'
 import axios from 'axios'
 export default {
   name: 'UploadBigFile',
@@ -101,8 +102,8 @@ export default {
   created () {
     this.options.headers = { 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') }
     let _url = window.location.origin
-    this.options.target = _url + '/mec-developer/' + this.uploadUrlProp
-    this.mergerUrl = _url + '/mec-developer/' + this.mergeUrlProp
+    this.options.target = _url + PROXY_PREFIX_CURRENTSERVER + '/mec-developer/' + this.uploadUrlProp
+    this.mergerUrl = _url + PROXY_PREFIX_CURRENTSERVER + '/mec-developer/' + this.mergeUrlProp
   }
 }
 </script>

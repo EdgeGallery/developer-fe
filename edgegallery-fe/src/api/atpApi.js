@@ -20,8 +20,11 @@ import {
   POST,
   PUT
 } from '../tools/request.js'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from '../tools/constant.js'
 
-const URL_PREFIX_ATP = '/mec-atp/edgegallery/atp/v2/'
+const URL_PREFIX_ATP = PROXY_PREFIX_CURRENTSERVER + '/mec-atp/edgegallery/atp/v2/'
 
 let atpApi = {
   getAllSceneApi: function () {

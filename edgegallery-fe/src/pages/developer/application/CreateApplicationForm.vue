@@ -212,7 +212,7 @@
 </template>
 
 <script>
-import { applicationApi } from '../../../api/developerApi.js'
+import { applicationApi, URL_PREFIX_DEVELOPER } from '../../../api/developerApi.js'
 import { Industry, Type, Architecture } from '../../../tools/commondata.js'
 export default {
   name: 'CreateProComp',
@@ -452,7 +452,7 @@ export default {
     },
     getFileIconInfo (iconFileId) {
       let image = new Image()
-      image.src = '/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream'
+      image.src = URL_PREFIX_DEVELOPER + 'upload-files/' + iconFileId + '/action/get-file-stream'
       this.imageUrl = image.src
       image.onload = () => {
         let base64 = this.getBase64Image(image)

@@ -17,6 +17,9 @@
 import axios from 'axios'
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from './constant.js'
 Vue.use(VueCookies)
 
 function getCookie (name) {
@@ -33,7 +36,7 @@ function getCookie (name) {
 function logoutApi () {
   return axios({
     method: 'POST',
-    url: '/logout',
+    url: PROXY_PREFIX_CURRENTSERVER + '/logout',
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +48,7 @@ function logoutApi () {
 function loginApi () {
   return axios({
     method: 'GET',
-    url: '/auth/login-info',
+    url: PROXY_PREFIX_CURRENTSERVER + '/auth/login-info',
     headers: {
       'Content-Type': 'application/json'
     }
