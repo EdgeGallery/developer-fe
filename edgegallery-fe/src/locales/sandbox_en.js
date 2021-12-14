@@ -143,7 +143,9 @@ const en = {
     addCustomSuccess: 'Custom specification added successfully!',
     deleteInternetSuccess: 'Network configuration deleted successfully!',
     addInternetFaild: 'The maximum number of network configuration data is 4!',
-    internetNameRepeat: 'Duplicate network configuration name!'
+    internetNameRepeat: 'Duplicate network configuration name!',
+    startFailed: 'Failed',
+    exportFailed: 'Failed'
   }
 }
 export default en

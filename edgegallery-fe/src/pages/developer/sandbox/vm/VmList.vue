@@ -15,6 +15,21 @@
   -->
 <template>
   <div class="details-center-vm">
+    <p
+      v-if="startFailed"
+      class="failed hoverHands"
+      @click="startFailedMsg"
+    >
+      {{ $t('sandboxPromptInfomation.startFailed') }}
+    </p>
+    <p
+      v-if="exportFailed"
+      class="failed hoverHands"
+      @click="exportFailedMsg"
+    >
+      {{ $t('sandboxPromptInfomation.exportFailed') }}
+    </p>
+    <p class="bottom-line" />
     <div :class="'vm-list-'+vmIndexProp">
       <ul
         class="ul-scoll defaultFontLight"
@@ -241,6 +256,15 @@
             />
           </p>
         </div>
+        <div
+          class="vm-status"
+          v-if="isExoprtImage"
+        >
+          <el-progress
+            v-if="isExportImageFinish"
+            :percentage="imagePercentages"
+          />
+        </div>
       </div>
       <p class="deploy-title defaultFontLight">
         {{ vmListsDetail.name }}
@@ -289,15 +313,19 @@ export default {
       isBtnStart: false,
       operationId: '',
       percentages: 0,
+      imagePercentages: 0,
       timer: null,
       timerExport: null,
       isStartUpVmSuccess: false,
+      isExoprtImage: false,
       vmId: this.vmListsDetailProp.id,
       vmImageInformation: {
         imageName: '',
         status: '',
         downloadUrl: ''
       },
+      exportFailed: false,
+      startFailed: false,
       isClearVmImage: this.isClearVmImageProp,
       deleteGreen: false,
       detailGreen: false,
@@ -307,7 +335,10 @@ export default {
       imageGreen: false,
       vmListsDetail: this.vmListsDetailProp,
       networkLists: [],
-      isShowRemote: false
+      isShowRemote: false,
+      isExportImageFinish: false,
+      getVmExportErr: '',
+      getVmStartErr: ''
     }
   },
   methods: {
@@ -341,7 +372,9 @@ export default {
           clearTimeout(this.timer)
         }
         if (res.data.status === 'FAILED') {
+          this.getVmStartErr = res.data.errorMsg
           this.isStartUpVmSuccess = false
+          this.startFailed = true
           this.isStartupVmFinish = true
           this.$emit('startUpVm', this.isStartupVmFinish)
           clearTimeout(this.timer)
@@ -352,18 +385,31 @@ export default {
     },
     getVmExportStatus (operationId) {
       sandbox.getVmStatus(operationId).then(res => {
+        this.imagePercentages = res.data.progress
+        this.isExportImageFinish = true
+        this.exportFailed = res.data.status === 'FAILED'
         if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED') {
+          this.getVmExportErr = res.data.errorMsg
           sandbox.getVmlist(this.applicationId).then(response => {
             this.vmImageInformation.imageName = response.data[0].imageExportInfo.name
             this.vmImageInformation.status = response.data[0].imageExportInfo.status
             this.vmImageInformation.downloadUrl = response.data[0].imageExportInfo.downloadUrl
             this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
           })
+          this.isExportImageFinish = false
           clearTimeout(this.timerExport)
         }
       }).catch(() => {
         clearTimeout(this.timerExport)
       })
+    },
+    startFailedMsg () {
+      this.bus.$emit('getVmStartErr', this.getVmStartErr)
+      this.checkVmDetail()
+    },
+    exportFailedMsg () {
+      this.bus.$emit('getVmExportErr', this.getVmExportErr)
+      this.checkVmDetail()
     },
     deleteVm () {
       this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
@@ -389,6 +435,8 @@ export default {
       })
     },
     exportImage (data) {
+      this.isClearVmImage = true
+      this.isExoprtImage = true
       sandbox.exportImage(this.applicationId, data).then(res => {
         this.timerExport = setInterval(() => {
           this.getVmExportStatus(res.data.operationId)
@@ -464,6 +512,20 @@ export default {
 <style lang="less">
 .details-center-vm{
   position: relative;
+  .failed{
+    position: absolute;
+    top:-34px;
+    width: 150px;
+    text-align: center;
+    color: red;
+  }
+  .bottom-line{
+    position: relative;
+    top:-10px;
+    left: 48px;
+    width: 54px;
+    border-bottom:1px solid red ;
+  }
   .ul-scoll{
     position: absolute;
     top: 30px;
