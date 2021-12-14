@@ -73,7 +73,10 @@
                   <el-radio-button label="X86" />
                   <el-radio-button label="ARM" />
                 </el-radio-group>
-                <p class="custom-specs defaultFontLight hoverHands">
+                <p
+                  class="custom-specs defaultFontLight hoverHands"
+                  @click="addSpecForm"
+                >
                   {{ $t('sandbox.customSpec') }}
                 </p>
               </div>
@@ -801,6 +804,9 @@ export default {
           }
         })
       })
+    },
+    addSpecForm () {
+      this.customSpecs = true
     },
     addSpecks () {
       let _customs = this.custom.name !== '' && this.custom.description !== '' && this.custom.architecture !== '' && this.custom.dataDiskSize !== '' && this.custom.systemDiskSize !== ''

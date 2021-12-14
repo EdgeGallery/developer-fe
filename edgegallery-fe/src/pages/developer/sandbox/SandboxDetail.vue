@@ -17,19 +17,33 @@
   <div class="detail">
     <div v-if="showContent==='showDetail'">
       <div class="detail-top clear">
-        <div class="detail-top-title lt">
-          <el-select
-            v-model="detailTitle"
-            @change="changeSandbox"
-            :disabled="isChangeSandboxName"
+        <div class="sandboxName-background flex-center">
+          <el-button
+            @click="showSandboxName = !showSandboxName"
+            class="detail-top-title defaultFontBold"
           >
-            <el-option
-              v-for="item in sandboxNames"
-              :key="item.value"
-              :label="item.label"
-              :value="item.id"
-            />
-          </el-select>
+            {{ detailTitle }}
+          </el-button>
+        </div>
+        <div class="sandbox-names">
+          <el-collapse-transition>
+            <div
+              v-show="showSandboxName"
+              class="sandbox-name-select"
+            >
+              <div
+                class="one-select"
+                v-for="(item,index) in sandboxNames"
+                :key="index"
+                @click="changeSandbox(item)"
+              >
+                <p class="triangle" />
+                <p class="select-options defaultFontLight">
+                  {{ item.label }}
+                </p>
+              </div>
+            </div>
+          </el-collapse-transition>
         </div>
       </div>
       <div
@@ -415,6 +429,7 @@ export default {
       applicationId: sessionStorage.getItem('applicationId') || '',
       detailTitle: sessionStorage.getItem('sandboxName'),
       isChangeStyle: true,
+      showSandboxName: false,
       showContent: 'showDetail',
       isBtnDetail: false,
       isBtnStart: false,
@@ -462,14 +477,14 @@ export default {
           return
         }
         res.data.results.forEach(item => {
-          this.sandboxNames.push({ 'value': item.name, 'label': item.name, 'id': item.id })
+          this.sandboxNames.push({ 'label': item.name, 'id': item.id })
         })
       }).catch(err => {
         console.log(err)
       })
     },
-    changeSandbox (value) {
-      this.mephostid = value
+    changeSandbox (data) {
+      this.mephostid = data.id
       let mepHostId = { mepHostId: this.mephostid }
       sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
         sandbox.getSandboxByMepHostId(this.mephostid).then(res => {
@@ -658,27 +673,75 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" >
 .detail{
   width: 100%;
   height: 100%;
   font-size: 16px;
   color: #fff;
   .detail-top{
-    .detail-top-title{
-      height: 63px;
-      margin: 1% 0 0 13%;
-      padding-left: 10px;
-      letter-spacing: 4px;
-      background: url('../../../assets/images/sandbox/detail_title.png') no-repeat left;
-      .el-input__inner {
-        margin: 14px 0 0 10px;
-        background-color:#3e279b ;
-        border:none;
+    margin: 1% 0 0 13%;
+    .sandboxName-background{
+      height: 88px;
+      width: 300px;
+      border-radius:9px ;
+      .detail-top-title{
+        height: 63px;
+        padding-left: 10px;
+        letter-spacing: 4px;
+        background: url('../../../assets/images/sandbox/detail_title.png') no-repeat left;
+        border: none;
         font-size: 24px;
         color: #fff;
-        padding: 0;
-        width: 200px;
+      }
+    }
+    .sandboxName-background:hover{
+      background-color: rgba(10,9,54,0.25);
+    }
+    .sandbox-names{
+      position: relative;
+      margin-top: 20px;
+      .sandbox-name-select{
+        position: absolute;
+        background-color:#290E74 ;
+        border-radius:4px ;
+        .one-select{
+          line-height: 31px;
+          width: 160px;
+          display: flex;
+          position: relative;
+          .select-options{
+            line-height: 31px;
+            width: 80px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+          }
+          .triangle{
+            opacity: 0;
+            margin: 12px 20px;
+            width:0;
+            height:0;
+            border-bottom: 4.4px solid transparent;
+            border-left: 4.4px solid #42F6AC;
+            border-top:4.4px solid transparent;
+          }
+        }
+        .one-select:hover{
+          background-color: rgb(96, 86, 154);
+          cursor: pointer;
+          .triangle{
+            opacity: 1;
+          }
+        }
+      }
+      .sandbox-name-select  .one-select:first-child{
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      .sandbox-name-select  .one-select:last-child{
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
       }
     }
   }
@@ -812,7 +875,7 @@ export default {
       }
       .details-center{
         width: auto;
-        padding: 37px 0 0 60px;
+        padding: 0 0 0 60px;
         .details-center-deploy{
           display: flex;
           flex-direction: column;
@@ -869,11 +932,12 @@ export default {
         .vm-div{
           width: 150px;
           float: left;
+          margin-top: 37px;
         }
         .netLine{
           width: 154px;
           height: 100px;
-          margin: 32px 16px 0 16px;
+          margin: 72px 16px 0 16px;
           overflow: hidden;
           li{
             width: 8px;
@@ -884,7 +948,7 @@ export default {
           }
         }
         .netLine-list{
-          margin: 30px 0 0 16px;
+          margin: 67px 0 0 16px;
         }
         .deploy-title{
           width: 104%;
@@ -1009,26 +1073,5 @@ export default {
       background-position:  0;
     }
   }
-}
-.el-icon-arrow-up:before {
-    content: "";
-}
-.el-scrollbar {
-  width: 210px;
-}
-.el-select-dropdown {
-  margin: 40px 0 0 0 !important;
-  border: none;
-  background: none ;
-}
-.el-popper[x-placement^=bottom] .popper__arrow{
-  display: none !important;
-}
-.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
-  background-color: #60569A;
-}
-.el-select-dropdown__item{
-  background-color: #290E74;
-  color: #fff;
 }
 </style>
