@@ -439,7 +439,7 @@
   </div>
 </template>
 <script>
-import { system } from '../../api/appstoreApi'
+import { system } from '../../api/thirdSystem'
 export default {
   components: {
   },
