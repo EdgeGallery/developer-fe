@@ -190,8 +190,7 @@ export default {
   border-left: none;
   border-radius: 0 17px 17px 0;
   z-index: 15;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .app-list-comp .icon-arrow-right{
   width: 30px;
