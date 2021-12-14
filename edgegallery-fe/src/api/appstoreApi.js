@@ -20,8 +20,8 @@ import {
   POST
 } from '../tools/request.js'
 
-const URL_PREFIX_APPSTORE = '/mec-appstore/mec/appstore/v1/'
-const URL_PREFIX_APPSTORE_V2 = '/mec-appstore/mec/appstore/v2/'
+const URL_PREFIX_APPSTORE = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/mec/appstore/v1/'
+const URL_PREFIX_APPSTORE_V2 = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/mec/appstore/v2/'
 
 let appstoreApi = {
   getAppData: function (params) {

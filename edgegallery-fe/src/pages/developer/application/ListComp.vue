@@ -177,7 +177,7 @@ export default {
   .app-item{
     text-align: center;
     cursor: pointer;
-    padding: 30px 15px 0;
+    padding: 20px 15px 0;
     width: 154px;
     position: relative;
     .app-name{
