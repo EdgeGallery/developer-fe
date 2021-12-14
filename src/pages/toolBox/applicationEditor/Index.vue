@@ -215,7 +215,6 @@ export default {
       applicationEditorApi.getReleasedPackage({ name: this.enterQuery, limit: this.limitSize, offset: this.offsetPage }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
-        console.log(this.allListData)
       }).catch(() => {
         this.loading = false
       })
@@ -224,7 +223,7 @@ export default {
       this.isSelectVisible = true
     },
     modifyFile (row) {
-      this.packageId = row.packageId
+      this.packageId = row.appStorePackageId
       this.isModifyVisible = true
     },
     publishModifiedApp (row) {
@@ -232,7 +231,7 @@ export default {
         free: true,
         price: 0
       }
-      applicationEditorApi.publishModifyApp(row.packageId, _parameter).then(res => {
+      applicationEditorApi.publishModifyApp(row.appStorePackageId, _parameter).then(res => {
         if (res.data === false) {
           this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
         }
@@ -249,7 +248,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        applicationEditorApi.deleteModifyApp(row.packageId).then(() => {
+        applicationEditorApi.deleteModifyApp(row.appStorePackageId).then(() => {
           this.loading = false
           this.getListData()
         })

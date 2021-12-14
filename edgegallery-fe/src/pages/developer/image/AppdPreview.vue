@@ -32,7 +32,7 @@
             ref="tree"
             highlight-current
             :props="defaultProps"
-            @node-click="getFileDetail"
+            @node-click="handleNodeClick"
           />
         </el-col>
         <el-col :span="18">
@@ -82,16 +82,22 @@ export default {
     return {
       defaultProps: {
         children: 'children',
-        label: 'name'
+        label: 'fileName'
       },
       appPageListData: [],
-      fileType: '',
       fileContent: '',
       markdownSource: '',
       packageId: this.$route.query.packageId,
       viewOrEdit: 'preview',
       isEditFile: false,
-      modifyFileName: ''
+      modifyFileName: '',
+      filePath: '',
+      fileType: '',
+      FileName: '',
+      saveFileparams: {
+        filePath: '',
+        content: ''
+      }
     }
   },
   methods: {
@@ -112,53 +118,55 @@ export default {
     },
     getAppPackageList () {
       imageApi.getPackageStructure(this.packageId).then(res => {
-        if (res.data.children) {
-          this.appPageListData = res.data.children
-          let APPD = {}
-          this.appPageListData.forEach((item, index) => {
-            if (item.name === 'APPD') {
-              APPD = item
-              this.appPageListData.splice(index, 1)
-            }
+        if (!res.data || res.data.length === 0) {
+          return
+        }
+        this.appPageListData = res.data[0].children
+        if (this.appPageListData.length > 0) {
+          this.$nextTick(function () {
+            const firstNode = document.querySelector(
+              '.appd-tree .el-tree-node .el-tree-node__content'
+            )
+            firstNode.click()
           })
-          this.appPageListData.unshift(APPD)
-          if (this.appPageListData.length > 0) {
-            this.$nextTick(function () {
-              const firstNode = document.querySelector(
-                '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node'
-              )
-              firstNode.click()
-            })
-          }
         }
       })
     },
-    getFileDetail (val) {
-      this.modifyFileName = val.name
-      this.fileType = this.modifyFileName.substr(this.modifyFileName.lastIndexOf('.'))
-      if (!val.children) {
-        imageApi.getPackageFile(this.packageId, val.name).then(res => {
-          let typeArr = ['.zip', '.tgz', '.png']
-          if (this.fileType === '.md') {
-            this.markdownSource = res.data
-          } else if (typeArr.includes(this.fileType)) {
-            this.markdownSource = '文件格式不支持'
-          } else if (this.fileType === '.json') {
-            if (res.data.length === 0) {
-              this.markdownSource = '文件内容为空'
-            } else {
-              this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
-            }
-          } else if (JSON.stringify(res.data) === '""') {
-            this.markdownSource = '文件内容为空'
-          } else {
-            this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
-          }
-        })
+    handleNodeClick (val) {
+      if (val.children) {
+        return
       }
+      this.filePath = val.filePath
+      console.log(this.filePath)
+      this.FileName = val.fileName
+      this.getFileDetail()
+    },
+    getFileDetail () {
+      let _file = {
+        filePath: this.filePath
+      }
+      this.fileType = this.FileName.substr(this.FileName.lastIndexOf('.'))
+      imageApi.getPackageFile(this.packageId, _file).then(res => {
+        let typeArr = ['.zip', '.tgz', '.png', '.jpg']
+        if (this.fileType === '.md') {
+          this.markdownSource = res.data.content
+        } else if (typeArr.includes(this.fileType)) {
+          this.markdownSource = '文件格式不支持'
+        } else if (this.fileType === '.json') {
+          if (res.data.length === 0) {
+            this.markdownSource = '```yaml\r\n' + '文件内容为空' + '\r\n```'
+          } else {
+            this.markdownSource = '```json\r\n' + res.data.content + '\r\n```'
+          }
+        } else if (JSON.stringify(res.data.content) === '""') {
+          this.markdownSource = '```yaml\r\n' + '文件内容为空' + '\r\n```'
+        } else {
+          this.markdownSource = '```yaml\r\n' + res.data.content + '\r\n```'
+        }
+      })
     },
     modifyFile () {
-      let unSupportTypes = ['.zip', '.tgz', '.png']
+      let unSupportTypes = ['.zip', '.tgz', '.png', '.jpg']
       if (unSupportTypes.includes(this.fileType)) {
         this.$message({
           showClose: true,
@@ -170,47 +178,23 @@ export default {
         this.viewOrEdit = 'edit'
         this.isEditFile = true
       }
-      let typeList = ['.md', '.json']
-      if (this.markdownSource === '文件内容为空' && !typeList.includes(this.fileType)) {
-        this.markdownSource = '```yaml\r\n' + '文件内容为空' + '\r\n```'
+      if (this.fileType !== '.md' && !unSupportTypes.includes(this.fileType)) {
+        let _content = this.markdownSource.substring(9, (this.markdownSource.length - 5))
+        this.markdownSource = _content
       }
     },
     saveFile () {
       this.viewOrEdit = 'preview'
       this.isEditFile = false
-      let yamlList = ['.yaml', '.meta', '.mf', '.txt', '.csh']
-      imageApi.getPackageFile(this.packageId, this.modifyFileName).then(response => {
-        if (this.fileType === '.json') {
-          let _configFileContent = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
-          if (_configFileContent !== this.markdownSource) {
-            let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
-            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
-              this.markdownSource = '```json\r\n' + JSON.stringify(res.data, null, 2) + '\r\n```'
-            })
-          } else {
-            this.markdownSource = '```json\r\n' + JSON.stringify(response.data, null, 2) + '\r\n```'
-          }
-        } else if (yamlList.includes(this.fileType)) {
-          let _configFileContent = '```yaml\r\n' + response.data + '\r\n```'
-          if (_configFileContent !== this.markdownSource) {
-            let _editMarkDownstr = this.markdownSource.substring(8, (this.markdownSource.length - 4))
-            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
-              this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
-            })
-          } else {
-            this.markdownSource = '```yaml\r\n' + response.data + '\r\n```'
-          }
-        } else {
-          let _configFileContent = response.data
-          if (_configFileContent !== this.markdownSource) {
-            let _editMarkDownstr = this.markdownSource
-            imageApi.modifyPackageFile(this.packageId, this.modifyFileName, _editMarkDownstr).then(res => {
-              this.markdownSource = res.data
-            })
-          } else {
-            this.markdownSource = response.data
-          }
-        }
+      this.saveFileparams.filePath = this.filePath
+      this.saveFileparams.content = this.markdownSource
+      if (this.fileType === '.json') {
+        this.markdownSource = '```json\r\n' + this.markdownSource + '\r\n```'
+      } else if (this.fileType !== '.md') {
+        this.markdownSource = '```yaml\r\n' + this.markdownSource + '\r\n```'
+      }
+      imageApi.modifyPackageFile(this.packageId, this.saveFileparams).then(res => {
+        this.getFileDetail(this.filePath, this.FileName)
       })
     }
   },
@@ -229,7 +213,7 @@ export default {
   }
   .appd-preview-warraper {
     width: 76%;
-    max-height: 85%;
+    max-height: 95%;
     overflow: auto;
     border-radius: 16px;
     margin: 51px auto;

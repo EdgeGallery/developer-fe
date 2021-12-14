@@ -258,11 +258,11 @@ let imageApi = {
   getPackageStructure: function (packageId) {
     return GET(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-pkg-structure')
   },
-  getPackageFile: function (packageId, fileName) {
-    return GET(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
+  getPackageFile: function (packageId, parmas) {
+    return POST(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-file-content', parmas)
   },
-  modifyPackageFile: function (packageId, fileName, params) {
-    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content?fileName=' + fileName, params)
+  modifyPackageFile: function (packageId, params) {
+    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content', params)
   },
   getFileInfo: function (fileId) {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)

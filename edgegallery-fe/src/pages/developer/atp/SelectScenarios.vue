@@ -302,9 +302,8 @@ export default {
     border-radius: 16px;
     position: absolute;
     z-index: 1;
-    top: 110px;
+    top: 50px;
     width: 74%;
-    height: 580px;
     padding: 30px 40px;
     opacity: 1;
     transition: all .2s;
@@ -434,7 +433,8 @@ export default {
       position: absolute;
       z-index: 1;
       right: 100px;
-      top: 500px;    }
+      bottom: 50px;
+    }
   }
   .selectscene-hidden{
     z-index: -1;

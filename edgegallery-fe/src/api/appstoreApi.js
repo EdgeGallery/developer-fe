@@ -19,6 +19,9 @@ import {
   GET,
   POST
 } from '../tools/request.js'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from '../tools/constant.js'
 
 const URL_PREFIX_APPSTORE = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/mec/appstore/v1/'
 const URL_PREFIX_APPSTORE_V2 = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/mec/appstore/v2/'

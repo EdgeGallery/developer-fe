@@ -28,92 +28,64 @@
             </div>
           </div>
           <div class="content-wrapper">
-            <el-row>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.appName') }}
-                </p>
-                <p>
-                  {{ basicInfoData.name }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.version') }}
-                </p>
-                <p>
-                  {{ basicInfoData.version }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.provider') }}
-                </p>
-                <p>
-                  {{ basicInfoData.provider }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.industry') }}
-                </p>
-                <p>
-                  {{ basicInfoData.industry }}
-                </p>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.type') }}
-                </p>
-                <p>
-                  {{ basicInfoData.type }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.architecture') }}
-                </p>
-                <p>
-                  {{ basicInfoData.architecture }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.dependent') }}
-                </p>
-                <p>
-                  {{ basicInfoData.dependent }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.createTime') }}
-                </p>
-                <p>
-                  {{ basicInfoData.createTime }}
-                </p>
-              </el-col>
-            </el-row>
-            <el-row class="thirdline">
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.description') }}
-                </p>
-                <p>
-                  {{ basicInfoData.description }}
-                </p>
-              </el-col>
-              <el-col :span="6">
-                <p class="left">
-                  {{ $t('appPackage.fileName') }}
-                </p>
-                <p>
-                  {{ basicInfoData.fileName }}
-                </p>
-              </el-col>
-            </el-row>
+            <el-form :model="basicInfoData">
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.appName')">
+                    {{ basicInfoData.name }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.version')">
+                    {{ basicInfoData.version }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.provider')">
+                    {{ basicInfoData.provider }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.industry')">
+                    {{ basicInfoData.industry }}
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.type')">
+                    {{ basicInfoData.type }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.architecture')">
+                    {{ basicInfoData.architecture }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.dependent')">
+                    {{ basicInfoData.dependent }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.createTime')">
+                    {{ basicInfoData.createTime }}
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row class="thirdline">
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.description')">
+                    {{ basicInfoData.description }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item :label="$t('appPackage.fileName')">
+                    {{ basicInfoData.fileName }}
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
           </div>
         </div>
         <div class="app-package-build-resourceconfig">
@@ -447,17 +419,29 @@ export default {
     }
     .content-wrapper {
       padding-left: 22px;
+      .el-form{
+        .el-form-item {
+          margin-bottom: 0;
+        }
+        .el-form-item__label {
+          display: inline-block;
+          width: 130px;
+          text-align: right;
+        }
+        .el-form-item__content{
+          line-height: 40px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
     }
     .app-package-build-basicinfo {
       .el-row {
-        margin-top: 24px;
-        p {
-          display: inline-block;
-          padding-right: 24px;
-        }
-        .left {
-          font-size: 16px;
-        }
+        margin-top: 8px;
         .app-build-upload {
           border-radius: 12px;
           height: 30px;
@@ -466,7 +450,7 @@ export default {
       .thirdline {
         display:flex;
         align-items:center;
-        margin-top: 26px;
+        margin-top: 8px;
         .tip {
           padding-left: 20px;
         }
@@ -491,7 +475,7 @@ export default {
           border-color: #30E2E9;
         }
         .el-table__row {
-          height: 101px;
+          height: 80px;
         }
         .progress-bar {
           margin-top: 13px;
@@ -565,6 +549,9 @@ export default {
         margin-left: 60px;
       }
     }
+  }
+  .el-table.common-table thead tr{
+    height: 35px;
   }
 }
 </style>
