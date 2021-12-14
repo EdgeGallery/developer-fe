@@ -444,6 +444,7 @@ export default {
         Object.keys(this.applicationFormData).forEach((key, index) => {
           this.applicationFormData[key] = res.data[key]
         })
+        this.applicationFormData.status = res.data.status
         this.getFileIconInfo(res.data.iconFileId)
         this.getMdFileInfo(res.data.guideFileId)
       }).catch(err => {
