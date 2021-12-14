@@ -21,8 +21,11 @@ import {
   PUT,
   DELETE
 } from '../tools/request.js'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from '../tools/constant.js'
 
-const URL_SYSTEM = '/mec-thirdsystem' + '/mec/third-system/v1'
+const URL_SYSTEM = PROXY_PREFIX_CURRENTSERVER + '/mec-thirdsystem' + '/mec/third-system/v1'
 
 let system = {
   systemNum: function (params) {
