@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { system } from '../../api/thirdSystem'
+import { system } from '../../api/thirdSystemApi'
 import { systemName } from '../../constants'
 export default {
   components: {
