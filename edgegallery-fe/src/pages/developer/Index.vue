@@ -57,25 +57,6 @@
               </el-col>
             </el-row>
           </div>
-          <div class="main-flow-direction">
-            <div class="lt">
-              <p>
-                {{ $t('incubation.direction') }}
-              </p>
-              <img
-                src="../../assets/images/application/app_direction.png"
-                alt=""
-              >
-            </div>
-            <div class="rt label-content">
-              <div class="current-app-label">
-                {{ $t('incubation.currentLocation') }}
-              </div>
-              <div class="must-node-label">
-                {{ $t('incubation.necessaryNode') }}
-              </div>
-            </div>
-          </div>
         </div>
       </el-col>
     </el-row>
@@ -125,25 +106,22 @@ export default {
     .main-content{
       width: 1680px;
       margin: 0 auto;
-      padding: 90px 50px 0 50px;
+      padding: 45px 50px 0 50px;
       .main-title{
-        font-size: 25px;
+        font-size: 28px;
         font-weight: bold;
+        margin-bottom: 30px;
       }
       .main-part{
-        height: 85%;
-        margin-top: 30px;
         .main-part-container{
           background: url("../../assets/images/application/app_workflow_bg.png") no-repeat;
-          background-size: inherit;
+          background-size: contain;
         }
         .main-part-item{
-          height: 100%;
           border-radius: 17px;
           margin-right: 30px;
           background-size: cover;
           text-align: right;
-          padding: 25px 20px;
           .main-part-item-container{
             height: 100%;
             clear: both;
@@ -155,46 +133,6 @@ export default {
             font-size: 20px;
             font-weight: bold;
             opacity: 0.7;
-          }
-        }
-      }
-      .main-flow-direction{
-        position: relative;
-        top: -110px;
-        p{
-          font-size: 14px;
-          padding-top: 20px;
-          line-height: 30px;
-        }
-        .label-content{
-          margin-right: 200px;
-          font-size: 14px;
-          .current-app-label{
-            margin-top: 15px;
-          }
-          .current-app-label::before{
-            content:"";
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: url("../../assets/images/application/app_mark_box.png") no-repeat center;
-            background-size: contain;
-            position: relative;
-            top: 5px;
-          }
-          .must-node-label{
-            margin-top: 5px;
-          }
-          .must-node-label::before{
-            content:"";
-            display: inline-block;
-            width: 20px;
-            height: 15px;
-            background: url("../../assets/images/application/app_corner_icon.png") no-repeat center;
-            background-size: contain;
-            position: relative;
-            top: 3px;
-            transform: rotate(270deg);
           }
         }
       }

@@ -29,14 +29,14 @@ const navDataCn = [
   },
   {
     id: '1',
-    name: '应用集成开发平台',
+    name: '集成开发',
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData
   },
   {
     id: '3',
-    name: 'APP商店',
+    name: '应用仓库',
     path: FIRST_LEVEL_MENU_PATH.APPSTORE,
     display: true,
     children: appStoreNavData

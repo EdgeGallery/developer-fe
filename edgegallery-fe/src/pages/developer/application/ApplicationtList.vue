@@ -208,7 +208,7 @@ export default {
 
 <style lang='less' scoped>
 .app-list {
-  height: 100%;
+  height: 725px;
   .app-list-top{
     display: flex;
     .app-btn{
@@ -273,8 +273,7 @@ export default {
   }
   .app-pagenation{
     position: relative;
-    top: 45%;
-    right: 30px;
+    right: 25px;
   }
 }
 .el-input__icon{

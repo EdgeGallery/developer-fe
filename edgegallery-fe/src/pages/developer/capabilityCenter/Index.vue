@@ -300,7 +300,6 @@ export default {
   methods: {
     doNext (type) {
       sessionStorage.setItem('isCapabilityActive', true)
-      this.$store.commit('changeFlow', '2')
       this.$message.success('操作成功！')
       this.$router.push('/EG/developer/home')
     },
@@ -335,7 +334,7 @@ export default {
       })
     },
     deletePublishedService (id) {
-      this.$confirm(this.$t('service.deleteServiceTip'), this.$t('promptMessage.prompt'), {
+      this.$confirm(this.$t('service.deleteServiceTip'), this.$t('homePromptMessage.prompt'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'

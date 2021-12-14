@@ -247,7 +247,7 @@ export default {
       .editInternet-inputs{
         width: 600px;
         display: flex;
-        justify-content:flex-start;
+        justify-content: flex-start;
         .el-input {
           width: 35%;
         }

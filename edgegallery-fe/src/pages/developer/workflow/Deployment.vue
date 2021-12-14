@@ -14,13 +14,13 @@
         class="center"
       >
         <div
-          class="item"
-          :class="[item.id===currentFlow?'item-active':'',currentFlow>0?'item-must':'',item.class]"
+          class="step-item"
+          :class="[item.id===currentFlow?'item-active':'',item.class]"
           @click="item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item.toPath):showWarning()"
         >
           <img
             :src="item.src"
-            :class="[currentFlow>item.id||currentFlow===item.id?'active':'',item.id===currentFlow+1?'next':'']"
+            :class="[currentFlow>item.id||currentFlow===item.id?'active':'']"
             alt="EdgeGallery"
           >
           <div class="flow-name">
@@ -98,20 +98,19 @@ export default {
 <style lang="less" scoped>
   .deployment{
     .workflow-name{
-      top: -35px;
-      left: -140px;
+      left: 0px;
     }
     .deploy-meao{
-      top: 135px;
-      left: -60px;
+      top: 240px;
+      left: 87px;
     }
     .deploy-mepm{
-      top: 23px;
-      left: 110px;
+      top: 100px;
+      left: 258px;
     }
     .deploy-node{
-      top: -90px;
-      left: 280px;
+      top: -40px;
+      left: 430px;
     }
   }
 </style>

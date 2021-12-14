@@ -515,6 +515,12 @@ import { sandbox } from '../../../../api/developerApi.js'
 import { filterArr } from '../../../../tools/common.js'
 export default {
   name: 'AddVm',
+  props: {
+    isAddVmProp: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
       language: localStorage.getItem('language'),
@@ -655,12 +661,18 @@ export default {
       viewOrEditFlavor: 'preview',
       userData: '',
       flavorExtraSpecs: '',
-      applicationId: sessionStorage.getItem('applicationId') || ''
+      applicationId: sessionStorage.getItem('applicationId') || '',
+      vmId: '',
+      isAddVm: this.isAddVmProp
     }
   },
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+    },
+    isAddVmProp (val) {
+      this.isAddVm = val
+      this.handleAddVmData(val)
     }
   },
   methods: {
@@ -681,18 +693,6 @@ export default {
           return
         }
         this.vmNetworkList = res.data
-        this.vmNetworkList.forEach((item) => {
-          if (item.name !== '') {
-            this.selectedNetworks.push(item.name)
-          }
-        })
-        this.vmNetworkList.forEach(item => {
-          this.selectedNetworks.forEach(items => {
-            if (item.name === items) {
-              this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
-            }
-          })
-        })
       }).catch(err => {
         console.log(err)
       })
@@ -858,25 +858,104 @@ export default {
           this.addvmImages.userData = ''
           this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
         }
-        this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
+        if (this.isAddVm) {
+          this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
+        }
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
-          sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-            this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
-            _data = this.selectedNetworks
-            this.$emit('addVmFinish', _data)
-          }).catch(err => {
-            console.log(err)
-          })
+          if (this.isAddVm) {
+            sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+              this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
+              _data = this.selectedNetworks
+              this.$emit('addVmFinish', _data)
+            }).catch(err => {
+              console.log(err)
+            })
+          } else {
+            sandbox.editVmDetail(this.applicationId, this.vmId, this.addvmImages).then(() => {
+              _data = this.selectedNetworks
+              this.$emit('addVmFinish', _data)
+            }).catch(err => {
+              console.log(err)
+            })
+          }
         } else {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
         }
       } else {
         this.$emit('addVmFinish', _data)
       }
+    },
+    editVmDetail () {
+      let _this = this
+      this.bus.$on('editVmDetail', function (data) {
+        _this.handleVmData(data)
+        _this.getVmDetailImage(data.imageId)
+      })
+    },
+    handleVmData (vmDetail) {
+      this.addvmImages = vmDetail
+      this.vmId = vmDetail.id
+      this.selectedNetworks = []
+      vmDetail.portList.forEach(item => {
+        this.selectedNetworks.push(item.networkName)
+      })
+    },
+    getVmDetailImage (imageId) {
+      sandbox.getVmDetailImage(imageId).then(res => {
+        if (!res.data) {
+          return
+        }
+        this.vmInfo.imageType = res.data.visibleType
+        res.data.visibleType === 'public' ? this.vmInfo.publicSystemName = res.data.osType : this.vmInfo.privateSystemName = res.data.osType
+        res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)' : this.vmInfo.privateId = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+        this.addvmImages.imageId = imageId
+      })
+    },
+    handleAddVmData (isAddVm) {
+      if (isAddVm) {
+        this.addvmImages = {
+          name: '',
+          flavorId: '',
+          imageId: '',
+          vmCertificate: {
+            certificateType: 'PASSWORD',
+            pwdCertificate: {
+              password: '',
+              username: ''
+            },
+            keyPairCertificate: null
+          },
+          areaZone: 'nova',
+          userData: null,
+          flavorExtraSpecs: null,
+          portList: []
+        }
+        this.vmInfo = {
+          archType: 'X86',
+          publicSystemName: '',
+          privateSystemName: '',
+          publicSystemType: [],
+          publicSystemImage: [],
+          publicImageOptions: [],
+          privateSystemType: [],
+          privateSystemImage: [],
+          privateImageOptions: [],
+          vmRegulationList: [],
+          osNameOptionList: [],
+          publicId: '',
+          privateId: '',
+          imageType: 'public'
+        }
+        this.filterVmRegulation()
+        this.getInternetType()
+        this.getVmImageLists()
+      }
     }
   },
   mounted () {
+    this.editVmDetail()
+    this.handleAddVmData(this.isAddVm)
     this.getVmSpecs()
     this.getInternetType()
     this.getVmImageLists()

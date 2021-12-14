@@ -17,14 +17,14 @@
 <template>
   <div class="profileManagement padding_default">
     <div class="title_top title_left defaultFontBlod">
-      {{ $t('breadCrumb.profileMgmt') }}
+      {{ $t('toolBox.appEditorTitle') }}
       <span class="line_bot1" />
       <el-button
         class="createimage_btn linearGradient2 image_mgmt"
-        @click="addNewProfile"
+        @click="selectApp()"
       >
         <em class="new_icon" />
-        {{ $t('system.profileMgmt.addProfile') }}
+        {{ $t('toolBox.selectApp') }}
       </el-button>
     </div>
     <div class="list clear">
@@ -59,19 +59,19 @@
           min-width="10%"
         />
         <el-table-column
-          :label="$t('api.description')"
-          min-width="20%"
-        >
-          <template
-            slot-scope="scope"
-          >
-            {{ language==='cn'?scope.row.description :scope.row.descriptionEn }}
-          </template>
-        </el-table-column>
+          prop="version"
+          :label="$t('system.version')"
+          min-width="10%"
+        />
         <el-table-column
-          prop="appList"
-          :label="$t('system.profileMgmt.appList')"
-          min-width="20%"
+          prop="provider"
+          :label="$t('toolBox.provider')"
+          min-width="10%"
+        />
+        <el-table-column
+          prop="industry"
+          :label="$t('workspace.industry')"
+          min-width="10%"
         />
         <el-table-column
           prop="type"
@@ -79,8 +79,13 @@
           min-width="15%"
         />
         <el-table-column
-          prop="industry"
-          :label="$t('workspace.industry')"
+          prop="architecture"
+          :label="$t('toolBox.architecture')"
+          min-width="10%"
+        />
+        <el-table-column
+          prop="synchronizeDate"
+          :label="$t('toolBox.synchronizeDate')"
           min-width="10%"
         />
         <el-table-column
@@ -98,16 +103,16 @@
             <el-button
               :loading="loading"
               class="operations_btn"
-              @click="handleDelete(scope.row)"
+              @click="publishModifiedApp(scope.row)"
             >
-              {{ $t('devTools.delete') }}
+              {{ $t('toolBox.publish') }}
             </el-button>
             <el-button
               :loading="loading"
               class="operations_btn"
-              @click="download(scope.row)"
+              @click="handleDelete(scope.row)"
             >
-              {{ $t('common.download') }}
+              {{ $t('devTools.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -126,26 +131,32 @@
         />
       </div>
     </div>
-    <addProfileDlg
-      :profile-id="profileId"
-      :is-edit="isEdit"
-      :is-visible="isVisible"
-      @closedig="closedig"
+    <SelectAppliation
+      v-if="isSelectVisible"
+      :is-select-visible="isSelectVisible"
+      @closedlg="closedlg"
       @getListData="getListData"
+    />
+    <ModifyPackageDlg
+      v-if="isModifyVisible"
+      :is-modify-visible="isModifyVisible"
+      :package-id="packageId"
+      @closedlg="closedlg"
     />
   </div>
 </template>
 
 <script>
 import pagination from '../../../components/common/Pagination.vue'
-import { profileMgmtApi } from '@/tools/api.js'
+import { applicationEditorApi } from '@/tools/api.js'
 import { common } from '../../../tools/common.js'
-import addProfileDlg from './addProfileDlg.vue'
+import SelectAppliation from './SelectApplicationDlg'
+import ModifyPackageDlg from './ModifyPackageDlg.vue'
 
 export default {
-  name: 'ProfileMgmt',
+  name: 'ApplicationEditor',
   components: {
-    pagination, addProfileDlg
+    pagination, SelectAppliation, ModifyPackageDlg
   },
   data () {
     return {
@@ -159,9 +170,9 @@ export default {
       userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
       screenHeight: document.body.clientHeight,
-      isEdit: false,
-      profileId: '',
-      isVisible: false
+      isModifyVisible: false,
+      packageId: '',
+      isSelectVisible: false
     }
   },
   mounted () {
@@ -185,8 +196,9 @@ export default {
     }
   },
   methods: {
-    closedig () {
-      this.isVisible = false
+    closedlg () {
+      this.isSelectVisible = false
+      this.isModifyVisible = false
     },
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)
@@ -200,26 +212,35 @@ export default {
       this.getListData()
     },
     getListData () {
-      profileMgmtApi.getProfileDataList({ name: this.enterQuery, limit: this.limitSize, offset: this.offsetPage }).then(res => {
+      applicationEditorApi.getReleasedPackage({ name: this.enterQuery, limit: this.limitSize, offset: this.offsetPage }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
-        if (this.allListData.length > 0) {
-          this.allListData.forEach(item => {
-            item.appList = item.appList.toString()
-          })
-        }
+        console.log(this.allListData)
       }).catch(() => {
         this.loading = false
       })
     },
-    addNewProfile () {
-      this.isEdit = false
-      this.isVisible = true
+    selectApp () {
+      this.isSelectVisible = true
     },
     modifyFile (row) {
-      this.isEdit = true
-      this.isVisible = true
-      this.profileId = row.id
+      this.packageId = row.packageId
+      this.isModifyVisible = true
+    },
+    publishModifiedApp (row) {
+      let _parameter = {
+        free: true,
+        price: 0
+      }
+      applicationEditorApi.publishModifyApp(row.packageId, _parameter).then(res => {
+        if (res.data === false) {
+          this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
+        }
+      }).catch((error) => {
+        if (error.response.data.message === 'upload app to appstore fail!') {
+          this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
+        }
+      })
     },
     handleDelete (row) {
       this.$confirm(this.$t('system.deleteConfirm'), {
@@ -228,14 +249,10 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        profileMgmtApi.deleteOneProfile(row.id).then(() => {
+        applicationEditorApi.deleteModifyApp(row.packageId).then(() => {
           this.loading = false
           this.getListData()
         })
-      })
-    },
-    download (row) {
-      profileMgmtApi.downLoadProfileApi(row.id, row.name).then(res => {
       })
     }
   },

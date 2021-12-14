@@ -115,8 +115,8 @@ const cn = {
   workflow: {
     incubation: '应用孵化',
     mustSteps: '请先完成必经步骤！',
-    appstore: '应用商店',
-    produceEnv: '生产环境'
+    appstore: '应用仓库',
+    produceEnv: '应用部署'
   }
 }
 export default cn
