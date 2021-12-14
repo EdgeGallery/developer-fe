@@ -62,7 +62,7 @@
         <el-table-column
           :column-key="'osType'"
           prop="osType"
-          min-width="11.5%"
+          min-width="10.5%"
           :label="$t('system.imageMgmt.osName')"
           show-overflow-tooltip
           :filters="osData"
@@ -94,7 +94,7 @@
         </el-table-column>
         <el-table-column
           :column-key="'status'"
-          min-width="9.5%"
+          min-width="8.5%"
           :label="$t('common.status')"
           :formatter="convertStatus"
           show-overflow-tooltip
@@ -112,12 +112,16 @@
           </template>
         </el-table-column>
         <el-table-column
-          min-width="9%"
+          min-width="11%"
           :label="$t('system.imageMgmt.slimming')"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
             {{ convertSlim(scope.row) }}
+            <el-progress
+              v-if="scope.row.imageSlimStatus==='SLIMMING'"
+              :percentage="percentages"
+            />
           </template>
         </el-table-column>
         <el-table-column
@@ -306,7 +310,9 @@ export default {
       statusData: [],
       slimData: [],
       typeData: [],
-      currentIndex: -1
+      currentIndex: -1,
+      percentages: 0,
+      timer: null
     }
   },
   watch: {
@@ -556,11 +562,32 @@ export default {
       })
     },
     handleSlim (row) {
-      imageMgmtService.slimImage(row.id).then(() => {
+      imageMgmtService.slimImage(row.id).then(res => {
+        if (!res.data) {
+          return
+        }
+        this.timer = setInterval(() => {
+          this.getOperationInfo(res.data.operationId)
+        }, 3000)
         this.getImageDataList()
       }).catch(() => {
+        clearTimeout(this.timer)
         this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
         this.getImageDataList()
+      })
+    },
+    getOperationInfo (operationId) {
+      imageMgmtService.getOperationInfo(operationId).then(res => {
+        if (!res.data) {
+          return
+        }
+        this.percentages = res.data.progress
+        if (this.percentages === 100 || res.data.status !== 'ONGOING') {
+          clearTimeout(this.timer)
+          this.getImageDataList()
+        }
+      }).catch(() => {
+        clearTimeout(this.timer)
       })
     },
     doPublishImage (id) {
@@ -581,6 +608,9 @@ export default {
   beforeRouteEnter (to, from, next) {
     sessionStorage.removeItem('currentPage')
     next()
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
   }
 }
 </script>
@@ -620,6 +650,26 @@ export default {
       align-items: center;
       justify-content: space-between;
       margin-top: 10px;
+    }
+  }
+  .el-progress .el-progress-bar__inner:before {
+    content:"";
+    width:100%;
+    height:100%;
+    display:block;
+    background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 12.5%,transparent 0,transparent 25%);
+    background-size:80px 80px;
+    animation:move 2.5s linear infinite;
+  }
+  .el-progress .el-progress-bar__outer{
+    width: 100%;
+  }
+  @keyframes move {
+    from {
+      background-position: 80px 0;
+    }
+    to {
+      background-position:  0;
     }
   }
 }

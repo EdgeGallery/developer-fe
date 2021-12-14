@@ -488,6 +488,9 @@ let imageMgmtService = {
   slimImage: function (imageId) {
     return Post('mec/developer/v2/vmimages/' + imageId + '/action/slim', '')
   },
+  getOperationInfo (operationId) {
+    return Get('mec/developer/v2/operations/' + operationId)
+  },
   // ContainerImage
   newContainerImage: function (imgData) {
     return Post('mec/developer/v2/containerimages/', imgData)
