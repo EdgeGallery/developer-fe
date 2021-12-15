@@ -234,6 +234,8 @@ export default {
       applicationEditorApi.publishModifyApp(row.appStorePackageId, _parameter).then(res => {
         if (res.data === false) {
           this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
+        } else {
+          this.$eg_messagebox(this.$t('toolBox.publishSuc'), 'success')
         }
       }).catch((error) => {
         if (error.response.data.message === 'upload app to appstore fail!') {

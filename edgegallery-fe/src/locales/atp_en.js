@@ -105,6 +105,8 @@ const en = {
 
   },
   atpTestProcess: {
+    publishSuc: 'Publish Successful',
+    publishFail: 'publish Failed',
     viewReport: 'View Report',
     publish: 'Publish',
     testAgain: 'Test Again',

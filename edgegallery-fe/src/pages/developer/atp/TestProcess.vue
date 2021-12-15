@@ -33,7 +33,7 @@
       </el-button>
       <el-button
         class="common-btn"
-        :disabled="report"
+        :disabled="report || allfailNum!==0"
         @click="publish()"
       >
         {{ $t('atpTestProcess.publish') }}
@@ -308,7 +308,7 @@ export default {
         reason: ''
       },
       dialogVisible: false,
-      userName: '',
+      userName: sessionStorage.getItem('userName'),
       authorities: [],
       alltestCase: [],
       scoreColor: '',
@@ -345,21 +345,11 @@ export default {
         price: 0
       }
       applicationApi.publishApp(this.applicationId, _parameter).then(res => {
-        this.$message({
-          showClose: true,
-          duration: 2000,
-          message: '发布成功',
-          type: 'success'
-        })
+        this.$message.success(this.$t('atpTestProcess.publishSuc'))
         this.$store.commit('changeFlow', '5')
         this.$router.push('/EG/developer/home')
       }).catch(() => {
-        this.$message({
-          showClose: true,
-          duration: 2000,
-          message: '发布失败',
-          type: 'warning'
-        })
+        this.$message.success(this.$t('atpTestProcess.publishFail'))
       })
     },
     closeDig () {
