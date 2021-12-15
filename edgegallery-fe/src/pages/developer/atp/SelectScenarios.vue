@@ -51,6 +51,7 @@
             <img
               :src="getAppIcon(item)"
               alt=""
+              class="sceneimage"
             >
             <el-button
               class="select-button"
@@ -103,7 +104,7 @@
       </div>
       <div class="testbtn rt">
         <el-button
-          :disabled="isCreateSuc"
+          :disabled="isCreateSuc || userName==='guest'"
           class="common-btn curp"
           @click="startTest()"
         >
@@ -138,7 +139,7 @@ export default {
   },
   data () {
     return {
-      userName: '',
+      userName: sessionStorage.getItem('userName'),
       sceneData: [],
       datacn: [],
       dataen: [],
@@ -169,13 +170,10 @@ export default {
             this.isCreateSuc = false
           })
         } else {
-          this.$message({
-            showClose: true,
-            duration: 2000,
-            message: this.$t('atpPromptMessage.creattaskFail'),
-            type: 'error'
-          })
+          this.$message.warning(this.$t('atpPromptMessage.creattaskFail'))
         }
+      }).catch(() => {
+        this.$message.warning(this.$t('atpPromptMessage.creattaskFail'))
       })
     },
     setDivHeight () {
@@ -349,11 +347,15 @@ export default {
         border-radius: 8px;
         position: relative;
         padding-bottom: 90px;
-        img{
-          width: 100%;
+        background-color: #fff;
+        height: 215px;
+        .sceneimage{
+          width: calc(100% - 40px);
+          height: calc(100% - 45px);
+          text-align: center;
           display: block;
-          height: 160px;
           border-radius: 8px 8px 0 0;
+          padding: 45px 20px 0px 20px;
         }
         .select-button{
           position: absolute;

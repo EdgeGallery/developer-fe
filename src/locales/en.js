@@ -114,6 +114,7 @@ const en = {
     architecture: 'Architecture',
     synchronizeDate: 'Synchronised time',
     publish: 'Publish',
+    publishSuc: 'Publish Successful',
     appEditor: {
       checkModified: 'Please check if the file has been modified',
       edit: 'Preview and edit',

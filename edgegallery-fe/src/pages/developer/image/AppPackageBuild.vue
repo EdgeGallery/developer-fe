@@ -36,7 +36,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.version')">
+                  <el-form-item :label="$t('appPackage.baseVersion')">
                     {{ basicInfoData.version }}
                   </el-form-item>
                 </el-col>
@@ -75,7 +75,7 @@
               </el-row>
               <el-row class="thirdline">
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.description')">
+                  <el-form-item :label="$t('appPackage.baseDesc')">
                     {{ basicInfoData.description }}
                   </el-form-item>
                 </el-col>
@@ -403,7 +403,7 @@ export default {
     .app-package-build-title {
       height: 30px;
       line-height: 30px;
-      font-size: 26px;
+      font-size: 30px;
       text-align: center;
     }
     .app-package-build-content {
@@ -424,11 +424,13 @@ export default {
           margin-bottom: 0;
         }
         .el-form-item__label {
+          font-size: 20px;
           display: inline-block;
-          width: 130px;
+          width: 145px;
           text-align: right;
         }
         .el-form-item__content{
+          font-size: 16px;
           line-height: 40px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -475,7 +477,7 @@ export default {
           border-color: #30E2E9;
         }
         .el-table__row {
-          height: 80px;
+          height: 75px;
         }
         .progress-bar {
           margin-top: 13px;

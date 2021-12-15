@@ -162,6 +162,8 @@ const cn = {
     modifyStatus: '修改用例状态'
   },
   atpTestProcess: {
+    publishSuc: '发布成功',
+    publishFail: '发布失败',
     viewReport: '查看报告',
     publish: '发布',
     testAgain: '再次测试',

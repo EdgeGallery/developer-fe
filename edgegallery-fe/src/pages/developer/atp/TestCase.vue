@@ -146,8 +146,9 @@ export default {
             border-radius: 19.5px;
           }
           .el-collapse-item__wrap{
-             background-color: transparent;
-             border: none;
+            padding-left: 15px;
+            background-color: transparent;
+            border: none;
           }
           .caseHearder{
             background-color: transparent;

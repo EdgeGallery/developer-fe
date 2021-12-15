@@ -114,6 +114,7 @@ const cn = {
     architecture: '架构',
     synchronizeDate: '同步时间',
     publish: '发布',
+    publishSuc: '发布成功',
     appEditor: {
       checkModified: '请检查是否修改了文件',
       edit: '预览与编辑',

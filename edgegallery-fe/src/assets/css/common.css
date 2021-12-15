@@ -1178,7 +1178,7 @@ input::-webkit-input-placeholder {
   color: #9687e5;
 }
 .title-icon{
-  font-size: 16px;
+  font-size: 25px;
 }
 .title-icon::before{
   content: '';
@@ -1189,7 +1189,7 @@ input::-webkit-input-placeholder {
   margin-right: 11px;
   background-color: #76E1E9;
   position: absolute;
-  top: 8px;
+  top: 13px;
   left: -18px;
 }
 .el-upload-list__item-name{
