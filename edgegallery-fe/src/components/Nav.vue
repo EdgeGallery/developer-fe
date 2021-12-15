@@ -88,7 +88,7 @@
     </div>
     <el-collapse-transition>
       <div
-        v-show="menu_small"
+        v-show="menuSmall"
         id="menu-div"
       >
         <TopbarSmall
@@ -139,7 +139,7 @@ export default {
       languageIcon: require('../assets/images/nav_en.png'),
       loginPage: '',
       userCenterPage: '',
-      menu_small: false,
+      menuSmall: false,
       screenHeight: document.body.clientHeight,
       timer: false,
       ifGuest: true,
@@ -405,11 +405,11 @@ export default {
     },
     clickSmallMenu () {
       this.setScreenHeight(this.screenHeight)
-      this.menu_small = !this.menu_small
+      this.menuSmall = !this.menuSmall
     },
     // When mobile user selects menu, close the menu tab
     closeMenu (data) {
-      this.menu_small = data
+      this.menuSmall = data
     },
     logout () {
       this.manualLoggout = true
@@ -667,6 +667,11 @@ export default {
     }
     .rt:first-child span{
       margin-right: 0;
+    }
+  }
+  @media screen and (min-width: 1091px) {
+    .main-sidebar-small{
+      display: none;
     }
   }
 }
