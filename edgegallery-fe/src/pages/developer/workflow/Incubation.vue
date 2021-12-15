@@ -15,7 +15,7 @@
       >
         <div
           class="step-item"
-          :class="[item.id===currentFlow?'item-active':'',item.class]"
+          :class="[item.id===currentFlow?'item-active':(item.id<currentFlow?'item-history':''),item.class]"
           @click="(currentFlow===1&&item.id===3)||item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow||item.id===10?jumpTo(item):showWarning()"
         >
           <div

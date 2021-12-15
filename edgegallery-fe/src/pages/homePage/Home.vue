@@ -116,7 +116,7 @@ export default {
         left: 3px;
       }
       .mian-sub-title{
-        font-size: 20px;
+        font-size: 30px;
         margin-top: 40px;
         letter-spacing: 5px;
       }
@@ -149,6 +149,8 @@ export default {
         .main-content-right-item-name{
           position: relative;
           top: 30%;
+          font-size: 26px;
+          font-weight: bold;
         }
       }
       .main-content-right-item:hover{

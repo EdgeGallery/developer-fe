@@ -16,7 +16,7 @@
         <div
           class="step-item"
           :class="[item.id===currentFlow?'item-active':'',item.class]"
-          @click="item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow?jumpTo(item.toPath):showWarning()"
+          @click="jumpTo(item.toPath)"
         >
           <img
             :src="item.src"
@@ -68,9 +68,6 @@ export default {
   methods: {
     jumpTo (path) {
       this.$router.push(path)
-    },
-    showWarning () {
-      this.$message.warning(this.$t('workflow.mustSteps'))
     }
   },
   mounted () {
