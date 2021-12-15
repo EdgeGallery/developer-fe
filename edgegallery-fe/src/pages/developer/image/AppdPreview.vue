@@ -221,7 +221,7 @@ export default {
     .app-package-preview-title {
       height: 30px;
       line-height: 30px;
-      font-size: 26px;
+      font-size: 28px;
       text-align: center;
     }
     .rules-title:before {
@@ -231,7 +231,7 @@ export default {
     .el-row {
       margin-top: 20px;
       .file-list, .markdown-body {
-        height: 425px;
+        height: 500px;
         overflow: auto;
       }
       .file-list {

@@ -513,6 +513,7 @@ export default {
 .details-center-vm{
   position: relative;
   .failed{
+    display: none;
     position: absolute;
     top:-34px;
     width: 150px;
@@ -520,6 +521,7 @@ export default {
     color: red;
   }
   .bottom-line{
+    display: none;
     position: relative;
     top:-10px;
     left: 48px;
