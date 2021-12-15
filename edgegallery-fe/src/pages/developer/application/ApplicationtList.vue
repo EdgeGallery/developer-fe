@@ -60,7 +60,7 @@
       :class="zoom===2?'':'app-flex-main'"
     >
       <div
-        v-if="userName==='guest'"
+        v-if="userName && userName==='guest'"
         class="guest"
       >
         <span @click="logout">{{ $t('common.login') }}</span>
@@ -139,7 +139,7 @@ export default {
       isViewActive: false,
       isDeleteActive: false,
       searchContent: '',
-      userName: sessionStorage.getItem('userName') || 'guest',
+      userName: sessionStorage.getItem('userName'),
       loginPage: sessionStorage.getItem('loginPage') || ''
     }
   },
