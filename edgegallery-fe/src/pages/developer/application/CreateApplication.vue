@@ -82,7 +82,7 @@ export default {
   .create-application-form{
     position: absolute;
     top: 50%;
-    left: 52%;
+    left: 50%;
     width: 75%;
     transform: translate(-50%,-50%);
     text-align: center;
