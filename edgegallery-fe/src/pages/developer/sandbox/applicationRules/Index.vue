@@ -173,7 +173,7 @@
     />
     <trafficFilter
       class="traffic-filter"
-      :class="{'traffic-filter-hidden':!isTrafficFilterShow}"
+      :class="{'traffic-filter-hidden':!isTrafficFilterShow,'traffic-filter-en':language==='en'}"
       @setRulesListTop="setRulesListTop"
     />
     <interfaceInformation
@@ -225,7 +225,7 @@ export default {
         {
           trafficRuleId: '',
           action: '',
-          priority: '',
+          priority: 1,
           filterType: '',
           trafficFilter: [],
           dstInterface: []
@@ -238,7 +238,8 @@ export default {
         address: '127.0.0.1/0',
         ip: '127.0.0.1',
         ttl: '85000'
-      }
+      },
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -313,7 +314,7 @@ export default {
       this.isAddRuleData = true
       this.appRulesData = {
         trafficRuleId: '',
-        priority: '',
+        priority: 1,
         action: 'FORWARD_DECAPSULATED',
         filterType: 'FLOW',
         trafficFilter: [],
@@ -397,6 +398,9 @@ export default {
         }, 400)
         this.setDivHeight(this.screenHeight)
       }
+    },
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {
@@ -460,10 +464,13 @@ export default {
       text-align: center;
     }
   }
+  .traffic-filter-en{
+    width: 1200px;
+  }
   .interface-info{
     position: absolute;
     z-index: 1;
-    width: 600px;
+    width: 800px;
     padding: 40px;
     overflow: auto;
     opacity: 1;
@@ -472,7 +479,7 @@ export default {
   .dns-rules{
     position: absolute;
     z-index: 1;
-    width: 600px;
+    width: 700px;
     padding: 40px;
     overflow: auto;
     opacity: 1;

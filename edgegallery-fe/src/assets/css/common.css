@@ -840,7 +840,7 @@
 
 .el-table.common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
 .el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
 .el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
@@ -934,6 +934,7 @@ th{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   padding-left: 15px;
   margin: 5px 0 20px;
+  font-size: 18px;
 }
 .title-top{
   margin-top: 30px;
@@ -967,6 +968,17 @@ th{
   line-height: 46px !important;
   font-size: 18px;
   color: #c9bdf3;
+}
+.el-form.common-form .el-input-number__decrease, .el-form.common-form  .el-input-number__increase{
+  font-size: 16px;
+  height: 46px;
+  background-color: #907cd0;
+  border: none;
+}
+.el-form.common-form .el-icon-minus:before,.el-form.common-form  .el-icon-plus:before{
+  position: relative;
+  top: 10px;
+  color: #fff;
 }
 .el-input-number .el-input__inner{
   text-align: left;

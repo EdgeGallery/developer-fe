@@ -22,7 +22,7 @@
 
     <el-form
       id="form_dnsRules"
-      label-width="120px"
+      label-width="170px"
       size="mini"
       class="common-form clear"
       :model="dnsRulesForm"
