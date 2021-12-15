@@ -89,7 +89,7 @@ const cn = {
     customPic: '自定义图片',
     registrationInfo: '注册信息',
     serviceName: '服务名称',
-    serviceName1: '服务名称:',
+    serviceName1: '服务名称：',
     internalPort: '内部端口号',
     protocol: '协议',
     expURL: '在线体验URL',
