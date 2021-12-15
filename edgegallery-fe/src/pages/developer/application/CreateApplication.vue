@@ -81,10 +81,10 @@ export default {
   }
   .create-application-form{
     position: absolute;
-    top: 20%;
-    left: 25%;
-    width: 45%;
-    padding: 35px;
+    top: 50%;
+    left: 52%;
+    width: 75%;
+    transform: translate(-50%,-50%);
     text-align: center;
   }
 </style>
