@@ -1066,6 +1066,10 @@ th{
   border: 3px solid #f2b720 !important;
   border-radius: 14px;
 }
+.item-history{
+  border: 3px solid #42F6AC !important;
+  border-radius: 14px;
+}
 .center-active .item-active::before{
  content:'';
  display: inline-block;
@@ -1092,6 +1096,9 @@ th{
  }
  .item-active .steps-num{
   background: #f2b720;
+ }
+ .item-history .steps-num{
+   background: #42F6AC;
  }
  .steps-num{
   float: right;
