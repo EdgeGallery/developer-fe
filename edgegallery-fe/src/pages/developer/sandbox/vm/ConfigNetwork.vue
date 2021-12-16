@@ -76,7 +76,7 @@
         <div class="editInternet-btns">
           <el-button
             size="mini"
-            @click="cancalAddInternet"
+            @click="cancelAddInternet"
           >
             {{ $t('common.cancel') }}
           </el-button>
@@ -94,7 +94,7 @@
           id="btn_confirmEditNetwork"
           class="common-btn"
           :disabled="isAddNameRepeat"
-          @click="confirmAddInetrnet()"
+          @click="confirmAddInternet()"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -158,7 +158,7 @@ export default {
         }
       })
     },
-    cancalAddInternet () {
+    cancelAddInternet () {
       this.ifAddInternetBtn = false
       this.newNetworkList = [
         {
@@ -176,7 +176,7 @@ export default {
       ]
       this.$emit('editNetwork', '')
     },
-    confirmAddInetrnet () {
+    confirmAddInternet () {
       sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
         this.getInternetType()
         this.ifAddInternetBtn = false
