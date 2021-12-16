@@ -22,7 +22,7 @@
 
     <el-form
       id="form_trafficFilter"
-      label-width="125px"
+      :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
       size="mini"
       class="common-form clear"
       :model="trafficFilterForm"
@@ -189,7 +189,10 @@ export default {
   name: 'Traffic',
   data () {
     return {
-      trafficFilterForm: {}
+      trafficFilterForm: {},
+      language: localStorage.getItem('language'),
+      formLabelWidth: '150px',
+      formLabelWidthEn: '270px'
     }
   },
   methods: {
@@ -215,6 +218,11 @@ export default {
       this.bus.$on('editTrafficFilter', function (data) {
         _this.trafficFilterForm = data
       })
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {

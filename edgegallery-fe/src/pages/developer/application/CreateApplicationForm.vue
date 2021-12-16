@@ -152,7 +152,6 @@
         <el-form-item
           :label="$t('incubation.guideDoc')"
           class="label-item-half"
-          prop="mdFileList"
         >
           <el-upload
             class="upload-demo lt"
@@ -241,9 +240,6 @@ export default {
         ],
         provider: [
           { required: true, message: this.$t('incubation.providerTip'), trigger: 'blur' }
-        ],
-        mdFileList: [
-          { required: true, trigger: 'change' }
         ],
         description: [
           { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
@@ -525,9 +521,9 @@ export default {
   }
   .icon-info-active {
     position: relative;
-    top: 5px;
+    top: 11px;
     left: 10px;
-    height: 15px;
+    height: 24px;
   }
   .upload-md-btn{
     background: rgba(255,255,255,.5);
@@ -559,8 +555,8 @@ export default {
     float: left;
   }
   .avatar{
-    width:  28px;
-    height: 28px;
+    width:  44px;
+    height: 44px;
     border: 1px solid #fff;
     border-radius: 6px;
   }
@@ -574,6 +570,7 @@ export default {
   }
   .el-icon-plus:before{
     font-size: 22px;
+    top: 0 !important;
   }
   .el-icon-delete{
     width: 28px;
