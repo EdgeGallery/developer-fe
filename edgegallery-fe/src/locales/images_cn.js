@@ -27,7 +27,7 @@ const cn = {
     createTime: '创建时间 :',
     description: '描述',
     baseDesc: '描述 :',
-    fileName: '应用详情介绍 :',
+    fileName: '应用详情 :',
     resourceConfig: '资源配置',
     vmName: '虚拟机名称',
     spec: '规格',

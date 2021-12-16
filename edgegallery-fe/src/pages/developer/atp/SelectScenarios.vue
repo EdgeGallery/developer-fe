@@ -347,15 +347,13 @@ export default {
         border-radius: 8px;
         position: relative;
         padding-bottom: 90px;
-        background-color: #fff;
-        height: 215px;
+        background-color: rgba(255,255,255,0.25,);
         .sceneimage{
-          width: calc(100% - 40px);
-          height: calc(100% - 45px);
+          width: 100%;
+          height: 130px;
           text-align: center;
           display: block;
           border-radius: 8px 8px 0 0;
-          padding: 45px 20px 0px 20px;
         }
         .select-button{
           position: absolute;
@@ -370,7 +368,7 @@ export default {
           }
         }
         .content-info{
-          background: #fff;
+          background: #4E3494;
           border-radius: 0 0 8px 8px;
           position: absolute;
           width: 100%;
@@ -380,7 +378,7 @@ export default {
           .name{
             font-family: defaultFont, Arial, Helvetica, sans-serif;
             font-size: 18px;
-            color: #000;
+            color: #fff;
             margin-bottom: 7px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -390,7 +388,7 @@ export default {
             font-family: defaultFontLight,Arial, Helvetica, sans-serif;
             display: block;
             font-size: 14px;
-            color: #000;
+            color: #fff;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -407,8 +405,8 @@ export default {
             margin-top: 10px;
             transition: all 0.6s ease-in-out;
             .scenebtn{
-              color: #fff;
-              background-color: #5944C0;
+              color: #5944C0;
+              background-color: #fff;
               border-radius: 30px;
             }
             .el-button--small {
