@@ -111,8 +111,8 @@ export default {
   .uploadPdfDialog{
     .el-dialog{
       border-radius: 16px;
-      background: url('../../../assets/images/div_bg.png');
-      box-shadow: 60px 70px 75px rgba(36,20,119,.25);
+      background: rgba(46,20,124,.7);
+      backdrop-filter: blur(6px);
     }
       .el-dialog__header {
         border-radius: 16px 16px 0 0 !important;

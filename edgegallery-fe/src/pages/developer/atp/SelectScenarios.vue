@@ -51,6 +51,7 @@
             <img
               :src="getAppIcon(item)"
               alt=""
+              class="sceneimage"
             >
             <el-button
               class="select-button"
@@ -103,7 +104,7 @@
       </div>
       <div class="testbtn rt">
         <el-button
-          :disabled="isCreateSuc"
+          :disabled="isCreateSuc || userName==='guest'"
           class="common-btn curp"
           @click="startTest()"
         >
@@ -138,7 +139,7 @@ export default {
   },
   data () {
     return {
-      userName: '',
+      userName: sessionStorage.getItem('userName'),
       sceneData: [],
       datacn: [],
       dataen: [],
@@ -169,13 +170,10 @@ export default {
             this.isCreateSuc = false
           })
         } else {
-          this.$message({
-            showClose: true,
-            duration: 2000,
-            message: this.$t('atpPromptMessage.creattaskFail'),
-            type: 'error'
-          })
+          this.$message.warning(this.$t('atpPromptMessage.creattaskFail'))
         }
+      }).catch(() => {
+        this.$message.warning(this.$t('atpPromptMessage.creattaskFail'))
       })
     },
     setDivHeight () {
@@ -302,9 +300,8 @@ export default {
     border-radius: 16px;
     position: absolute;
     z-index: 1;
-    top: 110px;
+    top: 50px;
     width: 74%;
-    height: 580px;
     padding: 30px 40px;
     opacity: 1;
     transition: all .2s;
@@ -350,10 +347,12 @@ export default {
         border-radius: 8px;
         position: relative;
         padding-bottom: 90px;
-        img{
+        background-color: rgba(255,255,255,0.25,);
+        .sceneimage{
           width: 100%;
+          height: 130px;
+          text-align: center;
           display: block;
-          height: 160px;
           border-radius: 8px 8px 0 0;
         }
         .select-button{
@@ -369,7 +368,7 @@ export default {
           }
         }
         .content-info{
-          background: #fff;
+          background: #4E3494;
           border-radius: 0 0 8px 8px;
           position: absolute;
           width: 100%;
@@ -379,7 +378,7 @@ export default {
           .name{
             font-family: defaultFont, Arial, Helvetica, sans-serif;
             font-size: 18px;
-            color: #000;
+            color: #fff;
             margin-bottom: 7px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -389,7 +388,7 @@ export default {
             font-family: defaultFontLight,Arial, Helvetica, sans-serif;
             display: block;
             font-size: 14px;
-            color: #000;
+            color: #fff;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -406,8 +405,8 @@ export default {
             margin-top: 10px;
             transition: all 0.6s ease-in-out;
             .scenebtn{
-              color: #fff;
-              background-color: #5944C0;
+              color: #5944C0;
+              background-color: #fff;
               border-radius: 30px;
             }
             .el-button--small {
@@ -434,7 +433,8 @@ export default {
       position: absolute;
       z-index: 1;
       right: 100px;
-      top: 500px;    }
+      bottom: 50px;
+    }
   }
   .selectscene-hidden{
     z-index: -1;

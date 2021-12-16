@@ -190,6 +190,14 @@ export default new Router({
           meta: {
             id: '3.11'
           }
+        },
+        {
+          path: '/mecDeveloper/toolbox/appedit',
+          name: 'applicationEditor',
+          component: () => import('../pages/toolBox/applicationEditor/Index.vue'),
+          meta: {
+            id: '3.12'
+          }
         }
       ]
     }

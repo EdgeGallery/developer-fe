@@ -27,7 +27,9 @@
 </template>
 
 <script>
-import { NAV_PRE, MODULES } from '../constants'
+import { NAV_PRE } from '../constants'
+import { getPlatformUrlPrefix } from '../tools/common.js'
+import { PLATFORMNAME_APPSTORE, PLATFORMNAME_DEVELOPER, PLATFORMNAME_MECM, PLATFORMNAME_ATP } from '../tools/constant.js'
 
 export default {
   components: {},
@@ -39,17 +41,15 @@ export default {
   },
   methods: {
     getIFrameUrl () {
-      let originArray = window.location.origin.split(':')
       let url = ''
-      let urlPre = originArray[0] + ':' + originArray[1] + ':'
       if (this.$route.path.startsWith(NAV_PRE.APPSTORE)) {
-        url = urlPre + MODULES.APPSTORE.port + '/#' + this.$route.path.slice(NAV_PRE.APPSTORE.length)
+        url = getPlatformUrlPrefix(PLATFORMNAME_APPSTORE) + '/#' + this.$route.path.slice(NAV_PRE.APPSTORE.length)
       } else if (this.$route.path.startsWith(NAV_PRE.DEVELOPER)) {
-        url = urlPre + MODULES.DEVELOPER.port + '/#' + this.$route.path.slice(NAV_PRE.DEVELOPER.length)
+        url = getPlatformUrlPrefix(PLATFORMNAME_DEVELOPER) + '/#' + this.$route.path.slice(NAV_PRE.DEVELOPER.length)
       } else if (this.$route.path.startsWith(NAV_PRE.MECM)) {
-        url = urlPre + MODULES.MECM.port + '/#' + this.$route.path.slice(NAV_PRE.MECM.length)
+        url = getPlatformUrlPrefix(PLATFORMNAME_MECM) + '/#' + this.$route.path.slice(NAV_PRE.MECM.length)
       } else if (this.$route.path.startsWith(NAV_PRE.ATP)) {
-        url = urlPre + MODULES.ATP.port + '/#' + this.$route.path.slice(NAV_PRE.ATP.length)
+        url = getPlatformUrlPrefix(PLATFORMNAME_ATP) + '/#' + this.$route.path.slice(NAV_PRE.ATP.length)
       }
       url = url + '?language=' + localStorage.getItem('language')
       return url

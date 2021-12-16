@@ -76,16 +76,9 @@
         <div class="editInternet-btns">
           <el-button
             size="mini"
-            @click="addInetrnetConfirm('cancel')"
+            @click="cancelAddInternet"
           >
             {{ $t('common.cancel') }}
-          </el-button>
-          <el-button
-            size="mini"
-            :disabled="addTypeBtn"
-            @click="addInetrnetConfirm('confirm')"
-          >
-            {{ $t('common.confirm') }}
           </el-button>
         </div>
       </div>
@@ -93,9 +86,17 @@
         <el-button
           id="btn_confirmEditNetwork"
           class="common-btn"
-          @click="backVmDetail()"
+          @click="goBackVmDetail()"
         >
           {{ $t('common.back') }}
+        </el-button>
+        <el-button
+          id="btn_confirmEditNetwork"
+          class="common-btn"
+          :disabled="isAddNameRepeat"
+          @click="confirmAddInternet()"
+        >
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>
@@ -117,7 +118,7 @@ export default {
       ],
       applicationId: sessionStorage.getItem('applicationId') || '',
       ifAddInternetBtn: false,
-      addTypeBtn: false
+      isAddNameRepeat: false
     }
   },
   methods: {
@@ -150,26 +151,34 @@ export default {
     ifInternetNameRepeat () {
       this.vmNetworkList.forEach(item => {
         if (item.name === this.newNetworkList[0].name) {
-          this.addTypeBtn = true
+          this.isAddNameRepeat = true
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.internetNameRepeat'), 'warning')
         } else {
-          this.addTypeBtn = false
+          this.isAddNameRepeat = false
         }
       })
     },
-    addInetrnetConfirm (data) {
-      if (data === 'confirm') {
-        sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
-          this.getInternetType()
-          this.ifAddInternetBtn = false
-          this.newNetworkList = [
-            {
-              name: '',
-              description: ''
-            }
-          ]
-        })
-      } else {
+    cancelAddInternet () {
+      this.ifAddInternetBtn = false
+      this.newNetworkList = [
+        {
+          name: '',
+          description: ''
+        }
+      ]
+    },
+    goBackVmDetail () {
+      this.newNetworkList = [
+        {
+          name: '',
+          description: ''
+        }
+      ]
+      this.$emit('editNetwork', '')
+    },
+    confirmAddInternet () {
+      sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
+        this.getInternetType()
         this.ifAddInternetBtn = false
         this.newNetworkList = [
           {
@@ -177,10 +186,7 @@ export default {
             description: ''
           }
         ]
-      }
-    },
-    backVmDetail () {
-      this.$emit('editNetwork', '')
+      })
     }
   },
   mounted () {
@@ -218,12 +224,14 @@ export default {
       cursor: pointer;
     }
     .el-button--mini{
-      color: #5944C0 ;
       border: none;
+      border-radius:6px ;
+      color: #fff;
+      background: #4E3494;
     }
     .el-button--mini:hover{
-      color: #fff;
-      background: #5944C0;
+     color: #4E3494 ;
+     background: #fff;
     }
     .network-table thead{
       height: 50px;
@@ -251,6 +259,9 @@ export default {
         .el-input {
           width: 35%;
         }
+      }
+      .editInternet-btns{
+        margin-right: 56px;
       }
     }
   }

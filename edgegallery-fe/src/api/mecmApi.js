@@ -20,10 +20,13 @@ import {
   POST,
   DELETE
 } from '../tools/request.js'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from '../tools/constant.js'
 
-const URL_PREFIX_MECM_APM = '/mecm-apm/apm/v1'
-const URL_PREFIX_MECM_APPO = '/mecm-appo/appo/v1'
-const URL_PREFIX_MECM_INVENTORY = '/mecm-inventory/inventory/v1'
+const URL_PREFIX_MECM_APM = PROXY_PREFIX_CURRENTSERVER + '/mecm-apm/apm/v1'
+const URL_PREFIX_MECM_APPO = PROXY_PREFIX_CURRENTSERVER + '/mecm-appo/appo/v1'
+const URL_PREFIX_MECM_INVENTORY = PROXY_PREFIX_CURRENTSERVER + '/mecm-inventory/inventory/v1'
 
 let appo = {
   toDeploy (userId, params) {

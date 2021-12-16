@@ -143,7 +143,9 @@ const cn = {
     addCustomSuccess: '自定义规格添加成功！',
     deleteInternetSuccess: '删除网络配置成功！',
     addInternetFaild: '网络配置数据最多为4条！',
-    internetNameRepeat: '网络配置名重复！'
+    internetNameRepeat: '网络配置名重复！',
+    startFailed: '启动失败',
+    exportFailed: '导出失败'
   }
 }
 export default cn

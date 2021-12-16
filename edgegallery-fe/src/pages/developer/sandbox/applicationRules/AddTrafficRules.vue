@@ -21,7 +21,7 @@
     </h3>
     <el-form
       id="form_trafficRules"
-      label-width="120px"
+      label-width="140px"
       size="mini"
       class="common-form clear"
       :model="trafficRuleForm"
@@ -34,18 +34,6 @@
           maxlength="30"
           v-model="trafficRuleForm.trafficRuleId"
           :disabled="!isAddRuleData"
-        />
-      </el-form-item>
-      <el-form-item
-        :label="$t('appPackage.priority')"
-        class="input-half lt"
-      >
-        <el-input-number
-          placeholder="1~255"
-          :min="1"
-          :max="255"
-          :controls="false"
-          v-model="trafficRuleForm.priority"
         />
       </el-form-item>
       <el-form-item
@@ -79,6 +67,16 @@
             :value="item.value"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item
+        :label="$t('appPackage.priority')"
+        class="input-half lt"
+      >
+        <el-input-number
+          v-model="trafficRuleForm.priority"
+          :min="1"
+          :max="255"
+        />
       </el-form-item>
     </el-form>
 

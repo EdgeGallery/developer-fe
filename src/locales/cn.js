@@ -107,6 +107,22 @@ const cn = {
     toolChainInfo5: 'X86汇编代码',
     mdText: '请上传.md文件，用来说明插件的功能、使用方法等'
   },
+  toolBox: {
+    appEditorTitle: '应用编辑',
+    selectApp: '选择应用',
+    provider: '厂商',
+    architecture: '架构',
+    synchronizeDate: '同步时间',
+    publish: '发布',
+    publishSuc: '发布成功',
+    appEditor: {
+      checkModified: '请检查是否修改了文件',
+      edit: '预览与编辑',
+      checkMf: '发布应用前需要修改‘.mf’文件中的app_product_name,app_provider_id, app_package_version 三个字段中任意一个',
+      editAppTitle: '选择需要修改的应用',
+      syncFailed: '同步失败!'
+    }
+  },
   api: {
     docs: '文档',
     updated: '更新时间',

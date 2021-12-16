@@ -17,13 +17,14 @@
 
 import {
   GET,
-  POST,
-  PUT,
-  DELETE
+  POST
 } from '../tools/request.js'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from '../tools/constant.js'
 
-const URL_PREFIX_APPSTORE = '/mec-appstore/mec/appstore/v1/'
-const URL_PREFIX_APPSTORE_V2 = '/mec-appstore/mec/appstore/v2/'
+const URL_PREFIX_APPSTORE = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/mec/appstore/v1/'
+const URL_PREFIX_APPSTORE_V2 = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/mec/appstore/v2/'
 
 let appstoreApi = {
   getAppData: function (params) {
@@ -102,34 +103,6 @@ let appstoreApi = {
     window.open(URL)
   }
 }
-const URL_SYSTEM = '/mec-thirdsystem' + '/mec/third-system/v1'
-
-let system = {
-  systemNum: function (params) {
-    let url = URL_SYSTEM + '/count'
-    return POST(url, params)
-  },
-  getOneSystem: function (type) {
-    let url = URL_SYSTEM + '/systemType/' + type
-    return GET(url)
-  },
-  addSystems: function (params) {
-    let url = URL_SYSTEM
-    return POST(url, params)
-  },
-  updateSystems: function (thirdSystemId, params) {
-    let url = URL_SYSTEM + '/' + thirdSystemId
-    return PUT(url, params)
-  },
-  deleteSystems: function (thirdSystemId) {
-    let url = URL_SYSTEM + '/' + thirdSystemId
-    return DELETE(url)
-  },
-  searchSystem: function (params) {
-    let url = URL_SYSTEM + '/nameLike/' + params
-    return GET(url)
-  }
-}
 export {
-  URL_PREFIX_APPSTORE, URL_PREFIX_APPSTORE_V2, appstoreApi, system
+  URL_PREFIX_APPSTORE, URL_PREFIX_APPSTORE_V2, appstoreApi
 }

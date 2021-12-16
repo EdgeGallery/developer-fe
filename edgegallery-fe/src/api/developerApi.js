@@ -21,7 +21,11 @@ import {
   PUT,
   DELETE
 } from '../tools/request.js'
-const URL_PREFIX_DEVELOPER = '/mec-developer/mec/developer/v2/'
+import {
+  PROXY_PREFIX_CURRENTSERVER
+} from '../tools/constant.js'
+
+const URL_PREFIX_DEVELOPER = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/'
 let sandbox = {
   // determine whether to select sandbox by applicationid
   getUserSelectSandbox (applicationid) {
@@ -67,6 +71,10 @@ let sandbox = {
   deleteVmImage (applicationId, vmId) {
     return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId)
   },
+  // edit vmDetail
+  editVmDetail (applicationId, vmId, parmas) {
+    return PUT(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId, parmas)
+  },
   // get vm operationId
   getVmPullId (applicationId, vmId) {
     return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/launch')
@@ -99,7 +107,7 @@ let sandbox = {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/ssh')
   },
   getScriptByImageId (osType) {
-    return GET(URL_PREFIX_DEVELOPER + 'user-data?' + 'osType=' + osType)
+    return GET(URL_PREFIX_DEVELOPER + 'user-datas?' + 'osType=' + osType)
   },
   getUpfFinished (applicationId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/appconfiguration')
@@ -162,7 +170,7 @@ let applicationApi = {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
   },
   uploadFileApi: function (params) {
-    return POST('/mec-developer/mec/developer/v2/upload-files', params)
+    return POST(URL_PREFIX_DEVELOPER + 'upload-files', params)
   },
   createNewApp: function (params) {
     return POST(URL_PREFIX_DEVELOPER + 'applications', params)
@@ -183,19 +191,19 @@ let applicationApi = {
     return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/servicerequireds/' + serId)
   },
   getApiUrl: function (apiFileId) {
-    return '/mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
+    return URL_PREFIX_DEVELOPER + 'upload-files/' + apiFileId + '/action/get-file-stream'
   },
   publishService: function (appId, params) {
-    return POST('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds', params)
+    return POST(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/serviceproduceds', params)
   },
   getPublishedService: function (appId) {
-    return GET('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds')
+    return GET(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/serviceproduceds')
   },
   modifyPublishedService: function (appId, serId, params) {
-    return PUT('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId, params)
+    return PUT(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/serviceproduceds/' + serId, params)
   },
   deletePublishedService: function (appId, serId) {
-    return DELETE('/mec-developer/mec/developer/v2/applications/' + appId + '/appconfiguration/serviceproduceds/' + serId)
+    return DELETE(URL_PREFIX_DEVELOPER + 'applications/' + appId + '/appconfiguration/serviceproduceds/' + serId)
   },
   publishApp: function (applicationId, params) {
     return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/release', params)
@@ -250,11 +258,11 @@ let imageApi = {
   getPackageStructure: function (packageId) {
     return GET(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-pkg-structure')
   },
-  getPackageFile: function (packageId, fileName) {
-    return GET(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-file-content?fileName=' + fileName)
+  getPackageFile: function (packageId, parmas) {
+    return POST(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/get-file-content', parmas)
   },
-  modifyPackageFile: function (packageId, fileName, params) {
-    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content?fileName=' + fileName, params)
+  modifyPackageFile: function (packageId, params) {
+    return PUT(URL_PREFIX_DEVELOPER + 'apppackages/' + packageId + '/action/update-file-content', params)
   },
   getFileInfo: function (fileId) {
     return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
@@ -273,6 +281,7 @@ let atpTestApi = {
 }
 
 export {
+  URL_PREFIX_DEVELOPER,
   sandbox,
   applicationApi,
   applicationRules,

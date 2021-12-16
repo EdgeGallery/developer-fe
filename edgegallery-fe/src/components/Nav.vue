@@ -88,7 +88,7 @@
     </div>
     <el-collapse-transition>
       <div
-        v-show="menu_small"
+        v-show="menuSmall"
         id="menu-div"
       >
         <TopbarSmall
@@ -108,6 +108,14 @@ import navDataCn from '../navdata/navDataCn.js'
 import Topbar from './Topbar.vue'
 import TopbarSmall from './TopbarSmall.vue'
 import { NAV_PRE, FIRST_LEVEL_MENU_PATH, MODULES, HEALTH_URL } from '../constants.js'
+import {
+  PROXY_PREFIX_CURRENTSERVER,
+  PLATFORMNAME_APPSTORE,
+  PLATFORMNAME_DEVELOPER,
+  PLATFORMNAME_MECM,
+  PLATFORMNAME_ATP
+} from '../tools/constant.js'
+import { getPlatformUrlPrefix } from '../tools/common.js'
 export default {
   name: 'NavgationNew',
   components: {
@@ -131,7 +139,7 @@ export default {
       languageIcon: require('../assets/images/nav_en.png'),
       loginPage: '',
       userCenterPage: '',
-      menu_small: false,
+      menuSmall: false,
       screenHeight: document.body.clientHeight,
       timer: false,
       ifGuest: true,
@@ -224,9 +232,7 @@ export default {
       this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.MECM)
     },
     filterMenu () {
-      let originArray = window.location.origin.split(':')
-      let urlPre = originArray[0] + ':' + originArray[1] + ':'
-      let mecmHealthCheckUrl = urlPre + MODULES.MECM.port + HEALTH_URL
+      let mecmHealthCheckUrl = getPlatformUrlPrefix(PLATFORMNAME_MECM) + HEALTH_URL
       healthCheck(mecmHealthCheckUrl).then(res1 => {
         if (res1.status !== 200) {
           this.filterMecmMenu()
@@ -234,7 +240,8 @@ export default {
       }).catch(() => {
         this.filterMecmMenu()
       })
-      let appstoreHealthCheckUrl = urlPre + MODULES.APPSTORE.port + HEALTH_URL
+
+      let appstoreHealthCheckUrl = getPlatformUrlPrefix(PLATFORMNAME_APPSTORE) + HEALTH_URL
       healthCheck(appstoreHealthCheckUrl).then(res2 => {
         if (res2.status !== 200) {
           this.filterAppstoreMenu()
@@ -242,7 +249,8 @@ export default {
       }).catch(() => {
         this.filterAppstoreMenu()
       })
-      let atpHealthCheckUrl = urlPre + MODULES.ATP.port + HEALTH_URL
+
+      let atpHealthCheckUrl = getPlatformUrlPrefix(PLATFORMNAME_ATP) + HEALTH_URL
       healthCheck(atpHealthCheckUrl).then(res3 => {
         if (res3.status !== 200) {
           this.filterAtpMenu()
@@ -250,7 +258,8 @@ export default {
       }).catch(() => {
         this.filterAtpMenu()
       })
-      let developerHealthCheckUrl = urlPre + MODULES.DEVELOPER.port + HEALTH_URL
+
+      let developerHealthCheckUrl = getPlatformUrlPrefix(PLATFORMNAME_DEVELOPER) + HEALTH_URL
       healthCheck(developerHealthCheckUrl).then(res4 => {
         if (res4.status !== 200) {
           this.filterDeveloperMenu()
@@ -307,6 +316,7 @@ export default {
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
+        sessionStorage.setItem('loginPage', res.data.loginPage)
         this.userName = res.data.userName
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
@@ -343,7 +353,7 @@ export default {
         return
       }
       let _wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
-      this.wsSocketConn = new WebSocket(_wsProtocol + window.location.host + '/wsserver/' + sessId)
+      this.wsSocketConn = new WebSocket(_wsProtocol + window.location.host + PROXY_PREFIX_CURRENTSERVER + '/wsserver/' + sessId)
       let _thisObj = this
       this.wsSocketConn.onmessage = function (msg) {
         clearTimeout(_thisObj.wsMsgSendInterval)
@@ -396,11 +406,11 @@ export default {
     },
     clickSmallMenu () {
       this.setScreenHeight(this.screenHeight)
-      this.menu_small = !this.menu_small
+      this.menuSmall = !this.menuSmall
     },
     // When mobile user selects menu, close the menu tab
     closeMenu (data) {
-      this.menu_small = data
+      this.menuSmall = data
     },
     logout () {
       this.manualLoggout = true
@@ -412,8 +422,7 @@ export default {
       })
     },
     enterLoginPage () {
-      let _protocol = window.location.href.indexOf('https') > -1 ? 'https://' : 'http://'
-      window.location.href = this.loginPage + '&return_to=' + _protocol + window.location.host
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
@@ -659,6 +668,11 @@ export default {
     }
     .rt:first-child span{
       margin-right: 0;
+    }
+  }
+  @media screen and (min-width: 1091px) {
+    .main-sidebar-small{
+      display: none;
     }
   }
 }

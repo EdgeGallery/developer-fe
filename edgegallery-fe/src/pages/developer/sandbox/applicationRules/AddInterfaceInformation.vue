@@ -22,7 +22,7 @@
 
     <el-form
       id="form_interfaceInformation"
-      label-width="125px"
+      :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
       size="mini"
       class="common-form form-one-column"
       :model="interfaceInformationForm"
@@ -143,7 +143,10 @@ export default {
         { value: 'GTP-U' },
         { value: 'GRE' }
       ],
-      commonData: this.commonDataProp
+      commonData: this.commonDataProp,
+      language: localStorage.getItem('language'),
+      formLabelWidth: '150px',
+      formLabelWidthEn: '270px'
     }
   },
   methods: {
@@ -232,6 +235,11 @@ export default {
           }
         }
       }
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {

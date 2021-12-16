@@ -60,6 +60,12 @@
       :class="zoom===2?'':'app-flex-main'"
     >
       <div
+        v-if="userName && userName==='guest'"
+        class="guest"
+      >
+        <span @click="logout">{{ $t('common.login') }}</span>
+      </div>
+      <div
         class="app-list-title"
         v-if="zoom!==2"
       >
@@ -105,6 +111,8 @@
 </template>
 
 <script>
+import { logoutApi } from '../../../tools/tool.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../../../tools/constant.js'
 import { applicationApi } from '../../../api/developerApi.js'
 import Pagination from '../../../components/Pagination.vue'
 import ListComp from './ListComp.vue'
@@ -130,7 +138,9 @@ export default {
       isSearchActive: false,
       isViewActive: false,
       isDeleteActive: false,
-      searchContent: ''
+      searchContent: '',
+      userName: sessionStorage.getItem('userName'),
+      loginPage: sessionStorage.getItem('loginPage') || ''
     }
   },
   watch: {
@@ -195,6 +205,18 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    logout () {
+      this.manualLoggout = true
+      logoutApi().then(() => {
+        this.enterLoginPage()
+      }).catch(err => {
+        console.log(err)
+        this.enterLoginPage()
+      })
+    },
+    enterLoginPage () {
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
     }
   },
   mounted () {
@@ -274,6 +296,14 @@ export default {
   .app-pagenation{
     position: relative;
     right: 25px;
+  }
+  .guest{
+    width: 100%;
+    text-align: center;
+    margin-top: 350px;
+    span{
+      cursor: pointer;
+    }
   }
 }
 .el-input__icon{

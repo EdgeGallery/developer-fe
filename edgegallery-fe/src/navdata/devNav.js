@@ -34,14 +34,14 @@ const devNavData = [
   {
     id: '1.8',
     name: 'Toolbox',
-    path: '',
+    path: pathPre + '/mecDeveloper/toolbox/appedit',
     display: true,
     authority: ['ROLE_APPSTORE_ADMIN'],
     children: [
       {
         id: '1.8.1',
         name: 'Application Editor',
-        path: '',
+        path: pathPre + '/mecDeveloper/toolbox/appedit',
         display: true
       }
     ]

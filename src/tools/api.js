@@ -488,6 +488,9 @@ let imageMgmtService = {
   slimImage: function (imageId) {
     return Post('mec/developer/v2/vmimages/' + imageId + '/action/slim', '')
   },
+  getOperationInfo (operationId) {
+    return Get('mec/developer/v2/operations/' + operationId)
+  },
   // ContainerImage
   newContainerImage: function (imgData) {
     return Post('mec/developer/v2/containerimages/', imgData)
@@ -549,6 +552,32 @@ let profileMgmtApi = {
   }
 }
 
+let applicationEditorApi = {
+  getReleasedPackage: function (params) {
+    return Get('mec/developer/v2/released-packages', params)
+  },
+  getAppData: function (params) {
+    return Post('mec/appstore/v2/apps/action/query', params, 'appstore')
+  },
+  syncApplication: function (params) {
+    return Post('mec/developer/v2/released-packages', params)
+  },
+  getPkgStucture: function (packageId) {
+    return Get('mec/developer/v2/released-packages/' + packageId + '/action/get-pkg-structure')
+  },
+  getPkgContent: function (packageId, params) {
+    return Post('mec/developer/v2/released-packages/' + packageId + '/action/get-file-content', params)
+  },
+  modifyPkgFile: function (packageId, params) {
+    return Put('mec/developer/v2/released-packages/' + packageId + '/action/edit-file-content', params)
+  },
+  deleteModifyApp: function (packageId) {
+    return Delete('mec/developer/v2/released-packages/' + packageId)
+  },
+  publishModifyApp: function (packageId, params) {
+    return Post('mec/developer/v2/released-packages/' + packageId + '/action/release', params)
+  }
+}
 export {
   Plugin,
   Api,
@@ -558,5 +587,6 @@ export {
   vmService,
   imageMgmtService,
   Capability,
-  profileMgmtApi
+  profileMgmtApi,
+  applicationEditorApi
 }

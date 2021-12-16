@@ -9,7 +9,7 @@
         :rules="applicationFormRules"
         ref="applicationForm"
         class="common-form"
-        label-width="105px"
+        label-width="170px"
         label-position="right"
         size="mini"
       >
@@ -189,7 +189,6 @@
             v-model="applicationFormData.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            :placeholder="$t('service.inputBox')"
           />
         </el-form-item>
       </el-form>
@@ -212,7 +211,7 @@
 </template>
 
 <script>
-import { applicationApi } from '../../../api/developerApi.js'
+import { applicationApi, URL_PREFIX_DEVELOPER } from '../../../api/developerApi.js'
 import { Industry, Type, Architecture } from '../../../tools/commondata.js'
 export default {
   name: 'CreateProComp',
@@ -428,6 +427,7 @@ export default {
       applicationApi.createNewApp(this.applicationFormData).then(res => {
         sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
         sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
+        sessionStorage.setItem('architecture', this.applicationFormData.architecture)
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
@@ -453,7 +453,7 @@ export default {
     },
     getFileIconInfo (iconFileId) {
       let image = new Image()
-      image.src = '/mec-developer/mec/developer/v2/upload-files/' + iconFileId + '/action/get-file-stream'
+      image.src = URL_PREFIX_DEVELOPER + 'upload-files/' + iconFileId + '/action/get-file-stream'
       this.imageUrl = image.src
       image.onload = () => {
         let base64 = this.getBase64Image(image)
@@ -487,20 +487,20 @@ export default {
   .upload-comp{
     display: flex;
     justify-content: left;
-    height: 30px;
+    height: 46px;
     .default-icon{
-      width: 30px;
-      height: 30px;
+      width: 63px;
+      height: 46px;
       background: url("../../../assets/images/application/app_default_icon.png") no-repeat center;
       background-size: cover;
     }
     .or{
-      line-height: 30px;
+      line-height: 46px;
       margin: 0 10px;
     }
     .upload-icon{
-      height: 30px;
-      line-height: 30px;
+      height: 46px;
+      line-height: 46px;
       display: flex;
     }
     .upload-content{
@@ -512,18 +512,18 @@ export default {
     display: flex;
   }
   .icon-upload-info{
-    top: 5px;
+    top: 11px;
     left: 10px;
   }
    .guide-upload-info{
-    top: 5px;
+    top: 11px;
     left: 8px;
   }
   .icon-info-active {
     position: relative;
-    top: 5px;
+    top: 11px;
     left: 10px;
-    height: 15px;
+    height: 24px;
   }
   .upload-md-btn{
     background: rgba(255,255,255,.5);
@@ -555,8 +555,8 @@ export default {
     float: left;
   }
   .avatar{
-    width:  28px;
-    height: 28px;
+    width:  44px;
+    height: 44px;
     border: 1px solid #fff;
     border-radius: 6px;
   }
@@ -564,9 +564,13 @@ export default {
     border: 1px dashed #fff;
     border-radius: 6px;
     box-sizing: border-box;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+  }
+  .el-icon-plus:before{
+    font-size: 22px;
+    top: 0 !important;
   }
   .el-icon-delete{
     width: 28px;
@@ -583,11 +587,11 @@ export default {
   .choose-default-icon::after{
     content: '';
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     background: url('../../../assets/images/application/app_success.png') center no-repeat;
     position: relative;
-    top: -10px;
-    left: 10px;
+    top: -18px;
+    left: 30px;
   }
 </style>

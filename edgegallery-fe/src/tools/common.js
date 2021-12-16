@@ -21,6 +21,31 @@
 //   PUT,
 //   DELETE
 // } from './request.js'
+import {
+  PLATFORM_LIST,
+  PROXY_PREFIX_CURRENTSERVER,
+  PORT_CURRENTSERVER,
+  DOMAIN_CURRENTSERVER
+} from './constant.js'
+
+function getPlatformUrlPrefix (platformName) {
+  let _platform = PLATFORM_LIST.find(platformItem => platformItem.name === platformName)
+
+  let _proxyPrefix = _platform ? _platform.proxyPrefix : PROXY_PREFIX_CURRENTSERVER
+  let _port = _platform ? _platform.port : PORT_CURRENTSERVER
+  let _domain = _platform ? _platform.domain : DOMAIN_CURRENTSERVER
+
+  let _originUrl = window.location.origin
+  if (PROXY_PREFIX_CURRENTSERVER) {
+    return _originUrl + _proxyPrefix
+  }
+
+  if (_originUrl.indexOf(PORT_CURRENTSERVER) !== -1) {
+    return _originUrl.replace(PORT_CURRENTSERVER, _port)
+  } else {
+    return _originUrl.replace(DOMAIN_CURRENTSERVER, _domain)
+  }
+}
 
 function formatDate (timestamp) {
   let date = new Date(timestamp)
@@ -58,6 +83,7 @@ function filterArr (arr) {
   })
 }
 export {
+  getPlatformUrlPrefix,
   formatDateTime,
   formatDate,
   filterArr

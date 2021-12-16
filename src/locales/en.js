@@ -107,6 +107,22 @@ const en = {
     toolChainInfo5: 'X86 assembly code',
     mdText: 'Please upload an .md file to explain the functions and usage of the plug-in, etc.'
   },
+  toolBox: {
+    appEditorTitle: 'Application Editor',
+    selectApp: 'Select application',
+    provider: 'Provider',
+    architecture: 'Architecture',
+    synchronizeDate: 'Synchronised time',
+    publish: 'Publish',
+    publishSuc: 'Publish Successful',
+    appEditor: {
+      checkModified: 'Please check if the file has been modified',
+      edit: 'Preview and edit',
+      checkMf: 'Before publishing the application, you need to modify any of the three fields app_product_name, app_provider_id, app_package_version in the ‘.mf’ file',
+      editAppTitle: 'Select the application that needs to be modified',
+      syncFailed: 'Sync failed!'
+    }
+  },
   api: {
     docs: 'Docs',
     updated: 'Updated',

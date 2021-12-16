@@ -94,6 +94,13 @@
         <el-button
           id="btn_confirm"
           class="common-btn"
+          @click="editVmDetail"
+        >
+          {{ $t('common.edit') }}
+        </el-button>
+        <el-button
+          id="btn_confirm"
+          class="common-btn"
           @click="closeVmDetail"
         >
           {{ $t('common.finish') }}
@@ -122,7 +129,8 @@ export default {
       },
       vmImageInformation: {},
       vmId: '',
-      language: localStorage.getItem('language') || 'cn'
+      language: localStorage.getItem('language') || 'cn',
+      vmDetail: {}
     }
   },
   methods: {
@@ -141,10 +149,17 @@ export default {
       this.bus.$on('getVmExportImageInfo', function (data) {
         _this.vmImageInformation = data
       })
+      this.bus.$on('getVmStartErr', function (data) {
+        console.log(data)
+      })
+      this.bus.$on('getVmExportErr', function (data) {
+        console.log(data)
+      })
     },
     getVmDetail (vmId) {
       sandbox.getVmDetail(this.applicationId, vmId).then(res => {
         if (res.data) {
+          this.vmDetail = res.data
           this.vmBasicInformation.vmName = res.data.name
           let _arr = []
           res.data.portList.forEach(item => {
@@ -170,6 +185,10 @@ export default {
       sandbox.getVmDetailFlavor(flavorId).then(res => {
         this.vmBasicInformation.flavor = res.data.architecture + ', ' + res.data.name + ', ' + res.data.cpu + 'vCPUs' + res.data.memory + 'GB RAM, ' + res.data.dataDiskSize + 'GB+' + res.data.systemDiskSize + 'GB Disk'
       })
+    },
+    editVmDetail () {
+      this.bus.$emit('editVmDetail', this.vmDetail)
+      this.$emit('editVmDetail')
     }
   },
   watch: {
