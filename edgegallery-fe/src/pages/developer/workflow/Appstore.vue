@@ -57,7 +57,7 @@ export default {
           toPath: '/EG/appstore/appWarehouse'
         }
       ],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   watch: {

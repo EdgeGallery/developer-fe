@@ -22,11 +22,11 @@
             class="steps-num"
             v-if="item.id!==10"
           >
-            {{ item.id }}
+            {{ 'Step'+item.id }}
           </div>
           <img
             :src="item.src"
-            :class="[currentFlow>item.id||currentFlow===item.id?'active':'']"
+            :class="[currentFlow>item.id?'active':'']"
             alt="EdgeGallery"
           >
           <div class="flow-name">
@@ -96,7 +96,7 @@ export default {
           toPath: '/EG/developer/selectScenarios'
         }
       ],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   watch: {
@@ -151,28 +151,28 @@ export default {
     left: 55px;
     top: 240px;
     .flow-name{
-      top: 70px;
+      top: 60px;
     }
   }
   .app-image{
     left: 395px;
     top: -180px;
     .flow-name{
-      top: 70px;
+      top: 60px;
     }
   }
   .app-test{
     left: 567px;
     top: -320px;
     .flow-name{
-      top: 70px;
+      top: 60px;
     }
   }
   .app-sandbox{
     left: 260px;
-    top: 165px;
+    top: 170px;
     .flow-name{
-      top: 70px;
+      top: 60px;
     }
   }
 }
