@@ -27,7 +27,7 @@ const en = {
     createTime: 'Create Time :',
     description: 'Description',
     baseDesc: 'Description :',
-    fileName: 'APP Detail Introduction :',
+    fileName: 'APP Detail :',
     resourceConfig: 'Resource Config',
     vmName: 'VM Name',
     spec: 'Spec',

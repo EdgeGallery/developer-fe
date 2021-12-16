@@ -310,6 +310,13 @@ export default {
     position: relative;
   }
   .contibution-form{
+    .el-form-item__label{
+      font-size: 18px;
+    }
+    .el-button.inner-btn {
+      padding: 8px 24px;
+      font-size: 16px !important;
+    }
     .el-input__inner,.el-textarea__inner{
       color: #C9BDF3;
       background-color: rgba(255,255,255,.45);

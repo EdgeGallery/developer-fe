@@ -53,8 +53,8 @@
               </el-row>
               <el-row>
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.type')">
-                    {{ basicInfoData.type }}
+                  <el-form-item :label="$t('appPackage.createTime')">
+                    {{ basicInfoData.createTime }}
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -68,20 +68,20 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.createTime')">
-                    {{ basicInfoData.createTime }}
+                  <el-form-item :label="$t('appPackage.type')">
+                    {{ basicInfoData.type }}
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row class="thirdline">
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.baseDesc')">
-                    {{ basicInfoData.description }}
+                  <el-form-item :label="$t('appPackage.fileName')">
+                    {{ basicInfoData.fileName }}
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.fileName')">
-                    {{ basicInfoData.fileName }}
+                  <el-form-item :label="$t('appPackage.baseDesc')">
+                    {{ basicInfoData.description }}
                   </el-form-item>
                 </el-col>
               </el-row>
