@@ -152,7 +152,6 @@
         <el-form-item
           :label="$t('incubation.guideDoc')"
           class="label-item-half"
-          prop="mdFileList"
         >
           <el-upload
             class="upload-demo lt"
@@ -241,9 +240,6 @@ export default {
         ],
         provider: [
           { required: true, message: this.$t('incubation.providerTip'), trigger: 'blur' }
-        ],
-        mdFileList: [
-          { required: true, trigger: 'change' }
         ],
         description: [
           { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
