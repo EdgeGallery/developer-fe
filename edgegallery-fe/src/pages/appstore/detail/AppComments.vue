@@ -67,7 +67,7 @@
     >
       <div class="div_comment_total">
         <p class="p_count_Title defaultFontLight">
-          {{ $t('store.allcomments') }}
+          {{ $t('store.allComments') }}
         </p>
         <p
           class="p_total defaultFontLight"

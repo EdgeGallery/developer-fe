@@ -76,7 +76,7 @@
         <div class="editInternet-btns">
           <el-button
             size="mini"
-            @click="addInetrnetCancel"
+            @click="cancalAddInternet"
           >
             {{ $t('common.cancel') }}
           </el-button>
@@ -86,15 +86,15 @@
         <el-button
           id="btn_confirmEditNetwork"
           class="common-btn"
-          @click="backVmDetail()"
+          @click="goBackVmDetail()"
         >
           {{ $t('common.back') }}
         </el-button>
         <el-button
           id="btn_confirmEditNetwork"
           class="common-btn"
-          :disabled="addTypeBtn"
-          @click="addInetrnetConfirm()"
+          :disabled="isAddNameRepeat"
+          @click="confirmAddInetrnet()"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -118,7 +118,7 @@ export default {
       ],
       applicationId: sessionStorage.getItem('applicationId') || '',
       ifAddInternetBtn: false,
-      addTypeBtn: false
+      isAddNameRepeat: false
     }
   },
   methods: {
@@ -151,14 +151,14 @@ export default {
     ifInternetNameRepeat () {
       this.vmNetworkList.forEach(item => {
         if (item.name === this.newNetworkList[0].name) {
-          this.addTypeBtn = true
+          this.isAddNameRepeat = true
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.internetNameRepeat'), 'warning')
         } else {
-          this.addTypeBtn = false
+          this.isAddNameRepeat = false
         }
       })
     },
-    addInetrnetCancel () {
+    cancalAddInternet () {
       this.ifAddInternetBtn = false
       this.newNetworkList = [
         {
@@ -167,7 +167,7 @@ export default {
         }
       ]
     },
-    backVmDetail () {
+    goBackVmDetail () {
       this.newNetworkList = [
         {
           name: '',
@@ -176,7 +176,7 @@ export default {
       ]
       this.$emit('editNetwork', '')
     },
-    addInetrnetConfirm () {
+    confirmAddInetrnet () {
       sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
         this.getInternetType()
         this.ifAddInternetBtn = false
