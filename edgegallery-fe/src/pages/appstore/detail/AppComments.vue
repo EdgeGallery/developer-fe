@@ -16,8 +16,8 @@
 
 <template>
   <div class="appComments">
-    <div class="submit_comment clearfix">
-      <span class="score_span">{{ $t('store.score') }}</span>
+    <div class="submit_comment clearfix defaultFontLight">
+      <span class="score_span defaultFontLight">{{ $t('store.score') }}</span>
       <el-rate
         v-model="comments.score"
         colors="colors"
@@ -40,14 +40,14 @@
           :placeholder="$t('store.commentInfo')"
         />
       </div>
-      <p class="submit_btn">
+      <div class="submit_btn">
         <el-button
-          type="primary"
+          class="common-btn button-font"
           @click="submitComment"
         >
           {{ $t('myApp.publish') }}
         </el-button>
-      </p>
+      </div>
     </div>
     <div
       class="no_comment"
@@ -57,7 +57,7 @@
         :src="noCommentIcon"
         alt=""
       >
-      <p>
+      <p class="defaultFontLight">
         {{ $t('store.noComment') }}
       </p>
     </div>
@@ -65,8 +65,20 @@
       class="show_comment"
       v-if="historyComentsList.length!==0"
     >
+      <div class="div_comment_total">
+        <p class="p_count_Title defaultFontLight">
+          {{ $t('store.allcomments') }}
+        </p>
+        <p
+          class="p_total defaultFontLight"
+          :class="language==='cn'?'':'p_total_en'"
+        >
+          {{ total }}
+        </p>
+      </div>
       <ul>
         <li
+          class="one-commont"
           v-for="(item,index) in historyComentsList"
           :key="index"
         >
@@ -83,13 +95,14 @@
             >
           </div>
           <div class="user_info">
-            <p>{{ item.user.userName }}</p>
-            <p class="commentTime">
+            <p class="userName defaultFontLight">
+              {{ item.user.userName }}
+            </p>
+            <p class="commentTime defaultFontLight">
               {{ item.commentTime }}
             </p>
           </div>
-          <div class="comment_content">
-            {{ item.body }}
+          <div class="comment_content defaultFontLight">
             <el-rate
               v-model="item.score"
               disabled
@@ -98,6 +111,7 @@
               show-score
               text-color="#ff9900"
             />
+            {{ item.body }}
           </div>
         </li>
       </ul>
@@ -130,7 +144,8 @@ export default {
       },
       historyComentsList: [],
       language: localStorage.getItem('language'),
-      colors: ['rgba(255, 255, 255, 0.01)']
+      colors: ['rgba(255, 255, 255, 0.01)'],
+      total: 0
     }
   },
   methods: {
@@ -162,6 +177,7 @@ export default {
     getComments () {
       appstoreApi.getComments(this.appId, this.limit, this.offset).then(res => {
         this.historyComentsList = res.data.results
+        this.total = this.historyComentsList.length
         this.handleDate()
       }, () => {
         this.$message({
@@ -199,19 +215,23 @@ export default {
 .appComments {
   margin: auto;
   border-radius: 16px;
+  padding: 20px 80px 20px 40px ;
   .submit_comment{
     padding: 20px;
     .score_span{
       float: left;
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 16px;
+      margin-right: 20px;
     }
     .el-rate{
       float: left;
       margin: 3px 0 0 10px;
       .el-rate__icon{
-        font-size: 22px;
+        font-size: 12.5px;
         color: #cb7234;
+      }
+      .el-rate__text {
+        margin-left: 6px;
       }
     }
     .comment_input{
@@ -220,36 +240,81 @@ export default {
       margin: 40px 0 20px;
       display: flex;
       .user_icon{
-        width: 60px;
-        height: 60px;
+        width: 44px;
+        height: 44px;
         border-radius: 50%;
         margin-right: 20px;
       }
       .el-textarea__inner{
         height: 80px;
-        box-shadow: inset 4px 4px 25px 5px rgba(102, 92, 189, 0.5) !important;
+        background: #4E3494;
+        color: #fff;
+        border: 1px solid rgba(225,225,225,0.5);
         border-radius: 12px;
         padding: 10px 30px 15px !important;
+      }
+      .el-textarea .el-input__count {
+        background: none;
+        color: #fff;
       }
     }
     .submit_btn{
       float: left;
       width: 100%;
       text-align: right;
-      .el-button{
-        font-size: 16px;
-        background-color: #FFFFFF;
-        color: #5944C0;
-        border-radius: 8pt;
+      .button-font{
+        font-family: defaultFont, Arial, Helvetica, sans-serif;
       }
     }
   }
   .show_comment{
+    width: 100%;
     padding: 20px;
-    li{
-      border-bottom: 1px solid #ddd;
-      margin-left: 80px;
-      padding: 20px 0;
+    .div_comment_total{
+      position: relative;
+      top: -11px;
+      left: 20px;
+      .p_count_Title {
+        float: left;
+        margin-right: 20px;
+        font-size: 16px;
+        color: #fff;
+      }
+      .p_total {
+        position: relative;
+        top: -20px;
+        left: 80px;
+        float: left;
+        font-size: 16px;
+        color: #fff;
+      }
+      .p_total_en{
+        position: relative;
+        top: -20px;
+        left: 120px;
+      }
+    }
+    .one-commont{
+      margin: 20px;
+      .user_info{
+        position: relative;
+        left: 60px;
+        top: -50px;
+        display: flex;
+        .userName{
+          width: 120px;
+        }
+      }
+      .comment_content{
+        position: relative;
+        left: 60px;
+        top: -40px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 40px;
+        .el-rate {
+          margin-bottom: 12px;
+        }
+      }
     }
   }
   .no_comment{

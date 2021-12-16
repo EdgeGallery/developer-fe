@@ -76,16 +76,9 @@
         <div class="editInternet-btns">
           <el-button
             size="mini"
-            @click="addInetrnetConfirm('cancel')"
+            @click="addInetrnetCancel"
           >
             {{ $t('common.cancel') }}
-          </el-button>
-          <el-button
-            size="mini"
-            :disabled="addTypeBtn"
-            @click="addInetrnetConfirm('confirm')"
-          >
-            {{ $t('common.confirm') }}
           </el-button>
         </div>
       </div>
@@ -96,6 +89,14 @@
           @click="backVmDetail()"
         >
           {{ $t('common.back') }}
+        </el-button>
+        <el-button
+          id="btn_confirmEditNetwork"
+          class="common-btn"
+          :disabled="addTypeBtn"
+          @click="addInetrnetConfirm()"
+        >
+          {{ $t('common.confirm') }}
         </el-button>
       </div>
     </div>
@@ -157,19 +158,27 @@ export default {
         }
       })
     },
-    addInetrnetConfirm (data) {
-      if (data === 'confirm') {
-        sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
-          this.getInternetType()
-          this.ifAddInternetBtn = false
-          this.newNetworkList = [
-            {
-              name: '',
-              description: ''
-            }
-          ]
-        })
-      } else {
+    addInetrnetCancel () {
+      this.ifAddInternetBtn = false
+      this.newNetworkList = [
+        {
+          name: '',
+          description: ''
+        }
+      ]
+    },
+    backVmDetail () {
+      this.newNetworkList = [
+        {
+          name: '',
+          description: ''
+        }
+      ]
+      this.$emit('editNetwork', '')
+    },
+    addInetrnetConfirm () {
+      sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
+        this.getInternetType()
         this.ifAddInternetBtn = false
         this.newNetworkList = [
           {
@@ -177,10 +186,7 @@ export default {
             description: ''
           }
         ]
-      }
-    },
-    backVmDetail () {
-      this.$emit('editNetwork', '')
+      })
     }
   },
   mounted () {
@@ -218,12 +224,14 @@ export default {
       cursor: pointer;
     }
     .el-button--mini{
-      color: #5944C0 ;
       border: none;
+      border-radius:6px ;
+      color: #fff;
+      background: #4E3494;
     }
     .el-button--mini:hover{
-      color: #fff;
-      background: #5944C0;
+     color: #4E3494 ;
+     background: #fff;
     }
     .network-table thead{
       height: 50px;
@@ -251,6 +259,9 @@ export default {
         .el-input {
           width: 35%;
         }
+      }
+      .editInternet-btns{
+        margin-right: 56px;
       }
     }
   }

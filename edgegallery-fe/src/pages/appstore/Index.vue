@@ -18,6 +18,9 @@
   <div
     class="padding_default"
   >
+    <p class="appstore-title defaultFontBold">
+      {{ $t('workflow.appstore') }}
+    </p>
     <div
       class="rt"
       style="margin:50px 20px 20px;"
@@ -53,8 +56,8 @@
             @click="jumpToDetail(item)"
           >
             <div
-              class="img-box"
-              :class="[item.experienceAble!==false ? (language==='cn'?'img-boxcn':'img-boxen'): '']"
+              class="img-box img-common"
+              :class="[item.experienceAble!==false ? (language==='cn'?'img-boxcn':'img-boxen'): '',index==0 ? (language==='cn'?'new-boxcn':'new-boxen'): '']"
             >
               <img
                 :src="getAppIcon(item)"
@@ -65,7 +68,7 @@
               class="scoreMode"
             >
               <p
-                class="appNameStyle"
+                class="appNameStyle defaultFontLight"
               >
                 {{ item.name }}
               </p>
@@ -75,12 +78,12 @@
                     src="../../assets/images/appstore/score_icon.png"
                     alt
                   >
-                  <span class="core">
+                  <span class="core defaultFontLight">
                     {{ item.score }}
                   </span>
                 </div>
                 <p
-                  class="deployMode"
+                  class="deployMode defaultFontLight"
                 >
                   {{ item.deployMode==='container' ? $t('store.deployContainer'):$t('store.deployVM') }}
                 </p>
@@ -179,6 +182,9 @@ export default {
     limitSize (val, oldVal) {
       this.limitSize = val
       this.getAppData()
+    },
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {
@@ -187,8 +193,16 @@ export default {
 }
 </script>
 <style lang='less'>
+.appstore-title{
+  letter-spacing: 5px;
+  font-size: 24px;
+  position: relative;
+  top: 84px;
+  left: 2px;
+  width: 300px;
+}
 .app-grid {
-  min-height: 320px;
+  min-height: 573px;
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
@@ -198,29 +212,29 @@ export default {
     padding: 0 2%;
     margin-bottom: 30px;
     .application {
-      border: 2px solid;
-      border-color: rgba(182, 164, 236, 0.6);
       border-radius: 16px;
       position: relative;
-      background-image: url('../../assets/images/appstore/app_bg.png');
       background-size: 100% 100%;
       .img-box {
         position: relative;
-        background-image: url('../../assets/images/appstore/app_icon_bg.png');
-        background-size: 100% 100%;
-        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.2);
         text-align: center;
         width: 100%;
         height: 158px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 16px 16px 0 0;
+        border-radius: 8px 8px 0 0;
         img {
           display: block;
           width: 50%;
           border-radius: 10%;
         }
+      }
+      .img-common{
+        background-size: 40%;
+        background-repeat: no-repeat;
+        background-position-x: right;
       }
       .img-boxen {
         background-image: url(../../assets/images/appstore/experience_flag_en.png) ;
@@ -228,13 +242,20 @@ export default {
       .img-boxcn {
         background-image: url(../../assets/images/appstore/experience_flag.png) ;
       }
+      .new-boxcn{
+        background-image: url(../../assets/images/appstore/new-boxcn.png) ;
+      }
+      .new-boxen{
+        background-image: url(../../assets/images/appstore/new-boxen.png) ;
+      }
       .scoreMode{
-        border-radius: 0 0 16px 16px;
+        border-radius: 0 0 8px 8px;
         width: 100%;
         padding: 12px 20px;
+        background: #4E3494;
         .appNameStyle {
           width: 100%;
-          font-size: 20px;
+          font-size: 18px;
           max-height: 36px;
           padding-bottom: 5px;
           overflow: hidden;
@@ -247,11 +268,13 @@ export default {
           justify-content: space-between;
           align-content: center;
           .score{
+            margin-top: 4px;
             img{
               width: 14px;
               height: 14px;
-              margin-right:6px ;
-              margin-top: 4px;
+              position: relative;
+              top: 1px;
+              margin-right: 6px;
             }
             .core{
               font-size: 14px;
@@ -270,16 +293,7 @@ export default {
     }
     .application:hover{
       transition: transform .3s ease-in-out, box-shadow .3s cubic-bezier(0, 0, 0, .715), border .3s linear .1s;
-      box-shadow: 0px 3px 3px #c8c8c8 !important;
-      -webkit-box-shadow: 0px 3px 3px #c8c8c8 !important;
       transform:translatey(-7px)
-    }
-  }
-  .content:first-child{
-    .application{
-      .img-box{
-         background-image: url(../../assets/images/appstore/new_app_flag.png) ;
-      }
     }
   }
   @media screen and (max-width: 1224px){

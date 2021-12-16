@@ -155,6 +155,12 @@ export default {
     color: #fff;
     opacity: 0.4;
   }
+  .el-pagination .el-select .el-input .el-input__inner{
+    border: 1px solid rgba(250,250,250,0.2)
+  }
+  .el-pagination .el-select .el-input.is-focus .el-input__inner,.el-pagination__sizes .el-input .el-input__inner:hover{
+   border-color: rgba(250,250,250,0.2) !important;
+ }
 }
 .el-select-dropdown__item.selected {
   color: #380879 !important;
