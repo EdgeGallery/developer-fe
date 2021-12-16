@@ -952,6 +952,7 @@ th{
   color: #fff;
   background-color: rgb(78,52,148);
   border: none;
+  font-size: 18px;
 }
 
 .el-form.common-form .el-input__inner:focus{
