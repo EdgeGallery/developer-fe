@@ -699,6 +699,7 @@ export default {
       background-color: rgba(10,9,54,0.25);
     }
     .sandbox-names{
+      z-index: 10;
       position: relative;
       margin-top: 20px;
       .sandbox-name-select{

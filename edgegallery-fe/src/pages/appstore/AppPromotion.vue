@@ -92,7 +92,7 @@
             />
             <el-table-column
               prop="name"
-              :placeholder="$t('apppromotion.appName')"
+              :label="$t('apppromotion.appName')"
               sortable="custom"
               width="200"
               :cell-class-name="hiddenClass"
@@ -116,16 +116,16 @@
             </el-table-column>
             <el-table-column
               prop="provider"
-              :placeholder="$t('apppromotion.provider')"
+              :label="$t('apppromotion.provider')"
             />
             <el-table-column
               prop="version"
-              :placeholder="$t('apppromotion.version')"
+              :label="$t('apppromotion.version')"
             />
             <el-table-column
               prop="deployMode"
-              :placeholder="$t('store.workloadType')"
-              width="125"
+              :label="$t('store.workloadType')"
+              width="100"
             >
               <template slot-scope="scope">
                 {{ scope.row.deployMode==='container' ? $t('store.deployContainer') : $t('store.deployVM') }}
@@ -135,6 +135,7 @@
               prop="latestPushTime"
               :label="$t('apppromotion.lastProTime')"
               sortable="custom"
+              width="160"
             />
             <el-table-column
               prop="pushTimes"
@@ -459,7 +460,7 @@ export default {
       }
     }
     .app-list {
-      max-height: 93%;
+      max-height: 80%;
       overflow: auto;
       padding: 31px;
       position: relative;
@@ -470,12 +471,15 @@ export default {
         margin-left: 10px;
         float: right;
         .appPull{
-          box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8);
+          margin-top: 1px;
           font-size: 16px !important;
-          font-weight: 300 !important;
-          color: #0F0D87;
+          color: #5944C0;
           background-color: #fff;
           border: none;
+          padding: 6px 10px;
+        }
+        .el-button--primary.is-disabled{
+          color: #5944C0 !important;
         }
       }
       .search-input{
@@ -485,11 +489,17 @@ export default {
       .search-input .el-input__inner,.selectStyle .el-input__inner{
         color: #C9BDF3;
         border-radius: 16px;
-        background-color: rgba(255,255,255,.45);
+        background-color: rgba(46,20,124,.7);
+        border: 1px solid rgba(250, 250, 250, 0.6);
       }
       .selectStyle{
         width: 260px;
         float: right;
+        .el-tag.el-tag--info {
+           background-color: #4e3494;
+          border-color: #4e3494;
+          color: #fff;
+        }
       }
       .appPromPackageTable{
         margin: 20px 0 40px 0;
@@ -500,18 +510,19 @@ export default {
           text-decoration: none;
           color: #fff;
           padding: 4px 12px;
-          border-radius: 12px;
+          border-radius: 5px;
+          background: #4E3494;
         }
         .el-table th > .cell {
-          font-size: 18px;
+          font-size: 16px;
           height: 60px;
           line-height: 60px;
           font-weight: lighter;
         }
       .el-table td > .cell {
-          height: 80px;
-          line-height: 80px;
-          font-size: 16px;
+          height: 70px !important;
+          line-height: 70px !important;
+          font-size: 14px;
         }
       }
     }

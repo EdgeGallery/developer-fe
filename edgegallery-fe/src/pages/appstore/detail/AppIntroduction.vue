@@ -43,5 +43,21 @@ export default {
 .appIntroduction {
   margin: auto;
   border-radius: 16px;
+  .markdown-body{
+    background: rgba(46, 26, 124,0.1);
+    color: #fff;
+    font-family: defaultFontLight,
+     Arial,
+     Helvetica,
+     sans-serif !important;
+  }
+  .v-note-wrapper .v-note-panel .v-note-show .v-show-content, .v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
+    width: 100%;
+    height: 410px;
+  }
+   .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+    background: none !important;
+    padding: 40px;
+  }
 }
 </style>

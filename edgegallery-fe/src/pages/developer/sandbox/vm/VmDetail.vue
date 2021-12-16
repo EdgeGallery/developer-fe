@@ -149,6 +149,12 @@ export default {
       this.bus.$on('getVmExportImageInfo', function (data) {
         _this.vmImageInformation = data
       })
+      this.bus.$on('getVmStartErr', function (data) {
+        console.log(data)
+      })
+      this.bus.$on('getVmExportErr', function (data) {
+        console.log(data)
+      })
     },
     getVmDetail (vmId) {
       sandbox.getVmDetail(this.applicationId, vmId).then(res => {
