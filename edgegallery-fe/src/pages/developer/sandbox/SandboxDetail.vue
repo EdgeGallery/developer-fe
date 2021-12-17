@@ -16,7 +16,10 @@
 <template>
   <div class="detail">
     <div v-if="showContent==='showDetail'">
-      <div class="detail-top clear">
+      <div
+        class="detail-top clear"
+        v-if="isChangeStyle"
+      >
         <div class="sandboxName-background flex-center">
           <el-button
             @click="showSandboxName = !showSandboxName"
@@ -71,22 +74,70 @@
         </div>
         <div
           v-else
-          class="deploy-detail-bg common-div-bg"
+          class="deploy-detail-bg common-div-bg clear"
         >
-          <div class="common-dlg-title">
+          <div class="detail-top detail-top-inner clear">
+            <div class="sandboxName-background flex-center">
+              <el-button
+                @click="showSandboxName = !showSandboxName"
+                class="detail-top-title defaultFontBold"
+              >
+                {{ detailTitle }}
+              </el-button>
+            </div>
+            <div class="sandbox-names">
+              <el-collapse-transition>
+                <div
+                  v-show="showSandboxName"
+                  class="sandbox-name-select"
+                >
+                  <div
+                    class="one-select"
+                    v-for="(item,index) in sandboxNames"
+                    :key="index"
+                    @click="changeSandbox(item)"
+                  >
+                    <p class="triangle" />
+                    <p class="select-options defaultFontLight">
+                      {{ item.label }}
+                    </p>
+                  </div>
+                </div>
+              </el-collapse-transition>
+            </div>
+          </div>
+          <div class="application-title">
             {{ applicationName }}
-            <img
-              v-if="appClass==='VM' && vmLists.length>=3"
+            <div
               class="add-vm-small rt"
-              src="../../../assets/images/sandbox/vm_add_icon.png"
-              alt=""
-              @click="addVm"
+              v-if="appClass==='VM' && vmLists.length>=1"
             >
+              <img
+                src="../../../assets/images/sandbox/vm_add_icon.png"
+                alt=""
+                @click="addVm"
+              >
+            </div>
           </div>
           <div
             class="details-center clear"
             v-if="appClass==='VM'"
           >
+            <div class="sandbox-upf-div">
+              <div
+                class="sandbox-upf flex-center"
+                @click="addApplicationRules"
+              >
+                <img
+                  src="../../../assets/images/sandbox/sandbox_upf.png"
+                  alt=""
+                >
+              </div>
+              <div class="deploy-title">
+                {{ $t('sandbox.upf') }}
+              </div>
+            </div>
+
             <div class="details-center-deploy vm-div">
               <div class="details-center-deploy-img">
                 <div
@@ -94,19 +145,9 @@
                   @click="selectNet"
                 >
                   <img
-                    class="deploy-img-center"
-                    :class="{'deploy-img-center-finish':configNetworkFinish,'breath':!deployBreathStyle}"
-                    src="../../../assets/images/sandbox/deploy_img.png"
-                    @mouseleave="!configNetworkFinish"
-                    alt=""
-                    v-if="!configNetworkFinish"
-                  >
-                  <img
-                    class="deploy-img-center"
-                    :class="{'deploy-img-center-finish':configNetworkFinish}"
+                    class="deploy-img-center deploy-img-center-finish"
                     src="../../../assets/images/sandbox/deploy_img_finish.png"
                     alt=""
-                    v-if="configNetworkFinish"
                   >
                   <div class="deploy-edit flex-center">
                     <el-tooltip
@@ -128,25 +169,28 @@
               </div>
             </div>
             <ul
-              class="netLine lt"
+              class="ul-scoll lt"
               v-if="!isAddVmFinish"
             >
               <li
                 class="oneNet"
-                v-for="(item,index) in netNum"
+                v-for="(item,index) in netWorkList"
                 :key="index"
-              />
+              >
+                <p class="title">
+                  {{ item.name }}
+                </p>
+                <p class="clear">
+                  <span class="span-cicle lt" />
+                  <span class="span-line lt" />
+                  <span class="span-cicle rt" />
+                </p>
+              </li>
             </ul>
-            <NetScroll
-              v-else
-              class="netLine-list lt"
-              :network-list-prop="netWorkListShow"
-            />
-
             <swiper
               v-if="vmLists.length>0"
               class="vm-swiper"
-              :class="{'lt':vmLists.length<3}"
+              :class="{'lt':vmLists.length<2}"
               :options="swiperOption"
               :key="swiperKey"
             >
@@ -156,7 +200,7 @@
               >
                 <VmList
                   :key="index"
-                  class="vm-div"
+                  class="vm-list-div"
                   v-show="!isChangeStyle"
                   @deleteVm="deleteVm"
                   @checkVmDetail="checkVmDetail"
@@ -172,13 +216,13 @@
               </swiper-slide>
               <div
                 class="swiper-pagination"
-                :class="{'swiper-pagination-none':vmLists.length<=3}"
+                :class="{'swiper-pagination-none':vmLists.length<=1}"
                 slot="pagination"
               />
             </swiper>
             <div
               class="details-center-deploy vm-div"
-              v-if="vmLists.length<3"
+              v-if="vmLists.length<1"
             >
               <div class="details-center-deploy-img">
                 <div
@@ -186,7 +230,7 @@
                   @click="addVm"
                 >
                   <img
-                    class="deploy-img-center-finish"
+                    class="deploy-img-center-finish add-vm-big"
                     :class="{'breath':addVmBreathStyle}"
                     src="../../../assets/images/sandbox/vm_add_icon.png"
                     @mouseleave="addVmBreathStyle=true"
@@ -225,6 +269,14 @@
                 {{ $t('sandbox.releaseResources') }}
               </el-button>
               <el-button
+                id="btn_cancelSandboxInner"
+                v-if="appClass==='VM'"
+                class="common-btn"
+                @click="isChangeStyle=true"
+              >
+                {{ $t('common.back') }}
+              </el-button>
+              <el-button
                 id="btn_sandboxFinish"
                 class="common-btn"
                 :disabled="!this.isAddVmFinish"
@@ -242,15 +294,8 @@
           5G MEC
         </div>
         <img
-          v-if="!isMecSucess"
+          v-if="isChangeStyle"
           src="../../../assets/images/sandbox/mec_failed.png"
-          alt=""
-          class="detail-center-line"
-          :class="{'scale-small-line':!isChangeStyle}"
-        >
-        <img
-          v-else
-          src="../../../assets/images/sandbox/mec_sucess.png"
           alt=""
           class="detail-center-line"
           :class="{'scale-small-line':!isChangeStyle}"
@@ -258,7 +303,7 @@
       </div>
       <div
         class="detail-bottom"
-        :class="{'scale-small':!isChangeStyle}"
+        v-if="isChangeStyle"
       >
         <div class="detail-bottom-one">
           <div class="one-content flex-center">
@@ -322,14 +367,7 @@
           </p>
         </div>
         <img
-          v-if="!isMecSucess"
           src="../../../assets/images/sandbox/sucess_line.png"
-          alt=""
-          class="detail-bottom-line"
-        >
-        <img
-          v-else
-          src="../../../assets/images/sandbox/internet_failed.png"
           alt=""
           class="detail-bottom-line"
         >
@@ -345,14 +383,7 @@
           </p>
         </div>
         <img
-          v-if="!isMecSucess"
           src="../../../assets/images/sandbox/sucess_line.png"
-          alt=""
-          class="detail-bottom-line"
-        >
-        <img
-          v-else
-          src="../../../assets/images/sandbox/internet_failed.png"
           alt=""
           class="detail-bottom-line"
         >
@@ -374,6 +405,7 @@
       @addVmFinish="addVmFinish"
       :is-add-vm-prop="isAddVm"
       ref="addVmChild"
+      @getNetWorkList="getNetWorkList"
     />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
@@ -403,7 +435,6 @@
 <script>
 import ConfigNetwork from './vm/ConfigNetwork.vue'
 import AddVm from './vm/AddVm.vue'
-import NetScroll from './vm/NetScroll.vue'
 import VmDetail from './vm/VmDetail.vue'
 import VmList from './vm/VmList.vue'
 import VmUploadFile from './vm/VmUploadFile.vue'
@@ -416,7 +447,6 @@ export default {
   components: {
     ConfigNetwork,
     AddVm,
-    NetScroll,
     VmDetail,
     VmList,
     VmUploadFile,
@@ -444,7 +474,6 @@ export default {
       vmBreathStyle: false,
       selectedNetworks: [],
       netWorkList: [],
-      isMecSucess: false,
       isUpfSucess: false,
       vmId: '',
       applicationName: '',
@@ -452,8 +481,8 @@ export default {
       appClass: '',
       vmLists: [],
       swiperOption: {
-        slidesPerView: 3,
-        slidesPerGroup: 3,
+        slidesPerView: 1,
+        slidesPerGroup: 1,
         observer: true,
         observeParents: true,
         pagination: {
@@ -534,13 +563,6 @@ export default {
       this.showContent = 'showAddVm'
       this.isAddVm = false
     },
-    getUpfFinish () {
-      sandbox.getUpfFinished(this.applicationId).then(res => {
-        if (res.data.dnsRuleList.length !== 0 || res.data.trafficrulelist.length !== 0) {
-          this.isMecSucess = true
-        }
-      }).catch(() => {})
-    },
     addVmFinish (data) {
       if (data && data.length > 0) {
         this.networkList = data
@@ -589,6 +611,7 @@ export default {
         this.vmLists = []
         this.netWorkListShow = []
         if (res.data.length === 0) {
+          this.isAddVmFinish = false
           return
         }
         this.vmLists = res.data
@@ -618,11 +641,11 @@ export default {
       applicationApi.getAppInfo(this.applicationId).then(res => {
         this.applicationName = res.data.name
         this.appClass = res.data.appClass
-        if (this.appClass === 'VM') {
-          this.getVmList()
-        }
         if (res.data.status !== 'CREATED') {
           this.isAddVmFinish = true
+        }
+        if (this.appClass === 'VM') {
+          this.getVmList()
         }
       })
     },
@@ -649,6 +672,9 @@ export default {
         })
       })
       this.netWorkListShow = [...new Set(_arrTemp)]
+    },
+    getNetWorkList (data) {
+      this.netWorkList = data
     }
   },
   created () {
@@ -657,13 +683,10 @@ export default {
   mounted () {
     if (sessionStorage.getItem('applicationRules') === 'confirm') {
       this.isChangeStyle = false
-      this.isMecSucess = true
       this.isUpfSucess = true
     } else if (sessionStorage.getItem('applicationRules') === 'cancel') {
       this.isChangeStyle = false
-      this.isMecSucess = false
     }
-    this.getUpfFinish()
     this.getSandboxLists()
     this.ischangeSandbox()
   },
@@ -680,7 +703,10 @@ export default {
   font-size: 16px;
   color: #fff;
   .detail-top{
-    margin: 1% 0 0 13%;
+    float: left;
+    width: 50%;
+    position: relative;
+    left: 5%;
     .sandboxName-background{
       height: 88px;
       width: 300px;
@@ -691,7 +717,7 @@ export default {
         letter-spacing: 4px;
         background: url('../../../assets/images/sandbox/detail_title.png') no-repeat left;
         border: none;
-        font-size: 24px;
+        font-size: 28px;
         color: #fff;
       }
     }
@@ -701,19 +727,20 @@ export default {
     .sandbox-names{
       z-index: 10;
       position: relative;
-      margin-top: 20px;
+      margin-top: 10px;
       .sandbox-name-select{
         position: absolute;
         background-color:#290E74 ;
         border-radius:4px ;
         .one-select{
-          line-height: 31px;
-          width: 160px;
+          line-height: 35px;
+          width: 260px;
           display: flex;
           position: relative;
           .select-options{
-            line-height: 31px;
-            width: 80px;
+            line-height: 35px;
+            font-size: 20px;
+            width: 180px;
             overflow:hidden;
             white-space:nowrap;
             text-overflow:ellipsis;
@@ -746,20 +773,28 @@ export default {
       }
     }
   }
+  .application-title{
+    float: left;
+    width: 50%;
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+  }
+  .detail-top-inner{
+    margin: 0;
+    left: 30px;
+  }
   .detail-center{
     margin: 50px auto 0;
-    width: 259px;
-    max-width: 1110px;
-    height: 350px;
+    width: 460px;
     .detail-center-bg{
       position: relative;
-      width: 259px;
-      height: 200px;
+      width: 460px;
+      height: 300px;
       border-radius: 15px;
       background-color:rgba(46,20,124,0.7) ;
       .detail-center-img{
-        width: 154px;
-        height: 127px;
+        height: 60%;
       }
       .detail-center-title{
         display: none;
@@ -769,11 +804,12 @@ export default {
       .detail-center-title{
         display: block;
         z-index: 0;
-        width: 259px;
-        height: 38px;
+        width: 100%;
+        height: 50px;
         opacity: 1;
         margin-top: -10px;
-        line-height: 38px;
+        line-height: 50px;
+        font-size: 20px;
         position: absolute;
         text-align: center;
       }
@@ -802,8 +838,8 @@ export default {
     .detail-center-line{
       display: block;
       margin: 25px auto;
-      width: 16px;
-      height: 76px;
+      width: 4px;
+      height: 37px;
     }
   }
   .detail-bottom{
@@ -826,39 +862,42 @@ export default {
     }
     .detail-bottom-line{
       width: 76px;
-      height: 16px;
-      margin: 65px 10px 0px 10px;
+      height: 4px;
+      margin: 70px 10px 0px 10px;
     }
   }
   .deploy-detail-center{
-    width: auto;
-    height: 474px;
-    transition: all  0.4s;
+    width: 84%;
     .deploy-detail-bg{
       display:inline-block;
       text-align:left;
       min-width: 694px;
-      max-width: 1100px;
-      height: 474px;
-      overflow: hidden;
+      width: 100%;
       padding: 40px 40px;
       .add-vm-small{
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
         background: rgba(10, 9, 54, 1);
         opacity: 0.25;
-        padding: 5px;
+        margin-right: 55px;
         cursor: pointer;
+        img{
+          width: 20px;
+          height: 20px;
+          padding: 10px;
+          border: 4px solid #fff;
+          border-radius: 50%;
+          margin: 26px 0 0 26px;
+        }
       }
       .add-vm-small:hover{
-        width: 36px;
-        height: 36px;
+        opacity: 0.6;
+      }
+      .add-vm-big{
+        padding: 58px;
+        border: 8px solid #fff;
         border-radius: 50%;
-        background: rgba(10, 9, 54, 0.25);
-        opacity: 1;
-        padding: 5px;
-        cursor: pointer;
       }
        .details-top{
         display: flex;
@@ -875,20 +914,34 @@ export default {
         }
       }
       .details-center{
-        width: auto;
-        padding: 0 0 0 60px;
+        float: left;
+        width: 100%;
+        padding: 0 0 0 40px;
+        .sandbox-upf-div{
+          float: left;
+          margin: 40px 40px 0 0;
+        }
+        .sandbox-upf{
+          width: 300px;
+          height: 300px;
+          border-radius: 20px;
+          background-color: rgba(10, 9, 54, 0.25);
+        }
+        .sandbox-upf:hover{
+          cursor: pointer;
+        }
         .details-center-deploy{
           display: flex;
           flex-direction: column;
           .details-center-deploy-img{
             .deploy-img{
-              width: 150px;
-              height: 150px;
+              width: 300px;
+              height: 300px;
               border-radius: 20px;
               background-color: rgba(10, 9, 54, 0.25);
               .deploy-img-center{
-                width: 96px;
-                height: 96px;
+                width: 190px;
+                height: 190px;
                 opacity: 0.1;
                 position:absolute;
               }
@@ -901,8 +954,8 @@ export default {
               }
               .deploy-edit{
                 position: relative;
-                width: 150px;
-                height: 150px;
+                width: 300px;
+                height: 300px;
                 border-radius:20px ;
                 opacity: 0;
               }
@@ -931,21 +984,40 @@ export default {
           }
         }
         .vm-div{
-          width: 150px;
+          width: 300px;
           float: left;
-          margin-top: 37px;
+          margin-top: 40px;
         }
-        .netLine{
-          width: 154px;
-          height: 100px;
-          margin: 72px 16px 0 16px;
+        .vm-list-div{
+          width: 711px;
+          float: left;
+        }
+        .ul-scoll{
+          width: 300px;
+          margin: 72px 24px 0 24px;
           overflow: hidden;
           li{
-            width: 8px;
-            height:8px;
-            border-radius:50%;
-            background-color: #fff;
-            margin-bottom: 18px;
+            text-align: center;
+            overflow: hidden;
+            height: 52px;
+            font-size: 18px;
+            .title{
+              display: block;
+            }
+            .span-cicle{
+              width: 16px;
+              height: 16px;
+              background: #fff;
+              border-radius: 50%;
+              position: relative;
+              top: -3px;
+            }
+            .span-line{
+              width: calc(100% - 32px);
+              height: 1px;
+              background: #4F3AA4;
+              margin-top: 4px;
+            }
           }
         }
         .netLine-list{
@@ -954,17 +1026,23 @@ export default {
         .deploy-title{
           width: 104%;
           margin-left: -2%;
+          margin-top: 10px;
           text-align: center;
           line-height: 50px;
-          font-size: 18px;
+          font-size: 24px;
         }
       }
       .details-bottom{
+        float: left;
+        width: 100%;
         margin-top: 35px;
         .details-bottom-title{
-          font-size: 40px;
+          font-size: 80px;
           color: rgba(238, 238, 238, 0.2);
           font-family: defaultFontBold, Arial, Helvetica, sans-serif;
+        }
+        .vm-btn{
+          margin-top: 50px;
         }
         .exportImage_btn_show{
           display: block;
@@ -1046,10 +1124,9 @@ export default {
   .swiper-container.vm-swiper{
     position: static;
     padding-bottom: 15px;
-    padding-left: 20px;
-    margin: 0;
+    margin: 40px 0 0;
     .swiper-slide{
-      width: 206.66px !important;
+      width: 711px !important;
     }
     .swiper-pagination-bullets{
       width: auto;

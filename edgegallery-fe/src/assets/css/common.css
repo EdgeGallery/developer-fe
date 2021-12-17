@@ -1224,7 +1224,7 @@ input::-webkit-input-placeholder {
 }
 .common-radio .el-radio__inner,.el-radio__inner:hover{
   border: none;
-  background-color: #C4C4C4;
+  background-color: #4E3494;
   width: 8px;
   height: 8px;
   position: relative;

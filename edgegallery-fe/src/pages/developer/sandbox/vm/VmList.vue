@@ -32,54 +32,52 @@
     <p class="bottom-line" />
     <div :class="'vm-list-'+vmIndexProp">
       <ul
-        class="ul-scoll defaultFontLight"
+        class="ul-scoll lt"
         :class="'ul-scoll-'+vmIndexProp"
       >
         <li
-          v-for="(item, index) in networkLists"
+          class="oneNet"
+          v-for="(item,index) in networkLists"
           :key="index"
         >
-          <div v-if="item!==''">
-            <p class="clear">
-              <span class="span-line lt" />
-              <span class="span-cicle lt" />
-            </p>
-          </div>
+          <p class="title">
+            {{ item }}
+          </p>
+          <p class="clear">
+            <span class="span-cicle lt" />
+            <span class="span-line lt" />
+            <span class="span-cicle rt" />
+          </p>
         </li>
       </ul>
-      <div
-        class="flex-center details-center-vm-img"
-        :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
-        @mouseleave="isShowRemote=false"
-      >
-        <img
-          v-if="!isStartUpVmSuccess"
-          class="vm-center-img"
-          :class="{'vm-center-img-finish':isAddVmFinish,'breath':(!vmBreathStyle && !isAddVmFinish)}"
-          src="../../../../assets/images/sandbox/vm_img.png"
-          alt=""
-        >
-        <img
-          v-else
-          class="vm-center-img"
-          src="../../../../assets/images/sandbox/vm_finish_icon.png"
-          alt=""
-        >
+      <div class="vm-list-container lt">
         <div
-          class="vm-bg"
-          @mouseleave="isAddVmFinish?vmBreathStyle=true:vmBreathStyle=false"
+          class="flex-center details-center-vm-img"
+          :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
+          @mouseleave="isShowRemote=false"
         >
-          <div
-            class="vm-btn flex-center vm-btn-add hoverHands"
-            @click="deleteVm"
-            @mouseleave="deleteGreen=false"
-            @mouseenter="deleteGreen=true"
+          <img
+            v-if="!isStartUpVmSuccess"
+            class="vm-center-img"
+            :class="{'vm-center-img-finish':isAddVmFinish,'breath':(!vmBreathStyle && !isAddVmFinish)}"
+            src="../../../../assets/images/sandbox/vm_img.png"
+            alt=""
           >
-            <el-tooltip
-              class="edit-tooltip"
-              effect="light"
-              :content="$t('common.delete')"
-              placement="bottom-start"
+          <img
+            v-else
+            class="vm-center-img"
+            src="../../../../assets/images/sandbox/vm_finish_icon.png"
+            alt=""
+          >
+          <div
+            class="vm-bg"
+            @mouseleave="isAddVmFinish?vmBreathStyle=true:vmBreathStyle=false"
+          >
+            <div
+              class="vm-btn flex-column vm-btn-add hoverHands"
+              @click="deleteVm"
+              @mouseleave="deleteGreen=false"
+              @mouseenter="deleteGreen=true"
             >
               <img
                 v-if="!deleteGreen"
@@ -93,20 +91,14 @@
                 alt=""
                 class="img-click"
               >
-            </el-tooltip>
-          </div>
-          <div
-            class="vm-btn flex-center vm-btn-detail hoverHands"
-            @click="checkVmDetail"
-            :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
-            @mouseleave="detailGreen=false"
-            @mouseenter="isAddVmFinish?detailGreen=true:detailGreen=false"
-          >
-            <el-tooltip
-              class="edit-tooltip"
-              effect="light"
-              :content="$t('common.detail')"
-              placement="bottom-start"
+              {{ $t('common.delete') }}
+            </div>
+            <div
+              class="vm-btn flex-column vm-btn-detail hoverHands"
+              @click="checkVmDetail"
+              :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
+              @mouseleave="detailGreen=false"
+              @mouseenter="isAddVmFinish?detailGreen=true:detailGreen=false"
             >
               <img
                 v-if="!detailGreen"
@@ -118,19 +110,13 @@
                 src="../../../../assets/images/sandbox/vm_detail_green.png"
                 alt=""
               >
-            </el-tooltip>
-          </div>
-          <div
-            class="vm-btn flex-center hoverHands"
-            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-            @mouseleave="loginGreen=false"
-            @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false,isShowRemote=true"
-          >
-            <el-tooltip
-              class="edit-tooltip"
-              effect="light"
-              :content="$t('common.login')"
-              placement="bottom-start"
+              {{ $t('common.detail') }}
+            </div>
+            <div
+              class="vm-btn flex-column hoverHands"
+              :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
+              @mouseleave="loginGreen=false"
+              @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false,isShowRemote=true"
             >
               <img
                 v-if="!loginGreen"
@@ -142,37 +128,31 @@
                 src="../../../../assets/images/sandbox/vm_login_green.png"
                 alt=""
               >
-            </el-tooltip>
-          </div>
-          <div
-            v-if="isShowRemote"
-            class="down_div"
-          >
-            <div
-              class="transition-box"
-              @click="vmVncLogin"
-            >
-              <em />VNC
+              {{ $t('common.login') }}
             </div>
             <div
-              class="transition-box"
-              @click="vmSshLogin"
+              v-if="isShowRemote"
+              class="down_div"
             >
-              <em />SSH
+              <div
+                class="transition-box"
+                @click="vmVncLogin"
+              >
+                <em />VNC
+              </div>
+              <div
+                class="transition-box"
+                @click="vmSshLogin"
+              >
+                <em />SSH
+              </div>
             </div>
-          </div>
-          <div
-            class="vm-btn flex-center hoverHands"
-            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-            @click="uploadVmFile"
-            @mouseleave="uploadGreen=false"
-            @mouseenter="isStartUpVmSuccess?uploadGreen=true:uploadGreen=false"
-          >
-            <el-tooltip
-              class="edit-tooltip"
-              effect="light"
-              :content="$t('common.upload')"
-              placement="bottom-start"
+            <div
+              class="vm-btn flex-column hoverHands"
+              :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
+              @click="uploadVmFile"
+              @mouseleave="uploadGreen=false"
+              @mouseenter="isStartUpVmSuccess?uploadGreen=true:uploadGreen=false"
             >
               <img
                 v-if="!uploadGreen"
@@ -184,20 +164,14 @@
                 src="../../../../assets/images/sandbox/vm_upload_green.png"
                 alt=""
               >
-            </el-tooltip>
-          </div>
-          <div
-            class="vm-btn vm-btn-start flex-center hoverHands"
-            @click="startUpVm(vmListsDetail.id)"
-            :class="!isBtnStart ? 'img-onlyRead':'img-click'"
-            @mouseleave="startGreen=false"
-            @mouseenter="isBtnStart?startGreen=true:startGreen=false"
-          >
-            <el-tooltip
-              class="edit-tooltip"
-              effect="light"
-              :content="$t('common.start')"
-              placement="bottom-start"
+              {{ $t('common.upload') }}
+            </div>
+            <div
+              class="vm-btn vm-btn-start flex-column hoverHands"
+              @click="startUpVm(vmListsDetail.id)"
+              :class="!isBtnStart ? 'img-onlyRead':'img-click'"
+              @mouseleave="startGreen=false"
+              @mouseenter="isBtnStart?startGreen=true:startGreen=false"
             >
               <img
                 v-if="!startGreen"
@@ -209,20 +183,14 @@
                 src="../../../../assets/images/sandbox/vm_start_green.png"
                 alt=""
               >
-            </el-tooltip>
-          </div>
-          <div
-            class="vm-btn vm-btn-export flex-center hoverHands"
-            :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-            @click="exportImage(vmListsDetail.id)"
-            @mouseleave="imageGreen=false"
-            @mouseenter="isStartUpVmSuccess?imageGreen=true:imageGreen=false"
-          >
-            <el-tooltip
-              class="edit-tooltip"
-              effect="light"
-              :content="$t('sandbox.createImage')"
-              placement="bottom-start"
+              {{ $t('common.start') }}
+            </div>
+            <div
+              class="vm-btn vm-btn-export flex-column hoverHands"
+              :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
+              @click="exportImage(vmListsDetail.id)"
+              @mouseleave="imageGreen=false"
+              @mouseenter="isStartUpVmSuccess?imageGreen=true:imageGreen=false"
             >
               <img
                 v-if="!imageGreen"
@@ -234,41 +202,42 @@
                 src="../../../../assets/images/sandbox/vm_export_green.png"
                 alt=""
               >
-            </el-tooltip>
+              {{ $t('sandbox.createImage') }}
+            </div>
+          </div>
+          <div
+            class="vm-status"
+            v-if="!isClearVmImage"
+          >
+            <el-progress
+              v-if="isStartupVm && !isStartupVmFinish"
+              :percentage="percentages"
+            />
+            <p
+              v-if="isStartupVm && isStartupVmFinish"
+              class="start-up-result"
+              :class="{'start-up-result-error':!isStartUpVmSuccess}"
+            >
+              <span
+                v-for="(item,index) in 4"
+                :key="index"
+              />
+            </p>
+          </div>
+          <div
+            class="vm-status"
+            v-if="isExoprtImage"
+          >
+            <el-progress
+              v-if="isExportImageFinish"
+              :percentage="imagePercentages"
+            />
           </div>
         </div>
-        <div
-          class="vm-status"
-          v-if="!isClearVmImage"
-        >
-          <el-progress
-            v-if="isStartupVm && !isStartupVmFinish"
-            :percentage="percentages"
-          />
-          <p
-            v-if="isStartupVm && isStartupVmFinish"
-            class="start-up-result"
-            :class="{'start-up-result-error':!isStartUpVmSuccess}"
-          >
-            <span
-              v-for="(item,index) in 4"
-              :key="index"
-            />
-          </p>
-        </div>
-        <div
-          class="vm-status"
-          v-if="isExoprtImage"
-        >
-          <el-progress
-            v-if="isExportImageFinish"
-            :percentage="imagePercentages"
-          />
-        </div>
+        <p class="deploy-title defaultFontLight">
+          {{ vmListsDetail.name }}
+        </p>
       </div>
-      <p class="deploy-title defaultFontLight">
-        {{ vmListsDetail.name }}
-      </p>
     </div>
   </div>
 </template>
@@ -462,28 +431,7 @@ export default {
       this.vmListsDetail.portList.forEach(item => {
         _arrTemp.push(item.networkName)
       })
-      let _arr = ['', '', '', '']
-      for (let i = 0; i < this.netWorkListShowProp.length; i++) {
-        for (let j = 0; j < _arrTemp.length; j++) {
-          if (this.netWorkListShowProp[i] === _arrTemp[j]) {
-            _arr[i] = _arrTemp[j]
-          }
-        }
-      }
-      this.networkLists = _arr
-    },
-    getVmListLeft () {
-      this.$nextTick(() => {
-        let _oDivNet = document.getElementsByClassName('netScroll')[0]
-        let _oDivVm = document.getElementsByClassName('vm-list-' + this.vmIndexProp)[0]
-        let _oDivNetwork = document.getElementsByClassName('ul-scoll-' + this.vmIndexProp)[0]
-        if (_oDivNet && _oDivVm && _oDivNetwork) {
-          let _num = _oDivVm.getBoundingClientRect().left - _oDivNet.getBoundingClientRect().left - 154
-          _oDivNetwork.style.width = (_num + 150 * this.vmIndexProp) + 'px'
-          _oDivNetwork.style.left = -(_num + 150 * this.vmIndexProp + 10) + 'px'
-          _oDivNetwork.style.zIndex = -this.vmIndexProp
-        }
-      })
+      this.networkLists = _arrTemp
     }
   },
   watch: {
@@ -498,7 +446,6 @@ export default {
   created () {
   },
   mounted () {
-    this.getVmListLeft()
     this.handleNetworkLists()
     this.getVmlistsStatus()
   },
@@ -528,51 +475,36 @@ export default {
     width: 54px;
     border-bottom:1px solid red ;
   }
-  .ul-scoll{
-    position: absolute;
-    top: 30px;
-    li{
-      text-align: right;
-      overflow: hidden;
-      height: 24px;
-      padding-top: 16px;
-      font-size: 10px;
-      .span-cicle{
-        width: 8px;
-        height: 8px;
-        background: #fff;
-        border-radius: 50%;
-      }
-      .span-line{
-        width: calc(100% - 8px);
-        height: 1px;
-        background: #4F3AA4;
-        margin-top: 4px;
-      }
-    }
-  }
   .vm-center-img{
     position:absolute;
-    width: 77px;
-    height: 81px;
+    height: 186px;
+    margin-top: 5px;
     opacity: 1;
   }
   .vm-center-img-finish{
     opacity: 1;
   }
   .vm-bg{
-    width: 150px;
-    height: 150px;
+    width: 300px;
+    height: 300px;
     display: flex;
     flex-wrap: wrap;
     position: relative;
+    .flex-column{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .vm-btn{
       display: none;
-      width: 75px;
-      height: 50px;
+      width: 150px;
+      height: 100px;
       background-size: 100% 100%;
       .img-click{
         opacity: 1;
+      }
+      img{
+        margin-bottom: 7px;
       }
     }
     .vm-btn-add{
@@ -590,7 +522,7 @@ export default {
   }
   .vm-status{
     position: absolute;
-    top: 124px;
+    top: 256px;
     height: 30px;
     width: 100%;
     text-align: center;
@@ -626,7 +558,7 @@ export default {
     }
   }
 }
-.details-center-vm:hover{
+.vm-list-container:hover{
   .vm-bg:hover{
     z-index: 1;
     opacity: 0.9;
@@ -639,6 +571,7 @@ export default {
     }
     .img-onlyRead{
       pointer-events: none;
+      color: #ababab;
       img{
         opacity: 0.4;
       }
@@ -660,6 +593,8 @@ export default {
   }
 }
 .details-center-vm-img{
+  width: 300px;
+  height: 300px;
   position: relative;
   background: rgba(10, 9, 54, .25);
   border-radius: 20px;
@@ -675,17 +610,17 @@ export default {
     display: none;
   }
 }
-.details-center-vm:hover{
+.vm-list-container:hover{
   .vm-center-img{
     opacity: 0.1;
   }
 }
 .down_div{
-    width: 85px;
+    width: 170px;
     position: fixed;
     z-index: 39999;
-    left: 70px;
-    top: 10px;
+    left: 95px;
+    top: 95px;
     border-radius: 4px;
     font-size: 14px;
     font-family: defaultFontLight;
