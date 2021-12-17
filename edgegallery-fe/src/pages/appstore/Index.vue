@@ -218,7 +218,7 @@ export default {
       background-size: 100% 100%;
       .img-box {
         position: relative;
-        background: rgba(255, 255, 255, 0.2);
+        background: #ffffff;
         text-align: center;
         width: 100%;
         height: 158px;
