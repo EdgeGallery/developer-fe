@@ -507,6 +507,7 @@ export default {
         margin-top: 10px;
         .el-tabs__item {
           color: #FFFFFF;
+          font-size: 18px;
         }
         .ruleTable {
           margin-top: 20px;
@@ -533,7 +534,7 @@ export default {
           width: 33%;
         }
         .rules-title{
-          font-size: 16px;
+          font-size: 18px;
         }
         .release {
           width: 62%;

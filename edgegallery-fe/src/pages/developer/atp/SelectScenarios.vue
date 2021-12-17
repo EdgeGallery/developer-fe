@@ -387,7 +387,7 @@ export default {
           .description{
             font-family: defaultFontLight,Arial, Helvetica, sans-serif;
             display: block;
-            font-size: 14px;
+            font-size: 16px;
             color: #fff;
             overflow: hidden;
             text-overflow: ellipsis;
