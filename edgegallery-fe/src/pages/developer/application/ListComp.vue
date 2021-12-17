@@ -12,7 +12,9 @@
         class="app-item-delete"
         @click.stop="deleteApp(item.id)"
         v-if="item.id!==0&&showDeleteBtn"
-      />
+      >
+        X
+      </div>
       <div
         class="img-div"
         :class="{'current':item.id===applicationId}"
@@ -252,10 +254,13 @@ export default {
     width: 20px;
     height: 20px;
     position: relative;
-    top: 15px;
-    left: 75px;
-    background: url("../../../assets/images/application/app_failed.png") no-repeat center;
+    top: 18px;
+    left: 70px;
+    background: #f13838;
     z-index: 10;
+    color: #fff;
+    border-radius: 20px;
+    line-height: 20px;
   }
   .app-common-status{
     font-size: 14px;
