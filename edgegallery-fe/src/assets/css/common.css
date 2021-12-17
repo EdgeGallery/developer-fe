@@ -1273,3 +1273,8 @@ input::-webkit-input-placeholder {
   color: #5E49A7 !important;
   background-color: rgba(10,9,54,.1) !important;
 }
+
+.el-textarea .el-input__count {
+  background: none;
+  color: #fff;
+}

@@ -188,8 +188,29 @@
           <el-input
             v-model="applicationFormData.description"
             type="textarea"
+            maxlength="120"
+            show-word-limit
             :autosize="{ minRows: 2, maxRows: 4}"
+            resize="none"
           />
+        </el-form-item>
+        <el-form-item
+          :label="$t('incubation.packageSpecs')"
+          class="cb"
+          prop="pkgSpecId"
+          v-if="isShowSpecOption"
+        >
+          <el-select
+            v-model="applicationFormData.pkgSpecId"
+            :placeholder="$t('incubation.chooseSpecs')"
+          >
+            <el-option
+              v-for="item in specOptions"
+              :key="item.id"
+              :label="language==='cn'?item.zhName:item.enName"
+              :value="item.id"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div class="btn-container">
@@ -254,11 +275,13 @@ export default {
       mdFileList: [],
       defaultIconFile: [],
       appId: sessionStorage.getItem('applicationId') || '',
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       isMdChanged: false,
       isIconChanged: false,
       imageUrl: '',
-      isShowDeleteBtn: false
+      isShowDeleteBtn: false,
+      specOptions: [],
+      isShowSpecOption: false
     }
   },
   watch: {
@@ -468,9 +491,20 @@ export default {
           this.mdFileList.push(obj)
         }
       })
+    },
+    initSpecOptions () {
+      applicationApi.getSpecOptions().then(res => {
+        if (res.data && res.data.length > 0) {
+          this.specOptions = res.data
+          this.isShowSpecOption = true
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
+    this.initSpecOptions()
     this.conversionIcon()
     if (this.appId.length > 0) {
       this.isUploadIcon = true

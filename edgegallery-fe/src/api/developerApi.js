@@ -213,6 +213,9 @@ let applicationApi = {
   },
   createProfileNewApp: function (profileId, params) {
     return POST(URL_PREFIX_DEVELOPER + 'profiles/' + profileId + '/create-application', params)
+  },
+  getSpecOptions: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'pkg-specs')
   }
 }
 
