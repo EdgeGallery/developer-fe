@@ -822,6 +822,17 @@
   color: #806bbc !important;
   background-color: #412590 !important;
 }
+.el-button.el-button-operation {
+  font-size: 14px;
+  width: auto;
+  background: #4E3494;
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+}
+.el-button.el-button-operation:hover {
+  background: #412590;
+}
 .el-button+.el-button{
   margin-left: 32px !important;
 }
@@ -1158,6 +1169,10 @@ img.active{
 }
 input::-webkit-input-placeholder {
   color: #c9bdf3 !important;
+  font-size: 16px;
+}
+.el-input{
+  font-size: 16px;
 }
 .el-upload--picture-card{
   background: #4E3494 !important;

@@ -46,7 +46,7 @@
         <el-table-column width="120px">
           <template slot-scope="scope">
             <el-button
-              size="mini"
+              class="el-button-operation"
               @click="deleteInternet(scope.row.id)"
             >
               {{ $t('common.delete') }}
@@ -75,7 +75,7 @@
         </div>
         <div class="editInternet-btns">
           <el-button
-            size="mini"
+            class="el-button-operation"
             @click="cancelAddInternet"
           >
             {{ $t('common.cancel') }}
@@ -244,7 +244,7 @@ export default {
       height: 50px;
     }
     .network-table{
-      font-size: 14px;
+      // font-size: 14px;
       td{
         height: auto !important;
         line-height: 25px !important;
@@ -265,6 +265,7 @@ export default {
         justify-content: flex-start;
         .el-input {
           width: 35%;
+          line-height: 30px;
         }
       }
       .editInternet-btns{

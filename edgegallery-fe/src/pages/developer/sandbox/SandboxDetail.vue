@@ -702,6 +702,7 @@ export default {
 .detail{
   width: 100%;
   height: 100%;
+  overflow: auto;
   font-size: 16px;
   color: #fff;
   .detail-top{
@@ -869,7 +870,8 @@ export default {
     }
   }
   .deploy-detail-center{
-    width: 84%;
+    width: 88%;
+    min-width: 1480px;
     .deploy-detail-bg{
       display:inline-block;
       text-align:left;
