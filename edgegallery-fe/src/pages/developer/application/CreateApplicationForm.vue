@@ -582,6 +582,7 @@ export default {
   }
   .el-upload-list{
     width: auto;
+    margin-left: 20px;
   }
   .el-upload-list__item{
     background: #fff;

@@ -1143,7 +1143,7 @@ export default {
       background: none;
       border-bottom:none;
       padding-left: 20px;
-      font-size: 20px;
+      font-size: 22px;
     }
     .el-collapse-item__header:before{
       display: inline-block;
@@ -1262,6 +1262,7 @@ export default {
       }
       .vm-table{
         padding-left: 10px;
+        border: 1px solid red;
         thead tr{
           height: 50px;
         }
