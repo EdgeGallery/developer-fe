@@ -350,7 +350,7 @@ export default {
         background-color: rgba(255,255,255,0.25,);
         .sceneimage{
           width: 100%;
-          height: 130px;
+          height: 138px;
           text-align: center;
           display: block;
           border-radius: 8px 8px 0 0;

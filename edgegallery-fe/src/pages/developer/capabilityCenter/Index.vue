@@ -18,177 +18,162 @@
   <div
     class="common-div-bg capability-index"
   >
-    <div class="prompt_content">
-      <div>
-        <img
-          src="../../../assets/images/capability/capability_tip.png"
-          class="tip"
-          alt=""
-        >
-        <p class="capabilityInfo fontUltraLight">
-          {{ $t('service.serviceTip') }}
-        </p>
-      </div>
-      <div class="upper-ability">
-        <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
-        <el-tag
-          v-for="tag in selectedService"
-          :key="tag.id"
-          :closable="isClosable"
-          style="margin-left: 10px;"
-          class="defaultFontLight"
-          @close="handleDeleteTag(tag)"
-        >
-          <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
-        </el-tag>
-      </div>
-    </div>
-    <h3 class="common-dlg-title">
-      {{ $t('service.chooseServices') }}
-    </h3>
-    <div class="api">
-      <div
-        v-loading="apiDataLoading"
-        v-if="hasService"
-        class="clear"
+    <el-collapse v-model="activeNames">
+      <el-collapse-item
+        :title="$t('service.chooseServices')"
+        name="chooseServices"
       >
-        <div class="capability-left">
-          <el-tree
-            :check-strictly="true"
-            :render-after-expand="false"
-            :show-checkbox="showCheckbox"
-            :props="defaultProps"
-            :default-expand-all="isExpandAll"
-            :default-expanded-keys="defaultShowNodes"
-            :check-on-click-node="clickIsSelected"
-            accordion
-            node-key="id"
-            lazy
-            highlight-current
-            icon-class="none"
-            @node-click="handleNodeClick"
-            @check-change="handleCheckChange"
-            class="capability-tree defaultFontLight"
-            :load="loadNode"
-            ref="treeList"
-          >
-            <span
-              class="el-tree-node__label"
-              slot-scope="{ node, data }"
+        <div class="prompt_content">
+          <!-- <div>
+            <img
+              src="../../../assets/images/capability/capability_tip.png"
+              class="tip"
+              alt=""
             >
-              <el-tooltip
-                popper-class="atooltip"
-                class="tooltip-item"
-                :content="node.label"
-                :disabled="getTipDisabled(node, data)"
-                placement="right"
-              >
-                <span>
-                  <img
-                    class="oneLevelIcon"
-                    :src="data.icon"
-                    alt=""
-                  > {{ node.label }}  </span>
-              </el-tooltip>
-            </span>
-          </el-tree>
-        </div>
-        <div class="capability-right">
-          <div
-            class="swagger-wrapper"
-          >
-            <div class="service_div">
-              <p class="capability-top defaultFont">
-                {{ $t('service.apiMonitor') }}
-              </p>
-              <p class="title ">
-                {{ $t('service.serviceDetail') }}
-              </p>
-              <el-row class="service_info">
-                <el-col :span="12">
-                  <span class=""> {{ $t('service.serviceName1') }}</span>{{ serviceDetail.serviceName }}
-                </el-col>
-                <el-col :span="12">
-                  <span class=""> {{ $t('service.version1') }}</span>{{ serviceDetail.version }}
-                </el-col>
-              </el-row>
-              <el-row class="service_info">
-                <el-col :span="12">
-                  <span class="">{{ $t('service.publishTime') }}</span>{{ serviceDetail.uploadTime }}
-                </el-col>
-                <el-col :span="12">
-                  <span class="">{{ $t('service.type') }}</span>{{ serviceDetail.capabilityType }}
-                </el-col>
-              </el-row>
-            </div>
-            <div id="swagger-ui" />
+            <p class="capabilityInfo fontUltraLight">
+              {{ $t('service.serviceTip') }}
+            </p>
+          </div> -->
+          <div class="upper-ability">
+            <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
+            <el-tag
+              v-for="tag in selectedService"
+              :key="tag.id"
+              :closable="isClosable"
+              style="margin-left: 10px;"
+              class="defaultFontLight"
+              @close="handleDeleteTag(tag)"
+            >
+              <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
+            </el-tag>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="capability-publish">
-      <h3 class="common-dlg-title service-publish">
-        {{ $t('service.servicePublish') }}
-        <el-button
-          class="common-btn rt add-service"
-          @click="publishService()"
-        >
-          {{ $t('service.addServiceConfig') }}
-        </el-button>
-      </h3>
-      <el-table
-        class="common-table"
-        :data="serviceTableData"
-        :cell-style="{ textAlign: 'center' }"
-        :header-cell-style="{textAlign: 'center'}"
+        <div class="api">
+          <div
+            v-loading="apiDataLoading"
+            v-if="hasService"
+            class="clear"
+          >
+            <div class="capability-left">
+              <el-tree
+                :check-strictly="true"
+                :render-after-expand="false"
+                :show-checkbox="showCheckbox"
+                :props="defaultProps"
+                :default-expand-all="isExpandAll"
+                :default-expanded-keys="defaultShowNodes"
+                :check-on-click-node="clickIsSelected"
+                accordion
+                node-key="id"
+                lazy
+                highlight-current
+                icon-class="none"
+                @node-click="handleNodeClick"
+                @check-change="handleCheckChange"
+                class="capability-tree defaultFontLight"
+                :load="loadNode"
+                ref="treeList"
+              >
+                <span
+                  class="el-tree-node__label"
+                  slot-scope="{ node, data }"
+                >
+                  <el-tooltip
+                    popper-class="atooltip"
+                    class="tooltip-item"
+                    :content="node.label"
+                    :disabled="getTipDisabled(node, data)"
+                    placement="right"
+                  >
+                    <span>
+                      <img
+                        class="oneLevelIcon"
+                        :src="data.icon"
+                        alt=""
+                      > {{ node.label }}  </span>
+                  </el-tooltip>
+                </span>
+              </el-tree>
+            </div>
+            <div class="capability-right">
+              <CapabilityServiceList
+                :capability-service-list="capabilityServiceList"
+                :language="language"
+                v-if="capabilityServiceList.length>0"
+              />
+            </div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item
+        :title="$t('service.servicePublish')"
+        name="servicePublish"
       >
-        <el-table-column
-          prop="serviceName"
-          :label="$t('service.serviceName')"
-        />
-        <el-table-column
-          prop="oneLevelName"
-          :label="$t('service.firLevel')"
-        />
-        <el-table-column
-          prop="twoLevelName"
-          :label="$t('service.secLevel')"
-        />
-        <el-table-column
-          prop="internalPort"
-          :label="$t('service.internalPort')"
-        />
-        <el-table-column
-          prop="version"
-          :label="$t('incubation.version')"
-        />
-        <el-table-column
-          prop="protocol"
-          :label="$t('service.protocol')"
-        />
-        <el-table-column
-          :label="$t('common.operation')"
-          width="120px"
-        >
-          <template slot-scope="scope">
-            <el-button
-              type="text"
-              class="operation-btn-text"
-              @click="publishService(scope.row)"
+        <div class="add-service">
+          <el-button
+            class="common-btn"
+            @click="publishService()"
+          >
+            {{ $t('service.addServiceConfig') }}
+          </el-button>
+        </div>
+        <div class="capability-publish">
+          <el-table
+            class="common-table"
+            :data="serviceTableData"
+            :cell-style="{ textAlign: 'center' }"
+            :header-cell-style="{textAlign: 'center'}"
+          >
+            <el-table-column
+              prop="serviceName"
+              :label="$t('service.serviceName')"
+            />
+            <el-table-column
+              prop="oneLevelName"
+              :label="$t('service.firLevel')"
+            />
+            <el-table-column
+              prop="twoLevelName"
+              :label="$t('service.secLevel')"
+            />
+            <el-table-column
+              prop="internalPort"
+              :label="$t('service.internalPort')"
+            />
+            <el-table-column
+              prop="version"
+              :label="$t('incubation.version')"
+            />
+            <el-table-column
+              prop="protocol"
+              :label="$t('service.protocol')"
+            />
+            <el-table-column
+              :label="$t('common.operation')"
+              width="120px"
             >
-              {{ $t('common.edit') }}
-            </el-button>
-            <el-button
-              type="text"
-              class="operation-btn-text"
-              @click="deletePublishedService(scope.row.appServiceProducedId)"
-            >
-              {{ $t('common.delete') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+              <template slot-scope="scope">
+                <el-button
+                  type="text"
+                  class="operation-btn-text"
+                  @click="publishService(scope.row)"
+                >
+                  {{ $t('common.edit') }}
+                </el-button>
+                <el-button
+                  type="text"
+                  class="operation-btn-text"
+                  @click="deletePublishedService(scope.row.appServiceProducedId)"
+                >
+                  {{ $t('common.delete') }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+
     <div class="rt">
       <el-button
         class="common-btn"
@@ -211,10 +196,15 @@ import { applicationApi } from '../../../api/developerApi.js'
 import { formatDate } from '../../../tools/common.js'
 import SwaggerUIBundle from 'swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
+import CapabilityServiceList from './CapabilityServiceList.vue'
 export default {
   name: 'CapabilityCenter',
+  components: { CapabilityServiceList },
   data () {
     return {
+      activeNames: [ 'chooseServices', 'servicePublish' ],
+      capabilityServiceList: [],
+      language: localStorage.getItem('language'),
       codeLanguage: 'JAVA',
       optionsLanguage: [
         {
@@ -448,13 +438,14 @@ export default {
         this.oneLevelNameEn = node.data.nameEn
         let groupId = node.data.id
         applicationApi.getCapabilityByGroupId(groupId).then(result => {
-          let capabilities = result.data
-          this.capaList = capabilities
-          capabilities.forEach(capa => {
-            capa.label = this.language === 'en' ? capa.nameEn : capa.name
-            capa.leaf = true
-          })
-          resolve(capabilities)
+          // let capabilities = result.data
+          this.capabilityServiceList = result.data
+          // this.capaList = capabilities
+          // capabilities.forEach(capa => {
+          //   capa.label = this.language === 'en' ? capa.nameEn : capa.name
+          //   capa.leaf = true
+          // })
+          // resolve(capabilities)
           this.selectedService.forEach(ser => {
             let leafNode = this.$refs.treeList.getNode(ser.id)
             leafNode.setChecked(true)
@@ -517,6 +508,44 @@ export default {
   left: 12%;
   width: 76%;
   padding: 35px 35px 35px 4%;
+      .el-collapse {
+        border: none;
+        padding: 0;
+        .el-collapse-item {
+          margin-bottom: 15px;
+          .el-collapse-item__content{
+            padding: 0;
+          }
+          .el-collapse-item__header{
+            font-weight: normal;
+            font-size: 25px;
+            margin-bottom: 32px;
+            height: 60px;
+            padding-left: 15px;
+            font-size: 18px;
+            color: #fff;
+            border: none;
+            background-color: #5F499D;
+            border-radius: 60px;
+          }
+          .el-collapse-item__header:before{
+            display: inline-block;
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: #76E1E9;
+            border-radius: 50%;
+            position: relative;
+            top: 0px;
+            left: -6px;
+          }
+          .el-collapse-item__wrap{
+            padding-left: 15px;
+            background-color: transparent;
+            border: none;
+          }
+        }
+      }
   .tip{
     float: left;
     width: 40px;
@@ -542,6 +571,7 @@ export default {
   }
   .selected-service{
     font-size: 16px;
+    color: #fff;
   }
   .el-tag .el-icon-close {
     border-radius: 50%;
@@ -608,7 +638,7 @@ export default {
   }
 
   .api{
-    background: #9b94c0;
+    background: #4E3494;
     border-radius: 16px;
     margin-right: 2%;
     color: #000000;
@@ -622,7 +652,8 @@ export default {
       width: 80%;
       border-radius: 16px;
       padding: 25px 0px 0 0;
-      height: 380px;
+      max-height: 500px;
+      overflow: auto;
       .select_initialization{
         padding-top: 100px;
         text-align: center;
@@ -867,6 +898,16 @@ export default {
 }
 .capability-publish{
   clear: both;
+  margin-top: 15px;
+}
+.add-service{
+  text-align: right;
+  .common-btn{
+    color: #fff !important;
+    background: #4E3494;
+    border-radius: 26px;
+    font-size: 16px !important;
+  }
 }
 .service-publish{
   padding-right: 1%;

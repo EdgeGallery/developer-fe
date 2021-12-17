@@ -723,7 +723,7 @@ export default {
             height: 35px;
             line-height: 35px;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
           }
           .el-table tr {
             height: 37px;
