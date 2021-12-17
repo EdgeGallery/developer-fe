@@ -267,37 +267,58 @@
           :title="$t('sandbox.flavorExtraSpecs')"
           name="5"
         >
-          <div
-            class="edit-btn clear"
-          >
-            <span class="title-info">{{ $t('sandbox.enterFlavorExtraSpecs') }}</span>
-            <el-button
-              id="btn_editVmFlavor"
-              class="rt"
-              v-if="viewOrEditFlavor === 'preview'"
-              @click="clickEdit('flavor')"
-            >
-              {{ $t('common.edit') }}
-            </el-button>
-            <el-button
-              id="btn_saveVmFlavor"
-              class="rt"
-              v-else
-              @click="clickEdit('flavor')"
-            >
-              {{ $t('common.save') }}
-            </el-button>
-          </div>
-          <div class="editor-wrapper">
-            <mavon-editor
-              class="common-mavon-editor"
-              v-model="flavorExtraSpecs"
-              :toolbars-flag="false"
-              :subfield="false"
-              :default-open="viewOrEditFlavor"
-              :box-shadow="false"
-              preview-background="transparent"
-            />
+          <div class="hostSelects">
+            <div class="hostSelect hostSelect1">
+              <p>{{ $t('sandbox.hostGroup') }}:</p>
+              <el-input
+                class="hostSelect-input"
+                v-model="hostGroup"
+                :placeholder="$t('sandbox.hostGroupTip')"
+              />
+            </div>
+            <div class="hostSelect">
+              <p>{{ $t('sandbox.hugePage') }}:</p>
+              <el-select
+                v-model="hugePage"
+                :placeholder="$t('sandbox.hugePageTip')"
+              >
+                <el-option
+                  v-for="item in hugePages"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div class="hostSelect">
+              <p>{{ $t('sandbox.gpuType') }}:</p>
+              <el-select
+                v-model="gpuType"
+                :placeholder="$t('sandbox.gpuTypeTip')"
+              >
+                <el-option
+                  v-for="item in gpuTypes"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div class="hostSelect">
+              <p>{{ $t('sandbox.gpuNum') }}:</p>
+              <el-select
+                v-model="gpuNum"
+                :placeholder="$t('sandbox.gpuNumTip')"
+                :disabled="this.gpuType==''"
+              >
+                <el-option
+                  v-for="item in gpuNums"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
           </div>
         </el-collapse-item>
         <el-collapse-item
@@ -333,7 +354,7 @@
                     id="btn_editVmScript"
                     class="rt"
                     v-if="viewOrEditContent === 'preview'"
-                    @click.stop="clickEdit('content')"
+                    @click.stop="clickEdit"
                   >
                     {{ $t('common.edit') }}
                   </el-button>
@@ -341,7 +362,7 @@
                     id="btn_saveVmScript"
                     class="rt"
                     v-else
-                    @click.stop="clickEdit('content')"
+                    @click.stop="clickEdit"
                   >
                     {{ $t('common.save') }}
                   </el-button>
@@ -653,6 +674,40 @@ export default {
         value: 'ARM',
         label: 'ARM'
       } ],
+      hugePages: [{
+        value: '1048576',
+        label: '1048576'
+      }, {
+        value: '2048',
+        label: '2048'
+      } ],
+      gpuTypes: [{
+        value: 'huawei-ascend-310',
+        label: 'huawei-ascend-310'
+      }, {
+        value: 'nvida-t4',
+        label: 'nvida-t4'
+      } ],
+      gpuNums: [{
+        value: '0',
+        label: '0'
+      }, {
+        value: '1',
+        label: '1'
+      }, {
+        value: '2',
+        label: '2'
+      } ],
+      hostGroup: '',
+      gpuNum: '',
+      gpuType: '',
+      hugePage: '',
+      hostGroupName: 'aggregate_instance_extra_specs',
+      gpuTypeName: 'pci_passthrough:alias',
+      hugePageName: 'hw_mem_page_size',
+      cpuPolicy: 'hw:cpu_policy',
+      cpuThread: 'hw:cpu_thread_policy',
+      numNode: 'hw:_numa_nodes',
       isInjectScript: 'cancel',
       changeResult: false,
       activeScriptEditPanel: '1',
@@ -660,7 +715,6 @@ export default {
       viewOrEditParams: 'preview',
       viewOrEditFlavor: 'preview',
       userData: '',
-      flavorExtraSpecs: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       vmId: '',
       isAddVm: this.isAddVmProp
@@ -739,7 +793,8 @@ export default {
     changePublicType (data) {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
-      sandbox.getScriptByImageId(data).then(res => {
+      console.log(this.vmInfo.publicImageOptions)
+      sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
         this.userData = res.data
         this.flavorExtraSpecs = ''
       })
@@ -752,8 +807,8 @@ export default {
     changePrivateType (data) {
       this.vmInfo.privateId = ''
       this.vmInfo.privateImageOptions = []
-      sandbox.getScriptByImageId(data).then(() => {
-
+      sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
+        this.userData = res.data
       })
       this.vmInfo.privateSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -774,26 +829,8 @@ export default {
         this.changeResult = false
       }
     },
-    clickEdit (name) {
-      if (name === 'content') {
-        if (this.viewOrEditContent === 'edit') {
-          this.viewOrEditContent = 'preview'
-        } else {
-          this.viewOrEditContent = 'edit'
-        }
-      } else if (name === 'params') {
-        if (this.viewOrEditParams === 'edit') {
-          this.viewOrEditParams = 'preview'
-        } else {
-          this.viewOrEditParams = 'edit'
-        }
-      } else if (name === 'flavor') {
-        if (this.viewOrEditFlavor === 'edit') {
-          this.viewOrEditFlavor = 'preview'
-        } else {
-          this.viewOrEditFlavor = 'edit'
-        }
-      }
+    clickEdit () {
+      this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -853,14 +890,14 @@ export default {
       if (type === 'confirm') {
         if (this.changeResult) {
           this.addvmImages.userData = this.userData
-          this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
         } else {
           this.addvmImages.userData = ''
-          this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
         }
         if (this.isAddVm) {
           this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         }
+        let _gpuInfo = this.gpuType + ':'
+        this.addvmImages.flavorExtraSpecs = this.hugePageName + ':' + this.hugePage + '\r\n' + this.cpuPolicy + ':' + 'dedicated' + '\r\n' + this.cpuThread + ':' + 'prefer' + '\r\n' + this.numNode + ':' + '1' + '\r\n' + this.gpuTypeName + ':' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ':' + this.hostGroup
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
           if (this.isAddVm) {
@@ -1282,6 +1319,36 @@ export default {
           border-radius: 35px;
           padding: 8px 24px;
           color: #fff;
+        }
+      }
+      .hostSelects{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding-top: 20px;
+        .hostSelect{
+          display: flex;
+          margin: 10px 0;
+          width: 48%;
+          .el-input__inner{
+            border: none;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.3);
+          }
+          .el-select {
+            width: 58%;
+          }
+          .el-select .el-input .el-select__caret, .el-table__empty-text {
+            line-height: 20px;
+          }
+          p{
+            width: 140px;
+            text-align: right;
+            margin-right: 10px;
+          }
+          .hostSelect-input{
+            width: 58%;
+          }
         }
       }
     }

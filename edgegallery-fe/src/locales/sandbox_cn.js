@@ -65,7 +65,15 @@ const cn = {
     enterScriptContent: '填写脚本内容',
     type: '类型',
     customSpec: '自定义规格',
-    typeTip: '请选择类型'
+    typeTip: '请选择类型',
+    hugePage: '大页内存',
+    gpuType: 'GPU类型',
+    gpuNum: '数量',
+    hostGroup: '主机组标签',
+    hugePageTip: '请选择大页内存',
+    gpuTypeTip: '请选择GPU类型',
+    gpuNumTip: '请先选择GPU类型',
+    hostGroupTip: '请输入主机组标签'
   },
   rulesConfig: {
     appRuleConfig: '应用规则配置',

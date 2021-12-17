@@ -65,7 +65,15 @@ const en = {
     enterScriptContent: 'Enter Script Content',
     type: 'type',
     customSpec: 'Custom Specs',
-    typeTip: 'Please select a type'
+    typeTip: 'Please select a type',
+    hugePage: 'HugePage',
+    gpuType: 'GPU Type',
+    gpuNum: 'Num',
+    hostGroup: 'HostGroup Label',
+    hugePageTip: 'Please select large page memory',
+    gpuTypeTip: 'Please select GPU type',
+    gpuNumTip: 'Please select GPU type first',
+    hostGroupTip: 'Please enter the host group label'
   },
   rulesConfig: {
     appRuleConfig: 'Application Rule Configuration',

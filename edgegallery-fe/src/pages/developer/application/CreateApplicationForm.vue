@@ -249,7 +249,8 @@ export default {
         'description': '',
         'appCreateType': 'INTEGRATED',
         'iconFileId': '',
-        'guideFileId': ''
+        'guideFileId': '',
+        'pkgSpecId': ''
       },
       applicationFormRules: {
         name: [
@@ -451,6 +452,7 @@ export default {
         sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
         sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
         sessionStorage.setItem('architecture', this.applicationFormData.architecture)
+        sessionStorage.setItem('pkgSpecId', this.applicationFormData.pkgSpecId)
         this.$store.commit('changeFlow', '1')
         this.$store.commit('changeZoom', '2')
         sessionStorage.setItem('applicationId', res.data.id)
