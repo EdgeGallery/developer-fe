@@ -1120,9 +1120,6 @@ th{
   left: 30px;
   opacity: 1;
 }
-img.active{
-  opacity: 0.1;
-}
 
 @keyframes breathe  {
   0%{

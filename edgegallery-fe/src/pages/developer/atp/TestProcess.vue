@@ -592,7 +592,7 @@ export default {
           .testing-case{
             position: relative;
             color: #fff;
-            font-size: 14px;
+            font-size: 16px;
             margin-left: 20px;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           }
@@ -633,7 +633,7 @@ export default {
           .findproblem{
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             position: relative;
-            font-size: 14px;
+            font-size: 16px;
             color: #fff;
             margin-left: 120px;
             em{
@@ -644,7 +644,7 @@ export default {
               width: 20px;
               height: 20px;
               color: #fff;
-              font-size: 14px;
+              font-size: 16px;
             }
           }
       }
@@ -705,7 +705,7 @@ export default {
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             height: 40px;
             padding-left: 15px;
-            font-size: 16px;
+            font-size: 19px;
             color: #fff;
             background-color: #5F499D;
             border-radius: 19.5px;
@@ -729,7 +729,7 @@ export default {
             height: 37px;
             background-color: transparent;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
           }
           .el-table td{
             padding: 0 10px;
@@ -738,7 +738,7 @@ export default {
             height: 37px;
             line-height: 37px;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
           }
           .el-table__body{
             .cell{
@@ -753,7 +753,7 @@ export default {
           .cell{
             display: table-cell;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             img{
               vertical-align: middle;
               margin-right: 10px;

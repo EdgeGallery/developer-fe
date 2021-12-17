@@ -99,10 +99,10 @@ export default {
 </script>
 <style lang="less">
   .service_list{
-    height: 186px;
+    height: 184px;
     float: left;
-    width: 31%;
-    margin: 0 0 3% 2%;
+    width: 32%;
+    margin: 0 0 2% 1%;
     padding-bottom: 82px;
     border-radius: 12px;
     position: relative;

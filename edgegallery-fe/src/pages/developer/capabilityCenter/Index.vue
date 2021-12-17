@@ -18,22 +18,15 @@
   <div
     class="common-div-bg capability-index"
   >
-    <el-collapse v-model="activeNames">
+    <el-collapse
+      v-model="activeName"
+      accordion
+    >
       <el-collapse-item
         :title="$t('service.chooseServices')"
         name="chooseServices"
       >
         <div class="prompt_content">
-          <!-- <div>
-            <img
-              src="../../../assets/images/capability/capability_tip.png"
-              class="tip"
-              alt=""
-            >
-            <p class="capabilityInfo fontUltraLight">
-              {{ $t('service.serviceTip') }}
-            </p>
-          </div> -->
           <div class="upper-ability">
             <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
             <el-tag
@@ -48,60 +41,34 @@
             </el-tag>
           </div>
         </div>
-        <div class="api">
-          <div
-            v-loading="apiDataLoading"
-            v-if="hasService"
-            class="clear"
-          >
-            <div class="capability-left">
-              <el-tree
-                :check-strictly="true"
-                :render-after-expand="false"
-                :show-checkbox="showCheckbox"
-                :props="defaultProps"
-                :default-expand-all="isExpandAll"
-                :default-expanded-keys="defaultShowNodes"
-                :check-on-click-node="clickIsSelected"
-                accordion
-                node-key="id"
-                lazy
-                highlight-current
-                icon-class="none"
-                @node-click="handleNodeClick"
-                @check-change="handleCheckChange"
-                class="capability-tree defaultFontLight"
-                :load="loadNode"
-                ref="treeList"
+        <div
+          v-loading="apiDataLoading"
+          v-if="hasService"
+          class="clear service-container"
+        >
+          <div class="capability-left">
+            <div
+              v-for="service in groups"
+              :key="service.id"
+              class="service-group"
+              :class="service.isSeviceSelected?'service-group-active':''"
+              @click="selectServiceGroup(service)"
+            >
+              <img
+                :src="service.icon"
+                :alt="service.label"
               >
-                <span
-                  class="el-tree-node__label"
-                  slot-scope="{ node, data }"
-                >
-                  <el-tooltip
-                    popper-class="atooltip"
-                    class="tooltip-item"
-                    :content="node.label"
-                    :disabled="getTipDisabled(node, data)"
-                    placement="right"
-                  >
-                    <span>
-                      <img
-                        class="oneLevelIcon"
-                        :src="data.icon"
-                        alt=""
-                      > {{ node.label }}  </span>
-                  </el-tooltip>
-                </span>
-              </el-tree>
+              <span>
+                {{ service.label }}
+              </span>
             </div>
-            <div class="capability-right">
-              <CapabilityServiceList
-                :capability-service-list="capabilityServiceList"
-                :language="language"
-                v-if="capabilityServiceList.length>0"
-              />
-            </div>
+          </div>
+          <div class="capability-right">
+            <CapabilityServiceList
+              :capability-service-list="capabilityServiceList"
+              :language="language"
+              v-if="capabilityServiceList.length>0"
+            />
           </div>
         </div>
       </el-collapse-item>
@@ -173,7 +140,6 @@
         </div>
       </el-collapse-item>
     </el-collapse>
-
     <div class="rt">
       <el-button
         class="common-btn"
@@ -202,7 +168,6 @@ export default {
   components: { CapabilityServiceList },
   data () {
     return {
-      activeNames: [ 'chooseServices', 'servicePublish' ],
       capabilityServiceList: [],
       language: localStorage.getItem('language'),
       codeLanguage: 'JAVA',
@@ -284,7 +249,9 @@ export default {
       groupId: '',
       appId: sessionStorage.getItem('applicationId'),
       oneLevelName: '',
-      oneLevelNameEn: ''
+      oneLevelNameEn: '',
+      groups: [],
+      activeName: 'chooseServices'
     }
   },
   methods: {
@@ -335,6 +302,25 @@ export default {
         })
       })
     },
+    selectServiceGroup (node) {
+      this.groups.forEach(ser => {
+        if (ser.id === node.id) {
+          ser.isSeviceSelected = true
+        } else {
+          ser.isSeviceSelected = false
+        }
+      })
+      this.oneLevelName = node.name
+      this.oneLevelNameEn = node.nameEn
+      let groupId = node.id
+      applicationApi.getCapabilityByGroupId(groupId).then(result => {
+        this.capabilityServiceList = result.data
+        this.selectedService.forEach(ser => {
+          let leafNode = this.$refs.treeList.getNode(ser.id)
+          leafNode.setChecked(true)
+        })
+      })
+    },
     async handleNodeClick (data) {
       if (data.leaf) {
         this.hasNoSelect = true
@@ -374,84 +360,50 @@ export default {
       }
     },
     async handleCheckChange (data, isNewService) {
-      if (data.leaf) {
-        if (isNewService) {
-          this.selectedService.push(data)
-          let params = {
-            serName: data.host,
-            version: data.version,
-            appId: data.appId,
-            packageId: data.packageId,
-            id: data.id,
-            oneLevelName: this.oneLevelName,
-            oneLevelNameEn: this.oneLevelNameEn,
-            twoLevelName: data.name,
-            twoLevelNameEn: data.nameEn,
-            requestedPermissions: true
-          }
-          applicationApi.addService(this.appId, params).then(res => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
-          this.handleNodeClick(data)
-        } else {
-          this.selectedService.forEach((ser, index) => {
-            if (ser.id === data.id) {
-              this.selectedService.splice(index, 1)
-              this.deleteServices(ser.id)
-            }
-          })
+      if (isNewService) {
+        this.selectedService.push(data)
+        let params = {
+          serName: data.host,
+          version: data.version,
+          appId: data.appId,
+          packageId: data.packageId,
+          id: data.id,
+          oneLevelName: this.oneLevelName,
+          oneLevelNameEn: this.oneLevelNameEn,
+          twoLevelName: data.name,
+          twoLevelNameEn: data.nameEn,
+          requestedPermissions: true
         }
-      }
-    },
-    loadNode (node, resolve) {
-      if (node.level === 0) {
-        this.treeLoad.node = node
-        this.treeLoad.resolve = resolve
-      }
-      this.initCapabilityList(node, resolve)
-    },
-    initCapabilityList (node, resolve) {
-      if (node.level && node.level > 1) {
-        return resolve([])
-      }
-      if (node.level === 0) {
-        applicationApi.getServiceList().then(res => {
-          let groups = res.data
-          this.groups = groups
-          groups.forEach(group => {
-            group.label = group.name
-            group.leaf = false
-            if (this.capabilityIcon[group.nameEn]) {
-              group.icon = this.capabilityIcon[group.nameEn].iconSelect
-            }
-          })
-          this.getDependencies()
-          resolve(groups)
+        applicationApi.addService(this.appId, params).then(res => {
+          console.log(res)
         }).catch(err => {
           console.log(err)
         })
-      }
-      if (node.level === 1) {
-        this.oneLevelName = node.data.name
-        this.oneLevelNameEn = node.data.nameEn
-        let groupId = node.data.id
-        applicationApi.getCapabilityByGroupId(groupId).then(result => {
-          // let capabilities = result.data
-          this.capabilityServiceList = result.data
-          // this.capaList = capabilities
-          // capabilities.forEach(capa => {
-          //   capa.label = this.language === 'en' ? capa.nameEn : capa.name
-          //   capa.leaf = true
-          // })
-          // resolve(capabilities)
-          this.selectedService.forEach(ser => {
-            let leafNode = this.$refs.treeList.getNode(ser.id)
-            leafNode.setChecked(true)
-          })
+        this.handleNodeClick(data)
+      } else {
+        this.selectedService.forEach((ser, index) => {
+          if (ser.id === data.id) {
+            this.selectedService.splice(index, 1)
+            this.deleteServices(ser.id)
+          }
         })
       }
+    },
+    initCapabilityList () {
+      applicationApi.getServiceList().then(res => {
+        this.groups = res.data
+        this.groups.forEach(group => {
+          group.label = group.name
+          if (this.capabilityIcon[group.nameEn]) {
+            group.icon = this.capabilityIcon[group.nameEn].iconSelect
+            group.isSeviceSelected = false
+          }
+        })
+        this.selectServiceGroup(this.groups[0])
+        this.getDependencies()
+      }).catch(err => {
+        console.log(err)
+      })
     },
     getDependencies () {
       applicationApi.getServiceDependencies(this.appId).then(res => {
@@ -497,6 +449,7 @@ export default {
   },
   mounted () {
     this.getPublishedService()
+    this.initCapabilityList()
   }
 }
 
@@ -519,10 +472,10 @@ export default {
           .el-collapse-item__header{
             font-weight: normal;
             font-size: 25px;
-            margin-bottom: 32px;
+            margin-bottom: 12px;
             height: 60px;
             padding-left: 15px;
-            font-size: 18px;
+            font-size: 19px;
             color: #fff;
             border: none;
             background-color: #5F499D;
@@ -636,7 +589,6 @@ export default {
   .atooltip {
     background: #5e40c8 !important;
   }
-
   .api{
     background: #4E3494;
     border-radius: 16px;
@@ -911,5 +863,33 @@ export default {
 }
 .service-publish{
   padding-right: 1%;
+}
+.service-container{
+  background: #5f499d;
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+}
+.service-group{
+  height: 45px;
+  width: 220px;
+  line-height: 45px;
+  border-radius: 12px;
+  padding: 0 15px;
+  cursor: pointer;
+  margin: 10px 0;
+  span{
+    font-size: 24px;
+    color: #fff;
+    margin-left: 10px;
+    font-weight: normal;
+  }
+}
+.service-group-active, .service-group:hover{
+  background: #a19aac;
+}
+.capability-right{
+  width: calc(100% - 230px);
+  padding-left: 15px;
 }
 </style>

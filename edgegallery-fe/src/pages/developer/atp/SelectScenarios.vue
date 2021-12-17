@@ -347,7 +347,7 @@ export default {
         border-radius: 8px;
         position: relative;
         padding-bottom: 90px;
-        background-color: rgba(255,255,255,0.25,);
+        background-color: #ffffff;
         .sceneimage{
           width: 100%;
           height: 138px;

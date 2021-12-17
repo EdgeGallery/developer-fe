@@ -15,12 +15,10 @@
       >
         <div
           class="step-item"
-          :class="[item.id===currentFlow?'item-active':'',item.class]"
           @click="jumpTo(item.toPath)"
         >
           <img
             :src="item.src"
-            :class="[currentFlow>item.id||currentFlow===item.id?'active':'']"
             alt="EdgeGallery"
           >
           <div class="flow-name">
