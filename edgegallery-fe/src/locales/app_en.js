@@ -74,7 +74,9 @@ const en = {
     noProfile: 'Please select a profile',
     createSuc: 'Successfully created application.',
     createFail: 'Failed to create application.',
-    uploadMdFileTip: 'Please upload application introduction file.'
+    uploadMdFileTip: 'Please upload application introduction file.',
+    packageSpecs: 'Packaging specification',
+    chooseSpecs: 'Choose packaging specification'
   },
   service: {
     basicInfo: 'Basic information',

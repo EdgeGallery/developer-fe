@@ -74,7 +74,9 @@ const cn = {
     noProfile: '请选择场景',
     createSuc: '创建应用成功!',
     createFail: '创建应用失败!',
-    uploadMdFileTip: '请上传应用介绍文档！'
+    uploadMdFileTip: '请上传应用介绍文档！',
+    packageSpecs: '打包规范',
+    chooseSpecs: '选择打包规范'
   },
   service: {
     basicInfo: '基本信息',
