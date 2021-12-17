@@ -212,6 +212,7 @@
                   :vm-lists-detail-prop="item"
                   :vm-index-prop="index"
                   :net-work-list-show-prop="netWorkListShow"
+                  :clear-state="clearState"
                 />
               </swiper-slide>
               <div
@@ -496,7 +497,8 @@ export default {
       sandboxNames: [],
       isChangeSandboxName: false,
       isAddVm: true,
-      swiperKey: 1
+      swiperKey: 1,
+      clearState: ''
     }
   },
   methods: {
@@ -576,14 +578,13 @@ export default {
       }
       this.showContent = 'showDetail'
     },
-    editNetwork (data, selectedData) {
+    editNetwork (data) {
       this.showContent = 'showDetail'
       if (data && data.length > 0) {
         this.netWorkList = data
         this.configNetworkFinish = true
         this.deployBreathStyle = this.configNetworkFinish
         this.netNum = data.length
-        this.selectedNetworks = selectedData
       }
     },
     checkVmDetail (data) {
@@ -632,6 +633,7 @@ export default {
       sandbox.clearVmImage(this.applicationId).then(() => {
         this.isClearVmImage = true
         this.isStartupVmFinish = false
+        this.clearState = 'clear'
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvSuccess'), 'success')
       }).catch(() => {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.releaseEnvFailed'), 'error')

@@ -29,7 +29,6 @@
     >
       {{ $t('sandboxPromptInfomation.exportFailed') }}
     </p>
-    <p class="bottom-line" />
     <div :class="'vm-list-'+vmIndexProp">
       <ul
         class="ul-scoll lt"
@@ -270,6 +269,10 @@ export default {
     isClearVmImageProp: {
       type: Boolean,
       default: false
+    },
+    clearState: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -441,6 +444,12 @@ export default {
         this.isBtnStart = true
         this.isStartUpVmSuccess = false
       }
+    },
+    clearState: function (val) {
+      if (val === 'clear') {
+        this.startFailed = false
+        this.exportFailed = false
+      }
     }
   },
   created () {
@@ -460,20 +469,12 @@ export default {
 .details-center-vm{
   position: relative;
   .failed{
-    display: none;
     position: absolute;
     top:-34px;
     width: 150px;
     text-align: center;
     color: red;
-  }
-  .bottom-line{
-    display: none;
-    position: relative;
-    top:-10px;
-    left: 48px;
-    width: 54px;
-    border-bottom:1px solid red ;
+    text-decoration:underline
   }
   .vm-center-img{
     position:absolute;

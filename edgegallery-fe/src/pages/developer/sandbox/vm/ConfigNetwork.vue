@@ -129,7 +129,6 @@ export default {
         }
         this.vmNetworkList = res.data
         this.ifAddInternetBtn = !this.vmNetworkList.length > 3
-        console.log(this.ifAddInternetBtn)
       }).catch(err => {
         console.log(err)
       })
@@ -174,19 +173,27 @@ export default {
           description: ''
         }
       ]
-      this.$emit('editNetwork', '')
+      this.$emit('editNetwork', this.vmNetworkList)
     },
     confirmAddInternet () {
-      sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
-        this.getInternetType()
-        this.ifAddInternetBtn = false
-        this.newNetworkList = [
-          {
-            name: '',
-            description: ''
-          }
-        ]
-      })
+      if (this.ifAddInternetBtn) {
+        if (this.newNetworkList[0].name === '') {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.addInternetTip'), 'warning')
+        } else {
+          sandbox.addInternetType(this.applicationId, this.newNetworkList[0]).then(() => {
+            this.getInternetType()
+            this.ifAddInternetBtn = false
+            this.newNetworkList = [
+              {
+                name: '',
+                description: ''
+              }
+            ]
+          })
+        }
+      } else {
+        this.$emit('editNetwork', this.vmNetworkList)
+      }
     }
   },
   mounted () {
@@ -219,7 +226,7 @@ export default {
     .add-btn{
       position: absolute;
       right: 60px;
-      top: 110px;
+      top: 122px;
       z-index: 2;
       cursor: pointer;
     }
@@ -261,7 +268,7 @@ export default {
         }
       }
       .editInternet-btns{
-        margin-right: 56px;
+        margin-right: 38px;
       }
     }
   }

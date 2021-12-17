@@ -50,10 +50,56 @@
         />
       </el-col>
       <el-col
-        :span="24-zoom"
+        :span="23-zoom"
         v-if="zoom<20"
       >
         <router-view />
+      </el-col>
+      <el-col
+        :span="1"
+        v-if="isShowTips"
+      >
+        <div class="tips-container">
+          <div
+            class="tips-box"
+            @click="$router.push('/EG/developer/home')"
+          >
+            <el-tooltip
+              :content="$t('home.returnHome')"
+              effect="light"
+              placement="left"
+            >
+              <img
+                src="./assets/images/index/index_return.png"
+                alt="return"
+              >
+            </el-tooltip>
+          </div>
+          <div class="tips-box">
+            <el-tooltip
+              content="question"
+              effect="light"
+              placement="left"
+            >
+              <img
+                src="./assets/images/index/index_question.png"
+                alt="question"
+              >
+            </el-tooltip>
+          </div>
+          <div class="tips-box">
+            <el-tooltip
+              content="messages"
+              effect="light"
+              placement="left"
+            >
+              <img
+                src="./assets/images/index/index_message.png"
+                alt="talk"
+              >
+            </el-tooltip>
+          </div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -79,7 +125,8 @@ export default {
       screenHeight: document.body.clientHeight,
       timer: false,
       isIndex: true,
-      isIncubationPage: false
+      isIncubationPage: false,
+      isShowTips: false
     }
   },
   computed: {
@@ -92,6 +139,11 @@ export default {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
       this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > 0
       this.toPath = to.path
+      if (to.path.indexOf('EG') > 0 && to.path !== '/EG/developer/home') {
+        this.isShowTips = true
+      } else {
+        this.isShowTips = false
+      }
     },
     scrollTop (val) {
       this.scrollTop = val
@@ -218,5 +270,16 @@ export default {
 }
 .el-row, .el-col{
   height: 100%;
+}
+.tips-box{
+  width: 45px;
+  height: 45px;
+  background: #321985;
+  text-align: center;
+  line-height: 45px;
+  border-radius: 6px;
+  padding-top: 7px;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 </style>
