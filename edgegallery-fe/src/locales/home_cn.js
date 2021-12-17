@@ -22,7 +22,8 @@ const cn = {
     mainTitle: '每一个开发者都了不起',
     appIncubation: '应用孵化',
     appStore: '应用仓库',
-    appDeploy: '应用部署'
+    appDeploy: '应用部署',
+    returnHome: '返回孵化流程'
   }
 }
 export default cn
