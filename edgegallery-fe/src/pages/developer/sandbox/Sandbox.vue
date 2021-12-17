@@ -20,8 +20,7 @@
       v-if="isSandbox"
     >
       <div class="sandbox-top">
-        <p class="sandbox-top-circle" />
-        <p class="sandbox-top-title defaultFontLight">
+        <p class="common-dlg-title defaultFontLight">
           {{ $t('sandbox.selectSandbox') }}
         </p>
       </div>
@@ -55,21 +54,22 @@
           </p>
         </div>
       </div>
-      <el-button
-        id="btn_selectSandbox"
-        class="makesure common-btn"
-        @click="selectFinish"
-      >
-        {{ $t('common.finish') }}
-      </el-button>
+      <div class="btn-container">
+        <el-button
+          id="btn_selectSandbox"
+          class="common-btn"
+          @click="selectFinish"
+        >
+          {{ $t('common.finish') }}
+        </el-button>
+      </div>
     </div>
     <div
       v-else
       class="all-sandbox common-div-bg"
     >
       <div class="sandbox-top">
-        <p class="sandbox-top-circle" />
-        <p class="sandbox-top-title defaultFontLight">
+        <p class="common-dlg-title defaultFontLight">
           {{ $t('sandbox.sandboxDetail') }}
         </p>
       </div>
@@ -212,8 +212,7 @@ export default {
   width: 100%;
   font-size: 20px;
   .all-sandbox{
-    width: 695px;
-    padding: 20px 2%;
+    width: 55%;
     min-height: 405px;
     margin: 245px auto;
     background-size: 100% 100%;
@@ -226,13 +225,9 @@ export default {
         border-radius: 50%;
         margin:6px 6px 0 0;
       }
-      .sandbox-top-title{
-        font-size: 16px;
-        color: #fff;
-      }
     }
     .sandboxs{
-      margin-top: 40px;
+      margin-top: 10px;
       width: 100%;
       position: relative;
       justify-content: flex-start;
@@ -262,7 +257,7 @@ export default {
             width: 46.36px;
           }
           .sandbox-detail{
-            font-size: 12px;
+            font-size: 16px;
             color: #5944c0;
             padding: 4px 10px;
             background-color: #fff;
@@ -273,7 +268,7 @@ export default {
         }
         .sandbox-name{
           margin-top: 12%;
-          font-size: 14px;
+          font-size: 18px;
           color: #fff;
           text-align: center;
         }
@@ -291,9 +286,8 @@ export default {
     }
     .details{
       display: flex;
-      font-size: 14px;
+      font-size: 18px;
       color: #fff;
-      padding-top: 60px;
       .detail-left{
         margin: 0px 86px 0px 90px;
         .detail-left-img{
