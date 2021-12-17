@@ -22,6 +22,7 @@
       <el-collapse
         v-model="activeNames"
         class="vmCollapse"
+        accordion
       >
         <el-collapse-item
           :title="$t('sandbox.vmInformation')"
@@ -157,7 +158,7 @@
         >
           <div class="internetInfos">
             <el-table
-              class="common-table network-table vm-table"
+              class="common-table vm-table"
               :data="vmNetworkList"
             >
               <el-table-column width="35">
@@ -994,16 +995,23 @@ export default {
     top: 50%;
     transform: translate(-50%,-50%);
     .el-collapse-item__header,.el-collapse-item__content{
-      font-size: 16px;
+      font-size: 18px;
       color: #fff;
+    }
+    .el-collapse-item__content::after{
+      display: block;
+      content: '';
+      clear: both;
     }
     .vm-info{
       margin: 0 0 30px 0px;
       .addVm-top-title{
+        float: left;
+        width: 33%;
         display: flex;
         margin: 20px 0px;
         p{
-          width: 84px;
+          width: 100px;
           line-height: 25px;
           text-align: right;
           margin-right: 10px;
@@ -1131,11 +1139,11 @@ export default {
       }
     }
     .el-collapse-item__header{
-      height: 39px;
+      height: 45px;
       background: none;
       border-bottom:none;
       padding-left: 20px;
-      font-size: 18px;
+      font-size: 20px;
     }
     .el-collapse-item__header:before{
       display: inline-block;
@@ -1157,15 +1165,14 @@ export default {
       background: url('../../../../assets/images/sandbox/addvm_icon_down.png');
     }
     .el-collapse-item__header.is-active{
-      background-color: #5f499d;
       border-radius: 19.5px;
       color: #fff;
     }
     .el-collapse-item__header .el-icon-arrow-right:before{
       content: '';
       display: block;
-      width: 8px;
-      height: 8px;
+      width: 16px;
+      height: 16px;
     }
     .el-collapse-item__header.is-active .el-icon-arrow-right:before{
       background: url('../../../../assets/images/sandbox/addvm_icon_up.png');
@@ -1270,7 +1277,7 @@ export default {
         height: 30px;
         line-height: 30px;
         font-family: defaultFontLight,Arial, Helvetica, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         padding-left: 15px;
       }
       .work-radio{
