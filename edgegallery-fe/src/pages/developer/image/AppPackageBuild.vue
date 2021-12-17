@@ -430,7 +430,7 @@ export default {
           text-align: right;
         }
         .el-form-item__content{
-          font-size: 16px;
+          font-size: 18px;
           line-height: 40px;
           overflow: hidden;
           text-overflow: ellipsis;

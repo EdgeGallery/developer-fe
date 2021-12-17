@@ -410,7 +410,7 @@ export default {
               border-radius: 30px;
             }
             .el-button--small {
-              padding: 5px 8px;
+              padding: 2px;
             }
           }
           .operation-btn.btnNone{
