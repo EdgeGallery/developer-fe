@@ -494,15 +494,15 @@
         <el-form-item class="rt specsBtn">
           <el-button
             class="common-btn defaultFontLight"
-            @click="addSpecks()"
-          >
-            {{ $t('common.confirm') }}
-          </el-button>
-          <el-button
-            class="common-btn defaultFontLight"
             @click="cancleSpecks()"
           >
             {{ $t('common.cancel') }}
+          </el-button>
+          <el-button
+            class="common-btn defaultFontLight"
+            @click="addSpecks()"
+          >
+            {{ $t('common.confirm') }}
           </el-button>
         </el-form-item>
       </el-form>

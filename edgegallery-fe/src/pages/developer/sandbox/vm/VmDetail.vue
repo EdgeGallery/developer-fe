@@ -65,6 +65,13 @@
             v-if="vmTestInformation.nodes.length===0"
           >NA</span>
         </p>
+        <p
+          class="clear"
+          v-if="startErrMsg!==''"
+        >
+          <span class="content-left lt">{{ $t('sandbox.errMsg') }} :</span>
+          <span class="content-right lt">{{ startErrMsg }}</span>
+        </p>
       </div>
 
       <div class="vm-content">
@@ -87,6 +94,13 @@
         <p class="clear">
           <span class="content-left lt">{{ $t('sandbox.stageStatus') }} :</span>
           <span class="content-right lt">{{ vmImageInformation.status?vmImageInformation.status:'NA' }}</span>
+        </p>
+        <p
+          class="clear"
+          v-if="exportErrMsg!==''"
+        >
+          <span class="content-left lt">{{ $t('sandbox.errMsg') }} :</span>
+          <span class="content-right lt">{{ exportErrMsg }}</span>
         </p>
       </div>
 
@@ -130,7 +144,9 @@ export default {
       vmImageInformation: {},
       vmId: '',
       language: localStorage.getItem('language') || 'cn',
-      vmDetail: {}
+      vmDetail: {},
+      startErrMsg: '',
+      exportErrMsg: ''
     }
   },
   methods: {
@@ -150,10 +166,10 @@ export default {
         _this.vmImageInformation = data
       })
       this.bus.$on('getVmStartErr', function (data) {
-        console.log(data)
+        this.startErrMsg = data
       })
       this.bus.$on('getVmExportErr', function (data) {
-        console.log(data)
+        this.exportErrMsg = data
       })
     },
     getVmDetail (vmId) {
