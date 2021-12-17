@@ -92,6 +92,12 @@
               </el-tooltip>
             </span>
           </el-tree>
+          <div
+            v-for="service in groups"
+            :key="service.id"
+          >
+            {{ service.id }}
+          </div>
         </div>
         <div class="capability-right">
           <div
