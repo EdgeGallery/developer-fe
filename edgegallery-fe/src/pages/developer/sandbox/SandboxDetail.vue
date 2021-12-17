@@ -107,7 +107,6 @@
             </div>
           </div>
           <div class="application-title">
-            {{ applicationName }}
             <div
               class="add-vm-small rt"
               v-if="appClass==='VM' && vmLists.length>=1"

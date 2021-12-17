@@ -239,6 +239,7 @@
  }
  .el-button{
    padding: 8px 24px;
+   font-size: 16px;
  }
  .el-button.el-button--text{
    padding: 0px;
@@ -1222,6 +1223,7 @@ input::-webkit-input-placeholder {
 .common-radio .el-radio__label {
   color: #fff;
   padding-left: 12px;
+  font-size: 16px;
 }
 .common-radio .el-radio__input.is-checked+.el-radio__label{
   color: #fff;
