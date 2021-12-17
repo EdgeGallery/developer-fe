@@ -46,7 +46,8 @@ export default {
         serviceNameEn: '',
         uploadTime: '',
         version: ''
-      }
+      },
+      appId: sessionStorage.getItem('applicationId')
     }
   },
   methods: {
