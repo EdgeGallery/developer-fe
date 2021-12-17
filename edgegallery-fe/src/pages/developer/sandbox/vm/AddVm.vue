@@ -987,7 +987,8 @@ export default {
   }
   .addVm-bg{
     position: absolute;
-    width: 1000px;
+    width: 80%;
+    min-width: 1000px;
     padding: 40px;
     left: 50%;
     top: 50%;
@@ -1134,7 +1135,7 @@ export default {
       background: none;
       border-bottom:none;
       padding-left: 20px;
-      font-size: 16px;
+      font-size: 18px;
     }
     .el-collapse-item__header:before{
       display: inline-block;
@@ -1219,6 +1220,7 @@ export default {
         .el-radio-group{
           margin: 15px 0 20px 15px;
           .el-radio-button__inner {
+            font-size: 16px;
             background: none;
             color: #fff;
             border: none;
