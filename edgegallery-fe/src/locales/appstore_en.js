@@ -350,6 +350,7 @@ const en = {
     comments: 'Comments',
     allComments: 'All Comments',
     introduction: 'Application Details',
+    introductionTip: 'No details are available for this app!',
     demo: 'Video',
     message: 'Message',
     postComment: 'Post a Comment',

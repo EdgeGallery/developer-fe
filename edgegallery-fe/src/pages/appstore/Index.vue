@@ -202,7 +202,8 @@ export default {
   width: 300px;
 }
 .app-grid {
-  min-height: 573px;
+  height: 573px;
+  overflow-y: auto;
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
