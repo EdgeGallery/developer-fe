@@ -361,6 +361,7 @@ const cn = {
     comments: '评论',
     allComments: '全部评论',
     introduction: '应用详情',
+    introductionTip: '本应用暂无详情信息！',
     demo: '视频',
     message: '消息',
     postComment: '提交评论',

@@ -16,15 +16,30 @@
 
 <template>
   <div class="appIntroduction">
-    <mavon-editor
-      v-model="source"
-      :toolbars-flag="false"
-      :editable="false"
-      :subfield="false"
-      default-open="preview"
-      :box-shadow="false"
-      preview-background="#fff"
-    />
+    <div v-if="showDetails==='show'">
+      <mavon-editor
+        v-model="source"
+        :toolbars-flag="false"
+        :editable="false"
+        :subfield="false"
+        default-open="preview"
+        :box-shadow="false"
+        preview-background="#fff"
+      />
+    </div>
+    <div
+      class="detail-tip"
+      v-else
+    >
+      <img
+        class="detail-tip-img"
+        src="../../../assets/images/appstore/app_detail_info_icon.png"
+        alt=""
+      >
+      <p class="detail-tip-text defaultFontLight">
+        {{ $t('store.introductionTip') }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -35,6 +50,10 @@ export default {
     source: {
       required: true,
       type: String
+    },
+    showDetails: {
+      required: true,
+      type: String
     }
   }
 }
@@ -43,6 +62,13 @@ export default {
 .appIntroduction {
   margin: auto;
   border-radius: 16px;
+  .detail-tip{
+    width: 320px;
+    margin: 100px auto;
+    .detail-tip-text{
+      text-align: center;
+    }
+  }
   .markdown-body{
     background: rgba(46, 26, 124,0.1);
     color: #fff;

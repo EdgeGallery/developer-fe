@@ -260,6 +260,7 @@
         <appIntroduction
           v-show="activeName==='appDetail'"
           :source="this.source"
+          :show-details="this.isShowDetails"
           ref="appIntroduction"
         />
         <appComments
@@ -424,7 +425,7 @@ export default {
         score: 0,
         message: ''
       },
-      source: 'this is test',
+      source: '',
       appIconPath: '',
       playerOptions: {
         muted: false,
@@ -460,7 +461,8 @@ export default {
       role: sessionStorage.getItem('userNameRole'),
       price: 0,
       btnLoading: false,
-      score: ''
+      score: '',
+      isShowDetails: false
     }
   },
   watch: {
@@ -541,6 +543,8 @@ export default {
         if (Object.keys(this.currentData).length === 0 && this.currentData.constructor === Object && (this.tableData.length !== 0)) {
           this.currentData = this.tableData.sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime())[0]
           this.source = this.currentData.details
+          this.isShowDetails = this.source !== '' ? 'show' : ''
+          console.log(this.isShowDetails)
           this.appIconPath = URL_PREFIX_APPSTORE + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
           this.ifExperience = this.currentData.experienceAble
           if (sessionStorage.getItem('userNameRole') === 'tenant' && this.userId !== this.currentData.userId) {
@@ -1008,9 +1012,9 @@ export default {
         }
       }
       .comment_default_meao_noAppShow{
-        background: #fff;
+        background: #331A85;
         span{
-          background: #d4d1ec;
+          background: #4E3494;
           border-radius: 0 0 16px 0;
           transition: all 0.1s;
         }
@@ -1023,9 +1027,9 @@ export default {
         }
       }
       .comment_default_vedio_noAppShow{
-        background: #fff;
+        background: #331A85;
         span{
-          background: #d4d1ec;
+          background: #4E3494;
           border-radius: 0 0 0 0;
         }
       }
@@ -1103,6 +1107,24 @@ export default {
           transition: all 0.1s;
         }
       }
+      .meao_default_comment{
+        background: #331A85;
+        span{
+          background: #4E3494;
+          border-radius: 0 0 0 0;
+          transition: all 0.1s;
+        }
+      }
+      .appShow_default3{
+        background: #fff;
+        border-radius: 0 16px 0 0;
+        transition: all 0.1s;
+        span{
+          background: #4E3494;
+          border-radius: 0 0 16px 0;
+          transition: all 0.1s;
+        }
+      }
       .meao_active{
         background: #4E3494;
         border-radius: 0 0 0 0;
@@ -1135,19 +1157,19 @@ export default {
         }
       }
       .meao_default_comment_noappShow{
-        background: #fff;
+        background: #331A85;
         span{
-          background: #d4d1ec;
+          background: #4E3494;
           border-radius: 0 0 0 16px;
         }
 
       }
       .meao_default_vedio_noappShow{
-        background: #f4f3f7;
+        background: #331A85;
         border-radius: 0 0 0 16px;
         transition: all 0.1s;
         span{
-          background: #d4d1ec;
+          background: #4E3494;
           border-radius: 0 0 16px 0;
           transition: all 0.1s;
         }
@@ -1211,21 +1233,21 @@ export default {
         }
       }
       .vedio_default2_meao_no_Appshow{
-       background: #fff;
+       background: #331A85;
         border-radius: 0 16px 0 0;
         transition: all 0.1s;
         span{
-          background: #d4d1ec;
+          background: #4E3494;
           border-radius: 0 16px 0 16px;
           transition: all 0.1s;
         }
       }
       .vedio_default2_comment_no_Appshow{
-        background: #fff;
+        background: #331A85;
         border-radius: 0 16px 0 0;
         transition: all 0.1s;
         span{
-          background: #d4d1ec;
+          background: #4E3494;
           border-radius: 0 16px 0 0;
           transition: all 0.1s;
         }

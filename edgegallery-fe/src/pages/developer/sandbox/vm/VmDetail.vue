@@ -65,6 +65,13 @@
             v-if="vmTestInformation.nodes.length===0"
           >NA</span>
         </p>
+        <p
+          class="clear"
+          v-if="startErrMsg!==''"
+        >
+          <span class="content-left lt">{{ $t('sandbox.errMsg') }} :</span>
+          <span class="content-right lt">{{ startErrMsg }}</span>
+        </p>
       </div>
 
       <div class="vm-content">
@@ -87,6 +94,13 @@
         <p class="clear">
           <span class="content-left lt">{{ $t('sandbox.stageStatus') }} :</span>
           <span class="content-right lt">{{ vmImageInformation.status?vmImageInformation.status:'NA' }}</span>
+        </p>
+        <p
+          class="clear"
+          v-if="exportErrMsg!==''"
+        >
+          <span class="content-left lt">{{ $t('sandbox.errMsg') }} :</span>
+          <span class="content-right lt">{{ exportErrMsg }}</span>
         </p>
       </div>
 
@@ -130,7 +144,9 @@ export default {
       vmImageInformation: {},
       vmId: '',
       language: localStorage.getItem('language') || 'cn',
-      vmDetail: {}
+      vmDetail: {},
+      startErrMsg: '',
+      exportErrMsg: ''
     }
   },
   methods: {
@@ -150,10 +166,10 @@ export default {
         _this.vmImageInformation = data
       })
       this.bus.$on('getVmStartErr', function (data) {
-        console.log(data)
+        this.startErrMsg = data
       })
       this.bus.$on('getVmExportErr', function (data) {
-        console.log(data)
+        this.exportErrMsg = data
       })
     },
     getVmDetail (vmId) {
@@ -211,7 +227,7 @@ export default {
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .vm-detail-dlg{
     position: absolute;
-    width: 700px;
+    width: 900px;
     padding: 40px;
     left: 50%;
     top: 50%;
@@ -220,8 +236,8 @@ export default {
       padding: 16px 40px;
       border-radius: 8px;
       background: rgba(255,255,255,.1);
-      font-size: 14px;
-      line-height: 22px;
+      font-size: 16px;
+      line-height: 30px;
       margin-top: 15px;
       p{
         margin-bottom: 10px;
@@ -245,10 +261,10 @@ export default {
   }
   .vm-detail-dlg-en{
     .content-left{
-      width: 140px !important;
+      width: 160px !important;
     }
     .content-right{
-      width: calc(100% - 140px) !important;
+      width: calc(100% - 160px) !important;
     }
   }
 }

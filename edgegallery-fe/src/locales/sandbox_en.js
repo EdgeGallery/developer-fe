@@ -34,6 +34,7 @@ const en = {
     flavor: 'Flavor',
     instanceStatus: 'Instance Status',
     instanceInformation: 'Instance Information',
+    errMsg: 'Error Message',
     imageName: 'Image Name',
     downloadUrl: 'Download Url',
     stageStatus: 'Stage Status',
@@ -145,7 +146,8 @@ const en = {
     addInternetFaild: 'The maximum number of network configuration data is 4!',
     internetNameRepeat: 'Duplicate network configuration name!',
     startFailed: 'Failed',
-    exportFailed: 'Failed'
+    exportFailed: 'Failed',
+    addInternetTip: 'Network name cannot be empty!'
   }
 }
 export default en

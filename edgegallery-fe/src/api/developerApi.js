@@ -216,6 +216,9 @@ let applicationApi = {
   },
   getSpecOptions: function () {
     return GET(URL_PREFIX_DEVELOPER + 'pkg-specs')
+  },
+  getAbilityIconApi: function (fileId) {
+    return URL_PREFIX_DEVELOPER + 'upload-files/' + fileId + '/action/get-file-stream'
   }
 }
 
