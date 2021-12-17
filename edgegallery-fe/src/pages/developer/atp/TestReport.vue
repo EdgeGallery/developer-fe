@@ -659,7 +659,7 @@ export default {
               font-family: defaultFontLight, Arial, Helvetica, sans-serif;
               height: 40px;
               padding-left: 15px;
-              font-size: 16px;
+              font-size: 19px;
               color: #fff;
               background-color: #5F499D;
               border-radius: 19.5px;
@@ -676,13 +676,13 @@ export default {
             padding: 0;
             height: 40px;
             line-height: 40px;
-            font-size: 14px;
+            font-size: 16px;
           }
           .el-table::before {
             width: 0;
           }
           .el-table td{
-            font-size: 14px;
+            font-size: 16px;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             padding: 0;
             height: 45px;

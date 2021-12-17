@@ -40,7 +40,7 @@
         >
           <el-table-column
             :label="$t('testCase.caseName')"
-            width="210"
+            width="250"
           >
             <template slot-scope="scope">
               {{ language==='cn'?scope.row.nameCh:scope.row.nameEn }}
@@ -139,7 +139,7 @@ export default {
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             height: 40px;
             padding-left: 15px;
-            font-size: 18px;
+            font-size: 19px;
             color: #fff;
             border: none;
             background-color: #5F499D;
