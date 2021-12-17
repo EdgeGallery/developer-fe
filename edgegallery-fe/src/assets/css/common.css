@@ -1064,65 +1064,35 @@ th{
   clear: both;
   top: 100px;
 }
-.item-active .flow-name{
-  top: 30px!important;
-}
 .capability-center .flow-name{
   top: 100px;
-}
-.item-capa-active>.flow-name{
-  top: 70px;
 }
 .item-active{
   border: 3px solid #f2b720 !important;
   border-radius: 14px;
 }
 .item-history{
-  border: 3px solid #42F6AC !important;
+  border: 3px solid #4A9893 !important;
   border-radius: 14px;
 }
-.center-active .item-active::before{
- content:'';
- display: inline-block;
- width: 40px;
- height: 58px;
- background: url('../images/application/app_mark_box1.png') no-repeat center;
- background-size: cover;
- position: relative;
- top: 20px;
- left: 10px;
- z-index: 10;
-}
-.center-active .item-capa-active::before{
-  content:'';
-  display: inline-block;
-  width: 25px;
-  height: 36px;
-  background: url('../images/application/app_mark_box2.png') no-repeat center;
-  background-size: cover;
-  position: relative;
-  top: 20px;
-  left: -50px;
-  z-index: 10;
- }
  .item-active .steps-num{
   background: #f2b720;
  }
  .item-history .steps-num{
-   background: #42F6AC;
+   background: #4A9893;
  }
  .steps-num{
   float: right;
-  width: 35px;
+  width: 70px;
   height: 35px;
-  border-radius: 35px;
+  border-radius: 12px;
   color: #331A86;
-  background: #968bb2;
+  background: #9484D2;
   text-align: center;
   line-height: 35px;
   margin: 3px 3px 0 0;
   position: relative;
-  top: -15px;
+  top: -20px;
   right: -15px;
   font-size: 20px;
   font-weight: bold;
@@ -1302,4 +1272,9 @@ input::-webkit-input-placeholder {
   cursor: default;
   color: #5E49A7 !important;
   background-color: rgba(10,9,54,.1) !important;
+}
+
+.el-textarea .el-input__count {
+  background: none;
+  color: #fff;
 }

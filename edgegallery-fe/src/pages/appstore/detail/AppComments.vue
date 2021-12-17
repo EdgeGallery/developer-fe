@@ -253,10 +253,6 @@ export default {
         border-radius: 12px;
         padding: 10px 30px 15px !important;
       }
-      .el-textarea .el-input__count {
-        background: none;
-        color: #fff;
-      }
     }
     .submit_btn{
       float: left;

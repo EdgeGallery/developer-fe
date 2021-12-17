@@ -34,6 +34,7 @@ const cn = {
     flavor: '规格',
     instanceStatus: '实例状态',
     instanceInformation: '实例信息',
+    errMsg: '错误信息',
     imageName: '镜像名称',
     downloadUrl: '下载地址',
     stageStatus: '阶段状态',
@@ -145,7 +146,8 @@ const cn = {
     addInternetFaild: '网络配置数据最多为4条！',
     internetNameRepeat: '网络配置名重复！',
     startFailed: '启动失败',
-    exportFailed: '导出失败'
+    exportFailed: '导出失败',
+    addInternetTip: '网络类型名称不能为空！'
   }
 }
 export default cn

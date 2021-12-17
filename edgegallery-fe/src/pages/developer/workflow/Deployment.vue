@@ -73,7 +73,7 @@ export default {
           toPath: ''
         }
       ],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   watch: {
