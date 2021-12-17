@@ -693,6 +693,7 @@ export default {
           return
         }
         this.vmNetworkList = res.data
+        this.$emit('getNetWorkList', res.data)
       }).catch(err => {
         console.log(err)
       })

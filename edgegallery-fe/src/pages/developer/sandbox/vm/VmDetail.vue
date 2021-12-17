@@ -227,7 +227,7 @@ export default {
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .vm-detail-dlg{
     position: absolute;
-    width: 700px;
+    width: 900px;
     padding: 40px;
     left: 50%;
     top: 50%;
@@ -236,8 +236,8 @@ export default {
       padding: 16px 40px;
       border-radius: 8px;
       background: rgba(255,255,255,.1);
-      font-size: 14px;
-      line-height: 22px;
+      font-size: 16px;
+      line-height: 30px;
       margin-top: 15px;
       p{
         margin-bottom: 10px;
@@ -261,10 +261,10 @@ export default {
   }
   .vm-detail-dlg-en{
     .content-left{
-      width: 140px !important;
+      width: 160px !important;
     }
     .content-right{
-      width: calc(100% - 140px) !important;
+      width: calc(100% - 160px) !important;
     }
   }
 }
