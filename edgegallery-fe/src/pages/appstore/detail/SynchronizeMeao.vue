@@ -293,6 +293,7 @@ export default {
   },
   mounted () {
     this.getThirdSystemByType()
+    this.getProgressByPackageId()
     this.startInterval()
     setTimeout(() => {
       clearInterval(this.timer)

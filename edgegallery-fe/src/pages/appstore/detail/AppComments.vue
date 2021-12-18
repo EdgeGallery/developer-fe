@@ -203,11 +203,10 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-    },
-    appId (newVal, oldVal) {
-      this.appId = newVal
-      this.getComments()
     }
+  },
+  mounted () {
+    this.getComments()
   }
 }
 </script>

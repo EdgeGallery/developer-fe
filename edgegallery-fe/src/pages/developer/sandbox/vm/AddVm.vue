@@ -268,12 +268,36 @@
           :title="$t('sandbox.flavorExtraSpecs')"
           name="5"
         >
+          <div>
+            <el-button
+              class="rt el-button-operation"
+              style="margin-left:10px;"
+              @click="addHost('flavor')"
+            >
+              {{ $t('common.save') }}
+            </el-button>
+            <el-button
+              class="rt el-button-operation"
+              v-if="viewOrEditFlavor === 'edit'"
+              @click="editHost"
+            >
+              {{ $t('common.edit') }}
+            </el-button>
+            <el-button
+              class="rt el-button-operation"
+              v-else
+              @click="editHostCancel"
+            >
+              {{ $t('common.cancel') }}
+            </el-button>
+          </div>
           <div class="hostSelects">
             <div class="hostSelect hostSelect1">
               <p>{{ $t('sandbox.hostGroup') }}:</p>
               <el-input
                 class="hostSelect-input"
                 v-model="hostGroup"
+                :disabled="hostBtn"
                 :placeholder="$t('sandbox.hostGroupTip')"
               />
             </div>
@@ -281,6 +305,7 @@
               <p>{{ $t('sandbox.hugePage') }}:</p>
               <el-select
                 v-model="hugePage"
+                :disabled="hostBtn"
                 :placeholder="$t('sandbox.hugePageTip')"
               >
                 <el-option
@@ -295,6 +320,7 @@
               <p>{{ $t('sandbox.gpuType') }}:</p>
               <el-select
                 v-model="gpuType"
+                :disabled="hostBtn"
                 :placeholder="$t('sandbox.gpuTypeTip')"
               >
                 <el-option
@@ -309,8 +335,9 @@
               <p>{{ $t('sandbox.gpuNum') }}:</p>
               <el-select
                 v-model="gpuNum"
+
                 :placeholder="$t('sandbox.gpuNumTip')"
-                :disabled="this.gpuType==''"
+                :disabled="this.gpuType==''||hostBtn"
               >
                 <el-option
                   v-for="item in gpuNums"
@@ -714,7 +741,8 @@ export default {
       activeScriptEditPanel: '1',
       viewOrEditContent: 'preview',
       viewOrEditParams: 'preview',
-      viewOrEditFlavor: 'preview',
+      viewOrEditFlavor: 'edit',
+      hostBtn: true,
       userData: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       vmId: '',
@@ -818,6 +846,26 @@ export default {
         }
       })
     },
+    editHost () {
+      this.viewOrEditFlavor = ''
+      this.hostBtn = false
+    },
+    editHostCancel () {
+      this.viewOrEditFlavor = 'edit'
+      this.addvmImages.flavorExtraSpecs = ''
+      this.hostBtn = true
+    },
+    addHost () {
+      let _hostInfo = this.hugePage !== '' && this.hostGroup !== '' && this.gpuType !== '' && this.gpuNum !== ''
+      if (_hostInfo) {
+        this.viewOrEditFlavor = 'edit'
+        this.hostBtn = true
+        let _gpuInfo = this.gpuType + ':'
+        this.addvmImages.flavorExtraSpecs = this.hugePageName + ':' + this.hugePage + '\r\n' + this.cpuPolicy + ':' + 'dedicated' + '\r\n' + this.cpuThread + ':' + 'prefer' + '\r\n' + this.numNode + ':' + '1' + '\r\n' + this.gpuTypeName + ':' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ':' + this.hostGroup
+      } else {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
+      }
+    },
     appendCPUUnit (row) {
       return row.cpu + 'vCPU'
     },
@@ -898,8 +946,6 @@ export default {
         if (this.isAddVm) {
           this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         }
-        let _gpuInfo = this.gpuType + ':'
-        this.addvmImages.flavorExtraSpecs = this.hugePageName + ':' + this.hugePage + '\r\n' + this.cpuPolicy + ':' + 'dedicated' + '\r\n' + this.cpuThread + ':' + 'prefer' + '\r\n' + this.numNode + ':' + '1' + '\r\n' + this.gpuTypeName + ':' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ':' + this.hostGroup
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
           if (this.isAddVm) {

@@ -258,13 +258,13 @@
         style="padding:0;"
       >
         <appIntroduction
-          v-show="activeName==='appDetail'"
+          v-if="activeName==='appDetail'"
           :source="this.source"
           :show-details="this.isShowDetails"
           ref="appIntroduction"
         />
         <appComments
-          v-show="activeName==='comment'"
+          v-if="activeName==='comment'"
           :app-id="this.appId"
           ref="appComments"
         />
@@ -276,13 +276,13 @@
           ref="appShowOnline"
         />
         <synchronizeMeao
-          v-show="activeName==='meao'"
+          v-if="activeName==='meao'"
           :package-id="this.packageId"
           :current-data="this.currentData"
           ref="synchronizeMeao"
         />
         <appVideo
-          v-show="activeName==='vedio'"
+          v-if="activeName==='vedio'"
           :player-options="this.playerOptions"
           ref="appVideo"
         />
@@ -544,7 +544,6 @@ export default {
           this.currentData = this.tableData.sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime())[0]
           this.source = this.currentData.details
           this.isShowDetails = this.source !== '' ? 'show' : ''
-          console.log(this.isShowDetails)
           this.appIconPath = URL_PREFIX_APPSTORE + 'apps/' + this.currentData.appId + '/packages/' + this.currentData.packageId + '/icon'
           this.ifExperience = this.currentData.experienceAble
           if (sessionStorage.getItem('userNameRole') === 'tenant' && this.userId !== this.currentData.userId) {
