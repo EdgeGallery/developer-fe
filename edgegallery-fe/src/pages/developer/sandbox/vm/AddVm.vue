@@ -852,6 +852,10 @@ export default {
     },
     editHostCancel () {
       this.viewOrEditFlavor = 'edit'
+      this.hugePage = ''
+      this.hostGroup = ''
+      this.gpuType = ''
+      this.gpuNum = ''
       this.addvmImages.flavorExtraSpecs = ''
       this.hostBtn = true
     },
