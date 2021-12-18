@@ -415,6 +415,7 @@ export default {
     uploadDefaultIconFile (type) {
       let formdata = new FormData()
       formdata.append('file', this.defaultIconFile[0])
+      formdata.append('fileType', 'icon')
       applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
           this.applicationFormData.iconFileId = res.data.fileId
@@ -428,7 +429,7 @@ export default {
           if (this.mdFileList.length < 0) {
             this.$message.warning(this.$t('incubation.uploadMdFileTip'))
           } else {
-            if (this.logoFileList.length < 0) {
+            if (this.logoFileList.length === 0) {
               this.uploadDefaultIconFile()
             } else {
               this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()
