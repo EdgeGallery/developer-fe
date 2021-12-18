@@ -1349,7 +1349,6 @@ export default {
       }
       .vm-table{
         padding-left: 10px;
-        border: 1px solid red;
         thead tr{
           height: 50px;
         }
