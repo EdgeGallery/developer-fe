@@ -146,17 +146,19 @@ export default {
       language: localStorage.getItem('language') || 'cn',
       vmDetail: {},
       startErrMsg: '',
-      exportErrMsg: ''
+      exportErrMsg: '',
+      vmIndex: -1
     }
   },
   methods: {
     closeVmDetail () {
-      this.$emit('closeVmDetail')
+      this.$emit('closeVmDetail', this.vmDetail, this.vmIndex)
     },
     checkVmDetail () {
       let _this = this
-      this.bus.$on('checkVmDetail', function (data) {
+      this.bus.$on('checkVmDetail', function (data, index) {
         _this.vmId = data
+        _this.vmIndex = index
         _this.getVmDetail(_this.vmId)
       })
     },

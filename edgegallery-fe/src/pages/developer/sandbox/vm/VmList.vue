@@ -29,7 +29,10 @@
     >
       {{ $t('sandboxPromptInfomation.exportFailed') }}
     </p>
-    <div :class="'vm-list-'+vmIndexProp">
+    <div
+      class="clear"
+      :class="'vm-list-'+vmIndexProp"
+    >
       <ul
         class="ul-scoll lt"
         :class="'ul-scoll-'+vmIndexProp"
@@ -95,9 +98,8 @@
             <div
               class="vm-btn flex-column vm-btn-detail hoverHands"
               @click="checkVmDetail"
-              :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
               @mouseleave="detailGreen=false"
-              @mouseenter="isAddVmFinish?detailGreen=true:detailGreen=false"
+              @mouseenter="detailGreen=true"
             >
               <img
                 v-if="!detailGreen"
@@ -316,9 +318,9 @@ export default {
   methods: {
     getVmlistsStatus () {
       if (this.vmListsDetail.imageId !== 0) {
-        this.isBtnStart = true
         this.isAddVmFinish = true
       }
+      this.isBtnStart = !this.vmListsDetail.vmInstantiateInfo
       if (this.vmListsDetail.vmInstantiateInfo && this.vmListsDetail.vmInstantiateInfo.operationId) {
         this.getVmStatus(this.vmListsDetail.vmInstantiateInfo.operationId)
         this.timer = setInterval(() => {
@@ -393,7 +395,7 @@ export default {
       }).catch(() => {})
     },
     checkVmDetail () {
-      this.bus.$emit('checkVmDetail', this.vmId)
+      this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
     startUpVm (data) {
@@ -539,8 +541,8 @@ export default {
       text-align: center;
       span{
         display: inline-block;
-        width: 6px;
-        height: 6px;
+        width: 10px;
+        height: 10px;
         background: #4CD473;
         border-radius: 50%;
         margin: 0 5px;

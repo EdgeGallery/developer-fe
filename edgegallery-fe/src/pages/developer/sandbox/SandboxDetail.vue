@@ -15,7 +15,7 @@
   -->
 <template>
   <div class="detail">
-    <div v-if="showContent==='showDetail'">
+    <div v-show="showContent==='showDetail'">
       <div
         class="detail-top clear"
         v-if="isChangeStyle"
@@ -187,7 +187,7 @@
               </li>
             </ul>
             <swiper
-              v-if="vmLists.length>0"
+              v-show="vmLists.length>0"
               class="vm-swiper"
               :class="{'lt':vmLists.length<2}"
               :options="swiperOption"
@@ -487,7 +487,10 @@ export default {
         observeParents: true,
         pagination: {
           el: '.swiper-pagination',
-          clickable: true
+          clickable: true,
+          renderBullet: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + '</span>'
+          }
         }
       },
       netWorkListShow: [],
@@ -589,8 +592,9 @@ export default {
     checkVmDetail (data) {
       this.showContent = data
     },
-    closeVmDetail () {
+    closeVmDetail (data, index) {
       this.showContent = 'showDetail'
+      this.vmLists[index] = data
     },
     uploadVmFile (data) {
       this.showContent = data
@@ -883,7 +887,7 @@ export default {
         border-radius: 20px;
         background: rgba(10, 9, 54, 1);
         opacity: 0.25;
-        margin-right: 55px;
+        margin-right: 72px;
         cursor: pointer;
         img{
           width: 20px;
@@ -992,8 +996,12 @@ export default {
           margin-top: 40px;
         }
         .vm-list-div{
-          width: 711px;
+          width: 720px;
+          padding-right: 72px;
           float: left;
+        }
+        .vm-list-div:hover{
+          cursor: move;
         }
         .ul-scoll{
           width: 300px;
@@ -1125,21 +1133,24 @@ export default {
     animation:move 2.5s linear infinite;
   }
   .swiper-container.vm-swiper{
-    position: static;
     padding-bottom: 15px;
     margin: 40px 0 0;
     .swiper-slide{
-      width: 711px !important;
+      width: 720px !important;
     }
     .swiper-pagination-bullets{
       width: auto;
-      bottom: 90px;
-      right: 40px;
+      bottom: 0px;
+      right: 0px;
       text-align: right;
       .swiper-pagination-bullet{
-        width: 12px;
-        height: 12px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
         background: #C4C4C4;
+        font-size: 20px;
+        color: #000;
       }
     }
     .swiper-pagination-none{

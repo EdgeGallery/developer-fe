@@ -343,7 +343,7 @@ export default {
   }
   .container-status{
     position: absolute;
-    top: 124px;
+    top: 256px;
     height: 30px;
     width: 100%;
     text-align: center;
@@ -359,8 +359,8 @@ export default {
       text-align: center;
       span{
         display: inline-block;
-        width: 6px;
-        height: 6px;
+        width: 10px;
+        height: 10px;
         background: #4CD473;
         border-radius: 50%;
         margin: 0 5px;
