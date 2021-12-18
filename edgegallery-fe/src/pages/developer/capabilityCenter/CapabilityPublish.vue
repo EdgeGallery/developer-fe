@@ -11,7 +11,7 @@
         :rules="serviceFormRule"
         ref="serviceForm"
         class="common-form"
-        label-width="150px"
+        label-width="210px"
         label-position="right"
         size="mini"
       >
@@ -392,8 +392,8 @@ export default {
   .capability-publish{
     position: absolute;
     top: 5%;
-    left: 30%;
-    width: 40%;
+    left: 25%;
+    width: 50%;
     padding: 35px;
   }
   .cap-upload-btn{
