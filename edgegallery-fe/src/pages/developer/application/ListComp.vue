@@ -167,7 +167,7 @@ export default {
               message: this.$t('incubation.afterDelete')
             })
             sessionStorage.setItem('applicationId', '')
-            this.$router.push('/EG/developer/home')
+            this.$store.commit('changeApp', '5G')
           }
         })
       })

@@ -62,7 +62,7 @@
                 {{ language==='cn'?service.name:service.nameEn }}
               </span>
               <span class="rt">
-                5
+                {{ service.capabilityCount }}
               </span>
             </div>
           </div>

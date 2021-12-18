@@ -176,7 +176,7 @@ let applicationApi = {
     return POST(URL_PREFIX_DEVELOPER + 'applications', params)
   },
   getServiceList: function () {
-    return GET(URL_PREFIX_DEVELOPER + 'query/capability-groups/type/OPENMEP')
+    return GET(URL_PREFIX_DEVELOPER + 'query/capability-group-stats/type/OPENMEP')
   },
   getCapabilityByGroupId: function (groupId) {
     return GET(URL_PREFIX_DEVELOPER + 'query/capabilities/group-id/' + groupId)

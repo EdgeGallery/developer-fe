@@ -47,7 +47,7 @@ const cn = {
     docLimit: '只能上传.md文件，且不超过500kb',
     deleteAppTip: '此操作将永久删除该应用, 是否继续?',
     deleted: '删除成功',
-    afterDelete: '当前应用已删除，1s后将回到首页!',
+    afterDelete: '当前应用已删除!',
     uploadLimit: '仅支持上传一个文件！',
     others: '其他分类',
     direction: '行动方向',

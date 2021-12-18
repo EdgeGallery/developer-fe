@@ -18,21 +18,33 @@
           class="cb"
           prop="name"
         >
-          <el-input v-model="applicationFormData.name" />
+          <el-input
+            v-model="applicationFormData.name"
+            minlength="2"
+            maxlength="35"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.version')"
           class="label-item-half"
           prop="version"
         >
-          <el-input v-model="applicationFormData.version" />
+          <el-input
+            v-model="applicationFormData.version"
+            minlength="2"
+            maxlength="15"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.provider')"
           class="label-item-half"
           prop="provider"
         >
-          <el-input v-model="applicationFormData.provider" />
+          <el-input
+            v-model="applicationFormData.provider"
+            minlength="2"
+            maxlength="35"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.appClass')"
@@ -416,6 +428,7 @@ export default {
     uploadDefaultIconFile (type) {
       let formdata = new FormData()
       formdata.append('file', this.defaultIconFile[0])
+      formdata.append('fileType', 'icon')
       applicationApi.uploadFileApi(formdata).then(res => {
         if (res.data && res.data.fileId) {
           this.applicationFormData.iconFileId = res.data.fileId
@@ -429,7 +442,7 @@ export default {
           if (this.mdFileList.length < 0) {
             this.$message.warning(this.$t('incubation.uploadMdFileTip'))
           } else {
-            if (this.logoFileList.length < 0) {
+            if (this.logoFileList.length === 0) {
               this.uploadDefaultIconFile()
             } else {
               this.appId.length > 0 ? this.confirmToModify() : this.confirmToCreate()

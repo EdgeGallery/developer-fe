@@ -47,7 +47,7 @@ const en = {
     docLimit: 'Only .md files can be uploaded, and no more than 500kb',
     deleteAppTip: 'This operation will permanently delete the app, do you want to continue?',
     deleted: 'Successfully deleted',
-    afterDelete: 'The current application has been deleted, it will return to the homepage in 1s!',
+    afterDelete: 'The current application has been deleted!',
     uploadLimit: 'Only supports uploading one file!',
     others: 'Others',
     direction: 'Action Direction',

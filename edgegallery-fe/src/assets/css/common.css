@@ -1023,12 +1023,6 @@ th{
   float: left;
   width: 50%;
 }
-/* .label-item-half .el-form-item__content{
-  width: calc(100% - 105px);
-}
-.label-item-half150 .el-form-item__content{
-  width: calc(100% - 150px);
-} */
 .label-item-half .el-select{
   width: 100%;
 }
