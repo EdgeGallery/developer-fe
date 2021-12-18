@@ -1259,17 +1259,27 @@ input::-webkit-input-placeholder {
 .common-mavon-editor.v-note-wrapper,.common-mavon-editor .content-input-wrapper,
 .common-mavon-editor.markdown-body .highlight pre, .common-mavon-editor.markdown-body pre,
 .common-mavon-editor.markdown-body textarea {
-  background-color: #4E3494 !important;
+  background-color: #000 !important;
   color: #fff !important;
+  font-size: 18px;
 }
-.common-mavon-editor .hljs{
-  background: #9b94c0 !important;
+.common-mavon-editor .hljs,.common-mavon-editor .v-show-content{
+  color: #fff !important;
+  background: #000 !important;
   overflow:visible;
 }
-.common-mavon-editor.markdown-body pre{
-  margin: 0;
-  padding: 0;
-  background: #9b94c0 !important;
+.common-mavon-editor .scroll-style{
+  color: #3AC372 !important;
+  background: #d1d40b;
+}
+.common-mavon-editor .hljs-number{
+  color: #2fbfbf !important;
+}
+.common-mavon-editor pre{
+  background: #000 !important;
+}
+.common-mavon-editor .hljs-string{
+  color: #e65579 !important;
 }
 .common-mavon-editor.v-note-wrapper .v-note-panel .v-note-show .v-show-content,
 .common-mavon-editor.v-note-wrapper .v-note-panel .v-note-show .v-show-content-html{

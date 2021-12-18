@@ -56,6 +56,7 @@
 import { applicationApi } from '../../../api/developerApi.js'
 import { formatDate } from '../../../tools/common.js'
 export default {
+  name: 'CapabilityServiceList',
   props: {
     language: {
       type: String,
@@ -75,10 +76,14 @@ export default {
   data () {
     return {
       activeInfo: -1,
-      appId: sessionStorage.getItem('applicationId')
+      appId: sessionStorage.getItem('applicationId'),
+      isApiAmulator: false
     }
   },
   methods: {
+    viewServiceDetail (item) {
+      this.$emit('openDlg', item)
+    },
     getImageUrl (iconFileId) {
       return applicationApi.getAbilityIconApi(iconFileId)
     },
