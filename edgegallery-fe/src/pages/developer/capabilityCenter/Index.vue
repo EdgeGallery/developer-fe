@@ -30,7 +30,7 @@
           <div class="upper-ability">
             <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
             <el-tag
-              v-for="tag in selectedService"
+              v-for="tag in selectedServices"
               :key="tag.id"
               :closable="isClosable"
               style="margin-left: 10px;"
@@ -52,20 +52,24 @@
               :key="service.id"
               class="service-group"
               :class="service.isSeviceSelected?'service-group-active':''"
-              @click="selectServiceGroup(service)"
+              @click="getServices(service)"
             >
               <img
                 :src="service.icon"
-                :alt="service.label"
+                :alt="service.name"
               >
               <span>
-                {{ service.label }}
+                {{ language==='cn'?service.name:service.nameEn }}
+              </span>
+              <span class="rt">
+                5
               </span>
             </div>
           </div>
           <div class="capability-right">
             <CapabilityServiceList
               :capability-service-list="capabilityServiceList"
+              :selected-services="selectedServices"
               :language="language"
               v-if="capabilityServiceList.length>0"
             />
@@ -159,9 +163,6 @@
 
 <script>
 import { applicationApi } from '../../../api/developerApi.js'
-import { formatDate } from '../../../tools/common.js'
-import SwaggerUIBundle from 'swagger-ui'
-import 'swagger-ui/dist/swagger-ui.css'
 import CapabilityServiceList from './CapabilityServiceList.vue'
 export default {
   name: 'CapabilityCenter',
@@ -169,22 +170,7 @@ export default {
   data () {
     return {
       capabilityServiceList: [],
-      language: localStorage.getItem('language'),
-      codeLanguage: 'JAVA',
-      optionsLanguage: [
-        {
-          value: 0,
-          label: 'JAVA'
-        },
-        {
-          value: 1,
-          label: 'Python'
-        },
-        {
-          value: 2,
-          label: 'Go'
-        }
-      ],
+      language: localStorage.getItem('language') || 'cn',
       serviceDetail: {
         id: '',
         capabilityType: '',
@@ -194,21 +180,9 @@ export default {
         version: ''
       },
       isClosable: true,
-      selectedService: [],
-      defaultProps: {
-        children: 'children',
-        label: 'label',
-        isLeaf: 'leaf'
-      },
+      selectedServices: [],
       apiDataLoading: false,
-      treeData: [],
-      isExpandAll: false,
-      clickIsSelected: false,
-      defaultShowNodes: [],
-      defaultExpandKeys: [],
       hasService: true,
-      showCheckbox: true,
-      guideUrl: 'https://gitee.com/edgegallery/docs/blob/master/Projects/Developer/SDK_Guide.md',
       capabilityIcon: {
         'Platform services': {
           icon: require('../../../assets/images/capability/capability_icon2_default.png'),
@@ -239,12 +213,7 @@ export default {
           iconSelect: require('../../../assets/images/capability/capability_icon8_select.png')
         }
       },
-      treeLoad: {
-        node: null,
-        resolve: null
-      },
       serviceTableData: [],
-      capaList: [],
       hasNoSelect: false,
       groupId: '',
       appId: sessionStorage.getItem('applicationId'),
@@ -252,6 +221,11 @@ export default {
       oneLevelNameEn: '',
       groups: [],
       activeName: 'chooseServices'
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   methods: {
@@ -267,20 +241,21 @@ export default {
         this.$router.push('/EG/developer/capabilityPublish')
       }
     },
-    getTipDisabled (node, data) {
-      return data.children || (!data.children && node.label.length < 7)
-    },
     getPublishedService () {
       applicationApi.getPublishedService(this.appId).then(res => {
         this.serviceTableData = res.data
       })
     },
     async handleDeleteTag (tag) {
-      let index = this.selectedService.indexOf(tag)
+      let index = this.selectedServices.indexOf(tag)
       if (index !== -1) {
-        this.selectedService.splice(index, 1)
+        this.selectedServices.splice(index, 1)
       }
-      this.$refs.treeList.setChecked(tag.id, false)
+      this.capabilityServiceList.forEach(item => {
+        if (item.id === tag.id) {
+          item.selected = false
+        }
+      })
       this.deleteServices(tag.id)
     },
     deleteServices (serId) {
@@ -302,7 +277,7 @@ export default {
         })
       })
     },
-    selectServiceGroup (node) {
+    getServices (node) {
       this.groups.forEach(ser => {
         if (ser.id === node.id) {
           ser.isSeviceSelected = true
@@ -315,81 +290,16 @@ export default {
       let groupId = node.id
       applicationApi.getCapabilityByGroupId(groupId).then(result => {
         this.capabilityServiceList = result.data
-        this.selectedService.forEach(ser => {
-          let leafNode = this.$refs.treeList.getNode(ser.id)
-          leafNode.setChecked(true)
+        this.capabilityServiceList.forEach(item => {
+          this.selectedServices.forEach(ser => {
+            if (item.id === ser.id) {
+              item.selected = true
+            }
+          })
         })
       })
     },
-    async handleNodeClick (data) {
-      if (data.leaf) {
-        this.hasNoSelect = true
-        let apiUrl = ''
-        this.groupId = data.groupId
-        this.serviceDetail.id = data.id
-        this.serviceDetail.capabilityType = data.group.type
-        this.serviceDetail.serviceName = data.name
-        this.serviceDetail.serviceNameEn = data.nameEn
-        this.serviceDetail.uploadTime = formatDate(data.uploadTime)
-        this.serviceDetail.version = data.version
-        this.apiFileId = data.apiFileId
-        apiUrl = applicationApi.getApiUrl(this.apiFileId)
-        SwaggerUIBundle({
-          url: apiUrl,
-          dom_id: '#swagger-ui',
-          deepLinking: false,
-          presets: [
-            SwaggerUIBundle.presets.apis
-          ],
-          plugins: [
-            SwaggerUIBundle.plugins.DownloadUrl
-          ]
-        })
-        let interval = setInterval(() => {
-          let baseUrl = document.getElementsByClassName('base-url')
-          try {
-            if (baseUrl[0].innerHTML) {
-              let childNodes = baseUrl[0].childNodes
-              childNodes[4].nodeValue = '{host}'
-              window.clearInterval(interval)
-            }
-          } catch (error) {
-            window.clearInterval(interval)
-          }
-        }, 200)
-      }
-    },
-    async handleCheckChange (data, isNewService) {
-      if (isNewService) {
-        this.selectedService.push(data)
-        let params = {
-          serName: data.host,
-          version: data.version,
-          appId: data.appId,
-          packageId: data.packageId,
-          id: data.id,
-          oneLevelName: this.oneLevelName,
-          oneLevelNameEn: this.oneLevelNameEn,
-          twoLevelName: data.name,
-          twoLevelNameEn: data.nameEn,
-          requestedPermissions: true
-        }
-        applicationApi.addService(this.appId, params).then(res => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-        this.handleNodeClick(data)
-      } else {
-        this.selectedService.forEach((ser, index) => {
-          if (ser.id === data.id) {
-            this.selectedService.splice(index, 1)
-            this.deleteServices(ser.id)
-          }
-        })
-      }
-    },
-    initCapabilityList () {
+    initGroupList () {
       applicationApi.getServiceList().then(res => {
         this.groups = res.data
         this.groups.forEach(group => {
@@ -399,8 +309,8 @@ export default {
             group.isSeviceSelected = false
           }
         })
-        this.selectServiceGroup(this.groups[0])
         this.getDependencies()
+        this.getServices(this.groups[0])
       }).catch(err => {
         console.log(err)
       })
@@ -409,37 +319,7 @@ export default {
       applicationApi.getServiceDependencies(this.appId).then(res => {
         if (res.data && res.data.length > 0) {
           res.data.forEach(ser => {
-            this.selectedService.push(ser)
-          })
-          this.groups.forEach(group => {
-            if (group.name === this.selectedService[0].oneLevelName) {
-              applicationApi.getCapabilityByGroupId(group.id).then(result => {
-                if (result.data) {
-                  result.data.forEach(data => {
-                    if (data.name === this.selectedService[0].twoLevelName) {
-                      this.serviceDetail.capabilityType = data.group.type
-                      this.serviceDetail.serviceName = data.name
-                      this.serviceDetail.serviceNameEn = data.nameEn
-                      this.serviceDetail.uploadTime = formatDate(data.uploadTime)
-                      this.serviceDetail.version = data.version
-                      this.apiFileId = data.apiFileId
-                      let apiUrl = applicationApi.getApiUrl(this.apiFileId)
-                      SwaggerUIBundle({
-                        url: apiUrl,
-                        dom_id: '#swagger-ui',
-                        deepLinking: false,
-                        presets: [
-                          SwaggerUIBundle.presets.apis
-                        ],
-                        plugins: [
-                          SwaggerUIBundle.plugins.DownloadUrl
-                        ]
-                      })
-                    }
-                  })
-                }
-              })
-            }
+            this.selectedServices.push(ser)
           })
         }
       }).catch(err => {
@@ -449,7 +329,7 @@ export default {
   },
   mounted () {
     this.getPublishedService()
-    this.initCapabilityList()
+    this.initGroupList()
   }
 }
 
@@ -461,44 +341,44 @@ export default {
   left: 12%;
   width: 76%;
   padding: 35px 35px 35px 4%;
-      .el-collapse {
-        border: none;
+  .el-collapse {
+    border: none;
+    padding: 0;
+    .el-collapse-item {
+      margin-bottom: 15px;
+      .el-collapse-item__content{
         padding: 0;
-        .el-collapse-item {
-          margin-bottom: 15px;
-          .el-collapse-item__content{
-            padding: 0;
-          }
-          .el-collapse-item__header{
-            font-weight: normal;
-            font-size: 25px;
-            margin-bottom: 12px;
-            height: 60px;
-            padding-left: 15px;
-            font-size: 19px;
-            color: #fff;
-            border: none;
-            background-color: #5F499D;
-            border-radius: 60px;
-          }
-          .el-collapse-item__header:before{
-            display: inline-block;
-            content: '';
-            width: 12px;
-            height: 12px;
-            background: #76E1E9;
-            border-radius: 50%;
-            position: relative;
-            top: 0px;
-            left: -6px;
-          }
-          .el-collapse-item__wrap{
-            padding-left: 15px;
-            background-color: transparent;
-            border: none;
-          }
-        }
       }
+      .el-collapse-item__header{
+        font-weight: normal;
+        font-size: 25px;
+        margin-bottom: 12px;
+        height: 60px;
+        padding-left: 15px;
+        font-size: 19px;
+        color: #fff;
+        border: none;
+        background-color: #5F499D;
+        border-radius: 60px;
+      }
+      .el-collapse-item__header:before{
+        display: inline-block;
+        content: '';
+        width: 12px;
+        height: 12px;
+        background: #76E1E9;
+        border-radius: 50%;
+        position: relative;
+        top: 0px;
+        left: -6px;
+      }
+      .el-collapse-item__wrap{
+        padding-left: 15px;
+        background-color: transparent;
+        border: none;
+      }
+    }
+  }
   .tip{
     float: left;
     width: 40px;
@@ -872,7 +752,7 @@ export default {
 }
 .service-group{
   height: 45px;
-  width: 220px;
+  width: 240px;
   line-height: 45px;
   border-radius: 12px;
   padding: 0 15px;

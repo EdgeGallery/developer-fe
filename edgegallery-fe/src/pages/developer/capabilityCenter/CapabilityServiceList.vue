@@ -4,9 +4,6 @@
       v-for="(item,index) in capabilityServiceList"
       :key="index"
       class="service_list"
-      @mouseenter="hoverServiceList(index)"
-      @mouseleave="activeInfo=-1"
-      @click="viewServiceDetail(item,index)"
     >
       <img
         :src="getImageUrl(item.iconFileId)"
@@ -16,23 +13,16 @@
       <el-button
         class="select-button"
         type="text"
+        :class="item.selected?'select-button-active':''"
+        @click="handleCheckChange(item)"
       >
-        <img
-          src="../../../assets/images/application/selected.png"
-          alt=""
-          v-if="item.selected"
-          @click="chooseScene(item)"
-        >
-        <img
-          v-else
-          src="../../../assets/images/application/notselected.png"
-          alt=""
-          @click="chooseScene(item)"
-        >
+        √
       </el-button>
       <div
         class="service_info"
         :class="{'service_hover':activeInfo===index}"
+        @mouseenter="hoverServiceList(index)"
+        @mouseleave="activeInfo=-1"
       >
         <p class="tit">
           {{ language==='cn'?item.name:item.nameEn }}
@@ -54,6 +44,7 @@
         <span
           class="detail"
           :class="{'show':activeInfo===index}"
+          @click="viewServiceDetail(item,index)"
         >
           在线模拟器
         </span>
@@ -68,9 +59,14 @@ export default {
   props: {
     language: {
       type: String,
-      default: ''
+      default: 'cn'
     },
     capabilityServiceList: {
+      require: true,
+      type: Array,
+      default: () => []
+    },
+    selectedServices: {
       require: true,
       type: Array,
       default: () => []
@@ -78,7 +74,8 @@ export default {
   },
   data () {
     return {
-      activeInfo: -1
+      activeInfo: -1,
+      appId: sessionStorage.getItem('applicationId')
     }
   },
   methods: {
@@ -90,10 +87,47 @@ export default {
     },
     hoverServiceList (index) {
       this.activeInfo = index
+    },
+    handleCheckChange (data) {
+      data.selected = !data.selected
+      if (data.selected) {
+        let params = {
+          serName: data.host,
+          version: data.version,
+          appId: this.appId,
+          packageId: data.packageId,
+          id: data.id,
+          oneLevelName: data.group.name,
+          oneLevelNameEn: data.group.nameEn,
+          twoLevelName: data.name,
+          twoLevelNameEn: data.nameEn,
+          requestedPermissions: true
+        }
+        applicationApi.addService(this.appId, params).then(res => {
+          this.selectedServices.push(data)
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        this.selectedServices.forEach((ser, index) => {
+          if (ser.id === data.id) {
+            this.selectedServices.splice(index, 1)
+            this.deleteServices(ser.id)
+          }
+        })
+      }
+    },
+
+    deleteServices (serId) {
+      applicationApi.deleteService(this.appId, serId).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
-    this.getServiceList()
+    console.log(this.language)
   }
 }
 </script>
@@ -121,10 +155,14 @@ export default {
       top: 12px;
       width: 24px;
       height: 24px;
-      img{
-        width: 24px;
-        height: 24px;
-      }
+      background: #fff;
+      border-radius: 24px;
+      color: #000 !important;
+      font-weight: bold;
+     }
+     .select-button-active{
+       color: #fff !important;
+       background: #3ac372;
      }
     .service_info{
       background: rgba(0, 0, 0, 0.6);
@@ -134,11 +172,11 @@ export default {
       bottom: 0px;
       right: 0;
       z-index: 2;
-      padding: 20px 20px 0;
+      padding: 10px 20px 0;
       color: #fff;
       .tit{
-        font-size: 16px;
-        margin-bottom: 10px;
+        font-size: 18px;
+        margin-bottom: 5px;
         color: #fff;
         font-family: defaultFont;
       }
@@ -153,6 +191,7 @@ export default {
         opacity: 0;
         transition: all 0.3s ease-in-out;
         background: #fff;
+        margin-top: 5px;
       }
       .detail.show{
         opacity: 1;
@@ -166,11 +205,9 @@ export default {
         font-size: 16px;
         line-height: 21px;
         font-family: defaultFontLight;
+        margin-bottom: 5px;
         .hot{
           margin-right: 15px;
-        }
-        .time{
-          font-size: 14px;
         }
       }
       .desc{
@@ -190,7 +227,7 @@ export default {
       }
     }
     .service_info.service_hover{
-      padding: 20px;
+      padding: 5px 20px;
     }
   }
   .service_list:hover{
