@@ -20,6 +20,7 @@ import cnApp from './app_cn.js'
 import cnAppStore from './appstore_cn.js'
 import cnCapability from './capability_cn.js'
 import cnSandbox from './sandbox_cn.js'
+import cnThirdsystem from './thirdsystem_cn.js'
 import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
 import cnMecm from './mecm_cn.js'
@@ -85,6 +86,7 @@ const cn = {
   ...cnSandbox,
   ...cnImages,
   ...cnAtp,
-  ...cnMecm
+  ...cnMecm,
+  ...cnThirdsystem
 }
 export default cn
