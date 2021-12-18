@@ -47,7 +47,7 @@
           :class="{'show':activeInfo===index}"
           @click="viewServiceDetail(item,index)"
         >
-          在线模拟器
+          {{ $t('incubation.emulator') }}
         </span>
       </div>
     </div>

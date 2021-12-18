@@ -76,7 +76,8 @@ const cn = {
     createFail: '创建应用失败!',
     uploadMdFileTip: '请上传应用介绍文档！',
     packageSpecs: '打包规范',
-    chooseSpecs: '选择打包规范'
+    chooseSpecs: '选择打包规范',
+    emulator: '在线模拟器'
   },
   service: {
     basicInfo: '基本信息',

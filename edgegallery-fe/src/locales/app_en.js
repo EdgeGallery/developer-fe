@@ -76,7 +76,8 @@ const en = {
     createFail: 'Failed to create application.',
     uploadMdFileTip: 'Please upload application introduction file.',
     packageSpecs: 'Packaging specification',
-    chooseSpecs: 'Choose packaging specification'
+    chooseSpecs: 'Choose packaging specification',
+    emulator: 'Emulator'
   },
   service: {
     basicInfo: 'Basic information',
