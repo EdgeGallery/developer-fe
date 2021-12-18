@@ -337,7 +337,7 @@ export default {
 <style lang="less">
 .capability-index{
   position: absolute;
-  top: 1%;
+  top: 2%;
   left: 12%;
   width: 76%;
   padding: 35px 35px 35px 4%;

@@ -14,7 +14,7 @@
         class="select-button"
         type="text"
         :class="item.selected?'select-button-active':''"
-        @click="handleCheckChange(item)"
+        @click="handleCheckChange(item,index)"
       >
         √
       </el-button>
@@ -38,6 +38,7 @@
         <p
           class="desc"
           :class="{'all':activeInfo===index}"
+          :title="language==='cn'?item.description:item.descriptionEn"
         >
           {{ language==='cn'?item.description:item.descriptionEn }}
         </p>
@@ -88,8 +89,9 @@ export default {
     hoverServiceList (index) {
       this.activeInfo = index
     },
-    handleCheckChange (data) {
+    handleCheckChange (data, index) {
       data.selected = !data.selected
+      this.hoverServiceList(index)
       if (data.selected) {
         let params = {
           serName: data.host,
@@ -153,16 +155,16 @@ export default {
       display: block;
       right: 15px;
       top: 12px;
-      width: 24px;
-      height: 24px;
+      width: 35px;
+      height: 35px;
       background: #fff;
-      border-radius: 24px;
+      border-radius: 35px;
       color: #000 !important;
       font-weight: bold;
      }
      .select-button-active{
        color: #fff !important;
-       background: #3ac372;
+       background: #3ac372 !important;
      }
     .service_info{
       background: rgba(0, 0, 0, 0.6);
@@ -222,8 +224,9 @@ export default {
       }
       .desc.all{
         max-height: 80px;
-        white-space: normal;
+        white-space: nowrap;
         transition: all 0.6s ease-in-out;
+        text-overflow:ellipsis;
       }
     }
     .service_info.service_hover{
