@@ -22,7 +22,7 @@ const en = {
     mainTitle: 'Every developer is amazing',
     appIncubation: 'Incubation',
     appStore: 'App Store',
-    appDeploy: 'App Deployment',
+    appDeploy: 'Deployment',
     returnHome: 'Return workflow page.'
   }
 }

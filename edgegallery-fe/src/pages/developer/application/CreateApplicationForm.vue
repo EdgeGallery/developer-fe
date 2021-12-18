@@ -18,21 +18,33 @@
           class="cb"
           prop="name"
         >
-          <el-input v-model="applicationFormData.name" />
+          <el-input
+            v-model="applicationFormData.name"
+            minlength="2"
+            maxlength="35"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.version')"
           class="label-item-half"
           prop="version"
         >
-          <el-input v-model="applicationFormData.version" />
+          <el-input
+            v-model="applicationFormData.version"
+            minlength="2"
+            maxlength="15"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.provider')"
           class="label-item-half"
           prop="provider"
         >
-          <el-input v-model="applicationFormData.provider" />
+          <el-input
+            v-model="applicationFormData.provider"
+            minlength="2"
+            maxlength="35"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('incubation.appClass')"
