@@ -26,7 +26,7 @@
       <el-breadcrumb-item :to="{ path: '/mecDeveloper/plugin/list' }">
         {{ $t('breadCrumb.devTools') }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item><a>{{ $t('breadCrumb.upload') }}</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a rel="noopener noreferrer">{{ $t('breadCrumb.upload') }}</a></el-breadcrumb-item>
     </el-breadcrumb>
     <div class="upload-main">
       <el-row :gutter="20">

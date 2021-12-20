@@ -42,6 +42,7 @@
           id="btn_uploadContainerFile"
           v-loading="uploadYamlLoading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
+          rel="noopener noreferrer"
         >
           {{ $t('container.uploadFile') }}
         </a>
@@ -57,6 +58,7 @@
           :class="{'btn-disabled':helmChartFile.length===0}"
           id="btn_deleteContainerBtn"
           @click="deleteHelmChartsFile"
+          rel="noopener noreferrer"
         >
           {{ $t('common.delete') }}
         </a>
@@ -65,6 +67,7 @@
           :href="demoYaml"
           download="demo.yaml"
           id="btn_downloadContainerDemoFile"
+          rel="noopener noreferrer"
         >
           {{ $t('container.downloadDemo') }}
         </a>

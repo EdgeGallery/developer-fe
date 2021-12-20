@@ -149,6 +149,7 @@
                         class="download_sdk"
                         :underline="false"
                         :href="downloadSDKApi()"
+                        rel="noopener noreferrer"
                       />
                     </span>
                   </el-tooltip>

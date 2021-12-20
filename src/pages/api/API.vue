@@ -60,6 +60,7 @@
           <el-link
             class="download_sdk"
             :href="downloadSDKApi()"
+            rel="noopener noreferrer"
           />
           <el-link
             :href="guideUrl"
