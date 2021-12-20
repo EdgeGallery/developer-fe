@@ -263,7 +263,11 @@
           :label="$t('thirdSystem.password')"
           prop="password"
         >
-          <el-input v-model="addForm.password" />
+          <el-input
+            v-model="addForm.password"
+            type="password"
+            show-password
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.icon')"
@@ -372,7 +376,11 @@
           :label="$t('thirdSystem.password')"
           prop="password"
         >
-          <el-input v-model="editForm.password" />
+          <el-input
+            v-model="editForm.password"
+            type="password"
+            show-password
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.icon')"
@@ -488,7 +496,7 @@ export default {
     }
     const validateUsername = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('thirdSystem.tooltipPassword')}`))
+        callback(new Error(`${this.$t('thirdSystem.tooltipUsername')}`))
       } else {
         callback()
       }
