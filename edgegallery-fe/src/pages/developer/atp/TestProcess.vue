@@ -145,13 +145,14 @@
                     >
                       <template slot-scope="scope">
                         <img
+                          class="testing-icon"
                           v-if="scope.row.result=='success'"
-                          src="../../../assets/images/atp/success_icon.png"
+                          src="../../../assets/images/atp/testSuccessful.png"
                           alt=""
                         >
                         <img
                           v-else-if="scope.row.result=='failed'"
-                          src="../../../assets/images/atp/fail_icon.png"
+                          src="../../../assets/images/atp/testFailed.png"
                           alt=""
                         >
                         <img
@@ -313,7 +314,7 @@ export default {
       alltestCase: [],
       scoreColor: '',
       isUploadPdf: false,
-      customColor: '#8097f7',
+      customColor: '#ad4bc9cc',
       isManualTitle: false,
       uploadUser: '',
       applicationId: sessionStorage.getItem('applicationId')
@@ -624,7 +625,7 @@ export default {
             display:inline-block;
             width:30px;
             height:30px;
-            background-image: url('../../../assets/images/atp/test_successful.png');
+            background-image: url('../../../assets/images/atp/test_failed.png');
             background-position: center;
             background-size: 100% 100%;
             position: absolute;
@@ -724,6 +725,9 @@ export default {
             line-height: 35px;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             font-size: 16px;
+          }
+          .testing-icon{
+            margin-top: -5px;
           }
           .el-table tr {
             height: 37px;
