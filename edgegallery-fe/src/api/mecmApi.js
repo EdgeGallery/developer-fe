@@ -69,8 +69,8 @@ let apm = {
 }
 
 let inventory = {
-  getEdgeNodeList () {
-    return GET(URL_PREFIX_MECM_INVENTORY + '/mechosts')
+  getEdgeNodeList (userId) {
+    return GET(URL_PREFIX_MECM_INVENTORY + '/tenants/' + userId + '/mechosts')
   }
 }
 

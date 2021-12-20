@@ -138,7 +138,7 @@ export default {
     },
     async getNodeList () {
       await inventory
-        .getEdgeNodeList()
+        .getEdgeNodeList(this.userId)
         .then((response) => {
           this.paginationData = []
           this.paginationData = response.data
