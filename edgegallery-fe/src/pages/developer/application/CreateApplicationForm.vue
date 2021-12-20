@@ -210,7 +210,7 @@
           :label="$t('incubation.packageSpecs')"
           class="cb"
           prop="pkgSpecId"
-          v-if="isShowSpecOption"
+          v-if="isShowSpecOption && applicationFormData.appClass==='VM'"
         >
           <el-select
             v-model="applicationFormData.pkgSpecId"
@@ -249,6 +249,46 @@ import { Industry, Type, Architecture } from '../../../tools/commondata.js'
 export default {
   name: 'CreateProComp',
   data () {
+    let validateProjectName = (rule, value, callback) => {
+      let reg = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[\u4E00-\u9FA5a-zA-Z0-9_-]{4,32}$/
+      if (!value) {
+        return callback(new Error(this.$t('incubation.nameTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.nameRule')))
+      } else {
+        return callback()
+      }
+    }
+    let validateVersion = (rule, value, callback) => {
+      let reg = /^[\w\\-][\w\\-\s.]{0,9}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.versionTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.versionRule')))
+      } else {
+        return callback()
+      }
+    }
+    let validateProvider = (rule, value, callback) => {
+      let reg = /^\S.{0,29}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.providerTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.providerRule')))
+      } else {
+        return callback()
+      }
+    }
+    let validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.descTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.descriptionRule')))
+      } else {
+        return callback()
+      }
+    }
     return {
       applicationFormData: {
         'name': '',
@@ -266,17 +306,16 @@ export default {
       },
       applicationFormRules: {
         name: [
-          { required: true, message: this.$t('incubation.nameTip'), trigger: 'blur' },
-          { min: 1, max: 35, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+          { required: true, validator: validateProjectName }
         ],
         version: [
-          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
+          { required: true, validator: validateVersion }
         ],
         provider: [
-          { required: true, message: this.$t('incubation.providerTip'), trigger: 'blur' }
+          { required: true, validator: validateProvider }
         ],
         description: [
-          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
+          { required: true, validator: validateDescription }
         ]
       },
       defaultIconSrc: require('../../../assets/images/application/app_default_icon.png'),
@@ -300,6 +339,11 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.$refs['applicationForm'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['applicationForm'].validateField(item.labelFor)
+        }
+      })
     }
   },
   methods: {

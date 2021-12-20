@@ -155,6 +155,7 @@
                   :href="scope.row.atpTestReportUrl + (language === 'cn' ? '&language=cn' : '&language=en')"
                   target="_blank"
                   class="lookReport"
+                  rel="noopener noreferrer"
                 >{{ $t('apppromotion.viewTestRepo') }}</a>
               </template>
             </el-table-column>

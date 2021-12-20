@@ -23,6 +23,7 @@
       :id="item.index"
       @click="handleClick"
       :class="{ 'active': activeIndex === item.index, 'widthWithFiveItems': !isTelecomAbilityPortals, 'widthWightTwoItems': isTelecomAbilityPortals, 'tabPadding30': tabPadding30((item.abilityRealName)), 'tabPadding14': tabPadding14((item.abilityRealName))}"
+      rel="noopener noreferrer"
     ><em
       class="ability-switch-tab-icon"
       :style="{ height: imageHeight(item.abilityRealName) + 'px', width: imageWidth(item.abilityRealName) + 'px' }"

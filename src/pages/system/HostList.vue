@@ -240,6 +240,14 @@
           />
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.deployDebugVm.resourceConfig')"
+        >
+          <el-input
+            size="small"
+            v-model="form.resource"
+          />
+        </el-form-item>
+        <el-form-item
           :label="$t('system.networkConfig')"
           v-if="showOther"
         >
@@ -588,13 +596,14 @@ export default {
       ],
       architectureOptions: Architecture,
       formLabelWidth: '110px',
-      formLabelWidthEn: '150px',
+      formLabelWidthEn: '165px',
       form: {
         lcmPort: 31252,
         architecture: 'X86',
         lcmProtocol: 'https',
         status: 'NORMAL',
-        vimType: 'K8S'
+        vimType: 'K8S',
+        resource: null
       },
       defaultForm: {
         lcmPort: 31252,
@@ -602,7 +611,8 @@ export default {
         lcmProtocol: 'https',
         status: 'NORMAL',
         vimType: 'K8S',
-        networkParameter: `VDU1_APP_Plane01_IP=192.168.220.0/24;VDU1_APP_Plane03_IP=192.168.222.0/24;VDU1_APP_Plane02_IP=192.168.221.0/24`
+        networkParameter: `VDU1_APP_Plane01_IP=192.168.220.0/24;VDU1_APP_Plane03_IP=192.168.222.0/24;VDU1_APP_Plane02_IP=192.168.221.0/24`,
+        resource: null
       },
       rules: {
         name: [
@@ -842,6 +852,13 @@ export default {
     },
     handleShowForm (v) {
       this.form = JSON.parse(JSON.stringify(v))
+      System.getFileInfo(this.form.configId).then(res => {
+        if (res && res.data) {
+          this.configId_file_list.length = 0
+          let obj = { name: res.data.fileName }
+          this.configId_file_list.push(obj)
+        }
+      })
       delete this.form.userName
       if (this.form.vimType === 'K8S') {
         this.showOther = false
@@ -1001,6 +1018,10 @@ export default {
         }
       }
     }
+  }
+  .el-upload-list__item{
+    background-color:transparent;
+    transition: none !important;
   }
 }
 

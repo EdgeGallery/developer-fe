@@ -55,6 +55,7 @@
                     class="edit"
                     :underline="false"
                     @click.stop="clickEdit('content')"
+                    rel="noopener noreferrer"
                   >
                     <p v-if="viewOrEditContent === 'preview'">
                       {{ $t('common.edit') }}
@@ -83,6 +84,7 @@
                     class="edit"
                     :underline="false"
                     @click.stop="clickEdit('params')"
+                    rel="noopener noreferrer"
                   >
                     <p v-if="viewOrEditParams === 'preview'">
                       {{ $t('common.edit') }}
