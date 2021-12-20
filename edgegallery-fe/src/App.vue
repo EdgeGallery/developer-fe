@@ -75,7 +75,7 @@
               >
             </el-tooltip>
           </div>
-          <div class="tips-box">
+          <!-- <div class="tips-box">
             <el-tooltip
               content="question"
               effect="light"
@@ -98,7 +98,7 @@
                 alt="talk"
               >
             </el-tooltip>
-          </div>
+          </div> -->
         </div>
       </el-col>
     </el-row>

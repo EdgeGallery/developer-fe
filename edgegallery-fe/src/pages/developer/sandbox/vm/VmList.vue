@@ -341,19 +341,21 @@ export default {
         if (res.data.status === 'SUCCESS') {
           this.isStartUpVmSuccess = true
           this.isStartupVmFinish = true
-          this.isBtnStart = false
           this.$emit('startUpVm', this.isStartupVmFinish)
           clearTimeout(this.timer)
-        }
-        if (res.data.status === 'FAILED') {
+        } else if (res.data.status === 'FAILED') {
           this.getVmStartErr = res.data.errorMsg
           this.isStartUpVmSuccess = false
           this.startFailed = true
           this.isStartupVmFinish = true
           this.$emit('startUpVm', this.isStartupVmFinish)
           clearTimeout(this.timer)
+        } else {
+          this.isStartupVmFinish = false
         }
+        this.isBtnStart = false
       }).catch(() => {
+        this.isBtnStart = true
         clearTimeout(this.timer)
       })
     },
@@ -401,6 +403,7 @@ export default {
     startUpVm (data) {
       this.isClearVmImage = false
       this.isStartupVm = true
+      this.isStartupVmFinish = false
       sandbox.getVmPullId(this.applicationId, data).then(res => {
         this.operationId = res.data.operationId
         this.timer = setInterval(() => {
@@ -446,6 +449,7 @@ export default {
         this.isBtnStart = true
         this.isStartUpVmSuccess = false
       }
+      this.getVmlistsStatus()
     },
     clearState: function (val) {
       if (val === 'clear') {
@@ -453,8 +457,6 @@ export default {
         this.exportFailed = false
       }
     }
-  },
-  created () {
   },
   mounted () {
     this.handleNetworkLists()
