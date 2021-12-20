@@ -773,6 +773,14 @@ export default {
           border-radius: 4px;
           border: none;
           background: rgba(250,250,250,0.3);
+          option{
+             color: #4E3494;
+          }
+          option:hover{
+            background: rgba(250,250,250,0.3);
+            color: #FFFFFF;
+            cursor: pointer;
+          }
         }
         .drop-down:hover{
           cursor: pointer;
