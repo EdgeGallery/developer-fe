@@ -593,7 +593,6 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      console.log(this.language)
     }
   },
   mounted () {
@@ -631,11 +630,7 @@ export default {
     deleteSystem (data) {
       let id = data
       system.deleteSystems(id).then(res => {
-        this.$message({
-          duration: 2000,
-          message: this.$t('thirdSystem.deleteSystemSucess'),
-          type: 'success'
-        })
+        this.$eg_messagebox(this.$t('thirdSystem.deleteSystemSucess'), 'success')
         this.searchSystems()
       })
     },
@@ -713,11 +708,7 @@ export default {
           this.addForm.icon = this.proofImage
           this.addForm.userId = sessionStorage.getItem('userId')
           system.addSystems(this.addForm).then(res => {
-            this.$message({
-              duration: 2000,
-              message: this.$t('thirdSystem.addSystemSucess'),
-              type: 'success'
-            })
+            this.$eg_messagebox(this.$t('thirdSystem.addSystemSucess'), 'success')
             this.goDetail()
             this.searchSystems()
             this.dialogVisible = false
@@ -740,6 +731,8 @@ export default {
               configContent: ''
             }
             this.proofImage = ''
+          }).catch(err => {
+            this.$eg_messagebox(err.data.err, 'warning')
           })
         } else {
           return false
@@ -759,13 +752,8 @@ export default {
           } else {
             this.editForm.icon = ''
           }
-          console.log(this.editForm.icon)
           system.updateSystems(this.editId, this.editForm).then(res => {
-            this.$message({
-              duration: 2000,
-              message: this.$t('thirdSystem.updateStstemSucess'),
-              type: 'success'
-            })
+            this.$eg_messagebox(this.$t('thirdSystem.updateStstemSucess'), 'success')
             this.searchSystems()
             this.dialogVisibleEdit = false
           })
