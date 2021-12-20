@@ -125,13 +125,12 @@
             <div class="or">
               {{ $t('incubation.or') }}
             </div>
-            <div class="uplod-icon">
+            <div :class="{'upload-icon':logoFileList.length>0}">
               <el-upload
                 class="avatar-uploader"
                 ref="upload"
                 action=""
                 :show-file-list="false"
-                :limit="1"
                 :file-list="logoFileList"
                 :on-change="handleChangeLogo"
                 :auto-upload="false"
@@ -549,9 +548,18 @@ export default {
       margin: 0 10px;
     }
     .upload-icon{
-      height: 46px;
-      line-height: 46px;
-      display: flex;
+      position: relative;
+      .el-upload::before{
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('../../../assets/images/application/selected.png') center no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: -7px;
+        left: 35px;
+      }
     }
     .upload-content{
       display: flex;
@@ -638,9 +646,10 @@ export default {
   .choose-default-icon::after{
     content: '';
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    background: url('../../../assets/images/application/app_success.png') center no-repeat;
+    width: 20px;
+    height: 20px;
+    background: url('../../../assets/images/application/selected.png') center no-repeat;
+    background-size: cover;
     position: relative;
     top: -18px;
     left: 30px;

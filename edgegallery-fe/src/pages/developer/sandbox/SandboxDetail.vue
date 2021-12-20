@@ -122,21 +122,36 @@
             class="details-center clear"
             v-if="appClass==='VM'"
           >
-            <div class="sandbox-upf-div">
-              <div
-                class="sandbox-upf flex-center"
-                @click="addApplicationRules"
-              >
-                <img
-                  src="../../../assets/images/sandbox/sandbox_upf.png"
-                  alt=""
+            <div class="details-center-deploy sandbox-upf-div">
+              <div class="details-center-deploy-img">
+                <div
+                  class="lt deploy-img flex-center hoverHands"
+                  @click="addApplicationRules"
                 >
+                  <img
+                    class="deploy-img-center deploy-img-center-finish"
+                    src="../../../assets/images/sandbox/sandbox_upf.png"
+                    alt=""
+                  >
+                  <div class="deploy-edit flex-center">
+                    <el-tooltip
+                      class="edit-tooltip"
+                      effect="light"
+                      :content="$t('common.edit')"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/edit_green.png"
+                        alt=""
+                      >
+                    </el-tooltip>
+                  </div>
+                </div>
               </div>
               <div class="deploy-title">
                 {{ $t('sandbox.upf') }}
               </div>
             </div>
-
             <div class="details-center-deploy vm-div">
               <div class="details-center-deploy-img">
                 <div
