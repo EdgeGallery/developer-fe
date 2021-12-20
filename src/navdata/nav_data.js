@@ -52,6 +52,7 @@ const mecDeveloper = [
     id: '3.7',
     name: 'ToolBox',
     path: '/mecDeveloper/toolbox',
+    authority: ['ROLE_DEVELOPER_ADMIN'],
     display: true,
     children: [
       {
