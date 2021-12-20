@@ -206,6 +206,9 @@ let System = {
   },
   getSerives: function (params) {
     return Get('mec/developer/v2/capabilities', params)
+  },
+  getFileInfo: function (fileId) {
+    return Get('mec/developer/v2/upload-files/' + fileId)
   }
 }
 
