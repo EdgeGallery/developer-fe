@@ -111,9 +111,6 @@ export default {
       overflow-x: scroll;
       overflow-y: hidden;
       padding: 40px 0 0 20px;
-      .swagger-ui{
-        width: 860px;
-      }
       .swagger-ui .info{
         margin: -25px 0;
       }

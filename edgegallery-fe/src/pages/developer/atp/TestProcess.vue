@@ -625,7 +625,7 @@ export default {
             display:inline-block;
             width:30px;
             height:30px;
-            background-image: url('../../../assets/images/atp/test_failed.png');
+            background-image: url('../../../assets/images/atp/test_successful.png');
             background-position: center;
             background-size: 100% 100%;
             position: absolute;
