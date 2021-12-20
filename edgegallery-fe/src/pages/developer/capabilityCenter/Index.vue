@@ -15,152 +15,154 @@
   -->
 
 <template>
-  <div
-    class="common-div-bg capability-index"
-  >
-    <el-collapse
-      v-model="activeName"
-      accordion
+  <div>
+    <div
+      class="common-div-bg capability-index"
     >
-      <el-collapse-item
-        :title="$t('service.chooseServices')"
-        name="chooseServices"
+      <el-collapse
+        v-model="activeName"
+        accordion
       >
-        <div class="prompt_content">
-          <div class="upper-ability">
-            <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
-            <el-tag
-              v-for="tag in selectedServices"
-              :key="tag.id"
-              :closable="isClosable"
-              style="margin-left: 10px;"
-              class="defaultFontLight"
-              @close="handleDeleteTag(tag)"
-            >
-              <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
-            </el-tag>
-          </div>
-        </div>
-        <div
-          v-loading="apiDataLoading"
-          v-if="hasService"
-          class="clear service-container"
+        <el-collapse-item
+          :title="$t('service.chooseServices')"
+          name="chooseServices"
         >
-          <div class="capability-left">
-            <div
-              v-for="service in groups"
-              :key="service.id"
-              class="service-group"
-              :class="service.isSeviceSelected?'service-group-active':''"
-              @click="getServices(service)"
-            >
-              <img
-                :src="service.icon"
-                :alt="service.name"
+          <div class="prompt_content">
+            <div class="upper-ability">
+              <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
+              <el-tag
+                v-for="tag in selectedServices"
+                :key="tag.id"
+                :closable="isClosable"
+                style="margin-left: 10px;"
+                class="defaultFontLight"
+                @close="handleDeleteTag(tag)"
               >
-              <span>
-                {{ language==='cn'?service.name:service.nameEn }}
-              </span>
-              <span class="rt">
-                {{ service.capabilityCount }}
-              </span>
+                <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
+              </el-tag>
             </div>
           </div>
-          <div class="capability-right">
-            <CapabilityServiceList
-              :capability-service-list="capabilityServiceList"
-              :selected-services="selectedServices"
-              :language="language"
-              v-show="capabilityServiceList.length>0"
-              @openDlg="openDlg"
-            />
+          <div
+            v-loading="apiDataLoading"
+            v-if="hasService"
+            class="clear service-container"
+          >
+            <div class="capability-left">
+              <div
+                v-for="service in groups"
+                :key="service.id"
+                class="service-group"
+                :class="service.isSeviceSelected?'service-group-active':''"
+                @click="getServices(service)"
+              >
+                <img
+                  :src="service.icon"
+                  :alt="service.name"
+                >
+                <span>
+                  {{ language==='cn'?service.name:service.nameEn }}
+                </span>
+                <span class="rt">
+                  {{ service.capabilityCount }}
+                </span>
+              </div>
+            </div>
+            <div class="capability-right">
+              <CapabilityServiceList
+                :capability-service-list="capabilityServiceList"
+                :selected-services="selectedServices"
+                :language="language"
+                v-show="capabilityServiceList.length>0"
+                @openDlg="openDlg"
+              />
+            </div>
           </div>
-        </div>
-      </el-collapse-item>
-      <el-collapse-item
-        :title="$t('service.servicePublish')"
-        name="servicePublish"
-      >
-        <div class="add-service">
-          <el-button
-            class="common-btn"
-            @click="publishService()"
-          >
-            {{ $t('service.addServiceConfig') }}
-          </el-button>
-        </div>
-        <div class="capability-publish">
-          <el-table
-            class="common-table"
-            :data="serviceTableData"
-            :cell-style="{ textAlign: 'center' }"
-            :header-cell-style="{textAlign: 'center'}"
-          >
-            <el-table-column
-              prop="serviceName"
-              :label="$t('service.serviceName')"
-            />
-            <el-table-column
-              prop="oneLevelName"
-              :label="$t('service.firLevel')"
-            />
-            <el-table-column
-              prop="twoLevelName"
-              :label="$t('service.secLevel')"
-            />
-            <el-table-column
-              prop="internalPort"
-              :label="$t('service.internalPort')"
-            />
-            <el-table-column
-              prop="version"
-              :label="$t('incubation.version')"
-            />
-            <el-table-column
-              prop="protocol"
-              :label="$t('service.protocol')"
-            />
-            <el-table-column
-              :label="$t('common.operation')"
-              width="120px"
+        </el-collapse-item>
+        <el-collapse-item
+          :title="$t('service.servicePublish')"
+          name="servicePublish"
+        >
+          <div class="add-service">
+            <el-button
+              class="common-btn"
+              @click="publishService()"
             >
-              <template slot-scope="scope">
-                <el-button
-                  type="text"
-                  class="operation-btn-text"
-                  @click="publishService(scope.row)"
-                >
-                  {{ $t('common.edit') }}
-                </el-button>
-                <el-button
-                  type="text"
-                  class="operation-btn-text"
-                  @click="deletePublishedService(scope.row.appServiceProducedId)"
-                >
-                  {{ $t('common.delete') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
-    <div class="rt">
-      <el-button
-        class="common-btn"
-        @click="$router.go(-1)"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        class="common-btn"
-        @click="doNext(2)"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+              {{ $t('service.addServiceConfig') }}
+            </el-button>
+          </div>
+          <div class="capability-publish">
+            <el-table
+              class="common-table"
+              :data="serviceTableData"
+              :cell-style="{ textAlign: 'center' }"
+              :header-cell-style="{textAlign: 'center'}"
+            >
+              <el-table-column
+                prop="serviceName"
+                :label="$t('service.serviceName')"
+              />
+              <el-table-column
+                prop="oneLevelName"
+                :label="$t('service.firLevel')"
+              />
+              <el-table-column
+                prop="twoLevelName"
+                :label="$t('service.secLevel')"
+              />
+              <el-table-column
+                prop="internalPort"
+                :label="$t('service.internalPort')"
+              />
+              <el-table-column
+                prop="version"
+                :label="$t('incubation.version')"
+              />
+              <el-table-column
+                prop="protocol"
+                :label="$t('service.protocol')"
+              />
+              <el-table-column
+                :label="$t('common.operation')"
+                width="120px"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    class="operation-btn-text"
+                    @click="publishService(scope.row)"
+                  >
+                    {{ $t('common.edit') }}
+                  </el-button>
+                  <el-button
+                    type="text"
+                    class="operation-btn-text"
+                    @click="deletePublishedService(scope.row.appServiceProducedId)"
+                  >
+                    {{ $t('common.delete') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+      <div class="rt">
+        <el-button
+          class="common-btn"
+          @click="$router.go(-1)"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="doNext(2)"
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
+      </div>
     </div>
     <el-dialog
-      width="70%"
+      width="55%"
       class="default_dialog"
       :visible.sync="isApiAmulator"
     >
