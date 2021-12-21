@@ -25,7 +25,7 @@
       <el-button
         type="primary"
         class="topRight"
-        @click="addSystems"
+        @click="systemBtn('add')"
       >
         <img
           class="addIcon"
@@ -310,7 +310,7 @@
           >
             {{ $t('common.confirm') }}
           </el-button>
-          <el-button @click="addCancle">
+          <el-button @click="systemBtn('cancel')">
             {{ $t('common.cancel') }}
           </el-button>
         </el-form-item>
@@ -634,14 +634,12 @@ export default {
         this.searchSystems()
       })
     },
-    addSystems () {
-      this.dialogVisible = true
-    },
-    addCancle () {
-      this.dialogVisible = false
+    systemBtn (data) {
+      this.dialogVisible = data === 'add'
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
+      this.editImg = ''
       this.addForm = {
         systemName: '',
         product: '',
