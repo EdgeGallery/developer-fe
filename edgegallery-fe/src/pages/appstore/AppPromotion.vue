@@ -280,7 +280,7 @@ export default {
         if (this.appStoreList.length === 0) {
           this.$message({
             duration: 2000,
-            message: this.$t('apppromotion.pushFail'),
+            message: this.$t('apppromotion.warehouseTip'),
             type: 'warning'
           })
           return
