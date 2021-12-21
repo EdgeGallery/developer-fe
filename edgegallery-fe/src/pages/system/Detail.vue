@@ -626,6 +626,7 @@ export default {
       this.dialogVisibleEdit = true
       let copy = Object.assign({}, data)
       this.editForm = copy
+      this.editForm.password = ''
     },
     deleteSystem (data) {
       let id = data
