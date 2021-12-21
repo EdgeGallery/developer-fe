@@ -636,12 +636,32 @@ export default {
     },
     addSystems () {
       this.dialogVisible = true
+      this.editImg = ''
+      this.addForm = {
+        systemName: '',
+        product: '',
+        url: '',
+        version: '',
+        region: '',
+        vendor: '',
+        systemType: this.systemType,
+        ip: '',
+        port: '',
+        username: '',
+        password: '',
+        tokenType: '',
+        status: 'active',
+        userId: '',
+        icon: '',
+        configContent: ''
+      }
     },
     addCancle () {
       this.dialogVisible = false
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
+      this.editImg = ''
       this.addForm = {
         systemName: '',
         product: '',
