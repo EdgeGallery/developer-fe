@@ -414,7 +414,7 @@
                     id="btn_saveVmScript"
                     class="rt"
                     v-else
-                    @click.stop="clickEdit"
+                    @click.stop="clickSave"
                   >
                     {{ $t('common.save') }}
                   </el-button>
@@ -851,7 +851,7 @@ export default {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
       sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
-        this.userData = res.data
+        this.userData = '```yaml\r\n' + res.data + '\r\n```'
         this.flavorExtraSpecs = ''
       })
       this.vmInfo.publicSystemImage.forEach(item => {
@@ -864,7 +864,7 @@ export default {
       this.vmInfo.privateId = ''
       this.vmInfo.privateImageOptions = []
       sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
-        this.userData = res.data
+        this.userData = '```yaml\r\n' + res.data + '\r\n```'
       })
       this.vmInfo.privateSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -886,15 +886,15 @@ export default {
       this.hostBtn = true
     },
     addHost () {
-      let _hostInfo = this.hugePage !== '' && this.hostGroup !== '' && this.gpuType !== '' && this.gpuNum !== ''
+      let _hostInfo = this.hugePage && this.hostGroup && this.gpuType && this.gpuNum
       if (_hostInfo) {
         this.viewOrEditFlavor = 'edit'
         this.hostBtn = true
         let _gpuInfo = this.gpuType + ':'
-        this.numNodeValue = "'" + this.numNodeValue + "'"
-        this.hostGroup = "'" + this.hostGroup + "'"
-        this.hugePage = "'" + this.hugePage + "'"
-        this.addvmImages.flavorExtraSpecs = this.hugePageName + ': ' + this.hugePage + '\r\n' + this.cpuPolicy + ': ' + this.cpuPolicyValue + '\r\n' + this.cpuThread + ': ' + this.cpuThreadValue + '\r\n' + this.numNode + ': ' + this.numNodeValue + '\r\n' + this.gpuTypeName + ': ' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ': ' + this.hostGroup
+        let _numNodeValue = "'" + this.numNodeValue + "'"
+        let _hostGroup = "'" + this.hostGroup + "'"
+        let _hugePage = "'" + this.hugePage + "'"
+        this.addvmImages.flavorExtraSpecs = this.hugePageName + ': ' + _hugePage + '\r\n' + this.cpuPolicy + ': ' + this.cpuPolicyValue + '\r\n' + this.cpuThread + ': ' + this.cpuThreadValue + '\r\n' + this.numNode + ': ' + _numNodeValue + '\r\n' + this.gpuTypeName + ': ' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ': ' + _hostGroup
       } else {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
       }
@@ -914,6 +914,12 @@ export default {
     },
     clickEdit () {
       this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
+      let _userData = this.userData.substring(9, (this.userData.length - 5))
+      this.userData = _userData
+    },
+    clickSave () {
+      this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
+      this.userData = '```yaml\r\n' + this.userData + '\r\n```'
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -972,7 +978,7 @@ export default {
       let _data = []
       if (type === 'confirm') {
         if (this.changeResult) {
-          this.addvmImages.userData = this.userData
+          this.addvmImages.userData = this.userData.substring(9, (this.userData.length - 5))
         } else {
           this.addvmImages.userData = ''
         }
