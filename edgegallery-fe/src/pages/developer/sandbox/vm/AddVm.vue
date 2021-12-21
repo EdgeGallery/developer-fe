@@ -886,15 +886,15 @@ export default {
       this.hostBtn = true
     },
     addHost () {
-      console.log('22')
       let _hostInfo = this.hugePage !== '' && this.hostGroup !== '' && this.gpuType !== '' && this.gpuNum !== ''
       if (_hostInfo) {
-        console.log('xxx')
         this.viewOrEditFlavor = 'edit'
         this.hostBtn = true
         let _gpuInfo = this.gpuType + ':'
+        this.numNodeValue = "'" + this.numNodeValue + "'"
+        this.hostGroup = "'" + this.hostGroup + "'"
+        this.hugePage = "'" + this.hugePage + "'"
         this.addvmImages.flavorExtraSpecs = this.hugePageName + ': ' + this.hugePage + '\r\n' + this.cpuPolicy + ': ' + this.cpuPolicyValue + '\r\n' + this.cpuThread + ': ' + this.cpuThreadValue + '\r\n' + this.numNode + ': ' + this.numNodeValue + '\r\n' + this.gpuTypeName + ': ' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ': ' + this.hostGroup
-        console.log(this.addvmImages.flavorExtraSpecs)
       } else {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
       }
