@@ -104,7 +104,7 @@
       </div>
       <div class="testbtn rt">
         <el-button
-          :disabled="isCreateSuc || userName==='guest'"
+          :disabled="isCreateSuc || userName==='guest' || scenarioIds.length===0"
           class="common-btn curp"
           @click="startTest()"
         >
