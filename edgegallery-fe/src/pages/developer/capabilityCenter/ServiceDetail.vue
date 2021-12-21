@@ -58,14 +58,13 @@ export default {
     }
   },
   watch: {
-    isApiAmulator (val) {
-      console.log(val)
-      this.isApiAmulator = val
+    serviceDetailData: function (val) {
+      this.serviceDetailData = val
+      this.getDependencies()
     }
   },
   methods: {
     getDependencies () {
-      console.log(this.serviceDetailData)
       if (JSON.stringify(this.serviceDetailData) !== '{}') {
         this.serviceDetail.capabilityType = this.serviceDetailData.group.type
         this.serviceDetail.serviceName = this.serviceDetailData.name
@@ -73,7 +72,6 @@ export default {
         this.serviceDetail.uploadTime = formatDate(this.serviceDetailData.uploadTime)
         this.serviceDetail.version = this.serviceDetailData.version
         this.apiFileId = this.serviceDetailData.apiFileId
-        console.log(this.apiFileId)
         let apiUrl = applicationApi.getApiUrl(this.apiFileId)
         SwaggerUIBundle({
           url: apiUrl,
@@ -86,7 +84,6 @@ export default {
             SwaggerUIBundle.plugins.DownloadUrl
           ]
         })
-        console.log(this.apiFileId)
       }
     }
   },
