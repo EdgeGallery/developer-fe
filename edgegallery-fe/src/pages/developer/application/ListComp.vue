@@ -211,7 +211,7 @@ export default {
     }
   }
   .down_div{
-    width: 105px;
+    width: 135px;
     position: fixed;
     z-index: 9999;
     left: 120px;
