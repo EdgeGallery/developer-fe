@@ -502,6 +502,7 @@ const en = {
     pushing: 'Pushing',
     pushResult: 'Push Result',
     pushFail: 'Failed to push app',
+    warehouseTip: 'Please confirm whether there is an external warehouse!',
     number: 'number',
     appName: 'App Name',
     provider: 'Provider',
