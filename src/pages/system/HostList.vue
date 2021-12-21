@@ -611,7 +611,7 @@ export default {
         lcmProtocol: 'https',
         status: 'NORMAL',
         vimType: 'K8S',
-        networkParameter: `VDU1_APP_Plane01_IP=192.168.220.0/24;VDU1_APP_Plane03_IP=192.168.222.0/24;VDU1_APP_Plane02_IP=192.168.221.0/24`,
+        networkParameter: `APP_Plane01_Network=MEC_APP_MP1;APP_Plane02_Network=MEC_APP_Public;APP_Plane03_Network=MEC_APP_Private;VDU1_APP_Plane01_IP=192.168.221.0/24;VDU1_APP_Plane02_IP=192.168.222.0/24;VDU1_APP_Plane03_IP=192.168.220.0/24`,
         resource: null
       },
       rules: {

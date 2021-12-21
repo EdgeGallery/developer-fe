@@ -652,6 +652,7 @@ export default {
         this.isClearVmImage = true
         this.isStartupVmFinish = false
         this.clearState = 'clear'
+        this.getVmList()
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvSuccess'), 'success')
       }).catch(() => {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.releaseEnvFailed'), 'error')
