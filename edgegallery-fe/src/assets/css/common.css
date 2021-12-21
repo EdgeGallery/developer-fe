@@ -1270,7 +1270,7 @@ input::-webkit-input-placeholder {
 }
 .common-mavon-editor .scroll-style{
   color: #3AC372 !important;
-  background: #d1d40b;
+  background: #000;
 }
 .common-mavon-editor .hljs-number{
   color: #2fbfbf !important;
