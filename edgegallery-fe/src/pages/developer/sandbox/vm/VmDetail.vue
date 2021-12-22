@@ -104,7 +104,7 @@
         </p>
       </div>
 
-      <div class="btn-container network-btn">
+      <div class="btn-container vmdetail-btn">
         <el-button
           id="btn_confirm"
           class="common-btn"
@@ -157,6 +157,7 @@ export default {
     checkVmDetail () {
       let _this = this
       this.bus.$on('checkVmDetail', function (data, index) {
+        console.log(data)
         _this.vmId = data
         _this.vmIndex = index
         _this.getVmDetail(_this.vmId)
@@ -205,7 +206,9 @@ export default {
       })
     },
     editVmDetail () {
-      this.bus.$emit('editVmDetail', this.vmDetail)
+      setTimeout(() => {
+        this.bus.$emit('editVmDetail', this.vmDetail)
+      }, 0)
       this.$emit('editVmDetail')
     }
   },
@@ -228,28 +231,28 @@ export default {
   position: relative;
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .vm-detail-dlg{
-    position: absolute;
-    width: 900px;
-    padding: 40px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    // position: absolute;
+    // width: 900px;
+    // padding: 40px;
+    // left: 50%;
+    // top: 50%;
+    // transform: translate(-50%,-50%);
     .vm-content{
       padding: 16px 40px;
       border-radius: 8px;
       background: rgba(255,255,255,.1);
-      font-size: 16px;
+      font-size: 18px;
       line-height: 30px;
       margin-top: 15px;
       p{
         margin-bottom: 10px;
         .content-left{
-          width: 100px;
+          width: 110px;
           text-align: right;
           padding-right: 5px;
         }
         .content-right{
-          width: calc(100% - 100px);
+          width: calc(100% - 110px);
         }
         .node-span{
           display: block;
@@ -260,13 +263,16 @@ export default {
         }
       }
     }
+    .vmdetail-btn{
+      padding-bottom: 40px;
+    }
   }
   .vm-detail-dlg-en{
     .content-left{
-      width: 160px !important;
+      width: 180px !important;
     }
     .content-right{
-      width: calc(100% - 160px) !important;
+      width: calc(100% - 180px) !important;
     }
   }
 }

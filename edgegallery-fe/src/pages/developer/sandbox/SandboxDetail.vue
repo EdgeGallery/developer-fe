@@ -431,11 +431,6 @@
       @closeVmDetail="closeVmDetail"
       @editVmDetail="editVmDetail"
     />
-    <VmUploadFile
-      v-show="showContent==='showVmUploadFile'"
-      @closeVmUpload="closeVmUpload"
-      :application-id="applicationId"
-    />
     <ContainerScript
       v-if="showContent==='showImportScript'"
       @finishUploadScript="finishUploadScript"
@@ -444,6 +439,27 @@
       v-show="showContent==='showContainerDetail'"
       @closeContainerDetail="closeContainerDetail"
     />
+    <el-dialog
+      class="default_dialog"
+      width="700px"
+      :visible.sync="showVmUploadFile"
+    >
+      <VmUploadFile
+        :application-id="applicationId"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          id="btn_cancelVmUploadFile"
+          class="common-btn"
+          @click="showVmUploadFile=false"
+        >
+          {{ $t('common.close') }}
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -515,7 +531,8 @@ export default {
       isChangeSandboxName: false,
       isAddVm: true,
       swiperKey: 1,
-      clearState: ''
+      clearState: '',
+      showVmUploadFile: false
     }
   },
   methods: {
@@ -611,9 +628,8 @@ export default {
       this.showContent = 'showDetail'
       this.vmLists[index] = data
     },
-    uploadVmFile (data) {
-      this.showContent = data
-      this.getVmList()
+    uploadVmFile () {
+      this.showVmUploadFile = true
     },
     closeVmUpload () {
       this.showContent = 'showDetail'
@@ -1172,6 +1188,9 @@ export default {
     .swiper-pagination-none{
       opacity: 0;
     }
+  }
+  .dialog-footer{
+    margin-bottom: 20px;
   }
   @keyframes move {
     from {
