@@ -77,7 +77,10 @@ const en = {
     uploadMdFileTip: 'Please upload application introduction file.',
     packageSpecs: 'Packaging specification',
     chooseSpecs: 'Choose packaging specification',
-    emulator: 'Emulator'
+    emulator: 'Emulator',
+    current: 'Current',
+    done: 'Done',
+    notOperated: 'Not-operated'
   },
   service: {
     basicInfo: 'Basic information',

@@ -77,7 +77,10 @@ const cn = {
     uploadMdFileTip: '请上传应用介绍文档！',
     packageSpecs: '打包规范',
     chooseSpecs: '选择打包规范',
-    emulator: '在线模拟器'
+    emulator: '在线模拟器',
+    current: '当前节点',
+    done: '已完成',
+    notOperated: '尚未执行'
   },
   service: {
     basicInfo: '基本信息',
