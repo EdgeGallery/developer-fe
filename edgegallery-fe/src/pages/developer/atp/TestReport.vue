@@ -26,6 +26,7 @@
         <h3> {{ $t('report.testReport') }}</h3>
         <div>
           <el-button
+            v-if="downloadBtn"
             class="common-btn"
             @click="back()"
           >

@@ -311,9 +311,15 @@ export default {
         } else {
           let _dependents = []
           let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
-          _requireData.forEach(item => {
-            _dependents.push(item.serName)
-          })
+          if (this.language === 'cn') {
+            _requireData.forEach(item => {
+              _dependents.push(item.twoLevelName)
+            })
+          } else {
+            _requireData.forEach(item => {
+              _dependents.push(item.twoLevelNameEn)
+            })
+          }
           this.basicInfoData.dependent = _dependents.toString()
         }
       })
@@ -382,6 +388,12 @@ export default {
   },
   mounted () {
     this.getAppBaseInfo()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.getAppBaseInfo()
+    }
   }
 }
 </script>
