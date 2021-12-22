@@ -38,7 +38,7 @@ const cn = {
     detail: '详情',
     select: '选择',
     add: '添加',
-    login: '登录',
+    login: '请登录后查看',
     upload: '上传',
     start: '启动',
     name: '名称',

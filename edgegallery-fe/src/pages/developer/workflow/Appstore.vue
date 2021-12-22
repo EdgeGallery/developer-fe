@@ -77,12 +77,12 @@ export default {
 <style lang="less" scoped>
   .appstore{
     .workflow-name{
-      left: 0px;
+      left: -110px;
     }
     color: #fff;
      .step-item{
-      top: 240px;
-      left: 30px;
+      top: 250px;
+      left: -110px;
     }
   }
 </style>

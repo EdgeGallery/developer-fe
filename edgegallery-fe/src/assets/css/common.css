@@ -1055,7 +1055,7 @@ th{
 }
 .workflow .step-item{
   display: inline-block;
-  width: 110px;
+  width: 140px;
   height: 140px;
   position: relative;
   cursor: pointer;
@@ -1071,7 +1071,7 @@ th{
   top: 100px;
 }
 .capability-center .flow-name{
-  top: 100px;
+  top: 90px;
 }
 .item-active{
   border: 3px solid #f2b720 !important;
@@ -1098,8 +1098,8 @@ th{
   line-height: 35px;
   margin: 3px 3px 0 0;
   position: relative;
-  top: -20px;
-  right: -15px;
+  top: -45px;
+  right: 0px;
   font-size: 20px;
   font-weight: bold;
  }
@@ -1108,10 +1108,10 @@ th{
   background-size: cover;
 }
 .step-item img{
-  width: 50px;
+  width: 55px;
   position: absolute;
-  top: 25px;
-  left: 30px;
+  top: 20px;
+  left: 42px;
   opacity: 1;
 }
 
