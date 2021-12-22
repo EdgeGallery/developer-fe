@@ -199,7 +199,7 @@ export default {
       }
     }
     return {
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       addCaseForm: {
         name: '',
         objective: '',

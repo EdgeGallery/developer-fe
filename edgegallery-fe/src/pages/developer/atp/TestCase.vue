@@ -97,7 +97,7 @@ export default {
   },
   data () {
     return {
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   methods: {

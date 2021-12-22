@@ -364,7 +364,7 @@ export default {
     },
     processEditError (error) {
       if (error && error.response && error.response.data && error.response.data.message) {
-        if (error.response.data.message === 'SystemName can not duplicate.') {
+        if (error.response.data.message === 'image Name can not duplicate.') {
           this.$message.error(this.$t('system.imageMgmt.tip.systemNameExist'))
           return
         }
