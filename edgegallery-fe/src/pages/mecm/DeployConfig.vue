@@ -408,7 +408,7 @@ export default {
 <style lang="less">
 .deploy-config {
   background: transparent;
-  width: 41%;
+  width: 65%;
   min-height: 85%;
   max-height: 720px;
   margin: 2% auto;
@@ -605,5 +605,8 @@ export default {
       }
     }
   }
+}
+.el-col-12{
+  padding-right: 15px;
 }
 </style>
