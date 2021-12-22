@@ -54,6 +54,7 @@ const cn = {
   promptInformation: {
     confirmDelete: '确认删除该数据？',
     deleteFailed: '删除数据失败！',
+    editDataSuccess: '编辑数据成功！',
     editDataFailed: '编辑数据失败！',
     noPermission: 'Guest没有权限操作，请登录后重试',
     fileIsEmpty: '文件内容为空！'

@@ -16,7 +16,7 @@
 <template>
   <div class="addVm">
     <div
-      class="common-div-bg addVm-bg"
+      class="addVm-bg"
       v-if="!customSpecs"
     >
       <el-collapse
@@ -56,6 +56,85 @@
                 v-model="addvmImages.vmCertificate.pwdCertificate.password"
                 :placeholder="$t('common.enterPassword')"
               />
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item
+          :title="$t('sandbox.selectImage')"
+          name="4"
+        >
+          <div class="selectImage-content">
+            <div class="selectImage-public defaultFontLight">
+              <el-radio
+                class="common-radio"
+                label="public"
+                v-model="vmInfo.imageType"
+                @change="changeImageType('public')"
+              >
+                {{ $t('sandbox.imageType.publicImage') }}
+              </el-radio>
+              <el-select
+                v-model="vmInfo.publicSystemName"
+                :placeholder="$t('common.pleaseSelect')"
+                @change="changePublicType(vmInfo.publicSystemName)"
+                :disabled="vmInfo.imageType === 'private'"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.publicSystemType"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+              <el-select
+                v-model="vmInfo.publicId"
+                :placeholder="$t('common.pleaseSelect')"
+                @change="changePublicImageSize"
+                :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.publicImageOptions"
+                  :key="index"
+                  :label="item.systemImage"
+                  :value="item.id"
+                />
+              </el-select>
+            </div>
+            <div class="selectImage-public defaultFontLight">
+              <el-radio
+                class="common-radio"
+                v-model="vmInfo.imageType"
+                label="private"
+                @change="changeImageType('private')"
+              >
+                {{ $t('sandbox.imageType.privateImage') }}
+              </el-radio>
+              <el-select
+                v-model="vmInfo.privateSystemName"
+                @change="changePrivateType(vmInfo.privateSystemName)"
+                :placeholder="$t('common.pleaseSelect')"
+                :disabled="vmInfo.imageType === 'public'"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.privateSystemType"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+              <el-select
+                v-model="vmInfo.privateId"
+                :placeholder="$t('common.pleaseSelect')"
+                @change="changePublicImageSize"
+                :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.privateImageOptions"
+                  :key="index"
+                  :label="item.systemImage"
+                  :value="item.id"
+                />
+              </el-select>
             </div>
           </div>
         </el-collapse-item>
@@ -185,83 +264,6 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          :title="$t('sandbox.selectImage')"
-          name="4"
-        >
-          <div class="selectImage-content">
-            <div class="selectImage-public defaultFontLight">
-              <el-radio
-                class="common-radio"
-                label="public"
-                v-model="vmInfo.imageType"
-                @change="changeImageType('public')"
-              >
-                {{ $t('sandbox.imageType.publicImage') }}
-              </el-radio>
-              <el-select
-                v-model="vmInfo.publicSystemName"
-                :placeholder="$t('common.pleaseSelect')"
-                @change="changePublicType(vmInfo.publicSystemName)"
-                :disabled="vmInfo.imageType === 'private'"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.publicSystemType"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                />
-              </el-select>
-              <el-select
-                v-model="vmInfo.publicId"
-                :placeholder="$t('common.pleaseSelect')"
-                :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.publicImageOptions"
-                  :key="index"
-                  :label="item.systemImage"
-                  :value="item.id"
-                />
-              </el-select>
-            </div>
-            <div class="selectImage-public defaultFontLight">
-              <el-radio
-                class="common-radio"
-                v-model="vmInfo.imageType"
-                label="private"
-                @change="changeImageType('private')"
-              >
-                {{ $t('sandbox.imageType.privateImage') }}
-              </el-radio>
-              <el-select
-                v-model="vmInfo.privateSystemName"
-                @change="changePrivateType(vmInfo.privateSystemName)"
-                :placeholder="$t('common.pleaseSelect')"
-                :disabled="vmInfo.imageType === 'public'"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.privateSystemType"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                />
-              </el-select>
-              <el-select
-                v-model="vmInfo.privateId"
-                :placeholder="$t('common.pleaseSelect')"
-                :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.privateImageOptions"
-                  :key="index"
-                  :label="item.systemImage"
-                  :value="item.id"
-                />
-              </el-select>
-            </div>
           </div>
         </el-collapse-item>
         <el-collapse-item
@@ -433,22 +435,6 @@
           </div>
         </el-collapse-item>
       </el-collapse>
-      <div class="addVm-btn rt">
-        <el-button
-          id="btn_cancelAddVm"
-          class="common-btn"
-          @click="addVmFinish('cancel')"
-        >
-          {{ $t('normal.cancel') }}
-        </el-button>
-        <el-button
-          id="btn_confirmAddVm"
-          class="common-btn"
-          @click="addVmFinish('confirm')"
-        >
-          {{ $t('normal.confirm') }}
-        </el-button>
-      </div>
     </div>
     <div
       v-else
@@ -773,7 +759,8 @@ export default {
       userData: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       vmId: '',
-      isAddVm: this.isAddVmProp
+      isAddVm: this.isAddVmProp,
+      systemDiskSize: 0
     }
   },
   watch: {
@@ -786,12 +773,18 @@ export default {
     }
   },
   methods: {
-    getVmSpecs () {
+    getVmSpecs (systemDiskSize) {
       sandbox.getVmspec().then(res => {
         if (res.data && res.data.length <= 0) {
           return
         }
-        this.vmSpecs = res.data
+        this.vmSpecs = []
+        let _data = res.data
+        _data.forEach(item => {
+          if (systemDiskSize <= item.systemDiskSize) {
+            this.vmSpecs.push(item)
+          }
+        })
         this.filterVmRegulation()
       }).catch(err => {
         console.log(err)
@@ -813,6 +806,11 @@ export default {
         if (res.data && res.data.length <= 0) {
           return
         }
+        this.imageList = []
+        this.vmInfo.publicSystemType = []
+        this.vmInfo.publicSystemImage = []
+        this.vmInfo.privateSystemType = []
+        this.vmInfo.privateSystemImage = []
         this.imageList = res.data.imageList
         this.imageList.forEach(item => {
           if (item.visibleType === 'public') {
@@ -858,6 +856,12 @@ export default {
         if (item.systemType === data) {
           this.vmInfo.publicImageOptions.push(item)
         }
+      })
+    },
+    changePublicImageSize (val) {
+      sandbox.getVmDetailImage(val).then(res => {
+        this.systemDiskSize = res.data.systemDiskSize
+        this.getVmSpecs(this.systemDiskSize)
       })
     },
     changePrivateType (data) {
@@ -939,7 +943,7 @@ export default {
       if (_customs) {
         sandbox.addCustom(this.custom).then(() => {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
-          this.getVmSpecs()
+          this.getVmSpecs(this.systemDiskSize)
           this.customSpecs = false
           this.custom = {
             id: '',
@@ -991,24 +995,27 @@ export default {
             sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
               this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
               _data = this.selectedNetworks
-              this.$emit('addVmFinish', _data)
+              this.$emit('addVmFinish', _data, true)
             }).catch(err => {
               console.log(err)
             })
           } else {
             sandbox.editVmDetail(this.applicationId, this.vmId, this.addvmImages).then(() => {
+              this.$eg_messagebox(this.$t('promptInformation.editDataSuccess'), 'success')
               _data = this.selectedNetworks
-              this.$emit('addVmFinish', _data)
+              this.$emit('addVmFinish', _data, true)
             }).catch(err => {
               console.log(err)
             })
           }
         } else {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
+          this.$emit('addVmFinish', _data, false)
         }
       } else {
-        this.$emit('addVmFinish', _data)
+        this.$emit('addVmFinish', _data, true)
       }
+      this.activeNames = ['1']
     },
     editVmDetail () {
       let _this = this
@@ -1026,14 +1033,30 @@ export default {
       })
     },
     getVmDetailImage (imageId) {
+      this.vmInfo.publicSystemImage = []
+      this.vmInfo.privateSystemImage = []
+      this.vmInfo.publicImageOptions = []
+      this.vmInfo.privateImageOptions = []
+      this.getInternetType()
+      this.getVmImageLists()
       sandbox.getVmDetailImage(imageId).then(res => {
         if (!res.data) {
           return
         }
         this.vmInfo.imageType = res.data.visibleType
         res.data.visibleType === 'public' ? this.vmInfo.publicSystemName = res.data.osType : this.vmInfo.privateSystemName = res.data.osType
-        res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)' : this.vmInfo.privateId = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+        res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]' : this.vmInfo.privateId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]'
         this.addvmImages.imageId = imageId
+        this.vmInfo.publicSystemImage.forEach(item => {
+          if (item.systemType === res.data.osType) {
+            this.vmInfo.publicImageOptions.push(item)
+          }
+        })
+        this.vmInfo.privateSystemImage.forEach(item => {
+          if (item.systemType === res.data.osType) {
+            this.vmInfo.privateImageOptions.push(item)
+          }
+        })
       })
     },
     handleAddVmData (isAddVm) {
@@ -1080,9 +1103,7 @@ export default {
   mounted () {
     this.editVmDetail()
     this.handleAddVmData(this.isAddVm)
-    this.getVmSpecs()
-    this.getInternetType()
-    this.getVmImageLists()
+    this.getVmSpecs(this.systemDiskSize)
   }
 }
 </script>
@@ -1095,8 +1116,6 @@ export default {
   position:relative;
   padding-top:10px ;
   font-size: 16px;
-  animation: delay 0.5s  ease-in-out;
-  animation-fill-mode: both;
   p{
     font-weight: lighter !important;
   }
@@ -1109,13 +1128,6 @@ export default {
     }
   }
   .addVm-bg{
-    position: absolute;
-    width: 80%;
-    min-width: 1000px;
-    padding: 40px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     .el-collapse-item__header,.el-collapse-item__content{
       font-size: 18px;
       color: #fff;
@@ -1317,8 +1329,8 @@ export default {
           display: flex;
           margin-bottom: 20px;
           .el-radio{
-            height: 25px;
-            line-height: 25px;
+            height: 30px;
+            line-height: 30px;
             margin-right: 20px;
           }
           .el-radio__input.is-checked + .el-radio__label {
@@ -1328,7 +1340,7 @@ export default {
             width: 264px;
             margin-right: 80px;
             .el-input__inner{
-              height: 25px !important;
+              height: 30px !important;
               background-color: rgba(255, 255, 255, 0.3);
               border: none;
               color: #fff;
@@ -1437,7 +1449,7 @@ export default {
           .el-select .el-input .el-select__caret, .el-table__empty-text {
             line-height: 20px;
           }
-          p{
+           p{
             width: 160px;
             text-align: right;
             margin-right: 10px;

@@ -16,7 +16,7 @@
 <template>
   <div class="vm-detail">
     <div
-      class="common-div-bg vm-detail-dlg"
+      class="vm-detail-dlg"
       :class="{'vm-detail-dlg-en':language==='en'}"
     >
       <h3 class="common-dlg-title">
@@ -106,14 +106,14 @@
 
       <div class="btn-container vmdetail-btn">
         <el-button
-          id="btn_confirm"
+          id="btn_editVmDetail"
           class="common-btn"
           @click="editVmDetail"
         >
           {{ $t('common.edit') }}
         </el-button>
         <el-button
-          id="btn_confirm"
+          id="btn_closeVmDetail"
           class="common-btn"
           @click="closeVmDetail"
         >
@@ -157,7 +157,6 @@ export default {
     checkVmDetail () {
       let _this = this
       this.bus.$on('checkVmDetail', function (data, index) {
-        console.log(data)
         _this.vmId = data
         _this.vmIndex = index
         _this.getVmDetail(_this.vmId)
@@ -231,12 +230,6 @@ export default {
   position: relative;
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .vm-detail-dlg{
-    // position: absolute;
-    // width: 900px;
-    // padding: 40px;
-    // left: 50%;
-    // top: 50%;
-    // transform: translate(-50%,-50%);
     .vm-content{
       padding: 16px 40px;
       border-radius: 8px;
@@ -262,9 +255,6 @@ export default {
           color: #fff;
         }
       }
-    }
-    .vmdetail-btn{
-      padding-bottom: 40px;
     }
   }
   .vm-detail-dlg-en{

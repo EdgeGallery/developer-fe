@@ -915,9 +915,6 @@ th{
 .btn-container{
   text-align: right;
   margin: 32px 0 0 0;
-  position: absolute;
-  right: 40px;
-  bottom: 40px;
 }
 .btn-container .el-button{
   font-size: 14px;
