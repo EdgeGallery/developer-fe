@@ -98,16 +98,16 @@ export default {
       left: 0px;
     }
     .deploy-meao{
-      top: 240px;
-      left: 87px;
+      top: 65px;
+      left: 0px;
     }
     .deploy-mepm{
-      top: 100px;
-      left: 258px;
+      top: 110px;
+      left: 0px;
     }
     .deploy-node{
-      top: -40px;
-      left: 430px;
+      top: 155px;
+      left: 0px;
     }
   }
 </style>

@@ -141,36 +141,36 @@ export default {
 <style lang="less" scoped>
 .incubation{
   .workflow-name{
-    left: -60px;
+    left: -220px;
   }
   .capability-center{
-    left: 190px;
-    top: -110px;
+    left: 260px;
+    top: -75px;
   }
   .app-application{
     left: 55px;
-    top: 240px;
+    top: 250px;
     .flow-name{
       top: 60px;
     }
   }
   .app-image{
-    left: 395px;
-    top: -180px;
+    left: 550px;
+    top: -170px;
     .flow-name{
       top: 60px;
     }
   }
   .app-test{
-    left: 567px;
-    top: -320px;
+    left: 765px;
+    top: -310px;
     .flow-name{
       top: 60px;
     }
   }
   .app-sandbox{
-    left: 260px;
-    top: 170px;
+    left: 345px;
+    top: 165px;
     .flow-name{
       top: 60px;
     }

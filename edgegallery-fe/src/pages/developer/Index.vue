@@ -26,7 +26,7 @@
           </div>
           <div class="main-part">
             <el-row class="main-part-container">
-              <el-col :span="12">
+              <el-col :span="18">
                 <div class="main-creation main-part-item">
                   <div class="main-part-item-container">
                     <IncubationComp
@@ -46,7 +46,7 @@
                   </div>
                 </div>
               </el-col>
-              <el-col :span="9">
+              <el-col :span="3">
                 <div class="main-deploy main-part-item">
                   <div class="main-part-item-container">
                     <DeploymentComp
