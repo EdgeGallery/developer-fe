@@ -104,7 +104,7 @@
       </div>
       <div class="testbtn rt">
         <el-button
-          :disabled="isCreateSuc || userName==='guest' || scenarioIds.length===0"
+          :disabled="isCreateSuc || userName==='guest'"
           class="common-btn curp"
           @click="startTest()"
         >
@@ -146,7 +146,7 @@ export default {
       scenarioIdList: [],
       taskId: '',
       testSuiteData: [],
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       isTestCase: false,
       activeInfo: -1,
       isShowScene: true,
