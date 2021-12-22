@@ -110,11 +110,11 @@
             <div
               class="add-vm-small rt"
               v-if="appClass==='VM' && vmLists.length>=1"
+              @click="addVm"
             >
               <img
                 src="../../../assets/images/sandbox/vm_add_icon.png"
                 alt=""
-                @click="addVm"
               >
             </div>
           </div>
@@ -415,26 +415,9 @@
         </div>
       </div>
     </div>
-    <AddVm
-      v-show="showContent==='showAddVm'"
-      @addVmFinish="addVmFinish"
-      :is-add-vm-prop="isAddVm"
-      ref="addVmChild"
-      @getNetWorkList="getNetWorkList"
-    />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
       @editNetwork="editNetwork"
-    />
-    <VmDetail
-      v-show="showContent==='showVmDetail'"
-      @closeVmDetail="closeVmDetail"
-      @editVmDetail="editVmDetail"
-    />
-    <VmUploadFile
-      v-show="showContent==='showVmUploadFile'"
-      @closeVmUpload="closeVmUpload"
-      :application-id="applicationId"
     />
     <ContainerScript
       v-if="showContent==='showImportScript'"
@@ -444,6 +427,68 @@
       v-show="showContent==='showContainerDetail'"
       @closeContainerDetail="closeContainerDetail"
     />
+    <el-dialog
+      class="default_dialog"
+      width="1100px"
+      :visible.sync="showAddVm"
+    >
+      <AddVm
+        @addVmFinish="addVmFinish"
+        :is-add-vm-prop="isAddVm"
+        ref="addVmChild"
+        @getNetWorkList="getNetWorkList"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          id="btn_cancelAddVm"
+          class="common-btn"
+          @click="addVmConfirm('cancel')"
+        >
+          {{ $t('normal.cancel') }}
+        </el-button>
+        <el-button
+          id="btn_confirmAddVm"
+          class="common-btn"
+          @click="addVmConfirm('confirm')"
+        >
+          {{ $t('normal.confirm') }}
+        </el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      class="default_dialog"
+      width="900px"
+      :visible.sync="showVmDetail"
+    >
+      <VmDetail
+        @closeVmDetail="closeVmDetail"
+        @editVmDetail="editVmDetail"
+      />
+    </el-dialog>
+    <el-dialog
+      class="default_dialog"
+      width="700px"
+      :visible.sync="showVmUploadFile"
+    >
+      <VmUploadFile
+        :application-id="applicationId"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          id="btn_cancelVmUploadFile"
+          class="common-btn"
+          @click="showVmUploadFile=false"
+        >
+          {{ $t('common.close') }}
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -515,7 +560,10 @@ export default {
       isChangeSandboxName: false,
       isAddVm: true,
       swiperKey: 1,
-      clearState: ''
+      clearState: '',
+      showAddVm: false,
+      showVmUploadFile: false,
+      showVmDetail: false
     }
   },
   methods: {
@@ -571,18 +619,26 @@ export default {
       this.showContent = 'showConfigNetwork'
     },
     addVm () {
-      this.showContent = 'showAddVm'
+      this.showAddVm = true
       this.isAddVm = true
-      this.$refs.addVmChild.handleAddVmData(true)
+      setTimeout(() => {
+        this.$refs.addVmChild.handleAddVmData(true)
+      }, 0)
     },
     deleteVm () {
       this.getVmList()
     },
     editVmDetail () {
-      this.showContent = 'showAddVm'
+      this.showAddVm = true
+      this.showVmDetail = false
       this.isAddVm = false
     },
-    addVmFinish (data) {
+    addVmConfirm (type) {
+      setTimeout(() => {
+        this.$refs.addVmChild.addVmFinish(type)
+      }, 0)
+    },
+    addVmFinish (data, confirm) {
       if (data && data.length > 0) {
         this.networkList = data
         this.isBtnStart = true
@@ -593,6 +649,7 @@ export default {
         this.netNum = data.length
         this.getVmList()
       }
+      this.showAddVm = !confirm
       this.showContent = 'showDetail'
     },
     editNetwork (data) {
@@ -604,16 +661,15 @@ export default {
         this.netNum = data.length
       }
     },
-    checkVmDetail (data) {
-      this.showContent = data
+    checkVmDetail () {
+      this.showVmDetail = true
     },
     closeVmDetail (data, index) {
-      this.showContent = 'showDetail'
+      this.showVmDetail = false
       this.vmLists[index] = data
     },
-    uploadVmFile (data) {
-      this.showContent = data
-      this.getVmList()
+    uploadVmFile () {
+      this.showVmUploadFile = true
     },
     closeVmUpload () {
       this.showContent = 'showDetail'
@@ -1149,7 +1205,7 @@ export default {
     animation:move 2.5s linear infinite;
   }
   .swiper-container.vm-swiper{
-    padding-bottom: 15px;
+    padding-bottom: 35px;
     margin: 40px 0 0;
     .swiper-slide{
       width: 720px !important;

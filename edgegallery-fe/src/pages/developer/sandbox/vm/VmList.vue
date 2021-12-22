@@ -116,7 +116,7 @@
             <div
               class="vm-btn flex-column hoverHands"
               :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-              @mouseleave="loginGreen=false"
+              @mouseleave="loginGreen=false,isShowRemote=false"
               @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false,isShowRemote=true"
             >
               <img
@@ -134,6 +134,8 @@
             <div
               v-if="isShowRemote"
               class="down_div"
+              @mouseleave="isShowRemote=false"
+              @mouseenter="isShowRemote=true"
             >
               <div
                 class="transition-box"
@@ -397,7 +399,9 @@ export default {
       }).catch(() => {})
     },
     checkVmDetail () {
-      this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
+      setTimeout(() => {
+        this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
+      }, 0)
       this.$emit('checkVmDetail', 'showVmDetail')
     },
     startUpVm (data) {
@@ -432,7 +436,7 @@ export default {
     },
     uploadVmFile () {
       sessionStorage.setItem('vmId', this.vmId)
-      this.$emit('uploadVmFile', 'showVmUploadFile')
+      this.$emit('uploadVmFile')
     },
     handleNetworkLists () {
       let _arrTemp = []

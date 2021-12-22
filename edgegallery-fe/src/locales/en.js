@@ -54,6 +54,7 @@ const en = {
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
     deleteFailed: 'Failed to delete data!',
+    editDataSuccess: 'Edit data successfully!',
     editDataFailed: 'Failed to edit data!',
     noPermission: 'Guest user has no permissioin，please login and retry it!',
     fileIsEmpty: 'File content is empty!'
