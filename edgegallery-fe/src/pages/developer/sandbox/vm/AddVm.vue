@@ -301,20 +301,29 @@
                 :placeholder="$t('sandbox.hostGroupTip')"
               />
             </div>
-            <div class="hostSelect">
-              <p>{{ $t('sandbox.hugePage') }}:</p>
-              <el-select
-                v-model="hugePage"
-                :disabled="hostBtn"
-                :placeholder="$t('sandbox.hugePageTip')"
-              >
-                <el-option
-                  v-for="item in hugePages"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
+            <div class="hostSelect hostSelect1">
+              <p>{{ $t('sandbox.cpuPolicy') }}:</p>
+              <el-input
+                class="hostSelect-input"
+                v-model="cpuPolicyValue"
+                disabled
+              />
+            </div>
+            <div class="hostSelect hostSelect1">
+              <p>{{ $t('sandbox.cpuThread') }}:</p>
+              <el-input
+                class="hostSelect-input"
+                v-model="cpuThreadValue"
+                disabled
+              />
+            </div>
+            <div class="hostSelect hostSelect1">
+              <p>{{ $t('sandbox.numaNode') }}:</p>
+              <el-input
+                class="hostSelect-input"
+                v-model="numNodeValue"
+                disabled
+              />
             </div>
             <div class="hostSelect">
               <p>{{ $t('sandbox.gpuType') }}:</p>
@@ -341,6 +350,21 @@
               >
                 <el-option
                   v-for="item in gpuNums"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div class="hostSelect">
+              <p>{{ $t('sandbox.hugePage') }}:</p>
+              <el-select
+                v-model="hugePage"
+                :disabled="hostBtn"
+                :placeholder="$t('sandbox.hugePageTip')"
+              >
+                <el-option
+                  v-for="item in hugePages"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -390,7 +414,7 @@
                     id="btn_saveVmScript"
                     class="rt"
                     v-else
-                    @click.stop="clickEdit"
+                    @click.stop="clickSave"
                   >
                     {{ $t('common.save') }}
                   </el-button>
@@ -732,10 +756,13 @@ export default {
       hugePage: '',
       hostGroupName: 'aggregate_instance_extra_specs',
       gpuTypeName: 'pci_passthrough:alias',
-      hugePageName: 'hw_mem_page_size',
+      hugePageName: 'hw:mem_page_size',
       cpuPolicy: 'hw:cpu_policy',
+      cpuPolicyValue: 'dedicated',
       cpuThread: 'hw:cpu_thread_policy',
-      numNode: 'hw:_numa_nodes',
+      cpuThreadValue: 'prefer',
+      numNode: 'hw:numa_nodes',
+      numNodeValue: '1',
       isInjectScript: 'cancel',
       changeResult: false,
       activeScriptEditPanel: '1',
@@ -823,9 +850,8 @@ export default {
     changePublicType (data) {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
-      console.log(this.vmInfo.publicImageOptions)
       sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
-        this.userData = res.data
+        this.userData = '```yaml\r\n' + res.data + '\r\n```'
         this.flavorExtraSpecs = ''
       })
       this.vmInfo.publicSystemImage.forEach(item => {
@@ -838,7 +864,7 @@ export default {
       this.vmInfo.privateId = ''
       this.vmInfo.privateImageOptions = []
       sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
-        this.userData = res.data
+        this.userData = '```yaml\r\n' + res.data + '\r\n```'
       })
       this.vmInfo.privateSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -860,12 +886,15 @@ export default {
       this.hostBtn = true
     },
     addHost () {
-      let _hostInfo = this.hugePage !== '' && this.hostGroup !== '' && this.gpuType !== '' && this.gpuNum !== ''
+      let _hostInfo = this.hugePage && this.hostGroup && this.gpuType && this.gpuNum
       if (_hostInfo) {
         this.viewOrEditFlavor = 'edit'
         this.hostBtn = true
         let _gpuInfo = this.gpuType + ':'
-        this.addvmImages.flavorExtraSpecs = this.hugePageName + ':' + this.hugePage + '\r\n' + this.cpuPolicy + ':' + 'dedicated' + '\r\n' + this.cpuThread + ':' + 'prefer' + '\r\n' + this.numNode + ':' + '1' + '\r\n' + this.gpuTypeName + ':' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ':' + this.hostGroup
+        let _numNodeValue = "'" + this.numNodeValue + "'"
+        let _hostGroup = "'" + this.hostGroup + "'"
+        let _hugePage = "'" + this.hugePage + "'"
+        this.addvmImages.flavorExtraSpecs = this.hugePageName + ': ' + _hugePage + '\r\n' + this.cpuPolicy + ': ' + this.cpuPolicyValue + '\r\n' + this.cpuThread + ': ' + this.cpuThreadValue + '\r\n' + this.numNode + ': ' + _numNodeValue + '\r\n' + this.gpuTypeName + ': ' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ': ' + _hostGroup
       } else {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
       }
@@ -885,6 +914,12 @@ export default {
     },
     clickEdit () {
       this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
+      let _userData = this.userData.substring(9, (this.userData.length - 5))
+      this.userData = _userData
+    },
+    clickSave () {
+      this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
+      this.userData = '```yaml\r\n' + this.userData + '\r\n```'
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -943,7 +978,7 @@ export default {
       let _data = []
       if (type === 'confirm') {
         if (this.changeResult) {
-          this.addvmImages.userData = this.userData
+          this.addvmImages.userData = this.userData.substring(9, (this.userData.length - 5))
         } else {
           this.addvmImages.userData = ''
         }
@@ -1386,6 +1421,7 @@ export default {
         justify-content: flex-start;
         flex-wrap: wrap;
         padding-top: 20px;
+        padding-left: 60px;
         .hostSelect{
           display: flex;
           margin: 10px 0;
@@ -1396,18 +1432,19 @@ export default {
             background-color: rgba(255, 255, 255, 0.3);
           }
           .el-select {
-            width: 58%;
+            width: 60%;
           }
           .el-select .el-input .el-select__caret, .el-table__empty-text {
             line-height: 20px;
           }
           p{
-            width: 140px;
+            width: 160px;
             text-align: right;
             margin-right: 10px;
+            font-size: 16px;
           }
           .hostSelect-input{
-            width: 58%;
+            width: 60%;
           }
         }
       }

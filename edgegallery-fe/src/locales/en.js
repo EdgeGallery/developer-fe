@@ -38,7 +38,7 @@ const en = {
     detail: 'Detail',
     select: 'Select',
     add: 'Add',
-    login: 'Login',
+    login: 'Please login.',
     upload: 'Upload',
     start: 'Start',
     name: 'Name',

@@ -4,8 +4,8 @@
       v-for="(item,index) in dataList"
       :key="index"
       class="app-item"
-      @mouseenter="isShowCreate=!isShowCreate"
-      @mouseleave="isShowCreate=!isShowCreate"
+      @mouseenter="item.id===0 ? isShowCreate=!isShowCreate : ''"
+      @mouseleave="item.id===0 ? isShowCreate=!isShowCreate : ''"
       @click.stop="item.id===0?'':checkProjectDetail(item)"
     >
       <div
@@ -211,7 +211,7 @@ export default {
     }
   }
   .down_div{
-    width: 105px;
+    width: 135px;
     position: fixed;
     z-index: 9999;
     left: 120px;

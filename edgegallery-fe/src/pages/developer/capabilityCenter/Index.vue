@@ -258,7 +258,6 @@ export default {
     openDlg (data) {
       this.isApiAmulator = true
       this.serviceDetailData = data
-      console.log(this.isApiAmulator)
     },
     closeDig () {
       this.isApiAmulator = false

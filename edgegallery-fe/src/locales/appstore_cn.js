@@ -518,6 +518,7 @@ const cn = {
     prepare: '准备',
     pushing: '推送中',
     pushFail: '推送app失败',
+    warehouseTip: '请确认有无外部仓库！',
     pushResult: '推送结果',
     number: '序号',
     appName: '应用名称',
