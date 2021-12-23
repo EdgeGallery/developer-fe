@@ -392,10 +392,10 @@ export default {
 <style lang="less" scoped>
   .capability-publish{
     position: absolute;
-    top: 5%;
+    top: 0%;
     left: 25%;
     width: 50%;
-    padding: 35px;
+    padding: 15px 35px;
   }
   .cap-upload-btn{
     display: inline-block;
