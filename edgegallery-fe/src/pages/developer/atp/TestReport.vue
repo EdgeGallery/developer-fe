@@ -166,6 +166,7 @@
               >
                 <el-table-column
                   :label="$t('atpTestProcess.name')"
+                  min-width="20%"
                 >
                   <template slot-scope="scope">
                     {{ language==='cn'?scope.row.nameCh:scope.row.nameEn }}
@@ -174,13 +175,16 @@
                 <el-table-column
                   prop="result"
                   :label="$t('atpTestProcess.result')"
+                  min-width="10%"
                 />
                 <el-table-column
                   prop="reason"
                   :label="$t('report.failReason')"
+                  min-width="15%"
                 />
                 <el-table-column
                   :label="$t('atpTestProcess.type')"
+                  min-width="15%"
                 >
                   <template slot-scope="scope">
                     {{ language==='en'?scope.row.type:scope.row.type==='automatic'?'自动化类型':'手动类型' }}
@@ -188,7 +192,7 @@
                 </el-table-column>
                 <el-table-column
                   :label="$t('atpTestProcess.description')"
-                  width="500"
+                  min-width="45%"
                 >
                   <template slot-scope="scope">
                     {{ language==='cn'?scope.row.descriptionCh:scope.row.descriptionEn }}
@@ -570,6 +574,7 @@ export default {
     overflow: auto;
     margin: 20px 0;
   .report-content {
+    background: #3E279B;
     padding: 10px;
      .logo {
       display: flex;
