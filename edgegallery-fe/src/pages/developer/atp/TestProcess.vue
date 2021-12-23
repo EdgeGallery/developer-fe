@@ -287,7 +287,7 @@ export default {
   components: { UploadSelfReportDig },
   data () {
     return {
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       report: true,
       isTest: '',
       statusTitle: [],

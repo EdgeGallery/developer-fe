@@ -274,108 +274,106 @@
           :title="$t('sandbox.flavorExtraSpecs')"
           name="5"
         >
-          <div>
-            <el-button
-              class="rt el-button-operation"
-              style="margin-left:10px;"
-              @click="addHost('flavor')"
-            >
-              {{ $t('common.save') }}
-            </el-button>
-            <el-button
-              class="rt el-button-operation"
-              v-if="viewOrEditFlavor === 'edit'"
-              @click="editHost"
-            >
-              {{ $t('common.edit') }}
-            </el-button>
-            <el-button
-              class="rt el-button-operation"
-              v-else
-              @click="editHostCancel"
-            >
-              {{ $t('common.cancel') }}
-            </el-button>
-          </div>
-          <div class="hostSelects">
-            <div class="hostSelect hostSelect1">
-              <p>{{ $t('sandbox.hostGroup') }}:</p>
-              <el-input
-                class="hostSelect-input"
-                v-model="hostGroup"
-                :disabled="hostBtn"
-                :placeholder="$t('sandbox.hostGroupTip')"
-              />
-            </div>
-            <div class="hostSelect hostSelect1">
-              <p>{{ $t('sandbox.cpuPolicy') }}:</p>
-              <el-input
-                class="hostSelect-input"
-                v-model="cpuPolicyValue"
-                disabled
-              />
-            </div>
-            <div class="hostSelect hostSelect1">
-              <p>{{ $t('sandbox.cpuThread') }}:</p>
-              <el-input
-                class="hostSelect-input"
-                v-model="cpuThreadValue"
-                disabled
-              />
-            </div>
-            <div class="hostSelect hostSelect1">
-              <p>{{ $t('sandbox.numaNode') }}:</p>
-              <el-input
-                class="hostSelect-input"
-                v-model="numNodeValue"
-                disabled
-              />
-            </div>
-            <div class="hostSelect">
-              <p>{{ $t('sandbox.gpuType') }}:</p>
-              <el-select
-                v-model="gpuType"
-                :disabled="hostBtn"
-                :placeholder="$t('sandbox.gpuTypeTip')"
-              >
-                <el-option
-                  v-for="item in gpuTypes"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+          <el-radio-group
+            class="common-radio work-radio"
+            v-model="isHostGroup"
+            @change="handleSelectHostGroup"
+          >
+            <el-radio label="select">
+              true
+            </el-radio>
+            <el-radio label="cancel">
+              false
+            </el-radio>
+          </el-radio-group>
+          <div
+            class="hostSelects"
+            v-if="isHostGroup==='select'"
+          >
+            <div class="hostSelects">
+              <div class="hostSelect">
+                <p>{{ $t('sandbox.hugePage') }}:</p>
+                <el-select
+                  v-model="hugePage"
+                  clearable
+                  :placeholder="$t('sandbox.hugePageTip')"
+                >
+                  <el-option
+                    v-for="item in hugePages"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </div>
+              <div class="cpuInfoStyle">
+                <div class="hostSelect hostSelect1">
+                  <p>{{ $t('sandbox.cpuPolicy') }}:</p>
+                  <el-input
+                    class="hostSelect-input"
+                    v-model="cpuPolicyValue"
+                    disabled
+                  />
+                </div>
+                <div class="hostSelect hostSelect1">
+                  <p>{{ $t('sandbox.cpuThread') }}:</p>
+                  <el-input
+                    class="hostSelect-input"
+                    v-model="cpuThreadValue"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="hostSelect hostSelect1">
+                <p>{{ $t('sandbox.numaNode') }}:</p>
+                <el-input
+                  class="hostSelect-input"
+                  v-model="numNodeValue"
+                  disabled
                 />
-              </el-select>
-            </div>
-            <div class="hostSelect">
-              <p>{{ $t('sandbox.gpuNum') }}:</p>
-              <el-select
-                v-model="gpuNum"
-
-                :placeholder="$t('sandbox.gpuNumTip')"
-                :disabled="this.gpuType==''||hostBtn"
-              >
-                <el-option
-                  v-for="item in gpuNums"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+              </div>
+              <div class="cpuInfoStyle">
+                <div class="hostSelect">
+                  <p>{{ $t('sandbox.gpuType') }}:</p>
+                  <el-select
+                    v-model="gpuType"
+                    clearable
+                    :placeholder="$t('sandbox.gpuTypeTip')"
+                    @change="changeGpuType"
+                  >
+                    <el-option
+                      v-for="item in gpuTypes"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </div>
+                <div class="hostSelect">
+                  <p>{{ $t('sandbox.gpuNum') }}:</p>
+                  <el-select
+                    v-model="gpuNum"
+                    :placeholder="$t('sandbox.gpuNumTip')"
+                    :disabled="this.gpuType==''"
+                  >
+                    <el-option
+                      v-for="item in gpuNums"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </div>
+              </div>
+              <div class="hostSelect hostSelect1">
+                <p>{{ $t('sandbox.hostGroup') }}:</p>
+                <el-input
+                  class="hostSelect-input"
+                  v-model="hostGroup"
+                  clearable
+                  :placeholder="$t('sandbox.hostGroupTip')"
                 />
-              </el-select>
-            </div>
-            <div class="hostSelect">
-              <p>{{ $t('sandbox.hugePage') }}:</p>
-              <el-select
-                v-model="hugePage"
-                :disabled="hostBtn"
-                :placeholder="$t('sandbox.hugePageTip')"
-              >
-                <el-option
-                  v-for="item in hugePages"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
+              </div>
             </div>
           </div>
         </el-collapse-item>
@@ -753,13 +751,19 @@ export default {
       cpuThreadValue: 'prefer',
       numNode: 'hw:numa_nodes',
       numNodeValue: '1',
+      hostGroupInfo: '',
+      gpuInfo: '',
+      hugePageInfo: '',
+      cpuPolicyInfo: '',
+      cpuThreadInfo: '',
+      numNodeInfo: '',
       isInjectScript: 'cancel',
+      isHostGroup: 'cancel',
       changeResult: false,
+      changeHostGroup: false,
       activeScriptEditPanel: '1',
       viewOrEditContent: 'preview',
       viewOrEditParams: 'preview',
-      viewOrEditFlavor: 'edit',
-      hostBtn: true,
       userData: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       vmId: '',
@@ -887,33 +891,6 @@ export default {
         }
       })
     },
-    editHost () {
-      this.viewOrEditFlavor = ''
-      this.hostBtn = false
-    },
-    editHostCancel () {
-      this.viewOrEditFlavor = 'edit'
-      this.hugePage = ''
-      this.hostGroup = ''
-      this.gpuType = ''
-      this.gpuNum = ''
-      this.addvmImages.flavorExtraSpecs = ''
-      this.hostBtn = true
-    },
-    addHost () {
-      let _hostInfo = this.hugePage && this.hostGroup && this.gpuType && this.gpuNum
-      if (_hostInfo) {
-        this.viewOrEditFlavor = 'edit'
-        this.hostBtn = true
-        let _gpuInfo = this.gpuType + ':'
-        let _numNodeValue = "'" + this.numNodeValue + "'"
-        let _hostGroup = "'" + this.hostGroup + "'"
-        let _hugePage = "'" + this.hugePage + "'"
-        this.addvmImages.flavorExtraSpecs = this.hugePageName + ': ' + _hugePage + '\r\n' + this.cpuPolicy + ': ' + this.cpuPolicyValue + '\r\n' + this.cpuThread + ': ' + this.cpuThreadValue + '\r\n' + this.numNode + ': ' + _numNodeValue + '\r\n' + this.gpuTypeName + ': ' + _gpuInfo + this.gpuNum + '\r\n' + this.hostGroupName + ': ' + _hostGroup
-      } else {
-        this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
-      }
-    },
     appendCPUUnit (row) {
       return row.cpu + 'vCPU'
     },
@@ -925,6 +902,13 @@ export default {
         this.changeResult = true
       } else if (val === 'cancel') {
         this.changeResult = false
+      }
+    },
+    handleSelectHostGroup (val) {
+      if (val === 'select') {
+        this.changeHostGroup = true
+      } else if (val === 'cancel') {
+        this.changeHostGroup = false
       }
     },
     clickEdit () {
@@ -948,6 +932,15 @@ export default {
     },
     addSpecForm () {
       this.customSpecs = true
+    },
+    changeGpuType () {
+      if (this.gpuType === '') {
+        this.gpuNum = ''
+      } else {
+        if (this.gpuNum === '') {
+          this.gpuNum = '1'
+        }
+      }
     },
     addSpecks () {
       let _customs = this.custom.name !== '' && this.custom.description !== '' && this.custom.architecture !== '' && this.custom.dataDiskSize !== '' && this.custom.systemDiskSize !== ''
@@ -1001,9 +994,34 @@ export default {
           this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         }
         let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList.length !== 0
+        if (this.changeHostGroup) {
+          this.cpuPolicyInfo = '"' + this.cpuPolicy + '"' + ': ' + '"' + this.cpuPolicyValue + '"' + '\r\n'
+          this.cpuThreadInfo = '"' + this.cpuThread + '"' + ': ' + '"' + this.cpuThreadValue + '"' + '\r\n'
+          this.numNodeInfo = '"' + this.numNode + '"' + ': ' + '"' + this.numNodeValue + '"'
+          if (this.hostGroup !== '') {
+            this.hostGroupInfo = '"' + this.hostGroupName + '"' + ': ' + '"' + this.hostGroup + '"' + '\r\n'
+          } else {
+            this.hostGroupInfo = ''
+          }
+          if (this.gpuType !== '') {
+            this.gpuInfo = '"' + this.gpuTypeName + '"' + ': ' + '"' + this.gpuType + ':' + this.gpuNum + '"' + '\r\n'
+          } else {
+            this.gpuInfo = ''
+          }
+          if (this.hugePage !== '') {
+            this.hugePageInfo = '"' + this.hugePageName + '"' + ': ' + '"' + this.hugePage + '"' + '\r\n'
+          } else {
+            this.hugePageInfo = ''
+          }
+          this.addvmImages.flavorExtraSpecs = this.hostGroupInfo + this.gpuInfo + this.hugePageInfo + this.cpuPolicyInfo + this.cpuThreadInfo + this.numNodeInfo
+        } else {
+          this.addvmImages.flavorExtraSpecs = ''
+        }
+        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
         if (_addVmImagesVal) {
           if (this.isAddVm) {
             sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+              console.log(this.addvmImages.flavorExtraSpecs)
               this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
               _data = this.selectedNetworks
               this.$emit('addVmFinish', _data, true)
@@ -1450,11 +1468,10 @@ export default {
         }
       }
       .hostSelects{
-        display: flex;
-        justify-content: flex-start;
-        flex-wrap: wrap;
         padding-top: 20px;
-        padding-left: 60px;
+        .cpuInfoStyle{
+          display: flex;
+        }
         .hostSelect{
           display: flex;
           margin: 10px 0;

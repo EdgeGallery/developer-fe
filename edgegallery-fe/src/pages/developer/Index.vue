@@ -57,6 +57,17 @@
               </el-col>
             </el-row>
           </div>
+          <div class="direct-mark">
+            <div class="done mark-item">
+              {{ $t('incubation.done') }}
+            </div>
+            <div class="current mark-item">
+              {{ $t('incubation.current') }}
+            </div>
+            <div class="not-operated mark-item">
+              {{ $t('incubation.notOperated') }}
+            </div>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -135,6 +146,45 @@ export default {
             opacity: 0.7;
           }
         }
+      }
+    }
+    .direct-mark{
+      height: 45px;
+      line-height: 45px;
+      float: right;
+      display: flex;
+      justify-content: right;
+      position: relative;
+      top: -65px;
+      .mark-item{
+        margin-left: 10px;
+      }
+      .done::before{
+        content: '';
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background: #4A9893;
+        position: relative;
+        top: 2px;
+      }
+      .current::before{
+        content: '';
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background: #f2b720;
+        position: relative;
+        top: 2px;
+      }
+      .not-operated::before{
+        content: '';
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background: #331A86;
+        position: relative;
+        top: 2px;
       }
     }
   }

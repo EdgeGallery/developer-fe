@@ -267,7 +267,7 @@ export default {
   data () {
     return {
       testScenarios: [],
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       activeNameList: [],
       resultIcon: '',
       htmlTitle: '',
