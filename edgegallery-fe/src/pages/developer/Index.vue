@@ -166,7 +166,7 @@ export default {
         height: 15px;
         background: #4A9893;
         position: relative;
-        top: 3px;
+        top: 2px;
       }
       .current::before{
         content: '';
@@ -175,7 +175,7 @@ export default {
         height: 15px;
         background: #f2b720;
         position: relative;
-        top: 3px;
+        top: 2px;
       }
       .not-operated::before{
         content: '';
@@ -184,7 +184,7 @@ export default {
         height: 15px;
         background: #331A86;
         position: relative;
-        top: 3px;
+        top: 2px;
       }
     }
   }
