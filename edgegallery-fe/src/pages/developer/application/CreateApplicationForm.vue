@@ -294,7 +294,7 @@ export default {
         'name': '',
         'version': '',
         'provider': '',
-        'appClass': 'CONTAINER',
+        'appClass': 'VM',
         'architecture': 'X86',
         'industry': 'Smart Park',
         'type': 'Video Application',
@@ -497,6 +497,10 @@ export default {
     confirmToModify () {
       this.applicationFormData.id = this.appId
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
+        sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
+        sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
+        sessionStorage.setItem('architecture', this.applicationFormData.architecture)
+        sessionStorage.setItem('pkgSpecId', this.applicationFormData.pkgSpecId)
         this.$message.success(this.$t('incubation.modifyAppSuccess'))
         this.$router.push('/EG/developer/home')
       }).catch(err => {
