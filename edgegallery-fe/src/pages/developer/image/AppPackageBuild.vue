@@ -88,7 +88,10 @@
             </el-form>
           </div>
         </div>
-        <div class="app-package-build-resourceconfig">
+        <div
+          class="app-package-build-resourceconfig"
+          v-if="appClass==='VM'"
+        >
           <div>
             <div class="resourceconfig-title common-dlg-title">
               {{ $t('appPackage.resourceConfig') }}
@@ -292,7 +295,8 @@ export default {
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
       applicationId: sessionStorage.getItem('applicationId'),
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      appClass: 'VM'
     }
   },
   methods: {
@@ -300,8 +304,10 @@ export default {
       imageApi.getAppInfo(this.applicationId).then(res => {
         if (res.data.vmApp) {
           this.basicInfoData = res.data.vmApp
+          this.appClass = res.data.vmApp.appClass
         } else {
           this.basicInfoData = res.data.containerApp
+          this.appClass = res.data.containerApp.appClass
         }
         this.getBaseInfoFileName()
         this.getResourceConfig()
