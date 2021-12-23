@@ -204,6 +204,7 @@ export default {
       serviceFormData: {
         dnsRuleIdList: [],
         trafficRuleIdList: [],
+        oneLevelName: '电信网络能力',
         oneLevelNameEn: 'Telecom network',
         twoLevelNameEn: '',
         twoLevelName: '',
@@ -243,7 +244,7 @@ export default {
       isModify: false,
       serviceId: '',
       serviceOptions: [],
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   watch: {

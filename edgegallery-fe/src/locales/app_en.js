@@ -87,6 +87,7 @@ const en = {
     secLevelCn: 'Second Level(Cn)',
     secLevelEn: 'Second Level(En)',
     firLevel: 'First Level',
+    secLevel: 'Second Level',
     inputBox: 'Type something',
     apiFile: 'API file',
     yamlMust: 'Only supports .yaml documents',
