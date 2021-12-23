@@ -567,7 +567,7 @@ export default {
     }
   }
 }
-.vm-list-container:hover{
+.details-center-vm-img:hover{
   .vm-bg:hover{
     z-index: 1;
     opacity: 0.9;
@@ -600,6 +600,12 @@ export default {
     height: 100%;
     backdrop-filter: blur(4px);
   }
+  .vm-status{
+    display: none;
+  }
+  .vm-center-img{
+    opacity: 0.1;
+  }
 }
 .details-center-vm-img{
   width: 300px;
@@ -613,16 +619,6 @@ export default {
 .details-center-vm-img-finish{
   background: rgba(212, 202, 255, .25);
   border-radius: 20px;
-}
-.details-center-vm-img:hover{
-  .vm-status{
-    display: none;
-  }
-}
-.vm-list-container:hover{
-  .vm-center-img{
-    opacity: 0.1;
-  }
 }
 .down_div{
     width: 170px;

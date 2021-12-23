@@ -25,9 +25,12 @@
         accordion
       >
         <el-collapse-item
-          :title="$t('sandbox.vmInformation')"
           name="1"
         >
+          <span
+            class="collapse-title"
+            slot="title"
+          >{{ $t('sandbox.vmInformation') }}<b class="required">*</b></span>
           <div class="vm-info">
             <div class="addVm-top-title">
               <p>
@@ -60,9 +63,12 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          :title="$t('sandbox.selectImage')"
           name="4"
         >
+          <span
+            class="collapse-title"
+            slot="title"
+          >{{ $t('sandbox.selectImage') }}<b class="required">*</b></span>
           <div class="selectImage-content">
             <div class="selectImage-public defaultFontLight">
               <el-radio
@@ -257,12 +263,10 @@
                 show-overflow-tooltip
               />
               <el-table-column
+                prop="description"
                 :label="$t('common.describe')"
-              >
-                <template slot-scope="scope">
-                  {{ scope.row.description }}
-                </template>
-              </el-table-column>
+                show-overflow-tooltip
+              />
             </el-table>
           </div>
         </el-collapse-item>
@@ -785,6 +789,7 @@ export default {
             this.vmSpecs.push(item)
           }
         })
+        this.addvmImages.flavorId = this.vmSpecs[0] ? this.vmSpecs[0].id : ''
         this.filterVmRegulation()
       }).catch(err => {
         console.log(err)
@@ -796,6 +801,12 @@ export default {
           return
         }
         this.vmNetworkList = res.data
+        if (this.isAddVm) {
+          this.selectedNetworks = []
+          this.vmNetworkList.forEach(item => {
+            this.selectedNetworks.push(item.name)
+          })
+        }
         this.$emit('getNetWorkList', res.data)
       }).catch(err => {
         console.log(err)
@@ -989,7 +1000,7 @@ export default {
         if (this.isAddVm) {
           this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         }
-        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
+        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList.length !== 0
         if (_addVmImagesVal) {
           if (this.isAddVm) {
             sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
@@ -1097,6 +1108,9 @@ export default {
         this.filterVmRegulation()
         this.getInternetType()
         this.getVmImageLists()
+        this.vmNetworkList.forEach(item => {
+          this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
+        })
       }
     }
   },
@@ -1128,6 +1142,13 @@ export default {
     }
   }
   .addVm-bg{
+    .required{
+      position: relative;
+      color: #dc2222;
+      font-size: 20px;
+      top: 3px;
+      left: 5px;
+    }
     .el-collapse-item__header,.el-collapse-item__content{
       font-size: 18px;
       color: #fff;
