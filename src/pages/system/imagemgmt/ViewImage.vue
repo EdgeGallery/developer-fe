@@ -28,7 +28,7 @@
         <em class="title_icon" />{{ $t('system.imageMgmt.tip.viewImg') }}
       </div>
       <el-form
-        label-width="110px"
+        :label-width="language==='cn'?'110px':'150px'"
         label-position="left"
       >
         <el-row :gutter="5">
@@ -159,12 +159,14 @@ export default {
   data () {
     return {
       imageTypeOptionList: [],
-      statusOptionList: []
+      statusOptionList: [],
+      language: localStorage.getItem('language')
     }
   },
   watch: {
     '$i18n.locale': function () {
       this.initOptionList()
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {
