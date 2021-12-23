@@ -40,7 +40,7 @@
         >
           <el-table-column
             :label="$t('testCase.caseName')"
-            width="250"
+            min-width="30%"
           >
             <template slot-scope="scope">
               {{ language==='cn'?scope.row.nameCh:scope.row.nameEn }}
@@ -48,7 +48,7 @@
           </el-table-column>
           <el-table-column
             :label="$t('testCase.caseType')"
-            width="120"
+            min-width="20%"
           >
             <template slot-scope="scope">
               {{ language==='en'?scope.row.type:scope.row.type==='automatic'?'自动化类型':'手动类型' }}
@@ -56,6 +56,7 @@
           </el-table-column>
           <el-table-column
             :label="$t('testCase.description')"
+            min-width="45%"
           >
             <template slot-scope="scope">
               {{ language==='cn'?scope.row.descriptionCh:scope.row.descriptionEn }}
