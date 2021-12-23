@@ -372,7 +372,9 @@ export default {
             this.vmImageInformation.imageName = response.data[0].imageExportInfo.name
             this.vmImageInformation.status = response.data[0].imageExportInfo.status
             this.vmImageInformation.downloadUrl = response.data[0].imageExportInfo.downloadUrl
-            this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+            setTimeout(() => {
+              this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+            }, 0)
           })
           this.isExportImageFinish = false
           clearTimeout(this.timerExport)
