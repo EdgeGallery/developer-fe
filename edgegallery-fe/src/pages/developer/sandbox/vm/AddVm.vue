@@ -548,21 +548,24 @@
             class="common-input"
           />
         </el-form-item>
-        <el-form-item class="rt specsBtn">
-          <el-button
-            class="common-btn defaultFontLight"
-            @click="cancleSpecks()"
-          >
-            {{ $t('common.cancel') }}
-          </el-button>
-          <el-button
-            class="common-btn defaultFontLight"
-            @click="addSpecks()"
-          >
-            {{ $t('common.confirm') }}
-          </el-button>
-        </el-form-item>
       </el-form>
+      <div
+        class="rt"
+        style="margin-top:20px"
+      >
+        <el-button
+          class="common-btn defaultFontLight"
+          @click="cancleSpecks()"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
+          class="common-btn defaultFontLight"
+          @click="addSpecks()"
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -921,6 +924,7 @@ export default {
     },
     addSpecForm () {
       this.customSpecs = true
+      this.$emit('closeAddDialog', 'true')
     },
     changeGpuType () {
       if (this.gpuType === '') {
@@ -938,6 +942,7 @@ export default {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
           this.getVmSpecs(this.systemDiskSize)
           this.customSpecs = false
+          this.$emit('closeAddDialog', 'true')
           this.custom = {
             id: '',
             name: '',
@@ -958,6 +963,7 @@ export default {
     },
     cancleSpecks () {
       this.customSpecs = false
+      this.$emit('closeAddDialog', 'false')
       this.custom = {
         id: '',
         name: '',
@@ -1190,6 +1196,8 @@ export default {
   .customSpecs{
     width:777px;
     height:454px;
+    margin: 0 auto;
+    background:  rgba(75,55,154,0.9);
     .customSpec-title{
       display: flex;
       span{
@@ -1209,6 +1217,7 @@ export default {
       justify-content: space-between;
       .el-form-item{
         display: flex;
+        width: 49% !important;
         .el-form-item__content {
           display: flex;
           width: 215px;
@@ -1270,11 +1279,6 @@ export default {
           color: fff;
           font-size: 12px;
         }
-      }
-      .specsBtn{
-        position: relative;
-        top:60px;
-        left: -40px;
       }
     }
   }

@@ -46,7 +46,10 @@ const en = {
     updateStstemSucess: 'Update succeeded!',
     deleteSystemSucess: 'Delete succeeded!',
     or: 'or',
-    uploadRequire: 'Only one JPG / PNG file can be uploaded'
+    uploadRequire: 'Only one JPG / PNG file can be uploaded',
+    deleteTip: 'Are you sure you want to delete?',
+    tip: 'Tips',
+    deleteCancel: 'Deletion cancelled'
   },
   about: {
   },

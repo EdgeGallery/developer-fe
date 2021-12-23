@@ -46,7 +46,10 @@ const cn = {
     updateStstemSucess: '更新成功！',
     deleteSystemSucess: '删除镜像成功！',
     or: '或',
-    uploadRequire: '只能上传一张jpg/png文件'
+    uploadRequire: '只能上传一张jpg/png文件',
+    deleteTip: '请您确定是否删除？',
+    tip: '提示',
+    deleteCancel: '已取消删除'
   },
   about: {},
   ...zhLocale
