@@ -282,6 +282,7 @@
 
 <script>
 import { imageApi } from '../../../api/developerApi'
+import { Industry, Type } from '../../../tools/commondata.js'
 export default {
   name: 'AppPackageBuild',
   components: {
@@ -309,6 +310,16 @@ export default {
           this.basicInfoData = res.data.containerApp
           this.appClass = res.data.containerApp.appClass
         }
+        Industry.forEach(item => {
+          if (this.basicInfoData.industry === item.value) {
+            this.basicInfoData.industry = this.language === 'cn' ? item.label[0] : item.label[1]
+          }
+        })
+        Type.forEach(item => {
+          if (this.basicInfoData.type === item.value) {
+            this.basicInfoData.type = this.language === 'cn' ? item.label[0] : item.label[1]
+          }
+        })
         this.getBaseInfoFileName()
         this.getResourceConfig()
         this.getRulesInfo()
