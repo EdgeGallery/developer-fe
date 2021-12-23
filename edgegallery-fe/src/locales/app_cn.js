@@ -91,6 +91,7 @@ const cn = {
     secLevelCn: '二级能力（中文）',
     secLevelEn: '二级能力（英文）',
     firLevel: '一级能力',
+    secLevel: '二级能力',
     inputBox: '请输入内容',
     apiFile: 'API定义文件',
     yamlMust: '仅支持.yaml文档',
