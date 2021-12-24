@@ -430,7 +430,7 @@
     <el-dialog
       class="default_dialog"
       width="1100px"
-      :class="addVmbtn?'showDialog':'hiddenDialog'"
+      :class="isAddVmBtn?'showDialog':'hiddenDialog'"
       :visible.sync="showAddVm"
     >
       <AddVm
@@ -443,7 +443,7 @@
       <span
         slot="footer"
         class="dialog-footer"
-        v-if="addVmbtn"
+        v-if="isAddVmBtn"
       >
         <el-button
           id="btn_cancelAddVm"
@@ -567,7 +567,7 @@ export default {
       showAddVm: false,
       showVmUploadFile: false,
       showVmDetail: false,
-      addVmbtn: true
+      isAddVmBtn: true
     }
   },
   methods: {
@@ -657,7 +657,7 @@ export default {
       this.showContent = 'showDetail'
     },
     closeAddVm (data) {
-      this.addVmbtn = data !== 'true'
+      this.isAddVmBtn = data !== 'true'
     },
     editNetwork (data) {
       this.showContent = 'showDetail'
