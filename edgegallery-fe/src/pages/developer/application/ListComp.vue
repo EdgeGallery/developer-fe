@@ -86,7 +86,7 @@ export default {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
       isShowCreate: false,
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   watch: {
@@ -167,6 +167,7 @@ export default {
             })
             sessionStorage.setItem('applicationId', '')
             this.$store.commit('changeApp', '5G')
+            this.$store.commit('changeFlow', '0')
           }
         })
       })

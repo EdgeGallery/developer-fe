@@ -231,7 +231,7 @@ export default {
   methods: {
     doNext (type) {
       sessionStorage.setItem('isCapabilityActive', true)
-      this.$message.success('操作成功！')
+      this.$message.success(this.$t('order.success'))
       this.$router.push('/EG/developer/home')
     },
     publishService  (service) {

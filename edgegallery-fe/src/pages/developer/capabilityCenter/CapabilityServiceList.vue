@@ -96,7 +96,6 @@ export default {
         let params = {
           serName: data.host,
           version: data.version,
-          appId: this.appId,
           packageId: data.packageId,
           id: data.id,
           oneLevelName: data.group.name,
