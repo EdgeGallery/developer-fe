@@ -359,14 +359,14 @@ export default {
     }
     .uploader-button{
       display: inline-block;
-      height: 25px;
-      line-height: 25px;
+      height: 35px;
+      line-height: 35px;
       border-radius: 4px;
       padding: 0 32px;
       margin-right: 24px;
       color: #fff;
       background-color: #4e3494;
-      font-size: 14px;
+      font-size: 16px;
       font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
     .uploader-button:hover{
@@ -378,19 +378,22 @@ export default {
       position: relative;
       left: -15px;
       display: inline-block;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
       text-align: center;
       border-radius: 50%;
       background: #604AD0;
-      font-size: 12px;
+      font-size: 14px;
       font-style: normal;
     }
   }
   .config-file{
     height: calc(100% - 222px);
     margin-top: 80px;
+    .el-tree-node__label{
+      font-size: 16px;
+    }
     .edit-btn{
       margin-top: -11px;
       .el-button{
@@ -405,7 +408,7 @@ export default {
         height: 30px;
         line-height: 30px;
         font-family: defaultFontLight,Arial, Helvetica, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         padding-left: 15px;
       }
     }
@@ -414,7 +417,7 @@ export default {
       position: relative;
       height: calc(100% - 90px);
       .el-tree.container-package-tree{
-        width: 270px;
+        width: 295px;
         background: #4E3494;
         border-radius: 4px;
         color: #fff;
@@ -426,38 +429,16 @@ export default {
         background-color: #7050c3;
       }
       .file-content{
-        width: calc(100% - 280px);
+        width: calc(100% - 305px);
         height: 100%;
         background: #4E3494;
         border-radius: 4px;
         overflow: hidden;
         overflow: auto;
       }
-      div.file-content::-webkit-scrollbar, pre::-webkit-scrollbar {
-        width: 20px;
-        height: 20px;
+      .markdown-body code{
+        font-size: 100%;
       }
-      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
-        box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
-      }
-      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
-        border-radius: 20px;
-        border: 7px solid transparent;
-      }
-      div.file-content::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb{
-        box-shadow: 0 0 0 3px #7050c3 inset;
-      }
-
-      // pre::-webkit-scrollbar {
-      //   width: 20px;
-      //   height: 20px;
-      // }
-      // pre::-webkit-scrollbar-track {
-      //   box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
-      // }
-      // pre::-webkit-scrollbar-thumb {
-      //   box-shadow: 0 0 0 3px #7050c3 inset;
-      // }
       .check-result-save{
         top: calc(100% + 10px);
       }
@@ -467,6 +448,7 @@ export default {
     background-color:transparent;
     transition: none !important;
     color: #fff;
+    font-size: 16px;
     margin-top: 20px;
     .el-icon-close,.el-icon-upload-success{
       display: none;

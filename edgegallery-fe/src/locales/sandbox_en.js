@@ -138,7 +138,8 @@ const en = {
     podInformation: 'pod Information',
     podName: 'pod Name',
     podStatus: 'pod Status',
-    containerName: 'Container Name'
+    containerName: 'Container Name',
+    deployLog: 'Deployment Log'
   },
   sandboxPromptInfomation: {
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G!',

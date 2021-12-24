@@ -119,12 +119,12 @@
               >
                 <img
                   v-if="!closeGreen"
-                  src="../../../../assets/images/sandbox/container_close.png"
+                  src="../../../../assets/images/sandbox/vm_delete.png"
                   alt=""
                 >
                 <img
                   v-else
-                  src="../../../../assets/images/sandbox/container_close_green.png"
+                  src="../../../../assets/images/sandbox/vm_delete_green.png"
                   alt=""
                 >
               </el-tooltip>
@@ -251,6 +251,7 @@ export default {
         } else {
           this.isDeployContainerFinish = false
         }
+        this.bus.$emit('getContainerDetail', this.containerApp, res.data)
       }).catch(() => {
         clearTimeout(this.timer)
       })
@@ -282,7 +283,6 @@ export default {
         }
         this.$emit('deployContainerFinish', true)
         this.containerApp = res.data.containerApp
-        this.bus.$emit('getContainerDetail', this.containerApp)
         if (!res.data.containerApp.instantiateInfo) {
           return
         }
@@ -313,13 +313,13 @@ export default {
     position: relative;
   }
   .deploy-img-center-finish{
-    width: 82px !important;
-    height: 84px !important;
+    width: 191px !important;
+    height: 196px !important;
   }
   .container-center-img{
     position:absolute;
-    width: 81px;
-    height: 92px;
+    width: 173px;
+    height: 196px;
     opacity: .3;
   }
   .container-center-img-finish,.container-center-img-success{
@@ -334,7 +334,7 @@ export default {
     position: relative;
     .container-btn{
       width: 100%;
-      height: 75px;
+      height: 159px;
       background-size: 100% 100%;
       .img-click{
         opacity: 1;

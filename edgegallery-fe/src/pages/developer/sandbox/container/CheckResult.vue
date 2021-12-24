@@ -102,15 +102,18 @@ export default {
 <style lang="less">
 .result{
   position: absolute;
-  top: 47px;
+  top: 58px;
   left: 0;
   z-index: 2;
   .result-check {
     display: inline-block;
     margin-right: 15px;
-    font-size: 12px;
+    font-size: 16px;
     font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #fff;
+    .el-icon-success:before{
+      font-size: 16px;
+    }
   }
   em{
     font-size: 12px;
