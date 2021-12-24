@@ -761,7 +761,6 @@ export default {
           this.addForm.userId = sessionStorage.getItem('userId')
           system.addSystems(this.addForm).then(res => {
             this.$eg_messagebox(this.$t('thirdSystem.addSystemSucess'), 'success')
-            this.goDetail()
             this.searchSystems()
             this.dialogVisible = false
             this.addForm = {
