@@ -264,6 +264,7 @@
             v-if="appClass==='CONTAINER'"
           >
             <ContainerIndex
+              ref="ContainerIndex"
               @importScript="importScript"
               @checkContainerDetail="checkContainerDetail"
               @deployContainerFinish="deployContainerFinish"
@@ -599,7 +600,7 @@ export default {
     ischangeSandbox () {
       sandbox.container.getApplicationDetail(this.applicationId).then(res => {
         if (sessionStorage.getItem('loadtype') === 'vm') {
-          if (res.data.vmApp.vmList.length > 0) {
+          if (res.data.vmApp && res.data.vmApp.vmList.length > 0) {
             res.data.vmApp.vmList.forEach(item => {
               if (item.vmInstantiateInfo !== '') {
                 this.isChangeSandboxName = true
@@ -744,6 +745,7 @@ export default {
     },
     finishUploadScript () {
       this.showContent = 'showDetail'
+      this.$refs.ContainerIndex.getHelmChartsFileList()
     },
     deployContainerFinish (data) {
       this.isAddVmFinish = data

@@ -138,7 +138,8 @@ const en = {
     podInformation: 'pod Information',
     podName: 'pod Name',
     podStatus: 'pod Status',
-    containerName: 'Container Name'
+    containerName: 'Container Name',
+    deployLog: 'Deployment Log'
   },
   sandboxPromptInfomation: {
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G!',
@@ -150,8 +151,10 @@ const en = {
     cleanEnvSuccess: 'Release resources successfully!',
     cleanEnvFailed: 'Failed to release resources!',
     noServiceInfo: 'The service information is wrong, please check the file!',
-    noImageInfo: 'The image information is wrong, please check the file!',
+    noImageInfo: 'There is no image information, please check the file!',
     noFormat: 'The parameter verification is wrong, please check the file!',
+    imageInfoError: 'information is wrong, please check the file!',
+    notInHarbor: 'does not exist in the harbor warehouse, please upload it first!',
     addCustomSuccess: 'Custom specification added successfully!',
     deleteInternetSuccess: 'Network configuration deleted successfully!',
     addInternetFaild: 'The maximum number of network configuration data is 4!',

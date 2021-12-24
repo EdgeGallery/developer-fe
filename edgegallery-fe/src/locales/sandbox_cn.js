@@ -138,7 +138,8 @@ const cn = {
     podInformation: 'pod信息',
     podName: 'pod名称',
     podStatus: 'pod状态',
-    containerName: '容器名称'
+    containerName: '容器名称',
+    deployLog: '部署日志'
   },
   sandboxPromptInfomation: {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G！',
@@ -150,8 +151,10 @@ const cn = {
     cleanEnvSuccess: '释放资源成功！',
     cleanEnvFailed: '释放资源失败！',
     noServiceInfo: '服务信息有误，请检查文件！',
-    noImageInfo: '镜像信息有误，请检查文件！',
+    noImageInfo: '没有镜像信息，请检查文件！',
     noFormat: '参数校验有误，请检查文件！',
+    imageInfoError: '镜像信息有误，请检查文件！',
+    notInHarbor: '镜像不存在harbor仓库中，请先去上传！',
     addCustomSuccess: '自定义规格添加成功！',
     deleteInternetSuccess: '删除网络配置成功！',
     addInternetFaild: '网络配置数据最多为4条！',
