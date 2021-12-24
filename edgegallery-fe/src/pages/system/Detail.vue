@@ -221,43 +221,64 @@
           :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
-          <el-input v-model="addForm.systemName" />
+          <el-input
+            v-model="addForm.systemName"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.product')"
           prop="product"
         >
-          <el-input v-model="addForm.product" />
+          <el-input
+            v-model="addForm.product"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.url')"
           prop="url"
         >
-          <el-input v-model="addForm.url" />
+          <el-input
+            v-model="addForm.url"
+            maxlength="30"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.version')"
           prop="version"
         >
-          <el-input v-model="addForm.version" />
+          <el-input
+            v-model="addForm.version"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.region')"
           prop="region"
         >
-          <el-input v-model="addForm.region" />
+          <el-input
+            v-model="addForm.region"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
-          <el-input v-model="addForm.vendor" />
+          <el-input
+            v-model="addForm.vendor"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.username')"
           prop="username"
         >
-          <el-input v-model="addForm.username" />
+          <el-input
+            v-model="addForm.username"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.password')"
@@ -266,6 +287,7 @@
           <el-input
             v-model="addForm.password"
             type="password"
+            maxlength="20"
             show-password
           />
         </el-form-item>
@@ -334,43 +356,64 @@
           :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
-          <el-input v-model="editForm.systemName" />
+          <el-input
+            v-model="editForm.systemName"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.product')"
           prop="product"
         >
-          <el-input v-model="editForm.product" />
+          <el-input
+            v-model="editForm.product"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.url')"
           prop="url"
         >
-          <el-input v-model="editForm.url" />
+          <el-input
+            v-model="editForm.url"
+            maxlength="30"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.version')"
           prop="version"
         >
-          <el-input v-model="editForm.version" />
+          <el-input
+            v-model="editForm.version"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.region')"
           prop="region"
         >
-          <el-input v-model="editForm.region" />
+          <el-input
+            v-model="editForm.region"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
-          <el-input v-model="editForm.vendor" />
+          <el-input
+            v-model="editForm.vendor"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.username')"
           prop="username"
         >
-          <el-input v-model="editForm.username" />
+          <el-input
+            v-model="editForm.username"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.password')"
@@ -379,6 +422,7 @@
           <el-input
             v-model="editForm.password"
             type="password"
+            maxlength="20"
             show-password
           />
         </el-form-item>
@@ -630,9 +674,18 @@ export default {
     },
     deleteSystem (data) {
       let id = data
-      system.deleteSystems(id).then(res => {
-        this.$eg_messagebox(this.$t('thirdSystem.deleteSystemSucess'), 'success')
-        this.searchSystems()
+      this.$confirm(this.$t('thirdSystem.deleteTip'), this.$t('thirdSystem.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.concel'),
+        type: 'warning',
+        center: true
+      }).then(() => {
+        system.deleteSystems(id).then(res => {
+          this.$eg_messagebox(this.$t('thirdSystem.deleteSystemSucess'), 'success')
+          this.searchSystems()
+        })
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('thirdSystem.deleteCancel'), 'warning')
       })
     },
     systemBtn (data) {

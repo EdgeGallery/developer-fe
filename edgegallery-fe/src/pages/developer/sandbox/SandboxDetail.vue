@@ -430,17 +430,20 @@
     <el-dialog
       class="default_dialog"
       width="1100px"
+      :class="addVmbtn?'showDialog':'hiddenDialog'"
       :visible.sync="showAddVm"
     >
       <AddVm
         @addVmFinish="addVmFinish"
         :is-add-vm-prop="isAddVm"
+        @closeAddDialog="closeAddVm"
         ref="addVmChild"
         @getNetWorkList="getNetWorkList"
       />
       <span
         slot="footer"
         class="dialog-footer"
+        v-if="addVmbtn"
       >
         <el-button
           id="btn_cancelAddVm"
@@ -563,7 +566,8 @@ export default {
       clearState: '',
       showAddVm: false,
       showVmUploadFile: false,
-      showVmDetail: false
+      showVmDetail: false,
+      addVmbtn: true
     }
   },
   methods: {
@@ -651,6 +655,9 @@ export default {
       }
       this.showAddVm = !confirm
       this.showContent = 'showDetail'
+    },
+    closeAddVm (data) {
+      this.addVmbtn = data !== 'true'
     },
     editNetwork (data) {
       this.showContent = 'showDetail'
@@ -780,6 +787,18 @@ export default {
   overflow: auto;
   font-size: 16px;
   color: #fff;
+  .hiddenDialog{
+    .el-dialog{
+      background: rgba(250, 250, 250, 0) !important;
+      box-shadow: none !important;
+    }
+  }
+  .showDialog{
+    .el-dialog{
+      background: rgba(75,55,154,0.9) !important;
+      box-shadow: 0 1px 3px rgb(0,0,0,0.3) !important;
+    }
+   }
   .detail-top{
     float: left;
     width: 50%;
