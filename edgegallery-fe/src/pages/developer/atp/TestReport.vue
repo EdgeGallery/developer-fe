@@ -536,7 +536,7 @@ export default {
         this.getPdf('#pdfDom')
         this.downloadBtn = true
         this.printShow = true
-      }, 3000)
+      }, 1000)
     },
     // pdf
     getNumPages (pdfUrl) {

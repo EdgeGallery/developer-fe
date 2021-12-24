@@ -177,7 +177,7 @@
           class="common-btn"
           @click="closeDig"
         >
-          关闭
+          {{ $t('common.close') }}
         </el-button>
       </div>
     </el-dialog>
