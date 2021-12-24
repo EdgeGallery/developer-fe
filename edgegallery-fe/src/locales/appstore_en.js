@@ -572,6 +572,14 @@ const en = {
     haveNoAnaData: 'No operation analyse data!',
     existSameAppstoreName: 'An external appstore with the same name already exists, please edit the name of the external appstore again!'
   },
+  appOnline: {
+    startExperience: 'Click the online experience button to experience immediately...',
+    waitUploadApp: 'Aploading app, please wait...',
+    waitDistributeApp: 'App is being distributed, please wait patiently...',
+    waitGetInstantiatedInfo: 'Getting instantiation information, please wait patiently...',
+    waitInstantiatedApp: 'App is being instantiated, please wait patiently',
+    deployFinished: 'Application deployment completed'
+  },
   about: {
   },
   ...enLocale

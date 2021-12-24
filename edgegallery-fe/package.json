@@ -30,7 +30,8 @@
     "vue-seamless-scroll": "^1.1.23",
     "vue-simple-uploader": "^0.7.6",
     "vue-video-player": "^5.0.2",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",

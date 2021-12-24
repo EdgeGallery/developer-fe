@@ -822,6 +822,7 @@ export default {
 .detail{
   width: 100%;
   padding-bottom: 100px;
+  margin-left: 7%;
   .detailTop{
     width: 73.64%;
     margin: 0 auto ;
