@@ -75,7 +75,7 @@ const en = {
     hsInvalidHintForServerStopped: 'The server has been upgraded, ',
     hsInvalidHint: 'the current session has expired. Please choose to refresh the page or log in again.'
   },
-  promptMessage: {
+  homePromptMessage: {
     prompt: 'Prompt',
     logoutPage: 'Are you sure to log out?'
   },
