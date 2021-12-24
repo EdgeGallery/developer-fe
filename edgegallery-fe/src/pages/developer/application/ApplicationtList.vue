@@ -36,7 +36,7 @@
         v-model="searchContent"
         v-if="isSearchActive"
       >
-        <i
+        <em
           class="el-icon-search el-input__icon cp"
           slot="suffix"
           @click="searchApp"

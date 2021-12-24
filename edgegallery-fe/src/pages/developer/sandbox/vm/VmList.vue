@@ -630,7 +630,7 @@ export default {
     top: 95px;
     border-radius: 4px;
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #ffffff;
     background: #290E74;
     .transition-box{

@@ -315,7 +315,7 @@
               :on-change="getFile"
               :on-remove="handleUploadRemove"
             >
-              <i class="el-icon-plus" />
+              <em class="el-icon-plus" />
               <div
                 slot="tip"
                 class="el-upload__tip"
@@ -449,7 +449,7 @@
                 :src="editImg"
                 alt=""
               >
-              <i
+              <em
                 class="el-icon-delete deleteEditImg"
                 @click="deleteEditImg()"
               />
@@ -465,7 +465,7 @@
               :on-change="getFileEdit"
               :on-remove="handleUploadRemoveEdit"
             >
-              <i class="el-icon-plus" />
+              <em class="el-icon-plus" />
               <div
                 slot="tip"
                 class="el-upload__tip"
@@ -999,7 +999,7 @@ export default {
           font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
           font-weight: 200;
           color: #8A7DF9;
-          border: 1xp solid #8A7DF9 !important;
+          border: 1px solid #8A7DF9 !important;
         }
         .el-button:hover{
           color: #FFFFFF;

@@ -30,7 +30,7 @@
           <span
             class="collapse-title"
             slot="title"
-          >{{ $t('sandbox.vmInformation') }}<b class="required">*</b></span>
+          >{{ $t('sandbox.vmInformation') }}<strong class="required">*</strong></span>
           <div class="vm-info">
             <div class="addVm-top-title">
               <p>
@@ -68,7 +68,7 @@
           <span
             class="collapse-title"
             slot="title"
-          >{{ $t('sandbox.selectImage') }}<b class="required">*</b></span>
+          >{{ $t('sandbox.selectImage') }}<strong class="required">*</strong></span>
           <div class="selectImage-content">
             <div class="selectImage-public defaultFontLight">
               <el-radio

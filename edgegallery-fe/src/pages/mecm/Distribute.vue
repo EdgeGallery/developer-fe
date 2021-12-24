@@ -390,7 +390,6 @@ export default {
           height: 30px;
           border-radius: 12px;
           color: #5944c0;
-          height: 24px;
           line-height: 6px;
         }
         .el-button {

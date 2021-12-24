@@ -434,7 +434,7 @@ export default {
       padding: 25px 0 0 0px;
       font-size: 16px;
       text-align: left;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
     .content-wrapper {
       padding-left: 22px;

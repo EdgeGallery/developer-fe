@@ -123,7 +123,7 @@ export default {
     border-radius: 12px;
     padding: 6px 32px;
     border: none;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     font-size: 20px;
     margin-top: 10px;
     color: #fff;

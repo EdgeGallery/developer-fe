@@ -141,6 +141,7 @@
                   v-if="imageUrl"
                   :src="imageUrl"
                   class="avatar"
+                  alt=""
                 >
                 <em
                   v-else
