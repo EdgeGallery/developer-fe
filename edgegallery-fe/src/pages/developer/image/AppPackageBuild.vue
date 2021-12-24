@@ -88,7 +88,10 @@
             </el-form>
           </div>
         </div>
-        <div class="app-package-build-resourceconfig">
+        <div
+          class="app-package-build-resourceconfig"
+          v-if="appClass==='VM'"
+        >
           <div>
             <div class="resourceconfig-title common-dlg-title">
               {{ $t('appPackage.resourceConfig') }}
@@ -279,6 +282,7 @@
 
 <script>
 import { imageApi } from '../../../api/developerApi'
+import { Industry, Type } from '../../../tools/commondata.js'
 export default {
   name: 'AppPackageBuild',
   components: {
@@ -292,7 +296,8 @@ export default {
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
       applicationId: sessionStorage.getItem('applicationId'),
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      appClass: 'VM'
     }
   },
   methods: {
@@ -300,9 +305,21 @@ export default {
       imageApi.getAppInfo(this.applicationId).then(res => {
         if (res.data.vmApp) {
           this.basicInfoData = res.data.vmApp
+          this.appClass = res.data.vmApp.appClass
         } else {
           this.basicInfoData = res.data.containerApp
+          this.appClass = res.data.containerApp.appClass
         }
+        Industry.forEach(item => {
+          if (this.basicInfoData.industry === item.value) {
+            this.basicInfoData.industry = this.language === 'cn' ? item.label[0] : item.label[1]
+          }
+        })
+        Type.forEach(item => {
+          if (this.basicInfoData.type === item.value) {
+            this.basicInfoData.type = this.language === 'cn' ? item.label[0] : item.label[1]
+          }
+        })
         this.getBaseInfoFileName()
         this.getResourceConfig()
         this.getRulesInfo()
