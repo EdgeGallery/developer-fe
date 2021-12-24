@@ -111,7 +111,7 @@ export default {
     font-size: 16px;
     font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #fff;
-    .el-icon-success:before{
+    .el-icon-success:before,.el-icon-warning:before,.el-icon-error:before{
       font-size: 16px;
     }
   }

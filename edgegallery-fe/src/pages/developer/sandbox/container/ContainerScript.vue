@@ -112,7 +112,6 @@
             :data="helmChartFileList"
             :props="defaultProps"
             @node-click="handleNodeClick"
-            default-expand-all
             highlight-current
             :empty-text="$t('common.noData')"
           />
@@ -178,7 +177,7 @@ export default {
         formatSuccess: true,
         imageSuccess: true,
         serviceSuccess: true,
-        mepAgentSuccess: true
+        mepAgentSuccess: false
       },
       helmChartId: '',
       innerPath: '',
@@ -186,7 +185,8 @@ export default {
       saveFileparams: {
         innerFilePath: '',
         content: ''
-      }
+      },
+      imagesName: ''
     }
   },
   methods: {
@@ -233,18 +233,28 @@ export default {
           this.clickFirstNode()
         }
       }, (error) => {
+        this.hasValidate = false
         if (error.response.data.message === 'Service info not found in deployment yaml!') {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
           this.checkFlag.serviceSuccess = false
         } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
           this.checkFlag.imageSuccess = false
+        } else if (error.response.data.message.indexOf('is not in standard format') > -1) {
+          let _arrTemp = error.response.data.message.split(' ')
+          this.imagesName = _arrTemp[1]
+          this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.imageInfoError'), 'error')
+        } else if (error.response.data.message.indexOf('does not exist in harbor repo!') > -1) {
+          let _arrTemp = error.response.data.message.split(' ')
+          this.imagesName = _arrTemp[1]
+          this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.notInHarbor'), 'error', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
+            this.jumpToImageList()
+          })
         } else {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
           this.checkFlag.formatSuccess = false
         }
         this.helmChartFile = []
-        this.hasValidate = false
       }).finally(() => {
         this.uploadYamlLoading = false
       })
@@ -295,6 +305,7 @@ export default {
           this.helmChartFile = []
           this.markdownSource = ''
           this.helmChartFileList = []
+          this.hasValidate = false
         }).catch(() => {
           this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
@@ -309,9 +320,15 @@ export default {
     },
     clickFirstNode () {
       this.$nextTick().then(() => {
-        const firstNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+        const firstNode = document.querySelector('.el-tree-node .el-tree-node__content')
         if (firstNode && this.helmChartId !== '') {
           firstNode.click()
+          setTimeout(() => {
+            const lastNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node:nth-child(3)')
+            if (lastNode && this.helmChartId !== '') {
+              lastNode.click()
+            }
+          })
         }
       })
     },
@@ -325,15 +342,21 @@ export default {
         } else {
           _oDivResult.style.left = (_oDiv.offsetWidth + 32) + 'px'
         }
-        this.hasValidate = true
       })
     },
     finishUploadScript () {
       this.$emit('finishUploadScript')
+    },
+    getMepAgent () {
+      let _this = this
+      this.bus.$on('getMepAgent', function (data) {
+        _this.checkFlag.mepAgentSuccess = data
+      })
     }
   },
   mounted () {
     this.getHelmChartsFileList()
+    this.getMepAgent()
   }
 }
 </script>

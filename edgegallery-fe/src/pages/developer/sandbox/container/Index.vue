@@ -207,7 +207,8 @@ export default {
       closeGreen: false,
       scriptBreathStyle: false,
       timer: null,
-      containerApp: {}
+      containerApp: {},
+      isMepAgent: false
     }
   },
   methods: {
@@ -283,6 +284,11 @@ export default {
         }
         this.$emit('deployContainerFinish', true)
         this.containerApp = res.data.containerApp
+        let _appConfiguration = res.data.containerApp.appConfiguration
+        if (_appConfiguration.appServiceProducedList.length > 0 || _appConfiguration.appServiceRequiredList.length > 0) {
+          this.isMepAgent = true
+        }
+        this.bus.$emit('getMepAgent', this.isMepAgent)
         if (!res.data.containerApp.instantiateInfo) {
           return
         }
