@@ -849,6 +849,7 @@ export default {
       this.validateInput()
     },
     changeImageType (data) {
+      this.addvmImages.imageId = ''
       this.vmInfo.imageType = data
       data === 'public' ? this.vmInfo.privateSystemName = '' : this.vmInfo.publicSystemName = ''
       data === 'public' ? this.vmInfo.privateImageOptions = '' : this.vmInfo.publicImageOptions = ''
@@ -877,6 +878,7 @@ export default {
       })
     },
     changePublicImageSize (val) {
+      this.addvmImages.imageId = val
       sandbox.getVmDetailImage(val).then(res => {
         this.systemDiskSize = res.data.systemDiskSize
         this.getVmSpecs(this.systemDiskSize)
@@ -1022,34 +1024,58 @@ export default {
         } else {
           this.addvmImages.flavorExtraSpecs = ''
         }
-        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList.length !== 0
-        if (_addVmImagesVal) {
-          if (this.isAddVm) {
-            sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-              console.log(this.addvmImages.flavorExtraSpecs)
-              this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
-              _data = this.selectedNetworks
-              this.$emit('addVmFinish', _data, true)
-            }).catch(err => {
-              console.log(err)
-            })
-          } else {
-            sandbox.editVmDetail(this.applicationId, this.vmId, this.addvmImages).then(() => {
-              this.$eg_messagebox(this.$t('promptInformation.editDataSuccess'), 'success')
-              _data = this.selectedNetworks
-              this.$emit('addVmFinish', _data, true)
-            }).catch(err => {
-              console.log(err)
-            })
-          }
-        } else {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
-          this.$emit('addVmFinish', _data, false)
-        }
+        _data = this.checkVmData(_data)
       } else {
         this.$emit('addVmFinish', _data, true)
+        this.activeNames = ['1']
       }
-      this.activeNames = ['1']
+    },
+    checkVmData (_data) {
+      if (this.addvmImages.name === '') {
+        this.$eg_messagebox(this.$t('service.isNameEmpty'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.vmCertificate.pwdCertificate.username === '') {
+        this.$eg_messagebox(this.$t('common.enterUserName'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.vmCertificate.pwdCertificate.password === '') {
+        this.$eg_messagebox(this.$t('common.enterPassword'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.imageId === '') {
+        this.$eg_messagebox(this.$t('sandbox.isImageEmpty'), 'warning')
+        this.activeNames = ['4']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.portList.length === 0) {
+        this.$eg_messagebox(this.$t('sandbox.isNetworkEmpty'), 'warning')
+        this.activeNames = ['3']
+        this.$emit('addVmFinish', _data, false)
+      } else {
+        _data = this.submitAddVm(_data)
+        this.activeNames = ['1']
+      }
+      return _data
+    },
+    submitAddVm (_data) {
+      if (this.isAddVm) {
+        sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
+          _data = this.selectedNetworks
+          this.$emit('addVmFinish', _data, true)
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        sandbox.editVmDetail(this.applicationId, this.vmId, this.addvmImages).then(() => {
+          this.$eg_messagebox(this.$t('promptInformation.editDataSuccess'), 'success')
+          _data = this.selectedNetworks
+          this.$emit('addVmFinish', _data, true)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+      return _data
     },
     editVmDetail () {
       let _this = this
@@ -1077,6 +1103,8 @@ export default {
         if (!res.data) {
           return
         }
+        this.systemDiskSize = res.data.systemDiskSize
+        this.getVmSpecs(this.systemDiskSize)
         this.vmInfo.imageType = res.data.visibleType
         res.data.visibleType === 'public' ? this.vmInfo.publicSystemName = res.data.osType : this.vmInfo.privateSystemName = res.data.osType
         res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]' : this.vmInfo.privateId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]'

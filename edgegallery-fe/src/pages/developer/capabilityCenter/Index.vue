@@ -370,8 +370,14 @@ export default {
   mounted () {
     this.getPublishedService()
     this.initGroupList()
-    if (this.$route.query && this.$route.query.name) {
-      this.activeName = 'servicePublish'
+  },
+  beforeRouteEnter (to, from, next) {
+    if (from.path.indexOf('/capabilityPublish') > -1) {
+      next(vm => {
+        vm.activeName = 'servicePublish'
+      })
+    } else {
+      next(true)
     }
   }
 }
@@ -691,7 +697,7 @@ export default {
     color: #fff !important;
     background: #4E3494;
     border-radius: 26px;
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
 }
 .service-publish{

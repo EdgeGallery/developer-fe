@@ -76,7 +76,9 @@ const en = {
     hugePageTip: 'Please select large page memory',
     gpuTypeTip: 'Please select GPU type',
     gpuNumTip: 'Please select GPU type first',
-    hostGroupTip: 'Please enter the host group label'
+    hostGroupTip: 'Please enter the host group label',
+    isImageEmpty: 'Please select image',
+    isNetworkEmpty: 'Please configure the network port'
   },
   rulesConfig: {
     appRuleConfig: 'Application Rule Configuration',

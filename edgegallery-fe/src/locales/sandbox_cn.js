@@ -76,7 +76,9 @@ const cn = {
     hugePageTip: '请选择大页内存',
     gpuTypeTip: '请选择GPU类型',
     gpuNumTip: '请先选择GPU类型',
-    hostGroupTip: '请输入主机组标签'
+    hostGroupTip: '请输入主机组标签',
+    isImageEmpty: '请选择镜像',
+    isNetworkEmpty: '请配置网络端口'
   },
   rulesConfig: {
     appRuleConfig: '应用规则配置',
