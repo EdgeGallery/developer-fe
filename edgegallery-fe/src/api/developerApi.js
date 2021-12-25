@@ -107,7 +107,7 @@ let sandbox = {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/vms/' + vmId + '/action/ssh')
   },
   getScriptByImageId (pkgSpecId, osType) {
-    return GET(URL_PREFIX_DEVELOPER + 'user-datas?' + 'pkgSpecId' + pkgSpecId + '&osType=' + osType)
+    return GET(URL_PREFIX_DEVELOPER + 'user-datas?' + 'pkgSpecId=' + pkgSpecId + '&osType=' + osType)
   },
   getUpfFinished (applicationId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/appconfiguration')
