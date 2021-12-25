@@ -628,6 +628,7 @@ export default {
       this.isAddVm = true
       setTimeout(() => {
         this.$refs.addVmChild.handleAddVmData(true)
+        this.$refs.addVmChild.getVmSpecs(0)
       }, 0)
     },
     deleteVm () {

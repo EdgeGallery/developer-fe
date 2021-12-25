@@ -5,7 +5,7 @@
     <h3 class="common-dlg-title">
       {{ $t('service.basicInfo') }}
     </h3>
-    <div>
+    <div class="clear">
       <el-form
         :model="serviceFormData"
         :rules="serviceFormRule"
@@ -60,6 +60,8 @@
         <el-form-item
           :label="$t('service.apiFile')"
           class="label-item-half"
+          prop="guideFileId"
+          ref="apiFileItem"
         >
           <el-upload
             :on-change="handleApiChange"
@@ -86,6 +88,8 @@
         <el-form-item
           :label="$t('service.guideFile')"
           class="label-item-half"
+          prop="apiFileList"
+          ref="apiMdItem"
         >
           <el-upload
             :on-change="handleDocChange"
@@ -112,6 +116,8 @@
         <el-form-item
           :label="$t('service.customPic')"
           class="cb"
+          prop="iconFileList"
+          ref="iconFileItem"
         >
           <el-upload
             :on-change="handleIconChange"
@@ -167,7 +173,17 @@
           class="label-item-half"
           prop="protocol"
         >
-          <el-input v-model="serviceFormData.protocol" />
+          <el-select
+            v-model="serviceFormData.protocol"
+            class="select_right"
+          >
+            <el-option
+              v-for="item in optionsProtocol"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           :label="$t('service.expURL')"
@@ -199,6 +215,66 @@ import { applicationApi } from '../../../api/developerApi.js'
 export default {
   name: 'CapCenter',
   data () {
+    const validateTwoLevelName = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,40}$/g
+      if (!value) {
+        callback(new Error(this.$t('service.isNameEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('service.nameRules')))
+      } else {
+        callback()
+      }
+    }
+    const validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,400}$/g
+      if (!value) {
+        callback(new Error(this.$t('incubation.descTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('service.serviceDesc')))
+      } else {
+        callback()
+      }
+    }
+    const validateApiMd = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error(`${this.$t('incubation.pleaseUpload')}${this.$t('service.guideFileId')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateApiDocs = (rule, value, callback) => {
+      console.log(value)
+      if (value.length === 0) {
+        callback(new Error(this.$t('service.uploadApiFile')))
+      } else {
+        callback()
+      }
+    }
+    const validateAppIcon = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error(this.$t('service.iconRequired')))
+      } else {
+        callback()
+      }
+    }
+    const validateInternalPort = (rule, value, callback) => {
+      let reg = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
+      if (!reg.test(value)) {
+        callback(new Error(this.$t('service.innerPortTip')))
+      } else {
+        callback()
+      }
+    }
+    const validateVersion = (rule, value, callback) => {
+      let reg = /^[\w\\-][\w\\-\s.]{0,9}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.versionTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.versionRule')))
+      } else {
+        return callback()
+      }
+    }
     return {
       appId: sessionStorage.getItem('applicationId'),
       serviceFormData: {
@@ -208,31 +284,50 @@ export default {
         oneLevelNameEn: 'Telecom network',
         twoLevelNameEn: '',
         twoLevelName: '',
-        author: ''
+        author: '',
+        iconFileList: [],
+        apiFileList: [],
+        guideFileId: [],
+        internalPort: 1,
+        protocol: 'https'
       },
+      optionsProtocol: [{
+        value: '0',
+        label: 'http'
+      }, {
+        value: '1',
+        label: 'https'
+      }],
       serviceFormRule: {
         twoLevelNameEn: [
-          { required: true, message: this.$t('service.secondLevelNameEnTip'), trigger: 'blur' },
-          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+          { required: true, validator: validateTwoLevelName }
         ],
         twoLevelName: [
-          { required: true, message: this.$t('service.secondLevelNameCnTip'), trigger: 'blur' },
-          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+          { required: true, validator: validateTwoLevelName }
         ],
         description: [
-          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
+          { required: true, validator: validateDescription }
+        ],
+        guideFileId: [
+          { required: true, validator: validateApiDocs, trigger: 'change' }
+        ],
+        apiFileList: [
+          { required: true, validator: validateApiMd, trigger: 'change' }
+        ],
+        iconFileList: [
+          { required: true, validator: validateAppIcon, trigger: 'change' }
         ],
         serviceName: [
-          { required: true, message: this.$t('service.serviceNameTip'), trigger: 'blur' }
+          { required: true, validator: validateTwoLevelName }
         ],
         version: [
-          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
+          { required: true, validator: validateVersion }
         ],
         protocol: [
-          { required: true, message: this.$t('service.protocolTip'), trigger: 'blur' }
+          { required: true, trigger: 'change' }
         ],
         internalPort: [
-          { required: true, message: this.$t('service.innerPortTip'), trigger: 'blur' }
+          { required: true, validator: validateInternalPort }
         ]
       },
       apiFileList: [],
@@ -250,6 +345,11 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.$refs['serviceForm'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['serviceForm'].validateField(item.labelFor)
+        }
+      })
     }
   },
   methods: {
@@ -271,9 +371,12 @@ export default {
           this.$message.warning(this.$t('incubation.uploadSizeLimit'))
         }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('service.fileNameType'))
           this.apiFileList = []
         } else {
           this.apiFileList.push(file.raw)
+          this.serviceFormData.apiFileList = this.apiFileList
+          this.$refs.apiFileItem.clearValidate()
         }
       }
     },
@@ -293,6 +396,8 @@ export default {
           this.guideFileId = []
         } else {
           this.guideFileId.push(file.raw)
+          this.serviceFormData.guideFileId = this.guideFileId
+          this.$refs.apiMdItem.clearValidate()
         }
       }
     },
@@ -307,10 +412,18 @@ export default {
           this.iconFileList = []
         } else {
           this.iconFileList.push(file.raw)
+          this.serviceFormData.iconFileList = this.iconFileList
+          this.$refs.iconFileItem.clearValidate()
         }
       }
     },
     handleUpload (key, file) {
+      if (this.guideFileId.length !== 0) {
+        this.$refs.apiMdItem.clearValidate()
+      }
+      if (this.apiFileList.length !== 0) {
+        this.$refs.apiFileItem.clearValidate()
+      }
       this.$refs['serviceForm'].validate((valid) => {
         if (valid) {
           if (this.isModify) {
@@ -392,9 +505,10 @@ export default {
 <style lang="less" scoped>
   .capability-publish{
     position: absolute;
-    top: 0%;
-    left: 25%;
-    width: 50%;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    transform: translate(-50%,-50%);
     padding: 15px 35px;
   }
   .cap-upload-btn{

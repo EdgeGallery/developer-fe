@@ -84,7 +84,8 @@ const cn = {
     emulator: '在线模拟器',
     current: '当前节点',
     done: '已完成',
-    notOperated: '尚未执行'
+    notOperated: '尚未执行',
+    pleaseUpload: '请上传'
   },
   service: {
     basicInfo: '基本信息',
@@ -121,7 +122,14 @@ const cn = {
     innerPortTip: '请填写内部端口号',
     protocolTip: '请填写协议',
     secondLevelNameCnTip: '请填写二级能力中文名',
-    secondLevelNameEnTip: '请填写二级能力英文名'
+    secondLevelNameEnTip: '请填写二级能力英文名',
+    uploadApiFile: '请上传Api文件',
+    iconRequired: '请上传图标',
+    guideFileId: '说明文档',
+    fileNameType: '文件名称不能包含空格！',
+    isNameEmpty: '请输入名称',
+    nameRules: '请输入长度1-40的名称，开头不能为空',
+    serviceDesc: '请输入长度1-400的服务描述，开头不能为空'
   },
   workflow: {
     incubation: '应用孵化',

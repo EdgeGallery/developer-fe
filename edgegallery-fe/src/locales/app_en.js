@@ -85,7 +85,8 @@ const en = {
     emulator: 'Emulator',
     current: 'Current',
     done: 'Done',
-    notOperated: 'Not-operated'
+    notOperated: 'Not-operated',
+    pleaseUpload: 'Please upload '
   },
   service: {
     basicInfo: 'Basic information',
@@ -122,7 +123,14 @@ const en = {
     innerPortTip: 'Please enter the internal port',
     protocolTip: 'Please enter the protocol.',
     secondLevelNameCnTip: 'Please enter the second level service name(Cn).',
-    secondLevelNameEnTip: 'Please enter the second level service name(En).'
+    secondLevelNameEnTip: 'Please enter the second level service name(En).',
+    uploadApiFile: 'Please upload the Api file!',
+    iconRequired: 'Icon is required',
+    guideFileId: 'Guide',
+    fileNameType: 'The file name cannot contain spaces!',
+    isNameEmpty: 'Please enter a name',
+    nameRules: 'Please enter a name with a length of 1-40,the beginning cannot be empty',
+    serviceDesc: 'Please enter service description with a length of 1-400,the beginning cannot be empty'
   },
   workflow: {
     incubation: 'Incubation',

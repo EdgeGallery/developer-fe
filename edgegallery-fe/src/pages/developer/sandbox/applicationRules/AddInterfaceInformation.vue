@@ -28,7 +28,7 @@
       :model="interfaceInformationForm"
     >
       <el-form-item
-        label="interfaceType"
+        :label="$t('rulesConfig.interfaceType')"
       >
         <el-select
           v-model="interfaceInformationForm.interfaceType"
