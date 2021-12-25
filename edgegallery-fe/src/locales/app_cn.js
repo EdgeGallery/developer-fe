@@ -89,7 +89,7 @@ const cn = {
   },
   service: {
     basicInfo: '基本信息',
-    secLevelCn: '二级能力（中文）',
+    secLevelCn: '二级能力',
     secLevelEn: '二级能力（英文）',
     firLevel: '一级能力',
     secLevel: '二级能力',
@@ -129,7 +129,8 @@ const cn = {
     fileNameType: '文件名称不能包含空格！',
     isNameEmpty: '请输入名称',
     nameRules: '请输入长度1-40的名称，开头不能为空',
-    serviceDesc: '请输入长度1-400的服务描述，开头不能为空'
+    serviceDesc: '请输入长度1-400的服务描述，开头不能为空',
+    successOperation: '操作成功！'
   },
   workflow: {
     incubation: '应用孵化',

@@ -38,7 +38,7 @@
                 class="defaultFontLight"
                 @close="handleDeleteTag(tag)"
               >
-                <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
+                <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ language==='cn'?tag.twoLevelName:tag.twoLevelNameEn }}
               </el-tag>
             </div>
           </div>
@@ -52,7 +52,7 @@
                 v-for="service in groups"
                 :key="service.id"
                 class="service-group"
-                :class="service.isSeviceSelected?'service-group-active':''"
+                :class="{'service-group-active':service.isSeviceSelected,'service-group-en':language==='en'}"
                 @click="getServices(service)"
               >
                 <img
@@ -67,7 +67,10 @@
                 </span>
               </div>
             </div>
-            <div class="capability-right">
+            <div
+              class="capability-right"
+              :class="{'capability-right-en':language==='en'}"
+            >
               <CapabilityServiceList
                 :capability-service-list="capabilityServiceList"
                 :selected-services="selectedServices"
@@ -104,7 +107,11 @@
               <el-table-column
                 prop="oneLevelName"
                 :label="$t('service.firLevel')"
-              />
+              >
+                <template slot-scope="scope">
+                  {{ language==='cn'?scope.row.oneLevelName:scope.row.oneLevelNameEn }}
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="twoLevelName"
                 :label="$t('service.secLevel')"
@@ -363,6 +370,9 @@ export default {
   mounted () {
     this.getPublishedService()
     this.initGroupList()
+    if (this.$route.query && this.$route.query.name) {
+      this.activeName = 'servicePublish'
+    }
   }
 }
 
@@ -488,6 +498,7 @@ export default {
     color: #ffffff !important;
     border-radius: 4px !important;
     border: none!important;
+    margin-bottom: 10px;
   }
   .el-select-dropdown{
     border-radius: 8px;
@@ -700,12 +711,19 @@ export default {
   padding: 0 15px;
   cursor: pointer;
   margin: 10px 0;
+  img{
+    position: relative;
+    top: 3px;
+  }
   span{
     font-size: 22px;
     color: #EDE8FB;
     margin-left: 10px;
     font-weight: normal;
   }
+}
+.service-group-en{
+  width: 270px;
 }
 .service-group-active, .service-group:hover{
   background: rgba(255, 255, 255, 0.8);
@@ -721,5 +739,8 @@ export default {
   padding-left: 15px;
   max-height: 500px;
   overflow: auto;
+}
+.capability-right-en{
+  width: calc(100% - 280px);
 }
 </style>

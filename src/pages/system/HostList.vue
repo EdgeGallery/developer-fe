@@ -123,6 +123,24 @@
           />
         </el-form-item>
         <el-form-item
+          :label="$t('workspace.protocol')"
+          prop="lcmProtocol"
+          class="w50"
+        >
+          <el-select
+            size="small"
+            v-model="form.lcmProtocol"
+            :style="{width: '100%'}"
+          >
+            <el-option
+              v-for="item in protocolOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
           :label="$t('system.mecHost')"
           prop="mecHostIp"
           class="w50"
@@ -130,6 +148,16 @@
           <el-input
             size="small"
             v-model="form.mecHostIp"
+          />
+        </el-form-item>
+        <el-form-item
+          label="mecPort"
+          prop="mecHostPort"
+          class="w50"
+        >
+          <el-input
+            size="small"
+            v-model="form.mecHostPort"
           />
         </el-form-item>
         <el-form-item
@@ -167,24 +195,6 @@
           >
             <el-option
               v-for="item in statusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          :label="$t('workspace.protocol')"
-          prop="lcmProtocol"
-          class="w50"
-        >
-          <el-select
-            size="small"
-            v-model="form.lcmProtocol"
-            :style="{width: '100%'}"
-          >
-            <el-option
-              v-for="item in protocolOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -603,7 +613,8 @@ export default {
         lcmProtocol: 'https',
         status: 'NORMAL',
         vimType: 'K8S',
-        resource: null
+        resource: null,
+        mecHostPort: 22
       },
       defaultForm: {
         lcmPort: 31252,
@@ -612,7 +623,8 @@ export default {
         status: 'NORMAL',
         vimType: 'K8S',
         networkParameter: `APP_Plane01_Network=MEC_APP_MP1;APP_Plane02_Network=MEC_APP_Public;APP_Plane03_Network=MEC_APP_Private;VDU1_APP_Plane01_IP=192.168.221.0/24;VDU1_APP_Plane02_IP=192.168.222.0/24;VDU1_APP_Plane03_IP=192.168.220.0/24`,
-        resource: null
+        resource: null,
+        mecHostPort: 22
       },
       rules: {
         name: [
