@@ -48,7 +48,6 @@ export default {
   },
   data () {
     return {
-      totalNum: 0,
       currentPage: 1,
       data: [],
       pageSize: 10
@@ -80,6 +79,9 @@ export default {
         arr.push(size)
       }
       return arr
+    },
+    totalNum () {
+      return this.tableData.length
     }
   },
   methods: {

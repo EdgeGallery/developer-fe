@@ -589,6 +589,14 @@ const cn = {
     haveNoAnaData: '暂无操作分析数据！',
     existSameAppstoreName: '已存在同名外部仓库，请重新编辑外部仓库名称'
   },
+  appOnline: {
+    startExperience: '点击在线体验按钮,马上进行体验...',
+    waitUploadApp: '正在上传应用,请耐心等待...',
+    waitDistributeApp: '正在分发应用,请耐心等待...',
+    waitGetInstantiatedInfo: '正在获取实例化信息,请耐心等待...',
+    waitInstantiatedApp: '正在实例化应用，请耐心等待...',
+    deployFinished: '应用部署已完成'
+  },
   about: {},
   ...zhLocale
 }

@@ -36,7 +36,7 @@
         v-model="searchContent"
         v-if="isSearchActive"
       >
-        <i
+        <em
           class="el-icon-search el-input__icon cp"
           slot="suffix"
           @click="searchApp"
@@ -105,6 +105,7 @@
     <Pagination
       class="app-pagenation"
       :table-data="allAppList"
+      :list-total="allAppList.length"
       v-if="zoom!==2"
     />
   </div>
@@ -140,7 +141,8 @@ export default {
       isDeleteActive: false,
       searchContent: '',
       userName: sessionStorage.getItem('userName'),
-      loginPage: sessionStorage.getItem('loginPage') || ''
+      loginPage: sessionStorage.getItem('loginPage') || '',
+      appList: []
     }
   },
   watch: {
@@ -176,9 +178,14 @@ export default {
       }
     },
     searchApp () {
-      this.allAppList = this.allAppList.filter(item => {
-        return item.name.toLowerCase().indexOf(this.searchContent) > -1
-      })
+      this.allAppList = this.appList
+      if (this.searchContent) {
+        this.allAppList = this.allAppList.filter(item => {
+          return item.name.toLowerCase().indexOf(this.searchContent) > -1
+        })
+      } else {
+        return this.appList
+      }
     },
     deleteApp () {
       this.isDeleteActive = !this.isDeleteActive
@@ -197,6 +204,7 @@ export default {
       ]
       applicationApi.getApplicationList().then(res => {
         let data = res.data.results
+        this.appList = data
         this.allAppList = data
         data.sort(function (a, b) {
           return b.createTime < a.createTime ? -1 : 1

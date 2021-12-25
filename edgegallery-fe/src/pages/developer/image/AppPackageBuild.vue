@@ -75,11 +75,6 @@
               </el-row>
               <el-row class="thirdline">
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.fileName')">
-                    {{ basicInfoData.fileName }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
                   <el-form-item :label="$t('appPackage.baseDesc')">
                     {{ basicInfoData.description }}
                   </el-form-item>
@@ -305,6 +300,7 @@ export default {
       imageApi.getAppInfo(this.applicationId).then(res => {
         if (res.data.vmApp) {
           this.basicInfoData = res.data.vmApp
+          this.getResourceConfig()
           this.appClass = res.data.vmApp.appClass
         } else {
           this.basicInfoData = res.data.containerApp
@@ -320,8 +316,6 @@ export default {
             this.basicInfoData.type = this.language === 'cn' ? item.label[0] : item.label[1]
           }
         })
-        this.getBaseInfoFileName()
-        this.getResourceConfig()
         this.getRulesInfo()
         if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
           this.basicInfoData.dependent = this.$t('appPackage.noDependences')
@@ -341,21 +335,17 @@ export default {
         }
       })
     },
-    getBaseInfoFileName () {
-      imageApi.getFileInfo(this.basicInfoData.guideFileId).then(res => {
-        this.basicInfoData.fileName = res.data.fileName
-      })
-    },
     getResourceConfig () {
-      let _configInfo = {
-        vmId: '',
-        vmName: '',
-        spec: '',
-        network: '',
-        basicImage: '',
-        vmImage: ''
-      }
+      this.resourceConfigInfoList = []
       this.basicInfoData.vmList.forEach(item => {
+        let _configInfo = {
+          vmId: '',
+          vmName: '',
+          spec: '',
+          network: '',
+          basicImage: '',
+          vmImage: ''
+        }
         _configInfo.vmId = item.id
         _configInfo.vmName = item.name
         this.handleResourceConfig(_configInfo, item)
@@ -373,7 +363,7 @@ export default {
         _configInfo.spec = _flavors.architecture + ' | ' + _flavors.cpu + 'vCPUs' + ' | ' + _flavors.memory + 'GBRAM' + ' | ' + _flavors.dataDiskSize + 'GB+' + _flavors.systemDiskSize + 'GB' + ' Disk'
       })
       imageApi.getImage(item.imageId).then(res => {
-        _configInfo.basicImage = res.data.name + ' | V' + res.data.osVersion
+        _configInfo.basicImage = res.data.name + ' | ' + res.data.osVersion
       })
       if (!item.targetImageId) {
         _configInfo.vmImage = 'NA'
@@ -444,7 +434,7 @@ export default {
       padding: 25px 0 0 0px;
       font-size: 16px;
       text-align: left;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
     .content-wrapper {
       padding-left: 22px;

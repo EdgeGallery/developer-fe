@@ -95,7 +95,7 @@ export default {
 .distribute-finish__title {
   display: block;
   font-size: 16px;
-  font-family: defaultFontUltraLight;
+  font-family: defaultFontUltraLight, Arial, Helvetica, sans-serif;
 }
 
 .distribute-finish__button {
@@ -109,7 +109,7 @@ export default {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  font-family: defaultFontUltraLight;
+  font-family: defaultFontUltraLight, Arial, Helvetica, sans-serif;
   color: #5944c0;
   box-shadow: 0 6px 5px #4c55aa80;
 }

@@ -55,6 +55,10 @@ let appstoreApi = {
     let url = URL_PREFIX_APPSTORE + 'experience/deploy?appId=' + appId + '&packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
     return GET(url)
   },
+  getExperienceStatus: function (packageId) {
+    let url = 'experience/packages/' + packageId + '/status'
+    return GET(url)
+  },
   getThirdSystemByType: function (type) {
     let url = URL_PREFIX_APPSTORE + 'thirdsystem/systemType/' + type
     return GET(url, '')

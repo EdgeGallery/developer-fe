@@ -86,7 +86,7 @@ export default {
     return {
       applicationId: sessionStorage.getItem('applicationId') || '',
       isShowCreate: false,
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language') || 'cn'
     }
   },
   watch: {
@@ -168,6 +168,7 @@ export default {
             })
             sessionStorage.setItem('applicationId', '')
             this.$store.commit('changeApp', '5G')
+            this.$store.commit('changeFlow', '0')
           }
         })
       })
@@ -218,7 +219,7 @@ export default {
     top: 160px;
     border-radius: 4px;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: rgba(255, 255, 255, 1);
     background: #290E74;
     .transition-box{

@@ -184,7 +184,7 @@
           class="common-btn"
           @click="closeDig"
         >
-          关闭
+          {{ $t('common.close') }}
         </el-button>
       </div>
     </el-dialog>
@@ -271,7 +271,7 @@ export default {
     },
     doNext (type) {
       sessionStorage.setItem('isCapabilityActive', true)
-      this.$message.success(this.$t('service.successOperation'))
+      this.$message.success(this.$t('order.success'))
       this.$router.push('/EG/developer/home')
     },
     publishService  (service) {
@@ -398,7 +398,6 @@ export default {
         margin-bottom: 12px;
         height: 60px;
         padding-left: 15px;
-        font-size: 25px;
         color: #fff;
         border: none;
         background-color: #5F499D;
