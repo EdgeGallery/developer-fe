@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const cnAtp = {
   report: {
     result: '结果',
     provider: '供应商',
@@ -198,4 +198,4 @@ const cn = {
     uploadNow: '立即上传'
   }
 }
-export default cn
+export default cnAtp

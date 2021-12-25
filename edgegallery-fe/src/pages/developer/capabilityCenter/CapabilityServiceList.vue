@@ -115,9 +115,9 @@ export default {
           console.log(err)
         })
       } else {
-        this.selectedServices.forEach((ser, index) => {
+        this.selectedServices.forEach((ser, indexSub) => {
           if (ser.id === data.id) {
-            this.selectedServices.splice(index, 1)
+            this.selectedServices.splice(indexSub, 1)
             this.deleteServices(ser.id)
           }
         })

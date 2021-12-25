@@ -15,7 +15,7 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-const cn = {
+const cnThirdsystem = {
   thirdSystem: {
     threeSystem: '三方系统管理',
     search: '请输入名称进行搜索',
@@ -54,4 +54,4 @@ const cn = {
   about: {},
   ...zhLocale
 }
-export default cn
+export default cnThirdsystem

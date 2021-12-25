@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const en = {
+const enAtp = {
   report: {
     result: 'Result',
     provider: 'Provider',
@@ -141,4 +141,4 @@ const en = {
     uploadNow: 'Upload Now'
   }
 }
-export default en
+export default enAtp

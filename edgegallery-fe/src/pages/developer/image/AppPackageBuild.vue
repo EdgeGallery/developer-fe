@@ -317,23 +317,26 @@ export default {
           }
         })
         this.getRulesInfo()
-        if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
-          this.basicInfoData.dependent = this.$t('appPackage.noDependences')
-        } else {
-          let _dependents = []
-          let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
-          if (this.language === 'cn') {
-            _requireData.forEach(item => {
-              _dependents.push(item.twoLevelName)
-            })
-          } else {
-            _requireData.forEach(item => {
-              _dependents.push(item.twoLevelNameEn)
-            })
-          }
-          this.basicInfoData.dependent = _dependents.toString()
-        }
+        this.handleDependents()
       })
+    },
+    handleDependents () {
+      if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
+        this.basicInfoData.dependent = this.$t('appPackage.noDependences')
+      } else {
+        let _dependents = []
+        let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
+        if (this.language === 'cn') {
+          _requireData.forEach(item => {
+            _dependents.push(item.twoLevelName)
+          })
+        } else {
+          _requireData.forEach(item => {
+            _dependents.push(item.twoLevelNameEn)
+          })
+        }
+        this.basicInfoData.dependent = _dependents.toString()
+      }
     },
     getResourceConfig () {
       this.resourceConfigInfoList = []

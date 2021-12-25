@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const en = {
+const enHome = {
   banner: {
     text: 'HOME'
   },
@@ -26,4 +26,4 @@ const en = {
     returnHome: 'Return workflow page.'
   }
 }
-export default en
+export default enHome

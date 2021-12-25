@@ -398,7 +398,8 @@ export default {
         }).catch(() => {
           this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
-      }).catch(() => {})
+      }).catch(() => {
+      })
     },
     checkVmDetail () {
       setTimeout(() => {

@@ -352,6 +352,7 @@ export default {
       this.logoFileList = []
       if (file) {
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('service.fileNameType'))
           this.logoFileList = []
         } else {
           this.isIconChanged = true
@@ -367,16 +368,19 @@ export default {
             }
           })
         }
-        if (file.size / 1024 / 1024 > 2) {
+        this.checkLogoFile(file)
+      }
+    },
+    checkLogoFile (file) {
+      if (file.size / 1024 / 1024 > 2) {
+        this.logoFileList = []
+        this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+      }
+      let fileTypeArr = ['jpg', 'png']
+      if (file.name) {
+        let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
           this.logoFileList = []
-          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
-        }
-        let fileTypeArr = ['jpg', 'png']
-        if (file.name) {
-          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-            this.logoFileList = []
-          }
         }
       }
     },
@@ -391,6 +395,7 @@ export default {
       this.mdFileList = []
       if (file) {
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('service.fileNameType'))
           this.mdFileList = []
         } else {
           this.mdFileList.push(file.raw)
@@ -406,16 +411,19 @@ export default {
             console.log(err)
           })
         }
-        if (file.size / 1024 / 1024 > 2) {
+        this.checkMdFile(file)
+      }
+    },
+    checkMdFile (file) {
+      if (file.size / 1024 / 1024 > 2) {
+        this.mdFileList = []
+        this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+      }
+      let fileTypeArr = ['md']
+      if (file.name) {
+        let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
           this.mdFileList = []
-          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
-        }
-        let fileTypeArr = ['md']
-        if (file.name) {
-          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-            this.mdFileList = []
-          }
         }
       }
     },

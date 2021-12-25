@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const cnSandbox = {
   sandbox: {
     selectSandbox: '选择沙箱',
     sandboxDetail: '沙箱详情',
@@ -166,4 +166,4 @@ const cn = {
     addInternetTip: '网络类型名称不能为空！'
   }
 }
-export default cn
+export default cnSandbox

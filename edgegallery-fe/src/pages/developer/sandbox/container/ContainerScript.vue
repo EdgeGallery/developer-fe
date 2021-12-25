@@ -309,7 +309,9 @@ export default {
         }).catch(() => {
           this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
-      }).catch(() => {})
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
+      })
     },
     handleNodeClick (data) {
       if (data.children) {

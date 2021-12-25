@@ -912,6 +912,7 @@ export default {
         font-size: 20px;
         position: absolute;
         text-align: center;
+        opacity: 1;
       }
       .detail-center-title::after{
         z-index: -1;
@@ -923,11 +924,6 @@ export default {
         height: 100%;
         background-color:rgba(10, 9, 54, 0.4) ;
         backdrop-filter: blur(4px);
-      }
-    }
-    .detail-center-bg:hover{
-      .detail-center-title{
-        opacity: 1;
       }
     }
     .detail-center-name{

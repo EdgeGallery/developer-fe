@@ -41,7 +41,7 @@ export default {
   props: {
     serviceDetailData: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     }
   },
   data () {

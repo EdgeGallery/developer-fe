@@ -423,6 +423,9 @@ export default {
         option.series[0].data = this.chartData[0].dataCh
       }
       _chart.setOption(option)
+      this.reSizeFun(_chart)
+    },
+    reSizeFun (_chart) {
       window.addEventListener('resize', () => {
         if (_chart) {
           _chart.resize()
@@ -521,11 +524,7 @@ export default {
         option.series[0].data = this.chartData[0].dataRight
       }
       _chart.setOption(option)
-      window.addEventListener('resize', () => {
-        if (_chart) {
-          _chart.resize()
-        }
-      })
+      this.reSizeFun(_chart)
     },
     downLoadReport () {
       this.activeNameList = this.finishActiveNameList

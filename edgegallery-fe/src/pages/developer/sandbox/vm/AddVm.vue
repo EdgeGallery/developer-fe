@@ -845,17 +845,12 @@ export default {
         console.log(err)
       })
     },
-    addVmInfo () {
-      this.validateInput()
-    },
     changeImageType (data) {
       this.addvmImages.imageId = ''
       this.vmInfo.imageType = data
       data === 'public' ? this.vmInfo.privateSystemName = '' : this.vmInfo.publicSystemName = ''
       data === 'public' ? this.vmInfo.privateImageOptions = '' : this.vmInfo.publicImageOptions = ''
       data === 'public' ? this.vmInfo.privateId = '' : this.vmInfo.publicId = ''
-    },
-    validateInput () {
     },
     handleChangeArch () {
       this.filterVmRegulation()
@@ -969,6 +964,7 @@ export default {
             otherExtraInfo: ''
           }
         }).catch(() => {
+          this.$eg_messagebox(this.$t('promptInformation.addFailed'), 'error')
         })
       } else {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
@@ -1001,33 +997,36 @@ export default {
         if (this.isAddVm) {
           this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         }
-        if (this.changeHostGroup) {
-          this.cpuPolicyInfo = '"' + this.cpuPolicy + '"' + ': ' + '"' + this.cpuPolicyValue + '"' + '\r\n'
-          this.cpuThreadInfo = '"' + this.cpuThread + '"' + ': ' + '"' + this.cpuThreadValue + '"' + '\r\n'
-          this.numNodeInfo = '"' + this.numNode + '"' + ': ' + '"' + this.numNodeValue + '"'
-          if (this.hostGroup !== '') {
-            this.hostGroupInfo = '"' + this.hostGroupName + '"' + ': ' + '"' + this.hostGroup + '"' + '\r\n'
-          } else {
-            this.hostGroupInfo = ''
-          }
-          if (this.gpuType !== '') {
-            this.gpuInfo = '"' + this.gpuTypeName + '"' + ': ' + '"' + this.gpuType + ':' + this.gpuNum + '"' + '\r\n'
-          } else {
-            this.gpuInfo = ''
-          }
-          if (this.hugePage !== '') {
-            this.hugePageInfo = '"' + this.hugePageName + '"' + ': ' + '"' + this.hugePage + '"' + '\r\n'
-          } else {
-            this.hugePageInfo = ''
-          }
-          this.addvmImages.flavorExtraSpecs = this.hostGroupInfo + this.gpuInfo + this.hugePageInfo + this.cpuPolicyInfo + this.cpuThreadInfo + this.numNodeInfo
-        } else {
-          this.addvmImages.flavorExtraSpecs = ''
-        }
+        this.handleHostGroupData()
         _data = this.checkVmData(_data)
       } else {
         this.$emit('addVmFinish', _data, true)
         this.activeNames = ['1']
+      }
+    },
+    handleHostGroupData () {
+      if (this.changeHostGroup) {
+        this.cpuPolicyInfo = '"' + this.cpuPolicy + '"' + ': ' + '"' + this.cpuPolicyValue + '"' + '\r\n'
+        this.cpuThreadInfo = '"' + this.cpuThread + '"' + ': ' + '"' + this.cpuThreadValue + '"' + '\r\n'
+        this.numNodeInfo = '"' + this.numNode + '"' + ': ' + '"' + this.numNodeValue + '"'
+        if (this.hostGroup !== '') {
+          this.hostGroupInfo = '"' + this.hostGroupName + '"' + ': ' + '"' + this.hostGroup + '"' + '\r\n'
+        } else {
+          this.hostGroupInfo = ''
+        }
+        if (this.gpuType !== '') {
+          this.gpuInfo = '"' + this.gpuTypeName + '"' + ': ' + '"' + this.gpuType + ':' + this.gpuNum + '"' + '\r\n'
+        } else {
+          this.gpuInfo = ''
+        }
+        if (this.hugePage !== '') {
+          this.hugePageInfo = '"' + this.hugePageName + '"' + ': ' + '"' + this.hugePage + '"' + '\r\n'
+        } else {
+          this.hugePageInfo = ''
+        }
+        this.addvmImages.flavorExtraSpecs = this.hostGroupInfo + this.gpuInfo + this.hugePageInfo + this.cpuPolicyInfo + this.cpuThreadInfo + this.numNodeInfo
+      } else {
+        this.addvmImages.flavorExtraSpecs = ''
       }
     },
     checkVmData (_data) {

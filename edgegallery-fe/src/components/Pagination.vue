@@ -108,8 +108,6 @@ export default {
 <style lang="less">
 .custom_pagination {
   height: 30px;
-}
-.custom_pagination {
   .el-pagination.is-background .btn-prev,
   .el-pagination.is-background .btn-next,
   .el-pagination.is-background .el-pager li {
@@ -151,14 +149,12 @@ export default {
     background-color: transparent;
     border-radius: 10px;
     color: #fff;
+    border: 1px solid rgba(250,250,250,0.2)
   }
   .el-select .el-input .el-select__caret {
     font-size: 18px;
     color: #fff;
     opacity: 0.4;
-  }
-  .el-pagination .el-select .el-input .el-input__inner{
-    border: 1px solid rgba(250,250,250,0.2)
   }
   .el-pagination .el-select .el-input.is-focus .el-input__inner,.el-pagination__sizes .el-input .el-input__inner:hover{
    border-color: rgba(250,250,250,0.2) !important;

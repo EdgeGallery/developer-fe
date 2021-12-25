@@ -131,9 +131,6 @@ export default {
     showWarning () {
       this.$message.warning(this.$t('workflow.mustSteps'))
     }
-  },
-  mounted () {
-
   }
 }
 </script>
