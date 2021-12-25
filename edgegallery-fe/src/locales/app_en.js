@@ -90,7 +90,7 @@ const en = {
   },
   service: {
     basicInfo: 'Basic information',
-    secLevelCn: 'Second Level(Cn)',
+    secLevelCn: 'Second Level',
     secLevelEn: 'Second Level(En)',
     firLevel: 'First Level',
     secLevel: 'Second Level',
@@ -130,7 +130,8 @@ const en = {
     fileNameType: 'The file name cannot contain spaces!',
     isNameEmpty: 'Please enter a name',
     nameRules: 'Please enter a name with a length of 1-40,the beginning cannot be empty',
-    serviceDesc: 'Please enter service description with a length of 1-400,the beginning cannot be empty'
+    serviceDesc: 'Please enter service description with a length of 1-400,the beginning cannot be empty',
+    successOperation: 'Successful operation!'
   },
   workflow: {
     incubation: 'Incubation',

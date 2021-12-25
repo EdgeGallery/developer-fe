@@ -39,13 +39,6 @@
           <el-input v-model="serviceFormData.twoLevelName" />
         </el-form-item>
         <el-form-item
-          :label="$t('service.secLevelEn')"
-          class="cb"
-          prop="twoLevelNameEn"
-        >
-          <el-input v-model="serviceFormData.twoLevelNameEn" />
-        </el-form-item>
-        <el-form-item
           :label="$t('incubation.description')"
           class="cb"
           prop="description"
@@ -299,9 +292,6 @@ export default {
         label: 'https'
       }],
       serviceFormRule: {
-        twoLevelNameEn: [
-          { required: true, validator: validateTwoLevelName }
-        ],
         twoLevelName: [
           { required: true, validator: validateTwoLevelName }
         ],
@@ -418,6 +408,7 @@ export default {
       }
     },
     handleUpload (key, file) {
+      this.serviceFormData.twoLevelNameEn = this.serviceFormData.twoLevelName
       if (this.guideFileId.length !== 0) {
         this.$refs.apiMdItem.clearValidate()
       }
@@ -457,12 +448,12 @@ export default {
       if (this.isModify) {
         applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
           this.$message.success(this.$t('service.editSuccess'))
-          this.$router.push('/EG/developer/capabilityCenter')
+          this.$router.push({ path: '/EG/developer/capabilityCenter', query: { name: 'publishService' } })
         })
       } else {
         applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
           this.$message.success(this.$t('service.publishSuccess'))
-          this.$router.push('/EG/developer/capabilityCenter')
+          this.$router.push({ path: '/EG/developer/capabilityCenter', query: { name: 'publishService' } })
         })
       }
     },
