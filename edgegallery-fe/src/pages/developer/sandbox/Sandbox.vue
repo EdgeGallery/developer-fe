@@ -254,7 +254,6 @@ export default {
             margin-top: 12px;
             width: 50px;
             height: 100px;
-            width: 46.36px;
           }
           .sandbox-detail{
             font-size: 16px;

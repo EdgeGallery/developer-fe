@@ -184,7 +184,7 @@ export default {
         font-size: 18px;
         margin-bottom: 5px;
         color: #fff;
-        font-family: defaultFont;
+        font-family: defaultFont, Arial, Helvetica, sans-serif;
       }
       .detail{
         float: right;
@@ -210,7 +210,7 @@ export default {
         color: #fff;
         font-size: 16px;
         line-height: 21px;
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         margin-bottom: 5px;
         .hot{
           margin-right: 15px;

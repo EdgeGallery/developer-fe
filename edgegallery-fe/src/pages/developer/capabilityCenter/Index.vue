@@ -388,7 +388,6 @@ export default {
         margin-bottom: 12px;
         height: 60px;
         padding-left: 15px;
-        font-size: 25px;
         color: #fff;
         border: none;
         background-color: #5F499D;

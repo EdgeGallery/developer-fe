@@ -321,7 +321,7 @@ export default {
       color: #C9BDF3;
       background-color: rgba(255,255,255,.45);
       border: none;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
       font-size: 14px;
     }
     .el-icon-info:before{
