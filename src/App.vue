@@ -221,7 +221,7 @@ export default {
       var data = event.data
       if (data.cmd === 'iframeLanguageChange') {
         let lang = data.params.lang
-        this.changeLang(lang)
+        this.changeLange(lang)
       }
     })
     window.onresize = () => {
