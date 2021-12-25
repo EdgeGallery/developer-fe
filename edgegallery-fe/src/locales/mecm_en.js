@@ -21,13 +21,13 @@ const en = {
     provider: 'Provider',
     affinity: 'Architecture',
     operation: 'Operation',
-    tip: 'Please enter the search name',
+    tip: 'Enter the name',
     cancel: 'cancel',
     confirm: 'confirm'
   },
   deployList: {
     deployListTitle: 'AppDeploy',
-    tip: 'Please enter the search content',
+    tip: 'Enter the content',
     type: 'Type',
     industry: 'Industry',
     appstoreName: 'App Store Name',
@@ -44,7 +44,7 @@ const en = {
     distributeDeploySuccess: 'Distribute & Deploy Success',
     beforeDeleteFromMechost: 'Are you sure to delete this package from the MEC host?',
     deletePacFrmoHost: 'You have deleted the package from the host successfully!',
-    tip: 'Please enter the search name IP or status',
+    tip: 'Enter the name, IP or status',
     multipleDeploy: 'Batch Deployment',
     onePackageAtLeast: 'Please select one piece pf data at least',
     deleteError: 'Please delete the error status applications'

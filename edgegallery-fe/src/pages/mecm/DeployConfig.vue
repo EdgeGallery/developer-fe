@@ -258,7 +258,7 @@ export default {
               })
           } else {
             appo
-              .toBatchDeploy(_params)
+              .toBatchDeploy(this.userId, _params)
               .then((res) => {
                 let instanceIds = res.data.response
                 let len = instanceIds.length
