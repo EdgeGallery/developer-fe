@@ -78,7 +78,7 @@ export default {
     },
     changeLange (lang) {
       let language
-      if (lang === 'Cn' || lang === 'en') {
+      if (lang === 'Cn' || lang === 'cn') {
         this.jsonData = navDataCn.mecDeveloper
         language = 'cn'
       } else {

@@ -26,6 +26,12 @@
       </div>
       <div class="sandboxs">
         <div
+          class="nodata"
+          v-if="sandbox.length===0"
+        >
+          {{ $t('common.noData') }}
+        </div>
+        <div
           class="one-sandbox hoverHands"
           v-for=" (item,index) in sandbox"
           :key="index"
@@ -58,6 +64,7 @@
         <el-button
           id="btn_selectSandbox"
           class="common-btn"
+          :disabled="sandbox.length===0"
           @click="selectFinish"
         >
           {{ $t('common.finish') }}
@@ -212,7 +219,7 @@ export default {
   width: 100%;
   font-size: 20px;
   .all-sandbox{
-    width: 55%;
+    width: 60%;
     min-height: 405px;
     margin: 245px auto;
     background-size: 100% 100%;
@@ -233,27 +240,36 @@ export default {
       justify-content: flex-start;
       flex-wrap: wrap;
       display: flex;
-      .one-sandbox{
-        width: 98px;
+      .nodata{
+        width: 100%;
         height: 168px;
-        margin: 0 24px 40px 32px;
+        line-height: 168px;
+        text-align: center;
+      }
+      .one-sandbox{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 215px;
+        margin: 0 30px;
         .sandbox-content{
-          height: 168px;
-          width: 100%;
+          height: 185px;
+          width: 98px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
-          background-size: cover;
+          flex-shrink: 0;
+          background: #291472;
+          border-radius: 50px;
           .select-img{
-            width: 16px;
-            height: 16px;
+            width: 24px;
+            height: 24px;
             margin: 14% 0 6% 0;
           }
           .sandbox-img{
             margin-top: 12px;
-            width: 50px;
-            height: 100px;
+            width: 54px;
+            height: 110px;
           }
           .sandbox-detail{
             font-size: 16px;
@@ -267,7 +283,7 @@ export default {
         }
         .sandbox-name{
           margin-top: 12%;
-          font-size: 18px;
+          font-size: 22px;
           color: #fff;
           text-align: center;
         }
@@ -285,17 +301,23 @@ export default {
     }
     .details{
       display: flex;
-      font-size: 18px;
+      font-size: 22px;
       color: #fff;
+      margin-top: 10px;
       .detail-left{
-        margin: 0px 86px 0px 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0px 86px 0px 40px;
         .detail-left-img{
           width: 100px;
-          height: 168px;
-          background: url('../../../assets/images/sandbox/sandboxBg.png') no-repeat center;
+          height: 185px;
+          flex-shrink: 0;
+          background: #291472;
+          border-radius: 50px;
           img{
-            width: 57px;
-            height: 94px;
+            width: 54px;
+            height: 110px;
           }
         }
         p{
@@ -305,11 +327,10 @@ export default {
       }
       .detail-right{
         display: flex;
-        max-width: 400px;
         p{
-          line-height:24px;
+          line-height:36px;
           color: #fff;
-          font-size: 14px;
+          font-size: 20px;
           letter-spacing: 1px;
           font-family: defaultFontLight,
             Arial,
@@ -317,6 +338,8 @@ export default {
             sans-serif !important;
         }
         .detail-name{
+          width: 130px;
+          flex-shrink: 0;
           p{
              text-align: right;
              margin-right: 10px;

@@ -145,7 +145,7 @@
                 >
                 <em
                   v-else
-                  class="el-icon-plus"
+                  class="el-icon-plus el-icon-plus-app"
                 />
                 <el-tooltip
                   effect="dark"
@@ -668,7 +668,7 @@ export default {
     border: 1px solid #fff;
     border-radius: 6px;
   }
-  .el-icon-plus{
+  .el-icon-plus.el-icon-plus-app{
     border: 1px dashed #fff;
     border-radius: 6px;
     box-sizing: border-box;
@@ -676,7 +676,7 @@ export default {
     height: 46px;
     line-height: 46px;
   }
-  .el-icon-plus:before{
+  .el-icon-plus.el-icon-plus-app:before{
     font-size: 22px;
     top: 0 !important;
   }
