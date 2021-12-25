@@ -53,7 +53,7 @@
         <el-form-item
           :label="$t('service.apiFile')"
           class="label-item-half"
-          prop="guideFileId"
+          prop="apiFileId"
           ref="apiFileItem"
         >
           <el-upload
@@ -81,8 +81,8 @@
         <el-form-item
           :label="$t('service.guideFile')"
           class="label-item-half"
-          prop="apiFileList"
-          ref="apiMdItem"
+          prop="guideFileId"
+          ref="guideFileItem"
         >
           <el-upload
             :on-change="handleDocChange"
@@ -109,7 +109,7 @@
         <el-form-item
           :label="$t('service.customPic')"
           class="cb"
-          prop="iconFileList"
+          prop="iconFileId"
           ref="iconFileItem"
         >
           <el-upload
@@ -194,7 +194,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="handleUpload('api',apiFileList[0])"
+          @click="publishService"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -228,23 +228,22 @@ export default {
         callback()
       }
     }
-    const validateApiMd = (rule, value, callback) => {
-      if (value.length === 0) {
-        callback(new Error(`${this.$t('incubation.pleaseUpload')}${this.$t('service.guideFileId')}`))
-      } else {
-        callback()
-      }
-    }
-    const validateApiDocs = (rule, value, callback) => {
-      console.log(value)
-      if (value.length === 0) {
+    const validateApiFile = (rule, value, callback) => {
+      if (!value) {
         callback(new Error(this.$t('service.uploadApiFile')))
       } else {
         callback()
       }
     }
+    const validateGuideFile = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('incubation.pleaseUpload')}${this.$t('service.guideFileId')}`))
+      } else {
+        callback()
+      }
+    }
     const validateAppIcon = (rule, value, callback) => {
-      if (value.length === 0) {
+      if (!value) {
         callback(new Error(this.$t('service.iconRequired')))
       } else {
         callback()
@@ -278,9 +277,9 @@ export default {
         twoLevelNameEn: '',
         twoLevelName: '',
         author: '',
-        iconFileList: [],
-        apiFileList: [],
-        guideFileId: [],
+        apiFileId: '',
+        guideFileId: '',
+        iconFileId: '',
         internalPort: 1,
         protocol: 'https'
       },
@@ -298,13 +297,13 @@ export default {
         description: [
           { required: true, validator: validateDescription }
         ],
+        apiFileId: [
+          { required: true, validator: validateApiFile, trigger: 'change' }
+        ],
         guideFileId: [
-          { required: true, validator: validateApiDocs, trigger: 'change' }
+          { required: true, validator: validateGuideFile, trigger: 'change' }
         ],
-        apiFileList: [
-          { required: true, validator: validateApiMd, trigger: 'change' }
-        ],
-        iconFileList: [
+        iconFileId: [
           { required: true, validator: validateAppIcon, trigger: 'change' }
         ],
         serviceName: [
@@ -365,7 +364,7 @@ export default {
           this.apiFileList = []
         } else {
           this.apiFileList.push(file.raw)
-          this.serviceFormData.apiFileList = this.apiFileList
+          this.handleUpload('api', this.apiFileList[0])
           this.$refs.apiFileItem.clearValidate()
         }
       }
@@ -386,8 +385,8 @@ export default {
           this.guideFileId = []
         } else {
           this.guideFileId.push(file.raw)
-          this.serviceFormData.guideFileId = this.guideFileId
-          this.$refs.apiMdItem.clearValidate()
+          this.handleUpload('md', this.guideFileId[0])
+          this.$refs.guideFileItem.clearValidate()
         }
       }
     },
@@ -402,60 +401,43 @@ export default {
           this.iconFileList = []
         } else {
           this.iconFileList.push(file.raw)
-          this.serviceFormData.iconFileList = this.iconFileList
+          this.handleUpload('icon', this.iconFileList[0])
           this.$refs.iconFileItem.clearValidate()
         }
       }
     },
     handleUpload (key, file) {
-      this.serviceFormData.twoLevelNameEn = this.serviceFormData.twoLevelName
-      if (this.guideFileId.length !== 0) {
-        this.$refs.apiMdItem.clearValidate()
-      }
-      if (this.apiFileList.length !== 0) {
-        this.$refs.apiFileItem.clearValidate()
-      }
-      this.$refs['serviceForm'].validate((valid) => {
-        if (valid) {
-          if (this.isModify) {
-            this.publishService()
+      let formdata = new FormData()
+      formdata.append('file', file)
+      formdata.append('fileType', key)
+      applicationApi.uploadFileApi(formdata).then(res => {
+        if (res && res.data) {
+          if (key === 'api') {
+            this.serviceFormData.apiFileId = res.data.fileId
+          } else if (key === 'md') {
+            this.serviceFormData.guideFileId = res.data.fileId
           } else {
-            let formdata = new FormData()
-            formdata.append('file', file)
-            formdata.append('fileType', key)
-            applicationApi.uploadFileApi(formdata).then(res => {
-              if (res && res.data) {
-                if (key === 'api') {
-                  this.apiFileId = res.data.fileId
-                  this.handleUpload('md', this.guideFileId[0])
-                } else if (key === 'md') {
-                  this.docFileId = res.data.fileId
-                  this.handleUpload('icon', this.iconFileList[0])
-                } else {
-                  this.iconFileId = res.data.fileId
-                  this.serviceFormData.apiFileId = this.apiFileId
-                  this.serviceFormData.guideFileId = this.docFileId
-                  this.serviceFormData.iconFileId = this.iconFileId
-                  this.publishService()
-                }
-              }
-            })
+            this.serviceFormData.iconFileId = res.data.fileId
           }
         }
       })
     },
     publishService () {
-      if (this.isModify) {
-        applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
-          this.$message.success(this.$t('service.editSuccess'))
-          this.$router.push({ path: '/EG/developer/capabilityCenter', query: { name: 'publishService' } })
-        })
-      } else {
-        applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
-          this.$message.success(this.$t('service.publishSuccess'))
-          this.$router.push({ path: '/EG/developer/capabilityCenter', query: { name: 'publishService' } })
-        })
-      }
+      this.$refs['serviceForm'].validate((valid) => {
+        if (valid) {
+          if (this.isModify) {
+            applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
+              this.$message.success(this.$t('service.editSuccess'))
+              this.$router.push('/EG/developer/capabilityCenter')
+            })
+          } else {
+            applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
+              this.$message.success(this.$t('service.publishSuccess'))
+              this.$router.push('/EG/developer/capabilityCenter')
+            })
+          }
+        }
+      })
     },
     getFileInfo (type, fileId) {
       applicationApi.getFileInfo(fileId).then(res => {
