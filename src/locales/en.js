@@ -115,8 +115,11 @@ const en = {
     synchronizeDate: 'Synchronised time',
     publish: 'Publish',
     publishSuc: 'Publish Successful',
+    publishFail: 'Publish failed',
+    modifyPkgSuccess: 'Successfully modified',
+    modifyPkgFail: 'Fail to edit',
     appEditor: {
-      checkModified: 'Please check if the file has been modified',
+      checkModified: 'Change failure or no content is not modified',
       edit: 'Preview and edit',
       checkMf: 'Before publishing the application, you need to modify any of the three fields app_product_name, app_provider_id, app_package_version in the ‘.mf’ file',
       editAppTitle: 'Select the application that needs to be modified',

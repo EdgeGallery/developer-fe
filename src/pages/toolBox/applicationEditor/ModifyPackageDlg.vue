@@ -138,7 +138,7 @@ export default {
       }
       this.fileType = this.FileName.substr(this.FileName.lastIndexOf('.'))
       applicationEditorApi.getPkgContent(this.packageId, _file).then(res => {
-        let typeArr = ['.zip', '.tgz', '.png']
+        let typeArr = ['.zip', '.tgz', '.png', '.jpg']
         if (this.fileType === '.md') {
           this.markdownSource = res.data.content
         } else if (typeArr.includes(this.fileType)) {
@@ -157,7 +157,7 @@ export default {
       })
     },
     modifyFile () {
-      let unSupportTypes = ['.zip', '.tgz', '.png']
+      let unSupportTypes = ['.zip', '.tgz', '.png', 'jpg']
       if (unSupportTypes.includes(this.fileType)) {
         this.$message({
           showClose: true,
@@ -185,7 +185,11 @@ export default {
         this.markdownSource = '```yaml\r\n' + this.markdownSource + '\r\n```'
       }
       applicationEditorApi.modifyPkgFile(this.packageId, this.saveFileparams).then(res => {
+        this.$message.success(this.$t('toolBox.modifyPkgSuccess'))
         this.getFileContent(this.filePath, this.FileName)
+      }).catch(() => {
+        this.getFileContent(this.filePath, this.FileName)
+        this.$message.warning(this.$t('toolBox.modifyPkgFail'))
       })
     },
     confirm () {
