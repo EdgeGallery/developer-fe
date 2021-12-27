@@ -142,6 +142,8 @@ export default {
       }
     },
     getType (data) {
+      sessionStorage.setItem('currentApplicationId', data.id)
+      this.$emit('handleCurrentList')
       if (data !== '') {
         data.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
         sessionStorage.setItem('architecture', data.architecture)
@@ -183,6 +185,7 @@ export default {
             this.$store.commit('changeApp', '5G')
             this.$store.commit('changeFlow', '0')
           }
+          sessionStorage.removeItem('currentAppList')
         })
       })
     }

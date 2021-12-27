@@ -79,6 +79,7 @@
           :data-list="currentAppList"
           @putAway="putAway"
           @refreshList="refreshList"
+          @handleCurrentList="handleCurrentList"
           :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
           :zoom="zoom"
@@ -151,6 +152,24 @@ export default {
     }
   },
   methods: {
+    handleCurrentList () {
+      let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
+      let _num = 0
+      this.currentAppList.forEach(item => {
+        if (item.id === _currentApplicationId) {
+          _num++
+        }
+      })
+      if (_num === 0) {
+        this.allAppList.forEach(item => {
+          if (item.id === _currentApplicationId) {
+            this.currentAppList.splice(1, 0, item)
+            this.currentAppList.pop()
+          }
+        })
+        sessionStorage.setItem('currentAppList', JSON.stringify(this.currentAppList))
+      }
+    },
     changeView (val) {
       this.isViewActive = !val
       val ? this.$emit('zoomChanged', 3) : this.$emit('zoomChanged', 2)
@@ -209,7 +228,13 @@ export default {
         data.sort(function (a, b) {
           return b.createTime < a.createTime ? -1 : 1
         })
-        data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
+        let _currentAppList = JSON.parse(sessionStorage.getItem('currentAppList'))
+        if (_currentAppList) {
+          this.currentAppList = _currentAppList
+        } else {
+          data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
+        }
+        this.handleCurrentList()
       }).catch(err => {
         console.log(err)
       })
