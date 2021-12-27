@@ -15,7 +15,7 @@
  */
 
 import enLocale from 'element-ui/lib/locale/lang/en'
-const enAppstore = {
+const appstoreEn = {
   order: {
     orderMana: 'Order Management',
     orderNum: 'Order Number',
@@ -584,4 +584,4 @@ const enAppstore = {
   },
   ...enLocale
 }
-export default enAppstore
+export default appstoreEn

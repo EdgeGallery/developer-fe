@@ -38,7 +38,7 @@
                 class="defaultFontLight"
                 @close="handleDeleteTag(tag)"
               >
-                <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ language==='cn'?tag.twoLevelName:tag.twoLevelNameEn }}
+                <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ language==='cn'?tag.name||tag.twoLevelName:tag.nameEn||tag.twoLevelNameEn }}
               </el-tag>
             </div>
           </div>
@@ -361,6 +361,7 @@ export default {
           res.data.forEach(ser => {
             this.selectedServices.push(ser)
           })
+          console.log(this.selectedServices)
         }
       }).catch(err => {
         console.log(err)
