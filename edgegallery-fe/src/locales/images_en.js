@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const enImages = {
+const imagesEn = {
   appPackage: {
     appdTitle: 'App configuration&Preview',
     basicInfo: 'Basic Info',
@@ -72,4 +72,4 @@ const enImages = {
     noDependences: 'no Dependences'
   }
 }
-export default enImages
+export default imagesEn

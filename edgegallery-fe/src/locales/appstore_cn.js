@@ -15,7 +15,7 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-const cnAppstore = {
+const appstoreCn = {
   order: {
     orderMana: '订单管理',
     orderNum: '订单编号',
@@ -600,4 +600,4 @@ const cnAppstore = {
   about: {},
   ...zhLocale
 }
-export default cnAppstore
+export default appstoreCn

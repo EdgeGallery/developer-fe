@@ -15,7 +15,7 @@
  */
 
 import enLocale from 'element-ui/lib/locale/lang/en'
-const enThirdsystem = {
+const thirdsystemEn = {
   thirdSystem: {
     threeSystem: 'Third party system management',
     search: 'Please enter name to search',
@@ -55,4 +55,4 @@ const enThirdsystem = {
   },
   ...enLocale
 }
-export default enThirdsystem
+export default thirdsystemEn

@@ -168,10 +168,10 @@ export default {
         _this.vmImageInformation = data
       })
       this.bus.$on('getVmStartErr', function (data) {
-        this.startErrMsg = data
+        _this.startErrMsg = data
       })
       this.bus.$on('getVmExportErr', function (data) {
-        this.exportErrMsg = data
+        _this.exportErrMsg = data
       })
     },
     getVmDetail (vmId) {
@@ -188,7 +188,9 @@ export default {
           this.getVmDetailFlavor(res.data.flavorId)
 
           if (res.data.vmInstantiateInfo) {
-            this.vmTestInformation.status = res.data.vmInstantiateInfo.status
+            sandbox.getVmStatus(res.data.vmInstantiateInfo.operationId).then(res => {
+              this.vmTestInformation.status = res.data.status
+            })
             this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
           }
         }

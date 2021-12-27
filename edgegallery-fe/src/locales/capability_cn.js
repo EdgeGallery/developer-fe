@@ -14,6 +14,6 @@
  *  limitations under the License.
  */
 
-const cnCapability = {
+const capabilityCn = {
 }
-export default cnCapability
+export default capabilityCn

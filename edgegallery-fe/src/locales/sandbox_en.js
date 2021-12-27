@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const enSandbox = {
+const sandboxEn = {
   sandbox: {
     selectSandbox: 'Select Sandbox',
     sandboxDetail: 'Sandbox Detail',
@@ -166,4 +166,4 @@ const enSandbox = {
     addInternetTip: 'Network name cannot be empty!'
   }
 }
-export default enSandbox
+export default sandboxEn

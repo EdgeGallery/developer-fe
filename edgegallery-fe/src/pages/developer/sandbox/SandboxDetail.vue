@@ -433,6 +433,7 @@
       width="1100px"
       :class="isAddVmBtn?'showDialog':'hiddenDialog'"
       :visible.sync="showAddVm"
+      :close-on-click-modal="false"
     >
       <AddVm
         @addVmFinish="addVmFinish"
@@ -466,6 +467,7 @@
       class="default_dialog"
       width="900px"
       :visible.sync="showVmDetail"
+      :close-on-click-modal="false"
     >
       <VmDetail
         @closeVmDetail="closeVmDetail"
@@ -476,6 +478,7 @@
       class="default_dialog"
       width="700px"
       :visible.sync="showVmUploadFile"
+      :close-on-click-modal="false"
     >
       <VmUploadFile
         :application-id="applicationId"
@@ -1222,8 +1225,7 @@ export default {
     animation:move 2.5s linear infinite;
   }
   .swiper-container.vm-swiper{
-    padding-bottom: 35px;
-    margin: 40px 0 0;
+    padding: 40px 0;
     .swiper-slide{
       width: 720px !important;
     }

@@ -15,20 +15,6 @@
   -->
 <template>
   <div class="details-center-vm">
-    <p
-      v-if="startFailed"
-      class="failed hoverHands"
-      @click="startFailedMsg"
-    >
-      {{ $t('sandboxPromptInfomation.startFailed') }}
-    </p>
-    <p
-      v-if="exportFailed"
-      class="failed hoverHands"
-      @click="exportFailedMsg"
-    >
-      {{ $t('sandboxPromptInfomation.exportFailed') }}
-    </p>
     <div
       class="clear"
       :class="'vm-list-'+vmIndexProp"
@@ -53,6 +39,20 @@
         </li>
       </ul>
       <div class="vm-list-container lt">
+        <p
+          v-if="startFailed"
+          class="failed hoverHands"
+          @click="startFailedMsg"
+        >
+          {{ $t('sandboxPromptInfomation.startFailed') }}
+        </p>
+        <p
+          v-if="exportFailed"
+          class="failed hoverHands"
+          @click="exportFailedMsg"
+        >
+          {{ $t('sandboxPromptInfomation.exportFailed') }}
+        </p>
         <div
           class="flex-center details-center-vm-img"
           :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
@@ -384,11 +384,15 @@ export default {
       })
     },
     startFailedMsg () {
-      this.bus.$emit('getVmStartErr', this.getVmStartErr)
+      setTimeout(() => {
+        this.bus.$emit('getVmStartErr', this.getVmStartErr)
+      })
       this.checkVmDetail()
     },
     exportFailedMsg () {
-      this.bus.$emit('getVmExportErr', this.getVmExportErr)
+      setTimeout(() => {
+        this.bus.$emit('getVmExportErr', this.getVmExportErr)
+      })
       this.checkVmDetail()
     },
     deleteVm () {
@@ -406,6 +410,9 @@ export default {
         this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
       }, 0)
       this.$emit('checkVmDetail', 'showVmDetail')
+      setTimeout(() => {
+        this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+      }, 0)
     },
     startUpVm (data) {
       this.isClearVmImage = false
@@ -482,9 +489,10 @@ export default {
   .failed{
     position: absolute;
     top:-34px;
-    width: 150px;
+    width: 300px;
     text-align: center;
-    color: red;
+    color: #e15050;
+    font-size: 20px;
     text-decoration:underline
   }
   .vm-center-img{
