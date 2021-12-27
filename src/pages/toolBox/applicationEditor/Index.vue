@@ -215,6 +215,11 @@ export default {
       applicationEditorApi.getReleasedPackage({ name: this.enterQuery, limit: this.limitSize, offset: this.offsetPage }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
+        if (this.allListData) {
+          this.allListData.forEach(item => {
+            item.synchronizeDate = common.formatDate(item.synchronizeDate)
+          })
+        }
       }).catch(() => {
         this.loading = false
       })
