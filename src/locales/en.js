@@ -115,6 +115,9 @@ const en = {
     synchronizeDate: 'Synchronised time',
     publish: 'Publish',
     publishSuc: 'Publish Successful',
+    publishFail: 'Publish failed',
+    modifyPkgSuccess: 'Successfully modified',
+    modifyPkgFail: 'Fail to edit',
     appEditor: {
       checkModified: 'Change failure or no content is not modified',
       edit: 'Preview and edit',

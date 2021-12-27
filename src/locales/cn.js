@@ -115,6 +115,9 @@ const cn = {
     synchronizeDate: '同步时间',
     publish: '发布',
     publishSuc: '发布成功',
+    publishFail: '发布失败',
+    modifyPkgSuccess: '修改成功',
+    modifyPkgFail: '修改失败',
     appEditor: {
       checkModified: '修改失败或者未修改任何内容均不能发布',
       edit: '预览与编辑',
