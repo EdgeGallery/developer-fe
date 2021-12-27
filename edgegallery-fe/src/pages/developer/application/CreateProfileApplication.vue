@@ -104,7 +104,7 @@ export default {
     getListData () {
       applicationApi.getProfileDataList({ limit: 100, offset: 0 }).then(res => {
         this.profileData = res.data.results || []
-        this.isNoData = !(this.profileData.length > 0)
+        this.isNoData = this.profileData.length <= 0
       }).catch(err => {
         console.log(err)
       })

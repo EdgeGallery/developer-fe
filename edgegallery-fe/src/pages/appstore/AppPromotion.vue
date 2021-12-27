@@ -272,7 +272,6 @@ export default {
           this.appStoreList.push(_providerItem)
           index++
         })
-      }).catch(() => {
       })
     },
     showPushAppDialog (row) {
@@ -345,7 +344,6 @@ export default {
           item.targetPlatform = ['All']
         })
         this.currentPageData = this.findAppData = this.appPackageData
-      }).catch(() => {
       })
     },
     refreshCurrentData () {

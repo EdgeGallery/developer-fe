@@ -202,13 +202,16 @@ export default {
             itemBe.industry = itemBe.industry.replace(_first, _second)
           }
         })
-        TYPESFORAPP.forEach((itemFe) => {
-          if (itemBe.type.match(itemFe.label[1])) {
-            let _first = this.language === 'cn' ? itemFe.label[1] : itemFe.label[0]
-            let _second = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
-            itemBe.type = itemBe.type.replace(_first, _second)
-          }
-        })
+        this.handleAppstoreType()
+      })
+    },
+    handleAppstoreType (itemBe) {
+      TYPESFORAPP.forEach((itemFe) => {
+        if (itemBe.type.match(itemFe.label[1])) {
+          let _first = this.language === 'cn' ? itemFe.label[1] : itemFe.label[0]
+          let _second = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+          itemBe.type = itemBe.type.replace(_first, _second)
+        }
       })
     }
   }

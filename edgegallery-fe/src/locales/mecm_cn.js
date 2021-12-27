@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const cnMecm = {
   deployCommon: {
     name: '名称',
     version: '版本',
@@ -75,4 +75,4 @@ const cn = {
     getTemplateListFail: '获取参数失败'
   }
 }
-export default cn
+export default cnMecm

@@ -165,8 +165,8 @@ export default {
     getTaskId () {
       atpTestApi.submitTest(this.applicationId).then(res => {
         if (res.data) {
-          atpTestApi.getTestId(this.applicationId).then(res => {
-            this.taskId = res.data[0].id
+          atpTestApi.getTestId(this.applicationId).then(response => {
+            this.taskId = response.data[0].id
             this.isCreateSuc = false
           })
         } else {
@@ -277,7 +277,6 @@ export default {
       fd.append('scenarioIdList', this.scenarioIdList)
       atpApi.runTaskApi(this.taskId, fd).then(res => {
         this.$router.push({ path: '/EG/developer/testProcess', query: { taskId: this.taskId } })
-      }).catch(() => {
       })
     }
   },

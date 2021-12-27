@@ -128,7 +128,7 @@ export default {
   props: {
     commonDataProp: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     }
   },
   data () {

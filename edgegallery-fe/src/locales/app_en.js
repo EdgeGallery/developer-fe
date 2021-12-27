@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const en = {
+const enApp = {
   incubation: {
     zoomOut: 'Zoom out',
     search: 'Search',
@@ -140,4 +140,4 @@ const en = {
     produceEnv: 'Deployment'
   }
 }
-export default en
+export default enApp

@@ -264,7 +264,7 @@ export default {
     },
     commonDataProp: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     }
   },
   data () {

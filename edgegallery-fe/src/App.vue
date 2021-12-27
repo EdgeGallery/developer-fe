@@ -75,30 +75,6 @@
               >
             </el-tooltip>
           </div>
-          <!-- <div class="tips-box">
-            <el-tooltip
-              content="question"
-              effect="light"
-              placement="left"
-            >
-              <img
-                src="./assets/images/index/index_question.png"
-                alt="question"
-              >
-            </el-tooltip>
-          </div>
-          <div class="tips-box">
-            <el-tooltip
-              content="messages"
-              effect="light"
-              placement="left"
-            >
-              <img
-                src="./assets/images/index/index_message.png"
-                alt="talk"
-              >
-            </el-tooltip>
-          </div> -->
         </div>
       </el-col>
     </el-row>
@@ -137,9 +113,9 @@ export default {
   watch: {
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
-      this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > 0
+      this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > -1
       this.toPath = to.path
-      if (to.path.indexOf('EG') > 0 && to.path !== '/EG/developer/home') {
+      if (to.path.indexOf('EG') > -1 && to.path !== '/EG/developer/home') {
         this.isShowTips = true
       } else {
         this.isShowTips = false

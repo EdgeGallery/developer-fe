@@ -251,10 +251,7 @@ export default {
                 }, 1000)
               })
               .catch(() => {
-                this.$eg_messagebox(
-                  this.$t('deployConfig.deployFailed'),
-                  'info'
-                )
+                this.$eg_messagebox(this.$t('deployConfig.deployFailed'), 'info')
               })
           } else {
             appo
@@ -267,10 +264,7 @@ export default {
                 }, 6000 * len)
               })
               .catch(() => {
-                this.$eg_messagebox(
-                  this.$t('deployConfig.deployFailed'),
-                  'info'
-                )
+                this.$eg_messagebox(this.$t('deployConfig.deployFailed'), 'info')
               })
           }
         }
@@ -564,15 +558,13 @@ export default {
             height: 14px;
             border: solid 1px rgba(255, 255, 255, 0.3);
             border-radius: 50%;
+            background-color: transparent;
           }
           .is-checked .el-checkbox__inner {
             width: 14px;
             height: 14px;
             border: solid 1px #ffffff;
             border-radius: 50%;
-          }
-          .el-checkbox__inner {
-            background-color: transparent;
           }
           .el-checkbox__inner::after {
             content: "";
