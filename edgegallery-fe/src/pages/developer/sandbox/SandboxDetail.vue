@@ -912,7 +912,6 @@ export default {
         font-size: 20px;
         position: absolute;
         text-align: center;
-        opacity: 1;
       }
       .detail-center-title::after{
         z-index: -1;

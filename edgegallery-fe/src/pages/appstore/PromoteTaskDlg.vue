@@ -131,9 +131,9 @@ export default {
       this.promTask()
     },
     changeToProcess () {
-      for (let i = 0; i < this.appData.length; i++) {
-        for (let j = 0; j < this.promStoreList.length; j++) {
-          this.appData[i][this.promStoreList[j].label] = 'inProgress'
+      for (let value of this.appData) {
+        for (let valProm of this.promStoreList) {
+          value[valProm.label] = 'inProgress'
         }
       }
       let tempTableData = JSON.parse(JSON.stringify(this.appData))
@@ -177,7 +177,6 @@ export default {
             if (flagNumber === tempData.length) {
               this.updateResult()
             }
-          }).catch(() => {
           })
         }
         clearTimeout(_timer)
