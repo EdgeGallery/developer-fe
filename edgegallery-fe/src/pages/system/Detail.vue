@@ -676,7 +676,7 @@ export default {
       let id = data
       this.$confirm(this.$t('thirdSystem.deleteTip'), this.$t('thirdSystem.tip'), {
         confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.concel'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning',
         center: true
       }).then(() => {

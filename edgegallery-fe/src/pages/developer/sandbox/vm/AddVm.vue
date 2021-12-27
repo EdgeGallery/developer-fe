@@ -504,7 +504,7 @@
         >
           <el-input-number
             v-model="custom.systemDiskSize"
-            :min="50"
+            :min="1"
             :max="100"
           />
           <p class="company">
@@ -517,8 +517,8 @@
         >
           <el-input-number
             v-model="custom.dataDiskSize"
-            :min="10"
-            :max="200"
+            :min="1"
+            :max="500"
           />
           <p class="company">
             GB
