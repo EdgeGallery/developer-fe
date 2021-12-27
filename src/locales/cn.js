@@ -116,7 +116,7 @@ const cn = {
     publish: '发布',
     publishSuc: '发布成功',
     appEditor: {
-      checkModified: '请检查是否修改了文件',
+      checkModified: '修改失败或者未修改任何内容均不能发布',
       edit: '预览与编辑',
       checkMf: '发布应用前需要修改‘.mf’文件中的app_product_name,app_provider_id, app_package_version 三个字段中任意一个',
       editAppTitle: '选择需要修改的应用',
