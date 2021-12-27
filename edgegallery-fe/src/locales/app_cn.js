@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cnApp = {
+const appCn = {
   incubation: {
     zoomOut: '缩小',
     search: '搜索',
@@ -139,4 +139,4 @@ const cnApp = {
     produceEnv: '应用部署'
   }
 }
-export default cnApp
+export default appCn
