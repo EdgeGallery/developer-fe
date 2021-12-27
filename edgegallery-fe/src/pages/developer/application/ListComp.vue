@@ -101,8 +101,21 @@ export default {
       this.applicationId = item.id
       this.$emit('putAway', false)
       this.$store.commit('changeApp', item.name)
-      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGURED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
+      this.$store.commit('changeFlow', this.handleStatus(item.status))
       this.$router.push('/EG/developer/home')
+    },
+    handleStatus (status) {
+      if (status === 'CREATED') {
+        return '1'
+      } else if (status === 'CONFIGURED') {
+        return '2'
+      } else if (status === 'PACKAGED') {
+        return '4'
+      } else if (status === 'TESTED') {
+        return '5'
+      } else {
+        return '6'
+      }
     },
     createApplication () {
       sessionStorage.setItem('applicationId', '')
