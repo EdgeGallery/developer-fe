@@ -347,10 +347,10 @@ export default {
   }
   .container-detail-dlg-en{
     .content-left{
-      width: 135px !important;
+      width: 170px !important;
     }
     .content-right{
-      width: calc(100% - 135px) !important;
+      width: calc(100% - 170px) !important;
     }
   }
 }
