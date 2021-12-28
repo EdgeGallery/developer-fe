@@ -668,8 +668,9 @@ export default {
       this.editImgDefault = data.icon
       this.editId = data.id
       this.dialogVisibleEdit = true
-      let copy = Object.assign({}, data)
-      this.editForm = copy
+      system.getSystemDetail(this.editId).then(res => {
+        this.editForm = res.data
+      })
       this.editForm.password = ''
     },
     deleteSystem (data) {

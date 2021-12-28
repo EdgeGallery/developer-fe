@@ -51,6 +51,10 @@ let system = {
   searchSystem: function (params) {
     let url = URL_SYSTEM + '/nameLike/' + params
     return GET(url)
+  },
+  getSystemDetail: function (thirdSystemId) {
+    let url = URL_SYSTEM + '/' + thirdSystemId + '/action/display'
+    return GET(url)
   }
 }
 export {
