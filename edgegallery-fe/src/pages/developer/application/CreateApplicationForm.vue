@@ -523,7 +523,7 @@ export default {
         sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
         sessionStorage.setItem('architecture', this.applicationFormData.architecture)
         sessionStorage.setItem('pkgSpecId', this.applicationFormData.pkgSpecId)
-        this.$store.commit('changeFlow', '1')
+        this.$store.commit('changeFlow', '2')
         this.$store.commit('changeZoom', '2')
         sessionStorage.removeItem('currentAppList')
         sessionStorage.setItem('applicationId', res.data.id)

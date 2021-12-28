@@ -116,7 +116,7 @@ export default {
         let formData = new FormData()
         formData.append('iconFile', this.defaultIconFile[0])
         applicationApi.createProfileNewApp(this.profileId, formData).then(res => {
-          this.$store.commit('changeFlow', '1')
+          this.$store.commit('changeFlow', '2')
           this.$store.commit('changeZoom', '2')
           sessionStorage.setItem('applicationId', res.data.id)
           this.$message.success(this.$t('incubation.createSuc'))
