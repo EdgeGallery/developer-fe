@@ -210,7 +210,7 @@ export default {
       this.activeInfo = index
     },
     getImageUrl (iconFileId) {
-      return Workspace.getIconApi(iconFileId, this.userId)
+      return Workspace.getCapabilityIconApi(iconFileId)
     },
     viewServiceDetail (item, index) {
       sessionStorage.setItem('capaSelectDetailIndex', index)
