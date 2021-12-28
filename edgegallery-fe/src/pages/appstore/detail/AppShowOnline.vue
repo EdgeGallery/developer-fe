@@ -117,6 +117,12 @@
           width="0px"
           height="0px"
         />
+        <canvas
+          id="circleGroud"
+          class="circle-item"
+          width="0px"
+          height="0px"
+        />
       </div>
     </div>
     <div class="btnClass">
@@ -437,7 +443,7 @@ export default {
     circle (circleX, circleY, radius, lineWidth, ctx) {
       ctx.beginPath()
       ctx.lineWidth = lineWidth
-      ctx.strokeStyle = '#E6EAED'
+      ctx.strokeStyle = '#917BD6'
       ctx.arc(circleX, circleY, radius, (Math.PI * 2) / 3, (Math.PI * 1) / 3)
       ctx.stroke()
     },
@@ -451,9 +457,9 @@ export default {
         circleY
       )
       linGrad.addColorStop(0.0, this.progress === 0 ? '#53DABD' : '#4444D0')
-      linGrad.addColorStop(1.0, '#6724CB')
+      linGrad.addColorStop(1.0, '#3DE2EE')
       ctx.strokeStyle = linGrad
-      ctx.fillRect(0, 0, 175, 50)
+      // ctx.fillRect(0, 0, 175, 50)
       ctx.lineCap = 'round'
       ctx.arc(
         circleX,
@@ -481,8 +487,10 @@ export default {
       function circle (cx, cy, r) {
         _context.beginPath()
         _context.lineWidth = _lineWidth
-        _context.strokeStyle = '#E6EAED'
+        _context.strokeStyle = '#917BD6'
         _context.arc(cx, cy, r, 100, 0, (Math.PI * 1) / 3)
+        _context.fillStyle = '#4E3494'
+        _context.fill()
         _context.stroke()
       }
       function sector (cx, cy, r, startAngle, endAngle) {
@@ -589,7 +597,6 @@ export default {
           console.log(res.data)
           this.progress = res.data.data
         })
-      console.log(this.progress)
     },
     cleanTestEnv () {
       this.switchBtn = true
@@ -716,7 +723,6 @@ export default {
 .appShowOnline {
   margin: auto;
   border-radius: 16px;
-  background: #fff;
   .show_app {
     height: 550px;
     .show_common {

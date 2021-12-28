@@ -94,7 +94,7 @@
               prop="name"
               :label="$t('apppromotion.appName')"
               sortable="custom"
-              width="200"
+              width="180"
               :cell-class-name="hiddenClass"
             >
               <template slot-scope="scope">
