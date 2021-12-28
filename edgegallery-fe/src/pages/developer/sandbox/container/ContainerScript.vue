@@ -114,7 +114,14 @@
             @node-click="handleNodeClick"
             highlight-current
             :empty-text="$t('common.noData')"
-          />
+          >
+            <span
+              class="show-ellipsis"
+              slot-scope="{ node }"
+            >
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
+          </el-tree>
           <div
             class="file-content rt"
             id="file-content"
@@ -230,6 +237,7 @@ export default {
           this.hasValidate = true
           this.helmChartId = res.data.id
           this.helmChartFileList = res.data.helmChartFileList
+          this.$store.commit('changeFlow', '3')
           this.clickFirstNode()
         }
       }, (error) => {
@@ -460,6 +468,13 @@ export default {
         border-radius: 4px;
         overflow: hidden;
         overflow: auto;
+      }
+      .show-ellipsis {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
       .markdown-body code{
         font-size: 100%;
