@@ -44,7 +44,7 @@ const thirdsystemCn = {
     tooltipPassword: '请输入密码',
     addSystemSucess: '新建系统成功！',
     updateStstemSucess: '更新成功！',
-    deleteSystemSucess: '删除镜像成功！',
+    deleteSystemSucess: '删除数据成功！',
     or: '或',
     uploadRequire: '只能上传一张jpg/png文件',
     deleteTip: '请您确定是否删除？',

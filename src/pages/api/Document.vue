@@ -49,12 +49,11 @@ export default {
   },
   methods: {
     getMarkDown (guideFileId) {
-      console.log(guideFileId)
       let apiUrl
       if (guideFileId === 'competenceCenterUsageInstruction') {
         apiUrl = './mep-Introduction.md'
       } else {
-        apiUrl = Api.getSwaggerUrlApi(guideFileId, this.userId)
+        apiUrl = Api.getSwaggerUrlApi(guideFileId)
       }
       axios(apiUrl).then(res => {
         this.markdownSource = res.data

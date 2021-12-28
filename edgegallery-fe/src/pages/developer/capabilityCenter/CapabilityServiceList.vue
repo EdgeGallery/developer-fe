@@ -131,9 +131,6 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted () {
-    console.log(this.language)
   }
 }
 </script>
