@@ -810,6 +810,7 @@ export default {
         this.vmNetworkList = res.data
         if (this.isAddVm) {
           this.selectedNetworks = []
+          this.addvmImages.portList = []
           this.vmNetworkList.forEach(item => {
             this.selectedNetworks.push(item.name)
             this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
