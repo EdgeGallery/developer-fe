@@ -164,7 +164,6 @@ export default {
         const char1Type = this.getChartType(char1)
         const char2 = str2[i]
         const char2Type = this.getChartType(char2)
-        // 类型相同的逐个比较字符
         if (char1Type[0] === char2Type[0]) {
           if (char1 === char2) {
             continue
@@ -179,7 +178,6 @@ export default {
             break
           }
         } else {
-        // 类型不同的，直接用返回的数字相减
           res = char1Type[1] - char2Type[1]
           break
         }
@@ -187,8 +185,6 @@ export default {
       return res
     },
     getChartType (char) {
-      // 数字可按照排序的要求进行自定义，我这边产品的要求是
-      // 数字（0->9）->大写字母（A->Z）->小写字母（a->z）->中文拼音（a->z）
       if (/^[\u4e00-\u9fa5]$/.test(char)) {
         return ['zh', 300]
       }
