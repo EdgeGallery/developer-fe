@@ -191,6 +191,7 @@ export default {
     }
   },
   mounted () {
+    this.language = localStorage.getItem('language') || 'cn'
     this.loginFun()
     // Switch language
     let lanIndex = window.location.href.search('language')
