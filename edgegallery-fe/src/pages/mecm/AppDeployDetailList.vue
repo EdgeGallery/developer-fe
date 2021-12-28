@@ -37,7 +37,8 @@
           <el-table-column
             prop="name"
             width="150"
-            sortable
+            :sort-method="sortByName()"
+            sortable="true"
             :label="$t('deployCommon.name')"
           />
           <el-table-column
@@ -151,6 +152,49 @@ export default {
           )
         })
       })
+    },
+    sortByName (str1, str2) {
+      let res = 0
+      for (let i = 0; ;i++) {
+        if (!str1[i] || !str2[i]) {
+          res = str1.length - str2.length
+          break
+        }
+        const char1 = str1[i]
+        const char1Type = this.getChartType(char1)
+        const char2 = str2[i]
+        const char2Type = this.getChartType(char2)
+        if (char1Type[0] === char2Type[0]) {
+          if (char1 === char2) {
+            continue
+          } else {
+            if (char1Type[0] === 'zh') {
+              res = char1.localeCompare(char2)
+            } else if (char1Type[0] === 'en') {
+              res = char1.charCodeAt(0) - char2.charCodeAt(0)
+            } else {
+              res = char1 - char2
+            }
+            break
+          }
+        } else {
+          res = char1Type[1] - char2Type[1]
+          break
+        }
+      }
+      return res
+    },
+    getChartType (char) {
+      if (/^[\u4e00-\u9fa5]$/.test(char)) {
+        return ['zh', 300]
+      }
+      if (/^[a-zA-Z]$/.test(char)) {
+        return ['en', 200]
+      }
+      if (/^[0-9]$/.test(char)) {
+        return ['number', 100]
+      }
+      return ['others', 999]
     },
     getCurrentPageData (data) {
       this.currPageTableData = data
