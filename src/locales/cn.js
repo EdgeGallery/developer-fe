@@ -949,7 +949,7 @@ const cn = {
         versionEmpty: '系统版本号不能为空！',
         versionRule: '请输入有效的系统版本号，包含1-20个字符！',
         systemDiskEmpty: '系统磁盘大小不能为空！',
-        systemDiskRule: '请输入两到四位的整数！',
+        systemDiskRule: '请输入1-9999的整数！',
         uploadImg: '上传系统镜像',
         uploadImgPromt: '请上传qcow2或iso格式文件。',
         uploadContainerImgPromt: '上传tar格式的镜像包，通过解析tar包，重新命名格式镜像，推送到Harbor仓库，上传前检查tar包中镜像的名称是否包含/，如果包含可能会导致镜像路径混乱，后续的部署失败',

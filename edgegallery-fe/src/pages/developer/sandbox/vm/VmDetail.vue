@@ -198,7 +198,7 @@ export default {
     },
     getVmDetailImage (imageId) {
       sandbox.getVmDetailImage(imageId).then(res => {
-        this.vmBasicInformation.image = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+        this.vmBasicInformation.image = res.data.name + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
       })
     },
     getVmDetailFlavor (flavorId) {
