@@ -230,6 +230,14 @@ export default {
         })
         let _currentAppList = JSON.parse(sessionStorage.getItem('currentAppList'))
         if (_currentAppList) {
+          let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
+          applicationApi.getAppInfo(_currentApplicationId).then(res => {
+            _currentAppList.forEach(item => {
+              if (item.id === _currentApplicationId) {
+                item.status = res.data.status
+              }
+            })
+          })
           this.currentAppList = _currentAppList
         } else {
           data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
