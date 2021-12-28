@@ -527,6 +527,7 @@ export default {
         this.$store.commit('changeZoom', '2')
         sessionStorage.removeItem('currentAppList')
         sessionStorage.setItem('applicationId', res.data.id)
+        sessionStorage.setItem('currentApplicationId', res.data.id)
         this.$message.success(this.$t('incubation.addAppSuccess'))
         this.$store.commit('changeApp', res.data.name)
         this.$router.push('/EG/developer/home')
