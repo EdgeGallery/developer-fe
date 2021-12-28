@@ -599,7 +599,6 @@ export default {
     download (row) {
       this.ifDownloadImage(this.currentData, row)
       this.getAppData()
-      this.downloadNum++
     },
     checkProjectData () {
       INDUSTRY.forEach(itemFe => {
