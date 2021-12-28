@@ -130,6 +130,9 @@ export default {
     },
     currentFlow (val) {
       return Number(this.$store.state.currentFlow)
+    },
+    currentAppListTemp (val) {
+      return this.$store.state.currentAppListTemp
     }
   },
   data () {
@@ -149,6 +152,9 @@ export default {
   watch: {
     currentFlow (val) {
       this.initApplicationList()
+    },
+    currentAppListTemp (val) {
+      this.initApplicationList()
     }
   },
   methods: {
@@ -167,7 +173,6 @@ export default {
             this.currentAppList.pop()
           }
         })
-        sessionStorage.setItem('currentAppList', JSON.stringify(this.currentAppList))
       }
     },
     changeView (val) {
@@ -228,20 +233,24 @@ export default {
         data.sort(function (a, b) {
           return b.createTime < a.createTime ? -1 : 1
         })
-        let _currentAppList = JSON.parse(sessionStorage.getItem('currentAppList'))
-        if (_currentAppList) {
-          let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
-          applicationApi.getAppInfo(_currentApplicationId).then(res => {
-            _currentAppList.forEach(item => {
-              if (item.id === _currentApplicationId) {
-                item.status = res.data.status
-              }
-            })
-          })
-          this.currentAppList = _currentAppList
-        } else {
+        if (this.currentFlow <= 2) {
           data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
+          this.$store.commit('currentAppList', this.currentAppList)
+        } else {
+          let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
+          if (this.currentAppListTemp.length > 0 && _currentApplicationId) {
+            applicationApi.getAppInfo(_currentApplicationId).then(res => {
+              this.currentAppListTemp.forEach(item => {
+                if (item.id === _currentApplicationId) {
+                  item.status = res.data.status
+                }
+              })
+            })
+            this.currentAppList = this.currentAppListTemp
+          }
         }
+
+        sessionStorage.setItem('currentAppList', JSON.stringify(this.currentAppList))
         this.handleCurrentList()
       }).catch(err => {
         console.log(err)

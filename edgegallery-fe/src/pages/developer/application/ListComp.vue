@@ -106,9 +106,9 @@ export default {
     },
     handleStatus (status) {
       if (status === 'CREATED') {
-        return '1'
-      } else if (status === 'CONFIGURED') {
         return '2'
+      } else if (status === 'CONFIGURED') {
+        return '3'
       } else if (status === 'PACKAGED') {
         return '4'
       } else if (status === 'TESTED') {
@@ -186,6 +186,7 @@ export default {
             this.$store.commit('changeFlow', '0')
           }
           sessionStorage.removeItem('currentAppList')
+          sessionStorage.removeItem('currentApplicationId')
         })
       })
     }
