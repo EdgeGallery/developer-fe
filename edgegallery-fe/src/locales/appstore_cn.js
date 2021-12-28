@@ -15,7 +15,7 @@
  */
 
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-const cn = {
+const appstoreCn = {
   order: {
     orderMana: '订单管理',
     orderNum: '订单编号',
@@ -518,6 +518,7 @@ const cn = {
     prepare: '准备',
     pushing: '推送中',
     pushFail: '推送app失败',
+    warehouseTip: '请确认有无外部仓库！',
     pushResult: '推送结果',
     number: '序号',
     appName: '应用名称',
@@ -588,39 +589,15 @@ const cn = {
     haveNoAnaData: '暂无操作分析数据！',
     existSameAppstoreName: '已存在同名外部仓库，请重新编辑外部仓库名称'
   },
-  thirdSystem: {
-    threeSystem: '三方系统管理',
-    search: '请输入名称进行搜索',
-    allNum: '总数',
-    active: '激活',
-    invalid: '失效',
-    systemName: '系统名称',
-    url: 'URL',
-    region: '部署区域',
-    product: '产品',
-    vendor: '厂商',
-    version: '版本',
-    status: '状态',
-    username: '用户名',
-    password: '密码',
-    systemDetail: '系统详情',
-    icon: '图标',
-    deleteSucess: '删除成功',
-    tootipSystemName: '请输入系统名称',
-    tootipProduct: '请输入产品名称',
-    tootipUrl: '请输入URL',
-    tootipVersion: '请输入版本信息',
-    tooltipRegion: '请输入部署区域',
-    tooltipVendor: '请输入厂商名称',
-    tooltipUsername: '请输入用户名',
-    tooltipPassword: '请输入密码',
-    addSystemSucess: '新建系统成功！',
-    updateStstemSucess: '更新成功！',
-    deleteSystemSucess: '删除镜像成功！',
-    or: '或',
-    uploadRequire: '只能上传一张jpg/png文件'
+  appOnline: {
+    startExperience: '点击在线体验按钮,马上进行体验...',
+    waitUploadApp: '正在上传应用,请耐心等待...',
+    waitDistributeApp: '正在分发应用,请耐心等待...',
+    waitGetInstantiatedInfo: '正在获取实例化信息,请耐心等待...',
+    waitInstantiatedApp: '正在实例化应用，请耐心等待...',
+    deployFinished: '应用部署已完成'
   },
   about: {},
   ...zhLocale
 }
-export default cn
+export default appstoreCn

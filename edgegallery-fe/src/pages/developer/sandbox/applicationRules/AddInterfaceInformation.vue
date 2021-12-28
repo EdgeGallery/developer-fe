@@ -28,7 +28,7 @@
       :model="interfaceInformationForm"
     >
       <el-form-item
-        label="interfaceType"
+        :label="$t('rulesConfig.interfaceType')"
       >
         <el-select
           v-model="interfaceInformationForm.interfaceType"
@@ -128,7 +128,7 @@ export default {
   props: {
     commonDataProp: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     }
   },
   data () {

@@ -15,12 +15,6 @@
  *  limitations under the License.
  */
 
-// import {
-//   GET,
-//   POST,
-//   PUT,
-//   DELETE
-// } from './request.js'
 import {
   PLATFORM_LIST,
   PROXY_PREFIX_CURRENTSERVER,
@@ -78,8 +72,8 @@ function formatDateTime (dateStr) {
       (s > 9 ? s : '0' + s)
 }
 function filterArr (arr) {
-  return arr.filter(function (item, index, arr) {
-    return arr.indexOf(item, 0) === index
+  return arr.filter(function (item, index, arrSub) {
+    return arrSub.indexOf(item, 0) === index
   })
 }
 export {

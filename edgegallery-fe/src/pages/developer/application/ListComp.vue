@@ -4,8 +4,8 @@
       v-for="(item,index) in dataList"
       :key="index"
       class="app-item"
-      @mouseenter="isShowCreate=!isShowCreate"
-      @mouseleave="isShowCreate=!isShowCreate"
+      @mouseenter="item.id===0 ? isShowCreate=!isShowCreate : ''"
+      @mouseleave="item.id===0 ? isShowCreate=!isShowCreate : ''"
       @click.stop="item.id===0?'':checkProjectDetail(item)"
     >
       <div
@@ -101,8 +101,21 @@ export default {
       this.applicationId = item.id
       this.$emit('putAway', false)
       this.$store.commit('changeApp', item.name)
-      this.$store.commit('changeFlow', item.status === 'CREATED' ? '1' : (item.status === 'CONFIGURED' ? '3' : (item.status === 'PACKAGED' ? '4' : (item.status === 'TESTED' ? '5' : '6'))))
+      this.$store.commit('changeFlow', this.handleStatus(item.status))
       this.$router.push('/EG/developer/home')
+    },
+    handleStatus (status) {
+      if (status === 'CREATED') {
+        return '1'
+      } else if (status === 'CONFIGURED') {
+        return '2'
+      } else if (status === 'PACKAGED') {
+        return '4'
+      } else if (status === 'TESTED') {
+        return '5'
+      } else {
+        return '6'
+      }
     },
     createApplication () {
       sessionStorage.setItem('applicationId', '')
@@ -129,9 +142,12 @@ export default {
       }
     },
     getType (data) {
+      sessionStorage.setItem('currentApplicationId', data.id)
+      this.$emit('handleCurrentList')
       if (data !== '') {
         data.appClass === 'VM' ? sessionStorage.setItem('vimType', 'OpenStack') : sessionStorage.setItem('vimType', 'K8S')
         sessionStorage.setItem('architecture', data.architecture)
+        sessionStorage.setItem('pkgSpecId', data.pkgSpecId)
       }
       sessionStorage.setItem('loadtype', data.appClass === 'VM' ? 'vm' : 'container')
     },
@@ -169,6 +185,7 @@ export default {
             this.$store.commit('changeApp', '5G')
             this.$store.commit('changeFlow', '0')
           }
+          sessionStorage.removeItem('currentAppList')
         })
       })
     }
@@ -211,14 +228,14 @@ export default {
     }
   }
   .down_div{
-    width: 105px;
+    width: 135px;
     position: fixed;
     z-index: 9999;
     left: 120px;
     top: 160px;
     border-radius: 4px;
     font-size: 16px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: rgba(255, 255, 255, 1);
     background: #290E74;
     .transition-box{

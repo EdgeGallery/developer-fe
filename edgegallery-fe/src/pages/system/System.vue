@@ -112,6 +112,7 @@ export default {
 
 <style lang='less'>
 .system{
+  margin-left: 7%;
   width: 100%;
   height: 100%;
   .thirdSystem{

@@ -15,21 +15,10 @@
   -->
 <template>
   <div class="details-center-vm">
-    <p
-      v-if="startFailed"
-      class="failed hoverHands"
-      @click="startFailedMsg"
+    <div
+      class="clear"
+      :class="'vm-list-'+vmIndexProp"
     >
-      {{ $t('sandboxPromptInfomation.startFailed') }}
-    </p>
-    <p
-      v-if="exportFailed"
-      class="failed hoverHands"
-      @click="exportFailedMsg"
-    >
-      {{ $t('sandboxPromptInfomation.exportFailed') }}
-    </p>
-    <div :class="'vm-list-'+vmIndexProp">
       <ul
         class="ul-scoll lt"
         :class="'ul-scoll-'+vmIndexProp"
@@ -50,6 +39,20 @@
         </li>
       </ul>
       <div class="vm-list-container lt">
+        <p
+          v-if="startFailed"
+          class="failed hoverHands"
+          @click="startFailedMsg"
+        >
+          {{ $t('sandboxPromptInfomation.startFailed') }}
+        </p>
+        <p
+          v-if="exportFailed"
+          class="failed hoverHands"
+          @click="exportFailedMsg"
+        >
+          {{ $t('sandboxPromptInfomation.exportFailed') }}
+        </p>
         <div
           class="flex-center details-center-vm-img"
           :class="{'details-center-vm-img-finish':isStartUpVmSuccess}"
@@ -95,9 +98,8 @@
             <div
               class="vm-btn flex-column vm-btn-detail hoverHands"
               @click="checkVmDetail"
-              :class="!isAddVmFinish ? 'img-onlyRead':'img-click'"
               @mouseleave="detailGreen=false"
-              @mouseenter="isAddVmFinish?detailGreen=true:detailGreen=false"
+              @mouseenter="detailGreen=true"
             >
               <img
                 v-if="!detailGreen"
@@ -114,7 +116,7 @@
             <div
               class="vm-btn flex-column hoverHands"
               :class="!isStartUpVmSuccess ? 'img-onlyRead':'img-click'"
-              @mouseleave="loginGreen=false"
+              @mouseleave="loginGreen=false,isShowRemote=false"
               @mouseenter="isStartUpVmSuccess?loginGreen=true:loginGreen=false,isShowRemote=true"
             >
               <img
@@ -132,6 +134,8 @@
             <div
               v-if="isShowRemote"
               class="down_div"
+              @mouseleave="isShowRemote=false"
+              @mouseenter="isShowRemote=true"
             >
               <div
                 class="transition-box"
@@ -316,9 +320,9 @@ export default {
   methods: {
     getVmlistsStatus () {
       if (this.vmListsDetail.imageId !== 0) {
-        this.isBtnStart = true
         this.isAddVmFinish = true
       }
+      this.isBtnStart = !this.vmListsDetail.vmInstantiateInfo
       if (this.vmListsDetail.vmInstantiateInfo && this.vmListsDetail.vmInstantiateInfo.operationId) {
         this.getVmStatus(this.vmListsDetail.vmInstantiateInfo.operationId)
         this.timer = setInterval(() => {
@@ -339,19 +343,21 @@ export default {
         if (res.data.status === 'SUCCESS') {
           this.isStartUpVmSuccess = true
           this.isStartupVmFinish = true
-          this.isBtnStart = false
           this.$emit('startUpVm', this.isStartupVmFinish)
           clearTimeout(this.timer)
-        }
-        if (res.data.status === 'FAILED') {
+        } else if (res.data.status === 'FAILED') {
           this.getVmStartErr = res.data.errorMsg
           this.isStartUpVmSuccess = false
           this.startFailed = true
           this.isStartupVmFinish = true
           this.$emit('startUpVm', this.isStartupVmFinish)
           clearTimeout(this.timer)
+        } else {
+          this.isStartupVmFinish = false
         }
+        this.isBtnStart = false
       }).catch(() => {
+        this.isBtnStart = true
         clearTimeout(this.timer)
       })
     },
@@ -366,7 +372,9 @@ export default {
             this.vmImageInformation.imageName = response.data[0].imageExportInfo.name
             this.vmImageInformation.status = response.data[0].imageExportInfo.status
             this.vmImageInformation.downloadUrl = response.data[0].imageExportInfo.downloadUrl
-            this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+            setTimeout(() => {
+              this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+            }, 0)
           })
           this.isExportImageFinish = false
           clearTimeout(this.timerExport)
@@ -376,11 +384,15 @@ export default {
       })
     },
     startFailedMsg () {
-      this.bus.$emit('getVmStartErr', this.getVmStartErr)
+      setTimeout(() => {
+        this.bus.$emit('getVmStartErr', this.getVmStartErr)
+      })
       this.checkVmDetail()
     },
     exportFailedMsg () {
-      this.bus.$emit('getVmExportErr', this.getVmExportErr)
+      setTimeout(() => {
+        this.bus.$emit('getVmExportErr', this.getVmExportErr)
+      })
       this.checkVmDetail()
     },
     deleteVm () {
@@ -390,15 +402,22 @@ export default {
         }).catch(() => {
           this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
-      }).catch(() => {})
+      }).catch(() => {
+      })
     },
     checkVmDetail () {
-      this.bus.$emit('checkVmDetail', this.vmId)
+      setTimeout(() => {
+        this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
+      }, 0)
       this.$emit('checkVmDetail', 'showVmDetail')
+      setTimeout(() => {
+        this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
+      }, 0)
     },
     startUpVm (data) {
       this.isClearVmImage = false
       this.isStartupVm = true
+      this.isStartupVmFinish = false
       sandbox.getVmPullId(this.applicationId, data).then(res => {
         this.operationId = res.data.operationId
         this.timer = setInterval(() => {
@@ -427,7 +446,7 @@ export default {
     },
     uploadVmFile () {
       sessionStorage.setItem('vmId', this.vmId)
-      this.$emit('uploadVmFile', 'showVmUploadFile')
+      this.$emit('uploadVmFile')
     },
     handleNetworkLists () {
       let _arrTemp = []
@@ -444,6 +463,7 @@ export default {
         this.isBtnStart = true
         this.isStartUpVmSuccess = false
       }
+      this.getVmlistsStatus()
     },
     clearState: function (val) {
       if (val === 'clear') {
@@ -451,8 +471,6 @@ export default {
         this.exportFailed = false
       }
     }
-  },
-  created () {
   },
   mounted () {
     this.handleNetworkLists()
@@ -471,9 +489,10 @@ export default {
   .failed{
     position: absolute;
     top:-34px;
-    width: 150px;
+    width: 300px;
     text-align: center;
-    color: red;
+    color: #e15050;
+    font-size: 20px;
     text-decoration:underline
   }
   .vm-center-img{
@@ -539,8 +558,8 @@ export default {
       text-align: center;
       span{
         display: inline-block;
-        width: 6px;
-        height: 6px;
+        width: 10px;
+        height: 10px;
         background: #4CD473;
         border-radius: 50%;
         margin: 0 5px;
@@ -559,7 +578,7 @@ export default {
     }
   }
 }
-.vm-list-container:hover{
+.details-center-vm-img:hover{
   .vm-bg:hover{
     z-index: 1;
     opacity: 0.9;
@@ -592,6 +611,12 @@ export default {
     height: 100%;
     backdrop-filter: blur(4px);
   }
+  .vm-status{
+    display: none;
+  }
+  .vm-center-img{
+    opacity: 0.1;
+  }
 }
 .details-center-vm-img{
   width: 300px;
@@ -606,16 +631,6 @@ export default {
   background: rgba(212, 202, 255, .25);
   border-radius: 20px;
 }
-.details-center-vm-img:hover{
-  .vm-status{
-    display: none;
-  }
-}
-.vm-list-container:hover{
-  .vm-center-img{
-    opacity: 0.1;
-  }
-}
 .down_div{
     width: 170px;
     position: fixed;
@@ -624,7 +639,7 @@ export default {
     top: 95px;
     border-radius: 4px;
     font-size: 14px;
-    font-family: defaultFontLight;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     color: #ffffff;
     background: #290E74;
     .transition-box{

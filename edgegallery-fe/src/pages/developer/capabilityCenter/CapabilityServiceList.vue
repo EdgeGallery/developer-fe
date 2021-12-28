@@ -57,6 +57,7 @@
 import { applicationApi } from '../../../api/developerApi.js'
 import { formatDate } from '../../../tools/common.js'
 export default {
+  name: 'CapabilityServiceList',
   props: {
     language: {
       type: String,
@@ -76,10 +77,14 @@ export default {
   data () {
     return {
       activeInfo: -1,
-      appId: sessionStorage.getItem('applicationId')
+      appId: sessionStorage.getItem('applicationId'),
+      isApiAmulator: false
     }
   },
   methods: {
+    viewServiceDetail (item) {
+      this.$emit('openDlg', item)
+    },
     getImageUrl (iconFileId) {
       return applicationApi.getAbilityIconApi(iconFileId)
     },
@@ -110,9 +115,9 @@ export default {
           console.log(err)
         })
       } else {
-        this.selectedServices.forEach((ser, index) => {
+        this.selectedServices.forEach((ser, indexSub) => {
           if (ser.id === data.id) {
-            this.selectedServices.splice(index, 1)
+            this.selectedServices.splice(indexSub, 1)
             this.deleteServices(ser.id)
           }
         })
@@ -126,9 +131,6 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted () {
-    console.log(this.language)
   }
 }
 </script>
@@ -179,7 +181,7 @@ export default {
         font-size: 18px;
         margin-bottom: 5px;
         color: #fff;
-        font-family: defaultFont;
+        font-family: defaultFont, Arial, Helvetica, sans-serif;
       }
       .detail{
         float: right;
@@ -205,7 +207,7 @@ export default {
         color: #fff;
         font-size: 16px;
         line-height: 21px;
-        font-family: defaultFontLight;
+        font-family: defaultFontLight, Arial, Helvetica, sans-serif;
         margin-bottom: 5px;
         .hot{
           margin-right: 15px;

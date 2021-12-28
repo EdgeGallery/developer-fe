@@ -15,7 +15,7 @@
  */
 
 import enLocale from 'element-ui/lib/locale/lang/en'
-const en = {
+const appstoreEn = {
   order: {
     orderMana: 'Order Management',
     orderNum: 'Order Number',
@@ -502,6 +502,7 @@ const en = {
     pushing: 'Pushing',
     pushResult: 'Push Result',
     pushFail: 'Failed to push app',
+    warehouseTip: 'Please confirm whether there is an external warehouse!',
     number: 'number',
     appName: 'App Name',
     provider: 'Provider',
@@ -571,40 +572,16 @@ const en = {
     haveNoAnaData: 'No operation analyse data!',
     existSameAppstoreName: 'An external appstore with the same name already exists, please edit the name of the external appstore again!'
   },
-  thirdSystem: {
-    threeSystem: 'Third party system management',
-    search: 'Please enter name to search',
-    allNum: 'allNum',
-    active: 'active',
-    invalid: 'invalid',
-    systemName: 'name',
-    url: 'URL',
-    region: 'region',
-    product: 'product',
-    vendor: 'factory',
-    version: 'vison',
-    status: 'state',
-    username: 'user',
-    password: 'password',
-    systemDetail: 'System details',
-    icon: 'icon',
-    deleteSucess: 'delete sucess',
-    tootipSystemName: 'Please enter the system name',
-    tootipProduct: 'Please enter the product name',
-    tootipUrl: 'Please enter URL',
-    tootipVersion: 'Please enter version information',
-    tooltipRegion: 'Please enter deployment area',
-    tooltipVendor: 'Please enter the vendor ',
-    tooltipUsername: 'Please enter the username',
-    tooltipPassword: 'Please enter the password',
-    addSystemSucess: 'New message succeeded!',
-    updateStstemSucess: 'Update succeeded!',
-    deleteSystemSucess: 'Delete succeeded!',
-    or: 'or',
-    uploadRequire: 'Only one JPG / PNG file can be uploaded'
+  appOnline: {
+    startExperience: 'Click the online experience button to experience immediately...',
+    waitUploadApp: 'Aploading app, please wait...',
+    waitDistributeApp: 'App is being distributed, please wait patiently...',
+    waitGetInstantiatedInfo: 'Getting instantiation information, please wait patiently...',
+    waitInstantiatedApp: 'App is being instantiated, please wait patiently',
+    deployFinished: 'Application deployment completed'
   },
   about: {
   },
   ...enLocale
 }
-export default en
+export default appstoreEn

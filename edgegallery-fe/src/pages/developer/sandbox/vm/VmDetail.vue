@@ -16,7 +16,7 @@
 <template>
   <div class="vm-detail">
     <div
-      class="common-div-bg vm-detail-dlg"
+      class="vm-detail-dlg"
       :class="{'vm-detail-dlg-en':language==='en'}"
     >
       <h3 class="common-dlg-title">
@@ -104,16 +104,16 @@
         </p>
       </div>
 
-      <div class="btn-container network-btn">
+      <div class="btn-container vmdetail-btn">
         <el-button
-          id="btn_confirm"
+          id="btn_editVmDetail"
           class="common-btn"
           @click="editVmDetail"
         >
           {{ $t('common.edit') }}
         </el-button>
         <el-button
-          id="btn_confirm"
+          id="btn_closeVmDetail"
           class="common-btn"
           @click="closeVmDetail"
         >
@@ -146,17 +146,19 @@ export default {
       language: localStorage.getItem('language') || 'cn',
       vmDetail: {},
       startErrMsg: '',
-      exportErrMsg: ''
+      exportErrMsg: '',
+      vmIndex: -1
     }
   },
   methods: {
     closeVmDetail () {
-      this.$emit('closeVmDetail')
+      this.$emit('closeVmDetail', this.vmDetail, this.vmIndex)
     },
     checkVmDetail () {
       let _this = this
-      this.bus.$on('checkVmDetail', function (data) {
+      this.bus.$on('checkVmDetail', function (data, index) {
         _this.vmId = data
+        _this.vmIndex = index
         _this.getVmDetail(_this.vmId)
       })
     },
@@ -166,10 +168,10 @@ export default {
         _this.vmImageInformation = data
       })
       this.bus.$on('getVmStartErr', function (data) {
-        this.startErrMsg = data
+        _this.startErrMsg = data
       })
       this.bus.$on('getVmExportErr', function (data) {
-        this.exportErrMsg = data
+        _this.exportErrMsg = data
       })
     },
     getVmDetail (vmId) {
@@ -186,7 +188,9 @@ export default {
           this.getVmDetailFlavor(res.data.flavorId)
 
           if (res.data.vmInstantiateInfo) {
-            this.vmTestInformation.status = res.data.vmInstantiateInfo.status
+            sandbox.getVmStatus(res.data.vmInstantiateInfo.operationId).then(res => {
+              this.vmTestInformation.status = res.data.status
+            })
             this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
           }
         }
@@ -194,7 +198,7 @@ export default {
     },
     getVmDetailImage (imageId) {
       sandbox.getVmDetailImage(imageId).then(res => {
-        this.vmBasicInformation.image = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+        this.vmBasicInformation.image = res.data.name + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
       })
     },
     getVmDetailFlavor (flavorId) {
@@ -203,7 +207,9 @@ export default {
       })
     },
     editVmDetail () {
-      this.bus.$emit('editVmDetail', this.vmDetail)
+      setTimeout(() => {
+        this.bus.$emit('editVmDetail', this.vmDetail)
+      }, 0)
       this.$emit('editVmDetail')
     }
   },
@@ -226,28 +232,22 @@ export default {
   position: relative;
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .vm-detail-dlg{
-    position: absolute;
-    width: 900px;
-    padding: 40px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     .vm-content{
       padding: 16px 40px;
       border-radius: 8px;
       background: rgba(255,255,255,.1);
-      font-size: 16px;
+      font-size: 18px;
       line-height: 30px;
       margin-top: 15px;
       p{
         margin-bottom: 10px;
         .content-left{
-          width: 100px;
+          width: 110px;
           text-align: right;
           padding-right: 5px;
         }
         .content-right{
-          width: calc(100% - 100px);
+          width: calc(100% - 110px);
         }
         .node-span{
           display: block;
@@ -261,10 +261,10 @@ export default {
   }
   .vm-detail-dlg-en{
     .content-left{
-      width: 160px !important;
+      width: 180px !important;
     }
     .content-right{
-      width: calc(100% - 160px) !important;
+      width: calc(100% - 180px) !important;
     }
   }
 }

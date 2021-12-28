@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const en = {
+const mecmEn = {
   deployCommon: {
     name: 'Name',
     version: 'Version',
@@ -75,4 +75,4 @@ const en = {
     getTemplateListFail: 'Failed to get parameters'
   }
 }
-export default en
+export default mecmEn

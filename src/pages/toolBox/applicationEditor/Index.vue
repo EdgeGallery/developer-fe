@@ -215,6 +215,11 @@ export default {
       applicationEditorApi.getReleasedPackage({ name: this.enterQuery, limit: this.limitSize, offset: this.offsetPage }).then(res => {
         this.allListData = res.data.results || []
         this.listTotal = res.data.total
+        if (this.allListData) {
+          this.allListData.forEach(item => {
+            item.synchronizeDate = common.formatDate(item.synchronizeDate)
+          })
+        }
       }).catch(() => {
         this.loading = false
       })
@@ -232,14 +237,14 @@ export default {
         price: 0
       }
       applicationEditorApi.publishModifyApp(row.appStorePackageId, _parameter).then(res => {
-        if (res.data === false) {
-          this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
-        } else {
-          this.$eg_messagebox(this.$t('toolBox.publishSuc'), 'success')
-        }
+        this.$eg_messagebox(this.$t('toolBox.publishSuc'), 'success')
       }).catch((error) => {
         if (error.response.data.message === 'upload app to appstore fail!') {
+          this.$eg_messagebox(this.$t('toolBox.appEditor.checkMf'), 'warning')
+        } else if (error.response.data.message === 'can not found app package(.csar)') {
           this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
+        } else {
+          this.$message.warning(this.$t('toolBox.publishFail'))
         }
       })
     },

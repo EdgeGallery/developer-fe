@@ -16,17 +16,21 @@
 <template>
   <div class="addVm">
     <div
-      class="common-div-bg addVm-bg"
+      class="addVm-bg"
       v-if="!customSpecs"
     >
       <el-collapse
         v-model="activeNames"
         class="vmCollapse"
+        accordion
       >
         <el-collapse-item
-          :title="$t('sandbox.vmInformation')"
           name="1"
         >
+          <span
+            class="collapse-title"
+            slot="title"
+          >{{ $t('sandbox.vmInformation') }}<strong class="required">*</strong></span>
           <div class="vm-info">
             <div class="addVm-top-title">
               <p>
@@ -55,6 +59,88 @@
                 v-model="addvmImages.vmCertificate.pwdCertificate.password"
                 :placeholder="$t('common.enterPassword')"
               />
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item
+          name="4"
+        >
+          <span
+            class="collapse-title"
+            slot="title"
+          >{{ $t('sandbox.selectImage') }}<strong class="required">*</strong></span>
+          <div class="selectImage-content">
+            <div class="selectImage-public defaultFontLight">
+              <el-radio
+                class="common-radio"
+                label="public"
+                v-model="vmInfo.imageType"
+                @change="changeImageType('public')"
+              >
+                {{ $t('sandbox.imageType.publicImage') }}
+              </el-radio>
+              <el-select
+                v-model="vmInfo.publicSystemName"
+                :placeholder="$t('common.pleaseSelect')"
+                @change="changePublicType(vmInfo.publicSystemName)"
+                :disabled="vmInfo.imageType === 'private'"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.publicSystemType"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+              <el-select
+                v-model="vmInfo.publicId"
+                :placeholder="$t('common.pleaseSelect')"
+                @change="changePublicImageSize"
+                :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.publicImageOptions"
+                  :key="index"
+                  :label="item.systemImage"
+                  :value="item.id"
+                />
+              </el-select>
+            </div>
+            <div class="selectImage-public defaultFontLight">
+              <el-radio
+                class="common-radio"
+                v-model="vmInfo.imageType"
+                label="private"
+                @change="changeImageType('private')"
+              >
+                {{ $t('sandbox.imageType.privateImage') }}
+              </el-radio>
+              <el-select
+                v-model="vmInfo.privateSystemName"
+                @change="changePrivateType(vmInfo.privateSystemName)"
+                :placeholder="$t('common.pleaseSelect')"
+                :disabled="vmInfo.imageType === 'public'"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.privateSystemType"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+              <el-select
+                v-model="vmInfo.privateId"
+                :placeholder="$t('common.pleaseSelect')"
+                @change="changePublicImageSize"
+                :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
+              >
+                <el-option
+                  v-for="(item,index) in vmInfo.privateImageOptions"
+                  :key="index"
+                  :label="item.systemImage"
+                  :value="item.id"
+                />
+              </el-select>
             </div>
           </div>
         </el-collapse-item>
@@ -157,7 +243,7 @@
         >
           <div class="internetInfos">
             <el-table
-              class="common-table network-table vm-table"
+              class="common-table vm-table"
               :data="vmNetworkList"
             >
               <el-table-column width="35">
@@ -177,127 +263,118 @@
                 show-overflow-tooltip
               />
               <el-table-column
+                prop="description"
                 :label="$t('common.describe')"
-              >
-                <template slot-scope="scope">
-                  {{ scope.row.description }}
-                </template>
-              </el-table-column>
+                show-overflow-tooltip
+              />
             </el-table>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          :title="$t('sandbox.selectImage')"
-          name="4"
-        >
-          <div class="selectImage-content">
-            <div class="selectImage-public defaultFontLight">
-              <el-radio
-                class="common-radio"
-                label="public"
-                v-model="vmInfo.imageType"
-                @change="changeImageType('public')"
-              >
-                {{ $t('sandbox.imageType.publicImage') }}
-              </el-radio>
-              <el-select
-                v-model="vmInfo.publicSystemName"
-                :placeholder="$t('common.pleaseSelect')"
-                @change="changePublicType(vmInfo.publicSystemName)"
-                :disabled="vmInfo.imageType === 'private'"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.publicSystemType"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                />
-              </el-select>
-              <el-select
-                v-model="vmInfo.publicId"
-                :placeholder="$t('common.pleaseSelect')"
-                :disabled="vmInfo.imageType === 'private'|| vmInfo.publicSystemName ==''"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.publicImageOptions"
-                  :key="index"
-                  :label="item.systemImage"
-                  :value="item.id"
-                />
-              </el-select>
-            </div>
-            <div class="selectImage-public defaultFontLight">
-              <el-radio
-                class="common-radio"
-                v-model="vmInfo.imageType"
-                label="private"
-                @change="changeImageType('private')"
-              >
-                {{ $t('sandbox.imageType.privateImage') }}
-              </el-radio>
-              <el-select
-                v-model="vmInfo.privateSystemName"
-                @change="changePrivateType(vmInfo.privateSystemName)"
-                :placeholder="$t('common.pleaseSelect')"
-                :disabled="vmInfo.imageType === 'public'"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.privateSystemType"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                />
-              </el-select>
-              <el-select
-                v-model="vmInfo.privateId"
-                :placeholder="$t('common.pleaseSelect')"
-                :disabled="vmInfo.imageType === 'public'|| vmInfo.privateSystemName ==''"
-              >
-                <el-option
-                  v-for="(item,index) in vmInfo.privateImageOptions"
-                  :key="index"
-                  :label="item.systemImage"
-                  :value="item.id"
-                />
-              </el-select>
-            </div>
           </div>
         </el-collapse-item>
         <el-collapse-item
           :title="$t('sandbox.flavorExtraSpecs')"
           name="5"
         >
-          <div
-            class="edit-btn clear"
+          <el-radio-group
+            class="common-radio work-radio"
+            v-model="isHostGroup"
+            @change="handleSelectHostGroup"
           >
-            <span class="title-info">{{ $t('sandbox.enterFlavorExtraSpecs') }}</span>
-            <el-button
-              id="btn_editVmFlavor"
-              class="rt"
-              v-if="viewOrEditFlavor === 'preview'"
-              @click="clickEdit('flavor')"
-            >
-              {{ $t('common.edit') }}
-            </el-button>
-            <el-button
-              id="btn_saveVmFlavor"
-              class="rt"
-              v-else
-              @click="clickEdit('flavor')"
-            >
-              {{ $t('common.save') }}
-            </el-button>
-          </div>
-          <div class="editor-wrapper">
-            <mavon-editor
-              class="common-mavon-editor"
-              v-model="flavorExtraSpecs"
-              :toolbars-flag="false"
-              :subfield="false"
-              :default-open="viewOrEditFlavor"
-              :box-shadow="false"
-              preview-background="transparent"
-            />
+            <el-radio label="select">
+              true
+            </el-radio>
+            <el-radio label="cancel">
+              false
+            </el-radio>
+          </el-radio-group>
+          <div
+            class="hostSelects"
+            v-if="isHostGroup==='select'"
+          >
+            <div class="hostSelects">
+              <div class="hostSelect">
+                <p>{{ $t('sandbox.hugePage') }}:</p>
+                <el-select
+                  v-model="hugePage"
+                  clearable
+                  :placeholder="$t('sandbox.hugePageTip')"
+                >
+                  <el-option
+                    v-for="item in hugePages"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </div>
+              <div class="cpuInfoStyle">
+                <div class="hostSelect hostSelect1">
+                  <p>{{ $t('sandbox.cpuPolicy') }}:</p>
+                  <el-input
+                    class="hostSelect-input"
+                    v-model="cpuPolicyValue"
+                    disabled
+                  />
+                </div>
+                <div class="hostSelect hostSelect1">
+                  <p>{{ $t('sandbox.cpuThread') }}:</p>
+                  <el-input
+                    class="hostSelect-input"
+                    v-model="cpuThreadValue"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="hostSelect hostSelect1">
+                <p>{{ $t('sandbox.numaNode') }}:</p>
+                <el-input
+                  class="hostSelect-input"
+                  v-model="numNodeValue"
+                  disabled
+                />
+              </div>
+              <div class="cpuInfoStyle">
+                <div class="hostSelect">
+                  <p>{{ $t('sandbox.gpuType') }}:</p>
+                  <el-select
+                    v-model="gpuType"
+                    clearable
+                    :placeholder="$t('sandbox.gpuTypeTip')"
+                    @change="changeGpuType"
+                  >
+                    <el-option
+                      v-for="item in gpuTypes"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </div>
+                <div class="hostSelect">
+                  <p>{{ $t('sandbox.gpuNum') }}:</p>
+                  <el-select
+                    v-model="gpuNum"
+                    :placeholder="$t('sandbox.gpuNumTip')"
+                    :disabled="this.gpuType==''"
+                  >
+                    <el-option
+                      v-for="item in gpuNums"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </div>
+              </div>
+              <div class="hostSelect hostSelect1">
+                <p>{{ $t('sandbox.hostGroup') }}:</p>
+                <el-input
+                  class="hostSelect-input"
+                  v-model="hostGroup"
+                  clearable
+                  :placeholder="$t('sandbox.hostGroupTip')"
+                />
+              </div>
+            </div>
           </div>
         </el-collapse-item>
         <el-collapse-item
@@ -333,7 +410,7 @@
                     id="btn_editVmScript"
                     class="rt"
                     v-if="viewOrEditContent === 'preview'"
-                    @click.stop="clickEdit('content')"
+                    @click.stop="clickEdit"
                   >
                     {{ $t('common.edit') }}
                   </el-button>
@@ -341,7 +418,7 @@
                     id="btn_saveVmScript"
                     class="rt"
                     v-else
-                    @click.stop="clickEdit('content')"
+                    @click.stop="clickSave"
                   >
                     {{ $t('common.save') }}
                   </el-button>
@@ -360,22 +437,6 @@
           </div>
         </el-collapse-item>
       </el-collapse>
-      <div class="addVm-btn rt">
-        <el-button
-          id="btn_cancelAddVm"
-          class="common-btn"
-          @click="addVmFinish('cancel')"
-        >
-          {{ $t('normal.cancel') }}
-        </el-button>
-        <el-button
-          id="btn_confirmAddVm"
-          class="common-btn"
-          @click="addVmFinish('confirm')"
-        >
-          {{ $t('normal.confirm') }}
-        </el-button>
-      </div>
     </div>
     <div
       v-else
@@ -443,8 +504,8 @@
         >
           <el-input-number
             v-model="custom.systemDiskSize"
-            :min="50"
-            :max="100"
+            :min="1"
+            :max="500"
           />
           <p class="company">
             GB
@@ -456,8 +517,8 @@
         >
           <el-input-number
             v-model="custom.dataDiskSize"
-            :min="10"
-            :max="200"
+            :min="1"
+            :max="500"
           />
           <p class="company">
             GB
@@ -491,21 +552,24 @@
             class="common-input"
           />
         </el-form-item>
-        <el-form-item class="rt specsBtn">
-          <el-button
-            class="common-btn defaultFontLight"
-            @click="cancleSpecks()"
-          >
-            {{ $t('common.cancel') }}
-          </el-button>
-          <el-button
-            class="common-btn defaultFontLight"
-            @click="addSpecks()"
-          >
-            {{ $t('common.confirm') }}
-          </el-button>
-        </el-form-item>
       </el-form>
+      <div
+        class="rt"
+        style="margin-top:20px"
+      >
+        <el-button
+          class="common-btn defaultFontLight"
+          @click="cancleSpecks()"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
+          class="common-btn defaultFontLight"
+          @click="addSpecks()"
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -653,17 +717,61 @@ export default {
         value: 'ARM',
         label: 'ARM'
       } ],
+      hugePages: [{
+        value: '1048576',
+        label: '1048576'
+      }, {
+        value: '2048',
+        label: '2048'
+      } ],
+      gpuTypes: [{
+        value: 'huawei-ascend-310',
+        label: 'huawei-ascend-310'
+      }, {
+        value: 'nvida-t4',
+        label: 'nvida-t4'
+      } ],
+      gpuNums: [{
+        value: '0',
+        label: '0'
+      }, {
+        value: '1',
+        label: '1'
+      }, {
+        value: '2',
+        label: '2'
+      } ],
+      hostGroup: '',
+      gpuNum: '',
+      gpuType: '',
+      hugePage: '',
+      hostGroupName: 'aggregate_instance_extra_specs',
+      gpuTypeName: 'pci_passthrough:alias',
+      hugePageName: 'hw:mem_page_size',
+      cpuPolicy: 'hw:cpu_policy',
+      cpuPolicyValue: 'dedicated',
+      cpuThread: 'hw:cpu_thread_policy',
+      cpuThreadValue: 'prefer',
+      numNode: 'hw:numa_nodes',
+      numNodeValue: '1',
+      hostGroupInfo: '',
+      gpuInfo: '',
+      hugePageInfo: '',
+      cpuPolicyInfo: '',
+      cpuThreadInfo: '',
+      numNodeInfo: '',
       isInjectScript: 'cancel',
+      isHostGroup: 'cancel',
       changeResult: false,
+      changeHostGroup: false,
       activeScriptEditPanel: '1',
       viewOrEditContent: 'preview',
       viewOrEditParams: 'preview',
-      viewOrEditFlavor: 'preview',
       userData: '',
-      flavorExtraSpecs: '',
       applicationId: sessionStorage.getItem('applicationId') || '',
       vmId: '',
-      isAddVm: this.isAddVmProp
+      isAddVm: this.isAddVmProp,
+      systemDiskSize: 0
     }
   },
   watch: {
@@ -676,12 +784,19 @@ export default {
     }
   },
   methods: {
-    getVmSpecs () {
+    getVmSpecs (systemDiskSize) {
       sandbox.getVmspec().then(res => {
         if (res.data && res.data.length <= 0) {
           return
         }
-        this.vmSpecs = res.data
+        this.vmSpecs = []
+        let _data = res.data
+        _data.forEach(item => {
+          if (systemDiskSize <= item.systemDiskSize) {
+            this.vmSpecs.push(item)
+          }
+        })
+        this.addvmImages.flavorId = this.vmSpecs[0] ? this.vmSpecs[0].id : ''
         this.filterVmRegulation()
       }).catch(err => {
         console.log(err)
@@ -693,6 +808,14 @@ export default {
           return
         }
         this.vmNetworkList = res.data
+        if (this.isAddVm) {
+          this.selectedNetworks = []
+          this.addvmImages.portList = []
+          this.vmNetworkList.forEach(item => {
+            this.selectedNetworks.push(item.name)
+            this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
+          })
+        }
         this.$emit('getNetWorkList', res.data)
       }).catch(err => {
         console.log(err)
@@ -703,6 +826,11 @@ export default {
         if (res.data && res.data.length <= 0) {
           return
         }
+        this.imageList = []
+        this.vmInfo.publicSystemType = []
+        this.vmInfo.publicSystemImage = []
+        this.vmInfo.privateSystemType = []
+        this.vmInfo.privateSystemImage = []
         this.imageList = res.data.imageList
         this.imageList.forEach(item => {
           if (item.visibleType === 'public') {
@@ -719,16 +847,12 @@ export default {
         console.log(err)
       })
     },
-    addVmInfo () {
-      this.validateInput()
-    },
     changeImageType (data) {
+      this.addvmImages.imageId = ''
       this.vmInfo.imageType = data
       data === 'public' ? this.vmInfo.privateSystemName = '' : this.vmInfo.publicSystemName = ''
       data === 'public' ? this.vmInfo.privateImageOptions = '' : this.vmInfo.publicImageOptions = ''
       data === 'public' ? this.vmInfo.privateId = '' : this.vmInfo.publicId = ''
-    },
-    validateInput () {
     },
     handleChangeArch () {
       this.filterVmRegulation()
@@ -740,8 +864,8 @@ export default {
     changePublicType (data) {
       this.vmInfo.publicId = ''
       this.vmInfo.publicImageOptions = []
-      sandbox.getScriptByImageId(data).then(res => {
-        this.userData = res.data
+      sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
+        this.userData = '```yaml\r\n' + res.data + '\r\n```'
         this.flavorExtraSpecs = ''
       })
       this.vmInfo.publicSystemImage.forEach(item => {
@@ -750,11 +874,18 @@ export default {
         }
       })
     },
+    changePublicImageSize (val) {
+      this.addvmImages.imageId = val
+      sandbox.getVmDetailImage(val).then(res => {
+        this.systemDiskSize = res.data.systemDiskSize
+        this.getVmSpecs(this.systemDiskSize)
+      })
+    },
     changePrivateType (data) {
       this.vmInfo.privateId = ''
       this.vmInfo.privateImageOptions = []
-      sandbox.getScriptByImageId(data).then(() => {
-
+      sandbox.getScriptByImageId(sessionStorage.getItem('pkgSpecId'), data).then(res => {
+        this.userData = '```yaml\r\n' + res.data + '\r\n```'
       })
       this.vmInfo.privateSystemImage.forEach(item => {
         if (item.systemType === data) {
@@ -775,26 +906,21 @@ export default {
         this.changeResult = false
       }
     },
-    clickEdit (name) {
-      if (name === 'content') {
-        if (this.viewOrEditContent === 'edit') {
-          this.viewOrEditContent = 'preview'
-        } else {
-          this.viewOrEditContent = 'edit'
-        }
-      } else if (name === 'params') {
-        if (this.viewOrEditParams === 'edit') {
-          this.viewOrEditParams = 'preview'
-        } else {
-          this.viewOrEditParams = 'edit'
-        }
-      } else if (name === 'flavor') {
-        if (this.viewOrEditFlavor === 'edit') {
-          this.viewOrEditFlavor = 'preview'
-        } else {
-          this.viewOrEditFlavor = 'edit'
-        }
+    handleSelectHostGroup (val) {
+      if (val === 'select') {
+        this.changeHostGroup = true
+      } else if (val === 'cancel') {
+        this.changeHostGroup = false
       }
+    },
+    clickEdit () {
+      this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
+      let _userData = this.userData.substring(9, (this.userData.length - 5))
+      this.userData = _userData
+    },
+    clickSave () {
+      this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
+      this.userData = '```yaml\r\n' + this.userData + '\r\n```'
     },
     changeInternet (data) {
       this.addvmImages.portList = []
@@ -808,14 +934,25 @@ export default {
     },
     addSpecForm () {
       this.customSpecs = true
+      this.$emit('closeAddDialog', 'true')
+    },
+    changeGpuType () {
+      if (this.gpuType === '') {
+        this.gpuNum = ''
+      } else {
+        if (this.gpuNum === '') {
+          this.gpuNum = '1'
+        }
+      }
     },
     addSpecks () {
       let _customs = this.custom.name !== '' && this.custom.description !== '' && this.custom.architecture !== '' && this.custom.dataDiskSize !== '' && this.custom.systemDiskSize !== ''
       if (_customs) {
         sandbox.addCustom(this.custom).then(() => {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
-          this.getVmSpecs()
+          this.getVmSpecs(this.systemDiskSize)
           this.customSpecs = false
+          this.$emit('closeAddDialog', 'true')
           this.custom = {
             id: '',
             name: '',
@@ -829,6 +966,7 @@ export default {
             otherExtraInfo: ''
           }
         }).catch(() => {
+          this.$eg_messagebox(this.$t('promptInformation.addFailed'), 'error')
         })
       } else {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
@@ -836,6 +974,7 @@ export default {
     },
     cancleSpecks () {
       this.customSpecs = false
+      this.$emit('closeAddDialog', 'false')
       this.custom = {
         id: '',
         name: '',
@@ -853,39 +992,91 @@ export default {
       let _data = []
       if (type === 'confirm') {
         if (this.changeResult) {
-          this.addvmImages.userData = this.userData
-          this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
+          this.addvmImages.userData = this.userData.substring(9, (this.userData.length - 5))
         } else {
           this.addvmImages.userData = ''
-          this.addvmImages.flavorExtraSpecs = this.flavorExtraSpecs
         }
         if (this.isAddVm) {
           this.vmInfo.publicId === '' ? this.addvmImages.imageId = this.vmInfo.privateId : this.addvmImages.imageId = this.vmInfo.publicId
         }
-        let _addVmImagesVal = this.addvmImages.name !== '' && this.addvmImages.imageId !== '' && this.addvmImages.vmCertificate.pwdCertificate.password !== '' && this.addvmImages.vmCertificate.pwdCertificate.username !== '' && this.addvmImages.portList !== ''
-        if (_addVmImagesVal) {
-          if (this.isAddVm) {
-            sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
-              this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
-              _data = this.selectedNetworks
-              this.$emit('addVmFinish', _data)
-            }).catch(err => {
-              console.log(err)
-            })
-          } else {
-            sandbox.editVmDetail(this.applicationId, this.vmId, this.addvmImages).then(() => {
-              _data = this.selectedNetworks
-              this.$emit('addVmFinish', _data)
-            }).catch(err => {
-              console.log(err)
-            })
-          }
-        } else {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
-        }
+        this.handleHostGroupData()
+        _data = this.checkVmData(_data)
       } else {
-        this.$emit('addVmFinish', _data)
+        this.$emit('addVmFinish', _data, true)
+        this.activeNames = ['1']
       }
+    },
+    handleHostGroupData () {
+      if (this.changeHostGroup) {
+        this.cpuPolicyInfo = '"' + this.cpuPolicy + '"' + ': ' + '"' + this.cpuPolicyValue + '"' + '\r\n'
+        this.cpuThreadInfo = '"' + this.cpuThread + '"' + ': ' + '"' + this.cpuThreadValue + '"' + '\r\n'
+        this.numNodeInfo = '"' + this.numNode + '"' + ': ' + '"' + this.numNodeValue + '"'
+        if (this.hostGroup !== '') {
+          this.hostGroupInfo = '"' + this.hostGroupName + '"' + ': ' + '"' + this.hostGroup + '"' + '\r\n'
+        } else {
+          this.hostGroupInfo = ''
+        }
+        if (this.gpuType !== '') {
+          this.gpuInfo = '"' + this.gpuTypeName + '"' + ': ' + '"' + this.gpuType + ':' + this.gpuNum + '"' + '\r\n'
+        } else {
+          this.gpuInfo = ''
+        }
+        if (this.hugePage !== '') {
+          this.hugePageInfo = '"' + this.hugePageName + '"' + ': ' + '"' + this.hugePage + '"' + '\r\n'
+        } else {
+          this.hugePageInfo = ''
+        }
+        this.addvmImages.flavorExtraSpecs = this.hostGroupInfo + this.gpuInfo + this.hugePageInfo + this.cpuPolicyInfo + this.cpuThreadInfo + this.numNodeInfo
+      } else {
+        this.addvmImages.flavorExtraSpecs = ''
+      }
+    },
+    checkVmData (_data) {
+      if (this.addvmImages.name === '') {
+        this.$eg_messagebox(this.$t('service.isNameEmpty'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.vmCertificate.pwdCertificate.username === '') {
+        this.$eg_messagebox(this.$t('common.enterUserName'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.vmCertificate.pwdCertificate.password === '') {
+        this.$eg_messagebox(this.$t('common.enterPassword'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.imageId === '') {
+        this.$eg_messagebox(this.$t('sandbox.isImageEmpty'), 'warning')
+        this.activeNames = ['4']
+        this.$emit('addVmFinish', _data, false)
+      } else if (this.addvmImages.portList.length === 0) {
+        this.$eg_messagebox(this.$t('sandbox.isNetworkEmpty'), 'warning')
+        this.activeNames = ['3']
+        this.$emit('addVmFinish', _data, false)
+      } else {
+        _data = this.submitAddVm(_data)
+        this.activeNames = ['1']
+      }
+      return _data
+    },
+    submitAddVm (_data) {
+      if (this.isAddVm) {
+        sandbox.addVmImage(this.applicationId, this.addvmImages).then(() => {
+          this.$eg_messagebox(this.$t('sandboxPromptInfomation.addVmSuccess'), 'success')
+          _data = this.selectedNetworks
+          this.$emit('addVmFinish', _data, true)
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        sandbox.editVmDetail(this.applicationId, this.vmId, this.addvmImages).then(() => {
+          this.$eg_messagebox(this.$t('promptInformation.editDataSuccess'), 'success')
+          _data = this.selectedNetworks
+          this.$emit('addVmFinish', _data, true)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+      return _data
     },
     editVmDetail () {
       let _this = this
@@ -903,14 +1094,32 @@ export default {
       })
     },
     getVmDetailImage (imageId) {
+      this.vmInfo.publicSystemImage = []
+      this.vmInfo.privateSystemImage = []
+      this.vmInfo.publicImageOptions = []
+      this.vmInfo.privateImageOptions = []
+      this.getInternetType()
+      this.getVmImageLists()
       sandbox.getVmDetailImage(imageId).then(res => {
         if (!res.data) {
           return
         }
+        this.systemDiskSize = res.data.systemDiskSize
+        this.getVmSpecs(this.systemDiskSize)
         this.vmInfo.imageType = res.data.visibleType
         res.data.visibleType === 'public' ? this.vmInfo.publicSystemName = res.data.osType : this.vmInfo.privateSystemName = res.data.osType
-        res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)' : this.vmInfo.privateId = res.data.osType + ' ' + res.data.osVersion + ' ' + res.data.osBitType + ' (' + res.data.systemDiskSize + 'GB Disk)'
+        res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]' : this.vmInfo.privateId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]'
         this.addvmImages.imageId = imageId
+        this.vmInfo.publicSystemImage.forEach(item => {
+          if (item.systemType === res.data.osType) {
+            this.vmInfo.publicImageOptions.push(item)
+          }
+        })
+        this.vmInfo.privateSystemImage.forEach(item => {
+          if (item.systemType === res.data.osType) {
+            this.vmInfo.privateImageOptions.push(item)
+          }
+        })
       })
     },
     handleAddVmData (isAddVm) {
@@ -957,9 +1166,7 @@ export default {
   mounted () {
     this.editVmDetail()
     this.handleAddVmData(this.isAddVm)
-    this.getVmSpecs()
-    this.getInternetType()
-    this.getVmImageLists()
+    this.getVmSpecs(this.systemDiskSize)
   }
 }
 </script>
@@ -972,8 +1179,6 @@ export default {
   position:relative;
   padding-top:10px ;
   font-size: 16px;
-  animation: delay 0.5s  ease-in-out;
-  animation-fill-mode: both;
   p{
     font-weight: lighter !important;
   }
@@ -986,24 +1191,31 @@ export default {
     }
   }
   .addVm-bg{
-    position: absolute;
-    width: 80%;
-    min-width: 1000px;
-    padding: 40px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    .required{
+      position: relative;
+      color: #dc2222;
+      font-size: 20px;
+      top: 3px;
+      left: 5px;
+    }
     .el-collapse-item__header,.el-collapse-item__content{
-      font-size: 16px;
+      font-size: 18px;
       color: #fff;
+    }
+    .el-collapse-item__content::after{
+      display: block;
+      content: '';
+      clear: both;
     }
     .vm-info{
       margin: 0 0 30px 0px;
       .addVm-top-title{
+        float: left;
+        width: 33%;
         display: flex;
         margin: 20px 0px;
         p{
-          width: 84px;
+          width: 100px;
           line-height: 25px;
           text-align: right;
           margin-right: 10px;
@@ -1031,6 +1243,8 @@ export default {
   .customSpecs{
     width:777px;
     height:454px;
+    margin: 0 auto;
+    background:  rgba(75,55,154,0.9);
     .customSpec-title{
       display: flex;
       span{
@@ -1050,6 +1264,7 @@ export default {
       justify-content: space-between;
       .el-form-item{
         display: flex;
+        width: 49% !important;
         .el-form-item__content {
           display: flex;
           width: 215px;
@@ -1112,11 +1327,6 @@ export default {
           font-size: 12px;
         }
       }
-      .specsBtn{
-        position: relative;
-        top:60px;
-        left: -40px;
-      }
     }
   }
   .el-collapse {
@@ -1131,11 +1341,11 @@ export default {
       }
     }
     .el-collapse-item__header{
-      height: 39px;
+      height: 45px;
       background: none;
       border-bottom:none;
       padding-left: 20px;
-      font-size: 18px;
+      font-size: 22px;
     }
     .el-collapse-item__header:before{
       display: inline-block;
@@ -1157,15 +1367,14 @@ export default {
       background: url('../../../../assets/images/sandbox/addvm_icon_down.png');
     }
     .el-collapse-item__header.is-active{
-      background-color: #5f499d;
       border-radius: 19.5px;
       color: #fff;
     }
     .el-collapse-item__header .el-icon-arrow-right:before{
       content: '';
       display: block;
-      width: 8px;
-      height: 8px;
+      width: 16px;
+      height: 16px;
     }
     .el-collapse-item__header.is-active .el-icon-arrow-right:before{
       background: url('../../../../assets/images/sandbox/addvm_icon_up.png');
@@ -1188,8 +1397,8 @@ export default {
           display: flex;
           margin-bottom: 20px;
           .el-radio{
-            height: 25px;
-            line-height: 25px;
+            height: 30px;
+            line-height: 30px;
             margin-right: 20px;
           }
           .el-radio__input.is-checked + .el-radio__label {
@@ -1199,7 +1408,7 @@ export default {
             width: 264px;
             margin-right: 80px;
             .el-input__inner{
-              height: 25px !important;
+              height: 30px !important;
               background-color: rgba(255, 255, 255, 0.3);
               border: none;
               color: #fff;
@@ -1270,7 +1479,7 @@ export default {
         height: 30px;
         line-height: 30px;
         font-family: defaultFontLight,Arial, Helvetica, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         padding-left: 15px;
       }
       .work-radio{
@@ -1285,6 +1494,37 @@ export default {
           border-radius: 35px;
           padding: 8px 24px;
           color: #fff;
+        }
+      }
+      .hostSelects{
+        padding-top: 20px;
+        .cpuInfoStyle{
+          display: flex;
+        }
+        .hostSelect{
+          display: flex;
+          margin: 10px 0;
+          width: 48%;
+          .el-input__inner{
+            border: none;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.3);
+          }
+          .el-select {
+            width: 60%;
+          }
+          .el-select .el-input .el-select__caret, .el-table__empty-text {
+            line-height: 20px;
+          }
+           p{
+            width: 160px;
+            text-align: right;
+            margin-right: 10px;
+            font-size: 16px;
+          }
+          .hostSelect-input{
+            width: 60%;
+          }
         }
       }
     }

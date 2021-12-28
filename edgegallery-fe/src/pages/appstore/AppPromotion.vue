@@ -155,6 +155,7 @@
                   :href="scope.row.atpTestReportUrl + (language === 'cn' ? '&language=cn' : '&language=en')"
                   target="_blank"
                   class="lookReport"
+                  rel="noopener noreferrer"
                 >{{ $t('apppromotion.viewTestRepo') }}</a>
               </template>
             </el-table-column>
@@ -271,7 +272,6 @@ export default {
           this.appStoreList.push(_providerItem)
           index++
         })
-      }).catch(() => {
       })
     },
     showPushAppDialog (row) {
@@ -280,7 +280,7 @@ export default {
         if (this.appStoreList.length === 0) {
           this.$message({
             duration: 2000,
-            message: this.$t('apppromotion.pushFail'),
+            message: this.$t('apppromotion.warehouseTip'),
             type: 'warning'
           })
           return
@@ -344,7 +344,6 @@ export default {
           item.targetPlatform = ['All']
         })
         this.currentPageData = this.findAppData = this.appPackageData
-      }).catch(() => {
       })
     },
     refreshCurrentData () {

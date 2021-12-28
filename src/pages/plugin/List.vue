@@ -127,6 +127,7 @@
               <el-link
                 :href="getDownloadUrl(scope.row.pluginId)"
                 :underline="false"
+                rel="noopener noreferrer"
               >
                 <el-button
                   id="downloadBtn"
@@ -197,6 +198,7 @@
               <el-link
                 :href="getDownloadUrl(item.pluginId)"
                 :underline="false"
+                rel="noopener noreferrer"
               >
                 <el-button
                   id="downloadBtn"

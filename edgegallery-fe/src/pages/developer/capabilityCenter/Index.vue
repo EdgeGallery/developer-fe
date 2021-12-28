@@ -15,160 +15,192 @@
   -->
 
 <template>
-  <div
-    class="common-div-bg capability-index"
-  >
-    <el-collapse
-      v-model="activeName"
-      accordion
+  <div>
+    <div
+      class="common-div-bg capability-index"
     >
-      <el-collapse-item
-        :title="$t('service.chooseServices')"
-        name="chooseServices"
+      <el-collapse
+        v-model="activeName"
+        accordion
       >
-        <div class="prompt_content">
-          <div class="upper-ability">
-            <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
-            <el-tag
-              v-for="tag in selectedServices"
-              :key="tag.id"
-              :closable="isClosable"
-              style="margin-left: 10px;"
-              class="defaultFontLight"
-              @close="handleDeleteTag(tag)"
-            >
-              <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ tag.name||tag.twoLevelName }}
-            </el-tag>
-          </div>
-        </div>
-        <div
-          v-loading="apiDataLoading"
-          v-if="hasService"
-          class="clear service-container"
+        <el-collapse-item
+          :title="$t('service.chooseServices')"
+          name="chooseServices"
         >
-          <div class="capability-left">
-            <div
-              v-for="service in groups"
-              :key="service.id"
-              class="service-group"
-              :class="service.isSeviceSelected?'service-group-active':''"
-              @click="getServices(service)"
-            >
-              <img
-                :src="service.icon"
-                :alt="service.name"
+          <div class="prompt_content">
+            <div class="upper-ability">
+              <label class="selected-service defaultFont">{{ $t('service.chosenService') }}</label>
+              <el-tag
+                v-for="tag in selectedServices"
+                :key="tag.id"
+                :closable="isClosable"
+                style="margin-left: 10px;"
+                class="defaultFontLight"
+                @close="handleDeleteTag(tag)"
               >
-              <span>
-                {{ language==='cn'?service.name:service.nameEn }}
-              </span>
-              <span class="rt">
-                {{ service.capabilityCount }}
-              </span>
+                <span>{{ isClosable === true ? '&nbsp;&nbsp;' : "" }}</span>{{ language==='cn'?tag.name||tag.twoLevelName:tag.nameEn||tag.twoLevelNameEn }}
+              </el-tag>
             </div>
           </div>
-          <div class="capability-right">
-            <CapabilityServiceList
-              :capability-service-list="capabilityServiceList"
-              :selected-services="selectedServices"
-              :language="language"
-              v-if="capabilityServiceList.length>0"
-            />
-          </div>
-        </div>
-      </el-collapse-item>
-      <el-collapse-item
-        :title="$t('service.servicePublish')"
-        name="servicePublish"
-      >
-        <div class="add-service">
-          <el-button
-            class="common-btn"
-            @click="publishService()"
+          <div
+            v-loading="apiDataLoading"
+            v-if="hasService"
+            class="clear service-container"
           >
-            {{ $t('service.addServiceConfig') }}
-          </el-button>
-        </div>
-        <div class="capability-publish">
-          <el-table
-            class="common-table"
-            :data="serviceTableData"
-            :cell-style="{ textAlign: 'center' }"
-            :header-cell-style="{textAlign: 'center'}"
-          >
-            <el-table-column
-              prop="serviceName"
-              :label="$t('service.serviceName')"
-            />
-            <el-table-column
-              prop="oneLevelName"
-              :label="$t('service.firLevel')"
-            />
-            <el-table-column
-              prop="twoLevelName"
-              :label="$t('service.secLevel')"
-            />
-            <el-table-column
-              prop="internalPort"
-              :label="$t('service.internalPort')"
-            />
-            <el-table-column
-              prop="version"
-              :label="$t('incubation.version')"
-            />
-            <el-table-column
-              prop="protocol"
-              :label="$t('service.protocol')"
-            />
-            <el-table-column
-              :label="$t('common.operation')"
-              width="120px"
+            <div class="capability-left">
+              <div
+                v-for="service in groups"
+                :key="service.id"
+                class="service-group"
+                :class="{'service-group-active':service.isSeviceSelected,'service-group-en':language==='en'}"
+                @click="getServices(service)"
+              >
+                <img
+                  :src="service.icon"
+                  :alt="service.name"
+                >
+                <span>
+                  {{ language==='cn'?service.name:service.nameEn }}
+                </span>
+                <span class="rt">
+                  {{ service.capabilityCount }}
+                </span>
+              </div>
+            </div>
+            <div
+              class="capability-right"
+              :class="{'capability-right-en':language==='en'}"
             >
-              <template slot-scope="scope">
-                <el-button
-                  type="text"
-                  class="operation-btn-text"
-                  @click="publishService(scope.row)"
-                >
-                  {{ $t('common.edit') }}
-                </el-button>
-                <el-button
-                  type="text"
-                  class="operation-btn-text"
-                  @click="deletePublishedService(scope.row.appServiceProducedId)"
-                >
-                  {{ $t('common.delete') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
-    <div class="rt">
-      <el-button
-        class="common-btn"
-        @click="$router.go(-1)"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        class="common-btn"
-        @click="doNext(2)"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+              <CapabilityServiceList
+                :capability-service-list="capabilityServiceList"
+                :selected-services="selectedServices"
+                :language="language"
+                v-show="capabilityServiceList.length>0"
+                @openDlg="openDlg"
+              />
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item
+          :title="$t('service.servicePublish')"
+          name="servicePublish"
+        >
+          <div class="add-service">
+            <el-button
+              class="common-btn"
+              @click="publishService()"
+            >
+              {{ $t('service.addServiceConfig') }}
+            </el-button>
+          </div>
+          <div class="capability-publish">
+            <el-table
+              class="common-table"
+              :data="serviceTableData"
+              :cell-style="{ textAlign: 'center' }"
+              :header-cell-style="{textAlign: 'center'}"
+            >
+              <el-table-column
+                prop="serviceName"
+                :label="$t('service.serviceName')"
+              />
+              <el-table-column
+                prop="oneLevelName"
+                :label="$t('service.firLevel')"
+              >
+                <template slot-scope="scope">
+                  {{ language==='cn'?scope.row.oneLevelName:scope.row.oneLevelNameEn }}
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="twoLevelName"
+                :label="$t('service.secLevel')"
+              />
+              <el-table-column
+                prop="internalPort"
+                :label="$t('service.internalPort')"
+              />
+              <el-table-column
+                prop="version"
+                :label="$t('incubation.version')"
+              />
+              <el-table-column
+                prop="protocol"
+                :label="$t('service.protocol')"
+              />
+              <el-table-column
+                :label="$t('common.operation')"
+                width="120px"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    class="operation-btn-text"
+                    @click="publishService(scope.row)"
+                  >
+                    {{ $t('common.edit') }}
+                  </el-button>
+                  <el-button
+                    type="text"
+                    class="operation-btn-text"
+                    @click="deletePublishedService(scope.row.appServiceProducedId)"
+                  >
+                    {{ $t('common.delete') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+      <div class="rt">
+        <el-button
+          class="common-btn"
+          @click="$router.go(-1)"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
+        <el-button
+          class="common-btn"
+          @click="doNext(2)"
+        >
+          {{ $t('common.confirm') }}
+        </el-button>
+      </div>
     </div>
+    <el-dialog
+      width="55%"
+      class="default_dialog"
+      :visible.sync="isApiAmulator"
+    >
+      <ServiceDetail
+        :service-detail-data="serviceDetailData"
+      />
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          class="common-btn"
+          @click="closeDig"
+        >
+          {{ $t('common.close') }}
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { applicationApi } from '../../../api/developerApi.js'
 import CapabilityServiceList from './CapabilityServiceList.vue'
+import ServiceDetail from './ServiceDetail.vue'
 export default {
   name: 'CapabilityCenter',
-  components: { CapabilityServiceList },
+  components: { CapabilityServiceList, ServiceDetail },
   data () {
     return {
+      isApiAmulator: false,
       capabilityServiceList: [],
       language: localStorage.getItem('language') || 'cn',
       serviceDetail: {
@@ -220,7 +252,8 @@ export default {
       oneLevelName: '',
       oneLevelNameEn: '',
       groups: [],
-      activeName: 'chooseServices'
+      activeName: 'chooseServices',
+      serviceDetailData: {}
     }
   },
   watch: {
@@ -229,6 +262,13 @@ export default {
     }
   },
   methods: {
+    openDlg (data) {
+      this.isApiAmulator = true
+      this.serviceDetailData = data
+    },
+    closeDig () {
+      this.isApiAmulator = false
+    },
     doNext (type) {
       sessionStorage.setItem('isCapabilityActive', true)
       this.$message.success(this.$t('order.success'))
@@ -321,6 +361,7 @@ export default {
           res.data.forEach(ser => {
             this.selectedServices.push(ser)
           })
+          console.log(this.selectedServices)
         }
       }).catch(err => {
         console.log(err)
@@ -330,6 +371,15 @@ export default {
   mounted () {
     this.getPublishedService()
     this.initGroupList()
+  },
+  beforeRouteEnter (to, from, next) {
+    if (from.path.indexOf('/capabilityPublish') > -1) {
+      next(vm => {
+        vm.activeName = 'servicePublish'
+      })
+    } else {
+      next(true)
+    }
   }
 }
 
@@ -355,7 +405,6 @@ export default {
         margin-bottom: 12px;
         height: 60px;
         padding-left: 15px;
-        font-size: 19px;
         color: #fff;
         border: none;
         background-color: #5F499D;
@@ -403,7 +452,7 @@ export default {
     clear: both;
   }
   .selected-service{
-    font-size: 16px;
+    font-size: 18px;
     color: #fff;
   }
   .el-tag .el-icon-close {
@@ -452,10 +501,11 @@ export default {
     white-space: pre;
     padding: 0 16px !important;
     line-height: 30px !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     color: #ffffff !important;
     border-radius: 4px !important;
     border: none!important;
+    margin-bottom: 10px;
   }
   .el-select-dropdown{
     border-radius: 8px;
@@ -603,96 +653,6 @@ export default {
         border-bottom: 1px solid #efeef5;
       }
     }
-    .swagger-wrapper {
-      height: 100%;
-      overflow-y: auto;
-      width: 100%;
-    }
-    .swagger-wrapper::-webkit-scrollbar {
-      display: none; /* Chrome Safari */
-    }
-
-    #swagger-ui{
-      width: 100%;
-      height: auto !important;
-      overflow-x: scroll;
-      overflow-y: hidden;
-      padding: 40px 0 0 20px;
-      .swagger-ui{
-        width: 860px;
-      }
-      .swagger-ui .info{
-        margin: -25px 0;
-      }
-    }
-    #swagger-ui::-webkit-scrollbar-thumb {
-      box-shadow: 0 0 0 3px #7656cc inset;
-    }
-    .service_div{
-      padding-left: 20px;
-      .capability-top{
-        line-height: 25px;
-        font-size: 16px;
-        letter-spacing: 1.5px;
-        padding-right: 16px;
-      }
-      .service_info{
-        span{
-          font-size: 16px;
-        }
-      }
-      .title{
-        font-size: 18px;
-        margin-top: 10px;
-        margin-bottom: 0px;
-        letter-spacing: 1.5px;
-      }
-      .el-row{
-        font-size: 14px;
-        .el-col{
-          padding-top: 5px;
-          padding-left: 0px;
-        }
-        .el-select{
-          width: 80px;
-          .el-input__icon{
-            width: 15px;
-            line-height: 22px;
-          }
-          .el-input__inner{
-            padding: 0 6px;
-          }
-          .el-input--suffix .el-input__inner{
-            padding-right: 8px;
-            border-radius: 8px;
-            font-size: 12px;
-            width: 80px;
-            color: #5844be;
-            height: 22px !important;
-            line-height: 22px !important;
-          }
-        }
-      }
-      .download_sdk{
-        width: 16px;
-        height: 16px;
-        display: inline-block;
-        background: url('../../../assets/images/capability/capability_download.png') center center no-repeat;
-        background-color: #5e40c8;
-        border-radius: 50%;
-        margin-left: 14px;
-      }
-      .guide_url{
-        width: 16px;
-        height: 16px;
-        display: inline-block;
-        background: url('../../../assets/images/capability/capability_guide.png') center center no-repeat;
-        background-color: #5e40c8;
-        border-radius: 50%;
-        margin-left: 5px;
-        margin-top: 1px;
-      }
-    }
     .no_service{
       text-align: center;
       line-height: 25px;
@@ -738,7 +698,7 @@ export default {
     color: #fff !important;
     background: #4E3494;
     border-radius: 26px;
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
 }
 .service-publish{
@@ -758,18 +718,36 @@ export default {
   padding: 0 15px;
   cursor: pointer;
   margin: 10px 0;
+  img{
+    position: relative;
+    top: 3px;
+  }
   span{
-    font-size: 24px;
-    color: #fff;
+    font-size: 22px;
+    color: #EDE8FB;
     margin-left: 10px;
     font-weight: normal;
   }
 }
+.service-group-en{
+  width: 270px;
+}
 .service-group-active, .service-group:hover{
-  background: #a19aac;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #43F6AD;
+  box-sizing: border-box;
+  border-radius: 6px;
+  span{
+    color: #331A86;
+  }
 }
 .capability-right{
   width: calc(100% - 230px);
   padding-left: 15px;
+  max-height: 500px;
+  overflow: auto;
+}
+.capability-right-en{
+  width: calc(100% - 280px);
 }
 </style>

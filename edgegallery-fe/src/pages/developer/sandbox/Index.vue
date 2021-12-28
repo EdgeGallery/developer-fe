@@ -65,9 +65,9 @@ export default {
         if (res.data.mepHostId === null) {
           this.selectSandbox = this.$t('sandbox.selectSandbox')
         } else {
-          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(res => {
-            this.selectSandbox = res.data.name
-            sessionStorage.setItem('sandboxName', res.data.name)
+          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(resSub => {
+            this.selectSandbox = resSub.data.name
+            sessionStorage.setItem('sandboxName', resSub.data.name)
           })
         }
       }).catch(err => {

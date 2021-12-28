@@ -20,6 +20,7 @@ import cnApp from './app_cn.js'
 import cnAppStore from './appstore_cn.js'
 import cnCapability from './capability_cn.js'
 import cnSandbox from './sandbox_cn.js'
+import cnThirdsystem from './thirdsystem_cn.js'
 import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
 import cnMecm from './mecm_cn.js'
@@ -53,9 +54,11 @@ const cn = {
   promptInformation: {
     confirmDelete: '确认删除该数据？',
     deleteFailed: '删除数据失败！',
+    editDataSuccess: '编辑数据成功！',
     editDataFailed: '编辑数据失败！',
     noPermission: 'Guest没有权限操作，请登录后重试',
-    fileIsEmpty: '文件内容为空！'
+    fileIsEmpty: '文件内容为空！',
+    addFailed: '添加数据失败！'
   },
   normal: {
     newVersion: '新版',
@@ -85,6 +88,7 @@ const cn = {
   ...cnSandbox,
   ...cnImages,
   ...cnAtp,
-  ...cnMecm
+  ...cnMecm,
+  ...cnThirdsystem
 }
 export default cn

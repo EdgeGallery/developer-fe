@@ -141,17 +141,18 @@
                   >
                     <el-table-column
                       :label="$t('atpTestProcess.name')"
-                      width="270"
+                      min-width="25%"
                     >
                       <template slot-scope="scope">
                         <img
+                          class="testing-icon"
                           v-if="scope.row.result=='success'"
-                          src="../../../assets/images/atp/success_icon.png"
+                          src="../../../assets/images/atp/testSuccessful.png"
                           alt=""
                         >
                         <img
                           v-else-if="scope.row.result=='failed'"
-                          src="../../../assets/images/atp/fail_icon.png"
+                          src="../../../assets/images/atp/testFailed.png"
                           alt=""
                         >
                         <img
@@ -170,7 +171,7 @@
                     </el-table-column>
                     <el-table-column
                       :label="$t('atpTestProcess.type')"
-                      width="120"
+                      min-width="15%"
                     >
                       <template slot-scope="scope">
                         {{ language==='en'?scope.row.type:scope.row.type==='automatic'?'自动化类型':'手动类型' }}
@@ -178,6 +179,7 @@
                     </el-table-column>
                     <el-table-column
                       :label="$t('atpTestProcess.description')"
+                      min-width="40%"
                     >
                       <template slot-scope="scope">
                         {{ language==='cn'?scope.row.descriptionCh:scope.row.descriptionEn }}
@@ -186,7 +188,7 @@
                     <el-table-column
                       v-if="(authorities.indexOf('ROLE_ATP_ADMIN')!==-1)"
                       :label="$t('myApp.operation')"
-                      width="100"
+                      min-width="20%"
                     >
                       <template slot-scope="scope">
                         <el-button
@@ -286,7 +288,7 @@ export default {
   components: { UploadSelfReportDig },
   data () {
     return {
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       report: true,
       isTest: '',
       statusTitle: [],
@@ -313,7 +315,7 @@ export default {
       alltestCase: [],
       scoreColor: '',
       isUploadPdf: false,
-      customColor: '#8097f7',
+      customColor: '#ad4bc9cc',
       isManualTitle: false,
       uploadUser: '',
       applicationId: sessionStorage.getItem('applicationId')
@@ -724,6 +726,9 @@ export default {
             line-height: 35px;
             font-family: defaultFontLight, Arial, Helvetica, sans-serif;
             font-size: 16px;
+          }
+          .testing-icon{
+            margin-top: -5px;
           }
           .el-table tr {
             height: 37px;

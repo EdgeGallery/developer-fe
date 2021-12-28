@@ -104,7 +104,7 @@ export default {
     getListData () {
       applicationApi.getProfileDataList({ limit: 100, offset: 0 }).then(res => {
         this.profileData = res.data.results || []
-        this.isNoData = !(this.profileData.length > 0)
+        this.isNoData = this.profileData.length <= 0
       }).catch(err => {
         console.log(err)
       })
@@ -228,7 +228,7 @@ export default {
         }
         .desc{
           font-size: 14px;
-          font-family: defaultFontLight;
+          font-family: defaultFontLight, Arial, Helvetica, sans-serif;
           padding-bottom: 16px;
           border-bottom: 1px solid #351E74;
           text-align: left;

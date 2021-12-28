@@ -42,6 +42,7 @@
           id="btn_uploadContainerFile"
           v-loading="uploadYamlLoading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
+          rel="noopener noreferrer"
         >
           {{ $t('container.uploadFile') }}
         </a>
@@ -57,6 +58,7 @@
           :class="{'btn-disabled':helmChartFile.length===0}"
           id="btn_deleteContainerBtn"
           @click="deleteHelmChartsFile"
+          rel="noopener noreferrer"
         >
           {{ $t('common.delete') }}
         </a>
@@ -65,6 +67,7 @@
           :href="demoYaml"
           download="demo.yaml"
           id="btn_downloadContainerDemoFile"
+          rel="noopener noreferrer"
         >
           {{ $t('container.downloadDemo') }}
         </a>
@@ -109,7 +112,6 @@
             :data="helmChartFileList"
             :props="defaultProps"
             @node-click="handleNodeClick"
-            default-expand-all
             highlight-current
             :empty-text="$t('common.noData')"
           />
@@ -175,7 +177,7 @@ export default {
         formatSuccess: true,
         imageSuccess: true,
         serviceSuccess: true,
-        mepAgentSuccess: true
+        mepAgentSuccess: false
       },
       helmChartId: '',
       innerPath: '',
@@ -183,7 +185,8 @@ export default {
       saveFileparams: {
         innerFilePath: '',
         content: ''
-      }
+      },
+      imagesName: ''
     }
   },
   methods: {
@@ -230,18 +233,28 @@ export default {
           this.clickFirstNode()
         }
       }, (error) => {
+        this.hasValidate = false
         if (error.response.data.message === 'Service info not found in deployment yaml!') {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
           this.checkFlag.serviceSuccess = false
         } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
           this.checkFlag.imageSuccess = false
+        } else if (error.response.data.message.indexOf('is not in standard format') > -1) {
+          let _arrTemp = error.response.data.message.split(' ')
+          this.imagesName = _arrTemp[1]
+          this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.imageInfoError'), 'error')
+        } else if (error.response.data.message.indexOf('does not exist in harbor repo!') > -1) {
+          let _arrTemp = error.response.data.message.split(' ')
+          this.imagesName = _arrTemp[1]
+          this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.notInHarbor'), 'error', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
+            this.jumpToImageList()
+          })
         } else {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
           this.checkFlag.formatSuccess = false
         }
         this.helmChartFile = []
-        this.hasValidate = false
       }).finally(() => {
         this.uploadYamlLoading = false
       })
@@ -292,10 +305,13 @@ export default {
           this.helmChartFile = []
           this.markdownSource = ''
           this.helmChartFileList = []
+          this.hasValidate = false
         }).catch(() => {
           this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
         })
-      }).catch(() => {})
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('promptInformation.deleteFailed'), 'error')
+      })
     },
     handleNodeClick (data) {
       if (data.children) {
@@ -306,9 +322,15 @@ export default {
     },
     clickFirstNode () {
       this.$nextTick().then(() => {
-        const firstNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__children .el-tree-node .el-tree-node__content')
+        const firstNode = document.querySelector('.el-tree-node .el-tree-node__content')
         if (firstNode && this.helmChartId !== '') {
           firstNode.click()
+          setTimeout(() => {
+            const lastNode = document.querySelector('.el-tree-node .el-tree-node__children .el-tree-node:nth-child(3)')
+            if (lastNode && this.helmChartId !== '') {
+              lastNode.click()
+            }
+          })
         }
       })
     },
@@ -322,15 +344,21 @@ export default {
         } else {
           _oDivResult.style.left = (_oDiv.offsetWidth + 32) + 'px'
         }
-        this.hasValidate = true
       })
     },
     finishUploadScript () {
       this.$emit('finishUploadScript')
+    },
+    getMepAgent () {
+      let _this = this
+      this.bus.$on('getMepAgent', function (data) {
+        _this.checkFlag.mepAgentSuccess = data
+      })
     }
   },
   mounted () {
     this.getHelmChartsFileList()
+    this.getMepAgent()
   }
 }
 </script>
@@ -356,14 +384,14 @@ export default {
     }
     .uploader-button{
       display: inline-block;
-      height: 25px;
-      line-height: 25px;
+      height: 35px;
+      line-height: 35px;
       border-radius: 4px;
       padding: 0 32px;
       margin-right: 24px;
       color: #fff;
       background-color: #4e3494;
-      font-size: 14px;
+      font-size: 16px;
       font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
     .uploader-button:hover{
@@ -375,19 +403,22 @@ export default {
       position: relative;
       left: -15px;
       display: inline-block;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
       text-align: center;
       border-radius: 50%;
       background: #604AD0;
-      font-size: 12px;
+      font-size: 14px;
       font-style: normal;
     }
   }
   .config-file{
     height: calc(100% - 222px);
     margin-top: 80px;
+    .el-tree-node__label{
+      font-size: 16px;
+    }
     .edit-btn{
       margin-top: -11px;
       .el-button{
@@ -402,7 +433,7 @@ export default {
         height: 30px;
         line-height: 30px;
         font-family: defaultFontLight,Arial, Helvetica, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         padding-left: 15px;
       }
     }
@@ -411,7 +442,7 @@ export default {
       position: relative;
       height: calc(100% - 90px);
       .el-tree.container-package-tree{
-        width: 270px;
+        width: 295px;
         background: #4E3494;
         border-radius: 4px;
         color: #fff;
@@ -423,38 +454,16 @@ export default {
         background-color: #7050c3;
       }
       .file-content{
-        width: calc(100% - 280px);
+        width: calc(100% - 305px);
         height: 100%;
         background: #4E3494;
         border-radius: 4px;
         overflow: hidden;
         overflow: auto;
       }
-      div.file-content::-webkit-scrollbar, pre::-webkit-scrollbar {
-        width: 20px;
-        height: 20px;
+      .markdown-body code{
+        font-size: 100%;
       }
-      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
-        box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
-      }
-      div.file-content::-webkit-scrollbar-track, pre::-webkit-scrollbar-track {
-        border-radius: 20px;
-        border: 7px solid transparent;
-      }
-      div.file-content::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb{
-        box-shadow: 0 0 0 3px #7050c3 inset;
-      }
-
-      // pre::-webkit-scrollbar {
-      //   width: 20px;
-      //   height: 20px;
-      // }
-      // pre::-webkit-scrollbar-track {
-      //   box-shadow: 0 0 0 3px rgba(46,20,124,.7) inset;
-      // }
-      // pre::-webkit-scrollbar-thumb {
-      //   box-shadow: 0 0 0 3px #7050c3 inset;
-      // }
       .check-result-save{
         top: calc(100% + 10px);
       }
@@ -464,6 +473,7 @@ export default {
     background-color:transparent;
     transition: none !important;
     color: #fff;
+    font-size: 16px;
     margin-top: 20px;
     .el-icon-close,.el-icon-upload-success{
       display: none;

@@ -5,7 +5,7 @@
     <h3 class="common-dlg-title">
       {{ $t('service.basicInfo') }}
     </h3>
-    <div>
+    <div class="clear">
       <el-form
         :model="serviceFormData"
         :rules="serviceFormRule"
@@ -39,13 +39,6 @@
           <el-input v-model="serviceFormData.twoLevelName" />
         </el-form-item>
         <el-form-item
-          :label="$t('service.secLevelEn')"
-          class="cb"
-          prop="twoLevelNameEn"
-        >
-          <el-input v-model="serviceFormData.twoLevelNameEn" />
-        </el-form-item>
-        <el-form-item
           :label="$t('incubation.description')"
           class="cb"
           prop="description"
@@ -60,6 +53,8 @@
         <el-form-item
           :label="$t('service.apiFile')"
           class="label-item-half"
+          prop="apiFileId"
+          ref="apiFileItem"
         >
           <el-upload
             :on-change="handleApiChange"
@@ -86,6 +81,8 @@
         <el-form-item
           :label="$t('service.guideFile')"
           class="label-item-half"
+          prop="guideFileId"
+          ref="guideFileItem"
         >
           <el-upload
             :on-change="handleDocChange"
@@ -112,6 +109,8 @@
         <el-form-item
           :label="$t('service.customPic')"
           class="cb"
+          prop="iconFileId"
+          ref="iconFileItem"
         >
           <el-upload
             :on-change="handleIconChange"
@@ -167,7 +166,17 @@
           class="label-item-half"
           prop="protocol"
         >
-          <el-input v-model="serviceFormData.protocol" />
+          <el-select
+            v-model="serviceFormData.protocol"
+            class="select_right"
+          >
+            <el-option
+              v-for="item in optionsProtocol"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           :label="$t('service.expURL')"
@@ -185,7 +194,7 @@
         </el-button>
         <el-button
           class="common-btn"
-          @click="handleUpload('api',apiFileList[0])"
+          @click="publishService"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -199,6 +208,65 @@ import { applicationApi } from '../../../api/developerApi.js'
 export default {
   name: 'CapCenter',
   data () {
+    const validateTwoLevelName = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,40}$/g
+      if (!value) {
+        callback(new Error(this.$t('service.isNameEmpty')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('service.nameRules')))
+      } else {
+        callback()
+      }
+    }
+    const validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)[\S.\s\n\r]{1,400}$/g
+      if (!value) {
+        callback(new Error(this.$t('incubation.descTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('service.serviceDesc')))
+      } else {
+        callback()
+      }
+    }
+    const validateApiFile = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(this.$t('service.uploadApiFile')))
+      } else {
+        callback()
+      }
+    }
+    const validateGuideFile = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(`${this.$t('incubation.pleaseUpload')}${this.$t('service.guideFileId')}`))
+      } else {
+        callback()
+      }
+    }
+    const validateAppIcon = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(this.$t('service.iconRequired')))
+      } else {
+        callback()
+      }
+    }
+    const validateInternalPort = (rule, value, callback) => {
+      let reg = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
+      if (!reg.test(value)) {
+        callback(new Error(this.$t('service.innerPortTip')))
+      } else {
+        callback()
+      }
+    }
+    const validateVersion = (rule, value, callback) => {
+      let reg = /^[\w\\-][\w\\-\s.]{0,9}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.versionTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.versionRule')))
+      } else {
+        return callback()
+      }
+    }
     return {
       appId: sessionStorage.getItem('applicationId'),
       serviceFormData: {
@@ -208,31 +276,47 @@ export default {
         oneLevelNameEn: 'Telecom network',
         twoLevelNameEn: '',
         twoLevelName: '',
-        author: ''
+        author: '',
+        apiFileId: '',
+        guideFileId: '',
+        iconFileId: '',
+        internalPort: 1,
+        protocol: 'https'
       },
+      optionsProtocol: [{
+        value: '0',
+        label: 'http'
+      }, {
+        value: '1',
+        label: 'https'
+      }],
       serviceFormRule: {
-        twoLevelNameEn: [
-          { required: true, message: this.$t('service.secondLevelNameEnTip'), trigger: 'blur' },
-          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
-        ],
         twoLevelName: [
-          { required: true, message: this.$t('service.secondLevelNameCnTip'), trigger: 'blur' },
-          { min: 3, max: 15, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+          { required: true, validator: validateTwoLevelName }
         ],
         description: [
-          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
+          { required: true, validator: validateDescription }
+        ],
+        apiFileId: [
+          { required: true, validator: validateApiFile, trigger: 'change' }
+        ],
+        guideFileId: [
+          { required: true, validator: validateGuideFile, trigger: 'change' }
+        ],
+        iconFileId: [
+          { required: true, validator: validateAppIcon, trigger: 'change' }
         ],
         serviceName: [
-          { required: true, message: this.$t('service.serviceNameTip'), trigger: 'blur' }
+          { required: true, validator: validateTwoLevelName }
         ],
         version: [
-          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
+          { required: true, validator: validateVersion }
         ],
         protocol: [
-          { required: true, message: this.$t('service.protocolTip'), trigger: 'blur' }
+          { required: true, trigger: 'change' }
         ],
         internalPort: [
-          { required: true, message: this.$t('service.innerPortTip'), trigger: 'blur' }
+          { required: true, validator: validateInternalPort }
         ]
       },
       apiFileList: [],
@@ -250,6 +334,11 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.$refs['serviceForm'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['serviceForm'].validateField(item.labelFor)
+        }
+      })
     }
   },
   methods: {
@@ -271,9 +360,12 @@ export default {
           this.$message.warning(this.$t('incubation.uploadSizeLimit'))
         }
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('service.fileNameType'))
           this.apiFileList = []
         } else {
           this.apiFileList.push(file.raw)
+          this.handleUpload('api', this.apiFileList[0])
+          this.$refs.apiFileItem.clearValidate()
         }
       }
     },
@@ -293,6 +385,8 @@ export default {
           this.guideFileId = []
         } else {
           this.guideFileId.push(file.raw)
+          this.handleUpload('md', this.guideFileId[0])
+          this.$refs.guideFileItem.clearValidate()
         }
       }
     },
@@ -307,51 +401,43 @@ export default {
           this.iconFileList = []
         } else {
           this.iconFileList.push(file.raw)
+          this.handleUpload('icon', this.iconFileList[0])
+          this.$refs.iconFileItem.clearValidate()
         }
       }
     },
     handleUpload (key, file) {
-      this.$refs['serviceForm'].validate((valid) => {
-        if (valid) {
-          if (this.isModify) {
-            this.publishService()
+      let formdata = new FormData()
+      formdata.append('file', file)
+      formdata.append('fileType', key)
+      applicationApi.uploadFileApi(formdata).then(res => {
+        if (res && res.data) {
+          if (key === 'api') {
+            this.serviceFormData.apiFileId = res.data.fileId
+          } else if (key === 'md') {
+            this.serviceFormData.guideFileId = res.data.fileId
           } else {
-            let formdata = new FormData()
-            formdata.append('file', file)
-            formdata.append('fileType', key)
-            applicationApi.uploadFileApi(formdata).then(res => {
-              if (res && res.data) {
-                if (key === 'api') {
-                  this.apiFileId = res.data.fileId
-                  this.handleUpload('md', this.guideFileId[0])
-                } else if (key === 'md') {
-                  this.docFileId = res.data.fileId
-                  this.handleUpload('icon', this.iconFileList[0])
-                } else {
-                  this.iconFileId = res.data.fileId
-                  this.serviceFormData.apiFileId = this.apiFileId
-                  this.serviceFormData.guideFileId = this.docFileId
-                  this.serviceFormData.iconFileId = this.iconFileId
-                  this.publishService()
-                }
-              }
-            })
+            this.serviceFormData.iconFileId = res.data.fileId
           }
         }
       })
     },
     publishService () {
-      if (this.isModify) {
-        applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
-          this.$message.success(this.$t('service.editSuccess'))
-          this.$router.push('/EG/developer/capabilityCenter')
-        })
-      } else {
-        applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
-          this.$message.success(this.$t('service.publishSuccess'))
-          this.$router.push('/EG/developer/capabilityCenter')
-        })
-      }
+      this.$refs['serviceForm'].validate((valid) => {
+        if (valid) {
+          if (this.isModify) {
+            applicationApi.modifyPublishedService(this.appId, this.serviceId, this.serviceFormData).then(res => {
+              this.$message.success(this.$t('service.editSuccess'))
+              this.$router.push('/EG/developer/capabilityCenter')
+            })
+          } else {
+            applicationApi.publishService(this.appId, this.serviceFormData).then(res => {
+              this.$message.success(this.$t('service.publishSuccess'))
+              this.$router.push('/EG/developer/capabilityCenter')
+            })
+          }
+        }
+      })
     },
     getFileInfo (type, fileId) {
       applicationApi.getFileInfo(fileId).then(res => {
@@ -392,9 +478,10 @@ export default {
 <style lang="less" scoped>
   .capability-publish{
     position: absolute;
-    top: 0%;
-    left: 25%;
-    width: 50%;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    transform: translate(-50%,-50%);
     padding: 15px 35px;
   }
   .cap-upload-btn{

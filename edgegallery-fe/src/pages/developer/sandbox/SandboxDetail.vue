@@ -15,7 +15,7 @@
   -->
 <template>
   <div class="detail">
-    <div v-if="showContent==='showDetail'">
+    <div v-show="showContent==='showDetail'">
       <div
         class="detail-top clear"
         v-if="isChangeStyle"
@@ -107,15 +107,14 @@
             </div>
           </div>
           <div class="application-title">
-            {{ applicationName }}
             <div
               class="add-vm-small rt"
               v-if="appClass==='VM' && vmLists.length>=1"
+              @click="addVm"
             >
               <img
                 src="../../../assets/images/sandbox/vm_add_icon.png"
                 alt=""
-                @click="addVm"
               >
             </div>
           </div>
@@ -123,21 +122,36 @@
             class="details-center clear"
             v-if="appClass==='VM'"
           >
-            <div class="sandbox-upf-div">
-              <div
-                class="sandbox-upf flex-center"
-                @click="addApplicationRules"
-              >
-                <img
-                  src="../../../assets/images/sandbox/sandbox_upf.png"
-                  alt=""
+            <div class="details-center-deploy sandbox-upf-div">
+              <div class="details-center-deploy-img">
+                <div
+                  class="lt deploy-img flex-center hoverHands"
+                  @click="addApplicationRules"
                 >
+                  <img
+                    class="deploy-img-center deploy-img-center-finish"
+                    src="../../../assets/images/sandbox/sandbox_upf.png"
+                    alt=""
+                  >
+                  <div class="deploy-edit flex-center">
+                    <el-tooltip
+                      class="edit-tooltip"
+                      effect="light"
+                      :content="$t('common.edit')"
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="../../../assets/images/sandbox/edit_green.png"
+                        alt=""
+                      >
+                    </el-tooltip>
+                  </div>
+                </div>
               </div>
               <div class="deploy-title">
                 {{ $t('sandbox.upf') }}
               </div>
             </div>
-
             <div class="details-center-deploy vm-div">
               <div class="details-center-deploy-img">
                 <div
@@ -188,7 +202,7 @@
               </li>
             </ul>
             <swiper
-              v-if="vmLists.length>0"
+              v-show="vmLists.length>0"
               class="vm-swiper"
               :class="{'lt':vmLists.length<2}"
               :options="swiperOption"
@@ -250,6 +264,7 @@
             v-if="appClass==='CONTAINER'"
           >
             <ContainerIndex
+              ref="ContainerIndex"
               @importScript="importScript"
               @checkContainerDetail="checkContainerDetail"
               @deployContainerFinish="deployContainerFinish"
@@ -401,26 +416,9 @@
         </div>
       </div>
     </div>
-    <AddVm
-      v-show="showContent==='showAddVm'"
-      @addVmFinish="addVmFinish"
-      :is-add-vm-prop="isAddVm"
-      ref="addVmChild"
-      @getNetWorkList="getNetWorkList"
-    />
     <ConfigNetwork
       v-if="showContent==='showConfigNetwork'"
       @editNetwork="editNetwork"
-    />
-    <VmDetail
-      v-show="showContent==='showVmDetail'"
-      @closeVmDetail="closeVmDetail"
-      @editVmDetail="editVmDetail"
-    />
-    <VmUploadFile
-      v-show="showContent==='showVmUploadFile'"
-      @closeVmUpload="closeVmUpload"
-      :application-id="applicationId"
     />
     <ContainerScript
       v-if="showContent==='showImportScript'"
@@ -430,6 +428,74 @@
       v-show="showContent==='showContainerDetail'"
       @closeContainerDetail="closeContainerDetail"
     />
+    <el-dialog
+      class="default_dialog"
+      width="1100px"
+      :class="isAddVmBtn?'showDialog':'hiddenDialog'"
+      :visible.sync="showAddVm"
+      :close-on-click-modal="false"
+    >
+      <AddVm
+        @addVmFinish="addVmFinish"
+        :is-add-vm-prop="isAddVm"
+        @closeAddDialog="closeAddVm"
+        ref="addVmChild"
+        @getNetWorkList="getNetWorkList"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+        v-if="isAddVmBtn"
+      >
+        <el-button
+          id="btn_cancelAddVm"
+          class="common-btn"
+          @click="addVmConfirm('cancel')"
+        >
+          {{ $t('normal.cancel') }}
+        </el-button>
+        <el-button
+          id="btn_confirmAddVm"
+          class="common-btn"
+          @click="addVmConfirm('confirm')"
+        >
+          {{ $t('normal.confirm') }}
+        </el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      class="default_dialog"
+      width="900px"
+      :visible.sync="showVmDetail"
+      :close-on-click-modal="false"
+    >
+      <VmDetail
+        @closeVmDetail="closeVmDetail"
+        @editVmDetail="editVmDetail"
+      />
+    </el-dialog>
+    <el-dialog
+      class="default_dialog"
+      width="700px"
+      :visible.sync="showVmUploadFile"
+      :close-on-click-modal="false"
+    >
+      <VmUploadFile
+        :application-id="applicationId"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          id="btn_cancelVmUploadFile"
+          class="common-btn"
+          @click="showVmUploadFile=false"
+        >
+          {{ $t('common.close') }}
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -488,7 +554,10 @@ export default {
         observeParents: true,
         pagination: {
           el: '.swiper-pagination',
-          clickable: true
+          clickable: true,
+          renderBullet: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + '</span>'
+          }
         }
       },
       netWorkListShow: [],
@@ -498,7 +567,11 @@ export default {
       isChangeSandboxName: false,
       isAddVm: true,
       swiperKey: 1,
-      clearState: ''
+      clearState: '',
+      showAddVm: false,
+      showVmUploadFile: false,
+      showVmDetail: false,
+      isAddVmBtn: true
     }
   },
   methods: {
@@ -530,7 +603,7 @@ export default {
     ischangeSandbox () {
       sandbox.container.getApplicationDetail(this.applicationId).then(res => {
         if (sessionStorage.getItem('loadtype') === 'vm') {
-          if (res.data.vmApp.vmList.length > 0) {
+          if (res.data.vmApp && res.data.vmApp.vmList.length > 0) {
             res.data.vmApp.vmList.forEach(item => {
               if (item.vmInstantiateInfo !== '') {
                 this.isChangeSandboxName = true
@@ -554,18 +627,27 @@ export default {
       this.showContent = 'showConfigNetwork'
     },
     addVm () {
-      this.showContent = 'showAddVm'
+      this.showAddVm = true
       this.isAddVm = true
-      this.$refs.addVmChild.handleAddVmData(true)
+      setTimeout(() => {
+        this.$refs.addVmChild.handleAddVmData(true)
+        this.$refs.addVmChild.getVmSpecs(0)
+      }, 0)
     },
     deleteVm () {
       this.getVmList()
     },
     editVmDetail () {
-      this.showContent = 'showAddVm'
+      this.showAddVm = true
+      this.showVmDetail = false
       this.isAddVm = false
     },
-    addVmFinish (data) {
+    addVmConfirm (type) {
+      setTimeout(() => {
+        this.$refs.addVmChild.addVmFinish(type)
+      }, 0)
+    },
+    addVmFinish (data, confirm) {
       if (data && data.length > 0) {
         this.networkList = data
         this.isBtnStart = true
@@ -576,7 +658,11 @@ export default {
         this.netNum = data.length
         this.getVmList()
       }
+      this.showAddVm = !confirm
       this.showContent = 'showDetail'
+    },
+    closeAddVm (data) {
+      this.isAddVmBtn = data !== 'true'
     },
     editNetwork (data) {
       this.showContent = 'showDetail'
@@ -587,15 +673,15 @@ export default {
         this.netNum = data.length
       }
     },
-    checkVmDetail (data) {
-      this.showContent = data
+    checkVmDetail () {
+      this.showVmDetail = true
     },
-    closeVmDetail () {
-      this.showContent = 'showDetail'
+    closeVmDetail (data, index) {
+      this.showVmDetail = false
+      this.vmLists[index] = data
     },
-    uploadVmFile (data) {
-      this.showContent = data
-      this.getVmList()
+    uploadVmFile () {
+      this.showVmUploadFile = true
     },
     closeVmUpload () {
       this.showContent = 'showDetail'
@@ -634,6 +720,7 @@ export default {
         this.isClearVmImage = true
         this.isStartupVmFinish = false
         this.clearState = 'clear'
+        this.getVmList()
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvSuccess'), 'success')
       }).catch(() => {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.releaseEnvFailed'), 'error')
@@ -662,6 +749,7 @@ export default {
     },
     finishUploadScript () {
       this.showContent = 'showDetail'
+      this.$refs.ContainerIndex.getHelmChartsFileList()
     },
     deployContainerFinish (data) {
       this.isAddVmFinish = data
@@ -705,6 +793,18 @@ export default {
   overflow: auto;
   font-size: 16px;
   color: #fff;
+  .hiddenDialog{
+    .el-dialog{
+      background: rgba(250, 250, 250, 0) !important;
+      box-shadow: none !important;
+    }
+  }
+  .showDialog{
+    .el-dialog{
+      background: rgba(75,55,154,0.9) !important;
+      box-shadow: 0 1px 3px rgb(0,0,0,0.3) !important;
+    }
+   }
   .detail-top{
     float: left;
     width: 50%;
@@ -828,11 +928,6 @@ export default {
         backdrop-filter: blur(4px);
       }
     }
-    .detail-center-bg:hover{
-      .detail-center-title{
-        opacity: 1;
-      }
-    }
     .detail-center-name{
       font-size: 26px;
       text-align: center;
@@ -884,7 +979,7 @@ export default {
         border-radius: 20px;
         background: rgba(10, 9, 54, 1);
         opacity: 0.25;
-        margin-right: 55px;
+        margin-right: 72px;
         cursor: pointer;
         img{
           width: 20px;
@@ -993,8 +1088,12 @@ export default {
           margin-top: 40px;
         }
         .vm-list-div{
-          width: 711px;
+          width: 720px;
+          padding-right: 72px;
           float: left;
+        }
+        .vm-list-div:hover{
+          cursor: move;
         }
         .ul-scoll{
           width: 300px;
@@ -1126,21 +1225,23 @@ export default {
     animation:move 2.5s linear infinite;
   }
   .swiper-container.vm-swiper{
-    position: static;
-    padding-bottom: 15px;
-    margin: 40px 0 0;
+    padding: 40px 0;
     .swiper-slide{
-      width: 711px !important;
+      width: 720px !important;
     }
     .swiper-pagination-bullets{
       width: auto;
-      bottom: 90px;
-      right: 40px;
+      bottom: 0px;
+      right: 0px;
       text-align: right;
       .swiper-pagination-bullet{
-        width: 12px;
-        height: 12px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
         background: #C4C4C4;
+        font-size: 20px;
+        color: #000;
       }
     }
     .swiper-pagination-none{

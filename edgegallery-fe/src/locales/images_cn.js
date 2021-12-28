@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const imagesCn = {
   appPackage: {
     appdTitle: '应用配置预览',
     basicInfo: '基本信息',
@@ -72,4 +72,4 @@ const cn = {
     noDependences: '无依赖'
   }
 }
-export default cn
+export default imagesCn

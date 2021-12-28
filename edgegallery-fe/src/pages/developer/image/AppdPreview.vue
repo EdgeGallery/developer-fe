@@ -38,6 +38,7 @@
         <el-col :span="18">
           <div class="file-desc">
             <mavon-editor
+              class="common-mavon-editor"
               v-model="markdownSource"
               :toolbars-flag="false"
               :subfield="false"
@@ -125,7 +126,7 @@ export default {
         if (this.appPageListData.length > 0) {
           this.$nextTick(function () {
             const firstNode = document.querySelector(
-              '.appd-tree .el-tree-node .el-tree-node__content'
+              '.appd-tree .el-tree-node .el-tree-node__children .el-tree-node'
             )
             firstNode.click()
           })
@@ -237,6 +238,12 @@ export default {
       .file-list {
         border-radius: 16px;
         border: 1px #ffffff solid;
+        .el-tree{
+          overflow-x: auto;
+        }
+        .el-tree-node__label {
+          font-size: 16px;
+        }
       }
       .file-desc {
         padding-left: 15px;

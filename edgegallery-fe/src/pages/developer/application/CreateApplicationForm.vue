@@ -125,13 +125,12 @@
             <div class="or">
               {{ $t('incubation.or') }}
             </div>
-            <div class="uplod-icon">
+            <div :class="{'upload-icon':logoFileList.length>0}">
               <el-upload
                 class="avatar-uploader"
                 ref="upload"
                 action=""
                 :show-file-list="false"
-                :limit="1"
                 :file-list="logoFileList"
                 :on-change="handleChangeLogo"
                 :auto-upload="false"
@@ -142,10 +141,11 @@
                   v-if="imageUrl"
                   :src="imageUrl"
                   class="avatar"
+                  alt=""
                 >
                 <em
                   v-else
-                  class="el-icon-plus"
+                  class="el-icon-plus el-icon-plus-app"
                 />
                 <el-tooltip
                   effect="dark"
@@ -211,7 +211,7 @@
           :label="$t('incubation.packageSpecs')"
           class="cb"
           prop="pkgSpecId"
-          v-if="isShowSpecOption"
+          v-if="isShowSpecOption && applicationFormData.appClass==='VM'"
         >
           <el-select
             v-model="applicationFormData.pkgSpecId"
@@ -250,33 +250,73 @@ import { Industry, Type, Architecture } from '../../../tools/commondata.js'
 export default {
   name: 'CreateProComp',
   data () {
+    let validateProjectName = (rule, value, callback) => {
+      let reg = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[\u4E00-\u9FA5a-zA-Z0-9_-]{4,32}$/
+      if (!value) {
+        return callback(new Error(this.$t('incubation.nameTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.nameRule')))
+      } else {
+        return callback()
+      }
+    }
+    let validateVersion = (rule, value, callback) => {
+      let reg = /^[\w\\-][\w\\-\s.]{0,9}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.versionTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.versionRule')))
+      } else {
+        return callback()
+      }
+    }
+    let validateProvider = (rule, value, callback) => {
+      let reg = /^\S.{0,29}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.providerTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.providerRule')))
+      } else {
+        return callback()
+      }
+    }
+    let validateDescription = (rule, value, callback) => {
+      let reg = /^(?!\s)(?![0-9]+$)[\S.\s\n\r]{1,1024}$/g
+      if (!value) {
+        return callback(new Error(this.$t('incubation.descTip')))
+      } else if (!reg.test(value)) {
+        callback(new Error(this.$t('incubation.descriptionRule')))
+      } else {
+        return callback()
+      }
+    }
     return {
       applicationFormData: {
         'name': '',
         'version': '',
         'provider': '',
-        'appClass': 'CONTAINER',
+        'appClass': 'VM',
         'architecture': 'X86',
         'industry': 'Smart Park',
         'type': 'Video Application',
         'description': '',
         'appCreateType': 'INTEGRATED',
         'iconFileId': '',
-        'guideFileId': ''
+        'guideFileId': '',
+        'pkgSpecId': ''
       },
       applicationFormRules: {
         name: [
-          { required: true, message: this.$t('incubation.nameTip'), trigger: 'blur' },
-          { min: 1, max: 35, message: this.$t('incubation.lengthTip'), trigger: 'blur' }
+          { required: true, validator: validateProjectName }
         ],
         version: [
-          { required: true, message: this.$t('incubation.versionTip'), trigger: 'blur' }
+          { required: true, validator: validateVersion }
         ],
         provider: [
-          { required: true, message: this.$t('incubation.providerTip'), trigger: 'blur' }
+          { required: true, validator: validateProvider }
         ],
         description: [
-          { required: true, message: this.$t('incubation.descTip'), trigger: 'blur' }
+          { required: true, validator: validateDescription }
         ]
       },
       defaultIconSrc: require('../../../assets/images/application/app_default_icon.png'),
@@ -300,6 +340,11 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.$refs['applicationForm'].fields.forEach(item => {
+        if (item.validateState === 'error') {
+          this.$refs['applicationForm'].validateField(item.labelFor)
+        }
+      })
     }
   },
   methods: {
@@ -307,6 +352,7 @@ export default {
       this.logoFileList = []
       if (file) {
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('service.fileNameType'))
           this.logoFileList = []
         } else {
           this.isIconChanged = true
@@ -322,16 +368,19 @@ export default {
             }
           })
         }
-        if (file.size / 1024 / 1024 > 2) {
+        this.checkLogoFile(file)
+      }
+    },
+    checkLogoFile (file) {
+      if (file.size / 1024 / 1024 > 2) {
+        this.logoFileList = []
+        this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+      }
+      let fileTypeArr = ['jpg', 'png']
+      if (file.name) {
+        let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
           this.logoFileList = []
-          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
-        }
-        let fileTypeArr = ['jpg', 'png']
-        if (file.name) {
-          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-            this.logoFileList = []
-          }
         }
       }
     },
@@ -346,6 +395,7 @@ export default {
       this.mdFileList = []
       if (file) {
         if (file.raw && file.raw.name.indexOf(' ') !== -1) {
+          this.$message.warning(this.$t('service.fileNameType'))
           this.mdFileList = []
         } else {
           this.mdFileList.push(file.raw)
@@ -361,16 +411,19 @@ export default {
             console.log(err)
           })
         }
-        if (file.size / 1024 / 1024 > 2) {
+        this.checkMdFile(file)
+      }
+    },
+    checkMdFile (file) {
+      if (file.size / 1024 / 1024 > 2) {
+        this.mdFileList = []
+        this.$message.warning(this.$t('incubation.uploadSizeLimit'))
+      }
+      let fileTypeArr = ['md']
+      if (file.name) {
+        let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
           this.mdFileList = []
-          this.$message.warning(this.$t('incubation.uploadSizeLimit'))
-        }
-        let fileTypeArr = ['md']
-        if (file.name) {
-          let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
-          if (fileTypeArr.indexOf(fileType.toLowerCase()) === -1) {
-            this.mdFileList = []
-          }
         }
       }
     },
@@ -453,6 +506,10 @@ export default {
     confirmToModify () {
       this.applicationFormData.id = this.appId
       applicationApi.modifyApp(this.appId, this.applicationFormData).then(res => {
+        sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
+        sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
+        sessionStorage.setItem('architecture', this.applicationFormData.architecture)
+        sessionStorage.setItem('pkgSpecId', this.applicationFormData.pkgSpecId)
         this.$message.success(this.$t('incubation.modifyAppSuccess'))
         this.$router.push('/EG/developer/home')
       }).catch(err => {
@@ -465,8 +522,10 @@ export default {
         sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
         sessionStorage.setItem('loadtype', this.applicationFormData.appClass === 'VM' ? 'vm' : 'container')
         sessionStorage.setItem('architecture', this.applicationFormData.architecture)
+        sessionStorage.setItem('pkgSpecId', this.applicationFormData.pkgSpecId)
         this.$store.commit('changeFlow', '2')
         this.$store.commit('changeZoom', '2')
+        sessionStorage.removeItem('currentAppList')
         sessionStorage.setItem('applicationId', res.data.id)
         this.$message.success(this.$t('incubation.addAppSuccess'))
         this.$store.commit('changeApp', res.data.name)
@@ -547,9 +606,18 @@ export default {
       margin: 0 10px;
     }
     .upload-icon{
-      height: 46px;
-      line-height: 46px;
-      display: flex;
+      position: relative;
+      .el-upload::before{
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('../../../assets/images/application/selected.png') center no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: -7px;
+        left: 35px;
+      }
     }
     .upload-content{
       display: flex;
@@ -595,6 +663,7 @@ export default {
   }
   .el-upload-list{
     width: auto;
+    margin-left: 20px;
   }
   .el-upload-list__item{
     background: #fff;
@@ -608,7 +677,7 @@ export default {
     border: 1px solid #fff;
     border-radius: 6px;
   }
-  .el-icon-plus{
+  .el-icon-plus.el-icon-plus-app{
     border: 1px dashed #fff;
     border-radius: 6px;
     box-sizing: border-box;
@@ -616,7 +685,7 @@ export default {
     height: 46px;
     line-height: 46px;
   }
-  .el-icon-plus:before{
+  .el-icon-plus.el-icon-plus-app:before{
     font-size: 22px;
     top: 0 !important;
   }
@@ -635,9 +704,10 @@ export default {
   .choose-default-icon::after{
     content: '';
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    background: url('../../../assets/images/application/app_success.png') center no-repeat;
+    width: 20px;
+    height: 20px;
+    background: url('../../../assets/images/application/selected.png') center no-repeat;
+    background-size: cover;
     position: relative;
     top: -18px;
     left: 30px;

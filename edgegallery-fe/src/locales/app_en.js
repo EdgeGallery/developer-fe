@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const en = {
+const appEn = {
   incubation: {
     zoomOut: 'Zoom out',
     search: 'Search',
@@ -59,10 +59,15 @@ const en = {
     modifyAppFailed: 'Modified App failed!',
     fileLimitNum: 'Only support one file!',
     nameTip: 'You should enter the app name.',
+    nameRule: 'No spaces, length 4-32, cannot be all numbers, can include numbers, letters, Chinese characters, _, -, and cannot start and end with _,-',
     lengthTip: 'The app name should be including 3-15 letters.',
     versionTip: 'Please enter the app version.',
+    versionRule: 'Length 1-10, can only contain numbers, letters, _,-and spaces, and cannot be empty at the beginning',
     providerTip: 'Please enter the app provider.',
+    providerRule: 'Length 1-30, cannot be empty at the beginning',
     descTip: 'Please enter the app description.',
+    providerEmpty: 'Provider cannot be empty',
+    descriptionRule: 'Length 1-1024, the beginning cannot be empty, and cannot be all numbers',
     container: 'Container',
     vm: 'VM',
     uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.',
@@ -80,11 +85,12 @@ const en = {
     emulator: 'Emulator',
     current: 'Current',
     done: 'Done',
-    notOperated: 'Not-operated'
+    notOperated: 'Not-operated',
+    pleaseUpload: 'Please upload '
   },
   service: {
     basicInfo: 'Basic information',
-    secLevelCn: 'Second Level(Cn)',
+    secLevelCn: 'Second Level',
     secLevelEn: 'Second Level(En)',
     firLevel: 'First Level',
     secLevel: 'Second Level',
@@ -117,7 +123,15 @@ const en = {
     innerPortTip: 'Please enter the internal port',
     protocolTip: 'Please enter the protocol.',
     secondLevelNameCnTip: 'Please enter the second level service name(Cn).',
-    secondLevelNameEnTip: 'Please enter the second level service name(En).'
+    secondLevelNameEnTip: 'Please enter the second level service name(En).',
+    uploadApiFile: 'Please upload the Api file!',
+    iconRequired: 'Icon is required',
+    guideFileId: 'Guide',
+    fileNameType: 'The file name cannot contain spaces!',
+    isNameEmpty: 'Please enter a name',
+    nameRules: 'Please enter a name with a length of 1-40,the beginning cannot be empty',
+    serviceDesc: 'Please enter service description with a length of 1-400,the beginning cannot be empty',
+    successOperation: 'Successful operation!'
   },
   workflow: {
     incubation: 'Incubation',
@@ -126,4 +140,4 @@ const en = {
     produceEnv: 'Deployment'
   }
 }
-export default en
+export default appEn

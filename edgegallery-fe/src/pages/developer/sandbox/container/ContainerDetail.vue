@@ -44,7 +44,14 @@
       <div class="vm-content">
         <p class="clear">
           <span class="content-left lt">{{ $t('container.deploymentStatus') }} :</span>
-          <span class="content-right lt">{{ containerApp.instantiateInfo?containerApp.instantiateInfo.status:'NA' }}</span>
+          <span class="content-right lt">{{ deployStatus!==''?deployStatus:'NA' }}</span>
+        </p>
+        <p
+          class="clear"
+          v-if="deployLog!==null"
+        >
+          <span class="content-left lt">{{ $t('container.deployLog') }} :</span>
+          <span class="content-right deploy-log lt">{{ deployLog }}</span>
         </p>
         <p class="clear">
           <span class="content-left lt">{{ $t('container.podInformation') }} :</span>
@@ -178,7 +185,9 @@ export default {
       language: localStorage.getItem('language') || 'cn',
       appPodsData: [],
       appServiceRequired: '',
-      refreshPods: false
+      refreshPods: false,
+      deployStatus: '',
+      deployLog: ''
     }
   },
   methods: {
@@ -187,9 +196,11 @@ export default {
     },
     getContainerDetail () {
       let _this = this
-      this.bus.$on('getContainerDetail', function (data) {
+      this.bus.$on('getContainerDetail', function (data, statusMsg) {
         _this.containerApp = data
         _this.getServiceRequiredLists()
+        _this.deployLog = statusMsg.errorMsg
+        _this.deployStatus = statusMsg.status
         if (_this.containerApp.instantiateInfo) {
           _this.appPodsData = _this.containerApp.instantiateInfo.pods
         } else {
@@ -273,18 +284,22 @@ export default {
       padding: 16px 40px;
       border-radius: 8px;
       background: rgba(255,255,255,.1);
-      font-size: 14px;
-      line-height: 22px;
+      font-size: 18px;
+      line-height: 30px;
       margin-top: 15px;
       p{
         margin-bottom: 10px;
         .content-left{
-          width: 75px;
+          width: 110px;
           text-align: right;
           padding-right: 5px;
         }
         .content-right{
-          width: calc(100% - 75px);
+          width: calc(100% - 110px);
+        }
+        .content-right.deploy-log{
+          max-height: 90px;
+          overflow: auto;
         }
         .node-span{
           display: block;
@@ -332,10 +347,10 @@ export default {
   }
   .container-detail-dlg-en{
     .content-left{
-      width: 135px !important;
+      width: 170px !important;
     }
     .content-right{
-      width: calc(100% - 135px) !important;
+      width: calc(100% - 170px) !important;
     }
   }
 }

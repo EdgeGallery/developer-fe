@@ -16,30 +16,19 @@
 
 <template>
   <div class="uploadApp">
-    <div class="common-div-bg">
-      <p class="common-dlg-title">
-        {{ $t('sandbox.uploadAppPackage') }}
+    <p class="common-dlg-title">
+      {{ $t('sandbox.uploadAppPackage') }}
+    </p>
+    <div class="uploadAppBody">
+      <UploadBigFile
+        :upload-url-prop="uploadUrl"
+        :merge-url-prop="mergeUrl"
+        :btn-name-prop="btnName"
+        :params-name-prop="paramsName"
+      />
+      <p class="prompt">
+        {{ $t('sandbox.uploadAppPackagePromt') }}
       </p>
-      <div class="uploadAppBody">
-        <UploadBigFile
-          :upload-url-prop="uploadUrl"
-          :merge-url-prop="mergeUrl"
-          :btn-name-prop="btnName"
-          :params-name-prop="paramsName"
-        />
-        <p class="prompt">
-          {{ $t('sandbox.uploadAppPackagePromt') }}
-        </p>
-      </div>
-      <div class="btn-container">
-        <el-button
-          id="btn_cancelVmUploadFile"
-          class="common-btn"
-          @click="closeVmUpload"
-        >
-          {{ $t('common.close') }}
-        </el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -69,26 +58,15 @@ export default {
       mergeUrl: 'mec/developer/v2/applications/' + this.applicationId + '/vms/' + sessionStorage.getItem('vmId') + '/action/merge-file?fileName=',
       paramsName: 'identifier'
     }
-  },
-  methods: {
-    closeVmUpload () {
-      this.$emit('closeVmUpload')
-    }
   }
 }
 
 </script>
 <style lang='less'>
 .uploadApp {
-  position: absolute;
-  width: 600px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
   .prompt{
     margin-top: 10px;
-    font-size: 12px;
-    color: rgba(255,255,255,.5);
+    font-size: 16px;
   }
 }
 

@@ -60,6 +60,7 @@
           <el-link
             class="download_sdk"
             :href="downloadSDKApi()"
+            rel="noopener noreferrer"
           />
           <el-link
             :href="guideUrl"
@@ -166,7 +167,7 @@ export default {
     },
     // Feth Api-swaggerUI path
     getApiUrl () {
-      let apiUrl = Api.getSwaggerUrlApi(this.apiFileId, this.userId)
+      let apiUrl = Api.getSwaggerUrlApi(this.apiFileId)
       SwaggerUIBundle({
         url: apiUrl,
         dom_id: '#swagger-ui',

@@ -146,7 +146,7 @@ export default {
       scenarioIdList: [],
       taskId: '',
       testSuiteData: [],
-      language: localStorage.getItem('language'),
+      language: localStorage.getItem('language') || 'cn',
       isTestCase: false,
       activeInfo: -1,
       isShowScene: true,
@@ -165,8 +165,8 @@ export default {
     getTaskId () {
       atpTestApi.submitTest(this.applicationId).then(res => {
         if (res.data) {
-          atpTestApi.getTestId(this.applicationId).then(res => {
-            this.taskId = res.data[0].id
+          atpTestApi.getTestId(this.applicationId).then(response => {
+            this.taskId = response.data[0].id
             this.isCreateSuc = false
           })
         } else {
@@ -277,7 +277,6 @@ export default {
       fd.append('scenarioIdList', this.scenarioIdList)
       atpApi.runTaskApi(this.taskId, fd).then(res => {
         this.$router.push({ path: '/EG/developer/testProcess', query: { taskId: this.taskId } })
-      }).catch(() => {
       })
     }
   },
@@ -387,7 +386,7 @@ export default {
           .description{
             font-family: defaultFontLight,Arial, Helvetica, sans-serif;
             display: block;
-            font-size: 14px;
+            font-size: 16px;
             color: #fff;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -410,7 +409,7 @@ export default {
               border-radius: 30px;
             }
             .el-button--small {
-              padding: 5px 8px;
+              padding: 2px;
             }
           }
           .operation-btn.btnNone{

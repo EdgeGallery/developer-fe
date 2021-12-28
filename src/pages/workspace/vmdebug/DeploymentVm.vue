@@ -242,6 +242,7 @@
                   :underline="false"
                   :disabled="scope.row.status==='CREATING'"
                   class="download_btn"
+                  rel="noopener noreferrer"
                 >
                   {{ $t('common.download') }}
                 </el-link>

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const homeCn = {
   banner: {
     text: '首页'
   },
@@ -26,4 +26,4 @@ const cn = {
     returnHome: '返回孵化流程'
   }
 }
-export default cn
+export default homeCn

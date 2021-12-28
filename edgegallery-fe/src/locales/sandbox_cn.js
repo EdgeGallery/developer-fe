@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const sandboxCn = {
   sandbox: {
     selectSandbox: '选择沙箱',
     sandboxDetail: '沙箱详情',
@@ -65,7 +65,20 @@ const cn = {
     enterScriptContent: '填写脚本内容',
     type: '类型',
     customSpec: '自定义规格',
-    typeTip: '请选择类型'
+    typeTip: '请选择类型',
+    hugePage: '大页内存',
+    gpuType: 'GPU类型',
+    gpuNum: '数量',
+    hostGroup: '主机组标签',
+    cpuPolicy: '绑核策略',
+    cpuThread: 'CPU线程隔离策略',
+    numaNode: 'NUMA区域',
+    hugePageTip: '请选择大页内存',
+    gpuTypeTip: '请选择GPU类型',
+    gpuNumTip: '请先选择GPU类型',
+    hostGroupTip: '请输入主机组标签',
+    isImageEmpty: '请选择镜像',
+    isNetworkEmpty: '请配置网络端口'
   },
   rulesConfig: {
     appRuleConfig: '应用规则配置',
@@ -127,7 +140,8 @@ const cn = {
     podInformation: 'pod信息',
     podName: 'pod名称',
     podStatus: 'pod状态',
-    containerName: '容器名称'
+    containerName: '容器名称',
+    deployLog: '部署日志'
   },
   sandboxPromptInfomation: {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G！',
@@ -139,8 +153,10 @@ const cn = {
     cleanEnvSuccess: '释放资源成功！',
     cleanEnvFailed: '释放资源失败！',
     noServiceInfo: '服务信息有误，请检查文件！',
-    noImageInfo: '镜像信息有误，请检查文件！',
+    noImageInfo: '没有镜像信息，请检查文件！',
     noFormat: '参数校验有误，请检查文件！',
+    imageInfoError: '镜像信息有误，请检查文件！',
+    notInHarbor: '镜像不存在harbor仓库中，请先去上传！',
     addCustomSuccess: '自定义规格添加成功！',
     deleteInternetSuccess: '删除网络配置成功！',
     addInternetFaild: '网络配置数据最多为4条！',
@@ -150,4 +166,4 @@ const cn = {
     addInternetTip: '网络类型名称不能为空！'
   }
 }
-export default cn
+export default sandboxCn

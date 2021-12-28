@@ -20,6 +20,7 @@
       {{ $t('breadCrumb.profileMgmt') }}
       <span class="line_bot1" />
       <el-button
+        v-if="isAdmin"
         class="createimage_btn linearGradient2 image_mgmt"
         @click="addNewProfile"
       >
@@ -86,6 +87,7 @@
         <el-table-column
           :label="$t('workspace.operation')"
           min-width="20%"
+          v-if="isAdmin"
         >
           <template slot-scope="scope">
             <el-button
@@ -161,11 +163,13 @@ export default {
       screenHeight: document.body.clientHeight,
       isEdit: false,
       profileId: '',
-      isVisible: false
+      isVisible: false,
+      isAdmin: false
     }
   },
   mounted () {
     this.setDivHeight()
+    this.initUser()
     this.getListData()
   },
   watch: {
@@ -185,11 +189,18 @@ export default {
     }
   },
   methods: {
+    initUser () {
+      this.userId = sessionStorage.getItem('userId')
+      let _authorities = sessionStorage.getItem('userAuthorities')
+      if (_authorities && _authorities.length > 0) {
+        this.isAdmin = _authorities.includes('ROLE_DEVELOPER_ADMIN')
+      }
+    },
     closedig () {
       this.isVisible = false
     },
     setDivHeight () {
-      common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)
+      common.setDivHeightFun(this.screenHeight, 'profileManagement', 261)
     },
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize

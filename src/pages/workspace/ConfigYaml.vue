@@ -49,6 +49,7 @@
           <a
             class="uploader-button"
             slot="trigger"
+            rel="noopener noreferrer"
           >
             {{ $t('workspace.configYaml.uploadYaml') }}
           </a>
@@ -56,6 +57,7 @@
             class="uploader-button"
             :href="demoYaml"
             download="demo.yaml"
+            rel="noopener noreferrer"
           >
             {{ $t('workspace.configYaml.downloadDemo') }}
           </a>

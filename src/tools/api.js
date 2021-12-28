@@ -94,8 +94,8 @@ let Api = {
     return Get('mec/developer/v1/query/capability-groups/type/' + type)
   },
   // ObtainApi-swaggerUIpath
-  getSwaggerUrlApi: function (apiFileId, userId) {
-    return urlPrefix + 'mec/developer/v1/files/' + apiFileId + '?userId=' + userId + '&type=OPENMEP'
+  getSwaggerUrlApi: function (apiFileId) {
+    return urlPrefix + 'mec-developer/mec/developer/v2/upload-files/' + apiFileId + '/action/get-file-stream'
   },
   // SDKdownload
   downloadSDKApi: function (fileId, lan) {
@@ -206,6 +206,9 @@ let System = {
   },
   getSerives: function (params) {
     return Get('mec/developer/v2/capabilities', params)
+  },
+  getFileInfo: function (fileId) {
+    return Get('mec/developer/v2/upload-files/' + fileId)
   }
 }
 
@@ -229,6 +232,9 @@ let Workspace = {
   // Get the project icon
   getIconApi: function (fileId, userId) {
     return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP_ECO'
+  },
+  getCapabilityIconApi: function (fileId) {
+    return urlPrefix + 'mec-developer/mec/developer/v2/upload-files/' + fileId + '/action/get-file-stream'
   },
   getServiceIconApi: function (fileId, userId) {
     return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP'

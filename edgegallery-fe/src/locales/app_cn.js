@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const cn = {
+const appCn = {
   incubation: {
     zoomOut: '缩小',
     search: '搜索',
@@ -58,11 +58,15 @@ const cn = {
     modifyAppSuccess: '编辑应用成功！',
     modifyAppFailed: '编辑应用失败！',
     fileLimitNum: '仅支持上传一个文件！',
-    nameTip: '请输应用名称',
+    nameTip: '请输入应用名称',
+    nameRule: '不含空格，长度4-32，不能全为数字，可以包含数字、字母、汉字、_、-，开头结尾不能为_、-',
     lengthTip: '长度在 3 到 15 个字符',
     versionTip: '请输入应用版本',
+    versionRule: '长度1-10，只能包含数字、字母、_、-和空格，开头不能为空',
     providerTip: '请输入应用开发商',
+    providerRule: '长度1-30，开头不能为空',
     descTip: '请输入应用描述',
+    descriptionRule: '长度1-1024，开头不能为空，不能全为数字',
     container: '容器',
     vm: '虚拟机',
     uploadSizeLimit: '上传文件超多超过2M限制，请重试',
@@ -80,11 +84,12 @@ const cn = {
     emulator: '在线模拟器',
     current: '当前节点',
     done: '已完成',
-    notOperated: '尚未执行'
+    notOperated: '尚未执行',
+    pleaseUpload: '请上传'
   },
   service: {
     basicInfo: '基本信息',
-    secLevelCn: '二级能力（中文）',
+    secLevelCn: '二级能力',
     secLevelEn: '二级能力（英文）',
     firLevel: '一级能力',
     secLevel: '二级能力',
@@ -117,7 +122,15 @@ const cn = {
     innerPortTip: '请填写内部端口号',
     protocolTip: '请填写协议',
     secondLevelNameCnTip: '请填写二级能力中文名',
-    secondLevelNameEnTip: '请填写二级能力英文名'
+    secondLevelNameEnTip: '请填写二级能力英文名',
+    uploadApiFile: '请上传Api文件',
+    iconRequired: '请上传图标',
+    guideFileId: '说明文档',
+    fileNameType: '文件名称不能包含空格！',
+    isNameEmpty: '请输入名称',
+    nameRules: '请输入长度1-40的名称，开头不能为空',
+    serviceDesc: '请输入长度1-400的服务描述，开头不能为空',
+    successOperation: '操作成功！'
   },
   workflow: {
     incubation: '应用孵化',
@@ -126,4 +139,4 @@ const cn = {
     produceEnv: '应用部署'
   }
 }
-export default cn
+export default appCn

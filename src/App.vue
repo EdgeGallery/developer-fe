@@ -78,7 +78,7 @@ export default {
     },
     changeLange (lang) {
       let language
-      if (lang === 'Cn') {
+      if (lang === 'Cn' || lang === 'cn') {
         this.jsonData = navDataCn.mecDeveloper
         language = 'cn'
       } else {
@@ -216,6 +216,14 @@ export default {
       }
     }
     window.addEventListener('scroll', this.getScrollTop, true)
+    // message listener, message from unified platform
+    window.addEventListener('message', (event) => {
+      var data = event.data
+      if (data.cmd === 'iframeLanguageChange') {
+        let lang = data.params.lang
+        this.changeLange(lang)
+      }
+    })
     window.onresize = () => {
       return (() => {
         this.getScrollTop()

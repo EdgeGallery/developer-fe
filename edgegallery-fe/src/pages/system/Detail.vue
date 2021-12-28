@@ -25,7 +25,7 @@
       <el-button
         type="primary"
         class="topRight"
-        @click="addSystems"
+        @click="systemBtn('add')"
       >
         <img
           class="addIcon"
@@ -221,49 +221,75 @@
           :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
-          <el-input v-model="addForm.systemName" />
+          <el-input
+            v-model="addForm.systemName"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.product')"
           prop="product"
         >
-          <el-input v-model="addForm.product" />
+          <el-input
+            v-model="addForm.product"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.url')"
           prop="url"
         >
-          <el-input v-model="addForm.url" />
+          <el-input
+            v-model="addForm.url"
+            maxlength="30"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.version')"
           prop="version"
         >
-          <el-input v-model="addForm.version" />
+          <el-input
+            v-model="addForm.version"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.region')"
           prop="region"
         >
-          <el-input v-model="addForm.region" />
+          <el-input
+            v-model="addForm.region"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
-          <el-input v-model="addForm.vendor" />
+          <el-input
+            v-model="addForm.vendor"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.username')"
           prop="username"
         >
-          <el-input v-model="addForm.username" />
+          <el-input
+            v-model="addForm.username"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.password')"
           prop="password"
         >
-          <el-input v-model="addForm.password" />
+          <el-input
+            v-model="addForm.password"
+            type="password"
+            maxlength="20"
+            show-password
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.icon')"
@@ -289,7 +315,7 @@
               :on-change="getFile"
               :on-remove="handleUploadRemove"
             >
-              <i class="el-icon-plus" />
+              <em class="el-icon-plus" />
               <div
                 slot="tip"
                 class="el-upload__tip"
@@ -306,7 +332,7 @@
           >
             {{ $t('common.confirm') }}
           </el-button>
-          <el-button @click="addCancle">
+          <el-button @click="systemBtn('cancel')">
             {{ $t('common.cancel') }}
           </el-button>
         </el-form-item>
@@ -330,49 +356,75 @@
           :label="$t('thirdSystem.systemName')"
           prop="systemName"
         >
-          <el-input v-model="editForm.systemName" />
+          <el-input
+            v-model="editForm.systemName"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.product')"
           prop="product"
         >
-          <el-input v-model="editForm.product" />
+          <el-input
+            v-model="editForm.product"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.url')"
           prop="url"
         >
-          <el-input v-model="editForm.url" />
+          <el-input
+            v-model="editForm.url"
+            maxlength="30"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.version')"
           prop="version"
         >
-          <el-input v-model="editForm.version" />
+          <el-input
+            v-model="editForm.version"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.region')"
           prop="region"
         >
-          <el-input v-model="editForm.region" />
+          <el-input
+            v-model="editForm.region"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.vendor')"
           prop="vendor"
         >
-          <el-input v-model="editForm.vendor" />
+          <el-input
+            v-model="editForm.vendor"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.username')"
           prop="username"
         >
-          <el-input v-model="editForm.username" />
+          <el-input
+            v-model="editForm.username"
+            maxlength="20"
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.password')"
           prop="password"
         >
-          <el-input v-model="editForm.password" />
+          <el-input
+            v-model="editForm.password"
+            type="password"
+            maxlength="20"
+            show-password
+          />
         </el-form-item>
         <el-form-item
           :label="$t('thirdSystem.icon')"
@@ -397,7 +449,7 @@
                 :src="editImg"
                 alt=""
               >
-              <i
+              <em
                 class="el-icon-delete deleteEditImg"
                 @click="deleteEditImg()"
               />
@@ -413,7 +465,7 @@
               :on-change="getFileEdit"
               :on-remove="handleUploadRemoveEdit"
             >
-              <i class="el-icon-plus" />
+              <em class="el-icon-plus" />
               <div
                 slot="tip"
                 class="el-upload__tip"
@@ -488,7 +540,7 @@ export default {
     }
     const validateUsername = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(`${this.$t('thirdSystem.tooltipPassword')}`))
+        callback(new Error(`${this.$t('thirdSystem.tooltipUsername')}`))
       } else {
         callback()
       }
@@ -585,7 +637,6 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
-      console.log(this.language)
     }
   },
   mounted () {
@@ -617,28 +668,33 @@ export default {
       this.editImgDefault = data.icon
       this.editId = data.id
       this.dialogVisibleEdit = true
-      let copy = Object.assign({}, data)
-      this.editForm = copy
+      system.getSystemDetail(this.editId).then(res => {
+        this.editForm = res.data
+      })
+      this.editForm.password = ''
     },
     deleteSystem (data) {
       let id = data
-      system.deleteSystems(id).then(res => {
-        this.$message({
-          duration: 2000,
-          message: this.$t('thirdSystem.deleteSystemSucess'),
-          type: 'success'
+      this.$confirm(this.$t('thirdSystem.deleteTip'), this.$t('thirdSystem.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning',
+        center: true
+      }).then(() => {
+        system.deleteSystems(id).then(res => {
+          this.$eg_messagebox(this.$t('thirdSystem.deleteSystemSucess'), 'success')
+          this.searchSystems()
         })
-        this.searchSystems()
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('thirdSystem.deleteCancel'), 'warning')
       })
     },
-    addSystems () {
-      this.dialogVisible = true
-    },
-    addCancle () {
-      this.dialogVisible = false
+    systemBtn (data) {
+      this.dialogVisible = data === 'add'
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
+      this.editImg = ''
       this.addForm = {
         systemName: '',
         product: '',
@@ -705,12 +761,7 @@ export default {
           this.addForm.icon = this.proofImage
           this.addForm.userId = sessionStorage.getItem('userId')
           system.addSystems(this.addForm).then(res => {
-            this.$message({
-              duration: 2000,
-              message: this.$t('thirdSystem.addSystemSucess'),
-              type: 'success'
-            })
-            this.goDetail()
+            this.$eg_messagebox(this.$t('thirdSystem.addSystemSucess'), 'success')
             this.searchSystems()
             this.dialogVisible = false
             this.addForm = {
@@ -732,6 +783,8 @@ export default {
               configContent: ''
             }
             this.proofImage = ''
+          }).catch(err => {
+            this.$eg_messagebox(err.data.err, 'warning')
           })
         } else {
           return false
@@ -751,13 +804,8 @@ export default {
           } else {
             this.editForm.icon = ''
           }
-          console.log(this.editForm.icon)
           system.updateSystems(this.editId, this.editForm).then(res => {
-            this.$message({
-              duration: 2000,
-              message: this.$t('thirdSystem.updateStstemSucess'),
-              type: 'success'
-            })
+            this.$eg_messagebox(this.$t('thirdSystem.updateStstemSucess'), 'success')
             this.searchSystems()
             this.dialogVisibleEdit = false
           })
@@ -775,6 +823,7 @@ export default {
 .detail{
   width: 100%;
   padding-bottom: 100px;
+  margin-left: 7%;
   .detailTop{
     width: 73.64%;
     margin: 0 auto ;
@@ -951,7 +1000,7 @@ export default {
           font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
           font-weight: 200;
           color: #8A7DF9;
-          border: 1xp solid #8A7DF9 !important;
+          border: 1px solid #8A7DF9 !important;
         }
         .el-button:hover{
           color: #FFFFFF;

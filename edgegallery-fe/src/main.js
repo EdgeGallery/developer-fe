@@ -30,6 +30,8 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'swiper/css/swiper.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import VideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.min.css'
 import EgMessageBox from '../src/components/MessageBox/index.js'
 import uploader from 'vue-simple-uploader'
 import '../src/assets/css/common.css'
@@ -43,6 +45,7 @@ Vue.use(mavonEditor)
 Vue.use(VueAwesomeSwiper)
 Vue.use(uploader)
 Vue.use(htmlToPdf)
+Vue.use(VideoPlayer)
 
 Vue.config.productionTip = false
 

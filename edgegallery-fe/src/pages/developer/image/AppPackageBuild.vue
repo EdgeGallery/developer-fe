@@ -75,11 +75,6 @@
               </el-row>
               <el-row class="thirdline">
                 <el-col :span="6">
-                  <el-form-item :label="$t('appPackage.fileName')">
-                    {{ basicInfoData.fileName }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
                   <el-form-item :label="$t('appPackage.baseDesc')">
                     {{ basicInfoData.description }}
                   </el-form-item>
@@ -88,7 +83,10 @@
             </el-form>
           </div>
         </div>
-        <div class="app-package-build-resourceconfig">
+        <div
+          class="app-package-build-resourceconfig"
+          v-if="appClass==='VM'"
+        >
           <div>
             <div class="resourceconfig-title common-dlg-title">
               {{ $t('appPackage.resourceConfig') }}
@@ -279,6 +277,7 @@
 
 <script>
 import { imageApi } from '../../../api/developerApi'
+import { Industry, Type } from '../../../tools/commondata.js'
 export default {
   name: 'AppPackageBuild',
   components: {
@@ -292,7 +291,8 @@ export default {
       capabalityDependsList: [],
       capabalityReleaseDataList: [],
       applicationId: sessionStorage.getItem('applicationId'),
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      appClass: 'VM'
     }
   },
   methods: {
@@ -300,39 +300,55 @@ export default {
       imageApi.getAppInfo(this.applicationId).then(res => {
         if (res.data.vmApp) {
           this.basicInfoData = res.data.vmApp
+          this.getResourceConfig()
+          this.appClass = res.data.vmApp.appClass
         } else {
           this.basicInfoData = res.data.containerApp
+          this.appClass = res.data.containerApp.appClass
         }
-        this.getBaseInfoFileName()
-        this.getResourceConfig()
+        Industry.forEach(item => {
+          if (this.basicInfoData.industry === item.value) {
+            this.basicInfoData.industry = this.language === 'cn' ? item.label[0] : item.label[1]
+          }
+        })
+        Type.forEach(item => {
+          if (this.basicInfoData.type === item.value) {
+            this.basicInfoData.type = this.language === 'cn' ? item.label[0] : item.label[1]
+          }
+        })
         this.getRulesInfo()
-        if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
-          this.basicInfoData.dependent = this.$t('appPackage.noDependences')
-        } else {
-          let _dependents = []
-          let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
-          _requireData.forEach(item => {
-            _dependents.push(item.serName)
-          })
-          this.basicInfoData.dependent = _dependents.toString()
-        }
+        this.handleDependents()
       })
     },
-    getBaseInfoFileName () {
-      imageApi.getFileInfo(this.basicInfoData.guideFileId).then(res => {
-        this.basicInfoData.fileName = res.data.fileName
-      })
+    handleDependents () {
+      if (this.basicInfoData.appConfiguration.appServiceRequiredList.length === 0) {
+        this.basicInfoData.dependent = this.$t('appPackage.noDependences')
+      } else {
+        let _dependents = []
+        let _requireData = this.basicInfoData.appConfiguration.appServiceRequiredList
+        if (this.language === 'cn') {
+          _requireData.forEach(item => {
+            _dependents.push(item.twoLevelName)
+          })
+        } else {
+          _requireData.forEach(item => {
+            _dependents.push(item.twoLevelNameEn)
+          })
+        }
+        this.basicInfoData.dependent = _dependents.toString()
+      }
     },
     getResourceConfig () {
-      let _configInfo = {
-        vmId: '',
-        vmName: '',
-        spec: '',
-        network: '',
-        basicImage: '',
-        vmImage: ''
-      }
+      this.resourceConfigInfoList = []
       this.basicInfoData.vmList.forEach(item => {
+        let _configInfo = {
+          vmId: '',
+          vmName: '',
+          spec: '',
+          network: '',
+          basicImage: '',
+          vmImage: ''
+        }
         _configInfo.vmId = item.id
         _configInfo.vmName = item.name
         this.handleResourceConfig(_configInfo, item)
@@ -350,7 +366,7 @@ export default {
         _configInfo.spec = _flavors.architecture + ' | ' + _flavors.cpu + 'vCPUs' + ' | ' + _flavors.memory + 'GBRAM' + ' | ' + _flavors.dataDiskSize + 'GB+' + _flavors.systemDiskSize + 'GB' + ' Disk'
       })
       imageApi.getImage(item.imageId).then(res => {
-        _configInfo.basicImage = res.data.name + ' | V' + res.data.osVersion
+        _configInfo.basicImage = res.data.name + ' | ' + res.data.osVersion
       })
       if (!item.targetImageId) {
         _configInfo.vmImage = 'NA'
@@ -382,6 +398,12 @@ export default {
   },
   mounted () {
     this.getAppBaseInfo()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+      this.getAppBaseInfo()
+    }
   }
 }
 </script>
@@ -415,7 +437,7 @@ export default {
       padding: 25px 0 0 0px;
       font-size: 16px;
       text-align: left;
-      font-family: defaultFontLight;
+      font-family: defaultFontLight, Arial, Helvetica, sans-serif;
     }
     .content-wrapper {
       padding-left: 22px;
@@ -430,7 +452,7 @@ export default {
           text-align: right;
         }
         .el-form-item__content{
-          font-size: 16px;
+          font-size: 18px;
           line-height: 40px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -507,6 +529,7 @@ export default {
         margin-top: 10px;
         .el-tabs__item {
           color: #FFFFFF;
+          font-size: 18px;
         }
         .ruleTable {
           margin-top: 20px;
@@ -533,7 +556,7 @@ export default {
           width: 33%;
         }
         .rules-title{
-          font-size: 16px;
+          font-size: 18px;
         }
         .release {
           width: 62%;

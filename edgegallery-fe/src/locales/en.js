@@ -20,6 +20,7 @@ import enApp from './app_en.js'
 import enAppStore from './appstore_en.js'
 import enCapability from './capability_en.js'
 import enSandbox from './sandbox_en.js'
+import enThirdsystem from './thirdsystem_en.js'
 import enImages from './images_en.js'
 import enAtp from './atp_en.js'
 import enMecm from './mecm_en.js'
@@ -53,9 +54,11 @@ const en = {
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
     deleteFailed: 'Failed to delete data!',
+    editDataSuccess: 'Edit data successfully!',
     editDataFailed: 'Failed to edit data!',
     noPermission: 'Guest user has no permissioin，please login and retry it!',
-    fileIsEmpty: 'File content is empty!'
+    fileIsEmpty: 'File content is empty!',
+    addFailed: 'Failed to add data!'
   },
   normal: {
     newVersion: 'New Version',
@@ -85,6 +88,7 @@ const en = {
   ...enImages,
   ...enAtp,
   ...enMecm,
-  ...enApp
+  ...enApp,
+  ...enThirdsystem
 }
 export default en

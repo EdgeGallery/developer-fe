@@ -344,6 +344,19 @@ export default {
           return newArray
         }
         this.jsonData = validateAuthority(navJsonData)
+        let _gusetNum = 0
+        authorities.forEach(item => {
+          if (item.indexOf('GUEST') > -1) {
+            _gusetNum++
+          }
+        })
+        if (_gusetNum > 0) {
+          this.jsonData.forEach((item, index) => {
+            if (item.id === '5') {
+              this.jsonData.splice(index, 1)
+            }
+          })
+        }
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
       // this.filterMenu()
@@ -457,7 +470,8 @@ export default {
         type: 'warning'
       }).then(() => {
         sessionStorage.removeItem('applicationId')
-
+        sessionStorage.removeItem('currentAppList')
+        sessionStorage.removeItem('currentApplicationId')
         this.$store.commit('changeFlow', '0')
         sessionStorage.removeItem('appName')
         this.logout()

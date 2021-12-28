@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-const en = {
+const atpEn = {
   report: {
     result: 'Result',
     provider: 'Provider',
@@ -141,4 +141,4 @@ const en = {
     uploadNow: 'Upload Now'
   }
 }
-export default en
+export default atpEn

@@ -123,11 +123,14 @@ export default {
     border-radius: 12px;
     padding: 6px 32px;
     border: none;
-    font-family: defaultFontLight;
-    font-size: 14px;
+    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+    font-size: 20px;
     margin-top: 10px;
     color: #fff;
-    background-color: rgba(190,194,225,.7);
+    background-color: #7e70d7;
+  }
+  .uploader-btn:hover{
+    background-color: #6d5fc9;
   }
   .uploader-list{
     margin-top: 20px;
