@@ -97,7 +97,6 @@
       >
         <el-input
           id="elinput_sysdisk"
-          maxlength="4"
           size="small"
           v-model="imageDataForm.systemDiskSize"
           :placeholder="$t('system.imageMgmt.sysDisk')"
@@ -224,7 +223,7 @@ export default {
     }
     var validateSystemDiskRule = (rule, value, callback) => {
       let _strValue = value.toString()
-      let pattern = /^\d{2,4}$/
+      let pattern = /^\+?[1-9]\d{0,3}(\.\d*)?$/
       if (_strValue.match(pattern) === null) {
         callback(new Error(this.$t('system.imageMgmt.tip.systemDiskRule')))
       } else {

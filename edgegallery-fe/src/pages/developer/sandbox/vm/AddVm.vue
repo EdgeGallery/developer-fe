@@ -812,6 +812,7 @@ export default {
           this.selectedNetworks = []
           this.vmNetworkList.forEach(item => {
             this.selectedNetworks.push(item.name)
+            this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
           })
         }
         this.$emit('getNetWorkList', res.data)
@@ -1158,9 +1159,6 @@ export default {
         this.filterVmRegulation()
         this.getInternetType()
         this.getVmImageLists()
-        this.vmNetworkList.forEach(item => {
-          this.addvmImages.portList.push({ name: item.name, description: item.description, networkName: item.name, id: item.id })
-        })
       }
     }
   },

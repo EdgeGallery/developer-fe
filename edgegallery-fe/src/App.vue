@@ -182,6 +182,8 @@ export default {
     }
   },
   beforeDestroy () {
+    sessionStorage.removeItem('currentAppList')
+    sessionStorage.removeItem('currentApplicationId')
     window.removeEventListener('scroll', this.getScrollTop, true)
   }
 }
