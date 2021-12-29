@@ -57,7 +57,14 @@
     </div>
 
     <div class="details-center-deploy">
-      <div class="details-center-deploy-img">
+      <div class="details-center-deploy-img container-list">
+        <p
+          v-if="startFailed"
+          class="failed hoverHands"
+          @click="checkContainerDetail"
+        >
+          {{ $t('sandboxPromptInfomation.startFailed') }}
+        </p>
         <div
           class="lt deploy-img flex-center hoverHands"
           :class="{'details-center-container-img-finish':isDeployContainerSuccess}"
@@ -208,7 +215,8 @@ export default {
       scriptBreathStyle: false,
       timer: null,
       containerApp: {},
-      isMepAgent: false
+      isMepAgent: false,
+      startFailed: false
     }
   },
   methods: {
@@ -216,6 +224,7 @@ export default {
       this.$emit('importScript', 'showImportScript')
     },
     checkContainerDetail () {
+      clearTimeout(this.timer)
       this.getApplicationDetail()
       this.$emit('checkContainerDetail', 'showContainerDetail')
     },
@@ -227,10 +236,15 @@ export default {
         this.percentages = 0
         this.isDeployContainer = true
         this.operationId = res.data.operationId
+        this.getDeployStatus()
+      })
+    },
+    getDeployStatus () {
+      if (this.operationId !== '') {
         this.timer = setInterval(() => {
           this.getDeployContainerInfo(this.operationId)
         }, 3000)
-      })
+      }
     },
     getDeployContainerInfo (operationId) {
       sandbox.container.getDeployContainerInfo(operationId).then(res => {
@@ -240,17 +254,20 @@ export default {
         this.percentages = res.data.progress
         this.isDeployContainer = true
         if (res.data.status === 'SUCCESS') {
+          clearTimeout(this.timer)
           this.isDeployContainerSuccess = true
           this.isDeployContainerFinish = true
+          this.startFailed = false
           this.$emit('deployContainerFinish', this.isDeployContainerFinish)
-          clearTimeout(this.timer)
         } else if (res.data.status === 'FAILED') {
+          clearTimeout(this.timer)
           this.isDeployContainerSuccess = false
           this.isDeployContainerFinish = true
+          this.startFailed = true
           this.$emit('deployContainerFinish', this.isDeployContainerFinish)
-          clearTimeout(this.timer)
         } else {
           this.isDeployContainerFinish = false
+          this.startFailed = false
         }
         this.bus.$emit('getContainerDetail', this.containerApp, res.data)
       }).catch(() => {
@@ -263,6 +280,8 @@ export default {
         this.isDeployContainerFinish = false
         this.isDeployContainerSuccess = false
         this.containerBreathStyle = true
+        this.startFailed = false
+        this.operationId = ''
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvSuccess'), 'success')
       }).catch(() => {
         this.$eg_messagebox(this.$t('sandboxPromptInfomation.cleanEnvFailed'), 'error')
@@ -315,6 +334,18 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-around;
+  .container-list{
+    position: relative;
+  }
+  .failed{
+    position: absolute;
+    top:-34px;
+    width: 300px;
+    text-align: center;
+    color: #e15050;
+    font-size: 20px;
+    text-decoration:underline
+  }
   .deploy-img{
     position: relative;
   }

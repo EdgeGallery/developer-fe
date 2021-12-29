@@ -743,6 +743,7 @@ export default {
     },
     closeContainerDetail () {
       this.showContent = 'showDetail'
+      this.$refs.ContainerIndex.getDeployStatus()
     },
     checkContainerDetail (data) {
       this.showContent = data
