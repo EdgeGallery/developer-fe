@@ -235,7 +235,7 @@ export default {
         })
         if (this.currentFlow <= 2) {
           data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
-          this.$store.commit('currentAppList', this.currentAppList)
+          if (this.currentFlow === '2') { this.$store.commit('currentAppList', this.currentAppList) }
         } else {
           let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
           if (this.currentAppListTemp.length > 0 && _currentApplicationId) {
