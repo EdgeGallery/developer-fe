@@ -152,6 +152,7 @@ import { applicationEditorApi } from '@/tools/api.js'
 import { common } from '../../../tools/common.js'
 import SelectAppliation from './SelectApplicationDlg'
 import ModifyPackageDlg from './ModifyPackageDlg.vue'
+import { Industry, Type } from '../../../tools/project_data.js'
 
 export default {
   name: 'ApplicationEditor',
@@ -182,6 +183,7 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.getListData()
     },
     $route (to, from) {
       this.getListData()
@@ -218,6 +220,16 @@ export default {
         if (this.allListData) {
           this.allListData.forEach(item => {
             item.synchronizeDate = common.formatDate(item.synchronizeDate)
+            Industry.forEach(itemFe => {
+              if (item.industry === itemFe.value) {
+                item.industry = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+              }
+            })
+            Type.forEach(itemFe => {
+              if (item.type === itemFe.value) {
+                item.type = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+              }
+            })
           })
         }
       }).catch(() => {

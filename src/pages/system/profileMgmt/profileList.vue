@@ -143,6 +143,7 @@ import pagination from '../../../components/common/Pagination.vue'
 import { profileMgmtApi } from '@/tools/api.js'
 import { common } from '../../../tools/common.js'
 import addProfileDlg from './addProfileDlg.vue'
+import { Industry, Type } from '../../../tools/project_data.js'
 
 export default {
   name: 'ProfileMgmt',
@@ -175,6 +176,7 @@ export default {
   watch: {
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.getListData()
     },
     $route (to, from) {
       this.getListData()
@@ -217,6 +219,16 @@ export default {
         if (this.allListData.length > 0) {
           this.allListData.forEach(item => {
             item.appList = item.appList.toString()
+            Industry.forEach(itemFe => {
+              if (item.industry === itemFe.value) {
+                item.industry = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+              }
+            })
+            Type.forEach(itemFe => {
+              if (item.type === itemFe.value) {
+                item.type = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+              }
+            })
           })
         }
       }).catch(() => {
