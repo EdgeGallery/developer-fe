@@ -134,6 +134,8 @@ export default {
       })
     },
     handleNodeClick (val) {
+      this.viewOrEdit = 'preview'
+      this.isEditFile = false
       if (val.children) {
         return
       }

@@ -453,24 +453,27 @@ export default {
         if (this.allFormData.first.appIcon[0].raw || this.allFormData.first.defaultActive !== '') {
           let formdata = new FormData()
           formdata.append('file', firstStepData)
-          Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
-            this.iconFileId = res.data.fileId
-            if (!this.isGuest && !this.isAppDevelopment) {
-              this.getApplicationProject()
-            }
-          }).catch(err => {
-            if (err.response.data.code === 403) {
-              this.isGuest = true
-            } else {
-              this.isGuest = false
-            }
-          })
+          this.getFileId(formdata)
         } else {
           if (!this.isGuest && !this.isAppDevelopment) {
             this.getApplicationProject()
           }
         }
       }
+    },
+    getFileId (formdata) {
+      Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
+        this.iconFileId = res.data.fileId
+        if (!this.isGuest && !this.isAppDevelopment) {
+          this.getApplicationProject()
+        }
+      }).catch(err => {
+        if (err.response.data.code === 403) {
+          this.isGuest = true
+        } else {
+          this.isGuest = false
+        }
+      })
     },
     changeComponentApp () {
       switch (this.active) {
