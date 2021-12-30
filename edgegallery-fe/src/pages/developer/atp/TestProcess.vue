@@ -348,11 +348,26 @@ export default {
       }
       applicationApi.publishApp(this.applicationId, _parameter).then(res => {
         this.$message.success(this.$t('atpTestProcess.publishSuc'))
-        this.$store.commit('changeFlow', '5')
-        this.$router.push('/EG/developer/home')
+        this.handleCurrentAppStatus()
       }).catch(() => {
         this.$message.success(this.$t('atpTestProcess.publishFail'))
       })
+    },
+    handleCurrentAppStatus () {
+      let _currentAppList = JSON.parse(sessionStorage.getItem('currentAppList'))
+      let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
+      if (_currentAppList && _currentApplicationId) {
+        applicationApi.getAppInfo(_currentApplicationId).then(response => {
+          _currentAppList.forEach(item => {
+            if (item.id === _currentApplicationId) {
+              item.status = response.data.status
+            }
+          })
+          this.$store.commit('currentAppList', _currentAppList)
+          this.$store.commit('changeFlow', '5')
+          this.$router.push('/EG/developer/home')
+        })
+      }
     },
     closeDig () {
       this.isUploadPdf = false
