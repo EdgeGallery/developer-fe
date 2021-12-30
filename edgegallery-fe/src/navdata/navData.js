@@ -29,7 +29,7 @@ const navData = [
   },
   {
     id: '1',
-    name: 'Develop',
+    name: 'Developer',
     path: FIRST_LEVEL_MENU_PATH.DEVELOPER,
     display: true,
     children: devNavData

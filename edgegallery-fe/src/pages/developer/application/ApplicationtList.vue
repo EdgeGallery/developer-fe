@@ -239,14 +239,7 @@ export default {
         } else {
           let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
           if (this.currentAppListTemp.length > 0 && _currentApplicationId) {
-            applicationApi.getAppInfo(_currentApplicationId).then(res => {
-              this.currentAppListTemp.forEach(item => {
-                if (item.id === _currentApplicationId) {
-                  item.status = res.data.status
-                }
-              })
-            })
-            this.currentAppList = this.currentAppListTemp
+            this.getAppInfoFun(_currentApplicationId)
           }
         }
 
@@ -254,6 +247,16 @@ export default {
         this.handleCurrentList()
       }).catch(err => {
         console.log(err)
+      })
+    },
+    getAppInfoFun (_currentApplicationId) {
+      applicationApi.getAppInfo(_currentApplicationId).then(res => {
+        this.currentAppListTemp.forEach(item => {
+          if (item.id === _currentApplicationId) {
+            item.status = res.data.status
+          }
+        })
+        this.currentAppList = this.currentAppListTemp
       })
     },
     logout () {
