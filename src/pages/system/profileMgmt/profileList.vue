@@ -219,20 +219,26 @@ export default {
         if (this.allListData.length > 0) {
           this.allListData.forEach(item => {
             item.appList = item.appList.toString()
-            Industry.forEach(itemFe => {
-              if (item.industry === itemFe.value) {
-                item.industry = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
-              }
-            })
-            Type.forEach(itemFe => {
-              if (item.type === itemFe.value) {
-                item.type = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
-              }
-            })
+            this.changeIndustry(item)
+            this.changeType(item)
           })
         }
       }).catch(() => {
         this.loading = false
+      })
+    },
+    changeIndustry (item) {
+      Industry.forEach(itemFe => {
+        if (item.industry === itemFe.value) {
+          item.industry = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+        }
+      })
+    },
+    changeType (item) {
+      Type.forEach(itemFe => {
+        if (item.type === itemFe.value) {
+          item.type = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
+        }
       })
     },
     addNewProfile () {
@@ -259,6 +265,7 @@ export default {
     },
     download (row) {
       profileMgmtApi.downLoadProfileApi(row.id, row.name).then(res => {
+        console.log('下载成功')
       })
     }
   },
