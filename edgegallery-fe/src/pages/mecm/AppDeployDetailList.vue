@@ -114,18 +114,7 @@ export default {
       language: localStorage.getItem('language'),
       tableData: [],
       paginationData: [],
-      currPageTableData: [
-        {
-          name: '位置服务',
-          version: 'v1.0',
-          provider: 'EdgeGallery',
-          type: 'Video',
-          industry: 'Smark Park',
-          affinity: 'X86',
-          appstoreName: 'appstore',
-          syncTime: '2021-10-21'
-        }
-      ],
+      currPageTableData: [],
       serchData: null
     }
   },
