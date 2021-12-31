@@ -963,7 +963,7 @@ export default {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
           this.getVmSpecs(this.systemDiskSize)
           this.customSpecs = false
-          this.$emit('closeAddDialog', 'true')
+          this.$emit('closeAddDialog', 'false')
           this.custom = {
             id: '',
             name: '',
