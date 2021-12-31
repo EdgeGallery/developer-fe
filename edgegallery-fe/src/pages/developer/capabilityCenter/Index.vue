@@ -170,7 +170,7 @@
     </div>
     <el-dialog
       width="55%"
-      class="default_dialog"
+      class="default_dialog serviceDetail_dialog"
       :visible.sync="isApiAmulator"
     >
       <ServiceDetail
@@ -685,7 +685,7 @@ export default {
     }
   }
 }
-.default_dialog .el-dialog{
+.default_dialog.serviceDetail_dialog .el-dialog{
   background: #fff !important;
 }
 .el-button.common-btn{
