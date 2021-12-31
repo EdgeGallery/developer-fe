@@ -118,17 +118,20 @@ export default {
     .service_div{
       padding-left: 20px;
       .capability-top{
+        color: #000;
         line-height: 25px;
         font-size: 16px;
         letter-spacing: 1.5px;
         padding-right: 16px;
       }
       .service_info{
+        color: #000;
         span{
           font-size: 16px;
         }
       }
       .title{
+        color: #000;
         font-size: 18px;
         margin-top: 10px;
         margin-bottom: 0px;
