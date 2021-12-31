@@ -15,6 +15,7 @@
   -->
 <template>
   <div class="container-index">
+    <UPF />
     <div class="details-center-deploy">
       <div class="details-center-deploy-img">
         <div
@@ -190,9 +191,13 @@
 </template>
 
 <script>
+import UPF from '../Upf.vue'
 import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'ContainerIndex',
+  components: {
+    UPF
+  },
   props: {
     isClearVmImageProp: {
       type: Boolean,
