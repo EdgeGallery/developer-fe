@@ -63,7 +63,7 @@
         v-if="userName && userName==='guest'"
         class="guest"
       >
-        <span @click="logout">{{ $t('common.login') }}</span>
+        <span @click="logout()">{{ $t('common.login') }}</span>
       </div>
       <div
         class="app-list-title"

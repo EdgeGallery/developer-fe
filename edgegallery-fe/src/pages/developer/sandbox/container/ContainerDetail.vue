@@ -169,7 +169,6 @@
 </template>
 
 <script>
-import { PROXY_PREFIX_CURRENTSERVER } from '../../../../tools/constant.js'
 import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'Vmdetail',
@@ -229,11 +228,9 @@ export default {
       return _res
     },
     loginToVNC () {
-      if (PROXY_PREFIX_CURRENTSERVER) {
-        window.open(PROXY_PREFIX_CURRENTSERVER + '/webssh.html', 'webssh')
-      } else {
-        window.open('webssh.html', 'webssh')
-      }
+      sandbox.container.vncLogin(this.applicationId).then(res => {
+        window.open(res.data.sshAddress + '?id=' + res.data.id + '&encoding=' + res.data.encoding, '_blank')
+      })
     },
     refreshDeployStatus () {
       this.refreshPods = true
