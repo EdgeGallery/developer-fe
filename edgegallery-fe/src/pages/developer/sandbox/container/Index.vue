@@ -313,14 +313,15 @@ export default {
           this.isMepAgent = true
         }
         this.bus.$emit('getMepAgent', this.isMepAgent)
-        if (!res.data.containerApp.instantiateInfo) {
-          return
-        }
-        this.operationId = res.data.containerApp.instantiateInfo.operationId
-        this.getDeployContainerInfo(this.operationId)
-        this.timer = setInterval(() => {
+        if (res.data.containerApp.instantiateInfo) {
+          this.operationId = res.data.containerApp.instantiateInfo.operationId
           this.getDeployContainerInfo(this.operationId)
-        }, 3000)
+          this.timer = setInterval(() => {
+            this.getDeployContainerInfo(this.operationId)
+          }, 3000)
+        } else {
+          this.bus.$emit('getContainerDetail', this.containerApp, '')
+        }
       })
     }
   },

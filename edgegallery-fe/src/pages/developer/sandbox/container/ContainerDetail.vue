@@ -199,8 +199,8 @@ export default {
       this.bus.$on('getContainerDetail', function (data, statusMsg) {
         _this.containerApp = data
         _this.getServiceRequiredLists()
-        _this.deployLog = statusMsg.errorMsg
-        _this.deployStatus = statusMsg.status
+        _this.deployLog = statusMsg.errorMsg ? statusMsg.errorMsg : null
+        _this.deployStatus = statusMsg.status ? statusMsg.status : ''
         if (_this.containerApp.instantiateInfo) {
           _this.appPodsData = _this.containerApp.instantiateInfo.pods
         } else {
