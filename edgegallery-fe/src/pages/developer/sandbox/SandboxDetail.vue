@@ -122,36 +122,7 @@
             class="details-center clear"
             v-if="appClass==='VM'"
           >
-            <div class="details-center-deploy sandbox-upf-div">
-              <div class="details-center-deploy-img">
-                <div
-                  class="lt deploy-img flex-center hoverHands"
-                  @click="addApplicationRules"
-                >
-                  <img
-                    class="deploy-img-center deploy-img-center-finish"
-                    src="../../../assets/images/sandbox/sandbox_upf.png"
-                    alt=""
-                  >
-                  <div class="deploy-edit flex-center">
-                    <el-tooltip
-                      class="edit-tooltip"
-                      effect="light"
-                      :content="$t('common.edit')"
-                      placement="bottom-start"
-                    >
-                      <img
-                        src="../../../assets/images/sandbox/edit_green.png"
-                        alt=""
-                      >
-                    </el-tooltip>
-                  </div>
-                </div>
-              </div>
-              <div class="deploy-title">
-                {{ $t('sandbox.upf') }}
-              </div>
-            </div>
+            <UPF />
             <div class="details-center-deploy vm-div">
               <div class="details-center-deploy-img">
                 <div
@@ -367,21 +338,6 @@
             {{ $t('sandbox.upf') }}
           </p>
         </div>
-        <div
-          v-else
-          class="edgePuf"
-          @click="addApplicationRules"
-          @mouseleave="upfBreathStyle=false"
-        >
-          <img
-            :class="{'breath':!isUpfSucess}"
-            :src="isUpfSucess ? require('@/assets/images/sandbox/upf_finish.png'): require('@/assets/images/sandbox/upf_btn.png')"
-            alt=""
-          >
-          <p>
-            {{ $t('sandbox.upf') }}
-          </p>
-        </div>
         <img
           src="../../../assets/images/sandbox/sucess_line.png"
           alt=""
@@ -500,6 +456,7 @@
 </template>
 
 <script>
+import UPF from './Upf.vue'
 import ConfigNetwork from './vm/ConfigNetwork.vue'
 import AddVm from './vm/AddVm.vue'
 import VmDetail from './vm/VmDetail.vue'
@@ -512,6 +469,7 @@ import { sandbox, applicationApi } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxDetail',
   components: {
+    UPF,
     ConfigNetwork,
     AddVm,
     VmDetail,
@@ -541,7 +499,6 @@ export default {
       vmBreathStyle: false,
       selectedNetworks: [],
       netWorkList: [],
-      isUpfSucess: false,
       vmId: '',
       applicationName: '',
       isClearVmImage: false,
@@ -689,9 +646,6 @@ export default {
     startUpVm (data) {
       this.isStartupVmFinish = data
     },
-    addApplicationRules () {
-      this.$router.push('/EG/developer/applicationRules')
-    },
     getVmList () {
       sandbox.getVmlist(this.applicationId).then(res => {
         this.swiperKey = window.crypto.getRandomValues(new Uint8Array(1)) * 0.01
@@ -772,12 +726,6 @@ export default {
     this.getApplicationInfo()
   },
   mounted () {
-    if (sessionStorage.getItem('applicationRules') === 'confirm') {
-      this.isChangeStyle = false
-      this.isUpfSucess = true
-    } else if (sessionStorage.getItem('applicationRules') === 'cancel') {
-      this.isChangeStyle = false
-    }
     this.getSandboxLists()
     this.ischangeSandbox()
   },
@@ -1017,10 +965,6 @@ export default {
         float: left;
         width: 100%;
         padding: 0 0 0 40px;
-        .sandbox-upf-div{
-          float: left;
-          margin: 40px 40px 0 0;
-        }
         .sandbox-upf{
           width: 300px;
           height: 300px;
@@ -1033,6 +977,7 @@ export default {
         .details-center-deploy{
           display: flex;
           flex-direction: column;
+          margin-top: 40px;
           .details-center-deploy-img{
             .deploy-img{
               width: 300px;
@@ -1086,7 +1031,7 @@ export default {
         .vm-div{
           width: 300px;
           float: left;
-          margin-top: 40px;
+          margin-left: 40px;
         }
         .vm-list-div{
           width: 720px;
