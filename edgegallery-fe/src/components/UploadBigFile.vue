@@ -37,9 +37,9 @@
         class="upload-prompt"
         v-if="isMerge"
       >
-        <span v-if="merging">merging</span>
-        <span v-if="mergeFailed">merge failed</span>
-        <span v-if="!mergeFailed">merged successfully</span>
+        <span v-if="isMerging">merging</span>
+        <span v-if="isMergeFailed">merge failed</span>
+        <span v-if="isMergeSuccess">merged successfully</span>
       </p>
     </uploader>
   </div>
@@ -85,8 +85,9 @@ export default {
         chunkSize: 8 * 1024 * 1024 // Chunk size
       },
       isMerge: false,
-      merging: false,
-      mergeFailed: false
+      isMerging: false,
+      isMergeFailed: false,
+      isMergeSuccess: false
     }
   },
   methods: {
@@ -101,17 +102,17 @@ export default {
     },
     fileComplete () {
       this.isMerge = true
-      this.merging = true
+      this.isMerging = true
       const file = arguments[0].file
       let url = this.mergerUrl + file.name + '&' + this.paramsNameProp + '=' + arguments[0].uniqueIdentifier
-      axios.get(url).then(function (response) {
-        console.log(response)
-        this.merging = false
-        this.mergeFailed = false
-      }).catch(function (error) {
-        console.log(error)
-        this.merging = false
-        this.mergeFailed = true
+      axios.get(url).then(() => {
+        this.isMerging = false
+        this.isMergeFailed = false
+        this.isMergeSuccess = true
+      }).catch(() => {
+        this.isMerging = false
+        this.isMergeFailed = true
+        this.isMergeSuccess = false
       })
     }
   },
