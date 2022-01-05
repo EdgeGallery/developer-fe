@@ -63,7 +63,7 @@ const imagesEn = {
     packFinishedTip: 'Before authentication, the system will release the virtual machine resources by default. After release, you can not return to modify.',
     packBack: 'back',
     packAuthentication: 'Authentication',
-    appdDetail: 'Appd Detail',
+    appdDetail: 'App Package Detail',
     packageSuc: 'Packaged successfully',
     packageFail: 'Packaging failed',
     packageFinish: 'Packaged',
