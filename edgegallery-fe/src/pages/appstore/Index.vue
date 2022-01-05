@@ -33,6 +33,7 @@
       </el-button>
       <el-button
         class="common-btn"
+        :disabled="ifPushBtn"
         @click="jumpTo('/EG/appstore/apppromotion')"
       >
         {{ $t('apppromotion.appPromotion') }}
@@ -118,10 +119,14 @@ export default {
       limitSize: 10,
       offsetPage: 0,
       listTotal: 0,
-      currentPage: 1
+      currentPage: 1,
+      ifPushBtn: true
     }
   },
   methods: {
+    ifClickPush () {
+      this.ifPushBtn = sessionStorage.getItem('pushAuthorities') === 'show'
+    },
     jumpTo (path) {
       this.$router.push(path)
     },
@@ -189,6 +194,7 @@ export default {
   },
   mounted () {
     this.getAppData()
+    this.ifClickPush()
   }
 }
 </script>

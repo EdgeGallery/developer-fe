@@ -345,6 +345,13 @@ export default {
         this.jsonData = validateAuthority(navJsonData)
         let _gusetNum = 0
         authorities.forEach(item => {
+          if (item.indexOf('ADMIN') > -1) {
+            sessionStorage.setItem('pushAuthorities', 'show')
+          } else {
+            sessionStorage.setItem('pushAuthorities', 'hide')
+          }
+        })
+        authorities.forEach(item => {
           if (item.indexOf('GUEST') > -1) {
             _gusetNum++
           }
