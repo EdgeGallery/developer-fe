@@ -159,7 +159,10 @@ export default {
     width: 29% !important;
   }
   .uploader-file .uploader-file-progress,.uploader-file[status=error] .uploader-file-progress,.upload-prompt{
-    background: #695bae;
+    background: #7869c0;
+  }
+  .uploader-file-info:hover{
+    background-color: #7869c0 !important;
   }
   .uploader-file-actions .uploader-file-remove{
     background-position-y: -32px;
