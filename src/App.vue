@@ -51,8 +51,6 @@ export default {
     return {
       scrollTop: 0,
       jsonData: [],
-      language: 'En',
-      languageIcon: require('../src/assets/images/nav_en.png'),
       loginPage: '',
       userCenterPage: '',
       menu_small: false,
@@ -94,7 +92,8 @@ export default {
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
         this.loginPage = res.data.loginPage
-        this.userCenterPage = res.data.userCenterPage
+        let _lang = localStorage.getItem('language')
+        this.userCenterPage = res.data.userCenterPage + '?lang=' + _lang
         this.ifGuest = res.data.userName === 'guest'
         if (!this.ifGuest && res.data.forceModifyPwPage) {
           window.location.href = res.data.forceModifyPwPage
@@ -203,7 +202,8 @@ export default {
       })
     },
     enterLoginPage () {
-      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
+      let _lang = localStorage.getItem('language')
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER + '&lang=' + _lang
     }
   },
   mounted () {

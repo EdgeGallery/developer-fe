@@ -191,15 +191,13 @@ export default {
     }
   },
   mounted () {
-    this.language = localStorage.getItem('language') || 'cn'
     this.loginFun()
     // Switch language
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
-      if (lan === 'en') {
-        this.changeLange()
-      }
+      this.language = lan === 'en' ? 'En' : 'Cn'
+      this.changeLange()
     }
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
@@ -436,7 +434,8 @@ export default {
       })
     },
     enterLoginPage () {
-      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
+      let _lang = this.language === 'En' ? 'cn' : 'en'
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER + '&lang=' + _lang
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
@@ -479,7 +478,8 @@ export default {
       })
     },
     openUserAccountCenter () {
-      window.open(this.userCenterPage)
+      let _lang = this.language === 'En' ? 'cn' : 'en'
+      window.open(this.userCenterPage + '?lang=' + _lang)
     }
   }
 }
