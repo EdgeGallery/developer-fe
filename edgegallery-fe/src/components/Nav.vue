@@ -191,6 +191,7 @@ export default {
     }
   },
   mounted () {
+    this.logoutFun()
     this.loginFun()
     // Switch language
     let lanIndex = window.location.href.search('language')
@@ -214,6 +215,12 @@ export default {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
+    logoutFun () {
+      let _this = this
+      this.bus.$on('logoutFun', function () {
+        _this.logout()
+      })
+    },
     changeModel () {
       this.$router.push('/home')
       sessionStorage.setItem('pageModel', 'Classic')
@@ -315,7 +322,6 @@ export default {
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
-        sessionStorage.setItem('loginPage', res.data.loginPage)
         this.userName = res.data.userName
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
