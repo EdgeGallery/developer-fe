@@ -33,6 +33,14 @@
         </div>
       </uploader-drop>
       <uploader-list />
+      <p
+        class="upload-prompt"
+        v-if="isMerge"
+      >
+        <span v-if="merging">merging</span>
+        <span v-if="mergeFailed">merge failed</span>
+        <span v-if="!mergeFailed">merged successfully</span>
+      </p>
     </uploader>
   </div>
 </template>
@@ -75,7 +83,10 @@ export default {
         forceChunkSize: true,
         simultaneousUploads: 3, // Concurrent number supported
         chunkSize: 8 * 1024 * 1024 // Chunk size
-      }
+      },
+      isMerge: false,
+      merging: false,
+      mergeFailed: false
     }
   },
   methods: {
@@ -89,13 +100,18 @@ export default {
       }
     },
     fileComplete () {
-      console.log('file complete', arguments)
+      this.isMerge = true
+      this.merging = true
       const file = arguments[0].file
       let url = this.mergerUrl + file.name + '&' + this.paramsNameProp + '=' + arguments[0].uniqueIdentifier
       axios.get(url).then(function (response) {
         console.log(response)
+        this.merging = false
+        this.mergeFailed = false
       }).catch(function (error) {
         console.log(error)
+        this.merging = false
+        this.mergeFailed = true
       })
     }
   },
@@ -135,14 +151,30 @@ export default {
   .uploader-list{
     margin-top: 20px;
   }
-  .uploader-file .uploader-file-progress{
-    background: rgba(226,238,255,.2);
+  .uploader-file-name{
+    width: 40% !important;
   }
-  .uploader-file[status=error] .uploader-file-progress{
-    background: rgba(255,224,224,.2);
+  .uploader-file-status{
+    width: 29% !important;
+  }
+  .uploader-file .uploader-file-progress,.uploader-file[status=error] .uploader-file-progress,.upload-prompt{
+    background: #695bae;
   }
   .uploader-file-actions .uploader-file-remove{
     background-position-y: -32px;
+  }
+  .uploader-file[status=success] .uploader-file-retry,.uploader-file[status=success] .uploader-file-remove {
+    display: block;
+  }
+  .upload-prompt{
+    width: 28%;
+    height: 48px;
+    line-height: 48px;
+    padding-left: 20px;
+    position: absolute;
+    bottom: 1px;
+    right: 11%;
+    z-index: 2;
   }
 }
 
