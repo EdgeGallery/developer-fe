@@ -169,7 +169,6 @@
 </template>
 
 <script>
-import { PROXY_PREFIX_CURRENTSERVER } from '../../../../tools/constant.js'
 import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'Vmdetail',
@@ -199,8 +198,8 @@ export default {
       this.bus.$on('getContainerDetail', function (data, statusMsg) {
         _this.containerApp = data
         _this.getServiceRequiredLists()
-        _this.deployLog = statusMsg.errorMsg
-        _this.deployStatus = statusMsg.status
+        _this.deployLog = statusMsg.errorMsg ? statusMsg.errorMsg : null
+        _this.deployStatus = statusMsg.status ? statusMsg.status : ''
         if (_this.containerApp.instantiateInfo) {
           _this.appPodsData = _this.containerApp.instantiateInfo.pods
         } else {
@@ -229,11 +228,9 @@ export default {
       return _res
     },
     loginToVNC () {
-      if (PROXY_PREFIX_CURRENTSERVER) {
-        window.open(PROXY_PREFIX_CURRENTSERVER + '/webssh.html', 'webssh')
-      } else {
-        window.open('webssh.html', 'webssh')
-      }
+      sandbox.container.vncLogin(this.applicationId).then(res => {
+        window.open(res.data.sshAddress + '?id=' + res.data.id + '&encoding=' + res.data.encoding, '_blank')
+      })
     },
     refreshDeployStatus () {
       this.refreshPods = true
