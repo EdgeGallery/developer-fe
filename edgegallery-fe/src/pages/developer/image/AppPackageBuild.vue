@@ -194,21 +194,21 @@
             </el-tabs>
           </div>
         </div>
-        <div class="app-package-build-capabalityconfig">
+        <div class="app-package-build-capabilityconfig">
           <div>
-            <div class="capabalityconfig-title common-dlg-title">
-              {{ $t('appPackage.capabalityConfig') }}
+            <div class="common-dlg-title">
+              {{ $t('appPackage.capabilityConfig') }}
             </div>
           </div>
           <div class="content-wrapper appPackageBuild-content">
             <div class="depend">
               <h3 class="rules-title common-dlg-title">
-                {{ $t('appPackage.capabalityDepend') }}
+                {{ $t('appPackage.capabilityDepend') }}
               </h3>
               <div class="dependTable">
                 <el-table
                   class="common-table"
-                  :data="capabalityDependsList"
+                  :data="capabilityDependsList"
                 >
                   <el-table-column
                     prop="serName"
@@ -225,12 +225,12 @@
             </div>
             <div class="release">
               <h3 class="rules-title common-dlg-title">
-                {{ $t('appPackage.capabalityRelease') }}
+                {{ $t('appPackage.capabilityRelease') }}
               </h3>
               <div class="releaseTable">
                 <el-table
                   class="common-table"
-                  :data="capabalityReleaseDataList"
+                  :data="capabilityReleaseDataList"
                 >
                   <el-table-column
                     prop="serviceName"
@@ -288,8 +288,8 @@ export default {
       resourceConfigInfoList: [],
       trafficRulesInfoList: [],
       dnsRulesInfoList: [],
-      capabalityDependsList: [],
-      capabalityReleaseDataList: [],
+      capabilityDependsList: [],
+      capabilityReleaseDataList: [],
       applicationId: sessionStorage.getItem('applicationId'),
       language: localStorage.getItem('language'),
       appClass: 'VM'
@@ -379,8 +379,8 @@ export default {
     getRulesInfo () {
       this.trafficRulesInfoList = this.basicInfoData.appConfiguration.trafficRuleList
       this.dnsRulesInfoList = this.basicInfoData.appConfiguration.dnsRuleList
-      this.capabalityDependsList = this.basicInfoData.appConfiguration.appServiceRequiredList
-      this.capabalityReleaseDataList = this.basicInfoData.appConfiguration.appServiceProducedList
+      this.capabilityDependsList = this.basicInfoData.appConfiguration.appServiceRequiredList
+      this.capabilityReleaseDataList = this.basicInfoData.appConfiguration.appServiceProducedList
     },
     packageApp () {
       imageApi.generatePackage(this.applicationId).then(res => {
@@ -433,7 +433,7 @@ export default {
       overflow: auto;
       margin-top: 20px;
     }
-    .app-package-build-basicinfo, .app-package-build-resourceconfig, .app-package-build-rule, .app-package-build-capabalityconfig{
+    .app-package-build-basicinfo, .app-package-build-resourceconfig, .app-package-build-rule, .app-package-build-capabilityconfig{
       padding: 25px 0 0 0px;
       font-size: 16px;
       text-align: left;
@@ -542,7 +542,7 @@ export default {
         }
       }
     }
-    .app-package-build-capabalityconfig {
+    .app-package-build-capabilityconfig {
       .appPackageBuild-content {
         display: flex;
         margin-top: 15px;
