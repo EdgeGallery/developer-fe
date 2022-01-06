@@ -49,7 +49,7 @@ const appCn = {
     deleted: '删除成功',
     afterDelete: '当前应用已删除!',
     uploadLimit: '仅支持上传一个文件！',
-    others: '其他分类',
+    all: '全部应用',
     direction: '行动方向',
     currentLocation: '当前应用位置',
     necessaryNode: '必经节点',

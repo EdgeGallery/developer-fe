@@ -26,8 +26,7 @@ export default new Vuex.Store({
     language: localStorage.getItem('language') ? localStorage.getItem('language') : 'en',
     currentFlow: sessionStorage.getItem('currentFlow') || '0',
     zoom: sessionStorage.getItem('zoom') || '2',
-    appName: sessionStorage.getItem('appName') ? sessionStorage.getItem('appName') : '5G',
-    currentAppListTemp: JSON.parse(sessionStorage.getItem('currentAppList')) || []
+    appName: sessionStorage.getItem('appName') ? sessionStorage.getItem('appName') : '5G'
   },
   mutations: {
     changeTab (state, data) {
@@ -52,10 +51,6 @@ export default new Vuex.Store({
     changeApp (state, data) {
       state.appName = data
       sessionStorage.setItem('appName', data)
-    },
-    currentAppList (state, data) {
-      state.currentAppListTemp = data
-      sessionStorage.setItem('currentAppList', JSON.stringify(data))
     }
   },
   actions: {

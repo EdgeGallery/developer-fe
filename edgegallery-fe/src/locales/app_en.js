@@ -22,7 +22,7 @@ const appEn = {
     more: 'More',
     putAway: 'Put away',
     newAndRecent: 'New/Recent',
-    otehrs: 'Others',
+    all: 'All',
     addNewApp: 'Create App',
     checkFromApp: 'You need to check it in the app content',
     return: 'Return',

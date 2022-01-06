@@ -69,37 +69,19 @@
         class="app-list-title"
         v-if="zoom!==2"
       >
-        {{ $t('incubation.newAndRecent') }}
+        {{ $t('incubation.all') }}
       </div>
       <div
         class="app-list-main"
         :class="zoom===2?'':'app-flex-items'"
       >
         <ListComp
-          :data-list="currentAppList"
+          :data-list="zoom===2?allAppList.slice(0,4):allAppList"
           @putAway="putAway"
           @refreshList="refreshList"
-          @handleCurrentList="handleCurrentList"
           :show-delete-btn="isDeleteActive"
           :class="zoom===2?'':'app-flex-items'"
           :zoom="zoom"
-        />
-      </div>
-      <div
-        class="app-list-main"
-        v-if="zoom!==2"
-      >
-        <div
-          class="app-list-title"
-        >
-          {{ $t('incubation.others') }}
-        </div>
-        <ListComp
-          :data-list="allAppList"
-          @putAway="putAway"
-          @refreshList="refreshList"
-          :show-delete-btn="isDeleteActive"
-          class="app-flex-items"
         />
       </div>
     </div>
@@ -130,9 +112,6 @@ export default {
     },
     currentFlow (val) {
       return Number(this.$store.state.currentFlow)
-    },
-    currentAppListTemp (val) {
-      return this.$store.state.currentAppListTemp
     }
   },
   data () {
@@ -152,29 +131,9 @@ export default {
   watch: {
     currentFlow (val) {
       this.initApplicationList()
-    },
-    currentAppListTemp (val) {
-      this.initApplicationList()
     }
   },
   methods: {
-    handleCurrentList () {
-      let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
-      let _num = 0
-      this.currentAppList.forEach(item => {
-        if (item.id === _currentApplicationId) {
-          _num++
-        }
-      })
-      if (_num === 0) {
-        this.allAppList.forEach(item => {
-          if (item.id === _currentApplicationId) {
-            this.currentAppList.splice(1, 0, item)
-            this.currentAppList.pop()
-          }
-        })
-      }
-    },
     changeView (val) {
       this.isViewActive = !val
       val ? this.$emit('zoomChanged', 3) : this.$emit('zoomChanged', 2)
@@ -218,40 +177,19 @@ export default {
       this.initApplicationList()
     },
     initApplicationList () {
-      let tempData = [
-        {
-          id: 0,
-          type: 'normal',
-          iconUrl: require('../../../assets/images/application/app_add_new.png'),
-          name: ''
-        }
-      ]
       applicationApi.getApplicationList().then(res => {
         let data = res.data.results
-        this.appList = data
-        this.allAppList = data
-        data.sort(function (a, b) {
-          return b.createTime < a.createTime ? -1 : 1
-        })
-        if (this.currentFlow <= 2) {
-          data.length > 4 ? this.currentAppList = tempData.concat(data.slice(0, 4)) : this.currentAppList = tempData.concat(data)
-          if (this.currentFlow === '2') { this.$store.commit('currentAppList', this.currentAppList) }
-        } else {
-          let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
-          if (this.currentAppListTemp.length > 0 && _currentApplicationId) {
-            applicationApi.getAppInfo(_currentApplicationId).then(res => {
-              this.currentAppListTemp.forEach(item => {
-                if (item.id === _currentApplicationId) {
-                  item.status = res.data.status
-                }
-              })
-            })
-            this.currentAppList = this.currentAppListTemp
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].id === sessionStorage.getItem('applicationId')) {
+              data.unshift(data[i])
+              data.splice(i + 1, 1)
+              break
+            }
           }
         }
-
-        sessionStorage.setItem('currentAppList', JSON.stringify(this.currentAppList))
-        this.handleCurrentList()
+        this.appList = data
+        this.allAppList = data
       }).catch(err => {
         console.log(err)
       })
