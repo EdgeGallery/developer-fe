@@ -454,7 +454,6 @@
    border-bottom: none !important;
    background-color: transparent !important;
    color: #fff !important;
-   font-family: defaultFontBold, Arial, Helvetica, sans-serif;
  }
  
  .el-menu--horizontal > .el-menu-item,.el-menu--horizontal > .el-menu-item:hover{

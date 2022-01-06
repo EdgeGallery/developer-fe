@@ -82,7 +82,7 @@
             />
             <span
               class="testing-case point"
-              v-if=" isTest === 'running'"
+              v-if=" isTest === 'running' && !isManualTitle"
             >
               {{ language==='cn'?testingScene[0]:testingScene[1] }}
               <span
@@ -91,7 +91,7 @@
               >: {{ language==='cn'?testingCase[0]:testingCase[1] }}</span>
             </span>
             <span
-              v-show="isManualTitle"
+              v-show="isManualTitle && isTest === 'running'"
               class="waitManual"
             >{{ $t('atpTestProcess.waitManual') }}</span>
             <span

@@ -176,7 +176,7 @@ export default {
       right: 0;
       z-index: 2;
       padding: 10px 20px 0;
-      color: #fff;
+      color: #fff !important;
       .tit{
         font-size: 18px;
         margin-bottom: 5px;

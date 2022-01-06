@@ -42,14 +42,14 @@
         <p
           v-if="startFailed"
           class="failed hoverHands"
-          @click="startFailedMsg"
+          @click="checkVmDetail"
         >
           {{ $t('sandboxPromptInfomation.startFailed') }}
         </p>
         <p
           v-if="exportFailed"
           class="failed hoverHands"
-          @click="exportFailedMsg"
+          @click="checkVmDetail"
         >
           {{ $t('sandboxPromptInfomation.exportFailed') }}
         </p>
@@ -383,18 +383,6 @@ export default {
         clearTimeout(this.timerExport)
       })
     },
-    startFailedMsg () {
-      setTimeout(() => {
-        this.bus.$emit('getVmStartErr', this.getVmStartErr)
-      })
-      this.checkVmDetail()
-    },
-    exportFailedMsg () {
-      setTimeout(() => {
-        this.bus.$emit('getVmExportErr', this.getVmExportErr)
-      })
-      this.checkVmDetail()
-    },
     deleteVm () {
       this.$eg_messagebox(this.$t('promptInformation.confirmDelete'), 'warning', this.$t('common.cancel')).then(() => {
         sandbox.deleteVmImage(this.applicationId, this.vmId).then(() => {
@@ -408,6 +396,12 @@ export default {
     checkVmDetail () {
       setTimeout(() => {
         this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
+        if (this.getVmStartErr !== '') {
+          this.bus.$emit('getVmStartErr', this.getVmStartErr)
+        }
+        if (this.getVmExportErr !== '') {
+          this.bus.$emit('getVmExportErr', this.getVmExportErr)
+        }
       }, 0)
       this.$emit('checkVmDetail', 'showVmDetail')
       setTimeout(() => {

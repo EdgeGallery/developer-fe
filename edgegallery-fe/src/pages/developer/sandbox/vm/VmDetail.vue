@@ -188,8 +188,8 @@ export default {
           this.getVmDetailFlavor(res.data.flavorId)
 
           if (res.data.vmInstantiateInfo) {
-            sandbox.getVmStatus(res.data.vmInstantiateInfo.operationId).then(res => {
-              this.vmTestInformation.status = res.data.status
+            sandbox.getVmStatus(res.data.vmInstantiateInfo.operationId).then(response => {
+              this.vmTestInformation.status = response.data.status
             })
             this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
           }

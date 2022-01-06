@@ -562,6 +562,8 @@ export default {
       dialogVisibleEdit: false,
       imageUrl: '',
       editId: '',
+      fileList: [],
+      fileListEdit: [],
       defaultIcon: [
         require('../../assets/images/bigData.png')
       ],
@@ -694,6 +696,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
+      this.fileList = []
       this.editImg = ''
       this.addForm = {
         systemName: '',

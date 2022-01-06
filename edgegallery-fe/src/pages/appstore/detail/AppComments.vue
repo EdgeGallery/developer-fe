@@ -164,7 +164,7 @@ export default {
           this.comments.message = ''
           this.getAppData()
         }).catch(error => {
-          commonUtil.showTipMsg(this.language, error, this.$t('promptMessage.subCommentFail'))
+          commonUtil.showTipMsg(this.language, error, error.response.data.message)
         })
       } else {
         this.$message({

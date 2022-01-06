@@ -53,7 +53,7 @@ let appstoreApi = {
   },
   getNodePort: function (appId, packageId, userId, name, ip) {
     let url = URL_PREFIX_APPSTORE + 'experience/deploy?appId=' + appId + '&packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
-    return GET(url)
+    return POST(url)
   },
   getExperienceStatus: function (packageId) {
     let url = 'experience/packages/' + packageId + '/status'

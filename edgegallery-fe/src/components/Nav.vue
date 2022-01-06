@@ -191,15 +191,14 @@ export default {
     }
   },
   mounted () {
-    this.language = localStorage.getItem('language') || 'cn'
+    this.logoutFun()
     this.loginFun()
     // Switch language
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
-      if (lan === 'en') {
-        this.changeLange()
-      }
+      this.language = lan === 'en' ? 'En' : 'Cn'
+      this.changeLange()
     }
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
@@ -216,6 +215,12 @@ export default {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
+    logoutFun () {
+      let _this = this
+      this.bus.$on('logoutFun', function () {
+        _this.logout()
+      })
+    },
     changeModel () {
       this.$router.push('/home')
       sessionStorage.setItem('pageModel', 'Classic')
@@ -317,7 +322,6 @@ export default {
         sessionStorage.setItem('userId', res.data.userId)
         sessionStorage.setItem('userName', res.data.userName)
         sessionStorage.setItem('accessToken', res.data.accessToken)
-        sessionStorage.setItem('loginPage', res.data.loginPage)
         this.userName = res.data.userName
         this.loginPage = res.data.loginPage
         this.userCenterPage = res.data.userCenterPage
@@ -346,6 +350,13 @@ export default {
         }
         this.jsonData = validateAuthority(navJsonData)
         let _gusetNum = 0
+        authorities.forEach(item => {
+          if (item.indexOf('ADMIN') > -1) {
+            sessionStorage.setItem('pushAuthorities', 'show')
+          } else {
+            sessionStorage.setItem('pushAuthorities', 'hide')
+          }
+        })
         authorities.forEach(item => {
           if (item.indexOf('GUEST') > -1) {
             _gusetNum++
@@ -436,7 +447,8 @@ export default {
       })
     },
     enterLoginPage () {
-      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
+      let _lang = this.language === 'En' ? 'cn' : 'en'
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER + '&lang=' + _lang
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
@@ -478,7 +490,8 @@ export default {
       })
     },
     openUserAccountCenter () {
-      window.open(this.userCenterPage)
+      let _lang = this.language === 'En' ? 'cn' : 'en'
+      window.open(this.userCenterPage + '?lang=' + _lang)
     }
   }
 }

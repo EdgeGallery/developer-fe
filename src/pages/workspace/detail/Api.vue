@@ -335,34 +335,37 @@ export default {
       if (node.level === 0) {
         let projectId = sessionStorage.getItem('mecDetailID')
         let groupMap = new Map()
-        Capability.getCapabilityByProjectId(projectId).then(result => {
-          let capabilities = result.data
-          this.hasService = capabilities.length > 0
-          if (this.hasService) {
-            this.handleCapabilityData(capabilities, groupMap)
-            let capabilityGroups = []
-            groupMap.forEach((group, key) => {
-              group.leaf = false
-              group.label = this.language === 'en' ? group.nameEn : group.name
-              if (this.capabilityIcon[group.nameEn]) {
-                group.icon = this.capabilityIcon[group.nameEn].icon
-              }
-              capabilityGroups.push(group)
-            })
-
-            resolve(capabilityGroups)
-            this.apiDataLoading = false
-            this.$nextTick(() => {
-              this.expandRootNodeAndSelectFirstLeafNode()
-            })
-          }
-        })
+        this.getCapabilityByProjectId(projectId, groupMap, resolve)
       }
       if (node.level > 1) return resolve([])
 
       if (node.level === 1) {
         return resolve(node.data.children)
       }
+    },
+    getCapabilityByProjectId (projectId, groupMap, resolve) {
+      Capability.getCapabilityByProjectId(projectId).then(result => {
+        let capabilities = result.data
+        this.hasService = capabilities.length > 0
+        if (this.hasService) {
+          this.handleCapabilityData(capabilities, groupMap)
+          let capabilityGroups = []
+          groupMap.forEach((group, key) => {
+            group.leaf = false
+            group.label = this.language === 'en' ? group.nameEn : group.name
+            if (this.capabilityIcon[group.nameEn]) {
+              group.icon = this.capabilityIcon[group.nameEn].icon
+            }
+            capabilityGroups.push(group)
+          })
+
+          resolve(capabilityGroups)
+          this.apiDataLoading = false
+          this.$nextTick(() => {
+            this.expandRootNodeAndSelectFirstLeafNode()
+          })
+        }
+      })
     },
     handleCapabilityData (capabilities, groupMap) {
       capabilities.forEach(capability => {
