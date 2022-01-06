@@ -105,6 +105,23 @@
         <span class="span_right">G</span>
       </el-form-item>
       <el-form-item
+        :label="$t('system.imageMgmt.diskBus')"
+        prop="diskBus"
+        class="half"
+      >
+        <el-select
+          v-model="imageDataForm.diskBus"
+          size="small"
+        >
+          <el-option
+            v-for="item in diskBusList"
+            :label="item"
+            :value="item"
+            :key="item"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
         v-show="isAdmin"
         :label="$t('system.imageMgmt.imgType')"
         prop="visibleType"
@@ -238,10 +255,21 @@ export default {
       dlgTitle: this.$t('system.imageMgmt.tip.newImg'),
       imageTypeOptionList: [],
       operateSystemOptList: [
-        'ubuntu',
-        'centos',
-        'windows',
-        'cirros'
+        'Ubuntu',
+        'Centos',
+        'Windows',
+        'Debian',
+        'SUSE',
+        'cirros',
+        'Oracle',
+        'EulerOS',
+        'Red Hat',
+        'NeoKylin'
+      ],
+      diskBusList: [
+        'ide',
+        'virtio',
+        'scsi'
       ],
       systemBitOptionList: ['64', '32'],
       systemFormatOptionList: ['qcow2', 'iso'],
@@ -251,7 +279,8 @@ export default {
         'osType': 'ubuntu',
         'osVersion': '',
         'osBitType': '64',
-        'systemDiskSize': ''
+        'systemDiskSize': '',
+        'diskBus': 'virtio'
       },
       rules: {
         name: [
@@ -317,8 +346,8 @@ export default {
         this.imageDataForm.osType = this.imageData.osType
         this.imageDataForm.osVersion = this.imageData.osVersion
         this.imageDataForm.osBitType = this.imageData.osBitType
+        this.imageDataForm.diskBus = this.imageData.diskBus
         this.imageDataForm.systemDiskSize = this.imageData.systemDiskSize
-
         this.isModify = true
         this.systemIdToModi = this.imageData.id
         this.dlgTitle = this.$t('system.imageMgmt.tip.editImg')
@@ -327,6 +356,7 @@ export default {
         this.imageDataForm.visibleType = this.isAdmin ? 'public' : 'private'
         this.imageDataForm.osType = 'ubuntu'
         this.imageDataForm.osVersion = ''
+        this.imageDataForm.diskBus = 'virtio'
         this.imageDataForm.osBitType = '64'
         this.imageDataForm.systemDiskSize = ''
 

@@ -123,7 +123,7 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('workspace.protocol')"
+          label="IcmProtocol"
           prop="lcmProtocol"
           class="w50"
         >
@@ -458,8 +458,8 @@
         />
         <el-table-column
           prop="lcmProtocol"
-          :label="$t('workspace.protocol')"
-          min-width="9%"
+          label="IcmProtocol"
+          min-width="14%"
         />
         <el-table-column
           prop="status"
