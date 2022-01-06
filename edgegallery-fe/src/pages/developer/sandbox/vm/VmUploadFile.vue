@@ -65,7 +65,7 @@ export default {
 <style lang='less'>
 .uploadApp {
   .prompt{
-    margin-top: 10px;
+    margin: 10px 0 20px;
     font-size: 16px;
   }
 }
