@@ -145,6 +145,9 @@ let sandbox = {
     },
     cleanContainerEnv (applicationId) {
       return POST(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + '/action/clean-env')
+    },
+    vncLogin (applicationId) {
+      return GET(URL_PREFIX_DEVELOPER + 'applications/' + applicationId + 'containers/action/ssh')
     }
   }
 

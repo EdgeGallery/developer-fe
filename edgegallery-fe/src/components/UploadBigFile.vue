@@ -21,6 +21,7 @@
       class="uploader-example"
       @file-complete="fileComplete"
       @file-added="onFileAdded"
+      @file-removed="fileRemoved"
     >
       <uploader-unsupport />
       <uploader-drop>
@@ -33,6 +34,14 @@
         </div>
       </uploader-drop>
       <uploader-list />
+      <p
+        class="upload-prompt"
+        v-if="isMerge"
+      >
+        <span v-if="isMerging">merging</span>
+        <span v-if="isMergeFailed">merge failed</span>
+        <span v-if="isMergeSuccess">merged successfully</span>
+      </p>
     </uploader>
   </div>
 </template>
@@ -75,7 +84,11 @@ export default {
         forceChunkSize: true,
         simultaneousUploads: 3, // Concurrent number supported
         chunkSize: 8 * 1024 * 1024 // Chunk size
-      }
+      },
+      isMerge: false,
+      isMerging: false,
+      isMergeFailed: false,
+      isMergeSuccess: false
     }
   },
   methods: {
@@ -89,14 +102,22 @@ export default {
       }
     },
     fileComplete () {
-      console.log('file complete', arguments)
+      this.isMerge = true
+      this.isMerging = true
       const file = arguments[0].file
       let url = this.mergerUrl + file.name + '&' + this.paramsNameProp + '=' + arguments[0].uniqueIdentifier
-      axios.get(url).then(function (response) {
-        console.log(response)
-      }).catch(function (error) {
-        console.log(error)
+      axios.get(url).then(() => {
+        this.isMerging = false
+        this.isMergeFailed = false
+        this.isMergeSuccess = true
+      }).catch(() => {
+        this.isMerging = false
+        this.isMergeFailed = true
+        this.isMergeSuccess = false
       })
+    },
+    fileRemoved () {
+      this.isMerge = false
     }
   },
   created () {
@@ -135,14 +156,33 @@ export default {
   .uploader-list{
     margin-top: 20px;
   }
-  .uploader-file .uploader-file-progress{
-    background: rgba(226,238,255,.2);
+  .uploader-file-name{
+    width: 40% !important;
   }
-  .uploader-file[status=error] .uploader-file-progress{
-    background: rgba(255,224,224,.2);
+  .uploader-file-status{
+    width: 29% !important;
+  }
+  .uploader-file .uploader-file-progress,.uploader-file[status=error] .uploader-file-progress,.upload-prompt{
+    background: #7869c0;
+  }
+  .uploader-file-info:hover{
+    background-color: #7869c0 !important;
   }
   .uploader-file-actions .uploader-file-remove{
     background-position-y: -32px;
+  }
+  .uploader-file[status=success] .uploader-file-remove {
+    display: block;
+  }
+  .upload-prompt{
+    width: 28%;
+    height: 48px;
+    line-height: 48px;
+    padding-left: 20px;
+    position: absolute;
+    bottom: 1px;
+    right: 11%;
+    z-index: 2;
   }
 }
 

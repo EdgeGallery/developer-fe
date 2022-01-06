@@ -78,7 +78,8 @@ const sandboxCn = {
     gpuNumTip: '请先选择GPU类型',
     hostGroupTip: '请输入主机组标签',
     isImageEmpty: '请选择镜像',
-    isNetworkEmpty: '请配置网络端口'
+    isNetworkEmpty: '请配置网络端口',
+    addCustomSpec: '没有匹配的数据，点击添加'
   },
   rulesConfig: {
     appRuleConfig: '应用规则配置',

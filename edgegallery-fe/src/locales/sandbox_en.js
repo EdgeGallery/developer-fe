@@ -78,7 +78,8 @@ const sandboxEn = {
     gpuNumTip: 'Please select GPU type first',
     hostGroupTip: 'Please enter the host group label',
     isImageEmpty: 'Please select image',
-    isNetworkEmpty: 'Please configure the network port'
+    isNetworkEmpty: 'Please configure the network port',
+    addCustomSpec: 'There is no matching data, click to add '
   },
   rulesConfig: {
     appRuleConfig: 'Application Rule Configuration',

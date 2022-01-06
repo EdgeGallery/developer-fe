@@ -170,7 +170,7 @@
     </div>
     <el-dialog
       width="55%"
-      class="default_dialog"
+      class="default_dialog serviceDetail_dialog"
       :visible.sync="isApiAmulator"
     >
       <ServiceDetail
@@ -684,6 +684,12 @@ export default {
       }
     }
   }
+}
+.default_dialog.serviceDetail_dialog .el-dialog{
+  background: #fff !important;
+}
+.el-button.common-btn{
+  border: solid 1px #5944c0 !important;
 }
 .el-icon-arrow-up:before{
   color: #5e40c8;

@@ -168,7 +168,7 @@
               </div>
               <el-table
                 :data="vmInfo.vmRegulationList"
-                class="common-table vm-table"
+                class="common-table vm-table customSpec-table"
               >
                 <el-table-column width="35px">
                   <template slot-scope="scope">
@@ -234,6 +234,17 @@
                   show-overflow-tooltip
                 />
               </el-table>
+              <p
+                class="add-customSpec"
+                v-if="vmInfo.vmRegulationList.length===0"
+              >
+                <el-button
+                  type="text"
+                  @click="addSpecForm"
+                >
+                  {{ $t('sandbox.addCustomSpec') + $t('sandbox.customSpec') }}
+                </el-button>
+              </p>
             </div>
           </div>
         </el-collapse-item>
@@ -952,7 +963,7 @@ export default {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
           this.getVmSpecs(this.systemDiskSize)
           this.customSpecs = false
-          this.$emit('closeAddDialog', 'true')
+          this.$emit('closeAddDialog', 'false')
           this.custom = {
             id: '',
             name: '',
@@ -1109,6 +1120,8 @@ export default {
         this.vmInfo.imageType = res.data.visibleType
         res.data.visibleType === 'public' ? this.vmInfo.publicSystemName = res.data.osType : this.vmInfo.privateSystemName = res.data.osType
         res.data.visibleType === 'public' ? this.vmInfo.publicId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]' : this.vmInfo.privateId = res.data.name + '[' + res.data.osVersion + ' ' + res.data.osBitType + '(' + res.data.systemDiskSize + 'GB)]'
+        res.data.visibleType === 'public' ? this.vmInfo.privateId = '' : this.vmInfo.publicId = ''
+        res.data.visibleType === 'public' ? this.vmInfo.privateSystemName = '' : this.vmInfo.publicSystemName = ''
         this.addvmImages.imageId = imageId
         this.vmInfo.publicSystemImage.forEach(item => {
           if (item.systemType === res.data.osType) {
@@ -1539,6 +1552,15 @@ export default {
       background-color: #4e3494;
       color: #fff;
     }
+  }
+  .customSpec-table .el-table__empty-text{
+    display: none;
+  }
+  .add-customSpec{
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: -30px;
   }
 }
 </style>

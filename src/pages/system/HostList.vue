@@ -141,6 +141,24 @@
           </el-select>
         </el-form-item>
         <el-form-item
+          label="mecPortocol"
+          prop="mecHostProtocol"
+          class="w50"
+        >
+          <el-select
+            size="small"
+            v-model="form.mecHostProtocol"
+            :style="{width: '100%'}"
+          >
+            <el-option
+              v-for="item in mecHostProtocolOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
           :label="$t('system.mecHost')"
           prop="mecHostIp"
           class="w50"
@@ -599,6 +617,10 @@ export default {
         { label: 'http', value: 'http' },
         { label: 'https', value: 'https' }
       ],
+      mecHostProtocolOptions: [
+        { label: 'http', value: 'http' },
+        { label: 'https', value: 'https' }
+      ],
       statusOptions: [
         { label: 'NORMAL', value: 'NORMAL' },
         { label: 'BUSY', value: 'BUSY' },
@@ -614,7 +636,8 @@ export default {
         status: 'NORMAL',
         vimType: 'K8S',
         resource: null,
-        mecHostPort: 22
+        mecHostPort: 22,
+        mecHostProtocol: 'http'
       },
       defaultForm: {
         lcmPort: 31252,
@@ -624,7 +647,8 @@ export default {
         vimType: 'K8S',
         networkParameter: `APP_Plane01_Network=MEC_APP_MP1;APP_Plane02_Network=MEC_APP_Public;APP_Plane03_Network=MEC_APP_Private;VDU1_APP_Plane01_IP=192.168.221.0/24;VDU1_APP_Plane02_IP=192.168.222.0/24;VDU1_APP_Plane03_IP=192.168.220.0/24`,
         resource: null,
-        mecHostPort: 22
+        mecHostPort: 22,
+        mecHostProtocol: 'http'
       },
       rules: {
         name: [
@@ -646,6 +670,9 @@ export default {
           { required: true }
         ],
         lcmProtocol: [
+          { required: true }
+        ],
+        mecHostProtocol: [
           { required: true }
         ],
         address: [

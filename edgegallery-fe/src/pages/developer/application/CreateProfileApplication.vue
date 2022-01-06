@@ -122,9 +122,10 @@ export default {
           this.$message.success(this.$t('incubation.createSuc'))
           this.$store.commit('changeApp', res.data.name)
           this.$router.push('/EG/developer/home')
-        }).catch(err => {
-          this.$message.warning(this.$t('incubation.createFail'))
-          console.log(err)
+        }).catch(error => {
+          if (error.response.data.message.indexOf('application has already be created by profile') > -1) {
+            this.$eg_messagebox(this.$t('rulesConfig.dnsRuleIdisExists'), 'error')
+          }
         })
       }
     },

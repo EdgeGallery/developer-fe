@@ -63,7 +63,7 @@
         v-if="userName && userName==='guest'"
         class="guest"
       >
-        <span @click="logout">{{ $t('common.login') }}</span>
+        <span @click="logout()">{{ $t('common.login') }}</span>
       </div>
       <div
         class="app-list-title"
@@ -95,8 +95,6 @@
 </template>
 
 <script>
-import { logoutApi } from '../../../tools/tool.js'
-import { PROXY_PREFIX_CURRENTSERVER } from '../../../tools/constant.js'
 import { applicationApi } from '../../../api/developerApi.js'
 import Pagination from '../../../components/Pagination.vue'
 import ListComp from './ListComp.vue'
@@ -124,7 +122,6 @@ export default {
       isDeleteActive: false,
       searchContent: '',
       userName: sessionStorage.getItem('userName'),
-      loginPage: sessionStorage.getItem('loginPage') || '',
       appList: []
     }
   },
@@ -194,17 +191,18 @@ export default {
         console.log(err)
       })
     },
-    logout () {
-      this.manualLoggout = true
-      logoutApi().then(() => {
-        this.enterLoginPage()
-      }).catch(err => {
-        console.log(err)
-        this.enterLoginPage()
+    getAppInfoFun (_currentApplicationId) {
+      applicationApi.getAppInfo(_currentApplicationId).then(res => {
+        this.currentAppListTemp.forEach(item => {
+          if (item.id === _currentApplicationId) {
+            item.status = res.data.status
+          }
+        })
+        this.currentAppList = this.currentAppListTemp
       })
     },
-    enterLoginPage () {
-      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER
+    logout () {
+      this.bus.$emit('logoutFun')
     }
   },
   mounted () {
