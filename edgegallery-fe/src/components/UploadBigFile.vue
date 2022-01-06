@@ -21,6 +21,7 @@
       class="uploader-example"
       @file-complete="fileComplete"
       @file-added="onFileAdded"
+      @file-removed="fileRemoved"
     >
       <uploader-unsupport />
       <uploader-drop>
@@ -114,6 +115,9 @@ export default {
         this.isMergeFailed = true
         this.isMergeSuccess = false
       })
+    },
+    fileRemoved () {
+      this.isMerge = false
     }
   },
   created () {
@@ -167,7 +171,7 @@ export default {
   .uploader-file-actions .uploader-file-remove{
     background-position-y: -32px;
   }
-  .uploader-file[status=success] .uploader-file-retry,.uploader-file[status=success] .uploader-file-remove {
+  .uploader-file[status=success] .uploader-file-remove {
     display: block;
   }
   .upload-prompt{
