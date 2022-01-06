@@ -484,9 +484,8 @@ export default {
       }).then(() => {
         sessionStorage.removeItem('applicationId')
         sessionStorage.removeItem('currentAppList')
-        sessionStorage.removeItem('currentApplicationId')
         this.$store.commit('changeFlow', '0')
-        sessionStorage.removeItem('appName')
+        this.$store.commit('changeApp', '5G')
         this.logout()
       })
     },
