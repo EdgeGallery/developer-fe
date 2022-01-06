@@ -159,7 +159,7 @@
 <script>
 import demoYaml from '@/assets/file/test_helm_template.yaml'
 import CheckResult from './CheckResult.vue'
-import { sandbox, applicationApi } from '../../../../api/developerApi.js'
+import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'ContainerScript',
   components: {
@@ -238,7 +238,6 @@ export default {
           this.helmChartId = res.data.id
           this.helmChartFileList = res.data.helmChartFileList
           this.$store.commit('changeFlow', '3')
-          this.handleCurrentAppStatus()
           this.clickFirstNode()
         }
       }, (error) => {
@@ -267,20 +266,6 @@ export default {
       }).finally(() => {
         this.uploadYamlLoading = false
       })
-    },
-    handleCurrentAppStatus () {
-      let _currentAppList = JSON.parse(sessionStorage.getItem('currentAppList'))
-      let _currentApplicationId = sessionStorage.getItem('currentApplicationId')
-      if (_currentAppList && _currentApplicationId) {
-        applicationApi.getAppInfo(_currentApplicationId).then(response => {
-          _currentAppList.forEach(item => {
-            if (item.id === _currentApplicationId) {
-              item.status = response.data.status
-            }
-          })
-          this.$store.commit('currentAppList', _currentAppList)
-        })
-      }
     },
     jumpToImageList () {
       let _isEGPlatform = window.location.href.indexOf('/EG/')
