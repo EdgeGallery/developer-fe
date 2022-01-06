@@ -584,9 +584,9 @@ export default {
       this.isShowDownload = false
     },
     confirmImage (row) {
+      appstoreApi.downloadAppPakageApi(this.appId, row, this.isDownloadImage)
       this.isShowDownload = false
       this.isDownloadImage = false
-      appstoreApi.downloadAppPakageApi(this.appId, row, this.isDownloadImage)
     },
     ifDownloadImage (currentData, row) {
       if (this.currentData.deployMode === 'vm') {
