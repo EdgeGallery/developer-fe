@@ -392,7 +392,7 @@ export default {
     },
     getSearchData (searchFormData) {
       this.pageCtrl.currentPage = 1
-      this.searchCondition.name = searchFormData.name
+      this.searchCondition.name = searchFormData.systemName
       this.searchCondition.visibleType = searchFormData.visibleType
       this.searchCondition.status = searchFormData.status
       this.searchCondition.uploadTimeBegin = ''
@@ -432,7 +432,7 @@ export default {
     },
     buildQueryReq () {
       let _queryReq = this.searchCondition
-      _queryReq.type = this.imageType
+      _queryReq.visibleType = this.imageType
 
       let _queryCtrl = {
         'offset': (this.pageCtrl.currentPage - 1) * this.pageCtrl.pageSize,
