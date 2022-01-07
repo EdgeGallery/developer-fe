@@ -82,7 +82,7 @@ export default {
   mounted () {
     sessionStorage.removeItem('applicationId')
     this.$store.commit('changeFlow', '0')
-    sessionStorage.removeItem('appName')
+    this.$store.commit('changeApp', '5G')
   }
 }
 </script>
