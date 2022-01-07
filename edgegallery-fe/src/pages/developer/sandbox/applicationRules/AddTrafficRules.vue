@@ -175,31 +175,59 @@
         <el-table-column
           prop="tunnelInfo.tunnelType"
           :label="$t('rulesConfig.tunnelType')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.tunnelInfo.tunnelType?scope.row.tunnelInfo.tunnelType:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="tunnelInfo.tunnelDstAddress"
           :label="$t('rulesConfig.tgtTunnelAddress')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.tunnelInfo.tunnelDstAddress?scope.row.tunnelInfo.tunnelDstAddress:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="tunnelInfo.tunnelSrcAddress"
           :label="$t('rulesConfig.srcTunnelAddress')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.tunnelInfo.tunnelSrcAddress?scope.row.tunnelInfo.tunnelSrcAddress:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="tunnelInfo.tunnelSpecificData"
           :label="$t('rulesConfig.tunnelParams')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.tunnelInfo.tunnelSpecificData?scope.row.tunnelInfo.tunnelSpecificData:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="dstMacAddress"
           :label="$t('rulesConfig.macAddress')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.dstMacAddress?scope.row.dstMacAddress:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="srcMacAddress"
           :label="$t('rulesConfig.sourceMacAddress')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.srcMacAddress?scope.row.srcMacAddress:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="dstIpAddress"
           :label="$t('rulesConfig.dstIpAddress')"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.dstIpAddress?scope.row.dstIpAddress:'--' }}
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('common.operation')"
           width="120px"
