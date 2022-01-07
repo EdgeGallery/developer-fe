@@ -102,15 +102,18 @@ export default {
       }
     },
     fileComplete () {
+      this.$message(this.$t('homePromptMessage.merging'))
       this.isMerge = true
       this.isMerging = true
       const file = arguments[0].file
       let url = this.mergerUrl + file.name + '&' + this.paramsNameProp + '=' + arguments[0].uniqueIdentifier
       axios.get(url).then(() => {
+        this.$message.success(this.$t('homePromptMessage.mergeSuccess'))
         this.isMerging = false
         this.isMergeFailed = false
         this.isMergeSuccess = true
       }).catch(() => {
+        this.$message.error(this.$t('homePromptMessage.mergeFailed'))
         this.isMerging = false
         this.isMergeFailed = true
         this.isMergeSuccess = false

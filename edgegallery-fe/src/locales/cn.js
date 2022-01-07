@@ -78,7 +78,11 @@ const cn = {
   },
   homePromptMessage: {
     prompt: '提示',
-    logoutPage: '确认要注销当前用户？'
+    logoutPage: '确认要注销当前用户？',
+    merging: '文件正在合并',
+    mergeSuccess: '文件合并成功',
+    mergeFailed: '文件合并失败'
+
   },
   ...zhLocale,
   ...cnHome,
