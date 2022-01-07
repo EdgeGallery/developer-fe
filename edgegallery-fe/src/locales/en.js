@@ -78,7 +78,10 @@ const en = {
   },
   homePromptMessage: {
     prompt: 'Prompt',
-    logoutPage: 'Are you sure to log out?'
+    logoutPage: 'Are you sure to log out?',
+    merging: 'File is merging',
+    mergeSuccess: 'File merged successfully',
+    mergeFailed: 'File merge failed'
   },
   ...enLocale,
   ...enHome,
