@@ -16,6 +16,15 @@
 
 <template>
   <div class="app-list">
+    <div
+      class="el-upload__tip"
+      slot="tip"
+    >
+      <em class="el-icon-warning" />
+      <span class="warning-tip">
+        {{ $t('store.syncTitleTip') }}
+      </span>
+    </div>
     <div class="app_synchronize">
       <el-dropdown
         @command="synchronizePackage"
@@ -304,6 +313,23 @@ export default {
 </script>
 <style lang='less'>
 .app-list{
+  .el-upload__tip {
+      margin-left: -12px;
+      padding-top: 55px;
+      margin: 0 48px;
+      width: 72%;
+  }
+  .el-icon-warning{
+    color: #5E40C8;
+    margin-right: 6px;
+    font-size: 16px;
+  }
+  .warning-tip{
+    color: #5E40C8;
+    font-size: 12px;
+    font-family: HarmonyHeiTi, sans-serif;
+
+  }
   .el-pagination {
     margin-bottom: 30px;
     margin-right: 30px;
@@ -314,7 +340,7 @@ export default {
   }
   .packageTable {
     font-size: 16px;
-    margin: 50px 63px;
+    margin: -15px 63px;
     .el-table td{
       padding: 0;
       height: 60px;
@@ -363,8 +389,8 @@ export default {
   }
   .app_synchronize {
     position: relative;
-    top: 30px;
-    left: 84%;
+    top: -60px;
+    left: 79%;
     .el-button--primary {
       width: 160px;
       background: linear-gradient(122deg, #4444D0, #6724CB);
@@ -372,7 +398,7 @@ export default {
       font-size: 16px;
       font-family: HarmonyHeiTi, sans-serif;
       height: 40px;
-      border-radius: 8px;
+      border-radius: 12px;
       font-weight: 300;
       padding: 0px;
     }
@@ -431,7 +457,7 @@ export default {
         font-size: 20px;
         font-family: HarmonyHeiTi, sans-serif;
         height: 40px;
-        border-radius: 8px;
+        border-radius: 12px;
         font-weight: 300;
       }
     }
