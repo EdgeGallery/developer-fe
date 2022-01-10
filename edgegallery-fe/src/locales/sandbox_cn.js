@@ -129,7 +129,7 @@ const sandboxCn = {
     format: '参数校验',
     imageInfo: '镜像信息',
     serviceInfo: '服务信息',
-    mepAgentTip: '如果没有集成mepagent，将无法发布API',
+    mepAgentTip: '没有依赖平台的能力，将无法发布API',
     cpuUsage: 'CPU使用率',
     memUsage: '内存使用率',
     diskUsage: '硬盘使用率',

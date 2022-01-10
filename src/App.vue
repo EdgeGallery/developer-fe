@@ -237,6 +237,9 @@ export default {
     }
   },
   beforeMount () {
+    if (!localStorage.getItem('language')) {
+      localStorage.setItem('language', 'cn')
+    }
     let language = localStorage.getItem('language') || 'cn'
     this.$i18n.locale = language
     if (language === 'en') {

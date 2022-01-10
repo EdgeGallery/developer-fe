@@ -200,6 +200,9 @@ export default {
       this.language = lan === 'en' ? 'En' : 'Cn'
       this.changeLange()
     }
+    if (!localStorage.getItem('language')) {
+      localStorage.setItem('language', 'cn')
+    }
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
       return (() => {
