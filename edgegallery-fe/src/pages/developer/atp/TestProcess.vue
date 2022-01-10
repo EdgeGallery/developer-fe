@@ -350,7 +350,7 @@ export default {
         this.$message.success(this.$t('atpTestProcess.publishSuc'))
         this.handleCurrentAppStatus()
       }).catch(() => {
-        this.$message.success(this.$t('atpTestProcess.publishFail'))
+        this.$message.error(this.$t('atpTestProcess.publishFail'))
       })
     },
     handleCurrentAppStatus () {

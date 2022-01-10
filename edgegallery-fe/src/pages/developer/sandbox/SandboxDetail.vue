@@ -379,6 +379,7 @@
     <ContainerScript
       v-if="showContent==='showImportScript'"
       @finishUploadScript="finishUploadScript"
+      :is-required-service="isRequiredService"
     />
     <ContainerDetail
       v-show="showContent==='showContainerDetail'"
@@ -528,7 +529,8 @@ export default {
       showAddVm: false,
       showVmUploadFile: false,
       showVmDetail: false,
-      isAddVmBtn: true
+      isAddVmBtn: true,
+      isRequiredService: false
     }
   },
   methods: {
@@ -559,6 +561,9 @@ export default {
     },
     ischangeSandbox () {
       sandbox.container.getApplicationDetail(this.applicationId).then(res => {
+        if (res.data.containerApp.appConfiguration.appServiceRequiredList.length > 0) {
+          this.isRequiredService = true
+        }
         if (sessionStorage.getItem('loadtype') === 'vm') {
           if (res.data.vmApp && res.data.vmApp.vmList.length > 0) {
             res.data.vmApp.vmList.forEach(item => {
