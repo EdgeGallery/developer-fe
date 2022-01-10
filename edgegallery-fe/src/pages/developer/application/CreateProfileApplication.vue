@@ -124,7 +124,7 @@ export default {
           this.$router.push('/EG/developer/home')
         }).catch(error => {
           if (error.response.data.message.indexOf('application has already be created by profile') > -1) {
-            this.$eg_messagebox(this.$t('rulesConfig.dnsRuleIdisExists'), 'error')
+            this.$eg_messagebox(this.$t('incubation.createFail'), 'error')
           }
         })
       }
