@@ -115,6 +115,7 @@ export default {
   margin-left: 7%;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   .thirdSystem{
     width: 100%;
     padding-bottom: 100px;
