@@ -1015,8 +1015,8 @@ export default {
   .port_input{
     width: calc(50% - 15px);
   }
-  .el-form-item__label {
-    padding: 0 20px 0 0
+  .el-form-item__label{
+    padding: 0px 7px 0 0 !important;
   }
   .list {
     border-radius: 16px;
