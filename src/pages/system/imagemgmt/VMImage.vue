@@ -54,9 +54,9 @@
           :filters="typeData"
         />
         <el-table-column
-          prop="userName"
+          prop="imageFormat"
           min-width="9%"
-          :label="$t('system.imageMgmt.userName')"
+          :label="$t('system.imageMgmt.imgFormat')"
           show-overflow-tooltip
         />
         <el-table-column

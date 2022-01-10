@@ -883,6 +883,7 @@ const cn = {
       osVersion: '版本',
       osBit: '位数',
       sysDisk: '磁盘大小',
+      diskBus: '磁盘格式',
       userName: '所属用户',
       createTime: '创建时间',
       uploadTime: '上传时间',

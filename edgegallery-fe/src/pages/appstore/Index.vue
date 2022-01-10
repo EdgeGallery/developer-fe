@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     ifClickPush () {
-      this.ifPushBtn = sessionStorage.getItem('pushAuthorities') === 'show'
+      this.ifPushBtn = sessionStorage.getItem('pushAuthorities') !== 'show'
     },
     jumpTo (path) {
       this.$router.push(path)

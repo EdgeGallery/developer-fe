@@ -883,6 +883,7 @@ const en = {
       osVersion: 'Version',
       osBit: 'System Bit',
       sysDisk: 'Disk Size',
+      diskBus: 'Disk Format',
       userName: 'User',
       createTime: 'Create Time',
       uploadTime: 'Upload Time',
