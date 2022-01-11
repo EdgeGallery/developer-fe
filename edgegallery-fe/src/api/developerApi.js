@@ -222,6 +222,9 @@ let applicationApi = {
   },
   getAbilityIconApi: function (fileId) {
     return URL_PREFIX_DEVELOPER + 'upload-files/' + fileId + '/action/get-file-stream'
+  },
+  getUseScene () {
+    return GET(URL_PREFIX_DEVELOPER + 'pkg-specs/useScenes')
   }
 }
 
