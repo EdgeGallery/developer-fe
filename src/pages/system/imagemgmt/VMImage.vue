@@ -54,12 +54,6 @@
           :filters="typeData"
         />
         <el-table-column
-          prop="imageFormat"
-          min-width="9%"
-          :label="$t('system.imageMgmt.imgFormat')"
-          show-overflow-tooltip
-        />
-        <el-table-column
           :column-key="'osType'"
           prop="osType"
           min-width="10.5%"
@@ -67,15 +61,6 @@
           show-overflow-tooltip
           :filters="osData"
         />
-        <el-table-column
-          prop="imageSize"
-          min-width="10%"
-          :label="$t('system.imageMgmt.imageSize')+'(M)'"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.imageSize?(scope.row.imageSize/1024/1024).toFixed(2):'' }}
-          </template>
-        </el-table-column>
         <el-table-column
           prop="osVersion"
           min-width="6%"
@@ -100,6 +85,21 @@
             </el-tooltip>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="imageSize"
+          min-width="10%"
+          :label="$t('system.imageMgmt.imageSize')+'(M)'"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.imageSize?(scope.row.imageSize/1024/1024).toFixed(2):'' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="imageFormat"
+          min-width="9%"
+          :label="$t('system.imageMgmt.imgFormat')"
+          show-overflow-tooltip
+        />
         <el-table-column
           :column-key="'status'"
           min-width="8.5%"
