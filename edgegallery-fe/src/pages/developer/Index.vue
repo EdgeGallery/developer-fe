@@ -105,6 +105,9 @@ export default {
     appName (val) {
       return this.$store.state.appName
     }
+  },
+  mounted () {
+    this.$store.commit('changeZoom', '2')
   }
 }
 </script>

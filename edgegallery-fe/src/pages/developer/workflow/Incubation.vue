@@ -16,7 +16,7 @@
         <div
           class="step-item"
           :class="[item.id===currentFlow?'item-active':(item.id<currentFlow?'item-history':''),item.class]"
-          @click="(currentFlow===1&&item.id===3)||item.id===currentFlow+1||item.id<currentFlow||item.id===currentFlow||item.id===10?jumpTo(item):showWarning()"
+          @click="(currentFlow===1&&item.id===3)||item.id<currentFlow||item.id===currentFlow||item.id===10||currentFlow==0?jumpTo(item):showWarning()"
         >
           <div
             class="steps-num"
@@ -114,6 +114,7 @@ export default {
           this.$message.warning(this.$t('promptInformation.noPermission'))
         }
       } else if (item.toPath === '/EG/developer/selectScenarios') {
+        this.$store.commit('changeZoom', '1')
         atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
           if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
             this.$router.push('/EG/developer/testProcess')
@@ -125,6 +126,7 @@ export default {
           this.$router.push(item.toPath)
         })
       } else {
+        this.$store.commit('changeZoom', '1')
         this.$router.push(item.toPath)
       }
     },
