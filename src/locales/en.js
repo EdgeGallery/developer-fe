@@ -982,7 +982,8 @@ const en = {
         cancelUploadFailed: 'Cancel upload operation failed!',
         cancelingHint: 'Canceling, please wait...',
         mecHostExist: 'The same mecHost already exists',
-        textWrap: ' Can contain Chinese and English, spaces, /, no spaces at the beginning and end'
+        textWrap: ' Can contain Chinese and English, spaces, /, no spaces at the beginning and end',
+        systemDiskTip: 'The disk size is smaller than the required minimum disk size, please click "More->Edit" to modify'
       }
     }
   },

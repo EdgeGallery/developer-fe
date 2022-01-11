@@ -982,7 +982,8 @@ const cn = {
         cancelUploadFailed: '取消上传失败！',
         cancelingHint: '正在取消，请稍候...',
         mecHostExist: '已经存在相同的mecHost',
-        textWrap: '可以包含中英文、空格、/，首尾不能有空格'
+        textWrap: '可以包含中英文、空格、/，首尾不能有空格',
+        systemDiskTip: '磁盘大小小于所需的最小磁盘大小，请点击“更多->编辑”修改'
       }
     }
   },

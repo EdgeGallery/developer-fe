@@ -83,13 +83,21 @@
           show-overflow-tooltip
         />
         <el-table-column
-          prop="uploadTime"
+          prop="systemDiskSize"
           min-width="11.5%"
-          :label="$t('system.imageMgmt.uploadTime')"
-          sortable
+          :label="$t('system.imageMgmt.sysDisk')+'(G)'"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
-            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
+            {{ scope.row.systemDiskSize }}
+            <el-tooltip
+              v-if="scope.row.systemDiskSize<scope.row.virtualSize"
+              effect="dark"
+              :content="$t('system.imageMgmt.tip.systemDiskTip')"
+              placement="right"
+            >
+              <span class="default_info_promt default_warning_promt">i</span>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column
