@@ -60,7 +60,6 @@ export default {
     } else {
       this.isShowAppFormDlg = true
     }
-    this.$store.commit('changeZoom', '1')
   }
 }
 </script>

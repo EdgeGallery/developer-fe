@@ -380,7 +380,7 @@ export default {
     filterMenuForClab () {
       applicationApi.getUseScene().then(res => {
         if (res && res.data) {
-          if (res.data !== 'edgegallery') {
+          if (res.data !== 'edgeGallery') {
             this.filterMecmMenu()
           }
         }

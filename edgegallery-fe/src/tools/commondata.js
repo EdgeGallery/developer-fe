@@ -92,7 +92,7 @@ const Status = {
   CREATED: ['创建完成', 'Created', 'app-created'],
   CONFIGURED: ['配置完成', 'Configuared', 'app-success'],
   PACKAGED: ['打包完成', 'Packaged', 'app-success'],
-  TESTED: ['测试完成', 'Tested', 'app-success'],
+  TESTED: ['测试认证', 'Tested', 'app-success'],
   RELEASED: ['已发布', 'Released', 'app-published']
 }
 
