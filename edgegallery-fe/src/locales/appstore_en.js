@@ -428,9 +428,8 @@ const appstoreEn = {
     taskCreateTime: 'TaskCreateTime',
     taskStatus: 'TaskStatus',
     taskProgress: 'TaskProgress',
-    synchronizeToMeao: 'Synchronize To MEAO',
-    syncTitleTip: 'Application synchronization status description: the application market supports the integration of the third-party multi access edge application orchestration platform (meao). You can synchronize applications to the third-party meao by creating synchronization tasks to facilitate the orchestration and deployment of applications.'
-
+    synchronizeToMeao: 'App Sync Status',
+    syncTitleTip: 'The application store supports the integration of the third-party multi access edge application orchestration platform (meao). You can synchronize applications to the third-party meao by creating synchronization tasks to facilitate the orchestration and deployment of applications.'
   },
   myApp: {
     checkTest: 'View historical test tasks',
