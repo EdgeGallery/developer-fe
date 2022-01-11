@@ -174,6 +174,9 @@ export default {
     },
     $route (to, from) {
       this.toPath = to.path
+      if (to.path === '/index' || to.path === '/EG/developer/home') {
+        this.$store.commit('changeZoom', '2')
+      }
       if (to.path === '/home') {
         this.isHome = true
       } else {

@@ -790,6 +790,9 @@ body .el-table th.gutter{
   border-radius: 50%;
   margin-left: 10px;
 }
+.default_warning_promt{
+  background: #E6A23C;
+}
 .empty_img{
   background: url('../images/empty.png') center 10px no-repeat;
   padding-top: 200px;
