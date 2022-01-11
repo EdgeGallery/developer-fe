@@ -892,6 +892,8 @@ const en = {
       endTime: 'Upload Time(End)',
       slimming: 'Slimming',
       imageSize: 'Image Size',
+      minDisk: 'Minimum Disk',
+      errorMessage: 'Error Message',
       typeValue: {
         public: 'Public',
         private: 'Private',

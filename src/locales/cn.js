@@ -892,6 +892,8 @@ const cn = {
       endTime: '上传时间（结束）',
       slimming: '瘦身',
       imageSize: '镜像大小',
+      minDisk: '最小磁盘',
+      errorMessage: '错误信息',
       typeValue: {
         public: '公共',
         private: '私有',
