@@ -63,12 +63,14 @@
             class="common-input"
             size="mini"
             :placeholder="$t('sandbox.addCustomNetwork')"
+            disabled
             v-model="newNetworkList[0].name"
             @change="ifInternetNameRepeat"
           />
           <el-input
             class="common-input"
             size="mini"
+            disabled
             :placeholder="$t('sandbox.addDescribe')"
             v-model="newNetworkList[0].description"
           />
@@ -145,6 +147,8 @@ export default {
         this.ifAddInternetBtn = false
       } else {
         this.ifAddInternetBtn = true
+        this.newNetworkList[0].name = 'Internal_Network'
+        this.newNetworkList[0].description = 'Internal_Network'
       }
     },
     ifInternetNameRepeat () {
@@ -226,7 +230,7 @@ export default {
     .add-btn{
       position: absolute;
       right: 60px;
-      top: 122px;
+      top: 107px;
       z-index: 2;
       cursor: pointer;
     }
