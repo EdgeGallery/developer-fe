@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
+import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun, GETRESCODE } from './tool.js'
 import axios from 'axios'
 
 let Plugin = {
@@ -582,6 +582,11 @@ let applicationEditorApi = {
   },
   publishModifyApp: function (packageId, params) {
     return Post('mec/developer/v2/released-packages/' + packageId + '/action/release', params)
+  },
+  // Call webgateWay to get interface response information
+  getResponseCodeInfo: function (params) {
+    let url = 'error-info?modules=' + params
+    return GETRESCODE(url, '')
   }
 }
 export {

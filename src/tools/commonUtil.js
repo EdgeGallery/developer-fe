@@ -23,7 +23,7 @@ function showTipMsg (language, error, defaultMsg) {
   if (retCode) {
     showRetCodeTipMsg(language, retCode, params)
   } else {
-    showFilterExceptionTip(error, defaultMsg)
+    showFilterExceptionTip(defaultMsg)
   }
 }
 
@@ -74,23 +74,8 @@ function showWarningDlg (msg) {
   })
 }
 
-function showFilterExceptionTip (error, defaultMsg) {
-  let errorCode = error.response.data.code
-  let msg = ''
-  switch (errorCode) {
-    case 400:
-      msg = i18n.t('common.exception400')
-      break
-    case 401:
-      msg = i18n.t('common.exception401')
-      break
-    case 403:
-      msg = i18n.t('common.exception403')
-      break
-    default:
-      msg = defaultMsg
-  }
-  showWarningDlg(msg)
+function showFilterExceptionTip (defaultMsg) {
+  showWarningDlg(defaultMsg)
 }
 
 export default {

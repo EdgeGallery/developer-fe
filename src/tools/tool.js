@@ -28,6 +28,7 @@ Vue.use(VueCookies)
 const urlPrefix = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/'
 const urlPrefixTool = PROXY_PREFIX_CURRENTSERVER + '/toolchain/'
 const urlPrefixAppstore = PROXY_PREFIX_CURRENTSERVER + '/mec-appstore/'
+const URL_PREFIX_GATEWAY = PROXY_PREFIX_CURRENTSERVER + '/mec/res/v2/'
 
 let accessToken = JSON.stringify(sessionStorage.getItem('accessToken'))
 let codeErr = false
@@ -227,6 +228,28 @@ function uniqueArray (arrData) {
   return _resultData
 }
 
+function commonGetRequest (url, params) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, {
+      params: params,
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+      }
+    }).then(res => {
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+function GETRESCODE (url, params) {
+  let baseUrl = URL_PREFIX_GATEWAY + url
+  return commonGetRequest(baseUrl, params)
+}
+
 export {
   Get,
   Post,
@@ -242,5 +265,6 @@ export {
   codeErr,
   GetFun,
   uniqueArray,
-  getCookie
+  getCookie,
+  GETRESCODE
 }
