@@ -258,14 +258,6 @@ export default {
       applicationEditorApi.publishModifyApp(row.appStorePackageId, _parameter).then(res => {
         this.$eg_messagebox(this.$t('toolBox.publishSuc'), 'success')
       }).catch((error) => {
-        if (error.response.data.message === 'upload app to appstore fail!') {
-          this.$eg_messagebox(this.$t('toolBox.appEditor.checkMf'), 'warning')
-        } else if (error.response.data.message === 'can not found app package(.csar)') {
-          this.$eg_messagebox(this.$t('toolBox.appEditor.checkModified'), 'warning')
-        } else {
-          this.$message.warning(this.$t('toolBox.publishFail'))
-        }
-      }).catch((error) => {
         let defaultMsg = this.$t('toolBox.publishFail')
         commonUtil.showTipMsg(this.language, error, defaultMsg)
       })
