@@ -93,6 +93,7 @@
 <script>
 import pagination from '../../../components/common/Pagination.vue'
 import { applicationEditorApi } from '@/tools/api.js'
+import commonUtil from '../../../tools/commonUtil.js'
 export default {
   name: 'SelectApplicationDlg',
   components: {
@@ -160,8 +161,9 @@ export default {
         this.syncParams = []
         this.$emit('getListData')
         this.closeDlg()
-      }).catch(() => {
-        this.$eg_messagebox(this.$t('toolBox.appEditor.syncFailed'), 'warning')
+      }).catch((error) => {
+        let defaultMsg = this.$t('toolBox.appEditor.syncFailed')
+        commonUtil.showTipMsg(this.language, error, defaultMsg)
         this.closeDlg()
       })
     }

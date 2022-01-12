@@ -153,6 +153,7 @@ import { common } from '../../../tools/common.js'
 import SelectAppliation from './SelectApplicationDlg'
 import ModifyPackageDlg from './ModifyPackageDlg.vue'
 import { Industry, Type } from '../../../tools/project_data.js'
+import commonUtil from '../../../tools/commonUtil.js'
 
 export default {
   name: 'ApplicationEditor',
@@ -264,6 +265,9 @@ export default {
         } else {
           this.$message.warning(this.$t('toolBox.publishFail'))
         }
+      }).catch((error) => {
+        let defaultMsg = this.$t('toolBox.publishFail')
+        commonUtil.showTipMsg(this.language, error, defaultMsg)
       })
     },
     handleDelete (row) {
