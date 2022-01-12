@@ -561,7 +561,7 @@ export default {
     },
     ischangeSandbox () {
       sandbox.container.getApplicationDetail(this.applicationId).then(res => {
-        if (res.data.containerApp.appConfiguration.appServiceRequiredList.length > 0) {
+        if (res.data.containerApp && res.data.containerApp.appConfiguration.appServiceRequiredList.length > 0) {
           this.isRequiredService = true
         }
         if (sessionStorage.getItem('loadtype') === 'vm') {
