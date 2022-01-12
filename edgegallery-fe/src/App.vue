@@ -212,7 +212,7 @@ export default {
 }
 .left-pro-comp{
   width: 100%;
-  height: 805px;
+  height: 95%;
   position: relative;
   border: 2px solid #838ACB;
   border-left: none;
