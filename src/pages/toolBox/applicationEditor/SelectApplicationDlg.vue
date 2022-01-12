@@ -124,15 +124,7 @@ export default {
       this.offsetPage = start
     },
     handleSelectionChange (val) {
-      let _obj = {
-        appId: '',
-        packageId: ''
-      }
-      val.forEach(item => {
-        _obj.appId = item.appId
-        _obj.packageId = item.packageId
-      })
-      this.syncParams.push(_obj)
+      this.syncParams = val
     },
     getAppData () {
       let _searchCondition = {
@@ -157,7 +149,17 @@ export default {
       })
     },
     confirm () {
-      applicationEditorApi.syncApplication(this.syncParams).then(res => {
+      let params = []
+      this.syncParams.forEach(item => {
+        let _obj = {
+          appId: '',
+          packageId: ''
+        }
+        _obj.appId = item.appId
+        _obj.packageId = item.packageId
+        params.push(_obj)
+      })
+      applicationEditorApi.syncApplication(params).then(res => {
         this.syncParams = []
         this.$emit('getListData')
         this.closeDlg()
