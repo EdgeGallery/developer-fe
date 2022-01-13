@@ -584,7 +584,7 @@ let applicationEditorApi = {
     return Post('mec/developer/v2/released-packages/' + packageId + '/action/release', params)
   }
 }
-let getCodeInfo = {
+let commonApi = {
   // Call webgateWay to get interface response information
   getResponseCodeInfo: function (params) {
     let url = 'error-info?modules=' + params
@@ -602,5 +602,5 @@ export {
   Capability,
   profileMgmtApi,
   applicationEditorApi,
-  getCodeInfo
+  commonApi
 }
