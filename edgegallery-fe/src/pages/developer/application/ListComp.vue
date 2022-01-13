@@ -217,7 +217,8 @@ export default {
     text-align: center;
     cursor: pointer;
     padding: 20px 15px 0;
-    width: 154px;
+    width: 12.5%;
+    min-width: 154px;
     position: relative;
     .app-name{
       text-align: center;

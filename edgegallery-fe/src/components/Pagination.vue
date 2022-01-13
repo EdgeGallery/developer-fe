@@ -50,7 +50,8 @@ export default {
     return {
       currentPage: 1,
       data: [],
-      pageSize: 10
+      pageSize: this.size,
+      totalNum: this.listTotal
     }
   },
   watch: {
@@ -79,9 +80,6 @@ export default {
         arr.push(size)
       }
       return arr
-    },
-    totalNum () {
-      return this.tableData.length
     }
   },
   methods: {

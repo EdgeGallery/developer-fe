@@ -154,8 +154,8 @@ let sandbox = {
 }
 
 let applicationApi = {
-  getApplicationList: function () {
-    return GET(URL_PREFIX_DEVELOPER + 'applications?limit=120&offset=0')
+  getApplicationList: function (limit, offset) {
+    return GET(URL_PREFIX_DEVELOPER + 'applications?limit=' + limit + '&offset=' + offset)
   },
   getAppInfo: function (appId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + appId)

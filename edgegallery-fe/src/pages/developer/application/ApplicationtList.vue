@@ -88,8 +88,10 @@
     <Pagination
       class="app-pagenation"
       :table-data="allAppList"
-      :list-total="allAppList.length"
+      :list-total="listTotal"
       v-if="zoom!==2"
+      @getCurrentPageData="getCurrentPageData"
+      :size="31"
     />
   </div>
 </template>
@@ -122,11 +124,22 @@ export default {
       isDeleteActive: false,
       searchContent: '',
       userName: sessionStorage.getItem('userName'),
-      appList: []
+      appList: [],
+      limit: 31,
+      offset: 0,
+      listTotal: 0
     }
   },
   watch: {
     currentFlow (val) {
+      this.initApplicationList()
+    },
+    offset (val) {
+      this.offset = val
+      this.initApplicationList()
+    },
+    limit (val) {
+      this.limit = val
       this.initApplicationList()
     }
   },
@@ -173,9 +186,14 @@ export default {
     refreshList () {
       this.initApplicationList()
     },
+    getCurrentPageData (val, pageSize, start) {
+      this.limit = pageSize
+      this.offset = start
+    },
     initApplicationList () {
-      applicationApi.getApplicationList().then(res => {
+      applicationApi.getApplicationList(this.limit, this.offset).then(res => {
         let data = res.data.results
+        this.listTotal = res.data.total
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
             if (data[i].id === sessionStorage.getItem('applicationId')) {
@@ -216,7 +234,7 @@ export default {
 
 <style lang='less' scoped>
 .app-list {
-  height: 725px;
+  height: 100%;
   .app-list-top{
     display: flex;
     .app-btn{
@@ -264,6 +282,7 @@ export default {
   }
   .top-right{
     justify-content: right;
+    margin-top: 20px;
   }
   .app-flex-items{
     display: flex;
@@ -272,6 +291,7 @@ export default {
   }
   .app-flex-main{
     margin-left: 50px;
+    height: calc(100% - 120px);
     overflow-y: auto;
   }
   .app-list-title{
