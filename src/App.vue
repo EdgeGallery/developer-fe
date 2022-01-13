@@ -114,7 +114,16 @@ export default {
         }
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
+        this.sendPageLoadedMsg(res.data.userId)
       })
+    },
+    sendPageLoadedMsg (userId) {
+      if (window.parent !== window) {
+        window.top.postMessage({
+          cmd: 'subpageLoaded',
+          params: { userId }
+        }, '*')
+      }
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {
@@ -158,6 +167,17 @@ export default {
       this.wsMsgSendInterval = setInterval(() => {
         this.wsSocketConn.send('')
       }, 10000)
+    },
+    handleSubpageLoadedMsg (eventData) {
+      if (eventData.params.userId !== sessionStorage.getItem('userId')) {
+        this.$alert(this.$t('nav.accountInconsistent'), this.$t('promptMessage.prompt'), {
+          confirmButtonText: this.$t('nav.reLogin'),
+          type: 'warning',
+          callback: () => {
+            this.logout()
+          }
+        })
+      }
     },
     handleNavData (item, authorities, newArray, s, validateAuthority) {
       if (!item.authority || item.authority.some(a => authorities.includes(a))) {
@@ -233,6 +253,8 @@ export default {
       if (data.cmd === 'iframeLanguageChange') {
         let lang = data.params.lang
         this.changeLange(lang)
+      } else if (data.cmd === 'subpageLoaded') {
+        this.handleSubpageLoadedMsg(data)
       }
     })
     window.onresize = () => {

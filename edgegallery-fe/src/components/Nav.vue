@@ -310,6 +310,19 @@ export default {
       if (data.cmd === 'routeTo') {
         let params = this.transPath(data.params)
         this.indexName = params.activeMenuPath
+      } else if (data.cmd === 'subpageLoaded') {
+        this.handleSubpageLoadedMsg(data)
+      }
+    },
+    handleSubpageLoadedMsg (eventData) {
+      if (eventData.params.userId !== sessionStorage.getItem('userId')) {
+        this.$alert(this.$t('nav.accountInconsistent'), this.$t('homePromptMessage.prompt'), {
+          confirmButtonText: this.$t('nav.reLogin'),
+          type: 'warning',
+          callback: () => {
+            this.logout()
+          }
+        })
       }
     },
     getPageScroll (scrollTop) {
