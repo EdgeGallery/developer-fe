@@ -110,7 +110,7 @@
             @click="activeName='appDetail'"
             :class="{'appDetail_active':activeName==='appDetail','appDetail_comment':activeName==='comment',
                      'appDetail_vedio':activeName==='vedio' || activeName==='appShow' || activeName==='meao',
-                     'appDetail_comment_meao_no_appShow':ifExperience===false && activeName==='meao'}"
+                     'appDetail_comment_meao_no_appShow':!ifExperience && activeName==='meao'}"
           >
             <span>
               {{ $t('store.introduction') }}
@@ -128,11 +128,11 @@
           <li
             @click="activeName='comment'"
             :class="{'comment_active':activeName==='comment','comment_default':activeName==='appDetail',
-                     'comment_default_appShow_meao':ifSynchronize === true && ifExperience===true && activeName==='appShow',
-                     'comment_default_appShow_nomeao':ifSynchronize === false && activeName==='appShow',
-                     'comment_default_no_appShow_meao':ifSynchronize === false && ifExperience===false && activeName==='vedio',
-                     'comment_default_meao_noAppShow':ifExperience === false && activeName==='meao',
-                     'comment_default_vedio_noAppShow':ifExperience === false && ifSynchronize === true && activeName ==='vedio'}"
+                     'comment_default_appShow_meao':ifSynchronize && ifExperience && activeName==='appShow',
+                     'comment_default_appShow_nomeao':!ifSynchronize && activeName==='appShow',
+                     'comment_default_no_appShow_meao':!ifSynchronize && !ifExperience && activeName==='vedio',
+                     'comment_default_meao_noAppShow':!ifExperience && activeName==='meao',
+                     'comment_default_vedio_noAppShow':!ifExperience && ifSynchronize && activeName ==='vedio'}"
           >
             <span>
               {{ $t('store.comments') }}
@@ -140,7 +140,7 @@
           </li>
 
           <div
-            v-if="activeName!=='appShow'&& ifSynchronize===false && ifExperience===true && activeName !=='comment'"
+            v-if="activeName!=='appShow'&& !ifSynchronize && ifExperience && activeName !=='comment'"
             class="horizontal-cell"
           >
             <link-right
@@ -148,7 +148,7 @@
             />
           </div>
           <div
-            v-if="activeName!=='appShow'&& ifSynchronize===false && ifExperience===false && activeName ==='appDetail'"
+            v-if="activeName!=='appShow'&& !ifSynchronize && !ifExperience && activeName ==='appDetail'"
             class="horizontal-cell"
           >
             <link-right
@@ -156,7 +156,7 @@
             />
           </div>
           <div
-            v-if="activeName!=='appShow'&& ifExperience === true && ifSynchronize===true && activeName !=='comment'"
+            v-if="activeName!=='appShow'&& ifExperience && ifSynchronize && activeName !=='comment'"
             class="horizontal-cell"
           >
             <link-right
@@ -172,15 +172,15 @@
                      'appShow_default_meao':activeName ==='vedio',
                      'appShow_default':activeName==='comment',
                      'appShow_default3':activeName==='meao',
-                     'appShow_default3':ifSynchronize===false && activeName==='vedio',
-                     'appShow_default_vedio':ifSynchronize===true && activeName==='vedio'}"
+                     'appShow_default3':!ifSynchronize && activeName==='vedio',
+                     'appShow_default_vedio':ifSynchronize && activeName==='vedio'}"
           >
             <span>
               {{ $t('store.showOnline') }}
             </span>
           </li>
           <div
-            v-if="activeName!=='meao'&& ifExperience === true && ifSynchronize===true && activeName !=='appShow'&& activeName !=='vedio'"
+            v-if="activeName!=='meao'&& ifExperience && ifSynchronize && activeName !=='appShow'&& activeName !=='vedio'"
             class="horizontal-cell"
           >
             <link-right
@@ -188,7 +188,7 @@
             />
           </div>
           <div
-            v-if="activeName ==='meao'&& ifExperience === true && ifSynchronize===true && activeName !=='appShow'&& activeName !=='vedio'"
+            v-if="activeName ==='meao'&& ifExperience && ifSynchronize && activeName !=='appShow'&& activeName !=='vedio'"
             class="horizontal-cell"
           >
             <link-right
@@ -196,7 +196,7 @@
             />
           </div>
           <div
-            v-if="activeName ==='appDetail'&& ifExperience === true && ifSynchronize===false"
+            v-if="activeName ==='appDetail'&& ifExperience && !ifSynchronize"
             class="horizontal-cell"
           >
             <link-right
@@ -204,7 +204,7 @@
             />
           </div>
           <div
-            v-if="activeName ==='comment'&& ifExperience === true && ifSynchronize===false"
+            v-if="activeName ==='comment'&& ifExperience && !ifSynchronize"
             class="horizontal-cell"
           >
             <link-right
@@ -212,7 +212,7 @@
             />
           </div>
           <div
-            v-if="ifSynchronize===true && ifExperience===false && activeName !=='comment' && activeName !=='vedio'"
+            v-if="ifSynchronize && !ifExperience && activeName !=='comment' && activeName !=='vedio'"
             class="horizontal-cell"
           >
             <link-right
@@ -221,26 +221,26 @@
           </div>
           <li
             @click="activeName='vedio'"
-            :class="{'vedio_active': ifSynchronize == true &&activeName==='vedio',
-                     'vedio_active_no_Meao': ifSynchronize == false && activeName==='vedio',
-                     'vedio_default_appshow':ifSynchronize===false && ifExperience===true && activeName ==='appShow',
-                     'vedio_default_appshow_meao':ifSynchronize===true && ifExperience===true && activeName ==='appShow',
+            :class="{'vedio_active': ifSynchronize &&activeName==='vedio',
+                     'vedio_active_no_Meao': !ifSynchronize && activeName==='vedio',
+                     'vedio_default_appshow':!ifSynchronize && ifExperience && activeName ==='appShow',
+                     'vedio_default_appshow_meao':ifSynchronize && ifExperience && activeName ==='appShow',
                      'vedio_default':activeName ==='meao',
-                     'vedio_default':ifExperience===true && ifSynchronize == true && activeName ==='appDetail',
-                     'vedio_default_noMeao': ifExperience===true && ifSynchronize == false &&activeName ==='appDetail',
-                     'vedio_default_no_AppshowMeao':ifSynchronize===false && ifExperience===false && activeName==='appDetail',
-                     'vedio_default2_appShow_meao': ifExperience===true && ifSynchronize == true &&activeName==='meao',
-                     'vedio_default2_no_AppshowMeao':ifSynchronize===false && ifExperience===false && activeName==='comment',
-                     'vedio_default2_comment_no_Meao':ifSynchronize===false && ifExperience===true && activeName==='comment',
-                     'vedio_default2_meao_no_Appshow':ifExperience===false && activeName==='meao',
-                     'vedio_default2_comment_no_Appshow':ifExperience===false && ifSynchronize ===true && activeName==='comment'}"
+                     'vedio_default':ifExperience && ifSynchronize && activeName ==='appDetail',
+                     'vedio_default_noMeao': ifExperience && !ifSynchronize &&activeName ==='appDetail',
+                     'vedio_default_no_AppshowMeao':!ifSynchronize && !ifExperience && activeName==='appDetail',
+                     'vedio_default2_appShow_meao': ifExperience && ifSynchronize &&activeName==='meao',
+                     'vedio_default2_no_AppshowMeao':!ifSynchronize && !ifExperience && activeName==='comment',
+                     'vedio_default2_comment_no_Meao':!ifSynchronize && ifExperience && activeName==='comment',
+                     'vedio_default2_meao_no_Appshow':!ifExperience && activeName==='meao',
+                     'vedio_default2_comment_no_Appshow':!ifExperience&& ifSynchronize && activeName==='comment'}"
           >
             <span>
               {{ $t('store.demo') }}
             </span>
           </li>
           <div
-            v-if="ifSynchronize===true && ifExperience === true && activeName !=='vedio' && activeName !=='meao'"
+            v-if="ifSynchronize && ifExperience && activeName !=='vedio' && activeName !=='meao'"
             class="horizontal-cell"
           >
             <link-right
@@ -248,7 +248,7 @@
             />
           </div>
           <div
-            v-if="ifSynchronize===true && ifExperience===false && activeName !=='vedio'&& activeName !=='meao'"
+            v-if="ifSynchronize && !ifExperience && activeName !=='vedio'&& activeName !=='meao'"
             class="horizontal-cell"
           >
             <link-right
@@ -260,7 +260,7 @@
             v-if="ifSynchronize"
             @click="activeName='meao'"
             :class="{'meao_active':activeName==='meao','meao_default':activeName ==='appShow',
-                     'meao_default_comment_noappShow':ifExperience === false && activeName ==='comment',
+                     'meao_default_comment_noappShow':!ifExperience && activeName ==='comment',
                      'meao_default_vedio_appShow':activeName ==='vedio',
                      'meao_default_vedio_appDetail':activeName ==='appDetail',
                      'meao_default_comment':activeName ==='comment'}"
@@ -271,12 +271,12 @@
           </li>
           <li
             class="last_li"
-            :class="{'appShow_active':ifSynchronize == true && activeName==='meao',
-                     'last_default':ifSynchronize == true && activeName!=='meao',
-                     'last_default2':ifSynchronize == true && activeName==='meao',
-                     'appShow_active':ifSynchronize == false && activeName==='vedio',
-                     'last_default_vedio':ifSynchronize == false && activeName!=='vedio',
-                     'last_default2_vedio':ifSynchronize == false && activeName==='vedio'}"
+            :class="{'appShow_active':ifSynchronize && activeName==='meao',
+                     'last_default':ifSynchronize && activeName!=='meao',
+                     'last_default2':ifSynchronize && activeName==='meao',
+                     'appShow_active':!ifSynchronize && activeName==='vedio',
+                     'last_default_vedio':!ifSynchronize && activeName!=='vedio',
+                     'last_default2_vedio':!ifSynchronize && activeName==='vedio'}"
           >
             <span />
           </li>
