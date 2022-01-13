@@ -41,7 +41,7 @@ import Navcomp from 'eg-view/src/components/EgNav.vue'
 import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
-import { applicationEditorApi } from '../src/tools/api.js'
+import { getCodeInfo } from '../src/tools/api.js'
 import { PROXY_PREFIX_CURRENTSERVER } from './tools/constant.js'
 export default {
   name: 'App',
@@ -208,7 +208,7 @@ export default {
     },
     getResCodeInfo () {
       let datas = '[appstore,developer]'
-      applicationEditorApi.getResponseCodeInfo(encodeURI(datas))
+      getCodeInfo.getResponseCodeInfo(encodeURI(datas))
         .then(res => {
           sessionStorage.setItem('resCodeInfo', JSON.stringify(res.data))
         }).catch(() => {
