@@ -89,6 +89,22 @@
           </el-col>
           <el-col :span="12">
             <el-form-item
+              :label="$t('system.imageMgmt.minDisk')"
+            >
+              <span>{{ imageData.virtualSize }}G</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="5">
+          <el-col :span="12">
+            <el-form-item
+              :label="$t('system.imageMgmt.diskBus')"
+            >
+              <span>{{ imageData.diskBus }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
               :label="$t('system.imageMgmt.imgFormat')"
             >
               <span>{{ imageData.imageFormat }}</span>
@@ -96,11 +112,21 @@
           </el-col>
         </el-row>
         <el-row :gutter="5">
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item
               :label="$t('system.imageMgmt.createTime')"
             >
               <span>{{ imageData.createTime }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="12"
+            v-if="imageData.uploadTime"
+          >
+            <el-form-item
+              :label="$t('system.imageMgmt.uploadTime')"
+            >
+              <span>{{ imageData.uploadTime }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -113,12 +139,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="5">
+        <el-row
+          :gutter="5"
+          v-if="imageData.errorType"
+        >
           <el-col :span="24">
             <el-form-item
-              :label="$t('system.imageMgmt.uploadTime')"
+              :label="$t('system.imageMgmt.errorMessage')"
             >
-              <span>{{ imageData.uploadTime }}</span>
+              <span>{{ imageData.errorType }}</span>
             </el-form-item>
           </el-col>
         </el-row>

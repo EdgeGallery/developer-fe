@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun } from './tool.js'
+import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun, getResCode } from './tool.js'
 import axios from 'axios'
 
 let Plugin = {
@@ -584,6 +584,13 @@ let applicationEditorApi = {
     return Post('mec/developer/v2/released-packages/' + packageId + '/action/release', params)
   }
 }
+let commonApi = {
+  // Call webgateWay to get interface response information
+  getResponseCodeInfo: function (params) {
+    let url = 'error-info?modules=' + params
+    return getResCode(url, '')
+  }
+}
 export {
   Plugin,
   Api,
@@ -594,5 +601,6 @@ export {
   imageMgmtService,
   Capability,
   profileMgmtApi,
-  applicationEditorApi
+  applicationEditorApi,
+  commonApi
 }

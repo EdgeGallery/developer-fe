@@ -351,7 +351,7 @@ export default {
         this.$store.commit('changeFlow', '5')
         this.$router.push('/EG/developer/home')
       }).catch(() => {
-        this.$message.success(this.$t('atpTestProcess.publishFail'))
+        this.$message.error(this.$t('atpTestProcess.publishFail'))
       })
     },
     closeDig () {

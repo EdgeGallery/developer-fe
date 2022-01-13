@@ -192,6 +192,11 @@ export default {
               this.vmTestInformation.status = response.data.status
             })
             this.vmTestInformation.nodes = res.data.vmInstantiateInfo.portInstanceList
+          } else {
+            this.vmTestInformation = {
+              status: '',
+              nodes: []
+            }
           }
         }
       })

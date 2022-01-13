@@ -123,7 +123,7 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('workspace.protocol')"
+          label="IcmProtocol"
           prop="lcmProtocol"
           class="w50"
         >
@@ -458,8 +458,8 @@
         />
         <el-table-column
           prop="lcmProtocol"
-          :label="$t('workspace.protocol')"
-          min-width="9%"
+          label="IcmProtocol"
+          min-width="14%"
         />
         <el-table-column
           prop="status"
@@ -645,7 +645,7 @@ export default {
         lcmProtocol: 'https',
         status: 'NORMAL',
         vimType: 'K8S',
-        networkParameter: `APP_Plane01_Network=MEC_APP_MP1;APP_Plane02_Network=MEC_APP_Public;APP_Plane03_Network=MEC_APP_Private;VDU1_APP_Plane01_IP=192.168.221.0/24;VDU1_APP_Plane02_IP=192.168.222.0/24;VDU1_APP_Plane03_IP=192.168.220.0/24`,
+        networkParameter: `APP_Plane01_Network=MEC_APP_MP1;APP_Plane02_Network=MEC_APP_Public;APP_Plane03_Network=MEC_APP_Private;APP_Plane04_Network=Internal_Network;VDU1_APP_Plane01_IP=192.168.221.0/24;VDU1_APP_Plane02_IP=192.168.222.0/24;VDU1_APP_Plane03_IP=192.168.220.0/24;VDU1_APP_Plane04_IP=192.168.223.0/24`,
         resource: null,
         mecHostPort: 22,
         mecHostProtocol: 'http'
@@ -1015,8 +1015,8 @@ export default {
   .port_input{
     width: calc(50% - 15px);
   }
-  .el-form-item__label {
-    padding: 0 20px 0 0
+  .el-form-item__label{
+    padding: 0px 7px 0 0 !important;
   }
   .list {
     border-radius: 16px;

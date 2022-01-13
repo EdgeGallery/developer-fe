@@ -884,6 +884,7 @@ const cn = {
       osVersion: '版本',
       osBit: '位数',
       sysDisk: '磁盘大小',
+      diskBus: '磁盘格式',
       userName: '所属用户',
       createTime: '创建时间',
       uploadTime: '上传时间',
@@ -892,6 +893,8 @@ const cn = {
       endTime: '上传时间（结束）',
       slimming: '瘦身',
       imageSize: '镜像大小',
+      minDisk: '最小磁盘',
+      errorMessage: '错误信息',
       typeValue: {
         public: '公共',
         private: '私有',
@@ -982,7 +985,8 @@ const cn = {
         cancelUploadFailed: '取消上传失败！',
         cancelingHint: '正在取消，请稍候...',
         mecHostExist: '已经存在相同的mecHost',
-        textWrap: '可以包含中英文、空格、/，首尾不能有空格'
+        textWrap: '可以包含中英文、空格、/，首尾不能有空格',
+        systemDiskTip: '磁盘大小小于所需的最小磁盘大小，请点击“更多->编辑”修改'
       }
     }
   },

@@ -162,6 +162,12 @@ import CheckResult from './CheckResult.vue'
 import { sandbox } from '../../../../api/developerApi.js'
 export default {
   name: 'ContainerScript',
+  props: {
+    isRequiredService: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     CheckResult
   },
@@ -184,7 +190,7 @@ export default {
         formatSuccess: true,
         imageSuccess: true,
         serviceSuccess: true,
-        mepAgentSuccess: false
+        mepAgentSuccess: this.isRequiredService
       },
       helmChartId: '',
       innerPath: '',
@@ -356,17 +362,10 @@ export default {
     },
     finishUploadScript () {
       this.$emit('finishUploadScript')
-    },
-    getMepAgent () {
-      let _this = this
-      this.bus.$on('getMepAgent', function (data) {
-        _this.checkFlag.mepAgentSuccess = data
-      })
     }
   },
   mounted () {
     this.getHelmChartsFileList()
-    this.getMepAgent()
   }
 }
 </script>

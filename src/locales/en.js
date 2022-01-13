@@ -884,6 +884,7 @@ const en = {
       osVersion: 'Version',
       osBit: 'System Bit',
       sysDisk: 'Disk Size',
+      diskBus: 'Disk Format',
       userName: 'User',
       createTime: 'Create Time',
       uploadTime: 'Upload Time',
@@ -892,6 +893,8 @@ const en = {
       endTime: 'Upload Time(End)',
       slimming: 'Slimming',
       imageSize: 'Image Size',
+      minDisk: 'Minimum Disk',
+      errorMessage: 'Error Message',
       typeValue: {
         public: 'Public',
         private: 'Private',
@@ -982,7 +985,8 @@ const en = {
         cancelUploadFailed: 'Cancel upload operation failed!',
         cancelingHint: 'Canceling, please wait...',
         mecHostExist: 'The same mecHost already exists',
-        textWrap: ' Can contain Chinese and English, spaces, /, no spaces at the beginning and end'
+        textWrap: ' Can contain Chinese and English, spaces, /, no spaces at the beginning and end',
+        systemDiskTip: 'The disk size is smaller than the required minimum disk size, please click "More->Edit" to modify'
       }
     }
   },

@@ -116,6 +116,7 @@ import {
   PLATFORMNAME_ATP
 } from '../tools/constant.js'
 import { getPlatformUrlPrefix } from '../tools/common.js'
+import { applicationApi } from '../api/developerApi.js'
 export default {
   name: 'NavgationNew',
   components: {
@@ -173,6 +174,9 @@ export default {
     },
     $route (to, from) {
       this.toPath = to.path
+      if (to.path === '/index' || to.path === '/EG/developer/home') {
+        this.$store.commit('changeZoom', '2')
+      }
       if (to.path === '/home') {
         this.isHome = true
       } else {
@@ -199,6 +203,9 @@ export default {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
       this.language = lan === 'en' ? 'En' : 'Cn'
       this.changeLange()
+    }
+    if (!localStorage.getItem('language')) {
+      localStorage.setItem('language', 'cn')
     }
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
@@ -384,7 +391,16 @@ export default {
         }
         this.startHttpSessionInvalidListener(res.data.sessId)
       })
-      // this.filterMenu()
+      this.filterMenuForClab()
+    },
+    filterMenuForClab () {
+      applicationApi.getUseScene().then(res => {
+        if (res && res.data) {
+          if (res.data !== 'edgeGallery') {
+            this.filterMecmMenu()
+          }
+        }
+      })
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {

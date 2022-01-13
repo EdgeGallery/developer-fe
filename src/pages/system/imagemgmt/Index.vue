@@ -332,7 +332,7 @@ export default {
     transition: all 0.5s;
   }
   .view_image_dialog .el-dialog{
-    width: 40%;
+    width: 55%;
     min-width: 600px;
   }
 }

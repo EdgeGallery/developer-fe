@@ -41,6 +41,7 @@ import Navcomp from 'eg-view/src/components/EgNav.vue'
 import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
+import { commonApi } from '../src/tools/api.js'
 import { PROXY_PREFIX_CURRENTSERVER } from './tools/constant.js'
 export default {
   name: 'App',
@@ -224,9 +225,19 @@ export default {
     enterLoginPage () {
       let _lang = localStorage.getItem('language')
       window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER + '&lang=' + _lang
+    },
+    getResCodeInfo () {
+      let datas = '[appstore,developer]'
+      commonApi.getResponseCodeInfo(encodeURI(datas))
+        .then(res => {
+          sessionStorage.setItem('resCodeInfo', JSON.stringify(res.data))
+        }).catch(() => {
+          console.log('getResCodeInfo error')
+        })
     }
   },
   mounted () {
+    this.getResCodeInfo()
     this.loginFun()
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
@@ -259,6 +270,9 @@ export default {
     }
   },
   beforeMount () {
+    if (!localStorage.getItem('language')) {
+      localStorage.setItem('language', 'cn')
+    }
     let language = localStorage.getItem('language') || 'cn'
     this.$i18n.locale = language
     if (language === 'en') {

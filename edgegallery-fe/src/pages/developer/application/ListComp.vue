@@ -4,6 +4,7 @@
       class="app-item"
       @mouseenter="isShowCreate=!isShowCreate"
       @mouseleave="isShowCreate=!isShowCreate"
+      v-if="userAuthorities.indexOf('ROLE_DEVELOPER_GUEST')<0 "
     >
       <div
         class="img-div"
@@ -111,7 +112,8 @@ export default {
         type: 'normal',
         iconUrl: require('../../../assets/images/application/app_add_new.png'),
         name: ''
-      }
+      },
+      userAuthorities: sessionStorage.getItem('userAuthorities') || ''
     }
   },
   watch: {
@@ -215,7 +217,8 @@ export default {
     text-align: center;
     cursor: pointer;
     padding: 20px 15px 0;
-    width: 154px;
+    width: 12.5%;
+    min-width: 154px;
     position: relative;
     .app-name{
       text-align: center;

@@ -54,12 +54,6 @@
           :filters="typeData"
         />
         <el-table-column
-          prop="userName"
-          min-width="9%"
-          :label="$t('system.imageMgmt.userName')"
-          show-overflow-tooltip
-        />
-        <el-table-column
           :column-key="'osType'"
           prop="osType"
           min-width="10.5%"
@@ -67,6 +61,30 @@
           show-overflow-tooltip
           :filters="osData"
         />
+        <el-table-column
+          prop="osVersion"
+          min-width="6%"
+          :label="$t('system.imageMgmt.osVersion')"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="systemDiskSize"
+          min-width="11.5%"
+          :label="$t('system.imageMgmt.sysDisk')+'(G)'"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            {{ scope.row.systemDiskSize }}
+            <el-tooltip
+              v-if="scope.row.systemDiskSize<scope.row.virtualSize"
+              effect="dark"
+              :content="$t('system.imageMgmt.tip.systemDiskTip')"
+              placement="right"
+            >
+              <span class="default_info_promt default_warning_promt">i</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="imageSize"
           min-width="10%"
@@ -77,21 +95,11 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="osVersion"
-          min-width="6%"
-          :label="$t('system.imageMgmt.osVersion')"
+          prop="imageFormat"
+          min-width="9%"
+          :label="$t('system.imageMgmt.imgFormat')"
           show-overflow-tooltip
         />
-        <el-table-column
-          prop="uploadTime"
-          min-width="11.5%"
-          :label="$t('system.imageMgmt.uploadTime')"
-          sortable
-        >
-          <template slot-scope="scope">
-            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
-          </template>
-        </el-table-column>
         <el-table-column
           :column-key="'status'"
           min-width="8.5%"

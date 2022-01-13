@@ -154,8 +154,8 @@ let sandbox = {
 }
 
 let applicationApi = {
-  getApplicationList: function () {
-    return GET(URL_PREFIX_DEVELOPER + 'applications?limit=120&offset=0')
+  getApplicationList: function (limit, offset) {
+    return GET(URL_PREFIX_DEVELOPER + 'applications?limit=' + limit + '&offset=' + offset)
   },
   getAppInfo: function (appId) {
     return GET(URL_PREFIX_DEVELOPER + 'applications/' + appId)
@@ -222,6 +222,9 @@ let applicationApi = {
   },
   getAbilityIconApi: function (fileId) {
     return URL_PREFIX_DEVELOPER + 'upload-files/' + fileId + '/action/get-file-stream'
+  },
+  getUseScene () {
+    return GET(URL_PREFIX_DEVELOPER + 'pkg-specs/useScenes')
   }
 }
 

@@ -129,7 +129,7 @@ const sandboxEn = {
     format: 'Params Check',
     imageInfo: 'Image Information',
     serviceInfo: 'Service Information',
-    mepAgentTip: 'If mepagent is not integrated, api cannot be released',
+    mepAgentTip: 'No platform-dependent capabilities, api cannot be released',
     cpuUsage: 'CPU Usage',
     memUsage: 'Memory Usage',
     diskUsage: 'Disk Usage',
