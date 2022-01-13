@@ -134,11 +134,11 @@ export default {
     currentFlow (val) {
       this.initApplicationList()
     },
-    offset (val, oldVal) {
+    offset (val) {
       this.offset = val
       this.initApplicationList()
     },
-    limit (val, oldVal) {
+    limit (val) {
       this.limit = val
       this.initApplicationList()
     }
