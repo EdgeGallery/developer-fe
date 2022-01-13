@@ -164,7 +164,9 @@ const sandboxEn = {
     internetNameRepeat: 'Duplicate network configuration name!',
     startFailed: 'Failed',
     exportFailed: 'Failed',
-    addInternetTip: 'Network name cannot be empty!'
+    addInternetTip: 'Network name cannot be empty!',
+    nameRule: 'Please enter 4-32 characters without spaces, not all numbers, which can contain numbers, letters, _, -, and cannot start and end with _,-',
+    nameInfoError: 'Please fill in the vm name according to the rules'
   }
 }
 export default sandboxEn

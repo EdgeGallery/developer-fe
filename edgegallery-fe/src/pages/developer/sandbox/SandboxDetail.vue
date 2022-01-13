@@ -658,6 +658,9 @@ export default {
         this.netWorkListShow = []
         if (res.data.length === 0) {
           this.isAddVmFinish = false
+          this.isClearVmImage = true
+          this.isStartupVmFinish = false
+          this.clearState = 'clear'
           return
         }
         this.vmLists = res.data
