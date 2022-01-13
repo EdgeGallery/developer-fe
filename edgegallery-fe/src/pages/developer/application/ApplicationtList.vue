@@ -125,8 +125,8 @@ export default {
       searchContent: '',
       userName: sessionStorage.getItem('userName'),
       appList: [],
-      limitSize: 31,
-      offsetPage: 0,
+      limit: 31,
+      offset: 0,
       listTotal: 0
     }
   },
@@ -134,12 +134,12 @@ export default {
     currentFlow (val) {
       this.initApplicationList()
     },
-    offsetPage (val, oldVal) {
-      this.offsetPage = val
+    offset (val, oldVal) {
+      this.offset = val
       this.initApplicationList()
     },
-    limitSize (val, oldVal) {
-      this.limitSize = val
+    limit (val, oldVal) {
+      this.limit = val
       this.initApplicationList()
     }
   },
@@ -187,11 +187,11 @@ export default {
       this.initApplicationList()
     },
     getCurrentPageData (val, pageSize, start) {
-      this.limitSize = pageSize
-      this.offsetPage = start
+      this.limit = pageSize
+      this.offset = start
     },
     initApplicationList () {
-      applicationApi.getApplicationList(this.limitSize, this.offsetPage).then(res => {
+      applicationApi.getApplicationList(this.limit, this.offset).then(res => {
         let data = res.data.results
         this.listTotal = res.data.total
         if (data.length > 0) {
