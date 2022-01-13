@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun, GETRESCODE } from './tool.js'
+import { Get, Delete, Put, Post, urlPrefix, urlPrefixTool, downloadFile, GetFun, getResCode } from './tool.js'
 import axios from 'axios'
 
 let Plugin = {
@@ -588,7 +588,7 @@ let getCodeInfo = {
   // Call webgateWay to get interface response information
   getResponseCodeInfo: function (params) {
     let url = 'error-info?modules=' + params
-    return GETRESCODE(url, '')
+    return getResCode(url, '')
   }
 }
 export {

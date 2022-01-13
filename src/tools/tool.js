@@ -245,7 +245,7 @@ function commonGetRequest (url, params) {
   })
 }
 
-function GETRESCODE (url, params) {
+function getResCode (url, params) {
   let baseUrl = URL_PREFIX_GATEWAY + url
   return commonGetRequest(baseUrl, params)
 }
@@ -266,5 +266,5 @@ export {
   GetFun,
   uniqueArray,
   getCookie,
-  GETRESCODE
+  getResCode
 }
