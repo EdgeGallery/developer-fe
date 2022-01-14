@@ -23,6 +23,7 @@
       >
         <el-button
           type="primary"
+          :disabled="noSync"
         >
           {{ $t('store.synchronous') }}
         </el-button>
@@ -155,7 +156,8 @@ export default {
       testColor: [],
       systemNameData: [],
       tableData: [],
-      timer: null
+      timer: null,
+      noSync: this.currentData.deployMode === 'container'
     }
   },
   methods: {
