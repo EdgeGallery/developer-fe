@@ -921,7 +921,8 @@ const en = {
         slimWait: 'To be slim',
         slimming: 'Slimming',
         slimSucceed: 'Slim Succeed',
-        slimFailed: 'Slim Failed'
+        slimFailed: 'Slim Failed',
+        isoSlimFailed: 'ISO image does not support slimming'
       },
       operation: {
         newImg: 'New System Image',

@@ -921,7 +921,8 @@ const cn = {
         slimWait: '等待瘦身',
         slimming: '瘦身中',
         slimSucceed: '瘦身成功',
-        slimFailed: '瘦身失败'
+        slimFailed: '瘦身失败',
+        isoSlimFailed: 'iso镜像不支持瘦身'
       },
       operation: {
         newImg: '新建系统镜像',
