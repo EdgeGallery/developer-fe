@@ -393,7 +393,7 @@ export default {
         this.$router.push({ path: '/EG/images/appdPreview', query: { packageId: res.data.id } })
       }).catch(error => {
         if (error.response.data.message === 'container application does not upload any yaml.') {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.packageBuildInfo'), 'warning')
+          this.$eg_messagebox(this.$t('appPackage.packageBuildInfo'), 'warning')
         } else {
           this.$eg_messagebox(this.$t('appPackage.packageFail'), 'error')
         }

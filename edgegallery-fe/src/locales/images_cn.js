@@ -69,7 +69,8 @@ const imagesCn = {
     packageFinish: '打包完成',
     subText: '认证前系统会默认释放资源,释放后再不可再返回修改',
     notSupport: '格式不支持修改',
-    noDependences: '无依赖'
+    noDependences: '无依赖',
+    packageBuildInfo: '请先上传yaml文件进行部署调测'
   }
 }
 export default imagesCn

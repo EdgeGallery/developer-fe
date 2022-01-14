@@ -69,7 +69,8 @@ const imagesEn = {
     packageFinish: 'Packaged',
     subText: 'The system will release resources by default before authentication. Cannot return to modify after release.',
     notSupport: 'Format does not support modification',
-    noDependences: 'no Dependences'
+    noDependences: 'no Dependences',
+    packageBuildInfo: 'Please upload the yaml file for deployment Test'
   }
 }
 export default imagesEn
