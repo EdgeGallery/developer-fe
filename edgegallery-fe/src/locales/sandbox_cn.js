@@ -142,7 +142,8 @@ const sandboxCn = {
     podName: 'pod名称',
     podStatus: 'pod状态',
     containerName: '容器名称',
-    deployLog: '部署日志'
+    deployLog: '部署日志',
+    eventsInfo: '日志详情'
   },
   sandboxPromptInfomation: {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G！',
@@ -164,7 +165,9 @@ const sandboxCn = {
     internetNameRepeat: '网络配置名重复！',
     startFailed: '启动失败',
     exportFailed: '导出失败',
-    addInternetTip: '网络类型名称不能为空！'
+    addInternetTip: '网络类型名称不能为空！',
+    nameRule: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、_、-，开头结尾不能为_、-',
+    nameInfoError: '虚拟机名称请按照规则填写'
   }
 }
 export default sandboxCn

@@ -31,7 +31,13 @@
             class="collapse-title"
             slot="title"
           >{{ $t('sandbox.vmInformation') }}<strong class="required">*</strong></span>
-          <div class="vm-info">
+          <div class="vm-info clear">
+            <div
+              class="err-info"
+              v-if="isNameErr"
+            >
+              {{ $t('sandboxPromptInfomation.nameRule') }}
+            </div>
             <div class="addVm-top-title">
               <p>
                 {{ $t('sandbox.vmName') }}
@@ -39,8 +45,8 @@
               <el-input
                 class="common-input"
                 v-model="addvmImages.name"
-                @input="addvmImages.name=addvmImages.name.replace(/[^\w\.\/]/ig,'')"
                 :placeholder="$t('sandbox.enterVmName')"
+                @input="checkNameValue"
               />
             </div>
             <div class="addVm-top-title defaultFontLight">
@@ -783,7 +789,8 @@ export default {
       applicationId: sessionStorage.getItem('applicationId') || '',
       vmId: '',
       isAddVm: this.isAddVmProp,
-      systemDiskSize: 0
+      systemDiskSize: 0,
+      isNameErr: false
     }
   },
   watch: {
@@ -796,6 +803,10 @@ export default {
     }
   },
   methods: {
+    checkNameValue (val) {
+      let _reg = /^(?!_)(?!-)(?!\s)(?!.*?_$)(?!.*?-$)(?!.*?\s$)(?![0-9]+$)[a-zA-Z0-9_-]{4,32}$/
+      this.isNameErr = !_reg.test(val)
+    },
     getVmSpecs (systemDiskSize) {
       sandbox.getVmspec().then(res => {
         if (res.data && res.data.length <= 0) {
@@ -1048,6 +1059,10 @@ export default {
         this.$eg_messagebox(this.$t('service.isNameEmpty'), 'warning')
         this.activeNames = ['1']
         this.$emit('addVmFinish', _data, false)
+      } else if (this.isNameErr) {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.nameInfoError'), 'warning')
+        this.activeNames = ['1']
+        this.$emit('addVmFinish', _data, false)
       } else if (this.addvmImages.vmCertificate.pwdCertificate.username === '') {
         this.$eg_messagebox(this.$t('common.enterUserName'), 'warning')
         this.activeNames = ['1']
@@ -1138,6 +1153,7 @@ export default {
     },
     handleAddVmData (isAddVm) {
       if (isAddVm) {
+        this.isNameErr = false
         this.addvmImages = {
           name: '',
           flavorId: '',
@@ -1222,12 +1238,20 @@ export default {
       clear: both;
     }
     .vm-info{
-      margin: 0 0 30px 0px;
+      position: relative;
+      .err-info{
+        position: absolute;
+        left: 105px;
+        top: 60px;
+        color: #f56c6c;
+        font-size: 14px;
+      }
       .addVm-top-title{
         float: left;
         width: 33%;
         display: flex;
         margin: 20px 0px;
+        position: relative;
         p{
           width: 100px;
           line-height: 25px;
