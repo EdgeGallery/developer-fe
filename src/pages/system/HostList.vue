@@ -827,9 +827,9 @@ export default {
           }).catch(error => {
             if (error.response.data.message === 'mecHost already exists!') {
               this.$eg_messagebox(this.$t('system.imageMgmt.tip.mecHostExist'), 'error')
-            } else {
-              this.$eg_messagebox(this.$t('promptMessage.saveFail'), 'error')
             }
+            let defaultMsg = this.$t('system.addHostFail')
+            commonUtil.showTipMsg(this.language, error, defaultMsg)
           }).finally(() => {
             this.loading = false
             this.getListData()
@@ -898,9 +898,6 @@ export default {
           let obj = { name: res.data.fileName }
           this.configId_file_list.push(obj)
         }
-      }).catch((error) => {
-        let defaultMsg = this.$t('system.addHostFail')
-        commonUtil.showTipMsg(this.language, error, defaultMsg)
       })
       delete this.form.userName
       if (this.form.vimType === 'K8S') {
