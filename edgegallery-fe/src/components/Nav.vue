@@ -116,7 +116,7 @@ import {
   PLATFORMNAME_ATP
 } from '../tools/constant.js'
 import { getPlatformUrlPrefix } from '../tools/common.js'
-import { applicationApi } from '../api/developerApi.js'
+import { applicationApi, commonApi } from '../api/developerApi.js'
 export default {
   name: 'NavgationNew',
   components: {
@@ -195,6 +195,7 @@ export default {
     }
   },
   mounted () {
+    this.getResCodeInfo()
     this.logoutFun()
     this.loginFun()
     // Switch language
@@ -222,6 +223,15 @@ export default {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
+    getResCodeInfo () {
+      let datas = '[atp,developer]'
+      commonApi.getResponseCodeInfo(encodeURI(datas))
+        .then(res => {
+          sessionStorage.setItem('devResCodeInfo', JSON.stringify(res.data))
+        }).catch(() => {
+          console.log('getResCodeInfo error')
+        })
+    },
     logoutFun () {
       let _this = this
       this.bus.$on('logoutFun', function () {

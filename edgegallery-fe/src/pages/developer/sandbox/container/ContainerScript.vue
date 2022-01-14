@@ -160,6 +160,7 @@
 import demoYaml from '@/assets/file/test_helm_template.yaml'
 import CheckResult from './CheckResult.vue'
 import { sandbox } from '../../../../api/developerApi.js'
+import devCommonUtil from '../../../../tools/devCommonUtil.js'
 export default {
   name: 'ContainerScript',
   props: {
@@ -248,26 +249,26 @@ export default {
         }
       }, (error) => {
         this.hasValidate = false
-        if (error.response.data.message === 'Service info not found in deployment yaml!') {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
+        if (error.response.data.retCode === 20038) {
           this.checkFlag.serviceSuccess = false
-        } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
+        } else if (error.response.data.retCode === 20027) {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
           this.checkFlag.imageSuccess = false
         } else if (error.response.data.message.indexOf('is not in standard format') > -1) {
           let _arrTemp = error.response.data.message.split(' ')
           this.imagesName = _arrTemp[1]
           this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.imageInfoError'), 'error')
-        } else if (error.response.data.message.indexOf('does not exist in harbor repo!') > -1) {
+        } else if (error.response.data.retCode === 20025) {
           let _arrTemp = error.response.data.message.split(' ')
           this.imagesName = _arrTemp[1]
           this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.notInHarbor'), 'error', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
             this.jumpToImageList()
           })
         } else {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
           this.checkFlag.formatSuccess = false
         }
+        let defaultMsg = this.$t('sandboxPromptInfomation.noFormat')
+        devCommonUtil.showTipMsg(this.language, error, defaultMsg)
         this.helmChartFile = []
       }).finally(() => {
         this.uploadYamlLoading = false

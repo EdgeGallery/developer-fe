@@ -820,6 +820,7 @@ const en = {
     success: 'Success',
     name: 'Name',
     addHost: 'Add Host',
+    addHostFail: 'Failed to create new sandbox',
     pleaseInput: 'Please input ',
     pleaseUpload: 'Please upload ',
     address: 'Address',

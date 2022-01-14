@@ -818,6 +818,7 @@ const cn = {
     upload: '上传',
     name: '名称',
     addHost: '新增沙箱环境',
+    addHostFail: '新建沙箱失败',
     pleaseInput: '请输入',
     pleaseUpload: '请上传',
     error: '失败',
