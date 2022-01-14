@@ -127,7 +127,7 @@
     <Pagination
       class="clearfix"
       style="margin-bottom: 0px;"
-      :total="total"
+      :total="listTotal"
     />
   </div>
 </template>
