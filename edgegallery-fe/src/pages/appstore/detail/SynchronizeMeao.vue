@@ -133,8 +133,6 @@
 </template>
 
 <script>
-import en from '../../locales/en.js'
-import cn from '../../locales/cn.js'
 import { MEAO } from '../tools/constant.js'
 import { appstoreApi } from '../../../api/appstoreApi'
 import commonUtil from '../tools/commonUtil.js'
@@ -173,14 +171,12 @@ export default {
   },
   methods: {
     format (percentage) {
-      let _isCn = this.language === 'cn'
-      let _store = _isCn ? cn.store : en.store
       for (let item of this.testColor) {
         if (item.color === true && item.percentage === percentage) {
-          return _store.failed
+          return this.$t('store.failed')
         }
       }
-      return percentage === 100 ? _store.finished : `${percentage}%`
+      return percentage === 100 ? this.$t('store.finished') : `${percentage}%`
     },
     filterTagTable (filters) {
       this.systemName = filters
