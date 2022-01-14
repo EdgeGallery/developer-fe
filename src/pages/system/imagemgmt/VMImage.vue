@@ -570,6 +570,7 @@ export default {
       })
     },
     handleSlim (row) {
+      this.percentages = 0
       imageMgmtService.slimImage(row.id).then(res => {
         if (!res.data) {
           return
