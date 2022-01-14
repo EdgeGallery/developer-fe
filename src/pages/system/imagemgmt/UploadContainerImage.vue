@@ -117,6 +117,7 @@
 <script>
 import { urlPrefix, getCookie } from '../../../tools/tool.js'
 import { imageMgmtService } from '../../../tools/api.js'
+import commonUtil from '../../../tools/commonUtil.js'
 
 export default {
   name: 'UploadImage',
@@ -202,11 +203,8 @@ export default {
         }, 1000)
         this.isUploading = false
       }).catch((error) => {
-        if (error.response.data.message === 'exist the same imageName') {
-          this.$message.error(this.$t('system.imageMgmt.tip.systemNameExist'))
-        } else {
-          this.$message.error(this.$t('promptMessage.uploadFailure'))
-        }
+        let defaultMsg = this.$t('promptMessage.uploadFailure')
+        commonUtil.showTipMsg(this.language, error, defaultMsg)
         this.doClose()
         this.isUploading = false
       })
