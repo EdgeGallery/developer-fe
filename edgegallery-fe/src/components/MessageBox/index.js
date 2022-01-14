@@ -19,7 +19,7 @@ import MessageBox from './MessageBox.vue'
 
 const EGMessageBox = Vue.extend(MessageBox)
 
-const messageBoxComp = function (desc, type, cancelText, confirmText, descSub) {
+const messageBoxComp = function (desc, type, cancelText, confirmText, descSub, internalWidth) {
   let options = {}
   if (typeof desc === 'object') {
     options = desc
@@ -29,6 +29,7 @@ const messageBoxComp = function (desc, type, cancelText, confirmText, descSub) {
     options.descSub = descSub || ''
     options.cancelText = cancelText || ''
     options.confirmText = confirmText || this.$t('common.confirm')
+    options.internalWidth = internalWidth || '460px'
   }
 
   let instance = new EGMessageBox({

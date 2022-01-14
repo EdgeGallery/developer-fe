@@ -142,7 +142,8 @@ const sandboxCn = {
     podName: 'pod名称',
     podStatus: 'pod状态',
     containerName: '容器名称',
-    deployLog: '部署日志'
+    deployLog: '部署日志',
+    eventsInfo: '日志详情'
   },
   sandboxPromptInfomation: {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G！',
