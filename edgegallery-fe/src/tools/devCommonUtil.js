@@ -67,12 +67,11 @@ function getTipMsg (resMap, retCode, params) {
 }
 
 function showWarningDlg (msg) {
-  // Vue.prototype.$message({
-  //   duration: 2000,
-  //   message: msg,
-  //   type: 'warning'
-  // })
-  this.$eg_messagebox(msg, 'warning')
+  Vue.prototype.$message({
+    duration: 2000,
+    message: msg,
+    type: 'warning'
+  })
 }
 
 function showFilterExceptionTip (defaultMsg) {
