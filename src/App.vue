@@ -41,6 +41,7 @@ import Navcomp from 'eg-view/src/components/EgNav.vue'
 import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
+import { commonApi } from '../src/tools/api.js'
 import { PROXY_PREFIX_CURRENTSERVER } from './tools/constant.js'
 export default {
   name: 'App',
@@ -113,7 +114,16 @@ export default {
         }
         this.jsonData = validateAuthority(navJsonData)
         this.startHttpSessionInvalidListener(res.data.sessId)
+        this.sendPageLoadedMsg(res.data.userId)
       })
+    },
+    sendPageLoadedMsg (userId) {
+      if (window.parent !== window) {
+        window.top.postMessage({
+          cmd: 'subpageLoaded',
+          params: { userId }
+        }, '*')
+      }
     },
     startHttpSessionInvalidListener (sessId) {
       if (typeof (WebSocket) === 'undefined') {
@@ -157,6 +167,17 @@ export default {
       this.wsMsgSendInterval = setInterval(() => {
         this.wsSocketConn.send('')
       }, 10000)
+    },
+    handleSubpageLoadedMsg (eventData) {
+      if (eventData.params.userId !== sessionStorage.getItem('userId')) {
+        this.$alert(this.$t('nav.accountInconsistent'), this.$t('promptMessage.prompt'), {
+          confirmButtonText: this.$t('nav.reLogin'),
+          type: 'warning',
+          callback: () => {
+            this.logout()
+          }
+        })
+      }
     },
     handleNavData (item, authorities, newArray, s, validateAuthority) {
       if (!item.authority || item.authority.some(a => authorities.includes(a))) {
@@ -204,9 +225,19 @@ export default {
     enterLoginPage () {
       let _lang = localStorage.getItem('language')
       window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER + '&lang=' + _lang
+    },
+    getResCodeInfo () {
+      let datas = '[appstore,developer]'
+      commonApi.getResponseCodeInfo(encodeURI(datas))
+        .then(res => {
+          sessionStorage.setItem('resCodeInfo', JSON.stringify(res.data))
+        }).catch(() => {
+          console.log('getResCodeInfo error')
+        })
     }
   },
   mounted () {
+    this.getResCodeInfo()
     this.loginFun()
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
@@ -222,6 +253,8 @@ export default {
       if (data.cmd === 'iframeLanguageChange') {
         let lang = data.params.lang
         this.changeLange(lang)
+      } else if (data.cmd === 'subpageLoaded') {
+        this.handleSubpageLoadedMsg(data)
       }
     })
     window.onresize = () => {

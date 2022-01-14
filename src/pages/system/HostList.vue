@@ -515,6 +515,7 @@ import pagination from '../../components/common/Pagination.vue'
 import { Workspace, System } from '@/tools/api.js'
 import { Architecture } from '@/tools/project_data.js'
 import { common } from '../../tools/common.js'
+import commonUtil from '../../tools/commonUtil.js'
 
 export default {
   name: 'HostList',
@@ -897,6 +898,9 @@ export default {
           let obj = { name: res.data.fileName }
           this.configId_file_list.push(obj)
         }
+      }).catch((error) => {
+        let defaultMsg = this.$t('system.addHostFail')
+        commonUtil.showTipMsg(this.language, error, defaultMsg)
       })
       delete this.form.userName
       if (this.form.vimType === 'K8S') {

@@ -45,6 +45,7 @@
               <el-input
                 class="common-input"
                 v-model="addvmImages.name"
+                @input="addvmImages.name=addvmImages.name.replace(/[^\w\.\/]/ig,'')"
                 :placeholder="$t('sandbox.enterVmName')"
                 @input="checkNameValue"
               />

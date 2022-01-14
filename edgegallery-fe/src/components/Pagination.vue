@@ -105,6 +105,7 @@ export default {
 </script>
 <style lang="less">
 .custom_pagination {
+  padding: 40px 30px;
   height: 30px;
   .el-pagination.is-background .btn-prev,
   .el-pagination.is-background .btn-next,

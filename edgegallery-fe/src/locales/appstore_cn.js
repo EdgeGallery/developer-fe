@@ -338,7 +338,7 @@ const appstoreCn = {
     getNodePortSuccess: '获取服务节点信息成功'
   },
   store: {
-    synchronous: '同步应用到MEAO',
+    synchronous: '创建同步任务',
     appChange: '应用包转换工具',
     backAppStore: '返回应用仓库',
     backMyApp: '返回我的应用',
@@ -446,7 +446,12 @@ const appstoreCn = {
     taskCreateTime: '任务创建时间',
     taskStatus: '任务状态',
     taskProgress: '任务进度',
-    synchronizeToMeao: '同步到 MEAO'
+    synchronizeToMeao: '应用同步状态',
+    syncTitleTip: '应用仓库支持集成第三方多接入边缘应用编排平台（meao），可以通过创建同步任务，将应用同步至第三方MEAO,以便于进行应用的编排部署。',
+    uploading: '进行中',
+    failed: '失败',
+    success: '成功',
+    finished: '完成'
   },
   myApp: {
     checkTest: '查看历史测试任务',

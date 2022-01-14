@@ -327,7 +327,7 @@ const appstoreEn = {
     getNodePortSuccess: 'Success to obtain service borrowing point information'
   },
   store: {
-    synchronous: 'Synchronous app to MEAO',
+    synchronous: 'Create Sync Task',
     appChange: 'Application package conversion tool',
     backAppStore: 'Back App Store',
     backMyApp: 'Back My App',
@@ -428,7 +428,12 @@ const appstoreEn = {
     taskCreateTime: 'TaskCreateTime',
     taskStatus: 'TaskStatus',
     taskProgress: 'TaskProgress',
-    synchronizeToMeao: 'Synchronize To MEAO'
+    synchronizeToMeao: 'App Sync Status',
+    syncTitleTip: 'The application store supports the integration of the third-party multi access edge application orchestration platform (meao). You can synchronize applications to the third-party meao by creating synchronization tasks to facilitate the orchestration and deployment of applications.',
+    uploading: 'Uploading',
+    failed: 'Failed',
+    success: 'Success',
+    finished: 'Finished'
   },
   myApp: {
     checkTest: 'View historical test tasks',

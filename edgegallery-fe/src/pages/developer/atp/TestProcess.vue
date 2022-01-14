@@ -283,6 +283,7 @@
 import { atpApi } from '../../../api/atpApi.js'
 import { applicationApi, atpTestApi } from '../../../api/developerApi.js'
 import UploadSelfReportDig from './UploadSelfReportDlg.vue'
+import devCommonUtil from '../../../tools/devCommonUtil.js'
 export default {
   name: 'TestProcess',
   components: { UploadSelfReportDig },
@@ -350,8 +351,9 @@ export default {
         this.$message.success(this.$t('atpTestProcess.publishSuc'))
         this.$store.commit('changeFlow', '5')
         this.$router.push('/EG/developer/home')
-      }).catch(() => {
-        this.$message.error(this.$t('atpTestProcess.publishFail'))
+      }).catch((error) => {
+        let defaultMsg = this.$t('atpTestProcess.publishFail')
+        devCommonUtil.showTipMsg(this.language, error, defaultMsg)
       })
     },
     closeDig () {
