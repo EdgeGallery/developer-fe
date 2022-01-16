@@ -247,6 +247,9 @@ export default {
           this.$store.commit('changeFlow', '3')
           this.clickFirstNode()
         }
+        this.checkFlag.serviceSuccess = true
+        this.checkFlag.imageSuccess = true
+        this.checkFlag.formatSuccess = true
       }, (error) => {
         this.hasValidate = false
         if (error.response.data.retCode === 20038) {
