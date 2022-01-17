@@ -599,10 +599,10 @@ export default {
         })
     },
     cleanTestEnv () {
-      this.switchBtn = true
       if (this.userName === 'guest') {
         this.$message.error(this.$t('system.guestPrompt'))
       } else {
+        this.switchBtn = true
         appstoreApi.cleanTestEnv(this.packageId).then(
           (res) => {
             let result = res.data
