@@ -291,7 +291,7 @@ export default {
   }
   .app-flex-main{
     margin-left: 50px;
-    height: calc(100% - 120px);
+    height: calc(100% - 145px);
     overflow-y: auto;
   }
   .app-list-title{
