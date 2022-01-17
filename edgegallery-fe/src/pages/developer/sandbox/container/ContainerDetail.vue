@@ -268,7 +268,7 @@ export default {
       })
     },
     seeDetails (info) {
-      this.$eg_messagebox(info, 'info', '', this.$t('common.confirm'), '', '800px')
+      this.$eg_messagebox(info, 'info', '', this.$t('common.confirm'), '', '1100px')
     }
   },
   watch: {
