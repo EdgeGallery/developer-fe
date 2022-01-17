@@ -16,6 +16,7 @@
  */
 import Vue from 'vue'
 import i18n from '../locales/i18n.js'
+import vue from '../main.js'
 
 function showTipMsg (language, error, defaultMsg) {
   let retCode = error.response.data.retCode
@@ -67,11 +68,7 @@ function getTipMsg (resMap, retCode, params) {
 }
 
 function showWarningDlg (msg) {
-  Vue.prototype.$message({
-    duration: 2000,
-    message: msg,
-    type: 'warning'
-  })
+  vue.$eg_messagebox(msg, 'warning')
 }
 
 function showFilterExceptionTip (defaultMsg) {

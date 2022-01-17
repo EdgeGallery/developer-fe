@@ -49,7 +49,7 @@ Vue.use(VideoPlayer)
 
 Vue.config.productionTip = false
 
-new Vue({
+let vue = new Vue({
   router,
   store,
   i18n,
@@ -59,3 +59,5 @@ new Vue({
 router.afterEach(() => {
   window.scrollTo(0, 0)
 })
+
+export default vue
