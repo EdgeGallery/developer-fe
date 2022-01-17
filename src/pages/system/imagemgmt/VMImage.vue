@@ -579,9 +579,13 @@ export default {
           this.getOperationInfo(res.data.operationId)
         }, 3000)
         this.getImageDataList()
-      }).catch(() => {
+      }).catch((error) => {
+        if (error.response.data.message === 'iso not support slim') {
+          this.$message.error(this.$t('system.imageMgmt.slimStatusText.isoSlimFailed'))
+        } else {
+          this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
+        }
         clearTimeout(this.timer)
-        this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
         this.getImageDataList()
       })
     },

@@ -247,12 +247,14 @@ export default {
           this.$store.commit('changeFlow', '3')
           this.clickFirstNode()
         }
+        this.checkFlag.serviceSuccess = true
+        this.checkFlag.imageSuccess = true
+        this.checkFlag.formatSuccess = true
       }, (error) => {
         this.hasValidate = false
         if (error.response.data.retCode === 20038) {
           this.checkFlag.serviceSuccess = false
         } else if (error.response.data.retCode === 20027) {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
           this.checkFlag.imageSuccess = false
         } else if (error.response.data.message.indexOf('is not in standard format') > -1) {
           let _arrTemp = error.response.data.message.split(' ')
@@ -267,8 +269,9 @@ export default {
         } else {
           this.checkFlag.formatSuccess = false
         }
+        let language = localStorage.getItem('language')
         let defaultMsg = this.$t('sandboxPromptInfomation.noFormat')
-        devCommonUtil.showTipMsg(this.language, error, defaultMsg)
+        devCommonUtil.showTipMsg(language, error, defaultMsg)
         this.helmChartFile = []
       }).finally(() => {
         this.uploadYamlLoading = false
