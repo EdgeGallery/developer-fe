@@ -433,7 +433,8 @@ const appstoreEn = {
     uploading: 'Uploading',
     failed: 'Failed',
     success: 'Success',
-    finished: 'Finished'
+    finished: 'Finished',
+    urlTip: 'Please experience according to the following service information in combination with the interface experience URL in the application description'
   },
   myApp: {
     checkTest: 'View historical test tasks',
