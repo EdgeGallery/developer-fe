@@ -451,7 +451,8 @@ const appstoreCn = {
     uploading: '进行中',
     failed: '失败',
     success: '成功',
-    finished: '完成'
+    finished: '完成',
+    urlTip: '请根据如下服务信息，结合应用描述中界面体验URL进行体验'
   },
   myApp: {
     checkTest: '查看历史测试任务',

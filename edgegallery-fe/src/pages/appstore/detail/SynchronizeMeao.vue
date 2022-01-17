@@ -127,7 +127,7 @@
     <Pagination
       class="clearfix"
       style="margin-bottom: 0px;"
-      :total="listTotal"
+      :list-total="listTotal"
     />
   </div>
 </template>
@@ -157,7 +157,7 @@ export default {
     return {
       MEAO: MEAO,
       language: localStorage.getItem('language'),
-      total: 0,
+      listTotal: 0,
       type: 'MEAO',
       systemName: '',
       status: '',
@@ -186,7 +186,7 @@ export default {
       if (row[property] === value) {
         this.nameCount++
       }
-      this.total = this.nameCount
+      this.listTotal = this.nameCount
       this.statusCount = 0
       return row[property] === value
     },
@@ -195,7 +195,7 @@ export default {
       if (row[property] === value) {
         this.statusCount++
       }
-      this.total = this.statusCount
+      this.listTotal = this.statusCount
       this.nameCount = 0
       return row[property] === value
     },
@@ -223,7 +223,7 @@ export default {
           item.createTime = formatedTime
           item.progress = parseInt(item.progress)
         })
-        this.total = this.tableData.length
+        this.listTotal = this.tableData.length
         this.checkFailedData()
       }, () => {
         this.showFaileMessage()
