@@ -39,9 +39,6 @@ const Industry = [
     value: 'Game Competition',
     label: ['游戏竞技', 'Game Competition']
   }, {
-    value: 'Open Source',
-    label: ['开源', 'Open Source']
-  }, {
     value: 'Others',
     label: ['其他', 'Others']
   }

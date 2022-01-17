@@ -19,35 +19,37 @@
       <div
         class="detail-top clear"
         v-if="isChangeStyle"
+        @mouseenter="showSandboxName = true,ishoverTitle=true"
+        @mouseleave="showSandboxName = false,ishoverTitle=false"
       >
-        <div class="sandboxName-background flex-center">
+        <div
+          class="sandboxName-background"
+          :class="{'hover-background':ishoverTitle}"
+        >
           <el-button
-            @click="showSandboxName = !showSandboxName"
             class="detail-top-title defaultFontBold"
           >
             {{ detailTitle }}
           </el-button>
         </div>
-        <div class="sandbox-names">
-          <el-collapse-transition>
+        <el-collapse-transition>
+          <div
+            class="sandbox-names"
+            v-if="showSandboxName"
+          >
             <div
-              v-show="showSandboxName"
-              class="sandbox-name-select"
+              class="one-select"
+              v-for="(item,index) in sandboxNames"
+              :key="index"
+              @click="changeSandbox(item)"
             >
-              <div
-                class="one-select"
-                v-for="(item,index) in sandboxNames"
-                :key="index"
-                @click="changeSandbox(item)"
-              >
-                <p class="triangle" />
-                <p class="select-options defaultFontLight">
-                  {{ item.label }}
-                </p>
-              </div>
+              <p class="triangle" />
+              <p class="select-options defaultFontLight">
+                {{ item.label }}
+              </p>
             </div>
-          </el-collapse-transition>
-        </div>
+          </div>
+        </el-collapse-transition>
       </div>
       <div
         class="detail-center"
@@ -76,35 +78,39 @@
           v-else
           class="deploy-detail-bg common-div-bg clear"
         >
-          <div class="detail-top detail-top-inner clear">
-            <div class="sandboxName-background flex-center">
+          <div
+            class="detail-top detail-top-inner clear"
+            @mouseenter="showSandboxName = true,ishoverTitle=true"
+            @mouseleave="showSandboxName = false,ishoverTitle=false"
+          >
+            <div
+              class="sandboxName-background"
+              :class="{'hover-background':ishoverTitle}"
+            >
               <el-button
-                @click="showSandboxName = !showSandboxName"
                 class="detail-top-title defaultFontBold"
               >
                 {{ detailTitle }}
               </el-button>
             </div>
-            <div class="sandbox-names">
-              <el-collapse-transition>
+            <el-collapse-transition>
+              <div
+                class="sandbox-names"
+                v-show="showSandboxName"
+              >
                 <div
-                  v-show="showSandboxName"
-                  class="sandbox-name-select"
+                  class="one-select"
+                  v-for="(item,index) in sandboxNames"
+                  :key="index"
+                  @click="changeSandbox(item)"
                 >
-                  <div
-                    class="one-select"
-                    v-for="(item,index) in sandboxNames"
-                    :key="index"
-                    @click="changeSandbox(item)"
-                  >
-                    <p class="triangle" />
-                    <p class="select-options defaultFontLight">
-                      {{ item.label }}
-                    </p>
-                  </div>
+                  <p class="triangle" />
+                  <p class="select-options defaultFontLight">
+                    {{ item.label }}
+                  </p>
                 </div>
-              </el-collapse-transition>
-            </div>
+              </div>
+            </el-collapse-transition>
           </div>
           <div class="application-title">
             <div
@@ -530,7 +536,8 @@ export default {
       showVmUploadFile: false,
       showVmDetail: false,
       isAddVmBtn: true,
-      isRequiredService: false
+      isRequiredService: false,
+      ishoverTitle: false
     }
   },
   methods: {
@@ -554,6 +561,7 @@ export default {
           sessionStorage.setItem('mepHostId', this.mephostid)
           sessionStorage.setItem('sandboxName', res.data.name)
           this.detailTitle = res.data.name
+          this.showSandboxName = false
         })
       }).catch(err => {
         console.log(err)
@@ -763,13 +771,15 @@ export default {
     }
    }
   .detail-top{
-    float: left;
-    width: 50%;
+    width: 300px;
     position: relative;
+    top: 50px;
     left: 5%;
+    padding-bottom: 10px;
     .sandboxName-background{
       height: 88px;
       width: 300px;
+      padding: 12px 0 0 12px;
       border-radius:9px ;
       .detail-top-title{
         height: 63px;
@@ -781,46 +791,44 @@ export default {
         color: #fff;
       }
     }
-    .sandboxName-background:hover{
+    .sandboxName-background.hover-background{
       background-color: rgba(10,9,54,0.25);
     }
     .sandbox-names{
       z-index: 10;
-      position: relative;
-      margin-top: 10px;
-      .sandbox-name-select{
-        position: absolute;
+      position: absolute;
+      top: 98px;
+      left: 0;
+      min-width: 300px;
+      border-radius:6px ;
+      overflow: hidden;
+      .one-select{
         background-color:#290E74 ;
-        border-radius:4px ;
-        .one-select{
-          line-height: 35px;
-          width: 260px;
-          display: flex;
-          position: relative;
-          .select-options{
-            line-height: 35px;
-            font-size: 20px;
-            width: 180px;
-            overflow:hidden;
-            white-space:nowrap;
-            text-overflow:ellipsis;
-          }
-          .triangle{
-            opacity: 0;
-            margin: 12px 20px;
-            width:0;
-            height:0;
-            border-bottom: 4.4px solid transparent;
-            border-left: 4.4px solid #42F6AC;
-            border-top:4.4px solid transparent;
-          }
+        display: flex;
+        position: relative;
+        .select-options{
+          line-height: 45px;
+          font-size: 20px;
+          padding-right: 15px;
+          overflow:hidden;
+          white-space:nowrap;
+          text-overflow:ellipsis;
         }
-        .one-select:hover{
-          background-color: rgb(96, 86, 154);
-          cursor: pointer;
-          .triangle{
-            opacity: 1;
-          }
+        .triangle{
+          opacity: 0;
+          margin: 20px;
+          width:0;
+          height:0;
+          border-bottom: 4.4px solid transparent;
+          border-left: 4.4px solid #42F6AC;
+          border-top:4.4px solid transparent;
+        }
+      }
+      .one-select:hover{
+        background-color: rgb(96, 86, 154);
+        cursor: pointer;
+        .triangle{
+          opacity: 1;
         }
       }
       .sandbox-name-select  .one-select:first-child{
@@ -841,8 +849,10 @@ export default {
     font-size: 30px;
   }
   .detail-top-inner{
+    float: left;
     margin: 0;
     left: 30px;
+    top: 0;
   }
   .detail-center{
     margin: 50px auto 0;
