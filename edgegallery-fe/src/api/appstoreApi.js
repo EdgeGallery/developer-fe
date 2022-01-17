@@ -56,7 +56,7 @@ let appstoreApi = {
     return POST(url)
   },
   getExperienceStatus: function (packageId) {
-    let url = 'experience/packages/' + packageId + '/status'
+    let url = URL_PREFIX_APPSTORE + 'experience/packages/' + packageId + '/status'
     return GET(url)
   },
   getThirdSystemByType: function (type) {
