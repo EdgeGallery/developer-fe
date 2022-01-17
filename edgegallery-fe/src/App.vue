@@ -204,8 +204,8 @@ export default {
   overflow: hidden;
 }
 .app-new-inner{
-  background: url('./assets/images/common_bg_inner.png') #3E279B -10px 92% no-repeat;
-  background-size: contain;
+  background: url('./assets/images/common_bg_inner1.png') #3E279B -10px 92% no-repeat;
+  background-size: cover;
 }
 .app-incubation{
   min-width: 1600px;
