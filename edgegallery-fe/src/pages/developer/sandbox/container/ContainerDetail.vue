@@ -214,6 +214,9 @@ export default {
         _this.getServiceRequiredLists()
         _this.deployLog = statusMsg.errorMsg ? statusMsg.errorMsg : null
         _this.deployStatus = statusMsg.status ? statusMsg.status : ''
+        if (_this.deployStatus === 'SUCCESS') {
+          _this.refreshDeployStatus()
+        }
         if (_this.containerApp.instantiateInfo) {
           _this.appPodsData = _this.containerApp.instantiateInfo.pods
         } else {
