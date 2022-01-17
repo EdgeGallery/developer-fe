@@ -842,7 +842,7 @@ export default {
     }
   }
   .application-title{
-    float: left;
+    float: right;
     width: 50%;
     height: 80px;
     line-height: 80px;
