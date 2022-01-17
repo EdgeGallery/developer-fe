@@ -120,11 +120,18 @@ export default {
     },
     sendPageLoadedMsg (userId) {
       if (window.parent !== window) {
-        let _originUrl = PROXY_PREFIX_CURRENTSERVER ? window.location.origin : common.getPlatformUrlPrefix(PLATFORMNAME_EG)
-        window.top.postMessage({
-          cmd: 'subpageLoaded',
-          params: { userId }
-        }, _originUrl)
+        let _possibleTopWinOriginUrlList = []
+        if (PROXY_PREFIX_CURRENTSERVER) {
+          _possibleTopWinOriginUrlList.push(window.location.origin)
+        } else {
+          _possibleTopWinOriginUrlList.push(common.getPlatformUrlPrefix(PLATFORMNAME_EG))
+        }
+        _possibleTopWinOriginUrlList.forEach(_possibleTopWinOriginUrl => {
+          window.top.postMessage({
+            cmd: 'subpageLoaded',
+            params: { userId }
+          }, _possibleTopWinOriginUrl)
+        })
       }
     },
     startHttpSessionInvalidListener (sessId) {
