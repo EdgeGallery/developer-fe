@@ -71,7 +71,7 @@ const appEn = {
     container: 'Container',
     vm: 'VM',
     uploadSizeLimit: 'The size of uploaded files exceeds the 2M limit, please try again.',
-    appWorkflow: '5G App incubation workflow',
+    appWorkflow: '5G App Incubation',
     newProject: 'New Project',
     selectProfile: 'Select Profile',
     appList: 'Application List',

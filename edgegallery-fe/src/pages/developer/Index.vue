@@ -24,35 +24,34 @@
           <div class="main-title">
             {{ appName==='5G'?$t('incubation.appWorkflow') : appName }}
           </div>
+          <div class="main-part-area">
+            <el-row style="width: 100%;">
+              <el-col :span="10">
+                <div class="area-item incubation">
+                  {{ $t('workflow.incubation') }}
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div class="area-item appstore">
+                  {{ $t('workflow.appstore') }}
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div class="area-item meao">
+                  {{ $t('workflow.produceEnv') }}
+                </div>
+              </el-col>
+            </el-row>
+          </div>
           <div class="main-part">
             <el-row class="main-part-container">
-              <el-col :span="18">
-                <div class="main-creation main-part-item">
-                  <div class="main-part-item-container">
-                    <IncubationComp
-                      @showCapabilityCenterDlg="isShowCapabilityIndexDlg=true"
-                      @showAppWarningDlg="isShowAppWarningDlg=true"
-                      :current-flow="currentFlow"
-                    />
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="3">
-                <div class="main-app-store main-part-item">
-                  <div class="main-part-item-container">
-                    <AppstoreComp
-                      :current-flow="currentFlow"
-                    />
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="3">
-                <div class="main-deploy main-part-item">
-                  <div class="main-part-item-container">
-                    <DeploymentComp
-                      :current-flow="currentFlow"
-                    />
-                  </div>
+              <el-col :span="24">
+                <div class="workflow-container">
+                  <Workflow
+                    @showCapabilityCenterDlg="isShowCapabilityIndexDlg=true"
+                    @showAppWarningDlg="isShowAppWarningDlg=true"
+                    :current-flow="currentFlow"
+                  />
                 </div>
               </el-col>
             </el-row>
@@ -75,15 +74,11 @@
 </template>
 
 <script>
-import IncubationComp from './workflow/Incubation.vue'
-import AppstoreComp from './workflow/Appstore.vue'
-import DeploymentComp from './workflow/Deployment.vue'
+import Workflow from './workflow/WorkflowComp.vue'
 export default {
   name: 'Application',
   components: {
-    IncubationComp,
-    AppstoreComp,
-    DeploymentComp
+    Workflow
   },
   data () {
     return {
@@ -122,13 +117,44 @@ export default {
       margin: 0 auto;
       padding: 45px 50px 0 50px;
       .main-title{
-        font-size: 28px;
+        font-size: 32px;
         font-weight: bold;
         margin-bottom: 30px;
+        height: 55px;
+        padding-left: 155px;
+        background: url('../../assets/images/application/workflow_title_bg.png') no-repeat center;
+        text-shadow: 0 0 10px #fff;
+      }
+      .main-part-area{
+        height: 180px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: url('../../assets/images/application/workflow_part_title.png') no-repeat center;
+        .area-item{
+          text-align: center;
+          font-size: 25px;
+          position: relative;
+          top: 78px;
+        }
+        .incubation{
+          left: 65px;
+          color: #00f5ff;
+        }
+        .appstore{
+          left: -45px;
+          color: #eec76c;
+        }
+        .meao{
+          left: -165px;
+          color: #eec76c;
+        }
       }
       .main-part{
+        height: 450px;
+        margin-top: 45px;
         .main-part-container{
-          background: url("../../assets/images/application/app_workflow_bg.png") no-repeat;
+          background: url("../../assets/images/application/app_workflow_bg2.gif") no-repeat;
           background-size: contain;
         }
         .main-part-item{
@@ -167,7 +193,8 @@ export default {
         display: inline-block;
         width: 15px;
         height: 15px;
-        background: #4A9893;
+        border: 1px solid  #35ffd2;
+        background: rgba(53,255,210,0.25);
         position: relative;
         top: 2px;
       }
@@ -176,7 +203,8 @@ export default {
         display: inline-block;
         width: 15px;
         height: 15px;
-        background: #f2b720;
+        border: 1px solid #f2b720;
+        background: rgba(242,183,32,0.25);
         position: relative;
         top: 2px;
       }
@@ -185,7 +213,8 @@ export default {
         display: inline-block;
         width: 15px;
         height: 15px;
-        background: #331A86;
+        border: 1px solid #bcbcbc;
+        background: rgba(188,188,188,0.25);
         position: relative;
         top: 2px;
       }
