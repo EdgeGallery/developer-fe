@@ -150,28 +150,34 @@ export default {
   },
   methods: {
     submitComment () {
-      if (this.comments.score && this.comments.message) {
-        let params = {
-          score: this.comments.score,
-          body: this.comments.message
-        }
-        params = JSON.stringify(params)
-        let userId = sessionStorage.getItem('userId')
-        let userName = sessionStorage.getItem('userName')
-        appstoreApi.submitAppComment(this.appId, params, userId, userName).then(res => {
-          this.getComments()
-          this.comments.score = 0
-          this.comments.message = ''
-          this.getAppData()
-        }).catch(error => {
-          commonUtil.showTipMsg(this.language, error, error.response.data.message)
-        })
+      if (sessionStorage.getItem('userNameRole') === 'guest') {
+        this.$message.warning(this.$t('appstoreSystem.guestPrompt'))
+      } else if (sessionStorage.getItem('userId') === this.currentData.userId) {
+        this.$message.warning(this.$t('promptMessage.cannotComment'))
       } else {
-        this.$message({
-          duration: 2000,
-          type: 'warning',
-          message: this.$t('promptMessage.subCommentFailReason')
-        })
+        if (this.comments.score && this.comments.message) {
+          let params = {
+            score: this.comments.score,
+            body: this.comments.message
+          }
+          params = JSON.stringify(params)
+          let userId = sessionStorage.getItem('userId')
+          let userName = sessionStorage.getItem('userName')
+          appstoreApi.submitAppComment(this.appId, params, userId, userName).then(res => {
+            this.getComments()
+            this.comments.score = 0
+            this.comments.message = ''
+            this.getAppData()
+          }).catch(error => {
+            commonUtil.showTipMsg(this.language, error, error.response.data.message)
+          })
+        } else {
+          this.$message({
+            duration: 2000,
+            type: 'warning',
+            message: this.$t('promptMessage.subCommentFailReason')
+          })
+        }
       }
     },
     getComments () {
