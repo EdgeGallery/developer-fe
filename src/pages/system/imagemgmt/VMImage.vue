@@ -191,9 +191,13 @@
                       <el-button
                         type="text"
                         :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
-                        @click="handleDownload(scope.row)"
                       >
-                        {{ $t('common.download') }}
+                        <el-link
+                          :underline="false"
+                          :href="scope.row.downLoadUrl"
+                        >
+                          {{ $t('common.download') }}
+                        </el-link>
                       </el-button>
                     </li>
                     <li v-if="isAdmin">
@@ -676,6 +680,9 @@ export default {
   }
   .el-progress .el-progress-bar__outer{
     width: 100%;
+  }
+  .dropdown_list li .el-link.el-link--default:hover{
+    color: #606266;
   }
   @keyframes move {
     from {
