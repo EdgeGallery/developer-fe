@@ -5,7 +5,7 @@
       v-for="(item,index) in workflowDataArray"
       :key="index"
       :class="item.class"
-      @click="(currentFlow===1&&item.id===3)||item.id<=currentFlow||item.id===10||item.id>5?jumpTo(item):showWarning()"
+      @click="(currentFlow===0&&item.id===1)||item.id<=currentFlow||item.id===10||item.id>5?jumpTo(item):showWarning()"
     >
       <img
         :src="item.src"

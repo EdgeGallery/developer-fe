@@ -148,12 +148,13 @@ export default {
       }
     },
     createApplication (type) {
-      sessionStorage.setItem('applicationId', '')
-      sessionStorage.setItem('isCreate', '1')
-      this.$store.commit('changeFlow', '0')
-      this.$emit('putAway')
-      this.$store.commit('changeApp', '5G')
       if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
+        sessionStorage.setItem('applicationId', '')
+        sessionStorage.setItem('isCreate', '1')
+        this.$store.commit('changeFlow', '0')
+        this.$emit('putAway')
+        this.$store.commit('changeApp', '5G')
+        this.$store.commit('changeZoom', '1')
         if (type === 1) {
           this.$router.push('/EG/developer/createApplication')
         } else {
@@ -293,7 +294,7 @@ export default {
     height: 20px;
     position: relative;
     top: 18px;
-    left: 70px;
+    left: 90px;
     background: #f13838;
     z-index: 10;
     color: #fff;
