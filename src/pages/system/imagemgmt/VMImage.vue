@@ -195,6 +195,7 @@
                         <el-link
                           :underline="false"
                           :href="scope.row.downLoadUrl"
+                          target="_blank"
                           rel="noopener noreferrer"
                         >
                           {{ $t('common.download') }}
