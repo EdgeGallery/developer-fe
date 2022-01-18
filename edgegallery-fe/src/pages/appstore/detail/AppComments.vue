@@ -125,6 +125,10 @@ import commonUtil from '../tools/commonUtil.js'
 export default {
   name: 'AppComments',
   props: {
+    userId: {
+      required: true,
+      type: String
+    },
     appId: {
       required: true,
       type: String
@@ -132,7 +136,6 @@ export default {
   },
   data () {
     return {
-      userId: sessionStorage.getItem('userId'),
       appName: '',
       limit: 100,
       offset: 0,
@@ -152,7 +155,7 @@ export default {
     submitComment () {
       if (sessionStorage.getItem('userNameRole') === 'guest') {
         this.$message.warning(this.$t('appstoreSystem.guestPrompt'))
-      } else if (sessionStorage.getItem('userId') === this.currentData.userId) {
+      } else if (sessionStorage.getItem('userId') === this.userId) {
         this.$message.warning(this.$t('promptMessage.cannotComment'))
       } else {
         if (this.comments.score && this.comments.message) {
