@@ -191,15 +191,9 @@
                       <el-button
                         type="text"
                         :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
+                        @click="handleDownload(scope.row)"
                       >
-                        <el-link
-                          :underline="false"
-                          :href="scope.row.downLoadUrl"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {{ $t('common.download') }}
-                        </el-link>
+                        {{ $t('common.download') }}
                       </el-button>
                     </li>
                     <li v-if="isAdmin">
@@ -550,7 +544,7 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        window.open(row.downLoadUrl)
+        window.open(row.downLoadUrl, '_blank')
       })
     },
     processCloseUploadImageDlg () {
