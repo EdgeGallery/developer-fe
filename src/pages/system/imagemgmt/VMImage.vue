@@ -544,7 +544,8 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        window.open(row.downLoadUrl, '_blank')
+        let _tempwindow = window.open('_blank')
+        _tempwindow.location = row.downLoadUrl
       })
     },
     processCloseUploadImageDlg () {
