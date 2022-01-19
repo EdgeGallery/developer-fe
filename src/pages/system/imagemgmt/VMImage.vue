@@ -544,7 +544,9 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        setTimeout(window.open(row.downLoadUrl, '_blank'), 1000)
+        setTimeout(() => {
+          window.open(row.downLoadUrl)
+        }, 1000)
       })
     },
     processCloseUploadImageDlg () {
