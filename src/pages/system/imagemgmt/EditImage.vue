@@ -256,7 +256,7 @@ export default {
       imageTypeOptionList: [],
       operateSystemOptList: [
         'Ubuntu',
-        'Centos',
+        'CentOS',
         'Windows',
         'Debian',
         'SUSE',
