@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     handleClickFinish () {
-      this.$store.commit('changeFlow', '9')
       this.$router.push('/EG/developer/home')
     }
   }

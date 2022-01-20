@@ -136,7 +136,6 @@ export default {
       sessionStorage.setItem('pathSource', 'index')
     },
     jumpToIncubation () {
-      this.$store.commit('changeFlow', 6)
       this.$router.push('/EG/developer/home')
     },
     hoverAppList (index) {

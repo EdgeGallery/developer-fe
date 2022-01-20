@@ -216,7 +216,7 @@ export default {
       top: 105px;
     }
     .app-store{
-      top: 85px;
+      top: 80px;
       left: 195px;
     }
     .deploy-meao{

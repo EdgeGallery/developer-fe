@@ -99,7 +99,7 @@
 </template>
 <script>
 import { apm } from '../../api/mecmApi.js'
-import { TYPESFORAPP, INDUSTRY } from '../../tools/mecm/constants.js'
+import { mecmType, mecmIndustry } from '../../tools/commondata.js'
 import Pagination from '../../components/Pagination.vue'
 import Search from '../../components/Search.vue'
 export default {
@@ -166,9 +166,10 @@ export default {
           this.tableData = response.data
           this.tableData.forEach((item) => {
             item.createTime = item.createTime.split('T')[0]
+            item.industry = this.language === 'cn' ? mecmIndustry[item.industry] : item.industry
+            item.type = this.language === 'cn' ? mecmType[item.type] : item.type
           })
           this.paginationData = this.tableData
-          this.checkProjectData()
           if (this.appType) {
             this.filterTableData(this.appType, 'type')
           }
@@ -181,27 +182,6 @@ export default {
           console.log(error)
           this.dataLoading = false
         })
-    },
-    checkProjectData () {
-      this.tableData.forEach((itemBe) => {
-        INDUSTRY.forEach((itemFe) => {
-          if (itemBe.industry.match(itemFe.label[1])) {
-            let _first = this.language === 'cn' ? itemFe.label[1] : itemFe.label[0]
-            let _second = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
-            itemBe.industry = itemBe.industry.replace(_first, _second)
-          }
-        })
-        this.handleAppstoreType()
-      })
-    },
-    handleAppstoreType (itemBe) {
-      TYPESFORAPP.forEach((itemFe) => {
-        if (itemBe.type.match(itemFe.label[1])) {
-          let _first = this.language === 'cn' ? itemFe.label[1] : itemFe.label[0]
-          let _second = this.language === 'cn' ? itemFe.label[0] : itemFe.label[1]
-          itemBe.type = itemBe.type.replace(_first, _second)
-        }
-      })
     }
   }
 }
