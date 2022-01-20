@@ -121,28 +121,28 @@ export default {
   },
   methods: {
     jumpTo (item) {
-      if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
-        sessionStorage.setItem('isCreate', '0')
-        if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
+      if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
+        if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
+          sessionStorage.setItem('isCreate', '0')
           this.$router.push('/EG/developer/createApplication')
-        } else {
-          this.$message.warning(this.$t('promptInformation.noPermission'))
-        }
-      } else if (item.toPath === '/EG/developer/selectScenarios') {
-        this.$store.commit('changeZoom', '1')
-        atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
-          if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
-            this.$router.push('/EG/developer/testProcess')
-          } else {
+        } else if (item.toPath === '/EG/developer/selectScenarios') {
+          this.$store.commit('changeZoom', '1')
+          atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
+            if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
+              this.$router.push('/EG/developer/testProcess')
+            } else {
+              this.$router.push(item.toPath)
+            }
+          }).catch(err => {
+            console.log(err)
             this.$router.push(item.toPath)
-          }
-        }).catch(err => {
-          console.log(err)
+          })
+        } else {
+          this.$store.commit('changeZoom', '1')
           this.$router.push(item.toPath)
-        })
+        }
       } else {
-        this.$store.commit('changeZoom', '1')
-        this.$router.push(item.toPath)
+        this.$message.warning(this.$t('promptInformation.noPermission'))
       }
     },
     showWarning () {
