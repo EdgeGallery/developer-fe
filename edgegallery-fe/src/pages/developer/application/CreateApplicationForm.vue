@@ -542,7 +542,9 @@ export default {
         })
         this.applicationFormData.status = res.data.status
         this.getFileIconInfo(res.data.iconFileId)
-        this.getMdFileInfo(res.data.guideFileId)
+        if (res.data.guideFileId !== '') {
+          this.getMdFileInfo(res.data.guideFileId)
+        }
       }).catch(err => {
         console.log(err)
       })
@@ -634,6 +636,7 @@ export default {
    .guide-upload-info{
     top: 11px;
     left: 8px;
+    margin-right: 20px;
   }
   .icon-info-active {
     position: relative;
@@ -663,7 +666,6 @@ export default {
   }
   .el-upload-list{
     width: auto;
-    margin-left: 20px;
   }
   .el-upload-list__item{
     background: #fff;
