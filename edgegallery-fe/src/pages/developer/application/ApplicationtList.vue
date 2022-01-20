@@ -285,6 +285,7 @@ export default {
     margin-top: 20px;
   }
   .app-flex-items{
+    width: 100%;
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
