@@ -38,6 +38,7 @@ export default {
   data () {
     return {
       language: localStorage.getItem('language') || 'cn',
+      userName: sessionStorage.getItem('userName') || null,
       workflowDataArray: [
         {
           id: 1,
@@ -121,6 +122,14 @@ export default {
   },
   methods: {
     jumpTo (item) {
+      if (item.id === 10 && !sessionStorage.getItem('applicationId')) {
+        this.showWarning()
+        return
+      }
+      if ((!this.userName || this.userName === 'guest') && item.id === 1) {
+        this.$message.warning(this.$t('promptInformation.noPermission'))
+        return
+      }
       if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
         sessionStorage.setItem('isCreate', '0')
         if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
