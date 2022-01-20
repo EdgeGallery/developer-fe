@@ -32,6 +32,7 @@
       >
         <el-button
           type="primary"
+          @click="checkSyncPackage"
           :disabled="noSync"
         >
           {{ $t('store.synchronous') }}
@@ -199,13 +200,6 @@ export default {
       this.nameCount = 0
       return row[property] === value
     },
-    // showFaileMessage () {
-    //   this.$message({
-    //     duration: 2000,
-    //     type: 'warning',
-    //     message: this.$t('promptMessage.getCommentFail')
-    //   })
-    // },
     getThirdSystemByType () {
       appstoreApi.getThirdSystemByType(this.type).then(res => {
         this.systemData = res.data
@@ -240,7 +234,15 @@ export default {
         this.systemNameData.push(object)
       }
     },
+    checkSyncPackage () {
+      if (this.systemData.length === 0) {
+        this.$message.success(this.$t('promptMessage.noSystemMEAO'))
+      } else if (sessionStorage.getItem('userNameRole') !== 'admin') {
+        this.$message.warning(this.$t('system.synchronizePrompt'))
+      }
+    },
     synchronizePackage (item) {
+      this.getProgressByPackageId()
       this.startInterval()
       if (this.timer !== null) {
         setTimeout(() => {
