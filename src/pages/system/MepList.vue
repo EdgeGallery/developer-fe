@@ -659,7 +659,6 @@ export default {
         },
         iconFileId: '',
         author: sessionStorage.getItem('userName'),
-        userId: sessionStorage.getItem('userId'),
         apiFileId: '',
         guideFileId: '',
         guideFileIdEn: '',
@@ -686,7 +685,6 @@ export default {
         },
         iconFileId: '',
         author: sessionStorage.getItem('userName'),
-        userId: sessionStorage.getItem('userId'),
         apiFileId: '',
         guideFileId: '',
         guideFileIdEn: '',
@@ -748,7 +746,6 @@ export default {
       enterQuery: '',
       loading: false,
       userName: sessionStorage.getItem('userName'),
-      userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
       screenHeight: document.body.clientHeight,
       optionsCapability: [],
@@ -768,7 +765,6 @@ export default {
     this.setDivHeight()
     this.getListData()
     this.getOneLevelCapability()
-    this.chooseDefaultIcon(this.defaultIcon[0], 0)
   },
   watch: {
     '$i18n.locale': function () {
@@ -826,7 +822,7 @@ export default {
       }
       let formdata = new FormData()
       formdata.append('file', iconData)
-      Workspace.postIconFileIdApi(this.userId, formdata).then(res => {
+      Workspace.postIconFileIdApi('icon', formdata).then(res => {
         this.form.iconFileId = res.data.fileId
       })
     },
@@ -964,10 +960,10 @@ export default {
       this.visible = true
     },
     getIcon (fileId) {
-      return Workspace.getIconApi(fileId, this.userId)
+      return Workspace.getIconApi(fileId)
     },
     getFileList (fileType, fileId) {
-      Workspace.getApiFileApi(fileId, this.userId).then(res => {
+      Workspace.getApiFileApi(fileId).then(res => {
         let obj = { name: '' }
         obj.name = res.data.fileName
         if (fileType === 'apiFileId') {
@@ -1071,6 +1067,7 @@ export default {
     },
     handleUpload (key, file, fileList, fileTypeArr, fileName) {
       let fileNameProp = fileName
+      let _fileType = ''
       let checkPassed = this.checkFileType(fileList, fileTypeArr)
       if (!checkPassed) {
         if (fileNameProp === 'apiFile') {
@@ -1081,14 +1078,15 @@ export default {
           this.guideFileIdEn_file_list = []
         }
       } else {
-        this.submitFile(key, [file.raw])
+        _fileType = fileNameProp === 'apiFile' ? 'api' : 'md'
+        this.submitFile(key, [file.raw], _fileType)
       }
     },
-    submitFile (key, fileList) {
+    submitFile (key, fileList, fileType) {
       const fd = new FormData()
       fd.append('file', fileList[0])
       this.loading = true
-      Workspace.submitApiFileApi(this.userId, fd).then(res => {
+      Workspace.postIconFileIdApi(fileType, fd).then(res => {
         if (res.data.fileId) {
           this[`${key}_file_list`] = fileList
           this.form[key] = res.data.fileId
@@ -1143,6 +1141,9 @@ export default {
 
 <style lang="less">
 .capManagement {
+  .el-upload-list__item {
+    transition: none !important;
+  }
   .createservice_btn{
     position: absolute;
     right: 0;

@@ -230,22 +230,19 @@ let Workspace = {
     return Get('mec/developer/v1/projects/?userId=' + userId, params)
   },
   // Get the project icon
-  getIconApi: function (fileId, userId) {
-    return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP_ECO'
+  getIconApi: function (fileId) {
+    return urlPrefix + 'mec/developer/v2/upload-files/' + fileId
   },
   getCapabilityIconApi: function (fileId) {
     return urlPrefix + 'mec/developer/v2/upload-files/' + fileId + '/action/get-file-stream'
-  },
-  getServiceIconApi: function (fileId, userId) {
-    return urlPrefix + 'mec/developer/v1/files/' + fileId + '?userId=' + userId + '&type=OPENMEP'
   },
   // Delete item
   deleteProjectApi: function (itemId, userId) {
     return Delete('mec/developer/v1/projects/' + itemId + '?userId=' + userId)
   },
   // Staging icon generation iconID
-  postIconFileIdApi: function (userId, params) {
-    return Post('mec/developer/v1/files?userId=' + userId, params)
+  postIconFileIdApi: function (fileType, params) {
+    return Post('/mec/developer/v2/upload-files?fileType=' + fileType, params)
   },
   // Get a list of capabilities details services
   getServiceListApi: function (groupId) {
@@ -347,8 +344,8 @@ let Workspace = {
     return Post('mec/developer/v2/mephosts/action/upload-config-file', params)
   },
   // Get uploadedApifile
-  getApiFileApi: function (appApiFileId, userId) {
-    return Get('mec/developer/v1/files/api-info/' + appApiFileId + '?userId=' + userId)
+  getApiFileApi: function (fileId) {
+    return Get('mec/developer/v2/upload-files/' + fileId)
   },
   // Get the added image
   getImageApi: function (projectId, params) {
