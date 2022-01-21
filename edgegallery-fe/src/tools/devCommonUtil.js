@@ -16,6 +16,7 @@
  */
 import Vue from 'vue'
 import i18n from '../locales/i18n.js'
+import vue from '../main.js'
 
 function showTipMsg (language, error, defaultMsg) {
   let retCode = error.response.data.retCode
@@ -23,7 +24,7 @@ function showTipMsg (language, error, defaultMsg) {
   if (retCode) {
     showRetCodeTipMsg(language, retCode, params)
   } else {
-    showFilterExceptionTip(error, defaultMsg)
+    showFilterExceptionTip(defaultMsg)
   }
 }
 
@@ -38,10 +39,10 @@ function showRetCodeTipMsg (language, retCode, params) {
     let resData = null
     let resMap = null
     if (language === 'cn') {
-      resData = JSON.parse(sessionStorage.getItem('resCodeInfo')).zh_CN
+      resData = JSON.parse(sessionStorage.getItem('devResCodeInfo')).zh_CN
       resMap = new Map(Object.entries(resData))
     } else {
-      resData = JSON.parse(sessionStorage.getItem('resCodeInfo')).en_US
+      resData = JSON.parse(sessionStorage.getItem('devResCodeInfo')).en_US
       resMap = new Map(Object.entries(resData))
     }
     getTipMsg(resMap, retCode, params)
@@ -67,30 +68,11 @@ function getTipMsg (resMap, retCode, params) {
 }
 
 function showWarningDlg (msg) {
-  Vue.prototype.$message({
-    duration: 2000,
-    message: msg,
-    type: 'warning'
-  })
+  vue.$eg_messagebox(msg, 'warning')
 }
 
-function showFilterExceptionTip (error, defaultMsg) {
-  let errorCode = error.response.data.code
-  let msg = ''
-  switch (errorCode) {
-    case 400:
-      msg = i18n.t('common.exception400')
-      break
-    case 401:
-      msg = i18n.t('common.exception401')
-      break
-    case 403:
-      msg = i18n.t('common.exception403')
-      break
-    default:
-      msg = defaultMsg
-  }
-  showWarningDlg(msg)
+function showFilterExceptionTip (defaultMsg) {
+  showWarningDlg(defaultMsg)
 }
 
 export default {

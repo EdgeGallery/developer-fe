@@ -256,7 +256,7 @@ export default {
       imageTypeOptionList: [],
       operateSystemOptList: [
         'Ubuntu',
-        'Centos',
+        'CentOS',
         'Windows',
         'Debian',
         'SUSE',
@@ -276,7 +276,7 @@ export default {
       imageDataForm: {
         'name': '',
         'visibleType': '',
-        'osType': 'ubuntu',
+        'osType': 'Ubuntu',
         'osVersion': '',
         'osBitType': '64',
         'systemDiskSize': '',
@@ -354,7 +354,7 @@ export default {
       } else {
         this.imageDataForm.name = ''
         this.imageDataForm.visibleType = this.isAdmin ? 'public' : 'private'
-        this.imageDataForm.osType = 'ubuntu'
+        this.imageDataForm.osType = 'Ubuntu'
         this.imageDataForm.osVersion = ''
         this.imageDataForm.diskBus = 'virtio'
         this.imageDataForm.osBitType = '64'

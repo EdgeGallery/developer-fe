@@ -51,12 +51,12 @@ let appstoreApi = {
     let url = URL_PREFIX_APPSTORE + 'apps/' + appId + '/comments?userId=' + userId + '&userName=' + userName
     return POST(url, params)
   },
-  getNodePort: function (appId, packageId, userId, name, ip) {
-    let url = URL_PREFIX_APPSTORE + 'experience/deploy?appId=' + appId + '&packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
+  getNodePort: function (appId, packageId, userId) {
+    let url = URL_PREFIX_APPSTORE + 'experience/deploy?appId=' + appId + '&packageId=' + packageId + '&userId=' + userId
     return POST(url)
   },
   getExperienceStatus: function (packageId) {
-    let url = 'experience/packages/' + packageId + '/status'
+    let url = URL_PREFIX_APPSTORE + 'experience/packages/' + packageId + '/status'
     return GET(url)
   },
   getThirdSystemByType: function (type) {
@@ -71,12 +71,12 @@ let appstoreApi = {
     let url = URL_PREFIX_APPSTORE + 'apps/' + currentData.appId + '/packages/' + currentData.packageId + '/meao/' + meaoId + '/action/sync'
     return GET(url)
   },
-  cleanTestEnv: function (packageId, userId, name, ip) {
-    let url = URL_PREFIX_APPSTORE + 'experience/clean?packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
+  cleanTestEnv: function (packageId) {
+    let url = URL_PREFIX_APPSTORE + 'experience/clean?packageId=' + packageId
     return POST(url)
   },
-  getNodeStatus: function (packageId, userId, name, ip) {
-    let url = URL_PREFIX_APPSTORE + 'experience/container/workStatus?packageId=' + packageId + '&userId=' + userId + '&name=' + name + '&ip=' + ip
+  getNodeStatus: function (packageId, userId) {
+    let url = URL_PREFIX_APPSTORE + 'experience/container/workStatus?packageId=' + packageId + '&userId=' + userId
     return GET(url)
   },
   getAppDetailTable: function (appId, userId, limit, offset) {

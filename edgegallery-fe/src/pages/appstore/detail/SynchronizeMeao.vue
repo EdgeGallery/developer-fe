@@ -32,6 +32,7 @@
       >
         <el-button
           type="primary"
+          :disabled="noSync"
         >
           {{ $t('store.synchronous') }}
         </el-button>
@@ -100,9 +101,9 @@
               v-if="scope.row.status==='success'"
               class="success"
             />
-            <span v-if="scope.row.status==='uploading'">进行中</span>
-            <span v-if="scope.row.status==='failed'">失败</span>
-            <span v-if="scope.row.status==='success'">成功</span>
+            <span v-if="scope.row.status==='uploading'">{{ $t('store.uploading') }}</span>
+            <span v-if="scope.row.status==='failed'">{{ $t('store.failed') }}</span>
+            <span v-if="scope.row.status==='success'">{{ $t('store.success') }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -126,7 +127,7 @@
     <Pagination
       class="clearfix"
       style="margin-bottom: 0px;"
-      :total="total"
+      :list-total="listTotal"
     />
   </div>
 </template>
@@ -156,7 +157,7 @@ export default {
     return {
       MEAO: MEAO,
       language: localStorage.getItem('language'),
-      total: 0,
+      listTotal: 0,
       type: 'MEAO',
       systemName: '',
       status: '',
@@ -164,17 +165,18 @@ export default {
       testColor: [],
       systemNameData: [],
       tableData: [],
-      timer: null
+      timer: null,
+      noSync: this.currentData.deployMode === 'container'
     }
   },
   methods: {
     format (percentage) {
       for (let item of this.testColor) {
         if (item.color === true && item.percentage === percentage) {
-          return '失败'
+          return this.$t('store.failed')
         }
       }
-      return percentage === 100 ? '完成' : `${percentage}%`
+      return percentage === 100 ? this.$t('store.finished') : `${percentage}%`
     },
     filterTagTable (filters) {
       this.systemName = filters
@@ -184,7 +186,7 @@ export default {
       if (row[property] === value) {
         this.nameCount++
       }
-      this.total = this.nameCount
+      this.listTotal = this.nameCount
       this.statusCount = 0
       return row[property] === value
     },
@@ -193,7 +195,7 @@ export default {
       if (row[property] === value) {
         this.statusCount++
       }
-      this.total = this.statusCount
+      this.listTotal = this.statusCount
       this.nameCount = 0
       return row[property] === value
     },
@@ -221,7 +223,7 @@ export default {
           item.createTime = formatedTime
           item.progress = parseInt(item.progress)
         })
-        this.total = this.tableData.length
+        this.listTotal = this.tableData.length
         this.checkFailedData()
       }, () => {
         this.showFaileMessage()

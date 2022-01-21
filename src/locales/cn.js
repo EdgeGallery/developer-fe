@@ -818,6 +818,7 @@ const cn = {
     upload: '上传',
     name: '名称',
     addHost: '新增沙箱环境',
+    addHostFail: '新建沙箱失败',
     pleaseInput: '请输入',
     pleaseUpload: '请上传',
     error: '失败',
@@ -920,7 +921,8 @@ const cn = {
         slimWait: '等待瘦身',
         slimming: '瘦身中',
         slimSucceed: '瘦身成功',
-        slimFailed: '瘦身失败'
+        slimFailed: '瘦身失败',
+        isoSlimFailed: 'iso镜像不支持瘦身'
       },
       operation: {
         newImg: '新建系统镜像',

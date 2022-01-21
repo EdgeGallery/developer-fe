@@ -515,6 +515,7 @@ import pagination from '../../components/common/Pagination.vue'
 import { Workspace, System } from '@/tools/api.js'
 import { Architecture } from '@/tools/project_data.js'
 import { common } from '../../tools/common.js'
+import commonUtil from '../../tools/commonUtil.js'
 
 export default {
   name: 'HostList',
@@ -826,9 +827,9 @@ export default {
           }).catch(error => {
             if (error.response.data.message === 'mecHost already exists!') {
               this.$eg_messagebox(this.$t('system.imageMgmt.tip.mecHostExist'), 'error')
-            } else {
-              this.$eg_messagebox(this.$t('promptMessage.saveFail'), 'error')
             }
+            let defaultMsg = this.$t('system.addHostFail')
+            commonUtil.showTipMsg(this.language, error, defaultMsg)
           }).finally(() => {
             this.loading = false
             this.getListData()

@@ -820,6 +820,7 @@ const en = {
     success: 'Success',
     name: 'Name',
     addHost: 'Add Host',
+    addHostFail: 'Failed to create new sandbox',
     pleaseInput: 'Please input ',
     pleaseUpload: 'Please upload ',
     address: 'Address',
@@ -920,7 +921,8 @@ const en = {
         slimWait: 'To be slim',
         slimming: 'Slimming',
         slimSucceed: 'Slim Succeed',
-        slimFailed: 'Slim Failed'
+        slimFailed: 'Slim Failed',
+        isoSlimFailed: 'ISO image does not support slimming'
       },
       operation: {
         newImg: 'New System Image',

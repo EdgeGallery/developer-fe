@@ -73,7 +73,7 @@
       </div>
       <div
         class="app-list-main"
-        :class="zoom===2?'':'app-flex-items'"
+        :class="zoom===2?'app-list-medium':'app-flex-items'"
       >
         <ListComp
           :data-list="zoom===2?allAppList.slice(0,4):allAppList"
@@ -248,8 +248,8 @@ export default {
     .search-input{
       width: 180px;
       position: absolute;
-      top: 45px;
-      left: 85%;
+      top: 65px;
+      right: 15px;
     }
     .zoom{
       background: url("../../../assets/images/application/app_zoom_default.png") no-repeat center;
@@ -285,13 +285,14 @@ export default {
     margin-top: 20px;
   }
   .app-flex-items{
+    width: 100%;
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
   }
   .app-flex-main{
     margin-left: 50px;
-    height: calc(100% - 120px);
+    height: calc(100% - 145px);
     overflow-y: auto;
   }
   .app-list-title{

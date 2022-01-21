@@ -16,7 +16,7 @@
         <div
           class="step-item"
           :class="[item.id===currentFlow?'item-active':(item.id<currentFlow?'item-history':''),item.class]"
-          @click="(currentFlow===1&&item.id===3)||item.id<currentFlow||item.id===currentFlow||item.id===10||currentFlow==0?jumpTo(item):showWarning()"
+          @click="(currentFlow===1&&item.id===3)||item.id<currentFlow||item.id===currentFlow||item.id===10||item.id===1?jumpTo(item):showWarning()"
         >
           <div
             class="steps-num"
@@ -106,6 +106,10 @@ export default {
   },
   methods: {
     jumpTo (item) {
+      if (item.id === 10 && !sessionStorage.getItem('applicationId')) {
+        this.showWarning()
+        return
+      }
       if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
         sessionStorage.setItem('isCreate', '0')
         if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {

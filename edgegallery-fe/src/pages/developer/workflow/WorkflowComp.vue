@@ -38,6 +38,7 @@ export default {
   data () {
     return {
       language: localStorage.getItem('language') || 'cn',
+      userName: sessionStorage.getItem('userName') || null,
       workflowDataArray: [
         {
           id: 1,
@@ -122,6 +123,10 @@ export default {
   methods: {
     jumpTo (item) {
       if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
+        if (item.id === 10 && !sessionStorage.getItem('applicationId')) {
+          this.showWarning()
+          return
+        }
         if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
           sessionStorage.setItem('isCreate', '0')
           this.$router.push('/EG/developer/createApplication')

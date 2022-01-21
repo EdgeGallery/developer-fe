@@ -79,16 +79,16 @@
               <el-table-column
                 prop="name"
                 :label="$t('container.podName')"
-                min-width="28%"
+                min-width="22%"
               />
               <el-table-column
                 prop="podStatus"
                 :label="$t('container.podStatus')"
-                min-width="15%"
+                min-width="14%"
               />
               <el-table-column
                 :label="$t('container.containerName')"
-                min-width="15%"
+                min-width="14%"
               >
                 <template slot-scope="scope">
                   <div
@@ -102,7 +102,7 @@
               </el-table-column>
               <el-table-column
                 :label="$t('container.cpuUsage')"
-                min-width="13%"
+                min-width="11%"
               >
                 <template slot-scope="scope">
                   <div
@@ -110,13 +110,13 @@
                     :key="index"
                     class="container-div"
                   >
-                    {{ getPercentage(item.cpuUsage) }}
+                    {{ getPercentage(item.cpuUsage) }}%
                   </div>
                 </template>
               </el-table-column>
               <el-table-column
                 :label="$t('container.diskUsage')"
-                min-width="13%"
+                min-width="11%"
               >
                 <template slot-scope="scope">
                   <div
@@ -124,13 +124,13 @@
                     :key="index"
                     class="container-div"
                   >
-                    {{ getPercentage(item.diskUsage) }}
+                    {{ getPercentage(item.diskUsage) }}%
                   </div>
                 </template>
               </el-table-column>
               <el-table-column
                 :label="$t('container.memUsage')"
-                min-width="16%"
+                min-width="14%"
               >
                 <template slot-scope="scope">
                   <div
@@ -138,8 +138,22 @@
                     :key="index"
                     class="container-div"
                   >
-                    {{ getPercentage(item.memUsage) }}
+                    {{ getPercentage(item.memUsage) }}%
                   </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="eventsInfo"
+                :label="$t('container.eventsInfo')"
+                min-width="14%"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    @click="seeDetails(scope.row.eventsInfo)"
+                  >
+                    {{ $t('container.eventsInfo') }}
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -200,6 +214,9 @@ export default {
         _this.getServiceRequiredLists()
         _this.deployLog = statusMsg.errorMsg ? statusMsg.errorMsg : null
         _this.deployStatus = statusMsg.status ? statusMsg.status : ''
+        if (_this.deployStatus === 'SUCCESS') {
+          _this.refreshDeployStatus()
+        }
         if (_this.containerApp.instantiateInfo) {
           _this.appPodsData = _this.containerApp.instantiateInfo.pods
         } else {
@@ -249,6 +266,9 @@ export default {
         }
         this.appPodsData = res.data.containerApp.instantiateInfo.pods
       })
+    },
+    seeDetails (info) {
+      this.$eg_messagebox(info, 'info', '', this.$t('common.confirm'), '', '1100px')
     }
   },
   watch: {
@@ -271,7 +291,7 @@ export default {
   font-family: defaultFontLight Arial, Helvetica, sans-serif;
   .container-detail-dlg{
     position: absolute;
-    width: 60%;
+    width: 70%;
     min-width: 800px;
     padding: 40px;
     left: 50%;

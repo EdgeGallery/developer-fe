@@ -66,7 +66,7 @@
         class="app-name"
         :title="item.name"
       >
-        {{ item.name.length>12?item.name.substr(0,12)+'...':item.name }}
+        {{ item.name }}
       </div>
       <div
         class="app-common-status"
@@ -214,17 +214,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .app-list-medium .app-item{
+    width: 100%;
+    min-width: 150px;
+  }
   .app-item{
     text-align: center;
     cursor: pointer;
     padding: 20px 15px 0;
     width: 12.5%;
-    min-width: 154px;
     position: relative;
     .app-name{
+      width: 100%;
       text-align: center;
-      white-space: pre-wrap;
+      line-height: 30px;
       word-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
       font-size: 18px;
       padding: 5px 0;
     }

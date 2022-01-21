@@ -26,6 +26,7 @@ import {
 } from '../tools/constant.js'
 
 const URL_PREFIX_DEVELOPER = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/'
+const URL_PREFIX_GATEWAY = PROXY_PREFIX_CURRENTSERVER + '/mec/res/v2/'
 let sandbox = {
   // determine whether to select sandbox by applicationid
   getUserSelectSandbox (applicationid) {
@@ -292,11 +293,19 @@ let atpTestApi = {
   }
 }
 
+let commonApi = {
+  // Call webgateWay to get interface response information
+  getResponseCodeInfo: function (params) {
+    return GET(URL_PREFIX_GATEWAY + 'error-info?modules=' + params, '')
+  }
+}
+
 export {
   URL_PREFIX_DEVELOPER,
   sandbox,
   applicationApi,
   applicationRules,
   imageApi,
-  atpTestApi
+  atpTestApi,
+  commonApi
 }

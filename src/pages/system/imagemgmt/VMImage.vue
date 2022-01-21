@@ -570,6 +570,7 @@ export default {
       })
     },
     handleSlim (row) {
+      this.percentages = 0
       imageMgmtService.slimImage(row.id).then(res => {
         if (!res.data) {
           return
@@ -578,9 +579,13 @@ export default {
           this.getOperationInfo(res.data.operationId)
         }, 3000)
         this.getImageDataList()
-      }).catch(() => {
+      }).catch((error) => {
+        if (error.response.data.message === 'iso not support slim') {
+          this.$message.error(this.$t('system.imageMgmt.slimStatusText.isoSlimFailed'))
+        } else {
+          this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
+        }
         clearTimeout(this.timer)
-        this.$message.error(this.$t('system.imageMgmt.slimStatusText.slimFailed'))
         this.getImageDataList()
       })
     },
@@ -671,6 +676,9 @@ export default {
   }
   .el-progress .el-progress-bar__outer{
     width: 100%;
+  }
+  .dropdown_list li .el-link.el-link--default:hover{
+    color: #606266;
   }
   @keyframes move {
     from {

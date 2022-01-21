@@ -19,7 +19,10 @@
     class="eg-messagebox-outer"
     v-if="visible"
   >
-    <div class="eg-messagebox-container common-div-bg">
+    <div
+      class="eg-messagebox-container common-div-bg"
+      :style="{width:internalWidth}"
+    >
       <div class="content">
         <div
           class="icon-wrapper"
@@ -69,7 +72,8 @@ export default {
       visible: true,
       promise: null,
       cancelText: '',
-      confirmText: ''
+      confirmText: '',
+      internalWidth: '460px'
     }
   },
   methods: {

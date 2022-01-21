@@ -114,7 +114,7 @@ export default {
   data () {
     return {
       pageData: [],
-      language: 'cn',
+      language: localStorage.getItem('language'),
       activeIndex: -1,
       limitSize: 10,
       offsetPage: 0,
@@ -189,6 +189,7 @@ export default {
     },
     '$i18n.locale': function () {
       this.language = localStorage.getItem('language')
+      this.getAppData()
     }
   },
   mounted () {

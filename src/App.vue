@@ -42,7 +42,8 @@ import navData from '../src/navdata/nav_data.js'
 import navDataCn from '../src/navdata/nav_data_cn.js'
 import { logoutApi, loginApi } from '../src/tools/tool.js'
 import { commonApi } from '../src/tools/api.js'
-import { PROXY_PREFIX_CURRENTSERVER } from './tools/constant.js'
+import { PROXY_PREFIX_CURRENTSERVER, PLATFORMNAME_EG } from './tools/constant.js'
+import { common } from './tools/common.js'
 export default {
   name: 'App',
   components: {
@@ -119,10 +120,18 @@ export default {
     },
     sendPageLoadedMsg (userId) {
       if (window.parent !== window) {
-        window.top.postMessage({
-          cmd: 'subpageLoaded',
-          params: { userId }
-        }, '*')
+        let _possibleTopWinOriginUrlList = []
+        if (PROXY_PREFIX_CURRENTSERVER) {
+          _possibleTopWinOriginUrlList.push(window.location.origin)
+        } else {
+          _possibleTopWinOriginUrlList.push(common.getPlatformUrlPrefix(PLATFORMNAME_EG))
+        }
+        _possibleTopWinOriginUrlList.forEach(_possibleTopWinOriginUrl => {
+          window.top.postMessage({
+            cmd: 'subpageLoaded',
+            params: { userId }
+          }, _possibleTopWinOriginUrl)
+        })
       }
     },
     startHttpSessionInvalidListener (sessId) {
