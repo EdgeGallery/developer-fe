@@ -23,7 +23,8 @@ const homeCn = {
     appIncubation: '应用孵化',
     appStore: '应用仓库',
     appDeploy: '应用部署',
-    returnHome: '返回孵化流程'
+    returnHome: '返回孵化流程',
+    gathering: '开发者大集结'
   }
 }
 export default homeCn
