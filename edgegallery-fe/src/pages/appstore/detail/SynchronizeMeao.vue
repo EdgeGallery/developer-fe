@@ -317,19 +317,22 @@ export default {
 </script>
 <style lang='less'>
 .app-list{
+  position: relative;
   .el-upload__tip {
-      margin-left: 52px;
-      padding-top: 55px;
-      width: 72%;
+      margin: 20px 63px 15px;
+      padding: 0 ;
+      width: calc(100% - 306px);
+      line-height: 20px;
+      min-height: 40px;
   }
   .el-icon-warning{
-    color: #5E40C8;
-    margin-right: 6px;
+    color: #cdc3ee;
+    margin: 0 6px 0 0;
     font-size: 16px;
   }
   .warning-tip{
-    color: #5E40C8;
-    font-size: 12px;
+    color: #cdc3ee;
+    font-size: 14px;
     font-family: HarmonyHeiTi, sans-serif;
 
   }
@@ -343,7 +346,7 @@ export default {
   }
   .packageTable {
     font-size: 16px;
-    margin: -15px 63px;
+    margin: 0 63px;
     .el-table td{
       padding: 0;
       height: 60px;
@@ -391,9 +394,9 @@ export default {
     }
   }
   .app_synchronize {
-    position: relative;
-    top: -60px;
-    left: 79%;
+    position: absolute;
+    top: 20px;
+    right: 63px;
     .el-button--primary {
       width: 160px;
       background: linear-gradient(122deg, #4444D0, #6724CB);

@@ -64,7 +64,7 @@
         <el-button
           id="btn_selectSandbox"
           class="common-btn"
-          :disabled="sandbox.length===0"
+          :disabled="sandbox.length===0 || activeItem===''"
           @click="selectFinish"
         >
           {{ $t('common.finish') }}
@@ -186,6 +186,10 @@ export default {
       this.isSandbox = true
     },
     selectFinish () {
+      if (this.sandbox.length === 0 || this.activeItem === '') {
+        this.$eg_messagebox(this.$t('sandboxPromptInfomation.selectSandboxFirst'), 'warning')
+        return
+      }
       this.mephostid = this.sandbox[this.activeItem].id
       let mepHostId = { mepHostId: this.mephostid }
       sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
