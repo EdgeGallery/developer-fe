@@ -18,10 +18,9 @@
   <div class="developer-home">
     <div class="main-content">
       <div class="main-content-left">
-        <img
-          src="../../assets/images/index/index_developer.png"
-          alt="icon"
-        >
+        <div class="main-title">
+          {{ $t('home.gathering') }}
+        </div>
         <p class="mian-sub-title">
           {{ $t('home.mainTitle') }}
         </p>
@@ -109,6 +108,7 @@ export default {
       .main-title{
         font-size: 80px;
         font-weight: bold;
+        text-shadow: 0 0 10px #fff;
       }
       .main-title-dot{
         position: relative;
