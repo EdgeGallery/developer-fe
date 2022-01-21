@@ -355,6 +355,7 @@ export default {
         } else {
           this.isStartupVmFinish = false
         }
+        this.bus.$emit('getVmStartErr', this.getVmStartErr)
         this.isBtnStart = false
       }).catch(() => {
         this.isBtnStart = true
@@ -379,6 +380,7 @@ export default {
           this.isExportImageFinish = false
           clearTimeout(this.timerExport)
         }
+        this.bus.$emit('getVmExportErr', this.getVmExportErr)
       }).catch(() => {
         clearTimeout(this.timerExport)
       })
@@ -396,12 +398,8 @@ export default {
     checkVmDetail () {
       setTimeout(() => {
         this.bus.$emit('checkVmDetail', this.vmId, this.vmIndexProp)
-        if (this.getVmStartErr !== '') {
-          this.bus.$emit('getVmStartErr', this.getVmStartErr)
-        }
-        if (this.getVmExportErr !== '') {
-          this.bus.$emit('getVmExportErr', this.getVmExportErr)
-        }
+        this.bus.$emit('getVmStartErr', this.getVmStartErr)
+        this.bus.$emit('getVmExportErr', this.getVmExportErr)
       }, 0)
       this.$emit('checkVmDetail', 'showVmDetail')
       setTimeout(() => {

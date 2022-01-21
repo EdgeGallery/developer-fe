@@ -167,7 +167,8 @@ const sandboxCn = {
     exportFailed: '导出失败',
     addInternetTip: '网络类型名称不能为空！',
     nameRule: '请输入不含空格的4-32个字符名称，不能全为数字，可以包含数字、字母、_、-，开头结尾不能为_、-',
-    nameInfoError: '虚拟机名称请按照规则填写'
+    nameInfoError: '虚拟机名称请按照规则填写',
+    selectSandboxFirst: '请先选择沙箱！'
   }
 }
 export default sandboxCn

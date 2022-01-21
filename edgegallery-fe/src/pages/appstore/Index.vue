@@ -58,7 +58,7 @@
           >
             <div
               class="img-box img-common"
-              :class="[item.experienceAble!==false ? (language==='cn'?'img-boxcn':'img-boxen'): '',index==0 ? (language==='cn'?'new-boxcn':'new-boxen'): '']"
+              :class="[item.experienceAble!==false ? (language==='cn'?'img-boxcn':'img-boxen'): '',index==0 && this.offsetPage===0 ? (language==='cn'?'new-boxcn':'new-boxen'): '']"
             >
               <img
                 :src="getAppIcon(item)"
@@ -136,7 +136,6 @@ export default {
       sessionStorage.setItem('pathSource', 'index')
     },
     jumpToIncubation () {
-      this.$store.commit('changeFlow', 6)
       this.$router.push('/EG/developer/home')
     },
     hoverAppList (index) {

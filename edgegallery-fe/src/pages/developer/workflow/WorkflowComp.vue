@@ -38,6 +38,7 @@ export default {
   data () {
     return {
       language: localStorage.getItem('language') || 'cn',
+      userName: sessionStorage.getItem('userName') || null,
       workflowDataArray: [
         {
           id: 1,
@@ -121,28 +122,32 @@ export default {
   },
   methods: {
     jumpTo (item) {
-      if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
-        sessionStorage.setItem('isCreate', '0')
-        if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
-          this.$router.push('/EG/developer/createApplication')
-        } else {
-          this.$message.warning(this.$t('promptInformation.noPermission'))
+      if (sessionStorage.getItem('userAuthorities').indexOf('ROLE_DEVELOPER_GUEST') < 0) {
+        if (item.id === 10 && !sessionStorage.getItem('applicationId')) {
+          this.showWarning()
+          return
         }
-      } else if (item.toPath === '/EG/developer/selectScenarios') {
-        this.$store.commit('changeZoom', '1')
-        atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
-          if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
-            this.$router.push('/EG/developer/testProcess')
-          } else {
+        if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
+          sessionStorage.setItem('isCreate', '0')
+          this.$router.push('/EG/developer/createApplication')
+        } else if (item.toPath === '/EG/developer/selectScenarios') {
+          this.$store.commit('changeZoom', '1')
+          atpTestApi.getTestId(sessionStorage.getItem('applicationId')).then(res => {
+            if (res.data[0].status === 'running' || res.data[0].status === 'success' || res.data[0].status === 'failed') {
+              this.$router.push('/EG/developer/testProcess')
+            } else {
+              this.$router.push(item.toPath)
+            }
+          }).catch(err => {
+            console.log(err)
             this.$router.push(item.toPath)
-          }
-        }).catch(err => {
-          console.log(err)
+          })
+        } else {
+          this.$store.commit('changeZoom', '1')
           this.$router.push(item.toPath)
-        })
+        }
       } else {
-        this.$store.commit('changeZoom', '1')
-        this.$router.push(item.toPath)
+        this.$message.warning(this.$t('promptInformation.noPermission'))
       }
     },
     showWarning () {
@@ -216,7 +221,7 @@ export default {
       top: 105px;
     }
     .app-store{
-      top: 85px;
+      top: 80px;
       left: 195px;
     }
     .deploy-meao{
