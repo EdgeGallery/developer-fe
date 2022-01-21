@@ -78,18 +78,18 @@
             @getCurrentPageData="getCurrentPageData"
           />
         </div>
-        <div class="distribute-btn">
+        <div class="btn-container">
           <el-button
-            class="common-btn rt"
-            @click="distributeConfirm()"
-          >
-            {{ $t("common.confirm") }}
-          </el-button>
-          <el-button
-            class="common-btn cancel rt"
+            class="common-btn"
             @click="cancel()"
           >
             {{ $t("common.cancel") }}
+          </el-button>
+          <el-button
+            class="common-btn"
+            @click="distributeConfirm()"
+          >
+            {{ $t("common.confirm") }}
           </el-button>
         </div>
       </el-card>
@@ -246,9 +246,6 @@ export default {
   .card-shadow {
     padding: 0px 0 1px 2px;
     border-radius: 17px;
-    .distribute-pagination {
-      height: 30px;
-    }
     .distribute-top-title {
       color: #fff;
       margin-left: -15px;
@@ -284,7 +281,6 @@ export default {
       }
       .el-table {
         margin-top: 10px;
-        margin-bottom: 50px;
         .el-checkbox__input.is-indeterminate .el-checkbox__inner {
           background-color: #3ac372;
           border-color: #3ac372;
@@ -380,22 +376,6 @@ export default {
         }
         .active {
           background-color: rgba(66, 35, 165, 0.5) !important;
-        }
-      }
-      .distribute-btn {
-        margin-top: 80px;
-        margin-bottom: 40px;
-        .el-button--default {
-          height: 30px;
-          border-radius: 12px;
-          color: #5944c0;
-          line-height: 6px;
-        }
-        .el-button {
-          padding: 8px 29px;
-        }
-        .cancel{
-          margin-right: 32px;
         }
       }
     }
