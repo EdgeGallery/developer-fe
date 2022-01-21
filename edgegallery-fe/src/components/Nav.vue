@@ -20,7 +20,7 @@
   >
     <div
       class="logo lt"
-      @click="jumpFromLogo('/mecDeveloper')"
+      @click="jumpFromLogo('/index')"
     >
       <img
         src="../assets/images/logo.png"
