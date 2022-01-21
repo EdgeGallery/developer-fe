@@ -80,16 +80,16 @@
         </div>
         <div class="distribute-btn">
           <el-button
-            class="common-btn"
-            @click="cancel()"
-          >
-            {{ $t("common.cancel") }}
-          </el-button>
-          <el-button
-            class="common-btn"
+            class="common-btn rt"
             @click="distributeConfirm()"
           >
             {{ $t("common.confirm") }}
+          </el-button>
+          <el-button
+            class="common-btn cancel rt"
+            @click="cancel()"
+          >
+            {{ $t("common.cancel") }}
           </el-button>
         </div>
       </el-card>
@@ -385,7 +385,6 @@ export default {
       .distribute-btn {
         margin-top: 80px;
         margin-bottom: 40px;
-        float: right;
         .el-button--default {
           height: 30px;
           border-radius: 12px;
@@ -394,6 +393,9 @@ export default {
         }
         .el-button {
           padding: 8px 29px;
+        }
+        .cancel{
+          margin-right: 32px;
         }
       }
     }

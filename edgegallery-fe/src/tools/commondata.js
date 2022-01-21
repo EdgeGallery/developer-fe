@@ -44,6 +44,34 @@ const Industry = [
   }
 ]
 
+const mecmIndustry = {
+  'Smart City': '智慧城市',
+  'Smart Park': '智慧园区',
+  'Smart Agriculture': '智慧农业',
+  'Industrial Internet': '工业互联网',
+  'Transportation Logistics': '交通物流',
+  'Energy': '能源',
+  'Finance': '金融',
+  'Education': '教育',
+  'Cultural Tourism': '文化旅游',
+  'Digital Government': '数字政府',
+  'Ecosystem': '生态环境',
+  'Game Competition': '游戏竞技',
+  'Open Source': '开源',
+  'Others': '其他'
+}
+
+const mecmType = {
+  'Video Application': '视频应用',
+  'Safety': '安全',
+  'Blockchain': '区块链',
+  'Internet of Things': '物联网',
+  'Big Data': '大数据',
+  'AR/VR': 'AR/VR',
+  'Game': '游戏',
+  'Others': '其他'
+}
+
 const Type = [
   {
     value: 'Video Application',
@@ -97,5 +125,7 @@ export {
   Industry,
   Type,
   Architecture,
-  Status
+  Status,
+  mecmType,
+  mecmIndustry
 }
