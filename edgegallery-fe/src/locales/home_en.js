@@ -23,7 +23,7 @@ const homeEn = {
     appIncubation: 'Incubation',
     appStore: 'App Store',
     appDeploy: 'Deployment',
-    returnHome: 'Return workflow page.',
+    returnHome: 'Return workflow page',
     gathering: 'DEVELOPERS GATHERING'
   }
 }
