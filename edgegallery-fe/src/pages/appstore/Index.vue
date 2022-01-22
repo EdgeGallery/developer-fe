@@ -58,7 +58,7 @@
           >
             <div
               class="img-box img-common"
-              :class="[item.experienceAble!==false ? (language==='cn'?'img-boxcn':'img-boxen'): '',index==0 && this.offsetPage===0 ? (language==='cn'?'new-boxcn':'new-boxen'): '']"
+              :class="[item.experienceAble ? (language==='cn'?'img-boxcn':'img-boxen'): '',(index===0 && offsetPage===0) ? (language==='cn'?'new-boxcn':'new-boxen'): '']"
             >
               <img
                 :src="getAppIcon(item)"
