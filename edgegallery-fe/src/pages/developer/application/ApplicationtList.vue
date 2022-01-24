@@ -67,7 +67,7 @@
       </div>
       <div
         class="app-list-title"
-        v-if="zoom!==2"
+        v-if="zoom!==2&&auth.indexOf('ROLE_DEVELOPER_GUEST') < 0"
       >
         {{ $t('incubation.all') }}
       </div>
@@ -127,7 +127,8 @@ export default {
       appList: [],
       limit: 31,
       offset: 0,
-      listTotal: 0
+      listTotal: 0,
+      auth: sessionStorage.getItem('userAuthorities')
     }
   },
   watch: {
