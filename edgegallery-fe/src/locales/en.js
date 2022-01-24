@@ -49,7 +49,8 @@ const en = {
     enterPassword: 'Please enter password',
     pleaseSelect: 'Please select',
     back: 'Back',
-    noData: 'No Data'
+    noData: 'No Data',
+    exceptionServer: 'Service abnormal, please check'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
