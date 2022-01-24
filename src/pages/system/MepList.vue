@@ -960,7 +960,7 @@ export default {
       this.visible = true
     },
     getIcon (fileId) {
-      return Workspace.getIconApi(fileId)
+      return Workspace.getCapabilityIconApi(fileId)
     },
     getFileList (fileType, fileId) {
       Workspace.getApiFileApi(fileId).then(res => {
