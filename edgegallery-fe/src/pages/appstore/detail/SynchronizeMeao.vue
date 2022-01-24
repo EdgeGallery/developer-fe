@@ -38,6 +38,7 @@
           {{ $t('store.synchronous') }}
         </el-button>
         <el-dropdown-menu
+          v-if="syncBtn"
           slot="dropdown"
           @change="synchronizePackage"
         >
@@ -136,7 +137,7 @@
 <script>
 import { MEAO } from '../tools/constant.js'
 import { appstoreApi } from '../../../api/appstoreApi'
-import commonUtil from '../tools/commonUtil.js'
+import commonUtil from '../../../tools/devCommonUtil.js'
 import Pagination from '../../../components/Pagination.vue'
 import { formatDateTime } from '../../../tools/common.js'
 export default {
@@ -156,6 +157,7 @@ export default {
   },
   data () {
     return {
+      syncBtn: false,
       MEAO: MEAO,
       language: localStorage.getItem('language'),
       listTotal: 0,
@@ -203,9 +205,16 @@ export default {
     getThirdSystemByType () {
       appstoreApi.getThirdSystemByType(this.type).then(res => {
         this.systemData = res.data
+        if (this.systemData.length !== 0) {
+          this.syncBtn = true
+        }
         this.addSystemNameData()
       }, () => {
-        this.showFaileMessage()
+        this.$message({
+          duration: 2000,
+          type: 'warning',
+          message: this.$t('promptMessage.getSystemDataFailed')
+        })
       })
     },
     getProgressByPackageId () {
@@ -220,7 +229,11 @@ export default {
         this.listTotal = this.tableData.length
         this.checkFailedData()
       }, () => {
-        this.showFaileMessage()
+        this.$message({
+          duration: 2000,
+          type: 'warning',
+          message: this.$t('promptMessage.getUploadProgressFail')
+        })
       })
     },
     addSystemNameData () {
@@ -238,7 +251,7 @@ export default {
       if (this.systemData.length === 0) {
         this.$message.success(this.$t('promptMessage.noSystemMEAO'))
       } else if (sessionStorage.getItem('userNameRole') !== 'admin') {
-        this.$message.warning(this.$t('system.synchronizePrompt'))
+        this.$message.warning(this.$t('promptMessage.synchronizePrompt'))
       }
     },
     synchronizePackage (item) {

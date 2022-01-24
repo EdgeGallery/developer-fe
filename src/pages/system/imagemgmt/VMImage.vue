@@ -310,10 +310,16 @@ export default {
       currentImageData: {},
       screenHeight: document.body.clientHeight,
       osData: [
-        { text: 'ubuntu', value: 'ubuntu' },
-        { text: 'centos', value: 'centos' },
-        { text: 'windows', value: 'windows' },
-        { text: 'cirros', value: 'cirros' }
+        { text: 'Ubuntu', value: 'Ubuntu' },
+        { text: 'CentOS', value: 'CentOS' },
+        { text: 'Windows', value: 'Windows' },
+        { text: 'Debian', value: 'Debian' },
+        { text: 'SUSE', value: 'SUSE' },
+        { text: 'cirros', value: 'cirros' },
+        { text: 'Oracle', value: 'Oracle' },
+        { text: 'EulerOS', value: 'EulerOS' },
+        { text: 'Red Hat', value: 'Red Hat' },
+        { text: 'NeoKylin', value: 'NeoKylin' }
       ],
       statusData: [],
       slimData: [],

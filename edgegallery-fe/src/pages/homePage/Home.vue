@@ -18,9 +18,11 @@
   <div class="developer-home">
     <div class="main-content">
       <div class="main-content-left">
-        <div class="main-title">
-          {{ $t('home.gathering') }}
-        </div>
+        <img
+          class="main-developer"
+          :src="language==='cn'?leftTitleBg.srcCn:leftTitleBg.srcEn"
+          alt="icon"
+        >
         <p class="mian-sub-title">
           {{ $t('home.mainTitle') }}
         </p>
@@ -70,12 +72,22 @@ export default {
           src: require('../../assets/images/index/index_app_deploy.png'),
           path: '/mecm'
         }
-      ]
+      ],
+      language: localStorage.getItem('language') || 'cn',
+      leftTitleBg: {
+        srcCn: require('../../assets/images/index/index_developer.png'),
+        srcEn: require('../../assets/images/index/index_developer_en.png')
+      }
     }
   },
   methods: {
     jumpTo (path) {
       this.$router.push(path)
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {
@@ -105,10 +117,8 @@ export default {
       position: relative;
       top: 25%;
       left: 12%;
-      .main-title{
-        font-size: 80px;
-        font-weight: bold;
-        text-shadow: 0 0 10px #fff;
+      .main-developer{
+        width: 100%;
       }
       .main-title-dot{
         position: relative;
