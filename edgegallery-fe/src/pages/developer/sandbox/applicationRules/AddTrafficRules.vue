@@ -310,7 +310,8 @@ export default {
         { value: 'FORWARD_DECAPSULATED' },
         { value: 'FORWARD_AS_IS' },
         { value: 'PASSTHROUGH' },
-        { value: 'SUPLICATED_DECAPSULATED' }
+        { value: 'DUPLICATED_DECAPSULATED' },
+        { value: 'DUPLICATE_AS_IS' }
 
       ],
       filterTableData: [],
