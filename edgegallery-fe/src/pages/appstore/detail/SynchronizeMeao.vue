@@ -210,7 +210,11 @@ export default {
         }
         this.addSystemNameData()
       }, () => {
-        this.showFaileMessage()
+        this.$message({
+          duration: 2000,
+          type: 'warning',
+          message: this.$t('promptMessage.getSystemDataFailed')
+        })
       })
     },
     getProgressByPackageId () {
@@ -225,7 +229,11 @@ export default {
         this.listTotal = this.tableData.length
         this.checkFailedData()
       }, () => {
-        this.showFaileMessage()
+        this.$message({
+          duration: 2000,
+          type: 'warning',
+          message: this.$t('promptMessage.getUploadProgressFail')
+        })
       })
     },
     addSystemNameData () {

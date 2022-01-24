@@ -338,7 +338,9 @@ const appstoreCn = {
     getNodePortSuccess: '获取服务节点信息成功',
     noSystemMEAO: '不存在可同步的第三方MEAO',
     synchronizePrompt: '您没有权限，只有管理员可以同步',
-    downloadPrompt: '您没有权限下载！'
+    downloadPrompt: '您没有权限下载！',
+    getUploadProgressFail: '获取应用同步进度失败。',
+    getSystemDataFailed: '获取第三方MEAO失败'
   },
   store: {
     synchronous: '创建同步任务',
