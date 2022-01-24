@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import Workflow from './workflow/WorkflowComp.vue'
+import Workflow from './workflow/Workflow.vue'
 export default {
   name: 'Application',
   components: {
