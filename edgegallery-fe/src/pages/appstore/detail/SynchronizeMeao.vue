@@ -136,7 +136,7 @@
 <script>
 import { MEAO } from '../tools/constant.js'
 import { appstoreApi } from '../../../api/appstoreApi'
-import commonUtil from '../tools/commonUtil.js'
+import commonUtil from '../../../tools/devCommonUtil.js'
 import Pagination from '../../../components/Pagination.vue'
 import { formatDateTime } from '../../../tools/common.js'
 export default {
