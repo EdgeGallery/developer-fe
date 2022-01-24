@@ -49,7 +49,8 @@ const cn = {
     enterPassword: '请输入密码',
     pleaseSelect: '请选择',
     back: '返回',
-    noData: '暂无数据'
+    noData: '暂无数据',
+    exceptionServer: '服务异常，请检查'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',

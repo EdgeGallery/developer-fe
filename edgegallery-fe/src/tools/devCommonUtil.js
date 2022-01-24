@@ -32,7 +32,7 @@ function showRetCodeTipMsg (language, retCode, params) {
   if (retCode === 1) {
     Vue.prototype.$message({
       duration: 2000,
-      message: i18n.t('appstoreCommon.exceptionServer'),
+      message: i18n.t('common.exceptionServer'),
       type: 'warning'
     })
   } else {
