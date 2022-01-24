@@ -224,7 +224,7 @@ export default {
   },
   methods: {
     getResCodeInfo () {
-      let datas = '[atp,developer]'
+      let datas = '[atp,developer,appstore]'
       commonApi.getResponseCodeInfo(encodeURI(datas))
         .then(res => {
           sessionStorage.setItem('devResCodeInfo', JSON.stringify(res.data))

@@ -121,7 +121,7 @@
 
 <script>
 import { appstoreApi } from '../../../api/appstoreApi'
-import commonUtil from '../tools/commonUtil.js'
+import commonUtil from '../tools/devCommonUtil.js'
 export default {
   name: 'AppComments',
   props: {

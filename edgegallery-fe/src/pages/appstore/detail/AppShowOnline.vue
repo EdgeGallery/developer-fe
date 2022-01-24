@@ -163,7 +163,7 @@
 import appOnlineEn from '../../../locales/appstore_en.js'
 import appOnlineCn from '../../../locales/appstore_cn.js'
 import $ from 'jquery'
-import commonUtil from '../tools/commonUtil.js'
+import commonUtil from '../tools/devCommonUtil.js'
 import { appstoreApi } from '../../../api/appstoreApi.js'
 import deployFinish from '@/assets/images/appstore/deployFinish.png'
 import showEnd from '@/assets/images/appstore/showEnd.png'

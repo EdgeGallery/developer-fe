@@ -93,7 +93,7 @@
 <script>
 import pagination from '../../../components/common/Pagination.vue'
 import { applicationEditorApi } from '@/tools/api.js'
-import commonUtil from '../../../tools/commonUtil.js'
+import commonUtil from '../../../tools/devCommonUtil.js'
 export default {
   name: 'SelectApplicationDlg',
   components: {
