@@ -310,4 +310,9 @@ export default {
     }
   }
 }
+@media screen and (max-width: 1380px){
+  .app-grid {
+    height: 473px;
+  }
+}
 </style>
