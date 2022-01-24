@@ -38,6 +38,7 @@
           {{ $t('store.synchronous') }}
         </el-button>
         <el-dropdown-menu
+          v-if="syncBtn"
           slot="dropdown"
           @change="synchronizePackage"
         >
@@ -156,6 +157,7 @@ export default {
   },
   data () {
     return {
+      syncBtn: false,
       MEAO: MEAO,
       language: localStorage.getItem('language'),
       listTotal: 0,
@@ -203,6 +205,9 @@ export default {
     getThirdSystemByType () {
       appstoreApi.getThirdSystemByType(this.type).then(res => {
         this.systemData = res.data
+        if (this.systemData.length !== 0) {
+          this.syncBtn = true
+        }
         this.addSystemNameData()
       }, () => {
         this.showFaileMessage()
@@ -238,7 +243,7 @@ export default {
       if (this.systemData.length === 0) {
         this.$message.success(this.$t('promptMessage.noSystemMEAO'))
       } else if (sessionStorage.getItem('userNameRole') !== 'admin') {
-        this.$message.warning(this.$t('system.synchronizePrompt'))
+        this.$message.warning(this.$t('promptMessage.synchronizePrompt'))
       }
     },
     synchronizePackage (item) {
