@@ -242,7 +242,7 @@ let Workspace = {
   },
   // Staging icon generation iconID
   postIconFileIdApi: function (fileType, params) {
-    return Post('/mec/developer/v2/upload-files?fileType=' + fileType, params)
+    return Post('mec/developer/v2/upload-files?fileType=' + fileType, params)
   },
   // Get a list of capabilities details services
   getServiceListApi: function (groupId) {
