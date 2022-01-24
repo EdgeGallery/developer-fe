@@ -117,7 +117,7 @@
 <script>
 import { urlPrefix, getCookie } from '../../../tools/tool.js'
 import { imageMgmtService } from '../../../tools/api.js'
-import commonUtil from '../../../tools/devCommonUtil.js'
+import commonUtil from '../../../tools/commonUtil.js'
 
 export default {
   name: 'UploadImage',

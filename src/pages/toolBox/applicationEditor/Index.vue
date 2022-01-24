@@ -153,7 +153,7 @@ import { common } from '../../../tools/common.js'
 import SelectAppliation from './SelectApplicationDlg'
 import ModifyPackageDlg from './ModifyPackageDlg.vue'
 import { Industry, Type } from '../../../tools/project_data.js'
-import commonUtil from '../../../tools/devCommonUtil.js'
+import commonUtil from '../../../tools/commonUtil.js'
 
 export default {
   name: 'ApplicationEditor',
