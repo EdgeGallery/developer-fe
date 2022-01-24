@@ -203,56 +203,52 @@
           </el-collapse>
         </div>
       </div>
-    </div>
-    <div v-if="pdfShow">
-      <p
-        class="reportTitle"
-      >
-        {{ $t('atpTestProcess.applicationReport') }}
-      </p>
-      <div
-        class="pdf-main"
-        v-show="printShow"
-      >
-        <div class="totalnum">
-          <span class="curp"> {{ $t('atpTestProcess.pageNum') }}:{{ pageNum }}/{{ pageTotalNum }}</span>
-        </div>
-        <div class="pdf-content">
-          <div class="pagearrow">
+      <div v-if="pdfShow">
+        <p
+          class="reportTitle"
+        >
+          {{ $t('atpTestProcess.applicationReport') }}
+        </p>
+        <div
+          class="pdf-main"
+          v-show="printShow"
+        >
+          <div class="totalnum">
             <span
-              class="el-icon-arrow-left"
+              class="el-icon-arrow-left pagearrow"
               @click.stop="prePage"
             />
-          </div>
-          <div
-            class="pdf"
-          >
-            <pdf
-              ref="pdf"
-              :src="pdfUrl"
-              :page="pageNum"
-              @num-pages="pageTotalNum=$event"
-              @error="pdfError($event)"
-              @link-clicked="page = $event"
-            />
-          </div>
-          <div class="pagearrow">
+            <span class="curp"> {{ $t('atpTestProcess.pageNum') }}:{{ pageNum }}/{{ pageTotalNum }}</span>
             <span
-              class="el-icon-arrow-right"
+              class="el-icon-arrow-right pagearrow"
               @click.stop="nextPage"
             />
           </div>
+          <div class="pdf-content">
+            <div
+              class="pdf"
+            >
+              <pdf
+                ref="pdf"
+                :src="pdfUrl"
+                :page="pageNum"
+                @num-pages="pageTotalNum=$event"
+                @error="pdfError($event)"
+                @link-clicked="page = $event"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div
-        v-show="!printShow"
-      >
-        <pdf
-          v-for="i in numPages"
-          :key="i"
-          :src="pdfUrl"
-          :page="i"
-        />
+        <div
+          v-show="!printShow"
+        >
+          <pdf
+            v-for="i in numPages"
+            :key="i"
+            :src="pdfUrl"
+            :page="i"
+          />
+        </div>
       </div>
     </div>
   </div>
