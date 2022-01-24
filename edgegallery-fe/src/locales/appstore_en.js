@@ -327,7 +327,9 @@ const appstoreEn = {
     getNodePortSuccess: 'Success to obtain service borrowing point information',
     noSystemMEAO: 'No syncable third-party MEAO',
     synchronizePrompt: 'You do not have permission. Only administrators can synchronize',
-    downloadPrompt: 'You do not have permission to download!'
+    downloadPrompt: 'You do not have permission to download!',
+    getUploadProgressFail: 'Failed to get app sync progress.',
+    getSystemDataFailed: 'Failed to get MEAO.'
   },
   store: {
     synchronous: 'Create Sync Task',
