@@ -466,7 +466,8 @@
       </p>
       <el-form
         :model="custom"
-        :rules="customRule"
+        :rules="rules"
+        ref="customRule"
       >
         <el-form-item
           :label="$t('common.name')"
@@ -604,6 +605,20 @@ export default {
     }
   },
   data () {
+    const nameEmpty = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('sandbox.vmNametip')))
+      } else {
+        callback()
+      }
+    }
+    const descriptionEmpty = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('sandbox.vmSenceTip')))
+      } else {
+        callback()
+      }
+    }
     return {
       language: localStorage.getItem('language'),
       activeNames: ['1'],
@@ -663,34 +678,19 @@ export default {
         name: '',
         cpu: 1,
         description: '',
-        architecture: '',
+        architecture: 'X86',
         memory: 1,
         dataDiskSize: 10,
         systemDiskSize: 1,
         gpuExtraInfo: '',
         otherExtraInfo: ''
       },
-      customRule: {
+      rules: {
         name: [
-          { required: true }
-        ],
-        cpu: [
-          { required: true }
+          { required: true, validator: nameEmpty, trigger: 'blur' }
         ],
         description: [
-          { required: true }
-        ],
-        architecture: [
-          { required: true }
-        ],
-        dataDiskSize: [
-          { required: true }
-        ],
-        systemDiskSize: [
-          { required: true }
-        ],
-        memory: [
-          { required: true }
+          { required: true, validator: descriptionEmpty, trigger: 'blur' }
         ]
       },
       cpuSpecs: [{
@@ -969,8 +969,10 @@ export default {
       }
     },
     addSpecks () {
-      let _customs = this.custom.name !== '' && this.custom.description !== '' && this.custom.architecture !== '' && this.custom.dataDiskSize !== '' && this.custom.systemDiskSize !== ''
-      if (_customs) {
+      this.$refs['customRule'].validate((valid) => {
+        if (!valid) {
+          return false
+        }
         sandbox.addCustom(this.custom).then(() => {
           this.$eg_messagebox(this.$t('sandboxPromptInfomation.addCustomSuccess'), 'success')
           this.getVmSpecs(this.systemDiskSize)
@@ -981,7 +983,7 @@ export default {
             name: '',
             cpu: 1,
             description: '',
-            architecture: '',
+            architecture: 'X86',
             memory: 1,
             dataDiskSize: 10,
             systemDiskSize: 1,
@@ -991,9 +993,7 @@ export default {
         }).catch(() => {
           this.$eg_messagebox(this.$t('promptInformation.addFailed'), 'error')
         })
-      } else {
-        this.$eg_messagebox(this.$t('sandboxPromptInfomation.completeContent'), 'warning')
-      }
+      })
     },
     cancleSpecks () {
       this.customSpecs = false
@@ -1003,7 +1003,7 @@ export default {
         name: '',
         cpu: 1,
         description: '',
-        architecture: '',
+        architecture: 'X86',
         memory: 1,
         dataDiskSize: 10,
         systemDiskSize: 1,

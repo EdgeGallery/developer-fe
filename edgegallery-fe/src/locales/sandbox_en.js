@@ -79,7 +79,9 @@ const sandboxEn = {
     hostGroupTip: 'Please enter the host group label',
     isImageEmpty: 'Please select image',
     isNetworkEmpty: 'Please configure the network port',
-    addCustomSpec: 'There is no matching data, click to add '
+    addCustomSpec: 'There is no matching data, click to add ',
+    vmNametip: 'Please fill in the vm specification name',
+    vmSenceTip: 'Please fill in the vm specification scenario'
   },
   rulesConfig: {
     appRuleConfig: 'Application Rule Configuration',
