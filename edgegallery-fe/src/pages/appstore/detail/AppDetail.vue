@@ -93,7 +93,6 @@
 
         <el-button
           class="common-btn"
-          :disabled="!canDownload || currentData.userId===userId ? false : true"
           @click="download(currentData)"
         >
           {{ $t('store.download') }}
@@ -447,7 +446,6 @@ export default {
       ifSubscribe: true,
       ifExperience: false,
       ifSynchronize: false,
-      canDownload: false,
       userId: sessionStorage.getItem('userId'),
       details: '',
       appId: '',
@@ -631,8 +629,12 @@ export default {
       }
     },
     download (row) {
-      this.ifDownloadImage(this.currentData, row)
-      this.getAppData()
+      if (sessionStorage.getItem('userId') === this.currentData.userId || sessionStorage.getItem('userNameRole') === 'admin') {
+        this.ifDownloadImage(this.currentData, row)
+        this.getAppData()
+      } else {
+        this.$message.warning(this.$t('promptMessage.downloadPrompt'))
+      }
     },
     checkProjectData () {
       INDUSTRY.forEach(itemFe => {
@@ -690,7 +692,6 @@ export default {
   },
   mounted () {
     let _userNameRole = sessionStorage.getItem('userNameRole')
-    this.canDownload = _userNameRole !== 'guest' && _userNameRole !== 'tenant'
     let params = this.$route.params.item
       ? this.$route.params.item
       : JSON.parse(sessionStorage.getItem('appstordetail'))
