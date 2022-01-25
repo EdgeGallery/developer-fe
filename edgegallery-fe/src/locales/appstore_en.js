@@ -52,7 +52,7 @@ const appstoreEn = {
     chooseArea: 'Please choose location first！',
     noNodes: 'There is no nodes can be used!'
   },
-  system: {
+  appstoreSystem: {
     ipErrorInfo: 'Please enter the correct IP address',
     upload: 'Upload',
     error: 'Error',
