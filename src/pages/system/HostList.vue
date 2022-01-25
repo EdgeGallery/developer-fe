@@ -273,7 +273,14 @@
           <el-input
             size="small"
             v-model="form.resource"
-          />
+          >
+            <span
+              slot="suffix"
+              @click="addMore('resource')"
+              class="view_more_btn"
+            >
+              {{ $t('common.check') }}</span>
+          </el-input>
         </el-form-item>
         <el-form-item
           :label="$t('system.networkConfig')"
@@ -285,7 +292,7 @@
           >
             <span
               slot="suffix"
-              @click="addMore"
+              @click="addMore('network')"
               class="view_more_btn"
             >
               {{ $t('common.check') }}</span>
@@ -331,14 +338,44 @@
             slot="title"
             class="el-dialog__title"
           >
-            <em class="title_icon" />{{ $t('system.networkConfig') }}
+            <em class="title_icon" />{{ $t('system.configParamas') }}
             <em
               v-if="isEdit"
               class="el-icon-circle-plus-outline rt editBtn"
               @click="addListData"
             />
           </div>
-          <div class="innerVisible_div">
+          <div
+            class="innerVisible_div"
+            v-if="configType==='resource'"
+          >
+            <p
+              v-for="(item,index) in otherDataResource"
+              :key="index"
+              class="container clear"
+            >
+              <el-input
+                type="text"
+                size="small"
+                v-model="item.name"
+              />
+              <span class="equal">=</span>
+              <el-input
+                type="text"
+                size="small"
+                v-model="item.value"
+              />
+              <em
+                v-if="isEdit"
+                class="el-icon-delete editBtn"
+                @click="deleteListData(index)"
+              />
+            </p>
+          </div>
+          <div
+            class="innerVisible_div"
+            v-if="configType==='network'"
+          >
             <p
               v-for="(item,index) in otherData"
               :key="index"
@@ -647,7 +684,7 @@ export default {
         status: 'NORMAL',
         vimType: 'K8S',
         networkParameter: `APP_Plane01_Network=MEC_APP_MP1;APP_Plane02_Network=MEC_APP_Public;APP_Plane03_Network=MEC_APP_Private;APP_Plane04_Network=Internal_Network;VDU1_APP_Plane01_IP=192.168.221.0/24;VDU1_APP_Plane02_IP=192.168.222.0/24;VDU1_APP_Plane03_IP=192.168.220.0/24;VDU1_APP_Plane04_IP=192.168.223.0/24`,
-        resource: null,
+        resource: `VCPU数量=20;内存资源=50G;存储资源=1000G;网络=不支持5G;GPU算力=NA;AI加速=1*Atlas300C(16G);终端=NA`,
         mecHostPort: 22,
         mecHostProtocol: 'http'
       },
@@ -704,11 +741,13 @@ export default {
       userId: sessionStorage.getItem('userId'),
       language: localStorage.getItem('language'),
       innerVisible: false,
+      otherDataResource: [],
       otherData: [],
       screenHeight: document.body.clientHeight,
       currentIndex: -1,
       isEdit: false,
-      showOther: false
+      showOther: false,
+      configType: 'resource'
     }
   },
   mounted () {
@@ -745,46 +784,62 @@ export default {
     setDivHeight () {
       common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)
     },
-    addMore () {
+    addMore (type) {
+      this.configType = type
       this.innerVisible = true
+      let _str = ''
       this.otherData = []
-      let str = this.form.networkParameter
-      if (str) {
-        let arrTemp = str.split(';')
-        arrTemp.forEach(item => {
-          let obj = {
-            name: '',
-            value: ''
-          }
-          obj.name = item.split('=')[0]
-          obj.value = item.split('=')[1]
-          this.otherData.push(obj)
-        })
-      }
+      this.otherDataResource = []
+      _str = type === 'resource' ? this.form.resource : this.form.networkParameter
+      let arrTemp = _str.split(';')
+      arrTemp.forEach(item => {
+        let obj = {
+          name: '',
+          value: ''
+        }
+        obj.name = item.split('=')[0]
+        obj.value = item.split('=')[1]
+        type === 'resource' ? this.otherDataResource.push(obj) : this.otherData.push(obj)
+      })
     },
     addListData () {
       let obj = {
         name: '',
         value: ''
       }
-      this.otherData.unshift(obj)
+      this.configType === 'resource' ? this.otherDataResource.unshift(obj) : this.otherData.unshift(obj)
     },
     deleteListData (index) {
-      this.otherData.splice(index, 1)
+      this.configType === 'resource' ? this.otherDataResource.splice(index, 1) : this.otherData.splice(index, 1)
     },
     confirmData () {
       let nullMum = 0
-      this.otherData.forEach(item => {
-        if (item.name === '' || item.value === '') {
-          nullMum++
-        }
-      })
+      if (this.configType === 'resource') {
+        this.otherDataResource.forEach(item => {
+          if (item.name === '' || item.value === '') {
+            nullMum++
+          }
+        })
+      } else {
+        this.otherData.forEach(item => {
+          if (item.name === '' || item.value === '') {
+            nullMum++
+          }
+        })
+      }
       if (nullMum === 0) {
         let str = ''
-        this.otherData.forEach(item => {
-          str += item.name + '=' + item.value + ';'
-        })
-        this.form.networkParameter = str.substr(0, str.length - 1)
+        if (this.configType === 'resource') {
+          this.otherDataResource.forEach(item => {
+            str += item.name + '=' + item.value + ';'
+          })
+          this.form.resource = str.substr(0, str.length - 1)
+        } else {
+          this.otherData.forEach(item => {
+            str += item.name + '=' + item.value + ';'
+          })
+          this.form.networkParameter = str.substr(0, str.length - 1)
+        }
         this.innerVisible = false
         this.isEdit = false
       } else {

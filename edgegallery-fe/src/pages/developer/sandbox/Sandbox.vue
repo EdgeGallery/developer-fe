@@ -169,10 +169,17 @@ export default {
       this.sandboxDetailsVals = []
       this.isSandbox = false
       this.sandboxDetailsName = item.name
-      let sandboxDetails = JSON.parse(item.resource)
-      for (let i in sandboxDetails) {
+      let _temp = item.resource
+      _temp = _temp.replace(/=/g, ':')
+      let _arr = []
+      _arr = _temp.split(';')
+      let _sandboxDetails = {}
+      _arr.forEach(item => {
+        _sandboxDetails[item.split(':')[0]] = item.split(':')[1]
+      })
+      for (let i in _sandboxDetails) {
         this.sandboxDetailsNames.push(i)
-        this.sandboxDetailsVals.push(sandboxDetails[i])
+        this.sandboxDetailsVals.push(_sandboxDetails[i])
       }
     },
     getIndex (index) {
