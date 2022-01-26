@@ -79,7 +79,10 @@ const sandboxCn = {
     hostGroupTip: '请输入主机组标签',
     isImageEmpty: '请选择镜像',
     isNetworkEmpty: '请配置网络端口',
-    addCustomSpec: '没有匹配的数据，点击添加'
+    addCustomSpec: '没有匹配的数据，点击添加',
+    vmNametip: '请填写虚拟机规格名称',
+    vmSenceTip: '请填写虚拟机规格场景'
+
   },
   rulesConfig: {
     appRuleConfig: '应用规则配置',

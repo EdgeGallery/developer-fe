@@ -211,7 +211,6 @@ export default {
       pageNum: 1,
       pageSize: 10,
       appStoreName: '',
-      total: 0,
       curPageSize: 10,
       appName: '',
       language: localStorage.getItem('language'),
@@ -335,7 +334,7 @@ export default {
         this.prop = 'appName'
       }
       appstoreApi.getAppPromTable(this.curPageSize, this.offsetPage, this.appName, this.order, this.prop).then((res) => {
-        this.total = res.data.total
+        this.listTotal = res.data.total
         this.appPackageData = res.data.results
         this.appPackageData.forEach(item => {
           if (item.latestPushTime) {
