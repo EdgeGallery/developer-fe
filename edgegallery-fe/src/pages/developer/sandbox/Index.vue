@@ -45,7 +45,6 @@
 
 <script>
 import SandBoxList from './Sandbox.vue'
-import { sandbox } from '../../../api/developerApi.js'
 export default {
   name: 'SandBox',
   components: {
@@ -60,20 +59,6 @@ export default {
     }
   },
   methods: {
-    isSelectSandbox () {
-      sandbox.getUserSelectSandbox(this.applicationId).then(res => {
-        if (res.data.mepHostId === null) {
-          this.selectSandbox = this.$t('sandbox.selectSandbox')
-        } else {
-          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(resSub => {
-            this.selectSandbox = resSub.data.name
-            sessionStorage.setItem('sandboxName', resSub.data.name)
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     toSelectSandbox () {
       let _isSelectSandbox = this.selectSandbox === this.$t('sandbox.selectSandbox')
       if (_isSelectSandbox) {
@@ -93,9 +78,6 @@ export default {
     '$i18n.locale': function () {
       this.selectSandbox = this.$t('sandbox.selectSandbox')
     }
-  },
-  mounted () {
-    this.isSelectSandbox()
   }
 }
 </script>

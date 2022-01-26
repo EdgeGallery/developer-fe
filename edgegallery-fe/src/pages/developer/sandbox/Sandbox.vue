@@ -50,7 +50,7 @@
             >
             <p
               class="sandbox-detail hoverHands defaultFontLight"
-              @click.stop="goDetail(item);getIndex(index)"
+              @click.stop="goDetail(item,index)"
             >
               {{ $t('common.detail') }}
             </p>
@@ -164,7 +164,8 @@ export default {
     selectSandbox (value) {
       this.activeItem = value === this.activeItem ? '' : value
     },
-    goDetail (item) {
+    goDetail (item, index) {
+      this.sandboxImg = this.sandboxImgs[index % 4]
       this.sandboxDetailsNames = []
       this.sandboxDetailsVals = []
       this.isSandbox = false
@@ -182,10 +183,6 @@ export default {
         this.sandboxDetailsVals.push(_sandboxDetails[i])
       }
     },
-    getIndex (index) {
-      this.activeItem = index
-      this.sandboxImg = this.sandboxImgs[this.activeItem % 4]
-    },
     backSandbox () {
       this.isSandbox = true
     },
@@ -202,7 +199,6 @@ export default {
       sandbox.selectSandbox(this.applicationId, mepHostId).then(() => {
         this.sandboxName = this.sandbox[this.activeItem].name
         this.$emit('returnSelectSandbox', this.sandboxName)
-        this.$store.commit('changeFlow', '3')
         sessionStorage.setItem('sandboxName', this.sandboxName)
       }).catch(err => {
         console.log(err)

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { atpTestApi } from '../../../api/developerApi.js'
+import { atpTestApi, sandbox } from '../../../api/developerApi.js'
 export default {
   props: {
     currentFlow: {
@@ -127,6 +127,10 @@ export default {
           this.showWarning()
           return
         }
+        if (item.id === 2) {
+          this.isSelectSandbox()
+          return
+        }
         if (item.toPath === '/EG/developer/createApplication' && this.currentFlow === '0') {
           sessionStorage.setItem('isCreate', '0')
           this.$router.push('/EG/developer/createApplication')
@@ -152,6 +156,18 @@ export default {
     },
     showWarning () {
       this.$message.warning(this.$t('workflow.mustSteps'))
+    },
+    isSelectSandbox () {
+      sandbox.getUserSelectSandbox(sessionStorage.getItem('applicationId')).then(res => {
+        if (res.data.mepHostId) {
+          this.$router.push({ path: '/EG/developer/sandbox' })
+        } else {
+          sandbox.getSandboxByMepHostId(res.data.mepHostId).then(resSub => {
+            sessionStorage.setItem('sandboxName', resSub.data.name)
+            this.$router.push({ path: '/EG/developer/sandboxDetails' })
+          })
+        }
+      })
     }
   },
   mounted () {

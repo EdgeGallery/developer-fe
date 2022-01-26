@@ -119,6 +119,7 @@ export default {
           this.$store.commit('changeFlow', '2')
           this.$store.commit('changeZoom', '2')
           sessionStorage.setItem('applicationId', res.data.id)
+          sessionStorage.setItem('vimType', this.applicationFormData.appClass === 'VM' ? 'OpenStack' : 'K8S')
           this.$message.success(this.$t('incubation.createSuc'))
           this.$store.commit('changeApp', res.data.name)
           this.$router.push('/EG/developer/home')

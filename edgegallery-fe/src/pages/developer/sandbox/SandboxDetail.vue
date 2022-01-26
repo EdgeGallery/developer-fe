@@ -541,6 +541,16 @@ export default {
     }
   },
   methods: {
+    getInternetType () {
+      sandbox.getAllInternetType(this.applicationId).then(res => {
+        if (res.data && res.data.length <= 0) {
+          return
+        }
+        this.netWorkList = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     getSandboxLists () {
       sandbox.getSandboxList(this.vimType, this.architecture).then(res => {
         if (res.data && res.data.results.length <= 0) {
@@ -742,6 +752,7 @@ export default {
     this.getApplicationInfo()
   },
   mounted () {
+    this.getInternetType()
     this.getSandboxLists()
     this.ischangeSandbox()
   },

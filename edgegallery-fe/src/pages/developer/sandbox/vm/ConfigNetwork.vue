@@ -177,7 +177,7 @@ export default {
           description: ''
         }
       ]
-      this.$emit('editNetwork', this.vmNetworkList)
+      this.$emit('editNetwork', [])
     },
     confirmAddInternet () {
       if (this.ifAddInternetBtn) {
