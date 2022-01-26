@@ -159,7 +159,7 @@ export default {
     },
     isSelectSandbox () {
       sandbox.getUserSelectSandbox(sessionStorage.getItem('applicationId')).then(res => {
-        if (res.data.mepHostId) {
+        if (!res.data.mepHostId) {
           this.$router.push({ path: '/EG/developer/sandbox' })
         } else {
           sandbox.getSandboxByMepHostId(res.data.mepHostId).then(resSub => {
