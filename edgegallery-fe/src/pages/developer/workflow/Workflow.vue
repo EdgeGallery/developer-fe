@@ -20,7 +20,7 @@
         :class="[item.id===currentFlow?'step-current':(item.id<currentFlow?'step-history':'step-future')]"
         v-if="item.id<5"
       >
-        STEP{{ item.id }}
+        STEP {{ item.id }}
       </div>
     </div>
   </div>
