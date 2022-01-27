@@ -856,6 +856,7 @@ const cn = {
     portRange: '端口范围',
     config_id: '配置文件',
     networkConfig: '网络配置',
+    configParamas: '配置参数',
     log: {
       userName: '使用者',
       projectName: '项目名',

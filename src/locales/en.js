@@ -856,6 +856,7 @@ const en = {
     portRange: 'Port Range',
     config_id: 'Config File',
     networkConfig: 'Network Config',
+    configParamas: 'Configuration parameters',
     log: {
       userName: 'Username',
       projectName: 'Project Name',

@@ -177,7 +177,7 @@ export default {
           description: ''
         }
       ]
-      this.$emit('editNetwork', this.vmNetworkList)
+      this.$emit('editNetwork', [])
     },
     confirmAddInternet () {
       if (this.ifAddInternetBtn) {
@@ -210,16 +210,6 @@ export default {
 .config-network{
   width: 100%;
   height: 100%;
-  animation: delay 0.5s  ease-in-out;
-  animation-fill-mode: both;
-  @keyframes delay {
-    0%{
-      transform:scale(0.25);
-    }
-    100%{
-      transform:scale(1)
-    }
-  }
   .network-list{
     position: absolute;
     width: 940px;

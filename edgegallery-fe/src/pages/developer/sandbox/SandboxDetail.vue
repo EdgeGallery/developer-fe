@@ -128,7 +128,7 @@
             class="details-center clear"
             v-if="appClass==='VM'"
           >
-            <UPF />
+            <UPF @showAppRules="showAppRules" />
             <div class="details-center-deploy vm-div">
               <div class="details-center-deploy-img">
                 <div
@@ -245,6 +245,8 @@
               @importScript="importScript"
               @checkContainerDetail="checkContainerDetail"
               @deployContainerFinish="deployContainerFinish"
+              @showAppRules="showAppRules"
+              @closeAppRules="closeAppRules"
             />
           </div>
           <div class="details-bottom clear">
@@ -391,6 +393,10 @@
       v-show="showContent==='showContainerDetail'"
       @closeContainerDetail="closeContainerDetail"
     />
+    <ApplicationRules
+      v-if="showContent==='showAppRules'"
+      @closeAppRules="closeAppRules"
+    />
     <el-dialog
       class="default_dialog"
       width="1100px"
@@ -472,6 +478,7 @@ import VmUploadFile from './vm/VmUploadFile.vue'
 import ContainerIndex from './container/Index.vue'
 import ContainerScript from './container/ContainerScript.vue'
 import ContainerDetail from './container/ContainerDetail.vue'
+import ApplicationRules from '../sandbox/applicationRules/Index.vue'
 import { sandbox, applicationApi } from '../../../api/developerApi.js'
 export default {
   name: 'SandboxDetail',
@@ -484,7 +491,8 @@ export default {
     VmUploadFile,
     ContainerIndex,
     ContainerScript,
-    ContainerDetail
+    ContainerDetail,
+    ApplicationRules
   },
   data () {
     return {
@@ -541,6 +549,16 @@ export default {
     }
   },
   methods: {
+    getInternetType () {
+      sandbox.getAllInternetType(this.applicationId).then(res => {
+        if (res.data && res.data.length <= 0) {
+          return
+        }
+        this.netWorkList = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     getSandboxLists () {
       sandbox.getSandboxList(this.vimType, this.architecture).then(res => {
         if (res.data && res.data.results.length <= 0) {
@@ -736,17 +754,22 @@ export default {
     },
     getNetWorkList (data) {
       this.netWorkList = data
+    },
+    showAppRules () {
+      this.showContent = 'showAppRules'
+    },
+    closeAppRules () {
+      this.showContent = 'showDetail'
+      this.isChangeStyle = false
     }
   },
   created () {
     this.getApplicationInfo()
   },
   mounted () {
+    this.getInternetType()
     this.getSandboxLists()
     this.ischangeSandbox()
-  },
-  beforeDestroy () {
-    sessionStorage.removeItem('applicationRules')
   }
 }
 </script>
