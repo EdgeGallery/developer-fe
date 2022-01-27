@@ -148,14 +148,14 @@
         <el-button
           id="btn_cancelApprules"
           class="common-btn"
-          @click="configApplicationRules('cancel')"
+          @click="configApplicationRules"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
           id="btn_confirmApprules"
           class="common-btn"
-          @click="configApplicationRules('confirm')"
+          @click="configApplicationRules"
         >
           {{ $t('common.confirm') }}
         </el-button>
@@ -365,13 +365,8 @@ export default {
         })
       })
     },
-    configApplicationRules (type) {
-      this.$router.push('/EG/developer/sandboxDetails')
-      if (type === 'cancel') {
-        sessionStorage.setItem('applicationRules', 'cancel')
-      } else {
-        sessionStorage.setItem('applicationRules', 'confirm')
-      }
+    configApplicationRules () {
+      this.$emit('closeAppRules')
     },
     getAppTrafficRuleList () {
       applicationRules.getAppTrafficRules(this.applicationId).then(res => {

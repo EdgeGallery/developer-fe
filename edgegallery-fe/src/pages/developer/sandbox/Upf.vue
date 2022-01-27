@@ -50,7 +50,7 @@
 export default {
   methods: {
     addApplicationRules () {
-      this.$router.push('/EG/developer/applicationRules')
+      this.$emit('showAppRules')
     }
   }
 }

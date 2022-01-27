@@ -15,7 +15,7 @@
   -->
 <template>
   <div class="container-index">
-    <UPF />
+    <UPF @showAppRules="showAppRules" />
     <div class="details-center-deploy">
       <div class="details-center-deploy-img">
         <div
@@ -317,6 +317,12 @@ export default {
           this.bus.$emit('getContainerDetail', this.containerApp, '')
         }
       })
+    },
+    showAppRules () {
+      this.$emit('showAppRules')
+    },
+    closeAppRules () {
+      this.$emit('closeAppRules')
     }
   },
   mounted () {
