@@ -163,6 +163,8 @@ export default {
     changeSmall () {
       this.$emit('zoomChanged', 1)
       this.isDeleteActive = false
+      this.isSearchActive = false
+      this.isViewActive = false
     },
     searchProject () {
       this.isSearchActive = true
