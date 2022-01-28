@@ -152,9 +152,8 @@ export default {
       }
       .main-part{
         height: 450px;
-        margin-top: 45px;
         .main-part-container{
-          background: url("../../assets/images/application/app_workflow_bg2.gif") no-repeat;
+          background: url("../../assets/images/application/app_workflow_bg2.gif") no-repeat center;
           background-size: contain;
         }
         .main-part-item{
@@ -183,8 +182,6 @@ export default {
       float: right;
       display: flex;
       justify-content: right;
-      position: relative;
-      top: -65px;
       .mark-item{
         margin-left: 10px;
       }

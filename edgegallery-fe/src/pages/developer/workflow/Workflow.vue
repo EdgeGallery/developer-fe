@@ -20,7 +20,7 @@
         :class="[item.id===currentFlow?'step-current':(item.id<currentFlow?'step-history':'step-future')]"
         v-if="item.id<5"
       >
-        STEP{{ item.id }}
+        STEP {{ item.id }}
       </div>
     </div>
   </div>
@@ -218,38 +218,38 @@ export default {
     }
     .capability-center{
       left: 240px;
-      top: 0px;
+      top: 45px;
     }
     .app-application{
       left: 230px;
-      top: 55px;
+      top: 100px;
     }
     .app-image{
       left: 105px;
-      top: 105px;
+      top: 150px;
     }
     .app-test{
       left: 100px;
-      top: 60px;
+      top: 105px;
     }
     .app-sandbox{
       left: 115px;
-      top: 105px;
+      top: 150px;
     }
     .app-store{
-      top: 80px;
+      top: 125px;
       left: 195px;
     }
     .deploy-meao{
-      top: 140px;
+      top: 185px;
       left: 320px;
     }
     .deploy-mepm{
-      top: 150px;
+      top: 195px;
       left: 325px;
     }
     .deploy-node{
-      top: 145px;
+      top: 190px;
       left: 320px;
     }
   }
