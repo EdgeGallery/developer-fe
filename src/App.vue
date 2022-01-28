@@ -251,9 +251,7 @@ export default {
     let lanIndex = window.location.href.search('language')
     if (lanIndex > 0) {
       let lan = window.location.href.substring(lanIndex + 9, lanIndex + 11)
-      if (lan === 'en') {
-        this.changeLange()
-      }
+      this.changeLange(lan)
     }
     window.addEventListener('scroll', this.getScrollTop, true)
     // message listener, message from unified platform

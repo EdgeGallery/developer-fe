@@ -107,11 +107,6 @@ export default new Router({
       component: () => import('../pages/developer/capabilityCenter/CapabilityPublish.vue')
     },
     {
-      path: '/EG/developer/applicationRules',
-      name: 'incubationRules',
-      component: () => import('../pages/developer/sandbox/applicationRules/Index.vue')
-    },
-    {
       path: '/EG/developer/sandbox',
       name: 'sandbox',
       component: () => import('../pages/developer/sandbox/Index.vue')

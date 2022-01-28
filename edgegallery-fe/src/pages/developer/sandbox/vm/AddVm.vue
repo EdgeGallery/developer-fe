@@ -161,7 +161,7 @@
                 <el-radio-group
                   class="common-radio"
                   v-model="vmInfo.archType"
-                  @change="handleChangeArch"
+                  @change="filterVmRegulation"
                 >
                   <el-radio-button label="X86" />
                   <el-radio-button label="ARM" />
@@ -877,12 +877,9 @@ export default {
       data === 'public' ? this.vmInfo.privateImageOptions = '' : this.vmInfo.publicImageOptions = ''
       data === 'public' ? this.vmInfo.privateId = '' : this.vmInfo.publicId = ''
     },
-    handleChangeArch () {
-      this.filterVmRegulation()
-      this.addvmImages.flavorId = -1
-    },
     filterVmRegulation () {
       this.vmInfo.vmRegulationList = this.vmSpecs.filter(item => item.architecture === this.vmInfo.archType)
+      this.addvmImages.flavorId = this.vmInfo.vmRegulationList[0] ? this.vmInfo.vmRegulationList[0].id : this.addvmImages.flavorId
     },
     changePublicType (data) {
       this.vmInfo.publicId = ''
@@ -1276,6 +1273,10 @@ export default {
     }
     .addVm-btn{
       margin-right: 30px;
+    }
+    .el-icon-view:before{
+      position: relative;
+      top: -5px;
     }
   }
   .customSpecs{
