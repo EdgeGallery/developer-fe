@@ -157,7 +157,8 @@ export default {
       applicationId: sessionStorage.getItem('applicationId') || '',
       sandboxDetailsNames: [],
       sandboxDetailsVals: [],
-      sandboxDetailName: ''
+      sandboxDetailName: '',
+      activeIndex: -1
     }
   },
   methods: {
@@ -165,6 +166,7 @@ export default {
       this.activeItem = value === this.activeItem ? '' : value
     },
     goDetail (item, index) {
+      this.activeIndex = index
       this.sandboxImg = this.sandboxImgs[index % 4]
       this.sandboxDetailsNames = []
       this.sandboxDetailsVals = []
@@ -187,6 +189,7 @@ export default {
       this.isSandbox = true
     },
     checkSandbox () {
+      this.activeItem = this.activeIndex
       this.isSandbox = true
     },
     selectFinish () {
@@ -200,6 +203,7 @@ export default {
         this.sandboxName = this.sandbox[this.activeItem].name
         this.$emit('returnSelectSandbox', this.sandboxName)
         sessionStorage.setItem('sandboxName', this.sandboxName)
+        this.$router.push({ path: '/EG/developer/sandboxDetails' })
       }).catch(err => {
         console.log(err)
       })
