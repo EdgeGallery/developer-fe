@@ -287,7 +287,6 @@
    position: sticky;
    right: 40px;
    bottom: 40px;
-   /* background: rgba(75,55,154,1) !important; */
  }
  .default_dialog .dialog-footer{
   text-align: right;
@@ -816,7 +815,6 @@
  }
 
 .el-button.common-btn{
-  /* box-shadow: 0px 12px 12px -8px rgba(76,85,170,.8); */
   border-radius: 17px !important;
   padding: 6px 32px !important;
   border: none !important;
@@ -973,7 +971,6 @@ th{
 .el-form.common-form .el-form-item__label{
   color: #fff;
   font-size: 20px;
-  /* line-height: 46px; */
 }
 .el-form.common-form .el-form-item__error{
   font-size: 14px;
@@ -996,20 +993,16 @@ th{
   margin-bottom: 20px;
 }
 .el-form.common-form .el-form-item__content, .el-form.common-form .el-input__inner{
-  /* min-height: 46px !important;
-  line-height: 46px !important; */
   font-size: 18px;
   color: #c9bdf3;
 }
 .el-form.common-form .el-input-number__decrease, .el-form.common-form  .el-input-number__increase{
   font-size: 16px;
-  /* height: 46px; */
   background-color: #907cd0;
   border: none;
 }
 .el-form.common-form .el-icon-minus:before,.el-form.common-form  .el-icon-plus:before{
   position: relative;
-  /* top: 10px; */
   color: #fff;
 }
 .el-input-number .el-input__inner{
@@ -1018,12 +1011,6 @@ th{
 .el-select .el-input .el-select__caret, .el-table__empty-text{
   color: #fff;
 }
-/* .el-select-dropdown{
-  background-color: rgba(255,255,255,.8);
-}
-.el-select-dropdown__item.hover, .el-select-dropdown__item:hover,.el-select-dropdown__item.selected{
-  background-color: rgba(255,255,255,.8);
-} */
 .input-half{
   width: 50%;
 }
@@ -1271,7 +1258,7 @@ input::-webkit-input-placeholder {
   font-weight: bold;
 }
 .el-input__inner{
-  height: 30px!important;
+  min-height: 30px!important;
 }
 .common-mavon-editor.markdown-body{
   color: #fff !important;

@@ -23,7 +23,7 @@
     <el-form
       id="form_trafficFilter"
       :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
-      size="mini"
+      size="medium"
       class="common-form clear"
       :model="trafficFilterForm"
     >

@@ -11,7 +11,6 @@
         class="common-form"
         label-width="170px"
         label-position="right"
-        size="mini"
       >
         <el-form-item
           :label="$t('incubation.appName')"
