@@ -235,7 +235,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
 .app-list {
   height: 100%;
   .app-list-top{
@@ -253,6 +253,9 @@ export default {
       position: absolute;
       top: 65px;
       right: 15px;
+      .el-input__inner{
+        height: 30px!important;
+      }
     }
     .zoom{
       background: url("../../../assets/images/application/app_zoom_default.png") no-repeat center;
