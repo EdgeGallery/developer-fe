@@ -229,7 +229,6 @@ export default {
         _helmChartFile = []
       }
       if (_helmChartFile.length > 0) {
-        this.helmChartFile = _helmChartFile
         this.setResultDivLeft()
         this.submitContainerScript(_helmChartFile)
       }
@@ -240,7 +239,7 @@ export default {
       fd.append('file', helmChartFile[0])
       sandbox.container.postHelmChartsFile(this.applicationId, fd).then(res => {
         if (res.data.id) {
-          this.helmChartFile = helmChartFile
+          this.helmChartFile = [{ name: res.data.name }]
           this.hasValidate = true
           this.helmChartId = res.data.id
           this.helmChartFileList = res.data.helmChartFileList

@@ -691,9 +691,6 @@ export default {
 .el-button.common-btn{
   border: solid 1px #5944c0 !important;
 }
-.el-icon-arrow-up:before{
-  color: #5e40c8;
-}
 .capability-publish{
   clear: both;
   margin-top: 15px;

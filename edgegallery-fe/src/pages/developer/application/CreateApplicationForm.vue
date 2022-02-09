@@ -511,6 +511,7 @@ export default {
         sessionStorage.setItem('architecture', this.applicationFormData.architecture)
         sessionStorage.setItem('pkgSpecId', this.applicationFormData.pkgSpecId)
         this.$message.success(this.$t('incubation.modifyAppSuccess'))
+        this.getApplicationInfo(this.appId)
         this.$router.push('/EG/developer/home')
       }).catch(err => {
         console.log(err)
@@ -537,6 +538,7 @@ export default {
     },
     getApplicationInfo (appId) {
       applicationApi.getAppInfo(appId).then(res => {
+        this.$store.commit('changeApp', res.data.name)
         Object.keys(this.applicationFormData).forEach((key, index) => {
           this.applicationFormData[key] = res.data[key]
         })
