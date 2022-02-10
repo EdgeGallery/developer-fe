@@ -22,7 +22,7 @@
       >
         <div class="main-content">
           <div class="main-title">
-            {{ appName==='5G'?$t('incubation.appWorkflow') : appName }}
+            <span>{{ appName==='5G'?$t('incubation.appWorkflow') : appName }}</span>
           </div>
           <div class="main-part-area">
             <el-row style="width: 100%;">
@@ -115,18 +115,22 @@ export default {
     .main-content{
       width: 1680px;
       margin: 0 auto;
-      padding: 45px 50px 0 50px;
+      padding: 100px 50px 0 50px;
       .main-title{
         font-size: 32px;
         font-weight: bold;
-        margin-bottom: 30px;
-        height: 55px;
-        padding-left: 155px;
+        margin-bottom: 94px;
+        height: 59px;
+        padding-left: 335px;
         background: url('../../assets/images/application/workflow_title_bg.png') no-repeat center;
-        text-shadow: 0 0 10px #fff;
+        text-shadow: 0 0 10px #21fcff;
+        span{
+          position: relative;
+          top: -3px;
+        }
       }
       .main-part-area{
-        height: 180px;
+        height: 83px;
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -135,7 +139,7 @@ export default {
           text-align: center;
           font-size: 25px;
           position: relative;
-          top: 78px;
+          top: 25px;
         }
         .incubation{
           left: 65px;
