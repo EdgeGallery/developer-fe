@@ -22,7 +22,7 @@
     <el-form
       id="form_trafficRules"
       label-width="140px"
-      size="mini"
+      size="medium"
       class="common-form clear"
       :model="trafficRuleForm"
     >

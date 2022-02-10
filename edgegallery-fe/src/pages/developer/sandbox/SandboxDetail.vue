@@ -1031,10 +1031,6 @@ export default {
                 opacity: 0.1;
                 position:absolute;
               }
-              .deploy-img-center.script-icon{
-                width: 82px;
-                height: 84px;
-              }
               .deploy-img-center-finish{
                 opacity: 1;
               }

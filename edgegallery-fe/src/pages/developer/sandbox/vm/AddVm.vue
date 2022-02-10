@@ -1308,14 +1308,17 @@ export default {
           display: flex;
           width: 215px;
           .el-input-number__increase {
+            top: 2px;
             right: 1px;
             height: 30px;
             border:none ;
             background-color: rgba(255,255,255,.45);
           }
           .el-input-number__decrease{
+            top: 2px;
             height: 30px;
             background-color: rgba(255,255,255,.45);
+            border-right: none;
           }
           .el-icon-plus:before {
             position: relative;
@@ -1487,7 +1490,7 @@ export default {
           position: relative;
           top: 22px;
           left: 16px;
-          height: 33px;
+          height: 35px;
           font-size: 14px;
           border-bottom:2px solid #4E3494;
         }

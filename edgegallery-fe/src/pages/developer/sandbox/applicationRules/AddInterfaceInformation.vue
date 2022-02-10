@@ -23,7 +23,7 @@
     <el-form
       id="form_interfaceInformation"
       :label-width="language==='cn'?formLabelWidth:formLabelWidthEn"
-      size="mini"
+      size="medium"
       class="common-form form-one-column"
       :model="interfaceInformationForm"
     >
