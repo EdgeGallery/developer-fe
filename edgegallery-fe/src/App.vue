@@ -26,6 +26,14 @@
       :is-home-prop="isHome"
       :to-path-prop="toPath"
       class="clearfix"
+      @clickLogo="clickLogo"
+      @changeLange="changeLange"
+      @logout="logout"
+      :json-data-prop="jsonData"
+      :if-guest-prop="ifGuest"
+      :user-name-prop="userName"
+      :user-center-page-prop="userCenterPage"
+      :nav-bgcolor-prop="navBgcolor"
     />
     <el-row>
       <el-col
@@ -82,8 +90,13 @@
 </template>
 
 <script>
-import Navcomp from './components/Nav.vue'
-import navDataClassic from './navdata/navDataCn.js'
+import Navcomp from 'eg-view/src/components/EgNav.vue'
+import navData from '../src/navdata/navData.js'
+import navDataCn from '../src/navdata/navDataCn.js'
+import { logoutApi, loginApi } from '../src/tools/tool.js'
+import { FIRST_LEVEL_MENU_PATH } from '../src/constants.js'
+import { PROXY_PREFIX_CURRENTSERVER } from '../src/tools/constant.js'
+import { applicationApi, commonApi } from '../src/api/developerApi.js'
 import ProjectSideComp from './pages/developer/application/ApplicationtList.vue'
 export default {
   name: 'App',
@@ -94,15 +107,23 @@ export default {
   data () {
     return {
       scrollTop: 0,
+      language: '',
+      jsonData: [],
       pageModel: sessionStorage.getItem('pageModel') || 'newVersion',
       isHome: true,
       toPath: '/index',
-      navDataClassic: navDataClassic,
       screenHeight: document.body.clientHeight,
       timer: false,
       isIndex: true,
       isIncubationPage: false,
-      isShowTips: false
+      isShowTips: false,
+      ifGuest: true,
+      userName: '',
+      loginPage: '',
+      userCenterPage: '',
+      wsSocketConn: null,
+      wsMsgSendInterval: null,
+      navBgcolor: '#3E279B'
     }
   },
   computed: {
@@ -133,6 +154,9 @@ export default {
         }, 400)
         this.setDivHeight(this.screenHeight)
       }
+    },
+    '$i18n.locale': function () {
+      this.loginFun()
     }
   },
   methods: {
@@ -161,11 +185,257 @@ export default {
     },
     getScrollTop () {
       this.scrollTop = this.$refs.app.getBoundingClientRect().top
+    },
+    logoutFun () {
+      let _this = this
+      this.bus.$on('logoutFun', function () {
+        _this.logout()
+      })
+    },
+    getResCodeInfo () {
+      let datas = '[atp,developer,appstore]'
+      commonApi.getResponseCodeInfo(encodeURI(datas))
+        .then(res => {
+          sessionStorage.setItem('devResCodeInfo', JSON.stringify(res.data))
+        }).catch(() => {
+          console.log('getResCodeInfo error')
+        })
+    },
+    clickLogo () {
+      this.$router.push('/index')
+    },
+    changeLange (lang) {
+      let language
+      if (lang === 'Cn' || lang === 'cn') {
+        this.jsonData = navDataCn
+        language = 'cn'
+      } else {
+        this.jsonData = navData
+        language = 'en'
+      }
+      this.$i18n.locale = language
+      localStorage.setItem('language', language)
+    },
+    logout () {
+      this.manualLoggout = true
+      logoutApi().then(res => {
+        this.enterLoginPage()
+      }).catch(err => {
+        console.log(err)
+        this.enterLoginPage()
+      })
+    },
+    enterLoginPage () {
+      let _lang = this.language === 'En' ? 'cn' : 'en'
+      window.location.href = this.loginPage + '&return_to=' + window.location.origin + PROXY_PREFIX_CURRENTSERVER + '&lang=' + _lang
+    },
+    loginFun () {
+      loginApi().then(res => {
+        sessionStorage.setItem('userId', res.data.userId)
+        sessionStorage.setItem('userName', res.data.userName)
+        sessionStorage.setItem('accessToken', res.data.accessToken)
+        this.userName = res.data.userName
+        this.loginPage = res.data.loginPage
+        this.userCenterPage = res.data.userCenterPage
+        this.ifGuest = res.data.userName === 'guest'
+        if (!this.ifGuest && res.data.forceModifyPwPage) {
+          window.location.href = res.data.forceModifyPwPage
+          return
+        }
+        if (res.data.authorities.indexOf('ROLE_APPSTORE_ADMIN') > -1) {
+          sessionStorage.setItem('userNameRole', 'admin')
+        } else if (res.data.authorities.indexOf('ROLE_APPSTORE_TENANT') > -1) {
+          sessionStorage.setItem('userNameRole', 'tenant')
+        } else {
+          sessionStorage.setItem('userNameRole', 'guest')
+        }
+        const authorities = res.data.authorities || []
+        sessionStorage.setItem('userAuthorities', authorities)
+        this.filterNavMenu(this.jsonData, authorities)
+        const navJsonData = JSON.parse(JSON.stringify(this.jsonData))
+        const validateAuthority = (array) => {
+          const newArray = []
+          array.forEach(item => {
+            const s = { ...item }
+            this.handleNavData(item, authorities, newArray, s, validateAuthority)
+          })
+          return newArray
+        }
+        this.jsonData = validateAuthority(navJsonData)
+        let _gusetNum = 0
+        authorities.forEach(item => {
+          if (item.indexOf('ADMIN') > -1) {
+            sessionStorage.setItem('pushAuthorities', 'show')
+          } else {
+            sessionStorage.setItem('pushAuthorities', 'hide')
+          }
+        })
+        authorities.forEach(item => {
+          if (item.indexOf('GUEST') > -1) {
+            _gusetNum++
+          }
+        })
+        if (_gusetNum > 0) {
+          this.jsonData.forEach((item, index) => {
+            if (item.id === '5') {
+              this.jsonData.splice(index, 1)
+            }
+          })
+        }
+        this.startHttpSessionInvalidListener(res.data.sessId)
+      })
+      this.filterMenuForClab()
+    },
+    filterNavMenu (jsonData, authorities) {
+      let _developerNum = -1
+      let _appstoreNum = -1
+      let _mecmNum = -1
+      authorities.forEach(item => {
+        if (item.indexOf('DEVELOPER') !== -1) {
+          _developerNum++
+        } else if (item.indexOf('APPSTORE') !== -1) {
+          _appstoreNum++
+        } else if (item.indexOf('MECM') !== -1) {
+          _mecmNum++
+        }
+      })
+      if (_developerNum === -1) {
+        jsonData.forEach((item, index) => {
+          if (item.id === '1') {
+            jsonData.splice(index, 1)
+          }
+        })
+      }
+      if (_appstoreNum === -1) {
+        jsonData.forEach((item, index) => {
+          if (item.id === '3') {
+            jsonData.splice(index, 1)
+          }
+        })
+      }
+      if (_mecmNum === -1) {
+        jsonData.forEach((item, index) => {
+          if (item.id === '4') {
+            jsonData.splice(index, 1)
+          }
+        })
+      }
+    },
+    handleNavData (item, authorities, newArray, s, validateAuthority) {
+      if (!item.authority || item.authority.some(a => authorities.includes(a))) {
+        newArray.push(s)
+        if (item.children) {
+          s.children = validateAuthority(item.children)
+        }
+      }
+    },
+    filterMenuForClab () {
+      applicationApi.getUseScene().then(res => {
+        if (res && res.data) {
+          if (res.data !== 'edgeGallery') {
+            this.filterMecmMenu()
+          }
+        }
+      })
+    },
+    startHttpSessionInvalidListener (sessId) {
+      if (typeof (WebSocket) === 'undefined') {
+        return
+      }
+      let _wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
+      this.wsSocketConn = new WebSocket(_wsProtocol + window.location.host + PROXY_PREFIX_CURRENTSERVER + '/wsserver/' + sessId)
+      let _thisObj = this
+      this.wsSocketConn.onmessage = function (msg) {
+        clearTimeout(_thisObj.wsMsgSendInterval)
+        _thisObj.wsMsgSendInterval = null
+        if (_thisObj.manualLoggout) {
+          return
+        }
+        let _hintInfo = _thisObj.$t('nav.hsInvalidHint')
+        if (msg && msg.data) {
+          if (msg.data === '1') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
+          } else if (msg.data === '2') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForLogout') + _hintInfo
+          } else if (msg.data === '3') {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForServerStopped') + _hintInfo
+          } else {
+            _hintInfo = _thisObj.$t('nav.hsInvalidHintForTimeout') + _hintInfo
+          }
+        }
+        if (_thisObj.ifGuest) {
+          window.location.reload()
+          return
+        }
+        _thisObj.$confirm(_hintInfo, _thisObj.$t('homePromptMessage.prompt'), {
+          confirmButtonText: _thisObj.$t('nav.reLogin'),
+          cancelButtonText: _thisObj.$t('nav.refresh'),
+          type: 'warning'
+        }).then(() => {
+          _thisObj.logout()
+        }).catch(() => {
+          window.location.reload()
+        })
+      }
+      this.wsMsgSendInterval = setInterval(() => {
+        this.wsSocketConn.send('')
+      }, 10000)
+    },
+    filterMecmMenu () {
+      this.jsonData = this.jsonData.filter(item => item.path !== FIRST_LEVEL_MENU_PATH.MECM)
+    },
+    handleMessage (event) {
+      const data = event.data
+      if (data.cmd === 'subpageLoaded') {
+        this.handleSubpageLoadedMsg(data)
+      }
+    },
+    handleSubpageLoadedMsg (eventData) {
+      if (eventData.params.userId !== sessionStorage.getItem('userId')) {
+        this.$alert(this.$t('nav.accountInconsistent'), this.$t('homePromptMessage.prompt'), {
+          confirmButtonText: this.$t('nav.reLogin'),
+          type: 'warning',
+          callback: () => {
+            this.logout()
+          }
+        })
+      }
+    }
+  },
+  beforeMount () {
+    if (!localStorage.getItem('language')) {
+      localStorage.setItem('language', 'cn')
+    }
+    let _language = localStorage.getItem('language') || 'cn'
+    this.language = _language === 'en' ? 'Cn' : 'En'
+    this.$i18n.locale = _language
+    if (_language === 'en') {
+      this.jsonData = navData
+    } else {
+      this.jsonData = navDataCn
     }
   },
   mounted () {
+    this.logoutFun()
+    this.loginFun()
+    this.getResCodeInfo()
     let language = localStorage.getItem('language') || 'cn'
     this.$i18n.locale = language
+    let _lanIndex = window.location.href.search('language')
+    if (_lanIndex > 0) {
+      let lan = window.location.href.substring(_lanIndex + 9, _lanIndex + 11)
+      this.language = lan === 'en' ? 'En' : 'Cn'
+      this.changeLange(lan)
+    }
+    window.addEventListener('message', (event) => {
+      var data = event.data
+      if (data.cmd === 'iframeLanguageChange') {
+        let lang = data.params.lang
+        this.changeLange(lang)
+      } else if (data.cmd === 'subpageLoaded') {
+        this.handleSubpageLoadedMsg(data)
+      }
+    })
     this.setDivHeight(this.screenHeight)
     window.addEventListener('scroll', this.getScrollTop, true)
     window.onresize = () => {
@@ -175,6 +445,7 @@ export default {
         this.setDivHeight(this.screenHeight)
       })()
     }
+    window.addEventListener('message', this.handleMessage)
   },
   updated () {
     if (this.zoom === 1) {
@@ -183,6 +454,9 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.getScrollTop, true)
+    window.removeEventListener('message', this.handleMessage)
+    clearTimeout(this.wsMsgSendInterval)
+    this.wsMsgSendInterval = null
   }
 }
 </script>
