@@ -29,6 +29,7 @@
       @clickLogo="clickLogo"
       @changeLange="changeLange"
       @logout="logout"
+      @beforeLogout="beforeLogout"
       :json-data-prop="jsonData"
       :if-guest-prop="ifGuest"
       :user-name-prop="userName"
@@ -123,7 +124,8 @@ export default {
       userCenterPage: '',
       wsSocketConn: null,
       wsMsgSendInterval: null,
-      navBgcolor: '#3E279B'
+      navBgcolor: '#3E279B',
+      manualLoggout: false
     }
   },
   computed: {
@@ -223,6 +225,15 @@ export default {
       }).catch(err => {
         console.log(err)
         this.enterLoginPage()
+      })
+    },
+    beforeLogout () {
+      this.$eg_messagebox(this.$t('homePromptMessage.logoutPage'), 'info', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
+        sessionStorage.removeItem('applicationId')
+        sessionStorage.removeItem('currentAppList')
+        this.$store.commit('changeFlow', '0')
+        this.$store.commit('changeApp', '5G')
+        this.logout()
       })
     },
     enterLoginPage () {
