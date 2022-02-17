@@ -31,6 +31,7 @@
       :user-center-page-prop="userCenterPage"
       @beforeLogout="beforeLogout"
       :json-data-prop="jsonData"
+      :nav-menu-fontsize-prop="navMenuFontsize"
     />
     <router-view />
   </div>
@@ -66,7 +67,8 @@ export default {
       isScroll: false,
       wsSocketConn: null,
       wsMsgSendInterval: null,
-      manualLoggout: false
+      manualLoggout: false,
+      navMenuFontsize: 18
     }
   },
   methods: {
