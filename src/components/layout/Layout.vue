@@ -24,6 +24,7 @@
         :show-full-footer-page="showFullFooterPage"
         :specific-bg="specificBg"
         specific-bg-color="#ffffff"
+        :footer-bgcolor-prop="footerBgcolor"
       />
     </el-main>
   </div>
@@ -59,7 +60,8 @@ export default {
         }
       ],
       showFullFooterPage: true,
-      specificBg: true
+      specificBg: true,
+      footerBgcolor: '#3e279b'
     }
   },
   watch: {

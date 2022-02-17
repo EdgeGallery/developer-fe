@@ -35,6 +35,7 @@
       :user-name-prop="userName"
       :user-center-page-prop="userCenterPage"
       :nav-bgcolor-prop="navBgcolor"
+      :nav-menu-fontsize-prop="navMenuFontsize"
     />
     <el-row>
       <el-col
@@ -125,7 +126,8 @@ export default {
       wsSocketConn: null,
       wsMsgSendInterval: null,
       navBgcolor: '#3E279B',
-      manualLoggout: false
+      manualLoggout: false,
+      navMenuFontsize: 25
     }
   },
   computed: {
