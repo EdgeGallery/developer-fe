@@ -230,6 +230,7 @@ export default {
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
+      this.getTableData()
     },
     sizeChange (val) {
       this.curPageSize = val
