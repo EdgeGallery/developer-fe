@@ -819,11 +819,10 @@ background-color:transparent !important
   height: 51px;
   background-color: #4e3494;
 }
-.el-table.common-table .el-table__cell {
-  padding: 0;
-}
-.el-table td{
+.common-table.el-table td{
   min-height: 50px !important;
+  height: auto !important;
+  padding: 10px 0 !important;
 }
 th{
   font-weight: normal;
@@ -835,7 +834,7 @@ th{
   color: #fff !important;
 }
 .el-button.operation-btn-text{
-  font-size: 14px;
+  font-size: 16px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
   color: #fff;
 }
@@ -847,7 +846,7 @@ th{
   margin: 32px 0 0 0;
 }
 .btn-container .el-button{
-  font-size: 14px;
+  font-size: 16px;
 }
  .hoverHands:hover{
   cursor: pointer;

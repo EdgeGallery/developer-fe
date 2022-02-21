@@ -165,6 +165,8 @@ export default {
           sandbox.getSandboxByMepHostId(res.data.mepHostId).then(resSub => {
             sessionStorage.setItem('sandboxName', resSub.data.name)
             this.$router.push({ path: '/EG/developer/sandboxDetails' })
+          }).catch(() => {
+            this.$router.push({ path: '/EG/developer/sandbox' })
           })
         }
       })
