@@ -51,7 +51,7 @@
           <span
             class="content-right lt"
           >
-            {{ deployAddress }}
+            {{ deployAddress?deployAddress:'NA' }}
           </span>
         </p>
         <p
