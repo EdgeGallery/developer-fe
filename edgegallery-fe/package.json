@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.3.2",
     "echarts": "^5.2.1",
-    "eg-view": "^0.0.30",
+    "eg-view": "^0.0.32",
     "element-ui": "^2.12.0",
     "html2canvas": "^1.3.2",
     "jquery": "^3.6.0",

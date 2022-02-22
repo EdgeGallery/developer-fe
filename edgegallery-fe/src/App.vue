@@ -34,6 +34,7 @@
       :user-center-page-prop="userCenterPage"
       :nav-bgcolor-prop="navBgcolor"
       :nav-menu-fontsize-prop="navMenuFontsize"
+      :version-prop="version"
     />
     <el-row>
       <el-col
@@ -123,7 +124,8 @@ export default {
       wsMsgSendInterval: null,
       navBgcolor: '#3E279B',
       manualLoggout: false,
-      navMenuFontsize: 25
+      navMenuFontsize: 25,
+      version: 'v1.5.1'
     }
   },
   computed: {

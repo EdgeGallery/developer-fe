@@ -32,6 +32,7 @@
       @beforeLogout="beforeLogout"
       :json-data-prop="jsonData"
       :nav-menu-fontsize-prop="navMenuFontsize"
+      :version-prop="version"
     />
     <router-view />
   </div>
@@ -68,7 +69,8 @@ export default {
       wsSocketConn: null,
       wsMsgSendInterval: null,
       manualLoggout: false,
-      navMenuFontsize: 18
+      navMenuFontsize: 18,
+      version: 'v1.5.1'
     }
   },
   methods: {
