@@ -38,11 +38,11 @@ const en = {
     detail: 'Detail',
     select: 'Select',
     add: 'Add',
-    login: 'Please login',
+    login: 'Login',
     upload: 'Upload',
     start: 'Start',
     name: 'Name',
-    describe: 'Describe',
+    describe: 'Description',
     userName: 'User Name',
     enterUserName: 'Please enter user name',
     password: 'Password',
@@ -50,12 +50,12 @@ const en = {
     pleaseSelect: 'Please select',
     back: 'Back',
     noData: 'No Data',
-    exceptionServer: 'Service abnormal, please check'
+    exceptionServer: 'Service is abnormal, please double check'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
     deleteFailed: 'Failed to delete data!',
-    editDataSuccess: 'Edit data successfully!',
+    editDataSuccess: 'Edited data successfully!',
     editDataFailed: 'Failed to edit data!',
     noPermission: 'Guest user has no permissioin，please login and retry it!',
     fileIsEmpty: 'File content is empty!',

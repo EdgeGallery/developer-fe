@@ -375,7 +375,7 @@
             >
           </div>
           <p>
-            INTERNET
+            Internet
           </p>
         </div>
       </div>
