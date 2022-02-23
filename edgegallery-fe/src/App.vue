@@ -157,6 +157,8 @@ export default {
       }
     },
     '$i18n.locale': function () {
+      let _language = localStorage.getItem('language') || 'cn'
+      this.language = _language === 'en' ? 'Cn' : 'En'
       this.loginFun()
     }
   },
