@@ -23,8 +23,6 @@
   >
     <Navcomp
       :scroll-top-prop="scrollTop"
-      :is-home-prop="isHome"
-      :to-path-prop="toPath"
       class="clearfix"
       @clickLogo="clickLogo"
       @changeLange="changeLange"
@@ -36,6 +34,7 @@
       :user-center-page-prop="userCenterPage"
       :nav-bgcolor-prop="navBgcolor"
       :nav-menu-fontsize-prop="navMenuFontsize"
+      :version-prop="version"
     />
     <el-row>
       <el-col
@@ -112,8 +111,6 @@ export default {
       language: '',
       jsonData: [],
       pageModel: sessionStorage.getItem('pageModel') || 'newVersion',
-      isHome: true,
-      toPath: '/index',
       screenHeight: document.body.clientHeight,
       timer: false,
       isIndex: true,
@@ -127,7 +124,8 @@ export default {
       wsMsgSendInterval: null,
       navBgcolor: '#3E279B',
       manualLoggout: false,
-      navMenuFontsize: 25
+      navMenuFontsize: 25,
+      version: 'v1.5.1'
     }
   },
   computed: {
@@ -139,7 +137,6 @@ export default {
     $route (to, from) {
       this.isIndex = window.location.hash.indexOf('/EG') < 0
       this.isIncubationPage = window.location.hash.indexOf('/EG/developer/home') > -1
-      this.toPath = to.path
       if (to.path.indexOf('EG') > -1 && to.path !== '/EG/developer/home') {
         this.isShowTips = true
       } else {
@@ -160,6 +157,8 @@ export default {
       }
     },
     '$i18n.locale': function () {
+      let _language = localStorage.getItem('language') || 'cn'
+      this.language = _language === 'en' ? 'Cn' : 'En'
       this.loginFun()
     }
   },
@@ -249,7 +248,8 @@ export default {
         sessionStorage.setItem('accessToken', res.data.accessToken)
         this.userName = res.data.userName
         this.loginPage = res.data.loginPage
-        this.userCenterPage = res.data.userCenterPage
+        let _lang = localStorage.getItem('language')
+        this.userCenterPage = res.data.userCenterPage + '?lang=' + _lang
         this.ifGuest = res.data.userName === 'guest'
         if (!this.ifGuest && res.data.forceModifyPwPage) {
           window.location.href = res.data.forceModifyPwPage
@@ -296,8 +296,8 @@ export default {
           })
         }
         this.startHttpSessionInvalidListener(res.data.sessId)
+        // this.sendPageLoadedMsg(res.data.userId)
       })
-      this.filterMenuForClab()
     },
     filterNavMenu (jsonData, authorities) {
       let _developerNum = -1

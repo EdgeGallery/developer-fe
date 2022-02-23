@@ -145,7 +145,16 @@ const sandboxEn = {
     podStatus: 'pod Status',
     containerName: 'Container Name',
     deployLog: 'Deployment Log',
-    eventsInfo: 'Events Info'
+    eventsInfo: 'Events Info',
+    deployAddress: 'Deployment Address',
+    serviceInformation: 'Service Information',
+    serviceName: 'Service Name',
+    serviceType: 'Service Type',
+    externalAccessPort: 'External Access Port',
+    serviceInternalPort: 'Service Internal Port',
+    PodMappingPort: 'Pod Mapping Port',
+    servicePortName: 'Service Port Name',
+    servicePortProtocol: 'Service Port Protocol'
   },
   sandboxPromptInfomation: {
     imageFileType: 'Please upload files in .rar, .tar, .zip format, and the size does not exceed 5G!',
