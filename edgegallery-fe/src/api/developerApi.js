@@ -300,6 +300,24 @@ let commonApi = {
   }
 }
 
+let systemApi = {
+  submitConfigFileApi: function (params) {
+    return POST(URL_PREFIX_DEVELOPER + 'mephosts/action/upload-config-file', params)
+  },
+  deleteHost: function (mephostId) {
+    return DELETE(URL_PREFIX_DEVELOPER + `mephosts/${mephostId}`)
+  },
+  saveHostInfo: function (params) {
+    const func = params.id ? PUT : POST
+    const path = params.id ? URL_PREFIX_DEVELOPER + `mephosts/${params.id}` : URL_PREFIX_DEVELOPER + 'mephosts'
+    const data = { ...params }
+    return func(path, data)
+  },
+  getHosts: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'mephosts', params)
+  }
+}
+
 export {
   URL_PREFIX_DEVELOPER,
   sandbox,
@@ -307,5 +325,6 @@ export {
   applicationRules,
   imageApi,
   atpTestApi,
-  commonApi
+  commonApi,
+  systemApi
 }

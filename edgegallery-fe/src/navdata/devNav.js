@@ -119,7 +119,7 @@ const devNavData = [
       {
         id: '1.5.1',
         name: 'Host Management',
-        path: pathPre + '/mecDeveloper/system/host',
+        path: '/EG/developer/system/host',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
       },

@@ -136,6 +136,11 @@ export default new Router({
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },
     {
+      path: '/EG/developer/system/host',
+      name: 'host',
+      component: () => import('../pages/developer/system/HostList.vue')
+    },
+    {
       path: '/EG/images/appPackageBuild',
       name: 'appPackageBuild',
       component: () => import('../pages/developer/image/AppPackageBuild.vue')

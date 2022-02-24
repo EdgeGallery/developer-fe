@@ -389,7 +389,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  font-family: defaultFontLight Arial, Helvetica, sans-serif;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   .container-detail-dlg{
     position: absolute;
     width: 74%;
