@@ -253,7 +253,7 @@
  }
  .default_dialog .el-dialog{
    font-family: defaultFontLight, Arial, Helvetica, sans-serif;
-   background: rgba(75,55,154,0.9);
+   background: rgba(46,20,124,.7);
    border-radius: 12px;
    margin-top: 0 !important;
    position: absolute;
@@ -371,7 +371,7 @@
  .el-upload-list__item{
    width: 25%;
    min-width: 200px;
-   background-color: #F5F7FA;
+   background-color: #4e3494;
  }
  .el-select-dropdown__list {
    padding: 0px 0 !important;
@@ -710,16 +710,18 @@
    width: 215px;
  }
  .search_input .el-input__inner{
-   border-radius: 8px;
-   border-color: #5e40c8;
+   border-radius: 6px;
+   border-color: rgba(255,255,255,.4);
    height: 30px;
    line-height: 30px;
+   background-color: transparent;
+   font-size: 14px !important;
+   color: #fff;
  }
  .search_input .search_icon{
    display: inline-block;
    width: 15px;
    height: 15px;
-   background: url('../images/work_project_search_icon.png');
    position: absolute;
    top: 8px;
    right: 5px;
@@ -837,6 +839,9 @@ th{
   font-size: 16px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
   color: #fff;
+  background: #4E3494;
+  border: none;
+  border-radius: 6px;
 }
 .el-button.operation-btn-text:hover{
   color: #fff;
@@ -1098,7 +1103,7 @@ th{
 }
 input::-webkit-input-placeholder {
   color: #c9bdf3 !important;
-  font-size: 16px;
+  font-size: 14px;
 }
 .el-input{
   font-size: 16px;
@@ -1127,8 +1132,8 @@ input::-webkit-input-placeholder {
   left: -18px;
 }
 .el-upload-list__item-name{
-  color: rgb(25, 25, 252) !important;
-  background-color: #F5F7FA;
+  color: #fff !important;
+  background-color: #4e3494;
 }
 .common-radio .el-radio__input{
   border: 1px solid #fff;
@@ -1237,4 +1242,26 @@ input::-webkit-input-placeholder {
 }
 .el-link{
   font-size: 18px;
+}
+
+.padding-inner{
+  padding: 0 10% 0 6%;
+}
+.system-title{
+  margin: 50px 0;
+  font-size: 24px;
+  font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
+}
+.el-button.commoon-add-btn{
+  background: transparent;
+  border-radius: 16px;
+  color: #ffffff;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  box-shadow: 0 2px 10px rgba(255,255,255,0.3) inset;
+  border-color: rgba(254,254,254,0.45);
+  padding: 13px 28px 8px;
+}
+.el-loading-mask{
+  background-color: rgba(255, 255, 255,0.1);
 }

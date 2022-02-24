@@ -24,6 +24,7 @@ import enThirdsystem from './thirdsystem_en.js'
 import enImages from './images_en.js'
 import enAtp from './atp_en.js'
 import enMecm from './mecm_en.js'
+import enDevSystem from './devSystem_en.js'
 const en = {
   common: {
     classic: 'Classic',
@@ -50,7 +51,8 @@ const en = {
     pleaseSelect: 'Please select',
     back: 'Back',
     noData: 'No Data',
-    exceptionServer: 'Service is abnormal, please double check'
+    exceptionServer: 'Service is abnormal, please double check',
+    check: 'Check'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
@@ -94,6 +96,7 @@ const en = {
   ...enAtp,
   ...enMecm,
   ...enApp,
-  ...enThirdsystem
+  ...enThirdsystem,
+  ...enDevSystem
 }
 export default en
