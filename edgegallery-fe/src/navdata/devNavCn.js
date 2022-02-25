@@ -133,7 +133,7 @@ const devNavData = [
       {
         id: '1.5.3',
         name: '系统镜像管理',
-        path: pathPre + '/mecDeveloper/system/imagemgmt',
+        path: '/EG/developer/system/imagemgmt',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       },

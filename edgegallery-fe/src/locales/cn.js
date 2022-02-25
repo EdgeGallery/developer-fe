@@ -52,7 +52,11 @@ const cn = {
     back: '返回',
     noData: '暂无数据',
     exceptionServer: '服务异常，请检查',
-    check: '查看'
+    check: '查看',
+    download: '下载',
+    more: '更多',
+    unknown: '未知',
+    all: '全部'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',

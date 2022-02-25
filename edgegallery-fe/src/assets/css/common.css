@@ -789,6 +789,9 @@
 .el-button+.el-button{
   margin-left: 32px !important;
 }
+.el-button.operation-btn-text.is-disabled:hover{
+  background-color: #4E3494;
+}
 .el-button.common-dark-btn{
   color: #fff;
   background-color: #60569A;
@@ -805,6 +808,9 @@
 .el-table.common-table{
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 16px;
+}
+.el-table.common-table .cell {
+  overflow: visible;
 }
 .el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
 .el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
@@ -836,12 +842,18 @@ th{
   color: #fff !important;
 }
 .el-button.operation-btn-text{
+  position: relative;
   font-size: 16px;
   font-family: defaultFontLight, Arial, Helvetica, sans-serif !important;
   color: #fff;
   background: #4E3494;
   border: none;
   border-radius: 6px;
+  padding: 8px 20px;
+  margin: 0 10px 5px 0 !important;
+}
+.el-button.operation-btn-text:last-child{
+  margin:  0 0 5px 0 !important;
 }
 .el-button.operation-btn-text:hover{
   color: #fff;
@@ -1252,7 +1264,7 @@ input::-webkit-input-placeholder {
   font-size: 24px;
   font-family: defaultFontBlod, Arial, Helvetica, sans-serif;
 }
-.el-button.commoon-add-btn{
+.el-button.common-add-btn{
   background: transparent;
   border-radius: 16px;
   color: #ffffff;
@@ -1264,4 +1276,8 @@ input::-webkit-input-placeholder {
 }
 .el-loading-mask{
   background-color: rgba(255, 255, 255,0.1);
+}
+.view_image_dialog .el-dialog{
+  width: 55%;
+  min-width: 600px;
 }
