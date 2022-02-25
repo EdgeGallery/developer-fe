@@ -80,7 +80,8 @@ let common = {
   setDivHeightFun: function (screenHeight, className, otherHeight) {
     let oDiv = document.getElementsByClassName(className)
     if (oDiv[0]) {
-      oDiv[0].style.minHeight = (Number(screenHeight) - otherHeight) + 'px'
+      oDiv[0].style.maxHeight = (Number(screenHeight) - otherHeight) + 'px'
+      oDiv[0].style.overflowY = 'auto'
     }
   }
 }

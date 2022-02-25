@@ -318,6 +318,64 @@ let systemApi = {
   }
 }
 
+let imageMgmtService = {
+  getImageDataList: function (queryData) {
+    return POST(URL_PREFIX_DEVELOPER + 'vmimages/action/get-list', queryData)
+  },
+  newImage: function (imgData) {
+    return POST(URL_PREFIX_DEVELOPER + 'vmimages', imgData)
+  },
+  modifyImage: function (imgData, id) {
+    return PUT(URL_PREFIX_DEVELOPER + 'vmimages/' + id, imgData)
+  },
+  deleteImage: function (id) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'vmimages/' + id)
+  },
+  publishImage: function (id) {
+    return PUT(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/publish')
+  },
+  resetImageStatus: function (id) {
+    return PUT(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/reset')
+  },
+  mergeImage: function (id, fileName, identifier) {
+    return GET(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/merge?fileName=' + fileName + '&identifier=' + identifier)
+  },
+  cancelUploadImage: function (id, identifier) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/upload?identifier=' + identifier)
+  },
+  downloadSystemImageUrl: function (id) {
+    return PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/vmimages/' + id + '/action/download'
+  },
+  slimImage: function (imageId) {
+    return POST(URL_PREFIX_DEVELOPER + 'vmimages/' + imageId + '/action/slim', '')
+  },
+  getOperationInfo (operationId) {
+    return GET(URL_PREFIX_DEVELOPER + 'operations/' + operationId)
+  },
+  // ContainerImage
+  deleteContainerImage: function (imageId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId)
+  },
+  modifyContainerImage: function (imgData, imageId) {
+    return PUT(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId, imgData)
+  },
+  getContainerImageDataList: function (queryData) {
+    return POST(URL_PREFIX_DEVELOPER + 'containerimages/action/get-all-images', queryData)
+  },
+  mergeContainerImage: function (imageId, fileName, identifier) {
+    return GET(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId + '/action/merge?fileName=' + fileName + '&guid=' + identifier)
+  },
+  downloadContainerImageUrl: function (imageId) {
+    return PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/containerimages/' + imageId + '/action/download'
+  },
+  synchronizeContainerImageApi: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'containerimages/action/synchronize')
+  },
+  cancelUploadContainerImage: function (imageId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId + '/action/upload')
+  }
+}
+
 export {
   URL_PREFIX_DEVELOPER,
   sandbox,
@@ -326,5 +384,6 @@ export {
   imageApi,
   atpTestApi,
   commonApi,
-  systemApi
+  systemApi,
+  imageMgmtService
 }

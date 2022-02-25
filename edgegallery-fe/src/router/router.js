@@ -141,6 +141,11 @@ export default new Router({
       component: () => import('../pages/developer/system/HostList.vue')
     },
     {
+      path: '/EG/developer/system/imagemgmt',
+      name: 'imagemgmt',
+      component: () => import('../pages/developer/system/imagemgmt/Index.vue')
+    },
+    {
       path: '/EG/images/appPackageBuild',
       name: 'appPackageBuild',
       component: () => import('../pages/developer/image/AppPackageBuild.vue')

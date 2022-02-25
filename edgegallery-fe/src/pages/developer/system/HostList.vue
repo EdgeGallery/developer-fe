@@ -19,7 +19,8 @@
     <div class="system-title">
       {{ $t('devSystem.systemHost') }}
       <el-button
-        class="commoon-add-btn rt"
+        id="btn_addhost"
+        class="common-add-btn rt"
         @click="handleShowForm(defaultForm)"
       >
         {{ $t('devSystem.addHost') }}
@@ -267,6 +268,7 @@
             :on-remove="(file) => { handleRemove('configId', file) }"
           >
             <el-button
+              id="btn_host_upload_config"
               slot="trigger"
               size="medium"
               plain
@@ -290,12 +292,14 @@
         class="dialog-footer"
       >
         <el-button
+          id="btn_add_host_cancel"
           @click="visible = false"
           class="common-btn"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
+          id="btn_add_host_confirm"
           size="medium"
           :loading="loading"
           @click="onSubmit"
@@ -376,10 +380,12 @@
           class="dialog-footer"
         >
           <el-button
+            id="btn_add_host_params_cancel"
             @click="innerVisible=false"
             class="common-btn"
           >{{ $t('common.cancel') }}</el-button>
           <el-button
+            id="btn_add_host_params_confirm"
             @click="confirmData"
             class="common-btn"
           >{{ $t('common.confirm') }}</el-button>
@@ -459,6 +465,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              id="btn_hostlist_edit"
               :loading="loading"
               class="operation-btn-text"
               @click="handleShowForm(scope.row)"
@@ -466,6 +473,7 @@
               {{ $t('common.edit') }}
             </el-button>
             <el-button
+              id="btn_hostlist_delete"
               :loading="loading"
               class="operation-btn-text"
               @click="handleDelete(scope.row)"

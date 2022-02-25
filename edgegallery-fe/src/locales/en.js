@@ -52,7 +52,11 @@ const en = {
     back: 'Back',
     noData: 'No Data',
     exceptionServer: 'Service is abnormal, please double check',
-    check: 'Check'
+    check: 'Check',
+    download: 'Download',
+    more: 'More',
+    unknown: 'Unknown',
+    all: 'All'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',
