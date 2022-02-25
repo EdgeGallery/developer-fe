@@ -376,6 +376,36 @@ let imageMgmtService = {
   }
 }
 
+let Capability = {
+  getCapabilityByNameWithFuzzy: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'query/capabilities/name', params)
+  },
+  createCapability: function (capability) {
+    return POST(URL_PREFIX_DEVELOPER + 'capabilities', capability)
+  },
+  editCapability: function (capabilityId, capability) {
+    return PUT(URL_PREFIX_DEVELOPER + 'capabilities/' + capabilityId, capability)
+  },
+  deleteCapabilityById: function (id) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'capabilities/' + id)
+  },
+  getAllCapability: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'query/capabilities/type/OPENMEP')
+  },
+  getAllCapabilityGroup: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'query/capability-groups/type/OPENMEP')
+  },
+  postIconFileIdApi: function (fileType, params) {
+    return POST(URL_PREFIX_DEVELOPER + 'upload-files?fileType=' + fileType, params)
+  },
+  getCapabilityIconApi: function (fileId) {
+    return PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/upload-files/' + fileId + '/action/get-file-stream'
+  },
+  getApiFileApi: function (fileId) {
+    return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
+  }
+}
+
 export {
   URL_PREFIX_DEVELOPER,
   sandbox,
@@ -385,5 +415,6 @@ export {
   atpTestApi,
   commonApi,
   systemApi,
-  imageMgmtService
+  imageMgmtService,
+  Capability
 }

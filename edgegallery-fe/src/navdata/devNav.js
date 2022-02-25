@@ -126,7 +126,7 @@ const devNavData = [
       {
         id: '1.5.2',
         name: 'Ability Center Management',
-        path: pathPre + '/mecDeveloper/system/mep',
+        path: '/EG/developer/system/mep',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
       },
