@@ -56,7 +56,8 @@ const cn = {
     download: '下载',
     more: '更多',
     unknown: '未知',
-    all: '全部'
+    all: '全部',
+    reset: '重置'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',

@@ -151,6 +151,11 @@ export default new Router({
       component: () => import('../pages/developer/system/MepList.vue')
     },
     {
+      path: '/EG/developer/system/profilemgmt',
+      name: 'profilemgmt',
+      component: () => import('../pages/developer/system/profileMgmt/profileList.vue')
+    },
+    {
       path: '/EG/images/appPackageBuild',
       name: 'appPackageBuild',
       component: () => import('../pages/developer/image/AppPackageBuild.vue')

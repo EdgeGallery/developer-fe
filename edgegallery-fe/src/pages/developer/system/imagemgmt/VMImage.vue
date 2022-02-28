@@ -638,6 +638,9 @@ export default {
   .dropdown_list li .el-link.el-link--default:hover{
     color: #606266;
   }
+  .default_warning_promt{
+    background: #E6A23C;
+  }
   @keyframes move {
     from {
       background-position: 80px 0;

@@ -274,5 +274,8 @@ export default {
   .vm_div{
     transition: all 0.5s;
   }
+  .default_dropdown.el-table,.default_dropdown.el-table .el-table__body-wrapper{
+    overflow: visible;
+  }
 }
 </style>

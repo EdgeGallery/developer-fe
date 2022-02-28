@@ -56,7 +56,8 @@ const en = {
     download: 'Download',
     more: 'More',
     unknown: 'Unknown',
-    all: 'All'
+    all: 'All',
+    reset: 'Reset'
   },
   promptInformation: {
     confirmDelete: 'Confirm to delete the data?',

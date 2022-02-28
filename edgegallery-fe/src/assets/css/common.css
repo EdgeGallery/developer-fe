@@ -675,7 +675,7 @@
  }
  .dropdown_list li em{
    display: inline-block;
-   width: 1px;
+   width: 2px;
    position: absolute;
    top: 10px;
    left: 1px;
@@ -700,6 +700,14 @@
    color: #bcb9c1;
    cursor: default;
  }
+ .dropdown_list .el-button--text,.dropdown_list .el-button--text:hover{
+   color: #606266 !important;
+   font-size: 14px;
+ }
+ .dropdown_list .el-button.is-disabled,.dropdown_list .el-button.is-disabled:focus,.dropdown_list .el-button.is-disabled:hover {
+  color: #c0c4cc !important;
+  background: #efefef;
+}
  .btn_div.el-icon-caret-top:before{
    color: #efefef;
    top: 5px;
