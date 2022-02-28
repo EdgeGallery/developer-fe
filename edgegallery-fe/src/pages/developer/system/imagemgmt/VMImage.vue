@@ -241,18 +241,12 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pageBar">
-        <el-pagination
-          background
-          class="rt"
-          @size-change="handlePageSizeChange"
-          @current-change="handleCurrentPageChange"
-          :current-page="pageCtrl.currentPage"
-          :page-sizes="[10, 15, 20, 25]"
-          :page-size="pageCtrl.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="pageCtrl.totalNum"
-          v-if="pageCtrl.totalNum!=0"
+      <div class="pagebar">
+        <pagination
+          :table-data="imageListData"
+          :list-total="listTotal"
+          @getCurrentPageData="getCurrentPageData"
+          ref="pagination"
         />
       </div>
     </div>
@@ -280,12 +274,13 @@ import Search from './ImageSearch.vue'
 import EditImage from './EditImage.vue'
 import ViewImage from './ViewImage.vue'
 import UploadImage from './UploadImage.vue'
+import Pagination from '@/components/Pagination.vue'
 import { imageMgmtService } from '@/api/developerApi.js'
 
 export default {
   name: 'ImageMgmt',
   components: {
-    Search, EditImage, UploadImage, ViewImage
+    Search, EditImage, UploadImage, ViewImage, Pagination
   },
   data () {
     return {
@@ -300,7 +295,6 @@ export default {
         uploadTimeEnd: ''
       },
       pageCtrl: {
-        totalNum: 0,
         pageSize: 10,
         currentPage: 1
       },
@@ -331,12 +325,21 @@ export default {
       typeData: [],
       currentIndex: -1,
       percentages: 0,
-      timer: null
+      timer: null,
+      listTotal: 0
     }
   },
   watch: {
     '$i18n.locale': function () {
       this.initOptionList()
+    },
+    'pageCtrl.pageSize' (val) {
+      this.pageCtrl.pageSize = val
+      this.getImageDataList()
+    },
+    'pageCtrl.currentPage' (val) {
+      this.pageCtrl.currentPage = val
+      this.getImageDataList()
     }
   },
   mounted () {
@@ -346,8 +349,8 @@ export default {
   },
   methods: {
     getCurrentPageData (val, pageSize, start) {
-      this.pageCtrl.currentPage = pageSize
-      this.pageCtrl.pageSize = start
+      this.pageCtrl.pageSize = pageSize
+      this.pageCtrl.currentPage = start
     },
     showMoreBtnFun (index) {
       this.currentIndex = index
@@ -399,15 +402,6 @@ export default {
         { text: this.$t('devSystem.imageMgmt.slimStatusText.slimFailed'), value: 'SLIM_FAILED' }
       ]
     },
-    handlePageSizeChange (val) {
-      this.pageCtrl.currentPage = 1
-      this.pageCtrl.pageSize = val
-      this.getImageDataList()
-    },
-    handleCurrentPageChange (val) {
-      this.pageCtrl.currentPage = val
-      this.getImageDataList()
-    },
     getSearchData (searchFormData) {
       this.pageCtrl.currentPage = 1
       this.searchCondition.name = searchFormData.systemName
@@ -442,7 +436,6 @@ export default {
       imageMgmtService.getImageDataList(this.buildQueryReq(), this.userId).then(response => {
         this.imageListData = response.data.imageList
         this.listTotal = response.data.totalCount
-        this.pageCtrl.totalNum = response.data.totalCount
         this.dataLoading = false
       }).catch(() => {
         this.dataLoading = false
@@ -454,7 +447,7 @@ export default {
       _queryReq.visibleType = this.imageType
 
       let _queryCtrl = {
-        'offset': (this.pageCtrl.currentPage - 1) * this.pageCtrl.pageSize,
+        'offset': this.pageCtrl.currentPage,
         'limit': this.pageCtrl.pageSize,
         'sortBy': this.sortCtrl.sortBy,
         'sortOrder': this.sortCtrl.sortOrder

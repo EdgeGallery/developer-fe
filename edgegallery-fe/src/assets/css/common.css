@@ -1281,3 +1281,14 @@ input::-webkit-input-placeholder {
   width: 55%;
   min-width: 600px;
 }
+
+.el-table-filter .el-checkbox__input.is-checked .el-checkbox__inner::after{
+  width: 7px;
+  height: 7px;
+  left: 2.5px;
+  top: 2.5px;
+  border: none;
+  background: #61cdd0;
+  border-radius: 50%;
+  transform: rotate(0deg);
+}
