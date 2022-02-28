@@ -126,7 +126,7 @@ const devNavData = [
       {
         id: '1.5.2',
         name: 'Ability Center Management',
-        path: pathPre + '/mecDeveloper/system/mep',
+        path: '/EG/developer/system/mep',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
       },
@@ -140,7 +140,7 @@ const devNavData = [
       {
         id: '1.5.4',
         name: 'Profile Management',
-        path: pathPre + '/mecDeveloper/system/profilemgmt',
+        path: '/EG/developer/system/profilemgmt',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }
