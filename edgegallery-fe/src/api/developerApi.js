@@ -24,6 +24,7 @@ import {
 import {
   PROXY_PREFIX_CURRENTSERVER
 } from '../tools/constant.js'
+import axios from 'axios'
 
 const URL_PREFIX_DEVELOPER = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/'
 const URL_PREFIX_GATEWAY = PROXY_PREFIX_CURRENTSERVER + '/mec/res/v2/'
@@ -406,6 +407,40 @@ let Capability = {
   }
 }
 
+let profileMgmtApi = {
+  getProfileDataList: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'profiles', params)
+  },
+  addProfile: function (params) {
+    return POST(URL_PREFIX_DEVELOPER + 'profiles', params)
+  },
+  modifyProfile: function (profileId, params) {
+    return PUT(URL_PREFIX_DEVELOPER + 'profiles/' + profileId, params)
+  },
+  deleteOneProfile: function (profileId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'profiles/' + profileId)
+  },
+  downLoadProfileApi: function (profileId, appName) {
+    let url = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/profiles/' + profileId + '/action/download?type=profileFile' + '&name=' + appName
+    return axios({
+      method: 'get',
+      url: url,
+      responseType: 'blob'
+    }).then((res) => {
+      if (!res) {
+        return
+      }
+      let objectUrl = window.URL.createObjectURL(res.data)
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = objectUrl
+      link.setAttribute('download', appName + '.' + 'zip')
+      document.body.appendChild(link)
+      link.click()
+    })
+  }
+}
+
 export {
   URL_PREFIX_DEVELOPER,
   sandbox,
@@ -416,5 +451,6 @@ export {
   commonApi,
   systemApi,
   imageMgmtService,
-  Capability
+  Capability,
+  profileMgmtApi
 }

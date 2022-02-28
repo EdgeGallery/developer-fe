@@ -140,7 +140,7 @@ const devNavData = [
       {
         id: '1.5.4',
         name: 'Profile Management',
-        path: pathPre + '/mecDeveloper/system/profilemgmt',
+        path: '/EG/developer/system/profilemgmt',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }

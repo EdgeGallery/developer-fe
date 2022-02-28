@@ -48,6 +48,8 @@ const devSystemEn = {
     configParamas: 'Configuration parameters',
     lcmIp: 'lcmIP',
     mecHost: 'mecHost',
+    type: 'Type',
+    industry: 'Industry',
     imageMgmt: {
       systemImgMgmt: 'System Image Management',
       imgName: 'Image Name',
@@ -175,7 +177,6 @@ const devSystemEn = {
       version: 'Version',
       provider: 'Provider',
       apiFileId: 'API Document',
-      fileExceed: 'Upload a maximum of one file',
       guideFileId: 'Guide',
       guideFileId_zh: 'Guide(chinese)',
       guideFileId_en: 'Guide(english)',
@@ -193,8 +194,17 @@ const devSystemEn = {
       iconRequired: 'Icon is required',
       protocol: 'Protocol',
       apiText: 'Can only upload .json,.yaml files',
-      type: 'Type',
       onlineExperience: 'Online Experience'
+    },
+    profileMgmt: {
+      profileMgmt: 'Profile Management',
+      addProfile: 'Add Profile',
+      appList: 'App List',
+      newProfile: ' Add Profile',
+      modifyProfile: 'Modify',
+      file: 'File',
+      uploadFile: 'Upload File',
+      contentTip: 'The file format is zip'
     },
     promptMessage: {
       typeConfig: 'Please upload config file',

@@ -48,6 +48,8 @@ const devSystemCn = {
     configParamas: '配置参数',
     lcmIp: 'lcmIP',
     mecHost: 'mecHost',
+    type: '类型',
+    industry: '行业',
     imageMgmt: {
       systemImgMgmt: '系统镜像管理',
       imgName: '镜像名称',
@@ -175,7 +177,6 @@ const devSystemCn = {
       version: '版本',
       provider: '提供商',
       apiFileId: 'API定义文件',
-      fileExceed: '最多上传一个文件',
       guideFileId: '说明文档',
       guideFileId_zh: '中文说明文档',
       guideFileId_en: '英文说明文档',
@@ -193,8 +194,17 @@ const devSystemCn = {
       iconRequired: '请上传图标',
       protocol: '协议',
       apiText: '请上传.json或者.yaml文件',
-      type: '类型',
       onlineExperience: '在线体验'
+    },
+    profileMgmt: {
+      profileMgmt: '场景管理',
+      addProfile: '新增场景',
+      appList: '应用列表',
+      newProfile: '创建场景',
+      modifyProfile: '修改',
+      file: '文件',
+      uploadFile: '上传文件',
+      contentTip: '文件格式为zip'
     },
     promptMessage: {
       typeConfig: '请上传config文件',

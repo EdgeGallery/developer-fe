@@ -442,7 +442,7 @@
         </el-table-column>
         <el-table-column
           prop="group.type"
-          :label="$t('devSystem.capability.type')"
+          :label="$t('devSystem.type')"
           min-width="12%"
         >
           <template slot-scope="scope">
