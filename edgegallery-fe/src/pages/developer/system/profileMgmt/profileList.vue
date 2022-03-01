@@ -205,7 +205,7 @@ export default {
       this.isVisible = false
     },
     setDivHeight () {
-      common.setDivHeightFun(this.screenHeight, 'profileManagement', 261)
+      common.setDivHeightFun(this.screenHeight, 'list', 315)
     },
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
