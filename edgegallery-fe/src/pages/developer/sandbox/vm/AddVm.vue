@@ -468,6 +468,7 @@
         :model="custom"
         :rules="rules"
         ref="customRule"
+        class="customSpec-form"
       >
         <el-form-item
           :label="$t('common.name')"
@@ -1304,6 +1305,9 @@ export default {
       .el-form-item{
         display: flex;
         width: 49% !important;
+        .el-input__inner{
+          height: 30px !important;
+        }
         .el-form-item__content {
           display: flex;
           width: 215px;

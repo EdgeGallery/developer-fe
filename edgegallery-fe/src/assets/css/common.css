@@ -817,9 +817,6 @@
   font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
-.el-table.common-table .cell {
-  overflow: visible;
-}
 .el-table.common-table, .el-table__expanded-cell, .el-table.common-table th.el-table__cell, 
 .el-table.common-table th,.el-table.common-table th.el-table__cell > .cell, .el-table.common-table tr, .el-table.common-table td.el-table__cell > .cell { 
   background-color: transparent;
