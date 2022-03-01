@@ -129,7 +129,7 @@ const devSystemEn = {
         versionEmpty: 'System version cannot be empty!',
         versionRule: 'Please enter a valid version of 1-20 characters!',
         systemDiskEmpty: 'System disk size cannot be empty!',
-        systemDiskRule: 'Please enter an integer from 1-9999!',
+        systemDiskRule: 'Please enter an integer from 1-500!',
         uploadImg: 'Upload System Image',
         uploadImgPromt: 'Please upload a file in qcow2 or iso format.',
         uploadContainerImgPromt: 'Upload the image package in tar format, rename the format image by parsing the tar package, and push it to the Harbor warehouse, Before uploading, check whether the name of the image in the tar package contains /. If it does, it may cause confusion in the image path and subsequent deployment failures',

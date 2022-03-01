@@ -96,7 +96,7 @@
         <el-input
           id="elinput_sysdisk"
           size="small"
-          v-model="imageDataForm.systemDiskSize"
+          v-model.number="imageDataForm.systemDiskSize"
           :placeholder="$t('devSystem.imageMgmt.sysDisk')"
           clearable
         />
@@ -236,12 +236,15 @@ export default {
       }
     }
     var validateSystemDiskRule = (rule, value, callback) => {
-      let _strValue = value.toString()
-      let pattern = /^\+?[1-9]\d{0,3}(\.\d*)?$/
-      if (_strValue.match(pattern) === null) {
+      let _strValue = Number(value)
+      if (!Number.isInteger(_strValue)) {
         callback(new Error(this.$t('devSystem.imageMgmt.tip.systemDiskRule')))
       } else {
-        callback()
+        if (_strValue <= 0 || _strValue > 500) {
+          callback(new Error(this.$t('devSystem.imageMgmt.tip.systemDiskRule')))
+        } else {
+          callback()
+        }
       }
     }
     return {

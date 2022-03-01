@@ -164,6 +164,7 @@ export default {
   .down_div{
     width: 100%;
     position: absolute;
+    z-index: 2;
     right: 0;
     top: 45px;
     border-radius: 10px;
@@ -276,6 +277,15 @@ export default {
   }
   .default_dropdown.el-table,.default_dropdown.el-table .el-table__body-wrapper{
     overflow: visible;
+  }
+  .el-table.common-table .cell {
+    overflow: visible;
+  }
+  .el-table.common-table .cell.el-tooltip{
+    overflow: hidden;
+  }
+  .uploader-file-progress{
+    background: #4929a9 !important;
   }
 }
 </style>

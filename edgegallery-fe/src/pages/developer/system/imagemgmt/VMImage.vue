@@ -535,7 +535,7 @@ export default {
       }
     },
     handleDownload (row) {
-      this.$eg_messagebox(this.$t('devSystem.imageMgmt.tip.confirmDownloadImage'), 'info', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
+      this.$eg_messagebox(this.$t('devSystem.imageMgmt.tip.confirmDownloadImage'), 'info', this.$t('common.cancel'), this.$t('common.confirm'), '500px').then(() => {
         window.open(imageMgmtService.downloadSystemImageUrl(row.id))
       })
     },
