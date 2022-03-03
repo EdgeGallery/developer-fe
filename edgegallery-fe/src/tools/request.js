@@ -15,7 +15,7 @@
  */
 
 import axios from 'axios'
-let cookie = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2NDQ2MTMzMjcsInVzZXJOYW1lIjoiYWRtaW4iLCJzc29TZXNzaW9uSWQiOiI3MjYyQTk1Mzk3NkI5MUU1NTQ5QTNDNEUyQjg3OTExNyIsInVzZXJJZCI6IjM5OTM3MDc5LTk5ZmUtNGNkOC04ODFmLTA0Y2E4YzRmZTA5ZCIsImF1dGhvcml0aWVzIjpbIlJPTEVfTEFCX0FETUlOIiwiUk9MRV9ERVZFTE9QRVJfQURNSU4iLCJST0xFX0FQUE1HTVRfQURNSU4iLCJST0xFX0FQUFNUT1JFX0FETUlOIiwiUk9MRV9NRUNNX0FETUlOIiwiUk9MRV9BVFBfQURNSU4iXSwianRpIjoiZDA3YWRmZjUtMzU1OC00YmIxLWJlNWUtY2UzNzYzOGVhYWMyIiwiY2xpZW50X2lkIjoiZWRnZWdhbGxlcnktZmUiLCJlbmFibGVTbXMiOiJmYWxzZSIsImVuYWJsZU1haWwiOiJmYWxzZSIsImVuYWJsZUV4dGVybmFsSWFtIjpmYWxzZX0.WaK6jjZqjRxz8XhZw9WyJLpMShi0FtjTrtFX03Q-2hK5lVuHpzFej4t3V49VC_imX4fVQNOY3hvv5RrB1fY8OlBrfuv-0f19dw0Afxayy9QisOaQ_4Nsdzwhx_XhlbQCAUWCIPx_YUUTJaxyw5nlGxIOYXx8qyim-VPddX9izrXOD52dWK61CkbgCQgfpZXc1BTvvoIc-N5a-TnhiXV03Zw1PqdGkfSVWbI9IpClm-UgSK1d54JgdXdxiPPVXeW54vNjRpCu6p6y_E9buFhKb-VyptXZRDzrClNqrAB3KLJ0V1HnAjQuQj11UKIJsi1UWTUiqAEBucIcXldNAVZCVw'
+
 function getCookie (name) {
   let arr = []
   let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
@@ -34,8 +34,7 @@ function commonGetRequest (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        'access_token': cookie
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
       }
     }).then(res => {
       resolve(res)
@@ -54,8 +53,7 @@ function commonPostRequest (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        'access_token': cookie
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
       }
     }).then((res) => {
       resolve(res)
@@ -76,8 +74,7 @@ function DELETE (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        'access_token': cookie
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
       }
     }).then(res => {
       resolve(res)
@@ -93,8 +90,7 @@ function commonPutRequest (url, params) {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        'access_token': cookie
+        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
       }
     }).then((res) => {
       resolve(res)
