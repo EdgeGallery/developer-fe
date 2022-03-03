@@ -187,7 +187,7 @@ export default {
         selectedMecHost.push(obj)
       })
       this.$refs.multipleEdgeNodeTable.clearSelection()
-      let _address = 'https://'
+      let _address = window.location.protocol === 'https:' ? 'https://' : 'http://'
       if (this.currentRowData.version && selectedMecHost.length > 0) {
         let params = {
           appPkgId: this.currentRowData.packageId,
