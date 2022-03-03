@@ -46,6 +46,14 @@
           <span class="content-left lt">{{ $t('container.deploymentStatus') }} :</span>
           <span class="content-right lt">{{ deployStatus!==''?deployStatus:'NA' }}</span>
         </p>
+        <p class="clear">
+          <span class="content-left lt">{{ $t('container.deployAddress') }} :</span>
+          <span
+            class="content-right lt"
+          >
+            {{ deployAddress?deployAddress:'NA' }}
+          </span>
+        </p>
         <p
           class="clear"
           v-if="deployLog!==null"
@@ -58,10 +66,10 @@
           <span
             class="content-right lt"
           >
-            <div class="refresh-btn">
+            <div class="refresh-btn clear">
               <el-button
                 id="btn_refreshPodInfo"
-                class="common-btn inner-btn"
+                class="common-btn inner-btn rt"
                 @click="refreshDeployStatus"
               >
                 {{ $t('nav.refresh') }}
@@ -159,6 +167,95 @@
             </el-table>
           </span>
         </p>
+        <p class="clear">
+          <span class="content-left lt">{{ $t('container.serviceInformation') }} :</span>
+          <span
+            class="content-right lt"
+          >
+            <el-table
+              class="common-table pod-table"
+              :data="appServiceData"
+              :cell-style="{ textAlign: 'center'}"
+              :header-cell-style="{textAlign: 'center'}"
+              border
+              v-loading="refreshPods"
+              element-loading-background="rgba(0, 0, 0, 0.2)"
+            >
+              <el-table-column
+                prop="name"
+                :label="$t('container.serviceName')"
+                min-width="16%"
+              />
+              <el-table-column
+                prop="type"
+                :label="$t('container.serviceType')"
+                min-width="14%"
+              />
+              <el-table-column
+                :label="$t('container.externalAccessPort')"
+                min-width="14%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.servicePortList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ item.nodePort }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.serviceInternalPort')"
+                min-width="14%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.servicePortList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ item.port }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.PodMappingPort')"
+                min-width="14%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.servicePortList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ item.targetPort }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.servicePortName')"
+                min-width="14%"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-for="(item,index) in scope.row.servicePortList"
+                    :key="index"
+                    class="container-div"
+                  >
+                    {{ item.name }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                :label="$t('container.servicePortProtocol')"
+                min-width="14%"
+              >
+                TCP
+              </el-table-column>
+            </el-table>
+          </span>
+        </p>
       </div>
 
       <div class="btn-container network-btn">
@@ -200,7 +297,9 @@ export default {
       appServiceRequired: '',
       refreshPods: false,
       deployStatus: '',
-      deployLog: ''
+      deployLog: '',
+      deployAddress: '',
+      appServiceData: []
     }
   },
   methods: {
@@ -218,7 +317,9 @@ export default {
           _this.refreshDeployStatus()
         }
         if (_this.containerApp.instantiateInfo) {
+          _this.deployAddress = _this.containerApp.instantiateInfo.distributedMecHost
           _this.appPodsData = _this.containerApp.instantiateInfo.pods
+          _this.appServiceData = _this.containerApp.instantiateInfo.serviceList
         } else {
           _this.appPodsData = []
         }
@@ -288,10 +389,10 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  font-family: defaultFontLight Arial, Helvetica, sans-serif;
+  font-family: defaultFontLight, Arial, Helvetica, sans-serif;
   .container-detail-dlg{
     position: absolute;
-    width: 70%;
+    width: 74%;
     min-width: 800px;
     padding: 40px;
     left: 50%;
@@ -307,12 +408,13 @@ export default {
       p{
         margin-bottom: 10px;
         .content-left{
-          width: 110px;
+          width: 125px;
           text-align: right;
           padding-right: 5px;
         }
         .content-right{
-          width: calc(100% - 110px);
+          position: relative;
+          width: calc(100% - 125px);
         }
         .content-right.deploy-log{
           max-height: 90px;
@@ -326,7 +428,9 @@ export default {
           color: #fff;
         }
         .refresh-btn{
-          margin-bottom: 15px;
+          position: absolute;
+          top: -40px;
+          right: 0;
           .el-button{
             background-color: #6145b1 !important;
             color: #fff !important;
@@ -337,12 +441,10 @@ export default {
         }
       }
       .pod-table{
+        margin-bottom: 10px;
         td.el-table__cell{
           border-bottom: 1px solid #694ec0 !important;
           border-right: 1px solid #694ec0 !important;
-        }
-        .container-div{
-          padding: 5px 0;
         }
       }
       .pod-table.el-table{
@@ -364,10 +466,10 @@ export default {
   }
   .container-detail-dlg-en{
     .content-left{
-      width: 170px !important;
+      width: 185px !important;
     }
     .content-right{
-      width: calc(100% - 170px) !important;
+      width: calc(100% - 185px) !important;
     }
   }
 }

@@ -146,7 +146,16 @@ const sandboxCn = {
     podStatus: 'pod状态',
     containerName: '容器名称',
     deployLog: '部署日志',
-    eventsInfo: '日志详情'
+    eventsInfo: '日志详情',
+    deployAddress: '部署地址',
+    serviceInformation: 'service信息',
+    serviceName: 'service名称',
+    serviceType: 'service类型',
+    externalAccessPort: '外部访问端口',
+    serviceInternalPort: '服务内部端口',
+    PodMappingPort: 'pod映射端口',
+    servicePortName: '服务端口名称',
+    servicePortProtocol: '服务端口协议'
   },
   sandboxPromptInfomation: {
     imageFileType: '请上传.rar，.tar，.zip格式的文件，且大小不超过5G！',

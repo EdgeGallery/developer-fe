@@ -24,6 +24,7 @@ import {
 import {
   PROXY_PREFIX_CURRENTSERVER
 } from '../tools/constant.js'
+import axios from 'axios'
 
 const URL_PREFIX_DEVELOPER = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/'
 const URL_PREFIX_GATEWAY = PROXY_PREFIX_CURRENTSERVER + '/mec/res/v2/'
@@ -300,6 +301,146 @@ let commonApi = {
   }
 }
 
+let systemApi = {
+  submitConfigFileApi: function (params) {
+    return POST(URL_PREFIX_DEVELOPER + 'mephosts/action/upload-config-file', params)
+  },
+  deleteHost: function (mephostId) {
+    return DELETE(URL_PREFIX_DEVELOPER + `mephosts/${mephostId}`)
+  },
+  saveHostInfo: function (params) {
+    const func = params.id ? PUT : POST
+    const path = params.id ? URL_PREFIX_DEVELOPER + `mephosts/${params.id}` : URL_PREFIX_DEVELOPER + 'mephosts'
+    const data = { ...params }
+    return func(path, data)
+  },
+  getHosts: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'mephosts', params)
+  }
+}
+
+let imageMgmtService = {
+  getImageDataList: function (queryData) {
+    return POST(URL_PREFIX_DEVELOPER + 'vmimages/action/get-list', queryData)
+  },
+  newImage: function (imgData) {
+    return POST(URL_PREFIX_DEVELOPER + 'vmimages', imgData)
+  },
+  modifyImage: function (imgData, id) {
+    return PUT(URL_PREFIX_DEVELOPER + 'vmimages/' + id, imgData)
+  },
+  deleteImage: function (id) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'vmimages/' + id)
+  },
+  publishImage: function (id) {
+    return PUT(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/publish')
+  },
+  resetImageStatus: function (id) {
+    return PUT(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/reset')
+  },
+  mergeImage: function (id, fileName, identifier) {
+    return GET(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/merge?fileName=' + fileName + '&identifier=' + identifier)
+  },
+  cancelUploadImage: function (id, identifier) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'vmimages/' + id + '/action/upload?identifier=' + identifier)
+  },
+  downloadSystemImageUrl: function (id) {
+    return PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/vmimages/' + id + '/action/download'
+  },
+  slimImage: function (imageId) {
+    return POST(URL_PREFIX_DEVELOPER + 'vmimages/' + imageId + '/action/slim', '')
+  },
+  getOperationInfo (operationId) {
+    return GET(URL_PREFIX_DEVELOPER + 'operations/' + operationId)
+  },
+  // ContainerImage
+  deleteContainerImage: function (imageId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId)
+  },
+  modifyContainerImage: function (imgData, imageId) {
+    return PUT(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId, imgData)
+  },
+  getContainerImageDataList: function (queryData) {
+    return POST(URL_PREFIX_DEVELOPER + 'containerimages/action/get-all-images', queryData)
+  },
+  mergeContainerImage: function (imageId, fileName, identifier) {
+    return GET(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId + '/action/merge?fileName=' + fileName + '&guid=' + identifier)
+  },
+  downloadContainerImageUrl: function (imageId) {
+    return PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/containerimages/' + imageId + '/action/download'
+  },
+  synchronizeContainerImageApi: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'containerimages/action/synchronize')
+  },
+  cancelUploadContainerImage: function (imageId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'containerimages/' + imageId + '/action/upload')
+  }
+}
+
+let Capability = {
+  getCapabilityByNameWithFuzzy: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'query/capabilities/name', params)
+  },
+  createCapability: function (capability) {
+    return POST(URL_PREFIX_DEVELOPER + 'capabilities', capability)
+  },
+  editCapability: function (capabilityId, capability) {
+    return PUT(URL_PREFIX_DEVELOPER + 'capabilities/' + capabilityId, capability)
+  },
+  deleteCapabilityById: function (id) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'capabilities/' + id)
+  },
+  getAllCapability: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'query/capabilities/type/OPENMEP')
+  },
+  getAllCapabilityGroup: function () {
+    return GET(URL_PREFIX_DEVELOPER + 'query/capability-groups/type/OPENMEP')
+  },
+  postIconFileIdApi: function (fileType, params) {
+    return POST(URL_PREFIX_DEVELOPER + 'upload-files?fileType=' + fileType, params)
+  },
+  getCapabilityIconApi: function (fileId) {
+    return PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/upload-files/' + fileId + '/action/get-file-stream'
+  },
+  getApiFileApi: function (fileId) {
+    return GET(URL_PREFIX_DEVELOPER + 'upload-files/' + fileId)
+  }
+}
+
+let profileMgmtApi = {
+  getProfileDataList: function (params) {
+    return GET(URL_PREFIX_DEVELOPER + 'profiles', params)
+  },
+  addProfile: function (params) {
+    return POST(URL_PREFIX_DEVELOPER + 'profiles', params)
+  },
+  modifyProfile: function (profileId, params) {
+    return PUT(URL_PREFIX_DEVELOPER + 'profiles/' + profileId, params)
+  },
+  deleteOneProfile: function (profileId) {
+    return DELETE(URL_PREFIX_DEVELOPER + 'profiles/' + profileId)
+  },
+  downLoadProfileApi: function (profileId, appName) {
+    let url = PROXY_PREFIX_CURRENTSERVER + '/mec-developer/mec/developer/v2/profiles/' + profileId + '/action/download?type=profileFile' + '&name=' + appName
+    return axios({
+      method: 'get',
+      url: url,
+      responseType: 'blob'
+    }).then((res) => {
+      if (!res) {
+        return
+      }
+      let objectUrl = window.URL.createObjectURL(res.data)
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = objectUrl
+      link.setAttribute('download', appName + '.' + 'zip')
+      document.body.appendChild(link)
+      link.click()
+    })
+  }
+}
+
 export {
   URL_PREFIX_DEVELOPER,
   sandbox,
@@ -307,5 +448,9 @@ export {
   applicationRules,
   imageApi,
   atpTestApi,
-  commonApi
+  commonApi,
+  systemApi,
+  imageMgmtService,
+  Capability,
+  profileMgmtApi
 }

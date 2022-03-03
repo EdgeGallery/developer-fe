@@ -24,6 +24,7 @@ import cnThirdsystem from './thirdsystem_cn.js'
 import cnImages from './images_cn.js'
 import cnAtp from './atp_cn.js'
 import cnMecm from './mecm_cn.js'
+import cnDevSystem from './devSystem_cn.js'
 const cn = {
   common: {
     classic: '经典版',
@@ -50,7 +51,13 @@ const cn = {
     pleaseSelect: '请选择',
     back: '返回',
     noData: '暂无数据',
-    exceptionServer: '服务异常，请检查'
+    exceptionServer: '服务异常，请检查',
+    check: '查看',
+    download: '下载',
+    more: '更多',
+    unknown: '未知',
+    all: '全部',
+    reset: '重置'
   },
   promptInformation: {
     confirmDelete: '确认删除该数据？',
@@ -95,6 +102,7 @@ const cn = {
   ...cnImages,
   ...cnAtp,
   ...cnMecm,
-  ...cnThirdsystem
+  ...cnThirdsystem,
+  ...cnDevSystem
 }
 export default cn

@@ -138,7 +138,7 @@ export default {
       color: #fff;
       position: relative;
       top: 11%;
-      left: 60%;
+      left: 64%;
       display: flex;
       justify-content: center;
       .main-content-right-item{

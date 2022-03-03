@@ -119,28 +119,28 @@ const devNavData = [
       {
         id: '1.5.1',
         name: 'Host Management',
-        path: pathPre + '/mecDeveloper/system/host',
+        path: '/EG/developer/system/host',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
       },
       {
         id: '1.5.2',
         name: 'Ability Center Management',
-        path: pathPre + '/mecDeveloper/system/mep',
+        path: '/EG/developer/system/mep',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN']
       },
       {
         id: '1.5.3',
         name: 'System Image Management',
-        path: pathPre + '/mecDeveloper/system/imagemgmt',
+        path: '/EG/developer/system/imagemgmt',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       },
       {
         id: '1.5.4',
         name: 'Profile Management',
-        path: pathPre + '/mecDeveloper/system/profilemgmt',
+        path: '/EG/developer/system/profilemgmt',
         display: true,
         authority: ['ROLE_DEVELOPER_ADMIN', 'ROLE_DEVELOPER_TENANT']
       }

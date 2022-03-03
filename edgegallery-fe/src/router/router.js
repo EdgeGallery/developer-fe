@@ -136,6 +136,26 @@ export default new Router({
       component: () => import('../pages/developer/sandbox/SandboxDetail.vue')
     },
     {
+      path: '/EG/developer/system/host',
+      name: 'host',
+      component: () => import('../pages/developer/system/HostList.vue')
+    },
+    {
+      path: '/EG/developer/system/imagemgmt',
+      name: 'imagemgmt',
+      component: () => import('../pages/developer/system/imagemgmt/Index.vue')
+    },
+    {
+      path: '/EG/developer/system/mep',
+      name: 'mep',
+      component: () => import('../pages/developer/system/MepList.vue')
+    },
+    {
+      path: '/EG/developer/system/profilemgmt',
+      name: 'profilemgmt',
+      component: () => import('../pages/developer/system/profileMgmt/profileList.vue')
+    },
+    {
       path: '/EG/images/appPackageBuild',
       name: 'appPackageBuild',
       component: () => import('../pages/developer/image/AppPackageBuild.vue')
