@@ -512,6 +512,10 @@ export default {
           border-radius: 5px;
           background: #4E3494;
         }
+        .lookReport:hover{
+          color: #4E3494;
+          background: #fff;
+        }
         .el-table th > .cell {
           font-size: 16px;
           height: 60px;

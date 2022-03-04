@@ -778,10 +778,14 @@ export default {
     .app_icon{
       width: 120px;
       height: 120px;
+      padding: 2%;
       border-radius: 12px;
       margin-right: 40px;
+      background: rgba(255,255,255,0.8);
       img{
         width: 100%;
+        height: 100%;
+        border-radius: 12px;
       }
     }
     .app_info{
