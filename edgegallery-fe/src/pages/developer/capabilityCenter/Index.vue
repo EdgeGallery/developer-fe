@@ -236,7 +236,7 @@ export default {
           icon: require('../../../assets/images/capability/capability_icon6_default.png'),
           iconSelect: require('../../../assets/images/capability/capability_icon6_select.png')
         },
-        'Database': {
+        'DataBase': {
           icon: require('../../../assets/images/capability/capability_icon7_default.png'),
           iconSelect: require('../../../assets/images/capability/capability_icon7_select.png')
         },
