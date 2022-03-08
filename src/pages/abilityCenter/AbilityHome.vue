@@ -320,7 +320,7 @@ export default {
         return this.capabilityIconList[4].icon
       } else if (nameEn === 'Video processing') {
         return this.capabilityIconList[5].icon
-      } else if (nameEn === 'DateBase') {
+      } else if (nameEn === 'DataBase') {
         return this.capabilityIconList[6].icon
       } else if (nameEn === 'Public framework') {
         return this.capabilityIconList[7].icon

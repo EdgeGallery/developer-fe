@@ -733,7 +733,7 @@ export default {
       this.currentIndex = index
     },
     setDivHeight () {
-      common.setDivHeightFun(this.screenHeight, 'hostManagement', 261)
+      common.setDivHeightFun(this.screenHeight, 'list', 315)
     },
     addMore (type) {
       this.configType = type
