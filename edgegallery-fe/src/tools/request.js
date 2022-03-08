@@ -15,6 +15,7 @@
  */
 
 import axios from 'axios'
+
 function getCookie (name) {
   let arr = []
   let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')

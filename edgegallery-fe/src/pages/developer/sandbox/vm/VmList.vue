@@ -434,6 +434,9 @@ export default {
     vmSshLogin () {
       sandbox.sshLogin(this.applicationId, this.vmId).then(res => {
         window.open(res.data.sshAddress + '?id=' + res.data.id + '&encoding=' + res.data.encoding, '_blank')
+      }).then(error => {
+        console.log(error)
+        this.$eg_messagebox(this.$t('promptInformation.connectFailed'), 'error')
       })
     },
     uploadVmFile () {
