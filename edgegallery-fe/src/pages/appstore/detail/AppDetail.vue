@@ -722,7 +722,7 @@ export default {
 <style lang="less">
 .app_detail{
   .title_top{
-    padding: 60px 0 20px !important;
+    padding: 30px 0 20px !important;
     position: relative;
     font-size: 24px;
     font-family: defaultFont, sans-serif;
