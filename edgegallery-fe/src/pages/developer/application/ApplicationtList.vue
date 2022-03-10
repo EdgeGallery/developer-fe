@@ -76,7 +76,7 @@
         :class="zoom===2?'app-list-medium':'app-flex-items'"
       >
         <ListComp
-          :data-list="zoom===2?allAppList.slice(0,4):allAppList"
+          :data-list="zoom===2?allAppList.slice(0,3):allAppList"
           @putAway="putAway"
           @refreshList="refreshList"
           :show-delete-btn="isDeleteActive"
@@ -91,7 +91,7 @@
       :list-total="listTotal"
       v-if="zoom!==2"
       @getCurrentPageData="getCurrentPageData"
-      :size="31"
+      :size="23"
     />
   </div>
 </template>
@@ -125,7 +125,7 @@ export default {
       searchContent: '',
       userName: sessionStorage.getItem('userName'),
       appList: [],
-      limit: 31,
+      limit: 23,
       offset: 0,
       listTotal: 0,
       auth: sessionStorage.getItem('userAuthorities')

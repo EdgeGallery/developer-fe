@@ -55,12 +55,16 @@
       <div
         class="img-div"
         :class="{'current':item.id===applicationId}"
-        @click="getType(item)"
       >
         <img
           :src="item.id===0?item.iconUrl:getFile(item.iconFileId)"
           :alt="item.name.length>4?item.name.substr(0,4)+'...':item.name"
         >
+      </div>
+      <div
+        class="app-class"
+      >
+        <span>{{ item.appClass==='CONTAINER'?$t('container.container'):$t('sandbox.vm') }}</span>
       </div>
       <div
         class="app-name"
@@ -123,6 +127,7 @@ export default {
   },
   methods: {
     checkProjectDetail (item) {
+      this.getType(item)
       sessionStorage.setItem('applicationId', item.id)
       sessionStorage.setItem('isCreate', '1')
       if (this.dataList.indexOf(item) > 3) {
@@ -221,7 +226,7 @@ export default {
   .app-item{
     text-align: center;
     cursor: pointer;
-    padding: 20px 15px 0;
+    padding: 30px 15px 0;
     width: 12.5%;
     position: relative;
     .app-name{
@@ -237,6 +242,23 @@ export default {
       -webkit-box-orient: vertical;
       font-size: 18px;
       padding: 5px 0;
+    }
+    .app-class{
+      width: 100%;
+      display: inline-block;
+      font-family: defaultlight,Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      color: #CAB8FA;
+      margin-top: 15px;
+      text-align: center;
+      span{
+        width: 76px;
+        display: inline-block;
+        background: #5039AE;
+        border-radius: 12.5px;
+        height: 25px;
+        line-height: 25px;
+      }
     }
     .img-div{
       display: inline-block;
@@ -320,7 +342,7 @@ export default {
     width: 18px;
     height: 18px;
     position: relative;
-    top: 5px;
+    top: 4px;
     left: 3px;
   }
   .app-created::before{

@@ -229,10 +229,9 @@
           </div>
           <div
             class="vm-status"
-            v-if="isExoprtImage"
+            v-if="!isExportImageFinish"
           >
             <el-progress
-              v-if="isExportImageFinish"
               :percentage="imagePercentages"
             />
           </div>
@@ -293,7 +292,6 @@ export default {
       timer: null,
       timerExport: null,
       isStartUpVmSuccess: false,
-      isExoprtImage: false,
       vmId: this.vmListsDetailProp.id,
       vmImageInformation: {
         imageName: '',
@@ -312,7 +310,7 @@ export default {
       vmListsDetail: this.vmListsDetailProp,
       networkLists: [],
       isShowRemote: false,
-      isExportImageFinish: false,
+      isExportImageFinish: true,
       getVmExportErr: '',
       getVmStartErr: ''
     }
@@ -365,7 +363,7 @@ export default {
     getVmExportStatus (operationId) {
       sandbox.getVmStatus(operationId).then(res => {
         this.imagePercentages = res.data.progress
-        this.isExportImageFinish = true
+        this.isExportImageFinish = false
         this.exportFailed = res.data.status === 'FAILED'
         if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED') {
           this.getVmExportErr = res.data.errorMsg
@@ -377,7 +375,7 @@ export default {
               this.bus.$emit('getVmExportImageInfo', this.vmImageInformation)
             }, 0)
           })
-          this.isExportImageFinish = false
+          this.isExportImageFinish = true
           clearTimeout(this.timerExport)
         }
         this.bus.$emit('getVmExportErr', this.getVmExportErr)
