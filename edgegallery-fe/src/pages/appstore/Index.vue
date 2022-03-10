@@ -16,14 +16,14 @@
 
 <template>
   <div
-    class="padding_default"
+    style="padding:0 13% 30px"
   >
     <p class="appstore-title defaultFontBold">
       {{ $t('workflow.appstore') }}
     </p>
     <div
       class="rt"
-      style="margin:50px 20px 20px;"
+      style="margin:0px 20px 20px;"
     >
       <el-button
         class="common-btn"
@@ -203,7 +203,7 @@ export default {
   letter-spacing: 5px;
   font-size: 24px;
   position: relative;
-  top: 84px;
+  top: 30px;
   left: 2px;
   width: 300px;
 }
