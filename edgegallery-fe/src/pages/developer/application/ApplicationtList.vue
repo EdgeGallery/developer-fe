@@ -91,7 +91,7 @@
       :list-total="listTotal"
       v-if="zoom!==2"
       @getCurrentPageData="getCurrentPageData"
-      :size="31"
+      :size="23"
     />
   </div>
 </template>
