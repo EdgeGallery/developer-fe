@@ -57,12 +57,6 @@ const devNavData = [
         name: '平台指南',
         path: pathPre + '/mecDeveloper/docs',
         display: true
-      },
-      {
-        id: '1.6.2',
-        name: '界面组件',
-        path: pathPre + '/mecDeveloper/docs/component',
-        display: true
       }
     ]
   },
