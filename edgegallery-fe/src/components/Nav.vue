@@ -458,11 +458,7 @@ export default {
       this.$router.push(newPath)
     },
     beforeLogout () {
-      this.$confirm(this.$t('homePromptMessage.logoutPage'), this.$t('homePromptMessage.prompt'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
+      this.$eg_messagebox(this.$t('homePromptMessage.logoutPage'), 'info', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
         sessionStorage.removeItem('applicationId')
         sessionStorage.removeItem('currentAppList')
         this.$store.commit('changeFlow', '0')

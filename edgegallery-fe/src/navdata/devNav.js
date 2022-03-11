@@ -57,12 +57,6 @@ const devNavData = [
         name: 'Platform Guide',
         path: pathPre + '/mecDeveloper/docs',
         display: true
-      },
-      {
-        id: '1.6.2',
-        name: 'Interface Components',
-        path: pathPre + '/mecDeveloper/docs/component',
-        display: true
       }
     ]
   },
