@@ -19,6 +19,8 @@ spec:
       image: '{{.Values.imagelocation.domainname}}/{{.Values.imagelocation.project}}/mep-agent:latest'
       imagePullPolicy: IfNotPresent
       env:
+        - name: EG_PROTOCOL
+          value: "https"    # The default value is https, when the environment protocol is http, the value is http
         - name: ENABLE_WAIT
           value: "true"
         - name: MEP_IP
