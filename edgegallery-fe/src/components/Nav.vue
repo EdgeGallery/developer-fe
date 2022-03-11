@@ -15,98 +15,27 @@
   -->
 
 <template>
-  <div
-    class="navgation-new padding_default"
-  >
-    <div
-      class="logo lt"
-      @click="jumpFromLogo('/index')"
-    >
-      <img
-        src="../assets/images/logo.png"
-        alt
-      >
-    </div>
-    <div class="nav big lt">
-      <Topbar
-        :json-data="jsonData"
-        :index-name-prop="indexName"
-      />
-    </div>
-    <div class="user_right rt">
-      <div class="language rt">
-        <span>
-          <img
-            :src="languageIcon"
-            alt=""
-            @click="changeLange"
-          ></span>
-      </div>
-      <div
-        class="user_icon rt"
-        v-if="ifGuest"
-      >
-        <img
-          src="../assets/images/nav_user.png"
-          alt=""
-          :title="$t('nav.logIn')"
-          @click="logout()"
-        >
-      </div>
-      <div
-        class="nav-tabs rt"
-        v-if="!ifGuest"
-      >
-        <div
-          class="userName"
-          @mouseenter="showUserInfo=true"
-          @mouseleave="showUserInfo=false"
-        >
-          {{ userName }}
-          <el-collapse-transition>
-            <div
-              class="user_info"
-              v-show="showUserInfo"
-            >
-              <span
-                class="userAccountCenter"
-                @click="openUserAccountCenter()"
-              >{{ $t('nav.userAccountCenter') }}</span>
-              <span
-                @click="beforeLogout()"
-              >{{ $t('nav.logOut') }}</span>
-            </div>
-          </el-collapse-transition>
-        </div>
-      </div>
-    </div>
-    <div class="nav small rt">
-      <em
-        class="el-icon-menu"
-        @click="clickSmallMenu"
-      />
-    </div>
-    <el-collapse-transition>
-      <div
-        v-show="menuSmall"
-        id="menu-div"
-      >
-        <TopbarSmall
-          :json-data="jsonData"
-          :index-name-prop="indexName"
-          @closeMenu="closeMenu"
-        />
-      </div>
-    </el-collapse-transition>
-  </div>
+  <Navcomp
+    class="clearfix"
+    @clickLogo="clickLogo"
+    @changeLange="changeLange"
+    @logout="logout"
+    @beforeLogout="beforeLogout"
+    :json-data-prop="jsonData"
+    :if-guest-prop="ifGuest"
+    :user-name-prop="userName"
+    :user-center-page-prop="userCenterPage"
+    :nav-bgcolor-prop="navBgcolor"
+    :nav-menu-fontsize-prop="navMenuFontsize"
+    :version-prop="version"
+  />
 </template>
 
 <script>
 import { logoutApi, loginApi, healthCheck } from '../tools/tool.js'
 import navData from '../navdata/navData.js'
 import navDataCn from '../navdata/navDataCn.js'
-import Topbar from './Topbar.vue'
-import TopbarSmall from './TopbarSmall.vue'
+import Navcomp from 'eg-view/src/components/EgNav.vue'
 import { NAV_PRE, FIRST_LEVEL_MENU_PATH, MODULES, HEALTH_URL } from '../constants.js'
 import {
   PROXY_PREFIX_CURRENTSERVER,
@@ -120,8 +49,7 @@ import { applicationApi, commonApi } from '../api/developerApi.js'
 export default {
   name: 'NavgationNew',
   components: {
-    Topbar,
-    TopbarSmall
+    Navcomp
   },
   props: {
     scrollTopProp: {
@@ -146,14 +74,16 @@ export default {
       ifGuest: true,
       userName: '',
       showUserInfo: false,
-      scrollTop: this.scrollTopProp,
       isScroll: false,
       wsSocketConn: null,
       wsMsgSendInterval: null,
       manualLoggout: false,
       indexName: this.toPathProp,
       isHome: true,
-      toPath: this.toPathProp
+      toPath: this.toPathProp,
+      navBgcolor: '#3E279B',
+      navMenuFontsize: 25,
+      version: 'v1.6.0'
     }
   },
   watch: {
@@ -208,6 +138,15 @@ export default {
     if (!localStorage.getItem('language')) {
       localStorage.setItem('language', 'cn')
     }
+    window.addEventListener('message', (event) => {
+      var data = event.data
+      if (data.cmd === 'iframeLanguageChange') {
+        let lang = data.params.lang
+        this.changeLange(lang)
+      } else if (data.cmd === 'subpageLoaded') {
+        this.handleSubpageLoadedMsg(data)
+      }
+    })
     // When window size changes, adjust the value of screenHeight
     window.onresize = () => {
       return (() => {
@@ -223,6 +162,9 @@ export default {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
+    clickLogo () {
+      this.$router.push('/index')
+    },
     getResCodeInfo () {
       let datas = '[atp,developer,appstore]'
       commonApi.getResponseCodeInfo(encodeURI(datas))
