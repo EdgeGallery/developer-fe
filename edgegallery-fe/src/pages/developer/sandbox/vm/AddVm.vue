@@ -764,14 +764,8 @@ export default {
       gpuNum: '',
       gpuType: '',
       hugePage: '',
-      hostGroupName: 'aggregate_instance_extra_specs',
-      gpuTypeName: 'pci_passthrough:alias',
-      hugePageName: 'hw:mem_page_size',
-      cpuPolicy: 'hw:cpu_policy',
       cpuPolicyValue: 'dedicated',
-      cpuThread: 'hw:cpu_thread_policy',
       cpuThreadValue: 'prefer',
-      numNode: 'hw:numa_nodes',
       numNodeValue: '1',
       hostGroupInfo: '',
       gpuInfo: '',
@@ -936,7 +930,7 @@ export default {
     },
     clickEdit () {
       this.viewOrEditContent = this.viewOrEditContent === 'edit' ? 'preview' : 'edit'
-      let _userData = this.userData.substring(9, (this.userData.length - 5))
+      let _userData = this.userData.replace('```yaml\r\n', '').replace('\r\n```', '')
       this.userData = _userData
     },
     clickSave () {
@@ -1029,21 +1023,21 @@ export default {
     },
     handleHostGroupData () {
       if (this.changeHostGroup) {
-        this.cpuPolicyInfo = '"' + this.cpuPolicy + '"' + ': ' + '"' + this.cpuPolicyValue + '"' + '\r\n'
-        this.cpuThreadInfo = '"' + this.cpuThread + '"' + ': ' + '"' + this.cpuThreadValue + '"' + '\r\n'
-        this.numNodeInfo = '"' + this.numNode + '"' + ': ' + '"' + this.numNodeValue + '"'
+        this.cpuPolicyInfo = '"hw:cpu_policy": "' + this.cpuPolicyValue + '"' + '\r\n'
+        this.cpuThreadInfo = '"hw:cpu_thread_policy": "' + this.cpuThreadValue + '"' + '\r\n'
+        this.numNodeInfo = '"hw:numa_nodes": "' + this.numNodeValue + '"'
         if (this.hostGroup !== '') {
-          this.hostGroupInfo = '"' + this.hostGroupName + '"' + ': ' + '"' + this.hostGroup + '"' + '\r\n'
+          this.hostGroupInfo = '"aggregate_instance_extra_specs": "' + this.hostGroup + '"' + '\r\n'
         } else {
           this.hostGroupInfo = ''
         }
         if (this.gpuType !== '') {
-          this.gpuInfo = '"' + this.gpuTypeName + '"' + ': ' + '"' + this.gpuType + ':' + this.gpuNum + '"' + '\r\n'
+          this.gpuInfo = '"pci_passthrough:alias": "' + this.gpuType + ':' + this.gpuNum + '"' + '\r\n'
         } else {
           this.gpuInfo = ''
         }
         if (this.hugePage !== '') {
-          this.hugePageInfo = '"' + this.hugePageName + '"' + ': ' + '"' + this.hugePage + '"' + '\r\n'
+          this.hugePageInfo = '"hw:mem_page_size": "' + this.hugePage + '"' + '\r\n'
         } else {
           this.hugePageInfo = ''
         }
@@ -1116,6 +1110,29 @@ export default {
       this.selectedNetworks = []
       vmDetail.portList.forEach(item => {
         this.selectedNetworks.push(item.networkName)
+      })
+      if (vmDetail.userData !== '') {
+        this.isInjectScript = 'select'
+        this.userData = vmDetail.userData
+        this.changeResult = true
+      }
+      if (vmDetail.flavorExtraSpecs === '') {
+        return
+      }
+      this.isHostGroup = 'select'
+      this.changeHostGroup = true
+      let _arr = vmDetail.flavorExtraSpecs.split('\r\n')
+      _arr.forEach(item => {
+        if (item.indexOf('hw:mem_page_size') >= 0) {
+          this.hugePage = item.split(': ')[1].replace(/"/g, '')
+        }
+        if (item.indexOf('pci_passthrough:alias') >= 0) {
+          this.gpuType = item.split(': ')[1].replace(/"/g, '').split(':')[0]
+          this.gpuNum = item.split(': ')[1].replace(/"/g, '').split(':')[1]
+        }
+        if (item.indexOf('aggregate_instance_extra_specs') >= 0) {
+          this.hostGroup = item.split(': ')[1].replace(/"/g, '')
+        }
       })
     },
     getVmDetailImage (imageId) {
