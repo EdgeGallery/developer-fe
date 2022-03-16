@@ -362,6 +362,9 @@
   border-radius: 10px;
   background: rgba(0,0,0,0.3);
 }
+:-webkit-scrollbar-corner{
+  background-color: transparent;
+}
 
  .el-upload-list{
    float: left;

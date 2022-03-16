@@ -296,7 +296,7 @@ export default {
     },
     getHelmChartFileContent (filePath) {
       sandbox.container.getHelmChartFileContent(this.applicationId, this.helmChartId, filePath).then(res => {
-        this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+        this.markdownSource = this.viewOrEditContent === 'preview' ? '```yaml\r\n' + res.data + '\r\n```' : res.data
       })
     },
     deleteHelmChartsFile () {
@@ -463,6 +463,19 @@ export default {
       }
       .markdown-body code{
         font-size: 100%;
+      }
+      .v-note-wrapper .v-note-panel .v-note-show .v-show-content{
+        overflow: hidden;
+      }
+      .common-mavon-editor.v-note-wrapper,.common-mavon-editor.markdown-body pre{
+        height: 100%;
+      }
+      .common-mavon-editor.markdown-body pre::-webkit-scrollbar-thumb,.common-mavon-editor.markdown-body pre::-webkit-scrollbar-track{
+        border-radius: 10px;
+        background: rgba(153,133,208,0.5);
+      }
+      .common-mavon-editor.markdown-body pre::-webkit-scrollbar-corner{
+        background-color: transparent;
       }
     }
   }
