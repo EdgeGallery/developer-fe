@@ -67,7 +67,8 @@ const en = {
     noPermission: 'Guest user has no permissioin，please login and retry it!',
     fileIsEmpty: 'File content is empty!',
     addFailed: 'Failed to add data!',
-    connectFailed: 'Failed to connect the VM. '
+    connectFailed: 'Failed to connect the VM. ',
+    saveFail: 'Save failed!'
   },
   normal: {
     newVersion: 'New Version',

@@ -171,6 +171,7 @@ const sandboxCn = {
     noFormat: '参数校验有误，请检查文件！',
     imageInfoError: '镜像信息有误，请检查文件！',
     notInHarbor: '镜像不存在harbor仓库中，请先去上传！',
+    otherError: '未知错误',
     addCustomSuccess: '自定义规格添加成功！',
     deleteInternetSuccess: '删除网络配置成功！',
     addInternetFaild: '网络配置数据最多为4条！',

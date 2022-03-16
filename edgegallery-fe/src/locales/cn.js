@@ -67,7 +67,8 @@ const cn = {
     noPermission: 'Guest没有权限操作，请登录后重试',
     fileIsEmpty: '文件内容为空！',
     addFailed: '添加数据失败！',
-    connectFailed: '连接失败！'
+    connectFailed: '连接失败！',
+    saveFail: '保存失败！'
   },
   normal: {
     newVersion: '新版',

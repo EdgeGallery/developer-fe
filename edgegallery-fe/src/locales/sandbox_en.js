@@ -170,6 +170,7 @@ const sandboxEn = {
     noFormat: 'The parameter verification is wrong, please check the file!',
     imageInfoError: 'information is wrong, please check the file!',
     notInHarbor: 'does not exist in the harbor warehouse, please upload it first!',
+    otherError: 'Unknown error',
     addCustomSuccess: 'Custom specification added successfully!',
     deleteInternetSuccess: 'Network configuration deleted successfully!',
     addInternetFaild: 'The maximum number of network configuration data is 4!',
