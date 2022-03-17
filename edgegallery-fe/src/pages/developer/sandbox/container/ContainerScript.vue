@@ -136,11 +136,6 @@
               preview-background="#4E3494"
             />
           </div>
-          <CheckResult
-            v-show="hasValidateSave"
-            class="check-result-save"
-            :check-flag-prop="checkFlag"
-          />
         </div>
       </div>
       <div class="btn-container">
@@ -186,7 +181,6 @@ export default {
         label: 'name'
       },
       hasValidate: false,
-      hasValidateSave: false,
       checkFlag: {
         formatSuccess: true,
         imageSuccess: true,
@@ -229,7 +223,6 @@ export default {
         _helmChartFile = []
       }
       if (_helmChartFile.length > 0) {
-        this.setResultDivLeft()
         this.submitContainerScript(_helmChartFile)
       }
     },
@@ -249,12 +242,17 @@ export default {
         this.checkFlag.serviceSuccess = true
         this.checkFlag.imageSuccess = true
         this.checkFlag.formatSuccess = true
+        this.setResultDivLeft()
       }, (error) => {
         this.hasValidate = false
+        let language = localStorage.getItem('language')
+        let defaultMsg = this.$t('sandboxPromptInfomation.otherError')
         if (error.response.data.retCode === 20038) {
           this.checkFlag.serviceSuccess = false
+          devCommonUtil.showTipMsg(language, error, defaultMsg)
         } else if (error.response.data.retCode === 20027) {
           this.checkFlag.imageSuccess = false
+          devCommonUtil.showTipMsg(language, error, defaultMsg)
         } else if (error.response.data.message.indexOf('is not in standard format') > -1) {
           let _arrTemp = error.response.data.message.split(' ')
           this.imagesName = _arrTemp[1]
@@ -265,25 +263,19 @@ export default {
           this.$eg_messagebox(this.imagesName + ' ' + this.$t('sandboxPromptInfomation.notInHarbor'), 'error', this.$t('common.cancel'), this.$t('common.confirm')).then(() => {
             this.jumpToImageList()
           })
-        } else {
+        } else if (error.response.data.retCode === 20044) {
           this.checkFlag.formatSuccess = false
+          devCommonUtil.showTipMsg(language, error, defaultMsg)
+        } else {
+          devCommonUtil.showTipMsg(language, error, defaultMsg)
         }
-        let language = localStorage.getItem('language')
-        let defaultMsg = this.$t('sandboxPromptInfomation.noFormat')
-        devCommonUtil.showTipMsg(language, error, defaultMsg)
         this.helmChartFile = []
       }).finally(() => {
         this.uploadYamlLoading = false
       })
     },
     jumpToImageList () {
-      let _isEGPlatform = window.location.href.indexOf('/EG/')
-      let _imageListHref
-      if (_isEGPlatform > 0) {
-        _imageListHref = this.$router.resolve({ path: '/developer/mecDeveloper/system/imagemgmt' })
-      } else {
-        _imageListHref = this.$router.resolve({ path: '/mecDeveloper/system/imagemgmt' })
-      }
+      let _imageListHref = this.$router.resolve({ path: '/developer/system/imagemgmt' })
       window.open(_imageListHref.href, '_blank')
     },
     editFile () {
@@ -298,22 +290,13 @@ export default {
       this.viewOrEditContent = 'preview'
       sandbox.container.saveHelmChartFile(this.applicationId, this.helmChartId, this.saveFileparams).then(res => {
         this.getHelmChartFileContent(this.innerPath)
-      }).catch(error => {
-        if (error.response.data.message === 'Service info not found in deployment yaml!') {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noServiceInfo'), 'error')
-          this.checkFlag.serviceSuccess = false
-        } else if (error.response.data.message === 'Image info not found in deployment yaml!') {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noImageInfo'), 'error')
-          this.checkFlag.imageSuccess = false
-        } else {
-          this.$eg_messagebox(this.$t('sandboxPromptInfomation.noFormat'), 'error')
-          this.checkFlag.formatSuccess = false
-        }
+      }).catch(() => {
+        this.$eg_messagebox(this.$t('promptInformation.saveFail'), 'error')
       })
     },
     getHelmChartFileContent (filePath) {
       sandbox.container.getHelmChartFileContent(this.applicationId, this.helmChartId, filePath).then(res => {
-        this.markdownSource = '```yaml\r\n' + res.data + '\r\n```'
+        this.markdownSource = this.viewOrEditContent === 'preview' ? '```yaml\r\n' + res.data + '\r\n```' : res.data
       })
     },
     deleteHelmChartsFile () {
@@ -481,8 +464,18 @@ export default {
       .markdown-body code{
         font-size: 100%;
       }
-      .check-result-save{
-        top: calc(100% + 10px);
+      .v-note-wrapper .v-note-panel .v-note-show .v-show-content{
+        overflow: hidden;
+      }
+      .common-mavon-editor.v-note-wrapper,.common-mavon-editor.markdown-body pre{
+        height: 100%;
+      }
+      .common-mavon-editor.markdown-body pre::-webkit-scrollbar-thumb,.common-mavon-editor.markdown-body pre::-webkit-scrollbar-track{
+        border-radius: 10px;
+        background: rgba(153,133,208,0.5);
+      }
+      .common-mavon-editor.markdown-body pre::-webkit-scrollbar-corner{
+        background-color: transparent;
       }
     }
   }

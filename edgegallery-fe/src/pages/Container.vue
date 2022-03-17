@@ -88,5 +88,8 @@ export default {
     min-height: 600px;
     margin-top: -80px;
     border: none;
+    .navgation{
+      display: none;
+    }
   }
 </style>

@@ -103,6 +103,7 @@ export default {
       this.loginFun()
     },
     $route (to, from) {
+      this.setIframeWidth()
       this.toPath = to.path
       if (to.path === '/index' || to.path === '/EG/developer/home') {
         this.$store.commit('changeZoom', '2')
@@ -155,6 +156,8 @@ export default {
       })()
     }
     window.addEventListener('message', this.handleMessage)
+    this.setIframeWidth()
+    window.addEventListener('resize', () => { this.setIframeWidth() })
   },
   beforeDestroy () {
     clearTimeout(this.wsMsgSendInterval)
@@ -162,6 +165,15 @@ export default {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
+    setIframeWidth () {
+      let _oDiv = document.getElementsByClassName('pageIframe')
+      let _deviceWidth = document.documentElement.clientWidth
+      let _deviceHeight = document.documentElement.clientHeight
+      if (_oDiv.length !== 0) {
+        _oDiv[0].style.width = (Number(_deviceWidth) + 15) + 'px'
+        _oDiv[0].style.height = (Number(_deviceHeight) + 6) + 'px'
+      }
+    },
     clickLogo () {
       this.$router.push('/index')
     },
