@@ -291,8 +291,8 @@ export default {
     color: #fff!important;
     margin-bottom: 15px;
   }
-  .uploader-file[status=error] .uploader-file-progress {
-    background: #4b3395;
+  .uploader-file .uploader-file-progress {
+    background: #4b3395 !important;
   }
 }
 </style>
